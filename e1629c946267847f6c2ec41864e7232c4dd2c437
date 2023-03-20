@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61c95402_8f8380a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-20T18:06:28Z",
+      "side": 1,
+      "message": "I had some time to look more into this. The code comes from ApplyCommand, which is a GitCommand subclass. As GitCommand#call() can only throw GitAPIException, all (IO)Exceptions had to be wrapped in a GitAPIException, and PatchApplyException was the exception chosen for this.\n\nThe logic was extracted into jgit.patch.PatchApplier, but we didn\u0027t look closely at how this would affect the exception hierarchy, which I think was an error. It\u0027s not subject to the expectation \n\n```\n * Superclass of all exceptions thrown by the API classes in\n * {@code org.eclipse.jgit.api}\n```\n\nAs a programmatic API  PatchApplier it would be appropriate that PatchApplier throws (ie. propagates) IOException. jgit.patch.Patch#parse also throws IOException, like much of the rest of JGit. \n\nI guess my suggestion is to:\n\n1. stop wrapping exceptions in PatchApplier, have it propagate IOExceptions\n2. have a custom exception for \"patch does not apply\" and maybe \"patch does not parse.\" Perhaps there is no need for exceptions even, if you add the information as extra fields in PatchApplier#Result.\n3. inside ApplyCommand, wrap PatchApplier exceptions in a PatchApplyException.\n\nThis means that we would break backward compat for PatchApplier. I guess that\u0027s probably OK because it is a new class, and maybe shouldn\u0027t be generally used but I\u0027m not sure what JGit custom is here.\n\nMatthias?\n\nWhile we sort this out, Gerrit can catch PatchApplyException for the moment to avoid exposing conflicts as status 500 (which hurt our SLOs).",
+      "parentUuid": "e45aff50_6c46cf1e",
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d094583_62edcfc0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/PatchConflictException.java",
         "patchSetId": 1
