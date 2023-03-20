@@ -92,6 +92,30 @@
       },
       "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d494e6_75f0ffda",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileRepositoryBuilderAfterOpenConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-03-20T17:33:28Z",
+      "side": 1,
+      "message": "\u003e according to https://junit.org/junit4/javadoc/4.12/org/junit/Before.html\n\u003e \n\u003e this is not necessary.\n\nDo you mean this part?\n\n The @Before methods of superclasses will be run before those of the current class, unless they are overridden in the current class.\n\nI think since we *are* overriding in the current class, @Before won\u0027t call the superclass method for us.\n\n\u003e \n\u003e Unfortunately, the structure here breaks the bazel build, as each test is compiled separately (so the build doesn\u0027t see FileRepositoryBuilderTest here.)\n\nSounds like the bazel build needs a fix? Should CI be building it to prevent these kinds of breaks?",
+      "parentUuid": "2b546fda_d9e43c10",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 7
+      },
+      "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
