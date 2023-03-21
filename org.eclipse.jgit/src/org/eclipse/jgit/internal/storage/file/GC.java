@@ -1792,8 +1792,8 @@ public class GC {
 
 		private void gcAlreadyRunning() {
 			close();
-			try {
-				Optional<String> s = Files.lines(pidFile).findFirst();
+			try (Stream<String> lines = Files.lines(pidFile)) {
+				Optional<String> s = lines.findFirst();
 				String machine = null;
 				String pid = null;
 				if (s.isPresent()) {
