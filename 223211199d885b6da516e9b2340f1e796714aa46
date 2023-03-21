@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54212dae_68a1c4f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-21T22:49:45Z",
+      "side": 1,
+      "message": "Component first, colon, title.\n\nAlso, the fact that it is mentioned in the javadoc is not the most relevant point.\n\nSuggested wording:\nGC: Close File.lines stream",
+      "revId": "223211199d885b6da516e9b2340f1e796714aa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12721917_b8dd863c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-21T22:49:45Z",
+      "side": 1,
+      "message": "Start this paragraph with: \n\nFrom File#lines javadoc: The returned stream...",
+      "revId": "223211199d885b6da516e9b2340f1e796714aa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18e04292_48cc8753",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-21T22:49:45Z",
+      "side": 1,
+      "message": "Use the imperative here, like giving orders to the code.\n\n\"Wrap File.lines with....\".",
+      "revId": "223211199d885b6da516e9b2340f1e796714aa46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

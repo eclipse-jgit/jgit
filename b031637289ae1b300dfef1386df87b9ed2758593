@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82eb1b78_719d0f05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1795,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-21T22:49:45Z",
+      "side": 1,
+      "message": "Maybe:\nOptional\u003cString\u003e s \u003d Optional.empty();\ntry (...) {\n  s \u003d lines.findFirst();\n}\n? So we sclose that stream as soon as possible?",
+      "revId": "b031637289ae1b300dfef1386df87b9ed2758593",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
