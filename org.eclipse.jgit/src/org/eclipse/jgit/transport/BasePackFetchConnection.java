@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
@@ -215,6 +216,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean allowOfsDelta;
 
+	private boolean useNegotiationTip;
+
 	private boolean noDone;
 
 	private boolean noProgress;
@@ -259,9 +262,11 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			final FetchConfig cfg = getFetchConfig();
 			allowOfsDelta = cfg.allowOfsDelta;
 			maxHaves = cfg.maxHaves;
+			useNegotiationTip = cfg.useNegotiationTip;
 		} else {
 			allowOfsDelta = true;
 			maxHaves = Integer.MAX_VALUE;
+			useNegotiationTip = false;
 		}
 
 		includeTags = transport.getTagOpt() != TagOpt.NO_TAGS;
@@ -297,14 +302,35 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 		final int maxHaves;
 
+		final boolean useNegotiationTip;
+
 		FetchConfig(Config c) {
 			allowOfsDelta = c.getBoolean("repack", "usedeltabaseoffset", true); //$NON-NLS-1$ //$NON-NLS-2$
 			maxHaves = c.getInt("fetch", "maxhaves", Integer.MAX_VALUE); //$NON-NLS-1$ //$NON-NLS-2$
+			useNegotiationTip = c.getBoolean("fetch", "usenegotiationtip", //$NON-NLS-1$ //$NON-NLS-2$
+					false);
 		}
 
 		FetchConfig(boolean allowOfsDelta, int maxHaves) {
+			this(allowOfsDelta, maxHaves, false);
+		}
+
+		/**
+		 * @param allowOfsDelta
+		 *            when true optimizes the pack size by deltafying base
+		 *            object
+		 * @param maxHaves
+		 *            max haves to be sent per negotiation
+		 * @param useNegotiationTip
+		 *            if true uses the wanted refs instead of all refs as source
+		 *            of the "have" list to send.
+		 * @since 6.6
+		 */
+		FetchConfig(boolean allowOfsDelta, int maxHaves,
+				boolean useNegotiationTip) {
 			this.allowOfsDelta = allowOfsDelta;
 			this.maxHaves = maxHaves;
+			this.useNegotiationTip = useNegotiationTip;
 		}
 	}
 
@@ -384,7 +410,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			noProgress = monitor == NullProgressMonitor.INSTANCE;
 
 			markRefsAdvertised();
-			markReachable(have, maxTimeWanted(want));
+			markReachable(want, have, maxTimeWanted(want));
 
 			if (TransferConfig.ProtocolVersion.V2
 					.equals(getProtocolVersion())) {
@@ -662,9 +688,17 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return maxTime;
 	}
 
-	private void markReachable(Set<ObjectId> have, int maxTime)
+	private void markReachable(Collection<Ref> want, Set<ObjectId> have,
+			int maxTime)
 			throws IOException {
+		Set<String> wantRefs = want.stream().map(Ref::getName)
+				.collect(Collectors.toSet());
+
 		for (Ref r : local.getRefDatabase().getRefs()) {
+			if (useNegotiationTip && !wantRefs.contains(r.getName())) {
+				continue;
+			}
+
 			ObjectId id = r.getPeeledObjectId();
 			if (id == null)
 				id = r.getObjectId();
