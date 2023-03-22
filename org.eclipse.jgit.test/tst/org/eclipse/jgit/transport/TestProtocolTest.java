@@ -166,7 +166,7 @@ public class TestProtocolTest {
 		RevCommit master = remote.branch("master").commit()
 				.add("readme.txt", "unique commit").create();
 
-		TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES));
+		TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES, false));
 		try (Git git = new Git(local.getRepository())) {
 			assertNull(local.getRepository().exactRef("refs/heads/master"));
 			git.fetch().setRemote(uri.toString()).setRefSpecs(MASTER).call();
