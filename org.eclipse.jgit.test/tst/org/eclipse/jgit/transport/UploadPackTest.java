@@ -22,9 +22,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -53,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.junit.After;
@@ -63,6 +67,8 @@ import org.junit.Test;
  * Tests for server upload-pack utilities.
  */
 public class UploadPackTest {
+	private static final int MAX_HAVES = 64;
+
 	private URIish uri;
 
 	private TestProtocol<Object> testProtocol;
@@ -87,6 +93,7 @@ public class UploadPackTest {
 
 	@After
 	public void tearDown() {
+		TestProtocol.setFetchConfig(null);
 		Transport.unregister(testProtocol);
 	}
 
@@ -2156,6 +2163,231 @@ public class UploadPackTest {
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
 		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
+	}
+
+	/**
+	 * <pre>
+	 * remote:
+	 *    foo <- foofoo <-- branchFoo
+	 *    bar <- barbar <-- branchBar
+	 *
+	 * client:
+	 *    foo <-- branchFoo
+	 *    bar <-- branchBar
+	 *
+	 * fetch(branchFoo) should send exactly 1 have (i.e. foo) from branchFoo
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTip() throws Exception {
+		RevCommit fooParent = remote.commit().message("foo").create();
+		RevCommit fooChild = remote.commit().message("foofoo").parent(fooParent)
+				.create();
+		RevCommit barParent = remote.commit().message("bar").create();
+		RevCommit barChild = remote.commit().message("barbar").parent(barParent)
+				.create();
+
+		// Remote has branchFoo at fooChild and branchBar at barChild
+		remote.update("branchFoo", fooChild);
+		remote.update("branchBar", barChild);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+		RevCommit localFooParent = null;
+
+		// Client has lagging branchFoo at fooParent and branchBar at barParent
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			localFooParent = clientRepo.commit().message("foo")
+					.create();
+			RevCommit localBarParent = clientRepo.commit().message("bar")
+					.create();
+
+			clientRepo.update("branchFoo", localFooParent);
+			clientRepo.update("branchBar", localBarParent);
+
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES, true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE, Collections
+						.singletonList(new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		assertTrue(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barChild.toObjectId()));
+
+		assertEquals(1, uploadPack.get().getStatistics().getHaves());
+		assertTrue(countHavesHook.havesSentDuringNegotiation
+				.contains(localFooParent.toObjectId()));
+	}
+
+	/**
+	 * Remote has 2 branches branchFoo and branchBar, each of them have 128 (2 x
+	 * MAX_HAVES) commits each. Local has both the branches with lagging
+	 * commits. Only 64 (1 x MAX_HAVES) from each branch and lagging 64.
+	 * fetch(branchFoo) should send all 64 (MAX_HAVES) commits on branchFoo as
+	 * haves and none from branchBar.
+	 *
+	 * Visual representation of the same:
+	 *
+	 * <pre>
+	 * remote:
+	 *             parent
+	 *             /    \
+	 *  branchFoo-0     branchBar-0
+	 *  branchFoo-1     branchBar-1
+	 *  ...			  ...
+	 *  ... 		  ...
+	 *  branchFoo-128   branchBar-128
+	 *    ^-- branchFoo		^--branchBar
+	 *
+	 *  local:
+	 *             parent
+	 *             /    \
+	 *  branchFoo-0     branchBar-0
+	 *  branchFoo-1     branchBar-1
+	 *  ...			  ...
+	 *  ... 		  ...
+	 *  branchFoo-64     branchBar-64
+	 *      ^-- branchFoo	^--branchBar
+	 *
+	 * fetch(branchFoo) should send all 64 (MAX_HAVES) commits on branchFoo as haves
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTipWithLongerHistoryThanMaxHaves()
+			throws Exception {
+		Set<RevCommit> remoteFooCommits = new HashSet<>();
+		Set<RevCommit> remoteBarCommits = new HashSet<>();
+
+		RevCommit parent = remote.commit().message("branchFoo-0").create();
+		RevCommit parentFoo = parent;
+		remoteFooCommits.add(parentFoo);
+		for (int i = 1; i < 2 * MAX_HAVES; i++) {
+			RevCommit child = remote.commit()
+					.message("branchFoo-" + Integer.toString(i))
+					.parent(parentFoo)
+					.create();
+			parentFoo = child;
+			remoteFooCommits.add(parentFoo);
+
+		}
+		remote.update("branchFoo", parentFoo);
+
+		RevCommit parentBar = parent;
+		remoteBarCommits.add(parentBar);
+		for (int i = 1; i < 2 * MAX_HAVES; i++) {
+			RevCommit child = remote.commit()
+					.message("branchBar-" + Integer.toString(i))
+					.parent(parentBar)
+					.create();
+			parentBar = child;
+			remoteBarCommits.add(parentBar);
+		}
+		remote.update("branchBar", parentBar);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+		Set<ObjectId> localFooCommits = new HashSet<>();
+
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			RevCommit localParent = clientRepo.commit().message("branchBar-0")
+					.create();
+			RevCommit localParentFoo = localParent;
+			localFooCommits.add(localParentFoo);
+			for (int i = 1; i < 1 * MAX_HAVES; i++) {
+				RevCommit child = clientRepo.commit()
+						.message("branchFoo-" + Integer.toString(i))
+						.parent(localParentFoo).create();
+				localParentFoo = child;
+				localFooCommits.add(localParentFoo);
+			}
+			clientRepo.update("branchFoo", localParentFoo);
+
+			RevCommit localParentBar = localParent;
+			for (int i = 1; i < 1 * MAX_HAVES; i++) {
+				RevCommit child = clientRepo.commit()
+						.message("branchBar-" + Integer.toString(i))
+						.parent(localParentBar).create();
+				localParentBar = child;
+			}
+			clientRepo.update("branchBar", localParentBar);
+
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES, true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE, Collections
+						.singletonList(new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		for (RevCommit c : remoteFooCommits) {
+			assertTrue(c.toObjectId() + "",
+					client.getObjectDatabase().has(c.toObjectId()));
+		}
+		remoteBarCommits.remove(parent);
+		for (RevCommit c : remoteBarCommits) {
+			assertFalse(client.getObjectDatabase().has(c.toObjectId()));
+		}
+
+		assertEquals(MAX_HAVES, uploadPack.get().getStatistics().getHaves());
+		// Verify that all the haves that were sent during negotiation are local
+		// commits from branchFoo
+		for (Object id : countHavesHook.havesSentDuringNegotiation) {
+			assertTrue(localFooCommits.contains(id));
+		}
+	}
+
+	private static class CountHavesPreUploadHook implements PreUploadHook {
+		Set<ObjectId> havesSentDuringNegotiation = new HashSet<>();
+
+		@Override
+		public void onSendPack(UploadPack unusedUploadPack,
+				Collection<? extends ObjectId> unusedWants,
+				Collection<? extends ObjectId> haves)
+				throws ServiceMayNotContinueException {
+			// record haves
+			havesSentDuringNegotiation.addAll(haves);
+		}
+
+		@Override
+		public void onEndNegotiateRound(UploadPack unusedUploadPack,
+				Collection<? extends ObjectId> unusedWants, int unusedCntCommon,
+				int unusedCntNotFound, boolean unusedReady)
+				throws ServiceMayNotContinueException {
+			// Do nothing.
+		}
+
+		@Override
+		public void onBeginNegotiateRound(UploadPack unusedUploadPack,
+				Collection<? extends ObjectId> unusedWants,
+				int unusedCntOffered) throws ServiceMayNotContinueException {
+			// Do nothing.
+		}
 	}
 
 	@Test
