@@ -50,6 +50,12 @@ For details on native git options see also the official [git config documentatio
 | `core.trustPackedRefsStat` | `unset` | &#x20DE; | Whether to trust the file attributes (Java equivalent of stat command on *nix) of the packed-refs file. If `never` JGit will ignore the file attributes of the packed-refs file and always read it. If `always` JGit will trust the file attributes of the packed-refs file and will only read it if a file attribute has changed. `after_open` behaves the same as `always`, except that the packed-refs file is opened and closed before its file attributes are considered. An open/close of the packed-refs file is known to refresh its file attributes, at least on some NFS clients. If `unset`, JGit will use the behavior described in `trustFolderStat`. |
 | `core.worktree` | Root directory of the working tree if it is not the parent directory of the `.git` directory | &#x2705; | The path to the root of the working tree. |
 
+## __fetch__ options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `fetch.usenegotiationtip` | `false` | &#x2705; | When enabled it restricts the client negotiation on unrelated branches i.e. only send haves for the refs that the client is interested in fetching. |
+
 ## __gc__ options
 
 |  option | default | git option | description |
