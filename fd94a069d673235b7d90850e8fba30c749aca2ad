@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe0c492_f3b5bd7d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a95536b_32db65a0",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df2605f6_5c99c9dc",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-03-23T09:29:53Z",
       "side": 1,
       "message": "warning: The parameter up is hiding another local variable defined in an enclosing scope\n\nmore occurrences of the same warning below",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "829e0df6_396ccdfa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2210,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df2605f6_5c99c9dc",
       "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a33cae_ba0eb5f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bff6c9a8_6de1b626",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36694649_9eab5081",
@@ -86,6 +140,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5229602_f433221c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2354,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36694649_9eab5081",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f810ac1e_c6f5341a",
@@ -99,6 +171,24 @@
       "writtenOn": "2023-03-23T09:29:53Z",
       "side": 1,
       "message": "document the new option in Documentation/config-options.md",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeff225c_95cc07f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f810ac1e_c6f5341a",
       "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -126,6 +216,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af859e5c_e7c8ab75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16b97e6c_6cdc4d63",
+      "range": {
+        "startLine": 678,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 51
+      },
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f286db05_96a89f67",
@@ -139,6 +253,30 @@
       "writtenOn": "2023-03-23T09:29:53Z",
       "side": 1,
       "message": "combine these two if statements into one ?\n\n if (useNegotiationTip \u0026\u0026 !wantRefs.contains(r.getName())) {",
+      "range": {
+        "startLine": 682,
+        "startChar": 0,
+        "endLine": 683,
+        "endChar": 42
+      },
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5737911e_d65970e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-23T18:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f286db05_96a89f67",
       "range": {
         "startLine": 682,
         "startChar": 0,
