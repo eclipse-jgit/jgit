@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33cca366_2ab1cb19",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-23T13:46:42Z",
+      "side": 1,
+      "message": "Han-Wen, do you find it confusing even when the markers are containing the \"side name\"?\n\nPatrick already added \"HEAD\" and \"PATCH\" titles to the markers, I think adding a 3rd title and keep the conflict in context is easier to handle than a separate .rej file, both code-wise and user-wise.",
+      "parentUuid": "3f9c013e_eb473445",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9df1af98_31ec9ced",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
         "patchSetId": 2
