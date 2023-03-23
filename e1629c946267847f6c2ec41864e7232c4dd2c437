@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eddf8459_dd60d210",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-23T10:42:03Z",
+      "side": 1,
+      "message": "SGTM.\n\nFWIW, when we\u0027re at it, PatchApplier#applyPatch() should probably take a Patch instance (have the caller do Patch#parse). That also avoids having to (un)wrap parse errors to communicate a format error.",
+      "parentUuid": "b5f45f44_a55ecd5d",
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d094583_62edcfc0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/PatchConflictException.java",
         "patchSetId": 1
