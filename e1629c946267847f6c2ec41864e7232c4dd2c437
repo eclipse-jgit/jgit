@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5f45f44_a55ecd5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T10:00:06Z",
+      "side": 1,
+      "message": "This plan sounds good to me, PatchApplier was introduced in 6.4.0. \n\nI think it\u0027s ok to introduce a minor breakage to rectify this error which happened when PatchApplier was extracted by changing declared exceptions on a low level class. I guess this class is not widely used.",
+      "parentUuid": "61c95402_8f8380a1",
+      "revId": "e1629c946267847f6c2ec41864e7232c4dd2c437",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d094583_62edcfc0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/PatchConflictException.java",
         "patchSetId": 1
