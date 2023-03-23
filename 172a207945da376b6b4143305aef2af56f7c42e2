@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38e07a27_67c89eee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 0,
+      "message": "unrelated formatting change",
+      "revId": "172a207945da376b6b4143305aef2af56f7c42e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

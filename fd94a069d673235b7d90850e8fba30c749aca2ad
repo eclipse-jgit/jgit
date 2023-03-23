@@ -16,6 +16,137 @@
       "message": "trigger build",
       "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a95536b_32db65a0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "wrap this in a try with resource to ensure the repository is closed",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2605f6_5c99c9dc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2210,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "warning: The parameter up is hiding another local variable defined in an enclosing scope\n\nmore occurrences of the same warning below",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bff6c9a8_6de1b626",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "wrap this in a try with resource to ensure the repository is closed",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36694649_9eab5081",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2354,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "warning: The parameter up is hiding another local variable defined in an enclosing scope\n\nmore occurrences of the same warning below",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f810ac1e_c6f5341a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "document the new option in Documentation/config-options.md",
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16b97e6c_6cdc4d63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "Set\u003cString\u003e wantRefs \u003d want.stream().map(Ref::getName).collect(Collectors.toSet());",
+      "range": {
+        "startLine": 678,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 51
+      },
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f286db05_96a89f67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-23T09:29:53Z",
+      "side": 1,
+      "message": "combine these two if statements into one ?\n\n if (useNegotiationTip \u0026\u0026 !wantRefs.contains(r.getName())) {",
+      "range": {
+        "startLine": 682,
+        "startChar": 0,
+        "endLine": 683,
+        "endChar": 42
+      },
+      "revId": "fd94a069d673235b7d90850e8fba30c749aca2ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
