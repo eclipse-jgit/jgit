@@ -88,6 +88,47 @@
       "parentUuid": "a24fcf37_b64767d5",
       "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f9c013e_eb473445",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-23T13:36:38Z",
+      "side": 1,
+      "message": "I personally always get confused by a conflict marker\n\n```\n\u003c\u003c\u003c\nyour\n\u003d\u003d\u003d\ntheirs\n\u003e\u003e\u003e\n```\n\nbecause I can never remember what YOURS and THEIRS are (especially if I\u0027m patching a piece of code that I didn\u0027t write in the first place).  Also, in the case of a conflict, the location of the marker is likely wrong, so putting the conflict marker in-line will confuse users, and once they figure it out, they\u0027ll send bug reports about it to us.\n\nExpanding the diff as in Nitzan\u0027s example makes the (confusing) conflict markers even more unwieldy, because there are now 3 sections instead of 2, but I think it\u0027s good to somehow expose the \u0027before\u0027 lines, so users can see where the patch should have been applied.\n\nHere is my suggestion: have applyText() return a separate list of failed patch hunks. \n\nThis could be used for generating a .rej file later on (for compatibility with git-apply --reject), but as a first approach, simply append the rejected hunks to the file.",
+      "parentUuid": "6fb8b881_1c6c9f32",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df1af98_31ec9ced",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-23T13:36:38Z",
+      "side": 1,
+      "message": "you need to format with Eclipse formatter. It\u0027s an extension for IntelliJ, which you can install. (CI will fail otherwise.)",
+      "range": {
+        "startLine": 223,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 16
+      },
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
