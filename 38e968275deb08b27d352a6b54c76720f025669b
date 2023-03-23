@@ -46,6 +46,30 @@
       },
       "revId": "38e968275deb08b27d352a6b54c76720f025669b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0066bed_4ada21b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-23T10:59:24Z",
+      "side": 1,
+      "message": "\u003e that covers all cases. For example, you mentioned that \"file is not there\" can be either a config  issue or an end-user issue, so which category should it fall under? (ideally, I think it should be \"fileNotFound\", but classifying all the exceptions of this class is out of scope here IMO).\n\nthe coding here is a bit messy.  A lot of the IOExceptions are actually not really I/O exceptions. For example \n\n```\n...\npublic static void createNewFile(File f) throws IOException {\n\t\tif (!f.createNewFile())\n\t\t\tthrow new IOException(MessageFormat.format(\n\t\t\t\t\tJGitText.get().createNewFileFailed, f));\n\t}\n\t\n...\n\ntry {\nFileUtils.mkdirs(f.getParentFile(), true);\t\t\t\t\t\t\tFileUtils.createNewFile(f);\n} catch (IOException e) {\nthrow new PatchApplyException(MessageFormat.format(\n\t\t\t\t\t\tJGitText.get().createNewFileFailed, f), e);\n}\n```\n\n\nthis could have been \n\n```\n  if (! ((f.getParent().mkdirs() || f.getParent().isDir()) \u0026\u0026 f.createNewFile()))\n    throw .. \n```",
+      "parentUuid": "f6805326_326b9e33",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "38e968275deb08b27d352a6b54c76720f025669b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
