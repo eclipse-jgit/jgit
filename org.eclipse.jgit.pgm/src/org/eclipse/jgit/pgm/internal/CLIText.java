@@ -132,6 +132,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String commitLabel;
 	/***/ public String configOnlyListOptionSupported;
 	/***/ public String conflictingUsageOf_git_dir_andArguments;
+	/***/ public String corruptIndex;
+	/***/ public String corruptObject;
 	/***/ public String couldNotCreateBranch;
 	/***/ public String dateInfo;
 	/***/ public String deletedBranch;
@@ -217,6 +219,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_user;
 	/***/ public String metaVar_values;
 	/***/ public String metaVar_version;
+	/***/ public String missingObject;
 	/***/ public String mostCommonlyUsedCommandsAre;
 	/***/ public String needApprovalToDestroyCurrentRepository;
 	/***/ public String needSingleRevision;
@@ -226,6 +229,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String noSuchPathInRef;
 	/***/ public String noSuchRef;
 	/***/ public String noTREESectionInIndex;
+	/***/ public String nonCommitHead;
 	/***/ public String nonFastForward;
 	/***/ public String noSystemConsoleAvailable;
 	/***/ public String notABranch;
