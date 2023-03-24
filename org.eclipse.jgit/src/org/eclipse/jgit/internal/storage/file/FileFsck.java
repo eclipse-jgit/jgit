@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Google Inc. and others
+ * Copyright (C) 2023, SAP SE and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -8,15 +8,14 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.eclipse.jgit.internal.storage.dfs;
+package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.CorruptPackIndexException;
 import org.eclipse.jgit.errors.FsckError;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -24,7 +23,8 @@ import org.eclipse.jgit.errors.FsckError.CorruptIndex;
 import org.eclipse.jgit.errors.FsckError.CorruptObject;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.fsck.FsckPackParser;
-import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.dfs.ReadableChannel;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
 import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -35,29 +35,37 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 
 /**
- * Verify the validity and connectivity of a DFS repository.
+ * Verify the validity and connectivity of a FileRepository.
  */
-public class DfsFsck implements Fsck {
-	private final DfsRepository repo;
-	private final DfsObjDatabase objdb;
-	private ObjectChecker objChecker = new ObjectChecker();
+public class FileFsck implements Fsck {
+
+	private final FileRepository repo;
+
+	private final ObjectDirectory objdb;
+
+	private ObjectChecker objChecker;
+
 	private boolean connectivityOnly;
 
 	/**
-	 * Initialize DFS fsck.
+	 * Create a FileFsck object
 	 *
-	 * @param repository
-	 *            the dfs repository to check.
+	 * @param repo
+	 *            the repository to check
 	 */
-	public DfsFsck(DfsRepository repository) {
-		repo = repository;
-		objdb = repo.getObjectDatabase();
+	public FileFsck(FileRepository repo) {
+		this.repo = repo;
+		this.objdb = repo.getObjectDatabase();
+		objChecker = new ObjectChecker();
 	}
 
 	/**
@@ -80,6 +88,7 @@ public class DfsFsck implements Fsck {
 		if (!connectivityOnly) {
 			objChecker.reset();
 			checkPacks(pm, errors);
+			checkLooseObjects(pm, errors);
 		}
 		checkConnectivity(pm, errors);
 		return errors;
@@ -87,38 +96,32 @@ public class DfsFsck implements Fsck {
 
 	private void checkPacks(ProgressMonitor pm, FsckError errors)
 			throws IOException, FileNotFoundException {
-		try (DfsReader ctx = objdb.newReader()) {
-			for (DfsPackFile pack : objdb.getPacks()) {
-				DfsPackDescription packDesc = pack.getPackDescription();
-				if (packDesc.getPackSource()
-						== PackSource.UNREACHABLE_GARBAGE) {
-					continue;
-				}
-				try (ReadableChannel rc = objdb.openFile(packDesc, PACK)) {
-					verifyPack(pm, errors, ctx, pack, rc);
-				} catch (MissingObjectException e) {
-					errors.getMissingObjects().add(e.getObjectId());
-				} catch (CorruptPackIndexException e) {
-					errors.getCorruptIndices().add(new CorruptIndex(
-							pack.getPackDescription().getFileName(INDEX),
-							e.getErrorType()));
-				}
+		for (Pack pack : objdb.getPacks()) {
+			try (ReadableChannel rc = new ReadableFileChannel(
+					pack.getPackFile(), "r")) { //$NON-NLS-1$
+				verifyPack(pm, errors, pack, rc);
+			} catch (MissingObjectException e) {
+				errors.getMissingObjects().add(e.getObjectId());
+			} catch (CorruptPackIndexException e) {
+				errors.getCorruptIndices().add(new CorruptIndex(
+						new PackFile(objdb.getPackDirectory(),
+								pack.getPackName(), PackExt.INDEX).getPath(),
+						e.getErrorType()));
 			}
 		}
 
 		checkGitModules(pm, errors);
 	}
 
-	private void verifyPack(ProgressMonitor pm, FsckError errors, DfsReader ctx,
-			DfsPackFile pack, ReadableChannel ch)
-					throws IOException, CorruptPackIndexException {
+	private void verifyPack(ProgressMonitor pm, FsckError errors,
+			Pack pack, ReadableChannel ch)
+			throws IOException, CorruptPackIndexException {
 		FsckPackParser fpp = new FsckPackParser(objdb, ch);
 		fpp.setObjectChecker(objChecker);
-		fpp.overwriteObjectCount(pack.getPackDescription().getObjectCount());
+		fpp.overwriteObjectCount(pack.getObjectCount());
 		fpp.parse(pm);
 		errors.getCorruptObjects().addAll(fpp.getCorruptObjects());
-
-		fpp.verifyIndex(pack.getPackIndex(ctx));
+		fpp.verifyIndex(pack.getIndex());
 	}
 
 	private void checkGitModules(ProgressMonitor pm, FsckError errors)
@@ -143,9 +146,15 @@ public class DfsFsck implements Fsck {
 		pm.endTask();
 	}
 
+	private void checkLooseObjects(ProgressMonitor pm, FsckError errors)
+			throws IOException {
+		objdb.checkLooseObjects(objChecker, pm, errors);
+	}
+
 	private void checkConnectivity(ProgressMonitor pm, FsckError errors)
 			throws IOException {
-		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
+		pm.beginTask(JGitText.get().checkingConnectivity,
+				ProgressMonitor.UNKNOWN);
 		try (ObjectWalk ow = new ObjectWalk(repo)) {
 			for (Ref r : repo.getRefDatabase().getRefs()) {
 				ObjectId objectId = r.getObjectId();
@@ -162,8 +171,12 @@ public class DfsFsck implements Fsck {
 						errors.getNonCommitHeads().add(r.getLeaf().getName());
 					}
 					ow.markStart(tip);
+					checkReflog(ow, r, errors);
+					pm.update(1);
 				} catch (MissingObjectException e) {
 					errors.getMissingObjects().add(e.getObjectId());
+					continue;
+				} catch (CorruptObjectException e) {
 					continue;
 				}
 			}
@@ -174,6 +187,26 @@ public class DfsFsck implements Fsck {
 			}
 		}
 		pm.endTask();
+	}
+
+	private void checkReflog(ObjectWalk ow, Ref r, FsckError errors)
+			throws IOException {
+		ReflogReader reflog = repo.getReflogReader(r);
+		for (ReflogEntry re : reflog.getReverseEntries()) {
+			checkObject(ow, re.getNewId(), errors);
+		}
+	}
+
+	private void checkObject(ObjectWalk ow, ObjectId id, FsckError errors)
+			throws IOException {
+		try {
+			ow.parseAny(id);
+		} catch (MissingObjectException e) {
+			errors.getMissingObjects().add(e.getObjectId());
+		} catch (CorruptObjectException e) {
+			errors.getCorruptObjects().add(new CorruptObject(id,
+					ObjectReader.OBJ_ANY, e.getErrorType()));
+		}
 	}
 
 	/**

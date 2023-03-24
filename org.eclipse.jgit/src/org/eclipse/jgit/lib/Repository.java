@@ -247,6 +247,14 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
+	 * Create a fsck checker for checking repository integrity and consistency
+	 *
+	 * @return new integrity and consistency checker for this repository
+	 * @since 5.13.2
+	 */
+	public abstract Fsck newFsck();
+
+	/**
 	 * Get the reference database which stores the reference namespace.
 	 *
 	 * @return the reference database which stores the reference namespace.
