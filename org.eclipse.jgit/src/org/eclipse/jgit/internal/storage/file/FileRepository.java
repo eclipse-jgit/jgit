@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
+import org.eclipse.jgit.lib.Fsck;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -824,5 +825,10 @@ public class FileRepository extends Repository {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
+	}
+
+	@Override
+	public Fsck newFsck() {
+		return new FileFsck(this);
 	}
 }

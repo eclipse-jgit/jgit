@@ -7,19 +7,20 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.internal.fsck;
+package org.eclipse.jgit.errors;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.errors.CorruptPackIndexException;
 import org.eclipse.jgit.errors.CorruptPackIndexException.ErrorType;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Holds all fsck errors of a git repository.
+ *
+ * @since 5.13.2
  */
 public class FsckError {
 	/** Represents a corrupt object. */
