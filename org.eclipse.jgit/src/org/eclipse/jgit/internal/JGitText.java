@@ -168,6 +168,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cantFindObjectInReversePackIndexForTheSpecifiedOffset;
 	/***/ public String channelMustBeInRange1_255;
 	/***/ public String characterClassIsNotSupported;
+	/***/ public String checkingConnectivity;
+	/***/ public String checkingLooseObjects;
 	/***/ public String checkingOutFiles;
 	/***/ public String checkoutConflictWithFile;
 	/***/ public String checkoutConflictWithFiles;
