@@ -123,7 +123,7 @@ public class DfsFsck implements Fsck {
 
 	private void checkGitModules(ProgressMonitor pm, FsckError errors)
 			throws IOException {
-		pm.beginTask(JGitText.get().validatingGitModules,
+		pm.beginTask(JGitText.get().checkingGitModules,
 				objChecker.getGitsubmodules().size());
 		for (GitmoduleEntry entry : objChecker.getGitsubmodules()) {
 			AnyObjectId blobId = entry.getBlobId();
