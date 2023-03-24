@@ -169,8 +169,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String channelMustBeInRange1_255;
 	/***/ public String characterClassIsNotSupported;
 	/***/ public String checkingConnectivity;
+	/***/ public String checkingGitModules;
 	/***/ public String checkingLooseObjects;
 	/***/ public String checkingOutFiles;
+	/***/ public String checkingPack;
 	/***/ public String checkoutConflictWithFile;
 	/***/ public String checkoutConflictWithFiles;
 	/***/ public String checkoutUnexpectedResult;
@@ -711,6 +713,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String resettingHead;
 	/***/ public String resolvingDeltas;
+	/***/ public String resolvingPack;
 	/***/ public String resultLengthIncorrect;
 	/***/ public String rewinding;
 	/***/ public String s3ActionDeletion;
@@ -884,7 +887,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String uriNotFoundWithMessage;
 	/***/ public String URINotSupported;
 	/***/ public String userConfigInvalid;
-	/***/ public String validatingGitModules;
 	/***/ public String valueExceedsRange;
 	/***/ public String verifySignatureBad;
 	/***/ public String verifySignatureExpired;
