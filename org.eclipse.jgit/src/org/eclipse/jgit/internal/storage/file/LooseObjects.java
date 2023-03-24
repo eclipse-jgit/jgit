@@ -10,23 +10,36 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static java.nio.file.FileVisitResult.CONTINUE;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.MessageFormat;
 import java.util.Set;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.FsckError;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileObjectDatabase.InsertLooseObjectResult;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectChecker.ErrorType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -279,5 +292,87 @@ class LooseObjects {
 		String d = n.substring(0, 2);
 		String f = n.substring(2);
 		return new File(new File(getDirectory(), d), f);
+	}
+
+	private static ObjectId objectIdForFile(Path file) {
+		StringBuilder b = new StringBuilder(
+				file.getParent().getFileName().toString());
+		b.append(file.getFileName().toString());
+		return ObjectId.fromString(b.toString());
+	}
+
+	void checkObjects(ObjectDirectory objDb, ObjectChecker objChecker,
+			ProgressMonitor pm, FsckError errors) throws IOException {
+		pm.beginTask(JGitText.get().checkingLooseObjects,
+				ProgressMonitor.UNKNOWN);
+		WindowCursor curs = new WindowCursor(objDb);
+		LooseObjectChecker checkVisitor = new LooseObjectChecker(curs,
+				objChecker, pm, errors);
+		Files.walkFileTree(getDirectory().toPath(), checkVisitor);
+		pm.endTask();
+	}
+
+	private static class LooseObjectChecker extends SimpleFileVisitor<Path> {
+
+		private static final PathMatcher MATCHER = FileSystems.getDefault()
+				.getPathMatcher("regex:.*/\\p{XDigit}{2}/\\p{XDigit}{38}"); //$NON-NLS-1$
+
+		private ObjectChecker objChecker;
+
+		private ProgressMonitor pm;
+
+		private FsckError errors;
+
+		private WindowCursor curs;
+
+		LooseObjectChecker(WindowCursor curs,
+				ObjectChecker objChecker, ProgressMonitor pm,
+				FsckError errors) {
+			this.objChecker = objChecker;
+			this.pm = pm;
+			this.errors = errors;
+			this.curs = curs;
+
+		}
+
+		void check(Path file) {
+			if (file != null && MATCHER.matches(file)) {
+				ObjectId id = LooseObjects.objectIdForFile(file);
+				ObjectLoader obj = null;
+				try {
+					obj = curs.open(id);
+					if (obj != null) {
+						pm.update(1);
+						objChecker.check(obj.getType(), obj.getBytes());
+					} else {
+						errors.getCorruptObjects()
+								.add(new FsckError.CorruptObject(id,
+										Constants.OBJ_BAD,
+										ErrorType.UNKNOWN_TYPE));
+					}
+				} catch (CorruptObjectException e) {
+					errors.getCorruptObjects()
+							.add(new FsckError.CorruptObject(id,
+									obj != null ? obj.getType()
+											: Constants.OBJ_BAD,
+									e.getErrorType()));
+				} catch (IOException e) {
+					errors.getCorruptObjects().add(new FsckError.CorruptObject(
+							id, Constants.OBJ_BAD, ErrorType.UNKNOWN_TYPE));
+				}
+			}
+		}
+
+		@Override
+		public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+			check(file);
+			return CONTINUE;
+		}
+
+		@Override
+		public FileVisitResult visitFileFailed(Path file, IOException exc) {
+			System.err.println(exc);
+			return CONTINUE;
+		}
 	}
 }
