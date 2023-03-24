@@ -18,6 +18,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.kohsuke.args4j.Option;
 
 /**
  * @since 5.13.2
@@ -25,9 +26,13 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 @Command(common = true, usage = "usage_Fsck")
 public class Fsck extends TextBuiltin {
 
+	@Option(name = "--connectivity-only", usage = "usage_ConnectivityOnly")
+	private boolean connectivityOnly;
+
 	@Override
 	protected void run() throws Exception {
 		org.eclipse.jgit.lib.Fsck fsck = db.newFsck();
+		fsck.setConnectivityOnly(connectivityOnly);
 		FsckError errors = fsck.check(new TextProgressMonitor(errw));
 		for (CorruptIndex idx : errors.getCorruptIndices()) {
 			outw.println(MessageFormat.format(CLIText.get().corruptIndex,
