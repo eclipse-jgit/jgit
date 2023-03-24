@@ -20,6 +20,7 @@ import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.attributes.AttributesRule;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Fsck;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
@@ -123,6 +124,11 @@ public abstract class DfsRepository extends Repository {
 		// TODO Check if the implementation used in FileRepository can be used
 		// for this kind of repository
 		return new EmptyAttributesNodeProvider();
+	}
+
+	@Override
+	public Fsck newFsck() {
+		return new DfsFsck(this);
 	}
 
 	private static class EmptyAttributesNodeProvider implements

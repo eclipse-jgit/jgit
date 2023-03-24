@@ -11,9 +11,9 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,19 +32,22 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.errors.FsckError;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
@@ -426,6 +429,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return loose.open(curs, id);
 	}
 
+	void checkLooseObjects(ObjectChecker objChecker, ProgressMonitor pm,
+			FsckError errors) throws IOException {
+		loose.checkObjects(this, objChecker, pm, errors);
+	}
+
 	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId id) throws IOException {
 		long sz = getObjectSizeWithoutRestoring(curs, id);
@@ -588,8 +596,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 							FileSnapshot newSnapshot = FileSnapshot.save(f);
 							HashSet<ObjectId> result = new HashSet<>();
 							try (BufferedReader reader = open(f)) {
-								String line;
-								while ((line = reader.readLine()) != null) {
+				String line;
+				while ((line = reader.readLine()) != null) {
 									if (!ObjectId.isId(line)) {
 										throw new IOException(
 												MessageFormat.format(JGitText
@@ -626,7 +634,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 					shallowFile.getAbsolutePath()));
 		}
 
-		try {
+					try {
 			if (shallowCommits.isEmpty()) {
 				if (shallowFile.isFile()) {
 					shallowFile.delete();
@@ -641,11 +649,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 					}
 				} finally {
 					lock.commit();
+					}
 				}
-			}
 		} finally {
 			lock.unlock();
-		}
+			}
 
 		if (shallowCommits.isEmpty()) {
 			shallowFileSnapshot = FileSnapshot.DIRTY;
@@ -788,7 +796,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		public synchronized Id getId() {
 			if (id == null) {
 				id = new AlternateHandle.Id(db.objects);
-			}
+		}
 			return id;
 		}
 	}
