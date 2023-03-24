@@ -102,6 +102,20 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/transport/PackParser.java" type="org.eclipse.jgit.transport.PackParser">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="setParsingProgressMessage(String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="setProgressMessages(String, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/ProtocolV2Hook.java" type="org.eclipse.jgit.transport.ProtocolV2Hook">
         <filter id="404000815">
             <message_arguments>
