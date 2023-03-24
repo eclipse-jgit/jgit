@@ -14,6 +14,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.CorruptPackIndexException;
@@ -117,6 +118,10 @@ public class FileFsck implements Fsck {
 			Pack pack, ReadableChannel ch)
 			throws IOException, CorruptPackIndexException {
 		FsckPackParser fpp = new FsckPackParser(objdb, ch);
+		String pn = pack.getPackName().substring(0, 10);
+		fpp.setProgressMessages(
+				MessageFormat.format(JGitText.get().checkingPack, pn),
+				MessageFormat.format(JGitText.get().resolvingPack, pn));
 		fpp.setObjectChecker(objChecker);
 		fpp.overwriteObjectCount(pack.getObjectCount());
 		fpp.parse(pm);
@@ -126,7 +131,7 @@ public class FileFsck implements Fsck {
 
 	private void checkGitModules(ProgressMonitor pm, FsckError errors)
 			throws IOException {
-		pm.beginTask(JGitText.get().validatingGitModules,
+		pm.beginTask(JGitText.get().checkingGitModules,
 				objChecker.getGitsubmodules().size());
 		for (GitmoduleEntry entry : objChecker.getGitsubmodules()) {
 			AnyObjectId blobId = entry.getBlobId();
