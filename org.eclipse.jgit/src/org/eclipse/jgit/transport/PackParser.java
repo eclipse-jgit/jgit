@@ -158,6 +158,10 @@ public abstract class PackParser {
 	private final ReceivedPackStatistics.Builder stats =
 			new ReceivedPackStatistics.Builder();
 
+	private String parsingProgressMessage = JGitText.get().receivingObjects;
+
+	private String resolvingProgressMessage = JGitText.get().resolvingDeltas;
+
 	/**
 	 * Initialize a pack parser.
 	 *
@@ -370,6 +374,20 @@ public abstract class PackParser {
 	}
 
 	/**
+	 * Set the message used to show parsing progress
+	 *
+	 * @param parsing
+	 *            the message used to show parsing progress
+	 * @param resolving
+	 *            the message used to show resolving progress
+	 * @since 6.6
+	 */
+	public void setProgressMessages(String parsing, String resolving) {
+		parsingProgressMessage = parsing;
+		resolvingProgressMessage = resolving;
+	}
+
+	/**
 	 * Get the message to record with the pack lock.
 	 *
 	 * @return the message to record with the pack lock.
@@ -527,7 +545,7 @@ public abstract class PackParser {
 			baseByPos = new LongMap<>();
 			collisionCheckObjs = new BlockList<>();
 
-			receiving.beginTask(JGitText.get().receivingObjects,
+			receiving.beginTask(parsingProgressMessage,
 					(int) expectedObjectCount);
 			try {
 				for (int done = 0; done < expectedObjectCount; done++) {
@@ -575,7 +593,7 @@ public abstract class PackParser {
 			((BatchingProgressMonitor) resolving).setDelayStart(1000,
 					TimeUnit.MILLISECONDS);
 		}
-		resolving.beginTask(JGitText.get().resolvingDeltas, deltaCount);
+		resolving.beginTask(resolvingProgressMessage, deltaCount);
 		resolveDeltas(resolving);
 		if (entryCount < expectedObjectCount) {
 			if (!isAllowThin()) {
