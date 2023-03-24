@@ -20,10 +20,11 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.internal.fsck.FsckError;
-import org.eclipse.jgit.internal.fsck.FsckError.CorruptObject;
+import org.eclipse.jgit.errors.FsckError;
+import org.eclipse.jgit.errors.FsckError.CorruptObject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Fsck;
 import org.eclipse.jgit.lib.ObjectChecker.ErrorType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -52,7 +53,7 @@ public class DfsFsckTest {
 		RevCommit commit1 = git.commit().message("1").parent(commit0).create();
 		git.update("master", commit1);
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 
 		assertEquals(errors.getCorruptObjects().size(), 0);
@@ -70,7 +71,7 @@ public class DfsFsckTest {
 		ObjectId id = ins.insert(Constants.OBJ_COMMIT, data);
 		ins.flush();
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
@@ -89,7 +90,7 @@ public class DfsFsckTest {
 		ObjectId id = ins.insert(Constants.OBJ_COMMIT, data);
 		ins.flush();
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
@@ -108,7 +109,7 @@ public class DfsFsckTest {
 		ObjectId id = ins.insert(Constants.OBJ_TAG, data);
 		ins.flush();
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
@@ -124,7 +125,7 @@ public class DfsFsckTest {
 		ObjectId id = ins.insert(Constants.OBJ_TREE, data);
 		ins.flush();
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 
 		assertEquals(errors.getCorruptObjects().size(), 1);
@@ -151,7 +152,7 @@ public class DfsFsckTest {
 
 		ins.flush();
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 
 		assertEquals(errors.getCorruptObjects().size(), 2);
@@ -182,7 +183,7 @@ public class DfsFsckTest {
 
 		git.update("master", commit);
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 		assertEquals(errors.getMissingObjects().size(), 0);
 	}
@@ -202,7 +203,7 @@ public class DfsFsckTest {
 
 		git.update("master", commit);
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 		assertEquals(errors.getMissingObjects().size(), 1);
 		assertEquals(errors.getMissingObjects().iterator().next(), blobId);
@@ -225,7 +226,7 @@ public class DfsFsckTest {
 
 		git.update("master", tagId);
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 		assertEquals(errors.getCorruptObjects().size(), 0);
 		assertEquals(errors.getNonCommitHeads().size(), 1);
@@ -259,7 +260,7 @@ public class DfsFsckTest {
 
 		ObjectId blobId = insertGitModules(fakeGitmodules);
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 		assertEquals(errors.getCorruptObjects().size(), 1);
 
@@ -283,7 +284,7 @@ public class DfsFsckTest {
 
 		insertGitModules(fakeGitmodules);
 
-		DfsFsck fsck = new DfsFsck(repo);
+		Fsck fsck = new DfsFsck(repo);
 		FsckError errors = fsck.check(null);
 		assertEquals(errors.getCorruptObjects().size(), 0);
 	}
