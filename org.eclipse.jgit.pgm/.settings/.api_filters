@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.pgm" version="2">
+    <resource path="src/org/eclipse/jgit/pgm/Fsck.java" type="org.eclipse.jgit.pgm.Fsck">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="org.eclipse.jgit.pgm.Fsck"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/errors/FsckError.java" type="org.eclipse.jgit.errors.FsckError">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="org.eclipse.jgit.errors.FsckError"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>
@@ -26,11 +34,31 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/Fsck.java" type="org.eclipse.jgit.lib.Fsck">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="org.eclipse.jgit.lib.Fsck"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/Repository.java" type="org.eclipse.jgit.lib.Repository">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.Repository"/>
+                <message_argument value="newFsck()"/>
+            </message_arguments>
+        </filter>
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.13.2"/>
                 <message_argument value="getReflogReader(Ref)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
+                <message_argument value="newFsck()"/>
             </message_arguments>
         </filter>
     </resource>
