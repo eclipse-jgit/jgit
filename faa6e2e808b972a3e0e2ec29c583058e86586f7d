@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf413ee_153018e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-25T21:19:39Z",
+      "side": 1,
+      "message": "please rebase this series onto master and adapt to the modifications done in the parent commit until it was submitted",
+      "revId": "faa6e2e808b972a3e0e2ec29c583058e86586f7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
