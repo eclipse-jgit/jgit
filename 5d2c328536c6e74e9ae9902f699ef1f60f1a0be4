@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4083859e_b6d185fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "695b6e75_647b726f",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e75c7ee5_f54a90bf",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa44b20_744c5fe4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e75c7ee5_f54a90bf",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8dec73c_45b20558",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-03-27T17:43:47Z",
       "side": 1,
       "message": "This is not implementing the CLI part of the feature, right? reading the --negotiation-tip flag and passing it to this fetch. \n\nOptional: mention it here, that this works for programmatic fetches but there is no support for it yet in the CLI.",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6572f4c3_5c9172da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e8dec73c_45b20558",
       "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -103,6 +157,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37f6ac9c_2f120ad6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "Only 3 usages that too in the test including the 2 calls from now. Its okay to pass in an extra arg.",
+      "parentUuid": "ca12d7e3_39e9396e",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81ceacdf_3d20502d",
@@ -116,6 +188,30 @@
       "writtenOn": "2023-03-27T17:43:47Z",
       "side": 1,
       "message": "nit: branchBar and branchFoo would make easier to follow what is happening",
+      "range": {
+        "startLine": 2191,
+        "startChar": 17,
+        "endLine": 2191,
+        "endChar": 24
+      },
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e574674c_5a41d18e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "agreed.. I was following conventions from other tests in this file.",
+      "parentUuid": "81ceacdf_3d20502d",
       "range": {
         "startLine": 2191,
         "startChar": 17,
@@ -143,6 +239,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a545974_65d3dfe0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f949a16_8cfea06a",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "953daa12_06b6b786",
@@ -156,6 +270,24 @@
       "writtenOn": "2023-03-27T17:43:47Z",
       "side": 1,
       "message": "What is this test covering? why long history could be problematic?",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7267b69_a38ec986",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2292,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "more commits than max haves makes the transport send haves in multiple batches",
+      "parentUuid": "953daa12_06b6b786",
       "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -183,6 +315,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6983cd18_b2a39fdb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2311,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b738c39d_ee41d960",
+      "range": {
+        "startLine": 2311,
+        "startChar": 22,
+        "endLine": 2311,
+        "endChar": 23
+      },
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96524b05_0a15860f",
@@ -196,6 +352,24 @@
       "writtenOn": "2023-03-27T17:43:47Z",
       "side": 1,
       "message": "This could be an API break for subclasses. \n\nMaybe keep the old constructor invoking this with \"false\" for negotiationtip? That constructor could have a @since tag indicating what version of JGit got negotationTip support",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "282146bc_3604ecbd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T21:52:02Z",
+      "side": 1,
+      "message": "I see thats a valid point.. I\u0027ll do that.",
+      "parentUuid": "96524b05_0a15860f",
       "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
