@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4aec99b_ca0fcc8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T15:09:27Z",
+      "side": 1,
+      "message": "looks mostly good, but I wonder about the test coverage for failure paths.",
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff231c99_88f654f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T15:09:27Z",
+      "side": 1,
+      "message": "should you handle the failure (return null)? there is access to rSL.supplier below.",
+      "range": {
+        "startLine": 453,
+        "startChar": 3,
+        "endLine": 453,
+        "endChar": 21
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5727b917_1b2e1504",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T15:09:27Z",
+      "side": 1,
+      "message": "nit:\n\n```\nif (!hashOk) { .. }\nreturn hashOk;\n```",
+      "range": {
+        "startLine": 698,
+        "startChar": 1,
+        "endLine": 698,
+        "endChar": 14
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3f013aa_1ec080de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T15:09:27Z",
+      "side": 1,
+      "message": "@Nullable ?",
+      "range": {
+        "startLine": 742,
+        "startChar": 1,
+        "endLine": 742,
+        "endChar": 8
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8568639c_15c9bb90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T15:09:27Z",
+      "side": 1,
+      "message": "return ?",
+      "range": {
+        "startLine": 747,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 71
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
