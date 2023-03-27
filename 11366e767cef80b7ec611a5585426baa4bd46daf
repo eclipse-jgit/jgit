@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7fbeef_d7cc7cee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T22:42:26Z",
+      "side": 1,
+      "message": "nit: and",
+      "range": {
+        "startLine": 13,
+        "startChar": 113,
+        "endLine": 13,
+        "endChar": 116
+      },
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b548c0ca_769dbae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T22:42:26Z",
+      "side": 1,
+      "message": "nit: This *is* controlled",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2b558cca_55ab92ae",
@@ -31,6 +77,63 @@
       "writtenOn": "2023-03-27T22:28:59Z",
       "side": 1,
       "message": "trigger build",
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6908aa1_040324b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T22:42:26Z",
+      "side": 1,
+      "message": "Looks good. Just few nits.",
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f62b1f64_d671c4e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T22:42:26Z",
+      "side": 1,
+      "message": "Javadoc looks misformatted here. You can use a written explanation instead, as the topology is not really that complicated.",
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39701512_2d3cf4e2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T22:42:26Z",
+      "side": 1,
+      "message": "private static class",
+      "range": {
+        "startLine": 2356,
+        "startChar": 1,
+        "endLine": 2356,
+        "endChar": 8
+      },
       "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
