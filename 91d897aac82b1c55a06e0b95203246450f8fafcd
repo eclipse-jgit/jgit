@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bae0d5f_65e3946a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "Matthias can say more about why JGit cares so much about error message i18n. If it\u0027s too much bother, you could simply not emit the messages (where you\u0027re adding new messages now). ",
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0335bcb_538b4b04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "patchFormatException?",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8617173_77c0738c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "not a format exception.",
+      "range": {
+        "startLine": 91,
+        "startChar": 70,
+        "endLine": 91,
+        "endChar": 90
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a352026c_0b204596",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "not a format exception.",
+      "range": {
+        "startLine": 98,
+        "startChar": 69,
+        "endLine": 98,
+        "endChar": 89
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb6d439_81e7a1a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "it\u0027s custom to add an annotation to bare strings (something-NLS).\n\nnit: most compilers have errors that look like $LOCATION: $MESSAGE. Maybe reverse this.",
+      "range": {
+        "startLine": 169,
+        "startChar": 34,
+        "endLine": 169,
+        "endChar": 65
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5232f66_bace1567",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "nit; application",
+      "range": {
+        "startLine": 354,
+        "startChar": 25,
+        "endLine": 354,
+        "endChar": 33
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee2979e5_1ba1f1a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "\u0027application\u0027\n\n\u0027result of applying the patch\u0027",
+      "range": {
+        "startLine": 708,
+        "startChar": 25,
+        "endLine": 708,
+        "endChar": 33
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9022f888_d3d3e5bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T12:24:58Z",
+      "side": 1,
+      "message": "something-something NLS here and below.",
+      "range": {
+        "startLine": 780,
+        "startChar": 35,
+        "endLine": 780,
+        "endChar": 40
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
