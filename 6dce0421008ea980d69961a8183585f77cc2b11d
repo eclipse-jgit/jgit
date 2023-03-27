@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f4e14e_ed9f4da8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-27T07:50:55Z",
+      "side": 1,
+      "message": "I fixed a bug in FileCommitGraph, please review it.",
+      "revId": "6dce0421008ea980d69961a8183585f77cc2b11d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
