@@ -70,6 +70,30 @@
       },
       "revId": "38e968275deb08b27d352a6b54c76720f025669b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a95dbf7_21c3bad8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done. The spaghetti code mostly went away once I removed the wrapping (the example case included).",
+      "parentUuid": "b0066bed_4ada21b2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "38e968275deb08b27d352a6b54c76720f025669b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

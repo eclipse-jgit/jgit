@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d30de2ba_e205c88e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "This was originally thrown by the \"main\" applyPatch() try-catch block. Kept the Same error for consistency. I don\u0027t feel strongly about it though.",
+      "parentUuid": "b0335bcb_538b4b04",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8617173_77c0738c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2023-03-27T12:24:58Z",
       "side": 1,
       "message": "not a format exception.",
+      "range": {
+        "startLine": 91,
+        "startChar": 70,
+        "endLine": 91,
+        "endChar": 90
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e981b7f1_aa64107e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8617173_77c0738c",
       "range": {
         "startLine": 91,
         "startChar": 70,
@@ -87,6 +135,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa48aa38_2dffe197",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a352026c_0b204596",
+      "range": {
+        "startLine": 98,
+        "startChar": 69,
+        "endLine": 98,
+        "endChar": 89
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fb6d439_81e7a1a2",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-03-27T12:24:58Z",
       "side": 1,
       "message": "it\u0027s custom to add an annotation to bare strings (something-NLS).\n\nnit: most compilers have errors that look like $LOCATION: $MESSAGE. Maybe reverse this.",
+      "range": {
+        "startLine": 169,
+        "startChar": 34,
+        "endLine": 169,
+        "endChar": 65
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0384c4fb_91aba7ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fb6d439_81e7a1a2",
       "range": {
         "startLine": 169,
         "startChar": 34,
@@ -133,6 +229,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dac4fa19_4ae38141",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5232f66_bace1567",
+      "range": {
+        "startLine": 354,
+        "startChar": 25,
+        "endLine": 354,
+        "endChar": 33
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee2979e5_1ba1f1a9",
@@ -156,6 +276,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7b15338_81e26684",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee2979e5_1ba1f1a9",
+      "range": {
+        "startLine": 708,
+        "startChar": 25,
+        "endLine": 708,
+        "endChar": 33
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9022f888_d3d3e5bc",
@@ -169,6 +313,30 @@
       "writtenOn": "2023-03-27T12:24:58Z",
       "side": 1,
       "message": "something-something NLS here and below.",
+      "range": {
+        "startLine": 780,
+        "startChar": 35,
+        "endLine": 780,
+        "endChar": 40
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8b9d4d9_0730ab37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-27T14:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9022f888_d3d3e5bc",
       "range": {
         "startLine": 780,
         "startChar": 35,
