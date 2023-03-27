@@ -328,6 +328,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b18ec72_d5ef0610",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2292,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T23:22:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0ec10a4a_216abe6f",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b738c39d_ee41d960",

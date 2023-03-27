@@ -49,6 +49,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dd1a7a52_84c1d6b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T23:22:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da7fbeef_d7cc7cee",
+      "range": {
+        "startLine": 13,
+        "startChar": 113,
+        "endLine": 13,
+        "endChar": 116
+      },
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8d64c4d_36b23706",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T23:22:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b548c0ca_769dbae5",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2b558cca_55ab92ae",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -115,6 +163,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a71e5430_2a0a5494",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2246,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T23:22:44Z",
+      "side": 1,
+      "message": "done. added written explanation as well",
+      "parentUuid": "f62b1f64_d671c4e6",
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39701512_2d3cf4e2",
@@ -128,6 +194,30 @@
       "writtenOn": "2023-03-27T22:42:26Z",
       "side": 1,
       "message": "private static class",
+      "range": {
+        "startLine": 2356,
+        "startChar": 1,
+        "endLine": 2356,
+        "endChar": 8
+      },
+      "revId": "11366e767cef80b7ec611a5585426baa4bd46daf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60fb100a_74812ef4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-03-27T23:22:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39701512_2d3cf4e2",
       "range": {
         "startLine": 2356,
         "startChar": 1,
