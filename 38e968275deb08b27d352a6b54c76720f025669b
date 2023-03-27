@@ -94,6 +94,30 @@
       },
       "revId": "38e968275deb08b27d352a6b54c76720f025669b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0aa314_110cf971",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T15:18:13Z",
+      "side": 1,
+      "message": "hurray!\ncan you work some of the discussion with Matthias into the commit message, so people understand why we did this?",
+      "parentUuid": "4a95dbf7_21c3bad8",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "38e968275deb08b27d352a6b54c76720f025669b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
