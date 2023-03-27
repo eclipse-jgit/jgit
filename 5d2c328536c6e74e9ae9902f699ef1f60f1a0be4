@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "695b6e75_647b726f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "Component: title\n\nIn this case, something like\nBasePackFetchConnection: support negotiationTip feature",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e75c7ee5_f54a90bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "First explain the problem. You can almost copy here git description of the feature:\n\n```\nBy default, Git will report, to the server, commits reachable from all local refs to find common commits in an attempt to reduce the size of the to-be-received packfile. s/If specified/with negotiation tip/, Git will only report commits reachable from the given tips. This is useful to speed up fetches when the user knows which local ref is likely to have commits in common with the upstream ref being fetched.\n```\n\nSecond your solution:\nWhen negotation-tip is on, use the wanted refs instead of all refs as source of the \"have\" list to send.\n\nAnd finally the option:\nThis controlled by the `fetch.usenegotationtip` flag, false by default.",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8dec73c_45b20558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "This is not implementing the CLI part of the feature, right? reading the --negotiation-tip flag and passing it to this fetch. \n\nOptional: mention it here, that this works for programmatic fetches but there is no support for it yet in the CLI.",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f458ef7b_17d68263",
@@ -31,6 +82,120 @@
       "writtenOn": "2023-03-27T17:17:49Z",
       "side": 1,
       "message": "Any update on this? Happy to answer any questions you may have.",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca12d7e3_39e9396e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "nit: This won\u0027t be needed if we have a constructor defaulting to false",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ceacdf_3d20502d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "nit: branchBar and branchFoo would make easier to follow what is happening",
+      "range": {
+        "startLine": 2191,
+        "startChar": 17,
+        "endLine": 2191,
+        "endChar": 24
+      },
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f949a16_8cfea06a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "Make this hook a proper class (e.g. CountHavesPreUploadHook), it is used twice and it would make these tests more readable.\n\nYou can keep the Set inside the class, so this test would do something like:\nCountHavesPreUploadHook countHavesHook \u003d new Count...\n... \n   up.seetPreUploadHook(countHavesHook);\n...\n\nassertEquals(x,countHavesHook.getHavesReceivedCount())",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "953daa12_06b6b786",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2292,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "What is this test covering? why long history could be problematic?",
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b738c39d_ee41d960",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2311,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "Javadoc makes both branches equally deep... should this be 2?",
+      "range": {
+        "startLine": 2311,
+        "startChar": 22,
+        "endLine": 2311,
+        "endChar": 23
+      },
+      "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96524b05_0a15860f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-27T17:43:47Z",
+      "side": 1,
+      "message": "This could be an API break for subclasses. \n\nMaybe keep the old constructor invoking this with \"false\" for negotiationtip? That constructor could have a @since tag indicating what version of JGit got negotationTip support",
       "revId": "5d2c328536c6e74e9ae9902f699ef1f60f1a0be4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
