@@ -85,10 +85,10 @@ public class FileCommitGraph {
 		private final CommitGraph graph;
 
 		GraphSnapshot(@NonNull File file) {
-			this(file, FileSnapshot.save(file), null);
+			this(file, null, null);
 		}
 
-		GraphSnapshot(@NonNull File file, @NonNull FileSnapshot snapshot,
+		GraphSnapshot(@NonNull File file, FileSnapshot snapshot,
 				CommitGraph graph) {
 			this.file = file;
 			this.snapshot = snapshot;
@@ -104,7 +104,7 @@ public class FileCommitGraph {
 				// commit-graph file didn't exist
 				return this;
 			}
-			if (!snapshot.isModified(file)) {
+			if (snapshot != null && !snapshot.isModified(file)) {
 				// commit-graph file was not modified
 				return this;
 			}

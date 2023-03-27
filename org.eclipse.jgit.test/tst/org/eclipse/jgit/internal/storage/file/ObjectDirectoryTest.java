@@ -278,6 +278,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		db.getConfig().save();
 
 		// no commit-graph
 		ObjectDirectory dir = db.getObjectDatabase();
@@ -293,6 +294,13 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		assertTrue(file.isFile());
 		assertTrue(dir.getCommitGraph().isPresent());
 		assertEquals(1, dir.getCommitGraph().get().getCommitCnt());
+
+		// get commit-graph in a newly created db
+		try (FileRepository repo2 = new FileRepository(db.getDirectory())) {
+			ObjectDirectory dir2 = repo2.getObjectDatabase();
+			assertTrue(dir2.getCommitGraph().isPresent());
+			assertEquals(1, dir2.getCommitGraph().get().getCommitCnt());
+		}
 
 		// update commit-graph
 		commitFile("file2.txt", "content", "master");
