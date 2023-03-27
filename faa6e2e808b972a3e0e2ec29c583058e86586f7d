@@ -16,6 +16,24 @@
       "message": "please rebase this series onto master and adapt to the modifications done in the parent commit until it was submitted",
       "revId": "faa6e2e808b972a3e0e2ec29c583058e86586f7d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba366a9d_5cf990f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-27T01:44:47Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ll do it right away.\n\nI was thinking about integrating this feature in version 6.6.0, and it looks like it\u0027s time!",
+      "parentUuid": "fdf413ee_153018e0",
+      "revId": "faa6e2e808b972a3e0e2ec29c583058e86586f7d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
