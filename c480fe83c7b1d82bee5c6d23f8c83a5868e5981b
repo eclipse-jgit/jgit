@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5954996d_86b4f147",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-27T13:51:48Z",
+      "side": 1,
+      "message": "if you leave `applyPatch(InputStream)` as a wrapper, you don\u0027t have to synchronize bugfixes between gerrit and google3 import.",
+      "range": {
+        "startLine": 218,
+        "startChar": 17,
+        "endLine": 218,
+        "endChar": 36
+      },
+      "revId": "c480fe83c7b1d82bee5c6d23f8c83a5868e5981b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
