@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5141fa1_a2ce3394",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-27T14:12:49Z",
+      "side": 1,
+      "message": "why don\u0027t we use the RevWalk prepared in the base class RevWalkTestCase ?",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dcbc3c4_520b8374",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-27T14:12:49Z",
+      "side": 1,
+      "message": "we always call this after enableAndWriteCommitGraph() hence I\u0027d move this call to the end of enableAndWriteCommitGraph()\n\nWhen a commit-graph is newly created we only benefit in RevWalks created after the commit-graph was created. Calling reset on a RevWalk which was created before the commit-graph was created doesn\u0027t enable it to use the commit-graph since it\u0027s reusing the RevCommit objects which are kept across a call to reset.\n\nDid I get this correctly ?",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1466b8cd_aa5561f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-27T14:12:49Z",
+      "side": 1,
+      "message": "Why is Math.min needed ? \nneedle#getGeneration cannot have a value larger than Integer#MAX_VALUE so what\u0027s the point in calling Math#min ?",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
