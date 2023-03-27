@@ -16,6 +16,24 @@
       "message": "- improved commit message\n- ensure second FileRepository is closed",
       "revId": "827849017dc7a6ae269a37727d1e28e18b5aa966",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85005a3a_aeddac04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-27T09:20:15Z",
+      "side": 1,
+      "message": "It looks better. Thanks!",
+      "parentUuid": "3d23fabc_5e21143d",
+      "revId": "827849017dc7a6ae269a37727d1e28e18b5aa966",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
