@@ -71,6 +71,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75314daa_4510f32d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-28T22:08:26Z",
+      "side": 1,
+      "message": "A later build succeeded, so I guess is some flakiness in the builder. If there is no objection, I\u0027ll mark it as verified manually and submit.",
+      "parentUuid": "46a9ded5_8d81c50d",
+      "revId": "292ec44d86b4b58fd08e6a7b57265424f7218b44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ffee8ba_b2f70fcc",
