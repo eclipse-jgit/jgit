@@ -50,6 +50,24 @@
       "message": "You shouldn\u0027t need this, much less an \"instanceof\", because #getGeneration is in RevCommit (returning UNKNOWN) and overriden in RevCommitCG.",
       "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71b925e6_5e7449cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-28T23:14:42Z",
+      "side": 1,
+      "message": "I see, is parseHeaders also needed if it\u0027s not a RevCommitCG ?",
+      "parentUuid": "aa9ce982_6a7dd186",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
