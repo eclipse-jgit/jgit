@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9968a334_5761f5fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-28T09:51:39Z",
+      "side": 1,
+      "message": "Added a basic test to verify the wiring.\nMost of the potential issues are hard to generate in the current test flow.",
+      "parentUuid": "e4aec99b_ca0fcc8a",
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff231c99_88f654f4",
@@ -112,6 +130,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e833a05b_3b811644",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-28T09:51:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5727b917_1b2e1504",
+      "range": {
+        "startLine": 698,
+        "startChar": 1,
+        "endLine": 698,
+        "endChar": 14
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3f013aa_1ec080de",
@@ -159,6 +201,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ebcd956_0113e5e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-28T09:51:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f013aa_1ec080de",
+      "range": {
+        "startLine": 742,
+        "startChar": 1,
+        "endLine": 742,
+        "endChar": 8
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8568639c_15c9bb90",
@@ -193,6 +259,30 @@
         "id": 98905
       },
       "writtenOn": "2023-03-28T09:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8568639c_15c9bb90",
+      "range": {
+        "startLine": 747,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 71
+      },
+      "revId": "a2cf0d6ca0f1c83abd8b8beeaf3478bc54275b77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "896a8bc4_23ebc911",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-03-28T09:51:39Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "8568639c_15c9bb90",
