@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "012a255b_9c7b6f80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-28T22:09:58Z",
+      "side": 1,
+      "message": "extracted this into getGeneration method and use Constants.COMMIT_GENERATION_UNKNOWN instead of Integer.MAX_VALUE",
+      "range": {
+        "startLine": 554,
+        "startChar": 16,
+        "endLine": 559,
+        "endChar": 4
+      },
+      "revId": "5da1ee97cf258dc84e9f55e2cbf6bae2403aeedf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

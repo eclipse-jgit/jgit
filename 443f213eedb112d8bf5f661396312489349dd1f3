@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b5a0cb6_59d07788",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-28T22:09:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "154581f2_9e998505",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6dcbc3c4_520b8374",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "\u003e Did I get this correctly ?\n\nRight！In order not to scan the commit-graph file so frequently, a RevWalk will only get it only once. So if we want to test the new created commit-graph, we need to reinitialize the RevWalk.\n\nAnd #reinitializeRevWalk() is not only called after #enableAndWriteCommitGraph().\nFor example, in #testParseHeaders(), I used it to test the RevWalk#setRetainBody(Boolean) when core.commitgraph is true. Of course, it is also possible to replace this situation with rw.dispose().\n\nMoreover, the name of #enableAndWriteCommitGraph() does not include the meaning of reinitializing RevWalk.\n\nIf we want to refactor, we can push another change.",
       "parentUuid": "6dcbc3c4_520b8374",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "462576a8_1de20526",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-28T22:09:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf6fffa2_8189b082",
       "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
