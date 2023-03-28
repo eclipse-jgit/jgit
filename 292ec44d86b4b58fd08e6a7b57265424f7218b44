@@ -89,6 +89,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c455603_77040392",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-28T23:18:43Z",
+      "side": 1,
+      "message": "my local build succeeded as well",
+      "parentUuid": "75314daa_4510f32d",
+      "revId": "292ec44d86b4b58fd08e6a7b57265424f7218b44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ffee8ba_b2f70fcc",
