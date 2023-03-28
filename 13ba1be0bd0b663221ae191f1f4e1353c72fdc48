@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "511b28ba_999de455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-28T22:22:31Z",
+      "side": 1,
+      "message": "IIUC from https://github.com/derrickstolee/gen-test, generation numbers help in many cases but make others slower. It is preferable to use fixed commit timestamps.\n\nWe can either submit this and update it later to fixed-commit-timestamps, or jump directly to fixed-commit-timestamps (after we get them into the commit-graph)",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa9ce982_6a7dd186",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-28T22:22:31Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need this, much less an \"instanceof\", because #getGeneration is in RevCommit (returning UNKNOWN) and overriden in RevCommitCG.",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
