@@ -65,6 +65,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f94bf47_bb0c45ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-28T09:51:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d30de2ba_e205c88e",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 32
+      },
+      "revId": "91d897aac82b1c55a06e0b95203246450f8fafcd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8617173_77c0738c",
