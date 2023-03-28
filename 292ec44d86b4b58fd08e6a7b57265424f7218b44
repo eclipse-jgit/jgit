@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "292ec44d86b4b58fd08e6a7b57265424f7218b44",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1196ad_cd8e3f06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-28T21:03:47Z",
+      "side": 1,
+      "message": "The build complains about not finding 6.6.0-SNAPSHOT of the jgit jars... Is this related with the recent release of 6.5?",
+      "revId": "292ec44d86b4b58fd08e6a7b57265424f7218b44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
