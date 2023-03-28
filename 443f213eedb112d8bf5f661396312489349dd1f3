@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "154581f2_9e998505",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-28T02:49:20Z",
+      "side": 1,
+      "message": "Because #rw in RevWalkTestCase is used in other places, such as #commit() and #commit(RevCommit). \nWhen wrote these test cases, I prefered to distinguish them and kept them from interfering with each other.",
+      "parentUuid": "b5141fa1_a2ce3394",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6dcbc3c4_520b8374",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 35
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf6fffa2_8189b082",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-28T02:49:20Z",
+      "side": 1,
+      "message": "\u003e Did I get this correctly ?\n\nRight！In order not to scan the commit-graph file so frequently, a RevWalk will only get it only once. So if we want to test the new created commit-graph, we need to reinitialize the RevWalk.\n\nAnd #reinitializeRevWalk() is not only called after #enableAndWriteCommitGraph().\nFor example, in #testParseHeaders(), I used it to test the RevWalk#setRetainBody(Boolean) when core.commitgraph is true. Of course, it is also possible to replace this situation with rw.dispose().\n\nMoreover, the name of #enableAndWriteCommitGraph() does not include the meaning of reinitializing RevWalk.\n\nIf we want to refactor, we can push another change.",
+      "parentUuid": "6dcbc3c4_520b8374",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1466b8cd_aa5561f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 35
@@ -48,6 +84,24 @@
       "writtenOn": "2023-03-27T14:12:49Z",
       "side": 1,
       "message": "Why is Math.min needed ? \nneedle#getGeneration cannot have a value larger than Integer#MAX_VALUE so what\u0027s the point in calling Math#min ?",
+      "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "905ee46c_1e211407",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-28T02:49:20Z",
+      "side": 1,
+      "message": "\u003e Why is Math.min needed ? \n\nHere I mainly wanted to simplify the code.\n\n\u003e needle#getGeneration cannot have a value larger than Integer#MAX_VALUE so what\u0027s the point in calling Math#min ?\n\nIf the commit is not in the commitGraph, its generation is Integer.MAX_VALUE, so the result of Math.min is also Integer.MAX_VALUE.\n\nYeah, it\u0027s hard to understand. I\u0027ll fix it.",
+      "parentUuid": "1466b8cd_aa5561f5",
       "revId": "443f213eedb112d8bf5f661396312489349dd1f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
