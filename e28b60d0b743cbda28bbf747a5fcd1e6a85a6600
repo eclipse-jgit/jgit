@@ -68,6 +68,30 @@
       },
       "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76ea1bba_f8f09ada",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-29T18:02:37Z",
+      "side": 1,
+      "message": "To be honest, I am not sure that is safe (more below on why). The existing code reads from what you are calling newPacked, not oldPacked, so changing that behavior is beyond what seems prudent for this change, and if that is desired, it seems like it should probably be done in a separate change with its own analysis and justification?\n\nAs for whether reading from oldPacked is safe and the right thing to do, I am not sure. \"refs\" is a Collection, and not a Set, so there could be duplicates and I don\u0027t know if this is supposed to be able to handle multiple sequential updates to the same ref? Reading from newPacked would seem to allow that, whereas reading from oldPacked would not and it would cause subsequent updates meant to follow the first one to fail.",
+      "parentUuid": "d730a711_ab4e739f",
+      "range": {
+        "startLine": 725,
+        "startChar": 35,
+        "endLine": 725,
+        "endChar": 46
+      },
+      "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
