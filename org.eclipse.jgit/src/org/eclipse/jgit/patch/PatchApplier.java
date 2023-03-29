@@ -152,13 +152,16 @@ public class PatchApplier {
 		/**
 		 * A wrapper for a patch applying error that affects a given file.
 		 *
+		 * @since 6.6
 		 */
 		public static class Error {
+
 			private String msg;
 			private String oldFileName;
 			private @Nullable HunkHeader hh;
 
-			private Error(String msg,String oldFileName, @Nullable HunkHeader hh) {
+			private Error(String msg, String oldFileName,
+					@Nullable HunkHeader hh) {
 				this.msg = msg;
 				this.oldFileName = oldFileName;
 				this.hh = hh;
@@ -166,7 +169,7 @@ public class PatchApplier {
 
 			@Override
 			public String toString() {
-				if(hh != null) {
+				if (hh != null) {
 					return MessageFormat.format(JGitText.get().patchApplyErrorWithHunk,
 							oldFileName, hh, msg);
 				}
@@ -198,6 +201,8 @@ public class PatchApplier {
 
 		/**
 		 * @return Errors occurred while applying the patch.
+		 *
+		 * @since 6.6
 		 */
 		public List<Error> getErrors() {
 			return errors;
@@ -241,6 +246,7 @@ public class PatchApplier {
 	 *            the patch to apply.
 	 * @return the result of the patch
 	 * @throws IOException
+	 * @since 6.6
 	 */
 	public Result applyPatch(Patch p) throws IOException {
 		Result result = new Result();
