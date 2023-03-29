@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4a0e319_84d3df45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-29T03:07:28Z",
+      "side": 1,
+      "message": "\u003e These tests have one thing in common, they walked in order of descending generation number instead of descending commit date.\n\u003e \n\u003e In other words, in JGit, let\u0027s say org.eclipse.jgit.revwalk.DateRevQueue is replaced by something named \"GeneRevQueue\", which we haven\u0027t done yet.\n\nCorrect some of my comments above, for \"git log --topo-order\", the optimization of the algorithm looks more complicated, and I am not particularly familiar with it at present, refer to [1].\n\n\"They all use the generation number to optimize the heuristic traversal of the commits\", this description would be better.\n\nThe optimization of #getMergeInto() was just a simple use of \"If gen(A) \u003c gen(B), then A cannot reach B.\", but still walked in order of descending commit date.\n\n[1] https://github.com/git/git/commit/b45424181e9e8b2284a48c6db7b8db635bbfccc8",
+      "parentUuid": "49668352_f2ed48a2",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa9ce982_6a7dd186",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 37
