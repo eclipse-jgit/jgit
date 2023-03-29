@@ -140,6 +140,24 @@
       "parentUuid": "71b925e6_5e7449cd",
       "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "351f15be_143f1ee4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T06:35:51Z",
+      "side": 1,
+      "message": "AFAICS the result is the same if we remove lines 607 and 608 since RevCommit#getGeneration returns Constants.COMMIT_GENERATION_UNKNOWN.\nSo we could write this and inline it:\n\n```\n// Make sure commit is parsed from commit-graph\ncommit.parseHeaders(this);\ngeneration \u003d commit.getGeneration();\n```\n\nThough using instanceof looks like a hack leaking implementation details of RevCommitCG to the caller. If RevCommitCG#getGeneration could detect itself if it needs to run parseHeaders then we could move this call into that method.",
+      "parentUuid": "d55cd070_6bbcb981",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
