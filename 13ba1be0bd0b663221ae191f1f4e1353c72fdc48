@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49668352_f2ed48a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-29T02:40:03Z",
+      "side": 1,
+      "message": "\u003e IIUC from https://github.com/derrickstolee/gen-test, generation numbers help in many cases but make others slower. It is preferable to use fixed commit timestamps.\n\nThank you Ivan for providing the information.\n\nI have read these tests just now, which affected \"git log --topo-order\" and \"git merge-base\".\n\nThese tests have one thing in common, they walked in order of descending generation number instead of descending commit date.\n\nIn other words, in JGit, let\u0027s say org.eclipse.jgit.revwalk.DateRevQueue is replaced by something named \"GeneRevQueue\", which we haven\u0027t done yet.\n\n\n\u003e We can either submit this and update it later to fixed-commit-timestamps, or jump directly to fixed-commit-timestamps (after we get them into the commit-graph)\n\nThe #getMergeInto() method does not use GeneRevQueue, I guess ”minimum generation number” will not make it worse.\n \nMaybe we can submit it and don\u0027t implement GeneRevQueue until fixed-commit-timestamps is implemented.",
+      "parentUuid": "0e996fb6_02ea1384",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa9ce982_6a7dd186",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 37
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "I see, is parseHeaders also needed if it\u0027s not a RevCommitCG ?",
       "parentUuid": "aa9ce982_6a7dd186",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55cd070_6bbcb981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-03-29T02:40:03Z",
+      "side": 1,
+      "message": "\u003e I see, is parseHeaders also needed if it\u0027s not a RevCommitCG ?\n\nYeah, if RevCommit is not RevCommitCG, #getGeneration() will always return COMMIT_GENERATION_UNKNOWN (Integer.MAX_VALUE).\n\nI added \"instanceof RevCommitCG\" because if it is not RevCommitCG, even without #parseHeader(), the result will be not affected. Otherwise, the result may be wrong.\n\nThe code will be simpler to remove the \"instanceof of\", maybe we can add more comments to explain it.",
+      "parentUuid": "71b925e6_5e7449cd",
       "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
