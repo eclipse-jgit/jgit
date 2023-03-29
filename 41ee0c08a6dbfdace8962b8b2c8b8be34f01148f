@@ -478,6 +478,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6484f88_037cc99b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T20:18:50Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware of LVM2 read/write snapshots.\nWould RequestScopedRefCache be a better name ?\nThe additional javadoc helps a lot to understand the use cases this is meant for.",
+      "parentUuid": "0d5572b1_796829a8",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c450b7e_ffd6bb03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
         "patchSetId": 15
@@ -701,6 +725,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t understand this, doesn\u0027t this risk races ?\n\nI am not seeing any since we are not actually doing the update for the outer class directly, we are simply calling it\u0027s own getPackedRefs() method which should do that update safely if it is needed. What did you have in mind?",
       "parentUuid": "1c183c28_e9c417f7",
+      "range": {
+        "startLine": 116,
+        "startChar": 63,
+        "endLine": 117,
+        "endChar": 66
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b47b5e2d_dbb1b59a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T20:18:50Z",
+      "side": 1,
+      "message": "I think I got it now, what distracted me was that this javadoc mentions an outer class, which doesn\u0027t exist. I guess this was introduced when this class was an inner class of RefDirectory in an earlier patchset.\n\nHow about this:\n\nUpdate the in-memory copy of the underlying RefDirectory\u0027s packed-refs to avoid the overhead of re-reading packed-refs on each new snapshot as the packed-refs of the underlying RefDirectory may not get updated if most threads use this cache.",
+      "parentUuid": "a1607531_a2847554",
       "range": {
         "startLine": 116,
         "startChar": 63,
