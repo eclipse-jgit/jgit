@@ -359,6 +359,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1607531_a2847554",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-29T18:13:27Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand this, doesn\u0027t this risk races ?\n\nI am not seeing any since we are not actually doing the update for the outer class directly, we are simply calling it\u0027s own getPackedRefs() method which should do that update safely if it is needed. What did you have in mind?",
+      "parentUuid": "1c183c28_e9c417f7",
+      "range": {
+        "startLine": 116,
+        "startChar": 63,
+        "endLine": 117,
+        "endChar": 66
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b480563a_7490ef08",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
         "patchSetId": 15
