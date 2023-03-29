@@ -92,6 +92,30 @@
       },
       "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef3c8239_63658a0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T22:56:00Z",
+      "side": 1,
+      "message": "\u003e To be honest, I am not sure that is safe (more below on why). The existing code reads from what you are calling newPacked, not oldPacked, so changing that behavior is beyond what seems prudent for this change, and if that is desired, it seems like it should probably be done in a separate change with its own analysis and justification?\n\nok",
+      "parentUuid": "76ea1bba_f8f09ada",
+      "range": {
+        "startLine": 725,
+        "startChar": 35,
+        "endLine": 725,
+        "endChar": 46
+      },
+      "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
