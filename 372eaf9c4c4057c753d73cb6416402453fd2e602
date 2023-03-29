@@ -50,6 +50,24 @@
       "message": "move comment from line 186 here and explain that this is a no-op if commitPackedRefs succeeded ?",
       "revId": "372eaf9c4c4057c753d73cb6416402453fd2e602",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf18f9f5_dd8b18fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T18:08:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84664df2_ee754ad8",
+      "revId": "372eaf9c4c4057c753d73cb6416402453fd2e602",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
