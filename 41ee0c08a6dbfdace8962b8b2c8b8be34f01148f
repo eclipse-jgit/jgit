@@ -526,6 +526,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5eb461ff_fc7d4029",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T22:53:57Z",
+      "side": 1,
+      "message": "I am ok with that proposal\n\nI would now also accept something like RefDirectoryRWSnapshot since I learnt read/write snapshots are already a thing, if we choose that we should add a link to that existing concept in the javadoc",
+      "parentUuid": "b735589d_26b69f62",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c450b7e_ffd6bb03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
         "patchSetId": 15
