@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05092c9f_3e54add0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345785f5_1365fba1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3c86bbb_ee260bd0",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61594fee_23a66657",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3c86bbb_ee260bd0",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a14a12f0_38a7dd0b",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "cache",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbd5a9b5_ef2afdd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a14a12f0_38a7dd0b",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -104,6 +176,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "283b51ba_ae69726e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "No problem. We really appreciate your review and understand that these changes are not easy to review.",
+      "parentUuid": "be8ae5d6_417f327a",
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63b2ee71_ad27c090",
@@ -117,6 +207,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "CachedRefDirectoryTest",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aacd89b1_6ba7c3a2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshotTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63b2ee71_ad27c090",
       "range": {
         "startLine": 23,
         "startChar": 13,
@@ -150,6 +264,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2aead43_9a97b0f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "211e9ba8_5ce92133",
+      "range": {
+        "startLine": 244,
+        "startChar": 37,
+        "endLine": 244,
+        "endChar": 59
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56a08f55_45eefbad",
@@ -163,6 +301,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "Cached",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01931d79_7e48b901",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56a08f55_45eefbad",
       "range": {
         "startLine": 24,
         "startChar": 3,
@@ -196,6 +358,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cf8513c_11855e22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "867c888f_7ab37bb9",
+      "range": {
+        "startLine": 26,
+        "startChar": 3,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66dd49f6_714bfc23",
@@ -209,6 +395,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "cache",
+      "range": {
+        "startLine": 27,
+        "startChar": 41,
+        "endLine": 27,
+        "endChar": 49
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c2d5e5_8aa5928e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66dd49f6_714bfc23",
       "range": {
         "startLine": 27,
         "startChar": 41,
@@ -242,6 +452,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d5572b1_796829a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done. We are OK with either name, however, we preferred to name it a writable snapshot as it seemed to fit better and the concept of a writable snapshot exists (for example in https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux) where they mention \u0027read/write snapshots (LVM2)\u0027). Also, RefDirectory is in itself is already a cache (that knows how to detect stale refs and update them), so CachedRefDirectory does not clearly denote the difference from the existing caching policies in RefDirectory. Snapshot in the name seemed apt as it is intended to avoid getting updated in a request unless a write is performed using the snapshot (or when external writes from the snapshot would prevent writes in the snapshot from succeeding due to them being outdated). I have added some of this now to the javadoc of this class.",
+      "parentUuid": "e26675ba_f40dfbad",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c450b7e_ffd6bb03",
@@ -255,6 +489,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "isValid",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 46
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6edd9f_0d95c55b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c450b7e_ffd6bb03",
       "range": {
         "startLine": 32,
         "startChar": 26,
@@ -288,6 +546,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6abeee_274e71fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f23aceb8_785d45ea",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "265f228f_0a961a49",
@@ -311,6 +593,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64eedc99_80ab8b5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "265f228f_0a961a49",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c93ca30_7d008548",
@@ -324,6 +630,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "the cache",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 24
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c560433_c6e51922",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c93ca30_7d008548",
       "range": {
         "startLine": 113,
         "startChar": 12,
@@ -404,6 +734,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "278db2a7_02b84468",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b480563a_7490ef08",
+      "range": {
+        "startLine": 121,
+        "startChar": 27,
+        "endLine": 121,
+        "endChar": 42
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37f124bc_931fed82",
@@ -417,6 +771,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "invalidateCacheOnError",
+      "range": {
+        "startLine": 141,
+        "startChar": 22,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "362036bc_d41bbace",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37f124bc_931fed82",
       "range": {
         "startLine": 141,
         "startChar": 22,
@@ -450,6 +828,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdd8b48_95497cfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66b15901_fb6c7658",
+      "range": {
+        "startLine": 147,
+        "startChar": 25,
+        "endLine": 147,
+        "endChar": 50
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cacb6877_feb88a58",
@@ -463,6 +865,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "invalidateCacheOnError",
+      "range": {
+        "startLine": 158,
+        "startChar": 34,
+        "endLine": 158,
+        "endChar": 59
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f532f3_67c897f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cacb6877_feb88a58",
       "range": {
         "startLine": 158,
         "startChar": 34,
@@ -496,6 +922,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "383a2a17_49e2db85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f61f3e51_fbdea544",
+      "range": {
+        "startLine": 169,
+        "startChar": 22,
+        "endLine": 169,
+        "endChar": 48
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcb66dfb_bd4ad584",
@@ -519,6 +969,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1864feca_a86a23f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcb66dfb_bd4ad584",
+      "range": {
+        "startLine": 211,
+        "startChar": 22,
+        "endLine": 211,
+        "endChar": 48
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06109682_941554a6",
@@ -532,6 +1006,30 @@
       "writtenOn": "2023-03-28T22:38:51Z",
       "side": 1,
       "message": "CachedPackedBatchRefUpdate",
+      "range": {
+        "startLine": 224,
+        "startChar": 22,
+        "endLine": 224,
+        "endChar": 50
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5526bce_7a4bab96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T19:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06109682_941554a6",
       "range": {
         "startLine": 224,
         "startChar": 22,
