@@ -33,6 +33,24 @@
       "message": "I didn\u0027t yet spot how the packed-refs snapshot is updated after a RefUpdate, it seems the cache is only invalidated in case of an exception",
       "revId": "fa884482ceabd31935ecf1897054183d42d1d6f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0842b89d_9e0e3be4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/CachedRefDirectory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-29T23:57:30Z",
+      "side": 1,
+      "message": "The loose refs are not cached by this class, so an update to them should not be impacted.\n\nAny successful updates which end-up writing to packed-refs are done via `commitPackedRefs` which will update the in-memory copy of packed-refs on our snapshot class, implying that our snapshot is also updated.",
+      "parentUuid": "cf3b39f1_31de456a",
+      "revId": "fa884482ceabd31935ecf1897054183d42d1d6f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
