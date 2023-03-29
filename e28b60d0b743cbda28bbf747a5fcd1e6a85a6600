@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac5473b_4bcda9ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T08:51:45Z",
+      "side": 1,
+      "message": "I\u0027d call this oldPacked",
+      "range": {
+        "startLine": 719,
+        "startChar": 18,
+        "endLine": 719,
+        "endChar": 21
+      },
+      "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51810448_63c6575a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T08:51:45Z",
+      "side": 1,
+      "message": "and this one newPacked",
+      "range": {
+        "startLine": 720,
+        "startChar": 17,
+        "endLine": 720,
+        "endChar": 28
+      },
+      "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d730a711_ab4e739f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-29T08:51:45Z",
+      "side": 1,
+      "message": "shouldn\u0027t we read from oldPacked to prepare newPacked ?",
+      "range": {
+        "startLine": 725,
+        "startChar": 35,
+        "endLine": 725,
+        "endChar": 46
+      },
+      "revId": "e28b60d0b743cbda28bbf747a5fcd1e6a85a6600",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
