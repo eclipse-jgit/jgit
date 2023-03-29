@@ -502,6 +502,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b735589d_26b69f62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-29T21:25:27Z",
+      "side": 1,
+      "message": "\u003e Would RequestScopedRefCache be a better name ?\n\nMy concerns with that name are:\n\n1) Using \"request\" in the name feels miss-leading because there is nothing in the class that ties it to a request. Using this during a request is mainly a potential desirable use case, but there could be others (it can be used for background operations not tied to a request also), and not something about the class itself. i.e. I think it\u0027s more important to highlight the properties of the class (behavior) of the class in the name, and not the uses. I\u0027m sorry we are being so picky, we really our trying to be useful.\n\n2) We thought it was important to use RefDirectory (not that I love that classname) because it only works for a RefDirectory, and it does not work for other RefDatabases. However, I certainly don\u0027t feel like this is a big issue.\n\nHere are some criteria I think matter for this name:\n\n1) It\u0027s behavior should must be differentiable by name from RefDirectory (which already does cache refs)\n2) It should imply that it is RefDirectory specific (and not generic to any RefDatabase)\n3) It is better if not named after its use case, but rather after properties of the class\n3.a) ideally that property reflects behavior\n3.a.i) the specific behavior is that it generally only gets updated by updates through the class itself.\n\nSome other suggestions I like:\n\nSnapshottingRefDirectory\nSnapshottingRefDirectoryCache\nScopedRefDirectoryCache (not great since it is use case based)\n\nBut if we can\u0027t find a great name, it might be simplest to settle for:\n\nRefDirectoryCache",
+      "parentUuid": "a6484f88_037cc99b",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c450b7e_ffd6bb03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
         "patchSetId": 15
