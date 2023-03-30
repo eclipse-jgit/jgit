@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f892ee98_57d997f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-30T22:44:40Z",
+      "side": 1,
+      "message": "we could compute the digest of the packed-refs content before committing the lock to reduce the window for a race",
+      "revId": "c5617711a1b4d5d0807cc7eed702b78d114d46b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
