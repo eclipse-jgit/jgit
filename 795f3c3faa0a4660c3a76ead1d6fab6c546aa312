@@ -90,6 +90,30 @@
       },
       "revId": "795f3c3faa0a4660c3a76ead1d6fab6c546aa312",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6993ad9d_9f6ee84f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-30T20:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49ae78f3_98e32361",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "795f3c3faa0a4660c3a76ead1d6fab6c546aa312",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
