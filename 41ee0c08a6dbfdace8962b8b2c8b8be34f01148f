@@ -831,6 +831,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8da34302_db706832",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryWritableSnapshot.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-30T00:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b47b5e2d_dbb1b59a",
+      "range": {
+        "startLine": 116,
+        "startChar": 63,
+        "endLine": 117,
+        "endChar": 66
+      },
+      "revId": "41ee0c08a6dbfdace8962b8b2c8b8be34f01148f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b480563a_7490ef08",
