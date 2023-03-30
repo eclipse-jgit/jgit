@@ -50,6 +50,46 @@
       "message": "trigger build",
       "revId": "795f3c3faa0a4660c3a76ead1d6fab6c546aa312",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a409992_f4bb23df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-30T19:29:15Z",
+      "side": 1,
+      "message": "It looks like we now ended up with a forest of multiple interconnected patch series with a number of merge conflicts.\nCould you rebase them into one consistent change series onto the current master as we are close to submitting them?",
+      "revId": "795f3c3faa0a4660c3a76ead1d6fab6c546aa312",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ae78f3_98e32361",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-30T19:29:15Z",
+      "side": 1,
+      "message": "nit: we put non-public inner classes at the end of the outer class",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 2
+      },
+      "revId": "795f3c3faa0a4660c3a76ead1d6fab6c546aa312",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
