@@ -38,6 +38,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
+import org.eclipse.jgit.errors.PackMismatchException.Type;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -88,6 +89,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	/** Maximum number of attempts to read a loose object for which a stale file
 	 *  handle exception is thrown */
 	final static int MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS = 5;
+
+	private static final int MAX_PACKLIST_RESCAN_ATTEMPTS = 5;
 
 	private final AlternateHandle handle = new AlternateHandle(this);
 
@@ -413,7 +416,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private ObjectLoader openPackedFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId objectId, Set<AlternateHandle.Id> skips) {
+			AnyObjectId objectId, Set<AlternateHandle.Id> skips)
+			throws PackMismatchException {
 		ObjectLoader ldr = openPackedObject(curs, objectId);
 		if (ldr != null) {
 			return ldr;
@@ -449,9 +453,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return null;
 	}
 
-	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId) {
+	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId)
+			throws PackMismatchException {
 		PackList pList;
 		do {
+			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
 				for (PackFile p : pList.packs) {
@@ -462,8 +468,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 							return ldr;
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList))
+						if (searchPacksAgain(pList)) {
+							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
+						}
 					} catch (IOException e) {
 						handlePackError(e, p);
 					}
@@ -555,7 +563,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private long getPackedSizeFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId id, Set<AlternateHandle.Id> skips) {
+			AnyObjectId id, Set<AlternateHandle.Id> skips)
+			throws PackMismatchException {
 		long len = getPackedObjectSize(curs, id);
 		if (0 <= len) {
 			return len;
@@ -590,9 +599,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return -1;
 	}
 
-	private long getPackedObjectSize(WindowCursor curs, AnyObjectId id) {
+	private long getPackedObjectSize(WindowCursor curs, AnyObjectId id)
+			throws PackMismatchException {
 		PackList pList;
 		do {
+			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
 				for (PackFile p : pList.packs) {
@@ -603,8 +614,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 							return len;
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList))
+						if (searchPacksAgain(pList)) {
+							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
+						}
 					} catch (IOException e) {
 						handlePackError(e, p);
 					}
@@ -632,13 +645,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
-																	WindowCursor curs) throws IOException {
+			WindowCursor curs) throws IOException {
 		selectObjectRepresentation(packer, otp, curs, null);
 	}
 
 	private void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs, Set<AlternateHandle.Id> skips) throws IOException {
 		PackList pList = packList.get();
+		int retries = 0;
 		SEARCH: for (;;) {
 			for (PackFile p : pList.packs) {
 				try {
@@ -649,6 +663,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
+					retries = checkRescanPackThreshold(retries, e);
 					pList = scanPacks(pList);
 					continue SEARCH;
 				} catch (IOException e) {
@@ -664,6 +679,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 				h.db.selectObjectRepresentation(packer, otp, curs, skips);
 			}
 		}
+	}
+
+	private int checkRescanPackThreshold(int retries, PackMismatchException e)
+			throws PackMismatchException {
+		if (retries++ > MAX_PACKLIST_RESCAN_ATTEMPTS) {
+			e.setType(Type.PERMANENT);
+			throw e;
+		}
+		return retries;
 	}
 
 	private void handlePackError(IOException e, PackFile p) {
