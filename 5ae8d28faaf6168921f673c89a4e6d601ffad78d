@@ -33,6 +33,24 @@
       "message": "thanks for your contributions :-)",
       "revId": "5ae8d28faaf6168921f673c89a4e6d601ffad78d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dd5c54e_c1ea4faf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-03-30T22:03:52Z",
+      "side": 1,
+      "message": "That so much for reviews Matthias. This allows us to use per-request ref caching in Gerrit. I have updated the Gerrit change https://gerrit-review.googlesource.com/c/gerrit/+/360646 to use this.",
+      "parentUuid": "3cf75da8_3362abb8",
+      "revId": "5ae8d28faaf6168921f673c89a4e6d601ffad78d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
