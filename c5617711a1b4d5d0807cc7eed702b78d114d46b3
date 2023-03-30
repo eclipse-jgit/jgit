@@ -34,6 +34,24 @@
       "parentUuid": "f892ee98_57d997f8",
       "revId": "c5617711a1b4d5d0807cc7eed702b78d114d46b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64850c12_064cf8d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-03-30T23:19:43Z",
+      "side": 1,
+      "message": "Ack\nthough JGit is not only used in Gerrit\nI agree that the race isn\u0027t critical",
+      "parentUuid": "531ffc66_3ac4f0fb",
+      "revId": "c5617711a1b4d5d0807cc7eed702b78d114d46b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
