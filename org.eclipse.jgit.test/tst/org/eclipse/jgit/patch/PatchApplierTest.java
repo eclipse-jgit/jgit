@@ -93,12 +93,16 @@ public class PatchApplierTest {
 		}
 
 		protected void initPreImage(String aName) throws Exception {
-			File f = new File(db.getWorkTree(), aName);
 			preImage = IO
 					.readWholeStream(getTestResource(aName + "_PreImage"), 0)
 					.array();
+			addFile(aName, preImage);
+		}
+
+		protected void addFile(String aName, byte[] b) throws Exception {
+			File f = new File(db.getWorkTree(), aName);
+			Files.write(f.toPath(), b);
 			try (Git git = new Git(db)) {
-				Files.write(f.toPath(), preImage);
 				git.add().addFilepattern(aName).call();
 			}
 		}
@@ -370,6 +374,68 @@ public class PatchApplierTest {
 
 			Result result = applyPatch();
 			verifyChange(result, "ShiftDown2");
+		}
+
+		@Test
+		public void testAddAlreadyExistingFile() throws Exception {
+			addFile("M1", "existing content".getBytes());
+			init("M1", false, false);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
+		}
+
+		@Test
+		public void testDeleteNonexistentFile() throws Exception {
+			init("NonASCIIDel", false, false);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
+		}
+
+		@Test
+		public void testModifyNonexistentFile() throws Exception {
+			init("ShiftDown", false, true);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
+		}
+
+		@Test
+		public void testRenameNonexistentFile() throws Exception {
+			init("RenameNoHunks", false, true);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
+		}
+
+		@Test
+		public void testCopyNonexistentFile() throws Exception {
+			init("CopyWithHunks", false, true);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
+		}
+
+		@Test
+		public void testCopyOnTopAlreadyExistingFile() throws Exception {
+			addFile("CopyResult", "existing content".getBytes());
+			init("CopyWithHunks", true, false);
+
+			Result result = applyPatch();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
 		}
 
 		@Test
