@@ -16,6 +16,24 @@
       "message": "we could compute the digest of the packed-refs content before committing the lock to reduce the window for a race",
       "revId": "c5617711a1b4d5d0807cc7eed702b78d114d46b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "531ffc66_3ac4f0fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-03-30T23:07:04Z",
+      "side": 1,
+      "message": "I think that delaying the commit should be avoided at all cost. Gerrit change creation creates two atomic commits, one for the change meta ref, and one for the patchset ref, and we already see too much contention on the packed-refs file because of this (Gerrit has had to add retries all over the place because of it). The race is harmless isn\u0027t it?",
+      "parentUuid": "f892ee98_57d997f8",
+      "revId": "c5617711a1b4d5d0807cc7eed702b78d114d46b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
