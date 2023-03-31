@@ -91,6 +91,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4dcf7c6_6b6e7dfd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-31T21:43:45Z",
+      "side": 1,
+      "message": "In most cases, the commit-graph won\u0027t have all the commits, because there are new packs and not everything is gc\u0027ed.\n\nCan you add test cases for that? The combinations of needle in graph or not, refs in graphs or not.",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b1c3c2_dbba2535",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-31T21:43:45Z",
+      "side": 1,
+      "message": "This assumes certain order in the refs, which I don\u0027t think is guaranteed.\n\nMaybe you can sort by refname before comparing the lists?",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33958b42_0df71518",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-31T21:43:45Z",
+      "side": 1,
+      "message": "It took me a while to understand that this works in all cases.\n\nIf the needle has unknown generation, the commits in the refs either have generation number (uninteresting, they are definitely in the past) or are also unknown (interesting)\n\nIf the needle has a generation, the commits in the refs either have generation number (compare to decide) or are also unknown (interesting).\n\nI think the test should cover these 4 cases. I comment there.",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa9ce982_6a7dd186",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 37
@@ -156,6 +207,24 @@
       "side": 1,
       "message": "AFAICS the result is the same if we remove lines 607 and 608 since RevCommit#getGeneration returns Constants.COMMIT_GENERATION_UNKNOWN.\nSo we could write this and inline it:\n\n```\n// Make sure commit is parsed from commit-graph\ncommit.parseHeaders(this);\ngeneration \u003d commit.getGeneration();\n```\n\nThough using instanceof looks like a hack leaking implementation details of RevCommitCG to the caller. If RevCommitCG#getGeneration could detect itself if it needs to run parseHeaders then we could move this call into that method.",
       "parentUuid": "d55cd070_6bbcb981",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8552e551_b0d89b84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-03-31T21:43:45Z",
+      "side": 1,
+      "message": "I think the JGit pattern is \"if you use the headers, invoke #parseHeaders\" beforehand. IIRC RevCommit doesn\u0027t keep the reader reference, so it cannot load on demand.\n\nI understand that the needle is provded by the caller and we don\u0027t know if #parseHeader has been invoked before. Then we can do it here and guard it with\n\n\t\tif ((c.flags \u0026 PARSED) \u003d\u003d 0)\n\t\t\tc.parseHeaders(this);\n\t\t\t\nbecause c.parseHeaders otherwise re-reads the data.",
+      "parentUuid": "351f15be_143f1ee4",
       "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
