@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88a27fa9_7d026cc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-03-31T10:24:06Z",
+      "side": 1,
+      "message": "PS3 was verified.",
+      "revId": "903645835bd2b2a2e7907b59795c1c23de0f2611",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
