@@ -9,6 +9,11 @@
  */
 package org.eclipse.jgit.patch;
 
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.ADD;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.COPY;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.DELETE;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.ByteArrayInputStream;
@@ -257,32 +262,33 @@ public class PatchApplier {
 		Set<String> modifiedPaths = new HashSet<>();
 		for (FileHeader fh : p.getFiles()) {
 			ChangeType type = fh.getChangeType();
+			File src = getFile(fh.getOldPath());
+			File dest = getFile(fh.getNewPath());
+			if (!verifyExistence(fh, src, dest, result)) {
+				continue;
+			}
 			switch (type) {
 			case ADD: {
-				File f = getFile(fh.getNewPath());
-				if (f != null) {
-					FileUtils.mkdirs(f.getParentFile(), true);
-					FileUtils.createNewFile(f);
+				if (dest != null) {
+					FileUtils.mkdirs(dest.getParentFile(), true);
+					FileUtils.createNewFile(dest);
 				}
-				apply(fh.getNewPath(), dirCache, dirCacheBuilder, f, fh, result);
+				apply(fh.getNewPath(), dirCache, dirCacheBuilder, dest, fh, result);
 			}
 				break;
-			case MODIFY:
-				apply(fh.getOldPath(), dirCache, dirCacheBuilder,
-						getFile(fh.getOldPath()), fh, result);
+			case MODIFY: {
+				apply(fh.getOldPath(), dirCache, dirCacheBuilder, src, fh, result);
 				break;
-			case DELETE:
+			}
+			case DELETE: {
 				if (!inCore()) {
-					File old = getFile(fh.getOldPath());
-					if (!old.delete())
+					if (!src.delete())
 						throw new IOException(MessageFormat.format(
-								JGitText.get().cannotDeleteFile, old));
+								JGitText.get().cannotDeleteFile, src));
 				}
 				break;
+			}
 			case RENAME: {
-				File src = getFile(fh.getOldPath());
-				File dest = getFile(fh.getNewPath());
-
 				if (!inCore()) {
 					/*
 					 * this is odd: we rename the file on the FS, but
@@ -299,9 +305,7 @@ public class PatchApplier {
 				break;
 			}
 			case COPY: {
-				File dest = getFile(fh.getNewPath());
 				if (!inCore()) {
-					File src = getFile(fh.getOldPath());
 					FileUtils.mkdirs(dest.getParentFile(), true);
 					Files.copy(src.toPath(), dest.toPath());
 				}
@@ -309,10 +313,10 @@ public class PatchApplier {
 				break;
 			}
 			}
-			if (fh.getChangeType() != ChangeType.DELETE)
+			if (fh.getChangeType() != DELETE)
 				modifiedPaths.add(fh.getNewPath());
-			if (fh.getChangeType() != ChangeType.COPY
-					&& fh.getChangeType() != ChangeType.ADD)
+			if (fh.getChangeType() != COPY
+					&& fh.getChangeType() != ADD)
 				modifiedPaths.add(fh.getOldPath());
 		}
 
@@ -366,6 +370,38 @@ public class PatchApplier {
 		walk.setRecursive(true);
 		files.setDirCacheIterator(walk, cacheTreeIdx);
 		return walk;
+	}
+
+	private boolean fileExists(String path, @Nullable File f)
+			throws IOException {
+		if (f != null) {
+			return f.exists();
+		}
+		return inCore() && TreeWalk.forPath(repo, path, beforeTree) != null;
+	}
+
+	private boolean verifyExistence(FileHeader fh, File src, File dest,
+			Result result) throws IOException {
+		boolean isValid = true;
+		boolean srcShouldExist = List.of(MODIFY, DELETE, RENAME, COPY)
+				.contains(fh.getChangeType());
+		boolean destShouldNotExist = List.of(ADD, RENAME, COPY)
+				.contains(fh.getChangeType());
+		if (srcShouldExist != fileExists(fh.getOldPath(), src)) {
+			result.addError(MessageFormat.format(srcShouldExist
+					? JGitText.get().applyPatchWithSourceOnNonExistentSource
+					: JGitText
+							.get().applyPatchWithoutSourceOnAlreadyExistingSource,
+					fh.getPatchType()), fh.getOldPath(), null);
+			isValid = false;
+		}
+		if (destShouldNotExist && fileExists(fh.getNewPath(), dest)) {
+			result.addError(MessageFormat.format(JGitText
+					.get().applyPatchWithCreationOverAlreadyExistingDestination,
+					fh.getPatchType()), fh.getNewPath(), null);
+			isValid = false;
+		}
+		return isValid;
 	}
 
 	private static final int FILE_TREE_INDEX = 1;
@@ -681,7 +717,7 @@ public class PatchApplier {
 		boolean hashOk = false;
 		if (id != null) {
 			hashOk = baseId.equals(id);
-			if (!hashOk && ChangeType.ADD.equals(type)
+			if (!hashOk && ADD.equals(type)
 					&& ObjectId.zeroId().equals(baseId)) {
 				// We create a new file. The OID of an empty file is not the
 				// zero id!
