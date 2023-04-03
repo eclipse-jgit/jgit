@@ -125,7 +125,15 @@ public class RevCommit extends RevObject {
 
 	int inDegree;
 
-	private byte[] buffer;
+	/**
+	 * Raw unparsed commit body of the commit. Populated only
+	 * after {@link #parseCanonical(RevWalk, byte[])} with
+	 * {@link RevWalk#isRetainBody()} enable or after
+	 * {@link #parseBody(RevWalk)} and {@link #parse(RevWalk, byte[])}.
+	 *
+	 * @since 6.5.1
+	 */
+	protected byte[] buffer;
 
 	/**
 	 * Create a new commit reference.
