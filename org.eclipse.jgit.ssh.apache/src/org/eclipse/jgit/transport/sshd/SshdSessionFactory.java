@@ -33,6 +33,7 @@ import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
+import org.apache.sshd.client.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
@@ -46,7 +47,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
-import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitServerKeyVerifier;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
@@ -607,7 +607,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		return Collections.unmodifiableList(
 				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
 						JGitPublicKeyAuthFactory.FACTORY,
-						JGitPasswordAuthFactory.INSTANCE,
+						UserAuthPasswordFactory.INSTANCE,
 						UserAuthKeyboardInteractiveFactory.INSTANCE));
 	}
 

@@ -32,10 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.apache.sshd.agent.SshAgentFactory;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.future.ConnectFuture;
@@ -106,8 +104,6 @@ public class JGitSshClient extends SshClient {
 	private CredentialsProvider credentialsProvider;
 
 	private ProxyDataFactory proxyDatabase;
-
-	private Supplier<SshAgentFactory> agentFactorySupplier = () -> null;
 
 	@Override
 	protected SessionFactory createSessionFactory() {
@@ -375,22 +371,6 @@ public class JGitSshClient extends SshClient {
 	 */
 	public CredentialsProvider getCredentialsProvider() {
 		return credentialsProvider;
-	}
-
-	@Override
-	public SshAgentFactory getAgentFactory() {
-		return agentFactorySupplier.get();
-	}
-
-	@Override
-	protected void checkConfig() {
-		// The super class requires channel factories for agent forwarding if a
-		// factory for an SSH agent is set. We haven't implemented this yet, and
-		// we don't do SSH agent forwarding for now. Unfortunately, there is no
-		// way to bypass this check in the super class except making
-		// getAgentFactory() return null until after the check.
-		super.checkConfig();
-		agentFactorySupplier = super::getAgentFactory;
 	}
 
 	/**
