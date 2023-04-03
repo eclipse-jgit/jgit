@@ -106,6 +106,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4067f4d_a783ac20",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-03T08:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4dcf7c6_6b6e7dfd",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7b1c3c2_dbba2535",
@@ -119,6 +137,24 @@
       "writtenOn": "2023-03-31T21:43:45Z",
       "side": 1,
       "message": "This assumes certain order in the refs, which I don\u0027t think is guaranteed.\n\nMaybe you can sort by refname before comparing the lists?",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d42ae98b_42ef790b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-03T08:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b1c3c2_dbba2535",
       "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -225,6 +261,24 @@
       "side": 1,
       "message": "I think the JGit pattern is \"if you use the headers, invoke #parseHeaders\" beforehand. IIRC RevCommit doesn\u0027t keep the reader reference, so it cannot load on demand.\n\nI understand that the needle is provded by the caller and we don\u0027t know if #parseHeader has been invoked before. Then we can do it here and guard it with\n\n\t\tif ((c.flags \u0026 PARSED) \u003d\u003d 0)\n\t\t\tc.parseHeaders(this);\n\t\t\t\nbecause c.parseHeaders otherwise re-reads the data.",
       "parentUuid": "351f15be_143f1ee4",
+      "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddeea10a_4efb9b1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-03T08:11:50Z",
+      "side": 1,
+      "message": "\u003e \n\u003e \t\tif ((c.flags \u0026 PARSED) \u003d\u003d 0)\n\u003e \t\t\tc.parseHeaders(this);\n\u003e \t\t\t\n\u003e because c.parseHeaders otherwise re-reads the data.\n\nI just ran a test case with this but it failed.\n\nFinally, I found the reason. \n\nAfter calling RevWalk#parseNew(AnyObjectId, ObjectLoader), RevCommitCG will be parsed but its generation number is still unknown. If RevCommitCG is just created and calls #parseBody(RevWalk) directly, this problem will also occur.\n\nI think RevCommitCG also needs to override #parseCanonical(RevWalk, byte[]) method.\n\nMaybe we should create a new change review and fix it.",
+      "parentUuid": "8552e551_b0d89b84",
       "revId": "13ba1be0bd0b663221ae191f1f4e1353c72fdc48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
