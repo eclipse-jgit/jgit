@@ -125,7 +125,12 @@ public class RevCommit extends RevObject {
 
 	int inDegree;
 
-	private byte[] buffer;
+	/**
+	 * Raw unparsed commit body of the commit.
+	 *
+	 * @since 6.5.1
+	 */
+	protected byte[] buffer;
 
 	/**
 	 * Create a new commit reference.
