@@ -121,6 +121,24 @@ maven jetty
 	}
 }
 
+maven sshd
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-osgi"
+		version = "2.10.0"
+	}
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-sftp"
+		version = "2.10.0"
+	}
+}
+
 maven slf4j
 	scope = compile
 	dependencyDepth = none
