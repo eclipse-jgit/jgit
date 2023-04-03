@@ -252,22 +252,26 @@ public class IdentityPasswordProvider implements KeyPasswordProvider {
 	protected boolean keyLoaded(URIish uri,
 			State state, char[] password, Exception err)
 			throws IOException, GeneralSecurityException {
-		if (err == null) {
-			return false; // Success, don't retry
-		} else if (err instanceof GeneralSecurityException) {
-			throw new InvalidKeyException(
-					format(SshdText.get().identityFileCannotDecrypt, uri), err);
-		} else {
-			// Unencrypted key (state == null && password == null), or exception
-			// before having asked for the password (state != null && password
-			// == null; might also be a user cancellation), or number of
-			// attempts exhausted.
-			if (state == null || password == null
-					|| state.getCount() >= attempts) {
-				return false;
-			}
+		if (err == null || password == null) {
+			// Success, or an error before we even asked for a password (could
+			// also be a non-encrypted key, or a user cancellation): don't
+			// retry.
+			return false;
+		}
+		if (state != null && state.getCount() < attempts) {
+			// We asked for a password, and have not yet exhausted the number of
+			// attempts. Assume the password was incorrect.
 			return true;
 		}
+		// Attempts exhausted
+		if (err instanceof GeneralSecurityException) {
+			// Top-level exception with a better exception message. The
+			// framework would otherwise re-throw 'err'.
+			throw new InvalidKeyException(
+					format(SshdText.get().identityFileCannotDecrypt, uri), err);
+		}
+		// I/O error.
+		return false;
 	}
 
 	@Override
