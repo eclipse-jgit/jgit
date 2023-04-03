@@ -46,8 +46,25 @@ class RevCommitCG extends RevCommit {
 
 	/** {@inheritDoc} */
 	@Override
+	void parseCanonical(RevWalk walk, byte[] raw) throws IOException {
+		if (walk.isRetainBody()) {
+			buffer = raw;
+		}
+		parseInGraph(walk);
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		if (walk.isRetainBody()) {
+			super.parseBody(walk); // This parses header and body
+			return;
+		}
+		parseInGraph(walk);
+	}
+
+	private void parseInGraph(RevWalk walk) throws IOException {
 		CommitGraph graph = walk.commitGraph();
 		CommitGraph.CommitData data = graph.getCommitData(graphPosition);
 		if (data == null) {
@@ -78,11 +95,7 @@ class RevCommitCG extends RevCommit {
 				this.parents = pList;
 			}
 		}
-
 		flags |= PARSED;
-		if (walk.isRetainBody()) {
-			super.parseBody(walk);
-		}
 	}
 
 	/** {@inheritDoc} */
