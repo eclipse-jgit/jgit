@@ -378,7 +378,7 @@ public class PatchApplierTest {
 
 		@Test
 		public void testAddAlreadyExistingFile() throws Exception {
-			addFile("M1", "existing content".getBytes());
+			addFile("M1", "existing content".getBytes(StandardCharsets.UTF_8));
 			init("M1", false, false);
 
 			Result result = applyPatch();
@@ -429,7 +429,7 @@ public class PatchApplierTest {
 
 		@Test
 		public void testCopyOnTopAlreadyExistingFile() throws Exception {
-			addFile("CopyResult", "existing content".getBytes());
+			addFile("CopyResult", "existing content".getBytes(StandardCharsets.UTF_8));
 			init("CopyWithHunks", true, false);
 
 			Result result = applyPatch();
