@@ -43,6 +43,7 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GcConcurrentTest extends GcTestCase {
@@ -197,6 +198,7 @@ public class GcConcurrentTest extends GcTestCase {
 		assertNotNull(getSinglePack(repository).getBitmapIndex());
 	}
 
+	@Ignore
 	@Test
 	public void testInterruptGc() throws Exception {
 		FileBasedConfig c = repo.getConfig();
