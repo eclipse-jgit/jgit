@@ -33,6 +33,23 @@
       "message": "Nit: explain \"Populated only after #parseHeader with #isRetainBody enable or after #parseBody.\"",
       "revId": "fb84c576f2269543d0e9bfc40f28ef1ea09e8f47",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6141933_5b316544",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-05T19:33:27Z",
+      "side": 1,
+      "message": "This #parseBody will do:\n\n\t\tif (buffer \u003d\u003d null) {\n\t\t\tbuffer \u003d walk.getCachedBytes(this);\n\t\t\tif ((flags \u0026 PARSED) \u003d\u003d 0)\n\t\t\t\tparseCanonical(walk, buffer);\n\t\t}\n\t\t\nand #parseCanonical calls parseInGraph again.\n\nShould it be the other way around?\n\nif (isRetainBody) {\n   super.parseBody() // This parses header and body\n   return;\n}\nparseInGraph(walk);",
+      "revId": "fb84c576f2269543d0e9bfc40f28ef1ea09e8f47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
