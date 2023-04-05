@@ -2405,11 +2405,8 @@ public class UploadPack implements Closeable {
 					if (peeledId == null || objectId == null)
 						continue;
 
-					objectId = ref.getObjectId();
-					if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
-						RevObject o = rw.parseAny(objectId);
-						addTagChain(o, pw);
-						pw.addObject(o);
+					if (pw.willInclude(peeledId)) {
+						addTagChain(rw.parseTag(objectId), pw);
 					}
 				}
 			}
@@ -2459,15 +2456,16 @@ public class UploadPack implements Closeable {
 	}
 
 	private void addTagChain(
-			RevObject o, PackWriter pw) throws IOException {
-		while (Constants.OBJ_TAG == o.getType()) {
-			RevTag t = (RevTag) o;
-			o = t.getObject();
-			if (o.getType() == Constants.OBJ_TAG && !pw.willInclude(o.getId())) {
-				walk.parseBody(o);
-				pw.addObject(o);
+			RevTag tag, PackWriter pw) throws IOException {
+		RevObject o = tag;
+		do {
+			tag = (RevTag) o;
+			walk.parseBody(tag);
+			if (!pw.willInclude(tag.getId())) {
+				pw.addObject(tag);
 			}
-		}
+			o = tag.getObject();
+		} while (Constants.OBJ_TAG == o.getType());
 	}
 
 	private static class ResponseBufferedOutputStream extends OutputStream {
