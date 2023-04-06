@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d015e13_9d559470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-06T18:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14b6a9a5_f0615705",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "fb84c576f2269543d0e9bfc40f28ef1ea09e8f47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5783d0d1_1da54ade",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c122b9_a5ad87f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-06T18:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5783d0d1_1da54ade",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "fb84c576f2269543d0e9bfc40f28ef1ea09e8f47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1aaac43_5682f39c",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-06T18:03:21Z",
       "side": 1,
       "message": "was",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "fb84c576f2269543d0e9bfc40f28ef1ea09e8f47",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e57cdb_7d1ee740",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-06T18:06:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1aaac43_5682f39c",
       "range": {
         "startLine": 11,
         "startChar": 13,
