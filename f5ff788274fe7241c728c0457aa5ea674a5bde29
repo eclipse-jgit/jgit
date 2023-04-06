@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74052f7a_bcdbe67a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-06T20:21:43Z",
+      "side": 1,
+      "message": "wrong javadoc",
+      "revId": "f5ff788274fe7241c728c0457aa5ea674a5bde29",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
