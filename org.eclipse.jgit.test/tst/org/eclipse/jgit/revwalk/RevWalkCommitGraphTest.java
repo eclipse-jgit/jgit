@@ -84,6 +84,42 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testParseCanonical() throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		enableAndWriteCommitGraph();
+
+		RevCommit notParseInGraph = rw.lookupCommit(c1);
+		rw.parseHeaders(notParseInGraph);
+
+		reinitializeRevWalk();
+		RevCommit parseInGraph = rw.lookupCommit(c1);
+		parseInGraph.parseCanonical(rw, rw.getCachedBytes(c1));
+
+		assertTrue(parseInGraph instanceof RevCommitCG);
+		assertNotNull(parseInGraph.getRawBuffer());
+		assertEquals(1, parseInGraph.getGeneration());
+		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
+		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
+		assertEquals(notParseInGraph.getCommitTime(),
+				parseInGraph.getCommitTime());
+		assertArrayEquals(notParseInGraph.getParents(),
+				parseInGraph.getParents());
+
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		RevCommit noBody = rw.lookupCommit(c1);
+		noBody.parseCanonical(rw, rw.getCachedBytes(c1));
+
+		assertTrue(noBody instanceof RevCommitCG);
+		assertNull(noBody.getRawBuffer());
+		assertEquals(1, noBody.getGeneration());
+		assertEquals(notParseInGraph.getId(), noBody.getId());
+		assertEquals(notParseInGraph.getTree(), noBody.getTree());
+		assertEquals(notParseInGraph.getCommitTime(), noBody.getCommitTime());
+		assertArrayEquals(notParseInGraph.getParents(), noBody.getParents());
+	}
+
+	@Test
 	public void testInitializeShallowCommits() throws Exception {
 		RevCommit c1 = commit(commit());
 		branch(c1, "master");
