@@ -171,6 +171,9 @@ public class AmazonS3 {
 	/** S3 Bucket Domain. */
 	private final String domain;
 
+	/** S3 Protocol, "https" or "http"; defaults to "http". */
+	private final String protocol;
+
 	/** S3 Region. */
 	private final String region;
 
@@ -183,6 +186,7 @@ public class AmazonS3 {
 		String CRYPTO_ALG = "crypto.algorithm"; //$NON-NLS-1$
 		String CRYPTO_VER = "crypto.version"; //$NON-NLS-1$
 		String ACL = "acl"; //$NON-NLS-1$
+		String PROTOCOL = "protocol"; //$NON-NLS-1$
 		String DOMAIN = "domain"; //$NON-NLS-1$
 		String REGION = "region"; //$NON-NLS-1$
 		String HTTP_RETRY = "httpclient.retry-max"; //$NON-NLS-1$
@@ -245,6 +249,8 @@ public class AmazonS3 {
 					JGitText.get().invalidAwsApiSignatureVersion,
 					awsApiSignatureVersion));
 		}
+
+		protocol = props.getProperty(Keys.PROTOCOL, "http"); //$NON-NLS-1$
 
 		domain = props.getProperty(Keys.DOMAIN, "s3.amazonaws.com"); //$NON-NLS-1$
 
@@ -590,7 +596,8 @@ public class AmazonS3 {
 			final String key, final Map<String, String> args)
 			throws IOException {
 		final StringBuilder urlstr = new StringBuilder();
-		urlstr.append("http://"); //$NON-NLS-1$
+		urlstr.append(protocol); //$NON-NLS-1$
+		urlstr.append("://"); //$NON-NLS-1$
 		urlstr.append(bucket);
 		urlstr.append('.');
 		urlstr.append(domain);
