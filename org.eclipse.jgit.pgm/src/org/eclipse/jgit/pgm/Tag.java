@@ -33,6 +33,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.VerificationUtils;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Argument;
@@ -75,6 +76,11 @@ class Tag extends TextBuiltin {
 			"--force", "--annotate", "-m", "--sign", "--no-sign",
 			"--local-user" }, usage = "usage_tagVerify")
 	private boolean verify;
+
+	@Option(name = "--contains", forbids = { "--delete", "--force",
+			"--annotate", "-m", "--sign", "--no-sign",
+			"--local-user" }, metaVar = "metaVar_commitish", usage = "usage_tagContains")
+	private RevCommit contains;
 
 	@Argument(index = 0, metaVar = "metaVar_name")
 	private String tagName;
@@ -142,6 +148,9 @@ class Tag extends TextBuiltin {
 				}
 			} else {
 				ListTagCommand command = git.tagList();
+				if (contains != null) {
+					command.setContains(contains);
+				}
 				List<Ref> list = command.call();
 				for (Ref ref : list) {
 					outw.println(Repository.shortenRefName(ref.getName()));
