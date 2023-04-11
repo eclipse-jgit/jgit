@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05721d7e_394bd82c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-04-11T22:15:45Z",
+      "side": 1,
+      "message": "Can we standardize on how we spell \"object\" and \"index\"? I think we should just spell them out in full all the time.",
+      "range": {
+        "startLine": 84,
+        "startChar": 38,
+        "endLine": 84,
+        "endChar": 48
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec56add_768c295e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-04-11T22:15:45Z",
+      "side": 1,
+      "message": "Would this ever not be true? objSizeIndex is checked for null at the start of this method.",
+      "range": {
+        "startLine": 314,
+        "startChar": 7,
+        "endLine": 314,
+        "endChar": 25
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef3d6130_9438f207",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-04-11T22:15:45Z",
+      "side": 1,
+      "message": "I think it\u0027s better to bubble the exception up to avoid surprising behavior. As a comparison, above, we also throw if we fail to read the commit graph, which is also optional.",
+      "range": {
+        "startLine": 318,
+        "startChar": 3,
+        "endLine": 318,
+        "endChar": 55
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53814289_8bb9dad4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-04-11T22:15:45Z",
+      "side": 1,
+      "message": "I think this is an IllegalArgumentException, since it is the id that\u0027s wrong.",
+      "range": {
+        "startLine": 1025,
+        "startChar": 13,
+        "endLine": 1025,
+        "endChar": 34
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f7533a_0c1017d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-04-11T22:15:45Z",
+      "side": 1,
+      "message": "So if it\u0027s below threshold, we always return true? What if the threshold is really high? (E.g. the threshold is 100k, the object is 50k, and we ask if it\u0027s less than 10k. This method would return true, but the answer is false.)",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 11
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
