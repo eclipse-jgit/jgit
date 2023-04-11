@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc68665_33a6e761",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-04-11T19:08:48Z",
+      "side": 1,
+      "message": "Please add a comment to describe the intention of this code.",
+      "range": {
+        "startLine": 1177,
+        "startChar": 4,
+        "endLine": 1183,
+        "endChar": 5
+      },
+      "revId": "1c458e25ca624bb8d4735bec1379a4a29ba786d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122e6a15_7ede2ac1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-04-11T19:08:48Z",
+      "side": 1,
+      "message": "why updating bitmap index stats here?",
+      "range": {
+        "startLine": 1188,
+        "startChar": 4,
+        "endLine": 1189,
+        "endChar": 58
+      },
+      "revId": "1c458e25ca624bb8d4735bec1379a4a29ba786d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
