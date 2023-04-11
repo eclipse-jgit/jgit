@@ -16,6 +16,24 @@
       "message": "Much clearer, thanks! Can you also comment on why 8k block?",
       "revId": "494da57f98f4d55e7e7044f73bb96d4a918b2887",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c4c4c1_6e70dabb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-11T20:42:37Z",
+      "side": 1,
+      "message": "I wonder if this adjustment is really useful. This channel is reading directly from storage (not DFS cache), so the channel should know its block size.\n\nMaybe it has some realy use or is just cargo code. Left a TODO to verify and cleanup.",
+      "parentUuid": "1def5349_4887d7cc",
+      "revId": "494da57f98f4d55e7e7044f73bb96d4a918b2887",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
