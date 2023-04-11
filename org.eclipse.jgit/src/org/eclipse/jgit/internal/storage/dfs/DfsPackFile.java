@@ -1042,15 +1042,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			ctx.stats.readIdx++;
 			long start = System.nanoTime();
 			try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
-				InputStream in = Channels.newInputStream(rc);
-				int wantSize = 8192;
-				int bs = rc.blockSize();
-				if (0 < bs && bs < wantSize) {
-					bs = (wantSize / bs) * bs;
-				} else if (bs <= 0) {
-					bs = wantSize;
-				}
-				PackIndex idx = PackIndex.read(new BufferedInputStream(in, bs));
+				PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
 				ctx.stats.readIdxBytes += rc.position();
 				index = idx;
 				return new DfsBlockCache.Ref<>(
@@ -1094,17 +1086,8 @@ public final class DfsPackFile extends BlockBasedFile {
 			long size;
 			PackBitmapIndex bmidx;
 			try {
-				InputStream in = Channels.newInputStream(rc);
-				int wantSize = 8192;
-				int bs = rc.blockSize();
-				if (0 < bs && bs < wantSize) {
-					bs = (wantSize / bs) * bs;
-				} else if (bs <= 0) {
-					bs = wantSize;
-				}
-				in = new BufferedInputStream(in, bs);
-				bmidx = PackBitmapIndex.read(in, () -> idx(ctx),
-						() -> getReverseIdx(ctx),
+				bmidx = PackBitmapIndex.read(alignTo8kBlocks(rc),
+						() -> idx(ctx), () -> getReverseIdx(ctx),
 						ctx.getOptions().shouldLoadRevIndexInParallel());
 			} finally {
 				size = rc.position();
@@ -1133,16 +1116,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			long size;
 			CommitGraph cg;
 			try {
-				InputStream in = Channels.newInputStream(rc);
-				int wantSize = 8192;
-				int bs = rc.blockSize();
-				if (0 < bs && bs < wantSize) {
-					bs = (wantSize / bs) * bs;
-				} else if (bs <= 0) {
-					bs = wantSize;
-				}
-				in = new BufferedInputStream(in, bs);
-				cg = CommitGraphLoader.read(in);
+				cg = CommitGraphLoader.read(alignTo8kBlocks(rc));
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
@@ -1156,5 +1130,20 @@ public final class DfsPackFile extends BlockBasedFile {
 							desc.getFileName(COMMIT_GRAPH)),
 					e);
 		}
+	}
+
+	private static InputStream alignTo8kBlocks(ReadableChannel rc) {
+		// TODO(ifrade): This is not reading from DFS, so the channel should
+		// know better the right blocksize. I don't know why this was done in
+		// the first place, verify and remove if not needed.
+		InputStream in = Channels.newInputStream(rc);
+		int wantSize = 8192;
+		int bs = rc.blockSize();
+		if (0 < bs && bs < wantSize) {
+			bs = (wantSize / bs) * bs;
+		} else if (bs <= 0) {
+			bs = wantSize;
+		}
+		return new BufferedInputStream(in, bs);
 	}
 }
