@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36b397a_6045c912",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/TagCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T09:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2052871b_0b473945",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 3
+      },
+      "revId": "e9a897e2c1746048a2eea22477c1075e6af2920f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "613ee1f2_23870299",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-12T02:02:58Z",
       "side": 1,
       "message": "We should execute:\n   rw.setRetainBody(false);\n   \nIn this way, the performance optimization of commitGraph can be better.\n\nBecause when RevWalk#retainBody is true, JGit will still get the body of the commit from the object database when parse headers.",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 7
+      },
+      "revId": "e9a897e2c1746048a2eea22477c1075e6af2920f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78efa1e1_73cfdcc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T09:47:41Z",
+      "side": 1,
+      "message": "I could do this here, but wouldn\u0027t it be better to do this inside the implementation of #getMergedInto to avoid that callers need to know this ?",
+      "parentUuid": "613ee1f2_23870299",
       "range": {
         "startLine": 75,
         "startChar": 2,
