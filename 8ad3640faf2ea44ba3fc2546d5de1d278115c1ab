@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a23f01aa_ab61e61e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T18:49:37Z",
+      "side": 1,
+      "message": "Always parse RevTags including their body",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "8ad3640faf2ea44ba3fc2546d5de1d278115c1ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5044760a_5944c698",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T18:49:37Z",
+      "side": 1,
+      "message": "Which jgit version was used when capturing this stacktrace ?\nLine numbers don\u0027t match JGit stable-6.0 on which this change is based.",
+      "revId": "8ad3640faf2ea44ba3fc2546d5de1d278115c1ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4efd6d67_b9f831f0",
@@ -14,6 +54,29 @@
       "writtenOn": "2023-04-05T21:51:17Z",
       "side": 1,
       "message": "It\u0027d be great to add another test that catches this condition too.",
+      "revId": "8ad3640faf2ea44ba3fc2546d5de1d278115c1ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e92b91_6b9539d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2409,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T18:49:37Z",
+      "side": 1,
+      "message": "parseTag throws an IncorrectObjectTypeException if the object is not a tag\n\nAdd a comment that this cannot happen here since we reach this only if peeledId !\u003d null which means it\u0027s an annotated tag ?",
+      "range": {
+        "startLine": 2409,
+        "startChar": 21,
+        "endLine": 2409,
+        "endChar": 29
+      },
       "revId": "8ad3640faf2ea44ba3fc2546d5de1d278115c1ab",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
