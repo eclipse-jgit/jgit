@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -287,6 +289,27 @@ public class DfsInserterTest {
 			ObjectId tag = ins.insert(tagBuilder);
 			assertEquals(76, ins.objectMap.get(tag).getFullSize());
 		}
+	}
+
+	@Test
+	public void testObjectSizeIndexOnInsert() throws IOException {
+		db.getConfig().setInt(CONFIG_PACK_SECTION, null,
+				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, 0);
+
+		byte[] contents = Constants.encode("foo");
+		ObjectId fooId;
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			fooId = ins.insert(Constants.OBJ_BLOB, contents);
+			ins.flush();
+		}
+
+		DfsReader reader = db.getObjectDatabase().newReader();
+		assertEquals(1, db.getObjectDatabase().listPacks().size());
+		DfsPackFile insertPack = db.getObjectDatabase().getPacks()[0];
+		assertEquals(PackSource.INSERT,
+				insertPack.getPackDescription().getPackSource());
+		assertTrue(insertPack.hasObjectSizeIndex(reader));
+		assertEquals(3, insertPack.getIndexedObjectSize(reader, fooId));
 	}
 
 	private static String readString(ObjectLoader loader) throws IOException {
