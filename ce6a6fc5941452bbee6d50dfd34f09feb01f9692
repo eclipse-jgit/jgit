@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54461a2a_dc9c186d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-12T02:17:51Z",
+      "side": 1,
+      "message": "It would be better to implement a test case in org.eclipse.jgit.pgm.TagTest.",
+      "revId": "ce6a6fc5941452bbee6d50dfd34f09feb01f9692",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
