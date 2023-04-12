@@ -16,6 +16,24 @@
       "message": "It would be better to implement a test case in org.eclipse.jgit.pgm.TagTest.",
       "revId": "ce6a6fc5941452bbee6d50dfd34f09feb01f9692",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6318f4f_32abcf6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T09:48:30Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "54461a2a_dc9c186d",
+      "revId": "ce6a6fc5941452bbee6d50dfd34f09feb01f9692",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
