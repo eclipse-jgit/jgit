@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2052871b_0b473945",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/TagCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-12T01:52:21Z",
+      "side": 1,
+      "message": "nit: maybe indentation is needed here",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 3
+      },
+      "revId": "e9a897e2c1746048a2eea22477c1075e6af2920f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
