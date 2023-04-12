@@ -117,6 +117,30 @@
       },
       "revId": "e9a897e2c1746048a2eea22477c1075e6af2920f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e20fcb30_be8d1eca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-12T11:15:21Z",
+      "side": 1,
+      "message": "\u003e I could do this here, but wouldn\u0027t it be better to do this inside the implementation of #getMergedInto to avoid that callers need to know this ?\n\n#getMergedInto will behave differently, I\u0027m concerned that this might affect the user\u0027s existing code.\n\nAFAIK, users rarely read the comment changes of existing APIs, which may cause unexpected troubles.\n\nActually I tried to change the behavior of RevWalk#retainBody() when core.commitGraph is enabled.\nBut after discussing with Ivan, I decided to keep it the same as before, refer to [1].\n\nI think this should be the similar question.\n\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/comments/c33a4764_9563b917",
+      "parentUuid": "cf57788e_55839595",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 7
+      },
+      "revId": "e9a897e2c1746048a2eea22477c1075e6af2920f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
