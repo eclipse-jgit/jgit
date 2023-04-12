@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8dbd777_a250bcf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T13:59:44Z",
+      "side": 1,
+      "message": "I plan to reproduce your measurements, though running git gc on a clone of the linux kernel repo takes ages on my mac",
+      "revId": "5cc9ecde8f9de1b48f90a59160a71cf108a984b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
