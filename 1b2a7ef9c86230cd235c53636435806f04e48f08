@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea60959_04e674db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-12T23:19:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05721d7e_394bd82c",
+      "range": {
+        "startLine": 84,
+        "startChar": 38,
+        "endLine": 84,
+        "endChar": 48
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ec56add_768c295e",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-11T22:15:45Z",
       "side": 1,
       "message": "Would this ever not be true? objSizeIndex is checked for null at the start of this method.",
+      "range": {
+        "startLine": 314,
+        "startChar": 7,
+        "endLine": 314,
+        "endChar": 25
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdaec00c_8925275e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-12T23:19:38Z",
+      "side": 1,
+      "message": "I copied the pattern of the other index loaders. \n\nI think it would be not null if two threads get to this method concurrently. They are \"serialized\" by the locking in #getOrLoadRef(), but the first sets the field, the second finds it non-null.\n\nThat being said, it is just overwriting a reference with the same value, so not sure what to do here. Follow other loaders pattern or rewrite the ref. Any suggestion?",
+      "parentUuid": "2ec56add_768c295e",
       "range": {
         "startLine": 314,
         "startChar": 7,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b75b445_7c1d68cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-12T23:19:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef3d6130_9438f207",
+      "range": {
+        "startLine": 318,
+        "startChar": 3,
+        "endLine": 318,
+        "endChar": 55
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53814289_8bb9dad4",
@@ -93,6 +165,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6731f016_78c3b112",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-12T23:19:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53814289_8bb9dad4",
+      "range": {
+        "startLine": 1025,
+        "startChar": 13,
+        "endLine": 1025,
+        "endChar": 34
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5f7533a_0c1017d0",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-04-11T22:15:45Z",
       "side": 1,
       "message": "So if it\u0027s below threshold, we always return true? What if the threshold is really high? (E.g. the threshold is 100k, the object is 50k, and we ask if it\u0027s less than 10k. This method would return true, but the answer is false.)",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 11
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b115927a_c67c0901",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-12T23:19:38Z",
+      "side": 1,
+      "message": "Yes, that is the intention. \n\nThose false positives mean that if the client request only \"blobs under 10k\" and our threshold is 100k, we will send all (reachable) blobs under 100k. We are OK sending more objects if the filtering is faster.\n\nIf that is not acceptable or certain filters are very common (e.g. 10k) operators can adjust the indexing threshold.\n\nIf some code wants to get a precise object size and use the index if possible, it needs to use getIndexedObjectSize() and getObjectSize() if not found (and not this method).",
+      "parentUuid": "e5f7533a_0c1017d0",
       "range": {
         "startLine": 554,
         "startChar": 9,
