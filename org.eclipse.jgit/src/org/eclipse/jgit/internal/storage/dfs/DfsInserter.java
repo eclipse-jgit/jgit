@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJ_OFS_DELTA;
 import static org.eclipse.jgit.lib.Constants.OBJ_REF_DELTA;
@@ -42,6 +43,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -52,6 +54,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.IO;
@@ -192,6 +195,11 @@ public class DfsInserter extends ObjectInserter {
 		sortObjectsById();
 
 		PackIndex index = writePackIndex(packDsc, packHash, objectList);
+		PackConfig pConfig = new PackConfig(db.getRepository().getConfig());
+		if (pConfig.isWriteObjSizeIndex()) {
+			writeObjectSizeIndex(packDsc, objectList,
+					pConfig.getMinBytesForObjSizeIndex());
+		}
 		db.commitPack(Collections.singletonList(packDsc), null);
 		rollback = false;
 
@@ -312,6 +320,18 @@ public class DfsInserter extends ObjectInserter {
 	private static void index(OutputStream out, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
 		PackIndexWriter.createVersion(out, INDEX_VERSION).write(list, packHash);
+	}
+
+	void writeObjectSizeIndex(DfsPackDescription pack,
+			List<PackedObjectInfo> packedObjs, int minSize) throws IOException {
+		try (DfsOutputStream os = db.writeFile(pack, PackExt.OBJECT_SIZE_INDEX);
+				CountingOutputStream cnt = new CountingOutputStream(os)) {
+			PackObjectSizeIndexWriter.createWriter(os, minSize)
+					.write(packedObjs);
+			pack.addFileExt(OBJECT_SIZE_INDEX);
+			pack.setBlockSize(OBJECT_SIZE_INDEX, os.blockSize());
+			pack.setFileSize(OBJECT_SIZE_INDEX, cnt.getCount());
+		}
 	}
 
 	private class PackStream extends OutputStream {
