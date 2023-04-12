@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f400808_e9fa9e27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T00:48:16Z",
+      "side": 1,
+      "message": "Testing this using git doesn\u0027t prove anything for the implementation in jgit. \n\nSo far we didn\u0027t support `tag --contains` in jgit.\nHence I implemented it now in the following 2 changes\nhttps://git.eclipse.org/r/c/jgit/jgit/+/201177\nhttps://git.eclipse.org/r/c/jgit/jgit/+/201178\nPlease review them.\n\nCould you please repeat these measurements using `jgit tag --contains` and add them to this commit message?",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "6353950b045d3a7aaf69ae0715af3400f865096c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
