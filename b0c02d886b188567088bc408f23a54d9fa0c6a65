@@ -22,6 +22,30 @@
       },
       "revId": "b0c02d886b188567088bc408f23a54d9fa0c6a65",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42e0e598_fe84b159",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-12T10:34:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "060cf91c_580dabca",
+      "range": {
+        "startLine": 51,
+        "startChar": 52,
+        "endLine": 51,
+        "endChar": 53
+      },
+      "revId": "b0c02d886b188567088bc408f23a54d9fa0c6a65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
