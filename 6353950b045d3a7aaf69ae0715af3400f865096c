@@ -22,6 +22,30 @@
       },
       "revId": "6353950b045d3a7aaf69ae0715af3400f865096c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8203d7a4_986fac20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-12T03:41:59Z",
+      "side": 1,
+      "message": "\u003e Could you please repeat these measurements using `jgit tag --contains` and add them to this commit message?\n\nYeah, I have retested these using ListTagCommand#call() with \u0027rw.setRetainBody(false)\u0027.",
+      "parentUuid": "8f400808_e9fa9e27",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "6353950b045d3a7aaf69ae0715af3400f865096c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
