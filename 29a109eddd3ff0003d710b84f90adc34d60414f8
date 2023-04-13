@@ -96,6 +96,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ac0a74_e154e681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T13:50:32Z",
+      "side": 1,
+      "message": "SAX features and properties are described e.g. here\nhttps://docstore.mik.ua/orelly/xml/xmlnut/ch25_03.htm\nThe settings you propose in this change look ok to me.\n\nRegarding XXE see compliant solutions mentioned in\nhttps://rules.sonarsource.com/java/RSPEC-2755\nwhich seem to match what Thomas said above.\nThis blog post provides more details about how to parse XML securely in Java: \nhttps://semgrep.dev/blog/2022/xml-security-in-java",
+      "parentUuid": "487d0bce_4ac3e8e0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "29a109eddd3ff0003d710b84f90adc34d60414f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "db96e86c_5ea0f8ff",
