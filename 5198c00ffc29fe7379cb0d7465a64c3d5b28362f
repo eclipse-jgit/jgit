@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b3f979_94c49b00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/FsckError.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "6.6",
+      "range": {
+        "startLine": 23,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "562eb4a7_cda2ab42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eebdd842_2263d04d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51372b30_314fab24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4b3ebda_4befde8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c313a0c_71a8ab7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7de8a6_502b82f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28a077bd_23c15ca7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T23:18:58Z",
+      "side": 1,
+      "message": "bad indentation",
+      "revId": "5198c00ffc29fe7379cb0d7465a64c3d5b28362f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
