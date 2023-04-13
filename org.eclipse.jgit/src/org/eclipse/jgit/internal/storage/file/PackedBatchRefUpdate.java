@@ -168,7 +168,12 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				if (locks == null) {
 					return;
 				}
-				refdb.pack(locks);
+				try {
+					refdb.pack(locks);
+				} catch (LockFailedException e) {
+					lockFailure(pending.get(0), pending);
+					return;
+				}
 			}
 
 			LockFile packedRefsLock = refdb.lockPackedRefs();
