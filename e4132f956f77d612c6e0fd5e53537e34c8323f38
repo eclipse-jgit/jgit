@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f4ac51_cdb82bdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T22:26:17Z",
+      "side": 1,
+      "message": "which",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc97d11_2a65d610",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T22:26:17Z",
+      "side": 1,
+      "message": "flushing",
+      "range": {
+        "startLine": 11,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 70
+      },
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "460da7bd_b99d8193",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackParserTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T22:26:17Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3432b2bd_645af891",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackParserTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T22:26:17Z",
+      "side": 1,
+      "message": "nit: remove extra blank line",
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d473d2_46d4c08e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T22:26:17Z",
+      "side": 1,
+      "message": "this line seems too wide",
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
