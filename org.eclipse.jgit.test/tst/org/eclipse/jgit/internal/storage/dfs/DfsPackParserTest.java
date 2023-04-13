@@ -14,8 +14,6 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
 import org.eclipse.jgit.lib.Constants;
@@ -24,8 +22,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.transport.InMemoryPack;
 import org.eclipse.jgit.transport.PackParser;
-import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.TemporaryBuffer;
 import org.junit.Before;
 import org.junit.Test;
 
