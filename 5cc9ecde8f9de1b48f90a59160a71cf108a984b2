@@ -34,6 +34,24 @@
       "parentUuid": "f8dbd777_a250bcf3",
       "revId": "5cc9ecde8f9de1b48f90a59160a71cf108a984b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bb480d7_66273b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-13T12:30:09Z",
+      "side": 1,
+      "message": "I measured the following timings using jgit command line client `jgit tag --contains HEAD` with HEAD\u003d0ec57cfa721fb. The linux kernel repo was gc\u0027ed using jgit gc. For JGit this includes the time needed to start the JVM (ca 400ms on my machine) and opening the repo. Measured on a MacBook M1 Max.\n\nbefore:\n                            git         jgit\ncore.commitGraph \u003d false                10.438s\ncore.commitGraph \u003d true                  2.288s\n\nafter:\n                            git         jgit\ncore.commitGraph \u003d false    7.382s      10.308s\ncore.commitGraph \u003d true     0.094s       0.766s\n\nThis confirms that this change is a good performance improvement for getMergedInto",
+      "parentUuid": "07b0b637_52991d1a",
+      "revId": "5cc9ecde8f9de1b48f90a59160a71cf108a984b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
