@@ -16,6 +16,24 @@
       "message": "I plan to reproduce your measurements, though running git gc on a clone of the linux kernel repo takes ages on my mac",
       "revId": "5cc9ecde8f9de1b48f90a59160a71cf108a984b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07b0b637_52991d1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-04-13T06:31:02Z",
+      "side": 1,
+      "message": "\u003e I plan to reproduce your measurements, though running git gc on a clone of the linux kernel repo takes ages on my mac\n\nFine. It would be better if such an optimization could also appear on your computer.\n\nI opened the repo once and repeated the method 10 times in a custom test case and averaged the results to get the numbers below.\n\nThe measurements were produced on my MacBook 2019(2.6 GHz 6-core Intel Core i7 and I have used it for three years), which may be different on different computers.",
+      "parentUuid": "f8dbd777_a250bcf3",
+      "revId": "5cc9ecde8f9de1b48f90a59160a71cf108a984b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
