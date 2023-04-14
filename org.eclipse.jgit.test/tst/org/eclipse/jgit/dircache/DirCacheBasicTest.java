@@ -17,19 +17,48 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.SystemReader;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class DirCacheBasicTest extends RepositoryTestCase {
+	@Parameter(0)
+	public boolean skipHash;
+
+	@Parameters(name = "skipHash: {0}")
+	public static Collection<Boolean[]> getSkipHashValues() {
+		return Arrays
+				.asList(new Boolean[][] { { Boolean.TRUE },
+						{ Boolean.FALSE } });
+	}
+
+	@Before
+	public void setup() throws IOException {
+		FileBasedConfig cfg = db.getConfig();
+		cfg.setBoolean(ConfigConstants.CONFIG_INDEX_SECTION, null,
+				ConfigConstants.CONFIG_KEY_SKIPHASH, skipHash);
+		cfg.save();
+	}
+
 	@Test
 	public void testReadMissing_RealIndex() throws Exception {
 		final File idx = new File(db.getDirectory(), "index");

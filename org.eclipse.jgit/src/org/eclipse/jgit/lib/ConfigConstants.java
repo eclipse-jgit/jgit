@@ -349,6 +349,12 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_INDEXVERSION = "indexversion";
 
 	/**
+	 * The "skiphash" key
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_SKIPHASH = "skiphash";
+
+	/**
 	 * The "hidedotfiles" key
 	 * @since 3.5
 	 */
