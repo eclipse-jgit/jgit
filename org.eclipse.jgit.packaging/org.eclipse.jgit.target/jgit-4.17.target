@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.17" sequenceNumber="1677748416">
+<target name="jgit-4.17" sequenceNumber="1681482916">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.http" version="10.0.13"/>
@@ -55,14 +55,6 @@
       <unit id="org.apache.sshd.sftp.source" version="2.9.2.v20221117-1942"/>
       <unit id="org.assertj" version="3.20.2.v20210706-1104"/>
       <unit id="org.assertj.source" version="3.20.2.v20210706-1104"/>
-      <unit id="org.bouncycastle.bcpg" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcpg.source" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcpkix" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcpkix.source" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcprov" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcprov.source" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcutil" version="1.72.0.v20221013-1810"/>
-      <unit id="org.bouncycastle.bcutil.source" version="1.72.0.v20221013-1810"/>
       <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
       <unit id="org.hamcrest.source" version="2.2.0.v20210711-0821"/>
       <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
@@ -88,6 +80,34 @@
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
       <repository location="https://download.eclipse.org/releases/2020-09/"/>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven" label="bouncycastle">
+    <dependencies>
+    	<dependency>
+    		<groupId>org.bouncycastle</groupId>
+    		<artifactId>bcpg-jdk18on</artifactId>
+    		<version>1.73</version>
+    		<type>jar</type>
+    	</dependency>
+    	<dependency>
+    		<groupId>org.bouncycastle</groupId>
+    		<artifactId>bcprov-jdk18on</artifactId>
+    		<version>1.73</version>
+    		<type>jar</type>
+    	</dependency>
+    	<dependency>
+    		<groupId>org.bouncycastle</groupId>
+    		<artifactId>bcpkix-jdk18on</artifactId>
+    		<version>1.73</version>
+    		<type>jar</type>
+    	</dependency>
+    	<dependency>
+    		<groupId>org.bouncycastle</groupId>
+    		<artifactId>bcutil-jdk18on</artifactId>
+    		<version>1.73</version>
+    		<type>jar</type>
+    	</dependency>
+    </dependencies>
     </location>
   </locations>
 </target>

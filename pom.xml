@@ -762,7 +762,7 @@
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcpg-jdk18on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <version>1.72.2</version>
       </dependency>
 
       <dependency>
