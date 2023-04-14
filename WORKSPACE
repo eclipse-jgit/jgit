@@ -269,9 +269,9 @@ BOUNCYCASTLE_VER = "1.72"
 
 maven_jar(
     name = "bcpg",
-    artifact = "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "1a36a1740d07869161f6f0d01fae8d72dd1d8320",
-    src_sha1 = "fe19ed35a28b345d00459de55cd20ad9e1385a4f",
+    artifact = "org.bouncycastle:bcpg-jdk18on:" + 1.72.2,
+    sha1 = "ef29db0e82cf1ee99ddf5d772e810c1beb2d70f1",
+    src_sha1 = "72936958f07df15946f4eb6cd2ae558d8d24ed1c",
 )
 
 maven_jar(
