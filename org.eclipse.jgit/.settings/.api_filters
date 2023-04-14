@@ -30,6 +30,12 @@
         <filter id="1142947843">
             <message_arguments>
                 <message_argument value="5.13.2"/>
+                <message_argument value="CONFIG_KEY_SKIPHASH"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.2"/>
                 <message_argument value="SHA1_IMPLEMENTATION"/>
             </message_arguments>
         </filter>
