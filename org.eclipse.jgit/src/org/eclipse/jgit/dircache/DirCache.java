@@ -40,6 +40,7 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.internal.storage.io.NullMessageDigest;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.ConfigEnum;
@@ -327,6 +328,9 @@ public class DirCache {
 	/** If we read this index from disk, the original format. */
 	private DirCacheVersion version;
 
+	/** Whether to skip computing and checking the index checksum */
+	private boolean skipHash;
+
 	/**
 	 * Create a new in-core index representation.
 	 * <p>
@@ -446,7 +450,8 @@ public class DirCache {
 	private void readFrom(InputStream inStream) throws IOException,
 			CorruptObjectException {
 		final BufferedInputStream in = new BufferedInputStream(inStream);
-		final MessageDigest md = Constants.newMessageDigest();
+		readConfig();
+		MessageDigest md = newMessageDigest();
 
 		// Read the index header and verify we understand it.
 		//
@@ -543,8 +548,12 @@ public class DirCache {
 		}
 
 		readIndexChecksum = md.digest();
-		if (!Arrays.equals(readIndexChecksum, hdr)) {
-			throw new CorruptObjectException(JGitText.get().DIRCChecksumMismatch);
+		if (!(skipHash
+				|| Arrays.equals(readIndexChecksum, hdr)
+				|| Arrays.equals(NullMessageDigest.getInstance().digest(),
+						hdr))) {
+			throw new CorruptObjectException(
+					JGitText.get().DIRCChecksumMismatch);
 		}
 	}
 
@@ -627,15 +636,9 @@ public class DirCache {
 	}
 
 	void writeTo(File dir, OutputStream os) throws IOException {
-		final MessageDigest foot = Constants.newMessageDigest();
-		final DigestOutputStream dos = new DigestOutputStream(os, foot);
-
-		if (version == null && this.repository != null) {
-			// A new DirCache is being written.
-			DirCacheConfig config = repository.getConfig()
-					.get(DirCacheConfig::new);
-			version = config.getIndexVersion();
-		}
+		readConfig();
+		MessageDigest foot = newMessageDigest();
+		DigestOutputStream dos = new DigestOutputStream(os, foot);
 		if (version == null
 				|| version == DirCacheVersion.DIRC_VERSION_MINIMUM) {
 			version = DirCacheVersion.DIRC_VERSION_MINIMUM;
@@ -705,6 +708,22 @@ public class DirCache {
 		writeIndexChecksum = foot.digest();
 		os.write(writeIndexChecksum);
 		os.close();
+	}
+
+	private void readConfig() {
+		if (version == null && this.repository != null) {
+			DirCacheConfig config = repository.getConfig()
+					.get(DirCacheConfig::new);
+			version = config.getIndexVersion();
+			skipHash = config.isSkipHash();
+		}
+	}
+
+	private MessageDigest newMessageDigest() {
+		if (skipHash) {
+			return NullMessageDigest.getInstance();
+		}
+		return Constants.newMessageDigest();
 	}
 
 	/**
@@ -1071,6 +1090,8 @@ public class DirCache {
 
 		private final DirCacheVersion indexVersion;
 
+		private final boolean skipHash;
+
 		public DirCacheConfig(Config cfg) {
 			boolean manyFiles = cfg.getBoolean(
 					ConfigConstants.CONFIG_FEATURE_SECTION,
@@ -1080,11 +1101,16 @@ public class DirCache {
 					ConfigConstants.CONFIG_KEY_VERSION,
 					manyFiles ? DirCacheVersion.DIRC_VERSION_PATHCOMPRESS
 							: DirCacheVersion.DIRC_VERSION_EXTENDED);
+			skipHash = cfg.getBoolean(ConfigConstants.CONFIG_INDEX_SECTION,
+					ConfigConstants.CONFIG_KEY_SKIPHASH, false);
 		}
 
 		public DirCacheVersion getIndexVersion() {
 			return indexVersion;
 		}
 
+		public boolean isSkipHash() {
+			return skipHash;
+		}
 	}
 }
