@@ -116,6 +116,30 @@
       },
       "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5d6b5c_3247c376",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileRepositoryBuilderAfterOpenConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-16T21:24:13Z",
+      "side": 1,
+      "message": "Filed bug https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d581816 for this build breakage, please fix this.\n\nYes, we should setup another build job to verify the bazel build. For that we need a build container with the bazel build dependencies.",
+      "parentUuid": "93d494e6_75f0ffda",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 7
+      },
+      "revId": "a4ca500d26f64cbef6280c449cab859577179ea1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
