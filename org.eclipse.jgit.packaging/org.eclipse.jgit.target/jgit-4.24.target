@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.24" sequenceNumber="1681685281">
+<target name="jgit-4.24" sequenceNumber="1681685328">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.jetty.http" version="10.0.13"/>
@@ -86,25 +86,25 @@
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcpg-jdk18on</artifactId>
-    		<version>1.72.2</version>
+    		<version>1.73</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcprov-jdk18on</artifactId>
-    		<version>1.72</version>
+    		<version>1.73</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcpkix-jdk18on</artifactId>
-    		<version>1.72</version>
+    		<version>1.73</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcutil-jdk18on</artifactId>
-    		<version>1.72</version>
+    		<version>1.73</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
