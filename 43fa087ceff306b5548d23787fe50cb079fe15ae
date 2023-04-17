@@ -16,6 +16,24 @@
       "message": "why is this needed as a flag? if the objectSizeIndex is not null, isn\u0027t that already implying attempted?",
       "revId": "43fa087ceff306b5548d23787fe50cb079fe15ae",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b826f28_80db7b46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-17T18:25:45Z",
+      "side": 1,
+      "message": "The objectSizeIndex can be null because we didn\u0027t load it yet or because the pack doesn\u0027t have it. We need this flag to differentiate those cases.\n\nOtherwise we would be trying to load an unexisting index on every call.",
+      "parentUuid": "197df269_9d645109",
+      "revId": "43fa087ceff306b5548d23787fe50cb079fe15ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
