@@ -16,6 +16,24 @@
       "message": "why is 3 here?",
       "revId": "82d35dc5d04cf2db581211bfeb28c0262f52ecc1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf5fa86_a40210ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-17T21:40:01Z",
+      "side": 1,
+      "message": "The object\u0027s size is 3 bytes",
+      "parentUuid": "a647b01e_a6271a11",
+      "revId": "82d35dc5d04cf2db581211bfeb28c0262f52ecc1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
