@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd514882_0df1c162",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-04-17T19:44:31Z",
+      "side": 1,
+      "message": "i understand why the tests are needed, but i don\u0027t think this line reflects the \"need\" of these tests, rather, this line explains what behavior it\u0027s testing. I understanding of jgit commit message is, first line title description, second line for the \"need\", third line for outlining imperative changes, and last paragraph for further elaboration. \n\nsuggestion: \nAdding tests to verify the generation logic correctness for ObjectSizeIndex.",
+      "revId": "e7eb78ea52688252c5ff4254479c437277aa329a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
