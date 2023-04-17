@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "197df269_9d645109",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-04-17T18:13:12Z",
+      "side": 1,
+      "message": "why is this needed as a flag? if the objectSizeIndex is not null, isn\u0027t that already implying attempted?",
+      "revId": "43fa087ceff306b5548d23787fe50cb079fe15ae",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
