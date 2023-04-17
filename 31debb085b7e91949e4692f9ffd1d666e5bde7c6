@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0af8bc92_875d9b46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-17T23:03:11Z",
+      "side": 1,
+      "message": "Yes, that\u0027s it. However, I went a bit further than that because of that bundle id change from org.bouncycastle.bc* to just bc*.\n\nI built myself an Apache MINA sshd 2.10.0, did the same target platform change in EGit, plus included that sshd 2.10.0 from maven (from the local .m2 repo) in both JGit and EGit, and then installed that EGit into an Eclipse 2022-09. (Last version that shipped the Orbit BC bundles, version 1.71.)\n\nAs expected, I ended up with an Eclipse having both the 1.71 org.bouncycastle.bcpg and org.bouncycastle.bcprov, and also the new bcpkix, bcutil, and bcprov from maven (1.72). Fetching from Gerrit via SSH with a RFC5958 encrypted ed25519 private key with password failed. Installing the same EGit into an Eclipse 2023-03 (which has only the maven BC bundles), that works.\n\nDecrypting such a private key requires bcpkix.\n\nThe BC security provider (Security.getProvider(\"BC\")) in the 2022-09 Eclipse was still the old Orbit 1.71 one, and either that doesn\u0027t play well with the 1.72 pcpkix from maven, or 1.71 had some bug in some cipher or in PBES2 KDF.\n\nGPG signing commits and verifying GPG signatures worked well, but apparently used the 1.71 bcpg bundle from Orbit. (No bcpg 1.72 got installed in 2022-09 when I installed EGit there. org.eclipse.jgit.gpg.bc requires bcpg 1.69, so the already-present 1.71 was good enough.)\n\nIn any case this totally uncalled-for bundle id change and reckless switch in Eclipse platform from Orbit to maven for BC causes trouble if both versions of bcprov are present, or if the 1.71 security provider is used with 1.71 bcpkix.\n\nI see no way to solve this via some p2 \"magic\" or otherwise in our bundles or in our p2 repository.\n\nThe only way to avoid this would be to declare that the last EGit version that we support on Eclipse 2022-09 and earlier is EGit 6.5.0, and set and enforce Eclipse 2022-12 (4.26) as baseline from EGit 6.6.0 on.\n\nWhich would mean that all of these target platforms except the one for 4.26 become obsolete. And the default used for building the repo then also has to be the 4.26 target, and so does the default target in the EGit Oomph setup. And BTW we should probably also have a 4.27 target.",
+      "revId": "31debb085b7e91949e4692f9ffd1d666e5bde7c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
