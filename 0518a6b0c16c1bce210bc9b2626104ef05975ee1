@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c14e8442_70b2c7c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-18T20:55:41Z",
+      "side": 1,
+      "message": "What was the reason not to parse \"preserve\" as a synonym for \"merges\" in existing git config files?",
+      "revId": "0518a6b0c16c1bce210bc9b2626104ef05975ee1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
