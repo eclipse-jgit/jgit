@@ -100,6 +100,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22fa996_82f68813",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-04-18T20:33:40Z",
+      "side": 1,
+      "message": "I have added a test now. Patchset 3 contains the test only (not the fix) and it failed in the corresponding CI job with an NPE as expected.\n\n    12:24:35  [ERROR] org.eclipse.jgit.transport.UploadPackTest.testSingleBranchShallowCloneTagChainWithReflessTag  Time elapsed: 0.007 s  \u003c\u003c\u003c ERROR!\n    12:24:35  org.eclipse.jgit.transport.UploadPackInternalServerErrorException\n    12:24:35    at org.eclipse.jgit.transport.UploadPackTest.testSingleBranchShallowCloneTagChainWithReflessTag(UploadPackTest.java:2587)\n    12:24:35  Caused by: java.lang.NullPointerException\n    12:24:35    at org.eclipse.jgit.transport.UploadPackTest.testSingleBranchShallowCloneTagChainWithReflessTag(UploadPackTest.java:2587)",
+      "parentUuid": "4efd6d67_b9f831f0",
+      "revId": "8ad3640faf2ea44ba3fc2546d5de1d278115c1ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45e92b91_6b9539d0",
