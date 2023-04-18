@@ -853,7 +853,7 @@ public class RefDirectory extends RefDatabase {
 		return null;
 	}
 
-	private LockFile lockPackedRefsOrThrow() throws IOException {
+	LockFile lockPackedRefsOrThrow() throws IOException {
 		LockFile lck = lockPackedRefs();
 		if (lck == null) {
 			throw new LockFailedException(packedRefsFile);

@@ -158,6 +158,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		}
 
 		Map<String, LockFile> locks = null;
+		LockFile packedRefsLock = null;
 		refdb.inProcessPackedRefsLock.lock();
 		try {
 			// During clone locking isn't needed since no refs exist yet.
@@ -168,35 +169,29 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				if (locks == null) {
 					return;
 				}
-				try {
-					refdb.pack(locks);
-				} catch (LockFailedException e) {
-					lockFailure(pending.get(0), pending);
-					return;
-				}
+				refdb.pack(locks);
 			}
 
-			LockFile packedRefsLock = refdb.lockPackedRefs();
-			if (packedRefsLock == null) {
-				lockFailure(pending.get(0), pending);
+			packedRefsLock = refdb.lockPackedRefsOrThrow();
+			PackedRefList oldPackedList = refdb.refreshPackedRefs();
+			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
+			if (newRefs == null) {
 				return;
 			}
-			try {
-				PackedRefList oldPackedList = refdb.refreshPackedRefs();
-				RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
-				if (newRefs == null) {
-					return;
-				}
-				refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-						true);
-			} finally {
-				// This will be no-op if commitPackedRefs is successful as it
-				// will remove the lock file (by renaming over real file).
-				packedRefsLock.unlock();
-			}
+			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
+					true);
+		} catch (LockFailedException e) {
+			lockFailure(pending.get(0), pending);
+			return;
 		} finally {
 			try {
 				unlockAll(locks);
+				if (packedRefsLock != null) {
+					// This will be no-op if commitPackedRefs is successful as
+					// it will remove the lock file (by renaming over real
+					// file).
+					packedRefsLock.unlock();
+				}
 			} finally {
 				refdb.inProcessPackedRefsLock.unlock();
 			}
