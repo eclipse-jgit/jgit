@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_INDEX;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -24,21 +26,30 @@ import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_NOT_COMPUTED;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.EmptyTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -55,6 +66,8 @@ public class CommitGraphWriter {
 	private static final int GRAPH_FANOUT_SIZE = 4 * 256;
 
 	private static final int GENERATION_NUMBER_MAX = 0x3FFFFFFF;
+
+	private static final int MAX_CHANGED_PATHS = 512;
 
 	private final int hashsz;
 
@@ -111,7 +124,8 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private List<ChunkHeader> createChunks() {
+	private List<ChunkHeader> createChunks() throws MissingObjectException,
+			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.add(new ChunkHeader(CHUNK_ID_OID_FANOUT, GRAPH_FANOUT_SIZE));
 		chunks.add(new ChunkHeader(CHUNK_ID_OID_LOOKUP,
@@ -122,6 +136,11 @@ public class CommitGraphWriter {
 			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST,
 					graphCommits.getExtraEdgeCnt() * 4));
 		}
+		BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks();
+		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
+				bloomFilterChunks.index));
+		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
+				bloomFilterChunks.data));
 		return chunks;
 	}
 
@@ -170,6 +189,14 @@ public class CommitGraphWriter {
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				writeExtraEdges(out);
+				break;
+			case CHUNK_ID_BLOOM_FILTER_INDEX:
+			case CHUNK_ID_BLOOM_FILTER_DATA:
+				if (!chunk.data.isPresent()) {
+					throw new IllegalStateException(
+							"data for this chunk must be precomputed"); //$NON-NLS-1$
+				}
+				chunk.data.get().writeTo(out);
 				break;
 			}
 		}
@@ -305,6 +332,72 @@ public class CommitGraphWriter {
 		return generations;
 	}
 
+	private static Optional<HashSet<ByteBuffer>> computeBloomFilterPaths(
+			ObjectReader or, RevCommit cmit) throws MissingObjectException,
+			IncorrectObjectTypeException, CorruptObjectException, IOException {
+		HashSet<ByteBuffer> paths = new HashSet<>();
+		try (TreeWalk walk = new TreeWalk(null, or)) {
+			walk.setRecursive(true);
+			if (cmit.getParentCount() == 0) {
+				walk.addTree(new EmptyTreeIterator());
+			} else {
+				walk.addTree(cmit.getParent(0).getTree());
+			}
+			walk.addTree(cmit.getTree());
+			while (walk.next()) {
+				if (walk.idEqual(0, 1)) {
+					continue;
+				}
+				byte[] rawPath = walk.getRawPath();
+				paths.add(ByteBuffer.wrap(rawPath));
+				for (int i = 0; i < rawPath.length; i++) {
+					if (rawPath[i] == '/') {
+						paths.add(ByteBuffer.wrap(rawPath, 0, i));
+					}
+					if (paths.size() > MAX_CHANGED_PATHS) {
+						return Optional.empty();
+					}
+				}
+			}
+		}
+		return Optional.of(paths);
+	}
+
+	private BloomFilterChunks computeBloomFilterChunks()
+			throws MissingObjectException, IncorrectObjectTypeException,
+			CorruptObjectException, IOException {
+
+		ByteArrayOutputStream index = new ByteArrayOutputStream();
+		ByteArrayOutputStream data = new ByteArrayOutputStream();
+
+		// Allocate scratch buffer for converting integers into
+		// big-endian bytes.
+		byte[] scratch = new byte[4];
+
+		NB.encodeInt32(scratch, 0, 1); // version 1
+		data.write(scratch);
+		NB.encodeInt32(scratch, 0, ChangedPathFilter.PATH_HASH_COUNT);
+		data.write(scratch);
+		NB.encodeInt32(scratch, 0, ChangedPathFilter.BITS_PER_ENTRY);
+		data.write(scratch);
+		int dataHeaderSize = data.size();
+
+		for (RevCommit cmit : graphCommits) {
+			Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
+					graphCommits.getObjectReader(), cmit);
+			ChangedPathFilter cpf;
+			if (paths.isEmpty()) {
+				cpf = ChangedPathFilter.FULL;
+			} else {
+				cpf = ChangedPathFilter.fromPaths(paths.get());
+			}
+			cpf.writeTo(data);
+			NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
+			index.write(scratch);
+		}
+		return new BloomFilterChunks(index, data);
+	}
+
 	private void writeExtraEdges(CancellableDigestOutputStream out)
 			throws IOException {
 		byte[] tmp = new byte[4];
@@ -331,9 +424,30 @@ public class CommitGraphWriter {
 
 		final long size;
 
+		final Optional<ByteArrayOutputStream> data;
+
 		public ChunkHeader(int id, long size) {
 			this.id = id;
 			this.size = size;
+			this.data = Optional.empty();
+		}
+
+		ChunkHeader(int id, ByteArrayOutputStream data) {
+			this.id = id;
+			this.size = data.size();
+			this.data = Optional.of(data);
+		}
+	}
+
+	private static class BloomFilterChunks {
+		final ByteArrayOutputStream index;
+
+		final ByteArrayOutputStream data;
+
+		BloomFilterChunks(ByteArrayOutputStream index,
+				ByteArrayOutputStream data) {
+			this.index = index;
+			this.data = data;
 		}
 	}
 }
