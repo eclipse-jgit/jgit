@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89e83c32_8708a171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-04-18T19:51:38Z",
+      "side": 1,
+      "message": "Since we know have known conditions for this, we should replace this \"might\" section with an explanation of when this happens.",
+      "revId": "ac4c9c34529ed8212b56fbc9145de5600ce00a80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
