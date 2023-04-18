@@ -29,6 +29,7 @@ HELPERS = glob(
     "transport/ObjectIdMatcher.java",
     "transport/RequestValidatorTestCase.java",
     "transport/SpiTransport.java",
+    "transport/InMemoryPack.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
     "util/CPUTimeStopWatch.java",
