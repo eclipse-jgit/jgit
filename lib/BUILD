@@ -21,6 +21,10 @@ java_library(
 
 java_library(
     name = "commons-codec",
+    visibility = [
+        "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
     exports = ["@commons-codec//jar"],
 )
 

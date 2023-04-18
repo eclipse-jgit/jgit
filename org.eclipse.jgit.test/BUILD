@@ -76,6 +76,7 @@ java_library(
     resources = DATA,
     deps = [
         "//lib:assertj-core",
+        "//lib:commons-codec",
         "//lib:junit",
         "//lib:mockito",
         "//lib:slf4j-simple",
