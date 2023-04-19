@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2832db31_1504bf54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackMismatchException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-19T14:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa39f62f_d062a2ee",
+      "revId": "68c91e6f9b1d16eb194d200e9ae4c8f0520410bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4634f9ea_b6b0775f",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-04-19T13:30:39Z",
       "side": 1,
       "message": "Exposing both the Type and the boolean isPermanent in the API of this class feels wrong. Either expose setType/getType or setPermanent/isPermanent. In the latter case a boolean flag is enough and the Type is unnecessary.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "68c91e6f9b1d16eb194d200e9ae4c8f0520410bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24adbb17_4e760034",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/PackMismatchException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-19T14:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4634f9ea_b6b0775f",
       "range": {
         "startLine": 54,
         "startChar": 0,
