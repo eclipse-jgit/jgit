@@ -525,6 +525,7 @@ public class BatchRefUpdate {
 	 * Get the ref database associated with this update.
 	 *
 	 * @return the ref database.
+	 * @since 6.6
 	 */
 	protected RefDatabase getRefDatabase() {
 		return refdb;
