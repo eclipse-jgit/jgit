@@ -22,6 +22,8 @@ import org.junit.Test;
  * Some minimal cloning and fetching tests. Concrete subclasses can implement
  * the abstract operations from {@link SshTestHarness} to run with different SSH
  * implementations.
+ *
+ * @since 5.11
  */
 public abstract class SshBasicTestBase extends SshTestHarness {
 
