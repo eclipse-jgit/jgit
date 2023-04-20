@@ -59,6 +59,8 @@ class PackDirectory {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(PackDirectory.class);
 
+	private static final int MAX_PACKLIST_RESCAN_ATTEMPTS = 5;
+
 	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
 			new Pack[0]);
 
@@ -201,9 +203,11 @@ class PackDirectory {
 		return true;
 	}
 
-	ObjectLoader open(WindowCursor curs, AnyObjectId objectId) {
+	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
+			throws PackMismatchException {
 		PackList pList;
 		do {
+			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
 				for (Pack p : pList.packs) {
@@ -215,6 +219,7 @@ class PackDirectory {
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
+							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
 					} catch (IOException e) {
@@ -227,9 +232,11 @@ class PackDirectory {
 		return null;
 	}
 
-	long getSize(WindowCursor curs, AnyObjectId id) {
+	long getSize(WindowCursor curs, AnyObjectId id)
+			throws PackMismatchException {
 		PackList pList;
 		do {
+			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
 				for (Pack p : pList.packs) {
@@ -242,6 +249,7 @@ class PackDirectory {
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
+							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
 					} catch (IOException e) {
@@ -255,8 +263,9 @@ class PackDirectory {
 	}
 
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
-			WindowCursor curs) {
+			WindowCursor curs) throws PackMismatchException {
 		PackList pList = packList.get();
+		int retries = 0;
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
 				try {
@@ -268,6 +277,7 @@ class PackDirectory {
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
+					retries = checkRescanPackThreshold(retries, e);
 					pList = scanPacks(pList);
 					continue SEARCH;
 				} catch (IOException e) {
@@ -276,6 +286,15 @@ class PackDirectory {
 			}
 			break SEARCH;
 		}
+	}
+
+	private int checkRescanPackThreshold(int retries, PackMismatchException e)
+			throws PackMismatchException {
+		if (retries++ > MAX_PACKLIST_RESCAN_ATTEMPTS) {
+			e.setPermanent(true);
+			throw e;
+		}
+		return retries;
 	}
 
 	private void handlePackError(IOException e, Pack p) {
