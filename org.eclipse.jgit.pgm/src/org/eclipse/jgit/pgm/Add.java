@@ -22,6 +22,9 @@ import org.kohsuke.args4j.Option;
 @Command(common = true, usage = "usage_addFileContentsToTheIndex")
 class Add extends TextBuiltin {
 
+	@Option(name = "--renormalize", usage = "usage_addRenormalize")
+	private boolean renormalize = false;
+
 	@Option(name = "--update", aliases = { "-u" }, usage = "usage_onlyMatchAgainstAlreadyTrackedFiles")
 	private boolean update = false;
 
@@ -33,9 +36,13 @@ class Add extends TextBuiltin {
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {
 			AddCommand addCmd = git.add();
-			addCmd.setUpdate(update);
-			for (String p : filepatterns)
+			if (renormalize) {
+				update = true;
+			}
+			addCmd.setUpdate(update).setRenormalize(renormalize);
+			for (String p : filepatterns) {
 				addCmd.addFilepattern(p);
+			}
 			addCmd.call();
 		} catch (GitAPIException e) {
 			throw die(e.getMessage(), e);
