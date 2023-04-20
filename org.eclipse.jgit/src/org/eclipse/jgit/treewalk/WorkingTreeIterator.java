@@ -399,6 +399,35 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
+	private long possiblyFilteredLength(Entry e, long len) throws IOException {
+		if (getCleanFilterCommand() == null && getEolStreamType(
+				OperationType.CHECKIN_OP) == EolStreamType.DIRECT) {
+			return len;
+		}
+
+		if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
+			InputStream is = e.openInputStream();
+			try {
+				ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
+				rawbuf = filterClean(rawbuf.array(), rawbuf.limit());
+				return rawbuf.limit();
+			} finally {
+				safeClose(is);
+			}
+		}
+
+		if (getCleanFilterCommand() == null && isBinary(e)) {
+			return len;
+		}
+
+		InputStream is = filterClean(e.openInputStream());
+		try {
+			return computeLength(is);
+		} finally {
+			safeClose(is);
+		}
+	}
+
 	private InputStream possiblyFilteredInputStream(final Entry e,
 			final InputStream is, final long len)
 			throws IOException {
@@ -417,11 +446,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		if (getCleanFilterCommand() == null && isBinary(e)) {
-				canonLen = len;
-				return is;
-			}
+			canonLen = len;
+			return is;
+		}
 
-			final InputStream lenIs = filterClean(e.openInputStream());
+		final InputStream lenIs = filterClean(e.openInputStream());
 		try {
 			canonLen = computeLength(lenIs);
 		} finally {
@@ -595,15 +624,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	public long getEntryContentLength() throws IOException {
 		if (canonLen == -1) {
 			long rawLen = getEntryLength();
-			if (rawLen == 0)
+			if (rawLen == 0) {
 				canonLen = 0;
-			InputStream is = current().openInputStream();
-			try {
-				// canonLen gets updated here
-				possiblyFilteredInputStream(current(), is, current()
-						.getLength());
-			} finally {
-				safeClose(is);
+			} else {
+				canonLen = possiblyFilteredLength(current(),
+						current().getLength());
 			}
 		}
 		return canonLen;
