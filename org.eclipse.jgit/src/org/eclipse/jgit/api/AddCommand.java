@@ -39,7 +39,10 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.IndexDiffFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
  * A class used to execute a {@code Add} command. It has setters for all
@@ -57,6 +60,10 @@ public class AddCommand extends GitCommand<DirCache> {
 	private WorkingTreeIterator workingTreeIterator;
 
 	private boolean update = false;
+
+	// This defaults to true because it's what JGit has been doing
+	// traditionally. The C git default would be false.
+	private boolean renormalize = true;
 
 	/**
 	 * Constructor for AddCommand
@@ -127,8 +134,20 @@ public class AddCommand extends GitCommand<DirCache> {
 				workingTreeIterator = new FileTreeIterator(repo);
 			workingTreeIterator.setDirCacheIterator(tw, 0);
 			tw.addTree(workingTreeIterator);
-			if (!addAll)
-				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
+			TreeFilter pathFilter = null;
+			if (!addAll) {
+				pathFilter = PathFilterGroup.createFromStrings(filepatterns);
+			}
+			if (!renormalize) {
+				if (pathFilter == null) {
+					tw.setFilter(new IndexDiffFilter(0, 1));
+				} else {
+					tw.setFilter(AndTreeFilter.create(new IndexDiffFilter(0, 1),
+							pathFilter));
+				}
+			} else if (pathFilter != null) {
+				tw.setFilter(pathFilter);
+			}
 
 			byte[] lastAdded = null;
 
@@ -259,5 +278,40 @@ public class AddCommand extends GitCommand<DirCache> {
 	 */
 	public boolean isUpdate() {
 		return update;
+	}
+
+	/**
+	 * Defines whether the command will renormalize by re-applying the "clean"
+	 * process to tracked files.
+	 * <p>
+	 * This does not automatically call {@link #setUpdate(boolean)}.
+	 * </p>
+	 *
+	 * @param renormalize
+	 *            whether to renormalize tracked files
+	 * @return {@code this}
+	 * @since 6.6
+	 */
+	public AddCommand setRenormalize(boolean renormalize) {
+		this.renormalize = renormalize;
+		return this;
+	}
+
+	/**
+	 * Tells whether the command will renormalize by re-applying the "clean"
+	 * process to tracked files.
+	 * <p>
+	 * For legacy reasons, this is {@code true} by default.
+	 * </p>
+	 * <p>
+	 * This setting is independent of {@link #isUpdate()}. In C git,
+	 * command-line option --renormalize implies --update.
+	 * </p>
+	 *
+	 * @return whether files will be renormalized
+	 * @since 6.6
+	 */
+	public boolean isRenormalize() {
+		return renormalize;
 	}
 }
