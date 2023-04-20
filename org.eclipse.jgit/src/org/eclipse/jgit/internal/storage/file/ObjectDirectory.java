@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -365,7 +366,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private ObjectLoader openPackedFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId objectId, Set<AlternateHandle.Id> skips) {
+			AnyObjectId objectId, Set<AlternateHandle.Id> skips)
+			throws PackMismatchException {
 		ObjectLoader ldr = openPackedObject(curs, objectId);
 		if (ldr != null) {
 			return ldr;
@@ -401,7 +403,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return null;
 	}
 
-	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId) {
+	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId)
+			throws PackMismatchException {
 		return packed.open(curs, objectId);
 	}
 
@@ -436,7 +439,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private long getPackedSizeFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId id, Set<AlternateHandle.Id> skips) {
+			AnyObjectId id, Set<AlternateHandle.Id> skips)
+			throws PackMismatchException {
 		long len = packed.getSize(curs, id);
 		if (0 <= len) {
 			return len;
