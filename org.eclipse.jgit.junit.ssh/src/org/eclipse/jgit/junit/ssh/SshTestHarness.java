@@ -76,6 +76,9 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 
 	protected File publicKey1;
 
+	/**
+	 * @since 5.10
+	 */
 	protected File publicKey2;
 
 	protected SshTestGitServer server;
