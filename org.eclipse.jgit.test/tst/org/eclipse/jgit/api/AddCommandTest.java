@@ -17,12 +17,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.FilterFailedException;
@@ -825,7 +829,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddWholeRepo() throws Exception  {
+	public void testAddWholeRepo() throws Exception {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -845,6 +849,77 @@ public class AddCommandTest extends RepositoryTestCase {
 					"[sub/a.txt, mode:100644, content:content]" +
 					"[sub/b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddAllNoRenormalize() throws Exception {
+		FS.FileStoreAttributes attrs = FS
+				.getFileStoreAttributes(db.getWorkTree().toPath());
+		final int nOfFiles = 1000;
+		final int filesPerDir = nOfFiles / 10;
+		final int fileSizeInBytes = 10_000;
+		assertTrue(nOfFiles > 0);
+		assertTrue(filesPerDir > 0);
+		File dir = null;
+		File lastFile = null;
+		for (int i = 0; i < nOfFiles; i++) {
+			if (i % filesPerDir == 0) {
+				dir = new File(db.getWorkTree(), "dir" + (i / filesPerDir));
+				FileUtils.mkdir(dir);
+			}
+			lastFile = new File(dir, "file" + i);
+			try (OutputStream out = new BufferedOutputStream(
+					new FileOutputStream(lastFile))) {
+				for (int b = 0; b < fileSizeInBytes; b++) {
+					out.write('a' + (b % 26));
+					if (((b + 1) % 70) == 0) {
+						out.write('\n');
+					}
+				}
+			}
+		}
+		// Help null pointer analysis.
+		assert lastFile != null;
+		// Sleep a bit. If entries are "racily clean", we'll recompute
+		// hashes from the disk files, and then the second add is also slow.
+		// We want to test the normal case.
+		attrs = FS.getFileStoreAttributes(db.getWorkTree().toPath());
+		Thread.sleep(attrs.getFsTimestampResolution().toMillis() * 3 / 2);
+		try (Git git = new Git(db)) {
+			long start = System.nanoTime();
+			git.add().addFilepattern(".").call();
+			long initialElapsed = System.nanoTime() - start;
+			assertEquals("Unexpected number on index entries", nOfFiles,
+					db.readDirCache().getEntryCount());
+			start = System.nanoTime();
+			git.add().addFilepattern(".").setRenormalize(false).call();
+			long secondElapsed = System.nanoTime() - start;
+			assertEquals("Unexpected number on index entries", nOfFiles,
+					db.readDirCache().getEntryCount());
+			// Fail the test if the second add all was not significantly faster.
+			// A factor of ten is rather generous, 40 - 50 is more like it.
+			// Depends on file systems, of course.
+			assertTrue(
+					"Second add all was too slow; initial took "
+							+ TimeUnit.NANOSECONDS.toMillis(initialElapsed)
+							+ ", second took "
+							+ TimeUnit.NANOSECONDS.toMillis(secondElapsed),
+					secondElapsed * 10 <= initialElapsed);
+			// Change one file. The index should be updated even if
+			// renormalize==false. It doesn't matter what kind of change we do.
+			final String newData = "Hello";
+			Files.writeString(lastFile.toPath(), newData);
+			// Sleep again to avoid we create an initially smudged index entry
+			// (would have length zero).
+			Thread.sleep(attrs.getFsTimestampResolution().toMillis() * 3 / 2);
+			git.add().addFilepattern(".").setRenormalize(false).call();
+			DirCache dc = db.readDirCache();
+			DirCacheEntry e = dc.getEntry(lastFile.getParentFile().getName()
+					+ '/' + lastFile.getName());
+			assertEquals("Unexpected file length in index", newData.length(),
+					e.getLength());
+			// We assume the blob has been updated, too, if the length is OK.
 		}
 	}
 

@@ -100,8 +100,9 @@ public class FilterCommandsTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testBuiltinCleanFilter()
-			throws IOException, GitAPIException {
+	public void testBuiltinCleanFilter() throws Exception {
+		FS.FileStoreAttributes attrs = FS
+				.getFileStoreAttributes(db.getWorkTree().toPath());
 		String builtinCommandName = "jgit://builtin/test/clean";
 		FilterCommandRegistry.register(builtinCommandName,
 				new TestCommandFactory('c'));
@@ -114,27 +115,40 @@ public class FilterCommandsTest extends RepositoryTestCase {
 		git.commit().setMessage("add filter").call();
 
 		writeTrashFile("Test.txt", "Hello again");
+		// Wait a little bit to ensure that the call with setRenormalize(false)
+		// below doesn't consider the file "racily clean".
+		attrs = FS.getFileStoreAttributes(db.getWorkTree().toPath());
+		Thread.sleep(attrs.getFsTimestampResolution().toMillis() * 3 / 2);
 		git.add().addFilepattern("Test.txt").call();
 		assertEquals(
-				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
+				"[.gitattributes, mode:100644, content:*.txt filter=test]"
+						+ "[Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
 				indexState(CONTENT));
 
 		writeTrashFile("Test.bin", "Hello again");
 		git.add().addFilepattern("Test.bin").call();
 		assertEquals(
-				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.bin, mode:100644, content:Hello again][Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
+				"[.gitattributes, mode:100644, content:*.txt filter=test]"
+						+ "[Test.bin, mode:100644, content:Hello again]"
+						+ "[Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
 				indexState(CONTENT));
 
 		config.setString("filter", "test", "clean", null);
 		config.save();
+
+		git.add().addFilepattern("Test.txt").setRenormalize(false).call();
+		assertEquals("No index update expected with renormalize==false",
+				"[.gitattributes, mode:100644, content:*.txt filter=test]"
+						+ "[Test.bin, mode:100644, content:Hello again]"
+						+ "[Test.txt, mode:100644, content:cHceclclcoc cacgcacicn]",
+				indexState(CONTENT));
 
 		git.add().addFilepattern("Test.txt").call();
-		assertEquals(
-				"[.gitattributes, mode:100644, content:*.txt filter=test][Test.bin, mode:100644, content:Hello again][Test.txt, mode:100644, content:Hello again]",
+		assertEquals("Index update expected with renormalize==true",
+				"[.gitattributes, mode:100644, content:*.txt filter=test]"
+						+ "[Test.bin, mode:100644, content:Hello again]"
+						+ "[Test.txt, mode:100644, content:Hello again]",
 				indexState(CONTENT));
-
-		config.setString("filter", "test", "clean", null);
-		config.save();
 	}
 
 	@Test
