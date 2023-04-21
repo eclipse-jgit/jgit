@@ -1,6 +1,5 @@
 target "jgit-4.23" with source configurePhase
 
-include "projects/jetty-10.0.x.tpd"
 include "orbit/R20230302014618-2023-03.tpd"
 include "maven/dependencies.tpd"
 

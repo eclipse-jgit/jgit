@@ -161,8 +161,8 @@
     <args4j-version>2.33</args4j-version>
     <commons-compress-version>1.22</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
-    <servlet-api-version>4.0.0</servlet-api-version>
-    <jetty-version>10.0.13</jetty-version>
+    <servlet-api-version>4.0.1</servlet-api-version>
+    <jetty-version>10.0.15</jetty-version>
     <japicmp-version>0.17.1</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
