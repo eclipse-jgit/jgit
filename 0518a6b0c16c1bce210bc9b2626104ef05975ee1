@@ -16,6 +16,24 @@
       "message": "What was the reason not to parse \"preserve\" as a synonym for \"merges\" in existing git config files?",
       "revId": "0518a6b0c16c1bce210bc9b2626104ef05975ee1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16650ffb_f26dca18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-21T06:52:26Z",
+      "side": 1,
+      "message": "please review fix in https://git.eclipse.org/r/c/jgit/jgit/+/201431",
+      "parentUuid": "c14e8442_70b2c7c3",
+      "revId": "0518a6b0c16c1bce210bc9b2626104ef05975ee1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
