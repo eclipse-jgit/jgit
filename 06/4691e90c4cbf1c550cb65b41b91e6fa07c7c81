@@ -1,0 +1,9 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Martin Fick <quic_mfick@quicinc.com>
+Code-Review+1: Nasser Grainawi <quic_nasserg@quicinc.com>
+Verified+1: JGit Bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 21 Apr 2023 02:04:36 -0400
+Reviewed-on: https://git.eclipse.org/r/c/jgit/jgit/+/201108
+Project: jgit/jgit
+Branch: refs/heads/stable-6.0
