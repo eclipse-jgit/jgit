@@ -258,6 +258,30 @@
       },
       "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "621403d0_4afc7bd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-21T17:52:33Z",
+      "side": 1,
+      "message": "From offline conversation, we can make this accurate and not necessarily more expensive if we know the threshold in the index.\n\nI am working on it.",
+      "parentUuid": "b115927a_c67c0901",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 11
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
