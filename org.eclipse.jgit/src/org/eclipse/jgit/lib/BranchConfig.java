@@ -12,6 +12,7 @@
 package org.eclipse.jgit.lib;
 
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -35,7 +36,7 @@ public class BranchConfig {
 		 *
 		 * @since 6.5 used instead of deprecated "preserve" option
 		 */
-		MERGES("merges"), //$NON-NLS-1$
+		MERGES("merges", "preserve"), //$NON-NLS-1$ //$NON-NLS-2$
 		/** Value for rebasing interactively */
 		INTERACTIVE("interactive"), //$NON-NLS-1$
 		/** Value for not rebasing at all but merging */
@@ -43,8 +44,16 @@ public class BranchConfig {
 
 		private final String configValue;
 
+		private final Optional<String> configValueAlias;
+
 		private BranchRebaseMode(String configValue) {
 			this.configValue = configValue;
+			this.configValueAlias = Optional.empty();
+		}
+
+		private BranchRebaseMode(String configValue, String configValueAlias) {
+			this.configValue = configValue;
+			this.configValueAlias = Optional.of(configValueAlias);
 		}
 
 		@Override
@@ -54,7 +63,9 @@ public class BranchConfig {
 
 		@Override
 		public boolean matchConfigValue(String s) {
-			return configValue.equals(s);
+			return configValue.equals(s)
+					|| (configValueAlias.isPresent()
+							&& configValueAlias.get().equals(s));
 		}
 	}
 
