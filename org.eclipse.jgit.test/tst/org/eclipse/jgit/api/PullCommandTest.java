@@ -394,6 +394,21 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	/**
+	 * global rebase config using old "preserve" value which was renamed to
+	 * "merges" should be respected to ensure backwards compatibility
+	 */
+	public void testPullWithRebaseMerges1ConfigAlias() throws Exception {
+		Callable<PullResult> setup = () -> {
+			StoredConfig config = dbTarget.getConfig();
+			config.setString("pull", null, "rebase", "preserve");
+			config.save();
+			return target.pull().call();
+		};
+		doTestPullWithRebase(setup, TestPullMode.REBASE_MERGES);
+	}
+
+	@Test
 	/** the branch-local config should win over the global config */
 	public void testPullWithRebaseMergesConfig2() throws Exception {
 		Callable<PullResult> setup = () -> {
