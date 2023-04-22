@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eede7d9_7bc975c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-22T21:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e32fd9d_0953996c",
+      "revId": "7ea44d749de0b271c2a30e1f034ce28a2b33af72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a0019f7_7419d1d3",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-04-22T08:05:56Z",
       "side": 1,
       "message": "I find this rather baroque. The Optional brings no benefit at all over a plain String and instead of isPresent() testing against null.\n\nBut actually I would do this a bit leaner by overriding MERGES.matchConfigValue():\n\n  ...\n  MERGES(\"merges\") { //$NON-NLS-1$\n    @Override\n    public boolean matchConfigValue(String s) {\n      return super.matchConfigValue(s) || \"preserve\".equals(s); //$NON-NLS-1$\n    }\n  },\n  ...",
+      "revId": "7ea44d749de0b271c2a30e1f034ce28a2b33af72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a361127_f01f7e5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BranchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-22T21:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a0019f7_7419d1d3",
       "revId": "7ea44d749de0b271c2a30e1f034ce28a2b33af72",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
