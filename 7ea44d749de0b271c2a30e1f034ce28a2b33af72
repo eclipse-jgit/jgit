@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e32fd9d_0953996c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-22T08:05:56Z",
+      "side": 1,
+      "message": "There is also BranchConfigTest, which should (1) have a case for \"preserve\" in testIsRebase(), and (2) have a new testRebaseMode() that tests that all possible values give the correct enum value, and an invalid value throws an IllegalArgumentException. ",
+      "revId": "7ea44d749de0b271c2a30e1f034ce28a2b33af72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a0019f7_7419d1d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BranchConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-22T08:05:56Z",
+      "side": 1,
+      "message": "I find this rather baroque. The Optional brings no benefit at all over a plain String and instead of isPresent() testing against null.\n\nBut actually I would do this a bit leaner by overriding MERGES.matchConfigValue():\n\n  ...\n  MERGES(\"merges\") { //$NON-NLS-1$\n    @Override\n    public boolean matchConfigValue(String s) {\n      return super.matchConfigValue(s) || \"preserve\".equals(s); //$NON-NLS-1$\n    }\n  },\n  ...",
+      "revId": "7ea44d749de0b271c2a30e1f034ce28a2b33af72",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
