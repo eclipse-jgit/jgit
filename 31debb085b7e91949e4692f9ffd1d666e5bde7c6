@@ -34,6 +34,24 @@
       "parentUuid": "0af8bc92_875d9b46",
       "revId": "31debb085b7e91949e4692f9ffd1d666e5bde7c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ba895a_fe009e0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-23T14:56:22Z",
+      "side": 1,
+      "message": "Let\u0027s put this in. I still don\u0027t see any better way for EGit than bump its baseline to 2022-12, but that can be done independently of this change here in JGit.",
+      "parentUuid": "7b6fb1b4_d0e940b0",
+      "revId": "31debb085b7e91949e4692f9ffd1d666e5bde7c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
