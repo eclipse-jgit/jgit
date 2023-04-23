@@ -142,7 +142,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 							new String[] { "BASE", ourName, cherryPickName }); //$NON-NLS-1$
 					resolveMerger
 							.setWorkingTreeIterator(new FileTreeIterator(repo));
-					resolveMerger.setBase(srcParent.getTree());
+					if (srcParent != null) {
+						resolveMerger.setBase(srcParent.getTree());
+					}
 					noProblems = merger.merge(newHead, srcCommit);
 					failingPaths = resolveMerger.getFailingPaths();
 					unmergedPaths = resolveMerger.getUnmergedPaths();
@@ -217,12 +219,16 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 			IOException {
 		final RevCommit srcParent;
 		if (mainlineParentNumber == null) {
-			if (srcCommit.getParentCount() != 1)
+			int nOfParents = srcCommit.getParentCount();
+			if (nOfParents == 0) {
+				return null;
+			} else if (nOfParents != 1) {
 				throw new MultipleParentsNotAllowedException(
 						MessageFormat.format(
 								JGitText.get().canOnlyCherryPickCommitsWithOneParent,
 								srcCommit.name(),
 								Integer.valueOf(srcCommit.getParentCount())));
+			}
 			srcParent = srcCommit.getParent(0);
 		} else {
 			if (mainlineParentNumber.intValue() > srcCommit.getParentCount()) {
