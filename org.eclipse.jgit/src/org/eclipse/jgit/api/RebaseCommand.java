@@ -1217,7 +1217,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			Iterator<RevCommit> commitsToUse = r.iterator();
 			while (commitsToUse.hasNext()) {
 				RevCommit commit = commitsToUse.next();
-				if (preserveMerges || commit.getParentCount() == 1) {
+				if (preserveMerges || commit.getParentCount() <= 1) {
 					cherryPickList.add(commit);
 				}
 			}
@@ -1234,23 +1234,31 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			walk.markStart(upstreamCommit);
 			walk.markStart(headCommit);
 			RevCommit base;
-			while ((base = walk.next()) != null)
+			while ((base = walk.next()) != null) {
 				RebaseState.createFile(rewrittenDir, base.getName(),
 						upstreamCommit.getName());
-
+			}
 			Iterator<RevCommit> iterator = cherryPickList.iterator();
 			pickLoop: while(iterator.hasNext()){
 				RevCommit commit = iterator.next();
-				for (int i = 0; i < commit.getParentCount(); i++) {
-					boolean parentRewritten = new File(rewrittenDir, commit
-							.getParent(i).getName()).exists();
-					if (parentRewritten) {
-						new File(rewrittenDir, commit.getName()).createNewFile();
-						continue pickLoop;
+				int nOfParents = commit.getParentCount();
+				if (nOfParents == 0) {
+					// Must be the very first commit in the cherryPickList. We
+					// have independent branches.
+					new File(rewrittenDir, commit.getName()).createNewFile();
+				} else {
+					for (int i = 0; i < nOfParents; i++) {
+						boolean parentRewritten = new File(rewrittenDir,
+								commit.getParent(i).getName()).exists();
+						if (parentRewritten) {
+							new File(rewrittenDir, commit.getName())
+									.createNewFile();
+							continue pickLoop;
+						}
 					}
+					// commit is only merged in, needs not be rewritten
+					iterator.remove();
 				}
-				// commit is only merged in, needs not be rewritten
-				iterator.remove();
 			}
 		}
 		return cherryPickList;

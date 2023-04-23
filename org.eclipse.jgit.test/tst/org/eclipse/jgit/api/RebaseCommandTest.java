@@ -76,6 +76,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 	private static final String FILE1 = "file1";
 
+	private static final String FILE2 = "file2";
+
+	private static final String FILE3 = "file3";
+
 	protected Git git;
 
 	@Override
@@ -188,6 +192,143 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(
 				"rebase finished: refs/heads/topic onto " + second.getName(),
 				topicLog.get(0).getComment());
+	}
+
+	/**
+	 * Rebase a single root commit onto an independent branch.
+	 *
+	 * <pre>
+	 * A (master)
+	 *
+	 * B - C (orphan)
+	 * </pre>
+	 *
+	 * to
+	 *
+	 * <pre>
+	 * A
+	 *
+	 * B - C (orphan) - A' (master)
+	 * </pre>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testRebaseRootCommit() throws Exception {
+		writeTrashFile(FILE1, FILE1);
+		writeTrashFile(FILE2, FILE2);
+		git.add().addFilepattern(FILE1).addFilepattern(FILE2).call();
+		RevCommit first = git.commit().setMessage("Add files").call();
+		File file1 = new File(db.getWorkTree(), FILE1);
+		File file2 = new File(db.getWorkTree(), FILE2);
+		assertTrue(file1.exists());
+		assertTrue(file2.exists());
+		// Create an independent branch
+		git.checkout().setOrphan(true).setName("orphan").call();
+		git.rm().addFilepattern(FILE1).addFilepattern(FILE2).call();
+		assertFalse(file1.exists());
+		assertFalse(file2.exists());
+		writeTrashFile(FILE1, "something else");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit orphanBase = git.commit().setMessage("Orphan base").call();
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit orphanTop = git.commit().setMessage("Same file1").call();
+		checkoutBranch("refs/heads/master");
+		assertEquals(first.getId(), db.resolve("HEAD"));
+		RebaseResult res = git.rebase().setUpstream("refs/heads/orphan").call();
+		assertEquals(Status.OK, res.getStatus());
+		Iterable<RevCommit> log = git.log().add(db.resolve("HEAD")).call();
+		ObjectId[] ids = { orphanTop.getId(), orphanBase.getId() };
+		int nOfCommits = 0;
+		for (RevCommit c : log) {
+			nOfCommits++;
+			if (nOfCommits == 1) {
+				assertEquals("Add files", c.getFullMessage());
+			} else {
+				assertEquals(ids[nOfCommits - 2], c.getId());
+			}
+		}
+		assertEquals(3, nOfCommits);
+		assertTrue(file1.exists());
+		checkFile(file1, FILE1);
+		assertTrue(file2.exists());
+		checkFile(file2, FILE2);
+	}
+
+	/**
+	 * Rebase a branch onto an independent branch.
+	 *
+	 * <pre>
+	 * A - B (master)
+	 *
+	 * C - D (orphan)
+	 * </pre>
+	 *
+	 * to
+	 *
+	 * <pre>
+	 * A - B
+	 *
+	 * C - D (orphan) - A' - B' (master)
+	 * </pre>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testRebaseNoMergeBase() throws Exception {
+		writeTrashFile(FILE1, FILE1);
+		writeTrashFile(FILE2, FILE2);
+		git.add().addFilepattern(FILE1).addFilepattern(FILE2).call();
+		git.commit().setMessage("Add files").call();
+		writeTrashFile(FILE3, FILE3);
+		git.add().addFilepattern(FILE3).call();
+		RevCommit first = git.commit().setMessage("File3").call();
+		File file1 = new File(db.getWorkTree(), FILE1);
+		File file2 = new File(db.getWorkTree(), FILE2);
+		File file3 = new File(db.getWorkTree(), FILE3);
+		assertTrue(file1.exists());
+		assertTrue(file2.exists());
+		assertTrue(file3.exists());
+		// Create an independent branch
+		git.checkout().setOrphan(true).setName("orphan").call();
+		git.rm()
+				.addFilepattern(FILE1)
+				.addFilepattern(FILE2)
+				.addFilepattern(FILE3)
+				.call();
+		assertFalse(file1.exists());
+		assertFalse(file2.exists());
+		assertFalse(file3.exists());
+		writeTrashFile(FILE1, "something else");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit orphanBase = git.commit().setMessage("Orphan base").call();
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit orphanTop = git.commit().setMessage("Same file1").call();
+		checkoutBranch("refs/heads/master");
+		assertEquals(first.getId(), db.resolve("HEAD"));
+		RebaseResult res = git.rebase().setUpstream("refs/heads/orphan").call();
+		assertEquals(Status.OK, res.getStatus());
+		Iterable<RevCommit> log = git.log().add(db.resolve("HEAD")).call();
+		String[] msgs = { "File3", "Add files" };
+		ObjectId[] ids = { orphanTop.getId(), orphanBase.getId() };
+		int nOfCommits = 0;
+		for (RevCommit c : log) {
+			nOfCommits++;
+			if (nOfCommits <= msgs.length) {
+				assertEquals(msgs[nOfCommits - 1], c.getFullMessage());
+			} else {
+				assertEquals(ids[nOfCommits - msgs.length - 1], c.getId());
+			}
+		}
+		assertEquals(4, nOfCommits);
+		assertTrue(file1.exists());
+		checkFile(file1, FILE1);
+		assertTrue(file2.exists());
+		checkFile(file2, FILE2);
+		assertTrue(file3.exists());
+		checkFile(file3, FILE3);
 	}
 
 	/**
