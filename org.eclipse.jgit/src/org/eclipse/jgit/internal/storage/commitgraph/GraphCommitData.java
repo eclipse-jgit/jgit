@@ -16,6 +16,7 @@ import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_LAST_EDGE;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_NO_PARENT;
 
+import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -36,6 +37,10 @@ class GraphCommitData {
 
 	private final byte[] extraList;
 
+	private final byte[] bloomFilterIndex;
+
+	private final byte[] bloomFilterData;
+
 	private final int hashLength;
 
 	private final int commitDataLength;
@@ -51,9 +56,25 @@ class GraphCommitData {
 	 *            content of Extra Edge List Chunk.
 	 */
 	GraphCommitData(int hashLength, @NonNull byte[] commitData,
-			byte[] extraList) {
+			byte[] extraList, byte[] bloomFilterIndex, byte[] bloomFilterData) {
+
+		if ((bloomFilterIndex == null) != (bloomFilterData == null)) {
+			bloomFilterIndex = null;
+			bloomFilterData = null;
+		}
+		if (bloomFilterData != null
+				&& (NB.decodeUInt32(bloomFilterData,
+						4) != ChangedPathFilter.PATH_HASH_COUNT
+						|| NB.decodeUInt32(bloomFilterData,
+								8) != ChangedPathFilter.BITS_PER_ENTRY)) {
+			bloomFilterIndex = null;
+			bloomFilterData = null;
+		}
+
 		this.data = commitData;
 		this.extraList = extraList;
+		this.bloomFilterIndex = bloomFilterIndex;
+		this.bloomFilterData = bloomFilterData;
 		this.hashLength = hashLength;
 		this.commitDataLength = hashLength + COMMIT_DATA_WIDTH;
 	}
@@ -102,6 +123,14 @@ class GraphCommitData {
 				findParentsForOctopusMerge(parent1,
 						parent2 & GRAPH_EDGE_LAST_MASK),
 				commitTime, generation);
+	}
+
+	ChangedPathFilter getChangedPathFilter(int graphPos) {
+		int priorCumul = graphPos == 0 ? 0
+				: NB.decodeInt32(bloomFilterIndex, graphPos * 4 - 4);
+		int cumul = NB.decodeInt32(bloomFilterIndex, graphPos * 4);
+		return new ChangedPathFilter(bloomFilterData, priorCumul + 12,
+				cumul - priorCumul);
 	}
 
 	private int[] findParentsForOctopusMerge(int parent1, int extraEdgePos) {

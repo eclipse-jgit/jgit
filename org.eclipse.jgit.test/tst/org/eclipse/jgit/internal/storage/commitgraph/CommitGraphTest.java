@@ -10,13 +10,17 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -194,6 +198,27 @@ public class CommitGraphTest extends RepositoryTestCase {
 		assertEquals(getGenerationNumber(m2), 3);
 		assertEquals(getGenerationNumber(m3), 4);
 		assertEquals(getGenerationNumber(c8), 5);
+	}
+
+	@Test
+	public void testGraphComputeChangedPaths() throws Exception {
+		RevCommit a = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))));
+		RevCommit b = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))), a);
+		RevCommit c = tr.commit(tr.tree(tr.file("d/f", tr.blob("b"))), b);
+
+		writeAndReadCommitGraph(Collections.singleton(c));
+		ChangedPathFilter acpf = commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(a));
+		assertTrue(acpf.maybeContains("d".getBytes(UTF_8)));
+		assertTrue(acpf.maybeContains("d/f".getBytes(UTF_8)));
+		ChangedPathFilter bcpf = commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(b));
+		assertFalse(bcpf.maybeContains("d".getBytes(UTF_8)));
+		assertFalse(bcpf.maybeContains("d/f".getBytes(UTF_8)));
+		ChangedPathFilter ccpf = commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(c));
+		assertTrue(ccpf.maybeContains("d".getBytes(UTF_8)));
+		assertTrue(ccpf.maybeContains("d/f".getBytes(UTF_8)));
 	}
 
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {

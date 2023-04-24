@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import java.nio.ByteBuffer;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -48,6 +49,12 @@ class CommitGraphV1 implements CommitGraph {
 	@Override
 	public ObjectId getObjectId(int graphPos) {
 		return idx.getObjectId(graphPos);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public ChangedPathFilter getChangedPathFilter(int graphPos) {
+		return commitData.getChangedPathFilter(graphPos);
 	}
 
 	/** {@inheritDoc} */

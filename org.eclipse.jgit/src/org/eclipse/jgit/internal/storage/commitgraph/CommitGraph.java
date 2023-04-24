@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import java.nio.ByteBuffer;
+
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -47,6 +49,12 @@ public interface CommitGraph {
 		/** {@inheritDoc} */
 		@Override
 		public ObjectId getObjectId(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public ChangedPathFilter getChangedPathFilter(int graphPos) {
 			return null;
 		}
 
@@ -95,6 +103,15 @@ public interface CommitGraph {
 	 * @return the ObjectId or null if it's not found.
 	 */
 	ObjectId getObjectId(int graphPos);
+
+	/**
+	 * Get the changed path filter of the object at the commit-graph position.
+	 *
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return the bloom filter or null if it's not found.
+	 */
+	ChangedPathFilter getChangedPathFilter(int graphPos);
 
 	/**
 	 * Obtain the total number of commits described by this commit-graph.
