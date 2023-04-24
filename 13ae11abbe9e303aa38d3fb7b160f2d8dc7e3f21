@@ -68,6 +68,24 @@
       "message": "use RepositoryTestCase.fsTick() to ensure the timestamp changed ?",
       "revId": "13ae11abbe9e303aa38d3fb7b160f2d8dc7e3f21",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac332db7_4b12cd4b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-24T20:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d25da2_a67d050a",
+      "revId": "13ae11abbe9e303aa38d3fb7b160f2d8dc7e3f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
