@@ -48,6 +48,12 @@ class CommitGraphV1 implements CommitGraph {
 	}
 
 	@Override
+	public ChangedPathFilter getChangedPathFilter(int graphPos) {
+		return commitData.getChangedPathFilter(graphPos);
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public long getCommitCnt() {
 		return idx.getCommitCnt();
 	}
