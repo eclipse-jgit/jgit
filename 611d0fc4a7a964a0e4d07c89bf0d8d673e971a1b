@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08fe0094_13f0c36a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PackParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-04-24T18:00:33Z",
+      "side": 1,
+      "message": "if the type always occupy the first four bits, and the size occupy the later four bits, why not just have the new write method to accept type enum and size as the parameters?",
+      "revId": "611d0fc4a7a964a0e4d07c89bf0d8d673e971a1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
