@@ -50,6 +50,47 @@
       "message": "I am wondering why the bazel build for this change raises errors for\n- ReferenceEquality\n- StringEquality\ndespite the fact that these patterns are set to WARN in tools/BUILD\n\n@davido: do you have an idea why this configuration seems to be ignored ?",
       "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54ac967_1aa2c9cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-24T20:45:32Z",
+      "side": 1,
+      "message": "Good question, will try to look into it in the next days.",
+      "parentUuid": "2c5b2e57_0004a476",
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54c6e88a_0edc687d",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-24T20:45:32Z",
+      "side": 1,
+      "message": "Why these classes added here and not to the HELPERS definition on line: 10?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
