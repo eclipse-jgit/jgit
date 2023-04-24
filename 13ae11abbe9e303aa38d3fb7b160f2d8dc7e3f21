@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c10cc0_8159cb88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-24T09:31:02Z",
+      "side": 1,
+      "message": "Looks like that new test is unstable:\n\n  org.eclipse.jgit.api.AddCommandTest.testAddAllNoRenormalize  Time elapsed: 0.69 s  \u003c\u003c\u003c FAILURE!\n  10:48:15  java.lang.AssertionError: Unexpected file length in index expected:\u003c5\u003e but was:\u003c0\u003e\n  \nSo despite waiting 1.5 * filesystem timestamp resolution it creates a smudged index entry. Perhaps I should better test the blob contents.",
+      "revId": "13ae11abbe9e303aa38d3fb7b160f2d8dc7e3f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
