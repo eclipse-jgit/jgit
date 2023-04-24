@@ -30,11 +30,19 @@ import org.eclipse.jgit.util.NB;
  */
 class GraphCommitData {
 
+	private static final int BIDX_BYTES_PER_ENTRY = 4;
+
+	private static final int BDAT_HEADER_BYTES = 12;
+
 	private static final int[] NO_PARENTS = {};
 
 	private final byte[] data;
 
 	private final byte[] extraList;
+
+	private final byte[] bloomFilterIndex;
+
+	private final byte[] bloomFilterData;
 
 	private final int hashLength;
 
@@ -49,11 +57,31 @@ class GraphCommitData {
 	 *            content of CommitData Chunk.
 	 * @param extraList
 	 *            content of Extra Edge List Chunk.
+	 * @param bloomFilterIndex
+	 *            content of BIDX chunk, if it exists
+	 * @param bloomFilterData
+	 *            content of BDAT chunk, if it exists
 	 */
 	GraphCommitData(int hashLength, @NonNull byte[] commitData,
-			byte[] extraList) {
+			byte[] extraList, byte[] bloomFilterIndex, byte[] bloomFilterData) {
+
+		if ((bloomFilterIndex == null) != (bloomFilterData == null)) {
+			bloomFilterIndex = null;
+			bloomFilterData = null;
+		}
+		if (bloomFilterData != null
+				&& (NB.decodeUInt32(bloomFilterData,
+						4) != ChangedPathFilter.PATH_HASH_COUNT
+						|| NB.decodeUInt32(bloomFilterData,
+								8) != ChangedPathFilter.BITS_PER_ENTRY)) {
+			bloomFilterIndex = null;
+			bloomFilterData = null;
+		}
+
 		this.data = commitData;
 		this.extraList = extraList;
+		this.bloomFilterIndex = bloomFilterIndex;
+		this.bloomFilterData = bloomFilterData;
 		this.hashLength = hashLength;
 		this.commitDataLength = hashLength + COMMIT_DATA_WIDTH;
 	}
@@ -102,6 +130,15 @@ class GraphCommitData {
 				findParentsForOctopusMerge(parent1,
 						parent2 & GRAPH_EDGE_LAST_MASK),
 				commitTime, generation);
+	}
+
+	ChangedPathFilter getChangedPathFilter(int graphPos) {
+		int priorCumul = graphPos == 0 ? 0
+				: NB.decodeInt32(bloomFilterIndex,
+						graphPos * BIDX_BYTES_PER_ENTRY - BIDX_BYTES_PER_ENTRY);
+		int cumul = NB.decodeInt32(bloomFilterIndex, graphPos * BIDX_BYTES_PER_ENTRY);
+		return new ChangedPathFilter(bloomFilterData, priorCumul + BDAT_HEADER_BYTES,
+				cumul - priorCumul);
 	}
 
 	private int[] findParentsForOctopusMerge(int parent1, int extraEdgePos) {

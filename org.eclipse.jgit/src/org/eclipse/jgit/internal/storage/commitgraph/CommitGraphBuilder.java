@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_INDEX;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -34,6 +36,10 @@ class CommitGraphBuilder {
 	private byte[] commitData;
 
 	private byte[] extraList;
+
+	private byte[] bloomFilterIndex;
+
+	private byte[] bloomFilterData;
 
 	/** @return A builder of {@link CommitGraph}. */
 	static CommitGraphBuilder builder() {
@@ -72,6 +78,20 @@ class CommitGraphBuilder {
 		return this;
 	}
 
+	CommitGraphBuilder addBloomFilterIndex(byte[] buffer)
+			throws CommitGraphFormatException {
+		assertChunkNotSeenYet(bloomFilterIndex, CHUNK_ID_BLOOM_FILTER_INDEX);
+		bloomFilterIndex = buffer;
+		return this;
+	}
+
+	CommitGraphBuilder addBloomFilterData(byte[] buffer)
+			throws CommitGraphFormatException {
+		assertChunkNotSeenYet(bloomFilterData, CHUNK_ID_BLOOM_FILTER_DATA);
+		bloomFilterData = buffer;
+		return this;
+	}
+
 	CommitGraph build() throws CommitGraphFormatException {
 		assertChunkNotNull(oidFanout, CHUNK_ID_OID_FANOUT);
 		assertChunkNotNull(oidLookup, CHUNK_ID_OID_LOOKUP);
@@ -80,7 +100,7 @@ class CommitGraphBuilder {
 		GraphObjectIndex index = new GraphObjectIndex(hashLength, oidFanout,
 				oidLookup);
 		GraphCommitData commitDataChunk = new GraphCommitData(hashLength,
-				commitData, extraList);
+				commitData, extraList, bloomFilterIndex, bloomFilterData);
 		return new CommitGraphV1(index, commitDataChunk);
 	}
 
