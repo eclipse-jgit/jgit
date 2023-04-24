@@ -51,6 +51,23 @@ tests(tests = glob(
     exclude = HELPERS + DATA + EXCLUDED,
 ))
 
+# Non abstract base classes used for tests by other test classes
+BASE = [
+    PKG + "internal/storage/file/FileRepositoryBuilderTest.java",
+    PKG + "internal/storage/file/RefDirectoryTest.java",
+]
+
+java_library(
+    name = "base",
+    testonly = 1,
+    srcs = BASE,
+    deps = [
+        "//lib:junit",
+        "//org.eclipse.jgit:jgit",
+        "//org.eclipse.jgit.junit:junit",
+    ],
+)
+
 java_library(
     name = "helpers",
     testonly = 1,
