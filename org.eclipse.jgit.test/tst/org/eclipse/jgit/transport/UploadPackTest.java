@@ -2819,6 +2819,75 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testSingleBranchShallowCloneTagChainWithReflessTag() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("master", one);
+		RevTag tag1 = remote.tag("t1", one);
+		remote.lightweightTag("t1", tag1);
+		RevTag tag2 = remote.tag("t2", tag1);
+		RevTag tag3 = remote.tag("t3", tag2);
+		remote.lightweightTag("t3", tag3);
+
+		UploadPack uploadPack = new UploadPack(remote.getRepository());
+
+		ByteArrayOutputStream cli = new ByteArrayOutputStream();
+		PacketLineOut clientWant = new PacketLineOut(cli);
+		clientWant.writeString("want " + one.name() + " include-tag");
+		clientWant.writeString("deepen 1\n");
+		clientWant.end();
+		clientWant.writeString("done\n");
+
+		try (ByteArrayOutputStream serverResponse = new ByteArrayOutputStream()) {
+
+			uploadPack.setPreUploadHook(new PreUploadHook() {
+				@Override
+				public void onBeginNegotiateRound(UploadPack up,
+						Collection<? extends ObjectId> wants, int cntOffered)
+						throws ServiceMayNotContinueException {
+					// Do nothing.
+				}
+
+				@Override
+				public void onEndNegotiateRound(UploadPack up,
+						Collection<? extends ObjectId> wants, int cntCommon,
+						int cntNotFound, boolean ready)
+						throws ServiceMayNotContinueException {
+					// Do nothing.
+				}
+
+				@Override
+				public void onSendPack(UploadPack up,
+						Collection<? extends ObjectId> wants,
+						Collection<? extends ObjectId> haves)
+						throws ServiceMayNotContinueException {
+					// collect pack data
+					serverResponse.reset();
+				}
+			});
+			uploadPack.upload(new ByteArrayInputStream(cli.toByteArray()),
+					serverResponse, System.err);
+			ByteArrayInputStream packReceived = new ByteArrayInputStream(
+					serverResponse.toByteArray());
+			PackLock lock = null;
+			try (ObjectInserter ins = client.newObjectInserter()) {
+				PackParser parser = ins.newPackParser(packReceived);
+				parser.setAllowThin(true);
+				parser.setLockMessage("receive-tag-chain");
+				ProgressMonitor mlc = NullProgressMonitor.INSTANCE;
+				lock = parser.parse(mlc, mlc);
+				ins.flush();
+			} finally {
+				if (lock != null) {
+					lock.unlock();
+				}
+			}
+			InMemoryRepository.MemObjDatabase objDb = client
+					.getObjectDatabase();
+			assertTrue(objDb.has(one.toObjectId()));
+		}
+	}
+
+	@Test
 	public void testSafeToClearRefsInFetchV0() throws Exception {
 		server =
 			new RefCallsCountingRepository(

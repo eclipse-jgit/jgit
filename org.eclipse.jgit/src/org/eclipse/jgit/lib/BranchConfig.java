@@ -35,7 +35,12 @@ public class BranchConfig {
 		 *
 		 * @since 6.5 used instead of deprecated "preserve" option
 		 */
-		MERGES("merges"), //$NON-NLS-1$
+		MERGES("merges"){ //$NON-NLS-1$
+		    @Override
+		    public boolean matchConfigValue(String s) {
+		      return super.matchConfigValue(s) || "preserve".equals(s); //$NON-NLS-1$
+		    }
+		},
 		/** Value for rebasing interactively */
 		INTERACTIVE("interactive"), //$NON-NLS-1$
 		/** Value for not rebasing at all but merging */
