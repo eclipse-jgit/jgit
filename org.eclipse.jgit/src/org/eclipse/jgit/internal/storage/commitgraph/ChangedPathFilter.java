@@ -100,6 +100,23 @@ public class ChangedPathFilter {
 		return new ChangedPathFilter(bloom, 0, bloom.length);
 	}
 
+	/**
+	 * Returns a filter read from a file.
+	 *
+	 * @param data
+	 *            data (read from a commit graph file)
+	 * @param offset
+	 *            offset into data
+	 * @param length
+	 *            length of data
+	 *
+	 * @return the corresponding filter
+	 */
+	public static ChangedPathFilter fromFile(byte[] data, int offset,
+			int length) {
+		return new ChangedPathFilter(data, offset, length);
+	}
+
 	private static void add(byte[] changedPathFilterData, byte[] path,
 			int offset, int length) {
 
@@ -110,6 +127,28 @@ public class ChangedPathFilter {
 					changedPathFilterData.length * 8);
 			changedPathFilterData[pos / 8] |= (byte) (1 << (pos % 8));
 		}
+	}
+
+	/**
+	 * Checks if this changed path filter could contain path.
+	 *
+	 * @param path
+	 *            path to check existence of
+	 * @return true if the filter could contain path, false if the filter
+	 *         definitely does not contain path
+	 */
+	public boolean maybeContains(byte[] path) {
+		int hash0 = MurmurHash3.hash32x86(path, 0, path.length, SEED1);
+		int hash1 = MurmurHash3.hash32x86(path, 0, path.length, SEED2);
+		int bloomFilterBits = length * 8;
+		for (int i = 0; i < PATH_HASH_COUNT; i++) {
+			int pos = Integer.remainderUnsigned(hash0 + i * hash1,
+					bloomFilterBits);
+			if ((data[offset + (pos / 8)] & (byte) (1 << (pos % 8))) == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
