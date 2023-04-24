@@ -54,7 +54,11 @@ tests(tests = glob(
 java_library(
     name = "helpers",
     testonly = 1,
-    srcs = HELPERS,
+    srcs = HELPERS +
+              [
+                  PKG + "internal/storage/file/FileRepositoryBuilderTest.java",
+                  PKG + "internal/storage/file/RefDirectoryTest.java",
+              ],
     resources = DATA,
     deps = [
         "//lib:assertj-core",
