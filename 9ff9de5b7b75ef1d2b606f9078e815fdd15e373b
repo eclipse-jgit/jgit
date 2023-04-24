@@ -33,6 +33,23 @@
       "message": "The bazel build is failing on stable-6.1 due to other reasons. One stable-6.5, those errors are not there, so posting results of stable-6.5 with and without this fix.\n\nWithout this change\n```\nbazelisk test //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest\nINFO: Invocation ID: fdcf7b7e-4ba2-4138-81fe-c06c3a5e93a0\nINFO: Analyzed target //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest (5 packages loaded, 275 targets configured).\nINFO: Found 1 test target...\nERROR: /Users/xxxx/Clones/googlegerrit3/modules/jgit/org.eclipse.jgit.test/BUILD:50:6: Building org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest.jar (2 source files) failed: (Exit 1): java failed: error executing command external/remotejdk11_macos/bin/java -XX:-CompactStrings \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 17 arguments skipped)\norg.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryAfterOpenConfigTest.java:19: error: cannot find symbol\npublic class RefDirectoryAfterOpenConfigTest extends RefDirectoryTest {\n                                                     ^\n  symbol: class RefDirectoryTest\norg.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryAfterOpenConfigTest.java:21: error: method does not override or implement a method from a supertype\n\t@Override\n\t^\norg.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryAfterOpenConfigTest.java:28: error: cannot find symbol\n\t\tsuper.refDirectorySetup();\n\t\t^\n  symbol:   variable super\n  location: class RefDirectoryAfterOpenConfigTest\nTarget //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nINFO: Elapsed time: 19.211s, Critical Path: 18.35s\nINFO: 10 processes: 1 disk cache hit, 2 internal, 4 darwin-sandbox, 3 worker.\nFAILED: Build did NOT complete successfully\n//org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest FAILED TO BUILD\n\nFAILED: Build did NOT complete successfully\n```\n\nWith this change\n```\nbazelisk test //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest\nINFO: Invocation ID: 0098f9f1-0f14-4cbd-88f1-40bf67bb5adb\nINFO: Analyzed target //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest (32 packages loaded, 1521 targets configured).\nINFO: Found 1 test target...\nTarget //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest up-to-date:\n  bazel-bin/org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest.jar\n  bazel-bin/org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest\nINFO: Elapsed time: 47.718s, Critical Path: 46.29s\nINFO: 18 processes: 4 internal, 9 darwin-sandbox, 5 worker.\nINFO: Build completed successfully, 18 total actions\n//org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_RefDirectoryAfterOpenConfigTest PASSED in 9.0s\n\nExecuted 1 out of 1 test: 1 test passes.\nINFO: Build completed successfully, 18 total actions\n```\n\nSimilar results for FileRepositoryBuilderAfterOpenConfigTest.",
       "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c5b2e57_0004a476",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-24T19:54:27Z",
+      "side": 1,
+      "message": "I am wondering why the bazel build for this change raises errors for\n- ReferenceEquality\n- StringEquality\ndespite the fact that these patterns are set to WARN in tools/BUILD\n\n@davido: do you have an idea why this configuration seems to be ignored ?",
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
