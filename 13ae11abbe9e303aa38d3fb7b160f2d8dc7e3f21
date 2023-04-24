@@ -51,6 +51,23 @@
       "message": "Looks like that new test is unstable:\n\n  org.eclipse.jgit.api.AddCommandTest.testAddAllNoRenormalize  Time elapsed: 0.69 s  \u003c\u003c\u003c FAILURE!\n  10:48:15  java.lang.AssertionError: Unexpected file length in index expected:\u003c5\u003e but was:\u003c0\u003e\n  \nSo despite waiting 1.5 * filesystem timestamp resolution it creates a smudged index entry. Perhaps I should better test the blob contents.",
       "revId": "13ae11abbe9e303aa38d3fb7b160f2d8dc7e3f21",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d25da2_a67d050a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-24T20:28:59Z",
+      "side": 1,
+      "message": "use RepositoryTestCase.fsTick() to ensure the timestamp changed ?",
+      "revId": "13ae11abbe9e303aa38d3fb7b160f2d8dc7e3f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
