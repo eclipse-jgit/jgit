@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d831096c_1c09633a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-04-24T18:05:09Z",
+      "side": 1,
+      "message": "where are these expected size numbers coming from?",
+      "revId": "8220215d03e5af346fb37ca3a8a256bf4469d1d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
