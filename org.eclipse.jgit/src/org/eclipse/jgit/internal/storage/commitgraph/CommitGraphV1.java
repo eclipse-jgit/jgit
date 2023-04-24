@@ -24,9 +24,13 @@ class CommitGraphV1 implements CommitGraph {
 
 	private final GraphCommitData commitData;
 
-	CommitGraphV1(GraphObjectIndex index, GraphCommitData commitData) {
+	private final GraphChangedPathFilterData cpfData;
+
+	CommitGraphV1(GraphObjectIndex index, GraphCommitData commitData,
+			GraphChangedPathFilterData cpfData) {
 		this.idx = index;
 		this.commitData = commitData;
+		this.cpfData = cpfData;
 	}
 
 	@Override
@@ -45,6 +49,11 @@ class CommitGraphV1 implements CommitGraph {
 	@Override
 	public ObjectId getObjectId(int graphPos) {
 		return idx.getObjectId(graphPos);
+	}
+
+	@Override
+	public ChangedPathFilter getChangedPathFilter(int graphPos) {
+		return cpfData.getChangedPathFilter(graphPos);
 	}
 
 	@Override
