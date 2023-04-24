@@ -16,6 +16,24 @@
       "message": "i\u0027m not seeing the problem here. is it because 1.72.2 wasn\u0027t a string so it can\u0027t be added to the artifact?",
       "revId": "46732d6af9ecc4b5497681cb56ead988351a5f19",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42422de9_cba259a9",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-24T16:02:55Z",
+      "side": 1,
+      "message": "exactly",
+      "parentUuid": "16eb4b0b_b0becce5",
+      "revId": "46732d6af9ecc4b5497681cb56ead988351a5f19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
