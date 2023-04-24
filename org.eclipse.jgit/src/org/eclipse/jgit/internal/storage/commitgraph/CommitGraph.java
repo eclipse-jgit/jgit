@@ -48,6 +48,12 @@ public interface CommitGraph {
 		}
 
 		@Override
+		public ChangedPathFilter getChangedPathFilter(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
 		public long getCommitCnt() {
 			return 0;
 		}
@@ -91,6 +97,15 @@ public interface CommitGraph {
 	 * @return the ObjectId or null if it's not found.
 	 */
 	ObjectId getObjectId(int graphPos);
+
+	/**
+	 * Get the changed path filter of the object at the commit-graph position.
+	 *
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return the bloom filter or null if it's not found.
+	 */
+	ChangedPathFilter getChangedPathFilter(int graphPos);
 
 	/**
 	 * Obtain the total number of commits described by this commit-graph.

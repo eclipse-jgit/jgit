@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_INDEX;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -163,6 +165,12 @@ public class CommitGraphLoader {
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				builder.addExtraList(buffer);
+				break;
+			case CHUNK_ID_BLOOM_FILTER_INDEX:
+				builder.addBloomFilterIndex(buffer);
+				break;
+			case CHUNK_ID_BLOOM_FILTER_DATA:
+				builder.addBloomFilterData(buffer);
 				break;
 			default:
 				LOG.warn(MessageFormat.format(
