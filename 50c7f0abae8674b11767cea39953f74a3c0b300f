@@ -274,6 +274,30 @@
       },
       "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad9e9555_0dc26512",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-25T22:59:56Z",
+      "side": 1,
+      "message": "The newest patchset 23 adds an `IntComparator` interface (`Int` vs `Integer` implies that it\u0027s not boxed).",
+      "parentUuid": "52803ed9_0bc279f4",
+      "range": {
+        "startLine": 170,
+        "startChar": 44,
+        "endLine": 170,
+        "endChar": 54
+      },
+      "revId": "50c7f0abae8674b11767cea39953f74a3c0b300f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
