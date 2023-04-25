@@ -91,6 +91,30 @@
       },
       "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d18a7881_0b9f679a",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 307638
+      },
+      "writtenOn": "2023-04-25T04:29:55Z",
+      "side": 1,
+      "message": "We are excluding the HELPERS classes for running tests in line 51. We need to keep running FileRepositoryBuilderTest and RefDirectoryTest tests, so added them here.",
+      "parentUuid": "54c6e88a_0edc687d",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
