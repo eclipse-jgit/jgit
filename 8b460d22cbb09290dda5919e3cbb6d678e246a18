@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "8b460d22cbb09290dda5919e3cbb6d678e246a18",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e96c1f9_28f7c8be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-25T05:46:22Z",
+      "side": 1,
+      "message": "The dash license tool fails with HTTP error 429 Too many requests. It\u0027s being rate-limited.",
+      "revId": "8b460d22cbb09290dda5919e3cbb6d678e246a18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
