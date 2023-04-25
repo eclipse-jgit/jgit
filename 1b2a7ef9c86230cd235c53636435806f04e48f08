@@ -166,6 +166,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55bbb0f8_fcf9797e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-25T19:13:18Z",
+      "side": 1,
+      "message": "I realized that letting the exception pass means that callers of pack.getObjectSizeInfo() on a pack without index get an IOException in the first loading attempt and a null in the following, usually doing the same handling.",
+      "parentUuid": "9b75b445_7c1d68cf",
+      "range": {
+        "startLine": 318,
+        "startChar": 3,
+        "endLine": 318,
+        "endChar": 55
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53814289_8bb9dad4",
@@ -274,6 +298,30 @@
       "side": 1,
       "message": "From offline conversation, we can make this accurate and not necessarily more expensive if we know the threshold in the index.\n\nI am working on it.",
       "parentUuid": "b115927a_c67c0901",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 11
+      },
+      "revId": "1b2a7ef9c86230cd235c53636435806f04e48f08",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49528035_3de48980",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-25T19:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "621403d0_4afc7bd6",
       "range": {
         "startLine": 554,
         "startChar": 9,
