@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6503482c_8aab3672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T08:21:30Z",
+      "side": 1,
+      "message": "Alternative approach would be to fix these violations but I am hesitant to do it on very old branches, and not potentially introduce regressions.",
+      "revId": "31864e2fa0f4610cbe98ae2f561f7d9b9e6dae3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
