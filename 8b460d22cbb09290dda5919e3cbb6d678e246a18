@@ -50,6 +50,24 @@
       "message": "trigger build",
       "revId": "8b460d22cbb09290dda5919e3cbb6d678e246a18",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01c71b4_f7c02809",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 301453
+      },
+      "writtenOn": "2023-04-26T03:48:03Z",
+      "side": 1,
+      "message": "I see. Is there a workaround? \nLet me re-trigger for now though.",
+      "parentUuid": "8e96c1f9_28f7c8be",
+      "revId": "8b460d22cbb09290dda5919e3cbb6d678e246a18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
