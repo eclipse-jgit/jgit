@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c34851_1c290a1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T07:12:14Z",
+      "side": 1,
+      "message": "This change should be back-ported to the older branches, so that JGit developers could use test with RBE. What branch should I cherry-pick it? stable-6.1?",
+      "revId": "19de967857fd0101b725ba8042699aac234b72b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
