@@ -70,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6e21dfb_bfe7e671",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T05:43:21Z",
+      "side": 1,
+      "message": "I bumped Bazel to 6.1.2 and java_tools to v12.1 like you did in Gerrit in change 201500 and I cannot reproduce the above problem.",
+      "parentUuid": "c54ac967_1aa2c9cc",
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54c6e88a_0edc687d",
@@ -107,6 +125,30 @@
       "side": 1,
       "message": "We are excluding the HELPERS classes for running tests in line 51. We need to keep running FileRepositoryBuilderTest and RefDirectoryTest tests, so added them here.",
       "parentUuid": "54c6e88a_0edc687d",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ebf43d3_4be96c30",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T05:43:21Z",
+      "side": 1,
+      "message": "Yes, so the issue here is, that after I1db6fcf414b FileRepositoryBuilderTest and RefDirectoryTest are both: base classes (helpers) and own test in the same time.\n\nAnd if those classes are not helpers, they shouldn\u0027t be a part of the helpers java library. Otherwise, the build code readability and maintainability would suffer.\n\nThe Bazel build structure doesn\u0027t ave a good support for test by inheritance for non abstract base classes, as mentioned by Han-Wen Nienhuys in this comment: [1], that is originated from this 5 years old feature request: [2].\n\nGerrit project has two different idioms to cope with this limitation, \n\n1. Abstract base class and some kind of configuration in derived classes.\nExamples:\n\n* javatests/com/google/gerrit/acceptance/git/HttpSubmitOnPushIT.java\n* javatests/com/google/gerrit/acceptance/git/AbstractSubmitOnPush.java\n\n2. Multiple configuration injection in the same class. For ReviewDb vs, NoteDb persistence @Config annotation was introduced. And it was possible to switch to different configs, without extacting the configuration code in its own new derived class.\n\nBut given that we have test breakage here, and stable branches are affected, I would just add temporarily new java library, something like:\n\n```\n# Non abstract base classes used for tests by other test classes\nBASE \u003d [\n    PKG + \"internal/storage/file/FileRepositoryBuilderTest.java\",\n    PKG + \"internal/storage/file/RefDirectoryTest.java\",\n]\n\njava_library(\n    name \u003d \"base\",\n    testonly \u003d 1,\n    srcs \u003d BASE,\n    deps \u003d [\n        \"//lib:junit\",\n        \"//org.eclipse.jgit:jgit\",\n        \"//org.eclipse.jgit.junit:junit\",\n    ],\n)\n```\n\nand either include this new library for all tests in tests.bzl:\n\n```\n    junit_tests(\n        name \u003d name,\n        tags \u003d labels,\n        srcs \u003d [src],\n        deps \u003d additional_deps + [\n            \":base\",\n            \":helpers\",\n[...]\n```\n\nor even only do it for these three needed test classes tests.bzl:\n\n```\n        if src.endswith(\"FileRepositoryBuilderAfterOpenConfigTest.java\") \\\n           or src.endswith(\"RefDirectoryAfterOpenConfigTest.java\") \\\n           or src.endswith(\"SnapshottingRefDirectoryTest.java\"):\n            additional_deps \u003d [\n                \":base\",\n            ]\n```\n\nThat way, the base library would only be built, if a specific test, that uses this library is executed, e.g:\n\n\n```\n  $ bazel test \\\n//org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_SnapshottingRefDirectoryTest\n  \n```\n\n\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/200304/1/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileRepositoryBuilderAfterOpenConfigTest.java#25\n[2] https://github.com/bazelbuild/bazel/issues/2539",
+      "parentUuid": "d18a7881_0b9f679a",
       "range": {
         "startLine": 58,
         "startChar": 0,
