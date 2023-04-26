@@ -183,6 +183,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "674bfa67_1f22aef7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T07:43:05Z",
+      "side": 1,
+      "message": "Can it be that you\u0027ve misread the error message? Even though the ReferenceEquality and StringEquality warning are reported, the actually build errors are due to FutureReturnValueIgnored, UnusedException and DefaultCharsetbug bug patterns violations.\n\nExactly the same errors are reported with Bazel 6.1.2.\n\nI had to demote those patterns to warning in tools/BUILD.\n\n```\ndiff --git a/tools/BUILD b/tools/BUILD\nindex a10901982..1e671087d 100644\n--- a/tools/BUILD\n+++ b/tools/BUILD\n@@ -45,7 +45,7 @@ java_package_configuration(\n         \"-Xep:CannotMockFinalClass:ERROR\",\n         \"-Xep:ClassCanBeStatic:ERROR\",\n         \"-Xep:ClassNewInstance:ERROR\",\n-        \"-Xep:DefaultCharset:ERROR\",\n+        \"-Xep:DefaultCharset:WARN\",\n         \"-Xep:DoubleCheckedLocking:ERROR\",\n         \"-Xep:ElementsCountedInLoop:ERROR\",\n         \"-Xep:EqualsHashCode:ERROR\",\n@@ -55,7 +55,7 @@ java_package_configuration(\n         \"-Xep:FragmentInjection:ERROR\",\n         \"-Xep:FragmentNotInstantiable:ERROR\",\n         \"-Xep:FunctionalInterfaceClash:ERROR\",\n-        \"-Xep:FutureReturnValueIgnored:ERROR\",\n+        \"-Xep:FutureReturnValueIgnored:WARN\",\n         \"-Xep:GetClassOnEnum:ERROR\",\n         \"-Xep:ImmutableAnnotationChecker:ERROR\",\n         \"-Xep:ImmutableEnumChecker:ERROR\",\n@@ -89,7 +89,7 @@ java_package_configuration(\n         \"-Xep:TypeParameterShadowing:ERROR\",\n         \"-Xep:TypeParameterUnusedInFormals:WARN\",\n         \"-Xep:URLEqualsHashCode:ERROR\",\n-        \"-Xep:UnusedException:ERROR\",\n+        \"-Xep:UnusedException:WARN\",\n         \"-Xep:UnsynchronizedOverridesSynchronized:ERROR\",\n```\n\nWith the above diff I can successfully verify the latest patch set with bazel 5.0.0.\n\nWe should fix the issues reported by Error Prone, or if this branch is to old for that, demote those bug patterns to warning. Bazel build works on jgit@HEAD.",
+      "parentUuid": "e6e21dfb_bfe7e671",
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54c6e88a_0edc687d",
