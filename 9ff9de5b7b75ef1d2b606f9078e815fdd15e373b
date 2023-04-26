@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a693ca43_898aa3c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T05:56:04Z",
+      "side": 1,
+      "message": "This is not accurate, the CL I634b92877f also added SnapshottingRefDirectoryTest, that derives from non abstract test class RefDirectoryTest, so that the bazel test was already broken earlier.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "9ff9de5b7b75ef1d2b606f9078e815fdd15e373b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f92a8235_0a0efe6c",
