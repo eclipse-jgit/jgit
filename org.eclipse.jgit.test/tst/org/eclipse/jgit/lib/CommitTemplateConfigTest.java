@@ -17,7 +17,6 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -37,8 +36,6 @@ public class CommitTemplateConfigTest {
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		File workTree = tmp.newFolder("dummy-worktree");
-		Repository repo = FileRepositoryBuilder.create(workTree);
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// proper evaluation of the ~/ directory
@@ -55,6 +52,6 @@ public class CommitTemplateConfigTest {
 				.getCommitTemplatePath();
 		assertEquals(expectedTemplatePath, templatePath);
 		assertEquals(templateContent,
-				config.get(CommitConfig.KEY).getCommitTemplateContent(repo));
+				config.get(CommitConfig.KEY).getCommitTemplateContent());
 	}
 }
