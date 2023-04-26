@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "33742c9cc2a3f856dc0f17473ed6069c6d621b98",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "874b68f2_b318c1bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-04-26T07:27:05Z",
+      "side": 1,
+      "message": "VRFY+1 (I cannot vote on VRFY label).\n\nI verified with Bazel 6.1.2 locally. I had to cherry-pick these two changes first: Ia3a108fa05 and Ia3973d1e4fe and demote UnusedException and DefaultCharsetbug pattern to warning).",
+      "revId": "33742c9cc2a3f856dc0f17473ed6069c6d621b98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
