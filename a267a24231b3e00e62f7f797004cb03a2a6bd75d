@@ -16,6 +16,80 @@
       "message": "trigger build",
       "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed7b556_c5e51da5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/IntListTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-26T17:34:08Z",
+      "side": 1,
+      "message": "I think you can use org.junit.Assert.assertArrayEquals here",
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9dde1bf_f0dc03f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-26T17:34:08Z",
+      "side": 1,
+      "message": "2023 for the licenses.",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93e55299_3095c3ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-26T17:34:08Z",
+      "side": 1,
+      "message": "If this is only an alias for the \u003c\u003d 0, we could simplify the interface and let the callers do it. One less method to worry about and maintain.",
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edde3c4b_465fbae6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-26T17:34:08Z",
+      "side": 1,
+      "message": "Do we really need two interfaces and inheritance? This interface only adds an indirection for the long and looks almost like an implementation.\n\nImplementors get a good enough abstraction with IntComparator. Specifically OffsetIntComparator in the writer can implement what it needs with it.",
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
