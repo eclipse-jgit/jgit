@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4663fee_18b66bb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-27T18:44:10Z",
+      "side": 1,
+      "message": "This is not needed anymore.",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b34dc4_c63e72e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-27T18:44:10Z",
+      "side": 1,
+      "message": "Nice change! Thanks. Few nits and this is ready.",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4155141_671d34c6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/IntListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-27T18:44:10Z",
+      "side": 1,
+      "message": "nit: no final here.\n\nFinal for variables was used long time ago in JGit but not anymore. You can see it in old code because we don\u0027t change it until we touch the code for any other reason.",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 7
+      },
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a17af9a_d82734f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-27T18:44:10Z",
+      "side": 1,
+      "message": "6.6 (same in the other method)",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
