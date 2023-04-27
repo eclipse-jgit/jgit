@@ -1148,7 +1148,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
 		if (reverseIdx == null)
-			reverseIdx = new PackReverseIndex(idx());
+			reverseIdx = PackReverseIndex.computeFromIndex(idx());
 		return reverseIdx;
 	}
 
