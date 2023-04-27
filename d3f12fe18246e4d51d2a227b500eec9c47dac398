@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e909d0d6_c7e22fda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-27T18:09:43Z",
+      "side": 1,
+      "message": "I separated the addition of IntList#sort into https://git.eclipse.org/r/c/jgit/jgit/+/201559.",
+      "revId": "d3f12fe18246e4d51d2a227b500eec9c47dac398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

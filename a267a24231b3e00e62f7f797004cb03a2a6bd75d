@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9395e5_540d8b3b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/IntListTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-27T18:09:43Z",
+      "side": 1,
+      "message": "`list` is a custom `IntList` objects, not a subclass of `Object[]`, so `org.junit.Assert.assertArrayEquals` doesn\u0027t offer a suitable method.",
+      "parentUuid": "4ed7b556_c5e51da5",
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9dde1bf_f0dc03f9",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-04-26T17:34:08Z",
       "side": 1,
       "message": "2023 for the licenses.",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57421979_8ab8fac5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexWriter.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-27T18:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9dde1bf_f0dc03f9",
       "range": {
         "startLine": 2,
         "startChar": 17,
@@ -75,6 +117,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91aeddd6_5df4e0ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-27T18:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93e55299_3095c3ed",
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edde3c4b_465fbae6",
@@ -88,6 +148,24 @@
       "writtenOn": "2023-04-26T17:34:08Z",
       "side": 1,
       "message": "Do we really need two interfaces and inheritance? This interface only adds an indirection for the long and looks almost like an implementation.\n\nImplementors get a good enough abstraction with IntComparator. Specifically OffsetIntComparator in the writer can implement what it needs with it.",
+      "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45a16da_e2333be9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-27T18:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edde3c4b_465fbae6",
       "revId": "a267a24231b3e00e62f7f797004cb03a2a6bd75d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
