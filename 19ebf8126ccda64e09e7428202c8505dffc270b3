@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bcabc2c_1e3ca3e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-27T18:11:41Z",
+      "side": 1,
+      "message": "Hi YJ, adding you for +1 review. See https://git.eclipse.org/r/c/jgit/jgit/+/197581 for more context -- this change was split out from there.",
+      "revId": "19ebf8126ccda64e09e7428202c8505dffc270b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
