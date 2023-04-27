@@ -75,6 +75,42 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6534eb9f_8748a832",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-27T22:00:38Z",
+      "side": 1,
+      "message": "FWIW we know the build error is unrelated, so we can submit this change bypassing that verification.",
+      "parentUuid": "30d2bc09_fc7e6a5f",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e163e92_929e80a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-04-27T22:00:38Z",
+      "side": 1,
+      "message": "The java built in quicksort uses a generic comparator that cannot use basic types (like int). It would box each value to Integer and we want to avoid that.",
+      "parentUuid": "980ac73f_22ef3266",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4155141_671d34c6",
