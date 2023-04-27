@@ -285,7 +285,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 */
 	private final Set<HttpCookie> relevantCookies;
 
-	TransportHttp(Repository local, URIish uri)
+	protected TransportHttp(Repository local, URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
 		setURI(uri);
