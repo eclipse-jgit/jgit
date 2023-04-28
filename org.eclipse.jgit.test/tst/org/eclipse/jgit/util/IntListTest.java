@@ -203,6 +203,7 @@ public class IntListTest {
 		private AbsIntComparator() {
 		}
 
+		@Override
 		public int compare(int a, int b) {
 			return Math.abs(a) - Math.abs(b);
 		}
