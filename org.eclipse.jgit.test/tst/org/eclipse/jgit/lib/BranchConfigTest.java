@@ -14,9 +14,11 @@ package org.eclipse.jgit.lib;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.junit.Test;
 
 public class BranchConfigTest {
@@ -114,17 +116,58 @@ public class BranchConfigTest {
 	}
 
 	@Test
+	public void testRebaseMode() {
+		Config c = parse("" //
+				+ "[branch \"undefined\"]\n"
+				+ "[branch \"false\"]\n"
+				+ "  rebase = false\n"
+				+ "[branch \"true\"]\n"
+				+ "  rebase = true\n"
+				+ "[branch \"interactive\"]\n"
+				+ "  rebase = interactive\n"
+				+ "[branch \"merges\"]\n"
+				+ "  rebase = merges\n"
+				+ "[branch \"preserve\"]\n"
+				+ "  rebase = preserve\n"
+				+ "[branch \"illegal\"]\n"
+				+ "  rebase = illegal\n");
+		assertEquals(BranchRebaseMode.NONE,
+				new BranchConfig(c, " undefined").getRebaseMode());
+		assertEquals(BranchRebaseMode.NONE,
+				new BranchConfig(c, "false").getRebaseMode());
+		assertEquals(BranchRebaseMode.REBASE,
+				new BranchConfig(c, "true").getRebaseMode());
+		assertEquals(BranchRebaseMode.INTERACTIVE,
+				new BranchConfig(c, "interactive").getRebaseMode());
+		assertEquals(BranchRebaseMode.MERGES,
+				new BranchConfig(c, "merges").getRebaseMode());
+		assertEquals(BranchRebaseMode.MERGES,
+				new BranchConfig(c, "preserve").getRebaseMode());
+		assertThrows(IllegalArgumentException.class,
+				() -> new BranchConfig(c, "illegal").getRebaseMode());
+	}
+
+	@Test
 	public void isRebase() {
 		Config c = parse("" //
 				+ "[branch \"undefined\"]\n"
 				+ "[branch \"false\"]\n"
 				+ "  rebase = false\n"
 				+ "[branch \"true\"]\n"
-				+ "  rebase = true\n");
+				+ "  rebase = true\n"
+				+ "[branch \"interactive\"]\n"
+				+ "  rebase = interactive\n"
+				+ "[branch \"merges\"]\n"
+				+ "  rebase = merges\n"
+				+ "[branch \"preserve\"]\n"
+				+ "  rebase = preserve\n");
 
 		assertFalse(new BranchConfig(c, "undefined").isRebase());
 		assertFalse(new BranchConfig(c, "false").isRebase());
 		assertTrue(new BranchConfig(c, "true").isRebase());
+		assertTrue(new BranchConfig(c, "interactive").isRebase());
+		assertTrue(new BranchConfig(c, "merges").isRebase());
+		assertTrue(new BranchConfig(c, "preserve").isRebase());
 	}
 
 	private static Config parse(String content) {
