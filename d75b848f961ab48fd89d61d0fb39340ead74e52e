@@ -155,6 +155,23 @@
       },
       "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b50f9cdf_cfdf017d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-04-28T17:09:35Z",
+      "side": 1,
+      "message": "do you mind leave small comment in every swap on what\u0027s going on? like this case, \"found smaller value than pivot, swap value between writeSmallerIdx (occupying space for smaller values) and findSmallerIdx (the current iterating value). I honestly feel the two variable names to be confusing at first glance.",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
