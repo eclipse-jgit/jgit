@@ -11,7 +11,6 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
-
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
@@ -109,7 +108,7 @@ class RewriteGenerator extends Generator {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		for (RevCommit parent : c.getParents()) {
-			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
+			if ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
 
 				RevCommit n = source.next();
 
@@ -120,6 +119,8 @@ class RewriteGenerator extends Generator {
 					// all commits
 					return;
 				}
+
+				applyFilterToParents(c);
 
 			}
 
