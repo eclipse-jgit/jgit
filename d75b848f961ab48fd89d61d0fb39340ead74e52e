@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c1a33e4a_da1e990f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-28T17:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4663fee_18b66bb2",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "43b34dc4_c63e72e4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -111,6 +135,42 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a55ee0_fd725556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-28T17:21:08Z",
+      "side": 1,
+      "message": "You can subscribe to the jgit-dev@eclipse.org mailing list and read the thread `JGit Bot failing with \"hudson\" error`. The build errors have been due to a separate configuration issue + upstream error.",
+      "parentUuid": "6534eb9f_8748a832",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e05b2c9a_d4fcbc7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-28T17:21:08Z",
+      "side": 1,
+      "message": "See discussions in https://git.eclipse.org/r/c/jgit/jgit/+/197581 for more context. In non-JGit, I would totally agree with you, which is one reason I\u0027m excited for our Q2 okr O4-KR2 to learn more about JGit standards.",
+      "parentUuid": "6e163e92_929e80a2",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4155141_671d34c6",
@@ -124,6 +184,30 @@
       "writtenOn": "2023-04-27T18:44:10Z",
       "side": 1,
       "message": "nit: no final here.\n\nFinal for variables was used long time ago in JGit but not anymore. You can see it in old code because we don\u0027t change it until we touch the code for any other reason.",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 7
+      },
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc12bdb4_0568f590",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/IntListTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-28T17:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4155141_671d34c6",
       "range": {
         "startLine": 178,
         "startChar": 2,
@@ -157,6 +241,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af26a75f_82cfb992",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-28T17:21:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a17af9a_d82734f5",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b50f9cdf_cfdf017d",
@@ -170,6 +278,24 @@
       "writtenOn": "2023-04-28T17:09:35Z",
       "side": 1,
       "message": "do you mind leave small comment in every swap on what\u0027s going on? like this case, \"found smaller value than pivot, swap value between writeSmallerIdx (occupying space for smaller values) and findSmallerIdx (the current iterating value). I honestly feel the two variable names to be confusing at first glance.",
+      "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c81817e_e35632f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-04-28T17:21:08Z",
+      "side": 1,
+      "message": "Please read the reference https://www.baeldung.com/java-quicksort from the method\u0027s Javadoc for a description of quicksort. Happy to change variable names if you have suggestions, but a adding comments on a widely accepted sorting algorithm seems gratuitous to me.",
+      "parentUuid": "b50f9cdf_cfdf017d",
       "revId": "d75b848f961ab48fd89d61d0fb39340ead74e52e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
