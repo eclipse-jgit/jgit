@@ -108,21 +108,27 @@ class RewriteGenerator extends Generator {
 	private void applyFilterToParents(RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		for (RevCommit parent : c.getParents()) {
-			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
+		loop: while (true) {
+			for (RevCommit parent : c.getParents()) {
+				if ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
 
-				RevCommit n = source.next();
+					RevCommit n = source.next();
 
-				if (n != null) {
-					pending.add(n);
-				} else {
-					// Source generator is exhausted; filter has been applied to
-					// all commits
-					return;
+					if (n != null) {
+						pending.add(n);
+					} else {
+						// Source generator is exhausted; filter has been
+						// applied to
+						// all commits
+						return;
+					}
+					// Filter wasn't applied to this parent. We need to
+					// check if all parents have been filtered after
+					// the source generator was called.
+					continue loop;
 				}
-
 			}
-
+			break loop;
 		}
 	}
 
