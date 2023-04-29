@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e965d928_9a6c22df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-29T08:58:13Z",
+      "side": 0,
+      "message": "don\u0027t remove this empty line which is inserted by the Eclipse formatter",
+      "revId": "75db060673bf9cb241d1282259701c102e245d6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
