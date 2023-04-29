@@ -16,6 +16,23 @@
       "message": "Thanks Anna! Great job.",
       "revId": "7d3f893d31a02ebf50b34fba7203f996d5162c62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5bdcc3b_7a17606a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-29T12:09:06Z",
+      "side": 1,
+      "message": "Missing @since 6.6",
+      "revId": "7d3f893d31a02ebf50b34fba7203f996d5162c62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
