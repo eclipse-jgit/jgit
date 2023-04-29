@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a529aa50_9ad83e65",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-04-29T12:56:47Z",
+      "side": 1,
+      "message": "org.eclipse.jgit.repository/category.xml wants to include jakarta.servlet-api. That also what was used in the deleted jetty TPD. So I think this should be jakarta.servlet:jakarta.servlet-api:4.0.4.",
+      "revId": "45de4fa2cb638a8e20fa27b3d88435a697bb9df8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
