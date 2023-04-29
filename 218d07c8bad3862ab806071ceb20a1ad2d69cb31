@@ -16,6 +16,23 @@
       "message": "Thanks @Saša, much appreciated.",
       "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "264c8c54_5d69d9d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-04-29T08:26:58Z",
+      "side": 1,
+      "message": "There is no need to subclass TransportHttp to set a bearer token header, call the existing TransportHttp#setAdditionalHeaders instead.\n\nA full implementation of bearer token authentication should implement another type of CredentialsProvider and implement the protocol in TransportHttp#connect",
+      "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
