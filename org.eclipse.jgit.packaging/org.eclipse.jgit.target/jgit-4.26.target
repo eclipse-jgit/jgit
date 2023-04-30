@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.26" sequenceNumber="1682113652">
+<target name="jgit-4.26" sequenceNumber="1682885137">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.google.gson" version="2.10.1.v20230109-0753"/>
@@ -111,9 +111,9 @@
     		<type>jar</type>
     	</dependency>
     	<dependency>
-    		<groupId>javax.servlet</groupId>
-    		<artifactId>javax.servlet-api</artifactId>
-    		<version>4.0.1</version>
+    		<groupId>jakarta.servlet</groupId>
+    		<artifactId>jakarta.servlet-api</artifactId>
+    		<version>4.0.4</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>

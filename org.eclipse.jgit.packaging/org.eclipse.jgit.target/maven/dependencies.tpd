@@ -70,8 +70,8 @@ maven jetty
 		version = "10.0.15"
 	}
 	dependency {
-		groupId = "javax.servlet"
-		artifactId = "javax.servlet-api"
-		version = "4.0.1"
+		groupId = "jakarta.servlet"
+		artifactId = "jakarta.servlet-api"
+		version = "4.0.4"
 	}
 }
