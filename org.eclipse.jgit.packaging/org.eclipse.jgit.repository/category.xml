@@ -39,6 +39,9 @@
    <bundle id="org.eclipse.jgit.ui" version="0.0.0">
       <category name="JGit-additional-bundles"/>
    </bundle>
+   <bundle id="assertj-core">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <bundle id="com.google.gson">
       <category name="JGit-dependency-bundles"/>
    </bundle>

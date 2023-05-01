@@ -19,6 +19,19 @@ maven apache
 	}
 }
 
+maven assertj
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.assertj"
+		artifactId = "assertj-core"
+		version = "3.24.2"
+	}
+}
+
 maven bouncycastle
 	scope = compile
 	dependencyDepth = none

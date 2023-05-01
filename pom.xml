@@ -178,7 +178,7 @@
     <maven-compiler-plugin-version>3.10.1</maven-compiler-plugin-version>
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
-    <assertj-version>3.20.2</assertj-version>
+    <assertj-version>3.24.2</assertj-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>

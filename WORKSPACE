@@ -184,8 +184,8 @@ maven_jar(
 
 maven_jar(
     name = "assertj-core",
-    artifact = "org.assertj:assertj-core:3.20.2",
-    sha1 = "66f1f0ebd6db2b24e4a731979171da16ba919cd5",
+    artifact = "org.assertj:assertj-core:3.24.2",
+    sha1 = "ebbf338e33f893139459ce5df023115971c2786f",
 )
 
 BYTE_BUDDY_VERSION = "1.12.18"
