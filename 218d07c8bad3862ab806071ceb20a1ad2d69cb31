@@ -92,6 +92,24 @@
       "parentUuid": "694b0821_08e82ed0",
       "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7521c5_a5e5fb08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-05-01T19:13:05Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I updated my refactoring for pull-replication plugin to use TransportHttp#setAdditionalHeaders method. That worked, and subclassing is not required any more for bearer token authentication.\n\nStill, consider this feature request: [1] that was fixed with this JGit change I6f9d699e158 by removing final keyword and extending the visibility of the TransportHttp#httpOpen method to protected. But, unfortunately, the ctor was missed to be extended from package-private to protected.\n\nIn fact, for bearer token authentication the suggested API TransportHttp#setAdditionalHeaders is sufficient. But, for more complex use cases, still subclassing of TransportHttp is needed.\n\nAnd you could find other folks doing just that: TransportAllTrustingHttps from Atlassian, apparently configuring the HttpConnection to trust all certificates and setting the hostname verifier to be a no-op in TransportHttp#httpOpen method. As the matter of fact, they were forced to shade org.eclipse.jgit.transport package, only because the visibility of the ctor wasn\u0027t extended in context of: [1]. (If you check the javadoc for: [2], you would find out, that there is no other classes in the same o.e.j.transport package).\n\nBottom line, for pull-replication plugin this change is not needed any more. But, for other use cases and for compatibility with: [1] I would support this change.\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d400724\n[2] https://docs.atlassian.com/atlassian-bamboo/5.9.0/org/eclipse/jgit/transport/TransportAllTrustingHttps.html",
+      "parentUuid": "53669892_ea5f18b3",
+      "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
