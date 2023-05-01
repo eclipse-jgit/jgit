@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e3be4ef_d8ea38ae",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsReaderTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-01T22:01:19Z",
+      "side": 1,
+      "message": "Can you also include assertions on the stats? As it is, the behavior asserted seems not to change whether we have the object size index or not, but if we had stats, then we can be sure that the object size index has been hit where expected.",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c937e466_2836519b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-01T22:01:19Z",
+      "side": 1,
+      "message": "Hmm...here it seems that if there is no object size index, then null is returned...",
+      "range": {
+        "startLine": 314,
+        "startChar": 44,
+        "endLine": 314,
+        "endChar": 47
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bb14d8a_3ccd27a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-01T22:01:19Z",
+      "side": 1,
+      "message": "I think the object must also be a blob? If yes, document that here.",
+      "range": {
+        "startLine": 1042,
+        "startChar": 27,
+        "endLine": 1042,
+        "endChar": 33
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c994a31_c5e0a8e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-01T22:01:19Z",
+      "side": 1,
+      "message": "...but here, an exception is thrown if there\u0027s no object size index?",
+      "range": {
+        "startLine": 1210,
+        "startChar": 10,
+        "endLine": 1210,
+        "endChar": 21
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
