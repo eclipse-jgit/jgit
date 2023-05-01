@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fc4dece_a105cf09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-05-01T11:03:43Z",
+      "side": 1,
+      "message": "Nit: unneeded space.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5aac271e_2476023c",
@@ -31,6 +54,24 @@
       "writtenOn": "2023-04-29T08:26:58Z",
       "side": 1,
       "message": "There is no need to subclass TransportHttp to set a bearer token header, call the existing TransportHttp#setAdditionalHeaders instead.\n\nA full implementation of bearer token authentication should implement another type of CredentialsProvider and implement the protocol in TransportHttp#connect",
+      "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "694b0821_08e82ed0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-05-01T11:03:43Z",
+      "side": 1,
+      "message": "Current bearer token implementation in pull-replication plugin does subclass TransportHttp class, see this related change in Gerrit for more context: [1].\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/371234",
+      "parentUuid": "264c8c54_5d69d9d9",
       "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
