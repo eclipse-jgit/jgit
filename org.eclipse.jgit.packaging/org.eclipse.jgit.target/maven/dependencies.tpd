@@ -120,3 +120,21 @@ maven jetty
 		version = "4.0.4"
 	}
 }
+
+maven slf4j
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.slf4j"
+		artifactId = "slf4j-api"
+		version = "1.7.36"
+	}
+	dependency {
+		groupId = "org.slf4j"
+		artifactId = "slf4j-simple"
+		version = "1.7.36"
+	}
+}
