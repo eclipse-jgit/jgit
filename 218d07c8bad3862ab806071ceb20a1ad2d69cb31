@@ -74,6 +74,24 @@
       "parentUuid": "264c8c54_5d69d9d9",
       "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53669892_ea5f18b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-01T12:37:46Z",
+      "side": 1,
+      "message": "Sasa has a fix for pull-replication plugin replacing the unnecessary subclassing by calling setAdditionalHeaders. He told me it works and I guess he will push it soon.",
+      "parentUuid": "694b0821_08e82ed0",
+      "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
