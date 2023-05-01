@@ -210,16 +210,16 @@
    <bundle id="org.kohsuke.args4j.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.api">
+   <bundle id="slf4j.api">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.api.source">
+   <bundle id="slf4j.api.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.binding.simple">
+   <bundle id="slf4j.simple">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.binding.simple.source">
+   <bundle id="slf4j.simple.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.tukaani.xz">
