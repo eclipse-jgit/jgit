@@ -141,10 +141,10 @@
    <bundle id="org.apache.commons.codec.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.compress">
+   <bundle id="org.apache.commons.commons-compress">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.compress.source">
+   <bundle id="org.apache.commons.commons-compress.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.apache.commons.logging">

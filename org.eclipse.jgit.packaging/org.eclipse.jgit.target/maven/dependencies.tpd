@@ -1,5 +1,19 @@
 target "dependencies"
 
+
+maven apache
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.apache.commons"
+		artifactId = "commons-compress"
+		version = "1.23.0"
+	}
+}
+
 maven bouncycastle
 	scope = compile
 	dependencyDepth = none
