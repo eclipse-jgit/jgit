@@ -118,8 +118,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-codec",
-    artifact = "commons-codec:commons-codec:1.14",
-    sha1 = "3cb1181b2141a7e752f5bdc998b7ef1849f726cf",
+    artifact = "commons-codec:commons-codec:1.15",
+    sha1 = "49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d",
 )
 
 maven_jar(

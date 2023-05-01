@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.26" sequenceNumber="1682945514">
+<target name="jgit-4.26" sequenceNumber="1682951043">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.google.gson" version="2.10.1.v20230109-0753"/>
@@ -22,8 +22,6 @@
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20220506-1020"/>
       <unit id="org.apache.ant" version="1.10.12.v20211102-1452"/>
       <unit id="org.apache.ant.source" version="1.10.12.v20211102-1452"/>
-      <unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
-      <unit id="org.apache.commons.codec.source" version="1.14.0.v20221112-0806"/>
       <unit id="org.apache.commons.logging" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.commons.logging.source" version="1.2.0.v20180409-1502"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.14.v20221207-1049"/>
@@ -154,6 +152,12 @@
     </location>
     <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven" label="apache">
     <dependencies>
+    	<dependency>
+    		<groupId>commons-codec</groupId>
+    		<artifactId>commons-codec</artifactId>
+    		<version>1.15</version>
+    		<type>jar</type>
+    	</dependency>
     	<dependency>
     		<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>

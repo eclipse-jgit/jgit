@@ -8,6 +8,11 @@ maven apache
 	includeSources
 {
 	dependency {
+		groupId = "commons-codec"
+		artifactId = "commons-codec"
+		version = "1.15"
+	}
+	dependency {
 		groupId = "org.apache.commons"
 		artifactId = "commons-compress"
 		version = "1.23.0"
