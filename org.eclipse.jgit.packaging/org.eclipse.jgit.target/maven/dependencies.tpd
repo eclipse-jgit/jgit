@@ -28,6 +28,19 @@ maven bouncycastle
 	}
 }
 
+maven javaewah
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "com.googlecode.javaewah"
+		artifactId = "JavaEWAH"
+		version = "1.2.3"
+	}
+}
+
 maven jetty
 	scope = compile
 	dependencyDepth = none

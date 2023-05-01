@@ -12,8 +12,6 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R202303020146
 	com.sun.jna.source [5.12.1.v20221103-2317,5.12.1.v20221103-2317]
 	com.sun.jna.platform [5.12.1.v20221103-2317,5.12.1.v20221103-2317]
 	com.sun.jna.platform.source [5.12.1.v20221103-2317,5.12.1.v20221103-2317]
-	javaewah [1.1.13.v20211029-0839,1.1.13.v20211029-0839]
-	javaewah.source [1.1.13.v20211029-0839,1.1.13.v20211029-0839]
 	net.bytebuddy.byte-buddy [1.12.18.v20221114-2102,1.12.18.v20221114-2102]
 	net.bytebuddy.byte-buddy.source [1.12.18.v20221114-2102,1.12.18.v20221114-2102]
 	net.bytebuddy.byte-buddy-agent [1.12.18.v20221114-2102,1.12.18.v20221114-2102]

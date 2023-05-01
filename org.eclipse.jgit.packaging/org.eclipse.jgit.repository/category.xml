@@ -69,10 +69,10 @@
    <bundle id="com.sun.jna.platform.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="javaewah">
+   <bundle id="com.googlecode.javaewah.JavaEWAH">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="javaewah.source">
+   <bundle id="com.googlecode.javaewah.JavaEWAH.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="jakarta.servlet-api">
