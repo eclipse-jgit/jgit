@@ -220,6 +220,8 @@ public class IntList {
 
 	/**
 	 * A comparator of primitive ints.
+	 *
+	 * @since 6.6
 	 */
 	public interface IntComparator {
 
