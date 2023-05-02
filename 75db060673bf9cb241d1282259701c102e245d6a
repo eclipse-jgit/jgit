@@ -16,6 +16,24 @@
       "message": "don\u0027t remove this empty line which is inserted by the Eclipse formatter",
       "revId": "75db060673bf9cb241d1282259701c102e245d6a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20f940be_62cbdc58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2023-05-02T15:04:59Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e965d928_9a6c22df",
+      "revId": "75db060673bf9cb241d1282259701c102e245d6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

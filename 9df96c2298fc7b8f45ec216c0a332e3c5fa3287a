@@ -33,6 +33,24 @@
       "message": "Couldn\u0027t this lead to stack overflow ? This post https://blogs.oracle.com/javamagazine/post/curly-braces-java-recursion-tail-call-optimization says Java doesn\u0027t do tail-call optimization yet",
       "revId": "9df96c2298fc7b8f45ec216c0a332e3c5fa3287a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f51ebc2_f4acf287",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2023-05-02T15:04:59Z",
+      "side": 1,
+      "message": "You are right. Thanks for the link :)\nI am using a loop now instead of recursion.",
+      "parentUuid": "a27c73b2_0735ace1",
+      "revId": "9df96c2298fc7b8f45ec216c0a332e3c5fa3287a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
