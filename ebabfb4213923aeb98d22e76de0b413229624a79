@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "438cf410_4ebbb120",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-05-02T11:36:44Z",
+      "side": 1,
+      "message": "Thanks! This was missing for JUnit tests in pull-replication plugin.",
+      "revId": "ebabfb4213923aeb98d22e76de0b413229624a79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
