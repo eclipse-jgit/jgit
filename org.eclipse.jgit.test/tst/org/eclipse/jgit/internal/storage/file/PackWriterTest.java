@@ -541,6 +541,37 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		assertEquals(18787, objSizeIdx.getSize(idx.findPosition(knownBlob2)));
 	}
 
+	public void testWriteReverseIndexConfig() {
+		assertTrue(config.isWriteReverseIndex());
+		config.setWriteReverseIndex(false);
+		assertFalse(config.isWriteReverseIndex());
+	}
+
+	@Test
+	public void testWriteReverseIndexOff() throws Exception {
+		config.setWriteReverseIndex(false);
+		writer = new PackWriter(config, db.newObjectReader());
+		ByteArrayOutputStream reverseIndexOutput = new ByteArrayOutputStream();
+
+		writer.writeReverseIndex(reverseIndexOutput);
+
+		assertEquals(0, reverseIndexOutput.size());
+	}
+
+	@Test
+	public void testWriteReverseIndexOn() throws Exception {
+		writeVerifyPack4(false);
+		ByteArrayOutputStream reverseIndexOutput = new ByteArrayOutputStream();
+		int headerBytes = 12;
+		int bodyBytes = 12;
+		int footerBytes = 40;
+
+		writer.writeReverseIndex(reverseIndexOutput);
+
+		assertTrue(reverseIndexOutput.size() == headerBytes + bodyBytes
+				+ footerBytes);
+	}
+
 	@Test
 	public void testExclude() throws Exception {
 		// TestRepository closes repo
