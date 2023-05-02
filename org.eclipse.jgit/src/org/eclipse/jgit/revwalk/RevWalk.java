@@ -1714,7 +1714,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private RevCommit createCommit(AnyObjectId id, int graphPos) {
 		if (graphPos >= 0) {
-			return new RevCommitCG(id, graphPos);
+			return new RevCommitCG(id, graphPos,
+					commitGraph().getChangedPathFilter(graphPos));
 		}
 		return new RevCommit(id);
 	}
