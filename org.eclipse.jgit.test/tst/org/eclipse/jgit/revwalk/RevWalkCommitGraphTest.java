@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -164,6 +165,72 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertEquals(c4, rw.next());
 		assertEquals(c2, rw.next());
 		assertNull(rw.next());
+	}
+
+	@Test
+	public void testChangedPathFilter() throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		commitFile("file2", "2", "master");
+		RevCommit c3 = commitFile("file1", "3", "master");
+		RevCommit c4 = commitFile("file2", "4", "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"));
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c3, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// 1 commit that has exactly one parent and matches path
+		assertEquals(1, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// 2 commits that have exactly one parent and don't match path
+		assertEquals(2, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterWithFollowFilter() throws Exception {
+		RevCommit c0 = commit(tree());
+		RevCommit c1 = commit(tree(file("file", blob("contents"))), c0);
+		RevCommit c2 = commit(tree(file("file", blob("contents")),
+				file("unrelated", blob("unrelated change"))), c1);
+		RevCommit c3 = commit(tree(file("renamed-file", blob("contents")),
+				file("unrelated", blob("unrelated change"))), c2);
+		RevCommit c4 = commit(
+				tree(file("renamed-file", blob("contents")),
+						file("unrelated", blob("another unrelated change"))),
+				c3);
+		branch(c4, "master");
+
+		enableAndWriteCommitGraph();
+
+		db.getConfig().setString(ConfigConstants.CONFIG_DIFF_SECTION, null,
+				ConfigConstants.CONFIG_KEY_RENAMES, "true");
+
+		TreeRevFilter trf = new TreeRevFilter(rw,
+				new FollowFilter(PathFilter.create("renamed-file"),
+						db.getConfig().get(DiffConfig.KEY)));
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c3, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// Path "renamed-file" is in c3's bloom filter, and another path "file"
+		// is in c1's bloom filter (we know of "file" because the rev walk
+		// detected that "renamed-file" is a renaming of "file")
+		assertEquals(2, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// 2 commits that have exactly one parent and don't match path
+		assertEquals(2, trf.getChangedPathFilterNegative());
 	}
 
 	@Test

@@ -11,6 +11,8 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -188,10 +190,8 @@ public abstract class TreeFilter {
 	 *             as thrown by {@link #include(TreeWalk)}
 	 * @since 4.7
 	 */
-	public int matchFilter(TreeWalk walker)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException
-	{
+	public int matchFilter(TreeWalk walker) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		return include(walker) ? 0 : 1;
 	}
 
@@ -208,6 +208,19 @@ public abstract class TreeFilter {
 	 *         the filter does not require entering subtrees.
 	 */
 	public abstract boolean shouldBeRecursive();
+
+	/**
+	 * If this filter checks that a specific set of paths have all been
+	 * modified, returns that set of paths to be checked against a changed path
+	 * filter. Otherwise, returns empty.
+	 *
+	 * @return a set of paths, or empty
+	 *
+	 * @since 6.7
+	 */
+	public Optional<Set<byte[]>> getPathsBestEffort() {
+		return Optional.empty();
+	}
 
 	/**
 	 * {@inheritDoc}
