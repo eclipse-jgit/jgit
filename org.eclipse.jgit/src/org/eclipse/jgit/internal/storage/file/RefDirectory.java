@@ -155,7 +155,7 @@ public class RefDirectory extends RefDatabase {
 	 * {@code RepositoryCache} is used, this lock instance will be used by all
 	 * threads.
 	 */
-	final ReentrantLock inProcessPackedRefsLock = new ReentrantLock(true);
+	final ReentrantLock inProcessPackedRefsLock;
 
 	/**
 	 * Number of modifications made to this database.
@@ -190,6 +190,7 @@ public class RefDirectory extends RefDatabase {
 		packedRefs.set(refDb.packedRefs.get());
 		trustFolderStat = refDb.trustFolderStat;
 		trustPackedRefsStat = refDb.trustPackedRefsStat;
+		inProcessPackedRefsLock = refDb.inProcessPackedRefsLock;
 	}
 
 	RefDirectory(FileRepository db) {
@@ -200,7 +201,6 @@ public class RefDirectory extends RefDatabase {
 		logsDir = fs.resolve(gitDir, LOGS);
 		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
 		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
-
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
 		trustFolderStat = db.getConfig()
@@ -210,6 +210,7 @@ public class RefDirectory extends RefDatabase {
 				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
 						TrustPackedRefsStat.UNSET);
+		inProcessPackedRefsLock = new ReentrantLock(true);
 	}
 
 	Repository getRepository() {
