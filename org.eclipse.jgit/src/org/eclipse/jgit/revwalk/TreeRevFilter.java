@@ -12,7 +12,10 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -46,6 +49,12 @@ public class TreeRevFilter extends RevFilter {
 	private final int rewriteFlag;
 
 	private final TreeWalk pathFilter;
+
+	private long changedPathFilterTruePositive = 0;
+
+	private long changedPathFilterFalsePositive = 0;
+
+	private long changedPathFilterNegative = 0;
 
 	/**
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
@@ -122,12 +131,41 @@ public class TreeRevFilter extends RevFilter {
 			// We have exactly one parent. This is a very common case.
 			//
 			int chgs = 0, adds = 0;
-			while (tw.next()) {
-				chgs++;
-				if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
-					adds++;
-				} else {
-					break; // no point in looking at this further.
+			boolean changedPathFilterUsed = false;
+			boolean mustCalculateChgs = true;
+			ChangedPathFilter cpf = c.getChangedPathFilter();
+			if (cpf != null) {
+				Optional<Set<byte[]>> paths = pathFilter.getFilter()
+						.getPathsBestEffort();
+				if (paths.isPresent()) {
+					changedPathFilterUsed = true;
+					for (byte[] path : paths.get()) {
+						if (!cpf.maybeContains(path)) {
+							mustCalculateChgs = false;
+							break;
+						}
+					}
+				}
+			}
+			if (mustCalculateChgs) {
+				while (tw.next()) {
+					chgs++;
+					if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
+						adds++;
+					} else {
+						break; // no point in looking at this further.
+					}
+				}
+				if (changedPathFilterUsed) {
+					if (chgs > 0) {
+						changedPathFilterTruePositive++;
+					} else {
+						changedPathFilterFalsePositive++;
+					}
+				}
+			} else {
+				if (changedPathFilterUsed) {
+					changedPathFilterNegative++;
 				}
 			}
 
@@ -242,6 +280,37 @@ public class TreeRevFilter extends RevFilter {
 	@Override
 	public boolean requiresCommitBody() {
 		return false;
+	}
+
+	/**
+	 * Return how many times a changed path filter correctly predicted that a
+	 * path was changed in a commit, for statistics gathering purposes.
+	 *
+	 * @return count of true positives
+	 */
+	public long getChangedPathFilterTruePositive() {
+		return changedPathFilterTruePositive;
+	}
+
+	/**
+	 * Return how many times a changed path filter wrongly predicted that a path
+	 * was changed in a commit, for statistics gathering purposes.
+	 *
+	 * @return count of false positives
+	 */
+	public long getChangedPathFilterFalsePositive() {
+		return changedPathFilterFalsePositive;
+	}
+
+	/**
+	 * Return how many times a changed path filter predicted that a path was not
+	 * changed in a commit (allowing that commit to be skipped), for statistics
+	 * gathering purposes.
+	 *
+	 * @return count of negatives
+	 */
+	public long getChangedPathFilterNegative() {
+		return changedPathFilterNegative;
 	}
 
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg)
