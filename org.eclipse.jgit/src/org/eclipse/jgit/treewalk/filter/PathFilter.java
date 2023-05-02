@@ -11,6 +11,9 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -45,7 +48,8 @@ public class PathFilter extends TreeFilter {
 		while (path.endsWith("/")) //$NON-NLS-1$
 			path = path.substring(0, path.length() - 1);
 		if (path.length() == 0)
-			throw new IllegalArgumentException(JGitText.get().emptyPathNotPermitted);
+			throw new IllegalArgumentException(
+					JGitText.get().emptyPathNotPermitted);
 		return new PathFilter(path);
 	}
 
@@ -85,6 +89,14 @@ public class PathFilter extends TreeFilter {
 		return false;
 	}
 
+	@Override
+	public Optional<Set<byte[]>> getPathsBestEffort() {
+		HashSet<byte[]> s = new HashSet<>();
+		s.add(pathRaw);
+		return Optional.of(s);
+	}
+
+	/** {@inheritDoc} */
 	@Override
 	public PathFilter clone() {
 		return this;
