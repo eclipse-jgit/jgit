@@ -33,6 +33,24 @@
       "message": "Missing @since 6.6",
       "revId": "7d3f893d31a02ebf50b34fba7203f996d5162c62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87da728a_2b4f5932",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-02T18:50:29Z",
+      "side": 1,
+      "message": "Looks like Matthias already addressed this (thanks!): https://git.eclipse.org/r/c/jgit/jgit/+/201636",
+      "parentUuid": "d5bdcc3b_7a17606a",
+      "revId": "7d3f893d31a02ebf50b34fba7203f996d5162c62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
