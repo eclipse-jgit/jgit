@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndex.VERSION_1;
+
 import java.io.BufferedOutputStream;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -28,16 +30,6 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
  * https://git-scm.com/docs/pack-format#_pack_rev_files_have_the_format.
  */
 public abstract class PackReverseIndexWriter {
-	/**
-	 * Magic bytes that uniquely identify git reverse index files.
-	 */
-	protected static byte[] MAGIC = { 'R', 'I', 'D', 'X' };
-
-	/**
-	 * The first reverse index file version.
-	 */
-	protected static final int VERSION_1 = 1;
-
 	/**
 	 * Stream to write contents to while maintaining a checksum.
 	 */
