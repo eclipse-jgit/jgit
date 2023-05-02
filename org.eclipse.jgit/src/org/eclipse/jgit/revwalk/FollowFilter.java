@@ -11,6 +11,8 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -89,6 +91,12 @@ public class FollowFilter extends TreeFilter {
 	@Override
 	public boolean shouldBeRecursive() {
 		return path.shouldBeRecursive() || ANY_DIFF.shouldBeRecursive();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public Optional<Set<byte[]>> getPathsBestEffort() {
+		return path.getPathsBestEffort();
 	}
 
 	/** {@inheritDoc} */

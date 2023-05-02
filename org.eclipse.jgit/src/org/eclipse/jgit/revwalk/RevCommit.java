@@ -25,6 +25,7 @@ import java.util.List;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -685,6 +686,20 @@ public class RevCommit extends RevObject {
 	 */
 	int getGeneration() {
 		return Constants.COMMIT_GENERATION_UNKNOWN;
+	}
+
+	/**
+	 * Get the changed path filter of the commit.
+	 * <p>
+	 * This is null when there is no commit graph file, the commit is not in the
+	 * commit graph file, or the commit graph file was generated without changed
+	 * path filters.
+	 *
+	 * @return the changed path filter
+	 * @since 6.7
+	 */
+	ChangedPathFilter getChangedPathFilter() {
+		return null;
 	}
 
 	/**

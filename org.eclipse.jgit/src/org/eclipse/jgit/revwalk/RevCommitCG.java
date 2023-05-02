@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -29,6 +30,8 @@ class RevCommitCG extends RevCommit {
 
 	private final int graphPosition;
 
+	private final ChangedPathFilter changedPathFilter;
+
 	private int generation = Constants.COMMIT_GENERATION_UNKNOWN;
 
 	/**
@@ -38,10 +41,14 @@ class RevCommitCG extends RevCommit {
 	 *            object name for the commit.
 	 * @param graphPosition
 	 *            the position in the commit-graph of the object.
+	 * @param changedPathFilter
+	 *            the changed path filter if one exists
 	 */
-	protected RevCommitCG(AnyObjectId id, int graphPosition) {
+	protected RevCommitCG(AnyObjectId id, int graphPosition,
+			ChangedPathFilter changedPathFilter) {
 		super(id);
 		this.graphPosition = graphPosition;
+		this.changedPathFilter = changedPathFilter;
 	}
 
 	/** {@inheritDoc} */
@@ -102,5 +109,11 @@ class RevCommitCG extends RevCommit {
 	@Override
 	int getGeneration() {
 		return generation;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	ChangedPathFilter getChangedPathFilter() {
+		return changedPathFilter;
 	}
 }
