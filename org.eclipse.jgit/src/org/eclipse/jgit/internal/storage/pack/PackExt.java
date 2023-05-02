@@ -71,6 +71,15 @@ public enum PackExt {
 		return 1 << getPosition();
 	}
 
+	/**
+	 * Format a temporary file extension for this PackExt.
+	 *
+	 * @return a temporary file extension
+	 */
+	public String getAsTmp() {
+		return String.format(".%s_tmp", ext); //$NON-NLS-1$
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public String toString() {
