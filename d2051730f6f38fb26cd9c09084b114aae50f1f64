@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f14d974_45bd7ed9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "Please use a more descriptive commit message.\n\nIf there is a problem in some RevWalks and I check `git log --oneline` to see what has changed recently, this title doesn\u0027t tell me much.",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32972095_8a6be856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "Explain in one paragraph the problem:\n\ne.g. \"RewriteGenerator is exhausting the previous generator when one of the parents...\"\n\nAnd in another paragraph the proposed solution. In a third paragraph you can comment that although the algorhythm is recursive, it is implemented in a loop to prevent stack overflows.",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65675129_8e89c2e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "License for the new file.",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "542fc47f_6ee4cb9d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "Thanks for writing the first cases specific for this class! Regardless what happens with the code, would be nice to keep them and maybe later add more cases.",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64b5053f_8f7404d5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "nit: no need for this javadoc. The name of the test says it all.",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc447ba8_49f17965",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "These tests pass also with the previous code (?!). Although I am glad to see tests for this class.",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1634db3f_8aa97d1d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "This is a bit weird test: it seems this change is about not pulling things from the queue unnecessarily, then why do we have a test with no things in the queue?",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39591f18_c3f25dc8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "This sounds like the PendingGenerator would never produce a filtered parent... is it really so? The fact that this queue \"simulates\" pending generator is irrelevant.\n\nMaybe something like \"Not adding a, because PendingGenerator should never emit a filtered commit\" (if true) is more helpful.",
+      "range": {
+        "startLine": 55,
+        "startChar": 53,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78bdea85_a2995eaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RewriteGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-02T23:36:51Z",
+      "side": 1,
+      "message": "IIUC the idea here is to pull commits from the generator until finding the parent to make sure it passed through the TreeRevFilter.\n\nThe trick is that at some point n \u003d\u003d parent and the previous generator has set the flag in that RevCommit instance.\n\nThe proposed change (if I am parsing it correctly) rechecks again all parents per commit pull from the source. How does this saves any pulling from the source? In any case it will need to do source.next() until the parent \"deeper\" in the generator.\n\nUsing pN for parents and cN for other commits:\n\nIf the parents are [p1, p2, p3] and the queue [c1, p2, c2, p3, p1, ...]\nthis does source.next() 5 times (for p1), and p2 and p3 will be already parsed.\n\nSame parents, if the queue is [o1, p1, p2, o2, p3,...], this does source.next() also 5 times (2 for p1 + 1 for p2 + 2 for p3).",
+      "revId": "d2051730f6f38fb26cd9c09084b114aae50f1f64",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
