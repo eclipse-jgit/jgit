@@ -110,6 +110,24 @@
       "parentUuid": "53669892_ea5f18b3",
       "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a785ba08_7291994a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-02T17:53:10Z",
+      "side": 1,
+      "message": "Just pointing out: since 5.11 this (enforcing \"trust all\") can be done by setting a HttpConnectionFactory/HttpConnectionFactory2 on the TransportHttp instance.\n\nAll other transports also have constructors that are package-visible. Changing only this one constructor feels a bit inconsistent.",
+      "parentUuid": "7e7521c5_a5e5fb08",
+      "revId": "218d07c8bad3862ab806071ceb20a1ad2d69cb31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
