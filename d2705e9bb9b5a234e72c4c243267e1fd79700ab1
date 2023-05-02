@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bfe3d9a_1d4666ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-02T22:05:18Z",
+      "side": 1,
+      "message": "\u003e Patch Set 30: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/3718/ : FAILURE\n\nThis failure looks unrelated to the content of the commit:\n```\n13:47:28  [INFO] --- license-tool:0.0.1-SNAPSHOT:license-check (license-check) @ org.eclipse.jgit-parent ---\n13:47:36  [INFO] Querying Eclipse Foundation for license data for 69 items.\n13:47:36  [INFO] Found 66 items.\n13:47:36  [INFO] Querying ClearlyDefined for license data for 3 items.\n13:47:36  [ERROR] Error response from ClearlyDefined 429\n```",
+      "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
