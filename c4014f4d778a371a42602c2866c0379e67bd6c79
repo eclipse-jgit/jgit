@@ -16,6 +16,24 @@
       "message": "personal curiosity, how did you know it\u0027s greater than 60 bytes?",
       "revId": "c4014f4d778a371a42602c2866c0379e67bd6c79",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7520c66c_a3dea4cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-02T20:47:05Z",
+      "side": 1,
+      "message": "Great question, I didn\u0027t remember so I rewrote this with more obvious variables",
+      "parentUuid": "6533e331_7b15b994",
+      "revId": "c4014f4d778a371a42602c2866c0379e67bd6c79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
