@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -84,8 +85,15 @@ public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 			HashMap<String, String> headers = new HashMap<>();
 			headers.put("Cookie", "someTokenValue=23gBog34");
 			headers.put("AnotherKey", "someValue");
-			((TransportHttp) t).setAdditionalHeaders(headers);
+
+			@SuppressWarnings("resource")
+			TransportHttp th = (TransportHttp) t;
+			th.setAdditionalHeaders(headers);
 			t.openFetch();
+
+			Map<String, String> h = th.getAdditionalHeaders();
+			assertEquals("someTokenValue=23gBog34", h.get("Cookie"));
+			assertEquals("someValue", h.get("AnotherKey"));
 		}
 
 		List<AccessEvent> requests = getRequests();

@@ -588,6 +588,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		this.headers = headers;
 	}
 
+	/**
+	 * Get additional headers on the HTTP connection
+	 *
+	 * @return unmodifiable map of additional name:values that are set as
+	 *         headers on the HTTP connection
+	 * @since 6.6
+	 */
+	public Map<String, String> getAdditionalHeaders() {
+		return Collections.unmodifiableMap(headers);
+	}
+
 	private NoRemoteRepositoryException createNotFoundException(URIish u,
 			URL url, String msg) {
 		String text;
