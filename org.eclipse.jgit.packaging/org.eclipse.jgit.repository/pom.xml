@@ -107,4 +107,37 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>gpg-sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>pgpsigner</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign-p2-artifacts</goal>
+                </goals>
+                <configuration>
+                  <keyname>E3E144E1</keyname> <!-- JGit public key -->
+                  <skipIfJarsigned>true</skipIfJarsigned> <!-- Sign if not already JAR-signed. -->
+                  <forceSignature>
+                    <bundle>bcpg</bundle>
+                    <bundle>bcpkix</bundle>
+                    <bundle>bcprov</bundle>
+                    <bundle>bcutil</bundle>
+                  </forceSignature>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
