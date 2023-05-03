@@ -35,6 +35,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c617ff1e_310750cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-03T21:20:46Z",
+      "side": 1,
+      "message": "Thanks, Ivan, I\u0027ll assign you for +2. Just a couple questions.",
+      "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca66d481_9cfe6fc1",
@@ -48,6 +65,24 @@
       "writtenOn": "2023-05-03T17:19:24Z",
       "side": 1,
       "message": "There is a DfsGarbageCollectorTest, could we add some test there for this writing? \n\nMaybe this DfsGarbageCollection (and its test if added) could do to a follow up change.",
+      "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60af2db6_ee9a80a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-03T21:20:46Z",
+      "side": 1,
+      "message": "This is just making sure that writing the reverse index is *off* in the config for now. I haven\u0027t implemented any writing or reading of the reverse index in the Dfs* world.\n\nShould I just remove this line, since we don\u0027t use the value of the config in DfsGC yet?",
+      "parentUuid": "ca66d481_9cfe6fc1",
       "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

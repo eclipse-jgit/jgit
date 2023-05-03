@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "904ed35e_67dd27ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-03T21:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "265e1dd2_8c1ccc5b",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08b51902_b66bf93b",
@@ -58,6 +76,48 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2272d17_47a68fb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-03T21:20:46Z",
+      "side": 1,
+      "message": "I see 15 constants have @since and 9 don\u0027t. I\u0027ll add it to be in the majority.",
+      "parentUuid": "1cf4e63b_2c776172",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56e26494_e739f652",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-03T21:20:46Z",
+      "side": 1,
+      "message": "So there are people using the local filesystem / non-DFS JGit client?\n\nI didn\u0027t realize; and thought turning it on here could give us some early signal if anyone notices a problem.\n\nI can turn it off for now, but I\u0027m curious -- how would we get the experience that makes us comfortable turning it on by default?",
+      "parentUuid": "08b51902_b66bf93b",
+      "range": {
+        "startLine": 170,
+        "startChar": 59,
+        "endLine": 170,
+        "endChar": 63
+      },
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e40e995_28c655d7",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-05-03T17:19:24Z",
       "side": 1,
       "message": "nit: Use the format of the surrounding lines for consistency",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c50016f0_97deeacb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-03T21:20:46Z",
+      "side": 1,
+      "message": "I\u0027m trying to avoid future bugs if the config setting name changes. Also nice to avoid the `//$NON-NLS-1$`.\n\nWhat are the JGit conventions on when hard-coding strings is justified?\n\nIf we like avoid hard-coding but don\u0027t like inconsistency, would it help if I add a base commit migrating the rest of the lines?",
+      "parentUuid": "1e40e995_28c655d7",
       "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
