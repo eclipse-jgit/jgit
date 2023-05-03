@@ -16,6 +16,24 @@
       "message": "eclipse-jarsigner-plugin needs Java 17 since version 1.4.0. (See [1], commits on Jan 3, 2023.)\n\n[1] https://github.com/eclipse-cbi/org.eclipse.cbi/commits/main/maven-plugins/eclipse-jarsigner-plugin",
       "revId": "237cc5d8a6e28b07d3870da263524911afd5ac56",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab95d6c5_66d51d3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-03T10:58:46Z",
+      "side": 1,
+      "message": "thanks, now I understand why I didn\u0027t see this in a local build :-)",
+      "parentUuid": "f45cf8d2_8867f2a0",
+      "revId": "237cc5d8a6e28b07d3870da263524911afd5ac56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
