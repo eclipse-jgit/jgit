@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "265e1dd2_8c1ccc5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T17:19:24Z",
+      "side": 1,
+      "message": "@since as above\n\nI see that it is the same option than the c client. Well done! Thanks!",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b51902_b66bf93b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T17:19:24Z",
+      "side": 1,
+      "message": "Not sure if this should be true by default. Thinking on operators out there that would suddenly see an increase in disk space after upgrading their jgit version.\n\nMaybe we start with false, and once we have some experience turn it on by default?",
+      "range": {
+        "startLine": 170,
+        "startChar": 59,
+        "endLine": 170,
+        "endChar": 63
+      },
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cf4e63b_2c776172",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T17:19:24Z",
+      "side": 1,
+      "message": "This is public API, so it needs a @since\n\nFor what I see in the file, both constant and method have @since tags.",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e40e995_28c655d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T17:19:24Z",
+      "side": 1,
+      "message": "nit: Use the format of the surrounding lines for consistency",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

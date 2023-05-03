@@ -16,6 +16,40 @@
       "message": "\u003e Patch Set 30: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/3718/ : FAILURE\n\nThis failure looks unrelated to the content of the commit:\n```\n13:47:28  [INFO] --- license-tool:0.0.1-SNAPSHOT:license-check (license-check) @ org.eclipse.jgit-parent ---\n13:47:36  [INFO] Querying Eclipse Foundation for license data for 69 items.\n13:47:36  [INFO] Found 66 items.\n13:47:36  [INFO] Querying ClearlyDefined for license data for 3 items.\n13:47:36  [ERROR] Error response from ClearlyDefined 429\n```",
       "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38cb7912_dac87c2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T17:19:24Z",
+      "side": 1,
+      "message": "The only pending bit is if we enable it by default or not.\n\nOther than that few nits, and maybe letting the DfsGC modification to a follow up change.\n\nThanks, this is almost ready!",
+      "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca66d481_9cfe6fc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T17:19:24Z",
+      "side": 1,
+      "message": "There is a DfsGarbageCollectorTest, could we add some test there for this writing? \n\nMaybe this DfsGarbageCollection (and its test if added) could do to a follow up change.",
+      "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
