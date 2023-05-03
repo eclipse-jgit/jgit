@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0f4a9c1_b898e4bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T22:09:00Z",
+      "side": 1,
+      "message": "\u003e So there are people using the local filesystem / non-DFS JGit client?\n\nI think if you just run a self-hosted gerrit, you are using that stack.\n\n\u003e I didn\u0027t realize; and thought turning it on here could give us some early signal if anyone notices a problem.\n\nThis is turning it on 100%. Defaulting to false, turning it on for few repos and verifying that it works end-to-end is slower but safer. Imagine that due to a bug somewhere we overwrite the pack with this index and corrupt the repo data . We better discover that in a controlled repo.\n\nLater we can announce this in the jgit mailing list and consider turning it on by default or leaving operators to choose (because of the disk space).",
+      "parentUuid": "56e26494_e739f652",
+      "range": {
+        "startLine": 170,
+        "startChar": 59,
+        "endLine": 170,
+        "endChar": 63
+      },
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e40e995_28c655d7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 29
@@ -149,6 +173,24 @@
       "side": 1,
       "message": "I\u0027m trying to avoid future bugs if the config setting name changes. Also nice to avoid the `//$NON-NLS-1$`.\n\nWhat are the JGit conventions on when hard-coding strings is justified?\n\nIf we like avoid hard-coding but don\u0027t like inconsistency, would it help if I add a base commit migrating the rest of the lines?",
       "parentUuid": "1e40e995_28c655d7",
+      "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7cfa43_6b9f0042",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T22:09:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we have guidelines about hard-coding strings.\n\nIn this case I understand and see if option and method match better with\nb.append(\", writeReverseIndex\u003d\").append(isWriterReverseIndex())\n\nthan\nb.append(SEPARATOR).append(CONFIG_KEY_WRITE_REVERSE_INDEX)\n\t\t\t\t.append(EQUALS).append(isWriteReverseIndex());\n\nand it is consistent with the surrounding lines. Also, it is just a configuration object printing itself, no big drama. NON-NLS- doesn\u0027t cause any harm either.\n\nAll in all, I would continue with the hardcoded strings.",
+      "parentUuid": "c50016f0_97deeacb",
       "revId": "dace20044965d0419a3b70369d66fb2c86fd95c9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

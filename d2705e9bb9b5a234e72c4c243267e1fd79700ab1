@@ -85,6 +85,24 @@
       "parentUuid": "ca66d481_9cfe6fc1",
       "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db75bfd_d6966591",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T22:09:00Z",
+      "side": 1,
+      "message": "First I saw it like an ~unrelated thing for this commit, but I think it is an important addition and it doesn\u0027t hurt to leave it here.\n\nWhatever setup/implementation we have, we do NOT want a reverse index in this case. Thanks a lot for adding this.",
+      "parentUuid": "60af2db6_ee9a80a7",
+      "revId": "d2705e9bb9b5a234e72c4c243267e1fd79700ab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
