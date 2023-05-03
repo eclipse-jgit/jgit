@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17abd6db_78a19e54",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsReaderTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T19:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e3be4ef_d8ea38ae",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c937e466_2836519b",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-01T22:01:19Z",
       "side": 1,
       "message": "Hmm...here it seems that if there is no object size index, then null is returned...",
+      "range": {
+        "startLine": 314,
+        "startChar": 44,
+        "endLine": 314,
+        "endChar": 47
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "493a659c_d2356151",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T19:47:48Z",
+      "side": 1,
+      "message": "I think I can store a null in the DFS cache.\n\nDoing so removes this IOException/null problem. Now null means no index and IOException a true IO problem.",
+      "parentUuid": "c937e466_2836519b",
       "range": {
         "startLine": 314,
         "startChar": 44,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf156421_bdde1feb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T19:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bb14d8a_3ccd27a9",
+      "range": {
+        "startLine": 1042,
+        "startChar": 27,
+        "endLine": 1042,
+        "endChar": 33
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c994a31_c5e0a8e0",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-05-01T22:01:19Z",
       "side": 1,
       "message": "...but here, an exception is thrown if there\u0027s no object size index?",
+      "range": {
+        "startLine": 1210,
+        "startChar": 10,
+        "endLine": 1210,
+        "endChar": 21
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e42ca74_7f90e64a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-03T19:47:48Z",
+      "side": 1,
+      "message": "Resolved storing null in the cache. Now both cases (have a ref, no ref and no index to load) return null.",
+      "parentUuid": "1c994a31_c5e0a8e0",
       "range": {
         "startLine": 1210,
         "startChar": 10,
