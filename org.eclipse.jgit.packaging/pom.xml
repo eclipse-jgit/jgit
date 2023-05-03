@@ -287,6 +287,11 @@
           <version>${tycho-version}</version>
         </plugin>
         <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-gpg-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
           <version>1.3.5</version>
@@ -341,6 +346,22 @@
                   <goal>sign</goal>
                 </goals>
                 <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>pgpsigner</id>
+                <goals>
+                  <goal>sign-p2-artifacts</goal>
+                </goals>
+                <configuration>
+                  <keyname>0D356458E3E144E1</keyname> <!-- JGit public key -->
+                  <skipIfJarsigned>true</skipIfJarsigned> <!-- Sign if not already JAR-signed. -->
+                </configuration>
               </execution>
             </executions>
           </plugin>
