@@ -16,6 +16,23 @@
       "message": "There was no bug in the RewriteGenerator (see my reply to Ivan for more information). I deleted my \"bugfix\" and only kept the two unit tests. ",
       "revId": "9b0887a0c971c014ef612766ab60752ce9a23fa4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "430cbd08_5a13e0cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2023-05-04T08:16:12Z",
+      "side": 1,
+      "message": "It seems to me that the jenkins has problems. ",
+      "revId": "9b0887a0c971c014ef612766ab60752ce9a23fa4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
