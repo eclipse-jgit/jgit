@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a763fc_96988631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1220
+      },
+      "writtenOn": "2023-05-05T15:06:45Z",
+      "side": 1,
+      "message": "I would expect because you have it configured like this:\n\n\n        \u003cplugin\u003e\n          \u003cgroupId\u003eorg.eclipse.tycho\u003c/groupId\u003e\n          \u003cartifactId\u003etycho-compiler-plugin\u003c/artifactId\u003e\n          \u003cversion\u003e${tycho-version}\u003c/version\u003e\n          \u003cconfiguration\u003e\n            \u003cencoding\u003eUTF-8\u003c/encoding\u003e\n            \u003crelease\u003e${java-version}\u003c/release\u003e\n            \u003c!-- Do not use useProjectSettings; it\u0027ll always override -nowarn --\u003e\n            \u003cuseProjectSettings\u003efalse\u003c/useProjectSettings\u003e\n            \u003ccompilerArgs\u003e\n              \u003carg\u003e-properties\u003c/arg\u003e\n              \u003carg\u003e${project.basedir}/.settings/org.eclipse.jdt.core.prefs\u003c/arg\u003e\n              \u003carg\u003e-nowarn\u003c/arg\u003e\n            \u003c/compilerArgs\u003e\n          \u003c/configuration\u003e\n          \nthat you compile with/for Java 11 for all projects, regardless of the project settings, and regardless of the version of Java used to run Maven itself.  I expect/assume that the tool chains of the build server will find a Java 11 JRE/JDK to compile against.\n\nNote that an alternative is that you consume these 4 things from here:\n\nhttps://download.eclipse.org/oomph/simrel-maven/milestone/latest\n\nOr here:\n\nhttps://download.eclipse.org/oomph/simrel-maven/2023-06\n\nNote that I generate a report for egit which is here for now:\n\nhttps://github.com/merks/simrel-maven/blob/main/egit/REPORT.md\n\nAll your direct-from-maven dependencies are present in https://download.eclipse.org/oomph/simrel-maven and the versions of them will be updated as new ones are available. I\u0027ll notice when the egit report changes and let you know...",
+      "revId": "4c5ed711df4442cb67cf3fdbad95dfe263ba4daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
