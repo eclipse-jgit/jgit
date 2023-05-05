@@ -16,6 +16,24 @@
       "message": "I tried shortening the key name to the last 8 hex characters; that what I see in other places.",
       "revId": "9d8bcbab63af5542ea5dc2d43ec1fa7cdfb0aa70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78bee707_c0c65a40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-05T12:31:32Z",
+      "side": 1,
+      "message": "thanks, I manually triggered the pgp signing test validation job which is disabled by default until it works",
+      "parentUuid": "d5f77e6d_bec309ed",
+      "revId": "9d8bcbab63af5542ea5dc2d43ec1fa7cdfb0aa70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
