@@ -50,6 +50,24 @@
       "message": "No, it\u0027s not here:\n\nhttps://tycho.eclipseprojects.io/doc/3.0.4/tycho-gpg-plugin/sign-p2-artifacts-mojo.html\n\nbut it is here:\n\nhttps://tycho.eclipseprojects.io/doc/master/tycho-gpg-plugin/sign-p2-artifacts-mojo.html#forceSignature\n\nSo this is not a problem that you can solve without 4.x and I doubt you want to use 4.0.0 SNAPSHOTS for your builds, though the Platform does...",
       "revId": "bd6b7369928288f556a5534d623f51e86cdf73f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "363b4fb9_834edede",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-05T14:47:27Z",
+      "side": 1,
+      "message": "We are still on 2.7.5 since JGit 6.x uses Java 11 and Tycho 3.x requires Java 17.\nI guess there\u0027s a way to use Java 17 for the build but build for Java 11 using 11 class libraries.\n\nDo you have some pointers to documentation describing how to do that ?\nWhen this is done, we can consider if we want to update to 4.0.0-SNAPSHOT.\n\nIt sucks when the build tool forces Java updates onto its users before the respective Java version is EOL :-(\n\nThanks for all your help, very much appreciated :-)",
+      "parentUuid": "20cbf500_bb482045",
+      "revId": "bd6b7369928288f556a5534d623f51e86cdf73f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
