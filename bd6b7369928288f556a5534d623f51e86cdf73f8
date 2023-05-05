@@ -16,6 +16,23 @@
       "message": "This change is just a formatting change.\n\nThe specification for what to force does look correct like in other places that work:\n\nhttps://git.eclipse.org/c/oomph/org.eclipse.oomph.incubator.git/tree/maven/site-minimal/pom.xml#n47",
       "revId": "bd6b7369928288f556a5534d623f51e86cdf73f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37fddec1_1a64c658",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1220
+      },
+      "writtenOn": "2023-05-05T13:55:50Z",
+      "side": 1,
+      "message": "Now that I think about it, I wonder if Tycho 2.7.5 actually supports forceSignature?!  I\u0027m not even sure 3.x supports that.  I know 4.x does support that and that\u0027s what I use for all these places...",
+      "revId": "bd6b7369928288f556a5534d623f51e86cdf73f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
