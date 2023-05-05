@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2996646a_8b3a3b49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1220
+      },
+      "writtenOn": "2023-05-05T13:44:42Z",
+      "side": 1,
+      "message": "This change is just a formatting change.\n\nThe specification for what to force does look correct like in other places that work:\n\nhttps://git.eclipse.org/c/oomph/org.eclipse.oomph.incubator.git/tree/maven/site-minimal/pom.xml#n47",
+      "revId": "bd6b7369928288f556a5534d623f51e86cdf73f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
