@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e252b85_2251429d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1220
+      },
+      "writtenOn": "2023-05-05T13:26:52Z",
+      "side": 1,
+      "message": "The build looks better.  Let me test the repository and I\u0027ll post a link to that result here:",
+      "revId": "488e33733e02e0062f176cf929e47de3b1582c3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
