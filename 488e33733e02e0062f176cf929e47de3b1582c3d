@@ -16,6 +16,23 @@
       "message": "The build looks better.  Let me test the repository and I\u0027ll post a link to that result here:",
       "revId": "488e33733e02e0062f176cf929e47de3b1582c3d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f51ccec9_6b0d61d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1220
+      },
+      "writtenOn": "2023-05-05T13:30:48Z",
+      "side": 1,
+      "message": "Many things are PGP signed now:\n\nhttps://download.eclipse.org/oomph/archive/reports-extra/egit-pgp/ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11-test/lastSuccessfulBuild/artifact/org.eclipse.jgit.packaging/org.eclipse.jgit.repository/target/repository/index.html\n\nBut note the ones that should be forced, e.g., \n\nhttps://download.eclipse.org/oomph/archive/reports-extra/egit-pgp/ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11-test/lastSuccessfulBuild/artifact/org.eclipse.jgit.packaging/org.eclipse.jgit.repository/target/repository/index/bcprov_1.73.0.html",
+      "revId": "488e33733e02e0062f176cf929e47de3b1582c3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
