@@ -93,16 +93,18 @@ public class CommitGraphWriter {
 	 *            output stream of commit-graph data. The stream should be
 	 *            buffered by the caller. The caller is responsible for closing
 	 *            the stream.
+	 * @return statistics gathered during the run
 	 * @throws IOException
 	 *             if an error occurred
 	 */
-	public void write(@NonNull ProgressMonitor monitor,
+	public Stats write(@NonNull ProgressMonitor monitor,
 			@NonNull OutputStream commitGraphStream) throws IOException {
+		Stats stats = new Stats();
 		if (graphCommits.size() == 0) {
-			return;
+			return stats;
 		}
 
-		List<ChunkHeader> chunks = createChunks();
+		List<ChunkHeader> chunks = createChunks(stats);
 		long writeCount = 256 + 2 * graphCommits.size()
 				+ graphCommits.getExtraEdgeCnt();
 		monitor.beginTask(
@@ -122,9 +124,11 @@ public class CommitGraphWriter {
 		} finally {
 			monitor.endTask();
 		}
+		return stats;
 	}
 
-	private List<ChunkHeader> createChunks() throws MissingObjectException,
+	private List<ChunkHeader> createChunks(Stats stats)
+			throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.add(new ChunkHeader(CHUNK_ID_OID_FANOUT, GRAPH_FANOUT_SIZE));
@@ -136,7 +140,7 @@ public class CommitGraphWriter {
 			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST,
 					graphCommits.getExtraEdgeCnt() * 4));
 		}
-		BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks();
+		BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks(stats);
 		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
 				bloomFilterChunks.index));
 		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
@@ -363,7 +367,7 @@ public class CommitGraphWriter {
 		return Optional.of(paths);
 	}
 
-	private BloomFilterChunks computeBloomFilterChunks()
+	private BloomFilterChunks computeBloomFilterChunks(Stats stats)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 
@@ -383,13 +387,18 @@ public class CommitGraphWriter {
 		int dataHeaderSize = data.size();
 
 		for (RevCommit cmit : graphCommits) {
-			Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
-					graphCommits.getObjectReader(), cmit);
-			ChangedPathFilter cpf;
-			if (paths.isEmpty()) {
-				cpf = ChangedPathFilter.FULL;
+			ChangedPathFilter cpf = cmit.getChangedPathFilter();
+			if (cpf != null) {
+				stats.changedPathFiltersReused++;
 			} else {
-				cpf = ChangedPathFilter.fromPaths(paths.get());
+				stats.changedPathFiltersComputed++;
+				Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
+						graphCommits.getObjectReader(), cmit);
+				if (paths.isEmpty()) {
+					cpf = ChangedPathFilter.FULL;
+				} else {
+					cpf = ChangedPathFilter.fromPaths(paths.get());
+				}
 			}
 			cpf.writeTo(data);
 			NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
@@ -448,6 +457,36 @@ public class CommitGraphWriter {
 				ByteArrayOutputStream data) {
 			this.index = index;
 			this.data = data;
+		}
+	}
+
+	/**
+	 * Statistics collected during a single commit graph write.
+	 */
+	public static class Stats {
+
+		private long changedPathFiltersReused = 0;
+
+		private long changedPathFiltersComputed = 0;
+
+		/**
+		 * Returns the number of existing changed path filters that were reused
+		 * when writing, for statistical purposes.
+		 *
+		 * @return count of changed path filters
+		 */
+		public long getChangedPathFiltersReused() {
+			return changedPathFiltersReused;
+		}
+
+		/**
+		 * Returns the number of changed path filters that were computed from
+		 * scratch, for statistical purposes.
+		 *
+		 * @return count of changed path filters
+		 */
+		public long getChangedPathFiltersComputed() {
+			return changedPathFiltersComputed;
 		}
 	}
 }
