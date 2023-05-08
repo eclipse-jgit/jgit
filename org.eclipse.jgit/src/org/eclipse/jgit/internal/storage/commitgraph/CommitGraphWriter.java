@@ -374,46 +374,55 @@ public class CommitGraphWriter {
 		int dataHeaderSize = data.size();
 
 		for (RevCommit cmit : graphCommits) {
-			boolean tooMany = false;
-			HashSet<ByteBuffer> paths = new HashSet<>();
-			try (TreeWalk walk = new TreeWalk(null,
-					graphCommits.getObjectReader())) {
-				walk.setRecursive(true);
-				if (cmit.getParentCount() == 0) {
-					walk.addTree(new EmptyTreeIterator());
-				} else {
-					walk.addTree(cmit.getParent(0).getTree());
-				}
-				walk.addTree(cmit.getTree());
-				treeWalk: while (walk.next()) {
-					if (walk.idEqual(0, 1)) {
-						continue;
-					}
-					byte[] rawPath = walk.getRawPath();
-					paths.add(ByteBuffer.wrap(rawPath));
-					for (int i = 0; i < rawPath.length; i++) {
-						if (rawPath[i] == '/') {
-							paths.add(ByteBuffer.wrap(rawPath, 0, i));
-						}
-						if (paths.size() > MAX_CHANGED_PATHS) {
-							tooMany = true;
-							break treeWalk;
-						}
-					}
-				}
-			}
-			if (tooMany) {
-				data.write(0xff);
-			} else if (paths.isEmpty()) {
-				data.write(0);
+			ChangedPathFilter cpf = cmit.getChangedPathFilter();
+			if (cpf != null) {
+				cpf.writeTo(data);
+				changedPathFiltersReused++;
 			} else {
-				byte[] bloom = new byte[-Math.floorDiv(
-						-paths.size() * ChangedPathFilter.BITS_PER_ENTRY, 8)];
-				for (ByteBuffer path : paths) {
-					ChangedPathFilter.add(bloom, path.array(), path.position(),
-							path.limit() - path.position());
+				boolean tooMany = false;
+				HashSet<ByteBuffer> paths = new HashSet<>();
+				try (TreeWalk walk = new TreeWalk(null,
+						graphCommits.getObjectReader())) {
+					walk.setRecursive(true);
+					if (cmit.getParentCount() == 0) {
+						walk.addTree(new EmptyTreeIterator());
+					} else {
+						walk.addTree(cmit.getParent(0).getTree());
+					}
+					walk.addTree(cmit.getTree());
+					treeWalk: while (walk.next()) {
+						if (walk.idEqual(0, 1)) {
+							continue;
+						}
+						byte[] rawPath = walk.getRawPath();
+						paths.add(ByteBuffer.wrap(rawPath));
+						for (int i = 0; i < rawPath.length; i++) {
+							if (rawPath[i] == '/') {
+								paths.add(ByteBuffer.wrap(rawPath, 0, i));
+							}
+							if (paths.size() > MAX_CHANGED_PATHS) {
+								tooMany = true;
+								break treeWalk;
+							}
+						}
+					}
 				}
-				data.write(bloom);
+				if (tooMany) {
+					data.write(0xff);
+				} else if (paths.isEmpty()) {
+					data.write(0);
+				} else {
+					byte[] bloom = new byte[-Math.floorDiv(
+							-paths.size() * ChangedPathFilter.BITS_PER_ENTRY,
+							8)];
+					for (ByteBuffer path : paths) {
+						ChangedPathFilter.add(bloom, path.array(),
+								path.position(),
+								path.limit() - path.position());
+					}
+					data.write(bloom);
+				}
+				changedPathFiltersComputed++;
 			}
 			NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
 			index.write(scratch);

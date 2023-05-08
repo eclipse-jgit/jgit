@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import java.io.ByteArrayOutputStream;
+
 import org.apache.commons.codec.digest.MurmurHash3;
 
 /**
@@ -109,5 +111,15 @@ public class ChangedPathFilter {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Writes this filter to the given stream.
+	 *
+	 * @param s
+	 *            stream to write to
+	 */
+	public void writeTo(ByteArrayOutputStream s) {
+		s.write(data, offset, length);
 	}
 }
