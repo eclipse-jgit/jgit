@@ -27,7 +27,10 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_CACHE_SIZE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_COMPRESSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DEPTH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRESERVE_OLD_PACKS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRUNE_PRESERVED;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT;
@@ -36,10 +39,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WRITE_REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRESERVE_OLD_PACKS;
-import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRUNE_PRESERVED;
 
 import java.time.Duration;
 import java.util.concurrent.Executor;
@@ -160,6 +161,14 @@ public class PackConfig {
 	 * @see #setIndexVersion(int)
 	 */
 	public static final int DEFAULT_INDEX_VERSION = 2;
+
+	/**
+	 * Default value of the write reverse index option: {@value}
+	 *
+	 * @see #setWriteReverseIndex(boolean)
+	 * @since 6.6
+	 */
+	public static final boolean DEFAULT_WRITE_REVERSE_INDEX = false;
 
 	/**
 	 * Default value of the build bitmaps option: {@value}
@@ -292,6 +301,8 @@ public class PackConfig {
 
 	private int indexVersion = DEFAULT_INDEX_VERSION;
 
+	private boolean writeReverseIndex = DEFAULT_WRITE_REVERSE_INDEX;
+
 	private boolean buildBitmaps = DEFAULT_BUILD_BITMAPS;
 
 	private int bitmapContiguousCommitCount = DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT;
@@ -373,6 +384,7 @@ public class PackConfig {
 		this.threads = cfg.threads;
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
+		this.writeReverseIndex = cfg.writeReverseIndex;
 		this.buildBitmaps = cfg.buildBitmaps;
 		this.bitmapContiguousCommitCount = cfg.bitmapContiguousCommitCount;
 		this.bitmapRecentCommitCount = cfg.bitmapRecentCommitCount;
@@ -974,6 +986,31 @@ public class PackConfig {
 	}
 
 	/**
+	 * True if the writer should write reverse index files.
+	 *
+	 * Default setting: {@value #DEFAULT_WRITE_REVERSE_INDEX}
+	 *
+	 * @return whether the writer should write reverse index files
+	 * @since 6.6
+	 */
+	public boolean isWriteReverseIndex() {
+		return writeReverseIndex;
+	}
+
+	/**
+	 * Set whether the writer will write reverse index files.
+	 *
+	 * Default setting: {@value #DEFAULT_WRITE_REVERSE_INDEX}
+	 *
+	 * @param writeReverseIndex
+	 *            whether the writer should write reverse index files
+	 * @since 6.6
+	 */
+	public void setWriteReverseIndex(boolean writeReverseIndex) {
+		this.writeReverseIndex = writeReverseIndex;
+	}
+
+	/**
 	 * True if writer is allowed to build bitmaps for indexes.
 	 *
 	 * Default setting: {@value #DEFAULT_BUILD_BITMAPS}
@@ -1286,6 +1323,8 @@ public class PackConfig {
 		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_SINGLE_PACK,
 				getSinglePack()));
+		setWriteReverseIndex(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_WRITE_REVERSE_INDEX, isWriteReverseIndex()));
 		setBuildBitmaps(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps()));
 		setBitmapContiguousCommitCount(rc.getInt(CONFIG_PACK_SECTION,
@@ -1347,6 +1386,7 @@ public class PackConfig {
 		b.append(", reuseDeltas=").append(isReuseDeltas()); //$NON-NLS-1$
 		b.append(", reuseObjects=").append(isReuseObjects()); //$NON-NLS-1$
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
+		b.append(", writeReverseIndex=").append(isWriteReverseIndex()); // $NON-NLS-1$
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
 		b.append(", bitmapContiguousCommitCount=") //$NON-NLS-1$
 				.append(getBitmapContiguousCommitCount());
