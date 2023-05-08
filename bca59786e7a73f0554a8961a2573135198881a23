@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5da3f02_926419c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-08T18:18:43Z",
+      "side": 1,
+      "message": "Couple @since tags and I think this is ready. Thanks!",
+      "revId": "bca59786e7a73f0554a8961a2573135198881a23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5df6a38c_596c248a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-08T18:18:43Z",
+      "side": 1,
+      "message": "This is a public class, I think these methods need the @since tag. \n\nSorry, I should have mentioned it in my previous comment.",
+      "revId": "bca59786e7a73f0554a8961a2573135198881a23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
