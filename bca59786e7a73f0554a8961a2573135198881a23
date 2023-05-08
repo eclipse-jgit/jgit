@@ -33,6 +33,24 @@
       "message": "This is a public class, I think these methods need the @since tag. \n\nSorry, I should have mentioned it in my previous comment.",
       "revId": "bca59786e7a73f0554a8961a2573135198881a23",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb95c498_056e9802",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-08T18:25:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df6a38c_596c248a",
+      "revId": "bca59786e7a73f0554a8961a2573135198881a23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
