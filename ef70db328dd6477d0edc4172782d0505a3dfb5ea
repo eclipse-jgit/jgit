@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f85cf31_fdb1b8f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-08T17:22:17Z",
+      "side": 1,
+      "message": "Thanks, I learnt about the generators and we all got some tests for this specially tricky part of the JGit code!\n\nNit about a stray white line, but this looks good to me.",
+      "revId": "ef70db328dd6477d0edc4172782d0505a3dfb5ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a268f28_a986e93a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-08T17:22:17Z",
+      "side": 1,
+      "message": "nit: this empty line between the commit and the code line",
+      "revId": "ef70db328dd6477d0edc4172782d0505a3dfb5ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
