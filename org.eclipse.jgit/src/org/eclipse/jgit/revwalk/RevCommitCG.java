@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * @since 6.5
  */
-class RevCommitCG extends RevCommit {
+public class RevCommitCG extends RevCommit {
 
 	private final int graphPosition;
 
@@ -111,7 +111,12 @@ class RevCommitCG extends RevCommit {
 		return generation;
 	}
 
-	ChangedPathFilter getChangedPathFilter() {
+	/**
+	 * Returns the changed path filter, if this commit has one.
+	 *
+	 * @return changed path filter or null
+	 */
+	public ChangedPathFilter getChangedPathFilter() {
 		return changedPathFilter;
 	}
 }
