@@ -23,8 +23,10 @@ import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -314,6 +316,40 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
 		assertThat(changedPaths, containsInAnyOrder("-1,"));
+	}
+
+	@Test
+	public void testReuseBloomFilters() throws Exception {
+		RevBlob emptyBlob = tr.blob(new byte[] {});
+		RevCommit root = tr.commit(tr.tree(tr.file("foo.txt", emptyBlob),
+				tr.file("onedir/twodir/bar.txt", emptyBlob)));
+		tr.branch("master").update(root);
+
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		GC gc = new GC(db);
+		gc.gc().get();
+
+		RevCommit tip = tr.commit(tr.tree(tr.file("foo-new.txt", emptyBlob),
+				tr.file("onedir/twodir/bar-new.txt", emptyBlob)), root);
+
+		Set<ObjectId> wants = Collections.singleton(tip);
+		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
+		writer = new CommitGraphWriter(graphCommits);
+		writer.write(m, os);
+
+		assertEquals(1, writer.getChangedPathFiltersReused());
+		assertEquals(1, writer.getChangedPathFiltersComputed());
+
+		// Expected strings are the same as in
+		// #testChangedPathFilterRootAndNested
+		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
+		assertThat(changedPaths, containsInAnyOrder(
+				"109,-33,2,60,20,79,-11,116,",
+				"119,69,63,-8,0,"));
 	}
 
 	RevCommit commit(RevCommit... parents) throws Exception {

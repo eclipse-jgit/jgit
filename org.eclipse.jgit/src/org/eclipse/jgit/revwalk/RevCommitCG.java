@@ -113,7 +113,7 @@ class RevCommitCG extends RevCommit {
 
 	/** {@inheritDoc} */
 	@Override
-	ChangedPathFilter getChangedPathFilter() {
+	public ChangedPathFilter getChangedPathFilter() {
 		return changedPathFilter;
 	}
 }
