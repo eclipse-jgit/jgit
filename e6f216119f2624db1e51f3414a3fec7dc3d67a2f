@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c5a3bdb_7292ced8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-09T08:51:59Z",
+      "side": 1,
+      "message": "- removed some unnecessary whitespace\n- rebased onto master",
+      "revId": "e6f216119f2624db1e51f3414a3fec7dc3d67a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
