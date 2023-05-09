@@ -16,6 +16,24 @@
       "message": "I see the build tries -Pgpg-sign but the profile is called eclipse-sign now.\n\n",
       "revId": "e0bec52041034f73df41fa6aa560595484831efe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "577ad4a8_8070db94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-09T08:39:32Z",
+      "side": 1,
+      "message": "I still need to consolidate the build jobs to fix this",
+      "parentUuid": "852c7873_1dbc1d2f",
+      "revId": "e0bec52041034f73df41fa6aa560595484831efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
