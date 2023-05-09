@@ -279,6 +279,11 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin-version}</version>
           <configuration>
+            <toolchains>
+              <jdk>
+                <version>${java.version}</version>
+              </jdk>
+            </toolchains>
             <forkCount>${test-fork-count}</forkCount>
             <reuseForks>true</reuseForks>
             <argLine>@{argLine}</argLine>
@@ -397,6 +402,25 @@
           <groupId>org.eclipse.dash</groupId>
           <artifactId>license-tool-plugin</artifactId>
           <version>0.0.1-SNAPSHOT</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <toolchains>
+              <jdk>
+                <version>${java.version}</version>
+              </jdk>
+            </toolchains>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -567,6 +591,10 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-toolchains-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
@@ -820,6 +848,9 @@
             <configuration>
               <encoding>UTF-8</encoding>
               <release>${java.version}</release>
+              <jdkToolchain>
+                <version>${java.version}</version>
+              </jdkToolchain>
               <fork>true</fork>
               <compilerArgs>
                 <arg>-XDcompilePolicy=simple</arg>
@@ -860,6 +891,9 @@
               <compilerId>eclipse</compilerId>
               <encoding>UTF-8</encoding>
               <release>${java.version}</release>
+              <jdkToolchain>
+                <version>${java.version}</version>
+              </jdkToolchain>
               <!-- Passing arguments is a trainwreck, see https://issues.apache.org/jira/browse/MCOMPILER-123 -->
               <compilerArguments>
                 <properties>${project.basedir}/.settings/org.eclipse.jdt.core.prefs</properties>
