@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
@@ -943,7 +944,8 @@ public class GC {
 		try (RevWalk walk = new RevWalk(repo)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
 					GraphCommits.fromWalk(pm, wants, walk));
-			tmpFile = File.createTempFile("commit_", ".graph_tmp", //$NON-NLS-1$//$NON-NLS-2$
+			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
+					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());
 			// write the commit-graph file
 			try (FileOutputStream fos = new FileOutputStream(tmpFile);
@@ -1292,10 +1294,11 @@ public class GC {
 			ObjectId id = pw.computeName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
 			packdir.mkdirs();
-			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
-			final String tmpBase = tmpPack.getName()
+			tmpPack = File.createTempFile("gc_", //$NON-NLS-1$
+					PACK.getTmpExtension(), packdir);
+			String tmpBase = tmpPack.getName()
 					.substring(0, tmpPack.getName().lastIndexOf('.'));
-			File tmpIdx = new File(packdir, tmpBase + ".idx_tmp"); //$NON-NLS-1$
+			File tmpIdx = new File(packdir, tmpBase + INDEX.getTmpExtension());
 			tmpExts.put(INDEX, tmpIdx);
 
 			if (!tmpIdx.createNewFile())
@@ -1321,7 +1324,8 @@ public class GC {
 			}
 
 			if (pw.prepareBitmapIndex(pm)) {
-				File tmpBitmapIdx = new File(packdir, tmpBase + ".bitmap_tmp"); //$NON-NLS-1$
+				File tmpBitmapIdx = new File(packdir,
+						tmpBase + BITMAP_INDEX.getTmpExtension());
 				tmpExts.put(BITMAP_INDEX, tmpBitmapIdx);
 
 				if (!tmpBitmapIdx.createNewFile())
