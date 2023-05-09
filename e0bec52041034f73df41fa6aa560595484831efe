@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "852c7873_1dbc1d2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1220
+      },
+      "writtenOn": "2023-05-09T08:33:26Z",
+      "side": 1,
+      "message": "I see the build tries -Pgpg-sign but the profile is called eclipse-sign now.\n\n",
+      "revId": "e0bec52041034f73df41fa6aa560595484831efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
