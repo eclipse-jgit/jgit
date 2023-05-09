@@ -1323,6 +1323,25 @@ public class GC {
 				idxChannel.force(true);
 			}
 
+			if (pw.isReverseIndexEnabled()) {
+				File tmpReverseIndexFile = new File(packdir,
+						tmpBase + REVERSE_INDEX.getTmpExtension());
+				tmpExts.put(REVERSE_INDEX, tmpReverseIndexFile);
+				if (!tmpReverseIndexFile.createNewFile()) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().cannotCreateIndexfile,
+							tmpReverseIndexFile.getPath()));
+				}
+				try (FileOutputStream fos = new FileOutputStream(
+						tmpReverseIndexFile);
+						FileChannel channel = fos.getChannel();
+						OutputStream stream = Channels
+								.newOutputStream(channel)) {
+					pw.writeReverseIndex(stream);
+					channel.force(true);
+				}
+			}
+
 			if (pw.prepareBitmapIndex(pm)) {
 				File tmpBitmapIdx = new File(packdir,
 						tmpBase + BITMAP_INDEX.getTmpExtension());
