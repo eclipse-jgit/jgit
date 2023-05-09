@@ -276,6 +276,11 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin-version}</version>
           <configuration>
+            <toolchains>
+              <jdk>
+                <version>${java.version}</version>
+              </jdk>
+            </toolchains>
             <forkCount>${test-fork-count}</forkCount>
             <reuseForks>true</reuseForks>
             <argLine>@{argLine}</argLine>
@@ -394,6 +399,25 @@
           <groupId>org.eclipse.dash</groupId>
           <artifactId>license-tool-plugin</artifactId>
           <version>1.0.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <toolchains>
+              <jdk>
+                <version>${java.version}</version>
+              </jdk>
+            </toolchains>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -564,6 +588,10 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-toolchains-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
