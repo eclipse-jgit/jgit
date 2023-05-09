@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2da7402_e7ddbb64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-09T17:48:07Z",
+      "side": 1,
+      "message": "Assigning Alina for a +1 review",
+      "revId": "f4623c844854a9dead95f3e11b7317d006451d1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
