@@ -33,6 +33,24 @@
       "message": "nit: this empty line between the commit and the code line",
       "revId": "ef70db328dd6477d0edc4172782d0505a3dfb5ea",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e1b278_5e4ea1e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RewriteGeneratorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 307354
+      },
+      "writtenOn": "2023-05-09T07:32:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a268f28_a986e93a",
+      "revId": "ef70db328dd6477d0edc4172782d0505a3dfb5ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
