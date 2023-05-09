@@ -22,6 +22,30 @@
       },
       "revId": "77245133626a71bcf1a845bdec88ab828acaa5e1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2721ad8_d2271943",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-09T17:35:41Z",
+      "side": 1,
+      "message": "That comment is required to indicate that there is a hard-coded string in that line (or if there were two, you would put `//$NON-NLS-2$`, etc)",
+      "parentUuid": "5cd28b44_d8d4ff73",
+      "range": {
+        "startLine": 1274,
+        "startChar": 40,
+        "endLine": 1274,
+        "endChar": 53
+      },
+      "revId": "77245133626a71bcf1a845bdec88ab828acaa5e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
