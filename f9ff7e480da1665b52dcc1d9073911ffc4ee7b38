@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65b99853_d44ccb12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-10T23:02:21Z",
+      "side": 1,
+      "message": "In this version, changed-path filters are written unconditionally if commit graphs are written; in other words, there is no configuration option. I\u0027m not sure myself if there should be a configuration option - I\u0027m leaning towards including one, but am open to opinions.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
