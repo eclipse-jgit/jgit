@@ -1189,6 +1189,7 @@ public class UploadPack implements Closeable {
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		Instant negotiateStart = Instant.now();
+		accumulator.advertised = advertised.size();
 
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
@@ -1209,6 +1210,7 @@ public class UploadPack implements Closeable {
 		// TODO(ifrade): Avoid mutating the parsed request.
 		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
+		accumulator.wants = wantIds.size();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
@@ -1862,6 +1864,7 @@ public class UploadPack implements Closeable {
 			sentReady = shouldGiveUp(peerHas, out, missCnt);
 		}
 
+		accumulator.haves = haveCnt;
 		preUploadHook.onEndNegotiateRound(this, wantAll, haveCnt, missCnt, sentReady);
 		peerHas.clear();
 		return last;
