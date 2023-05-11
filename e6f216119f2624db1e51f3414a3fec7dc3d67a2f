@@ -34,6 +34,24 @@
       "parentUuid": "0503ef2d_f8bc7a29",
       "revId": "e6f216119f2624db1e51f3414a3fec7dc3d67a2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a1e723f_04442d48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:24:18Z",
+      "side": 0,
+      "message": "This bug is a sign of a missing test somewhere. Looking for an non-existing oid (bigger/smaller/in-the-middle than anything else) should be well covered.\n\nThis class doesn\u0027t need real data. We could write a pair of hardcoded oidFanout/oidLookup to test this.\n\nI think just an oidFanout with all 0 and an empty oidLookup should already trigger this bug.\n\nOr oidFanout with [1, 2, 2, ...] and oidLookup [\"000000..01\", \"0100000...01\"] and then asking for \"ff000000...00\" ?",
+      "parentUuid": "38613173_af980825",
+      "revId": "e6f216119f2624db1e51f3414a3fec7dc3d67a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
