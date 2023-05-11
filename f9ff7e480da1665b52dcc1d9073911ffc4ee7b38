@@ -98,6 +98,47 @@
       },
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91bb473b_69aa38a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-11T19:19:31Z",
+      "side": 1,
+      "message": "interesting. looks like cgit maintain their own murmur3 method. do you happen to know the reason why cgit chose to do so? there\u0027s no external library in c for murmur?",
+      "parentUuid": "c3d20bde_f45967bf",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bfaf0b1_5c61227c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-11T19:19:31Z",
+      "side": 1,
+      "message": "so right now, we are always creating chunks for bloom filters, is there a need for provide an enable to turn the generation off? afaik, the bloom filter data chunk could be the largest chunk by far (if there\u0027s a lot of changed paths).",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
