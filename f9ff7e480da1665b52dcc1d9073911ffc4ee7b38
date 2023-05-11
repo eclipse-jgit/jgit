@@ -160,6 +160,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebe3c475_a551e169",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-11T22:47:36Z",
+      "side": 1,
+      "message": "I\u0027ll address the other comments later but will reply to this one first.\n\n\u003e Cgit did\u0027t mask the int with 0xff, which made the result of the hash different from ours.\n\nI think the intention was that the widening cast \"(uint32_t)data[4*i]\" in murmur3_seeded() in C Git doesn\u0027t cause sign extension to happen, which is true if char is unsigned, but not when char is signed (whether char is unsigned or signed can be controlled by a compiler flag). So I would say that it\u0027s not that C Git didn\u0027t mask it, but that it didn\u0027t explicitly declare that data is unsigned.\n\nI have brought this matter up to the C Git developer mailing list:\nhttps://lore.kernel.org/git/20230511224101.972442-1-jonathantanmy@google.com/\n\nLet\u0027s see what they say before proceeding with this.\n\n\u003e looks like cgit maintain their own murmur3 method. do you happen to know the reason why cgit chose to do so? there\u0027s no external library in c for murmur?\n\nI don\u0027t know offhand, but in C, it\u0027s harder to introduce external dependencies, which might be why the original author went with writing their own.",
+      "parentUuid": "91bb473b_69aa38a5",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3291eeb2_70a1ac28",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 2
