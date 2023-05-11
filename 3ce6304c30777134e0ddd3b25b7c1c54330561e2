@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d06a75f_bfd6416c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-05-11T18:45:37Z",
+      "side": 1,
+      "message": "Code LGTM for fixing V2 stats.",
+      "revId": "3ce6304c30777134e0ddd3b25b7c1c54330561e2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
