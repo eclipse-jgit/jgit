@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad776a2_585e9248",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-11T20:05:36Z",
+      "side": 1,
+      "message": "It is broken (in a very specific case). I\u0027ve updated the commit message to be clearer about it.",
+      "parentUuid": "63836496_89367e78",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "69e0c30f_71e09b5a",
