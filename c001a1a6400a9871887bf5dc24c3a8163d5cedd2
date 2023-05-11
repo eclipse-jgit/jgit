@@ -52,6 +52,24 @@
       "parentUuid": "040c0a9a_1192555e",
       "revId": "c001a1a6400a9871887bf5dc24c3a8163d5cedd2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b37bf45_78bbe0c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-05-11T02:42:43Z",
+      "side": 1,
+      "message": "\u003e Hi Kyle, I have new versions of these at https://git.eclipse.org/r/c/jgit/jgit/+/201854 and its ancestors (5 commits total). I have kept your Signed-off-by and also referenced this work in my commit messages.\n\nGreat! I\u0027m glad you can take this work.",
+      "parentUuid": "98e5ec84_d892fa9b",
+      "revId": "c001a1a6400a9871887bf5dc24c3a8163d5cedd2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
