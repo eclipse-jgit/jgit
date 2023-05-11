@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eed2c740_eac954d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-05-11T20:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1385b165_5741c379",
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "954d7e40_19a5431a",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21bb4277_c62d8c14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-05-11T20:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "954d7e40_19a5431a",
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1cec770_d4c170b5",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-05-11T18:51:48Z",
       "side": 1,
       "message": "Indirectly? it is the same code path, no? You can just say that this records the stats for fetch and push-negotiation.",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "800e4970_1c66e1ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-05-11T20:00:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1cec770_d4c170b5",
       "range": {
         "startLine": 10,
         "startChar": 25,
