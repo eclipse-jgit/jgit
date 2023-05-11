@@ -74,6 +74,30 @@
       },
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d20bde_f45967bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-05-11T03:03:54Z",
+      "side": 1,
+      "message": "\u003e I think it\u0027s better to ensure compatibility with cgit without modifying the source code. If you have any good suggestions?\n\nsource code -\u003e I mean source code of dependency(commons-codec).\nOtherwise, we can only implement a customized murmur3hash.",
+      "parentUuid": "a2635821_02a6419e",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
