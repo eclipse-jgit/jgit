@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1385b165_5741c379",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T18:51:48Z",
+      "side": 1,
+      "message": "Title line starts with the class/component/area of change.\n\nUploadPack: Record negotiation stats on fetchV2 call",
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "954d7e40_19a5431a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T18:51:48Z",
+      "side": 1,
+      "message": "First paragraph in present explaining the problem. Ie ServiceV2 is not collecting wants/have in PackStatistics.\n\nMove the fix to a second paragraph.",
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1cec770_d4c170b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T18:51:48Z",
+      "side": 1,
+      "message": "Indirectly? it is the same code path, no? You can just say that this records the stats for fetch and push-negotiation.",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "123d53b7_6227af4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T18:51:48Z",
+      "side": 1,
+      "message": "Comments on the commit-message. Otherwise LGTM.",
+      "revId": "5e2d34f669a3a1935075d2a9922af6a7981268a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
