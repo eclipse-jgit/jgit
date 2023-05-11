@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "273f9a73_f7f808e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-11T19:39:36Z",
+      "side": 1,
+      "message": "ack on Kyle\u0027s point about murmurhash3 doesn\u0027t mask the int with 0xff in cgit, any problem here based on his suggestion?",
+      "revId": "9fd2b2a54173fd825e07bedf50c5088d0e91e489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
