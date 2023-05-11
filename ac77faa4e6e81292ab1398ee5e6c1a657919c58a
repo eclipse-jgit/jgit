@@ -80,6 +80,24 @@
       "message": "Couple nits.",
       "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63618320_cdcc1656",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-11T20:06:43Z",
+      "side": 1,
+      "message": "The intention is to fix a bug that might cause a ArrayIndexOutOfBoundsException, not performance (which won\u0027t change in the majority of cases). I\u0027ve updated the commit message accordingly.",
+      "parentUuid": "69e0c30f_71e09b5a",
+      "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
