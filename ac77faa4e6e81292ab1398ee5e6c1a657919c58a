@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "63836496_89367e78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T17:13:58Z",
+      "side": 1,
+      "message": "This title made me think that findGraphPosition was broken. Glad it doesn\u0027t.\n\nI don\u0027t have good ideas, but maybe something like:\nGraphObjectIndex: shortcut search when object doesn\u0027t exist.\n\nshortcut or avoid or \"do not\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "69e0c30f_71e09b5a",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-05-11T16:31:54Z",
       "side": 1,
       "message": "so we are saving an iteration of the while loop by this change. ",
+      "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d623f55a_664c9695",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T17:13:58Z",
+      "side": 1,
+      "message": "Couple nits.",
       "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
