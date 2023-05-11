@@ -55,6 +55,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "559df9e2_d2330712",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:35:33Z",
+      "side": 1,
+      "message": "Should we assert here for the new blocks? (Same in following test)",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46a90ac6_1a157fa3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:35:33Z",
+      "side": 1,
+      "message": "This would be a useful debug tool. I see we have e.g.\norg.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/WriteReftable.java\n\nMaybe this main would fit there.\n\nOptional (it could be a TODO)",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2635821_02a6419e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
         "patchSetId": 2
@@ -126,6 +160,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3291eeb2_70a1ac28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:35:33Z",
+      "side": 1,
+      "message": "What we did with generation numbers was to write here just the chunck header and postpone the calculation until needed. Then the data has a more limited scope and life-span.\n\nIt seems this won\u0027t work for bloom filters because we cannot precalculate the size of the data chunk, is it really so? (double checking)",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8bfaf0b1_5c61227c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 2
@@ -137,6 +188,57 @@
       "writtenOn": "2023-05-11T19:19:31Z",
       "side": 1,
       "message": "so right now, we are always creating chunks for bloom filters, is there a need for provide an enable to turn the generation off? afaik, the bloom filter data chunk could be the largest chunk by far (if there\u0027s a lot of changed paths).",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff1be7df_6346eb72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:35:33Z",
+      "side": 1,
+      "message": "Optional is not recommended for parameters. Do we really need to receive these chunks as parameter? they could be calculated inside this function IIUC.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb266cfb_61189901",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:35:33Z",
+      "side": 1,
+      "message": "could we just add the new chunks as extra cases? The bloom filter data case would look slightly different but it is ok, it makes obvious that this chunk writes precalculated data. Future readers can go back to see where it was populated.\n\ncase CHUNK_ID_BLOOM_FILTER_DATA:\n    // Bloom filter data was calculated on chuck header creation\n    chunk.data.get().writeTo(out)\n    \n    \nMaybe also throwing an IllegalStateException if the options is empty?",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eaca24e_b0adcb04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-11T21:35:33Z",
+      "side": 1,
+      "message": "Optional: Could we do a ChunkHeaderWithData that inherits ChunkHeader (adds the data field and calls super(id, data.size)? \n\nPros:\nIt makes clearer that ChunkHeader is just a pair of (id,size) and there is the special case of \"this chunk has also its data ready\".\n\nCons:\nNew concept in this class to learn. Overengineering?\n\nOn the fence. Again, optional.",
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
