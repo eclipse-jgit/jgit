@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69e0c30f_71e09b5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-11T16:31:54Z",
+      "side": 1,
+      "message": "so we are saving an iteration of the while loop by this change. ",
+      "revId": "ac77faa4e6e81292ab1398ee5e6c1a657919c58a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
