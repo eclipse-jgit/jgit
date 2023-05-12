@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "067397e2_ee6ebd55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-12T16:34:01Z",
+      "side": 1,
+      "message": "Assigning Ivan for +2 since AD gave +1 on an earlier patchset and all comments so far are addressed",
+      "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
