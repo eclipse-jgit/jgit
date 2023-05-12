@@ -184,6 +184,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea42b5c5_9a85c47e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-12T15:43:42Z",
+      "side": 1,
+      "message": "looks like Junio and Taylor are open to correcting the c git implementation to match the current implementation in this CL, i assume we can proceed with this CL and let c git do their own correction right?",
+      "parentUuid": "ebe3c475_a551e169",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3291eeb2_70a1ac28",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 2
