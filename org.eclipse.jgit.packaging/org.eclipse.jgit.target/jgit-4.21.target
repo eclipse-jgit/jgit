@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.21" sequenceNumber="1682976650">
+<target name="jgit-4.21" sequenceNumber="1684191506">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="com.google.gson" version="2.10.1.v20230109-0753"/>
-      <unit id="com.google.gson.source" version="2.10.1.v20230109-0753"/>
       <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
       <unit id="com.jcraft.jsch.source" version="0.1.55.v20221112-0806"/>
       <unit id="com.jcraft.jzlib" version="1.1.3.v20220502-1820"/>
@@ -128,6 +126,16 @@
     		<groupId>com.googlecode.javaewah</groupId>
     		<artifactId>JavaEWAH</artifactId>
     		<version>1.2.3</version>
+    		<type>jar</type>
+    	</dependency>
+    </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven" label="gson">
+    <dependencies>
+    	<dependency>
+    		<groupId>com.google.code.gson</groupId>
+    		<artifactId>gson</artifactId>
+    		<version>2.10.1</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
