@@ -16,6 +16,24 @@
       "message": "This fails because of the dash license check.",
       "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c485e8_35fcab9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-15T19:42:47Z",
+      "side": 1,
+      "message": "I ran\n`$ mvn clean install -Ddash.iplab.token\u003d\"\u003cgitlab token\u003e\"`\nto request reviews for the new dependencies.\n\nSee https://wiki.eclipse.org/EGit/Contributor_Guide#Dependencies_and_License_Check\n\n[INFO] License information could not be automatically verified for the following content:\n[INFO]\n[INFO] maven/mavencentral/org.apache.sshd/sshd-common/2.10.0\n[INFO] maven/mavencentral/org.apache.sshd/sshd-core/2.10.0\n[INFO] maven/mavencentral/org.apache.sshd/sshd-osgi/2.10.0\n[INFO] maven/mavencentral/org.apache.sshd/sshd-sftp/2.10.0\n[INFO]\n[INFO] This content is either not correctly mapped by the system, or requires review.\n[INFO] A review is required for maven/mavencentral/org.apache.sshd/sshd-common/2.10.0.\n[INFO] A review request was created https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/8454 .\n[INFO] A review is required for maven/mavencentral/org.apache.sshd/sshd-core/2.10.0.\n[INFO] A review request was created https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/8455 .\n[INFO] A review is required for maven/mavencentral/org.apache.sshd/sshd-osgi/2.10.0.\n[INFO] A review request was created https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/8456 .\n[INFO] A review is required for maven/mavencentral/org.apache.sshd/sshd-sftp/2.10.0.\n[INFO] A review request was created https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/8457 .\n[INFO] Summary file was written to: /Users/d029788/src/git/jgit/target/dash/summary\n[ERROR] Dependency license check failed. Some dependencies need to be vetted.",
+      "parentUuid": "47d03ec8_3466a090",
+      "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
