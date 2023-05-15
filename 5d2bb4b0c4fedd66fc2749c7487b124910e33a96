@@ -34,6 +34,23 @@
       "parentUuid": "47d03ec8_3466a090",
       "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfc99b8e_c8b9462b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-15T22:49:04Z",
+      "side": 1,
+      "message": "when skipping the license check the build fails during javadoc generation:\n\n```\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.5.0:jar (default) on project org.eclipse.jgit.ssh.apache: MavenReportException: Error while generating Javadoc:\n[ERROR] Exit code: 1\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.x11 from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.subsystem from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.shell from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.session from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.kex from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.jaas from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.global from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.forward from both org.apache.sshd.core and org.apache.sshd.osgi\n...\n```",
+      "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
