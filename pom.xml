@@ -179,6 +179,7 @@
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
     <assertj-version>3.24.2</assertj-version>
+    <jna-version>5.13.0</jna-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -787,6 +788,18 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>${assertj-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>${jna-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna-platform</artifactId>
+        <version>${jna-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

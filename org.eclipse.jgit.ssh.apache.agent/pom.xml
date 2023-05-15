@@ -28,7 +28,6 @@
   </description>
 
   <properties>
-    <jna-version>5.8.0</jna-version>
     <translate-qualifier/>
     <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
   </properties>
@@ -49,13 +48,11 @@
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna</artifactId>
-      <version>${jna-version}</version>
     </dependency>
 
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna-platform</artifactId>
-      <version>${jna-version}</version>
     </dependency>
 
     <dependency>
