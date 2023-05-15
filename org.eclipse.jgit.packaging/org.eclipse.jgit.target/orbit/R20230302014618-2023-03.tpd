@@ -40,6 +40,4 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R202303020146
 	org.mockito.mockito-core.source [4.8.1.v20221103-2317,4.8.1.v20221103-2317]
 	org.objenesis [3.3.0.v20221103-2317,3.3.0.v20221103-2317]
 	org.objenesis.source [3.3.0.v20221103-2317,3.3.0.v20221103-2317]
-	org.tukaani.xz [1.9.0.v20210624-1259,1.9.0.v20210624-1259]
-	org.tukaani.xz.source [1.9.0.v20210624-1259,1.9.0.v20210624-1259]
 }
