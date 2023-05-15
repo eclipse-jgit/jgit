@@ -73,6 +73,19 @@ maven bouncycastle
 	}
 }
 
+maven eddsa
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.i2p.crypto"
+		artifactId = "eddsa"
+		version = "0.3.0"
+	}
+}
+
 maven gson
 	scope = compile
 	dependencyDepth = none
