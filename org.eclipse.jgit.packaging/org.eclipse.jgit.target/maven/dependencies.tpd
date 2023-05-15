@@ -182,3 +182,16 @@ maven slf4j
 		version = "1.7.36"
 	}
 }
+
+maven xz
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.tukaani"
+		artifactId = "xz"
+		version = "1.9"
+	}
+}
