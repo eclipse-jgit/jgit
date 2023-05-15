@@ -2,8 +2,6 @@ target "R20230302014618-2023-03" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
 location "https://download.eclipse.org/tools/orbit/downloads/drops/R20230302014618/repository" {
-	com.jcraft.jsch [0.1.55.v20221112-0806,0.1.55.v20221112-0806]
-	com.jcraft.jsch.source [0.1.55.v20221112-0806,0.1.55.v20221112-0806]
 	com.jcraft.jzlib [1.1.3.v20220502-1820,1.1.3.v20220502-1820]
 	com.jcraft.jzlib.source [1.1.3.v20220502-1820,1.1.3.v20220502-1820]
 	org.apache.ant [1.10.12.v20211102-1452,1.10.12.v20211102-1452]

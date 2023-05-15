@@ -153,7 +153,7 @@
     <jgit-last-release-version>6.5.0.202303070854-r</jgit-last-release-version>
     <ant-version>1.10.12</ant-version>
     <apache-sshd-version>2.10.0</apache-sshd-version>
-    <jsch-version>0.1.55</jsch-version>
+    <jsch-version>0.2.8</jsch-version>
     <jzlib-version>1.1.3</jzlib-version>
     <javaewah-version>1.2.3</javaewah-version>
     <junit-version>4.13.2</junit-version>
@@ -664,7 +664,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.jcraft</groupId>
+        <groupId>com.github.mwiede</groupId>
         <artifactId>jsch</artifactId>
         <version>${jsch-version}</version>
       </dependency>
