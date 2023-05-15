@@ -214,6 +214,19 @@ maven jna
 	}
 }
 
+maven jsch
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "com.github.mwiede"
+		artifactId = "jsch"
+		version = "0.2.8"
+	}
+}
+
 maven slf4j
 	scope = compile
 	dependencyDepth = none

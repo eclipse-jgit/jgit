@@ -62,8 +62,8 @@ maven_jar(
 
 maven_jar(
     name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.55",
-    sha1 = "bbd40e5aa7aa3cfad5db34965456cee738a42a50",
+    artifact = "com.github.mwiede:jsch:0.2.8",
+    sha1 = "5698cfb32c6d469bfa47167adf6bbc14de3fa685",
 )
 
 maven_jar(
