@@ -73,6 +73,24 @@ maven bouncycastle
 	}
 }
 
+maven bytebuddy
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.bytebuddy"
+		artifactId = "byte-buddy"
+		version = "1.12.18"
+	}
+	dependency {
+		groupId = "net.bytebuddy"
+		artifactId = "byte-buddy-agent"
+		version = "1.12.18"
+	}
+}
+
 maven eddsa
 	scope = compile
 	dependencyDepth = none
@@ -160,21 +178,21 @@ maven jetty
 	}
 }
 
-maven sshd
+maven jna
 	scope = compile
 	dependencyDepth = none
 	missingManifest = error
 	includeSources
 {
 	dependency {
-		groupId = "org.apache.sshd"
-		artifactId = "sshd-osgi"
-		version = "2.10.0"
+		groupId = "net.java.dev.jna"
+		artifactId = "jna"
+		version = "5.12.1"
 	}
 	dependency {
-		groupId = "org.apache.sshd"
-		artifactId = "sshd-sftp"
-		version = "2.10.0"
+		groupId = "net.java.dev.jna"
+		artifactId = "jna-platform"
+		version = "5.12.1"
 	}
 }
 
@@ -193,6 +211,24 @@ maven slf4j
 		groupId = "org.slf4j"
 		artifactId = "slf4j-simple"
 		version = "1.7.36"
+	}
+}
+
+maven sshd
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-osgi"
+		version = "2.10.0"
+	}
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-sftp"
+		version = "2.10.0"
 	}
 }
 
