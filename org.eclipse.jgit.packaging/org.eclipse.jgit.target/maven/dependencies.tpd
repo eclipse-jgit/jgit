@@ -60,6 +60,19 @@ maven bouncycastle
 	}
 }
 
+maven gson
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "com.google.code.gson"
+		artifactId = "gson"
+		version = "2.10.1"
+	}
+}
+
 maven javaewah
 	scope = compile
 	dependencyDepth = none
