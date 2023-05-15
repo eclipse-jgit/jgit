@@ -1386,7 +1386,7 @@ public class PackConfig {
 		b.append(", reuseDeltas=").append(isReuseDeltas()); //$NON-NLS-1$
 		b.append(", reuseObjects=").append(isReuseObjects()); //$NON-NLS-1$
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
-		b.append(", writeReverseIndex=").append(isWriteReverseIndex()); // $NON-NLS-1$
+		b.append(", writeReverseIndex=").append(isWriteReverseIndex()); //$NON-NLS-1$
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
 		b.append(", bitmapContiguousCommitCount=") //$NON-NLS-1$
 				.append(getBitmapContiguousCommitCount());
