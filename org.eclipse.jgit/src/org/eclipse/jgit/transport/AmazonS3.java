@@ -596,7 +596,7 @@ public class AmazonS3 {
 			final String key, final Map<String, String> args)
 			throws IOException {
 		final StringBuilder urlstr = new StringBuilder();
-		urlstr.append(protocol); //$NON-NLS-1$
+		urlstr.append(protocol);
 		urlstr.append("://"); //$NON-NLS-1$
 		urlstr.append(bucket);
 		urlstr.append('.');
