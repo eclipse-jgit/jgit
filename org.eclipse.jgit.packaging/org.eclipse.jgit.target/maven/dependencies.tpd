@@ -160,6 +160,24 @@ maven jetty
 	}
 }
 
+maven jna
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.java.dev.jna"
+		artifactId = "jna"
+		version = "5.12.1"
+	}
+	dependency {
+		groupId = "net.java.dev.jna"
+		artifactId = "jna-platform"
+		version = "5.12.1"
+	}
+}
+
 maven sshd
 	scope = compile
 	dependencyDepth = none
