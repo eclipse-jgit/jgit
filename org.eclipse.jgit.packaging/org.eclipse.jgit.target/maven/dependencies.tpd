@@ -122,6 +122,19 @@ maven gson
 	}
 }
 
+maven hamcrest
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.hamcrest"
+		artifactId = "hamcrest"
+		version = "2.2"
+	}
+}
+
 maven javaewah
 	scope = compile
 	dependencyDepth = none
