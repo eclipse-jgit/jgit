@@ -105,6 +105,24 @@
       "parentUuid": "0b4b8fb5_1191c7c0",
       "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19ca114f_64bb2df8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-16T11:07:30Z",
+      "side": 1,
+      "message": "I tried this (replace dependency to sshd-osgi by dependencies to sshd-core and sshd-common) but this fails with the same javadoc errors",
+      "parentUuid": "4cb6bca6_6d3a7eb0",
+      "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
