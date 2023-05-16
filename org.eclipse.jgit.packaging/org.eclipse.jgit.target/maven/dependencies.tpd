@@ -17,6 +17,11 @@ maven apache
 		artifactId = "commons-compress"
 		version = "1.23.0"
 	}
+	dependency {
+		groupId = "commons-logging"
+		artifactId = "commons-logging"
+		version = "1.2"
+	}
 }
 
 maven args4j
