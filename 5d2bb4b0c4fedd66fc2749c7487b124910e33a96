@@ -87,6 +87,24 @@
       "parentUuid": "6c57fcbb_d0e84dd1",
       "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb6bca6_6d3a7eb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-16T11:03:56Z",
+      "side": 1,
+      "message": "Looks like Maven isn\u0027t aware that sshd-osgi contains the union of sshd-core and sshd-common, our dependencies contain the former and sshd-sftp depends on the latter.\nMaybe we should not use sshd-osgi in the Maven build but only package it into the p2 repo.",
+      "parentUuid": "0b4b8fb5_1191c7c0",
+      "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
