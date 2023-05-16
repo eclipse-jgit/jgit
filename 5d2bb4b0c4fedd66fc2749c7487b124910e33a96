@@ -51,6 +51,24 @@
       "message": "when skipping the license check the build fails during javadoc generation:\n\n```\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.5.0:jar (default) on project org.eclipse.jgit.ssh.apache: MavenReportException: Error while generating Javadoc:\n[ERROR] Exit code: 1\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.x11 from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.subsystem from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.shell from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.session from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.kex from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.jaas from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.global from both org.apache.sshd.core and org.apache.sshd.osgi\n[ERROR] error: module net.i2p.crypto.eddsa reads package org.apache.sshd.server.forward from both org.apache.sshd.core and org.apache.sshd.osgi\n...\n```",
       "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c57fcbb_d0e84dd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-16T10:46:03Z",
+      "side": 1,
+      "message": "I\u0027m surprised it even has sshd-core (as did the dash license tool). Turns out the sshd-osgi maven artifact has it as a \"provided\" dependency. Perhaps the maven target needs scope runtime, not compile. It\u0027s actually a build-time dependency only (for shading). But sshd-sftp has sshd-core as compile-time dependency anyway.\n\nPerhaps including these bundles from maven directly is not a good idea, and we should still use Orbit and our own re-packaging...\n\nAnother question is of course why the javadoc generator even tries to do anything with net.i2p. Can we tell it to ignore net.is2p and org.apache.sshd?",
+      "parentUuid": "bfc99b8e_c8b9462b",
+      "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
