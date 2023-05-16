@@ -16,6 +16,41 @@
       "message": "org.apache.sshd.common is a split package, both sshd-core and sshd-common have classes in that package, maybe that\u0027s causing issues ?",
       "revId": "913e6cf3f6c2a28f162831cd64a6273b751b917a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a510a91_ed4b3cd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-16T18:39:00Z",
+      "side": 1,
+      "message": "Looks like. Plus sshd-osgi has them again!",
+      "parentUuid": "328cbdda_209e64e9",
+      "revId": "913e6cf3f6c2a28f162831cd64a6273b751b917a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "960fec4c_4a967de8",
+        "filename": "org.eclipse.jgit.ssh.apache/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-16T18:39:00Z",
+      "side": 1,
+      "message": "Good catch!",
+      "revId": "913e6cf3f6c2a28f162831cd64a6273b751b917a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
