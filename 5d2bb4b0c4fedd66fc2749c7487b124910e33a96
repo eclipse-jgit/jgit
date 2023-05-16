@@ -69,6 +69,24 @@
       "parentUuid": "bfc99b8e_c8b9462b",
       "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4b8fb5_1191c7c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-16T10:58:54Z",
+      "side": 1,
+      "message": "I tried excluding sshd-common and sshd-core from sshd-sftp\u0027s transitive dependencies and that seems to do the trick.\n\nI will upload another patchset in a minute",
+      "parentUuid": "6c57fcbb_d0e84dd1",
+      "revId": "5d2bb4b0c4fedd66fc2749c7487b124910e33a96",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
