@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.20" sequenceNumber="1684355006">
+<target name="jgit-4.20" sequenceNumber="1684355033">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
@@ -14,8 +14,6 @@
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.14.v20221207-1049"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.16.v20221207-1049"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.16.v20221207-1049"/>
-      <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
-      <unit id="org.hamcrest.source" version="2.2.0.v20210711-0821"/>
       <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
       <unit id="org.hamcrest.core.source" version="1.3.0.v20180420-1519"/>
       <unit id="org.hamcrest.library" version="1.3.0.v20180524-2246"/>
@@ -148,6 +146,16 @@
     		<groupId>com.googlecode.javaewah</groupId>
     		<artifactId>JavaEWAH</artifactId>
     		<version>1.2.3</version>
+    		<type>jar</type>
+    	</dependency>
+    </dependencies>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven" label="hamcrest">
+    <dependencies>
+    	<dependency>
+    		<groupId>org.hamcrest</groupId>
+    		<artifactId>hamcrest</artifactId>
+    		<version>2.2</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
