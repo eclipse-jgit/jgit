@@ -17,11 +17,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -32,6 +34,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.NB;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +56,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		os = new ByteArrayOutputStream();
 		tr = new TestRepository<>(db, new RevWalk(db), mockSystemReader);
 		walk = new RevWalk(db);
+		mockSystemReader.setJGitConfig(new MockConfig());
 	}
 
 	@Test
@@ -75,7 +79,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		assertEquals(5, graphCommits.size());
@@ -109,7 +113,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		assertEquals(4, graphCommits.size());
@@ -201,7 +205,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -243,7 +247,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -277,7 +281,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(root);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -291,7 +295,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(root);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -311,7 +315,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(root);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -329,6 +333,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
 		GC gc = new GC(db);
 		gc.gc().get();
 
@@ -338,7 +344,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits, true);
 		CommitGraphWriter.Stats stats = writer.write(m, os);
 
 		assertEquals(1, stats.getChangedPathFiltersReused());
@@ -354,5 +360,42 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 
 	RevCommit commit(RevCommit... parents) throws Exception {
 		return tr.commit(parents);
+	}
+
+	private static final class MockConfig extends FileBasedConfig {
+		private MockConfig() {
+			super(null, null);
+		}
+
+		@Override
+		public void load() throws IOException, ConfigInvalidException {
+			// Do nothing
+		}
+
+		@Override
+		public void save() throws IOException {
+			// Do nothing
+		}
+
+		@Override
+		public boolean isOutdated() {
+			return false;
+		}
+
+		@Override
+		public String toString() {
+			return "MockConfig";
+		}
+
+		@Override
+		public boolean getBoolean(final String section, final String name,
+				final boolean defaultValue) {
+			if (section.equals(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION)
+					&& name.equals(
+							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS)) {
+				return true;
+			}
+			return defaultValue;
+		}
 	}
 }
