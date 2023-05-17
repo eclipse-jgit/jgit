@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ed5dcd_58a66b2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2023-05-17T08:13:24Z",
+      "side": 1,
+      "message": "how about:\n  Objects.equals(sourceCommit, other.sourceCommit)\n?",
+      "range": {
+        "startLine": 272,
+        "startChar": 9,
+        "endLine": 272,
+        "endChar": 72
+      },
+      "revId": "483abf4d9ea8594c2564301ad4c7e321abac2ef6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
