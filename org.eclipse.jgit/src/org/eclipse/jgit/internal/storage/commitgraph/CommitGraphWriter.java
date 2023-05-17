@@ -73,6 +73,8 @@ public class CommitGraphWriter {
 
 	private final GraphCommits graphCommits;
 
+	private boolean generateBloomFilter;
+
 	/**
 	 * Create commit-graph writer for these commits.
 	 *
@@ -127,6 +129,19 @@ public class CommitGraphWriter {
 		return stats;
 	}
 
+	/**
+	 * Flag that controls if bloom filter should be written to the commit graph.
+	 *
+	 * @param enabled
+	 *            {@code true} if Bloom filter is to be generated, {@code false}
+	 *            otherwise. Default {@code false}.
+	 * @return self
+	 */
+	public CommitGraphWriter setWriteBloomFilter(boolean enabled) {
+		generateBloomFilter = enabled;
+		return this;
+	}
+
 	private List<ChunkHeader> createChunks(Stats stats)
 			throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
@@ -140,11 +155,14 @@ public class CommitGraphWriter {
 			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST,
 					graphCommits.getExtraEdgeCnt() * 4));
 		}
-		BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks(stats);
-		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
-				bloomFilterChunks.index));
-		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
-				bloomFilterChunks.data));
+		if (generateBloomFilter) {
+			BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks(
+					stats);
+			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
+					bloomFilterChunks.index));
+			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
+					bloomFilterChunks.data));
+		}
 		return chunks;
 	}
 

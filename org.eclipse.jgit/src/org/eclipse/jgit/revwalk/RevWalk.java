@@ -12,6 +12,8 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REVWALK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_USE_BLOOM_FILTER;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraph.EMPTY;
 
 import java.io.IOException;
@@ -202,6 +204,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	boolean shallowCommitsInitialized;
 
+	boolean useBloomFilter = false;
+
 	private enum GetMergedIntoStrategy {
 		RETURN_ON_FIRST_FOUND, RETURN_ON_FIRST_NOT_FOUND, EVALUATE_ALL
 	}
@@ -216,6 +220,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevWalk(Repository repo) {
 		this(repo.newObjectReader(), true);
+		useBloomFilter = repo.getConfig().getBoolean(CONFIG_REVWALK_SECTION,
+				null, CONFIG_KEY_USE_BLOOM_FILTER, false);
 	}
 
 	/**
@@ -1714,7 +1720,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private RevCommit createCommit(AnyObjectId id, int graphPos) {
 		if (graphPos >= 0) {
 			return new RevCommitCG(id, graphPos,
-					commitGraph().getChangedPathFilter(graphPos));
+					useBloomFilter
+							? commitGraph().getChangedPathFilter(graphPos)
+							: null);
 		}
 		return new RevCommit(id);
 	}
