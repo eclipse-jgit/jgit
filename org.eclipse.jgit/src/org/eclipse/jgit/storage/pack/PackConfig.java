@@ -265,6 +265,14 @@ public class PackConfig {
 	public static final Duration DEFAULT_SEARCH_FOR_REUSE_TIMEOUT = Duration
 			.ofSeconds(Integer.MAX_VALUE);
 
+	/**
+	 * Default value of the generate bloom filter.
+	 *
+	 * @since 6.7
+	 */
+	public static final boolean DEFAULT_GENERATE_BLOOM_FILTER = false;
+
+
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
 	private boolean reuseDeltas = DEFAULT_REUSE_DELTAS;
@@ -326,6 +334,8 @@ public class PackConfig {
 	private boolean singlePack;
 
 	private int minBytesForObjSizeIndex = DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX;
+
+	private boolean generateBloomFilter = DEFAULT_GENERATE_BLOOM_FILTER;
 
 	/**
 	 * Create a default configuration.
@@ -1278,6 +1288,36 @@ public class PackConfig {
 	 */
 	public boolean isWriteObjSizeIndex() {
 		return this.minBytesForObjSizeIndex >= 0;
+	}
+
+
+	/**
+	 * Checks if it should generate bloom filter on the commit graph.
+	 *
+	 * Default setting: {@value #DEFAULT_GENERATE_BLOOM_FILTER}
+	 *
+	 * @return true if asked to generate bloom filter on commit graph.
+	 * @since 6.7
+	 */
+	public boolean isGenerateBloomFilter() {
+		return this.generateBloomFilter;
+	}
+
+	/**
+	 * Set if it should generate bloom filter on the commit graph.
+	 *
+	 * If enabled, bloom filter is generated on the commit graph in the write
+	 * path during GC.
+	 *
+	 * Default setting: {@value #DEFAULT_GENERATE_BLOOM_FILTER}
+	 *
+	 * @param generateBloomFilter
+	 *            boolean indicating whether or not bloom filter should be
+	 *            generated
+	 * @since 6.7
+	 */
+	public void setGenerateBloomFilter(boolean generateBloomFilter) {
+		this.generateBloomFilter = generateBloomFilter;
 	}
 
 	/**
