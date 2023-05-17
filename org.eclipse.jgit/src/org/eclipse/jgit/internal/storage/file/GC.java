@@ -943,7 +943,12 @@ public class GC {
 		File tmpFile = null;
 		try (RevWalk walk = new RevWalk(repo)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(pm, wants, walk));
+					GraphCommits.fromWalk(pm, wants, walk)) {
+				@Override
+				public boolean generateBloomFilter() {
+					return pconfig.isGenerateBloomFilter();
+				}
+			};
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());

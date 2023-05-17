@@ -762,7 +762,12 @@ public class DfsGarbageCollector {
 				RevWalk pool = new RevWalk(ctx)) {
 			GraphCommits gcs = GraphCommits.fromWalk(pm, allTips, pool);
 			CountingOutputStream cnt = new CountingOutputStream(out);
-			CommitGraphWriter writer = new CommitGraphWriter(gcs);
+			CommitGraphWriter writer = new CommitGraphWriter(gcs) {
+				@Override
+				public boolean generateBloomFilter() {
+					return packConfig.isGenerateBloomFilter();
+				}
+			};
 			writer.write(pm, cnt);
 			pack.addFileExt(COMMIT_GRAPH);
 			pack.setFileSize(COMMIT_GRAPH, cnt.getCount());
