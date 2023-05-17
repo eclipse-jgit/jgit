@@ -77,6 +77,8 @@ public class CommitGraphWriter {
 
 	private long changedPathFiltersComputed = 0;
 
+	private boolean generateBloomFilter = false;
+
 	/**
 	 * Create commit-graph writer for these commits.
 	 *
@@ -125,6 +127,19 @@ public class CommitGraphWriter {
 		} finally {
 			monitor.endTask();
 		}
+	}
+
+	/**
+	 * Flag that controls if bloom filter should be written to the commit graph.
+	 *
+	 * @param enabled
+	 *            {@code true} if Bloom filter is to be generated, {@code false}
+	 *            otherwise
+	 * @return self
+	 */
+	public CommitGraphWriter generateBloomFilter(boolean enabled) {
+		generateBloomFilter = enabled;
+		return this;
 	}
 
 	/**
