@@ -108,7 +108,8 @@ public class FileCommitGraph {
 				// commit-graph file was not modified
 				return this;
 			}
-			return new GraphSnapshot(file, FileSnapshot.save(file), open(file));
+			return new GraphSnapshot(file, FileSnapshot.save(file),
+					open(file));
 		}
 
 		private static CommitGraph open(File file) {
