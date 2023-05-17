@@ -39,6 +39,30 @@
       },
       "revId": "5066b59f09b7ef23404ec021946c75a6944fd488",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43c55de5_c686c58a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-05-17T07:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fc7365b_b48ce778",
+      "range": {
+        "startLine": 523,
+        "startChar": 7,
+        "endLine": 525,
+        "endChar": 29
+      },
+      "revId": "5066b59f09b7ef23404ec021946c75a6944fd488",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
