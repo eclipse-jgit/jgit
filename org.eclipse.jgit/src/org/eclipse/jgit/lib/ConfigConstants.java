@@ -107,7 +107,15 @@ public final class ConfigConstants {
 	public static final String CONFIG_PACK_SECTION = "pack";
 
 	/**
+	 * The "revwalk" section
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_REVWALK_SECTION = "revwalk";
+
+	/**
 	 * The "fetch" section
+	 *
 	 * @since 3.3
 	 */
 	public static final String CONFIG_FETCH_SECTION = "fetch";
@@ -911,6 +919,20 @@ public final class ConfigConstants {
 	 * @since 6.1
 	 */
 	public static final String CONFIG_KEY_ABBREV = "abbrev";
+
+	/**
+	 * The "revwalk.writeBloomFilter" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_WRITE_BLOOM_FILTER = "writeBloomFilter";
+
+	/**
+	 * The "revwalk.usebloomfilter" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_USE_BLOOM_FILTER = "usebloomfilter";
 
 	/**
 	 * The "writeCommitGraph" key
