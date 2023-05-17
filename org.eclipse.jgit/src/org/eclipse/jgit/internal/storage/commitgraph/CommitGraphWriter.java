@@ -129,6 +129,17 @@ public class CommitGraphWriter {
 	}
 
 	/**
+	 * Flag that controls if bloom filter should be written to the commit graph.
+	 * The state of this flag is overridden by the callers.
+	 *
+	 * @return {@code true} if Bloom filter is to be generated, {@code false}
+	 *         otherwise
+	 */
+	public boolean generateBloomFilter() {
+		return false;
+	}
+
+	/**
 	 * Returns the number of existing changed path filters that were reused when
 	 * writing, for statistical purposes.
 	 *
