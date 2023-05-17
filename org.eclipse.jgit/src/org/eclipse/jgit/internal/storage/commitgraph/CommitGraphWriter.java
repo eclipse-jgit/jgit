@@ -73,6 +73,8 @@ public class CommitGraphWriter {
 
 	private final GraphCommits graphCommits;
 
+	private final boolean generateChangedPathFilters;
+
 	/**
 	 * Create commit-graph writer for these commits.
 	 *
@@ -80,8 +82,22 @@ public class CommitGraphWriter {
 	 *            the commits which will be writen to the commit-graph.
 	 */
 	public CommitGraphWriter(@NonNull GraphCommits graphCommits) {
+		this(graphCommits, false);
+	}
+
+	/**
+	 * Create commit-graph writer for these commits.
+	 *
+	 * @param graphCommits
+	 *            the commits which will be writen to the commit-graph.
+	 * @param generateChangedPathFilters
+	 *            whether changed path filters are generated
+	 */
+	public CommitGraphWriter(@NonNull GraphCommits graphCommits,
+			boolean generateChangedPathFilters) {
 		this.graphCommits = graphCommits;
 		this.hashsz = OBJECT_ID_LENGTH;
+		this.generateChangedPathFilters = generateChangedPathFilters;
 	}
 
 	/**
@@ -140,11 +156,14 @@ public class CommitGraphWriter {
 			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST,
 					graphCommits.getExtraEdgeCnt() * 4));
 		}
-		BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks(stats);
-		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
-				bloomFilterChunks.index));
-		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
-				bloomFilterChunks.data));
+		if (generateChangedPathFilters) {
+			BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks(
+					stats);
+			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
+					bloomFilterChunks.index));
+			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
+					bloomFilterChunks.data));
+		}
 		return chunks;
 	}
 
