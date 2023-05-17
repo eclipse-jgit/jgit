@@ -135,6 +135,8 @@ public class GC {
 
 	private static final int DEFAULT_AUTOLIMIT = 6700;
 
+	private static final boolean DEFAULT_WRITE_BLOOM_FILTER = false;
+
 	private static final boolean DEFAULT_WRITE_COMMIT_GRAPH = false;
 
 	private static volatile ExecutorService executor;
@@ -966,7 +968,8 @@ public class GC {
 		File tmpFile = null;
 		try (RevWalk walk = new RevWalk(repo)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(pm, wants, walk));
+					GraphCommits.fromWalk(pm, wants, walk),
+					shouldWriteBloomFilter());
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());
@@ -1018,12 +1021,23 @@ public class GC {
 	/**
 	 * If {@code true}, will rewrite the commit-graph file when gc is run.
 	 *
-	 * @return true if commit-graph should be writen. Default is {@code false}.
+	 * @return true if commit-graph should be written. Default is {@code false}.
 	 */
 	boolean shouldWriteCommitGraphWhenGc() {
 		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH,
 				DEFAULT_WRITE_COMMIT_GRAPH);
+	}
+
+	/**
+	 * If {@code true}, generates bloom filter in the commit-graph file.
+	 *
+	 * @return true if bloom filter should be written. Default is {@code false}.
+	 */
+	boolean shouldWriteBloomFilter() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_WRITE_BLOOM_FILTER,
+				DEFAULT_WRITE_BLOOM_FILTER);
 	}
 
 	private static boolean isHead(Ref ref) {

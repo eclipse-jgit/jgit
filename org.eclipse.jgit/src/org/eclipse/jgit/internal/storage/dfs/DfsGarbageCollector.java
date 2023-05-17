@@ -80,6 +80,8 @@ public class DfsGarbageCollector {
 	private ReftableConfig reftableConfig;
 	private boolean convertToReftable = true;
 	private boolean writeCommitGraph;
+
+	private boolean writeBloomFilter;
 	private boolean includeDeletes;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
@@ -294,6 +296,20 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setWriteCommitGraph(boolean enable) {
 		writeCommitGraph = enable;
+		return this;
+	}
+
+	/**
+	 * Toggle bloom filter generation.
+	 * <p>
+	 * False by default.
+	 *
+	 * @param enable
+	 *            Whether bloom filter generation is enabled
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setWriteBloomFilter(boolean enable) {
+		writeBloomFilter = enable;
 		return this;
 	}
 
@@ -762,7 +778,8 @@ public class DfsGarbageCollector {
 				RevWalk pool = new RevWalk(ctx)) {
 			GraphCommits gcs = GraphCommits.fromWalk(pm, allTips, pool);
 			CountingOutputStream cnt = new CountingOutputStream(out);
-			CommitGraphWriter writer = new CommitGraphWriter(gcs);
+			CommitGraphWriter writer = new CommitGraphWriter(gcs,
+					writeBloomFilter);
 			writer.write(pm, cnt);
 			pack.addFileExt(COMMIT_GRAPH);
 			pack.setFileSize(COMMIT_GRAPH, cnt.getCount());

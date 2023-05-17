@@ -19,18 +19,22 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,6 +52,7 @@ public class CommitGraphTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		tr = new TestRepository<>(db, new RevWalk(db), mockSystemReader);
+		mockSystemReader.setJGitConfig(new MockConfig());
 	}
 
 	@Test
@@ -224,7 +229,7 @@ public class CommitGraphTest extends RepositoryTestCase {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		try (RevWalk walk = new RevWalk(db)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(m, wants, walk));
+					GraphCommits.fromWalk(m, wants, walk), true);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			writer.write(m, os);
 			InputStream inputStream = new ByteArrayInputStream(
@@ -275,5 +280,41 @@ public class CommitGraphTest extends RepositoryTestCase {
 
 	RevCommit commit(RevCommit... parents) throws Exception {
 		return tr.commit(parents);
+	}
+
+	private static final class MockConfig extends FileBasedConfig {
+		private MockConfig() {
+			super(null, null);
+		}
+
+		@Override
+		public void load() throws IOException, ConfigInvalidException {
+			// Do nothing
+		}
+
+		@Override
+		public void save() throws IOException {
+			// Do nothing
+		}
+
+		@Override
+		public boolean isOutdated() {
+			return false;
+		}
+
+		@Override
+		public String toString() {
+			return "MockConfig";
+		}
+
+		@Override
+		public boolean getBoolean(final String section, final String name,
+				final boolean defaultValue) {
+			if (section.equals(ConfigConstants.CONFIG_CORE_SECTION) && name
+					.equals(ConfigConstants.CONFIG_KEY_READ_BLOOM_FILTER)) {
+				return true;
+			}
+			return defaultValue;
+		}
 	}
 }
