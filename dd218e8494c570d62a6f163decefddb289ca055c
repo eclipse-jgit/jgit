@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07629132_b41d4206",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-17T22:44:30Z",
+      "side": 1,
+      "message": "the latest patchset 6 doesn\u0027t contain any change",
+      "revId": "dd218e8494c570d62a6f163decefddb289ca055c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
