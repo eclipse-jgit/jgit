@@ -109,6 +109,7 @@ public final class ConfigConstants {
 
 	/**
 	 * The "fetch" section
+	 *
 	 * @since 3.3
 	 */
 	public static final String CONFIG_FETCH_SECTION = "fetch";
@@ -947,4 +948,25 @@ public final class ConfigConstants {
 	 * @since 5.13.2
 	 */
 	public static final String CONFIG_KEY_PRUNE_PRESERVED = "prunepreserved";
+
+	/**
+	 * The "commitGraph" section
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
+
+	/**
+	 * The "writeChangedPaths" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_WRITE_CHANGED_PATHS = "writeChangedPaths";
+
+	/**
+	 * The "readChangedPaths" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_READ_CHANGED_PATHS = "readChangedPaths";
 }

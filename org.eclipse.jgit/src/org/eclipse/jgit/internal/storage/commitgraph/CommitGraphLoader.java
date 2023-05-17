@@ -27,9 +27,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.SilentFileInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,6 +142,16 @@ public class CommitGraphLoader {
 			chunks.add(new ChunkSegment(id, offset));
 		}
 
+		boolean readChangedPathFilters;
+		try {
+			readChangedPathFilters = SystemReader.getInstance()
+				.getJGitConfig().getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+		} catch (ConfigInvalidException e) {
+			// Use the default value if, for some reason, the config couldn't be read.
+			readChangedPathFilters = false;
+		}
+
 		CommitGraphBuilder builder = CommitGraphBuilder.builder();
 		for (int i = 0; i < numberOfChunks; i++) {
 			long chunkOffset = chunks.get(i).offset;
@@ -167,10 +180,14 @@ public class CommitGraphLoader {
 				builder.addExtraList(buffer);
 				break;
 			case CHUNK_ID_BLOOM_FILTER_INDEX:
-				builder.addBloomFilterIndex(buffer);
+				if (readChangedPathFilters) {
+					builder.addBloomFilterIndex(buffer);
+				}
 				break;
 			case CHUNK_ID_BLOOM_FILTER_DATA:
-				builder.addBloomFilterData(buffer);
+				if (readChangedPathFilters) {
+					builder.addBloomFilterData(buffer);
+				}
 				break;
 			default:
 				LOG.warn(MessageFormat.format(
