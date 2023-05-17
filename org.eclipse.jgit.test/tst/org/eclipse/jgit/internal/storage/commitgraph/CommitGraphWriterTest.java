@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REVWALK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_USE_BLOOM_FILTER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertArrayEquals;
@@ -51,6 +53,9 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		os = new ByteArrayOutputStream();
+		db.getConfig().setBoolean(CONFIG_REVWALK_SECTION, null,
+				CONFIG_KEY_USE_BLOOM_FILTER,
+				true);
 		tr = new TestRepository<>(db, new RevWalk(db), mockSystemReader);
 		walk = new RevWalk(db);
 	}
@@ -201,7 +206,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits).setWriteBloomFilter(true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -243,7 +248,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits).setWriteBloomFilter(true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -311,7 +316,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(root);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits).setWriteBloomFilter(true);
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
@@ -329,6 +334,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_BLOOM_FILTER, true);
 		GC gc = new GC(db);
 		gc.gc().get();
 
@@ -338,7 +345,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
+		writer = new CommitGraphWriter(graphCommits).setWriteBloomFilter(true);
 		writer.write(m, os);
 
 		assertEquals(1, writer.getChangedPathFiltersReused());
