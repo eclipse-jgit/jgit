@@ -913,6 +913,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_ABBREV = "abbrev";
 
 	/**
+	 * The "writeBloomFilter" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_WRITE_BLOOM_FILTER = "writeBloomFilter";
+
+	/**
 	 * The "writeCommitGraph" key
 	 *
 	 * @since 6.5
