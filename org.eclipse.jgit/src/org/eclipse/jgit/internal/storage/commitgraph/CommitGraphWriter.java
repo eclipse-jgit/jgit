@@ -77,6 +77,8 @@ public class CommitGraphWriter {
 
 	private long changedPathFiltersComputed = 0;
 
+	private boolean generateBloomFilter = false;
+
 	/**
 	 * Create commit-graph writer for these commits.
 	 *
@@ -105,8 +107,10 @@ public class CommitGraphWriter {
 			return;
 		}
 
-		BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks();
-		List<ChunkHeader> chunks = createChunks(Optional.of(bloomFilterChunks));
+		Optional<BloomFilterChunks> bloomFilterChunks = generateBloomFilter
+				? Optional.of(computeBloomFilterChunks())
+				: Optional.empty();
+		List<ChunkHeader> chunks = createChunks(bloomFilterChunks);
 		long writeCount = 256 + 2 * graphCommits.size()
 				+ graphCommits.getExtraEdgeCnt();
 		monitor.beginTask(
@@ -126,6 +130,19 @@ public class CommitGraphWriter {
 		} finally {
 			monitor.endTask();
 		}
+	}
+
+	/**
+	 * Flag that controls if bloom filter should be written to the commit graph.
+	 *
+	 * @param enabled
+	 *            {@code true} if Bloom filter is to be generated, {@code false}
+	 *            otherwise
+	 * @return self
+	 */
+	public CommitGraphWriter generateBloomFilter(boolean enabled) {
+		generateBloomFilter = enabled;
+		return this;
 	}
 
 	/**

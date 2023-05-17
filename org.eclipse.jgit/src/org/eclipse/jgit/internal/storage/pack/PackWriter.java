@@ -1723,11 +1723,6 @@ public class PackWriter implements AutoCloseable {
 						}
 						throw new IOException(JGitText
 								.get().packingCancelledDuringObjectsWriting, e);
-					} catch (Throwable e) {
-						if (e1 != null) {
-							e.addSuppressed(e1);
-						}
-						throw e;
 					}
 				}
 			}
