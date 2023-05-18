@@ -52,6 +52,24 @@
       "parentUuid": "38613173_af980825",
       "revId": "e6f216119f2624db1e51f3414a3fec7dc3d67a2f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a0ab762_f631821a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-18T22:13:49Z",
+      "side": 0,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/201937 added the test",
+      "parentUuid": "9a1e723f_04442d48",
+      "revId": "e6f216119f2624db1e51f3414a3fec7dc3d67a2f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
