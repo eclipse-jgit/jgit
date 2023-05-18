@@ -196,6 +196,43 @@ public class CommitGraphTest extends RepositoryTestCase {
 		assertEquals(getGenerationNumber(c8), 5);
 	}
 
+	@Test
+	public void testGraphWithNonExistingObjId() throws Exception {
+		ObjectId smallest = ObjectId.zeroId();
+		ObjectId largest = ObjectId
+				.fromString("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+
+		RevCommit c1;
+		RevCommit c2;
+		ObjectId mid;
+		int diffInFirstByte = 0;
+
+		do {
+			c1 = commit();
+			c2 = commit();
+
+			int smallerFirstByte = Math.min(c1.getFirstByte(),
+					c2.getFirstByte());
+			diffInFirstByte = Math.abs(c1.getFirstByte() - c2.getFirstByte());
+			int valueToMedian = diffInFirstByte >>> 1;
+			int halfWayFirstByte = smallerFirstByte + valueToMedian;
+			mid = new ObjectId(halfWayFirstByte << 24, 0, 0, 0, 0);
+
+			// Regen until we get to {smallest < c1 < mid < c2 < largest}
+		} while (c1.getId().getFirstByte() <= smallest.getFirstByte()
+				|| c1.getId().getFirstByte() >= largest.getFirstByte()
+				|| c2.getId().getFirstByte() <= smallest.getFirstByte()
+				|| c2.getId().getFirstByte() >= largest.getFirstByte()
+				|| diffInFirstByte <= 1);
+
+		writeAndReadCommitGraph(Set.of(c1, c2));
+		verifyCommitGraph();
+
+		assertEquals(commitGraph.findGraphPosition(smallest), -1);
+		assertEquals(commitGraph.findGraphPosition(mid), -1);
+		assertEquals(commitGraph.findGraphPosition(largest), -1);
+	}
+
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		try (RevWalk walk = new RevWalk(db)) {
