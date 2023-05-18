@@ -16,6 +16,24 @@
       "message": "the latest patchset 6 doesn\u0027t contain any change",
       "revId": "dd218e8494c570d62a6f163decefddb289ca055c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b20cffc0_2257450d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-05-18T09:44:43Z",
+      "side": 1,
+      "message": "Ops, it was already fixed by you in I96e78a5c1\nMy change has been hanging around for too long :)",
+      "parentUuid": "07629132_b41d4206",
+      "revId": "dd218e8494c570d62a6f163decefddb289ca055c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
