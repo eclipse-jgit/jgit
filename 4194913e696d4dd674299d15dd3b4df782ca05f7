@@ -165,6 +165,30 @@
       },
       "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc2ae3e2_608e9a0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-18T10:03:53Z",
+      "side": 1,
+      "message": "I think Luca has a point here, how about this: I4c6be9a3a08482b07659ca31d6987ce719d81ca5 ?",
+      "parentUuid": "4fb5959d_d2bdc939",
+      "range": {
+        "startLine": 97,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "4194913e696d4dd674299d15dd3b4df782ca05f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
