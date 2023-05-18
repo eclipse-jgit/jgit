@@ -16,6 +16,24 @@
       "message": "We should probably do the same in PackWriter\n\n[1]: https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java#1721",
       "revId": "e978490717a1e3d161b766cd3802342bad7d2123",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "022502de_5256bb17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 241433
+      },
+      "writtenOn": "2023-05-18T23:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b955f3_002ac7e2",
+      "revId": "e978490717a1e3d161b766cd3802342bad7d2123",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
