@@ -530,9 +530,10 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// are unusable and we shouldn't consult them again.
 				//
 				try {
-					if (pack.tmpIdx != null)
+					if (pack.tmpIdx != null) {
 						FileUtils.delete(pack.tmpIdx);
-				} catch (IOException e) {
+					}
+				} catch (Throwable e) {
 					if (e1 != null) {
 						e.addSuppressed(e1);
 					}
