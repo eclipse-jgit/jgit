@@ -89,6 +89,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "745889aa_2444c7d3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-19T19:18:33Z",
+      "side": 1,
+      "message": "would be helpful for future reader to make the expected 0 or -1 into variables with easy to understanding namings.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2635821_02a6419e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
         "patchSetId": 2
@@ -287,6 +304,23 @@
       "writtenOn": "2023-05-11T21:35:33Z",
       "side": 1,
       "message": "Optional: Could we do a ChunkHeaderWithData that inherits ChunkHeader (adds the data field and calls super(id, data.size)? \n\nPros:\nIt makes clearer that ChunkHeader is just a pair of (id,size) and there is the special case of \"this chunk has also its data ready\".\n\nCons:\nNew concept in this class to learn. Overengineering?\n\nOn the fence. Again, optional.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c718d5_127f84f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-19T19:18:33Z",
+      "side": 1,
+      "message": "optional: it\u0027s a bit odd that GraphCommits as class meant to be holding the commits for the commitGraphWriter is also holding the objectReader for the writer to use later. I\u0027m starting to think perhaps it\u0027s better for the writer to hold the reference to the walk similar to the packWriter.preparepack, even having the GraphCommits as a field created within the commitGraphWriter.",
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
