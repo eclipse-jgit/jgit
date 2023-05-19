@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4268d82_8fecfa34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-19T20:02:12Z",
+      "side": 1,
+      "message": "the formatting seems off, have you tried running eclipse formatter on this section?",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b218a0a_cfbb2827",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-19T20:02:12Z",
+      "side": 1,
+      "message": "please make it an or statement instead.",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c433771_59491664",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-19T20:02:12Z",
+      "side": 1,
+      "message": "for future readability, please replace the constant numbers with final variables.",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
