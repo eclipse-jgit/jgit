@@ -33,6 +33,24 @@
       "message": "I didn\u0027t analyze why the tests fail now; part of the problem might be that one has to explicitly enable deprecated keys and signature algorithms with this JSch fork. (DSA keys and signatures, ssh-rsa signature.) Though one of the failures appears to be a keyboard-interactive test.\n\nChanging this in our code to enable these would also require then to test with 0.1.55, to make sure it works with both versions.\n\nCompare e.g. https://github.com/mwiede/jsch/issues/187 for some hints on how to configure this.\n\nPersonally I have for quite some time told everyone asking me about this that the JSch connector was unsupported and people should switch to the Apache sshd implementation.\n\nI can give it a quick a try, but if this takes me more than one hour, I\u0027ll drop it. If someone wants to use JGit with this newer JSch, that person shall provide the change and invest the time to make it work.\n\nBTW, this JSch declares this dependency in its import-package: org.slf4j;version\u003d\"[2.0,3)\";resolution:\u003doptional. Note the lower bound. Probably not a problem, but if only a 1.7.x slf4j is present, I suppose no logging will be available. The logging setup would have to be checked, too, IIRC, we install our own logger.\n\nNote that EGit should probably not include this fork in its p2 repo but stick to 0.1.55. Eclipse platform still is based on 0.1.55, and I have _no_ idea what would happen if it got updates to 0.2.8. (Installing EGit itself will not cause JSch to be included, but if it\u0027s available, some update might pull it.)\n",
       "revId": "1176ab416d517fa184a57a0dd18a823e24920a30",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210f5094_506321da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-19T09:38:46Z",
+      "side": 1,
+      "message": "Thanks for your advise, will abandon this change, also have no free cycles to spend more effort on this.",
+      "parentUuid": "ed123aaa_991b010b",
+      "revId": "1176ab416d517fa184a57a0dd18a823e24920a30",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
