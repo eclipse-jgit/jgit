@@ -79,6 +79,24 @@
       "message": "Could we write a test for this like GcCommitGraphTest?\n\nBasically run a GC and check that the file exists in disk.",
       "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca536389_f3f95336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-19T21:35:13Z",
+      "side": 1,
+      "message": "Do you have a pointer to the test that you\u0027re thinking of? I found org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java but it doesn\u0027t run GC.",
+      "parentUuid": "fd55b3f1_4a753324",
+      "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
