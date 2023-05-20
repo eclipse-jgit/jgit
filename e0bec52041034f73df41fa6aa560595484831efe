@@ -68,6 +68,24 @@
       "message": "Are we ready with this for RC1?\n\nThe way we\u0027re set up currently, EGit also pulls these bundles from maven. So EGit would have to sign them again, so some changes will be needed in the EGit builds, too. Or could EGit pull them from the JGit repo, including signature?",
       "revId": "e0bec52041034f73df41fa6aa560595484831efe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "999a9315_ca41605a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-20T14:05:18Z",
+      "side": 1,
+      "message": "I thought we do corresponding changes in the EGit builds too.\n\nStill need to adapt the JGit pipelines. I have a modified validation job which I used for testing. \n\nI pushed another change updating to Tycho 4.0.0 so that we can enforce pgpg signing of the bouncycastle libraries.\n\nMaybe we should also version the jgit pipelines.",
+      "parentUuid": "bd435030_806f3dda",
+      "revId": "e0bec52041034f73df41fa6aa560595484831efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
