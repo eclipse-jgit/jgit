@@ -51,6 +51,23 @@
       "message": "If there\u0027s something I can do to help, let me know...  😊",
       "revId": "e0bec52041034f73df41fa6aa560595484831efe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd435030_806f3dda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-20T08:20:28Z",
+      "side": 1,
+      "message": "Are we ready with this for RC1?\n\nThe way we\u0027re set up currently, EGit also pulls these bundles from maven. So EGit would have to sign them again, so some changes will be needed in the EGit builds, too. Or could EGit pull them from the JGit repo, including signature?",
+      "revId": "e0bec52041034f73df41fa6aa560595484831efe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
