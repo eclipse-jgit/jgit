@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf1de60_dc52308e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-21T14:31:12Z",
+      "side": 1,
+      "message": "Why does simply compiling with Java 17 with option \"--release 11\" not work? Why do we have to compile with Java 11?\n\nIn the CI-build, we\u0027d have to request to use a Java 17 explicitly. (The default on the centos-7 images is Java 11.) That could be done in the Jenkinsfile; something like\n\n  tools {\n    jdk : \u0027temurin-jdk17-latest\u0027\n  }\n  \nshould do the trick. The contributor\u0027s guide should be updated and state that one needs Java 17 to build JGit (and EGit).\n\nIf you want to run the tests on a Java 11 JVM, then yes, there should be a toolchain with at least an entry for JavaSE-11. We\u0027ve used toolchains in the EGit build because for a while we compiled with Java 11 but had a BREE of Java 8, and I wanted the tests to run on Java 8 back then.",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "44bb293006333a273019a39657dc0aa42d4268ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
