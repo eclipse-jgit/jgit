@@ -70,6 +70,24 @@
       "parentUuid": "d10db3ae_4224857a",
       "revId": "51d7129acb03c4a00e933f3020d13a010ec59368",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b5af0b_553ff42d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-22T15:25:51Z",
+      "side": 1,
+      "message": "Well, the poms say to use the BREE version for _running_ the tests. That uses whatever is defined in the toolchains on the CI container. Apparently that JavaSE-11 is pointing to opendjk-jdk11-latest, which isn\u0027t really recent.\n\nThe easiest for now is to drop this BREE stuff everywhere. Just compile and run the tests on Java 17.\n\nOtherwise, there may be ways to override that default toolchain definition on the CI node. For instance, having a step that creates our own toolchains.xml file in the workspace defining JavaSE-11 to point to the directory of temurin-jdk11-latest, and then later steps running maven with --global-toolchains $WORKSPACE/toolchains.xml. But getting that right is certainly more work.",
+      "parentUuid": "b5b3ceab_a242cbdc",
+      "revId": "51d7129acb03c4a00e933f3020d13a010ec59368",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
