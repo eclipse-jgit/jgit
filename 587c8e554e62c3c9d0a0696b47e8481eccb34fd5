@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b63f41a5_59d1df61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-22T21:28:00Z",
+      "side": 1,
+      "message": "I don\u0027t know how to do this for the eclipse compiler,\nsee https://issues.apache.org/jira/browse/MCOMPILER-123\n\nSetting it via Eclipse \"project properties \u003e Java Build Path \u003e Module Dependencies\" doesn\u0027t work since \"Expose Package\" is disabled on java.base/sun.security.x509",
+      "parentUuid": "a289c81f_a35cd411",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
