@@ -16,6 +16,24 @@
       "message": "So now SSL tests are failing. I notice that we get openjdk-jdk11-latest on CI. According to [1], that\u0027s 11.0.2+9. I think I remember problems with 11.0.2 or 11.0.3. In any case, that\u0027s not exactly recent.\n\ntemurin-jdk11-latest would be a 11.0.18.\n\n[1] https://wiki.eclipse.org/Jenkins#JDK",
       "revId": "51d7129acb03c4a00e933f3020d13a010ec59368",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84de4197_4a4f4ce8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-22T15:01:12Z",
+      "side": 1,
+      "message": "Indeed; there was a bug in 11.0.2: [1]\n\n[1] https://stackoverflow.com/questions/52016415/jdk-11-ssl-error-on-valid-certificate-working-in-previous-versions",
+      "parentUuid": "37185acf_064609c3",
+      "revId": "51d7129acb03c4a00e933f3020d13a010ec59368",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
