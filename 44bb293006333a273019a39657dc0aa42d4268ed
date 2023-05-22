@@ -22,6 +22,30 @@
       },
       "revId": "44bb293006333a273019a39657dc0aa42d4268ed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b3a75b_f1f0f042",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-22T14:10:14Z",
+      "side": 1,
+      "message": "I had in mind that toolchain definitions are needed to compile against a different JDK versions APIs, but looking at the documentation\nhttps://docs.oracle.com/en/java/javase/17/docs/specs/man/javac.html\nI stand corrected. I amended the commit message accordingly.",
+      "parentUuid": "faf1de60_dc52308e",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "44bb293006333a273019a39657dc0aa42d4268ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
