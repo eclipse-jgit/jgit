@@ -16,6 +16,24 @@
       "message": "You probably also don\u0027t want this.",
       "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f5e8d66_90781953",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-22T15:57:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745ef490_98d1011c",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
