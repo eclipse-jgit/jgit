@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "745ef490_98d1011c",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-22T15:47:43Z",
+      "side": 1,
+      "message": "You probably also don\u0027t want this.",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
