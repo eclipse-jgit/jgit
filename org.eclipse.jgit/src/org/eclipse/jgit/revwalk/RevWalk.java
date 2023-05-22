@@ -158,9 +158,18 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
 
 	/**
+	 * Set on a RevCommit when the {@link CommitGraphBasedTopoSortGenerator} has
+	 * explored this commit.
+	 *
+	 * @see CommitGraphBasedTopoSortGenerator
+	 *
+	 */
+	static final int TOPO_WALK_EXPLORED = 1 << 8;
+
+	/**
 	 * Number of flag bits we keep internal for our own use. See above flags.
 	 */
-	static final int RESERVED_FLAGS = 8;
+	static final int RESERVED_FLAGS = 9;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
@@ -1193,6 +1202,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		}
 		return commitGraph;
 	}
+
 
 	/**
 	 * Asynchronous object parsing.

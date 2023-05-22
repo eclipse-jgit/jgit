@@ -136,7 +136,11 @@ class StartGenerator extends Generator {
 
 		if (walker.hasRevSort(RevSort.TOPO)
 				&& (g.outputType() & SORT_TOPO) == 0) {
-			g = new TopoSortGenerator(g);
+			if (walker.getObjectReader().getCommitGraph().isPresent()) {
+				g = new CommitGraphBasedTopoSortGenerator(g, walker);
+			} else {
+				g = new TopoSortGenerator(g);
+			}
 		} else if (walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)
 				&& (g.outputType() & SORT_TOPO) == 0) {
 			g = new TopoNonIntermixSortGenerator(g);
