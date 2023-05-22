@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1cd13ae_53cd0655",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-22T16:00:42Z",
+      "side": 1,
+      "message": "\u003e Patch Set 7: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11-test/139/ : FAILURE\n\n  [ERROR] Cannot resolve project dependencies:\n  17:47:41  [ERROR]   Software being installed: org.eclipse.jgit.ssh.apache.feature.group 6.6.0.qualifier\n  17:47:41  [ERROR]   Missing requirement: net.i2p.crypto.eddsa 0.3.0 requires \u0027java.package; sun.security.x509 0.0.0\u0027 but it could not be found\n  17:47:41  [ERROR]   Cannot satisfy dependency: org.eclipse.jgit.ssh.apache 6.6.0.202305221538 depends on: java.package; net.i2p.crypto.eddsa [0.3.0,0.4.0)\n  17:47:41  [ERROR]   Cannot satisfy dependency: org.eclipse.jgit.ssh.apache.feature.group 6.6.0.qualifier depends on: org.eclipse.equinox.p2.iu; org.eclipse.jgit.ssh.apache 0.0.0\n  \nHmmm. Pretty bad if that net.i2p library depends on that JDK-internal package. The manifest has\n\n  Import-Package: sun.security.x509;resolution:\u003doptional\n\nIf this package has gone in Java 17, we have a problem. But I did build locally (I think on Java 11) and install into an Eclipse running on Java 17, and I am using ed25519 keys, and I didn\u0027t notice any problems. So it looks as if we need to run the tycho packaging with Java 11. But at the same time we need Java 17 to use tycho 4.0.0. Can we add an --add-opens somewhere?",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
