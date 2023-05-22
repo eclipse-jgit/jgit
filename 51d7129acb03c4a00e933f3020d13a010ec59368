@@ -34,6 +34,24 @@
       "parentUuid": "37185acf_064609c3",
       "revId": "51d7129acb03c4a00e933f3020d13a010ec59368",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d10db3ae_4224857a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-22T15:08:51Z",
+      "side": 1,
+      "message": "I changed the build pipeline to use temurin-jdk11-latest",
+      "parentUuid": "84de4197_4a4f4ce8",
+      "revId": "51d7129acb03c4a00e933f3020d13a010ec59368",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
