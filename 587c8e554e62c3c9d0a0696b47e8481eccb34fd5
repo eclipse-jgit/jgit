@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a289c81f_a35cd411",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-22T16:11:14Z",
+      "side": 1,
+      "message": "Why does a missing optional dependency fail the build ?\nWe can add --add-opens to the compiler and surefire plugin configurations:\nhttps://nipafx.dev/maven-on-java-9/",
+      "parentUuid": "c1cd13ae_53cd0655",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
