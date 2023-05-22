@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96130c27_465b9d4d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.repository/pom.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-22T14:32:53Z",
+      "side": 1,
+      "message": "gpg-sign",
+      "range": {
+        "startLine": 113,
+        "startChar": 10,
+        "endLine": 113,
+        "endChar": 22
+      },
+      "revId": "4b6c0218795432609ac53d075f9348b3a0b29217",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
