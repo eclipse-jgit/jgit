@@ -54,6 +54,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "590dc333_58377f47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-22T22:18:05Z",
+      "side": 1,
+      "message": "It doesn\u0027t fail during compilation. It fails during tycho packaging build when building the org.eclipse.jgit.ssh.apache *feature*. So maybe --add-export or --add-opens was the wrong idea anyway. Looks a bit like a bug in tycho?",
+      "parentUuid": "b63f41a5_59d1df61",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
