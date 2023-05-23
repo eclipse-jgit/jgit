@@ -126,6 +126,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59af5b6_ffbdf854",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-23T23:27:14Z",
+      "side": 1,
+      "message": "interestingly the Orbit validation build of this PR fails with\n\n```\nError:  Cannot resolve project dependencies:\nError:    Software being installed: org.eclipse.orbit.releng.recipes.feature.aggregation.feature.group 1.0.0.qualifier\nError:    Missing requirement: net.i2p.crypto.eddsa 0.3.0.v20230523-1123 requires \u0027java.package; sun.security.x509 0.0.0\u0027 but it could not be found\nError:    Cannot satisfy dependency: org.eclipse.orbit.releng.recipes.feature.aggregation.feature.group 1.0.0.qualifier depends on: org.eclipse.equinox.p2.iu; net.i2p.crypto.eddsa [0.3.0,0.3.1)\n```\r\n\nhttps://github.com/eclipse/orbit/actions/runs/5056660109/jobs/9088345142?pr\u003d23",
+      "parentUuid": "4bedf880_39c5296f",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
