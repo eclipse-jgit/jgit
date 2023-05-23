@@ -144,6 +144,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47d782b5_ce996fb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-23T23:33:36Z",
+      "side": 1,
+      "message": "Actually a PR fixing this issue upstream was approved in 2019:\nhttps://github.com/str4d/ed25519-java/pull/78\nbut there is no release including this change.\n\nIt seems this project was abandoned in favour of\nhttps://github.com/cryptography-cafe/ed25519-elisabeth\nsee https://github.com/str4d/ed25519-java/issues/71\n\nJEP 339 added a ed25519 implementation to Java 15, see https://openjdk.org/jeps/339",
+      "parentUuid": "c59af5b6_ffbdf854",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
