@@ -72,6 +72,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf93c57_4e29a9c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-23T05:44:35Z",
+      "side": 1,
+      "message": "I think we should re-build the Orbit bundle for net.i2p.crypto.eddsa. This sun.security.X509 dependency is a test dependency only here: https://github.com/str4d/ed25519-java/blob/7c26a6312c2d2e887210930698706103e0f2da7d/test/net/i2p/crypto/eddsa/EdDSAEngineTest.java#L34\n\nThe maven artifact does not contain the test classes. But its MANIFEST has the import-package (even as mandatory). We should not include this import-package in the MANIFEST generated for the Orbit bundle at all.\n\nHere\u0027s a worst-case solution for getting a release out of the door: for JGit, stick with Java 11 and Tycho 2.7.5 for the release. Yes, the JGit p2 repo will have unsigned bundles. But everything gets built correctly. The EGit build produces the p2 repo that is used in SimRel, and it contains the JGit bundles as copies and it doesn\u0027t reference the JGit p2 repo, and the EGit build manages to sign everything as needed. Installation into Eclipse is normally from the EGit p2 repo. So for SimRel and Eclipse everything should be fine.",
+      "parentUuid": "590dc333_58377f47",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
