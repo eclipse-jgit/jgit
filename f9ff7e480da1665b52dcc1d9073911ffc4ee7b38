@@ -70,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f7cf149_ce122ccf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559df9e2_d2330712",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46a90ac6_1a157fa3",
@@ -87,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca0249c_c00bd973",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "Ah, thanks for the pointer to that. It\u0027s much easier to explain if I follow your suggestion, so I did it.",
+      "parentUuid": "46a90ac6_1a157fa3",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745889aa_2444c7d3",
@@ -100,6 +136,24 @@
       "writtenOn": "2023-05-19T19:18:33Z",
       "side": 1,
       "message": "would be helpful for future reader to make the expected 0 or -1 into variables with easy to understanding namings.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d2b32b8_5e9c45d5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "This is raw output from the bloom filter, so I don\u0027t think the user would expect this to have any human-readable meaning.",
+      "parentUuid": "745889aa_2444c7d3",
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -223,6 +277,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d1613fe_104bee58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "I just sent out patches to bump the version to 2: https://lore.kernel.org/git/cover.1684790529.git.jonathantanmy@google.com/\n\nIn the meantime I\u0027ll work on this change as if the patches were already merged, but won\u0027t merge this change until the patches are merged.",
+      "parentUuid": "ea42b5c5_9a85c47e",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3291eeb2_70a1ac28",
@@ -236,6 +314,24 @@
       "writtenOn": "2023-05-11T21:35:33Z",
       "side": 1,
       "message": "What we did with generation numbers was to write here just the chunck header and postpone the calculation until needed. Then the data has a more limited scope and life-span.\n\nIt seems this won\u0027t work for bloom filters because we cannot precalculate the size of the data chunk, is it really so? (double checking)",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c70277b_f8674f51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "Yes, exactly. We can\u0027t precalculate because each commit\u0027s bloom filter might have a different length.",
+      "parentUuid": "3291eeb2_70a1ac28",
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -257,6 +353,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e46d5bb_69af6429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "I see that Ronald made a patch on top of this to turn it off - we can review that functionality there.",
+      "parentUuid": "8bfaf0b1_5c61227c",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff1be7df_6346eb72",
@@ -270,6 +384,24 @@
       "writtenOn": "2023-05-11T21:35:33Z",
       "side": 1,
       "message": "Optional is not recommended for parameters. Do we really need to receive these chunks as parameter? they could be calculated inside this function IIUC.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62944977_373e9c75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "Ah good point. I\u0027ll calculate them in the function.",
+      "parentUuid": "ff1be7df_6346eb72",
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -291,6 +423,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f635f9a0_77b4aaf4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "By \"options is empty\" do you mean \"data is empty\"? If yes, that seems reasonable so OK, I\u0027ve done it.",
+      "parentUuid": "eb266cfb_61189901",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9eaca24e_b0adcb04",
@@ -308,6 +458,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b3dda6_8dbd65dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "Hmm...inheritance sounds overkill here so since you marked this as optional, I\u0027ll skip this suggestion.",
+      "parentUuid": "9eaca24e_b0adcb04",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98c718d5_127f84f0",
@@ -321,6 +489,24 @@
       "writtenOn": "2023-05-19T19:18:33Z",
       "side": 1,
       "message": "optional: it\u0027s a bit odd that GraphCommits as class meant to be holding the commits for the commitGraphWriter is also holding the objectReader for the writer to use later. I\u0027m starting to think perhaps it\u0027s better for the writer to hold the reference to the walk similar to the packWriter.preparepack, even having the GraphCommits as a field created within the commitGraphWriter.",
+      "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b6ffc35_2d625e6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:09Z",
+      "side": 1,
+      "message": "You\u0027re probably right, but CommitGraphWriter is a public API, so callers already expect it to be instantiable without passing an object reader. If we ever write a new API, we\u0027ll probably do as you suggest.",
+      "parentUuid": "98c718d5_127f84f0",
       "revId": "f9ff7e480da1665b52dcc1d9073911ffc4ee7b38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
