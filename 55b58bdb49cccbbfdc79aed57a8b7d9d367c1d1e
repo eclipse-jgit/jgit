@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "554884a2_9d7c109c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:04Z",
+      "side": 1,
+      "message": "Yes, this is what the Eclipse formatter returns.",
+      "parentUuid": "c4268d82_8fecfa34",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b218a0a_cfbb2827",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc83d3f9_115e0a12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:04Z",
+      "side": 1,
+      "message": "This is not an \"or\". This is checking if exactly one of them is null.",
+      "parentUuid": "5b218a0a_cfbb2827",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c433771_59491664",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-19T20:02:12Z",
       "side": 1,
       "message": "for future readability, please replace the constant numbers with final variables.",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8dfe4e5_d548e70d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:33:04Z",
+      "side": 1,
+      "message": "Hmm...any suggested names? In this part of the code, I think it\u0027s expected that you would know what the file format is (or have its documentation open in front of you). I could write the relevant parts here, but that would just duplicate what the documentation already says.",
+      "parentUuid": "7c433771_59491664",
       "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
