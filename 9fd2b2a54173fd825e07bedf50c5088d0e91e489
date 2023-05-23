@@ -16,6 +16,24 @@
       "message": "ack on Kyle\u0027s point about murmurhash3 doesn\u0027t mask the int with 0xff in cgit, any problem here based on his suggestion?",
       "revId": "9fd2b2a54173fd825e07bedf50c5088d0e91e489",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d83d98f_bde0686d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:32:56Z",
+      "side": 1,
+      "message": "Already addressed in earlier commit (will work with C Git to update their hash function).",
+      "parentUuid": "273f9a73_f7f808e9",
+      "revId": "9fd2b2a54173fd825e07bedf50c5088d0e91e489",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
