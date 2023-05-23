@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8301d589_6a4c30bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-05-23T17:34:03Z",
+      "side": 1,
+      "message": "Don\u0027t submit until we figure out what C Git is going to do about the hash function (or if it takes too long, we can figure something out like put this under a version number that\u0027s not 1 or 2)",
+      "revId": "ccca4973cca5f2f5dd3008bf0fa69ceee6744d04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
