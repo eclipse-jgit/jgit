@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2315d03_28b9b8d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-23T19:32:29Z",
+      "side": 1,
+      "message": "\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11-test/149/ : SUCCESS\n\nI don\u0027t see any signatures in the repo at [1] Should I ?\n\n[1] https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11-test/149/artifact/org.eclipse.jgit.packaging/org.eclipse.jgit.repository/target/repository/plugins/",
+      "revId": "d3d0ec4290393d71d1557b7bd582234ab023e9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
