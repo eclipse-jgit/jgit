@@ -90,6 +90,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23ad3c7c_1e9f3e7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-23T17:57:03Z",
+      "side": 1,
+      "message": "Got it: the problem is in the target platform: commit 7e094c6cf32 imports net.i2p.crypto.eddsa directly from Maven. But that bundle has a broken MANIFEST.MF, in which sun.security.x509 is a _mandatory_ dependency!\n\nSo this must go back to use the Orbit version with the _optional_ dependency (which shouldn\u0027t be there at all, but that can be fixed after the release).\n\nFix in https://git.eclipse.org/r/c/jgit/jgit/+/202026/1 .",
+      "parentUuid": "ebf93c57_4e29a9c1",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
