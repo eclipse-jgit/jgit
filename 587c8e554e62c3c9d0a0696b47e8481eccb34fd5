@@ -162,6 +162,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5a2df8_b9c04aa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-24T05:41:06Z",
+      "side": 1,
+      "message": "OK, so maybe I was wrong about that sun.security.x509 dependency.\n\nI know. And Bouncy Castle also has ed25519. I wanted to get rid of it in Apache MINA sshd for quite a while already. Have even started with it, but Apache MINA sshd code is a mess, and getting to the point where it could work with any ed25519 implementation is surprisingly hard. net.i2p.crypto.eddsa has also a security bug -- malleable signatures.",
+      "parentUuid": "47d782b5_ce996fb9",
+      "revId": "587c8e554e62c3c9d0a0696b47e8481eccb34fd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745ef490_98d1011c",
