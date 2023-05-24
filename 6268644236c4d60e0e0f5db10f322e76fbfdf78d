@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb7e3ab0_91ae4503",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-05-24T22:44:41Z",
+      "side": 1,
+      "message": "unintentionally reverted patch 4. please revert patch 5 ",
+      "revId": "6268644236c4d60e0e0f5db10f322e76fbfdf78d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
