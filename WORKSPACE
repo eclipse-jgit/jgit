@@ -90,30 +90,30 @@ maven_jar(
     sha1 = "51cf043c87253c9f58b539c9f7e44c8894223850",
 )
 
-SSHD_VERS = "2.9.2"
+SSHD_VERS = "2.10.0"
 
 maven_jar(
     name = "sshd-osgi",
     artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-    sha1 = "bac0415734519b2fe433fea196017acf7ed32660",
+    sha1 = "03677ac1da780b7bdb682da50b762d79ea0d940d",
 )
 
 maven_jar(
     name = "sshd-sftp",
     artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
-    sha1 = "7f9089c87b3b44f19998252fd3b68637e3322920",
+    sha1 = "88707339ac0693d48df0ec1bafb84c78d792ed08",
 )
 
 maven_jar(
     name = "jna",
-    artifact = "net.java.dev.jna:jna:5.12.1",
-    sha1 = "b1e93a735caea94f503e95e6fe79bf9cdc1e985d",
+    artifact = "net.java.dev.jna:jna:5.13.0",
+    sha1 = "1200e7ebeedbe0d10062093f32925a912020e747",
 )
 
 maven_jar(
     name = "jna-platform",
-    artifact = "net.java.dev.jna:jna-platform:5.12.1",
-    sha1 = "097406a297c852f4a41e688a176ec675f72e8329",
+    artifact = "net.java.dev.jna:jna-platform:5.13.0",
+    sha1 = "88e9a306715e9379f3122415ef4ae759a352640d",
 )
 
 maven_jar(

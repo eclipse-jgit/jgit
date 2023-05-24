@@ -17,6 +17,24 @@ maven apache
 		artifactId = "commons-compress"
 		version = "1.23.0"
 	}
+	dependency {
+		groupId = "commons-logging"
+		artifactId = "commons-logging"
+		version = "1.2"
+	}
+}
+
+maven args4j
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "args4j"
+		artifactId = "args4j"
+		version = "2.33"
+	}
 }
 
 maven assertj
@@ -57,6 +75,50 @@ maven bouncycastle
 		groupId = "org.bouncycastle"
 		artifactId = "bcutil-jdk18on"
 		version = "1.73"
+	}
+}
+
+maven bytebuddy
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.bytebuddy"
+		artifactId = "byte-buddy"
+		version = "1.12.18"
+	}
+	dependency {
+		groupId = "net.bytebuddy"
+		artifactId = "byte-buddy-agent"
+		version = "1.12.18"
+	}
+}
+
+maven gson
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "com.google.code.gson"
+		artifactId = "gson"
+		version = "2.10.1"
+	}
+}
+
+maven hamcrest
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.hamcrest"
+		artifactId = "hamcrest"
+		version = "2.2"
 	}
 }
 
@@ -121,6 +183,42 @@ maven jetty
 	}
 }
 
+maven jna
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.java.dev.jna"
+		artifactId = "jna"
+		version = "5.13.0"
+	}
+	dependency {
+		groupId = "net.java.dev.jna"
+		artifactId = "jna-platform"
+		version = "5.13.0"
+	}
+}
+
+maven sshd
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-osgi"
+		version = "2.10.0"
+	}
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-sftp"
+		version = "2.10.0"
+	}
+}
+
 maven slf4j
 	scope = compile
 	dependencyDepth = none
@@ -136,5 +234,18 @@ maven slf4j
 		groupId = "org.slf4j"
 		artifactId = "slf4j-simple"
 		version = "1.7.36"
+	}
+}
+
+maven xz
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.tukaani"
+		artifactId = "xz"
+		version = "1.9"
 	}
 }

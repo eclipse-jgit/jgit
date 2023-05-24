@@ -80,7 +80,7 @@ class GraphObjectIndex {
 		if (levelOne > 0) {
 			low = fanoutTable[levelOne - 1];
 		}
-		do {
+		while (low < high) {
 			int mid = (low + high) >>> 1;
 			int pos = objIdOffset(mid);
 			int cmp = id.compareTo(oidLookup, pos);
@@ -91,7 +91,7 @@ class GraphObjectIndex {
 			} else {
 				low = mid + 1;
 			}
-		} while (low < high);
+		}
 		return -1;
 	}
 

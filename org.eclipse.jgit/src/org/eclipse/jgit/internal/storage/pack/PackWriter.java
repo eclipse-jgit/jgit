@@ -62,6 +62,7 @@ import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -1137,6 +1138,38 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Whether the writer will write a reverse index file. The configuration
+	 * flag must be on and the writer must be able to write corresponding
+	 * forward index.
+	 *
+	 * @return whether the writer will write a reverse index file
+	 */
+	public boolean isReverseIndexEnabled() {
+		// Only write the reverse index if the writer is configured to and the
+		// forward index that it would correspond to will be written.
+		return config.isWriteReverseIndex() && !isIndexDisabled();
+	}
+
+	/**
+	 * Write the pack's reverse index file to the output stream.
+	 *
+	 * @param stream
+	 *            where to write the file contents to
+	 * @throws IOException
+	 *             if writing to the stream fails
+	 */
+	public void writeReverseIndex(OutputStream stream) throws IOException {
+		if (!isReverseIndexEnabled()) {
+			return;
+		}
+		long writeStart = System.currentTimeMillis();
+		PackReverseIndexWriter writer = PackReverseIndexWriter
+				.createWriter(stream);
+		writer.write(sortByName(), packcsum);
+		stats.timeWriting += System.currentTimeMillis() - writeStart;
+	}
+
+	/**
 	 * Create a bitmap index file to match the pack file just written.
 	 * <p>
 	 * Called after {@link #prepareBitmapIndex(ProgressMonitor)}.
@@ -1690,6 +1723,11 @@ public class PackWriter implements AutoCloseable {
 						}
 						throw new IOException(JGitText
 								.get().packingCancelledDuringObjectsWriting, e);
+					} catch (Throwable e) {
+						if (e1 != null) {
+							e.addSuppressed(e1);
+						}
+						throw e;
 					}
 				}
 			}
