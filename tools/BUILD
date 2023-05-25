@@ -68,7 +68,7 @@ java_package_configuration(
         "-Xep:LiteralClassName:ERROR",
         "-Xep:MissingFail:ERROR",
         "-Xep:MissingOverride:ERROR",
-        "-Xep:MutableConstantField:ERROR",
+        "-Xep:MutableConstantField:WARN",
         "-Xep:NarrowingCompoundAssignment:ERROR",
         "-Xep:NonAtomicVolatileUpdate:ERROR",
         "-Xep:NonOverridingEquals:ERROR",
