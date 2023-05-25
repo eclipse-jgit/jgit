@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0bddeec_dff3819f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-25T17:32:46Z",
+      "side": 1,
+      "message": "The new RevCommitCG method got my attention. Didn\u0027t do a deeper review.",
+      "revId": "55f29910656fdf7aa664c6d0d864801b6c7cdefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59f8eb0d_372613de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-25T17:32:46Z",
+      "side": 1,
+      "message": "This should be a method in the RevCommit class with a suitable default value. The caller should be able to use RevCommit or RevCommitCG without knowing where the data is coming from.",
+      "revId": "55f29910656fdf7aa664c6d0d864801b6c7cdefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fa36d0_fd2ebce7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-25T17:32:46Z",
+      "side": 1,
+      "message": "Instead of instanceof RevCommitCG  with a cast later, RevWalk should have a method to get the changedpath filter and this could be a\n\nif (!c.getChangedPathFilter().isEmpty()) or\nif (c.getChangedPathFilter() !\u003d null)\n\ndepending on the default.",
+      "revId": "55f29910656fdf7aa664c6d0d864801b6c7cdefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
