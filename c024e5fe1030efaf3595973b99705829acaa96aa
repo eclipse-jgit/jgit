@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fac897c_9e961cf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "nit: this subject line is too wide, how about somethink like\n\nAdd config options for writing/using commit-graph bloom filters",
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d985b0b_736c2353",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "define constants in ConfigConstants for config section and option names",
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1a6911e_a6838689",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "this assignment is unnecessary, Java boolean variables default to false",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 45
+      },
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7896cd6_011f6ae1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "document the default",
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2b48b4a_f620954d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "inconsistent naming: in DfsGarbageCollector you name it setWriteBloomFilter",
+      "range": {
+        "startLine": 140,
+        "startChar": 26,
+        "endLine": 140,
+        "endChar": 45
+      },
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3e81b47_ad20a712",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "whether bloom filter generation is enabled",
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9940480_73b63071",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "remove this word",
+      "range": {
+        "startLine": 1010,
+        "startChar": 21,
+        "endLine": 1010,
+        "endChar": 25
+      },
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c7ae1a4_f682e6f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-25T20:44:44Z",
+      "side": 1,
+      "message": "define constants in ConfigConstants for config section names and option keys",
+      "range": {
+        "startLine": 221,
+        "startChar": 47,
+        "endLine": 221,
+        "endChar": 56
+      },
+      "revId": "c024e5fe1030efaf3595973b99705829acaa96aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
