@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d6c939_5d8472dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-05-25T16:50:03Z",
+      "side": 1,
+      "message": "holding off the changes until we can resolve the cgit murmur3 hash incompatibility and the their decided bloom filter versioning ",
+      "revId": "2ebc97b04559d5b3ff2b1baffee83413e216226f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
