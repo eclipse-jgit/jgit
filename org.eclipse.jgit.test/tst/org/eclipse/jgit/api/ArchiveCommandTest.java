@@ -261,14 +261,10 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 			File archive = new File(getTemporaryDirectory(),
 					"archive." + format);
 
-			archive(git, archive, fmt, new HashMap<String, Object>() {{
-				put("compression-level", 1);
-			}});
+			archive(git, archive, fmt, Map.of("compression-level", 1));
 			int sizeCompression1 = getNumBytes(archive);
 
-			archive(git, archive, fmt, new HashMap<String, Object>() {{
-				put("compression-level", 9);
-			}});
+			archive(git, archive, fmt, Map.of("compression-level", 9));
 			int sizeCompression9 = getNumBytes(archive);
 
 			assertTrue(sizeCompression1 > sizeCompression9);
