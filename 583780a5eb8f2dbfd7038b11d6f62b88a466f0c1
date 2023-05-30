@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b9dcf2_b08511e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-05-30T09:42:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be on stable-6.6?",
+      "revId": "583780a5eb8f2dbfd7038b11d6f62b88a466f0c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
