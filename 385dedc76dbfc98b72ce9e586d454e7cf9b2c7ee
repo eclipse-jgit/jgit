@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0ae2743_43412779",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "There is a javadoc issue I need to solve (I have used Bazel locally and it does not complain).",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54660705_79c1143b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryResolveTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "This indicates Repository should have a function to validate just a component. I felt it was easier to adjust to the new expectation.\n\nMaybe I should have used the `R_REFS \u003d \"refs/\"`  constant.",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "407ddd32_cd57ccae",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateStoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "I don\u0027t know what was the intent of this change. Based on the method name it would create a `refs/heads` file then create a `refs/heads/master` which supposedly should be in a `heads` directory.\n\nIf that assumption is correct, the above does the same but one level deeper.",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00ee22cc_f0034a19",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "This, I believe, covers exactly https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d582000 by doing the test on receive-pack. I have added a comment to the test method in that regard.",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "275a088e_9cd75b4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "The pattern is repeated and comes from 2012 commit 094df5a916db6060fa7f7d8c1f61cc0b970a9433 . There too, it indicates Repository should have a method to validate a component.",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f7834a7_5a725e74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "This cause Jenkins to fail with:\n\n org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java:[1371,41] Javadoc: Unexpected text\n \nAn issue which is not raised locally when using Bazel :)",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b07382ce_10b39cb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-30T17:39:01Z",
+      "side": 1,
+      "message": "The bug is isValidRefName()  is passed full references prefixed by `refs/` while the code was written assuming the actual ref name.\n\nCgit does an early return when the refs does not starts with `refs/` then only parse the remainder. If the original author looked at the C code, it might explain the off by one error cause a refname here is not the same as one in cgit :)\n\nAll that change is not even a one line fix, it is merely a fix for a off by one.",
+      "range": {
+        "startLine": 1426,
+        "startChar": 2,
+        "endLine": 1426,
+        "endChar": 24
+      },
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
