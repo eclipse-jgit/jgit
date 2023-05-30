@@ -1068,7 +1068,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
 		ctx.stats.readReverseIdx++;
 		long start = System.nanoTime();
-		PackReverseIndex revidx = new PackReverseIndex(idx);
+		PackReverseIndex revidx = PackReverseIndex.computeFromIndex(idx);
 		reverseIndex = revidx;
 		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
 		return new DfsBlockCache.Ref<>(
