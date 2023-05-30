@@ -35,19 +35,19 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 	private long bucketSize;
 
 	/**
-	 * The indexes into indexPosInOffsetOrder at which the next bucket starts.
+	 * The indexes into indexPosInOffsetOrder at which each bucket starts.
 	 *
 	 * For example, given offset o (and therefore bucket = o / bucketSize), the
 	 * indexPos corresponding to o will be contained in the range
-	 * indexPosInOffsetOrder[nextBucketStart[bucket - 1]] inclusive to
-	 * indexPosInOffsetOrder[nextBucketStart[bucket]] exclusive.
+	 * indexPosInOffsetOrder[bucketStarts[bucket]] inclusive to
+	 * indexPosInOffsetOrder[bucketStarts[bucket + 1]] exclusive.
 	 *
 	 * This range information can speed up #binarySearch by identifying the
 	 * relevant bucket and only searching within its range.
 	 * <p>
 	 * See {@link #binarySearch}
 	 */
-	private int[] nextBucketStart;
+	private int[] bucketStartIdxs;
 
 	/**
 	 * Mapping from indices in offset order to indices in SHA-1 order.
@@ -73,7 +73,7 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 
 		if (cnt == 0) {
 			bucketSize = Long.MAX_VALUE;
-			nextBucketStart = new int[1];
+			bucketStartIdxs = new int[1];
 			indexPosInOffsetOrder = new int[0];
 			return;
 		}
@@ -200,7 +200,7 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 			int[] furtherValues, long[] offsetsInIndexOrder) {
 		int nextEmptyIdx = 0;
 		indexPosInOffsetOrder = new int[cnt];
-		nextBucketStart = headValues; // Reuse the allocation
+		bucketStartIdxs = headValues; // Reuse the allocation
 		for (int bucketIdx = 0; bucketIdx < headValues.length; bucketIdx++) {
 			int startIdx = nextEmptyIdx;
 			for (int bucketValue = headValues[bucketIdx]; bucketValue > 0; bucketValue = furtherValues[bucketValue]) {
@@ -218,7 +218,7 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 				indexPosInOffsetOrder[writeIdx] = indexPos;
 			}
 			// The value at the shared allocation can now be overwritten safely.
-			nextBucketStart[bucketIdx] = nextEmptyIdx;
+			bucketStartIdxs[bucketIdx] = startIdx;
 		}
 	}
 
@@ -254,8 +254,10 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 
 	private int binarySearch(long offset) {
 		int bucket = (int) (offset / bucketSize);
-		int low = bucket == 0 ? 0 : nextBucketStart[bucket - 1];
-		int high = nextBucketStart[bucket];
+		int low = bucketStartIdxs[bucket];
+		int high = bucket + 1 < bucketStartIdxs.length
+				? bucketStartIdxs[bucket + 1]
+				: indexPosInOffsetOrder.length;
 		while (low < high) {
 			final int mid = (low + high) >>> 1;
 			final long o = index.getOffset(indexPosInOffsetOrder[mid]);
