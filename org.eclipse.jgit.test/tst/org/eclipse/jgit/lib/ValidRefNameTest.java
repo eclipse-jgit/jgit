@@ -90,7 +90,8 @@ public class ValidRefNameTest {
 	@Test
 	public void testMustHaveTwoComponents() {
 		assertValid(false, "master");
-		assertValid(true, "heads/master");
+		assertValid(false, "heads/master");
+		assertValid(false, "refs/foo" );
 	}
 
 	@Test

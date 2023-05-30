@@ -696,7 +696,7 @@ public abstract class Repository implements AutoCloseable {
 							// Currently checked out branch, HEAD if
 							// detached
 							name = Constants.HEAD;
-						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
+						if (!Repository.isValidRefName("refs/x/" + name)) //$NON-NLS-1$
 							throw new RevisionSyntaxException(MessageFormat
 									.format(JGitText.get().invalidRefName,
 											name),
@@ -752,7 +752,7 @@ public abstract class Repository implements AutoCloseable {
 							name = new String(revChars, done, i);
 						if (name.isEmpty())
 							name = Constants.HEAD;
-						if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
+						if (!Repository.isValidRefName("refs/x/" + name)) //$NON-NLS-1$
 							throw new RevisionSyntaxException(MessageFormat
 									.format(JGitText.get().invalidRefName,
 											name),
@@ -804,7 +804,7 @@ public abstract class Repository implements AutoCloseable {
 		if (done == revstr.length())
 			return null;
 		name = revstr.substring(done);
-		if (!Repository.isValidRefName("x/" + name)) //$NON-NLS-1$
+		if (!Repository.isValidRefName("refs/x/" + name)) //$NON-NLS-1$
 			throw new RevisionSyntaxException(
 					MessageFormat.format(JGitText.get().invalidRefName, name),
 					revstr);
@@ -838,7 +838,7 @@ public abstract class Repository implements AutoCloseable {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
 
-		if (Repository.isValidRefName("x/" + revstr)) { //$NON-NLS-1$
+		if (Repository.isValidRefName("refs/x/" + revstr)) { //$NON-NLS-1$
 			Ref r = getRefDatabase().findRef(revstr);
 			if (r != null)
 				return r.getObjectId();
@@ -1367,6 +1367,8 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * For portability reasons '\' is excluded
 	 *
+	 * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html">
+	 * git-check-ref-format(1) manual page</a>.
 	 * @param refName a {@link java.lang.String} object.
 	 * @return true if refName is a valid ref name
 	 */
@@ -1421,7 +1423,7 @@ public abstract class Repository implements AutoCloseable {
 			}
 			p = c;
 		}
-		return components > 1;
+		return components > 2;
 	}
 
 	/**

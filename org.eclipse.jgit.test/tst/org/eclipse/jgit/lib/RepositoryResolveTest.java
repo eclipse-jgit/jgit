@@ -269,29 +269,29 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void invalidNames() throws AmbiguousObjectException, IOException {
-		assertTrue(Repository.isValidRefName("x/a"));
-		assertTrue(Repository.isValidRefName("x/a.b"));
-		assertTrue(Repository.isValidRefName("x/a@b"));
-		assertTrue(Repository.isValidRefName("x/a@b{x}"));
-		assertTrue(Repository.isValidRefName("x/a/b"));
-		assertTrue(Repository.isValidRefName("x/a]b")); // odd, yes..
-		assertTrue(Repository.isValidRefName("x/\u00a0")); // unicode is fine,
+		assertTrue(Repository.isValidRefName("refs/x/a"));
+		assertTrue(Repository.isValidRefName("refs/x/a.b"));
+		assertTrue(Repository.isValidRefName("refs/x/a@b"));
+		assertTrue(Repository.isValidRefName("refs/x/a@b{x}"));
+		assertTrue(Repository.isValidRefName("refs/x/a/b"));
+		assertTrue(Repository.isValidRefName("refs/x/a]b")); // odd, yes..
+		assertTrue(Repository.isValidRefName("refs/x/\u00a0")); // unicode is fine,
 															// even hard space
-		assertFalse(Repository.isValidRefName("x/.a"));
-		assertFalse(Repository.isValidRefName("x/a."));
-		assertFalse(Repository.isValidRefName("x/a..b"));
-		assertFalse(Repository.isValidRefName("x//a"));
-		assertFalse(Repository.isValidRefName("x/a/"));
-		assertFalse(Repository.isValidRefName("x/a//b"));
-		assertFalse(Repository.isValidRefName("x/a[b"));
-		assertFalse(Repository.isValidRefName("x/a^b"));
-		assertFalse(Repository.isValidRefName("x/a*b"));
-		assertFalse(Repository.isValidRefName("x/a?b"));
-		assertFalse(Repository.isValidRefName("x/a~1"));
-		assertFalse(Repository.isValidRefName("x/a\\b"));
-		assertFalse(Repository.isValidRefName("x/a\u0000"));
+		assertFalse(Repository.isValidRefName("refs/x/.a"));
+		assertFalse(Repository.isValidRefName("refs/x/a."));
+		assertFalse(Repository.isValidRefName("refs/x/a..b"));
+		assertFalse(Repository.isValidRefName("refs/x//a"));
+		assertFalse(Repository.isValidRefName("refs/x/a/"));
+		assertFalse(Repository.isValidRefName("refs/x/a//b"));
+		assertFalse(Repository.isValidRefName("refs/x/a[b"));
+		assertFalse(Repository.isValidRefName("refs/x/a^b"));
+		assertFalse(Repository.isValidRefName("refs/x/a*b"));
+		assertFalse(Repository.isValidRefName("refs/x/a?b"));
+		assertFalse(Repository.isValidRefName("refs/x/a~1"));
+		assertFalse(Repository.isValidRefName("refs/x/a\\b"));
+		assertFalse(Repository.isValidRefName("refs/x/a\u0000"));
 
-		db.resolve("x/a@");
+		db.resolve("refs/x/a@");
 
 		assertUnparseable(".");
 		assertUnparseable("x@{3");
