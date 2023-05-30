@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03ee51af_aac0fb1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-30T21:55:49Z",
+      "side": 1,
+      "message": "we should add an equivalent of check-ref-format\u0027s option --allow-onelevel",
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c299e4b8_8ec022c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-30T21:55:49Z",
+      "side": 1,
+      "message": "use Constants.R_REFS for \"refs/\"\n\nmore occurrences below",
+      "range": {
+        "startLine": 699,
+        "startChar": 38,
+        "endLine": 699,
+        "endChar": 43
+      },
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "837ecb67_22999b9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-05-30T21:55:49Z",
+      "side": 1,
+      "message": "javadoc doesn\u0027t like the line break before \u0027\u003e\u0027",
+      "range": {
+        "startLine": 1371,
+        "startChar": 9,
+        "endLine": 1371,
+        "endChar": 10
+      },
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
