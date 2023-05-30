@@ -11,6 +11,8 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.DataInput;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestInputStream;
@@ -23,6 +25,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.io.SilentFileInputStream;
 
 /**
  * <p>
@@ -44,6 +47,36 @@ public interface PackReverseIndex {
 	 * The first reverse index file version.
 	 */
 	int VERSION_1 = 1;
+
+	/**
+	 * Create an in-memory pack reverse index by reading it from the given file
+	 * if the file exists, or computing it from the given pack index if the file
+	 * doesn't exist.
+	 *
+	 * @param idxFile
+	 *            the file to read the pack file from, if it exists
+	 * @param objectCount
+	 *            the number of objects in the corresponding pack
+	 * @param packIndexSupplier
+	 *            a function to lazily get the corresponding forward index
+	 * @return the reverse index instance
+	 * @throws IOException
+	 *             if reading from the file fails
+	 */
+	static PackReverseIndex openOrCompute(File idxFile, long objectCount,
+			PackBitmapIndex.SupplierWithIOException<PackIndex> packIndexSupplier)
+			throws IOException {
+		try (SilentFileInputStream fd = new SilentFileInputStream(idxFile)) {
+			return read(fd, objectCount, packIndexSupplier);
+		} catch (FileNotFoundException e) {
+			return computeFromIndex(packIndexSupplier.get());
+		} catch (IOException e) {
+			throw new IOException(
+					MessageFormat.format(JGitText.get().unreadablePackIndex,
+							idxFile.getAbsolutePath()),
+					e);
+		}
+	}
 
 	/**
 	 * Read an in-memory pack reverse index from the given input stream. This
