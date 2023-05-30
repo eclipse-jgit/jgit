@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f74fbf_f5aeee18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-30T23:43:13Z",
+      "side": 1,
+      "message": "A nit in the assertion name, but this looks great. Thanks Anna!",
+      "revId": "ccb47162f4188391a2f5aceff207cbd0f953b870",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "527756c7_6ba3caf5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcReverseIndexTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-05-30T23:43:13Z",
+      "side": 1,
+      "message": "nit: assertRidxExists or assertValidRidxExists (to make explicit what is it validating). Same for the other assert.",
+      "range": {
+        "startLine": 97,
+        "startChar": 21,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "ccb47162f4188391a2f5aceff207cbd0f953b870",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
