@@ -30,25 +30,29 @@ final class ComputedPackReverseIndex extends PackReverseIndex {
 	private final PackIndex index;
 
 	/**
-	 * The number of bytes per entry in the offsetIndex.
+	 * The number of offsets each bucket in indexPosInOffsetOrder could contain.
 	 */
-	private final long bucketSize;
+	private long bucketSize;
 
 	/**
-	 * An index into the nth mapping, where the value is the position after the
-	 * the last index that contains the values of the bucket. For example given
-	 * offset o (and bucket = o / bucketSize), the offset will be contained in
-	 * the range nth[offsetIndex[bucket - 1]] inclusive to
-	 * nth[offsetIndex[bucket]] exclusive.
+	 * The indexes into indexPosInOffsetOrder at which the next bucket starts.
+	 *
+	 * For example, given offset o (and therefore bucket = o / bucketSize), the
+	 * indexPos corresponding to o will be contained in the range
+	 * indexPosInOffsetOrder[nextBucketStart[bucket - 1]] inclusive to
+	 * indexPosInOffsetOrder[nextBucketStart[bucket]] exclusive.
+	 *
+	 * This range information can speed up #binarySearch by identifying the
+	 * relevant bucket and only searching within its range.
 	 * <p>
 	 * See {@link #binarySearch}
 	 */
-	private final int[] offsetIndex;
+	private int[] nextBucketStart;
 
 	/**
 	 * Mapping from indices in offset order to indices in SHA-1 order.
 	 */
-	private final int[] nth;
+	private int[] indexPosInOffsetOrder;
 
 	/**
 	 * Create reverse index from straight/forward pack index, by indexing all
@@ -60,62 +64,161 @@ final class ComputedPackReverseIndex extends PackReverseIndex {
 	ComputedPackReverseIndex(PackIndex packIndex) {
 		index = packIndex;
 
-		final long cnt = index.getObjectCount();
-		if (cnt + 1 > Integer.MAX_VALUE) {
+		long rawCnt = index.getObjectCount();
+		if (rawCnt + 1 > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException(
 					JGitText.get().hugeIndexesAreNotSupportedByJgitYet);
 		}
+		int cnt = (int) rawCnt;
 
 		if (cnt == 0) {
 			bucketSize = Long.MAX_VALUE;
-			offsetIndex = new int[1];
-			nth = new int[0];
+			nextBucketStart = new int[1];
+			indexPosInOffsetOrder = new int[0];
 			return;
 		}
 
-		final long[] offsetsBySha1 = new long[(int) cnt];
+		initializeIndexPosInOffsetOrder(cnt);
+	}
 
+	/**
+	 * Sort the index positions according to the corresponding pack offsets. Use
+	 * bucket sort since the offsets are somewhat uniformly distributed over the
+	 * range (0, pack size).
+	 *
+	 * Bucket sort will partition the index position values into separate
+	 * buckets according to their corresponding pack offsets. If the assumption
+	 * that the offsets are uniformly distributed holds, then each bucket will
+	 * contain 1 value on average.
+	 *
+	 * The buckets are stored in two arrays. The first array holds the first
+	 * value in each bucket. The value itself is used to index into the second
+	 * array, which holds any further values for the bucket. Each further value
+	 * in the second array will itself serve as an index for the next value in
+	 * the bucket.
+	 *
+	 * In this way, the representation is like a linked list per bucket. This
+	 * representation may be compacted into two arrays because each index
+	 * position value is unique in the range [0, cnt), allowing them to be used
+	 * as unique array indexes.
+	 *
+	 * The final sorted result is written into the single array
+	 * indexPosInOffsetOrder so that it can be more easily read by the other
+	 * methods of this class.
+	 * 
+	 * @param cnt
+	 *            The count of objects in the index.
+	 */
+	private void initializeIndexPosInOffsetOrder(int cnt) {
+		long[] offsetsInIndexOrder = new long[cnt];
 		long maxOffset = 0;
-		int ith = 0;
-		for (MutableEntry me : index) {
-			final long o = me.getOffset();
-			offsetsBySha1[ith++] = o;
-			if (o > maxOffset) {
-				maxOffset = o;
+		int i = 0;
+		for (MutableEntry entry : index) {
+			long offset = entry.getOffset();
+			offsetsInIndexOrder[i++] = offset;
+			if (offset > maxOffset) {
+				maxOffset = offset;
 			}
 		}
-
 		bucketSize = maxOffset / cnt + 1;
-		int[] bucketIndex = new int[(int) cnt];
-		int[] bucketValues = new int[(int) cnt + 1];
-		for (int oi = 0; oi < offsetsBySha1.length; oi++) {
-			final long o = offsetsBySha1[oi];
-			final int bucket = (int) (o / bucketSize);
-			final int bucketValuesPos = oi + 1;
-			final int current = bucketIndex[bucket];
-			bucketIndex[bucket] = bucketValuesPos;
-			bucketValues[bucketValuesPos] = current;
-		}
+		int[] headValues = new int[cnt];
+		int[] furtherValues = new int[cnt + 1];
+		partitionIndexPositionsIntoBuckets(cnt, headValues, furtherValues,
+				offsetsInIndexOrder);
+		writeSortedBucketsIntoFinalOrder(cnt, headValues, furtherValues,
+				offsetsInIndexOrder);
+	}
 
-		int nthByOffset = 0;
-		nth = new int[offsetsBySha1.length];
-		offsetIndex = bucketIndex; // Reuse the allocation
-		for (int bi = 0; bi < bucketIndex.length; bi++) {
-			final int start = nthByOffset;
-			// Insertion sort of the values in the bucket.
-			for (int vi = bucketIndex[bi]; vi > 0; vi = bucketValues[vi]) {
-				final int nthBySha1 = vi - 1;
-				final long o = offsetsBySha1[nthBySha1];
-				int insertion = nthByOffset++;
-				for (; start < insertion; insertion--) {
-					if (o > offsetsBySha1[nth[insertion - 1]]) {
+	/**
+	 * Partition the index positions into buckets based on their corresponding
+	 * offset order.
+	 *
+	 * Store the index positions as 1-indexed so that default initialized 0
+	 * values can be interpreted as the end of a bucket within the array.
+	 *
+	 * When a value is added to a bucket and there is an existing value in the
+	 * bucket, move the existing value into the further values array before
+	 * replacing it.
+	 *
+	 * @param cnt
+	 *            The count of objects in the index.
+	 * @param headValues
+	 *            The first index position value in each bucket, also used as
+	 *            the index of any further bucket values.
+	 * @param furtherValues
+	 *            If there is more than one value in a bucket, they are stored
+	 *            here, with each value being the index for the next value.
+	 *            There won't be any collisions because every index position is
+	 *            unique.
+	 * @param offsetsInIndexOrder
+	 *            The pack offsets of each object in index position order.
+	 */
+	private void partitionIndexPositionsIntoBuckets(int cnt, int[] headValues,
+			int[] furtherValues, long[] offsetsInIndexOrder) {
+		for (int indexPos = 0; indexPos < cnt; indexPos++) {
+			long offset = offsetsInIndexOrder[indexPos];
+			int bucketIdx = (int) (offset / bucketSize);
+			int asBucketValue = indexPos + 1;
+			int current = headValues[bucketIdx];
+			headValues[bucketIdx] = asBucketValue;
+			furtherValues[asBucketValue] = current;
+		}
+	}
+
+	/**
+	 * Sort the values in each bucket using insertion sort, which should be
+	 * performant given the assumption that the offsets are somewhat uniformly
+	 * distributed. As the buckets are sorted, write the sorted results into
+	 * indexPosInOffsetOrder, so that the results can be read simply from a
+	 * single array.
+	 *
+	 * For each bucket, the index position values are sorted one-by-one using
+	 * insertion sort, shifting each left one spot until all index position
+	 * values to its left correspond to smaller pack offsets. Each next value in
+	 * the bucket is found by interpreting the current value as an index into
+	 * the further values array.
+	 *
+	 * Just before writing the values into the final result, decrement the
+	 * stored value, which were previously stored as 1-indexed so that default
+	 * initialized 0 values could be interpreted as the end of a bucket within
+	 * the array.
+	 *
+	 * @param cnt
+	 *            The count of objects in the index.
+	 * @param headValues
+	 *            The first index position value in each bucket, also used as
+	 *            the index of any further bucket values.
+	 * @param furtherValues
+	 *            If there is more than one value in a bucket, they are stored
+	 *            here, with each value being the index for the next value.
+	 *            There won't be any collisions because every index position is
+	 *            unique.
+	 * @param offsetsInIndexOrder
+	 *            The pack offsets of each object in index position order.
+	 */
+	private void writeSortedBucketsIntoFinalOrder(int cnt, int[] headValues,
+			int[] furtherValues, long[] offsetsInIndexOrder) {
+		int nextEmptyIdx = 0;
+		indexPosInOffsetOrder = new int[cnt];
+		nextBucketStart = headValues; // Reuse the allocation
+		for (int bucketIdx = 0; bucketIdx < headValues.length; bucketIdx++) {
+			int startIdx = nextEmptyIdx;
+			for (int bucketValue = headValues[bucketIdx]; bucketValue > 0; bucketValue = furtherValues[bucketValue]) {
+				int indexPos = bucketValue - 1;
+				long offset = offsetsInIndexOrder[indexPos];
+				int writeIdx;
+				for (writeIdx = nextEmptyIdx++; startIdx < writeIdx; writeIdx--) {
+					int prevIndexPos = indexPosInOffsetOrder[writeIdx - 1];
+					if (offset > offsetsInIndexOrder[prevIndexPos]) {
 						break;
 					}
-					nth[insertion] = nth[insertion - 1];
+					indexPosInOffsetOrder[writeIdx] = indexPosInOffsetOrder[writeIdx
+							- 1];
 				}
-				nth[insertion] = nthBySha1;
+				indexPosInOffsetOrder[writeIdx] = indexPos;
 			}
-			offsetIndex[bi] = nthByOffset;
+			// The value at the shared allocation can now be overwritten safely.
+			nextBucketStart[bucketIdx] = nextEmptyIdx;
 		}
 	}
 
@@ -125,7 +228,7 @@ final class ComputedPackReverseIndex extends PackReverseIndex {
 		if (ith < 0) {
 			return null;
 		}
-		return index.getObjectId(nth[ith]);
+		return index.getObjectId(indexPosInOffsetOrder[ith]);
 	}
 
 	@Override
@@ -138,10 +241,10 @@ final class ComputedPackReverseIndex extends PackReverseIndex {
 					Long.valueOf(offset)));
 		}
 
-		if (ith + 1 == nth.length) {
+		if (ith + 1 == indexPosInOffsetOrder.length) {
 			return maxOffset;
 		}
-		return index.getOffset(nth[ith + 1]);
+		return index.getOffset(indexPosInOffsetOrder[ith + 1]);
 	}
 
 	@Override
@@ -151,11 +254,11 @@ final class ComputedPackReverseIndex extends PackReverseIndex {
 
 	private int binarySearch(long offset) {
 		int bucket = (int) (offset / bucketSize);
-		int low = bucket == 0 ? 0 : offsetIndex[bucket - 1];
-		int high = offsetIndex[bucket];
+		int low = bucket == 0 ? 0 : nextBucketStart[bucket - 1];
+		int high = nextBucketStart[bucket];
 		while (low < high) {
 			final int mid = (low + high) >>> 1;
-			final long o = index.getOffset(nth[mid]);
+			final long o = index.getOffset(indexPosInOffsetOrder[mid]);
 			if (offset < o) {
 				high = mid;
 			} else if (offset == o) {
@@ -169,6 +272,6 @@ final class ComputedPackReverseIndex extends PackReverseIndex {
 
 	@Override
 	ObjectId findObjectByPosition(int nthPosition) {
-		return index.getObjectId(nth[nthPosition]);
+		return index.getObjectId(indexPosInOffsetOrder[nthPosition]);
 	}
 }
