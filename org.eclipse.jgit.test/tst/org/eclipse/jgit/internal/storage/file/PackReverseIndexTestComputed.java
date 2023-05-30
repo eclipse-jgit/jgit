@@ -23,7 +23,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PackReverseIndexTest extends RepositoryTestCase {
+public class PackReverseIndexTestComputed extends RepositoryTestCase {
 
 	private PackIndex idx;
 
