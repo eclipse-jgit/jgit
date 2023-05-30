@@ -97,6 +97,24 @@
       "parentUuid": "fd55b3f1_4a753324",
       "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1c9e96b_f23f2ef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-30T12:11:00Z",
+      "side": 1,
+      "message": "Jonathan Tan clarified that the test in question is org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcCommitGraphTest.java",
+      "parentUuid": "ca536389_f3f95336",
+      "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
