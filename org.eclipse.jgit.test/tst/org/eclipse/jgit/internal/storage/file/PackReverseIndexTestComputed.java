@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -90,6 +91,12 @@ public class PackReverseIndexTestComputed extends RepositoryTestCase {
 		} catch (CorruptObjectException x) {
 			// expected
 		}
+	}
+
+	@Test
+	public void testVerifyChecksum() throws PackMismatchException {
+		// ComputedReverseIndex doesn't have a file containing a checksum.
+		reverseIdx.verifyPackChecksum(null);
 	}
 
 	private long findFirstOffset() {
