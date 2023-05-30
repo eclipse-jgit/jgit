@@ -195,14 +195,14 @@ public class PushCertificateStoreTest {
 	@Test
 	public void changeRefFileToDirectory() throws Exception {
 		PushCertificate deleteRefsHeads = newCert(
-				command(ID1, zeroId(), "refs/heads"));
+				command(ID1, zeroId(), "refs/heads/prod"));
 		store.put(deleteRefsHeads, newIdent());
 		PushCertificate addMaster = newCert(
-				command(zeroId(), ID1, "refs/heads/master"));
+				command(zeroId(), ID1, "refs/heads/prod/master"));
 		store.put(addMaster, newIdent());
 		assertEquals(NEW, store.save());
-		assertCerts("refs/heads", deleteRefsHeads);
-		assertCerts("refs/heads/master", addMaster);
+		assertCerts("refs/heads/prod", deleteRefsHeads);
+		assertCerts("refs/heads/prod/master", addMaster);
 	}
 
 	@Test

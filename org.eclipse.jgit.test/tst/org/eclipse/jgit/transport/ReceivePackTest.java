@@ -43,6 +43,7 @@
 package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -72,6 +73,24 @@ public class ReceivePackTest {
 		assertParseCommandFails(o.substring(10) + " " + n + " " + r);
 		assertParseCommandFails("X" + o.substring(1) + " " + n + " " + r);
 		assertParseCommandFails(o + " " + "X" + n.substring(1) + " " + r);
+	}
+
+	/*
+	 * Ensure receive-pack rejects one level refs (refs/master).
+	 *
+	 * {@link org.eclipse.jgit.lib.ValidRefNameTest} has a unit test, this is
+	 * the higher level functional test.
+	 */
+	@Test
+	public void parseCommandRejectsOneLevelRefs() throws Exception {
+		String o = "0000000000000000000000000000000000000000";
+		String n = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+		String r = "refs/master";
+		PackProtocolException caught = assertThrows(
+			org.eclipse.jgit.errors.PackProtocolException.class,
+			() -> ReceivePack.parseCommand(o + " " + n + " " + r)
+		);
+		assertEquals("error: invalid protocol: wanted 'old new ref'", caught.getMessage());
 	}
 
 	private void assertParseCommandFails(String input) {
