@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50de2b42_97f7e382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-30T14:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbe7fb1_d36f936e",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88d0b14f_73532935",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-17T22:52:59Z",
       "side": 1,
       "message": "This paragraph should explain the current situation (in present):\n\nJGit creates the reverse index in memory on-demand. We have code to read the reverse index from disk when available, but there is no writer for it.\n\n(or \"Later changes introduce code to read the reverse index...\")\n\nAnd then the next paragraph can explain the solution in imperative:\n\nMake GC write the reverse index to disk when config says so. This mirrors how e.g. the primary index and the bitmaps of a pack are written.",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61da8abe_c9595f17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-30T14:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88d0b14f_73532935",
       "range": {
         "startLine": 9,
         "startChar": 27,
@@ -113,6 +161,24 @@
       "side": 1,
       "message": "Jonathan Tan clarified that the test in question is org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcCommitGraphTest.java",
       "parentUuid": "ca536389_f3f95336",
+      "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a92324e_a8500125",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-30T14:55:56Z",
+      "side": 1,
+      "message": "I added GcReverseIndexTest.",
+      "parentUuid": "d1c9e96b_f23f2ef2",
       "revId": "39e9d19a05794382be25e70deb0f93ad15bc05ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
