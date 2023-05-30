@@ -1367,6 +1367,8 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * For portability reasons '\' is excluded
 	 *
+	 * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html"
+	 *      >git-check-ref-format(1) manual page</a>
 	 * @param refName a {@link java.lang.String} object.
 	 * @return true if refName is a valid ref name
 	 */

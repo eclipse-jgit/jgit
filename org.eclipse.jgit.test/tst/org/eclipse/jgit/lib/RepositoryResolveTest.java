@@ -277,6 +277,7 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 		assertTrue(Repository.isValidRefName("x/a]b")); // odd, yes..
 		assertTrue(Repository.isValidRefName("x/\u00a0")); // unicode is fine,
 															// even hard space
+		assertFalse(Repository.isValidRefName("single-component"));
 		assertFalse(Repository.isValidRefName("x/.a"));
 		assertFalse(Repository.isValidRefName("x/a."));
 		assertFalse(Repository.isValidRefName("x/a..b"));
