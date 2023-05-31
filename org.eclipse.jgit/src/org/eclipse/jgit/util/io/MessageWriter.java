@@ -51,7 +51,6 @@ public class MessageWriter extends Writer {
 		enc = new OutputStreamWriter(getRawStream(), UTF_8);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(char[] cbuf, int off, int len) throws IOException {
 		synchronized (buf) {
@@ -71,20 +70,17 @@ public class MessageWriter extends Writer {
 		return buf;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		// Do nothing, we are buffered with no resources.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		// Do nothing, we are buffered with no resources.
 	}
 
 	/** @return string version of all buffered data. */
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return RawParseUtils.decode(buf.toByteArray());

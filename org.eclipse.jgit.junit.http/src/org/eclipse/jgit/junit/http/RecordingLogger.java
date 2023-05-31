@@ -70,6 +70,7 @@ public class RecordingLogger extends MarkerIgnoringBase {
 	 * Constructor for <code>RecordingLogger</code>.
 	 *
 	 * @param name
+	 *            logger name
 	 */
 	public RecordingLogger(String name) {
 		this.name = name;

@@ -98,7 +98,6 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 	  this.shouldLockLooseRefs = shouldLockLooseRefs;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void execute(RevWalk walk, ProgressMonitor monitor,
 			List<String> options) throws IOException {

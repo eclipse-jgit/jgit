@@ -105,6 +105,7 @@ public class LfsFactory {
 	 * @return a loader for the actual data of a blob, or the original loader in
 	 *         case LFS is not applicable.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public ObjectLoader applySmudgeFilter(Repository db,
 			ObjectLoader loader, Attribute attribute) throws IOException {
@@ -117,6 +118,7 @@ public class LfsFactory {
 	 * @param repo
 	 *            the {@link Repository} the hook is applied to.
 	 * @param outputStream
+	 *            output stream
 	 * @return a {@link PrePushHook} implementation or <code>null</code>
 	 */
 	@Nullable
@@ -131,7 +133,9 @@ public class LfsFactory {
 	 * @param repo
 	 *            the {@link Repository} the hook is applied to.
 	 * @param outputStream
+	 *            output stream
 	 * @param errorStream
+	 *            error stream
 	 * @return a {@link PrePushHook} implementation or <code>null</code>
 	 * @since 5.6
 	 */

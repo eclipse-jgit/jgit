@@ -173,7 +173,7 @@ public abstract class RefAdvertiser {
 	/**
 	 * Toggle tag peeling.
 	 * <p>
-	 * <p>
+	 *
 	 * This method must be invoked prior to any of the following:
 	 * <ul>
 	 * <li>{@link #send(Map)}</li>

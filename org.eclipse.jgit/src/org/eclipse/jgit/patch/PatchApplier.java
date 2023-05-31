@@ -251,6 +251,7 @@ public class PatchApplier {
 	 *            the patch to apply.
 	 * @return the result of the patch
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 6.6
 	 */
 	public Result applyPatch(Patch p) throws IOException {

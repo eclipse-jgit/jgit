@@ -191,6 +191,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 	 *            to use
 	 * @return the public-key part of the line
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected static String createKnownHostsFile(File file, String host,
 			int port, File publicKey) throws IOException {

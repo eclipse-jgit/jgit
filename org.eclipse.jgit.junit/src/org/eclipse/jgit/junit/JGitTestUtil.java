@@ -107,6 +107,7 @@ public abstract class JGitTestUtil {
 	 * Get test resource file.
 	 *
 	 * @param fileName
+	 *            file name
 	 * @return the test resource file
 	 */
 	public static File getTestResourceFile(String fileName) {
@@ -141,8 +142,11 @@ public abstract class JGitTestUtil {
 	 * Copy test resource.
 	 *
 	 * @param name
+	 *            resource name
 	 * @param dest
+	 *            destination file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static void copyTestResource(String name, File dest)
 			throws IOException {
@@ -165,10 +169,14 @@ public abstract class JGitTestUtil {
 	 * Write a trash file.
 	 *
 	 * @param db
+	 *            the repository
 	 * @param name
+	 *            file name
 	 * @param data
+	 *            file content
 	 * @return the trash file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static File writeTrashFile(final Repository db,
 			final String name, final String data) throws IOException {
@@ -181,11 +189,16 @@ public abstract class JGitTestUtil {
 	 * Write a trash file.
 	 *
 	 * @param db
+	 *            the repository
 	 * @param subdir
+	 *            under working tree
 	 * @param name
+	 *            file name
 	 * @param data
+	 *            file content
 	 * @return the trash file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static File writeTrashFile(final Repository db,
 			final String subdir,
@@ -237,9 +250,12 @@ public abstract class JGitTestUtil {
 	 * Read a file's content
 	 *
 	 * @param db
+	 *            the repository
 	 * @param name
+	 *            file name
 	 * @return the content of the file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static String read(Repository db, String name)
 			throws IOException {
@@ -251,6 +267,7 @@ public abstract class JGitTestUtil {
 	 * Check if file exists
 	 *
 	 * @param db
+	 *            the repository
 	 * @param name
 	 *            name of the file
 	 * @return {@code true} if the file exists
@@ -264,8 +281,11 @@ public abstract class JGitTestUtil {
 	 * Delete a trash file.
 	 *
 	 * @param db
+	 *            the repository
 	 * @param name
+	 *            file name
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static void deleteTrashFile(final Repository db,
 			final String name) throws IOException {
@@ -284,6 +304,7 @@ public abstract class JGitTestUtil {
 	 *            the target of the symbolic link
 	 * @return the path to the symbolic link
 	 * @throws Exception
+	 *             if an error occurred
 	 * @since 4.2
 	 */
 	public static Path writeLink(Repository db, String link,

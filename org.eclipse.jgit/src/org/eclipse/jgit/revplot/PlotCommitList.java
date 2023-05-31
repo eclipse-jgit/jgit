@@ -49,7 +49,6 @@ public class PlotCommitList<L extends PlotLane> extends
 	private final HashMap<PlotLane, Integer> laneLength = new HashMap<>(
 			32);
 
-	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		super.clear();
@@ -59,7 +58,6 @@ public class PlotCommitList<L extends PlotLane> extends
 		laneLength.clear();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void source(RevWalk w) {
 		if (!(w instanceof PlotWalk))
@@ -91,7 +89,6 @@ public class PlotCommitList<L extends PlotLane> extends
 			result.add((L) p);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("ReferenceEquality")
 	@Override
 	protected void enter(int index, PlotCommit<L> currCommit) {

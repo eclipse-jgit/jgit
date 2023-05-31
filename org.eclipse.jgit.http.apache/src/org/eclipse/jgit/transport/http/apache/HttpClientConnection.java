@@ -203,6 +203,7 @@ public class HttpClientConnection implements HttpConnection {
 	 * Sets the buffer from which to take the request body
 	 *
 	 * @param buffer
+	 *            the buffer
 	 */
 	public void setBuffer(TemporaryBuffer buffer) {
 		this.entity = new TemporaryBufferEntity(buffer);
@@ -212,7 +213,9 @@ public class HttpClientConnection implements HttpConnection {
 	 * Constructor for HttpClientConnection.
 	 *
 	 * @param urlStr
+	 *            url string
 	 * @throws MalformedURLException
+	 *             if url is malformed
 	 */
 	public HttpClientConnection(String urlStr) throws MalformedURLException {
 		this(urlStr, null);
@@ -222,8 +225,11 @@ public class HttpClientConnection implements HttpConnection {
 	 * Constructor for HttpClientConnection.
 	 *
 	 * @param urlStr
+	 *            url string
 	 * @param proxy
+	 *            proxy
 	 * @throws MalformedURLException
+	 *             if url is malformed
 	 */
 	public HttpClientConnection(String urlStr, Proxy proxy)
 			throws MalformedURLException {
@@ -234,9 +240,13 @@ public class HttpClientConnection implements HttpConnection {
 	 * Constructor for HttpClientConnection.
 	 *
 	 * @param urlStr
+	 *            url string
 	 * @param proxy
+	 *            proxy
 	 * @param cl
+	 *            client
 	 * @throws MalformedURLException
+	 *             if url is malformed
 	 */
 	public HttpClientConnection(String urlStr, Proxy proxy, HttpClient cl)
 			throws MalformedURLException {
@@ -245,20 +255,17 @@ public class HttpClientConnection implements HttpConnection {
 		this.proxy = proxy;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getResponseCode() throws IOException {
 		execute();
 		return resp.getStatusLine().getStatusCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public URL getURL() {
 		return url;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getResponseMessage() throws IOException {
 		execute();
@@ -287,7 +294,6 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, List<String>> getHeaderFields() {
 		Map<String, List<String>> ret = new HashMap<>();
@@ -304,13 +310,11 @@ public class HttpClientConnection implements HttpConnection {
 		return ret;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setRequestProperty(String name, String value) {
 		req.addHeader(name, value);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setRequestMethod(String method) throws ProtocolException {
 		this.method = method;
@@ -328,25 +332,21 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setUseCaches(boolean usecaches) {
 		// not needed
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setConnectTimeout(int timeout) {
 		this.timeout = Integer.valueOf(timeout);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = Integer.valueOf(readTimeout);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getContentType() {
 		HttpEntity responseEntity = resp.getEntity();
@@ -358,7 +358,6 @@ public class HttpClientConnection implements HttpConnection {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public InputStream getInputStream() throws IOException {
 		execute();
@@ -366,7 +365,6 @@ public class HttpClientConnection implements HttpConnection {
 	}
 
 	// will return only the first field
-	/** {@inheritDoc} */
 	@Override
 	public String getHeaderField(@NonNull String name) {
 		Header header = resp.getFirstHeader(name);
@@ -379,7 +377,6 @@ public class HttpClientConnection implements HttpConnection {
 				.stream().map(Header::getValue).collect(Collectors.toList()));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getContentLength() {
 		Header contentLength = resp.getFirstHeader("content-length"); //$NON-NLS-1$
@@ -395,19 +392,16 @@ public class HttpClientConnection implements HttpConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setInstanceFollowRedirects(boolean followRedirects) {
 		this.followRedirects = Boolean.valueOf(followRedirects);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setDoOutput(boolean dooutput) {
 		// TODO: check whether we can really ignore this.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setFixedLengthStreamingMode(int contentLength) {
 		if (entity != null)
@@ -416,7 +410,6 @@ public class HttpClientConnection implements HttpConnection {
 		entity.setContentLength(contentLength);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public OutputStream getOutputStream() throws IOException {
 		if (entity == null)
@@ -424,7 +417,6 @@ public class HttpClientConnection implements HttpConnection {
 		return entity.getBuffer();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setChunkedStreamingMode(int chunklen) {
 		if (entity == null)
@@ -432,31 +424,26 @@ public class HttpClientConnection implements HttpConnection {
 		entity.setChunked(true);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getRequestMethod() {
 		return method;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean usingProxy() {
 		return isUsingProxy;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void connect() throws IOException {
 		execute();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setHostnameVerifier(HostnameVerifier hostnameverifier) {
 		this.hostnameverifier = hostnameverifier;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws KeyManagementException {

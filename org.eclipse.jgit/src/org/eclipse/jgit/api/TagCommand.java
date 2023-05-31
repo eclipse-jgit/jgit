@@ -51,7 +51,6 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * </pre>
  * <p>
  *
- * <p>
  * Create a new unannotated tag for the current commit:
  *
  * <pre>

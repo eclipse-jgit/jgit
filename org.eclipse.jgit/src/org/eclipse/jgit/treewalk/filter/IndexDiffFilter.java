@@ -106,7 +106,6 @@ public class IndexDiffFilter extends TreeFilter {
 		this.honorIgnores = honorIgnores;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk tw) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -234,7 +233,6 @@ public class IndexDiffFilter extends TreeFilter {
 		return tw.getTree(workingTree, WorkingTreeIterator.class);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		// We cannot compare subtrees in the working tree, so encourage
@@ -242,13 +240,11 @@ public class IndexDiffFilter extends TreeFilter {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "INDEX_DIFF_FILTER"; //$NON-NLS-1$

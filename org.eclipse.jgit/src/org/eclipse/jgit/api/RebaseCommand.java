@@ -1297,7 +1297,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 *            if we can fast-forward to.
 	 * @return the new head, or null
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws org.eclipse.jgit.api.errors.GitAPIException
+	 *             if a JGit API exception occurred
 	 */
 	public RevCommit tryFastForward(RevCommit newCommit) throws IOException,
 			GitAPIException {
@@ -1548,6 +1550,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 *            the name of the upstream branch
 	 * @return {@code this}
 	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
+	 *             if {@code upstream} Ref couldn't be resolved
 	 */
 	public RebaseCommand setUpstream(String upstream)
 			throws RefNotFoundException {

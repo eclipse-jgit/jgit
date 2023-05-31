@@ -27,7 +27,6 @@ public final class DisabledOutputStream extends OutputStream {
 		// more than one instance from being created.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		// We shouldn't be writing output at this stage, there

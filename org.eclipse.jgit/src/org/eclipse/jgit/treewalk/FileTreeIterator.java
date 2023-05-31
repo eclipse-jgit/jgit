@@ -175,7 +175,6 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		init(entries());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
@@ -425,13 +424,11 @@ public class FileTreeIterator extends WorkingTreeIterator {
 		return ((FileEntry) current()).getFile();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected byte[] idSubmodule(Entry e) {
 		return idSubmodule(getDirectory(), e);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected String readSymlinkTarget(Entry entry) throws IOException {
 		return fs.readSymLink(getEntryFile());

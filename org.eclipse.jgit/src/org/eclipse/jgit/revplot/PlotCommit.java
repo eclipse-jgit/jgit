@@ -179,7 +179,6 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 		return (L) lane;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void reset() {
 		forkingOffLanes = NO_LANES;

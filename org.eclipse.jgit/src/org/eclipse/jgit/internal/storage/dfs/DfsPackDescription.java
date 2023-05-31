@@ -512,13 +512,11 @@ public class DfsPackDescription {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return packName.hashCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object b) {
 		if (b instanceof DfsPackDescription) {
@@ -539,7 +537,6 @@ public class DfsPackDescription {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getFileName(PackExt.PACK);

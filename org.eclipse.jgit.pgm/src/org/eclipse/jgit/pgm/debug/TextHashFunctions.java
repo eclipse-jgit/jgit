@@ -228,13 +228,11 @@ class TextHashFunctions extends TextBuiltin {
 	@Option(name = "--repository", aliases = { "-r" }, metaVar = "GIT_DIR", usage = "Repository to scan")
 	List<File> gitDirs = new ArrayList<>();
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean requiresRepository() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (gitDirs.isEmpty()) {

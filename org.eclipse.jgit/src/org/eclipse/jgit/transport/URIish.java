@@ -175,6 +175,7 @@ public class URIish implements Serializable {
 	 * @param s
 	 *            a {@link java.lang.String} object.
 	 * @throws java.net.URISyntaxException
+	 *             if {@code s} was null or couldn't be parsed
 	 */
 	public URIish(String s) throws URISyntaxException {
 		if (StringUtils.isEmptyOrNull(s)) {
@@ -477,6 +478,7 @@ public class URIish implements Serializable {
 	 *            the new value for path.
 	 * @return a new URI with the updated value.
 	 * @throws java.net.URISyntaxException
+	 *             if URI couldn't be parsed from String
 	 */
 	public URIish setRawPath(String n) throws URISyntaxException {
 		final URIish r = new URIish(this);
@@ -551,7 +553,6 @@ public class URIish implements Serializable {
 		return r;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		int hc = 0;
@@ -570,7 +571,6 @@ public class URIish implements Serializable {
 		return hc;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof URIish))
@@ -611,7 +611,6 @@ public class URIish implements Serializable {
 		return format(true, false);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return format(false, false);
@@ -683,7 +682,8 @@ public class URIish implements Serializable {
 	/**
 	 * Get the "humanish" part of the path. Some examples of a 'humanish' part
 	 * for a full path:
-	 * <table summary="path vs humanish path" border="1">
+	 * <table border="1">
+	 * <caption>path vs. humanish path</caption>
 	 * <tr>
 	 * <th>Path</th>
 	 * <th>Humanish part</th>

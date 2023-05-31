@@ -31,7 +31,6 @@ final class PackInputStream extends InputStream {
 		ctx.pin(pack, pos);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		int n = ctx.copy(pack, pos, b, off, len);
@@ -39,7 +38,6 @@ final class PackInputStream extends InputStream {
 		return n;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		byte[] buf = new byte[1];
@@ -47,7 +45,6 @@ final class PackInputStream extends InputStream {
 		return n == 1 ? buf[0] & 0xff : -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		ctx.close();

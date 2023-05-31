@@ -300,14 +300,12 @@ public class ObjectWalk extends RevWalk {
 			addObject(o);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void sort(RevSort s) {
 		super.sort(s);
 		boundary = hasRevSort(RevSort.BOUNDARY);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void sort(RevSort s, boolean use) {
 		super.sort(s, use);
@@ -357,7 +355,6 @@ public class ObjectWalk extends RevWalk {
 		visitationPolicy = requireNonNull(policy);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -762,7 +759,6 @@ public class ObjectWalk extends RevWalk {
 		pathBuf = newBuf;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -771,7 +767,6 @@ public class ObjectWalk extends RevWalk {
 		freeVisit = null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void reset(int retainFlags) {
 		super.reset(retainFlags);

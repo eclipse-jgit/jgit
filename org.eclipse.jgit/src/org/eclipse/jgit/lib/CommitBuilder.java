@@ -275,7 +275,6 @@ public class CommitBuilder extends ObjectBuilder {
 		return build();
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

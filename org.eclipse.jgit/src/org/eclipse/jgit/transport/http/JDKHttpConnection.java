@@ -55,7 +55,9 @@ public class JDKHttpConnection implements HttpConnection {
 	 * @param url
 	 *            a {@link java.net.URL} object.
 	 * @throws java.net.MalformedURLException
+	 *             if URL is malformed
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected JDKHttpConnection(URL url)
 			throws MalformedURLException,
@@ -71,7 +73,9 @@ public class JDKHttpConnection implements HttpConnection {
 	 * @param proxy
 	 *            a {@link java.net.Proxy} object.
 	 * @throws java.net.MalformedURLException
+	 *             if URL is malformed
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected JDKHttpConnection(URL url, Proxy proxy)
 			throws MalformedURLException, IOException {
@@ -79,73 +83,61 @@ public class JDKHttpConnection implements HttpConnection {
 				.openConnection(proxy);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getResponseCode() throws IOException {
 		return wrappedUrlConnection.getResponseCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public URL getURL() {
 		return wrappedUrlConnection.getURL();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getResponseMessage() throws IOException {
 		return wrappedUrlConnection.getResponseMessage();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, List<String>> getHeaderFields() {
 		return wrappedUrlConnection.getHeaderFields();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setRequestProperty(String key, String value) {
 		wrappedUrlConnection.setRequestProperty(key, value);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setRequestMethod(String method) throws ProtocolException {
 		wrappedUrlConnection.setRequestMethod(method);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setUseCaches(boolean usecaches) {
 		wrappedUrlConnection.setUseCaches(usecaches);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setConnectTimeout(int timeout) {
 		wrappedUrlConnection.setConnectTimeout(timeout);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setReadTimeout(int timeout) {
 		wrappedUrlConnection.setReadTimeout(timeout);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getContentType() {
 		return wrappedUrlConnection.getContentType();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public InputStream getInputStream() throws IOException {
 		return wrappedUrlConnection.getInputStream();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getHeaderField(@NonNull String name) {
 		return wrappedUrlConnection.getHeaderField(name);
@@ -167,68 +159,57 @@ public class JDKHttpConnection implements HttpConnection {
 		return fields;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getContentLength() {
 		return wrappedUrlConnection.getContentLength();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setInstanceFollowRedirects(boolean followRedirects) {
 		wrappedUrlConnection.setInstanceFollowRedirects(followRedirects);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setDoOutput(boolean dooutput) {
 		wrappedUrlConnection.setDoOutput(dooutput);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setFixedLengthStreamingMode(int contentLength) {
 		wrappedUrlConnection.setFixedLengthStreamingMode(contentLength);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public OutputStream getOutputStream() throws IOException {
 		return wrappedUrlConnection.getOutputStream();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setChunkedStreamingMode(int chunklen) {
 		wrappedUrlConnection.setChunkedStreamingMode(chunklen);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getRequestMethod() {
 		return wrappedUrlConnection.getRequestMethod();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean usingProxy() {
 		return wrappedUrlConnection.usingProxy();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void connect() throws IOException {
 		wrappedUrlConnection.connect();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setHostnameVerifier(HostnameVerifier hostnameverifier) {
 		((HttpsURLConnection) wrappedUrlConnection)
 				.setHostnameVerifier(hostnameverifier);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws NoSuchAlgorithmException,

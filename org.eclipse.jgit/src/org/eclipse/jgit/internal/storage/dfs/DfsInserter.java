@@ -106,19 +106,16 @@ public class DfsInserter extends ObjectInserter {
 		this.compression = compression;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public DfsPackParser newPackParser(InputStream in) throws IOException {
 		return new DfsPackParser(db, this, in);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new Reader();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
@@ -135,7 +132,6 @@ public class DfsInserter extends ObjectInserter {
 		return endObject(id, offset);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, long len, InputStream in)
 			throws IOException {
@@ -178,7 +174,6 @@ public class DfsInserter extends ObjectInserter {
 		return buf;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (packDsc == null)
@@ -206,7 +201,6 @@ public class DfsInserter extends ObjectInserter {
 		clear();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (packOut != null) {

@@ -55,7 +55,6 @@ public final class FilterSpec {
 			return val.testBit(type);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof ObjectTypes)) {
@@ -66,7 +65,6 @@ public final class FilterSpec {
 			return other.val.equals(val);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public int hashCode() {
 			return val.hashCode();

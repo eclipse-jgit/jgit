@@ -31,7 +31,6 @@ class Add extends TextBuiltin {
 	@Argument(required = true, metaVar = "metaVar_filepattern", usage = "usage_filesToAddContentFrom")
 	private List<String> filepatterns = new ArrayList<>();
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		try (Git git = new Git(db)) {

@@ -102,7 +102,6 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<ObjectId, String> call() throws GitAPIException {
 		try {

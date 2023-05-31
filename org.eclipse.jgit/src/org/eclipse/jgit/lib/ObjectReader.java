@@ -245,12 +245,15 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *
 	 * @return IDs of shallow commits
 	 * @throws java.io.IOException
+	 *             if an error occurred
 	 */
 	public abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	/**
 	 * Asynchronous object opening.
 	 *
+	 * @param <T>
+	 *            type of {@code ObjectId}
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.
@@ -370,6 +373,8 @@ public abstract class ObjectReader implements AutoCloseable {
 	/**
 	 * Asynchronous object size lookup.
 	 *
+	 * @param <T>
+	 *            type of {@code ObjectId}
 	 * @param objectIds
 	 *            objects to get the size of from the object store. The supplied
 	 *            collection must not be modified until the queue has finished.

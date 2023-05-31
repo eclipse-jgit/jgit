@@ -31,7 +31,6 @@ import org.eclipse.jgit.util.StringUtils;
  */
 public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
@@ -50,7 +49,6 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public <T extends Enum<?>> T getEnum(Config config, T[] all, String section,
 			String subsection, String name, T defaultValue) {
@@ -106,7 +104,6 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				JGitText.get().enumValueNotSupported2, section, name, value));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getInt(Config config, String section, String subsection,
 			String name, int defaultValue) {
@@ -118,7 +115,6 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				.format(JGitText.get().integerValueOutOfRange, section, name));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getIntInRange(Config config, String section, String subsection,
 			String name, int minValue, int maxValue, int defaultValue) {
@@ -138,7 +134,6 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				Integer.valueOf(minValue), Integer.valueOf(maxValue)));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
@@ -158,7 +153,6 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit) {
@@ -269,7 +263,6 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 						section, name, valueString));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public List<RefSpec> getRefSpecs(Config config, String section,

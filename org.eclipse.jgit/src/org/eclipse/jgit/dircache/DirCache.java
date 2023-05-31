@@ -429,6 +429,7 @@ public class DirCache {
 	 *
 	 * @return {@code true} if the memory state differs from the index file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public boolean isOutdated() throws IOException {
 		if (liveFile == null || !liveFile.exists())

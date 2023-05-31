@@ -91,7 +91,6 @@ public class FormatError {
 		return RawParseUtils.decode(UTF_8, buf, offset, eol);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

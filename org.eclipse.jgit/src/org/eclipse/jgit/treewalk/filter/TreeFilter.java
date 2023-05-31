@@ -220,7 +220,6 @@ public abstract class TreeFilter {
 	@Override
 	public abstract TreeFilter clone();
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		String n = getClass().getName();

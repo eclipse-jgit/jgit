@@ -53,7 +53,6 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * </pre>
  * <p>
  *
- * <p>
  * Get commits only for a specific file:
  *
  * <pre>

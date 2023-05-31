@@ -771,9 +771,13 @@ public class UploadPack implements Closeable {
 	 * its own error handling mechanism.
 	 *
 	 * @param input
+	 *            input stream
 	 * @param output
+	 *            output stream
 	 * @param messages
+	 *            stream for messages
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void upload(InputStream input, OutputStream output,
 			@Nullable OutputStream messages) throws IOException {

@@ -125,7 +125,6 @@ public class RepeatRule implements TestRule {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Statement apply(Statement statement, Description description) {
 		Statement result = statement;

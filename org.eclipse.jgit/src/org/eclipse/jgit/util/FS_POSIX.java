@@ -418,6 +418,7 @@ public class FS_POSIX extends FS {
 	 * @return LockToken this lock token must be held until the file is no
 	 *         longer needed
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 5.0
 	 */
 	@Override

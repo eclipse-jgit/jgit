@@ -364,7 +364,6 @@ public class MergeResult {
 		return base;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

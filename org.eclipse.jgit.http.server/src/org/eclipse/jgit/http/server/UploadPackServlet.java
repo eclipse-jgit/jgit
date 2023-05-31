@@ -158,7 +158,6 @@ class UploadPackServlet extends HttpServlet {
 				: this::defaultUploadPackHandler;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse rsp)
 			throws IOException {

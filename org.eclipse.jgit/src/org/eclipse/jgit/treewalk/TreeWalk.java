@@ -960,6 +960,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * iterators to manage only one list of items, with the diving handled by
 	 * recursive trees.
 	 *
+	 * @param <T>
+	 *            Type of returned {@code AbstractTreeIterator}
 	 * @param nth
 	 *            tree to obtain the current iterator of.
 	 * @param clazz
@@ -1488,6 +1490,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            {{@link #getSmudgeCommand(int)} instead.
 	 * @return a filter command
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public String getFilterCommand(String filterCommandType)
@@ -1521,6 +1524,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            of the tree the item to be smudged is in
 	 * @return a filter command
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	public String getSmudgeCommand(int index)
@@ -1536,6 +1540,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            to use
 	 * @return a filter command
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	public String getSmudgeCommand(Attributes attributes) throws IOException {

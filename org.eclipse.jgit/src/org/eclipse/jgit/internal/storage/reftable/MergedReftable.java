@@ -91,7 +91,6 @@ public class MergedReftable extends Reftable {
 		return minUpdateIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean hasObjectMap() throws IOException {
 		boolean has = true;
@@ -101,7 +100,6 @@ public class MergedReftable extends Reftable {
 		return has;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor allRefs() throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
@@ -111,7 +109,6 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRef(String name) throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
@@ -121,7 +118,6 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRefsWithPrefix(String prefix) throws IOException {
 		MergedRefCursor m = new MergedRefCursor();
@@ -131,7 +127,6 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor byObjectId(AnyObjectId name) throws IOException {
 		MergedRefCursor m = new FilteringMergedRefCursor(name);
@@ -141,7 +136,6 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public LogCursor allLogs() throws IOException {
 		MergedLogCursor m = new MergedLogCursor();
@@ -151,7 +145,6 @@ public class MergedReftable extends Reftable {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public LogCursor seekLog(String refName, long updateIdx)
 			throws IOException {
