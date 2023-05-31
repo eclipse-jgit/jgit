@@ -48,6 +48,7 @@ public class SshSupport {
 	 *            cases.
 	 * @return The entire output read from stdout.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws CommandFailedException
 	 *             if the ssh command execution failed, error message contains
 	 *             the content of stderr.

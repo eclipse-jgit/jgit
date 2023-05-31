@@ -101,9 +101,13 @@ class RewriteGenerator extends Generator {
 	 * of this commit by the previous {@link PendingGenerator}.
 	 *
 	 * @param c
+	 *            given commit
 	 * @throws MissingObjectException
+	 *             if an object is missing
 	 * @throws IncorrectObjectTypeException
+	 *             if an object has an unexpected type
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void applyFilterToParents(RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,

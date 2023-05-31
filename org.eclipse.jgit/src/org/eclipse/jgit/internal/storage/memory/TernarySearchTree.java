@@ -300,6 +300,7 @@ public final class TernarySearchTree<Value> {
 	 * Find the key which is the longest prefix of the given query string.
 	 *
 	 * @param query
+	 *            the query string
 	 * @return the key which is the longest prefix of the given query string or
 	 *         {@code null} if none exists.
 	 */

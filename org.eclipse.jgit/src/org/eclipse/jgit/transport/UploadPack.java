@@ -771,9 +771,13 @@ public class UploadPack implements Closeable {
 	 * its own error handling mechanism.
 	 *
 	 * @param input
+	 *            input stream
 	 * @param output
+	 *            output stream
 	 * @param messages
+	 *            stream for messages
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void upload(InputStream input, OutputStream output,
 			@Nullable OutputStream messages) throws IOException {
@@ -2266,7 +2270,8 @@ public class UploadPack implements Closeable {
 	 *            request in process
 	 * @param allTags
 	 *            refs to search for annotated tags to include in the pack if
-	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
+	 *            the {@link GitProtocolConstants#OPTION_INCLUDE_TAG} capability
+	 *            was requested.
 	 * @param unshallowCommits
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
@@ -2327,7 +2332,8 @@ public class UploadPack implements Closeable {
 	 *            where to write statistics about the content of the pack.
 	 * @param allTags
 	 *            refs to search for annotated tags to include in the pack if
-	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
+	 *            the {@link GitProtocolConstants#OPTION_INCLUDE_TAG} capability
+	 *            was requested.
 	 * @param unshallowCommits
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots

@@ -429,6 +429,7 @@ public class DirCache {
 	 *
 	 * @return {@code true} if the memory state differs from the index file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public boolean isOutdated() throws IOException {
 		if (liveFile == null || !liveFile.exists())
@@ -1001,6 +1002,7 @@ public class DirCache {
 	 * Update any smudged entries with information from the working tree.
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void updateSmudgedEntries() throws IOException {
 		List<String> paths = new ArrayList<>(128);

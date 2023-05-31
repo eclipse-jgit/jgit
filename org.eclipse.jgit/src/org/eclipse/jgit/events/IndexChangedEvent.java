@@ -36,13 +36,11 @@ public class IndexChangedEvent extends RepositoryEvent<IndexChangedListener> {
 		return internal;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Class<IndexChangedListener> getListenerType() {
 		return IndexChangedListener.class;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void dispatch(IndexChangedListener listener) {
 		listener.onIndexChanged(this);

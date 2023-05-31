@@ -321,6 +321,7 @@ public class HttpSupport {
 	 *            a {@link org.eclipse.jgit.transport.http.HttpConnection}
 	 *            object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.3
 	 */
 	public static void disableSslVerify(HttpConnection conn)
@@ -346,7 +347,9 @@ public class HttpSupport {
 	 * that have all available protocols enabled already, up to the one
 	 * specified.
 	 * <p>
+	 * <br>
 	 * <table>
+	 * <caption>TLS versions</caption>
 	 * <tr>
 	 * <td>SSLContext.getInstance()</td>
 	 * <td>OpenJDK</td>
@@ -354,16 +357,16 @@ public class HttpSupport {
 	 * </tr>
 	 * <tr>
 	 * <td>"TLS"</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)<br>
 	 * Enabled: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br>
 	 * Enabled: TLSv1</td>
 	 * </tr>
 	 * <tr>
 	 * <td>"TLSv1.2"</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br>
 	 * Enabled: TLSv1, TLSV1.1, TLSv1.2</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br>
 	 * Enabled: TLSv1.2</td>
 	 * </tr>
 	 * </table>

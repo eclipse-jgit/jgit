@@ -44,7 +44,6 @@ public class InstantHandler extends OptionHandler<Instant> {
 		super(parser, option, setter);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		Instant instant = Instant.parse(params.getParameter(0));
@@ -52,7 +51,6 @@ public class InstantHandler extends OptionHandler<Instant> {
 		return 1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_instant;

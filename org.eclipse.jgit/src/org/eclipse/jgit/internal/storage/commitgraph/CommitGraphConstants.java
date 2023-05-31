@@ -41,15 +41,15 @@ class CommitGraphConstants {
 	/** Mask to make the last edgeValue into position */
 	static final int GRAPH_EDGE_LAST_MASK = 0x7fffffff;
 
-	/** EdgeValue & GRAPH_LAST_EDGE != 0 means it is the last edgeValue */
+	/** EdgeValue &amp; GRAPH_LAST_EDGE != 0 means it is the last edgeValue */
 	static final int GRAPH_LAST_EDGE = 0x80000000;
 
 	/** EdgeValue == GRAPH_NO_PARENT means it has no parents */
 	static final int GRAPH_NO_PARENT = 0x70000000;
 
 	/**
-	 * EdgeValue & GRAPH_EXTRA_EDGES_NEEDED != 0 means its other parents are in
-	 * Chunk Extra Edge List
+	 * EdgeValue &amp; GRAPH_EXTRA_EDGES_NEEDED != 0 means its other parents are
+	 * in Chunk Extra Edge List
 	 */
 	static final int GRAPH_EXTRA_EDGES_NEEDED = 0x80000000;
 }

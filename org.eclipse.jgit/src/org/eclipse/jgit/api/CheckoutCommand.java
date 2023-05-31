@@ -167,7 +167,6 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		this.paths = new LinkedList<>();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException,
@@ -407,7 +406,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 *
 	 * @return this instance
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
+	 *             if {@code Ref} couldn't be resolved
 	 */
 	protected CheckoutCommand checkoutPaths() throws IOException,
 			RefNotFoundException {

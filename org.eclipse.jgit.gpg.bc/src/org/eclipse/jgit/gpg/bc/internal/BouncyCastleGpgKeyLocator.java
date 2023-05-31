@@ -324,7 +324,9 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws IOException
 	 *             in case of problems reading the file
 	 * @throws NoSuchAlgorithmException
+	 *             if an algorithm isn't available
 	 * @throws NoSuchProviderException
+	 *             if a provider isn't available
 	 * @throws NoOpenPgpKeyException
 	 *             if the file does not contain any OpenPGP key
 	 */
@@ -368,12 +370,17 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws IOException
 	 *             in case of issues reading key files
 	 * @throws NoSuchAlgorithmException
+	 *             algorithm is not available
 	 * @throws NoSuchProviderException
+	 *             provider is not available
 	 * @throws PGPException
 	 *             in case of issues finding a key, including no key found
 	 * @throws CanceledException
+	 *             operation was cancelled
 	 * @throws URISyntaxException
+	 *             URI is invalid
 	 * @throws UnsupportedCredentialItem
+	 *             credential item is not supported
 	 */
 	@NonNull
 	public BouncyCastleGpgKey findSecretKey() throws IOException,
@@ -543,10 +550,11 @@ public class BouncyCastleGpgKeyLocator {
 	/**
 	 * Return the first suitable key for signing in the key ring collection. For
 	 * this case we only expect there to be one key available for signing.
-	 * </p>
 	 *
 	 * @param signingkey
+	 *            the signing key
 	 * @param secringFile
+	 *            the secring file
 	 *
 	 * @return the first suitable PGP secret key found for signing
 	 * @throws IOException

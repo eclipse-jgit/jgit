@@ -79,6 +79,7 @@ public class LockFile {
 	 * Get the lock file corresponding to the given file.
 	 *
 	 * @param file
+	 *            given file
 	 * @return lock file
 	 */
 	static File getLockFile(File file) {
@@ -575,7 +576,6 @@ public class LockFile {
 		written = false;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

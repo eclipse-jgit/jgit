@@ -33,8 +33,11 @@ class TopoSortGenerator extends Generator {
 	 * @param s
 	 *            generator to pull all commits out of, and into this buffer.
 	 * @throws MissingObjectException
+	 *             if an object is missing
 	 * @throws IncorrectObjectTypeException
+	 *             if an object has an unexpected type
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	TopoSortGenerator(Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {

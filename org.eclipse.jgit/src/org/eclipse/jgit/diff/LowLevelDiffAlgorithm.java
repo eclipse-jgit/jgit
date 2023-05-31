@@ -14,7 +14,6 @@ package org.eclipse.jgit.diff;
  * Compares two sequences primarily based upon hash codes.
  */
 public abstract class LowLevelDiffAlgorithm extends DiffAlgorithm {
-	/** {@inheritDoc} */
 	@Override
 	public <S extends Sequence> EditList diffNonCommon(
 			SequenceComparator<? super S> cmp, S a, S b) {
@@ -40,6 +39,8 @@ public abstract class LowLevelDiffAlgorithm extends DiffAlgorithm {
 	 * method, which invokes this method using
 	 * {@link org.eclipse.jgit.diff.Subsequence}s.
 	 *
+	 * @param <S>
+	 *            type of Sequence compared
 	 * @param edits
 	 *            result list to append the region's edits onto.
 	 * @param cmp

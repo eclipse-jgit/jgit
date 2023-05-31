@@ -224,7 +224,9 @@ abstract class HttpAuthMethod {
 	 * Update this method with the given username and password pair.
 	 *
 	 * @param user
+	 *            username
 	 * @param pass
+	 *            password
 	 */
 	abstract void authorize(String user, String pass);
 
@@ -232,7 +234,9 @@ abstract class HttpAuthMethod {
 	 * Update connection properties based on this authentication method.
 	 *
 	 * @param conn
+	 *            the connection to configure
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	abstract void configureRequest(HttpConnection conn) throws IOException;
 

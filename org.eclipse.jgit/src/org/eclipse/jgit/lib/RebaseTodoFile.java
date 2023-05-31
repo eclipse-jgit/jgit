@@ -55,6 +55,7 @@ public class RebaseTodoFile {
 	 *            <code>true</code> if also comments should be reported
 	 * @return the list of steps
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public List<RebaseTodoLine> readRebaseTodo(String path,
 			boolean includeComments) throws IOException {
@@ -126,8 +127,11 @@ public class RebaseTodoFile {
 	 * Skip leading space, tab, CR and LF characters
 	 *
 	 * @param buf
+	 *            byte buffer
 	 * @param tokenBegin
+	 *            index of token begin
 	 * @param lineEnd
+	 *            index of line end
 	 * @return the token within the range of the given {@code buf} that doesn't
 	 *         need to be skipped, {@code -1} if no such token found within the
 	 *         range (i.e. empty line)
@@ -193,6 +197,7 @@ public class RebaseTodoFile {
 	 * @param append
 	 *            whether to append to an existing file or to write a new file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps,
 			boolean append) throws IOException {

@@ -186,13 +186,11 @@ class WalkFetchConnection extends BaseFetchConnection {
 		workQueue = new LinkedList<>();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean didFetchTestConnectivity() {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void doFetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
@@ -214,19 +212,16 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Collection<PackLock> getPackLocks() {
 		return packLocks;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setPackLockMessage(String message) {
 		lockMessage = message;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		inserter.close();

@@ -1154,7 +1154,6 @@ public class OpenSshConfigFile implements SshConfigStore {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

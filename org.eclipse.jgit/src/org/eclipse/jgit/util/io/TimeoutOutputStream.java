@@ -65,7 +65,6 @@ public class TimeoutOutputStream extends OutputStream {
 		timeout = millis;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		try {
@@ -78,13 +77,11 @@ public class TimeoutOutputStream extends OutputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf) throws IOException {
 		write(buf, 0, buf.length);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int off, int len) throws IOException {
 		try {
@@ -97,7 +94,6 @@ public class TimeoutOutputStream extends OutputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		try {
@@ -110,7 +106,6 @@ public class TimeoutOutputStream extends OutputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		try {

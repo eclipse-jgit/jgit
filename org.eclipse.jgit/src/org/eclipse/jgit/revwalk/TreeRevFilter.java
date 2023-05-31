@@ -92,13 +92,11 @@ public class TreeRevFilter extends RevFilter {
 		this.rewriteFlag = rewriteFlag;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RevFilter clone() {
 		throw new UnsupportedOperationException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
@@ -241,7 +239,6 @@ public class TreeRevFilter extends RevFilter {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean requiresCommitBody() {
 		return false;

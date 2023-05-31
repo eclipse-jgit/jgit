@@ -67,6 +67,7 @@ public class LfsConnectionFactory {
 	 * @return the connection for the lfs server. e.g.
 	 *         "https://github.com/github/git-lfs.git/info/lfs"
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static HttpConnection getLfsConnection(Repository db, String method,
 			String purpose) throws IOException {
@@ -287,6 +288,7 @@ public class LfsConnectionFactory {
 		 * no timeout can be determined, the token will be used only once.
 		 *
 		 * @param action
+		 *            action with an additional expiration timestamp
 		 */
 		public AuthCache(Protocol.ExpiringAction action) {
 			this.cachedAction = action;

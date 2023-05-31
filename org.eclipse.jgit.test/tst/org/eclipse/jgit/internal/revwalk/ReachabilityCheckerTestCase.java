@@ -32,7 +32,6 @@ public abstract class ReachabilityCheckerTestCase
 
 	TestRepository<FileRepository> repo;
 
-	/** {@inheritDoc} */
 	@Override
 	@Before
 	public void setUp() throws Exception {

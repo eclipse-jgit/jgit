@@ -55,7 +55,6 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		this.process = new Semaphore(0);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void start(int totalTasks) {
 		if (!isMainThread())
@@ -63,7 +62,6 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		pm.start(totalTasks);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void beginTask(String title, int totalWork) {
 		if (!isMainThread())
@@ -132,14 +130,12 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 			pm.update(cnt);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void update(int completed) {
 		if (0 == pendingUpdates.getAndAdd(completed))
 			process.release();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isCancelled() {
 		lock.lock();
@@ -150,7 +146,6 @@ public class ThreadSafeProgressMonitor implements ProgressMonitor {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void endTask() {
 		if (!isMainThread())

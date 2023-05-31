@@ -117,7 +117,6 @@ public final class FooterLine {
 		return RawParseUtils.decode(enc, buffer, lt, gt - 1);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getKey() + ": " + getValue(); //$NON-NLS-1$

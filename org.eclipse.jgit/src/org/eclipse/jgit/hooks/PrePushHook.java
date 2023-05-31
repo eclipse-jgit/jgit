@@ -74,13 +74,11 @@ public class PrePushHook extends GitHook<String> {
 		super(repo, outputStream, errorStream);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected String getStdinArgs() {
 		return refs;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String call() throws IOException, AbortedByHookException {
 		if (canRun()) {
@@ -96,7 +94,6 @@ public class PrePushHook extends GitHook<String> {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getHookName() {
 		return NAME;

@@ -116,7 +116,9 @@ public class SshTestGitServer {
 	 * @param hostKey
 	 *            the unencrypted private key to use as host key
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws GeneralSecurityException
+	 *             if something went wrong
 	 */
 	public SshTestGitServer(@NonNull String testUser, @NonNull Path testKey,
 			@NonNull Repository repository, @NonNull byte[] hostKey)
@@ -138,7 +140,9 @@ public class SshTestGitServer {
 	 * @param hostKey
 	 *            the unencrypted private key to use as host key
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws GeneralSecurityException
+	 *             if something went wrong
 	 * @since 5.9
 	 */
 	public SshTestGitServer(@NonNull String testUser, @NonNull Path testKey,
@@ -413,6 +417,7 @@ public class SshTestGitServer {
 	 * @return the port the server listens on; test clients should connect to
 	 *         that port
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public int start() throws IOException {
 		server.start();
@@ -423,6 +428,7 @@ public class SshTestGitServer {
 	 * Stops the test server.
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public void stop() throws IOException {
 		executorService.shutdownNow();

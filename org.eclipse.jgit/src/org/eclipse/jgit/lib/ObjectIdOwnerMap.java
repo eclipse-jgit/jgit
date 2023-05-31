@@ -128,8 +128,11 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 * <p>
 	 * An existing mapping for <b>must not</b> be in this map. Callers must
 	 * first call {@link #get(AnyObjectId)} to verify there is no current
-	 * mapping prior to adding a new mapping, or use {@link #addIfAbsent(Entry)}.
+	 * mapping prior to adding a new mapping, or use
+	 * {@link #addIfAbsent(Entry)}.
 	 *
+	 * @param <Q>
+	 *            type of values
 	 * @param newValue
 	 *            the object to store.
 	 */
@@ -157,6 +160,8 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 * boolean wasNew = map.addIfAbsent(obj) == obj;
 	 * </pre>
 	 *
+	 * @param <Q>
+	 *            type of values
 	 * @param newValue
 	 *            the object to store.
 	 * @return {@code newValue} if stored, or the prior value already stored and
@@ -199,7 +204,6 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 		return size == 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<V> iterator() {
 		return new Iterator<>() {

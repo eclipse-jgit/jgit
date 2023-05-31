@@ -2286,7 +2286,7 @@ public class PackWriter implements AutoCloseable {
 
 	/**
 	 * Determines if the object should be omitted from the pack as a result of
-	 * its depth (probably because of the tree:<depth> filter).
+	 * its depth (probably because of the tree:&lt;depth&gt; filter).
 	 * <p>
 	 * Causes {@code walker} to skip traversing the current tree, which ought to
 	 * have just started traversal, assuming this method is called as soon as a

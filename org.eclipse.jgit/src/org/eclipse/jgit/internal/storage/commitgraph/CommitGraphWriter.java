@@ -81,6 +81,7 @@ public class CommitGraphWriter {
 	 *            buffered by the caller. The caller is responsible for closing
 	 *            the stream.
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	public void write(@NonNull ProgressMonitor monitor,
 			@NonNull OutputStream commitGraphStream) throws IOException {

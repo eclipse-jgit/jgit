@@ -220,7 +220,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	/**
 	 * Create a new revision walker for a given repository.
-	 * <p>
 	 *
 	 * @param or
 	 *            the reader the walker will obtain data from. The reader is not
@@ -454,7 +453,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * A commit is merged into a ref if we can find a path of commits that leads
 	 * from that specific ref and ends at <code>commit</code>.
-	 * <p>
 	 *
 	 * @param commit
 	 *            commit the caller thinks is reachable from <code>refs</code>.
@@ -476,7 +474,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * A commit is merged into a ref if we can find a path of commits that leads
 	 * from that specific ref and ends at <code>commit</code>.
-	 * <p>
 	 *
 	 * @param commit
 	 *            commit the caller thinks is reachable from <code>refs</code>.
@@ -1197,6 +1194,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Asynchronous object parsing.
 	 *
+	 * @param <T>
+	 *            Type of returned {@code ObjectId}
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.

@@ -32,7 +32,6 @@ class Clean extends TextBuiltin {
 	@Option(name = "--dryRun", aliases = { "-n" })
 	private boolean dryRun = false;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {

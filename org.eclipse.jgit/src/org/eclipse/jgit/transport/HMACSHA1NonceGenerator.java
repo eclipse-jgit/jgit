@@ -35,9 +35,8 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 	 *
 	 * @param seed
 	 *            seed the generator
-	 * @throws java.lang.IllegalStateException
 	 */
-	public HMACSHA1NonceGenerator(String seed) throws IllegalStateException {
+	public HMACSHA1NonceGenerator(String seed) {
 		try {
 			byte[] keyBytes = seed.getBytes(ISO_8859_1);
 			SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1"); //$NON-NLS-1$
@@ -48,16 +47,13 @@ public class HMACSHA1NonceGenerator implements NonceGenerator {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
-	public synchronized String createNonce(Repository repo, long timestamp)
-			throws IllegalStateException {
+	public synchronized String createNonce(Repository repo, long timestamp) {
 		String input = repo.getIdentifier() + ":" + String.valueOf(timestamp); //$NON-NLS-1$
 		byte[] rawHmac = mac.doFinal(input.getBytes(UTF_8));
 		return Long.toString(timestamp) + "-" + toHex(rawHmac); //$NON-NLS-1$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public NonceStatus verify(String received, String sent,
 			Repository db, boolean allowSlop, int slop) {

@@ -28,7 +28,6 @@ abstract class ServletBinderImpl implements ServletBinder {
 		this.filters = new ArrayList<>();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ServletBinder through(Filter filter) {
 		if (filter == null)
@@ -37,7 +36,6 @@ abstract class ServletBinderImpl implements ServletBinder {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void with(HttpServlet servlet) {
 		if (servlet == null)

@@ -941,7 +941,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * Check that branch.<name>.pushRemote overrides anything else.
+	 * Check that branch.&lt;name&gt;.pushRemote overrides anything else.
 	 *
 	 * @throws Exception
 	 */
@@ -980,7 +980,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * Check that remote.pushDefault overrides branch.<name>.remote
+	 * Check that remote.pushDefault overrides branch.&lt;name&gt;.remote
 	 *
 	 * @throws Exception
 	 */

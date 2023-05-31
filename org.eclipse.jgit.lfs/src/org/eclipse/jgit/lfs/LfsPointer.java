@@ -136,6 +136,7 @@ public class LfsPointer implements Comparable<LfsPointer> {
 	 * @return an {@link org.eclipse.jgit.lfs.LfsPointer} or {@code null} if the
 	 *         stream was not parseable as LfsPointer
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	public static LfsPointer parseLfsPointer(InputStream in)
@@ -264,7 +265,6 @@ public class LfsPointer implements Comparable<LfsPointer> {
 		return VERSION.equals(rest) || VERSION_LEGACY.equals(rest);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "LfsPointer: oid=" + oid.name() + ", size=" //$NON-NLS-1$ //$NON-NLS-2$

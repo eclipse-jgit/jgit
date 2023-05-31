@@ -288,6 +288,7 @@ public class FileUtils {
 	 * @throws java.nio.file.AtomicMoveNotSupportedException
 	 *             if file cannot be moved as an atomic file system operation
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.1
 	 */
 	public static void rename(final File src, final File dst,
@@ -446,6 +447,7 @@ public class FileUtils {
 	 *            the target of the symbolic link
 	 * @return the path to the symbolic link
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public static Path createSymLink(File path, String target)
@@ -474,6 +476,7 @@ public class FileUtils {
 	 *            a {@link java.io.File} object.
 	 * @return target path of the symlink, or null if it is not a symbolic link
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public static String readSymLink(File path) throws IOException {
@@ -499,6 +502,7 @@ public class FileUtils {
 	 *            The parent dir, can be null to use system default temp dir.
 	 * @return the temp dir created.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.4
 	 */
 	public static File createTempDir(String prefix, String suffix, File dir)
@@ -749,7 +753,10 @@ public class FileUtils {
 	}
 
 	/**
+	 * Check if file is a symlink
+	 *
 	 * @param file
+	 *            the file to be checked if it is a symbolic link
 	 * @return {@code true} if the passed file is a symbolic link
 	 */
 	static boolean isSymlink(File file) {
@@ -757,10 +764,14 @@ public class FileUtils {
 	}
 
 	/**
+	 * Get the lastModified attribute for a given file
+	 *
 	 * @param file
+	 *            the file
 	 * @return lastModified attribute for given file, not following symbolic
 	 *         links
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @deprecated use {@link #lastModifiedInstant(Path)} instead which returns
 	 *             FileTime
 	 */
@@ -771,7 +782,10 @@ public class FileUtils {
 	}
 
 	/**
+	 * Get last modified timestamp of a file
+	 *
 	 * @param path
+	 *            file path
 	 * @return lastModified attribute for given file, not following symbolic
 	 *         links
 	 */
@@ -795,8 +809,10 @@ public class FileUtils {
 	 * Return all the attributes of a file, without following symbolic links.
 	 *
 	 * @param file
+	 *            the file
 	 * @return {@link BasicFileAttributes} of the file
-	 * @throws IOException in case of any I/O errors accessing the file
+	 * @throws IOException
+	 *             in case of any I/O errors accessing the file
 	 *
 	 * @since 4.5.6
 	 */
@@ -808,8 +824,11 @@ public class FileUtils {
 	 * Set the last modified time of a file system object.
 	 *
 	 * @param file
+	 *            the file
 	 * @param time
+	 *            last modified timestamp
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Deprecated
 	static void setLastModified(File file, long time) throws IOException {
@@ -820,8 +839,11 @@ public class FileUtils {
 	 * Set the last modified time of a file system object.
 	 *
 	 * @param path
+	 *            file path
 	 * @param time
+	 *            last modified timestamp of the file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	static void setLastModified(Path path, Instant time)
 			throws IOException {
@@ -830,6 +852,7 @@ public class FileUtils {
 
 	/**
 	 * @param file
+	 *            the file
 	 * @return {@code true} if the given file exists, not following symbolic
 	 *         links
 	 */
@@ -838,9 +861,13 @@ public class FileUtils {
 	}
 
 	/**
+	 * Check if file is hidden (on Windows)
+	 *
 	 * @param file
+	 *            the file
 	 * @return {@code true} if the given file is hidden
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	static boolean isHidden(File file) throws IOException {
 		return Files.isHidden(toPath(file));
@@ -854,6 +881,7 @@ public class FileUtils {
 	 * @param hidden
 	 *            a boolean.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.1
 	 */
 	public static void setHidden(File file, boolean hidden) throws IOException {
@@ -868,6 +896,7 @@ public class FileUtils {
 	 *            a {@link java.io.File}.
 	 * @return length of the given file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.1
 	 */
 	public static long getLength(File file) throws IOException {
@@ -879,7 +908,10 @@ public class FileUtils {
 	}
 
 	/**
+	 * Check if file is directory
+	 *
 	 * @param file
+	 *            the file
 	 * @return {@code true} if the given file is a directory, not following
 	 *         symbolic links
 	 */
@@ -888,7 +920,10 @@ public class FileUtils {
 	}
 
 	/**
+	 * Check if File is a file
+	 *
 	 * @param file
+	 *            the file
 	 * @return {@code true} if the given file is a file, not following symbolic
 	 *         links
 	 */
@@ -930,7 +965,9 @@ public class FileUtils {
 
 	/**
 	 * @param fs
+	 *            a {@link org.eclipse.jgit.util.FS} object.
 	 * @param file
+	 *            the file
 	 * @return non null attributes object
 	 */
 	static Attributes getFileAttributesBasic(FS fs, File file) {
@@ -1079,6 +1116,7 @@ public class FileUtils {
 	 * @param f
 	 *            the file to touch
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 5.1.8
 	 */
 	public static void touch(Path f) throws IOException {

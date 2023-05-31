@@ -55,7 +55,6 @@ class Status extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_paths", handler = RestOfArgumentsHandler.class)
 	protected List<String> filterPaths;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {
@@ -239,10 +238,11 @@ class Status extends TextBuiltin {
 	 * Print section header
 	 *
 	 * @param pattern
-	 *            a {@link java.lang.String} object.
+	 *            a {@link String} object.
 	 * @param arguments
-	 *            a {@link java.lang.Object} object.
-	 * @throws java.io.IOException
+	 *            a {@link Object} object.
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected void printSectionHeader(String pattern, Object... arguments)
 			throws IOException {
@@ -259,9 +259,10 @@ class Status extends TextBuiltin {
 	 * Print String list
 	 *
 	 * @param list
-	 *            a {@link java.util.Collection} object.
-	 * @return a int.
-	 * @throws java.io.IOException
+	 *            a {@link Collection} object.
+	 * @return size of the list
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected int printList(Collection<String> list) throws IOException {
 		if (!list.isEmpty()) {
@@ -281,21 +282,22 @@ class Status extends TextBuiltin {
 	 * Print String list
 	 *
 	 * @param status1
-	 *            a {@link java.lang.String} object.
+	 *            a {@link String} object.
 	 * @param status2
-	 *            a {@link java.lang.String} object.
+	 *            a {@link String} object.
 	 * @param status3
-	 *            a {@link java.lang.String} object.
+	 *            a {@link String} object.
 	 * @param list
-	 *            a {@link java.util.Collection} object.
+	 *            a {@link Collection} object.
 	 * @param set1
-	 *            a {@link java.util.Collection} object.
+	 *            a {@link Collection} object.
 	 * @param set2
-	 *            a {@link java.util.Collection} object.
+	 *            a {@link Collection} object.
 	 * @param set3
-	 *            a {@link java.util.Collection} object.
+	 *            a {@link Collection} object.
 	 * @return a int.
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected int printList(String status1, String status2, String status3,
 			Collection<String> list, Collection<String> set1,

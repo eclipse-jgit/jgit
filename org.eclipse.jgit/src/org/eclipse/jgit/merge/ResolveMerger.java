@@ -466,7 +466,6 @@ public class ResolveMerger extends ThreeWayMerger {
 		/**
 		 * Detects if CRLF conversion has been configured.
 		 * <p>
-		 * </p>
 		 * See {@link EolStreamTypeUtil#detectStreamType} for more info.
 		 *
 		 * @param attributes
@@ -904,7 +903,6 @@ public class ResolveMerger extends ThreeWayMerger {
 				: strategy;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean mergeImpl() throws IOException {
 		return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1],
@@ -915,18 +913,23 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * adds a new path with the specified stage to the index builder
 	 *
 	 * @param path
+	 *            the new path
 	 * @param p
+	 *            canonical tree parser
 	 * @param stage
-	 * @param lastMod
+	 *            the stage
+	 * @param lastModified
+	 *            lastModified attribute of the file
 	 * @param len
+	 *            file length
 	 * @return the entry which was added to the index
 	 */
 	private DirCacheEntry add(byte[] path, CanonicalTreeParser p, int stage,
-			Instant lastMod, long len) {
+			Instant lastModified, long len) {
 		if (p != null && !p.getEntryFileMode().equals(FileMode.TREE)) {
 			return workTreeUpdater.addExistingToIndex(p.getEntryObjectId(), path,
 					p.getEntryFileMode(), stage,
-					lastMod, (int) len);
+					lastModified, (int) len);
 		}
 		return null;
 	}
@@ -1056,6 +1059,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
@@ -1432,15 +1436,21 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * specified as <code>null</code> then an empty text will be used instead.
 	 *
 	 * @param base
+	 *            used to parse base tree
 	 * @param ours
+	 *            used to parse ours tree
 	 * @param theirs
+	 *            used to parse theirs tree
 	 * @param attributes
+	 *            attributes for the different stages
 	 * @param strategy
+	 *            merge strategy
 	 *
 	 * @return the result of the content merge
 	 * @throws BinaryBlobException
 	 *             if any of the blobs looks like a binary blob
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
@@ -1516,11 +1526,17 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * correct stages to the index.
 	 *
 	 * @param base
+	 *            used to parse base tree
 	 * @param ours
+	 *            used to parse ours tree
 	 * @param theirs
+	 *            used to parse theirs tree
 	 * @param result
+	 *            merge result
 	 * @param attributes
+	 *            the file's attributes
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void updateIndex(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
@@ -1571,6 +1587,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            the files .gitattributes entries
 	 * @return the working tree file to which the merged content was written.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private File writeMergedFile(TemporaryBuffer rawMerged,
 			Attributes attributes)
@@ -1659,7 +1676,6 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.GITLINK.equals(mode);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getResultTreeId() {
 		return (resultTree == null) ? null : resultTree.toObjectId();
@@ -1819,6 +1835,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            content-merge conflicts.
 	 * @return whether the trees merged cleanly
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.5
 	 */
 	protected boolean mergeTrees(AbstractTreeIterator baseTree,
@@ -1878,6 +1895,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return Whether the trees merged cleanly.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.5
 	 */
 	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)

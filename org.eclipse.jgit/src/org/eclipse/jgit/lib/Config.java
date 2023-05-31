@@ -399,6 +399,8 @@ public class Config {
 	/**
 	 * Parse an enumeration from the configuration.
 	 *
+	 * @param <T>
+	 *            type of the returned enum
 	 * @param section
 	 *            section the key is grouped within.
 	 * @param subsection
@@ -431,6 +433,8 @@ public class Config {
 	/**
 	 * Parse an enumeration from the configuration.
 	 *
+	 * @param <T>
+	 *            type of the returned enum
 	 * @param all
 	 *            all possible values in the enumeration which should be
 	 *            recognized. Typically {@code EnumType.values()}.
@@ -722,7 +726,7 @@ public class Config {
 	 * responsible for issuing {@link #fireConfigChangedEvent()} calls
 	 * themselves.
 	 *
-	 * @return <code></code>
+	 * @return whether to issue change events for transient changes
 	 */
 	protected boolean notifyUponTransientChanges() {
 		return true;
@@ -847,6 +851,8 @@ public class Config {
 	 *         name = value
 	 * </pre>
 	 *
+	 * @param <T>
+	 *            type of the enum to set
 	 * @param section
 	 *            section name, e.g "branch"
 	 * @param subsection
