@@ -39,6 +39,7 @@ class ByteArraySet {
 	 * Create an empty set.
 	 *
 	 * @param capacity
+	 *            initial capacity of the set
 	 */
 	ByteArraySet(int capacity) {
 		initTable(1 << Integer.highestOneBit((capacity * 2) - 1));
@@ -180,7 +181,6 @@ class ByteArraySet {
 		table = new byte[sz][];
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

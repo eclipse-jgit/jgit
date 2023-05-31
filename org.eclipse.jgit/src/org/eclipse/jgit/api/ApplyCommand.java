@@ -37,11 +37,12 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	/**
 	 * Constructs the command.
 	 *
-	 * @param local
+	 * @param repo
+	 *            the repository this command will be used on
 	 */
-	ApplyCommand(Repository local) {
-		super(local);
-		if (local == null) {
+	ApplyCommand(Repository repo) {
+		super(repo);
+		if (repo == null) {
 			throw new NullPointerException(JGitText.get().repositoryIsRequired);
 		}
 	}

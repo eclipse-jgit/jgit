@@ -49,7 +49,6 @@ public class GpgSignature implements Serializable {
 		return new String(signature, US_ASCII);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

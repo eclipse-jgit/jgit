@@ -115,8 +115,8 @@ public abstract class CredentialItem {
 		}
 
 		/**
-		 *
 		 * @param newValue
+		 *            the new value
 		 */
 		public void setValue(String newValue) {
 			value = newValue;
@@ -223,6 +223,7 @@ public abstract class CredentialItem {
 		 * Set the new value.
 		 *
 		 * @param newValue
+		 *            the new value
 		 */
 		public void setValue(boolean newValue) {
 			value = newValue;

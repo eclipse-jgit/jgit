@@ -43,6 +43,8 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 	/**
 	 * Create an empty unmodifiable reference list.
 	 *
+	 * @param <T>
+	 *            type of reference being stored.
 	 * @return an empty unmodifiable reference list.
 	 */
 	@SuppressWarnings("unchecked")
@@ -70,7 +72,6 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		this.cnt = src.cnt;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<Ref> iterator() {
 		return new Iterator<>() {
@@ -286,7 +287,6 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		return add(idx, ref);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
@@ -305,6 +305,8 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 	/**
 	 * Create a {@link Collector} for {@link Ref}.
 	 *
+	 * @param <T>
+	 *            type of reference being stored.
 	 * @param mergeFunction
 	 *            if specified the result will be sorted and deduped.
 	 * @return {@link Collector} for {@link Ref}
@@ -390,6 +392,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		 * after additions are complete using {@link #sort()}.
 		 *
 		 * @param ref
+		 *            reference to add
 		 */
 		public void add(T ref) {
 			if (list.length == size) {
@@ -404,6 +407,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		 * Add all items from another builder.
 		 *
 		 * @param other
+		 *            another builder
 		 * @since 5.4
 		 */
 		public void addAll(Builder other) {
@@ -454,6 +458,7 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 		 * Dedupe the refs in place. Must be called after {@link #sort}.
 		 *
 		 * @param mergeFunction
+		 *            function used for de-duplication
 		 */
 		@SuppressWarnings("unchecked")
 		void dedupe(BinaryOperator<T> mergeFunction) {

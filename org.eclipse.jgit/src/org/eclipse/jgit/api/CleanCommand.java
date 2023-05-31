@@ -113,24 +113,25 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	}
 
 	/**
-	 * When dryRun is false, deletes the specified path from disk. If dryRun
-	 * is true, no paths are actually deleted. In both cases, the paths that
-	 * would have been deleted are added to inFiles and returned.
+	 * When dryRun is false, deletes the specified path from disk. If dryRun is
+	 * true, no paths are actually deleted. In both cases, the paths that would
+	 * have been deleted are added to inFiles and returned.
 	 *
 	 * Paths that are directories are recursively deleted when
-	 * {@link #directories} is true.
-	 * Paths that are git repositories are recursively deleted when
-	 * {@link #directories} and {@link #force} are both true.
+	 * {@link #directories} is true. Paths that are git repositories are
+	 * recursively deleted when {@link #directories} and {@link #force} are both
+	 * true.
 	 *
 	 * @param path
-	 * 			The path to be cleaned
+	 *            The path to be cleaned
 	 * @param inFiles
-	 * 			A set of strings representing the files that have been cleaned
-	 * 			already, the path to be cleaned will be added to this set
-	 * 			before being returned.
+	 *            A set of strings representing the files that have been cleaned
+	 *            already, the path to be cleaned will be added to this set
+	 *            before being returned.
 	 *
 	 * @return a set of strings with the cleaned path added to it
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Set<String> cleanPath(String path, Set<String> inFiles)
 			throws IOException {

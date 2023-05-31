@@ -49,7 +49,6 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		config = cfg.get(WriteConfig.KEY);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
@@ -62,12 +61,19 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	 * ODB.
 	 *
 	 * @param type
+	 *            object type
 	 * @param data
+	 *            object data
 	 * @param off
+	 *            first position within @{code data}
 	 * @param len
+	 *            length number of bytes to copy
 	 * @param createDuplicate
-	 * @return ObjectId
+	 *            whether to insert a duplicate if an object with this id
+	 *            already exists
+	 * @return ObjectId the name of the object
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private ObjectId insert(
 			int type, byte[] data, int off, int len, boolean createDuplicate)
@@ -80,7 +86,6 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		return insertOneObject(tmp, id, createDuplicate);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, long len, InputStream is)
 			throws IOException {
@@ -93,11 +98,17 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	 * ODB.
 	 *
 	 * @param type
+	 *            object type
 	 * @param len
+	 *            number of bytes to copy
 	 * @param is
+	 *            input stream
 	 * @param createDuplicate
-	 * @return ObjectId
+	 *            whether to insert a duplicate if an object with this id
+	 *            already exists
+	 * @return ObjectId the name of the object
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	ObjectId insert(int type, long len, InputStream is, boolean createDuplicate)
 			throws IOException {
@@ -132,25 +143,21 @@ class ObjectDirectoryInserter extends ObjectInserter {
 				.format(JGitText.get().unableToCreateNewObject, dst));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PackParser newPackParser(InputStream in) throws IOException {
 		return new ObjectDirectoryPackParser(db, in);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new WindowCursor(db, this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		// Do nothing. Loose objects are immediately visible.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (deflate != null) {

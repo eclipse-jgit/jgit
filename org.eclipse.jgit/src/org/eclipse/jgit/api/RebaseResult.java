@@ -194,6 +194,7 @@ public class RebaseResult {
 	 * Create <code>RebaseResult</code>
 	 *
 	 * @param status
+	 *            the overall rebase status
 	 * @param commit
 	 *            current commit
 	 * @return the RebaseResult

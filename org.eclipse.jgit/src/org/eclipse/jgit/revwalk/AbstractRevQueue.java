@@ -79,8 +79,6 @@ abstract class AbstractRevQueue extends Generator {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * <p>
 	 * Remove the first commit from the queue.
 	 */
 	@Override

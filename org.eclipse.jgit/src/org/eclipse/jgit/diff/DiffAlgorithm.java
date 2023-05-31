@@ -58,6 +58,8 @@ public abstract class DiffAlgorithm {
 	/**
 	 * Compare two sequences and identify a list of edits between them.
 	 *
+	 * @param <S>
+	 *            type of sequence being compared.
 	 * @param cmp
 	 *            the comparator supplying the element equivalence function.
 	 * @param a
@@ -217,6 +219,8 @@ public abstract class DiffAlgorithm {
 	 * method, which invokes this method using
 	 * {@link org.eclipse.jgit.diff.Subsequence}s.
 	 *
+	 * @param <S>
+	 *            type of sequence being compared.
 	 * @param cmp
 	 *            the comparator supplying the element equivalence function.
 	 * @param a

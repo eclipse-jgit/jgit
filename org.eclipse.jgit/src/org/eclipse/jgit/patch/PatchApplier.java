@@ -251,6 +251,7 @@ public class PatchApplier {
 	 *            the patch to apply.
 	 * @return the result of the patch
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 6.6
 	 */
 	public Result applyPatch(Patch p) throws IOException {
@@ -423,6 +424,7 @@ public class PatchApplier {
 	 * @param result
 	 *            The patch application result.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void apply(String pathWithOriginalContent, DirCache dirCache,
 			DirCacheBuilder dirCacheBuilder, @Nullable File f, FileHeader fh, Result result)
@@ -777,7 +779,9 @@ public class PatchApplier {
 	 *            The patch application result
 	 * @return a loader for the new content, or null if invalid.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws UnsupportedOperationException
+	 *             if an operation isn't supported
 	 */
 	private @Nullable ContentStreamLoader applyBinary(String path, File f, FileHeader fh,
 			StreamSupplier inputSupplier, ObjectId id, Result result)

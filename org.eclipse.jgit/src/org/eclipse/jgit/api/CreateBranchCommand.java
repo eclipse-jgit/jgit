@@ -82,7 +82,6 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException {

@@ -61,7 +61,6 @@ public abstract class RepositoryEvent<T extends RepositoryListener> {
 	 */
 	public abstract void dispatch(T listener);
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

@@ -18,31 +18,26 @@ package org.eclipse.jgit.lib;
  */
 public abstract class EmptyProgressMonitor implements ProgressMonitor {
 
-	/** {@inheritDoc} */
 	@Override
 	public void start(int totalTasks) {
 		// empty
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void beginTask(String title, int totalWork) {
 		// empty
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void update(int completed) {
 		// empty
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void endTask() {
 		// empty
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isCancelled() {
 		return false;

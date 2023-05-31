@@ -95,7 +95,9 @@ public class SExprParser {
 	 *
 	 * @return a secret key object.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws PGPException
+	 *             if some PGP error occurred
 	 */
 	public PGPSecretKey parseSecretKey(InputStream inputStream,
 			PBEProtectionRemoverFactory keyProtectionRemoverFactory,
@@ -252,7 +254,9 @@ public class SExprParser {
 	 *
 	 * @return a secret key object.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws PGPException
+	 *             if a PGP error occurred
 	 */
 	public PGPSecretKey parseSecretKey(InputStream inputStream,
 			PBEProtectionRemoverFactory keyProtectionRemoverFactory,

@@ -18,7 +18,6 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 
 public class FileRepositoryBuilderAfterOpenConfigTest extends FileRepositoryBuilderTest {
-	/** {@inheritDoc} */
 	@Before
 	@Override
 	public void setUp() throws Exception {

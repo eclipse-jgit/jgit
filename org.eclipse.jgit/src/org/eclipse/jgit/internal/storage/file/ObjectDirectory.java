@@ -145,7 +145,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final File getDirectory() {
 		return loose.getDirectory();
@@ -169,13 +168,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return preserved.getDirectory();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean exists() {
 		return fs.exists(objects);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		loose.create();
@@ -183,7 +180,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packed.create();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, config);
@@ -199,7 +195,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new PackInserter(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		loose.close();
@@ -214,13 +209,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Collection<Pack> getPacks() {
 		return packed.getPacks();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getApproximateObjectCount() {
 		long count = 0;
@@ -234,7 +227,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return count;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Optional<CommitGraph> getCommitGraph() {
 		if (config.get(CoreConfig.KEY).enableCommitGraph()) {
@@ -244,7 +236,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	/**
-	 * {@inheritDoc}
 	 * <p>
 	 * Add a single existing pack to the list of available pack files.
 	 */
@@ -273,13 +264,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return res;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "ObjectDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) {
 		return loose.hasCached(objectId)
@@ -811,7 +800,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDatabase newCachedDatabase() {
 		return newCachedFileObjectDatabase();

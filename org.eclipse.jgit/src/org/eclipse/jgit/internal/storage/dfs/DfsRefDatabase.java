@@ -65,7 +65,6 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return 0 < read().size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		RefCache curr = read();
@@ -73,13 +72,11 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return ref != null ? resolve(ref, 0, curr.ids) : null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getAdditionalRefs() {
 		return Collections.emptyList();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		RefCache curr = read();
@@ -126,7 +123,6 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return new SymbolicRef(ref.getName(), dst);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
 		final Ref oldLeaf = ref.getLeaf();
@@ -176,7 +172,6 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return leaf;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefUpdate newUpdate(String refName, boolean detach)
 			throws IOException {
@@ -193,7 +188,6 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return update;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefRename newRename(String fromName, String toName)
 			throws IOException {
@@ -202,7 +196,6 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return new DfsRefRename(src, dst);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String refName) throws IOException {
 		RefList<Ref> all = read().ids;
@@ -224,19 +217,16 @@ public abstract class DfsRefDatabase extends RefDatabase {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void create() {
 		// Nothing to do.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void refresh() {
 		clearCache();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		clearCache();

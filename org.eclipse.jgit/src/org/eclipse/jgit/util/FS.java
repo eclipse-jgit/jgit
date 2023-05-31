@@ -118,6 +118,7 @@ public abstract class FS {
 		 * Detect the file system
 		 *
 		 * @param cygwinUsed
+		 *            whether cygwin is used
 		 * @return FS instance
 		 */
 		public FS detect(Boolean cygwinUsed) {
@@ -149,8 +150,11 @@ public abstract class FS {
 
 		/**
 		 * @param stdout
+		 *            stdout stream
 		 * @param stderr
+		 *            stderr stream
 		 * @param rc
+		 *            return code
 		 */
 		public ExecutionResult(TemporaryBuffer stdout, TemporaryBuffer stderr,
 				int rc) {
@@ -849,6 +853,7 @@ public abstract class FS {
 		 * timestamp resolution
 		 *
 		 * @param fsTimestampResolution
+		 *            resolution of filesystem timestamps
 		 */
 		public FileStoreAttributes(
 				@NonNull Duration fsTimestampResolution) {
@@ -1074,6 +1079,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return last modified time of f
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
 	 */
@@ -1120,6 +1126,7 @@ public abstract class FS {
 	 * @param time
 	 *            last modified time
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
 	 */
@@ -1138,6 +1145,7 @@ public abstract class FS {
 	 * @param time
 	 *            last modified time
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.1.9
 	 */
 	public void setLastModified(Path p, Instant time) throws IOException {
@@ -1152,6 +1160,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return length of a file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public long length(File path) throws IOException {
@@ -1164,7 +1173,7 @@ public abstract class FS {
 	 * @param f
 	 *            a {@link java.io.File} object.
 	 * @throws java.io.IOException
-	 *             this may be a Java7 subclass with detailed information
+	 *             if an IO error occurred
 	 * @since 3.3
 	 */
 	public void delete(File f) throws IOException {
@@ -1264,8 +1273,10 @@ public abstract class FS {
 	 * Return all the attributes of a file, without following symbolic links.
 	 *
 	 * @param file
+	 *            the file
 	 * @return {@link BasicFileAttributes} of the file
-	 * @throws IOException in case of any I/O errors accessing the file
+	 * @throws IOException
+	 *             in case of any I/O errors accessing the file
 	 *
 	 * @since 4.5.6
 	 */
@@ -1671,6 +1682,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return target of link or null
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public String readSymLink(File path) throws IOException {
@@ -1684,6 +1696,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return true if the path is a symbolic link (and we support these)
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public boolean isSymLink(File path) throws IOException {
@@ -1738,6 +1751,7 @@ public abstract class FS {
 	 * @return true if path is hidden, either starts with . on unix or has the
 	 *         hidden attribute in windows
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public boolean isHidden(File path) throws IOException {
@@ -1752,6 +1766,7 @@ public abstract class FS {
 	 * @param hidden
 	 *            whether to set the file hidden
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public void setHidden(File path, boolean hidden) throws IOException {
@@ -1766,6 +1781,7 @@ public abstract class FS {
 	 * @param target
 	 *            target path of the symlink
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public void createSymLink(File path, String target) throws IOException {
@@ -1782,6 +1798,7 @@ public abstract class FS {
 	 * @return <code>true</code> if the file was created, <code>false</code> if
 	 *         the file already existed
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @deprecated use {@link #createNewFileAtomic(File)} instead
 	 * @since 4.5
 	 */
@@ -1852,6 +1869,7 @@ public abstract class FS {
 	 * @return LockToken this token must be closed after the created file was
 	 *         deleted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 4.7
 	 */
 	public LockToken createNewFileAtomic(File path) throws IOException {
@@ -2317,7 +2335,9 @@ public abstract class FS {
 	 *            The standard input stream passed to the process
 	 * @return The result of the executed command
 	 * @throws java.lang.InterruptedException
+	 *             if thread was interrupted
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public ExecutionResult execute(ProcessBuilder pb, InputStream in)
@@ -2441,8 +2461,10 @@ public abstract class FS {
 		 * Constructor when there are issues with reading. All attributes except
 		 * given will be set to the default values.
 		 *
-		 * @param fs
 		 * @param path
+		 *            file path
+		 * @param fs
+		 *            FS to use
 		 */
 		public Attributes(File path, FS fs) {
 			this(fs, path, false, false, false, false, false, 0L, EPOCH, 0L);

@@ -86,7 +86,6 @@ import org.eclipse.jgit.util.RawParseUtils;
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
- * <p>
  *
  * @see <a
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html"
@@ -1000,7 +999,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	/**
 	 * @return the commit if we had to do a commit, otherwise null
 	 * @throws GitAPIException
+	 *             if JGit API failed
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private RevCommit continueRebase() throws GitAPIException, IOException {
 		// if there are still conflicts, we throw a specific Exception
@@ -1102,7 +1103,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * that can not be parsed as steps
 	 *
 	 * @param numSteps
+	 *            number of steps to remove
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void popSteps(int numSteps) throws IOException {
 		if (numSteps == 0)
@@ -1297,7 +1300,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 *            if we can fast-forward to.
 	 * @return the new head, or null
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws org.eclipse.jgit.api.errors.GitAPIException
+	 *             if a JGit API exception occurred
 	 */
 	public RevCommit tryFastForward(RevCommit newCommit) throws IOException,
 			GitAPIException {
@@ -1548,6 +1553,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 *            the name of the upstream branch
 	 * @return {@code this}
 	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
+	 *             if {@code upstream} Ref couldn't be resolved
 	 */
 	public RebaseCommand setUpstream(String upstream)
 			throws RefNotFoundException {

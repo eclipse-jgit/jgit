@@ -393,7 +393,6 @@ public class DeltaIndex {
 		return start - resPtr;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

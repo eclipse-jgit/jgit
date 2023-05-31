@@ -222,9 +222,10 @@ public class GC {
 	 * gc.log.
 	 *
 	 * @return the collection of
-	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which
-	 *         are newly created
+	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which are
+	 *         newly created
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
@@ -298,10 +299,15 @@ public class GC {
 	 * pack files.
 	 *
 	 * @param inserter
+	 *            used to insert objects
 	 * @param reader
+	 *            used to read objects
 	 * @param pack
+	 *            the pack file to loosen objects for
 	 * @param existing
+	 *            existing objects
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void loosen(ObjectDirectoryInserter inserter, ObjectReader reader, Pack pack, HashSet<ObjectId> existing)
 			throws IOException {
@@ -327,13 +333,17 @@ public class GC {
 	 * directory. If an expirationDate is set then pack files which are younger
 	 * than the expirationDate will not be deleted nor preserved.
 	 * <p>
-	 * If we're not immediately expiring loose objects, loosen any objects
-	 * in the old pack files which aren't in the new pack files.
+	 * If we're not immediately expiring loose objects, loosen any objects in
+	 * the old pack files which aren't in the new pack files.
 	 *
 	 * @param oldPacks
+	 *            old pack files
 	 * @param newPacks
+	 *            new pack files
 	 * @throws ParseException
+	 *             if an error occurred during parsing
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void deleteOldPacks(Collection<Pack> oldPacks,
 			Collection<Pack> newPacks) throws ParseException, IOException {
@@ -378,12 +388,15 @@ public class GC {
 	}
 
 	/**
-	 * Deletes old pack file, unless 'preserve-oldpacks' is set, in which case it
-	 * moves the pack file to the preserved directory
+	 * Deletes old pack file, unless 'preserve-oldpacks' is set, in which case
+	 * it moves the pack file to the preserved directory
 	 *
 	 * @param packFile
+	 *            the packfile to delete
 	 * @param deleteOptions
+	 *            delete option flags
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void removeOldPack(PackFile packFile, int deleteOptions)
 			throws IOException {
@@ -422,6 +435,7 @@ public class GC {
 	 * with a ".pack" file without a ".index" file.
 	 *
 	 * @param packFile
+	 *            the pack file to prune files for
 	 */
 	private void prunePack(PackFile packFile) {
 		try {
@@ -449,6 +463,7 @@ public class GC {
 	 * because the filesystem delete operation fails) this is silently ignored.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void prunePacked() throws IOException {
 		ObjectDirectory objdb = repo.getObjectDatabase();
@@ -507,6 +522,7 @@ public class GC {
 	 * @param objectsToKeep
 	 *            a set of objects which should explicitly not be pruned
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
@@ -714,10 +730,15 @@ public class GC {
 	 * by the given ObjectWalk
 	 *
 	 * @param id2File
+	 *            mapping objectIds to files
 	 * @param w
+	 *            used to walk objects
 	 * @throws MissingObjectException
+	 *             if an object is missing
 	 * @throws IncorrectObjectTypeException
+	 *             if an object has an unexpected tyoe
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void removeReferenced(Map<ObjectId, File> id2File,
 			ObjectWalk w) throws MissingObjectException,
@@ -758,6 +779,7 @@ public class GC {
 	 * is compacted into a single table.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void packRefs() throws IOException {
 		RefDatabase refDb = repo.getRefDatabase();
@@ -927,6 +949,7 @@ public class GC {
 	 *            the list of wanted objects, writer walks commits starting at
 	 *            these. Must not be {@code null}.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void writeCommitGraph(@NonNull Set<? extends ObjectId> wants)
 			throws IOException {
@@ -1143,9 +1166,11 @@ public class GC {
 	/**
 	 * @param ref
 	 *            the ref which log should be inspected
-	 * @param minTime only reflog entries not older then this time are processed
+	 * @param minTime
+	 *            only reflog entries not older then this time are processed
 	 * @return the {@link ObjectId}s contained in the reflog
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
 		ReflogReader reflogReader = repo.getReflogReader(ref);
@@ -1177,6 +1202,7 @@ public class GC {
 	 *
 	 * @return a collection of refs pointing to live objects.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Collection<Ref> getAllRefs() throws IOException {
 		RefDatabase refdb = repo.getRefDatabase();
@@ -1203,8 +1229,11 @@ public class GC {
 	 *
 	 * @return a set of ObjectIds of changed objects in the index
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws CorruptObjectException
+	 *             if an object is corrupt
 	 * @throws NoWorkTreeException
+	 *             if the repository has no working directory
 	 */
 	private Set<ObjectId> listNonHEADIndexObjects()
 			throws CorruptObjectException, IOException {
@@ -1501,6 +1530,7 @@ public class GC {
 	 *
 	 * @return information about objects and pack files for a FileRepository
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();

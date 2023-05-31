@@ -144,32 +144,30 @@ public class MockSystemReader extends SystemReader {
 	 * Set a property
 	 *
 	 * @param key
+	 *            the key
 	 * @param value
+	 *            the value
 	 */
 	public void setProperty(String key, String value) {
 		values.put(key, value);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getenv(String variable) {
 		return values.get(variable);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getProperty(String key) {
 		return values.get(key);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig openUserConfig(Config parent, FS fs) {
 		assert parent == null || parent == systemGitConfig;
 		return userGitConfig;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig openSystemConfig(Config parent, FS fs) {
 		assert parent == null;
@@ -193,19 +191,16 @@ public class MockSystemReader extends SystemReader {
 		return systemGitConfig;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getHostname() {
 		return "fake.host.example.com";
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getCurrentTime() {
 		return now;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public MonotonicClock getClock() {
 		return () -> {
@@ -236,31 +231,26 @@ public class MockSystemReader extends SystemReader {
 		now += secDelta * 1000L;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getTimezone(long when) {
 		return getTimeZone().getOffset(when) / (60 * 1000);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TimeZone getTimeZone() {
 		return TimeZone.getTimeZone("GMT-03:30");
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Locale getLocale() {
 		return Locale.US;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public SimpleDateFormat getSimpleDateFormat(String pattern) {
 		return new SimpleDateFormat(pattern, getLocale());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public DateFormat getDateTimeInstance(int dateStyle, int timeStyle) {
 		return DateFormat

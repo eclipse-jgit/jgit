@@ -58,7 +58,6 @@ public abstract class RefCursor implements AutoCloseable {
 		return r.getStorage() == Ref.Storage.NEW && r.getObjectId() == null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract void close();
 }

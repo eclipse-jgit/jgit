@@ -93,13 +93,13 @@ public class FileReftableDatabase extends RefDatabase {
 
 	/**
 	 * @param repoDir
+	 *            the repository's metadata directory
 	 * @return whether the given repo uses reftable for refdb storage.
 	 */
 	public static boolean isReftable(File repoDir) {
 		return new File(repoDir, Constants.REFTABLE).isDirectory();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean hasFastTipsWithSha1() throws IOException {
 		return reftableDatabase.hasFastTipsWithSha1();
@@ -124,20 +124,17 @@ public class FileReftableDatabase extends RefDatabase {
 		return reftableDatabase.getLock();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@NonNull
 	@Override
 	public BatchRefUpdate newBatchUpdate() {
 		return new FileReftableBatchRefUpdate(this, fileRepository);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefUpdate newUpdate(String refName, boolean detach)
 			throws IOException {
@@ -157,19 +154,16 @@ public class FileReftableDatabase extends RefDatabase {
 		return update;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		return reftableDatabase.exactRef(name);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getRefs() throws IOException {
 		return super.getRefs();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
@@ -181,20 +175,17 @@ public class FileReftableDatabase extends RefDatabase {
 				RefList.emptyList());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
 		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
 		return Collections.emptyList();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
 		Ref oldLeaf = ref.getLeaf();
@@ -303,7 +294,6 @@ public class FileReftableDatabase extends RefDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefRename newRename(String fromName, String toName)
 			throws IOException {
@@ -312,20 +302,17 @@ public class FileReftableDatabase extends RefDatabase {
 		return new FileRefRename(src, dst);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String name) throws IOException {
 		return reftableDatabase.isNameConflicting(name, new TreeSet<>(),
 				new HashSet<>());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		reftableStack.close();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		FileUtils.mkdir(

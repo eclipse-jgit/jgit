@@ -69,6 +69,7 @@ public class AttributesHandler {
 	 * @param treeWalk
 	 *            a {@link org.eclipse.jgit.treewalk.TreeWalk}
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @deprecated since 6.1, use {@link #AttributesHandler(TreeWalk, Supplier)}
 	 *             instead
 	 */
@@ -87,6 +88,7 @@ public class AttributesHandler {
 	 * @param attributesTree
 	 *            the tree to read .gitattributes from
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	public AttributesHandler(TreeWalk treeWalk,
@@ -128,6 +130,7 @@ public class AttributesHandler {
 	 *         current path represented by the
 	 *         {@link org.eclipse.jgit.treewalk.TreeWalk}
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public Attributes getAttributes() throws IOException {
 		String entryPath = treeWalk.getPathString();
@@ -206,12 +209,16 @@ public class AttributesHandler {
 	 * @param isDirectory
 	 *            true if the target item is a directory.
 	 * @param workingTreeIterator
+	 *            the working tree iterator
 	 * @param dirCacheIterator
+	 *            the dircache iterator
 	 * @param otherTree
+	 *            another tree
 	 * @param result
 	 *            that will hold the attributes matching this entry path. This
 	 *            method will NOT override any existing entry in attributes.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void mergePerDirectoryEntryAttributes(String entryPath,
 			int nameRoot, boolean isDirectory,
@@ -357,9 +364,13 @@ public class AttributesHandler {
 	 * </p>
 	 *
 	 * @param treeWalk
+	 *            used to walk trees
 	 * @param workingTreeIterator
+	 *            used to walk the working tree
 	 * @param dirCacheIterator
+	 *            used to walk the dircache
 	 * @param otherTree
+	 *            another tree
 	 * @return a {@link AttributesNode} of the current entry,
 	 *         {@link NullPointerException} otherwise.
 	 * @throws IOException

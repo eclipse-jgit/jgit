@@ -163,7 +163,6 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();

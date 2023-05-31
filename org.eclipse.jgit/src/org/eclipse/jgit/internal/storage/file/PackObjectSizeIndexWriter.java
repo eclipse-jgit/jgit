@@ -72,11 +72,13 @@ public abstract class PackObjectSizeIndexWriter {
 	 *
 	 * Store position (in the main index) to size as parallel arrays.
 	 *
-	 * <p>Positions in the main index fit well in unsigned 24 bits (16M) for most
+	 * <p>
+	 * Positions in the main index fit well in unsigned 24 bits (16M) for most
 	 * repositories, but some outliers have even more objects, so we need to
 	 * store also 32 bits positions.
 	 *
-	 * <p>Sizes are stored as a first array parallel to positions. If a size
+	 * <p>
+	 * Sizes are stored as a first array parallel to positions. If a size
 	 * doesn't fit in an element of that array, then we encode there a position
 	 * on the next-size array. This "overflow" array doesn't have entries for
 	 * all positions.
@@ -85,30 +87,36 @@ public abstract class PackObjectSizeIndexWriter {
 	 *
 	 *      positions       [10, 500, 1000, 1001]
 	 *      sizes (32bits)  [15MB, -1, 6MB, -2]
-   *                          ___/  ______/
+	*                          ___/  ______/
 	 *                        /     /
 	 *      sizes (64 bits) [3GB, 6GB]
 	 * </pre>
 	 *
-	 * <p>For sizes we use 32 bits as the first level and 64 for the rare objects
+	 * <p>
+	 * For sizes we use 32 bits as the first level and 64 for the rare objects
 	 * over 2GB.
 	 *
-	 * <p>A 24/32/64 bits hierarchy of arrays saves space if we have a lot of small
-	 * objects, but wastes space if we have only big ones. The min size to index is
-	 * controlled by conf and in principle we want to index only rather
-	 * big objects (e.g. > 10MB). We could support more dynamics read/write of sizes
+	 * <p>
+	 * A 24/32/64 bits hierarchy of arrays saves space if we have a lot of small
+	 * objects, but wastes space if we have only big ones. The min size to index
+	 * is controlled by conf and in principle we want to index only rather big
+	 * objects (e.g. > 10MB). We could support more dynamics read/write of sizes
 	 * (e.g. 24 only if the threshold will include many of those objects) but it
-	 * complicates a lot code and spec. If needed it could go for a v2 of the protocol.
+	 * complicates a lot code and spec. If needed it could go for a v2 of the
+	 * protocol.
 	 *
-	 * <p>Format:
-	 *
+	 * <p>
+	 * Format:
+	 * <ul>
 	 * <li>A header with the magic number (4 bytes)
 	 * <li>The index version (1 byte)
 	 * <li>The minimum object size (4 bytes)
 	 * <li>Total count of objects indexed (C, 4 bytes)
+	 * </ul>
 	 * (if count == 0, stop here)
-	 *
+	 * <p>
 	 * Blocks of
+	 * <ul>
 	 * <li>Size per entry in bits (1 byte, either 24 (0x18) or 32 (0x20))
 	 * <li>Count of entries (4 bytes) (c, as a signed int)
 	 * <li>positions encoded in s bytes each (i.e s*c bytes)
@@ -120,6 +128,7 @@ public abstract class PackObjectSizeIndexWriter {
 	 * <li>Count of 64 bit sizes (s64) (or 0 if no more indirections)
 	 * <li>64 bit sizes (s64 * 8 bytes)
 	 * <li>0 (end)
+	 * </ul>
 	 */
 	static class PackObjectSizeWriterV1 extends PackObjectSizeIndexWriter {
 

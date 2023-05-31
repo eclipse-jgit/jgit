@@ -1065,6 +1065,7 @@ public class ObjectChecker {
 	 *
 	 * @return true if the filename in buf could be a ".gitmodules" file
 	 * @throws CorruptObjectException
+	 *             if an object is corrupt
 	 */
 	private boolean isGitmodules(byte[] buf, int start, int end, @Nullable AnyObjectId id)
 			throws CorruptObjectException {

@@ -88,8 +88,11 @@ public class JGitClientSession extends ClientSessionImpl {
 
 	/**
 	 * @param manager
+	 *            client factory manager
 	 * @param session
+	 *            the session
 	 * @throws Exception
+	 *             an error occurred
 	 */
 	public JGitClientSession(ClientFactoryManager manager, IoSession session)
 			throws Exception {

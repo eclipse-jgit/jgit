@@ -49,7 +49,6 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 		super(parser, option, setter);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		final List<PathFilter> filters = new ArrayList<>();
@@ -73,7 +72,6 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 		return filters.size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_paths;

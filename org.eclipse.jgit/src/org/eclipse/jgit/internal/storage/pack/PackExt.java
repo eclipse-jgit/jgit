@@ -80,7 +80,6 @@ public enum PackExt {
 		return String.format(".%s_tmp", ext); //$NON-NLS-1$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$

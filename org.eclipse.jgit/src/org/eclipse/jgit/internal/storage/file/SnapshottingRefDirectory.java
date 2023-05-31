@@ -67,14 +67,12 @@ class SnapshottingRefDirectory extends RefDirectory {
 		return packedRefs.get();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	void delete(RefDirectoryUpdate update) throws IOException {
 		refreshSnapshot();
 		super.delete(update);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
@@ -82,19 +80,16 @@ class SnapshottingRefDirectory extends RefDirectory {
 		return super.newUpdate(name, detach);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PackedBatchRefUpdate newBatchUpdate() {
 		return new SnapshotPackedBatchRefUpdate(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PackedBatchRefUpdate newBatchUpdate(boolean shouldLockLooseRefs) {
 		return new SnapshotPackedBatchRefUpdate(this, shouldLockLooseRefs);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	RefDirectoryUpdate newTemporaryUpdate() throws IOException {
 		refreshSnapshot();
@@ -126,6 +121,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 	 * threads use this snapshot.
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private synchronized void refreshSnapshot() throws IOException {
 		compareAndSetPackedRefs(packedRefs.get(), refDb.getPackedRefs());

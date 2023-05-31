@@ -61,6 +61,7 @@ public class SubmoduleDeinitCommand
 	 * Constructor of SubmoduleDeinitCommand
 	 *
 	 * @param repo
+	 *            repository this command works on
 	 */
 	public SubmoduleDeinitCommand(Repository repo) {
 		super(repo);
@@ -69,7 +70,6 @@ public class SubmoduleDeinitCommand
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
 	 *
 	 * @return the set of repositories successfully deinitialized.
 	 * @throws NoSuchSubmoduleException
@@ -135,6 +135,7 @@ public class SubmoduleDeinitCommand
 	 * @param path
 	 *            the path to clean
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void deinit(String path) throws IOException {
 		File dir = new File(repo.getWorkTree(), path);
@@ -157,10 +158,14 @@ public class SubmoduleDeinitCommand
 	 * the parent repo's index or HEAD.
 	 *
 	 * @param revWalk
+	 *            used to walk commit graph
 	 * @param path
+	 *            path of the submodule
 	 * @return status of the command
 	 * @throws GitAPIException
+	 *             if JGit API failed
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private SubmoduleDeinitStatus checkDirty(RevWalk revWalk, String path)
 			throws GitAPIException, IOException {
@@ -216,6 +221,7 @@ public class SubmoduleDeinitCommand
 	 * @return {@code true} if path exists and is a submodule in index,
 	 *         {@code false} otherwise
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean submoduleExists(String path) throws IOException {
 		TreeFilter filter = PathFilter.create(path);
@@ -241,6 +247,7 @@ public class SubmoduleDeinitCommand
 	 * else it will refuse to do so.
 	 *
 	 * @param force
+	 *            execute the command forcefully if there are local modifications
 	 * @return {@code this}
 	 */
 	public SubmoduleDeinitCommand setForce(boolean force) {
