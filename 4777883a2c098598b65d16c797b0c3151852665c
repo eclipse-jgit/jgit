@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2520fc_80f559ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-31T14:52:13Z",
+      "side": 1,
+      "message": "I will dig a bit more in the javadoc issue and find a solution for allowing the validation of the part coming after refs/ (the \"reference name\" in cgit).  Thanks Matthias!",
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c299e4b8_8ec022c3",
@@ -54,6 +71,30 @@
       "writtenOn": "2023-05-30T21:55:49Z",
       "side": 1,
       "message": "javadoc doesn\u0027t like the line break before \u0027\u003e\u0027",
+      "range": {
+        "startLine": 1371,
+        "startChar": 9,
+        "endLine": 1371,
+        "endChar": 10
+      },
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6abeec9a_db4d9f81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-31T14:52:13Z",
+      "side": 1,
+      "message": "There is a bug somewhere in javadoc, when passed `-Xdoclint:-missing` it does not show the source of the error and there are a couple existing in the master branch:\n\n [WARNING] Javadoc Warnings\n [WARNING] javadoc: warning - invalid usage of tag \u003e\n [WARNING] javadoc: warning - invalid usage of tag \u003e\n \nIf I go with `-Xdoclint:all,-missing` I get the source file / line number displayed as well as a ton of other errors! :/",
+      "parentUuid": "837ecb67_22999b9f",
       "range": {
         "startLine": 1371,
         "startChar": 9,

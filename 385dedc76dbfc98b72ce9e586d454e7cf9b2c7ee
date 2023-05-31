@@ -121,6 +121,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62e786cd_dcff3b64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-31T14:52:13Z",
+      "side": 1,
+      "message": "Eventually I got it running locally with `mvn javadoc:javadoc` ;)",
+      "parentUuid": "0938fd16_e1f72fc0",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b07382ce_10b39cb2",
