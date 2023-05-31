@@ -186,7 +186,6 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		return e;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void finish() {
 		if (!sorted)

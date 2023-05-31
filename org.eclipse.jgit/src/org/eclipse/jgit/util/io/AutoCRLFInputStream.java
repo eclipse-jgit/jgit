@@ -57,14 +57,12 @@ public class AutoCRLFInputStream extends InputStream {
 		this.detectBinary = detectBinary;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		final int read = read(single, 0, 1);
 		return read == 1 ? single[0] & 0xff : -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] bs, int off, int len) throws IOException {
 		if (len == 0)
@@ -103,7 +101,6 @@ public class AutoCRLFInputStream extends InputStream {
 		return n;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		in.close();

@@ -166,7 +166,6 @@ public class NoteMap implements Iterable<Note> {
 		this.reader = reader;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<Note> iterator() {
 		try {

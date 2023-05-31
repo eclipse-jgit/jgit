@@ -130,6 +130,7 @@ public final class LsRefsV2Request {
 
 		/**
 		 * @param value
+		 *            ref prefix values
 		 * @return the Builder
 		 */
 		public Builder setRefPrefixes(List<String> value) {
@@ -139,6 +140,7 @@ public final class LsRefsV2Request {
 
 		/**
 		 * @param value
+		 *            of symrefs
 		 * @return the Builder
 		 */
 		public Builder setSymrefs(boolean value) {
@@ -148,6 +150,7 @@ public final class LsRefsV2Request {
 
 		/**
 		 * @param value
+		 *            of peel
 		 * @return the Builder
 		 */
 		public Builder setPeel(boolean value) {
@@ -203,7 +206,11 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
-		/** @return LsRefsV2Request */
+		/**
+		 * Builds the request
+		 *
+		 * @return LsRefsV2Request the request
+		 */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
 					Collections.unmodifiableList(refPrefixes), symrefs, peel,

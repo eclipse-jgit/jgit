@@ -548,7 +548,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * <p>
 	 * Retrieve the git attributes for the current entry.
 	 *
-	 * <h3>Git attribute computation</h3>
+	 * <h4>Git attribute computation</h4>
 	 *
 	 * <ul>
 	 * <li>Get the attributes matching the current path entry from the info file
@@ -563,11 +563,10 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * <li>In the end, completes the list of matching attributes using the
 	 * global attribute file define in the configuration (see
 	 * {@link AttributesNodeProvider#getGlobalAttributesNode()})</li>
-	 *
 	 * </ul>
 	 *
 	 *
-	 * <h3>Iterator constraints</h3>
+	 * <h4>Iterator constraints</h4>
 	 *
 	 * <p>
 	 * In order to have a correct list of attributes for the current entry, this
@@ -960,6 +959,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * iterators to manage only one list of items, with the diving handled by
 	 * recursive trees.
 	 *
+	 * @param <T>
+	 *            Type of returned {@code AbstractTreeIterator}
 	 * @param nth
 	 *            tree to obtain the current iterator of.
 	 * @param clazz
@@ -1488,6 +1489,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            {{@link #getSmudgeCommand(int)} instead.
 	 * @return a filter command
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public String getFilterCommand(String filterCommandType)
@@ -1521,6 +1523,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            of the tree the item to be smudged is in
 	 * @return a filter command
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	public String getSmudgeCommand(int index)
@@ -1536,6 +1539,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 *            to use
 	 * @return a filter command
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	public String getSmudgeCommand(Attributes attributes) throws IOException {

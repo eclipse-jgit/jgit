@@ -32,19 +32,16 @@ class RefDirectoryUpdate extends RefUpdate {
 		database = r;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected RefDirectory getRefDatabase() {
 		return database;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Repository getRepository() {
 		return database.getRepository();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean tryLock(boolean deref) throws IOException {
 		shouldDeref = deref;
@@ -61,7 +58,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void unlock() {
 		if (lock != null) {
@@ -70,7 +66,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Result doUpdate(Result status) throws IOException {
 		WriteConfig wc = database.getRepository().getConfig()
@@ -112,7 +107,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Result doDelete(Result status) throws IOException {
 		if (getRef().getStorage() != Ref.Storage.NEW)
@@ -120,7 +114,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		return status;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Result doLink(String target) throws IOException {
 		WriteConfig wc = database.getRepository().getConfig()

@@ -716,7 +716,6 @@ public class BatchRefUpdate {
 				: isForceRefLog();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();

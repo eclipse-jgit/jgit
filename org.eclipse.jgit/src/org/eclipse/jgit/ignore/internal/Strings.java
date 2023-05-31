@@ -232,10 +232,12 @@ public class Strings {
 			.compile("\\[\\[[.=]\\w+[.=]\\]\\]"); //$NON-NLS-1$
 
 	/**
-	 * Conversion from glob to Java regex following two sources: <li>
-	 * http://man7.org/linux/man-pages/man7/glob.7.html <li>
-	 * org.eclipse.jgit.fnmatch.FileNameMatcher.java Seems that there are
+	 * Conversion from glob to Java regex following two sources:
+	 * <ul>
+	 * <li>http://man7.org/linux/man-pages/man7/glob.7.html
+	 * <li>org.eclipse.jgit.fnmatch.FileNameMatcher.java Seems that there are
 	 * various ways to define what "glob" can be.
+	 * </ul>
 	 *
 	 * @param pattern
 	 *            non null pattern

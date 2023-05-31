@@ -247,7 +247,6 @@ public class RefDirectory extends RefDatabase {
 		return new SnapshottingRefDirectory(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		FileUtils.mkdir(refsDir);
@@ -256,7 +255,6 @@ public class RefDirectory extends RefDatabase {
 		newLogWriter(false).create();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		clearReferences();
@@ -267,14 +265,12 @@ public class RefDirectory extends RefDatabase {
 		packedRefs.set(NO_PACKED_REFS);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void refresh() {
 		super.refresh();
 		clearReferences();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isNameConflicting(String name) throws IOException {
 		// Cannot be nested within an existing reference.
@@ -312,7 +308,6 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref exactRef(String name) throws IOException {
 		try {
@@ -322,7 +317,6 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Map<String, Ref> exactRef(String... refs) throws IOException {
@@ -341,7 +335,6 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public Ref firstExactRef(String... refs) throws IOException {
@@ -359,7 +352,6 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
 		final RefList<LooseRef> oldLoose = looseRefs.get();
@@ -399,7 +391,6 @@ public class RefDirectory extends RefDatabase {
 		return new RefMap(prefix, packed, upcast(loose), symbolic.toRefList());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
 		List<Ref> ret = new LinkedList<>();
@@ -534,7 +525,6 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref peel(Ref ref) throws IOException {
 		final Ref leaf = ref.getLeaf();
@@ -585,7 +575,6 @@ public class RefDirectory extends RefDatabase {
 		fireRefsChanged();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
@@ -609,7 +598,6 @@ public class RefDirectory extends RefDatabase {
 		return new RefDirectoryUpdate(this, ref);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDirectoryRename newRename(String fromName, String toName)
 			throws IOException {
@@ -622,7 +610,6 @@ public class RefDirectory extends RefDatabase {
 		return new RefDirectoryRename(from, to);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PackedBatchRefUpdate newBatchUpdate() {
 		return new PackedBatchRefUpdate(this);
@@ -643,7 +630,6 @@ public class RefDirectory extends RefDatabase {
 		return new PackedBatchRefUpdate(this, shouldLockLooseRefs);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean performsAtomicTransactions() {
 		return true;
@@ -724,6 +710,7 @@ public class RefDirectory extends RefDatabase {
 	 * @param refs
 	 *            the refs to be added. Must be fully qualified.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void pack(List<String> refs) throws IOException {
 		pack(refs, Collections.emptyMap());

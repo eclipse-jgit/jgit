@@ -90,10 +90,16 @@ public final class MergeAlgorithm {
 	/**
 	 * Does the three way merge between a common base and two sequences.
 	 *
-	 * @param cmp comparison method for this execution.
-	 * @param base the common base sequence
-	 * @param ours the first sequence to be merged
-	 * @param theirs the second sequence to be merged
+	 * @param <S>
+	 *            type of the sequences
+	 * @param cmp
+	 *            comparison method for this execution.
+	 * @param base
+	 *            the common base sequence
+	 * @param ours
+	 *            the first sequence to be merged
+	 * @param theirs
+	 *            the second sequence to be merged
 	 * @return the resulting content
 	 */
 	public <S extends Sequence> MergeResult<S> merge(

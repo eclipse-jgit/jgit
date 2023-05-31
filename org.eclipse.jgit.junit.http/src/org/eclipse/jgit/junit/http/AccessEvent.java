@@ -146,7 +146,6 @@ public class AccessEvent {
 		return responseHeaders != null ? responseHeaders.get(name) : null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();

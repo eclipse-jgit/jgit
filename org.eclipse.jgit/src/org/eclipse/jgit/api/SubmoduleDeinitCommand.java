@@ -61,6 +61,7 @@ public class SubmoduleDeinitCommand
 	 * Constructor of SubmoduleDeinitCommand
 	 *
 	 * @param repo
+	 *            repository this command works on
 	 */
 	public SubmoduleDeinitCommand(Repository repo) {
 		super(repo);
@@ -69,7 +70,6 @@ public class SubmoduleDeinitCommand
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
 	 *
 	 * @return the set of repositories successfully deinitialized.
 	 * @throws NoSuchSubmoduleException
@@ -241,6 +241,7 @@ public class SubmoduleDeinitCommand
 	 * else it will refuse to do so.
 	 *
 	 * @param force
+	 *            execute the command forcefully if there are local modifications
 	 * @return {@code this}
 	 */
 	public SubmoduleDeinitCommand setForce(boolean force) {

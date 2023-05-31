@@ -399,7 +399,6 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		return headName;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

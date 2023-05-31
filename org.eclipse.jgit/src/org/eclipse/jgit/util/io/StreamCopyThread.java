@@ -67,7 +67,6 @@ public class StreamCopyThread extends Thread {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void run() {
 		try {

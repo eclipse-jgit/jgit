@@ -104,7 +104,6 @@ class Blame extends TextBuiltin {
 	/** Used to get a current time stamp for lines without commit. */
 	private final PersonIdent dummyDate = new PersonIdent("", ""); //$NON-NLS-1$ //$NON-NLS-2$
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		if (file == null) {

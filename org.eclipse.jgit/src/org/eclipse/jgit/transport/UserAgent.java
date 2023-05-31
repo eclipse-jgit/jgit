@@ -96,8 +96,8 @@ public class UserAgent {
 	 * @param options
 	 * @param transportAgent
 	 * @return The transport agent.
-	 * @deprecated Capabilities with <key>=<value> shape are now parsed
-	 *             alongside other capabilities in the ReceivePack flow.
+	 * @deprecated Capabilities with &lt;key&gt;=&lt;value&gt; shape are now
+	 *             parsed alongside other capabilities in the ReceivePack flow.
 	 */
 	@Deprecated
 	static String getAgent(Set<String> options, String transportAgent) {
@@ -118,8 +118,8 @@ public class UserAgent {
 	 *
 	 * @param options
 	 * @return True if the transport agent is set. False otherwise.
-	 * @deprecated Capabilities with <key>=<value> shape are now parsed
-	 *             alongside other capabilities in the ReceivePack flow.
+	 * @deprecated Capabilities with &lt;key&gt;=&lt;value&gt; shape are now
+	 *             parsed alongside other capabilities in the ReceivePack flow.
 	 */
 	@Deprecated
 	static boolean hasAgent(Set<String> options) {

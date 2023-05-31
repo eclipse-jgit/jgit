@@ -87,13 +87,11 @@ public class WorkingTreeModifiedEvent
 		return result;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Class<WorkingTreeModifiedListener> getListenerType() {
 		return WorkingTreeModifiedListener.class;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void dispatch(WorkingTreeModifiedListener listener) {
 		listener.onWorkingTreeModified(this);

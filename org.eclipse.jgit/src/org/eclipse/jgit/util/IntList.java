@@ -204,7 +204,6 @@ public class IntList {
 		entries = n;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
@@ -232,8 +231,8 @@ public class IntList {
 		 *            the first int to compare
 		 * @param second
 		 *            the second int to compare
-		 * @return a negative number if first < second, 0 if first == second, or
-		 *         a positive number if first > second
+		 * @return a negative number if first &lt; second, 0 if first == second, or
+		 *         a positive number if first &gt; second
 		 */
 		int compare(int first, int second);
 	}

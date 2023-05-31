@@ -80,7 +80,6 @@ public class CommitGraphPane extends JTable {
 		return allCommits;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setModel(TableModel dataModel) {
 		if (dataModel != null && !(dataModel instanceof CommitTableModel))
@@ -88,7 +87,6 @@ public class CommitGraphPane extends JTable {
 		super.setModel(dataModel);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected TableModel createDefaultDataModel() {
 		return new CommitTableModel();

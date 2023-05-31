@@ -64,6 +64,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  */
 abstract class BasePackConnection extends BaseConnection {
 
+	/** The capability prefix for a symlink */
 	protected static final String CAPABILITY_SYMREF_PREFIX = "symref="; //$NON-NLS-1$
 
 	/** The repository this transport fetches into, or pushes out of. */
@@ -486,7 +487,6 @@ abstract class BasePackConnection extends BaseConnection {
 	 * <p>
 	 * If refMap already contains an entry for symRef.key, it is replaced.
 	 * </p>
-	 * </p>
 	 * <p>
 	 * For example, given:
 	 * </p>
@@ -627,7 +627,6 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getPeerUserAgent() {
 		String agent = remoteCapabilities.get(OPTION_AGENT);
@@ -642,7 +641,6 @@ abstract class BasePackConnection extends BaseConnection {
 		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().invalidRefAdvertisementLine, line));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (out != null) {

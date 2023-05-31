@@ -103,7 +103,6 @@ class InternalFetchConnection<C> extends BasePackFetchConnection {
 		readAdvertisedRefs();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		super.close();

@@ -122,7 +122,6 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		useBitmaps = transport.isPushUseBitmaps();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
@@ -130,7 +129,6 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		push(monitor, refUpdates, null);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void push(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates, OutputStream outputStream)
@@ -139,7 +137,6 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		doPush(monitor, refUpdates, outputStream);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected TransportException noRepository(Throwable cause) {
 		// Sadly we cannot tell the "invalid URI" case from "push not allowed".

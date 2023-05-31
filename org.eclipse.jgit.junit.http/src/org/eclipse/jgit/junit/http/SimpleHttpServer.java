@@ -40,6 +40,7 @@ public class SimpleHttpServer {
 	 * Constructor for <code>SimpleHttpServer</code>.
 	 *
 	 * @param repository
+	 *            the repository
 	 */
 	public SimpleHttpServer(Repository repository) {
 		this(repository, false);
@@ -49,7 +50,9 @@ public class SimpleHttpServer {
 	 * Constructor for <code>SimpleHttpServer</code>.
 	 *
 	 * @param repository
+	 *            the repository
 	 * @param withSsl
+	 *            whether to encrypt the communication
 	 */
 	public SimpleHttpServer(Repository repository, boolean withSsl) {
 		this.db = repository;
@@ -60,6 +63,7 @@ public class SimpleHttpServer {
 	 * Start the server
 	 *
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	public void start() throws Exception {
 		ServletContextHandler sBasic = server.authBasic(smart("/sbasic"));
@@ -76,6 +80,7 @@ public class SimpleHttpServer {
 	 * Stop the server.
 	 *
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	public void stop() throws Exception {
 		server.tearDown();

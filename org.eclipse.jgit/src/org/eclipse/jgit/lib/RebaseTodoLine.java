@@ -70,6 +70,7 @@ public class RebaseTodoLine {
 
 		/**
 		 * @param token
+		 *            token to parse
 		 * @return the Action
 		 */
 		public static Action parse(String token) {
@@ -245,7 +246,6 @@ public class RebaseTodoLine {
 		return comment;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

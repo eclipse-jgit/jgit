@@ -2168,12 +2168,12 @@ public class UploadPackTest {
 	/**
 	 * <pre>
 	 * remote:
-	 *    foo <- foofoo <-- branchFoo
-	 *    bar <- barbar <-- branchBar
+	 *    foo &lt;- foofoo &lt;-- branchFoo
+	 *    bar &lt;- barbar &lt;-- branchBar
 	 *
 	 * client:
-	 *    foo <-- branchFoo
-	 *    bar <-- branchBar
+	 *    foo &lt;-- branchFoo
+	 *    bar &lt;-- branchBar
 	 *
 	 * fetch(branchFoo) should send exactly 1 have (i.e. foo) from branchFoo
 	 * </pre>

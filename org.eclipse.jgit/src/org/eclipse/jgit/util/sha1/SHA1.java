@@ -193,7 +193,6 @@ public abstract class SHA1 {
 	 * <p>
 	 * Implementations not supporting collision detection always return
 	 * {@code false}.
-	 * <p>
 	 *
 	 * @return {@code true} if a likely collision was detected.
 	 */

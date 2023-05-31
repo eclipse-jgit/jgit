@@ -181,9 +181,9 @@ public final class StringUtils {
 	 *
 	 * @param stringValue
 	 *            the string to parse.
-	 * @return the boolean interpretation of {@code value}.
+	 * @return the boolean interpretation of {@code stringValue}.
 	 * @throws java.lang.IllegalArgumentException
-	 *             if {@code value} is not recognized as one of the standard
+	 *             if {@code stringValue} is not recognized as one of the standard
 	 *             boolean names.
 	 */
 	public static boolean toBoolean(String stringValue) {
@@ -346,7 +346,7 @@ public final class StringUtils {
 	 *            allow negative numbers, too
 	 * @return the value parsed
 	 * @throws NumberFormatException
-	 *             if the {@value} is not parseable, or beyond the range of
+	 *             if the {@code value} is not parseable, or beyond the range of
 	 *             {@link Long}
 	 * @throws StringIndexOutOfBoundsException
 	 *             if the string is empty or contains only whitespace, or
@@ -420,7 +420,7 @@ public final class StringUtils {
 	 *            allow negative numbers, too
 	 * @return the value parsed
 	 * @throws NumberFormatException
-	 *             if the {@value} is not parseable or beyond the range of
+	 *             if the {@code value} is not parseable or beyond the range of
 	 *             {@link Integer}
 	 * @throws StringIndexOutOfBoundsException
 	 *             if the string is empty or contains only whitespace, or

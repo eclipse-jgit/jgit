@@ -99,7 +99,6 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 		readAdvertisedRefs();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		super.close();

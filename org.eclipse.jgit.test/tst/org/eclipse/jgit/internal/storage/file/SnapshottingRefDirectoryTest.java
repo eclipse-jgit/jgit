@@ -23,7 +23,6 @@ import static org.junit.Assert.assertEquals;
 public class SnapshottingRefDirectoryTest extends RefDirectoryTest {
 	private RefDirectory originalRefDirectory;
 
-	/** {@inheritDoc} */
 	@Before
 	@Override
 	public void setUp() throws Exception {

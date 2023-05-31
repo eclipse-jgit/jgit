@@ -19,7 +19,7 @@ import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Git configuration option <a
- * href=https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreabbrev">
+ * href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreabbrev">
  * core.abbrev</a>
  *
  * @since 6.1

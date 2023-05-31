@@ -29,13 +29,11 @@ class CommitGraphV1 implements CommitGraph {
 		this.commitData = commitData;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int findGraphPosition(AnyObjectId commit) {
 		return idx.findGraphPosition(commit);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CommitData getCommitData(int graphPos) {
 		if (graphPos < 0 || graphPos >= getCommitCnt()) {
@@ -44,13 +42,11 @@ class CommitGraphV1 implements CommitGraph {
 		return commitData.getCommitData(graphPos);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObjectId(int graphPos) {
 		return idx.getObjectId(graphPos);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getCommitCnt() {
 		return idx.getCommitCnt();

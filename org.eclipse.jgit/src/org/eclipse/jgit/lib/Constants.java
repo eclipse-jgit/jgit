@@ -337,9 +337,9 @@ public final class Constants {
 	public static final String GIT_CONFIG_NOSYSTEM_KEY = "GIT_CONFIG_NOSYSTEM";
 
 	/**
-	 * The key of the XDG_CONFIG_HOME directory defined in the XDG base
-	 * directory specification, see
-	 * {@link "https://wiki.archlinux.org/index.php/XDG_Base_Directory"}
+	 * The key of the XDG_CONFIG_HOME directory defined in the
+	 * <a href="https://wiki.archlinux.org/index.php/XDG_Base_Directory">
+	 * XDG Base Directory specification</a>.
 	 *
 	 * @since 5.5.2
 	 */

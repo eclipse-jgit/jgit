@@ -83,6 +83,8 @@ public class NLS {
 	 * injected as described in the
 	 * {@link org.eclipse.jgit.nls.TranslationBundle}.
 	 *
+	 * @param <T>
+	 *            type of the translation bundle
 	 * @param type
 	 *            required bundle type
 	 * @return an instance of the required bundle type

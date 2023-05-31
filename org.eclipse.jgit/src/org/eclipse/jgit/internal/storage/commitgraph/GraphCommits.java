@@ -56,6 +56,7 @@ public class GraphCommits implements Iterable<RevCommit> {
 	 * @return the commits' collection which are used by the commit-graph
 	 *         writer. Never null.
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	public static GraphCommits fromWalk(ProgressMonitor pm,
 			@NonNull Set<? extends ObjectId> wants, @NonNull RevWalk walk)
@@ -124,7 +125,6 @@ public class GraphCommits implements Iterable<RevCommit> {
 		return sortedCommits.size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<RevCommit> iterator() {
 		return sortedCommits.iterator();
