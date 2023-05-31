@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "585da2d6_a0b64e3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-05-31T23:16:29Z",
+      "side": 1,
+      "message": "This change can be abandoned. The 3.4.1 upgrade was done by I14d9ff06d2f509d782eb63adfa6b5733649f11f1 and further upgraded to 3.5.0 by 42d78f788c18423a1b01cbdcffcf58781ff8137e",
+      "revId": "6e9971f4498b2eb152eef6a092a0529e570a2ff9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
