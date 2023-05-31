@@ -25,11 +25,11 @@ import org.eclipse.jgit.errors.DirCacheNameConflictException;
  * services to applications.
  */
 abstract class BaseDirCacheEditor {
-	/** The cache instance this editor updates during {@link #finish()}. */
+	/** The cache instance this editor updates during {@link BaseDirCacheEditor#finish()}. */
 	protected DirCache cache;
 
 	/**
-	 * Entry table this builder will eventually replace into {@link #cache}.
+	 * Entry table this builder will eventually replace into {@link BaseDirCacheEditor#cache}.
 	 * <p>
 	 * Use {@link #fastAdd(DirCacheEntry)} or {@link #fastKeep(int, int)} to
 	 * make additions to this table. The table is automatically expanded if it

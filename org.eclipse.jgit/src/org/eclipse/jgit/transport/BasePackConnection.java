@@ -72,7 +72,7 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Remote repository location. */
 	protected final URIish uri;
 
-	/** A transport connected to {@link #uri}. */
+	/** A transport connected to {@link BasePackConnection#uri}. */
 	protected final Transport transport;
 
 	/** Low-level input stream, if a timeout was configured. */
@@ -81,7 +81,7 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Low-level output stream, if a timeout was configured. */
 	protected TimeoutOutputStream timeoutOut;
 
-	/** Timer to manage {@link #timeoutIn} and {@link #timeoutOut}. */
+	/** Timer to manage {@link BasePackConnection#timeoutIn} and {@link #timeoutOut}. */
 	private InterruptTimer myTimer;
 
 	/** Input stream reading from the remote. */
@@ -90,10 +90,10 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Output stream sending to the remote. */
 	protected OutputStream out;
 
-	/** Packet line decoder around {@link #in}. */
+	/** Packet line decoder around {@link BasePackConnection#in}. */
 	protected PacketLineIn pckIn;
 
-	/** Packet line encoder around {@link #out}. */
+	/** Packet line encoder around {@link BasePackConnection#out}. */
 	protected PacketLineOut pckOut;
 
 	/** Send {@link PacketLineOut#end()} before closing {@link #out}? */
@@ -627,7 +627,6 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getPeerUserAgent() {
 		String agent = remoteCapabilities.get(OPTION_AGENT);
@@ -642,7 +641,6 @@ abstract class BasePackConnection extends BaseConnection {
 		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().invalidRefAdvertisementLine, line));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (out != null) {

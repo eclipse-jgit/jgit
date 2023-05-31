@@ -346,7 +346,7 @@ public final class StringUtils {
 	 *            allow negative numbers, too
 	 * @return the value parsed
 	 * @throws NumberFormatException
-	 *             if the {@value} is not parseable, or beyond the range of
+	 *             if the {@code value} is not parseable, or beyond the range of
 	 *             {@link Long}
 	 * @throws StringIndexOutOfBoundsException
 	 *             if the string is empty or contains only whitespace, or
@@ -420,7 +420,7 @@ public final class StringUtils {
 	 *            allow negative numbers, too
 	 * @return the value parsed
 	 * @throws NumberFormatException
-	 *             if the {@value} is not parseable or beyond the range of
+	 *             if the {@code value} is not parseable or beyond the range of
 	 *             {@link Integer}
 	 * @throws StringIndexOutOfBoundsException
 	 *             if the string is empty or contains only whitespace, or

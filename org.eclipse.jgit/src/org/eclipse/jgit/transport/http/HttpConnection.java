@@ -213,8 +213,8 @@ public interface HttpConnection {
 
 	/**
 	 * Get header field. According to
-	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
-	 * 2616</a>} header field names are case insensitive. Header fields defined
+	 * <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC 2616</a>
+	 * header field names are case insensitive. Header fields defined
 	 * as a comma separated list can have multiple header fields with the same
 	 * field name. This method only returns one of these header fields. If you
 	 * want the union of all values of all multiple header fields with the same
@@ -230,8 +230,8 @@ public interface HttpConnection {
 
 	/**
 	 * Get all values of given header field. According to
-	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
-	 * 2616</a>} header field names are case insensitive. Header fields defined
+	 * <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC 2616</a>
+	 * header field names are case insensitive. Header fields defined
 	 * as a comma separated list can have multiple header fields with the same
 	 * field name. This method does not validate if the given header field is
 	 * defined as a comma separated list.
