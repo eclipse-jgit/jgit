@@ -159,8 +159,11 @@ public interface DepthWalk {
 		 * @param c
 		 *            Commit to mark
 		 * @throws IOException
+		 *             if an IO error occurred
 		 * @throws IncorrectObjectTypeException
+		 *             if object has an unexpected type
 		 * @throws MissingObjectException
+		 *             if object is missing
 		 */
 		public void markRoot(RevCommit c) throws MissingObjectException,
 				IncorrectObjectTypeException, IOException {
@@ -289,8 +292,11 @@ public interface DepthWalk {
 		 * @param o
 		 *            Commit to mark
 		 * @throws IOException
+		 *             if an IO error occurred
 		 * @throws IncorrectObjectTypeException
+		 *             if object has an unexpected type
 		 * @throws MissingObjectException
+		 *             if object is missing
 		 */
 		public void markRoot(RevObject o) throws MissingObjectException,
 				IncorrectObjectTypeException, IOException {
@@ -313,8 +319,11 @@ public interface DepthWalk {
 		 * @param c
 		 *            Commit to mark
 		 * @throws MissingObjectException
+		 *             if object is missing
 		 * @throws IncorrectObjectTypeException
+		 *             if object has an unexpected type
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		public void markUnshallow(RevObject c) throws MissingObjectException,
 				IncorrectObjectTypeException, IOException {

@@ -43,14 +43,12 @@ public class RefSpecHandler extends OptionHandler<RefSpec> {
 		super(parser, option, setter);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		setter.addValue(new RefSpec(params.getParameter(0)));
 		return 1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_refspec;

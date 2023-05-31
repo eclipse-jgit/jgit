@@ -123,7 +123,6 @@ class PackDirectory {
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "PackDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -350,7 +349,7 @@ class PackDirectory {
 	/**
 	 * @param n
 	 *            count of consecutive failures
-	 * @return @{code true} if i is a power of 2
+	 * @return {@code true} if i is a power of 2
 	 */
 	private boolean doLogExponentialBackoff(int n) {
 		return (n & (n - 1)) == 0;

@@ -147,7 +147,6 @@ public abstract class BlockSource implements AutoCloseable {
 		// Do nothing by default.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract void close();
 }

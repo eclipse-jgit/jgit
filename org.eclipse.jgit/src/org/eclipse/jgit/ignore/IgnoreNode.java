@@ -190,7 +190,6 @@ public class IgnoreNode {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return rules.toString();

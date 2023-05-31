@@ -43,6 +43,7 @@ public class MergeFormatter {
 	 *            the name of the character set used when writing conflict
 	 *            metadata
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @deprecated Use
 	 *             {@link #formatMerge(OutputStream, MergeResult, List, Charset)}
 	 *             instead.
@@ -73,6 +74,7 @@ public class MergeFormatter {
 	 * @param charset
 	 *            the character set used when writing conflict metadata
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.2
 	 */
 	public void formatMerge(OutputStream out, MergeResult<RawText> res,
@@ -102,6 +104,7 @@ public class MergeFormatter {
 	 *            the name of the character set used when writing conflict
 	 *            metadata
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @deprecated use
 	 *             {@link #formatMerge(OutputStream, MergeResult, String, String, String, Charset)}
 	 *             instead.
@@ -134,6 +137,7 @@ public class MergeFormatter {
 	 * @param charset
 	 *            the character set used when writing conflict metadata
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.2
 	 */
 	@SuppressWarnings("unchecked")

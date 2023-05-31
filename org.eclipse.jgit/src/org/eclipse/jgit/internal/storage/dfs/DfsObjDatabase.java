@@ -241,13 +241,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		this.packComparator = packComparator;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public DfsReader newReader() {
 		return new DfsReader(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectInserter newInserter() {
 		return new DfsInserter(this);
@@ -657,7 +655,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		packList.set(NO_PACKS);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		packList.set(NO_PACKS);

@@ -97,13 +97,11 @@ public class MetaFilter implements Filter {
 		return register(new RegexPipeline.Binder(pattern));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		servletContext = filterConfig.getServletContext();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		if (pipelines != null) {
@@ -140,7 +138,6 @@ public class MetaFilter implements Filter {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {

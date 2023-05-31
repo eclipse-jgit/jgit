@@ -404,7 +404,6 @@ public class FileSnapshot {
 				&& Objects.equals(fileKey, other.fileKey);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -420,7 +419,6 @@ public class FileSnapshot {
 		return equals(other);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return Objects.hash(lastModified, Long.valueOf(size), fileKey);
@@ -474,7 +472,6 @@ public class FileSnapshot {
 		return racyThreshold;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings({ "nls", "ReferenceEquality" })
 	@Override
 	public String toString() {

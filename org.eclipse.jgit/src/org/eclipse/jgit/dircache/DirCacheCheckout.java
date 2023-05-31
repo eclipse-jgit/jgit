@@ -100,7 +100,9 @@ public class DirCacheCheckout {
 
 		/**
 		 * @param eolStreamType
+		 *            how to convert EOL characters during stream conversion
 		 * @param smudgeFilterCommand
+		 *            command used as smudge filter during checkout
 		 */
 		public CheckoutMetadata(EolStreamType eolStreamType,
 				String smudgeFilterCommand) {
@@ -206,6 +208,7 @@ public class DirCacheCheckout {
 	 * @param workingTree
 	 *            an iterator over the repositories Working Tree
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public DirCacheCheckout(Repository repo, ObjectId headCommitTree, DirCache dc,
 			ObjectId mergeCommitTree, WorkingTreeIterator workingTree)
@@ -233,6 +236,7 @@ public class DirCacheCheckout {
 	 * @param mergeCommitTree
 	 *            the id of the tree we want to fast-forward to
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public DirCacheCheckout(Repository repo, ObjectId headCommitTree,
 			DirCache dc, ObjectId mergeCommitTree) throws IOException {
@@ -252,6 +256,7 @@ public class DirCacheCheckout {
 	 * @param workingTree
 	 *            an iterator over the repositories Working Tree
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public DirCacheCheckout(Repository repo, DirCache dc,
 			ObjectId mergeCommitTree, WorkingTreeIterator workingTree)
@@ -271,6 +276,7 @@ public class DirCacheCheckout {
 	 * @param mergeCommitTree
 	 *            the id of the tree of the
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public DirCacheCheckout(Repository repo, DirCache dc,
 			ObjectId mergeCommitTree) throws IOException {
@@ -294,7 +300,9 @@ public class DirCacheCheckout {
 	 * operations.
 	 *
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             if a corrupt object was found
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void preScanTwoTrees() throws CorruptObjectException, IOException {
 		removed.clear();
@@ -324,9 +332,13 @@ public class DirCacheCheckout {
 	 * there is no head yet.
 	 *
 	 * @throws org.eclipse.jgit.errors.MissingObjectException
+	 *             if an object was found missing
 	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
+	 *             if an object didn't have the expected type
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             if an object is corrupt
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void prescanOneTree()
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -372,6 +384,7 @@ public class DirCacheCheckout {
 	 * @param f
 	 *            the working tree
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void processEntry(CanonicalTreeParser m, DirCacheBuildIterator i,
 			WorkingTreeIterator f) throws IOException {
@@ -465,6 +478,7 @@ public class DirCacheCheckout {
 	 *         successful and the working tree was updated for all other files.
 	 *         <code>true</code> is returned when no such problem occurred
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public boolean checkout() throws IOException {
 		try {
@@ -684,9 +698,13 @@ public class DirCacheCheckout {
 	 * Compares whether two pairs of ObjectId and FileMode are equal.
 	 *
 	 * @param id1
+	 *            id of first object
 	 * @param mode1
+	 *            mode of first object
 	 * @param id2
+	 *            id of second object
 	 * @param mode2
+	 *            mode of second object
 	 * @return <code>true</code> if FileModes and ObjectIds are equal.
 	 *         <code>false</code> otherwise
 	 */
@@ -712,6 +730,7 @@ public class DirCacheCheckout {
 	 * @param f
 	 *            the file in the working tree
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 
 	void processEntry(CanonicalTreeParser h, CanonicalTreeParser m,
@@ -1295,6 +1314,7 @@ public class DirCacheCheckout {
 	 * {@link #failOnConflict} is false
 	 *
 	 * @throws CheckoutConflictException
+	 *             if a conflict occurred during merge checkout
 	 */
 	private void cleanUpConflicts() throws CheckoutConflictException {
 		// TODO: couldn't we delete unsaved worktree content here?
@@ -1308,13 +1328,16 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * Checks whether the subtree starting at a given path differs between Index and
-	 * workingtree.
+	 * Checks whether the subtree starting at a given path differs between Index
+	 * and workingtree.
 	 *
 	 * @param path
+	 *            given subtree path
 	 * @return true if the subtrees differ
 	 * @throws CorruptObjectException
+	 *             if a corrupt object was found
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean isModifiedSubtree_IndexWorkingtree(String path)
 			throws CorruptObjectException, IOException {
@@ -1355,15 +1378,18 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * Checks whether the subtree starting at a given path differs between Index and
-	 * some tree.
+	 * Checks whether the subtree starting at a given path differs between Index
+	 * and some tree.
 	 *
 	 * @param path
+	 *            given path
 	 * @param tree
 	 *            the tree to compare
 	 * @return true if the subtrees differ
 	 * @throws CorruptObjectException
+	 *             if a corrupt object was found
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean isModifiedSubtree_IndexTree(String path, ObjectId tree)
 			throws CorruptObjectException, IOException {
@@ -1408,6 +1434,7 @@ public class DirCacheCheckout {
 	 * @param or
 	 *            object reader to use for checkout
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.6
 	 * @deprecated since 5.1, use
 	 *             {@link #checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, CheckoutMetadata, WorkingTreeOptions)}
@@ -1449,6 +1476,7 @@ public class DirCacheCheckout {
 	 *            <li>eolStreamType used for stream conversion</li>
 	 *            </ul>
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 * @deprecated since 6.3, use
 	 *             {@link #checkoutEntry(Repository, DirCacheEntry, ObjectReader, boolean, CheckoutMetadata, WorkingTreeOptions)}
@@ -1493,6 +1521,7 @@ public class DirCacheCheckout {
 	 *            {@link WorkingTreeOptions} that are effective; if {@code null}
 	 *            they are loaded from the repository config
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.3
 	 */
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
@@ -1599,6 +1628,7 @@ public class DirCacheCheckout {
 	 *            the output stream the filtered content is written to. The
 	 *            caller is responsible to close the stream.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 *
 	 * @since 5.7
 	 */
@@ -1654,6 +1684,7 @@ public class DirCacheCheckout {
 	 *            the output stream the filtered content is written to. The
 	 *            caller is responsible to close the stream.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 6.3
 	 */
 	public static void getContent(Repository repo, String path,

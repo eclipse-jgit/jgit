@@ -465,13 +465,38 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalJOption>-Xdoclint:-missing</additionalJOption>
+          <!-- We check javadoc when compiling with ecj (option -Pecj) and configurations
+          set in .settings/org.eclipse.jdt.core.prefs. This allows more fine grained
+          configuration and fails the build on missing javadoc for protected and
+          public but not for private classes, methods and fields. We don't want
+          to check javadoc on tests. We can reconsider to configure this on javadoc
+          when it starts supporting access specifiers so that we can set
+          -Xdoclint:all,-missing/private -->
+          <additionalJOption>-Xdoclint:none</additionalJOption>-->
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
+          <failOnWarnings>true</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
             <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
           </links>
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>a</placement>
+              <head>API Note:</head>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>a</placement>
+              <head>Implementation Requirements:</head>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>a</placement>
+              <head>Implementation Note:</head>
+            </tag>
+          </tags>
         </configuration>
         <executions>
           <execution>
@@ -589,7 +614,7 @@
           </reportSet>
         </reportSets>
         <configuration>
-          <additionalJOption>-Xdoclint:-missing</additionalJOption>
+          <failOnWarnings>true</failOnWarnings>
         </configuration>
       </plugin>
       <plugin>

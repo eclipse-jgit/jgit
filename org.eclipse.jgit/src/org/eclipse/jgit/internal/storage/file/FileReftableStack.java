@@ -264,6 +264,7 @@ public class FileReftableStack implements AutoCloseable {
 		 * @param w
 		 *            writer to use
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		void call(ReftableWriter w) throws IOException;
 	}
@@ -559,6 +560,7 @@ public class FileReftableStack implements AutoCloseable {
 	 * Calculate an approximate log2.
 	 *
 	 * @param sz
+	 *            the number to compute an approximate log2 for
 	 * @return log2
 	 */
 	static int log(long sz) {
@@ -688,6 +690,7 @@ public class FileReftableStack implements AutoCloseable {
 	 * shape.
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void autoCompact() throws IOException {
 		Optional<Segment> cand = autoCompactCandidate(tableSizes());

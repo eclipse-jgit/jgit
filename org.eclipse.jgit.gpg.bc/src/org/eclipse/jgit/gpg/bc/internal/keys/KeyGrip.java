@@ -36,8 +36,8 @@ import org.eclipse.jgit.util.sha1.SHA1;
  * Utilities to compute the <em>keygrip</em> of a key. A keygrip is a SHA1 hash
  * over the public key parameters and is used internally by the gpg-agent to
  * find the secret key belonging to a public key: the secret key is stored in a
- * file under ~/.gnupg/private-keys-v1.d/ with a name "&lt;keygrip>.key". While
- * this storage organization is an implementation detail of GPG, the way
+ * file under ~/.gnupg/private-keys-v1.d/ with a name "&lt;keygrip&gt;.key".
+ * While this storage organization is an implementation detail of GPG, the way
  * keygrips are computed is not; they are computed by libgcrypt and their
  * definition is stable.
  */

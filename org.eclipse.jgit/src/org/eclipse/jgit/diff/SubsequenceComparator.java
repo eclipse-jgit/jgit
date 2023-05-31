@@ -36,13 +36,11 @@ public final class SubsequenceComparator<S extends Sequence> extends
 		this.cmp = cmp;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Subsequence<S> a, int ai, Subsequence<S> b, int bi) {
 		return cmp.equals(a.base, ai + a.begin, b.base, bi + b.begin);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hash(Subsequence<S> seq, int ptr) {
 		return cmp.hash(seq.base, ptr + seq.begin);

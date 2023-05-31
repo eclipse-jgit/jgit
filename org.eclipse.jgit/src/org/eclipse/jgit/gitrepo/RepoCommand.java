@@ -105,6 +105,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 * @return the sha1 of the remote repository, or null if the ref does
 		 *         not exist.
 		 * @throws GitAPIException
+		 *             a JGit API exception
 		 */
 		@Nullable
 		public ObjectId sha1(String uri, String ref) throws GitAPIException;
@@ -120,7 +121,10 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		 *            The relative path (inside the repo) to the file to read
 		 * @return the file content.
 		 * @throws GitAPIException
+		 *             If the ref have an invalid or ambiguous name, or it does
+		 *             not exist in the repository,
 		 * @throws IOException
+		 *             If the object does not exist or is too large
 		 * @since 3.5
 		 *
 		 * @deprecated Use {@link #readFileWithMode(String, String, String)}
@@ -528,7 +532,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RevCommit call() throws GitAPIException {
 		checkCallable();

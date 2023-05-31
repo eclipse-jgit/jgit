@@ -42,13 +42,11 @@ class AmazonS3Client extends TextBuiltin {
 	@Argument(index = 3, metaVar = "metaVar_KEY", required = true)
 	private String key;
 
-	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final AmazonS3 s3 = new AmazonS3(properties());

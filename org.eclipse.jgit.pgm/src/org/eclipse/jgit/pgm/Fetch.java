@@ -113,7 +113,6 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	@Argument(index = 1, metaVar = "metaVar_refspec")
 	private List<RefSpec> toget;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {
@@ -167,7 +166,6 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void fetchingSubmodule(String name) {
 		try {

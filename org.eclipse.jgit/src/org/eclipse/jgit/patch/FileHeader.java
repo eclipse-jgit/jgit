@@ -187,6 +187,13 @@ public class FileHeader extends DiffEntry {
 		return getScriptText(new Charset[] { oldCharset, newCharset });
 	}
 
+	/**
+	 * Convert the patch script for this file into a string.
+	 *
+	 * @param charsetGuess
+	 *            hint which charset is used
+	 * @return the patch script, as a Unicode string.
+	 */
 	String getScriptText(Charset[] charsetGuess) {
 		if (getHunks().isEmpty()) {
 			// If we have no hunks then we can safely assume the entire

@@ -847,6 +847,7 @@ public final class DfsBlockCache {
 		/**
 		 * @return ReadableChannel
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		ReadableChannel get() throws IOException;
 	}

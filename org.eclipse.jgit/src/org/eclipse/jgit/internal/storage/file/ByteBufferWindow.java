@@ -32,7 +32,6 @@ final class ByteBufferWindow extends ByteWindow {
 		buffer = b;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected int copy(int p, byte[] b, int o, int n) {
 		final ByteBuffer s = buffer.slice();
@@ -57,7 +56,6 @@ final class ByteBufferWindow extends ByteWindow {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected int setInput(int pos, Inflater inf)
 			throws DataFormatException {

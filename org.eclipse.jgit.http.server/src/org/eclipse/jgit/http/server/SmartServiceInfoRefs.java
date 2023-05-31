@@ -47,19 +47,16 @@ abstract class SmartServiceInfoRefs implements Filter {
 		this.filters = filters.toArray(new Filter[0]);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// Do nothing.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		// Do nothing.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -122,8 +119,12 @@ abstract class SmartServiceInfoRefs implements Filter {
 	 * @param db
 	 *            repository
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws ServiceNotEnabledException
+	 *             if a service is not available
 	 * @throws ServiceNotAuthorizedException
+	 *             if service requires authentication and the current user
+	 *             didn't provide credentials
 	 */
 	protected abstract void begin(HttpServletRequest req, Repository db)
 			throws IOException, ServiceNotEnabledException,
@@ -135,35 +136,43 @@ abstract class SmartServiceInfoRefs implements Filter {
 	 * @param req
 	 *            request
 	 * @param pck
+	 *            used to frame lines in PacketLineOut format
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws ServiceNotEnabledException
+	 *             if a service is not available
 	 * @throws ServiceNotAuthorizedException
+	 *             if service requires authentication and the current user
+	 *             didn't provide credentials
 	 */
 	protected abstract void advertise(HttpServletRequest req,
 			PacketLineOutRefAdvertiser pck) throws IOException,
 			ServiceNotEnabledException, ServiceNotAuthorizedException;
 
 	/**
-	 * Writes the appropriate response to an info/refs request received by
-	 * a smart service. In protocol v0, this starts with "#
-	 * service=serviceName" followed by a flush packet, but this is not
-	 * necessarily the case in other protocol versions.
+	 * Writes the appropriate response to an info/refs request received by a
+	 * smart service. In protocol v0, this starts with "# service=serviceName"
+	 * followed by a flush packet, but this is not necessarily the case in other
+	 * protocol versions.
 	 * <p>
-	 * The default implementation writes "# service=serviceName" and a
-	 * flush packet, then calls {@link #advertise}. Subclasses should
-	 * override this method if they support protocol versions other than
-	 * protocol v0.
+	 * The default implementation writes "# service=serviceName" and a flush
+	 * packet, then calls {@link #advertise}. Subclasses should override this
+	 * method if they support protocol versions other than protocol v0.
 	 *
 	 * @param req
 	 *            request
 	 * @param pckOut
 	 *            destination of response
 	 * @param serviceName
-	 *            service name to be written out in protocol v0; may or may
-	 *            not be used in other versions
+	 *            service name to be written out in protocol v0; may or may not
+	 *            be used in other versions
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws ServiceNotEnabledException
+	 *             if a service is not available
 	 * @throws ServiceNotAuthorizedException
+	 *             if service requires authentication and the current user
+	 *             didn't provide credentials
 	 */
 	protected void respond(HttpServletRequest req,
 			PacketLineOut pckOut, String serviceName)

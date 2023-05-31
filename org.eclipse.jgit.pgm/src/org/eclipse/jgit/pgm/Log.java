@@ -182,14 +182,12 @@ class Log extends RevWalkTextBuiltin {
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		config = new GpgConfig(db.getConfig());
@@ -244,7 +242,6 @@ class Log extends RevWalkTextBuiltin {
 				NoteMap.read(argWalk.getObjectReader(), notesCommit));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void show(RevCommit c) throws Exception {
 		outw.print(CLIText.get().commitLabel);
@@ -314,10 +311,14 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	/**
+	 * Show notes for given commit
+	 *
 	 * @param c
+	 *            given commit
 	 * @return <code>true</code> if at least one note was printed,
 	 *         <code>false</code> otherwise
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean showNotes(RevCommit c) throws IOException {
 		if (noteMaps == null)
@@ -344,12 +345,17 @@ class Log extends RevWalkTextBuiltin {
 
 	/**
 	 * @param c
+	 *            given commit
 	 * @param map
+	 *            note map
 	 * @param label
+	 *            label
 	 * @param emptyLine
+	 *            whether to start with an empty line
 	 * @return <code>true</code> if note was printed, <code>false</code>
 	 *         otherwise
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean showNotes(RevCommit c, NoteMap map, String label,
 			boolean emptyLine)

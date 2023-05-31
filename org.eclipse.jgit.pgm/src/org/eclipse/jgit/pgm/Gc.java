@@ -27,7 +27,6 @@ class Gc extends TextBuiltin {
 	@Option(name = "--prune-preserved", usage = "usage_PrunePreserved")
 	private Boolean prunePreserved;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		Git git = Git.wrap(db);

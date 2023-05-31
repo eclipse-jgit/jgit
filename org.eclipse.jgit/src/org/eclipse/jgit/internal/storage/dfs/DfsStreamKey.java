@@ -56,17 +56,14 @@ public abstract class DfsStreamKey {
 		this.packExtPos = ext == null ? 0 : ext.getPosition();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return hash;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract boolean equals(Object o);
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("boxing")
 	@Override
 	public String toString() {

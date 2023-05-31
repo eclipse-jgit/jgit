@@ -81,7 +81,6 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 		this.repository = repository;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void execute(RevWalk rw, ProgressMonitor pm, List<String> options) {
 		List<ReceiveCommand> pending = getPending();

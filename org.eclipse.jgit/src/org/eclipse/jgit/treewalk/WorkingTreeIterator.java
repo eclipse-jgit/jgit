@@ -270,7 +270,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return state.walkIgnored;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean hasId() {
 		if (contentIdFromPtr == ptr)
@@ -278,7 +277,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return (mode & FileMode.TYPE_MASK) == FileMode.TYPE_FILE;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public byte[] idBuffer() {
 		if (contentIdFromPtr == ptr)
@@ -316,7 +314,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return zeroid;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isWorkTree() {
 		return true;
@@ -549,13 +546,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return repository;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int idOffset() {
 		return contentIdOffset;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void reset() {
 		if (!first()) {
@@ -565,19 +560,16 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean first() {
 		return ptr == 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean eof() {
 		return ptr == entryCnt;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void next(int delta) throws CorruptObjectException {
 		ptr += delta;
@@ -586,7 +578,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void back(int delta) throws CorruptObjectException {
 		ptr -= delta;
@@ -620,6 +611,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *
 	 * @return size of the content, in bytes
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public long getEntryContentLength() throws IOException {
 		if (canonLen == -1) {
@@ -772,6 +764,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return the {@link org.eclipse.jgit.attributes.AttributesNode} for the
 	 *         current entry.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public AttributesNode getEntryAttributesNode() throws IOException {
 		if (attributesNode instanceof PerDirectoryAttributesNode)
@@ -964,6 +957,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *            access to repository objects if necessary. Should not be null.
 	 * @return true if content is most likely different.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.3
 	 */
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
@@ -1070,6 +1064,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return <code>true</code> if the content doesn't match,
 	 *         <code>false</code> if it matches
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean contentCheck(DirCacheEntry entry, ObjectReader reader)
 			throws IOException {
@@ -1450,6 +1445,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return the clean filter command for the current entry or
 	 *         <code>null</code> if no such command is defined
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public String getCleanFilterCommand() throws IOException {
@@ -1472,6 +1468,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *         {@link org.eclipse.jgit.treewalk.TreeWalk} is not based on a
 	 *         {@link org.eclipse.jgit.lib.Repository} then null is returned.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.3
 	 */
 	public EolStreamType getEolStreamType() throws IOException {
@@ -1486,6 +1483,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *         {@link TreeWalk} is not based on a {@link Repository} then null
 	 *         is returned.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private EolStreamType getEolStreamType(OperationType opType)
 			throws IOException {

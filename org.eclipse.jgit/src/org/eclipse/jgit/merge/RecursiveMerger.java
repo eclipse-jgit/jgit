@@ -123,6 +123,7 @@ public class RecursiveMerger extends ResolveMerger {
 	 *         synthetic merge base this commit is visible only the merger's
 	 *         RevWalk and will not be in the repository.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws IncorrectObjectTypeException
 	 *             one of the input objects is not a commit.
 	 * @throws NoMergeBaseException
@@ -213,6 +214,7 @@ public class RecursiveMerger extends ResolveMerger {
 	 *            the list of parent commits
 	 * @return a new commit visible only within this merger's RevWalk.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private RevCommit createCommitForTree(ObjectId tree, List<RevCommit> parents)
 			throws IOException {

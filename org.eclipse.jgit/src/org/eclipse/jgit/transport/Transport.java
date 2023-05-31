@@ -533,10 +533,13 @@ public abstract class Transport implements AutoCloseable {
 	 * Note that the resulting transport instance can not be used for fetching
 	 * or pushing, but only for reading remote refs.
 	 *
-	 * @param uri a {@link org.eclipse.jgit.transport.URIish} object.
+	 * @param uri
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @return new Transport instance
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             case that is not supported by JGit
 	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             if transport failed
 	 */
 	public static Transport open(URIish uri) throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {

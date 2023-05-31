@@ -136,7 +136,6 @@ class ReceivePackServlet extends HttpServlet {
 		this.handler = handler;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doPost(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {

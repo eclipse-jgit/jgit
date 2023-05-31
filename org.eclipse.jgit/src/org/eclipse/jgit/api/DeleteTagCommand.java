@@ -48,7 +48,6 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<String> call() throws GitAPIException {
 		checkCallable();

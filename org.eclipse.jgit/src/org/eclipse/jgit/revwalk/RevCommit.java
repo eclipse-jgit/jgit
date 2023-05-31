@@ -222,7 +222,6 @@ public class RevCommit extends RevObject {
 		flags |= PARSED;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final int getType() {
 		return Constants.OBJ_COMMIT;
@@ -713,7 +712,6 @@ public class RevCommit extends RevObject {
 		buffer = null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder s = new StringBuilder();

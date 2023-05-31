@@ -334,7 +334,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
@@ -342,7 +341,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		fetch(monitor, want, have, null);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,
@@ -351,25 +349,21 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		doFetch(monitor, want, have, outputStream);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean didFetchIncludeTags() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean didFetchTestConnectivity() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setPackLockMessage(String message) {
 		lockMessage = message;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Collection<PackLock> getPackLocks() {
 		if (packLock != null)
@@ -659,7 +653,6 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return gotReady;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (walk != null)

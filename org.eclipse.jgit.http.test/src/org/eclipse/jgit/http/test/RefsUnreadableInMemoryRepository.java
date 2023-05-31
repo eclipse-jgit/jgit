@@ -36,7 +36,6 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 		failing = false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refs;
@@ -54,7 +53,6 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 
 	private class RefsUnreadableRefDatabase extends MemRefDatabase {
 
-		/** {@inheritDoc} */
 		@Override
 		public Ref exactRef(String name) throws IOException {
 			if (failing) {
@@ -63,7 +61,6 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 			return super.exactRef(name);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public Map<String, Ref> getRefs(String prefix) throws IOException {
 			if (failing) {
@@ -73,7 +70,6 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 			return super.getRefs(prefix);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public List<Ref> getRefsByPrefix(String prefix) throws IOException {
 			if (failing) {
@@ -83,7 +79,6 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 			return super.getRefsByPrefix(prefix);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 				throws IOException {
@@ -94,7 +89,6 @@ class RefsUnreadableInMemoryRepository extends InMemoryRepository {
 			return super.getRefsByPrefixWithExclusions(include, excludes);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
 			if (failing) {

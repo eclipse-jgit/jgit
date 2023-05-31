@@ -247,7 +247,9 @@ public class IdentityPasswordProvider implements KeyPasswordProvider {
 	 *            the attempt result - {@code null} for success
 	 * @return how to proceed in case of error
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws GeneralSecurityException
+	 *             something went wrong
 	 */
 	protected boolean keyLoaded(URIish uri,
 			State state, char[] password, Exception err)

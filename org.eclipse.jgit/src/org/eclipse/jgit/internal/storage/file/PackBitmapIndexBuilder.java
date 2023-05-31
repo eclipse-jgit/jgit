@@ -214,7 +214,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		getBitmaps().add(result);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
@@ -231,7 +230,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		throw new IllegalArgumentException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		PositionEntry entry = positionEntries.get(objectId);
@@ -240,7 +238,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return entry.offsetPosition;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		ObjectId objectId = byOffset.get(position);
@@ -294,7 +291,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return PackBitmapIndexV1.OPT_FULL;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
@@ -311,7 +307,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		bitmapsToWrite = new ArrayList<>(size);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return byOffset.size();

@@ -94,6 +94,7 @@ public class CheckoutConflictException extends GitAPIException {
 	 * Adds a new conflicting path
 	 *
 	 * @param conflictingPath
+	 *            the new conflicting path
 	 * @return {@code this}
 	 */
 	CheckoutConflictException addConflictingPath(String conflictingPath) {

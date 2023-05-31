@@ -177,6 +177,7 @@ public abstract class RefWriter {
 	 * @param content
 	 *            byte content of file to be written.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected abstract void writeFile(String file, byte[] content)
 			throws IOException;

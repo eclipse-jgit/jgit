@@ -51,7 +51,9 @@ final class ProtocolV0Parser {
 	 *            incoming lines. This method will read until an END line.
 	 * @return a FetchV0Request with the data received in the wire.
 	 * @throws PackProtocolException
+	 *             if a protocol occurred
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	FetchV0Request recvWants(PacketLineIn pckIn)
 			throws PackProtocolException, IOException {

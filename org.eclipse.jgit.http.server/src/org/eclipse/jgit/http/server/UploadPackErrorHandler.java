@@ -58,6 +58,7 @@ public interface UploadPackErrorHandler {
 		}
 		return SC_INTERNAL_SERVER_ERROR;
 	}
+
 	/**
 	 * @param req
 	 *            The HTTP request
@@ -66,6 +67,7 @@ public interface UploadPackErrorHandler {
 	 * @param r
 	 *            A continuation that handles a git-upload-pack request.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void upload(HttpServletRequest req, HttpServletResponse rsp,
 			UploadPackRunnable r) throws IOException;
@@ -76,7 +78,9 @@ public interface UploadPackErrorHandler {
 		 * See {@link UploadPack#uploadWithExceptionPropagation}.
 		 *
 		 * @throws ServiceMayNotContinueException
+		 *             transport service cannot continue
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		void upload() throws ServiceMayNotContinueException, IOException;
 	}

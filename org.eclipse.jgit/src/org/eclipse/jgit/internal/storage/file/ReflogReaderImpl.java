@@ -32,7 +32,9 @@ class ReflogReaderImpl implements ReflogReader {
 
 	/**
 	 * @param db
+	 *            repository to read reflogs from
 	 * @param refname
+	 *            {@code Ref} name
 	 */
 	ReflogReaderImpl(Repository db, String refname) {
 		logName = new File(db.getDirectory(), Constants.LOGS + '/' + refname);
@@ -41,7 +43,6 @@ class ReflogReaderImpl implements ReflogReader {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getLastEntry()
 	 */
-	/** {@inheritDoc} */
 	@Override
 	public ReflogEntry getLastEntry() throws IOException {
 		return getReverseEntry(0);
@@ -50,7 +51,6 @@ class ReflogReaderImpl implements ReflogReader {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntries()
 	 */
-	/** {@inheritDoc} */
 	@Override
 	public List<ReflogEntry> getReverseEntries() throws IOException {
 		return getReverseEntries(Integer.MAX_VALUE);
@@ -59,7 +59,6 @@ class ReflogReaderImpl implements ReflogReader {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntry(int)
 	 */
-	/** {@inheritDoc} */
 	@Override
 	public ReflogEntry getReverseEntry(int number) throws IOException {
 		if (number < 0)
@@ -89,7 +88,6 @@ class ReflogReaderImpl implements ReflogReader {
 	/* (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntries(int)
 	 */
-	/** {@inheritDoc} */
 	@Override
 	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
 		final byte[] log;

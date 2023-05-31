@@ -100,19 +100,16 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return baseCache;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return db.newReader();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setAvoidUnreachableObjects(boolean avoid) {
 		avoidUnreachable = avoid;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public BitmapIndex getBitmapIndex() throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
@@ -123,7 +120,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Optional<CommitGraph> getCommitGraph() throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
@@ -135,7 +131,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return Optional.empty();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 		BitmapBuilder needBitmap) throws IOException {
@@ -148,7 +143,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return Collections.emptyList();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Collection<ObjectId> resolve(AbbreviatedObjectId id)
 			throws IOException {
@@ -177,7 +171,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
 		if (last != null
@@ -207,7 +200,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -262,7 +254,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Set<ObjectId> getShallowCommits() {
 		return Collections.emptySet();
@@ -370,7 +361,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return avoidUnreachable && pack.isGarbage();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public <T extends ObjectId> AsyncObjectLoaderQueue<T> open(
 			Iterable<T> objectIds, final boolean reportMissing) {
@@ -430,7 +420,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public <T extends ObjectId> AsyncObjectSizeQueue<T> getObjectSize(
 			Iterable<T> objectIds, final boolean reportMissing) {
@@ -492,7 +481,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -538,7 +526,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public DfsObjectToPack newObjectToPack(AnyObjectId objectId, int type) {
 		return new DfsObjectToPack(objectId, type);
@@ -642,7 +629,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return tmp;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
@@ -651,7 +637,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		src.pack.copyAsIs(out, src, validate, this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
 			throws IOException {
@@ -659,7 +644,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			out.writeObject(otp);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void copyPackAsIs(PackOutputStream out, CachedPack pack)
 			throws IOException {

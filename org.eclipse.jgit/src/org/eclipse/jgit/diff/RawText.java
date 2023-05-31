@@ -114,7 +114,6 @@ public class RawText extends Sequence {
 	}
 
 	/** @return total number of items in the sequence. */
-	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		// The line map is always 2 entries larger than the number of lines in

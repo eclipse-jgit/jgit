@@ -232,16 +232,19 @@ public class Strings {
 			.compile("\\[\\[[.=]\\w+[.=]\\]\\]"); //$NON-NLS-1$
 
 	/**
-	 * Conversion from glob to Java regex following two sources: <li>
-	 * http://man7.org/linux/man-pages/man7/glob.7.html <li>
-	 * org.eclipse.jgit.fnmatch.FileNameMatcher.java Seems that there are
+	 * Conversion from glob to Java regex following two sources:
+	 * <ul>
+	 * <li>http://man7.org/linux/man-pages/man7/glob.7.html
+	 * <li>org.eclipse.jgit.fnmatch.FileNameMatcher.java Seems that there are
 	 * various ways to define what "glob" can be.
+	 * </ul>
 	 *
 	 * @param pattern
 	 *            non null pattern
 	 *
 	 * @return Java regex pattern corresponding to given glob pattern
 	 * @throws InvalidPatternException
+	 *             if pattern is invalid
 	 */
 	static Pattern convertGlob(String pattern) throws InvalidPatternException {
 		if (UNSUPPORTED.matcher(pattern).find())
@@ -419,6 +422,7 @@ public class Strings {
 
 	/**
 	 * @param buffer
+	 *            buffer
 	 * @return zero of the buffer is empty, otherwise the last character from
 	 *         buffer
 	 */
@@ -427,10 +431,13 @@ public class Strings {
 	}
 
 	/**
+	 * Lookahead next character after given index in pattern
+	 *
 	 * @param pattern
+	 *            the pattern
 	 * @param i
 	 *            current pointer in the pattern
-	 * @return zero of the index is out of range, otherwise the next character
+	 * @return zero if the index is out of range, otherwise the next character
 	 *         from given position
 	 */
 	private static char lookAhead(String pattern, int i) {

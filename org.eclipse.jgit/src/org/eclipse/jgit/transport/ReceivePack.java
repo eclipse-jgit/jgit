@@ -460,6 +460,7 @@ public class ReceivePack {
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs,
 			Set<ObjectId> additionalHaves) throws IOException {
@@ -1024,6 +1025,7 @@ public class ReceivePack {
 	 * Set an error handler for {@link ReceiveCommand}.
 	 *
 	 * @param receiveCommandErrorHandler
+	 *            the error handler
 	 * @since 5.7
 	 */
 	public void setReceiveCommandErrorHandler(
@@ -1212,6 +1214,7 @@ public class ReceivePack {
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
 		if (refs == null)
@@ -1348,7 +1351,8 @@ public class ReceivePack {
 	/**
 	 * Receive a list of commands from the input.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void recvCommands() throws IOException {
 		PacketLineIn pck = maxCommandBytes > 0
@@ -1936,7 +1940,8 @@ public class ReceivePack {
 	/**
 	 * Close and flush (if necessary) the underlying streams.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void close() throws IOException {
 		if (sideBand) {
@@ -2174,6 +2179,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void receive(final InputStream input, final OutputStream output,
 			final OutputStream messages) throws IOException {
@@ -2217,6 +2223,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.7
 	 */
 	public void receiveWithExceptionPropagation(InputStream input,

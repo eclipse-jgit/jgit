@@ -114,7 +114,6 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	@Option(name = "--max-count", aliases = "-n", metaVar = "metaVar_n")
 	private int maxCount = -1;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		walk = createWalk();
@@ -228,7 +227,8 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	 *
 	 * @param c
 	 *            The current {@link org.eclipse.jgit.revwalk.RevCommit}
-	 * @throws java.lang.Exception
+	 * @throws Exception
+	 *             if an error occurred
 	 */
 	protected abstract void show(RevCommit c) throws Exception;
 
@@ -243,7 +243,8 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	 *            {@link #walkLoop()}
 	 * @param currentObject
 	 *            The current {@link org.eclipse.jgit.revwalk.RevObject}
-	 * @throws java.lang.Exception
+	 * @throws Exception
+	 *             if an error occurred
 	 */
 	protected void show(final ObjectWalk objectWalk,
 			final RevObject currentObject) throws Exception {

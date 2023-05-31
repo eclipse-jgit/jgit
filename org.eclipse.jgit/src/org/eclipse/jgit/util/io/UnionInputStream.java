@@ -91,7 +91,6 @@ public class UnionInputStream extends InputStream {
 		return streams.isEmpty();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		for (;;) {
@@ -106,7 +105,6 @@ public class UnionInputStream extends InputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (len == 0)
@@ -123,13 +121,11 @@ public class UnionInputStream extends InputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int available() throws IOException {
 		return head().available();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long skip(long count) throws IOException {
 		long skipped = 0;
@@ -163,7 +159,6 @@ public class UnionInputStream extends InputStream {
 		return skipped;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		IOException err = null;

@@ -54,8 +54,11 @@ public class ListTagCommand extends GitCommand<List<Ref>> {
 	 *            the specified commit
 	 * @return this command
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws IncorrectObjectTypeException
+	 *             if commit has an incorrect object type
 	 * @throws MissingObjectException
+	 *             if the commit is missing
 	 *
 	 * @since 6.6
 	 */
@@ -67,7 +70,6 @@ public class ListTagCommand extends GitCommand<List<Ref>> {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> call() throws GitAPIException {
 		checkCallable();
