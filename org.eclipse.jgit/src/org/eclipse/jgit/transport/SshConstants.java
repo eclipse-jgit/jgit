@@ -146,8 +146,8 @@ public final class SshConstants {
 	 * Comma-separated list of jump hosts, defining a jump host chain <em>in
 	 * reverse order</em>. Each jump host is a SSH URI or "[user@]host[:port]".
 	 * <p>
-	 * Reverse order means: to connect A->B->target, one can do in
-	 * {@code ~/.ssh/config} either of:
+	 * Reverse order means: to connect {@literal A -> B -> target}, one can do
+	 * in {@code ~/.ssh/config} either of:
 	 * </p>
 	 *
 	 * <pre>

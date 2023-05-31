@@ -40,7 +40,6 @@ public class CombinedFileHeader extends FileHeader {
 		super(b, offset);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<? extends CombinedHunkHeader> getHunks() {
@@ -48,9 +47,6 @@ public class CombinedFileHeader extends FileHeader {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * <p>
-	 *
 	 * @return number of ancestor revisions mentioned in this diff.
 	 */
 	@Override
@@ -101,7 +97,6 @@ public class CombinedFileHeader extends FileHeader {
 		return oldIds[nthParent];
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getScriptText(Charset ocs, Charset ncs) {
 		final Charset[] cs = new Charset[getParentCount() + 1];
@@ -110,11 +105,6 @@ public class CombinedFileHeader extends FileHeader {
 		return getScriptText(cs);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * Convert the patch script for this file into a string.
-	 */
 	@Override
 	public String getScriptText(Charset[] charsetGuess) {
 		return super.getScriptText(charsetGuess);
@@ -156,7 +146,6 @@ public class CombinedFileHeader extends FileHeader {
 		return ptr;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void parseIndexLine(int ptr, int eol) {
 		// "index $asha1,$bsha1..$csha1"
@@ -178,7 +167,6 @@ public class CombinedFileHeader extends FileHeader {
 		oldModes = new FileMode[oldIds.length];
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void parseNewFileMode(int ptr, int eol) {
 		for (int i = 0; i < oldModes.length; i++)

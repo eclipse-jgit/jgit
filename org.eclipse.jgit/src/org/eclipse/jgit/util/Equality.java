@@ -13,7 +13,7 @@ package org.eclipse.jgit.util;
 /**
  * Equality utilities.
  *
- * @since: 6.2
+ * @since 6.2
  */
 public class Equality {
 
