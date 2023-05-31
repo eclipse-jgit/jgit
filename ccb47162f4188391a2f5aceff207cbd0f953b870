@@ -39,6 +39,30 @@
       },
       "revId": "ccb47162f4188391a2f5aceff207cbd0f953b870",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ee14049_7b61085f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcReverseIndexTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-05-31T08:06:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "527756c7_6ba3caf5",
+      "range": {
+        "startLine": 97,
+        "startChar": 21,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "ccb47162f4188391a2f5aceff207cbd0f953b870",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
