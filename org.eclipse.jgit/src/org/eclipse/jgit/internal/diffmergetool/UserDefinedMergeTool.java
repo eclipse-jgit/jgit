@@ -59,7 +59,7 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 	/**
 	 * @param withBase
 	 *            not used, because user-defined merge tool can only define one
-	 *            cmd -> it must handle with and without base present (empty)
+	 *            cmd -&gt; it must handle with and without base present (empty)
 	 * @return the tool command
 	 */
 	@Override

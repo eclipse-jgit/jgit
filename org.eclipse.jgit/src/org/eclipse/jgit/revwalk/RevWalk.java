@@ -1197,6 +1197,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Asynchronous object parsing.
 	 *
+	 * @param <T>
+	 *            Type of returned {@code ObjectId}
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.

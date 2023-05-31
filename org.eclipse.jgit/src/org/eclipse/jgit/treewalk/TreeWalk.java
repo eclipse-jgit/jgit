@@ -960,6 +960,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	 * iterators to manage only one list of items, with the diving handled by
 	 * recursive trees.
 	 *
+	 * @param <T>
+	 *            Type of returned {@code AbstractTreeIterator}
 	 * @param nth
 	 *            tree to obtain the current iterator of.
 	 * @param clazz

@@ -72,7 +72,6 @@ public abstract class ObjectBuilder {
 	 * <li>create {@link GpgSignature} from payload</li>
 	 * <li>set {@link GpgSignature}</li>
 	 * </ol>
-	 * </p>
 	 *
 	 * @param gpgSignature
 	 *            the signature to set or {@code null} to unset

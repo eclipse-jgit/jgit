@@ -256,8 +256,9 @@ public class PackConfig {
 	public static final int DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX = -1;
 
 	/**
-	 * Default max time to spend during the search for reuse phase. This
-	 * optimization is disabled by default: {@value}
+	 * Default max time to spend during the search for reuse phase.
+	 *
+	 * This optimization is disabled by default: {@link Integer#MAX_VALUE} seconds.
 	 *
 	 * @see #setSearchForReuseTimeout(Duration)
 	 * @since 5.13
@@ -1185,7 +1186,7 @@ public class PackConfig {
 	/**
 	 * Get the max time to spend during the search for reuse phase.
 	 *
-	 * Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
+	 * Default setting: {@link #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
 	 *
 	 * @return the maximum time to spend during the search for reuse phase.
 	 * @since 5.13
@@ -1197,7 +1198,7 @@ public class PackConfig {
 	/**
 	 * Set the age in days that marks a branch as "inactive".
 	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
+	 * Default setting: {@link #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
 	 *
 	 * @param ageInDays
 	 *            the age in days that marks a branch as "inactive"
@@ -1234,7 +1235,7 @@ public class PackConfig {
 	 * @param timeout
 	 *            max time allowed during the search for reuse phase
 	 *
-	 *            Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
+	 *            Default setting: {@link #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
 	 * @since 5.13
 	 */
 	public void setSearchForReuseTimeout(Duration timeout) {

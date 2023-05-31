@@ -465,9 +465,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalJOption>-Xdoclint:-missing</additionalJOption>
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
+          <failOnWarnings>true</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
             <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
@@ -589,7 +589,7 @@
           </reportSet>
         </reportSets>
         <configuration>
-          <additionalJOption>-Xdoclint:-missing</additionalJOption>
+          <failOnWarnings>true</failOnWarnings>
         </configuration>
       </plugin>
       <plugin>

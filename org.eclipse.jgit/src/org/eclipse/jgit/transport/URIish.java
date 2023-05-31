@@ -683,7 +683,8 @@ public class URIish implements Serializable {
 	/**
 	 * Get the "humanish" part of the path. Some examples of a 'humanish' part
 	 * for a full path:
-	 * <table summary="path vs humanish path" border="1">
+	 * <table border="1">
+	 * <caption>path vs. humanish path</caption>
 	 * <tr>
 	 * <th>Path</th>
 	 * <th>Humanish part</th>

@@ -347,6 +347,7 @@ public class HttpSupport {
 	 * specified.
 	 * <p>
 	 * <table>
+	 * <caption></caption>
 	 * <tr>
 	 * <td>SSLContext.getInstance()</td>
 	 * <td>OpenJDK</td>
@@ -354,16 +355,16 @@ public class HttpSupport {
 	 * </tr>
 	 * <tr>
 	 * <td>"TLS"</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)<br>
 	 * Enabled: TLSv1, TLSV1.1, TLSv1.2 (+ TLSv1.3)</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br>
 	 * Enabled: TLSv1</td>
 	 * </tr>
 	 * <tr>
 	 * <td>"TLSv1.2"</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br>
 	 * Enabled: TLSv1, TLSV1.1, TLSv1.2</td>
-	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br />
+	 * <td>Supported: TLSv1, TLSV1.1, TLSv1.2<br>
 	 * Enabled: TLSv1.2</td>
 	 * </tr>
 	 * </table>

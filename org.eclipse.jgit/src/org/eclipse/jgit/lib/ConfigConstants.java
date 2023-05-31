@@ -60,7 +60,8 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_PROMPT = "prompt";
 
 	/**
-	 * The "trustExitCode" key within "difftool" or "mergetool.<name>." section
+	 * The "trustExitCode" key within "difftool" or "mergetool.&lt;name&gt;."
+	 * section
 	 *
 	 * @since 6.1
 	 */
