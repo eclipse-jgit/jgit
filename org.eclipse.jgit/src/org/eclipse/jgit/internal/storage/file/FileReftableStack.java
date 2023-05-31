@@ -264,6 +264,7 @@ public class FileReftableStack implements AutoCloseable {
 		 * @param w
 		 *            writer to use
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		void call(ReftableWriter w) throws IOException;
 	}

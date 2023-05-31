@@ -389,7 +389,6 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public OutputStream call() throws GitAPIException {
 		checkCallable();

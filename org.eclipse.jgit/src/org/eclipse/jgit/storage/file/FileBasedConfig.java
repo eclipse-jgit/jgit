@@ -84,7 +84,6 @@ public class FileBasedConfig extends StoredConfig {
 		this.hash = ObjectId.zeroId();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean notifyUponTransientChanges() {
 		// we will notify listeners upon save()
@@ -197,7 +196,6 @@ public class FileBasedConfig extends StoredConfig {
 		fireConfigChangedEvent();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		hash = hash(new byte[0]);
@@ -208,7 +206,6 @@ public class FileBasedConfig extends StoredConfig {
 		return ObjectId.fromRaw(Constants.newMessageDigest().digest(rawText));
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

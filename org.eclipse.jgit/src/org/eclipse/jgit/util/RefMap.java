@@ -119,13 +119,11 @@ public class RefMap extends AbstractMap<String, Ref> {
 		this.resolved = (RefList<Ref>) resolved;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean containsKey(Object name) {
 		return get(name) != null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref get(Object key) {
 		String name = toRefName((String) key);
@@ -137,7 +135,6 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return ref;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref put(String keyName, Ref value) {
 		String name = toRefName(keyName);
@@ -165,7 +162,6 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return prior;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref remove(Object key) {
 		String name = toRefName((String) key);
@@ -189,13 +185,11 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return res;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isEmpty() {
 		return entrySet().isEmpty();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Set<Entry<String, Ref>> entrySet() {
 		if (entrySet == null) {
@@ -238,7 +232,6 @@ public class RefMap extends AbstractMap<String, Ref> {
 		return entrySet;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
@@ -259,6 +252,7 @@ public class RefMap extends AbstractMap<String, Ref> {
 	 * Create a {@link Collector} for {@link Ref}.
 	 *
 	 * @param mergeFunction
+	 *            merge function
 	 * @return {@link Collector} for {@link Ref}
 	 * @since 5.4
 	 */

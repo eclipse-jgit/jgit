@@ -72,6 +72,7 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Remote repository location. */
 	protected final URIish uri;
 
+	@SuppressWarnings("doclint:missing")
 	/** A transport connected to {@link #uri}. */
 	protected final Transport transport;
 
@@ -90,9 +91,11 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Output stream sending to the remote. */
 	protected OutputStream out;
 
+	@SuppressWarnings("doclint:missing")
 	/** Packet line decoder around {@link #in}. */
 	protected PacketLineIn pckIn;
 
+	@SuppressWarnings("doclint:missing")
 	/** Packet line encoder around {@link #out}. */
 	protected PacketLineOut pckOut;
 
@@ -627,7 +630,6 @@ abstract class BasePackConnection extends BaseConnection {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getPeerUserAgent() {
 		String agent = remoteCapabilities.get(OPTION_AGENT);
@@ -642,7 +644,6 @@ abstract class BasePackConnection extends BaseConnection {
 		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().invalidRefAdvertisementLine, line));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (out != null) {

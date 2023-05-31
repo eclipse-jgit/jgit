@@ -35,7 +35,6 @@ public final class ZipFormat extends BaseFormat implements
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".zip")); //$NON-NLS-1$
 
-	/** {@inheritDoc} */
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
 			throws IOException {
@@ -43,7 +42,6 @@ public final class ZipFormat extends BaseFormat implements
 				Collections.<String, Object> emptyMap());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
@@ -55,7 +53,6 @@ public final class ZipFormat extends BaseFormat implements
 		return applyFormatOptions(out, o);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void putEntry(ArchiveOutputStream out,
 			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
@@ -97,19 +94,16 @@ public final class ZipFormat extends BaseFormat implements
 		out.closeArchiveEntry();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterable<String> suffixes() {
 		return SUFFIXES;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object other) {
 		return (other instanceof ZipFormat);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return getClass().hashCode();

@@ -172,6 +172,7 @@ public class DiffTools {
 	 *            the "trust exit code" option
 	 * @return the execution result from tool
 	 * @throws ToolException
+	 *             when the tool fails
 	 */
 	public ExecutionResult compare(FileElement localFile,
 			FileElement remoteFile, ExternalDiffTool tool,
@@ -244,6 +245,7 @@ public class DiffTools {
 	 *            path to the node in repository to parse git attributes for
 	 * @return name of the difftool if set
 	 * @throws ToolException
+	 *             when the tool failed
 	 */
 	public Optional<String> getExternalToolFromAttributes(final String path)
 			throws ToolException {

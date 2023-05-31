@@ -311,6 +311,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param uri
 	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             if URI is not supported by JGit
 	 * @since 4.9
 	 */
 	protected void setURI(URIish uri) throws NotSupportedException {
@@ -328,6 +329,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 *
 	 * @param uri
 	 * @throws NotSupportedException
+	 *             if URI is not supported by JGit
 	 */
 	TransportHttp(URIish uri) throws NotSupportedException {
 		super(uri);
@@ -445,7 +447,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException,
 			NotSupportedException {
@@ -532,7 +533,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new BufferedReader(new InputStreamReader(in, UTF_8));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
@@ -567,7 +567,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return p;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (gitSession != null) {
@@ -1035,11 +1034,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	/**
 	 * Open an HTTP connection.
 	 *
-	 * @param method HTTP request method
-	 * @param u url of the HTTP connection
-	 * @param acceptEncoding accept-encoding header option
+	 * @param method
+	 *            HTTP request method
+	 * @param u
+	 *            url of the HTTP connection
+	 * @param acceptEncoding
+	 *            accept-encoding header option
 	 * @return the HTTP connection
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.6
 	 */
 	protected HttpConnection httpOpen(String method, URL u,

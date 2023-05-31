@@ -128,7 +128,6 @@ public abstract class PackIndex
 		return findOffset(id) != -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean contains(AnyObjectId id) {
 		return findOffset(id) != -1;

@@ -46,7 +46,6 @@ public class TeeInputStream extends InputStream {
 		this.dst = dst;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		byte[] b = skipBuffer();
@@ -54,7 +53,6 @@ public class TeeInputStream extends InputStream {
 		return n == 1 ? b[0] & 0xff : -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long skip(long count) throws IOException {
 		long skipped = 0;
@@ -71,7 +69,6 @@ public class TeeInputStream extends InputStream {
 		return skipped;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (len == 0)
@@ -83,7 +80,6 @@ public class TeeInputStream extends InputStream {
 		return n;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		byte[] b = skipBuffer();

@@ -256,7 +256,6 @@ public class LongObjectId extends AnyLongObjectId implements Serializable {
 		w4 = src.w4;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public LongObjectId toObjectId() {
 		return this;

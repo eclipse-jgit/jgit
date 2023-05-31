@@ -25,7 +25,6 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		this.bitmaps = bitmaps;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
 		StoredBitmap sb = bitmaps.get(objectId);

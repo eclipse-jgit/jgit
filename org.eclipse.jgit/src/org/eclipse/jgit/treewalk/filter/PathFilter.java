@@ -67,19 +67,16 @@ public class PathFilter extends TreeFilter {
 		return pathStr;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker) {
 		return matchFilter(walker) <= 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int matchFilter(TreeWalk walker) {
 		return walker.isPathMatch(pathRaw, pathRaw.length);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		for (byte b : pathRaw)
@@ -88,13 +85,11 @@ public class PathFilter extends TreeFilter {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PathFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

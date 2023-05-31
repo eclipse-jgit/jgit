@@ -51,13 +51,11 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * </pre>
  * <p>
  *
- * <p>
  * Create a new unannotated tag for the current commit:
  *
  * <pre>
  * git.tag().setName(&quot;v1.0&quot;).setAnnotated(false).call();
  * </pre>
- * <p>
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-tag.html"
  *      >Git documentation about Tag</a>

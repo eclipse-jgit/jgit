@@ -18,7 +18,6 @@ import org.eclipse.jgit.revwalk.RevTree;
 
 @Command(usage = "usage_RevList")
 class RevList extends RevWalkTextBuiltin {
-	/** {@inheritDoc} */
 	@Override
 	protected void show(RevCommit c) throws Exception {
 		if (c.has(RevFlag.UNINTERESTING))
@@ -32,7 +31,6 @@ class RevList extends RevWalkTextBuiltin {
 		outw.println();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void show(ObjectWalk ow, RevObject obj)
 			throws Exception {

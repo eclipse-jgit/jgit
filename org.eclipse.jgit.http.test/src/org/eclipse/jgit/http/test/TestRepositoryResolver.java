@@ -41,7 +41,6 @@ public final class TestRepositoryResolver
 		this.repoName = repoName;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Repository open(HttpServletRequest req, String name)
 			throws RepositoryNotFoundException, ServiceNotEnabledException {

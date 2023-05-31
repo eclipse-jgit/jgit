@@ -37,7 +37,6 @@ import org.eclipse.jgit.util.Paths;
  * have the editor compute the proper entry indexes necessary to perform an
  * efficient in-order update of the index records. This can be easier to use
  * than {@link org.eclipse.jgit.dircache.DirCacheBuilder}.
- * <p>
  *
  * @see DirCacheBuilder
  */
@@ -80,7 +79,6 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		edits.add(edit);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean commit() throws IOException {
 		if (edits.isEmpty()) {
@@ -92,7 +90,6 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		return super.commit();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void finish() {
 		if (!edits.isEmpty()) {

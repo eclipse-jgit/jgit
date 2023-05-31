@@ -466,7 +466,6 @@ public class ResolveMerger extends ThreeWayMerger {
 		/**
 		 * Detects if CRLF conversion has been configured.
 		 * <p>
-		 * </p>
 		 * See {@link EolStreamTypeUtil#detectStreamType} for more info.
 		 *
 		 * @param attributes
@@ -904,7 +903,6 @@ public class ResolveMerger extends ThreeWayMerger {
 				: strategy;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean mergeImpl() throws IOException {
 		return mergeTrees(mergeBase(), sourceTrees[0], sourceTrees[1],
@@ -1056,6 +1054,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 6.1
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
@@ -1659,7 +1658,6 @@ public class ResolveMerger extends ThreeWayMerger {
 		return FileMode.GITLINK.equals(mode);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getResultTreeId() {
 		return (resultTree == null) ? null : resultTree.toObjectId();
@@ -1819,6 +1817,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            content-merge conflicts.
 	 * @return whether the trees merged cleanly
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.5
 	 */
 	protected boolean mergeTrees(AbstractTreeIterator baseTree,
@@ -1878,6 +1877,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @return Whether the trees merged cleanly.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.5
 	 */
 	protected boolean mergeTreeWalk(TreeWalk treeWalk, boolean ignoreConflicts)

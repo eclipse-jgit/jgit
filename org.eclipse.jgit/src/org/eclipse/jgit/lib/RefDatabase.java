@@ -136,6 +136,7 @@ public abstract class RefDatabase {
 	 *         with the passed ref name; empty collection when there are no
 	 *         conflicts
 	 * @throws java.io.IOException
+	 *             if an error occurred
 	 * @since 2.3
 	 * @see #isNameConflicting(String)
 	 */

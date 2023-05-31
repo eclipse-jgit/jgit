@@ -53,13 +53,11 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * </pre>
  * <p>
  *
- * <p>
  * Get commits only for a specific file:
  *
  * <pre>
  * git.log().add(head).addPath(&quot;dir/filename.txt&quot;).call();
  * </pre>
- * <p>
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-log.html"
  *      >Git documentation about Log</a>

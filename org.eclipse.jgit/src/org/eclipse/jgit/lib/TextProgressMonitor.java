@@ -45,7 +45,6 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		this.write = true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onUpdate(String taskName, int workCurr, Duration duration) {
 		StringBuilder s = new StringBuilder();
@@ -53,7 +52,6 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		send(s);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onEndTask(String taskName, int workCurr, Duration duration) {
 		StringBuilder s = new StringBuilder();
@@ -73,7 +71,6 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		appendDuration(s, duration);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt,
 			Duration duration) {
@@ -82,7 +79,6 @@ public class TextProgressMonitor extends BatchingProgressMonitor {
 		send(s);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt,
 			Duration duration) {

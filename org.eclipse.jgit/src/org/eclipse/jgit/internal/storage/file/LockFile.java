@@ -575,7 +575,6 @@ public class LockFile {
 		written = false;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

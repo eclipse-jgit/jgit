@@ -27,7 +27,6 @@ class Rm extends TextBuiltin {
 	@Option(name = "--", handler = StopOptionHandler.class)
 	private List<String> paths = new ArrayList<>();
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {

@@ -41,25 +41,21 @@ public final class RawCharSequence implements CharSequence {
 		endPtr = end;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public char charAt(int index) {
 		return (char) (buffer[startPtr + index] & 0xff);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int length() {
 		return endPtr - startPtr;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CharSequence subSequence(int start, int end) {
 		return new RawCharSequence(buffer, startPtr + start, startPtr + end);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final int n = length();

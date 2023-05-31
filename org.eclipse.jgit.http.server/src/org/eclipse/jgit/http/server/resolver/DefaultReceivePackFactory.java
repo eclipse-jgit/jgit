@@ -47,7 +47,6 @@ public class DefaultReceivePackFactory implements
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ReceivePack create(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {

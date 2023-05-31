@@ -41,8 +41,8 @@ public class FilterCommandRegistry {
 	 *            the factory responsible for creating
 	 *            {@link org.eclipse.jgit.attributes.FilterCommand}s for the
 	 *            specified name
-	 * @return the previous factory associated with <tt>commandName</tt>, or
-	 *         <tt>null</tt> if there was no mapping for <tt>commandName</tt>
+	 * @return the previous factory associated with {@code commandName}, or
+	 *         {@code null} if there was no mapping for {@code commandName}
 	 */
 	public static FilterCommandFactory register(String filterCommandName,
 			FilterCommandFactory factory) {
@@ -55,8 +55,8 @@ public class FilterCommandRegistry {
 	 *
 	 * @param filterCommandName
 	 *            the FilterCommandFactory's filter command name
-	 * @return the previous factory associated with <tt>filterCommandName</tt>,
-	 *         or <tt>null</tt> if there was no mapping for <tt>commandName</tt>
+	 * @return the previous factory associated with {@code filterCommandName},
+	 *         or {@code null} if there was no mapping for {@code commandName}
 	 */
 	public static FilterCommandFactory unregister(String filterCommandName) {
 		return filterCommandRegistry.remove(filterCommandName);
@@ -69,7 +69,7 @@ public class FilterCommandRegistry {
 	 *
 	 * @param filterCommandName
 	 *            the name for which the registry should be checked
-	 * @return <code>true</code> if any factory was registered for the name
+	 * @return {@code true} if any factory was registered for the name
 	 */
 	public static boolean isRegistered(String filterCommandName) {
 		return filterCommandRegistry.containsKey(filterCommandName);
@@ -107,6 +107,7 @@ public class FilterCommandRegistry {
 	 * @return the command if a command could be created or <code>null</code> if
 	 *         there was no factory registered for that name
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static FilterCommand createFilterCommand(String filterCommandName,
 			Repository db, InputStream in, OutputStream out)

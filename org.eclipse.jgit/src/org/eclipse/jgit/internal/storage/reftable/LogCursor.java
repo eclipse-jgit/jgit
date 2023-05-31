@@ -51,7 +51,6 @@ public abstract class LogCursor implements AutoCloseable {
 	@Nullable
 	public abstract ReflogEntry getReflogEntry();
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract void close();
 }

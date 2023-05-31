@@ -114,7 +114,6 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	@Option(name = "--max-count", aliases = "-n", metaVar = "metaVar_n")
 	private int maxCount = -1;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		walk = createWalk();

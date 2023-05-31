@@ -17,7 +17,6 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.SystemReader;
 
 public class RefDirectoryAfterOpenConfigTest extends RefDirectoryTest {
-	/** {@inheritDoc} */
 	@Override
 	public void refDirectorySetup() throws Exception {
 		StoredConfig userConfig = SystemReader.getInstance().getUserConfig();

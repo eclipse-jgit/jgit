@@ -40,6 +40,7 @@ public class BaseFormat {
 	 *            options map
 	 * @return stream with option applied
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected ArchiveOutputStream applyFormatOptions(ArchiveOutputStream s,
 			Map<String, Object> o) throws IOException {

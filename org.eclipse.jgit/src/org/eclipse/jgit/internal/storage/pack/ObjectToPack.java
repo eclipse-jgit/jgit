@@ -156,7 +156,6 @@ public class ObjectToPack extends PackedObjectInfo {
 		return 1 < getOffset(); // markWantWrite sets 1.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final int getType() {
 		return (flags >> TYPE_SHIFT) & 0x7;
@@ -357,7 +356,6 @@ public class ObjectToPack extends PackedObjectInfo {
 		// Empty by default.
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

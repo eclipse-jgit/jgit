@@ -37,7 +37,6 @@ public class MonotonicSystemClock implements MonotonicClock {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ProposedTimestamp propose() {
 		final long u = nowMicros();

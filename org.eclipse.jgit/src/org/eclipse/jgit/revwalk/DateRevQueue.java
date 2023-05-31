@@ -56,7 +56,6 @@ public class DateRevQueue extends AbstractRevQueue {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void add(RevCommit c) {
 		sinceLastIndex++;
@@ -102,7 +101,6 @@ public class DateRevQueue extends AbstractRevQueue {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() {
 		final Entry q = head;
@@ -139,7 +137,6 @@ public class DateRevQueue extends AbstractRevQueue {
 		return head != null ? head.commit : null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		head = null;
@@ -173,7 +170,6 @@ public class DateRevQueue extends AbstractRevQueue {
 		return outputType | SORT_COMMIT_TIME_DESC;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder s = new StringBuilder();

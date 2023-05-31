@@ -94,14 +94,12 @@ public class SideBandOutputStream extends OutputStream {
 			writeBuffer();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		flushBuffer();
 		out.flush();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		while (0 < len) {
@@ -128,7 +126,6 @@ public class SideBandOutputStream extends OutputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		if (cnt == buffer.length)

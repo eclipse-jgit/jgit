@@ -49,19 +49,16 @@ public class RegexGroupFilter implements Filter {
 		this.groupIdx = groupIdx - 1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// Do nothing.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		// Do nothing.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse rsp, final FilterChain chain)

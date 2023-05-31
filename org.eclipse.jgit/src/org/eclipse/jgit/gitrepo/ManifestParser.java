@@ -75,7 +75,9 @@ public class ManifestParser extends DefaultHandler {
 		 *            The relative path to the file to read
 		 * @return the {@code InputStream} of the file.
 		 * @throws GitAPIException
+		 *             a JGit API exception
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		public InputStream readIncludeFile(String path)
 				throws GitAPIException, IOException;
@@ -134,6 +136,7 @@ public class ManifestParser extends DefaultHandler {
 	 * @param inputStream
 	 *            a {@link java.io.InputStream} object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void read(InputStream inputStream) throws IOException {
 		xmlInRead++;
@@ -151,7 +154,6 @@ public class ManifestParser extends DefaultHandler {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public void startElement(
@@ -239,7 +241,6 @@ public class ManifestParser extends DefaultHandler {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void endElement(
 			String uri,
@@ -251,7 +252,6 @@ public class ManifestParser extends DefaultHandler {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void endDocument() throws SAXException {
 		xmlInRead--;
