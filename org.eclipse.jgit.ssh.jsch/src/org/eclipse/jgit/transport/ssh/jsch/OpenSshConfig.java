@@ -353,7 +353,6 @@ public class OpenSshConfig implements ConfigRepository {
 		return host.getConfig();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "OpenSshConfig [configFile=" + configFile + ']'; //$NON-NLS-1$

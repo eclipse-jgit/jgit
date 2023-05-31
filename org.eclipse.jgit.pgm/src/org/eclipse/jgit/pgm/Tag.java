@@ -88,7 +88,6 @@ class Tag extends TextBuiltin {
 	@Argument(index = 1, metaVar = "metaVar_object")
 	private ObjectId object;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {

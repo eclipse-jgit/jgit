@@ -54,6 +54,7 @@ public class FilteredRenameDetector {
 	 *            Filter out changes that didn't affect this path.
 	 * @return The subset of changes that affect only the filtered path.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public List<DiffEntry> compute(List<DiffEntry> diffs,
 			PathFilter pathFilter) throws IOException {
@@ -73,6 +74,7 @@ public class FilteredRenameDetector {
 	 *            Filter out changes that didn't affect these paths.
 	 * @return The subset of changes that affect only the filtered paths.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @see RenameDetector#compute()
 	 */
 	public List<DiffEntry> compute(List<DiffEntry> changes,

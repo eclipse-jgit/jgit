@@ -471,6 +471,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * {@code UserKnownHostsFile} overrides this default.
 	 *
 	 * @param sshDir
+	 *            directory containing ssh configurations
 	 * @return the possibly empty list of default known host file paths.
 	 */
 	@NonNull

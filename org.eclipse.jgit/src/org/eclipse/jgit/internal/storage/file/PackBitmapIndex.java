@@ -205,6 +205,7 @@ public abstract class PackBitmapIndex {
 		/**
 		 * @return result
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		T get() throws IOException;
 	}

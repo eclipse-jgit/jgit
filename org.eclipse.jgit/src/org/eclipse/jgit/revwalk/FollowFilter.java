@@ -77,7 +77,6 @@ public class FollowFilter extends TreeFilter {
 		return path.getPath();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -85,19 +84,16 @@ public class FollowFilter extends TreeFilter {
 		return path.include(walker) && ANY_DIFF.include(walker);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return path.shouldBeRecursive() || ANY_DIFF.shouldBeRecursive();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return new FollowFilter(path.clone(), cfg);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

@@ -25,7 +25,6 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	private RevWalk walker;
 
-	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		super.clear();

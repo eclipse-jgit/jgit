@@ -72,13 +72,11 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		super(src);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FS newInstance() {
 		return new FS_Win32_Cygwin(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public File resolve(File dir, String pn) {
 		String useCygPath = System.getProperty("jgit.usecygpath"); //$NON-NLS-1$
@@ -99,7 +97,6 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		return super.resolve(dir, pn);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected File userHomeImpl() {
 		final String home = AccessController.doPrivileged(
@@ -110,7 +107,6 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		return resolve(new File("."), home); //$NON-NLS-1$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
 		List<String> argv = new ArrayList<>(4 + args.length);
@@ -129,14 +125,12 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 		return QuotedString.BOURNE.quote(cmd.replace(File.separatorChar, '/'));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String relativize(String base, String other) {
 		final String relativized = super.relativize(base, other);
 		return relativized.replace(File.separatorChar, '/');
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ProcessResult runHookIfPresent(Repository repository, String hookName,
 			String[] args, OutputStream outRedirect, OutputStream errRedirect,

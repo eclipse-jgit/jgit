@@ -34,7 +34,6 @@ public final class HashedSequence<S extends Sequence> extends Sequence {
 		this.hashes = hashes;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		return base.size();

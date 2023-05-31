@@ -54,7 +54,6 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return packIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap compressed = packIndex.getBitmap(objectId);
@@ -63,7 +62,6 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return new CompressedBitmap(compressed, this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CompressedBitmapBuilder newBitmapBuilder() {
 		return new CompressedBitmapBuilder(this);
@@ -291,7 +289,9 @@ public class BitmapIndexImpl implements BitmapIndex {
 		 * Construct compressed bitmap for given bitmap and bitmap index
 		 *
 		 * @param bitmap
+		 *            the bitmap
 		 * @param bitmapIndex
+		 *            the bitmap index
 		 */
 		public CompressedBitmap(EWAHCompressedBitmap bitmap, BitmapIndexImpl bitmapIndex) {
 			this.bitmap = bitmap;

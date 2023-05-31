@@ -409,7 +409,6 @@ public class HunkHeader {
 		offsets[fileIdx] = end < 0 ? s.length() : end + 1;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

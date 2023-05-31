@@ -1102,6 +1102,7 @@ public abstract class PackParser {
 	 * @param data
 	 *            raw content of the object.
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             if a corrupt object was found
 	 * @since 4.9
 	 */
 	protected void verifySafeObject(final AnyObjectId id, final int type,

@@ -53,6 +53,7 @@ public final class ObjectInfoRequest {
 
 		/**
 		 * @param value
+		 *            of objectIds
 		 * @return the Builder
 		 */
 		public Builder setObjectIDs(List<ObjectId> value) {
@@ -60,7 +61,11 @@ public final class ObjectInfoRequest {
 			return this;
 		}
 
-		/** @return ObjectInfoRequest */
+		/**
+		 * Build the request
+		 *
+		 * @return ObjectInfoRequest the request
+		 */
 		public ObjectInfoRequest build() {
 			return new ObjectInfoRequest(
 					Collections.unmodifiableList(objectIDs));

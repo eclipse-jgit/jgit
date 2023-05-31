@@ -97,6 +97,7 @@ public class Main {
 	 * @param argv
 	 *            arguments.
 	 * @throws java.lang.Exception
+	 *             if an error occurred
 	 */
 	public static void main(String[] argv) throws Exception {
 		// make sure built-in filters are registered
@@ -121,6 +122,7 @@ public class Main {
 	 * @param argv
 	 *            arguments.
 	 * @throws java.lang.Exception
+	 *             if an error occurred
 	 */
 	protected void run(String[] argv) throws Exception {
 		writer = createErrorWriter();

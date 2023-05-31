@@ -61,7 +61,6 @@ public class SubmoduleStatusCommand extends
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, SubmoduleStatus> call() throws GitAPIException {
 		checkCallable();

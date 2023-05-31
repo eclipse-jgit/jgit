@@ -107,6 +107,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * Setup test
 	 *
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -189,6 +190,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * Tear down the test
 	 *
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	@After
 	public void tearDown() throws Exception {
@@ -314,11 +316,11 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *            {@link #CONTENT} controlling which info is present in the
 	 *            resulting string.
 	 * @return a string encoding the index state
-	 * @throws IllegalStateException
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static String indexState(Repository repo, int includedOptions)
-			throws IllegalStateException, IOException {
+			throws IOException {
 		DirCache dc = repo.readDirCache();
 		StringBuilder sb = new StringBuilder();
 		TreeSet<Instant> timeStamps = new TreeSet<>();
@@ -452,6 +454,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *            a subdirectory
 	 * @return a unique directory for a test
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected File createTempDirectory(String name) throws IOException {
 		File directory = new File(createTempFile(), name);
@@ -467,6 +470,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *            working directory
 	 * @return a unique directory for a test repository
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected File createUniqueTestGitDir(boolean bare) throws IOException {
 		String gitdirName = createTempFile().getPath();
@@ -487,6 +491,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *
 	 * @return a unique path that does not exist.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected File createTempFile() throws IOException {
 		File p = File.createTempFile("tmp_", "", tmp);
@@ -586,6 +591,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	 *            the file
 	 * @return the content of the file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected String read(File f) throws IOException {
 		return JGitTestUtil.read(f);

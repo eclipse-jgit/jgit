@@ -303,7 +303,6 @@ public class BlameResult {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();

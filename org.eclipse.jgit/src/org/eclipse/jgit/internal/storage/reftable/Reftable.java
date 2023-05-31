@@ -138,7 +138,7 @@ public abstract class Reftable {
 	public abstract RefCursor byObjectId(AnyObjectId id) throws IOException;
 
 	/**
-	 * @return whether this reftable can do a fast SHA1 => ref lookup.
+	 * @return whether this reftable can do a fast SHA1 =&gt; ref lookup.
 	 * @throws IOException on I/O problems.
 	 */
 	public abstract boolean hasObjectMap() throws IOException;

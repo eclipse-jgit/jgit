@@ -211,6 +211,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @return the index for this pack file.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public PackIndex getIndex() throws IOException {
 		return idx();

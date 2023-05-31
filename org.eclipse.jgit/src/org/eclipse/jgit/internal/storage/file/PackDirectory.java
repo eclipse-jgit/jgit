@@ -123,7 +123,6 @@ class PackDirectory {
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "PackDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$

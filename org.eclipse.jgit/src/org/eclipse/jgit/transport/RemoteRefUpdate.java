@@ -541,7 +541,6 @@ public class RemoteRefUpdate {
 			trackingRefUpdate.setResult(localUpdate.update(walk));
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

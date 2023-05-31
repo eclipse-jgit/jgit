@@ -162,6 +162,7 @@ public class LfsConfig {
 	 *
 	 * @return the config, or <code>null</code> if the file does not exist
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	private Config loadFromHead() throws IOException {
@@ -207,6 +208,7 @@ public class LfsConfig {
 	 *            the key name
 	 * @return a String value from the config, <code>null</code> if not found
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	public String getString(final String section, final String subsection,

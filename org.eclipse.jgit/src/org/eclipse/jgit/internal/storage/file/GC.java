@@ -222,9 +222,10 @@ public class GC {
 	 * gc.log.
 	 *
 	 * @return the collection of
-	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which
-	 *         are newly created
+	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which are
+	 *         newly created
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
@@ -449,6 +450,7 @@ public class GC {
 	 * because the filesystem delete operation fails) this is silently ignored.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void prunePacked() throws IOException {
 		ObjectDirectory objdb = repo.getObjectDatabase();
@@ -507,6 +509,7 @@ public class GC {
 	 * @param objectsToKeep
 	 *            a set of objects which should explicitly not be pruned
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
@@ -758,6 +761,7 @@ public class GC {
 	 * is compacted into a single table.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void packRefs() throws IOException {
 		RefDatabase refDb = repo.getRefDatabase();
@@ -1501,6 +1505,7 @@ public class GC {
 	 *
 	 * @return information about objects and pack files for a FileRepository
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();

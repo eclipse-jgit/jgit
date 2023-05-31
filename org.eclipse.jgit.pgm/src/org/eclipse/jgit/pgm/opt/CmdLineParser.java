@@ -110,7 +110,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		this.db = repo;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void parseArgument(String... args) throws CmdLineException {
 		final ArrayList<String> tmp = new ArrayList<>(args.length);
@@ -265,7 +264,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
 		if (o instanceof NamedOptionDef) {
@@ -275,7 +273,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
 		List<OptionHandler> options = getOptions();

@@ -30,13 +30,11 @@ class UploadPack extends TextBuiltin {
 	@Argument(index = 0, required = true, metaVar = "metaVar_directory", usage = "usage_RepositoryToReadFrom")
 	File srcGitdir;
 
-	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try {

@@ -57,6 +57,7 @@ public class ExternalToolUtils {
 	 *            the base file (can be null)
 	 * @return the prepared (with replaced variables) command string
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static String prepareCommand(String command, FileElement localFile,
 			FileElement remoteFile, FileElement mergedFile,
@@ -91,6 +92,7 @@ public class ExternalToolUtils {
 	 *            the base file (can be null)
 	 * @return the environment map with variables and values (file paths)
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static Map<String, String> prepareEnvironment(File gitDir,
 			FileElement localFile, FileElement remoteFile,
@@ -209,6 +211,7 @@ public class ExternalToolUtils {
 	 *            config key name for the tool
 	 * @return attribute value for the given tool key if set
 	 * @throws ToolException
+	 *             if the tool failed
 	 */
 	public static Optional<String> getExternalToolFromAttributes(
 			final Repository repository, final String path,

@@ -24,7 +24,6 @@ import org.eclipse.jgit.pgm.internal.CLIText;
 
 @Command(usage = "usage_MakeCacheTree")
 class MakeCacheTree extends TextBuiltin {
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final DirCache cache = db.readDirCache();

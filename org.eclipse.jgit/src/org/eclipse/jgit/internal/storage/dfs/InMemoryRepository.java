@@ -78,13 +78,11 @@ public class InMemoryRepository extends DfsRepository {
 		return new MemRefDatabase();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public MemObjDatabase getObjectDatabase() {
 		return objdb;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refdb;
@@ -102,14 +100,12 @@ public class InMemoryRepository extends DfsRepository {
 		refdb.performsAtomicTransactions = atomic;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public String getGitwebDescription() {
 		return gitwebDescription;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setGitwebDescription(@Nullable String d) {
 		gitwebDescription = d;

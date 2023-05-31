@@ -80,7 +80,6 @@ public class PostUploadHookChain implements PostUploadHook {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onPostUpload(PackStatistics stats) {
 		for (PostUploadHook hook : hooks) {

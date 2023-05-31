@@ -86,13 +86,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Don't close anything.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDatabase newCachedDatabase() {
 		return this;
@@ -153,7 +151,6 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		wrapped.resolve(matches, id);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
 		return has(objectId, null);
@@ -261,7 +258,6 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		return wrapped.getPacks();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Optional<CommitGraph> getCommitGraph() {
 		return wrapped.getCommitGraph();

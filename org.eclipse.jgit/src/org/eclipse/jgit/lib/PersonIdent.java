@@ -392,7 +392,6 @@ public class PersonIdent implements Serializable {
 		return hc;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof PersonIdent) {
@@ -421,7 +420,6 @@ public class PersonIdent implements Serializable {
 		return r.toString();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

@@ -34,35 +34,30 @@ public class TeeOutputStream extends OutputStream {
 		this.stream2 = stream2;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf) throws IOException {
 		this.stream1.write(buf);
 		this.stream2.write(buf);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int off, int len) throws IOException {
 		this.stream1.write(buf, off, len);
 		this.stream2.write(buf, off, len);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		this.stream1.write(b);
 		this.stream2.write(b);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		this.stream1.flush();
 		this.stream2.flush();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		try {

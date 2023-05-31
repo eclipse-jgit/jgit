@@ -184,6 +184,7 @@ public class MergeTools {
 	 *            the selected tool
 	 * @return the execution result from tool
 	 * @throws ToolException
+	 *             if the tool failed
 	 */
 	public ExecutionResult merge(FileElement localFile, FileElement remoteFile,
 			FileElement mergedFile, FileElement baseFile, File tempDir,
@@ -254,6 +255,7 @@ public class MergeTools {
 	 * @return the created temporary directory if (mergetol.writeToTemp == true)
 	 *         or null if not configured or false.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public File createTempDirectory() throws IOException {
 		return config.isWriteToTemp()
@@ -305,6 +307,7 @@ public class MergeTools {
 	 *            path to the node in repository to parse git attributes for
 	 * @return name of the difftool if set
 	 * @throws ToolException
+	 *             if the tool failed
 	 */
 	public Optional<String> getExternalToolFromAttributes(final String path)
 			throws ToolException {

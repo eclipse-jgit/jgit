@@ -39,6 +39,7 @@ public class GlobalAttributesNode extends AttributesNode {
 	 *
 	 * @return the attributes node
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public AttributesNode load() throws IOException {
 		AttributesNode r = new AttributesNode();

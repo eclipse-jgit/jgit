@@ -61,7 +61,6 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<String> call() throws GitAPIException,
 			NotMergedException, CannotDeleteCurrentBranchException {

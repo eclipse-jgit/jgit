@@ -170,7 +170,6 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects"); //$NON-NLS-1$
@@ -179,7 +178,6 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		return r;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		final DatabaseS3 c = new DatabaseS3(bucket, keyPrefix + "/objects"); //$NON-NLS-1$
@@ -188,7 +186,6 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		return r;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// No explicit connections are maintained.

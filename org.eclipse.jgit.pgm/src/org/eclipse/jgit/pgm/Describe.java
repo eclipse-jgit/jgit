@@ -47,7 +47,6 @@ class Describe extends TextBuiltin {
 	@Option(name = "--abbrev", usage = "usage_Abbrev")
 	private Integer abbrev;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {

@@ -90,7 +90,6 @@ class LooseObjects {
 		unpackedObjectCache().clear();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "LooseObjects[" + directory + "]"; //$NON-NLS-1$ //$NON-NLS-2$

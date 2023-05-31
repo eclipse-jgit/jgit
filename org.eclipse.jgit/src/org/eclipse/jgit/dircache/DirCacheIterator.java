@@ -104,7 +104,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		parseEntry();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
@@ -114,7 +113,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		return new DirCacheIterator(this, currentSubtree);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EmptyTreeIterator createEmptyTreeIterator() {
 		final byte[] n = new byte[Math.max(pathLen + 1, DEFAULT_PATH_SIZE)];
@@ -123,7 +121,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		return new EmptyTreeIterator(this, n, pathLen + 1);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean hasId() {
 		if (currentSubtree != null)
@@ -131,7 +128,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		return currentEntry != null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public byte[] idBuffer() {
 		if (currentSubtree != null)
@@ -141,7 +137,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		return zeroid;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int idOffset() {
 		if (currentSubtree != null)
@@ -151,7 +146,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		return 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void reset() {
 		if (!first()) {
@@ -164,19 +158,16 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean first() {
 		return ptr == treeStart;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean eof() {
 		return ptr == treeEnd;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void next(int delta) {
 		while (--delta >= 0) {
@@ -190,7 +181,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void back(int delta) {
 		while (--delta >= 0) {
@@ -271,6 +261,7 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	 * @return {@link org.eclipse.jgit.attributes.AttributesNode} for the
 	 *         current entry.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.7
 	 */
 	public AttributesNode getEntryAttributesNode(ObjectReader reader)

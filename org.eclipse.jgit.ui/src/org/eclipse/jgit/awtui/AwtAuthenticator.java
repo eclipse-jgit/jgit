@@ -36,7 +36,6 @@ public class AwtAuthenticator extends CachedAuthenticator {
 		setDefault(new AwtAuthenticator());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected PasswordAuthentication promptPasswordAuthentication() {
 		final GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,

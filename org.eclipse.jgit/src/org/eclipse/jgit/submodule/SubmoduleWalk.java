@@ -87,6 +87,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return generator over submodule index entries. The caller is responsible
 	 *         for calling {@link #close()}.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static SubmoduleWalk forIndex(Repository repository)
 			throws IOException {
@@ -116,6 +117,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return generator at given path. The caller is responsible for calling
 	 *         {@link #close()}. Null if no submodule at given path.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
 			AnyObjectId treeId, String path) throws IOException {
@@ -150,6 +152,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return generator at given path. The caller is responsible for calling
 	 *         {@link #close()}. Null if no submodule at given path.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static SubmoduleWalk forPath(Repository repository,
 			AbstractTreeIterator iterator, String path) throws IOException {
@@ -193,6 +196,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            submodule path
 	 * @return repository or null if repository doesn't exist
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static Repository getSubmoduleRepository(final Repository parent,
 			final String path) throws IOException {
@@ -209,6 +213,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            submodule path
 	 * @return repository or null if repository doesn't exist
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static Repository getSubmoduleRepository(final File parent,
 			final String path) throws IOException {
@@ -220,11 +225,14 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * abstraction
 	 *
 	 * @param parent
+	 *            {@link Repository} that contains the submodule
 	 * @param path
+	 *            of the working tree of the submodule
 	 * @param fs
 	 *            the file system abstraction to be used
 	 * @return repository or null if repository doesn't exist
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 4.10
 	 */
 	public static Repository getSubmoduleRepository(final File parent,
@@ -249,7 +257,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @return the {@link Repository} of the submodule, or {@code null} if it
 	 *         doesn't exist
 	 * @throws IOException
-	 *             on errors
+	 *             if an IO error occurred
 	 * @since 5.6
 	 */
 	public static Repository getSubmoduleRepository(File parent, String path,
@@ -286,6 +294,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            absolute or relative URL of the submodule repository
 	 * @return resolved URL
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static String getSubmoduleRemoteUrl(final Repository parent,
 			final String url) throws IOException {
@@ -369,6 +378,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @param repository
 	 *            the {@link org.eclipse.jgit.lib.Repository}.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public SubmoduleWalk(Repository repository) throws IOException {
 		this.repository = repository;
@@ -419,13 +429,14 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * The root tree is not read until the first submodule is encountered by the
 	 * walk.
 	 * <p>
-	 * This method need only be called if constructing a walk manually instead of
-	 * with one of the static factory methods above.
+	 * This method need only be called if constructing a walk manually instead
+	 * of with one of the static factory methods above.
 	 *
 	 * @param id
 	 *            ID of a tree containing .gitmodules
 	 * @return this generator
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public SubmoduleWalk setRootTree(AnyObjectId id) throws IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser();
@@ -448,6 +459,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * @throws java.io.IOException
 	 *             if an error occurred, or if the repository is bare
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 */
 	public SubmoduleWalk loadModulesConfig() throws IOException, ConfigInvalidException {
 		if (rootTree == null) {
@@ -512,11 +524,13 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @param repository
 	 *            the repository to check
-	 * @return <code>true</code> if the working tree contains a .gitmodules file,
-	 *         <code>false</code> otherwise. Always returns <code>false</code>
-	 *         for bare repositories.
+	 * @return <code>true</code> if the working tree contains a .gitmodules
+	 *         file, <code>false</code> otherwise. Always returns
+	 *         <code>false</code> for bare repositories.
 	 * @throws java.io.IOException
-	 * @throws CorruptObjectException if any.
+	 *             if an IO error occurred
+	 * @throws CorruptObjectException
+	 *             if a corrupt object was found
 	 * @since 3.6
 	 */
 	public static boolean containsGitModulesFile(Repository repository)
@@ -560,6 +574,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            object.
 	 * @return this generator
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             if a corrupt object was found
 	 */
 	public SubmoduleWalk setTree(AbstractTreeIterator iterator)
 			throws CorruptObjectException {
@@ -574,10 +589,11 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *            an {@link org.eclipse.jgit.lib.AnyObjectId} object.
 	 * @return this generator
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws IncorrectObjectTypeException
-	 *             if any.
+	 *             if object has unexpected type
 	 * @throws MissingObjectException
-	 *             if any.
+	 *             if object is missing
 	 */
 	public SubmoduleWalk setTree(AnyObjectId treeId) throws IOException {
 		walk.addTree(treeId);
@@ -614,6 +630,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return true if entry found, false otherwise
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public boolean next() throws IOException {
 		while (walk.next()) {
@@ -656,9 +673,11 @@ public class SubmoduleWalk implements AutoCloseable {
 	 * name of .git/config)
 	 *
 	 * @since 4.10
-	 * @return name
+	 * @return name of the submodule
 	 * @throws ConfigInvalidException
+	 *             if the .gitmodules config is invalid
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public String getModuleName() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
@@ -680,7 +699,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return configured path
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public String getModulesPath() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
@@ -694,7 +715,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return configured URL
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public String getConfigUrl() throws IOException, ConfigInvalidException {
 		return repoConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
@@ -707,7 +730,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return configured URL
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public String getModulesUrl() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
@@ -721,7 +746,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return update value
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public String getConfigUpdate() throws IOException, ConfigInvalidException {
 		return repoConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
@@ -734,7 +761,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return update value
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public String getModulesUpdate() throws IOException, ConfigInvalidException {
 		lazyLoadModulesConfig();
@@ -748,7 +777,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return ignore value
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.6
 	 */
 	public IgnoreSubmoduleMode getModulesIgnore() throws IOException,
@@ -771,6 +802,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return repository or null if non-existent
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public Repository getRepository() throws IOException {
 		return getSubmoduleRepository(repository.getWorkTree(), path,
@@ -782,6 +814,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return object id of HEAD reference
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public ObjectId getHead() throws IOException {
 		try (Repository subRepo = getRepository()) {
@@ -797,6 +830,7 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return ref name, null on failures
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public String getHeadRef() throws IOException {
 		try (Repository subRepo = getRepository()) {
@@ -816,7 +850,9 @@ public class SubmoduleWalk implements AutoCloseable {
 	 *
 	 * @return resolved remote URL
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws org.eclipse.jgit.errors.ConfigInvalidException
+	 *             if .gitmodules config is invalid
 	 */
 	public String getRemoteUrl() throws IOException, ConfigInvalidException {
 		String url = getModulesUrl();

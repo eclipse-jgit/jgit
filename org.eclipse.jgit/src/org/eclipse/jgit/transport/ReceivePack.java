@@ -460,6 +460,7 @@ public class ReceivePack {
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs,
 			Set<ObjectId> additionalHaves) throws IOException {
@@ -1024,6 +1025,7 @@ public class ReceivePack {
 	 * Set an error handler for {@link ReceiveCommand}.
 	 *
 	 * @param receiveCommandErrorHandler
+	 *            the error handler
 	 * @since 5.7
 	 */
 	public void setReceiveCommandErrorHandler(
@@ -2174,6 +2176,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void receive(final InputStream input, final OutputStream output,
 			final OutputStream messages) throws IOException {
@@ -2217,6 +2220,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.7
 	 */
 	public void receiveWithExceptionPropagation(InputStream input,
