@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c0d348c_f398d2e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-01T11:12:32Z",
+      "side": 1,
+      "message": "There are two code changes changing constants fields to be `final` which got missed in https://git.eclipse.org/r/c/jgit/jgit/+/182832/32/org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java\n\nIn most cases I have manually verified the resulting HTML.\n\nThe few @SuppressWarnings I am convinced they are a bug in javadoc doclint, the resulting HTML has the proper links so it must be a bug in doclint.\n\nIf needed I can split it in smaller atomic changes one for each of the sections described in the commit message. Then they are most comments so I don\u0027t think it is going to cause any trouble :)",
+      "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
