@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8b5d6f8_af11119c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "Title starts with the modified component.\n\nCommitGraphWriter: add option to toggle read/write commit-graph bloom filters\n\nFirst paragraph explains the problem. Right now the reading and writing is unconditional?\n\nSecond paragraph explains the solution. e.g. Add config option revwalk.xxxx... is it the same key than upstream and behaving the same way?",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012ae883_f7813051",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "Can we set this as parameter in the constructor? then the value is final and immutable, which makes it easier to reason about it later.",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cead5f21_fce423db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "Remove. Other keys put only the value of the key.",
+      "range": {
+        "startLine": 924,
+        "startChar": 9,
+        "endLine": 924,
+        "endChar": 17
+      },
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82da68e2_3f709b3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "Can this be private?",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7707cbff_68a7de21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "Depending on what constructor you use, the revWalk will take the conf into account (or not). That is confusing.\n\nAll this telescopic constructors end up in the RevWalk(ObjectReader, boolean). Maybe there you can do reader.getRepo().getConfig()... ?",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736712cb_64feb61d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1723,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "I would expect the flag to control if revwalk invokes RevCommitCG#getChangedPathFilter... not to load or not the contents into the RevCommitCG instance.\n\nIf you want to control the loading part, then it should go into e.g. #parseHeaders when the commit gets its contents, or the commit graph itself, so from the RevCommitCG POV it looks like there is no bloomFilter.",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59277541_3215907f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-01T22:12:35Z",
+      "side": 1,
+      "message": "I commented on this in the parent change. The idea is that with the (id, graphPos) RevCommitCG is able to retrieve what it needs from the commit graph.",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
