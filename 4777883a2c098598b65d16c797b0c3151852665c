@@ -103,6 +103,30 @@
       },
       "revId": "4777883a2c098598b65d16c797b0c3151852665c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c961e1c_8edd733a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-01T11:13:07Z",
+      "side": 1,
+      "message": "The warnings comes from erroneously @see tags from the existing code base. I have proposed a change addressing all javadoc warnings and turn them to error to prevent any from being reintroduced in the future https://git.eclipse.org/r/c/jgit/jgit/+/202303 .\n\nI will eventually rebase on top of that change and if that syntax here is invalid that would fail the CI build :]",
+      "parentUuid": "6abeec9a_db4d9f81",
+      "range": {
+        "startLine": 1371,
+        "startChar": 9,
+        "endLine": 1371,
+        "endChar": 10
+      },
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
