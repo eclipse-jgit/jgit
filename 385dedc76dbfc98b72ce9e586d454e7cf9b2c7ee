@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24241e77_6db4aa4b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryResolveTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-02T15:23:08Z",
+      "side": 1,
+      "message": "I have abandoned the idea of changing isValidRefName behavior so this comment is no more relevant.",
+      "parentUuid": "54660705_79c1143b",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "407ddd32_cd57ccae",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-05-30T17:39:01Z",
       "side": 1,
       "message": "I don\u0027t know what was the intent of this change. Based on the method name it would create a `refs/heads` file then create a `refs/heads/master` which supposedly should be in a `heads` directory.\n\nIf that assumption is correct, the above does the same but one level deeper.",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "553b1089_0fc0ed9d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateStoreTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-02T15:23:08Z",
+      "side": 1,
+      "message": "I have abandoned the idea of changing isValidRefName behavior so this comment is no more relevant.",
+      "parentUuid": "407ddd32_cd57ccae",
       "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7109bc16_f6155764",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-02T15:23:08Z",
+      "side": 1,
+      "message": "I have reworked the test entirely in the next patchset.",
+      "parentUuid": "00ee22cc_f0034a19",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "275a088e_9cd75b4f",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-05-30T17:39:01Z",
       "side": 1,
       "message": "The pattern is repeated and comes from 2012 commit 094df5a916db6060fa7f7d8c1f61cc0b970a9433 . There too, it indicates Repository should have a method to validate a component.",
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0a100d8_2fe3e3b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-02T15:23:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "275a088e_9cd75b4f",
       "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -176,6 +248,30 @@
       "side": 1,
       "message": "if isValidRefName() is meant to check only full refs\n- its javadoc should explicitly state that it accepts full refs only\n- it should enforce that by returning false if the name doesn\u0027t start with \"refs/\"",
       "parentUuid": "b07382ce_10b39cb2",
+      "range": {
+        "startLine": 1426,
+        "startChar": 2,
+        "endLine": 1426,
+        "endChar": 24
+      },
+      "revId": "385dedc76dbfc98b72ce9e586d454e7cf9b2c7ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b892513_f1cdc1d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-02T15:23:08Z",
+      "side": 1,
+      "message": "When writing tests I found out my approach was wrong, cgit considers \u0027refs/master` to be a valid reference and isValidRefName() should be left as-is.\n\nInstead cgit receive-pack has a special code path to reject receiving the creation or update of a one level reference such as `refs/master`  but still accepts them being deleted.\n\nI have reworked this change by adding the logic to ReceivePack so that if ones passes `refs/master` it will be rejected unless it is a deletion request and I managed to wrote tests ;)\n\nMarking this comment resolved since it will no more be relevant in next patchset.",
+      "parentUuid": "7e6d602c_183d7c64",
       "range": {
         "startLine": 1426,
         "startChar": 2,

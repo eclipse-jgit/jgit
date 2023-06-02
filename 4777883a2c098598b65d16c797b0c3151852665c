@@ -58,6 +58,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f43d762_17324794",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-02T15:23:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c299e4b8_8ec022c3",
+      "range": {
+        "startLine": 699,
+        "startChar": 38,
+        "endLine": 699,
+        "endChar": 43
+      },
+      "revId": "4777883a2c098598b65d16c797b0c3151852665c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "837ecb67_22999b9f",
