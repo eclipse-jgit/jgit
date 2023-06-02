@@ -16,6 +16,23 @@
       "message": "Adding Josh for +1 review",
       "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2924095f_9b6e74ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-06-02T00:15:53Z",
+      "side": 1,
+      "message": "Could the reverse index remain one concrete class instead of two (ComputedPackReverseIndex and PackReverseIndexV1)?\n\nThe way I see it, the existing class has 2 main parts: one that computes from an existing pack and stores its computation into some data structures, and the other that presents the data in its data structures in a digestible way. I think that your new class will end up using the same data structures (in particular, you\u0027re not mmap-ping or a bulk array copy or anything like that - you\u0027re reading integer by integer, as far as I can tell), so it would end up duplicating the presentation of data part. If we instead added a new factory method that read from a file and stored it into the same data structures, I think this would be less code and thus more easily maintainable.",
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
