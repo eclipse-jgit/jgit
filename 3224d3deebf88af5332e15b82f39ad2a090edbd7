@@ -33,6 +33,41 @@
       "message": "Could the reverse index remain one concrete class instead of two (ComputedPackReverseIndex and PackReverseIndexV1)?\n\nThe way I see it, the existing class has 2 main parts: one that computes from an existing pack and stores its computation into some data structures, and the other that presents the data in its data structures in a digestible way. I think that your new class will end up using the same data structures (in particular, you\u0027re not mmap-ping or a bulk array copy or anything like that - you\u0027re reading integer by integer, as far as I can tell), so it would end up duplicating the presentation of data part. If we instead added a new factory method that read from a file and stored it into the same data structures, I think this would be less code and thus more easily maintainable.",
       "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a542845_502a306c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-02T08:00:40Z",
+      "side": 1,
+      "message": "Thanks for the comment, Jonathan. Please take a look at org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexV1.java in https://git.eclipse.org/r/c/jgit/jgit/+/197590. The internal data is much simpler and much easier to understand.\n\nGenerally, I believe that an abstraction layer and two simpler implementations is easier to maintain than one awkward and complicated implementation. \n\nI spent time trying to reuse parts of the ComputedReverseIndex and discussing it with Ivan; and the input data and internal state are too different for a reasonably clean reuse.\n\nIf you feel strongly about squashing the two implementations together, I\u0027d love to see your proposal for an equivalent of org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexV1.java in https://git.eclipse.org/r/c/jgit/jgit/+/197590.",
+      "parentUuid": "2924095f_9b6e74ac",
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e52db6_f9900455",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-02T08:00:40Z",
+      "side": 1,
+      "message": "Assigning Ivan for +2 review.\n\nThanks Josh for taking a look!",
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
