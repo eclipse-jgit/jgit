@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c341dd5e_31bdad37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-06T16:05:42Z",
+      "side": 1,
+      "message": "Renamed variables look good, but comments line-by-line are a no-no. If \"bucket sort\" is not clear enough, put a small diagram or explanation somewhere (even in an external file if things get too long for javadoc).\n\nThis is internal implementation of the class and shouldn\u0027t affect later changes, maybe it is better to get it out of the stack for now?",
+      "revId": "c15fe26203af8aee11b13a8ec6a6708c01b5876d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88990bb1_318f3e51",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-06T16:05:42Z",
+      "side": 1,
+      "message": "IIUC rawCnt (and cnt) are \"immutable in this calculation. Any reason to keep both names?",
+      "revId": "c15fe26203af8aee11b13a8ec6a6708c01b5876d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
