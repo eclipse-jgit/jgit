@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.pack;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -18,11 +19,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.GcTestCase;
+import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -232,6 +236,84 @@ public class GcCommitSelectionTest extends GcTestCase {
 			gc.getStatistics().numberOfBitmaps);
 	}
 
+	@Test
+	public void testShouldNotGenerateBitmapWhenInFlightPacksExistByDefault() throws Exception {
+		// Generate a PackFile
+		createNewCommitOnNewBranch("main");
+		gc.gc().get();
+
+		assertEquals(1, countBitmapIndexFiles());
+
+		deleteAllBitmapIndexFiles();
+		createKeepFile();
+		gc.gc().get();
+
+		assertEquals(0, countBitmapIndexFiles());
+	}
+
+	@Test
+	public void testShouldNotGenerateBitmapWhenInFlightPacksExistIsFalse() throws Exception {
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapGenerateWhenInFlightPacksExist(false);
+		gc.setPackConfig(packConfig);
+
+		// Generate a PackFile
+		createNewCommitOnNewBranch("master");
+		gc.gc().get();
+
+		assertEquals(1, countBitmapIndexFiles());
+
+		deleteAllBitmapIndexFiles();
+		createKeepFile();
+		gc.gc().get();
+
+		assertEquals(0, countBitmapIndexFiles());
+	}
+
+	@Test
+	public void testShouldNotGenerateBitmapWhenInFlightPacksExistIsTrue() throws Exception {
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapGenerateWhenInFlightPacksExist(true);
+		gc.setPackConfig(packConfig);
+
+		// Generate a PackFile
+		createNewCommitOnNewBranch("master");
+		gc.gc().get();
+
+		assertEquals(1, countBitmapIndexFiles());
+
+		deleteAllBitmapIndexFiles();
+		createKeepFile();
+		gc.gc().get();
+
+		assertEquals(1, countBitmapIndexFiles());
+	}
+
+	private void createKeepFile() throws IOException {
+		Iterator<Pack> packIt = repo.getObjectDatabase().getPacks()
+				.iterator();
+		Pack singlePack = packIt.next();
+		assertFalse(packIt.hasNext());
+		PackFile keepFile = singlePack.getPackFile().create(PackExt.KEEP);
+		assertFalse(keepFile.exists());
+		assertTrue(keepFile.createNewFile());
+	}
+
+	private long countBitmapIndexFiles() {
+		return repo.getObjectDatabase().getPacks().stream().filter( p -> {
+			PackFile bitmapFile = p.getPackFile().create(PackExt.BITMAP_INDEX);
+			return bitmapFile.exists();
+		}).count();
+	}
+
+	private void deleteAllBitmapIndexFiles() {
+		repo.getObjectDatabase().getPacks().iterator().forEachRemaining( p -> {
+			PackFile bitmapFile = p.getPackFile().create(PackExt.BITMAP_INDEX);
+
+			bitmapFile.delete();
+		});
+	}
+
 	private void createNewCommitOnNewBranch(String branchName) throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/" + branchName);
 		String msg = "New branch " + branchName;
@@ -265,7 +347,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		PackWriterBitmapPreparer preparer = newPreparer(
 				Collections.singleton(m9), commits, new PackConfig());
 		List<BitmapCommit> selection = new ArrayList<>(
-				preparer.selectCommits(commits.size(), PackWriter.NONE));
+				preparer.selectCommits(commits.size(), PackWriter.NONE, PackWriter.EMPTY_OBJECT_ID_SET));
 
 		// Verify that the output is ordered by the separate "chains"
 		String[] expected = { m0.name(), m1.name(), m2.name(), m4.name(),
@@ -302,7 +384,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		Set<RevCommit> wants = new HashSet<>(Arrays.asList(tips));
 		PackWriterBitmapPreparer preparer = newPreparer(wants, commits, config);
 		List<BitmapCommit> selection = new ArrayList<>(
-				preparer.selectCommits(commits.size(), PackWriter.NONE));
+				preparer.selectCommits(commits.size(), PackWriter.NONE, PackWriter.EMPTY_OBJECT_ID_SET));
 		Set<ObjectId> selected = new HashSet<>();
 		for (BitmapCommit c : selection) {
 			selected.add(c.toObjectId());

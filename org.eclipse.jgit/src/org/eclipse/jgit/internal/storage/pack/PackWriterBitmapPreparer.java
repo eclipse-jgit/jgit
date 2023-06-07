@@ -15,6 +15,7 @@ import static org.eclipse.jgit.revwalk.RevFlag.SEEN;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +37,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.BitmapWalker;
@@ -109,6 +111,8 @@ class PackWriterBitmapPreparer {
 	 *            count of commits in the pack
 	 * @param excludeFromBitmapSelection
 	 *            commits that should be excluded from bitmap selection
+	 * @param excludeObjectIdSetFromBitmapSelection
+	 *            objectIdSet that should be excluded from bitmap selection
 	 * @return commit objects for which bitmap indices should be built
 	 * @throws IncorrectObjectTypeException
 	 *             if any of the processed objects is not a commit
@@ -118,7 +122,8 @@ class PackWriterBitmapPreparer {
 	 *             if an expected object is missing
 	 */
 	Collection<BitmapCommit> selectCommits(int expectedCommitCount,
-			Set<? extends ObjectId> excludeFromBitmapSelection)
+			Set<? extends ObjectId> excludeFromBitmapSelection,
+			ObjectIdSet[] excludeObjectIdSetFromBitmapSelection)
 			throws IncorrectObjectTypeException, IOException,
 			MissingObjectException {
 		/*
@@ -135,7 +140,7 @@ class PackWriterBitmapPreparer {
 					ProgressMonitor.UNKNOWN);
 			rw.setRetainBody(false);
 			CommitSelectionHelper selectionHelper = captureOldAndNewCommits(rw,
-					expectedCommitCount, excludeFromBitmapSelection);
+					expectedCommitCount, excludeFromBitmapSelection, excludeObjectIdSetFromBitmapSelection);
 			pm.endTask();
 
 			// Add reused bitmaps from the previous GC pack's bitmap indices.
@@ -366,6 +371,7 @@ class PackWriterBitmapPreparer {
 	 *            unreachable garbage.
 	 * @param excludeFromBitmapSelection
 	 *            commits that should be excluded from bitmap selection
+	 * @param excludeObjectIdSetFromBitmapSelection
 	 * @return a {@link CommitSelectionHelper} capturing which commits are
 	 *         covered by a previous pack's bitmaps and which new commits need
 	 *         bitmap coverage
@@ -378,7 +384,8 @@ class PackWriterBitmapPreparer {
 	 */
 	private CommitSelectionHelper captureOldAndNewCommits(RevWalk rw,
 			int expectedCommitCount,
-			Set<? extends ObjectId> excludeFromBitmapSelection)
+			Set<? extends ObjectId> excludeFromBitmapSelection,
+			ObjectIdSet[] excludeObjectIdSetFromBitmapSelection)
 			throws IncorrectObjectTypeException, IOException,
 			MissingObjectException {
 		// Track bitmaps and commits from the previous GC pack bitmap indices.
@@ -408,12 +415,15 @@ class PackWriterBitmapPreparer {
 		List<RevCommit> newWantsByNewest = new ArrayList<>(want.size());
 		Set<RevCommit> newWants = new HashSet<>(want.size());
 		for (AnyObjectId objectId : want) {
-			if(excludeFromBitmapSelection.contains(objectId)) {
+      if (excludeFromBitmapSelection.contains(objectId)
+          || Arrays.stream(excludeObjectIdSetFromBitmapSelection).anyMatch(ois -> ois.contains(objectId))) {
 				continue;
 			}
 			RevObject ro = rw.peel(rw.parseAny(objectId));
-			if (!(ro instanceof RevCommit) || reuse.contains(ro)
-					|| excludeFromBitmapSelection.contains(ro)) {
+      if (!(ro instanceof RevCommit)
+          || reuse.contains(ro)
+          || excludeFromBitmapSelection.contains(ro)
+          || Arrays.stream(excludeObjectIdSetFromBitmapSelection).anyMatch(ois -> ois.contains(objectId))) {
 				continue;
 			}
 
