@@ -1,0 +1,389 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a57478_b7aa96c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "Say simply __is being written__",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1018c5d_79662601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "__implements__ ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21908b10_141dd221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "also add __because of the refs pointing to its commit objects may have not been committed yet to disk__",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff6ddc6_ef135404",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "prevents",
+      "range": {
+        "startLine": 14,
+        "startChar": 41,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1d2816c_7f62211f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": ", however,",
+      "range": {
+        "startLine": 14,
+        "startChar": 32,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7b64fb0_c6c16313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "simply say __because__",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 33
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8476325_56d89e54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "more specifically say __until all the refs pointing to the packfile are committed to disk__",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62e9eb77_b47191f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "Also indicate why it is risky to have an incomplete bitmap here: if the blobs of the newly created packfiles are not supposed to be globally accessible (e.g. associated with a private branch or change), then having them included would put them at risk of being sent over the wire based on incomplete bitmap data.\n\nIt is way better to avoid the bitmap calculation altogether rather than having a security breach.",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f6aa2f5_73415b09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "considerable?",
+      "range": {
+        "startLine": 19,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 72
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a10f5eb8_26986aee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": ", however,",
+      "range": {
+        "startLine": 19,
+        "startChar": 50,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fabe737f_2dcc350f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "Can you specify some numbers?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 66
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8452f7a7_ec1dd8e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "Can you specify some rates?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ba4adcc_8d4e6c19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "helpful",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340c7f64_c1df9c12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "Well, that could be risky isn\u0027t it? You need to also skip the packfile associated with the `.keep` file also from the whole repack process, for making sure that its objects are not included in the packfile associated with the bitmap generated.",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 71
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e18bb991_9d977b69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "What about `repack.excludeKeepFiles` instead?\n\nThe bitmap generation (or not) is a consequence of the exclusion of the packfiles with a `.keep` option file.",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3823e629_26cba1eb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "This looks a duplicate of test at L256. Why not simply test that `BitmapGenerateWhenInFlightPacksExist` is false by default?",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 43
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78f5bce6_20572667",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-07T22:50:22Z",
+      "side": 1,
+      "message": "We should also assert that the packfile associated with the `.keep` file has not be repacked.",
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
