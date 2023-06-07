@@ -17,6 +17,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_CONTIGUOUS_
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_GENERATE_WHEN_IN_FLIGHT_PACKS_EXIST;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAPS;
@@ -247,6 +248,15 @@ public class PackConfig {
 	public static final String[] DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES = new String[0];
 
 	/**
+	 * Default generate pack bitmaps without in-flight objects rather than
+	 * skipping the bitmap generation.
+	 *
+	 * @see #setBitmapGenerateWhenInFlightPacksExist(boolean)
+	 * @since 6.7
+	 */
+	public static final boolean DEFAULT_BITMAP_GENERATE_WHEN_IN_FLIGHT_PACKS_EXIST = false;
+
+	/**
 	 * Default minimum size for an object to be included in the size index:
 	 * {@value}
 	 *
@@ -318,6 +328,8 @@ public class PackConfig {
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
 
 	private String[] bitmapExcludedRefsPrefixes = DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES;
+
+	private boolean bitmapGenerateWhenInFlightPacksExist = DEFAULT_BITMAP_GENERATE_WHEN_IN_FLIGHT_PACKS_EXIST;
 
 	private Duration searchForReuseTimeout = DEFAULT_SEARCH_FOR_REUSE_TIMEOUT;
 
@@ -1229,6 +1241,30 @@ public class PackConfig {
 	}
 
 	/**
+	* Set whether generate pack bitmaps without in-flight packs rather than skipping
+	* the bitmap generation.
+	*
+	* @param generateWhenInFlightPacksExist true when to generate the bitmap anyway
+	* @since 6.7
+	*/
+	public void setBitmapGenerateWhenInFlightPacksExist(boolean generateWhenInFlightPacksExist) {
+		bitmapGenerateWhenInFlightPacksExist = generateWhenInFlightPacksExist;
+	}
+
+	/**
+	* True if, in case of inflight packfiles, the bitmap will be generated anyway, as opposed to not
+	* being generated at all.
+	*
+	* <p>Default setting: {@value #DEFAULT_BITMAP_GENERATE_WHEN_IN_FLIGHT_PACKS_EXIST}
+	*
+	* @return true if the bitmap should be generated even in case of in-flight packfiles
+	* @since 6.7
+	*/
+	public boolean isBitmapGenerateWhenInFlightPacksExist() {
+		return bitmapGenerateWhenInFlightPacksExist;
+	}
+
+	/**
 	 * Set the max time to spend during the search for reuse phase.
 	 *
 	 * @param timeout
@@ -1351,6 +1387,11 @@ public class PackConfig {
 		if(excludedRefsPrefixesArray.length > 0) {
 			setBitmapExcludedRefsPrefixes(excludedRefsPrefixesArray);
 		}
+		setBitmapGenerateWhenInFlightPacksExist(
+		rc.getBoolean(
+			CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_GENERATE_WHEN_IN_FLIGHT_PACKS_EXIST,
+			isBitmapGenerateWhenInFlightPacksExist()));
 		setSearchForReuseTimeout(Duration.ofSeconds(rc.getTimeUnit(
 				CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT,
@@ -1388,6 +1429,7 @@ public class PackConfig {
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
 		b.append(", writeReverseIndex=").append(isWriteReverseIndex()); //$NON-NLS-1$
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
+		b.append(", bitmapGenerateWhenInFlightPacksExist=").append(isBitmapGenerateWhenInFlightPacksExist()); //$NON-NLS-1$
 		b.append(", bitmapContiguousCommitCount=") //$NON-NLS-1$
 				.append(getBitmapContiguousCommitCount());
 		b.append(", bitmapRecentCommitCount=") //$NON-NLS-1$
