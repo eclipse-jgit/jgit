@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21c198a2_b33a4aae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-07T13:30:43Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/197588 hasn\u0027t been submitted, but once it is, I believe the blame layer will show my name on all lines. I feel a responsibility to leave the lines of code in a state that I could understand again and explain to another person (without the three days of head-scratching that it took last time).\n\nWhere\u0027s the documentation / guidelines that say the in-line comments are a no-no? I was trying to avoid any functional changes and the 11 in-line comments added have a benefit of being exactly above each confusing code line.\n\nHow about the patch I will upload now (#20), that separates this long sorting logic into three methods, to provide a better location for explanations (in the methods\u0027 javadocs)?",
+      "parentUuid": "c341dd5e_31bdad37",
+      "revId": "c15fe26203af8aee11b13a8ec6a6708c01b5876d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88990bb1_318f3e51",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
         "patchSetId": 19
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-06T16:05:42Z",
       "side": 1,
       "message": "IIUC rawCnt (and cnt) are \"immutable in this calculation. Any reason to keep both names?",
+      "revId": "c15fe26203af8aee11b13a8ec6a6708c01b5876d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49482a35_ccade53c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-07T13:30:43Z",
+      "side": 1,
+      "message": "They are different types (long vs int). The compiler won\u0027t let me reuse the name but redefine the type. Lmk if you see a way around this.",
+      "parentUuid": "88990bb1_318f3e51",
       "revId": "c15fe26203af8aee11b13a8ec6a6708c01b5876d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
