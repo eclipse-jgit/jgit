@@ -745,6 +745,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitspan";
 
 	/**
+	 * The "pack.bitmapGenerateWhenInFlightPacksExist" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_BITMAP_GENERATE_WHEN_IN_FLIGHT_PACKS_EXIST = "bitmapgeneratewheninflightpacksexist";
+
+	/**
 	 * The "pack.writeReverseIndex" key
 	 *
 	 * @since 6.6

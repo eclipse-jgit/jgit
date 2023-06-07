@@ -143,6 +143,9 @@ public class PackWriter implements AutoCloseable {
 	/** Empty set of objects for {@code preparePack()}. */
 	public static final Set<ObjectId> NONE = Collections.emptySet();
 
+	/** Empty array of objectIdSet. */
+	public static final ObjectIdSet[] EMPTY_OBJECT_ID_SET = new ObjectIdSet[0];
+
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<>();
 
@@ -216,6 +219,8 @@ public class PackWriter implements AutoCloseable {
 	private Set<ObjectId> tagTargets = NONE;
 
 	private Set<? extends ObjectId> excludeFromBitmapSelection = NONE;
+
+	private ObjectIdSet[] excludeObjectIdSetFromBitmapSelection = EMPTY_OBJECT_ID_SET;
 
 	private ObjectIdSet[] excludeInPacks;
 
@@ -1986,6 +1991,12 @@ public class PackWriter implements AutoCloseable {
 		final long countingStart = System.currentTimeMillis();
 		beginPhase(PackingPhase.COUNTING, countingMonitor, ProgressMonitor.UNKNOWN);
 
+		if (config.isBitmapGenerateWhenInFlightPacksExist()
+				&& excludeInPacks != null) {
+			excludeObjectIdSetFromBitmapSelection = excludeInPacks;
+			excludeInPacks = null;
+		}
+
 		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
 		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
 		excludeFromBitmapSelection = noBitmaps;
@@ -2467,8 +2478,9 @@ public class PackWriter implements AutoCloseable {
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, stats.interestingObjects, config);
 
-		Collection<BitmapCommit> selectedCommits = bitmapPreparer
-				.selectCommits(numCommits, excludeFromBitmapSelection);
+		Collection<BitmapCommit> selectedCommits = bitmapPreparer.selectCommits(
+				numCommits, excludeFromBitmapSelection,
+				excludeObjectIdSetFromBitmapSelection);
 
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
