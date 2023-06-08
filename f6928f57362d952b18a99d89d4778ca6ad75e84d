@@ -16,6 +16,23 @@
       "message": "Thanks for the cherry-pick.",
       "revId": "f6928f57362d952b18a99d89d4778ca6ad75e84d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66433b35_f57461e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-08T19:34:25Z",
+      "side": 1,
+      "message": "Ping @Matthias? I believe David is still missing +2 permissions on the project for merging this.",
+      "revId": "f6928f57362d952b18a99d89d4778ca6ad75e84d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
