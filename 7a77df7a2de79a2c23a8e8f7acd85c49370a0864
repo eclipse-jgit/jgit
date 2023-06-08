@@ -187,6 +187,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91be9dbd_969560c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T00:29:30Z",
+      "side": 1,
+      "message": "I don\u0027t understand your concern.\n\nWhat is the difference between\n\n1)\n- running gc creating bitmaps without presence of a locked pack caused by an in-flight receive-pack\n- followed by a receive-pack adding another pack which isn\u0027t included in the bitmap index created earlier\n- followed by serving an upload-pack\n\nand 2)\n- running gc creating bitmaps with a locked pack caused by an in-flight receive-pack and bitmap creation ignoring objects in the locked pack\n- followed by serving an upload-pack\n\nI think in both cases the bitmap index isn\u0027t aware of the objects in the additional pack created by the receive-pack.",
+      "parentUuid": "62e9eb77_b47191f6",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f6aa2f5_73415b09",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -325,6 +349,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14f1bd47_c3317c7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T00:29:30Z",
+      "side": 1,
+      "message": "Packs locked by a .keep file are excluded from repacking and left untouched, see the javadoc of GC#repack [1] and its implementation in [2]. Also GC#deleteOldPacks skips locked packfiles [3].\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#795\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#844\n[3] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#363",
+      "parentUuid": "340c7f64_c1df9c12",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 71
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e18bb991_9d977b69",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -336,6 +384,30 @@
       "writtenOn": "2023-06-07T22:50:22Z",
       "side": 1,
       "message": "What about `repack.excludeKeepFiles` instead?\n\nThe bitmap generation (or not) is a consequence of the exclusion of the packfiles with a `.keep` option file.",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a83b62_5fd977b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T00:29:30Z",
+      "side": 1,
+      "message": "Yeah, this name is way too long, though `repack.excludeKeepFiles` is a bad name since the GC implementation already unconditionally excludes locked packs (having a keep file) in #repack and #deleteOldPacks.\n\nHow about `repack.bitmapSkipLockedPacks` or `repack.bitmapIgnoreLockedPacks`?\n\nJGit\u0027s `pack.buildBitmaps` predates the name c git has chosen `repack.writebitmaps` since JGit implemented bitmaps first. We should teach JGit to understand the latter name as a synonym.",
+      "parentUuid": "e18bb991_9d977b69",
       "range": {
         "startLine": 27,
         "startChar": 15,
@@ -382,6 +454,23 @@
       "writtenOn": "2023-06-07T22:50:22Z",
       "side": 1,
       "message": "We should also assert that the packfile associated with the `.keep` file has not be repacked.",
+      "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b488f2e5_ad651c82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T00:29:30Z",
+      "side": 1,
+      "message": "couldn\u0027t this be slow if the locked pack is large and contains many objects ?",
       "revId": "7a77df7a2de79a2c23a8e8f7acd85c49370a0864",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
