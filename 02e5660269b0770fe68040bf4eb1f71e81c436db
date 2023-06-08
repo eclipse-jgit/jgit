@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7449484_bf44b6dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T16:01:00Z",
+      "side": 1,
+      "message": "please split this out into a separate change, the rest can stay in one change",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 38
+      },
+      "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9c0d348c_f398d2e0",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-06-01T11:12:32Z",
       "side": 1,
       "message": "There are two code changes changing constants fields to be `final` which got missed in https://git.eclipse.org/r/c/jgit/jgit/+/182832/32/org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java\n\nIn most cases I have manually verified the resulting HTML.\n\nThe few @SuppressWarnings I am convinced they are a bug in javadoc doclint, the resulting HTML has the proper links so it must be a bug in doclint.\n\nIf needed I can split it in smaller atomic changes one for each of the sections described in the commit message. Then they are most comments so I don\u0027t think it is going to cause any trouble :)",
+      "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe24ed4_8d625432",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T16:01:00Z",
+      "side": 1,
+      "message": "thanks for fixing this mess of warnings :-)\n\nI still hit some javadoc errors with this change when running mvn clean install using \nopenjdk version \"11.0.19\" 2023-04-18 LTS\nOpenJDK Runtime Environment SapMachine (build 11.0.19+7-LTS-sapmachine)\nOpenJDK 64-Bit Server VM SapMachine (build 11.0.19+7-LTS-sapmachine, mixed mode) on MacOS 13.4 aarch64, e.g.\n\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.5.0:jar (default) on project org.eclipse.jgit: MavenReportException: Error while generating Javadoc:\n[ERROR] Exit code: 1\n[ERROR] /Users/d029788/src/git/jgit/org.eclipse.jgit/src/org/eclipse/jgit/util/Equality.java:16: error: unknown tag: since:\n[ERROR]  * @since: 6.2\n\nI get the same errors with sapmachine 17.0.7",
       "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
