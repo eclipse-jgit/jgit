@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t we better do this in a common parent project for all repos moving from git.eclipse.org ?",
       "revId": "125b546d72f0ebbaabe8e046511743b80daad09d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e31306dc_175b7a0f",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-06-08T18:44:49Z",
+      "side": 1,
+      "message": "You are right. But do we have such a project already or we would need to create one? Meantime, we would like to do E2E test with eca-validation plugin.",
+      "parentUuid": "c98b76f7_0234a31f",
+      "revId": "125b546d72f0ebbaabe8e046511743b80daad09d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
