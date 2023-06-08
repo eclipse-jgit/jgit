@@ -33,6 +33,24 @@
       "message": "Ping @Matthias? I believe David is still missing +2 permissions on the project for merging this.",
       "revId": "f6928f57362d952b18a99d89d4778ca6ad75e84d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e212e5_caa1285d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T20:40:09Z",
+      "side": 1,
+      "message": "David is a JGit committer hence he should have +2 permissions, if not he should raise an issue at the eclipse helpdesk https://gitlab.eclipse.org/eclipsefdn/helpdesk",
+      "parentUuid": "66433b35_f57461e3",
+      "revId": "f6928f57362d952b18a99d89d4778ca6ad75e84d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
