@@ -68,6 +68,87 @@
       "message": "Assigning Ivan for +2 review.\n\nThanks Josh for taking a look!",
       "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee74faf1_44ff0645",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-08T16:02:03Z",
+      "side": 1,
+      "message": "IIRC the \"on-demand\" implementation receives a list of elements in sha1 order, creates the list in offset order and an \"fanout\" table over it to search. Search has two steps (fanout + inside data range)\n\nIn the file implementation we have already the sorted list of offsets and just load into memory and binary search over it.\n\nThe \"fanout\" table ties loading/searching and makes sharing code between implementations odd and convoluted (see Anna\u0027s linked change). \n\nWe could get rid of the fanout in the \"on-demand\" implementation, but that code has been working well for long time and we rather keep it as it is.\n\nWe could also add the fanout for the \"on-file\" version, then split only the \"build a list of ordered offsets\"... but the point of the fanout is that is build in the same iteration than the sorting, so it can make on-demand worse (?)",
+      "parentUuid": "3a542845_502a306c",
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecd3fc92_2946f113",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-08T16:02:03Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a5570c3_ebe7e89b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-08T16:02:03Z",
+      "side": 1,
+      "message": "It is easier to navigate these classes if they have a consistent/parallel naming, maybe something like \"PackReverseIndexComputed\" and \"PackReverseIndexFileV1\"?",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79933076_5300da10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-08T16:02:03Z",
+      "side": 1,
+      "message": "This looks and acts as an interface and the only specific part is to choose the instance. Make this an interface and create a factory?",
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
