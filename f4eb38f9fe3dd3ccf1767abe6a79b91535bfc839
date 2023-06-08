@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f0a846_e6690a87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-08T15:43:33Z",
+      "side": 1,
+      "message": "what\u0027s the point of doing this on stable-6.6 after 6.6.0 has already been released (it will be published with Eclipse simultaneous release 2023-06 on June 14) ?",
+      "revId": "f4eb38f9fe3dd3ccf1767abe6a79b91535bfc839",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
