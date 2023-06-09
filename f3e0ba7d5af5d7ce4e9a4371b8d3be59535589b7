@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f976464_0da13c79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-09T14:32:46Z",
+      "side": 1,
+      "message": "I have extracted it from https://git.eclipse.org/r/c/jgit/jgit/+/202303/\n\nI don\u0027t think the build failure is related, Core Test has the failing test:\n\n 14:21:41  [ERROR] Failures: \n 14:21:41  [ERROR]   FileSnapshotTest.detectFileModified:263 FileSnapshot: failures  to detect file modifications 2 out of 10000\n 14:21:41  timestamp resolution 6 µs min racy threshold 1665 µs\n\nWhich looks racy?\n\nI don\u0027t know how to retrigger the build, then I guess I can hit REBASE and that will do :)",
+      "revId": "f3e0ba7d5af5d7ce4e9a4371b8d3be59535589b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
