@@ -111,6 +111,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e78ac1_c0b0337e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-09T11:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd3fc92_2946f113",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a5570c3_ebe7e89b",
@@ -134,6 +158,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4457dd39_b19680dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ComputedPackReverseIndex.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-09T11:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a5570c3_ebe7e89b",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79933076_5300da10",
@@ -147,6 +195,24 @@
       "writtenOn": "2023-06-08T16:02:03Z",
       "side": 1,
       "message": "This looks and acts as an interface and the only specific part is to choose the instance. Make this an interface and create a factory?",
+      "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca9bfd7_65aae7c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-09T11:26:09Z",
+      "side": 1,
+      "message": "Changed to an interface. There\u0027s `computeFromIndex` in this patch and `openOrCompute` in a future patch which return concrete instances, let me know if that\u0027s not the kind of factory methods you\u0027re thinking of.",
+      "parentUuid": "79933076_5300da10",
       "revId": "3224d3deebf88af5332e15b82f39ad2a090edbd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
