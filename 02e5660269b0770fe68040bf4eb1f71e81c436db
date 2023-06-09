@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cb1b3657_a1bccbf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-09T12:14:05Z",
+      "side": 1,
+      "message": "Totally makes sense. I have moved the modification to an independent change:\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/202450 Mark COMMIT_GENERATION_* constants final\n\nNext patchset rebases on top of it and removes the section from the commit message.",
+      "parentUuid": "a7449484_bf44b6dd",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 38
+      },
+      "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9c0d348c_f398d2e0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -54,6 +78,24 @@
       "writtenOn": "2023-06-08T16:01:00Z",
       "side": 1,
       "message": "thanks for fixing this mess of warnings :-)\n\nI still hit some javadoc errors with this change when running mvn clean install using \nopenjdk version \"11.0.19\" 2023-04-18 LTS\nOpenJDK Runtime Environment SapMachine (build 11.0.19+7-LTS-sapmachine)\nOpenJDK 64-Bit Server VM SapMachine (build 11.0.19+7-LTS-sapmachine, mixed mode) on MacOS 13.4 aarch64, e.g.\n\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.5.0:jar (default) on project org.eclipse.jgit: MavenReportException: Error while generating Javadoc:\n[ERROR] Exit code: 1\n[ERROR] /Users/d029788/src/git/jgit/org.eclipse.jgit/src/org/eclipse/jgit/util/Equality.java:16: error: unknown tag: since:\n[ERROR]  * @since: 6.2\n\nI get the same errors with sapmachine 17.0.7",
+      "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29bffb2b_449b9cd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-09T12:14:05Z",
+      "side": 1,
+      "message": "I can\u0027t tell why it is NOT failing on my machine, I have OpenJdk (11.0.18) from Debian Bullseye:\n\n openjdk version \"11.0.18\" 2023-01-17\n OpenJDK Runtime Environment (build 11.0.18+10-post-Debian-1deb11u1)\n OpenJDK 64-Bit Server VM (build 11.0.18+10-post-Debian-1deb11u1, mixed mode, sharing)\n\nI think the issue is the `@since` tag is immediately followed by a column and I am guessing javadoc got taught to require a space after a tag and thus discard the non existing `since:`.\n\nIt is the sole such occurrence in the code base:\n\n $ git grep \u0027@since:\u0027\n org.eclipse.jgit/src/org/eclipse/jgit/util/Equality.java: * @since: 6.2\n\nMaybe that is a new thing in 11.0.19.\n\n\nAnyway I am making the fix in the next patchset by removing the extra \u0027:\u0027:\n\n   * Equality utilities.\n   *\n           v\n - * @since: 6.2\n           ^\n + * @since 6.2\n   */\n  public class Equality {",
+      "parentUuid": "cbe24ed4_8d625432",
       "revId": "02e5660269b0770fe68040bf4eb1f71e81c436db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
