@@ -766,7 +766,7 @@ public final class Constants {
 	 *
 	 * @since 6.5
 	 */
-	public static int COMMIT_GENERATION_UNKNOWN = Integer.MAX_VALUE;
+	public static final int COMMIT_GENERATION_UNKNOWN = Integer.MAX_VALUE;
 
 	/**
 	 * If a commit-graph file was written by a version of Git that did not
@@ -775,7 +775,7 @@ public final class Constants {
 	 *
 	 * @since 6.5
 	 */
-	public static int COMMIT_GENERATION_NOT_COMPUTED = 0;
+	public static final int COMMIT_GENERATION_NOT_COMPUTED = 0;
 
 	private Constants() {
 		// Hide the default constructor
