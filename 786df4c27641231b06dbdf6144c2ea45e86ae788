@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "36d5a397_ead8bdbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-09T18:43:25Z",
+      "side": 1,
+      "message": "Update this to the interface.",
+      "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "12c6e2ed_cf815f23",
@@ -14,6 +31,40 @@
       "writtenOn": "2023-06-09T11:26:09Z",
       "side": 1,
       "message": "Thank you for the review, Ivan!",
+      "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31cacc31_d5a880ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-09T18:43:25Z",
+      "side": 1,
+      "message": "Thanks, Anna. Almost there! The instantiation should go to its own factory class and this should be ready.",
+      "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6c3cb11_c99c3982",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-09T18:43:25Z",
+      "side": 1,
+      "message": "This method belongs to a proper factory class, not to the interface (it ties the interface to an implementation).\n\nWe can have something like:\npublic PackReverseIndexFactory {\n  public static PackReverseIndex computeFromIndex(...)\n}\n\nand later it will get a second method: \n  public static PackReverseIndex fromV1Stream(InputStream is, ...)",
       "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
