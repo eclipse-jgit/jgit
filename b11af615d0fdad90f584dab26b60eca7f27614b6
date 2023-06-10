@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9673fc3d_14e34aeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-10T23:58:31Z",
+      "side": 1,
+      "message": "this now succeeds on MacOS with Java 11.0.19 but still fails with Java 17.0.7",
+      "revId": "b11af615d0fdad90f584dab26b60eca7f27614b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
