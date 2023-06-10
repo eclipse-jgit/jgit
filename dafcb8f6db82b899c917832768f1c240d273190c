@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d1e949_5609fdc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-10T00:35:08Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "dafcb8f6db82b899c917832768f1c240d273190c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec7d7103_a12d41d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1617,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-10T00:35:08Z",
+      "side": 1,
+      "message": "This has caused Bug 582039. The original intention of Colby was to avoid generating the bitmap index for the 2nd packfile that JGit GC generates which contains objects that aren\u0027t reachable by refs/heads, which is correct.\n\nHowever, when there are packfiles with an associated .keep files, their index is passed in the `excludeInPacks` and therefore is getting caught in this check as well, causing the associated JGit GC process to avoid generating any bitmap, which is a major performance regression.\n\nVery busy repositories with a large number of refs and objects may therefore end up losing their bitmap index after a JGit GC cycle, which is very unfortunate.\n\nThe overall result would be that *instead of* making the repository faster during busy times, the JGit GC would actually slow it down even further because it would prevent the bitmap from being generated.",
+      "range": {
+        "startLine": 1617,
+        "startChar": 7,
+        "endLine": 1617,
+        "endChar": 61
+      },
+      "revId": "dafcb8f6db82b899c917832768f1c240d273190c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
