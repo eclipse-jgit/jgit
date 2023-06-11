@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7c0b74_4b41cceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-11T16:31:58Z",
+      "side": 1,
+      "message": "After this fix, I8a4328f doesn\u0027t throw anymore exceptions during the loosening phase.",
+      "revId": "513a09ac119bd46c3e7ac665ea5989d68f88d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
