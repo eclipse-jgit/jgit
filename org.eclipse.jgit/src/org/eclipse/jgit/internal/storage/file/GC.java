@@ -347,6 +347,7 @@ public class GC {
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
+		List<PackFile> packFilesToPrune = new ArrayList<>();
 		oldPackLoop: for (Pack oldPack : oldPacks) {
 			checkCancelled();
 			String oldName = oldPack.getPackName();
@@ -364,9 +365,10 @@ public class GC {
 					loosen(inserter, reader, oldPack, ids);
 				}
 				oldPack.close();
-				prunePack(oldPack.getPackFile());
+				packFilesToPrune.add(oldPack.getPackFile());
 			}
 		}
+		packFilesToPrune.forEach(this::prunePack);
 
 		// close the complete object database. That's my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
