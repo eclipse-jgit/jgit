@@ -94,6 +94,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ca9de5_52209f14",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-12T23:16:05Z",
+      "side": 1,
+      "message": "I tried to configure this option on javac (maven-compiler-plugin), there it accepts the access qualifier but that has no effect. And I can only set this for javac but not for ecj (Eclipse Java compiler) which we use to fail the build if there are incompatible API changes or badly formatted code.\n\nSee https://issues.apache.org/jira/browse/MCOMPILER-123",
+      "parentUuid": "3dbbf872_df2d0d71",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc88543_0ad70958",
+        "filename": "pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-12T23:16:05Z",
+      "side": 1,
+      "message": "Here we cannot set the access qualifier since javadoc doesn\u0027t support it, hence we have to exclude the `missing` group here and can only check it during compilation if javac and not ecj is used.",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d5f5c8a_3ebb8a9a",
+        "filename": "pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-12T23:16:05Z",
+      "side": 1,
+      "message": "Here we can set the access qualifier which is used when enabling the profile \"javac\". Don\u0027t know how to configure this for ecj.",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
