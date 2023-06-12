@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937491c6_88d8361f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-12T23:58:32Z",
+      "side": 1,
+      "message": "maybe \"fromFileV1(InputStream, ...)\"; to mirror the other construction method.",
+      "revId": "40c6b3d96f0cdc1b409915c3803350765eb3be77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c1ce60_a7d93422",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-12T23:58:32Z",
+      "side": 1,
+      "message": "Is the object count really needed in the signature? I think the index has that value.",
+      "revId": "40c6b3d96f0cdc1b409915c3803350765eb3be77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42b08ed_73aad78c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-12T23:58:32Z",
+      "side": 1,
+      "message": "Why is this a supplier and not the primary index directly?",
+      "revId": "40c6b3d96f0cdc1b409915c3803350765eb3be77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7a0c90d_80f90cbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-12T23:58:32Z",
+      "side": 1,
+      "message": "This is not a good pattern, as r1 doesn\u0027t have any purpose without #parse() and there is no reason to invoke #parse() twice. Could we do something like:\n\nreturn PackReverseIndexV1.parse(digestIn, objectCount, ...)?",
+      "revId": "40c6b3d96f0cdc1b409915c3803350765eb3be77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767a977e_fb2762b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexV1.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-12T23:58:32Z",
+      "side": 1,
+      "message": "I see that the checksum is verified in the following change. It can be a TODO here.",
+      "revId": "40c6b3d96f0cdc1b409915c3803350765eb3be77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb900ea5_8a08212a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexV1.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-12T23:58:32Z",
+      "side": 1,
+      "message": "No \"final\" for variables (same in the binarySearchByOffset)",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "40c6b3d96f0cdc1b409915c3803350765eb3be77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
