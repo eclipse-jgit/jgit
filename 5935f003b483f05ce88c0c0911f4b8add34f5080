@@ -70,6 +70,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbbf872_df2d0d71",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-12T18:43:39Z",
+      "side": 1,
+      "message": "Yes, the validation job does that to speed-up the feedback.\n\nIf we reach a state where it makes sense to fail the build if there are doclint warnings/errors we can change that.",
+      "parentUuid": "d35191f9_15959b3d",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
