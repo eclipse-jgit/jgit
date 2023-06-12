@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c11a1f3_d6f62c09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-12T20:17:12Z",
+      "side": 1,
+      "message": "Can you make another field within the CommitGraphV1 for the bloom filter chunks? technically, the extraList should also logically be considered its own chunk per https://github.com/git/git/blob/master/Documentation/gitformat-commit-graph.txt#L94",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4a4cf21_a5752827",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-12T20:17:12Z",
+      "side": 1,
+      "message": "we should make this logically matches https://github.com/git/git/blob/master/Documentation/gitformat-commit-graph.txt#L94, so the bloom filter chunks should have their own get/chunk lookup methods.",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
