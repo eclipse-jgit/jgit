@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f12c72a6_34e0f359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:40:03Z",
+      "side": 1,
+      "message": "nit: their associated packfile?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "7f2f119353151dd46d98992563620583840de085",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "145de201_4f8ef6c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:40:03Z",
+      "side": 1,
+      "message": "not be included",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "7f2f119353151dd46d98992563620583840de085",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dccfda9_0ee9b5ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:40:03Z",
+      "side": 1,
+      "message": "not be pruned",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "7f2f119353151dd46d98992563620583840de085",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b6d68e8_6f487e0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:40:03Z",
+      "side": 1,
+      "message": "By this you mean pruning? loosening? Could you clarify?",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "7f2f119353151dd46d98992563620583840de085",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "365317ce_c4fb27aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:40:03Z",
+      "side": 1,
+      "message": "drop on \u0027the\u0027",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 22
+      },
+      "revId": "7f2f119353151dd46d98992563620583840de085",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2b16e48_99cfcc2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:40:03Z",
+      "side": 1,
+      "message": "files",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "7f2f119353151dd46d98992563620583840de085",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
