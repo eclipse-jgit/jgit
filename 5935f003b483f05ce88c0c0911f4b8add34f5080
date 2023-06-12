@@ -46,6 +46,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d35191f9_15959b3d",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-12T16:45:22Z",
+      "side": 1,
+      "message": "That is the help for `javac` but the Maven plugin relies on `javadoc` as I understand it and it hasn\u0027t learned about the access specifier unfortunately!\n\n\u003e $ JAVA_HOME\u003d/usr/lib/jvm/java-17-openjdk-amd64 javadoc -X\n\u003e ...\n\u003e \n\u003e    -Xdoclint     Enable recommended checks for problems in javadoc comments\n\u003e    -Xdoclint:(all|none|[-]\u003cgroup\u003e)\n\u003e                  Enable or disable specific checks for problems in javadoc\n\u003e                  comments, where \u003cgroup\u003e is one of accessibility, html,\n\u003e                  missing, reference, or syntax.\n\u003e    -Xdoclint/package:([-]\u003cpackages\u003e)\n\u003e                  Enable or disable checks in specific packages. \u003cpackages\u003e is a\n\u003e                  comma separated list of package specifiers. A package\n\u003e                  specifier is either a qualified name of a package or a package\n\u003e                  name prefix followed by .*, which expands to all sub-packages\n\u003e                  of the given package. Prefix the package specifier with - to\n\u003e                  disable checks for the specified packages.\n\nInvoking it:\n\n $ JAVA_HOME\u003d/usr/lib/jvm/java-17-openjdk-amd64 javadoc -Xdoclint:-missing/private\n error: Access qualifiers not permitted for -Xdoclint arguments\n 1 error\n\n:-(\n\n\u003e Since this doesn\u0027t seem to work I for now set -missing without access specifier.\n\u003e The Java 17 release notes https://www.oracle.com/java/technologies/javase/17-relnote-issues.html mention that doclint now raises a warning for missing descriptions and empty tags. I think I fixed those.\n\nAwesome! :)\n\n\n\nNote with java 11 it fails for me with:\n\n\u003e [ERROR] /home/hashar/projects/jgit/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java:551: error: header used out of sequence: \u003cH4\u003e\n\u003e [ERROR] \t * \u003ch4\u003eGit attribute computation\u003c/h4\u003e\n\u003e [ERROR] \t   ^\n\nI noticed CI invokes maven with `-Dmaven.javadoc.skip\u003dtrue` :-(",
+      "parentUuid": "71c60fe3_5253b420",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
