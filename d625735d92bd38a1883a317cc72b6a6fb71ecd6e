@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fddebeab_8b717d74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:33:44Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 18,
+        "startChar": 47,
+        "endLine": 18,
+        "endChar": 51
+      },
+      "revId": "d625735d92bd38a1883a317cc72b6a6fb71ecd6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed8bd57_58a493b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:33:44Z",
+      "side": 1,
+      "message": "Adding this argument makes sense as it makes the intention of creating a bitmap explicit.\n\nHowever, doesn\u0027t that make the `excludeObjects` redundant now?\n`excludeInPacks` is only used to populate the `excludeInPacks` array, which in turn is only evaluated as a boolean:\n\n```\n(excludeInPacks \u003d\u003d null || excludeInPacks.length \u003d\u003d 0))\n```\n\nThis change is for master and `writePack` is a private method, so I believe changing its signature would be fine.",
+      "range": {
+        "startLine": 1256,
+        "startChar": 62,
+        "endLine": 1256,
+        "endChar": 83
+      },
+      "revId": "d625735d92bd38a1883a317cc72b6a6fb71ecd6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85d9f55b_10fbb579",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:33:44Z",
+      "side": 1,
+      "message": "I wonder if this description is misleading.\nThere are different factors factored in to generate a bitmap.\n\n```\n\t\tcanBuildBitmaps \u003d config.isBuildBitmaps()\n\t\t\t\t\u0026\u0026 !shallowPack\n\t\t\t\t\u0026\u0026 have.isEmpty()\n\t\t\t\t\u0026\u0026 createBitmaps;\n```\n\nAlso, it is not immediately obvious how this differs from the `buildBitmaps` setting.",
+      "range": {
+        "startLine": 582,
+        "startChar": 4,
+        "endLine": 582,
+        "endChar": 32
+      },
+      "revId": "d625735d92bd38a1883a317cc72b6a6fb71ecd6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98e00b3e_735a984f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2018,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-06-12T10:33:44Z",
+      "side": 1,
+      "message": "nit: could use getter here",
+      "range": {
+        "startLine": 2018,
+        "startChar": 7,
+        "endLine": 2018,
+        "endChar": 20
+      },
+      "revId": "d625735d92bd38a1883a317cc72b6a6fb71ecd6e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
