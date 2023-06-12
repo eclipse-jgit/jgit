@@ -22,6 +22,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71c60fe3_5253b420",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-12T14:56:30Z",
+      "side": 1,
+      "message": "Apparently Java 17\u0027s doclint wants private methods to be also documented which we don\u0027t want to enforce. Switching this off using \"-Xdoclint:all,-missing/private\" fails with the error: \"error: Access qualifiers not permitted for -Xdoclint arguments\" which seems odd since javac says this is supported:\n\n```\n$ javac -X\n...\n  -Xdoclint\n        Enable recommended checks for problems in javadoc comments\n  -Xdoclint:(all|none|[-]\u003cgroup\u003e)[/\u003caccess\u003e]\n        Enable or disable specific checks for problems in javadoc comments,\n        where \u003cgroup\u003e is one of accessibility, html, missing, reference, or syntax,\n        and \u003caccess\u003e is one of public, protected, package, or private.\n  -Xdoclint/package:[-]\u003cpackages\u003e(,[-]\u003cpackage\u003e)*\n        Enable or disable checks in specific packages. Each \u003cpackage\u003e is either the\n        qualified name of a package or a package name prefix followed by .*, which\n        expands to all sub-packages of the given package. Each \u003cpackage\u003e can be prefixed\n        with - to disable checks for the specified package or packages.\n...\n```\n\nSince this doesn\u0027t seem to work I for now set -missing without access specifier.\n\nThe Java 17 release notes\nhttps://www.oracle.com/java/technologies/javase/17-relnote-issues.html\nmention that doclint now raises a warning for missing descriptions and empty tags. I think I fixed those.",
+      "parentUuid": "dfee0b14_47665eb7",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
