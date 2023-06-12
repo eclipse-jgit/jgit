@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfee0b14_47665eb7",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-12T13:40:53Z",
+      "side": 1,
+      "message": "The code in the branch has:\n\n  -Xdoclint:-missing\n\nSince it hides the file and error line I removed the option (see PS3 https://git.eclipse.org/r/c/jgit/jgit/+/202303/3/pom.xml ) and went to address all the missing bits.\n\nThen I guess Java 17 is more brutal in that regard? :/\n\n\nI tried `doclint:all` but it reports so many errors that I have choose to not set it to avoid the change affecting too many files.\n\n \nThen when I run PS3 with Java 17 I see plenty of errors (which are not reported by Java 11).  If only there was a way to pin the javadoc version or finely ignore specific errors :/",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
