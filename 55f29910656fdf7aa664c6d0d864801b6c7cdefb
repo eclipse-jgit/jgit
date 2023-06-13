@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ec63a0e_f9aad640",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-06-13T21:52:10Z",
+      "side": 1,
+      "message": "OK - the default value can be null, because sometimes a commit graph has no changed path filter (because it was generated without one). I\u0027ll make the change.",
+      "parentUuid": "59f8eb0d_372613de",
+      "revId": "55f29910656fdf7aa664c6d0d864801b6c7cdefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72fa36d0_fd2ebce7",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-05-25T17:32:46Z",
       "side": 1,
       "message": "Instead of instanceof RevCommitCG  with a cast later, RevWalk should have a method to get the changedpath filter and this could be a\n\nif (!c.getChangedPathFilter().isEmpty()) or\nif (c.getChangedPathFilter() !\u003d null)\n\ndepending on the default.",
+      "revId": "55f29910656fdf7aa664c6d0d864801b6c7cdefb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "226ce894_45354480",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-06-13T21:52:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72fa36d0_fd2ebce7",
       "revId": "55f29910656fdf7aa664c6d0d864801b6c7cdefb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
