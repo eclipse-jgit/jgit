@@ -89,6 +89,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c4ba90_42779567",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-06-13T21:40:26Z",
+      "side": 1,
+      "message": "Ah, I see. That makes sense and I\u0027ve done it.",
+      "parentUuid": "5080c236_0fa68e58",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c433771_59491664",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "\u003e\u003eI think it\u0027s expected that you would know what the file format is (or have its documentation open in front of you).\n\nI disagree, such argument can be said about any data structure and not all of us have exposure to c git\u0027s file format; please duplicate the documentation. I prefer we follow the standard of CommitGraphConstants where all offset are described and named. \n\nsuggestion:\nBLOOM_FILTER_INDEX_WIDTH \u003d 4; //Byte\nBLOOM_FILTER_DATA_HEADER_SIZE \u003d 12; //Byte",
       "parentUuid": "b8dfe4e5_d548e70d",
+      "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d902c4_a0e44b52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-06-13T21:40:26Z",
+      "side": 1,
+      "message": "OK, that makes sense. Done.",
+      "parentUuid": "a66c4f07_cab1fc63",
       "revId": "55b58bdb49cccbbfdc79aed57a8b7d9d367c1d1e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
