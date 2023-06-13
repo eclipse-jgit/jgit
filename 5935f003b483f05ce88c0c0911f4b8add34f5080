@@ -142,6 +142,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e028956e_80bfc38f",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-13T13:59:38Z",
+      "side": 1,
+      "message": "I gave it a try and of course that leads to the compile failing on any warning beside just JavaDoc issues!\n\nEg:\n\n [WARNING] ./jgit/org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java:[569,8] The method getRefs(java.lang.String) from the type org.eclipse.jgit.lib.RefDatabase is deprecated\n 1 warning\n ...\n [ERROR] COMPILATION ERROR:\n error: warnings found and -failOnWarning specified\n\n:-\\",
+      "parentUuid": "b302f87f_af383263",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
