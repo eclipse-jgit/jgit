@@ -118,6 +118,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b302f87f_af383263",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-13T13:46:53Z",
+      "side": 1,
+      "message": "That is the `ecj` Maven profile below which has:\n\n \u003c!-- Passing arguments is a trainwreck, see https://issues.apache.org/jira/browse/MCOMPILER-123 --\u003e\n   \u003ccompilerArguments\u003e\n     \u003cproperties\u003e${project.basedir}/.settings/org.eclipse.jdt.core.prefs\u003c/properties\u003e\n\nThe files then have a bunch of properties prefixed with either:\n\n* org.eclipse.jdt.core.compiler\n* org.eclipse.jdt.core.formatter (I am guessing that is for auto formatting)\n\n\nIt looks like the Eclipse compiler allows fine grained configuration unlike javac/javadoc which relies on groups. Looking at `org.eclipse.jgit/.settings/org.eclipse.jdt.core.prefs`:\n\n* org.eclipse.jdt.core.compiler.problem.missingJavadocTagsVisibility\u003dprivate\n\nWhich I guess is the equivalent of `-Xdoclint:-missing/private`. I have found some documentation https://help.eclipse.org/latest/rtopic/org.eclipse.jdt.doc.user/tasks/task-using_batch_compiler.htm\n\n\u003e missingJavadocTagsVisibility(\u003cvisibility\u003e) specify visibility modifier (\"public\", \"protected\" or \"private\") for missing Javadoc tags warnings. Usage example: missingJavadocTagsVisibility(public)\n\n\nFrom that same documentation:\n\n\u003e -failOnWarning \tDeclare compilation unsuccessfull if there are warnings by calling System.exit(-1) at end of compilation.\n\nWhich is in singular form. So If add:\n\n \u003cprofile\u003e\n   \u003cid\u003eecj\u003c/id\u003e\n   \u003cbuild\u003e\n     \u003cplugin\u003e\n       \u003cplugin\u003e\n         \u003cartifactId\u003emaven-compiler-plugin\u003c/artifactId\u003e\n           \u003cconfiguration\u003e\n             \u003ccompilerArguments\u003e\n               \u003cfailOnWarning /\u003e\n               ^^^^^^^^^^^^^^^^^\n\nThen I get a build warning causing the compilation to fail with ecj:\n\n $ mvn -P ecj --projects org.eclipse.jgit clean compile\n ...\n [INFO] -------------------------------------------------------------\n [WARNING] COMPILATION WARNING : \n [INFO] -------------------------------------------------------------\n [WARNING] ./jgit/org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java:[569,8] The method getRefs(java.lang.String) from the type org.eclipse.jgit.lib.RefDatabase is deprecated\n [INFO] 1 warning\n [INFO] -------------------------------------------------------------\n ...\n 3 problems (0 errors, 1 warning, 2 infos)\n error: warnings found and -failOnWarning specified\n \nThat seems to be the equivalent of `javac -Werror`.",
+      "parentUuid": "41ca9de5_52209f14",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

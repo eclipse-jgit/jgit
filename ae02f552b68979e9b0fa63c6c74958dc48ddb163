@@ -18,6 +18,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "699bf16f_5ade12f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-13T13:46:53Z",
+      "side": 1,
+      "message": "Sorry to have drag you in this :/ If I summarize the Javadoc is validated via:\n\n* At compile time with either:\n** ecj compiler which takes its config from */.settings/org.eclipse.jdt.core.prefs files which only fine tuning\n** javac compiler which configures whole groups of errors/warnings via `-Xdoclint:`\n* While running javadoc\n\nI am assuming the ecj/Eclipse config files are the reference and is the profile used on CI. The warnings can be made to fail via `\u003ccompilerArguments\u003e\u003cfailOnWarning/\u003e\u003c/compilerArguments\u003e` and I guess one doing `mvn clean compile` or CI would thus early fail whenever something is off.\n\nLater the java documentation is generated, it might output its own errors in case in Eclipse they are ignored or set differently. So I guess the javadoc should be configured to ignore any error and we can solely rely on the check done by the ecj compiler?\n\nThe issue when turning `javadoc -Xdoclint:all` is it start complaining about issues that are ignored in the Eclipse config files hence why this change ends up touching so many things :)\n\n\n",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbc88543_0ad70958",
@@ -48,6 +65,24 @@
       "writtenOn": "2023-06-12T23:16:05Z",
       "side": 1,
       "message": "Here we can set the access qualifier which is used when enabling the profile \"javac\". Don\u0027t know how to configure this for ecj.",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b57039b_a6879aa9",
+        "filename": "pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 307763
+      },
+      "writtenOn": "2023-06-13T13:46:53Z",
+      "side": 1,
+      "message": "I commented above, with ecj that is done via */.settings/org.eclipse.jdt.core.prefs files which have eg:\n\n* org.eclipse.jdt.core.compiler.problem.missingJavadocTagsVisibility\u003dprivate\n\nThen adding `\u003cfailOnWarning /\u003e` to the compilerArguments cause it to fail on a warning.",
+      "parentUuid": "9d5f5c8a_3ebb8a9a",
       "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
