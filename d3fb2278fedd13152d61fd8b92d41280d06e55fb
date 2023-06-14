@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be0b4922_40680f3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-14T16:19:51Z",
+      "side": 1,
+      "message": "yes. another argument to fit a fields in CommitGraphV1 dedicated to just bloom filter index and bloom filter data. because according to the spec, the extraList, the bloomFilterIndex, the bloomFilterData don\u0027t belong within the commitDataChunk.",
+      "parentUuid": "c578a27e_b29a218a",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4a4cf21_a5752827",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
         "patchSetId": 6
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Hmm...the API should be what is clearest for its users, not what is on the disk.",
       "parentUuid": "e4a4cf21_a5752827",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eba9c065_0757a889",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-14T16:19:51Z",
+      "side": 1,
+      "message": "Ah. I see, the CommitData here isn\u0027t a 1 to 1 mapping to the CommitDataChunk, though the naming are similar. I was under the impression that we have a getter for each chunk of data, but what you doing here is having CommitData containing all data from all chunks. Maybe we can use a new name for this container and reserve the term \"CommitData\" to just the chunk. Maybe \"CommitMeta\"?",
+      "parentUuid": "487dfc68_ae3509b2",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
