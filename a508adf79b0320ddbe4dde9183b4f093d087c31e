@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf9a673f_46de92bd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadChangedPathFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded664a4_1967e873",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadChangedPathFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "Can you add a javadoc about what this tool does?\n\n\"Print the contents of the XXXX chunk from commit-graph file.\n\nDebugging tool for the read/write of commit-graphs.\"",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729fc168_2f94d8b3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadChangedPathFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "I assume these are the chunk ids? It would help to have a constant for them.",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 18
+      },
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33bffa89_965cf8d1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadChangedPathFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "These switch cases are in the wrong identation.",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "474a01b2_75557b7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "This is not really a filter, no? it doesn\u0027t have any method to check if something passes or not.\n\nShould this be called ChangedPathFilterCalculator? \n\n(javadoc probably needs an update)",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39a370d4_7ead5614",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "(I mention this also in the Writer). This function modifying a data structure is usually a candidate for an object with the function as method and the data structure inside.\n\nIn this case probably just:\nChangedPathFilter.fromPaths(paths)\n\nor even better:\nChangedPathFilterCalculator.fromPaths(paths);",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfdb4b0b_18a68703",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "Could we make \"write\" return a stats object? Then we keep the CommitGraphWriter class immutable. \n\nThis makes obvious e.g. what happens if you call #write() twice to different output streams.",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db12c3ea_0405e08c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "nit: Could this be extracted to a function? Something like:\nHasthSet\u003cByteBuffer\u003e paths \u003d getPathDiffWithParent(cmit);\n\nThat seems to be the only output of this piece of code and it would simplify a lot reading this method.",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26d48f8d_23a901e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-14T21:13:32Z",
+      "side": 1,
+      "message": "IIUC this is a data structure (byte[] bloom) and some operation over it (adding paths), so it can be encapsulated in a class.\n\nThis would be more object-oriented with something like:\nbyte[] bloom \u003d ChangedPathFilter.forPaths(paths);\n\n(it could even take care of the cases above, if it returns {0xff} and {0})?",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
