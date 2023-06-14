@@ -1,3 +1,5 @@
+Will be replaced with a change that makes the CI pass.
+
 # Java Git
 
 An implementation of the Git version control system in pure Java.
