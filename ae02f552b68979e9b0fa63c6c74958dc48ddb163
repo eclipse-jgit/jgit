@@ -52,6 +52,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b615a576_168d3960",
+        "filename": "pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-14T21:51:48Z",
+      "side": 1,
+      "message": "gave up on using doclint when generating javadoc due to this limitation, instead we now use more fine grained configuration possible with ecj",
+      "parentUuid": "cbc88543_0ad70958",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d5f5c8a_3ebb8a9a",

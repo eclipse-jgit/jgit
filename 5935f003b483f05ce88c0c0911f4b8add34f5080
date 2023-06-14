@@ -166,6 +166,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176b8578_ba18a441",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-14T21:51:48Z",
+      "side": 1,
+      "message": "I found that setting\n`org.eclipse.jdt.core.compiler.problem.missingJavadocTagDescription\u003dall_standard_tags`\ndoes what we want: fail the build on missing or incorrect javadoc. In addition ecj allows to configure that for public and protected but skip private elements.\n\nWith javac there seems to be no simple way to configure that. Hence I gave up on this. Since the CI always uses ecj this effectively enforces proper javadoc.\n\nWDYT ?",
+      "parentUuid": "e028956e_80bfc38f",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
