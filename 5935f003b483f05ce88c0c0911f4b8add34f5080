@@ -190,6 +190,30 @@
       },
       "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dafb914d_e5d0758d",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-15T22:57:55Z",
+      "side": 1,
+      "message": "Let\u0027s submit this large change before we have to resolve conflicts with other changes in flight. We can still do further improvements in follow-up changes if necessary.",
+      "parentUuid": "176b8578_ba18a441",
+      "range": {
+        "startLine": 468,
+        "startChar": 29,
+        "endLine": 468,
+        "endChar": 51
+      },
+      "revId": "5935f003b483f05ce88c0c0911f4b8add34f5080",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

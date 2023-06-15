@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd63054c_ebf23037",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-15T22:57:55Z",
+      "side": 1,
+      "message": "that\u0027s caused by signing the jars used for testing, the o.e.j.ant and o.e.j.ant.test bundles both use the same package and Java doesn\u0027t accept classes in the same package having different signatures. Fixed by signing after the verification.",
+      "parentUuid": "4381be18_a2f7da31",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbc88543_0ad70958",
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I commented above, with ecj that is done via */.settings/org.eclipse.jdt.core.prefs files which have eg:\n\n* org.eclipse.jdt.core.compiler.problem.missingJavadocTagsVisibility\u003dprivate\n\nThen adding `\u003cfailOnWarning /\u003e` to the compilerArguments cause it to fail on a warning.",
       "parentUuid": "9d5f5c8a_3ebb8a9a",
+      "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e69baf5_cc17c1e7",
+        "filename": "pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-06-15T22:57:55Z",
+      "side": 1,
+      "message": "checking javadoc using ecj works around this limitation",
+      "parentUuid": "9b57039b_a6879aa9",
       "revId": "ae02f552b68979e9b0fa63c6c74958dc48ddb163",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
