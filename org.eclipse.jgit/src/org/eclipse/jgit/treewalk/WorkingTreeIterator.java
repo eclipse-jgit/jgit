@@ -25,6 +25,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -68,6 +69,7 @@ import org.eclipse.jgit.util.Holder;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.Paths;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
@@ -1334,7 +1336,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs, null, null);
 			if (path != null) {
-				loadRulesFromFile(coreExclude, path.toFile());
+				if (Files.exists(path)) {
+					loadRulesFromFile(coreExclude, path.toFile());
+				}
+			} else {
+				loadRulesFromDefaultFile(coreExclude, fs);
 			}
 			if (coreExclude.getRules().isEmpty()) {
 				coreExclude = parent;
@@ -1344,7 +1350,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					coreExclude);
 			File exclude = fs.resolve(repository.getDirectory(),
 					Constants.INFO_EXCLUDE);
-			loadRulesFromFile(infoExclude, exclude);
+			if (fs.exists(exclude)) {
+				loadRulesFromFile(infoExclude, exclude);
+			}
 			if (infoExclude.getRules().isEmpty()) {
 				infoExclude = null;
 			}
@@ -1366,9 +1374,27 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		private static void loadRulesFromFile(IgnoreNode r, File exclude)
 				throws FileNotFoundException, IOException {
-			if (FS.DETECTED.exists(exclude)) {
-				try (FileInputStream in = new FileInputStream(exclude)) {
-					r.parse(exclude.getAbsolutePath(), in);
+			try (FileInputStream in = new FileInputStream(exclude)) {
+				r.parse(exclude.getAbsolutePath(), in);
+			}
+		}
+
+		private static void loadRulesFromDefaultFile(IgnoreNode r,
+				FS fileSystem) throws FileNotFoundException, IOException {
+			Path cfg = SystemReader.getInstance().getXdgConfigDirectory();
+			if (cfg != null) {
+				Path cfgPath = cfg.resolve("git").resolve("ignore"); //$NON-NLS-1$ //$NON-NLS-2$
+				if (Files.exists(cfgPath)) {
+					loadRulesFromFile(r, cfgPath.toFile());
+				}
+			} else {
+				File home = fileSystem.userHome();
+				if (home != null) {
+					File cfgFile = fileSystem.resolve(home,
+							".config/git/ignore"); //$NON-NLS-1$
+					if (fileSystem.exists(cfgFile)) {
+						loadRulesFromFile(r, cfgFile);
+					}
 				}
 			}
 		}

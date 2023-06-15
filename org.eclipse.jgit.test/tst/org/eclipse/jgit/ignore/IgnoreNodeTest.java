@@ -20,14 +20,18 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
@@ -695,6 +699,110 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEntry(D, ignored, "b");
 		assertEntry(F, ignored, "b/c");
 		endWalk();
+	}
+
+	@Test
+	public void testUserGitIgnoreFound() throws IOException {
+		File homeDir = FS.DETECTED.userHome();
+		Path userIgnore = homeDir.toPath().resolve(".config").resolve("git")
+				.resolve("ignore");
+		Files.createDirectories(userIgnore.getParent());
+		Files.writeString(userIgnore, "x");
+		try {
+			writeTrashFile(".foo", "");
+			writeTrashFile("a/x/file", "");
+			writeTrashFile("b/x", "");
+			writeTrashFile("x/file", "");
+
+			beginWalk();
+			assertEntry(F, tracked, ".foo");
+			assertEntry(D, tracked, "a");
+			assertEntry(D, ignored, "a/x");
+			assertEntry(F, ignored, "a/x/file");
+			assertEntry(D, tracked, "b");
+			assertEntry(F, ignored, "b/x");
+			assertEntry(D, ignored, "x");
+			assertEntry(F, ignored, "x/file");
+			endWalk();
+		} finally {
+			Files.deleteIfExists(userIgnore);
+		}
+	}
+
+	@Test
+	public void testXdgIgnoreFound() throws IOException {
+		File tmp = getTemporaryDirectory();
+		Path xdg = tmp.toPath().resolve("xdg");
+		Path userIgnore = xdg.resolve("git").resolve("ignore");
+		Files.createDirectories(userIgnore.getParent());
+		Files.writeString(userIgnore, "x");
+		SystemReader system = SystemReader.getInstance();
+		assertTrue(system instanceof MockSystemReader);
+		((MockSystemReader) system).setProperty("XDG_CONFIG_HOME",
+				xdg.toAbsolutePath().toString());
+		// Also create the one in the home directory -- it should not be active
+		File homeDir = FS.DETECTED.userHome();
+		Path userIgnore2 = homeDir.toPath().resolve(".config").resolve("git")
+				.resolve("ignore");
+		Files.createDirectories(userIgnore2.getParent());
+		Files.writeString(userIgnore2, "a");
+		try {
+			writeTrashFile(".foo", "");
+			writeTrashFile("a/x/file", "");
+			writeTrashFile("b/x", "");
+			writeTrashFile("x/file", "");
+
+			beginWalk();
+			assertEntry(F, tracked, ".foo");
+			assertEntry(D, tracked, "a");
+			assertEntry(D, ignored, "a/x");
+			assertEntry(F, ignored, "a/x/file");
+			assertEntry(D, tracked, "b");
+			assertEntry(F, ignored, "b/x");
+			assertEntry(D, ignored, "x");
+			assertEntry(F, ignored, "x/file");
+			endWalk();
+		} finally {
+			((MockSystemReader) system).setProperty("XDG_CONFIG_HOME", null);
+			Files.deleteIfExists(userIgnore2);
+		}
+	}
+
+	@Test
+	public void testXdgWrong() throws IOException {
+		File tmp = getTemporaryDirectory();
+		Path xdg = tmp.toPath().resolve("xdg");
+		SystemReader system = SystemReader.getInstance();
+		assertTrue(system instanceof MockSystemReader);
+		// Valid value, but the directory doesn't exist
+		((MockSystemReader) system).setProperty("XDG_CONFIG_HOME",
+				xdg.toAbsolutePath().toString());
+		// Also create the one in the home directory -- it should not be active
+		File homeDir = FS.DETECTED.userHome();
+		Path userIgnore2 = homeDir.toPath().resolve(".config").resolve("git")
+				.resolve("ignore");
+		Files.createDirectories(userIgnore2.getParent());
+		Files.writeString(userIgnore2, "x");
+		try {
+			writeTrashFile(".foo", "");
+			writeTrashFile("a/x/file", "");
+			writeTrashFile("b/x", "");
+			writeTrashFile("x/file", "");
+
+			beginWalk();
+			assertEntry(F, tracked, ".foo");
+			assertEntry(D, tracked, "a");
+			assertEntry(D, tracked, "a/x");
+			assertEntry(F, tracked, "a/x/file");
+			assertEntry(D, tracked, "b");
+			assertEntry(F, tracked, "b/x");
+			assertEntry(D, tracked, "x");
+			assertEntry(F, tracked, "x/file");
+			endWalk();
+		} finally {
+			((MockSystemReader) system).setProperty("XDG_CONFIG_HOME", null);
+			Files.deleteIfExists(userIgnore2);
+		}
 	}
 
 	@Test

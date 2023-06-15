@@ -129,11 +129,12 @@ public abstract class SystemReader {
 		}
 
 		private Path getXDGConfigHome(FS fs) {
-			String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
-			if (StringUtils.isEmptyOrNull(configHomePath)) {
-				configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
-						.getAbsolutePath();
+			Path cfgPath = getXdgConfigDirectory();
+			if (cfgPath != null) {
+				return cfgPath;
 			}
+			String configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
+					.getAbsolutePath();
 			try {
 				return Paths.get(configHomePath);
 			} catch (InvalidPathException e) {
@@ -388,6 +389,27 @@ public abstract class SystemReader {
 		}
 		updateAll(c);
 		return c;
+	}
+
+	/**
+	 * Gets the directory denoted by environment variable XDG_CONFIG_HOME.
+	 *
+	 * @return a {@link Path} denoting the directory, which may exist or not, or
+	 *         {@code null} if the environment variable is not set or does not
+	 *         contain a valid path
+	 * @since 6.7
+	 */
+	public Path getXdgConfigDirectory() {
+		String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
+		if (!StringUtils.isEmptyOrNull(configHomePath)) {
+			try {
+				return Paths.get(configHomePath);
+			} catch (InvalidPathException e) {
+				LOG.error(JGitText.get().logXDGConfigHomeInvalid,
+						configHomePath, e);
+			}
+		}
+		return null;
 	}
 
 	/**

@@ -31,8 +31,6 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -1283,11 +1281,10 @@ public abstract class FS {
 	}
 
 	private File defaultUserHomeImpl() {
-		String home = AccessController.doPrivileged(
-				(PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
-		);
-		if (home == null || home.length() == 0)
+		String home = SystemReader.getInstance().getProperty("user.home"); //$NON-NLS-1$
+		if (StringUtils.isEmptyOrNull(home)) {
 			return null;
+		}
 		return new File(home).getAbsoluteFile();
 	}
 

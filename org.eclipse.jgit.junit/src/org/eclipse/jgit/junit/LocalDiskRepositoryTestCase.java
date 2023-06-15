@@ -85,6 +85,8 @@ public abstract class LocalDiskRepositoryTestCase {
 	private final Set<Repository> toClose = new HashSet<>();
 	private File tmp;
 
+	private File homeDir;
+
 	/**
 	 * The current test name.
 	 *
@@ -117,6 +119,14 @@ public abstract class LocalDiskRepositoryTestCase {
 		}
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
+
+		// Mock the home directory. We don't want to pick up the real user's git
+		// config, or global git ignore.
+		// XDG_CONFIG_HOME isn't set in the MockSystemReader.
+		mockSystemReader.setProperty("user.home", tmp.getAbsolutePath());
+		mockSystemReader.setProperty("HOME", tmp.getAbsolutePath());
+		homeDir = FS.DETECTED.userHome();
+		FS.DETECTED.setUserHome(tmp.getAbsoluteFile());
 
 		// Measure timer resolution before the test to avoid time critical tests
 		// are affected by time needed for measurement.
@@ -193,21 +203,25 @@ public abstract class LocalDiskRepositoryTestCase {
 	@After
 	public void tearDown() throws Exception {
 		RepositoryCache.clear();
-		for (Repository r : toClose)
+		for (Repository r : toClose) {
 			r.close();
+		}
 		toClose.clear();
 
 		// Since memory mapping is controlled by the GC we need to
 		// tell it this is a good time to clean up and unlock
 		// memory mapped files.
 		//
-		if (useMMAP)
+		if (useMMAP) {
 			System.gc();
-		if (tmp != null)
+		}
+		FS.DETECTED.setUserHome(homeDir);
+		if (tmp != null) {
 			recursiveDelete(tmp, false, true);
-		if (tmp != null && !tmp.exists())
+		}
+		if (tmp != null && !tmp.exists()) {
 			CleanupThread.removed(tmp);
-
+		}
 		SystemReader.setInstance(null);
 	}
 
