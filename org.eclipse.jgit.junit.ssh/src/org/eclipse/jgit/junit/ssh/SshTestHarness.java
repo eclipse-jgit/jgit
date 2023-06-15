@@ -89,8 +89,6 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 
 	protected File knownHosts;
 
-	private File homeDir;
-
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -99,13 +97,8 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			git.add().addFilepattern("file.txt").call();
 			git.commit().setMessage("Initial commit").call();
 		}
-		mockSystemReader.setProperty("user.home",
-				getTemporaryDirectory().getAbsolutePath());
-		mockSystemReader.setProperty("HOME",
-				getTemporaryDirectory().getAbsolutePath());
-		homeDir = FS.DETECTED.userHome();
-		FS.DETECTED.setUserHome(getTemporaryDirectory().getAbsoluteFile());
-		sshDir = new File(getTemporaryDirectory(), ".ssh");
+		// The home directory is mocked here
+		sshDir = new File(FS.DETECTED.userHome(), ".ssh");
 		assertTrue(sshDir.mkdir());
 		File serverDir = new File(getTemporaryDirectory(), "srv");
 		assertTrue(serverDir.mkdir());
@@ -236,7 +229,6 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 			server.stop();
 			server = null;
 		}
-		FS.DETECTED.setUserHome(homeDir);
 		SshSessionFactory.setInstance(null);
 		factory = null;
 	}

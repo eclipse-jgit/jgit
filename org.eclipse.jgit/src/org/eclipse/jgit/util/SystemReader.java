@@ -128,24 +128,9 @@ public abstract class SystemReader {
 					fs);
 		}
 
-		private Path getXDGConfigHome(FS fs) {
-			String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
-			if (StringUtils.isEmptyOrNull(configHomePath)) {
-				configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
-						.getAbsolutePath();
-			}
-			try {
-				return Paths.get(configHomePath);
-			} catch (InvalidPathException e) {
-				LOG.error(JGitText.get().logXDGConfigHomeInvalid,
-						configHomePath, e);
-			}
-			return null;
-		}
-
 		@Override
 		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
-			Path xdgPath = getXDGConfigHome(fs);
+			Path xdgPath = getXdgConfigDirectory(fs);
 			if (xdgPath != null) {
 				Path configPath = xdgPath.resolve("jgit") //$NON-NLS-1$
 						.resolve(Constants.CONFIG);
@@ -388,6 +373,36 @@ public abstract class SystemReader {
 		}
 		updateAll(c);
 		return c;
+	}
+
+	/**
+	 * Gets the directory denoted by environment variable XDG_CONFIG_HOME. If
+	 * the variable is not set or empty, return a path for
+	 * {@code $HOME/.config}.
+	 *
+	 * @param fileSystem
+	 *            {@link FS} to get the user's home directory
+	 * @return a {@link Path} denoting the directory, which may exist or not, or
+	 *         {@code null} if the environment variable is not set and there is
+	 *         no home directory, or the path is invalid.
+	 * @since 6.7
+	 */
+	public Path getXdgConfigDirectory(FS fileSystem) {
+		String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
+		if (StringUtils.isEmptyOrNull(configHomePath)) {
+			File home = fileSystem.userHome();
+			if (home == null) {
+				return null;
+			}
+			configHomePath = new File(home, ".config").getAbsolutePath(); //$NON-NLS-1$
+		}
+		try {
+			return Paths.get(configHomePath);
+		} catch (InvalidPathException e) {
+			LOG.error(JGitText.get().logXDGConfigHomeInvalid, configHomePath,
+					e);
+		}
+		return null;
 	}
 
 	/**
