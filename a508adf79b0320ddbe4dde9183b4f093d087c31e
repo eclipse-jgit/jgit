@@ -134,6 +134,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8623f443_74b5be18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-15T15:49:31Z",
+      "side": 1,
+      "message": "second this idea! having a CommitGraphStats class similar to PackStatistics or ReftableWriter.Stats would be helpful for centralizing data collection and data export.",
+      "parentUuid": "cfdb4b0b_18a68703",
+      "revId": "a508adf79b0320ddbe4dde9183b4f093d087c31e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db12c3ea_0405e08c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 8
