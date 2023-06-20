@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.lib.ObjectId;
@@ -220,6 +221,12 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 			// The value at the shared allocation can now be overwritten safely.
 			bucketStartIdxs[bucketIdx] = startIdx;
 		}
+	}
+
+	@Override
+	public void verifyPackChecksum(String packFilePath)
+			throws PackMismatchException {
+		// There is no file with a checksum.
 	}
 
 	@Override

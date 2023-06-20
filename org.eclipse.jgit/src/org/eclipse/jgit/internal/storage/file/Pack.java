@@ -51,12 +51,14 @@ import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex.PackReverseIndexFactory;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -178,10 +180,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 							throw new PackMismatchException(MessageFormat
 									.format(JGitText.get().packChecksumMismatch,
 											packFile.getPath(),
-											ObjectId.fromRaw(packChecksum)
-													.name(),
-											ObjectId.fromRaw(idx.packChecksum)
-													.name()));
+											PackExt.PACK.getExtension(),
+											Hex.toHexString(packChecksum),
+											PackExt.INDEX.getExtension(),
+											Hex.toHexString(idx.packChecksum)));
 						}
 						loadedIdx = idx;
 					} catch (InterruptedIOException e) {
@@ -766,11 +768,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		fd.seek(length - 20);
 		fd.readFully(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
-			throw new PackMismatchException(MessageFormat.format(
-					JGitText.get().packChecksumMismatch,
-					getPackFile(),
-					ObjectId.fromRaw(buf).name(),
-					ObjectId.fromRaw(idx.packChecksum).name()));
+			throw new PackMismatchException(
+					MessageFormat.format(JGitText.get().packChecksumMismatch,
+							getPackFile(), PackExt.PACK.getExtension(),
+							Hex.toHexString(buf), PackExt.INDEX.getExtension(),
+							Hex.toHexString(idx.packChecksum)));
 		}
 	}
 
