@@ -23,7 +23,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PackReverseIndexTest extends RepositoryTestCase {
+public class PackReverseIndexComputedTest extends RepositoryTestCase {
 
 	private PackIndex idx;
 
@@ -38,7 +38,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 		super.setUp();
 		// index with both small (< 2^31) and big offsets
 		idx = PackIndex.open(JGitTestUtil.getTestResourceFile("pack-huge.idx"));
-		reverseIdx = PackReverseIndex.computeFromIndex(idx);
+		reverseIdx = PackReverseIndexFactory.computeFromIndex(idx);
 	}
 
 	/**

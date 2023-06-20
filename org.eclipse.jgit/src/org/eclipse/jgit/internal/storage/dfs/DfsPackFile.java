@@ -43,6 +43,7 @@ import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndexFactory;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
@@ -1068,7 +1069,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
 		ctx.stats.readReverseIdx++;
 		long start = System.nanoTime();
-		PackReverseIndex revidx = PackReverseIndex.computeFromIndex(idx);
+		PackReverseIndex revidx = PackReverseIndexFactory.computeFromIndex(idx);
 		reverseIndex = revidx;
 		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
 		return new DfsBlockCache.Ref<>(

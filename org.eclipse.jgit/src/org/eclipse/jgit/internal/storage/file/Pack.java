@@ -1149,7 +1149,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
 		if (reverseIdx == null)
-			reverseIdx = PackReverseIndex.computeFromIndex(idx());
+			reverseIdx = PackReverseIndexFactory.computeFromIndex(idx());
 		return reverseIdx;
 	}
 
