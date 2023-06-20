@@ -10,11 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import java.text.MessageFormat;
-
 import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -27,103 +23,23 @@ import org.eclipse.jgit.lib.ObjectId;
  * @see PackIndex
  * @see Pack
  */
-public class PackReverseIndex {
-	/** Index we were created from, and that has our ObjectId data. */
-	private final PackIndex index;
-
-	/** The number of bytes per entry in the offsetIndex. */
-	private final long bucketSize;
+public interface PackReverseIndex {
 
 	/**
-	 * An index into the nth mapping, where the value is the position after the
-	 * the last index that contains the values of the bucket. For example given
-	 * offset o (and bucket = o / bucketSize), the offset will be contained in
-	 * the range nth[offsetIndex[bucket - 1]] inclusive to
-	 * nth[offsetIndex[bucket]] exclusive.
-	 *
-	 * See {@link #binarySearch}
+	 * Factory for creating instances of {@link PackReverseIndex}.
 	 */
-	private final int[] offsetIndex;
-
-	/** Mapping from indices in offset order to indices in SHA-1 order. */
-	private final int[] nth;
-
-	/**
-	 * Compute an in-memory pack reverse index from the in-memory pack forward
-	 * index. This computation uses insertion sort, which has a quadratic
-	 * runtime on average.
-	 *
-	 * @param packIndex
-	 *            the forward index to compute from
-	 * @return the reverse index instance
-	 */
-	public static PackReverseIndex computeFromIndex(PackIndex packIndex) {
-		return new PackReverseIndex(packIndex);
-	}
-
-	/**
-	 * Create reverse index from straight/forward pack index, by indexing all
-	 * its entries.
-	 *
-	 * @param packIndex
-	 *            forward index - entries to (reverse) index.
-	 */
-	private PackReverseIndex(PackIndex packIndex) {
-		index = packIndex;
-
-		final long cnt = index.getObjectCount();
-		if (cnt + 1 > Integer.MAX_VALUE)
-			throw new IllegalArgumentException(
-					JGitText.get().hugeIndexesAreNotSupportedByJgitYet);
-
-		if (cnt == 0) {
-			bucketSize = Long.MAX_VALUE;
-			offsetIndex = new int[1];
-			nth = new int[0];
-			return;
-		}
-
-		final long[] offsetsBySha1 = new long[(int) cnt];
-
-		long maxOffset = 0;
-		int ith = 0;
-		for (MutableEntry me : index) {
-			final long o = me.getOffset();
-			offsetsBySha1[ith++] = o;
-			if (o > maxOffset)
-				maxOffset = o;
-		}
-
-		bucketSize = maxOffset / cnt + 1;
-		int[] bucketIndex = new int[(int) cnt];
-		int[] bucketValues = new int[(int) cnt + 1];
-		for (int oi = 0; oi < offsetsBySha1.length; oi++) {
-			final long o = offsetsBySha1[oi];
-			final int bucket = (int) (o / bucketSize);
-			final int bucketValuesPos = oi + 1;
-			final int current = bucketIndex[bucket];
-			bucketIndex[bucket] = bucketValuesPos;
-			bucketValues[bucketValuesPos] = current;
-		}
-
-		int nthByOffset = 0;
-		nth = new int[offsetsBySha1.length];
-		offsetIndex = bucketIndex; // Reuse the allocation
-		for (int bi = 0; bi < bucketIndex.length; bi++) {
-			final int start = nthByOffset;
-			// Insertion sort of the values in the bucket.
-			for (int vi = bucketIndex[bi]; vi > 0; vi = bucketValues[vi]) {
-				final int nthBySha1 = vi - 1;
-				final long o = offsetsBySha1[nthBySha1];
-				int insertion = nthByOffset++;
-				for (; start < insertion; insertion--) {
-					if (o > offsetsBySha1[nth[insertion - 1]])
-						break;
-					nth[insertion] = nth[insertion - 1];
-				}
-				nth[insertion] = nthBySha1;
-			}
-			offsetIndex[bi] = nthByOffset;
+	class PackReverseIndexFactory {
+		/**
+		 * Compute an in-memory pack reverse index from the in-memory pack
+		 * forward index. This computation uses insertion sort, which has a
+		 * quadratic runtime on average.
+		 *
+		 * @param packIndex
+		 *            the forward index to compute from
+		 * @return the reverse index instance
+		 */
+		public static PackReverseIndex computeFromIndex(PackIndex packIndex) {
+			return new PackReverseIndexComputed(packIndex);
 		}
 	}
 
@@ -135,12 +51,7 @@ public class PackReverseIndex {
 	 *            start offset of object to find.
 	 * @return object id for this offset, or null if no object was found.
 	 */
-	public ObjectId findObject(long offset) {
-		final int ith = binarySearch(offset);
-		if (ith < 0)
-			return null;
-		return index.getObjectId(nth[ith]);
-	}
+	ObjectId findObject(long offset);
 
 	/**
 	 * Search for the next offset to the specified offset in this pack (reverse)
@@ -157,42 +68,25 @@ public class PackReverseIndex {
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             when there is no object with the provided offset.
 	 */
-	public long findNextOffset(long offset, long maxOffset)
-			throws CorruptObjectException {
-		final int ith = binarySearch(offset);
-		if (ith < 0)
-			throw new CorruptObjectException(
-					MessageFormat.format(
-							JGitText.get().cantFindObjectInReversePackIndexForTheSpecifiedOffset,
-							Long.valueOf(offset)));
+	long findNextOffset(long offset, long maxOffset)
+			throws CorruptObjectException;
 
-		if (ith + 1 == nth.length)
-			return maxOffset;
-		return index.getOffset(nth[ith + 1]);
-	}
+	/**
+	 * Find the position in the primary index of the object at the given pack
+	 * offset.
+	 *
+	 * @param offset
+	 *            the pack offset of the object
+	 * @return the position in the primary index of the object
+	 */
+	int findPosition(long offset);
 
-	int findPosition(long offset) {
-		return binarySearch(offset);
-	}
-
-	private int binarySearch(long offset) {
-		int bucket = (int) (offset / bucketSize);
-		int low = bucket == 0 ? 0 : offsetIndex[bucket - 1];
-		int high = offsetIndex[bucket];
-		while (low < high) {
-			final int mid = (low + high) >>> 1;
-			final long o = index.getOffset(nth[mid]);
-			if (offset < o)
-				high = mid;
-			else if (offset == o)
-				return mid;
-			else
-				low = mid + 1;
-		}
-		return -1;
-	}
-
-	ObjectId findObjectByPosition(int nthPosition) {
-		return index.getObjectId(nth[nthPosition]);
-	}
+	/**
+	 * Find the object that is in the given position in the primary index.
+	 *
+	 * @param nthPosition
+	 *            the position of the object in the primary index
+	 * @return the object in that position
+	 */
+	ObjectId findObjectByPosition(int nthPosition);
 }

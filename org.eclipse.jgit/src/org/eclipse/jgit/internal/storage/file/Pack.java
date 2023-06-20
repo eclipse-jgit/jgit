@@ -49,6 +49,7 @@ import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndex.PackReverseIndexFactory;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -1149,7 +1150,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
 		if (reverseIdx == null)
-			reverseIdx = PackReverseIndex.computeFromIndex(idx());
+			reverseIdx = PackReverseIndexFactory.computeFromIndex(idx());
 		return reverseIdx;
 	}
 
