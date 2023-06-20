@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "52dc8d7f_e9d1c626",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-20T23:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36d5a397_ead8bdbd",
+      "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "12c6e2ed_cf815f23",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 40
@@ -65,6 +83,24 @@
       "writtenOn": "2023-06-09T18:43:25Z",
       "side": 1,
       "message": "This method belongs to a proper factory class, not to the interface (it ties the interface to an implementation).\n\nWe can have something like:\npublic PackReverseIndexFactory {\n  public static PackReverseIndex computeFromIndex(...)\n}\n\nand later it will get a second method: \n  public static PackReverseIndex fromV1Stream(InputStream is, ...)",
+      "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f0b852_4f36f806",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-20T23:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6c3cb11_c99c3982",
       "revId": "786df4c27641231b06dbdf6144c2ea45e86ae788",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
