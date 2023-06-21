@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.gpg.bc;singleton:=true
 Fragment-Host: org.eclipse.jgit;bundle-version="[5.13.2,5.14.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
-Bundle-Version: 5.13.2.qualifier
+Bundle-Version: 5.13.2.202306221912-r
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.bouncycastle.asn1;version="[1.69.0,2.0.0)",
  org.bouncycastle.asn1.cryptlib;version="[1.69.0,2.0.0)",

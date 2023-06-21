@@ -7,7 +7,7 @@ Fragment-Host: org.eclipse.jgit;bundle-version="[5.13.2,5.14.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 5.13.2.qualifier
+Bundle-Version: 5.13.2.202306221912-r
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.jgit.internal.transport.jsch;version="5.13.2";x-friends:="org.eclipse.egit.core",
  org.eclipse.jgit.transport;version="5.13.2";
