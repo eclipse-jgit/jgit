@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a177dc01_ae9e0bb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-06-21T22:21:50Z",
+      "side": 1,
+      "message": "Thanks Ivan for your comments. The code does look cleaner now.",
+      "revId": "353b3b358004386ec112d84b0ef0154e0c8c1618",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
