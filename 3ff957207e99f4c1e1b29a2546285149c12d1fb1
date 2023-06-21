@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4502a61c_2ea904ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 41
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-21T18:36:45Z",
+      "side": 1,
+      "message": "Thanks! Just move the factory to be a top-level class. This is a nice refactoring change.",
+      "revId": "3ff957207e99f4c1e1b29a2546285149c12d1fb1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c804980_f6cf3413",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-21T18:36:45Z",
+      "side": 1,
+      "message": "Good that it is a class, but it shouldn\u0027t be a nested class of the interface. Please move it to its own file (don\u0027t forget to add the license header).",
+      "revId": "3ff957207e99f4c1e1b29a2546285149c12d1fb1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
