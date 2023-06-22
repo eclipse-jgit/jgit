@@ -1,0 +1,30 @@
+Performance Improvements
+
+581723 Support the new option index.skipHash which was introduced in git 2.40. 
+    If it is set to true skip computing the git index checksum. This
+    accelerates Git commands that manipulate the index, such as git add, git
+    commit, or git status.
+Allow to perform PackedBatchRefUpdate without locking loose refs
+Shortcut during git fetch for avoiding looping through all local refs
+Allow the exclusions of refs prefixes from bitmap index generation
+581267 PackWriterBitmapPreparer: do not include annotated tags in bitmap index
+Speedup GC listing objects referenced from reflogs
+580310 Add option to allow using JDK's SHA1 implementation
+579805 Do not create reflog for remote tracking branches during clone
+UploadPack: do not check reachability of visible SHA1s at the tips of an advertised ref
+
+Bug Fixes
+
+582044 Revert "RefDirectory: Throw exception if CAS of packed ref list fails"
+Prevent infinite loop rescanning the pack list on PackMismatchException
+GC: Close File.lines stream
+If tryLock fails to get the lock another gc has it
+Don't swallow IOException in GC.PidLock#lock
+Check if FileLock is valid before using or releasing it
+Acquire file lock "gc.pid" before running gc
+Add pack options to preserve and prune old pack files
+FetchCommand: fix fetchSubmodules to work on a Ref to a blob
+BatchingProgressMonitor: avoid int overflow when computing percentage
+580953 Ignore IllegalStateException if JVM is already shutting down
+579670 UploadPack: don't prematurely terminate timer in case of error
+577018 Add missing package import javax.management to org.eclipse.jgit
