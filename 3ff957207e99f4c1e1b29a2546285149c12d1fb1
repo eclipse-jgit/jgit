@@ -33,6 +33,24 @@
       "message": "Good that it is a class, but it shouldn\u0027t be a nested class of the interface. Please move it to its own file (don\u0027t forget to add the license header).",
       "revId": "3ff957207e99f4c1e1b29a2546285149c12d1fb1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc3ecd53_ac6effb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-06-22T18:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c804980_f6cf3413",
+      "revId": "3ff957207e99f4c1e1b29a2546285149c12d1fb1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
