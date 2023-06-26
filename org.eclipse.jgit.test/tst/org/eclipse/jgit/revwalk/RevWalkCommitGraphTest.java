@@ -56,7 +56,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		rw.parseHeaders(notParseInGraph);
 		assertFalse(notParseInGraph instanceof RevCommitCG);
 		assertNotNull(notParseInGraph.getRawBuffer());
-		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
+		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN_V1,
 				notParseInGraph.getGeneration());
 
 		enableAndWriteCommitGraph();

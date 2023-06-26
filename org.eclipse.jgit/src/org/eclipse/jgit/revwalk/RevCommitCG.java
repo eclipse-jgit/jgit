@@ -29,7 +29,7 @@ class RevCommitCG extends RevCommit {
 
 	private final int graphPosition;
 
-	private int generation = Constants.COMMIT_GENERATION_UNKNOWN;
+	private int generation = Constants.COMMIT_GENERATION_UNKNOWN_V1;
 
 	/**
 	 * Create a new commit reference.
