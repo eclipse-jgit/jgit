@@ -191,7 +191,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitAmendOnInitialNotPossible;
 	/***/ public String commitsHaveAlreadyBeenMarkedAsStart;
 	/***/ public String compressingObjects;
-	/***/ public String computingCommitGeneration;
+	/***/ public String computingCommitGenerationV1;
+	/***/ public String computingCommitGenerationV2;
 	/***/ public String configSubsectionContainsNewline;
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;
@@ -865,6 +866,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedEncryptionAlgorithm;
 	/***/ public String unsupportedEncryptionVersion;
 	/***/ public String unsupportedGC;
+	/***/ public String unsupportedGenerationNumberVersion;
 	/***/ public String unsupportedMark;
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
