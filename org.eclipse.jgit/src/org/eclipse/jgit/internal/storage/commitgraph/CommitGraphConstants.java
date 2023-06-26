@@ -89,4 +89,15 @@ class CommitGraphConstants {
 	 * overflow
 	 */
 	static final int GENERATION_DATA_OVERFLOW_BIT = 0x80000000;
+
+	/**
+	 * The size of generation data within generation data chunk 4 bytes
+	 */
+	static final int GENERATION_DATA_WIDTH = 4;
+
+	/**
+	 * The size of generation data overflow within generation data overflow
+	 * chunk 8 bytes
+	 */
+	static final int GENERATION_DATA_OVERFLOW_WIDTH = 8;
 }

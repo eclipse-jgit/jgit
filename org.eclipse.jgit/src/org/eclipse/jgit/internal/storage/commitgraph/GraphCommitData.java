@@ -165,7 +165,7 @@ class GraphCommitData {
 		}
 
 		@Override
-		public int getGeneration() {
+		public int getGenerationV1() {
 			return generation;
 		}
 	}
