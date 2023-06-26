@@ -761,12 +761,20 @@ public final class Constants {
 	public static final int INFINITE_DEPTH = 0x7fffffff;
 
 	/**
-	 * We use ({@value}) as generation number for commits not in the
+	 * We use ({@value}) as generation number V1 for commits not in the
 	 * commit-graph file.
 	 *
 	 * @since 6.5
 	 */
-	public static final int COMMIT_GENERATION_UNKNOWN = Integer.MAX_VALUE;
+	public static final int COMMIT_GENERATION_UNKNOWN_V1 = Integer.MAX_VALUE;
+
+	/**
+	 * We use ({@value}) as generation number V2 for commits not in the
+	 * commit-graph file.
+	 *
+	 * @since 6.7
+	 */
+	public static final long COMMIT_GENERATION_UNKNOWN_V2 = Long.MAX_VALUE;
 
 	/**
 	 * If a commit-graph file was written by a version of Git that did not
