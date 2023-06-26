@@ -123,6 +123,24 @@
       "parentUuid": "eba9c065_0757a889",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ee8add1_e2a8161b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-26T17:29:33Z",
+      "side": 1,
+      "message": "the more i read this, the more i realize our approach is wrong. \nGraphCommitData\u0027s comment literally states that it\u0027s \"Represent the collection of {@link CommitData}.\" and CommitData is only meant to represent data from the commit data chunk as in its comment, \"Metadata of a commit in commit data chunk.\" You should make a new collection class similar to GraphCommitData to only contain bloom filter data under the CommitGraphV1 class.",
+      "parentUuid": "a302a524_d84cf5da",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
