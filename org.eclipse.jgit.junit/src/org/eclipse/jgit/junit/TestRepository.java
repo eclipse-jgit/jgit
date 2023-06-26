@@ -227,8 +227,20 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 *            the commit builder to store.
 	 */
 	public void setAuthorAndCommitter(org.eclipse.jgit.lib.CommitBuilder c) {
-		c.setAuthor(new PersonIdent(defaultAuthor, getDate()));
-		c.setCommitter(new PersonIdent(defaultCommitter, getDate()));
+		setCommitDate(c, getDate());
+	}
+
+	/**
+	 * Set the author and committer using a given {@link java.util.Date} .
+	 *
+	 * @param c
+	 *            the commit builder to store.
+	 * @param date
+	 *            the date to be set for commit time.
+	 */
+	public void setCommitDate(org.eclipse.jgit.lib.CommitBuilder c, Date date) {
+		c.setAuthor(new PersonIdent(defaultAuthor, date));
+		c.setCommitter(new PersonIdent(defaultCommitter, date));
 	}
 
 	/**
@@ -390,6 +402,22 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	}
 
 	/**
+	 * Create a new commit with custom {@link java.util.Date}.
+	 *
+	 * @param date
+	 *            the custom commit date for the commit.
+	 * @param parents
+	 *            zero or more parents of the commit.
+	 * @return the new commit.
+	 * @throws Exception
+	 *             if an error occurred
+	 */
+	public RevCommit commit(Date date, RevCommit... parents) throws Exception {
+		ObjectId id = unparsedCommit(tree(), date, parents);
+		return pool.parseCommit(id);
+	}
+
+	/**
 	 * Create a new commit.
 	 * <p>
 	 * See {@link #commit(int, RevTree, RevCommit...)}.
@@ -452,9 +480,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	/**
 	 * Create a new, unparsed commit.
 	 * <p>
-	 * The author and committer identities are stored using the current
-	 * timestamp, after being incremented by {@code secDelta}. The message body
-	 * is empty.
+	 * The author and committer identities are stored using a current timestamp,
+	 * after being incremented by {@code secDelta}. The message body is empty.
 	 *
 	 * @param secDelta
 	 *            number of seconds to advance {@link #tick(int)} by.
@@ -465,19 +492,41 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 * @return the ID of the new commit.
 	 * @throws Exception
 	 *             if an error occurred
-	 * @since 5.5
+	 * @since 6.7
 	 */
 	public ObjectId unparsedCommit(final int secDelta, final RevTree tree,
 			final ObjectId... parents) throws Exception {
 		tick(secDelta);
+		return unparsedCommit(tree, getDate(), parents);
+	}
+
+	/**
+	 * Create a new, unparsed commit.
+	 * <p>
+	 * The author and committer identities are stored using a given
+	 * {@link java.util.Date}. The message body is empty.
+	 *
+	 * @param tree
+	 *            the root tree for the commit.
+	 * @param date
+	 *            the commit date for the commit.
+	 * @param parents
+	 *            zero or more IDs of the commit's parents.
+	 * @return the ID of the new commit.
+	 * @throws Exception
+	 *             if an error occurred
+	 * @since 6.7
+	 */
+	public ObjectId unparsedCommit(final RevTree tree, final Date date,
+			final ObjectId... parents) throws Exception {
 
 		final org.eclipse.jgit.lib.CommitBuilder c;
 
 		c = new org.eclipse.jgit.lib.CommitBuilder();
 		c.setTreeId(tree);
 		c.setParentIds(parents);
-		c.setAuthor(new PersonIdent(defaultAuthor, getDate()));
-		c.setCommitter(new PersonIdent(defaultCommitter, getDate()));
+		c.setAuthor(new PersonIdent(defaultAuthor, date));
+		c.setCommitter(new PersonIdent(defaultCommitter, date));
 		c.setMessage("");
 		ObjectId id;
 		try (ObjectInserter ins = inserter) {

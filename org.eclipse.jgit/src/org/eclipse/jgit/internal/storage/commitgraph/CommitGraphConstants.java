@@ -23,6 +23,10 @@ class CommitGraphConstants {
 
 	static final int CHUNK_ID_COMMIT_DATA = 0x43444154; /* "CDAT" */
 
+	static final int CHUNK_GENERATION_DATA = 0x47444132; /* "GDA2" */
+
+	static final int CHUNK_GENERATION_DATA_OVERFLOW = 0x47444f32; /* "GDO2" */
+
 	static final int CHUNK_ID_EXTRA_EDGE_LIST = 0x45444745; /* "EDGE" */
 
 	/**
@@ -52,4 +56,37 @@ class CommitGraphConstants {
 	 * in Chunk Extra Edge List
 	 */
 	static final int GRAPH_EXTRA_EDGES_NEEDED = 0x80000000;
+
+	/**
+	 * The version of commit graph generated
+	 */
+	static final int COMMIT_GRAPH_VERSION_GENERATED = 1;
+
+	/**
+	 * The version of Hash function used in Commit Graph 1 == SHA1, 2 == SHA256
+	 */
+	static final int OID_HASH_VERSION = 1;
+
+	/**
+	 * Fan out table size of Commit Graph Only first two bytes of OID (0x00 -
+	 * 0xff) are considered
+	 */
+	static final int GRAPH_FANOUT_SIZE = 4 * 256;
+
+	/**
+	 * Generation Number V1, i.e. Topological order Stored within 30 bits
+	 */
+	static final int GENERATION_NUMBER_V1_MAX = 0x3FFFFFFF;
+
+	/**
+	 * Generation Number V2, i.e. Corrected commit date offset Default stored
+	 * within 31 bits
+	 */
+	static final int GENERATION_DATA_MAX_OFFSET = 0x7FFFFFFF;
+
+	/**
+	 * The most significant bit of Generation Number V2 Signaling the present of
+	 * overflow
+	 */
+	static final int GENERATION_DATA_OVERFLOW_BIT = 0x80000000;
 }
