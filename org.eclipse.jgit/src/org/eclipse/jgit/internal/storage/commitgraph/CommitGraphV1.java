@@ -24,9 +24,24 @@ class CommitGraphV1 implements CommitGraph {
 
 	private final GraphCommitData commitData;
 
-	CommitGraphV1(GraphObjectIndex index, GraphCommitData commitData) {
+	private final GraphGenerationData generationData;
+
+	private final int generationVersion;
+
+	CommitGraphV1(int generationVersion, GraphObjectIndex index,
+			GraphCommitData commitData, GraphGenerationData generationData) {
+		this.generationVersion = generationVersion;
 		this.idx = index;
 		this.commitData = commitData;
+		this.generationData = generationData;
+	}
+
+	CommitGraphV1(int generationVersion, GraphObjectIndex index,
+			GraphCommitData commitData) {
+		this.generationVersion = generationVersion;
+		this.idx = index;
+		this.commitData = commitData;
+		this.generationData = null;
 	}
 
 	@Override
@@ -36,7 +51,7 @@ class CommitGraphV1 implements CommitGraph {
 
 	@Override
 	public CommitData getCommitData(int graphPos) {
-		if (graphPos < 0 || graphPos >= getCommitCnt()) {
+		if (!isPosValid(graphPos)) {
 			return null;
 		}
 		return commitData.getCommitData(graphPos);
@@ -50,5 +65,25 @@ class CommitGraphV1 implements CommitGraph {
 	@Override
 	public long getCommitCnt() {
 		return idx.getCommitCnt();
+	}
+
+	@Override
+	public GenerationData getGenerationData(int graphPos) {
+		if (generationVersion <= 1){
+			throw new UnsupportedOperationException();
+		}
+		if (!isPosValid(graphPos)) {
+			return null;
+		}
+		return generationData.getGenerationData(graphPos);
+	}
+
+	@Override
+	public int getGenerationVersion() {
+		return generationVersion;
+	}
+
+	private boolean isPosValid(int graphPos) {
+		return graphPos >= 0 && graphPos < getCommitCnt();
 	}
 }
