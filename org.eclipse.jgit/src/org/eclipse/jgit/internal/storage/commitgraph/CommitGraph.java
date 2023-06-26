@@ -51,6 +51,18 @@ public interface CommitGraph {
 		public long getCommitCnt() {
 			return 0;
 		}
+
+		/** {@inheritDoc} */
+		@Override
+		public GenerationData getGenerationData(int graphPos) {
+			return null;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public int getGenerationVersion() {
+			return 0;
+		}
 	};
 
 	/**
@@ -100,6 +112,25 @@ public interface CommitGraph {
 	long getCommitCnt();
 
 	/**
+	 * Get the generation data of a commit。
+	 * <p>
+	 * This function runs in time O(1).
+	 * <p>
+	 *
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return the generation data related to the commit
+	 */
+	GenerationData getGenerationData(int graphPos);
+
+	/**
+	 * Get the generation version of commit graph
+	 *
+	 * @return the generation version of commit graph
+	 */
+	int getGenerationVersion();
+
+	/**
 	 * Metadata of a commit in commit data chunk.
 	 */
 	interface CommitData {
@@ -130,12 +161,25 @@ public interface CommitGraph {
 		long getCommitTime();
 
 		/**
-		 * Get the generation number (the distance from the root) of the commit.
+		 * Get the generation number v1 (the distance from the root) of the commit.
 		 *
-		 * @return the generation number or
+		 * @return the generation number v1 or
 		 *         {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_NOT_COMPUTED}
 		 *         if the writer didn't calculate it.
 		 */
 		int getGeneration();
+	}
+
+	/**
+	 * Metadata of a commit in generation data chunks.
+	 */
+	interface GenerationData {
+
+		/**
+		 * Get this commit's corrected commit date offset.
+		 *
+		 * @return corrected commit date offset of this commit.
+		 */
+		long getGenerationData();
 	}
 }

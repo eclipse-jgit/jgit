@@ -27,7 +27,7 @@ public class CommitGraphLoaderTest {
 	private CommitGraph commitGraph;
 
 	@Test
-	public void readCommitGraphV1() throws Exception {
+	public void readBDATChunk() throws Exception {
 		commitGraph = CommitGraphLoader
 				.open(JGitTestUtil.getTestResourceFile("commit-graph.v1"));
 		assertNotNull(commitGraph);
@@ -56,6 +56,48 @@ public class CommitGraphLoaderTest {
 				new int[] { 7, 5 }, 1670570364L, 3, 9);
 	}
 
+	/**
+	 * Commit Graph generated with the following linear commit history (leaf to
+	 * root):
+	 *
+	 * <pre>
+	 *	0bab66fb82ad7b42d97b1d409a184c9b243a3d48, Thu Jul 6 17:04:07 2023 -0500
+	 *  |
+	 *  d0745201686575b1d1348fe6498de2836aaf75fa, Mon Jul 6 15:32:29 2099 -0500
+	 *  |
+	 *  3153b0d4da2e1a3e8c1bcd609eb3f2dbdb13499c, Thu Jul 6 15:30:56 2023 -0500
+	 *  |
+	 *  918de044078fc55b2fcab77caf877ab3c2e7e79d, Thu Jul 6 15:34:48 2023 -0500
+	 *  |
+	 *  650edcaf7954b673e89a3a2eeb0fede56cd76bfd, Mon Oct 24 13:12:18 2022 -0500
+	 * </pre>
+	 *
+	 * Expected value generated using the following:
+	 *
+	 * <pre>
+	 *  git config commitGraph true
+	 *  git repack -d
+	 *  git commit-graph write
+	 * </pre>
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void readGDA2andGDO2Chunks() throws Exception {
+		commitGraph = CommitGraphLoader.open(JGitTestUtil
+				.getTestResourceFile("commit-graph-with-gen#v2.v1"));
+		assertNotNull(commitGraph);
+		assertEquals(5, commitGraph.getCommitCnt());
+		verifyGraphObjectIndex();
+
+		assertGenerationData("650edcaf7954b673e89a3a2eeb0fede56cd76bfd", 0);
+		assertGenerationData("918de044078fc55b2fcab77caf877ab3c2e7e79d", 0);
+		assertGenerationData("3153b0d4da2e1a3e8c1bcd609eb3f2dbdb13499c", 233);
+		assertGenerationData("d0745201686575b1d1348fe6498de2836aaf75fa", 0);
+		assertGenerationData("0bab66fb82ad7b42d97b1d409a184c9b243a3d48",
+				2398372103L);
+	}
+
 	private void verifyGraphObjectIndex() {
 		for (int i = 0; i < commitGraph.getCommitCnt(); i++) {
 			ObjectId id = commitGraph.getObjectId(i);
@@ -71,5 +113,14 @@ public class CommitGraphLoaderTest {
 		assertArrayEquals(expectedParents, commitData.getParents());
 		assertEquals(expectedCommitTime, commitData.getCommitTime());
 		assertEquals(expectedGeneration, commitData.getGeneration());
+	}
+
+	private void assertGenerationData(String objectId, long expectedOffSet) {
+		int graphPos = commitGraph
+				.findGraphPosition(ObjectId.fromString(objectId));
+		CommitGraph.GenerationData generationData = commitGraph
+				.getGenerationData(graphPos);
+		long actualOffset = generationData.getGenerationData();
+		assertEquals(expectedOffSet, actualOffset);
 	}
 }
