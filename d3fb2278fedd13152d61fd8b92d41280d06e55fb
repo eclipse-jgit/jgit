@@ -105,6 +105,24 @@
       "parentUuid": "487dfc68_ae3509b2",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a302a524_d84cf5da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-06-26T17:23:04Z",
+      "side": 1,
+      "message": "actually, see CommitData comment under CommitGraph.java, \"Metadata of a commit in commit data chunk.\" I think it\u0027s fine that we use the GraphCommitData as the in-memory container for all data chunks, but we should split the data into their on getter methods base on their chunk when getting them from GraphCommitData; i.e. getCommitData only gets you the CommitData chunk, getChangedPathFilter only gets you the bloom filter data, etc",
+      "parentUuid": "eba9c065_0757a889",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
