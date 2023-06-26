@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_GENERATION_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_GENERATION_DATA_OVERFLOW;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -34,6 +36,10 @@ class CommitGraphBuilder {
 	private byte[] commitData;
 
 	private byte[] extraList;
+
+	private byte[] generationData;
+
+	private byte[] generationDataOverflow;
 
 	/** @return A builder of {@link CommitGraph}. */
 	static CommitGraphBuilder builder() {
@@ -72,6 +78,21 @@ class CommitGraphBuilder {
 		return this;
 	}
 
+	CommitGraphBuilder addGenerationData(byte[] buffer)
+			throws CommitGraphFormatException {
+		assertChunkNotSeenYet(generationData, CHUNK_GENERATION_DATA);
+		generationData = buffer;
+		return this;
+	}
+
+	CommitGraphBuilder addGenerationDataOverflow(byte[] buffer)
+			throws CommitGraphFormatException {
+		assertChunkNotSeenYet(generationDataOverflow,
+				CHUNK_GENERATION_DATA_OVERFLOW);
+		generationDataOverflow = buffer;
+		return this;
+	}
+
 	CommitGraph build() throws CommitGraphFormatException {
 		assertChunkNotNull(oidFanout, CHUNK_ID_OID_FANOUT);
 		assertChunkNotNull(oidLookup, CHUNK_ID_OID_LOOKUP);
@@ -81,7 +102,14 @@ class CommitGraphBuilder {
 				oidLookup);
 		GraphCommitData commitDataChunk = new GraphCommitData(hashLength,
 				commitData, extraList);
-		return new CommitGraphV1(index, commitDataChunk);
+
+		if (generationData != null) {
+			GraphGenerationData generationDataChunk = new GraphGenerationData(
+					generationData, generationDataOverflow);
+			return new CommitGraphV1(2, index, commitDataChunk,
+					generationDataChunk);
+		}
+		return new CommitGraphV1(1, index, commitDataChunk);
 	}
 
 	private void assertChunkNotNull(Object object, int chunkId)

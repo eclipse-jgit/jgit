@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_GENERATION_DATA;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_GENERATION_DATA_OVERFLOW;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_COMMIT_DATA;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_FANOUT;
@@ -163,6 +165,12 @@ public class CommitGraphLoader {
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				builder.addExtraList(buffer);
+				break;
+			case CHUNK_GENERATION_DATA:
+				builder.addGenerationData(buffer);
+				break;
+			case CHUNK_GENERATION_DATA_OVERFLOW:
+				builder.addGenerationDataOverflow(buffer);
 				break;
 			default:
 				LOG.warn(MessageFormat.format(

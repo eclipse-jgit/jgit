@@ -52,6 +52,22 @@ public class CommitGraphBuilderTest {
 		});
 		assertEquals("commit-graph chunk id 0x45444745 appears multiple times",
 				e4.getMessage());
+
+		CommitGraphBuilder builder5 = CommitGraphBuilder.builder();
+		builder5.addGenerationData(buffer);
+		Exception e5 = assertThrows(CommitGraphFormatException.class, () -> {
+			builder5.addGenerationData(buffer);
+		});
+		assertEquals("commit-graph chunk id 0x47444132 appears multiple times",
+				e5.getMessage());
+
+		CommitGraphBuilder builder6 = CommitGraphBuilder.builder();
+		builder6.addGenerationDataOverflow(buffer);
+		Exception e6 = assertThrows(CommitGraphFormatException.class, () -> {
+			builder6.addGenerationDataOverflow(buffer);
+		});
+		assertEquals("commit-graph chunk id 0x47444f32 appears multiple times",
+				e6.getMessage());
 	}
 
 	@Test

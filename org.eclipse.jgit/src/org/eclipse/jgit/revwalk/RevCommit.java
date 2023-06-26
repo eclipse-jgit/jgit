@@ -673,7 +673,7 @@ public class RevCommit extends RevObject {
 	 * {@link org.eclipse.jgit.internal.storage.commitgraph.CommitGraph}
 	 * <p>
 	 * Generation number is
-	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN} when the
+	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN_V1} when the
 	 * commit is not in the commit-graph. If a commit-graph file was written by
 	 * a version of Git that did not compute generation numbers, then those
 	 * commits in commit-graph will have generation number represented by
@@ -683,7 +683,7 @@ public class RevCommit extends RevObject {
 	 * @since 6.5
 	 */
 	int getGeneration() {
-		return Constants.COMMIT_GENERATION_UNKNOWN;
+		return Constants.COMMIT_GENERATION_UNKNOWN_V1;
 	}
 
 	/**
