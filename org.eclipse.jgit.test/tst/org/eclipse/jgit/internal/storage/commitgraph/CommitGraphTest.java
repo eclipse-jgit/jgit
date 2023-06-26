@@ -10,14 +10,17 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
-import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
+import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN_V1;
+import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN_V2;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,7 +55,8 @@ public class CommitGraphTest extends RepositoryTestCase {
 		RevCommit root = commit();
 		writeAndReadCommitGraph(Collections.singleton(root));
 		verifyCommitGraph();
-		assertEquals(1, getGenerationNumber(root));
+		assertEquals(1, getGenerationNumberV1(root));
+		assertNoCommitDateCorrection(root);
 	}
 
 	@Test
@@ -71,11 +75,15 @@ public class CommitGraphTest extends RepositoryTestCase {
 		assertEquals(parentsNum + 2, commitGraph.getCommitCnt());
 		verifyCommitGraph();
 
-		assertEquals(1, getGenerationNumber(root));
+		assertEquals(1, getGenerationNumberV1(root));
+		assertNoCommitDateCorrection(root);
+
 		for (RevCommit parent : parents) {
-			assertEquals(2, getGenerationNumber(parent));
+			assertEquals(2, getGenerationNumberV1(parent));
+			assertNoCommitDateCorrection(parent);
 		}
-		assertEquals(3, getGenerationNumber(tip));
+		assertEquals(3, getGenerationNumberV1(tip));
+		assertNoCommitDateCorrection(tip);
 	}
 
 	@Test
@@ -95,7 +103,8 @@ public class CommitGraphTest extends RepositoryTestCase {
 		assertEquals(commitNum, commitGraph.getCommitCnt());
 		verifyCommitGraph();
 		for (int i = 0; i < commitNum; i++) {
-			assertEquals(i + 1, getGenerationNumber(commits[i]));
+			assertEquals(i + 1, getGenerationNumberV1(commits[i]));
+			assertNoCommitDateCorrection(commits[i]);
 		}
 	}
 
@@ -183,24 +192,77 @@ public class CommitGraphTest extends RepositoryTestCase {
 		assertEquals(11, commitGraph.getCommitCnt());
 		verifyCommitGraph();
 
-		assertEquals(getGenerationNumber(c1), 1);
-		assertEquals(getGenerationNumber(c2), 2);
-		assertEquals(getGenerationNumber(c4), 2);
-		assertEquals(getGenerationNumber(c6), 2);
-		assertEquals(getGenerationNumber(c3), 3);
-		assertEquals(getGenerationNumber(c5), 3);
-		assertEquals(getGenerationNumber(c7), 3);
-		assertEquals(getGenerationNumber(m1), 3);
-		assertEquals(getGenerationNumber(m2), 3);
-		assertEquals(getGenerationNumber(m3), 4);
-		assertEquals(getGenerationNumber(c8), 5);
+		assertEquals(getGenerationNumberV1(c1), 1);
+		assertEquals(getGenerationNumberV1(c2), 2);
+		assertEquals(getGenerationNumberV1(c4), 2);
+		assertEquals(getGenerationNumberV1(c6), 2);
+		assertEquals(getGenerationNumberV1(c3), 3);
+		assertEquals(getGenerationNumberV1(c5), 3);
+		assertEquals(getGenerationNumberV1(c7), 3);
+		assertEquals(getGenerationNumberV1(m1), 3);
+		assertEquals(getGenerationNumberV1(m2), 3);
+		assertEquals(getGenerationNumberV1(m3), 4);
+		assertEquals(getGenerationNumberV1(c8), 5);
+
+		assertNoCommitDateCorrection(c1);
+		assertNoCommitDateCorrection(c2);
+		assertNoCommitDateCorrection(c3);
+		assertNoCommitDateCorrection(c4);
+		assertNoCommitDateCorrection(c5);
+		assertNoCommitDateCorrection(c6);
+		assertNoCommitDateCorrection(c7);
+		assertNoCommitDateCorrection(c8);
+		assertNoCommitDateCorrection(m1);
+		assertNoCommitDateCorrection(m2);
+		assertNoCommitDateCorrection(m3);
+	}
+
+	@Test
+	public void testGraphWithClockSkews() throws Exception {
+		RevCommit root = commit(new Date(1001 * 1000));
+		RevCommit c1 = commit(new Date(1 * 1000), root);
+		RevCommit c2 = commit(new Date(2 * 1000), root);
+		RevCommit c3 = commit(new Date(3 * 1000), root);
+		RevCommit tip = commit(new Date(0), c1, c2, c3);
+
+		Set<ObjectId> wants = new HashSet<>();
+		wants.add(tip);
+
+		writeAndReadCommitGraph(wants);
+		assertEquals(5, commitGraph.getCommitCnt());
+
+		assertCorrectedCommitDate(root);
+		assertCorrectedCommitDate(c1);
+		assertCorrectedCommitDate(c2);
+		assertCorrectedCommitDate(c3);
+		assertCorrectedCommitDate(tip);
+	}
+
+	@Test
+	public void testGraphWithClockSkewsWithOffsetOverflow() throws Exception {
+		RevCommit root = commit(new Date((Integer.MAX_VALUE) * 1000L));
+		RevCommit c1 = commit(new Date(0), root);
+		RevCommit c2 = commit(new Date(0), c1);
+		RevCommit c3 = commit(new Date(0), c2);
+		RevCommit tip = commit(new Date(0), c3);
+
+		Set<ObjectId> wants = new HashSet<>();
+		wants.add(tip);
+
+		writeAndReadCommitGraph(wants);
+		assertEquals(5, commitGraph.getCommitCnt());
+		assertCorrectedCommitDate(root);
+		assertCorrectedCommitDate(c1);
+		assertCorrectedCommitDate(c2);
+		assertCorrectedCommitDate(c3);
+		assertCorrectedCommitDate(tip);
 	}
 
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		try (RevWalk walk = new RevWalk(db)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(m, wants, walk));
+					GraphCommits.fromWalk(m, wants, walk), 2);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			writer.write(m, os);
 			InputStream inputStream = new ByteArrayInputStream(
@@ -240,16 +302,52 @@ public class CommitGraphTest extends RepositoryTestCase {
 		}
 	}
 
-	int getGenerationNumber(ObjectId id) {
+	void assertNoCommitDateCorrection(RevCommit commit) {
+		assertCorrectedCommitDate(commit);
+	}
+
+	void assertCorrectedCommitDate(RevCommit commit) {
+		assertEquals(getExpectedGenerationNumberV2(commit),
+				getGenerationNumberV2(commit));
+	}
+
+	int getGenerationNumberV1(ObjectId id) {
 		int graphPos = commitGraph.findGraphPosition(id);
 		CommitGraph.CommitData commitData = commitGraph.getCommitData(graphPos);
 		if (commitData != null) {
-			return commitData.getGeneration();
+			return commitData.getGenerationV1();
 		}
-		return COMMIT_GENERATION_UNKNOWN;
+		return COMMIT_GENERATION_UNKNOWN_V1;
+	}
+
+	long getGenerationNumberV2(RevCommit commit) {
+		int graphPos = commitGraph.findGraphPosition(commit.toObjectId());
+		CommitGraph.GenerationData generationData = commitGraph
+				.getGenerationData(graphPos);
+		if (generationData != null) {
+			return commit.getCommitTime() + generationData.getGenerationV2Offset();
+		}
+		return COMMIT_GENERATION_UNKNOWN_V2;
+	}
+
+	long getExpectedGenerationNumberV2(RevCommit commit) {
+		long commitDate = commit.getCommitTime();
+		if (commit.getParentCount() == 0) {
+			return commitDate;
+		}
+		long maxParentCorrectedCommitDate = Arrays.stream(commit.getParents())
+				.map(this::getGenerationNumberV2).max(Long::compare).get();
+		if (commitDate > maxParentCorrectedCommitDate) {
+			return commitDate;
+		}
+		return maxParentCorrectedCommitDate + 1;
 	}
 
 	RevCommit commit(RevCommit... parents) throws Exception {
 		return tr.commit(parents);
+	}
+
+	RevCommit commit(Date commitDate, RevCommit... parents) throws Exception {
+		return tr.commit(commitDate, parents);
 	}
 }

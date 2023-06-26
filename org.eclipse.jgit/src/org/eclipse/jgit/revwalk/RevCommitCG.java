@@ -29,7 +29,7 @@ class RevCommitCG extends RevCommit {
 
 	private final int graphPosition;
 
-	private int generation = Constants.COMMIT_GENERATION_UNKNOWN;
+	private int generation = Constants.COMMIT_GENERATION_UNKNOWN_V1;
 
 	/**
 	 * Create a new commit reference.
@@ -77,7 +77,7 @@ class RevCommitCG extends RevCommit {
 
 		this.tree = walk.lookupTree(data.getTree());
 		this.commitTime = (int) data.getCommitTime();
-		this.generation = data.getGeneration();
+		this.generation = data.getGenerationV1();
 
 		if (getParents() == null) {
 			int[] pGraphList = data.getParents();
