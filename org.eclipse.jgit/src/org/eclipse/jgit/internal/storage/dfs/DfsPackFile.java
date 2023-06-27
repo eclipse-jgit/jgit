@@ -259,7 +259,17 @@ public final class DfsPackFile extends BlockBasedFile {
 		return commitGraph;
 	}
 
-	PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
+	/**
+	 * Get the PackReverseIndex for this PackFile.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the index is not already loaded in memory
+	 * @return the PackReverseIndex
+	 * @throws java.io.IOException
+	 *             the pack index is not available, or is corrupt
+	 */
+	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
 		if (reverseIndex != null) {
 			return reverseIndex;
 		}
