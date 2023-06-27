@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.28" sequenceNumber="1684945225">
+<target name="jgit-4.28" sequenceNumber="1687869645">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
@@ -193,25 +193,25 @@
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcpg-jdk18on</artifactId>
-    		<version>1.73</version>
+    		<version>1.75</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcprov-jdk18on</artifactId>
-    		<version>1.73</version>
+    		<version>1.75</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcpkix-jdk18on</artifactId>
-    		<version>1.73</version>
+    		<version>1.75</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.bouncycastle</groupId>
     		<artifactId>bcutil-jdk18on</artifactId>
-    		<version>1.73</version>
+    		<version>1.75</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
