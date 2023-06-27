@@ -298,7 +298,7 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.3.5</version>
+          <version>1.4.2</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
