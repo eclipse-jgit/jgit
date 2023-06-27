@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "142ea71a_9ab6a4d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-27T22:28:20Z",
+      "side": 1,
+      "message": "Couple nits, this LGTM. Thanks!",
+      "revId": "8d25c89503abb63ff0e358acec03bd07e70fa034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b3d19d4_deb82ff7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-27T22:28:20Z",
+      "side": 1,
+      "message": "Is this supposed to run from a git checkout? \n\nShould the version be set now? Is master good here?",
+      "range": {
+        "startLine": 175,
+        "startChar": 20,
+        "endLine": 175,
+        "endChar": 70
+      },
+      "revId": "8d25c89503abb63ff0e358acec03bd07e70fa034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a379578_825fe485",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-06-27T22:28:20Z",
+      "side": 1,
+      "message": "nit: final (same for EMPTY)",
+      "revId": "8d25c89503abb63ff0e358acec03bd07e70fa034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
