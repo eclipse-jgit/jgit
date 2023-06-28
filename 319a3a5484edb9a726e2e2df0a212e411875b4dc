@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e6b5b2_12c6cac1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-06-28T23:52:23Z",
+      "side": 1,
+      "message": "This fix is quite important because it would allow to generate bitmaps even if there are incoming git-receive-pack running. Could you help with the review?",
+      "revId": "319a3a5484edb9a726e2e2df0a212e411875b4dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
