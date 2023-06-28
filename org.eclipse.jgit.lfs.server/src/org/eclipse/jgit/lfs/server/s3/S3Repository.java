@@ -126,7 +126,7 @@ public class S3Repository implements LargeFileRepository {
 			String contentLengthHeader = conn
 					.getHeaderField(HDR_CONTENT_LENGTH);
 			if (contentLengthHeader != null) {
-				return Integer.parseInt(contentLengthHeader);
+				return Long.parseLong(contentLengthHeader);
 			}
 		}
 		return -1;
