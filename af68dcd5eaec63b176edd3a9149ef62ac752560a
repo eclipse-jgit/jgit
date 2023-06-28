@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed0b841f_58356e9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-06-28T21:15:33Z",
+      "side": 1,
+      "message": "Hi Anna,\n\nI\u0027m not sure I get it. This appears to be basically the same as https://git.eclipse.org/r/c/jgit/jgit/+/199364/19 , but that change 199364 has gotten further patch sets that change it even more. On PS 19 over there Ivan objected to that many inline comments, and although I hold a different opinion on that I don\u0027t want to override his objection.\n\nI agree that this algorithm is far from obvious, and personally I see nothing wrong with detailed inline comments to clarify it. Knuth\u0027s ideas about \"literate programming\" were not all wrong, even if the concept didn\u0027t catch on. Your comments did indeed help me understand this code, which I had never looked at before.\n\nOne thing that is still not made quite clear by the comments here is that if the bucket is zero, the bucket start is implicitly zero, and that isn\u0027t stored in the nextBucketStart array. Which is why it\u0027s named \"nextBucketStart\", not just \"bucketStart\". \n\nI\u0027ll have to take a look at the latest PS in change 199364; perhaps that refactoring you did there addresses Ivan\u0027s concerns and is still easily understandable. It\u0027s probably (just took a quick glance) a somewhat bigger step, though, so perhaps it makes sense to have both smaller steps as individual changes: first this inline commenting, then a second commit on top of that with the refactoring into separate methods with javadoc. ",
+      "revId": "af68dcd5eaec63b176edd3a9149ef62ac752560a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
