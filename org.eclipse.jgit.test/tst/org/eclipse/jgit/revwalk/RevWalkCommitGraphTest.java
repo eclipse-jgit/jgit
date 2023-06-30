@@ -57,7 +57,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertFalse(notParseInGraph instanceof RevCommitCG);
 		assertNotNull(notParseInGraph.getRawBuffer());
 		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN_V1,
-				notParseInGraph.getGeneration());
+				notParseInGraph.getGenerationV1());
 
 		enableAndWriteCommitGraph();
 
@@ -67,7 +67,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
-		assertEquals(1, parseInGraph.getGeneration());
+		assertEquals(1, parseInGraph.getGenerationV1());
 		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
 		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
 		assertEquals(notParseInGraph.getCommitTime(), parseInGraph.getCommitTime());
@@ -80,7 +80,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		assertTrue(noBody instanceof RevCommitCG);
 		assertNull(noBody.getRawBuffer());
-		assertEquals(1, noBody.getGeneration());
+		assertEquals(1, noBody.getGenerationV1());
 		assertEquals(notParseInGraph.getId(), noBody.getId());
 		assertEquals(notParseInGraph.getTree(), noBody.getTree());
 		assertEquals(notParseInGraph.getCommitTime(), noBody.getCommitTime());
@@ -101,7 +101,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
-		assertEquals(1, parseInGraph.getGeneration());
+		assertEquals(1, parseInGraph.getGenerationV1());
 		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
 		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
 		assertEquals(notParseInGraph.getCommitTime(),
@@ -116,7 +116,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		assertTrue(noBody instanceof RevCommitCG);
 		assertNull(noBody.getRawBuffer());
-		assertEquals(1, noBody.getGeneration());
+		assertEquals(1, noBody.getGenerationV1());
 		assertEquals(notParseInGraph.getId(), noBody.getId());
 		assertEquals(notParseInGraph.getTree(), noBody.getTree());
 		assertEquals(notParseInGraph.getCommitTime(), noBody.getCommitTime());
@@ -136,7 +136,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
-		assertEquals(2, parseInGraph.getGeneration());
+		assertEquals(2, parseInGraph.getGenerationV1());
 		assertEquals(0, parseInGraph.getParentCount());
 	}
 

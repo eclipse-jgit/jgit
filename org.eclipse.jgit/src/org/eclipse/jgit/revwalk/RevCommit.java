@@ -673,17 +673,35 @@ public class RevCommit extends RevObject {
 	 * {@link org.eclipse.jgit.internal.storage.commitgraph.CommitGraph}
 	 * <p>
 	 * Generation number is
-	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN_V1} when the
-	 * commit is not in the commit-graph. If a commit-graph file was written by
-	 * a version of Git that did not compute generation numbers, then those
+	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN_V1} when
+	 * the commit is not in the commit-graph. If a commit-graph file was written
+	 * by a version of Git that did not compute generation numbers, then those
 	 * commits in commit-graph will have generation number represented by
 	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_NOT_COMPUTED}.
 	 *
-	 * @return the generation number
+	 * @return the generation number v1, topological number
 	 * @since 6.5
 	 */
-	int getGeneration() {
+	int getGenerationV1() {
 		return Constants.COMMIT_GENERATION_UNKNOWN_V1;
+	}
+
+	/**
+	 * Get the corrected commit date of the commit as defined in
+	 * {@link org.eclipse.jgit.internal.storage.commitgraph.CommitGraph}
+	 * <p>
+	 * Generation number is
+	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_UNKNOWN_V2} when
+	 * the commit is not in the commit-graph. If a commit-graph file was written
+	 * by a version of Git that did not compute generation numbers, then those
+	 * commits in commit-graph will have generation number represented by
+	 * {@link org.eclipse.jgit.lib.Constants#COMMIT_GENERATION_NOT_COMPUTED}.
+	 *
+	 * @return the generation number v2, corrected commit date
+	 * @since 6.7
+	 */
+	long getGenerationV2() {
+		return Constants.COMMIT_GENERATION_UNKNOWN_V2;
 	}
 
 	/**

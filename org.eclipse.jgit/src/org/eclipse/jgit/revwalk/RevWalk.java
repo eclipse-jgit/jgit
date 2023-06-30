@@ -552,7 +552,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			if ((needle.flags & PARSED) == 0) {
 				needle.parseHeaders(this);
 			}
-			int cutoff = needle.getGeneration();
+			int topoCutoff = needle.getGenerationV1();
+			long commitDateCutoff = needle.getGenerationV2();
 			for (Ref r : haystacks) {
 				if (monitor.isCancelled()) {
 					return result;
@@ -568,7 +569,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				boolean commitFound = false;
 				RevCommit next;
 				while ((next = next()) != null) {
-					if (next.getGeneration() < cutoff) {
+					if (next.getGenerationV1() < topoCutoff
+							|| next.getGenerationV2() < commitDateCutoff) {
 						markUninteresting(next);
 						uninteresting.add(next);
 					}
