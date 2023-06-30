@@ -29,7 +29,9 @@ class RevCommitCG extends RevCommit {
 
 	private final int graphPosition;
 
-	private int generation = Constants.COMMIT_GENERATION_UNKNOWN_V1;
+	private int generationV1 = Constants.COMMIT_GENERATION_UNKNOWN_V1;
+
+	private long generationV2 = Constants.COMMIT_GENERATION_UNKNOWN_V2;
 
 	/**
 	 * Create a new commit reference.
@@ -64,8 +66,8 @@ class RevCommitCG extends RevCommit {
 
 	private void parseInGraph(RevWalk walk) throws IOException {
 		CommitGraph graph = walk.commitGraph();
-		CommitGraph.CommitData data = graph.getCommitData(graphPosition);
-		if (data == null) {
+		CommitGraph.CommitData commitData = graph.getCommitData(graphPosition);
+		if (commitData == null) {
 			// RevCommitCG was created because we got its graphPosition from
 			// commit-graph. If now the commit-graph doesn't know about it,
 			// something went wrong.
@@ -75,12 +77,19 @@ class RevCommitCG extends RevCommit {
 			walk.initializeShallowCommits(this);
 		}
 
-		this.tree = walk.lookupTree(data.getTree());
-		this.commitTime = (int) data.getCommitTime();
-		this.generation = data.getGeneration();
+		this.tree = walk.lookupTree(commitData.getTree());
+		this.commitTime = (int) commitData.getCommitTime();
+		this.generationV1 = commitData.getGeneration();
+
+		if (graph.getGenerationVersion() > 1) {
+			CommitGraph.GenerationData generationData = graph
+					.getGenerationData(graphPosition);
+			this.generationV2 = commitData.getCommitTime()
+					+ generationData.getGenerationData();
+		}
 
 		if (getParents() == null) {
-			int[] pGraphList = data.getParents();
+			int[] pGraphList = commitData.getParents();
 			if (pGraphList.length == 0) {
 				this.parents = RevCommit.NO_PARENTS;
 			} else {
@@ -97,7 +106,13 @@ class RevCommitCG extends RevCommit {
 	}
 
 	@Override
-	int getGeneration() {
-		return generation;
+	int getGenerationV1() {
+		return generationV1;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	long getGenerationV2() {
+		return generationV2;
 	}
 }
