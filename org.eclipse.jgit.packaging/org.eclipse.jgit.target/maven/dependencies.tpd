@@ -201,6 +201,19 @@ maven jna
 	}
 }
 
+maven mockito
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.mockito"
+		artifactId = "mockito-core"
+		version = "5.4.0"
+	}
+}
+
 maven sshd
 	scope = compile
 	dependencyDepth = none
