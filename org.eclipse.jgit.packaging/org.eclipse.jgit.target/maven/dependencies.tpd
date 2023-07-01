@@ -87,12 +87,12 @@ maven bytebuddy
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy"
-		version = "1.12.18"
+		version = "1.14.5"
 	}
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy-agent"
-		version = "1.12.18"
+		version = "1.14.5"
 	}
 }
 
@@ -198,6 +198,19 @@ maven jna
 		groupId = "net.java.dev.jna"
 		artifactId = "jna-platform"
 		version = "5.13.0"
+	}
+}
+
+maven mockito
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.mockito"
+		artifactId = "mockito-core"
+		version = "5.4.0"
 	}
 }
 

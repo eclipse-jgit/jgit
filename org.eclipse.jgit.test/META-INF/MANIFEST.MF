@@ -8,6 +8,7 @@ Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
+ net.bytebuddy.agent;version="[1.9.0,2.0.0)",
  net.bytebuddy.dynamic.loading;version="[1.9.0,2.0.0)",
  org.apache.commons.compress.archivers;version="[1.15.0,2.0)",
  org.apache.commons.compress.archivers.tar;version="[1.15.0,2.0)",
@@ -82,10 +83,10 @@ Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
  org.junit.rules;version="[4.13,5.0.0)",
  org.junit.runner;version="[4.13,5.0.0)",
  org.junit.runners;version="[4.13,5.0.0)",
- org.mockito;version="[4.8.0,5.0.0)",
- org.mockito.invocation;version="[4.8.0,5.0.0)",
- org.mockito.junit;version="[4.8.0,5.0.0)",
- org.mockito.stubbing;version="[4.8.0,5.0.0)",
+ org.mockito;version="[5.4.0,6.0.0)",
+ org.mockito.invocation;version="[5.4.0,6.0.0)",
+ org.mockito.junit;version="[5.4.0,6.0.0)",
+ org.mockito.stubbing;version="[5.4.0,6.0.0)",
  org.objenesis;version="[3.3.0,4.0.0)",
  org.slf4j;version="[1.7.0,2.0.0)",
  org.tukaani.xz
