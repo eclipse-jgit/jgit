@@ -141,6 +141,24 @@
       "parentUuid": "a302a524_d84cf5da",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5f64d80_31396823",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T22:37:32Z",
+      "side": 1,
+      "message": "Is this comment still relevant? We have getCommitData() and getChangedPathFilter().",
+      "parentUuid": "2ee8add1_e2a8161b",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
