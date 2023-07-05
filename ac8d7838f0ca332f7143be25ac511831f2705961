@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d1f7b83_c4e32b12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-05T14:16:40Z",
+      "side": 1,
+      "message": "the fix LGTM, though it would be good to add an explicit test",
+      "revId": "ac8d7838f0ca332f7143be25ac511831f2705961",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
