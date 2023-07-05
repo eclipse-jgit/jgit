@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
@@ -51,6 +53,8 @@ public class FileBasedConfig extends StoredConfig {
 	private volatile FileSnapshot snapshot;
 
 	private volatile ObjectId hash;
+
+	private AtomicBoolean exists = new AtomicBoolean();
 
 	/**
 	 * Create a configuration with no default fallback.
@@ -99,6 +103,21 @@ public class FileBasedConfig extends StoredConfig {
 		return configFile;
 	}
 
+	boolean exists() {
+		return exists.get();
+	}
+
+	@Override
+	public void setStringList(String section, String subsection, String name,
+			List<String> values) {
+		super.setStringList(section, subsection, name, values);
+	}
+
+	@Override
+	public void unsetSection(String section, String subsection) {
+		super.unsetSection(section, subsection);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -144,6 +163,7 @@ public class FileBasedConfig extends StoredConfig {
 				clear();
 				snapshot = lastSnapshot[0];
 			}
+			exists.set(wasRead != null);
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception e) {

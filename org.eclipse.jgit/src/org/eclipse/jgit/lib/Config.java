@@ -739,7 +739,7 @@ public class Config {
 		listeners.dispatch(new ConfigChangedEvent());
 	}
 
-	String getRawString(final String section, final String subsection,
+	private String getRawString(final String section, final String subsection,
 			final String name) {
 		String[] lst = getRawStringList(section, subsection, name);
 		if (lst != null) {
