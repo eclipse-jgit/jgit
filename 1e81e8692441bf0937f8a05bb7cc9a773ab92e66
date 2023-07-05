@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4a9a70a_956ad690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b5d6f8_af11119c",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "012ae883_f7813051",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-01T22:12:35Z",
       "side": 1,
       "message": "Can we set this as parameter in the constructor? then the value is final and immutable, which makes it easier to reason about it later.",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "933ede05_0af64547",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "Makes sense. I had to add a constructor overload to keep existing code working.",
+      "parentUuid": "012ae883_f7813051",
       "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -58,6 +94,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48f14c35_0ca7553a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cead5f21_fce423db",
+      "range": {
+        "startLine": 924,
+        "startChar": 9,
+        "endLine": 924,
+        "endChar": 17
+      },
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82da68e2_3f709b3f",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-06-01T22:12:35Z",
       "side": 1,
       "message": "Can this be private?",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d399680d_90c763df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "RevWalk no longer needs this field, so I just removed this line.",
+      "parentUuid": "82da68e2_3f709b3f",
       "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -92,6 +170,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58bd158_9b081f3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "Changed to not have RevWalk read the config. Instead, the commit graph reader reads the config.",
+      "parentUuid": "7707cbff_68a7de21",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "736712cb_64feb61d",
@@ -109,6 +205,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77afed3b_b670ec6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1723,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "736712cb_64feb61d",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59277541_3215907f",
@@ -122,6 +236,24 @@
       "writtenOn": "2023-06-01T22:12:35Z",
       "side": 1,
       "message": "I commented on this in the parent change. The idea is that with the (id, graphPos) RevCommitCG is able to retrieve what it needs from the commit graph.",
+      "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c96e13d_10a4cde4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T23:19:21Z",
+      "side": 1,
+      "message": "Indeed - I had to rework this a lot, but the end result is that the config option affects behavior at the time of reading the commit graph, not at the time of using.",
+      "parentUuid": "59277541_3215907f",
       "revId": "1e81e8692441bf0937f8a05bb7cc9a773ab92e66",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
