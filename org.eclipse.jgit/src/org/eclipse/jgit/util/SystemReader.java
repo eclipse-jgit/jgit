@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.UserConfigFile;
 import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.MonotonicSystemClock;
 import org.slf4j.Logger;
@@ -124,8 +125,15 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			return new FileBasedConfig(parent, new File(fs.userHome(), ".gitconfig"), //$NON-NLS-1$
-					fs);
+			File homeFile = new File(fs.userHome(), ".gitconfig"); //$NON-NLS-1$
+			Path xdgPath = getXdgConfigDirectory(fs);
+			if (xdgPath != null) {
+				Path configPath = xdgPath.resolve("git") //$NON-NLS-1$
+						.resolve(Constants.CONFIG);
+				return new UserConfigFile(parent, homeFile, configPath.toFile(),
+						fs);
+			}
+			return new FileBasedConfig(parent, homeFile, fs);
 		}
 
 		@Override
