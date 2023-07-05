@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20bc9ef6_c3c3628b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T22:32:02Z",
+      "side": 1,
+      "message": "The Git changes are taking longer than expected - I think there\u0027s consensus on having a new version now and how to migrate to it; just that someone (probably me) needs to write the code to do so. In the meantime, the patches on the mailing list are sufficient to generate the numbers so I\u0027ve replaced this line with a link to the mailing list archive.",
+      "parentUuid": "2b3d19d4_deb82ff7",
+      "range": {
+        "startLine": 175,
+        "startChar": 20,
+        "endLine": 175,
+        "endChar": 70
+      },
+      "revId": "8d25c89503abb63ff0e358acec03bd07e70fa034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a379578_825fe485",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-06-27T22:28:20Z",
       "side": 1,
       "message": "nit: final (same for EMPTY)",
+      "revId": "8d25c89503abb63ff0e358acec03bd07e70fa034",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf8f6b44_94c7baf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-05T22:32:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a379578_825fe485",
       "revId": "8d25c89503abb63ff0e358acec03bd07e70fa034",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
