@@ -63,9 +63,14 @@ class CommitGraphConstants {
 	static final int COMMIT_GRAPH_VERSION_GENERATED = 1;
 
 	/**
-	 * The version of Hash function used in Commit Graph 1 == SHA1, 2 == SHA256
+	 * The version of Hash function used in Commit Graph 1 == SHA1 2 == SHA256
 	 */
 	static final int OID_HASH_VERSION = 1;
+
+	/**
+	 * Commit Graph at least has 3 chunks OIDF, OIDL, CDAT
+	 */
+	static final int MIN_NUM_COMMIT_GRAPH_CHUNKS = 3;
 
 	/**
 	 * Fan out table size of Commit Graph Only first two bytes of OID (0x00 -
