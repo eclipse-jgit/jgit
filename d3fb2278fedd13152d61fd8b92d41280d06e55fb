@@ -159,6 +159,24 @@
       "parentUuid": "2ee8add1_e2a8161b",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a70d0f_197698af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-06T15:01:27Z",
+      "side": 1,
+      "message": "yes, it\u0027s still relevant. bloom filter data don\u0027t belong to this class. See my June 26 comments. Suggestion: make a GraphBloomFilterData class and put it in CommitGraphV1 parallel with the GraphCommitData.",
+      "parentUuid": "d5f64d80_31396823",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
