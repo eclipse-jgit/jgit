@@ -181,6 +181,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commandClosedStderrButDidntExit;
 	/***/ public String commandRejectedByHook;
 	/***/ public String commandWasCalledInTheWrongState;
+	/***/ public String commitGraphChecksumMismatched;
 	/***/ public String commitGraphChunkNeeded;
 	/***/ public String commitGraphChunkRepeated;
 	/***/ public String commitGraphChunkUnknown;
@@ -529,6 +530,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mismatchCRC;
 	/***/ public String missingAccesskey;
 	/***/ public String missingAwsRegion;
+	/***/ public String missingCommitGraphChunks;
 	/***/ public String missingConfigurationForKey;
 	/***/ public String missingCookieFile;
 	/***/ public String missingCRC;

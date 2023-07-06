@@ -18,16 +18,23 @@ import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_ID_OID_LOOKUP;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.CHUNK_LOOKUP_WIDTH;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.COMMIT_GRAPH_MAGIC;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.COMMIT_GRAPH_VERSION_GENERATED;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.MIN_NUM_COMMIT_GRAPH_CHUNKS;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.OID_HASH_VERSION;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.io.SilentFileInputStream;
@@ -41,6 +48,8 @@ public class CommitGraphLoader {
 
 	private final static Logger LOG = LoggerFactory
 			.getLogger(CommitGraphLoader.class);
+
+	private final static MessageDigest md = Constants.newMessageDigest();
 
 	/**
 	 * Open an existing commit-graph file for reading.
@@ -95,41 +104,19 @@ public class CommitGraphLoader {
 	 */
 	public static CommitGraph read(InputStream fd)
 			throws CommitGraphFormatException, IOException {
+		loaderPrep();
+
+		// reading header
 		byte[] hdr = new byte[8];
-		IO.readFully(fd, hdr, 0, hdr.length);
+		readIntoBuffer(fd, hdr, 0, hdr.length);
+		assertHeader(hdr);
 
-		int magic = NB.decodeInt32(hdr, 0);
-		if (magic != COMMIT_GRAPH_MAGIC) {
-			throw new CommitGraphFormatException(
-					JGitText.get().notACommitGraph);
-		}
-
-		// Read the hash version (1 byte)
-		// 1 => SHA-1
-		// 2 => SHA-256 nonsupport now
-		int hashVersion = hdr[5];
-		if (hashVersion != 1) {
-			throw new CommitGraphFormatException(
-					JGitText.get().incorrectOBJECT_ID_LENGTH);
-		}
-
-		// Check commit-graph version
-		int v = hdr[4];
-		if (v != 1) {
-			throw new CommitGraphFormatException(MessageFormat.format(
-					JGitText.get().unsupportedCommitGraphVersion,
-					Integer.valueOf(v)));
-		}
-
-		// Read the number of "chunkOffsets" (1 byte)
+		// reading lookup table
 		int numberOfChunks = hdr[6];
-
-		// hdr[7] is the number of base commit-graphs, which is not supported in
-		// current version
-
 		byte[] lookupBuffer = new byte[CHUNK_LOOKUP_WIDTH
 				* (numberOfChunks + 1)];
-		IO.readFully(fd, lookupBuffer, 0, lookupBuffer.length);
+		readIntoBuffer(fd, lookupBuffer, 0, lookupBuffer.length);
+
 		List<ChunkSegment> chunks = new ArrayList<>(numberOfChunks + 1);
 		for (int i = 0; i <= numberOfChunks; i++) {
 			// chunks[numberOfChunks] is just a marker, in order to record the
@@ -139,6 +126,7 @@ public class CommitGraphLoader {
 			chunks.add(new ChunkSegment(id, offset));
 		}
 
+		// reading data chunks
 		CommitGraphBuilder builder = CommitGraphBuilder.builder();
 		for (int i = 0; i < numberOfChunks; i++) {
 			long chunkOffset = chunks.get(i).offset;
@@ -151,7 +139,7 @@ public class CommitGraphLoader {
 			}
 
 			byte buffer[] = new byte[(int) len];
-			IO.readFully(fd, buffer, 0, buffer.length);
+			readIntoBuffer(fd, buffer, 0, buffer.length);
 
 			switch (chunkId) {
 			case CHUNK_ID_OID_FANOUT:
@@ -178,7 +166,66 @@ public class CommitGraphLoader {
 						Integer.toHexString(chunkId)));
 			}
 		}
+
+		validateChecksum(fd);
 		return builder.build();
+	}
+
+	private static void loaderPrep() {
+		md.reset();
+	}
+
+	private static void readIntoBuffer(InputStream fd, byte[] buffer,
+			int offset, int length) throws IOException {
+		IO.readFully(fd, buffer, offset, length);
+		md.update(buffer);
+	}
+
+	private static void validateChecksum(InputStream fd) throws IOException {
+		byte[] checksum = new byte[OBJECT_ID_LENGTH];
+		IO.readFully(fd, checksum, 0, checksum.length);
+		byte[] expectedChecksum = md.digest();
+		if (!Arrays.equals(expectedChecksum, checksum)) {
+			throw new CommitGraphFormatException(
+					JGitText.get().commitGraphChecksumMismatched);
+		}
+	}
+
+	private static void assertHeader(byte[] hdr)
+			throws CommitGraphFormatException {
+		int magic = NB.decodeInt32(hdr, 0);
+		if (magic != COMMIT_GRAPH_MAGIC) {
+			throw new CommitGraphFormatException(
+					JGitText.get().notACommitGraph);
+		}
+
+		// Read the hash version (1 byte)
+		// 1 => SHA-1
+		// 2 => SHA-256 nonsupport now
+		int hashVersion = hdr[5];
+		if (hashVersion != OID_HASH_VERSION) {
+			throw new CommitGraphFormatException(
+					JGitText.get().incorrectOBJECT_ID_LENGTH);
+		}
+
+		// Check commit-graph version
+		int v = hdr[4];
+		if (v != COMMIT_GRAPH_VERSION_GENERATED) {
+			throw new CommitGraphFormatException(MessageFormat.format(
+					JGitText.get().unsupportedCommitGraphVersion,
+					Integer.valueOf(v)));
+		}
+
+		// Read the number of "chunkOffsets" (1 byte)
+		int numberOfChunks = hdr[6];
+		if (numberOfChunks < MIN_NUM_COMMIT_GRAPH_CHUNKS) {
+			throw new CommitGraphFormatException(MessageFormat.format(
+					JGitText.get().missingCommitGraphChunks,
+					Integer.valueOf(numberOfChunks)));
+		}
+
+		// hdr[7] is the number of base commit-graphs, which is not supported in
+		// current version
 	}
 
 	private static class ChunkSegment {
