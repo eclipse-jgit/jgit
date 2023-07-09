@@ -73,7 +73,8 @@ the use of an SSH agent. For the details, see the [OpenBSD ssh-config documentat
 * **IdentityAgent** can be set to choose which SSH agent to use, if there are several running.
   It can also be set to `none` to explicitly switch off using an SSH agent at all.
 * **IdentitiesOnly** if set to `yes` and an SSH agent is used, only keys from the agent that are
-  also listed in an `IdentityFile` property will be considered. (It'll also switch off trying
+  also listed in an `IdentityFile` property and for which the public key is available in a
+  corresponding `*.pub` file will be considered. (It'll also switch off trying
   default key names, such as `~/.ssh/id_rsa` or `~/.ssh/id_ed25519`; only keys listed explicitly
   will be used.)
 
@@ -89,6 +90,56 @@ to support these key constraints.
 OpenSSH does not implement ed448 keys, and neither does Apache MINA sshd, and hence such keys are
 not supported in JGit if its built-in SSH implementation is used. ed448 or other unsupported keys
 provided by an SSH agent are ignored.
+
+## PKCS#11 support
+
+JGit supports using PKCS#11 HSMs (Hardware Security Modules) such as YubiKey PIV for SSH
+authentication.
+
+Using such a PKCS#11 token for SSH authentication can be configured in `~/.ssh/config` with a
+configuration
+
+```
+  PCKS11Provider /absolute/path/to/vendor/library.so
+```
+
+instead of or in addition to `IdentityFile` or `IdentityAgent`. PKCS#11 keys are considered before
+keys from an SSH agent. If `IdentitiesOnly` is also set, only keys listed in `IdentityFile` for which
+the public key is available in a corresponding `*.pub` file are considered.
+
+If `PKCS11Provider` is not set, or is set to the value `none`, no PKCS#11 library is used.
+
+This is all as in OpenSSH.
+
+Keys from PKCS#11 tokens are never added to an SSH agent; the `AddKeysToAgent` configuration has
+no effect for PKCS#11 keys in JGit. It makes only sense if someone is using agent forwarding and
+it requires the SSH agent to understand the `SSH_AGENTC_ADD_SMARTCARD_KEY` command. It is unknown
+which SSH agents support this (OpenSSH does), the SSH library used by JGit has no API for it,
+and JGit doesn't do agent forwarding anyway. (To hop through servers to a git repository use
+`ProxyJump` instead.)
+
+JGit by default uses the first token (the default `slotListIndex` zero). The Java KeyStore or
+[Provider configuration](https://docs.oracle.com/en/java/javase/11/security/pkcs11-reference-guide1.html)
+does not seem to have any support for [RFC7512](https://www.rfc-editor.org/rfc/rfc7512) URIs
+to select the token. JGit provides a custom SSH configuration `PKCS11SlotListIndex` that can be
+set to the slot index of the token wanted. If not set or if negative, the first token (slot
+list index zero) is used.
+
+If you *do* set `PKCS11SlotListIndex` anywhere in your configuration file, then you should also
+set at the very top of the `~/.ssh/config` file:
+
+```
+IgnoreUnknown PKCS11SlotListIndex
+```
+
+The `IgnoreUnknown` configuration tells OpenSSH to ignore configurations it doesn't know about.
+Without this option, OpenSSH will issue an error and exit if the config file contains
+`PKCS11SlotListIndex`. The `IgnoreUnknown` option is available in OpenSSH since version 6.3
+from 2013-09-13. See the [OpenSSH documentation](https://man.openbsd.org/ssh_config.5#IgnoreUnknown)
+for details.
+
+If a token has multiple certificates and keys, a specific one can be selected by exporting
+the public key to a file and then using `IdentitiesOnly` and an `IdentityFile` configuration.
 
 ## Using a different SSH implementation
 

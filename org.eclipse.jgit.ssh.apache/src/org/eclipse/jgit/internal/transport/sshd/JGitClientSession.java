@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.ClientFactoryManager;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.transport.sshd.proxy.StatefulProxyConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
+import org.eclipse.jgit.transport.sshd.KeyPasswordProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -67,6 +69,12 @@ import org.eclipse.jgit.util.StringUtils;
  * </p>
  */
 public class JGitClientSession extends ClientSessionImpl {
+
+	/**
+	 * Attribute set by {@link JGitSshClient} to make the
+	 * {@link KeyPasswordProvider} factory accessible via the session.
+	 */
+	public static final AttributeKey<Supplier<KeyPasswordProvider>> KEY_PASSWORD_PROVIDER_FACTORY = new AttributeKey<>();
 
 	/**
 	 * Default setting for the maximum number of bytes to read in the initial
