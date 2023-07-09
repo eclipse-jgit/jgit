@@ -210,11 +210,12 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
+				Supplier<KeyPasswordProvider> keyPasswordProvider = () -> createKeyPasswordProvider(
+						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
 						.filePasswordProvider(createFilePasswordProvider(
-								() -> createKeyPasswordProvider(
-										credentialsProvider)))
+								keyPasswordProvider))
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(new JGitServerKeyVerifier(
 								getServerKeyDatabase(home, sshDir)))
@@ -236,6 +237,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				jgitClient.setKeyCache(getKeyCache());
 				jgitClient.setCredentialsProvider(credentialsProvider);
 				jgitClient.setProxyDatabase(proxies);
+				jgitClient.setKeyPasswordProviderFactory(keyPasswordProvider);
 				String defaultAuths = getDefaultPreferredAuthentications();
 				if (defaultAuths != null) {
 					jgitClient.setAttribute(
