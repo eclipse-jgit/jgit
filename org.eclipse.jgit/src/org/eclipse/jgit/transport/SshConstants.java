@@ -125,6 +125,25 @@ public final class SshConstants {
 	/** Key in an ssh config file. */
 	public static final String NUMBER_OF_PASSWORD_PROMPTS = "NumberOfPasswordPrompts";
 
+	/**
+	 * Path to a shared library of a PKCS11 key provider, or "none".
+	 * <p>
+	 * If set and not "none", the provider's keys should be used.
+	 * </p>
+	 *
+	 * @since 6.7
+	 */
+	public static final String PKCS11_PROVIDER = "PKCS11Provider";
+
+	/**
+	 * Non-standard JGit addition: specify the PKCS#11 slot list index of the
+	 * token to use. A positive number; defaults to zero; ignored if negative
+	 * (in which case zero is used, too).
+	 *
+	 * @since 6.7
+	 */
+	public static final String PKCS11_SLOT_LIST_INDEX = "PKCS11SlotListIndex";
+
 	/** Key in an ssh config file. */
 	public static final String PORT = "Port";
 
