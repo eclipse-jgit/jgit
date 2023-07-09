@@ -25,6 +25,7 @@ Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.7.0";x-inter
    org.eclipse.jgit.transport",
  org.eclipse.jgit.internal.transport.sshd.agent;version="6.7.0";x-internal:=true,
  org.eclipse.jgit.internal.transport.sshd.auth;version="6.7.0";x-internal:=true,
+ org.eclipse.jgit.internal.transport.sshd.pkcs11;version="6.7.0";x-internal:=true,
  org.eclipse.jgit.internal.transport.sshd.proxy;version="6.7.0";x-friends:="org.eclipse.jgit.ssh.apache.test",
  org.eclipse.jgit.transport.sshd;version="6.7.0";
   uses:="org.eclipse.jgit.transport,
