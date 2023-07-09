@@ -210,11 +210,12 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
+				Supplier<KeyPasswordProvider> keyPasswordProvider = () -> createKeyPasswordProvider(
+						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
 						.filePasswordProvider(createFilePasswordProvider(
-								() -> createKeyPasswordProvider(
-										credentialsProvider)))
+								keyPasswordProvider))
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(new JGitServerKeyVerifier(
 								getServerKeyDatabase(home, sshDir)))
@@ -236,6 +237,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				jgitClient.setKeyCache(getKeyCache());
 				jgitClient.setCredentialsProvider(credentialsProvider);
 				jgitClient.setProxyDatabase(proxies);
+				jgitClient.setKeyPasswordProviderFactory(keyPasswordProvider);
 				String defaultAuths = getDefaultPreferredAuthentications();
 				if (defaultAuths != null) {
 					jgitClient.setAttribute(
@@ -386,7 +388,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	}
 
 	/**
-	 * Obtains a {@link SshConfigStore}, or {@code null} if not SSH config is to
+	 * Obtains a {@link SshConfigStore}, or {@code null} if no SSH config is to
 	 * be used. The default implementation returns {@code null} if
 	 * {@code configFile == null} and otherwise an OpenSSH-compatible store
 	 * reading host entries from the given file.

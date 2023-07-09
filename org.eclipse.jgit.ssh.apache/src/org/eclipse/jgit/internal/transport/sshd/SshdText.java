@@ -90,6 +90,14 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String knownHostsUserAskCreationPrompt;
 	/***/ public String loginDenied;
 	/***/ public String passwordPrompt;
+	/***/ public String pkcs11Error;
+	/***/ public String pkcs11FailedInstantiation;
+	/***/ public String pkcs11GeneralMessage;
+	/***/ public String pkcs11NoKeys;
+	/***/ public String pkcs11NonExisting;
+	/***/ public String pkcs11NotAbsolute;
+	/***/ public String pkcs11Unsupported;
+	/***/ public String pkcs11Warning;
 	/***/ public String proxyCannotAuthenticate;
 	/***/ public String proxyHttpFailure;
 	/***/ public String proxyHttpInvalidUserName;
