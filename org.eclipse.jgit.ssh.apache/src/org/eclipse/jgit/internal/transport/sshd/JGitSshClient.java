@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.apache.sshd.client.SshClient;
@@ -58,6 +59,7 @@ import org.eclipse.jgit.internal.transport.sshd.proxy.Socks5ClientConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
+import org.eclipse.jgit.transport.sshd.KeyPasswordProvider;
 import org.eclipse.jgit.transport.sshd.ProxyData;
 import org.eclipse.jgit.transport.sshd.ProxyDataFactory;
 import org.eclipse.jgit.util.StringUtils;
@@ -102,6 +104,8 @@ public class JGitSshClient extends SshClient {
 	private KeyCache keyCache;
 
 	private CredentialsProvider credentialsProvider;
+
+	private Supplier<KeyPasswordProvider> keyPasswordProviderFactory;
 
 	private ProxyDataFactory proxyDatabase;
 
@@ -277,6 +281,8 @@ public class JGitSshClient extends SshClient {
 		}
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
 		PASSWORD_PROMPTS.set(session, Integer.valueOf(numberOfPasswordPrompts));
+		session.setAttribute(JGitClientSession.KEY_PASSWORD_PROVIDER_FACTORY,
+				getKeyPasswordProviderFactory());
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
 					try {
@@ -371,6 +377,26 @@ public class JGitSshClient extends SshClient {
 	 */
 	public CredentialsProvider getCredentialsProvider() {
 		return credentialsProvider;
+	}
+
+	/**
+	 * Sets a supplier for a {@link KeyPasswordProvider} for this client.
+	 *
+	 * @param factory
+	 *            to set
+	 */
+	public void setKeyPasswordProviderFactory(
+			Supplier<KeyPasswordProvider> factory) {
+		keyPasswordProviderFactory = factory;
+	}
+
+	/**
+	 * Retrieves the {@link KeyPasswordProvider} factory of this client.
+	 *
+	 * @return a factory to create {@link KeyPasswordProvider}s
+	 */
+	public Supplier<KeyPasswordProvider> getKeyPasswordProviderFactory() {
+		return keyPasswordProviderFactory;
 	}
 
 	/**
