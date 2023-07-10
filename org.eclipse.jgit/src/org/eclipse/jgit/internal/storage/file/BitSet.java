@@ -10,19 +10,23 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import java.util.Arrays;
-
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 /**
  * A random access BitSet to supports efficient conversions to
  * EWAHCompressedBitmap.
  */
 final class BitSet {
-
-	private long[] words;
+  private static final Logger LOG = LoggerFactory.getLogger(BitSet.class);
+  private final int initialCapacity;
+  private long[] words;
 
 	BitSet(int initialCapacity) {
+      this.initialCapacity = initialCapacity;
 		words = new long[block(initialCapacity) + 1];
 	}
 
@@ -37,8 +41,17 @@ final class BitSet {
 			System.arraycopy(words, 0, buf, 0, words.length);
 			words = buf;
 		}
-		words[block] |= mask(position);
-	}
+      try {
+        words[block] |= mask(position);
+      } catch (ArrayIndexOutOfBoundsException e) {
+        LOG.error(
+                String.format(
+                        "TROUBLESHOOTING|Error setting bitmap: INITIAL_CAPACITY: %s, CUR_SIZE: %s, BLOCK: %s, POSITION: %s",
+                        initialCapacity, words.length, block, position),
+                e);
+        throw e;
+      }
+    }
 
 	final void clear(int position) {
 		int block = block(position);

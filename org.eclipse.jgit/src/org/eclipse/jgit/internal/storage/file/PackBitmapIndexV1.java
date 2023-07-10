@@ -25,6 +25,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Support for the pack bitmap index v1 format.
@@ -34,6 +36,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	static final byte[] MAGIC = { 'B', 'I', 'T', 'M' };
 	static final int OPT_FULL = 1;
+	private static final Logger LOG = LoggerFactory.getLogger(PackBitmapIndexV1.class);
 
 	private static final int MAX_XOR_OFFSET = 126;
 
@@ -146,8 +149,10 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		long offset = packIndex.findOffset(objectId);
-		if (offset == -1)
+		if (offset == -1) {
+			LOG.error(String.format("TROUBLESHOOTING|Could not find offset for %s in packIndex %s", objectId, packIndex));
 			return -1;
+		}
 		return reverseIndex.findPostion(offset);
 	}
 

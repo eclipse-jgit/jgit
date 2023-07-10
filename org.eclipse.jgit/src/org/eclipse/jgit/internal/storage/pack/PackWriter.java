@@ -95,6 +95,8 @@ import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -137,6 +139,8 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  */
 public class PackWriter implements AutoCloseable {
 	private static final int PACK_VERSION_GENERATED = 2;
+	private static final Logger LOG = LoggerFactory
+			.getLogger(PackWriter.class);
 
 	/** Empty set of objects for {@code preparePack()}. */
 	public static final Set<ObjectId> NONE = Collections.emptySet();
@@ -2410,6 +2414,8 @@ public class PackWriter implements AutoCloseable {
 		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
 		AnyObjectId last = null;
 		for (BitmapCommit cmit : selectedCommits) {
+
+			LOG.error(String.format("TROUBLESHOOTING|Selected commit: %s", cmit));
 			if (!cmit.isReuseWalker()) {
 				walker = bitmapPreparer.newBitmapWalker();
 			}

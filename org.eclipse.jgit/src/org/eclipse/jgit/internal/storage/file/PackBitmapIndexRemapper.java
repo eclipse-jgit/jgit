@@ -10,17 +10,18 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
+import com.googlecode.javaewah.EWAHCompressedBitmap;
+import com.googlecode.javaewah.IntIterator;
 import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndex.StoredBitmap;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.googlecode.javaewah.EWAHCompressedBitmap;
-import com.googlecode.javaewah.IntIterator;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A PackBitmapIndex that remaps the bitmaps in the previous index to the
@@ -31,6 +32,7 @@ import com.googlecode.javaewah.IntIterator;
 public class PackBitmapIndexRemapper extends PackBitmapIndex
 		implements Iterable<PackBitmapIndexRemapper.Entry> {
 
+	private static final Logger LOG = LoggerFactory.getLogger(PackBitmapIndexRemapper.class);
 	private final BasePackBitmapIndex oldPackIndex;
 	final PackBitmapIndex newPackIndex;
 	private final BitSet inflated;
@@ -74,9 +76,17 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		inflated = new BitSet(newPackIndex.getObjectCount());
 
 		prevToNewMapping = new int[oldPackIndex.getObjectCount()];
-		for (int pos = 0; pos < prevToNewMapping.length; pos++)
-			prevToNewMapping[pos] = newPackIndex.findPosition(
+		for (int pos = 0; pos < prevToNewMapping.length; pos++) {
+			final int position = newPackIndex.findPosition(
 					oldPackIndex.getObject(pos));
+			prevToNewMapping[pos] = position;
+			if(position < 0) {
+				LOG.error(
+					String.format(
+						"TROUBLESHOOTING|pos %s (of %s). Could not map oldPackIndex %s to newPackIndex %s",
+						pos, prevToNewMapping.length, oldPackIndex, newPackIndex));
+			}
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -156,9 +166,11 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			return null;
 
 		inflated.clear();
-		for (IntIterator i = oldBitmap.getBitmapWithoutCaching()
-				.intIterator(); i.hasNext();)
-			inflated.set(prevToNewMapping[i.next()]);
+		for (IntIterator i = oldBitmap.getBitmapWithoutCaching().intIterator(); i.hasNext(); ) {
+			final int next = i.next();
+			LOG.error(String.format("remapping bitmap: %s, next iterator: %s", objectId, next));
+			inflated.set(prevToNewMapping[next]);
+		}
 		bitmap = inflated.toEWAHCompressedBitmap();
 		bitmap.trim();
 		return bitmap;
