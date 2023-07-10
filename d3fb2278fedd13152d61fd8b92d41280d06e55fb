@@ -177,6 +177,24 @@
       "parentUuid": "d5f64d80_31396823",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc05fdbf_406f6d38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-10T17:23:46Z",
+      "side": 1,
+      "message": "\u003e You should make a new collection class similar to GraphCommitData to only contain bloom filter data under the CommitGraphV1 class.\n\nGoing back to what I said earlier about the API being what is clearest for our users, I think it\u0027s clearer if GraphCommitData contains everything related to commits. If it\u0027s a question of the javadoc, we can change it.",
+      "parentUuid": "77a70d0f_197698af",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
