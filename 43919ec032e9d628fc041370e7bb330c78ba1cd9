@@ -51,6 +51,24 @@
       "message": "per PackConfig javadoc, \" * Configuration used by a pack writer when constructing the stream.\"\n\nCommit graph isn\u0027t written using packwriter, it has its own writer class so it should have its own config. Since bloom filters are contained within commit graph and written by the commit graph writer, such config should be associated with whatever config used by the commit graph writer.",
       "revId": "43919ec032e9d628fc041370e7bb330c78ba1cd9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b44fcc09_407155cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-10T17:25:33Z",
+      "side": 1,
+      "message": "Take a look at the latest version - I put it in the GC section to match the config that generates commit graphs.",
+      "parentUuid": "85a08e3a_b998a096",
+      "revId": "43919ec032e9d628fc041370e7bb330c78ba1cd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
