@@ -195,6 +195,24 @@
       "parentUuid": "77a70d0f_197698af",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65cd4eac_a0d23de5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-10T19:01:59Z",
+      "side": 1,
+      "message": "From the user point of view, there is just a commitGraph.getChangedPathsFilter(position) (as it should be).\n\nThis is about how to store things internally in memory. We split the chunks in the storage into two java classes (so far):\n1. The index (with the fanout and the object ids, to find positions) \n2. The CommitGraph data (the metadata for the commit, abstracting the \"extra edges\", so representing those two chunks).\n\nThe bloom filters are not related to the rest of \"commit data\" (you could even have bloom filters without the commit data!). I think it makes sense to store them in a 3rd java class:\n3. The GraphBloomFilter data (bloom filters abstracting the overflow chunk if present)\n\nThe commitGraph#getChangedPathsFilter(position) would then do  bloomFiltersData.getChangedPathFilter(position) instead of commitGraphData.getChangedPathFilter(position).",
+      "parentUuid": "fc05fdbf_406f6d38",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

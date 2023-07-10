@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b26ceb2_798422fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-10T19:01:59Z",
+      "side": 1,
+      "message": "What is needle? is a String path converted to byte[]? It is worth a mention in the javadoc.",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "f263eb55afa517286f68b57d2512df0538d11439",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
