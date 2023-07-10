@@ -26,6 +26,8 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.filter.ObjectFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to do ObjectWalks with pack index bitmaps.
@@ -34,6 +36,7 @@ import org.eclipse.jgit.revwalk.filter.ObjectFilter;
  */
 public final class BitmapWalker {
 
+	private static final Logger LOG = LoggerFactory.getLogger(BitmapWalker.class);
 	private final ObjectWalk walker;
 
 	private final BitmapIndex bitmapIndex;
@@ -125,10 +128,12 @@ public final class BitmapWalker {
 			throws MissingObjectException, IncorrectObjectTypeException,
 				   IOException {
 		if (!ignoreMissing) {
+			LOG.error(String.format("TROUBLESHOOTING|Call findObjectsWalk, ignoreMissingStart is false, seen: %s", seen));
 			return findObjectsWalk(start, seen, false);
 		}
 
 		try {
+			LOG.error(String.format("TROUBLESHOOTING|Call findObjectsWalk, ignoreMissingStart is true, seen: %s", seen));
 			return findObjectsWalk(start, seen, true);
 		} catch (MissingObjectException ignore) {
 			// An object reachable from one of the "start"s is missing.
@@ -177,6 +182,7 @@ public final class BitmapWalker {
 		final BitmapBuilder bitmapResult = bitmapIndex.newBitmapBuilder();
 
 		for (ObjectId obj : start) {
+			LOG.error(String.format("TROUBLESHOOTING|Finding objects to walk: %s, start: %s", obj, start));
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
 			if (bitmap != null)
 				bitmapResult.or(bitmap);

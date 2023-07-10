@@ -21,6 +21,8 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 import com.googlecode.javaewah.IntIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A PackBitmapIndex that remaps the bitmaps in the previous index to the
@@ -31,6 +33,7 @@ import com.googlecode.javaewah.IntIterator;
 public class PackBitmapIndexRemapper extends PackBitmapIndex
 		implements Iterable<PackBitmapIndexRemapper.Entry> {
 
+	private static final Logger LOG = LoggerFactory.getLogger(PackBitmapIndexRemapper.class);
 	private final BasePackBitmapIndex oldPackIndex;
 	final PackBitmapIndex newPackIndex;
 	private final BitSet inflated;
@@ -156,9 +159,11 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			return null;
 
 		inflated.clear();
-		for (IntIterator i = oldBitmap.getBitmapWithoutCaching()
-				.intIterator(); i.hasNext();)
-			inflated.set(prevToNewMapping[i.next()]);
+		for (IntIterator i = oldBitmap.getBitmapWithoutCaching().intIterator(); i.hasNext(); ) {
+			final int next = i.next();
+			LOG.error(String.format("remapping bitmap: %s, next iterator: %s", objectId, next));
+			inflated.set(prevToNewMapping[next]);
+		}
 		bitmap = inflated.toEWAHCompressedBitmap();
 		bitmap.trim();
 		return bitmap;

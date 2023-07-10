@@ -25,13 +25,15 @@ import org.eclipse.jgit.util.BlockList;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 import com.googlecode.javaewah.IntIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A compressed bitmap representation of the entire object graph.
  */
 public class BitmapIndexImpl implements BitmapIndex {
 	private static final int EXTRA_BITS = 10 * 1024;
-
+	private static final Logger LOG = LoggerFactory.getLogger(BitmapIndexImpl.class);
 	final PackBitmapIndex packIndex;
 
 	final MutableBitmapIndex mutableIndex;
@@ -57,6 +59,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 	/** {@inheritDoc} */
 	@Override
 	public CompressedBitmap getBitmap(AnyObjectId objectId) {
+		LOG.error(String.format("TROUBLESHOOTING|Getting Bitmap: %s", objectId));
 		EWAHCompressedBitmap compressed = packIndex.getBitmap(objectId);
 		if (compressed == null)
 			return null;

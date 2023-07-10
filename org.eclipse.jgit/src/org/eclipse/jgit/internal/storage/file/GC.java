@@ -1216,6 +1216,7 @@ public class GC {
 				idxChannel.force(true);
 			}
 
+			LOG.error(String.format("TROUBLESHOOTING|About to prepare bitmap: createBitmap: %s, tmpBase: %s, excludeObjects: %s, excludeRefTips: %s", createBitmap, tmpBase, excludeObjects, excludedRefsTips));
 			if (pw.prepareBitmapIndex(pm)) {
 				File tmpBitmapIdx = new File(packdir, tmpBase + ".bitmap_tmp"); //$NON-NLS-1$
 				tmpExts.put(BITMAP_INDEX, tmpBitmapIdx);
