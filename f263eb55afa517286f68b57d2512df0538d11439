@@ -46,6 +46,30 @@
       },
       "revId": "f263eb55afa517286f68b57d2512df0538d11439",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb4a824_a0e8f717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-11T20:28:27Z",
+      "side": 1,
+      "message": "OK, I\u0027ll change it to \"path\" to make it clearer. In Git, paths are byte strings (no encoding is specified).",
+      "parentUuid": "17141f24_86cf3929",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "f263eb55afa517286f68b57d2512df0538d11439",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
