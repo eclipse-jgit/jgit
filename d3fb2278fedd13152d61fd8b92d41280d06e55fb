@@ -213,6 +213,24 @@
       "parentUuid": "fc05fdbf_406f6d38",
       "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0b73c3a_3bda70e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphCommitData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-11T16:14:46Z",
+      "side": 1,
+      "message": "second Ivan\u0027s comment above. \n\nalso like i mentioned above, CommitData interface under CommitGraph.java stated very clearly that it\u0027s only meant to hold data from the CDAT chunk; GraphCommitData as a class is only meant to represent set of CommitData, i.e. none of the bloom filter data belong to the GraphCommitData class. Please make a new GraphBloomFilterData class.",
+      "parentUuid": "65cd4eac_a0d23de5",
+      "revId": "d3fb2278fedd13152d61fd8b92d41280d06e55fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

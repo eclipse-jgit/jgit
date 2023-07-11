@@ -22,6 +22,30 @@
       },
       "revId": "f263eb55afa517286f68b57d2512df0538d11439",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17141f24_86cf3929",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-11T16:14:46Z",
+      "side": 1,
+      "message": "judging by the method content, it think the needle is the path being checked against the bloom filter of this commit.",
+      "parentUuid": "8b26ceb2_798422fb",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "f263eb55afa517286f68b57d2512df0538d11439",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
