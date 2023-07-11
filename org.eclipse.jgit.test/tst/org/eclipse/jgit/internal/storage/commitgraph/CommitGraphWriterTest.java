@@ -52,8 +52,10 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 	@Test
 	public void testWriteInEmptyRepo() throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
-		writer = new CommitGraphWriter(GraphCommits.fromWalk(m, Collections.emptySet(), walk));
-		writer.write(m, os);
+		GraphCommits gcs = GraphCommits.fromWalk(m, Collections.emptySet(),
+				walk);
+		writer = new CommitGraphWriter();
+		writer.write(m, os, gcs);
 		assertEquals(0, os.size());
 	}
 
@@ -68,19 +70,24 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
-		writer.write(m, os);
+		writer = new CommitGraphWriter();
+		writer.write(m, os, graphCommits);
 
 		assertEquals(5, graphCommits.size());
 		byte[] data = os.toByteArray();
 		assertTrue(data.length > 0);
 		byte[] headers = new byte[8];
 		System.arraycopy(data, 0, headers, 0, 8);
-		assertArrayEquals(new byte[] { 'C', 'G', 'P', 'H', 1, 1, 4, 0 }, headers);
-		assertEquals(CommitGraphConstants.CHUNK_ID_OID_FANOUT, NB.decodeInt32(data, 8));
-		assertEquals(CommitGraphConstants.CHUNK_ID_OID_LOOKUP, NB.decodeInt32(data, 20));
-		assertEquals(CommitGraphConstants.CHUNK_ID_COMMIT_DATA, NB.decodeInt32(data, 32));
-		assertEquals(CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST, NB.decodeInt32(data, 44));
+		assertArrayEquals(new byte[] { 'C', 'G', 'P', 'H', 1, 1, 4, 0 },
+				headers);
+		assertEquals(CommitGraphConstants.CHUNK_ID_OID_FANOUT,
+				NB.decodeInt32(data, 8));
+		assertEquals(CommitGraphConstants.CHUNK_ID_OID_LOOKUP,
+				NB.decodeInt32(data, 20));
+		assertEquals(CommitGraphConstants.CHUNK_ID_COMMIT_DATA,
+				NB.decodeInt32(data, 32));
+		assertEquals(CommitGraphConstants.CHUNK_ID_EXTRA_EDGE_LIST,
+				NB.decodeInt32(data, 44));
 	}
 
 	@Test
@@ -93,18 +100,22 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits);
-		writer.write(m, os);
+		writer = new CommitGraphWriter();
+		writer.write(m, os, graphCommits);
 
 		assertEquals(4, graphCommits.size());
 		byte[] data = os.toByteArray();
 		assertTrue(data.length > 0);
 		byte[] headers = new byte[8];
 		System.arraycopy(data, 0, headers, 0, 8);
-		assertArrayEquals(new byte[] { 'C', 'G', 'P', 'H', 1, 1, 3, 0 }, headers);
-		assertEquals(CommitGraphConstants.CHUNK_ID_OID_FANOUT, NB.decodeInt32(data, 8));
-		assertEquals(CommitGraphConstants.CHUNK_ID_OID_LOOKUP, NB.decodeInt32(data, 20));
-		assertEquals(CommitGraphConstants.CHUNK_ID_COMMIT_DATA, NB.decodeInt32(data, 32));
+		assertArrayEquals(new byte[] { 'C', 'G', 'P', 'H', 1, 1, 3, 0 },
+				headers);
+		assertEquals(CommitGraphConstants.CHUNK_ID_OID_FANOUT,
+				NB.decodeInt32(data, 8));
+		assertEquals(CommitGraphConstants.CHUNK_ID_OID_LOOKUP,
+				NB.decodeInt32(data, 20));
+		assertEquals(CommitGraphConstants.CHUNK_ID_COMMIT_DATA,
+				NB.decodeInt32(data, 32));
 	}
 
 	@Test
@@ -117,8 +128,10 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits, 2);
-		writer.write(m, os);
+		CommitGraphConfig cfg = new CommitGraphConfig();
+		cfg.setGenerationVersion(2);
+		writer = new CommitGraphWriter(cfg);
+		writer.write(m, os, graphCommits);
 
 		assertEquals(4, graphCommits.size());
 		byte[] data = os.toByteArray();
@@ -150,8 +163,10 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		Set<ObjectId> wants = Collections.singleton(tip);
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
-		writer = new CommitGraphWriter(graphCommits, 2);
-		writer.write(m, os);
+		CommitGraphConfig cfg = new CommitGraphConfig();
+		cfg.setGenerationVersion(2);
+		writer = new CommitGraphWriter(cfg);
+		writer.write(m, os, graphCommits);
 
 		assertEquals(3, graphCommits.size());
 		byte[] data = os.toByteArray();
