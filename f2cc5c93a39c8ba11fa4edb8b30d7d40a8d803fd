@@ -34,6 +34,24 @@
       "parentUuid": "fa0387dc_fb8b69d5",
       "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ea486e_669786b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-11T21:07:16Z",
+      "side": 1,
+      "message": "like i said, we should follow the convention of reftableWriter. reftableWriter only tracks the latest stats of the latest generated reftable; the latest stats are flushed in the last line of the write logic before being replaced by the new stats.",
+      "parentUuid": "476ca760_6d4b349e",
+      "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
