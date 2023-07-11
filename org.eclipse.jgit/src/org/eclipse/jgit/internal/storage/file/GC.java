@@ -965,8 +965,7 @@ public class GC {
 		}
 		File tmpFile = null;
 		try (RevWalk walk = new RevWalk(repo)) {
-			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(pm, wants, walk));
+			CommitGraphWriter writer = new CommitGraphWriter();
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());
@@ -975,7 +974,9 @@ public class GC {
 					FileChannel channel = fos.getChannel();
 					OutputStream channelStream = Channels
 							.newOutputStream(channel)) {
-				writer.write(pm, channelStream);
+				GraphCommits graphCommits = GraphCommits.fromWalk(pm, wants,
+						walk);
+				writer.write(pm, channelStream, graphCommits);
 				channel.force(true);
 			}
 

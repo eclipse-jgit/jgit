@@ -261,10 +261,12 @@ public class CommitGraphTest extends RepositoryTestCase {
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		try (RevWalk walk = new RevWalk(db)) {
-			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(m, wants, walk), 2);
+			GraphCommits gcs = GraphCommits.fromWalk(m, wants, walk);
+			CommitGraphConfig cfg = new CommitGraphConfig();
+			cfg.setGenerationVersion(2);
+			CommitGraphWriter writer = new CommitGraphWriter(cfg);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			writer.write(m, os);
+			writer.write(m, os, gcs);
 			InputStream inputStream = new ByteArrayInputStream(
 					os.toByteArray());
 			commitGraph = CommitGraphLoader.read(inputStream);
