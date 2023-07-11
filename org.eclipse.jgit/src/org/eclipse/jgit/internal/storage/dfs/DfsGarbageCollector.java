@@ -767,6 +767,7 @@ public class DfsGarbageCollector {
 			pack.addFileExt(COMMIT_GRAPH);
 			pack.setFileSize(COMMIT_GRAPH, cnt.getCount());
 			pack.setBlockSize(COMMIT_GRAPH, out.blockSize());
+			pack.setCommitGraphStats(writer.getStats());
 		}
 	}
 }

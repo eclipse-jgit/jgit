@@ -64,6 +64,18 @@ public class CommitGraphWriter {
 
 	private final GraphCommits graphCommits;
 
+	private int numOfCorrectedClockSkew = 0;
+
+	private int numOfNonZeroOffset = 0;
+
+	private int numOfOverflowOffset = 0;
+
+	private int chunkSizeGDA2 = 0;
+
+	private int chunkSizeGDO2 = 0;
+
+	private Stats stats;
+
 	/**
 	 * Create commit-graph writer for these commits.
 	 *
@@ -98,6 +110,15 @@ public class CommitGraphWriter {
 	}
 
 	/**
+	 * Get statistics of the last written Commit Graph.
+	 *
+	 * @return statistics of the last written Commit Graph.
+	 */
+	public CommitGraphWriter.Stats getStats() {
+		return stats;
+	}
+
+	/**
 	 * Write commit-graph to the supplied stream.
 	 *
 	 * @param monitor           progress monitor to report the number of items
@@ -108,25 +129,41 @@ public class CommitGraphWriter {
 	 * @throws IOException
 	 *             if an error occurred
 	 */
-	public void write(@NonNull ProgressMonitor monitor, @NonNull OutputStream commitGraphStream) throws IOException {
+	public void write(@NonNull ProgressMonitor monitor,
+			@NonNull OutputStream commitGraphStream) throws IOException {
 		if (graphCommits.size() == 0) {
 			return;
 		}
 		List<ChunkHeader> chunks = createChunks(monitor);
-		long writeCount = 256 + 2 * graphCommits.size() + graphCommits.getExtraEdgeCnt();
-		monitor.beginTask(MessageFormat.format(JGitText.get().writingOutCommitGraph, Integer.valueOf(chunks.size())),
+		long writeCount = 256 + 2 * graphCommits.size()
+				+ graphCommits.getExtraEdgeCnt();
+		monitor.beginTask(
+				MessageFormat.format(JGitText.get().writingOutCommitGraph,
+						Integer.valueOf(chunks.size())),
 				(int) writeCount);
 
-		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(monitor, commitGraphStream)) {
+		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
+				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
 			writeChunks(monitor, out, chunks);
 			writeCheckSum(out);
 		} catch (InterruptedIOException e) {
-			throw new IOException(JGitText.get().commitGraphWritingCancelled, e);
+			throw new IOException(JGitText.get().commitGraphWritingCancelled,
+					e);
 		} finally {
+			stats = new Stats(this);
+			flush();
 			monitor.endTask();
 		}
+	}
+
+	private void flush() {
+		numOfCorrectedClockSkew = 0;
+		numOfNonZeroOffset = 0;
+		numOfOverflowOffset = 0;
+		chunkSizeGDA2 = 0;
+		chunkSizeGDO2 = 0;
 	}
 
 	private List<ChunkHeader> createChunks(@NonNull ProgressMonitor monitor) throws IOException {
@@ -197,7 +234,7 @@ public class CommitGraphWriter {
 			case CHUNK_GENERATION_DATA_OVERFLOW:
 				if (chunk.data.isEmpty()) {
 					throw new IllegalStateException(
-							"data for this chunk must be precomputed");
+							"data for this chunk must be precomputed"); //$NON-NLS-1$
 				}
 				chunk.data.get().writeTo(out);
 				break;
@@ -303,6 +340,7 @@ public class CommitGraphWriter {
 			while (!commitStack.empty()) {
 				long maxCorrectedCommitDate = 0;
 				boolean allParentComputed = true;
+				boolean isLargestParentUnchanged = false;
 				RevCommit current = commitStack.peek();
 				RevCommit parent;
 
@@ -310,6 +348,8 @@ public class CommitGraphWriter {
 					parent = current.getParent(i);
 					correctedCommitDate = correctedCommitDates[graphCommits
 							.getOidPosition(parent)];
+					boolean isParentUnchanged = correctedCommitDate == parent
+							.getCommitTime();
 					if (correctedCommitDate == COMMIT_GENERATION_NOT_COMPUTED
 							|| correctedCommitDate == COMMIT_GENERATION_UNKNOWN_V2) {
 						allParentComputed = false;
@@ -317,16 +357,26 @@ public class CommitGraphWriter {
 						break;
 					} else if (correctedCommitDate > maxCorrectedCommitDate) {
 						maxCorrectedCommitDate = correctedCommitDate;
+						if (isParentUnchanged) {
+							isLargestParentUnchanged = true;
+						} else {
+							isLargestParentUnchanged = false;
+						}
 					}
 				}
 
 				if (allParentComputed) {
 					RevCommit commit = commitStack.pop();
+					boolean correctionNeeded = commit
+							.getCommitTime() <= maxCorrectedCommitDate;
+
+					if (isLargestParentUnchanged && correctionNeeded) {
+						numOfCorrectedClockSkew++;
+					}
 					correctedCommitDates[graphCommits
-							.getOidPosition(commit)] = commit
-									.getCommitTime() > maxCorrectedCommitDate
-											? commit.getCommitTime()
-											: maxCorrectedCommitDate + 1;
+							.getOidPosition(commit)] = correctionNeeded
+									? maxCorrectedCommitDate + 1
+									: commit.getCommitTime();
 				}
 			}
 		}
@@ -339,9 +389,14 @@ public class CommitGraphWriter {
 			int commitData = c.getCommitTime();
 			long offset = correctedCommitDate - commitData;
 
+			if (offset > 0) {
+				numOfNonZeroOffset++;
+			}
+
 			byte[] data_tmp = new byte[4];
 
 			if (offset > GENERATION_DATA_MAX_OFFSET) {
+				numOfOverflowOffset++;
 				byte[] overflow_tmp = new byte[8];
 				int valueReplacement = GENERATION_DATA_OVERFLOW_BIT
 						| overflowPos++;
@@ -354,6 +409,8 @@ public class CommitGraphWriter {
 				data.write(data_tmp);
 			}
 		}
+		chunkSizeGDA2 = data.size();
+		chunkSizeGDO2 = overflow.size();
 		return new GenerationDataChunks(data, overflow);
 	}
 
@@ -450,6 +507,58 @@ public class CommitGraphWriter {
 				ByteArrayOutputStream overflow) {
 			this.data = data;
 			this.overflow = overflow;
+		}
+	}
+
+	/**
+	 * Statistics collected during a single commit graph write.
+	 */
+	public static class Stats {
+		private final int numOfClockSkew;
+
+		private final int numOfNonZeroOffset;
+
+		private final int numOfOverflowOffset;
+
+		private final int chunkSizeGDA2;
+
+		private final int chunkSizeGDO2;
+
+		Stats(CommitGraphWriter w) {
+			numOfClockSkew = w.numOfCorrectedClockSkew;
+			numOfNonZeroOffset = w.numOfNonZeroOffset;
+			numOfOverflowOffset = w.numOfOverflowOffset;
+			chunkSizeGDA2 = w.chunkSizeGDA2;
+			chunkSizeGDO2 = w.chunkSizeGDO2;
+		}
+
+		/**
+		 * @return number of corrected clock skew encountered in commit graph
+		 *         writing. Not all clock skews are corrected, only the largest
+		 *         clock skew of a commit is corrected.
+		 */
+		public int numOfClockSkew() {
+			return numOfClockSkew;
+		}
+
+		/** @return number of non-zero offset in the GDA2 chunk. */
+		public int numOfNonZeroOffset() {
+			return numOfNonZeroOffset;
+		}
+
+		/** @return number of 64 bit overflow offsets in the GDO2 chunk. */
+		public int numOfOverflowOffset() {
+			return numOfOverflowOffset;
+		}
+
+		/** @return size of GDA2 chunk. */
+		public int chunkSizeGDA2() {
+			return chunkSizeGDA2;
+		}
+
+		/** @return size of GDO2 chunk. */
+		public int chunkSizeGDO2() {
+			return chunkSizeGDO2;
 		}
 	}
 }
