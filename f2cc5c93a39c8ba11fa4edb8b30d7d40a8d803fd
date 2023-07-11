@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0387dc_fb8b69d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-11T16:43:47Z",
+      "side": 1,
+      "message": "we should match the convention of packWriter and reftableWriter to make the stats as a field within the writer class, then only return it when the invoker wants it.",
+      "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
