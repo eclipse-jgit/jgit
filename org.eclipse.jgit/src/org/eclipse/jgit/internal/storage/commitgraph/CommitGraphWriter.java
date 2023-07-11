@@ -31,7 +31,6 @@ import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_NOT_COMPUTED;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN_V1;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN_V2;
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -62,7 +61,9 @@ public class CommitGraphWriter {
 
 	private final int generationVersion;
 
-	private final GraphCommits graphCommits;
+	private Stats stats;
+
+	private CommitGraphConfig config;
 
 	private int numOfCorrectedClockSkew = 0;
 
@@ -74,39 +75,31 @@ public class CommitGraphWriter {
 
 	private int chunkSizeGDO2 = 0;
 
-	private Stats stats;
-
 	/**
-	 * Create commit-graph writer for these commits.
-	 *
-	 * @param graphCommits
-	 *            the commits which will be written to the commit-graph.
+	 * Create a default commit-graph writer
 	 */
-	public CommitGraphWriter(@NonNull GraphCommits graphCommits) {
-		this.graphCommits = graphCommits;
-		this.hashsz = OBJECT_ID_LENGTH;
-		this.generationVersion = 1;
+	public CommitGraphWriter() {
+		this.config = new CommitGraphConfig();
+		this.hashsz = config.getHashsz();
+		this.generationVersion = config.getGenerationVersion();
 	}
 
 	/**
-	 * Create commit-graph writer for these commits.
+	 * Create commit-graph writer for these commits based on commit graph
+	 * config.
 	 *
-	 * @param graphCommits
-	 *            the commits which will be written to the commit-graph.
-	 * @param generationVersion
-	 *            the generation version will be used in the newly created
-	 *            commit-graph.
+	 * @param commitGraphConfig
+	 *            the config used to initiate CommitGraphWriter
 	 */
-	public CommitGraphWriter(@NonNull GraphCommits graphCommits,
-			int generationVersion) {
-		this.graphCommits = graphCommits;
-		this.hashsz = OBJECT_ID_LENGTH;
-		if (generationVersion != 2 && generationVersion != 1) {
+	public CommitGraphWriter(CommitGraphConfig commitGraphConfig) {
+		this.hashsz = commitGraphConfig.getHashsz();
+		int configGenerationVersion = commitGraphConfig.getGenerationVersion();
+		if (configGenerationVersion != 2 && configGenerationVersion != 1) {
 			throw new IllegalStateException(MessageFormat.format(
 					JGitText.get().unsupportedGenerationNumberVersion,
-					Integer.valueOf(generationVersion)));
+					Integer.valueOf(configGenerationVersion)));
 		}
-		this.generationVersion = generationVersion;
+		this.generationVersion = configGenerationVersion;
 	}
 
 	/**
@@ -119,22 +112,38 @@ public class CommitGraphWriter {
 	}
 
 	/**
+	 * Set configuration for the writer.
+	 *
+	 * @param cfg
+	 *            configuration for the writer.
+	 * @return {@code this}
+	 */
+	public CommitGraphWriter setConfig(CommitGraphConfig cfg) {
+		this.config = cfg != null ? cfg : new CommitGraphConfig();
+		return this;
+	}
+
+	/**
 	 * Write commit-graph to the supplied stream.
 	 *
-	 * @param monitor           progress monitor to report the number of items
-	 *                          written.
-	 * @param commitGraphStream output stream of commit-graph data. The stream
-	 *                          should be buffered by the caller. The caller is
-	 *                          responsible for closing the stream.
+	 * @param monitor
+	 *            progress monitor to report the number of items written.
+	 * @param commitGraphStream
+	 *            output stream of commit-graph data. The stream should be
+	 *            buffered by the caller. The caller is responsible for closing
+	 *            the stream.
+	 * @param graphCommits
+	 *            the commits which will be writen to the commit-graph.
 	 * @throws IOException
 	 *             if an error occurred
 	 */
 	public void write(@NonNull ProgressMonitor monitor,
-			@NonNull OutputStream commitGraphStream) throws IOException {
+			@NonNull OutputStream commitGraphStream,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		if (graphCommits.size() == 0) {
 			return;
 		}
-		List<ChunkHeader> chunks = createChunks(monitor);
+		List<ChunkHeader> chunks = createChunks(monitor, graphCommits);
 		long writeCount = 256 + 2 * graphCommits.size()
 				+ graphCommits.getExtraEdgeCnt();
 		monitor.beginTask(
@@ -146,7 +155,7 @@ public class CommitGraphWriter {
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
-			writeChunks(monitor, out, chunks);
+			writeChunks(monitor, out, chunks, graphCommits);
 			writeCheckSum(out);
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
@@ -166,18 +175,22 @@ public class CommitGraphWriter {
 		chunkSizeGDO2 = 0;
 	}
 
-	private List<ChunkHeader> createChunks(@NonNull ProgressMonitor monitor) throws IOException {
+	private List<ChunkHeader> createChunks(@NonNull ProgressMonitor monitor,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.add(new ChunkHeader(CHUNK_ID_OID_FANOUT, GRAPH_FANOUT_SIZE));
-		chunks.add(new ChunkHeader(CHUNK_ID_OID_LOOKUP, hashsz * graphCommits.size()));
-		chunks.add(new ChunkHeader(CHUNK_ID_COMMIT_DATA, (hashsz + 16) * graphCommits.size()));
+		chunks.add(new ChunkHeader(CHUNK_ID_OID_LOOKUP,
+				hashsz * graphCommits.size()));
+		chunks.add(new ChunkHeader(CHUNK_ID_COMMIT_DATA,
+				(hashsz + 16) * graphCommits.size()));
 		if (graphCommits.getExtraEdgeCnt() > 0) {
-			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST, graphCommits.getExtraEdgeCnt() * 4));
+			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST,
+					graphCommits.getExtraEdgeCnt() * 4));
 		}
 
 		if (generationVersion == 2) {
 			GenerationDataChunks generationDataChunks = computeGenerationNumberV2(
-					monitor);
+					monitor, graphCommits);
 			chunks.add(new ChunkHeader(CHUNK_GENERATION_DATA,
 					generationDataChunks.data));
 			if (generationDataChunks.overflow.size() > 0) {
@@ -188,16 +201,19 @@ public class CommitGraphWriter {
 		return chunks;
 	}
 
-	private void writeHeader(CancellableDigestOutputStream out, int numChunks) throws IOException {
+	private void writeHeader(CancellableDigestOutputStream out, int numChunks)
+			throws IOException {
 		byte[] headerBuffer = new byte[8];
 		NB.encodeInt32(headerBuffer, 0, COMMIT_GRAPH_MAGIC);
-		byte[] buff = { (byte) COMMIT_GRAPH_VERSION_GENERATED, (byte) OID_HASH_VERSION, (byte) numChunks, (byte) 0 };
+		byte[] buff = { (byte) COMMIT_GRAPH_VERSION_GENERATED,
+				(byte) OID_HASH_VERSION, (byte) numChunks, (byte) 0 };
 		System.arraycopy(buff, 0, headerBuffer, 4, 4);
 		out.write(headerBuffer, 0, 8);
 		out.flush();
 	}
 
-	private void writeChunkLookup(CancellableDigestOutputStream out, List<ChunkHeader> chunks) throws IOException {
+	private void writeChunkLookup(CancellableDigestOutputStream out,
+			List<ChunkHeader> chunks) throws IOException {
 		int numChunks = chunks.size();
 		long chunkOffset = 8 + (numChunks + 1) * CHUNK_LOOKUP_WIDTH;
 		byte[] buffer = new byte[CHUNK_LOOKUP_WIDTH];
@@ -212,23 +228,24 @@ public class CommitGraphWriter {
 		out.write(buffer);
 	}
 
-	private void writeChunks(ProgressMonitor monitor, CancellableDigestOutputStream out, List<ChunkHeader> chunks)
-			throws IOException {
+	private void writeChunks(ProgressMonitor monitor,
+			CancellableDigestOutputStream out, List<ChunkHeader> chunks,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		for (ChunkHeader chunk : chunks) {
 			int chunkId = chunk.id;
 
 			switch (chunkId) {
 			case CHUNK_ID_OID_FANOUT:
-				writeFanoutTable(out);
+				writeFanoutTable(out, graphCommits);
 				break;
 			case CHUNK_ID_OID_LOOKUP:
-				writeOidLookUp(out);
+				writeOidLookUp(out, graphCommits);
 				break;
 			case CHUNK_ID_COMMIT_DATA:
-				writeCommitData(monitor, out);
+				writeCommitData(monitor, out, graphCommits);
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
-				writeExtraEdges(out);
+				writeExtraEdges(out, graphCommits);
 				break;
 			case CHUNK_GENERATION_DATA:
 			case CHUNK_GENERATION_DATA_OVERFLOW:
@@ -242,12 +259,14 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private void writeCheckSum(CancellableDigestOutputStream out) throws IOException {
+	private void writeCheckSum(CancellableDigestOutputStream out)
+			throws IOException {
 		out.write(out.getDigest());
 		out.flush();
 	}
 
-	private void writeFanoutTable(CancellableDigestOutputStream out) throws IOException {
+	private void writeFanoutTable(CancellableDigestOutputStream out,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		byte[] tmp = new byte[4];
 		int[] fanout = new int[256];
 		for (RevCommit c : graphCommits) {
@@ -263,7 +282,8 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private void writeOidLookUp(CancellableDigestOutputStream out) throws IOException {
+	private void writeOidLookUp(CancellableDigestOutputStream out,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		byte[] tmp = new byte[4 + hashsz];
 
 		for (RevCommit c : graphCommits) {
@@ -273,8 +293,10 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private void writeCommitData(ProgressMonitor monitor, CancellableDigestOutputStream out) throws IOException {
-		int[] generations = computeGenerationNumberV1(monitor);
+	private void writeCommitData(ProgressMonitor monitor,
+			CancellableDigestOutputStream out,
+			@NonNull GraphCommits graphCommits) throws IOException {
+		int[] generations = computeGenerationNumberV1(monitor, graphCommits);
 		int num = 0;
 		byte[] tmp = new byte[hashsz + COMMIT_DATA_WIDTH];
 		int i = 0;
@@ -318,7 +340,8 @@ public class CommitGraphWriter {
 	}
 
 	private GenerationDataChunks computeGenerationNumberV2(
-			ProgressMonitor monitor) throws IOException {
+			ProgressMonitor monitor, @NonNull GraphCommits graphCommits)
+			throws IOException {
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
 		ByteArrayOutputStream overflow = new ByteArrayOutputStream();
 
@@ -414,14 +437,16 @@ public class CommitGraphWriter {
 		return new GenerationDataChunks(data, overflow);
 	}
 
-	private int[] computeGenerationNumberV1(ProgressMonitor monitor)
-			throws IOException {
+	private int[] computeGenerationNumberV1(ProgressMonitor monitor,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		int[] generations = new int[graphCommits.size()];
-		monitor.beginTask(JGitText.get().computingCommitGenerationV1, graphCommits.size());
+		monitor.beginTask(JGitText.get().computingCommitGenerationV1,
+				graphCommits.size());
 		for (RevCommit cmit : graphCommits) {
 			monitor.update(1);
 			int generation = generations[graphCommits.getOidPosition(cmit)];
-			if (generation != COMMIT_GENERATION_NOT_COMPUTED && generation != COMMIT_GENERATION_UNKNOWN_V1) {
+			if (generation != COMMIT_GENERATION_NOT_COMPUTED
+					&& generation != COMMIT_GENERATION_UNKNOWN_V1) {
 				continue;
 			}
 
@@ -436,8 +461,10 @@ public class CommitGraphWriter {
 
 				for (int i = 0; i < current.getParentCount(); i++) {
 					parent = current.getParent(i);
-					generation = generations[graphCommits.getOidPosition(parent)];
-					if (generation == COMMIT_GENERATION_NOT_COMPUTED || generation == COMMIT_GENERATION_UNKNOWN_V1) {
+					generation = generations[graphCommits
+							.getOidPosition(parent)];
+					if (generation == COMMIT_GENERATION_NOT_COMPUTED
+							|| generation == COMMIT_GENERATION_UNKNOWN_V1) {
 						allParentComputed = false;
 						commitStack.push(parent);
 						break;
@@ -448,9 +475,10 @@ public class CommitGraphWriter {
 
 				if (allParentComputed) {
 					RevCommit commit = commitStack.pop();
-					generations[graphCommits.getOidPosition(commit)] = maxGeneration >= GENERATION_NUMBER_V1_MAX
-							? GENERATION_NUMBER_V1_MAX
-							: maxGeneration + 1;
+					generations[graphCommits.getOidPosition(
+							commit)] = maxGeneration >= GENERATION_NUMBER_V1_MAX
+									? GENERATION_NUMBER_V1_MAX
+									: maxGeneration + 1;
 				}
 			}
 		}
@@ -458,7 +486,8 @@ public class CommitGraphWriter {
 		return generations;
 	}
 
-	private void writeExtraEdges(CancellableDigestOutputStream out) throws IOException {
+	private void writeExtraEdges(CancellableDigestOutputStream out,
+			@NonNull GraphCommits graphCommits) throws IOException {
 		byte[] tmp = new byte[4];
 		for (RevCommit commit : graphCommits) {
 			RevCommit[] parents = commit.getParents();

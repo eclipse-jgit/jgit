@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConfig;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.commitgraph.GraphCommits;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -79,6 +80,7 @@ public class DfsGarbageCollector {
 
 	private PackConfig packConfig;
 	private ReftableConfig reftableConfig;
+	private CommitGraphConfig commitGraphConfig;
 	private boolean convertToReftable = true;
 	private boolean writeCommitGraph;
 	private boolean includeDeletes;
@@ -150,6 +152,18 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setReftableConfig(ReftableConfig cfg) {
 		reftableConfig = cfg;
+		return this;
+	}
+
+	/**
+	 * Set configuration to write a commit graph.
+	 *
+	 * @param cfg
+	 *            configuration to write a commit graph.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setCommitGraphConfig(CommitGraphConfig cfg) {
+		commitGraphConfig = cfg;
 		return this;
 	}
 
@@ -774,8 +788,11 @@ public class DfsGarbageCollector {
 				RevWalk pool = new RevWalk(ctx)) {
 			GraphCommits gcs = GraphCommits.fromWalk(pm, allTips, pool);
 			CountingOutputStream cnt = new CountingOutputStream(out);
-			CommitGraphWriter writer = new CommitGraphWriter(gcs);
-			writer.write(pm, cnt);
+			CommitGraphConfig cfg = this.commitGraphConfig == null
+					? new CommitGraphConfig()
+					: this.commitGraphConfig;
+			CommitGraphWriter writer = new CommitGraphWriter(cfg);
+			writer.write(pm, cnt, gcs);
 			pack.addFileExt(COMMIT_GRAPH);
 			pack.setFileSize(COMMIT_GRAPH, cnt.getCount());
 			pack.setBlockSize(COMMIT_GRAPH, out.blockSize());
