@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb47fd6_79f0dbf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-11T09:33:44Z",
+      "side": 1,
+      "message": "This is a temporary measure. Perhaps a better approach is to have a PKCS11Uri configuration containing a RFC7512 URI? We could support only slot-id and a \"vendor-specific\" slot-list-index query parameter. (I\u0027m not sure about this slot list index being stable; it might depend on the order the user inserts USB devices? Is the slot id stable?) Yet another approach might be to let IdentityFile contain such URIs, but then what to do if there are several such IdentityFile entries? Create multiple KeyStores if slot-id or slot-list-index are different? The Java security API has nothing to support any of the other fields of a RFC7512 URI.",
+      "range": {
+        "startLine": 28,
+        "startChar": 35,
+        "endLine": 28,
+        "endChar": 67
+      },
+      "revId": "ebc5b8e25f0e8de0f92466a627308c31081ec2f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af279b1_e0a97937",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-11T09:33:44Z",
+      "side": 1,
+      "message": "Why is the p2 repo build failing? Is there no tycho 4.0.0-SNAPSHOT anymore now that tycho 4.0.0 has been released?",
+      "revId": "ebc5b8e25f0e8de0f92466a627308c31081ec2f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
