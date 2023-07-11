@@ -16,6 +16,24 @@
       "message": "we should match the convention of packWriter and reftableWriter to make the stats as a field within the writer class, then only return it when the invoker wants it.",
       "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "476ca760_6d4b349e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-11T18:22:00Z",
+      "side": 1,
+      "message": "In that pattern, what happens when you call \"write\" multiple times?\n\nReturning the stats on the call makes clear their content and keeps the class immutable. The caller can ignore them if they don\u0027t need them.",
+      "parentUuid": "fa0387dc_fb8b69d5",
+      "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
