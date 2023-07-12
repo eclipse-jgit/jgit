@@ -48,6 +48,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1758d9b_e278d7f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsReaderTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-12T22:42:31Z",
+      "side": 1,
+      "message": "At this point in the stack of changes, we don\u0027t have a writer yet. I postpone the test of this reader until then (https://git.eclipse.org/r/c/jgit/jgit/+/203137)",
+      "parentUuid": "17abd6db_78a19e54",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c937e466_2836519b",
