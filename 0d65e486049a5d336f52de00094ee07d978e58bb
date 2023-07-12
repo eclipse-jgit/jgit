@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f04fc0_5994e607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-12T15:09:15Z",
+      "side": 1,
+      "message": "the term \"ChangedPathFilter\" is a contextual in the revCommit level not on the CommitGraph level. CommitGraph itself inherently doesn\u0027t need such usage context as technically bloom filters doesn\u0027t have to be used for recording changed paths when being stored in CommitGraph.\n\nRecommendation: changed to GraphBloomFilterData.",
+      "revId": "0d65e486049a5d336f52de00094ee07d978e58bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "695176c6_4cdaa3c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-12T15:09:15Z",
+      "side": 1,
+      "message": "the term \"changedPathFilter\" is a contextual term on the revCommit level, Commit Graph field naming should not be determined by how the invokers want to use the data. This class is only meant to be a data container in memory holding bloom filters, so please just call it GraphBloomFilterData; technically, the bloom filters don\u0027t have to be used to exclusively store changed path either, so forcing the name of \"changedPathFilter\" isn\u0027t ideal on this level of abstraction. \n\nrecommendation: change class name to GraphBloomFilterData.",
+      "revId": "0d65e486049a5d336f52de00094ee07d978e58bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
