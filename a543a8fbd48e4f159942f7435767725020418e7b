@@ -72,6 +72,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98d3c708_026b0ce0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsReaderTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-13T18:27:20Z",
+      "side": 1,
+      "message": "Ah! The test was good, because the value of isNotLargerThan is the same with or without object-size index.\n\nIt was failing due to stats. I restore the test with \"no object size\" index. The cases with index come later.",
+      "parentUuid": "f1758d9b_e278d7f8",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "a543a8fbd48e4f159942f7435767725020418e7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c937e466_2836519b",
