@@ -45,6 +45,30 @@
       },
       "revId": "c9b43cff4e81faec4c94c86cbdbce91d7af32a8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8fbc9e6_fbe7449b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T22:02:22Z",
+      "side": 1,
+      "message": "Ah I see that it is, in \"DfsPackParser: Create object indices if config says so\".",
+      "parentUuid": "fe91af75_32412bad",
+      "range": {
+        "startLine": 1121,
+        "startChar": 26,
+        "endLine": 1121,
+        "endChar": 46
+      },
+      "revId": "c9b43cff4e81faec4c94c86cbdbce91d7af32a8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
