@@ -16,6 +16,24 @@
       "message": "where are these expected size numbers coming from?",
       "revId": "8220215d03e5af346fb37ca3a8a256bf4469d1d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ee2d55_2287029a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T21:57:14Z",
+      "side": 1,
+      "message": "They are a bit hard to calculate, but I think that the most important thing is that they are computed (so, not 0 or -1 or some default value). I think the test is fine.",
+      "parentUuid": "d831096c_1c09633a",
+      "revId": "8220215d03e5af346fb37ca3a8a256bf4469d1d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
