@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c06a73_5d07c154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T21:50:00Z",
+      "side": 1,
+      "message": "spelling of Garbage",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "c9b43cff4e81faec4c94c86cbdbce91d7af32a8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe91af75_32412bad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T21:50:00Z",
+      "side": 1,
+      "message": "Is the isNotLargerThan method tested in a subsequent change? (Just looking at the subjects I don\u0027t see any, but I might be wrong)",
+      "range": {
+        "startLine": 1121,
+        "startChar": 26,
+        "endLine": 1121,
+        "endChar": 46
+      },
+      "revId": "c9b43cff4e81faec4c94c86cbdbce91d7af32a8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
