@@ -22,6 +22,30 @@
       },
       "revId": "9b93884d7d29c12743520fc8b0a8ef09be2dfb33",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4818b3_7189c895",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-13T19:59:06Z",
+      "side": 1,
+      "message": "I came back to this for different reason. We write the object size index if config says so for any pack except unreachable garbage.\n\nI set the conditions like prepareBitmapIndex() (before #writeFile).",
+      "parentUuid": "65b97833_6fc8aa9b",
+      "range": {
+        "startLine": 688,
+        "startChar": 6,
+        "endLine": 688,
+        "endChar": 26
+      },
+      "revId": "9b93884d7d29c12743520fc8b0a8ef09be2dfb33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
