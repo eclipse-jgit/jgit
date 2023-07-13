@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcbf4f83_88c34cb0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsReaderTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T22:01:42Z",
+      "side": 1,
+      "message": "To make it clearer, can you also assert on the objectSizeIndexMiss? Same comment for the next test.",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "cbbfadd82de7b4b10e7e7ae4c01328fca3b16ad2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
