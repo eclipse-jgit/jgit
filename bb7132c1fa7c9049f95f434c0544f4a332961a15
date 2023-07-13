@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99429c84_9fad7772",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-13T17:50:42Z",
+      "side": 1,
+      "message": "this breaks backward compatibility. You have to either add a new ctor or a setWriteBase() method.",
+      "range": {
+        "startLine": 89,
+        "startChar": 50,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
