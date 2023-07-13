@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88f2e52_dbdc318e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T21:47:51Z",
+      "side": 1,
+      "message": "LGTM. Please respond to my optional comment, then you can submit this.",
+      "revId": "9dace2e6d6c4ee8c2ea49cc19fa349a81278b2fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a16625d9_81b0f38f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-13T21:47:51Z",
+      "side": 1,
+      "message": "Optional: I think that the threshold check is cheaper, so it should be done first. But for the purposes of this change, I\u0027m OK either way - it\u0027s a very local change so we can easily change it later if we find that there is a big performance gain.",
+      "range": {
+        "startLine": 534,
+        "startChar": 17,
+        "endLine": 534,
+        "endChar": 37
+      },
+      "revId": "9dace2e6d6c4ee8c2ea49cc19fa349a81278b2fc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
