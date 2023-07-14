@@ -9,6 +9,10 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndex.MAGIC;
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndex.VERSION_1;
+import static org.eclipse.jgit.internal.storage.file.PackReverseIndexV1.OID_VERSION_SHA1;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -24,8 +28,6 @@ import org.eclipse.jgit.util.IntList.IntComparator;
  * https://git-scm.com/docs/pack-format#_pack_rev_files_have_the_format.
  */
 final class PackReverseIndexWriterV1 extends PackReverseIndexWriter {
-	private static final int OID_VERSION_SHA1 = 1;
-
 	private static final int DEFAULT_OID_VERSION = OID_VERSION_SHA1;
 
 	PackReverseIndexWriterV1(final OutputStream dst) {
