@@ -3,6 +3,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f82b9ba3_300d6ccd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-14T11:26:17Z",
+      "side": 1,
+      "message": "Wrong @since.",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5877c163_ad98e868",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-14T11:26:17Z",
+      "side": 1,
+      "message": "Or after a ||||||| .",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac16963_13755fac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-14T11:26:17Z",
+      "side": 1,
+      "message": "Wrong @since.",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07a1f17e_1824b307",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-14T11:26:17Z",
+      "side": 1,
+      "message": "Wrong @since.",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99429c84_9fad7772",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
         "patchSetId": 2
