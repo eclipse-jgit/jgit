@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bf9ba0f_37e822e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T17:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25f4ac51_cdb82bdf",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afc97d11_2a65d610",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-13T22:26:17Z",
       "side": 1,
       "message": "flushing",
+      "range": {
+        "startLine": 11,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 70
+      },
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad36049_47d642cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T17:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afc97d11_2a65d610",
       "range": {
         "startLine": 11,
         "startChar": 58,
@@ -64,6 +112,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "787f990f_14696e62",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackParserTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T17:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "460da7bd_b99d8193",
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3432b2bd_645af891",
@@ -81,6 +147,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "617e789a_247b5e75",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackParserTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T17:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3432b2bd_645af891",
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39d473d2_46d4c08e",
@@ -94,6 +178,24 @@
       "writtenOn": "2023-04-13T22:26:17Z",
       "side": 1,
       "message": "this line seems too wide",
+      "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bf493bd_53540ab2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T17:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39d473d2_46d4c08e",
       "revId": "e4132f956f77d612c6e0fd5e53537e34c8323f38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
