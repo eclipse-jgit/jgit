@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5f90cd01_275b82a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-14T20:14:54Z",
+      "side": 1,
+      "message": "Done. The solution is actually simple: tell OpenSSH to ignore the option it doesn\u0027t know by adding\n\n  IgnoreUnknown PKCS11SlotListIndex\n\nat the top of ~/.ssh/config. I have included this in the README.md.",
+      "parentUuid": "bcdb84ae_73bb88d8",
+      "range": {
+        "startLine": 28,
+        "startChar": 35,
+        "endLine": 28,
+        "endChar": 67
+      },
+      "revId": "ebc5b8e25f0e8de0f92466a627308c31081ec2f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3af279b1_e0a97937",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
