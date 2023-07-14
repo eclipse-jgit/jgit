@@ -25,6 +25,16 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 public interface PackReverseIndex {
 	/**
+	 * Magic bytes that uniquely identify git reverse index files.
+	 */
+	byte[] MAGIC = { 'R', 'I', 'D', 'X' };
+
+	/**
+	 * The first reverse index file version.
+	 */
+	int VERSION_1 = 1;
+
+	/**
 	 * Search for object id with the specified start offset in this pack
 	 * (reverse) index.
 	 *
