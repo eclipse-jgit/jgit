@@ -22,6 +22,30 @@
       },
       "revId": "cbbfadd82de7b4b10e7e7ae4c01328fca3b16ad2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44ffe6c4_773c4cb1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsReaderTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T18:46:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcbf4f83_88c34cb0",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "cbbfadd82de7b4b10e7e7ae4c01328fca3b16ad2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
