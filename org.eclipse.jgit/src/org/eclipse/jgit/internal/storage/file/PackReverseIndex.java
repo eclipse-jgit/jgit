@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -33,6 +34,17 @@ public interface PackReverseIndex {
 	 * The first reverse index file version.
 	 */
 	int VERSION_1 = 1;
+
+	/**
+	 * Verify that the pack checksum found in the reverse index matches that
+	 * from the pack file.
+	 *
+	 * @param packFilePath
+	 *            the path to display in event of a mismatch
+	 * @throws PackMismatchException
+	 *             if the checksums do not match
+	 */
+	void verifyPackChecksum(String packFilePath) throws PackMismatchException;
 
 	/**
 	 * Search for object id with the specified start offset in this pack
