@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3252bc62_95006792",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T20:25:55Z",
+      "side": 1,
+      "message": "With the uncommitted changes in the stack, it is hard to review this one (e.g. \"stats\" will be an object and returned in the write).\n\nThis is doing two things: moving conf to an object and changing when the commits are passed to the class. Those are unrelated changes and should go to different commits. The first sounds like a good idea, the second not so much.\n\nFinally, AFAIK there is no plan to implement commit-graph layers yet, so that shouldn\u0027t be a reason to change anything.\n ",
+      "revId": "921b497b9186ffb59d6690d74b8e8c24d10ec413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
