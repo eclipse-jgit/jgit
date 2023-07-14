@@ -34,6 +34,24 @@
       "parentUuid": "d831096c_1c09633a",
       "revId": "8220215d03e5af346fb37ca3a8a256bf4469d1d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd4c3018_6b776ff4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsInserterTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-14T17:29:59Z",
+      "side": 1,
+      "message": "These are the actual sizes of the objects when git writes them. As the test uses always the same content, the size of the commit object is always the same.",
+      "parentUuid": "c8ee2d55_2287029a",
+      "revId": "8220215d03e5af346fb37ca3a8a256bf4469d1d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
