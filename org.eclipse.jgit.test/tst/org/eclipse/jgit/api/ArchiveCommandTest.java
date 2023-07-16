@@ -254,7 +254,7 @@ public class ArchiveCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@SuppressWarnings({ "serial", "boxing" })
+	@SuppressWarnings({ "boxing" })
 	private void archiveHeadAllFilesWithCompression(String fmt) throws Exception {
 		try (Git git = new Git(db)) {
 			createLargeTestContent(git);
