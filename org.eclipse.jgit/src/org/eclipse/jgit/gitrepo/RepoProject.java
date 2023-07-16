@@ -181,7 +181,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 */
 	public RepoProject(String name, String path, String revision,
 			String remote, String groupsParam) {
-		this(name, path, revision, remote, new HashSet<String>(), null);
+		this(name, path, revision, remote, new HashSet<>(), null);
 		if (groupsParam != null && groupsParam.length() > 0)
 			this.setGroups(groupsParam);
 	}

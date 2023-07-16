@@ -1986,8 +1986,10 @@ public class PackWriter implements AutoCloseable {
 		final long countingStart = System.currentTimeMillis();
 		beginPhase(PackingPhase.COUNTING, countingMonitor, ProgressMonitor.UNKNOWN);
 
-		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
-		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
+		stats.interestingObjects = Collections
+				.unmodifiableSet(new HashSet<>(want));
+		stats.uninterestingObjects = Collections
+				.unmodifiableSet(new HashSet<>(have));
 		excludeFromBitmapSelection = noBitmaps;
 
 		canBuildBitmaps = config.isBuildBitmaps()

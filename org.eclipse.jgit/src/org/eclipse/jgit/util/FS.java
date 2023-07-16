@@ -265,7 +265,7 @@ public abstract class FS {
 		 */
 		private static final ExecutorService FUTURE_RUNNER = new ThreadPoolExecutor(
 				0, 5, 30L, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>(),
+				new LinkedBlockingQueue<>(),
 				runnable -> {
 					Thread t = new Thread(runnable,
 							"JGit-FileStoreAttributeReader-" //$NON-NLS-1$
@@ -289,7 +289,7 @@ public abstract class FS {
 		 */
 		private static final ExecutorService SAVE_RUNNER = new ThreadPoolExecutor(
 				0, 1, 1L, TimeUnit.MILLISECONDS,
-				new LinkedBlockingQueue<Runnable>(),
+				new LinkedBlockingQueue<>(),
 				runnable -> {
 					Thread t = new Thread(runnable,
 							"JGit-FileStoreAttributeWriter-" //$NON-NLS-1$

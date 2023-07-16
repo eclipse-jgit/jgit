@@ -58,7 +58,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            ObjectId (name); it will be resorted in place.
 	 */
 	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
-		super(new ObjectIdOwnerMap<StoredBitmap>());
+		super(new ObjectIdOwnerMap<>());
 		byOffset = new BlockList<>(objects.size());
 		sortByOffsetAndIndex(byOffset, positionEntries, objects);
 

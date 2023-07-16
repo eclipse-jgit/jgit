@@ -84,7 +84,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 			throws IOException {
 		// An entry is object id, xor offset, flag byte, and a length encoded
 		// bitmap. The object id is an int32 of the nth position sorted by name.
-		super(new ObjectIdOwnerMap<StoredBitmap>());
+		super(new ObjectIdOwnerMap<>());
 		this.bitmaps = getBitmaps();
 
 		// Optionally start loading reverse index in parallel to loading bitmap
