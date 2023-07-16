@@ -834,7 +834,6 @@ public class GC {
 		Set<ObjectId> allHeads = new HashSet<>();
 		Set<ObjectId> allTags = new HashSet<>();
 		Set<ObjectId> nonHeads = new HashSet<>();
-		Set<ObjectId> txnHeads = new HashSet<>();
 		Set<ObjectId> tagTargets = new HashSet<>();
 		Set<ObjectId> indexObjects = listNonHEADIndexObjects();
 
@@ -897,12 +896,6 @@ public class GC {
 					PackWriter.NONE, tagTargets, excluded);
 			if (rest != null)
 				ret.add(rest);
-		}
-		if (!txnHeads.isEmpty()) {
-			Pack txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
-					PackWriter.NONE, null, excluded);
-			if (txn != null)
-				ret.add(txn);
 		}
 		try {
 			deleteOldPacks(toBeDeleted, ret);
