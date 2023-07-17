@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36fce41f_3bc088f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-17T22:30:21Z",
+      "side": 1,
+      "message": "If you\u0027re changing functionality like this, I think we need a unit test to be able to spot problems with the refactoring. In particular, there might be one here: startIdx is computed at the top of the loop and never changed, but surely the head element before and after an insertion sort might be different.",
+      "range": {
+        "startLine": 145,
+        "startChar": 19,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "1508aab3811575d9b392f5e2bc28d800a5a58458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
