@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb6101f_6e2eb266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-17T22:43:00Z",
+      "side": 1,
+      "message": "Could the checksum be verified at the point of instantiating the object? In Pack (org.eclipse.jgit.internal.storage.file), it seems that the checksum of the index is verified at the point of reading it.",
+      "range": {
+        "startLine": 15,
+        "startChar": 42,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "da9dc746737671707711c1f8271e12181942384a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
