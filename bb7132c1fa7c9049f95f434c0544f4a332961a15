@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42749326_012f21c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "write in imperative style, e.g. Merge: implement diff3 style",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e5e357_add18026",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "Optionally add base chunk in diff3 style in case of conflicts.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c2161c_0b713612",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "version ?",
+      "range": {
+        "startLine": 71,
+        "startChar": 58,
+        "endLine": 71,
+        "endChar": 61
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f82b9ba3_300d6ccd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
         "patchSetId": 2
@@ -14,6 +83,29 @@
       "writtenOn": "2023-07-14T11:26:17Z",
       "side": 1,
       "message": "Wrong @since.",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85c5bc39_b562fc9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "what if a Windows user is using CR LF ?",
+      "range": {
+        "startLine": 120,
+        "startChar": 45,
+        "endLine": 120,
+        "endChar": 60
+      },
       "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -87,6 +179,75 @@
         "startChar": 50,
         "endLine": 89,
         "endChar": 59
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f394b550_ebe21478",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "isBase ? the parameter already shows which type this is about",
+      "range": {
+        "startLine": 178,
+        "startChar": 17,
+        "endLine": 178,
+        "endChar": 28
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc036d4f_c6b316d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "isOurs ?",
+      "range": {
+        "startLine": 182,
+        "startChar": 17,
+        "endLine": 182,
+        "endChar": 28
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e78363db_659aa9ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-17T22:16:46Z",
+      "side": 1,
+      "message": "isYours",
+      "range": {
+        "startLine": 187,
+        "startChar": 17,
+        "endLine": 187,
+        "endChar": 29
       },
       "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
