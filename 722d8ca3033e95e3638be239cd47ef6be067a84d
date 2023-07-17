@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0ff3aa_ba4cf4de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-17T22:38:52Z",
+      "side": 1,
+      "message": "I\u0027ll +2 when the ancestor commits are +2ed.",
+      "revId": "722d8ca3033e95e3638be239cd47ef6be067a84d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
