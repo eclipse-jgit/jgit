@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5594f97_be047a82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s why I ended with \"could contain\". Visually, it\u0027s the width of the bucket. Substituted your suggestion in.",
+      "parentUuid": "70fadd87_1c32bfd3",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 25
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7107ae0_4b137295",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-17T22:23:49Z",
       "side": 1,
       "message": "Add \u003cp\u003e between paragraphs.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 42
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1724a350_8665d6c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7107ae0_4b137295",
       "range": {
         "startLine": 38,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eaa44b9_19523966",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "Added a short sentence to your suggested rewrite below.",
+      "parentUuid": "66784ae4_6e05c6da",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 20
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf98deed_477fc403",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-07-17T22:23:49Z",
       "side": 1,
       "message": "I think something like this would be clearer to describe both variables at once:\n\nThe values in each bucket, stored as a linked list. Given a bucket, headValues[bucket] contains the first value, furtherValues[headValues[bucket]] contains the second, furtherValues[furtherValues[headValues[bucket]]] the third, and so on. The linked list stops when a value is 0.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 21
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa96f40_37033863",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "This sounds great, thanks!",
+      "parentUuid": "bf98deed_477fc403",
       "range": {
         "startLine": 102,
         "startChar": 8,
@@ -116,6 +212,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f188ec5b_8a92cb7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9306f100_f4cf56c6",
+      "range": {
+        "startLine": 107,
+        "startChar": 7,
+        "endLine": 107,
+        "endChar": 16
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8160172e_28b83bc8",
@@ -139,6 +259,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e08c7f3_85c1a331",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8160172e_28b83bc8",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 8
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e42f66b_11b46588",
@@ -152,6 +296,30 @@
       "writtenOn": "2023-07-17T22:23:49Z",
       "side": 1,
       "message": "I stared at this insertion sort section for a while and I think I know how it\u0027s supposed to work, but have still no idea how this code implements it (whether before or after your change). If it\u0027s OK with you, you could consider moving this part to another commit. That way, I can approve the rest of the changes, and another reviewer can help make this part clearer separately. (Or just revert this part if you\u0027re not too attached to it.)",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 124,
+        "endChar": 6
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3905fbea_85a0e615",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:21:21Z",
+      "side": 1,
+      "message": "I reverted the parts of this that are local to the insertion sort. There are still some renames that come from the instance variables.\n\nAs I was reverting it, I realized that it\u0027s only renames (such as `o` to `offset` and avoiding the vague `nth` terminology) and a couple comments. No functional changes, so let me know if there is a subset of these that you think are fine to reintroduce (maybe just the simple expansions like `o` and `bi`).",
+      "parentUuid": "0e42f66b_11b46588",
       "range": {
         "startLine": 124,
         "startChar": 3,
