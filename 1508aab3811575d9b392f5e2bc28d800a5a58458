@@ -22,6 +22,30 @@
       },
       "revId": "1508aab3811575d9b392f5e2bc28d800a5a58458",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f82b56_5f038e8f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-18T22:22:04Z",
+      "side": 1,
+      "message": "There are unit tests in PackReverseIndexComputedTest.java. \n\nDid you mean something more specific to this section of the code? In that case, we\u0027d probably need a more significant refactoring to extract simple testable portions of the logic.\n\nGiven that we might not touch as much of this insertion sort section in the previous commit as originally, I\u0027ll take this change out. I think it\u0027s useful but less useful without the previous changes.",
+      "parentUuid": "36fce41f_3bc088f3",
+      "range": {
+        "startLine": 145,
+        "startChar": 19,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "1508aab3811575d9b392f5e2bc28d800a5a58458",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
