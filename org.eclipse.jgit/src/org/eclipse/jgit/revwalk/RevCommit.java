@@ -11,15 +11,13 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.util.RawParseUtils.guessEncoding;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -484,7 +482,8 @@ public class RevCommit extends RevObject {
 		if (msgB < 0) {
 			return ""; //$NON-NLS-1$
 		}
-		return RawParseUtils.decode(guessEncoding(), raw, msgB, raw.length);
+		return RawParseUtils.decode(guessEncoding(buffer), raw, msgB,
+				raw.length);
 	}
 
 	/**
@@ -510,7 +509,8 @@ public class RevCommit extends RevObject {
 		}
 
 		int msgE = RawParseUtils.endOfParagraph(raw, msgB);
-		String str = RawParseUtils.decode(guessEncoding(), raw, msgB, msgE);
+		String str = RawParseUtils.decode(guessEncoding(buffer), raw, msgB,
+				msgE);
 		if (hasLF(raw, msgB, msgE)) {
 			str = StringUtils.replaceLineBreaksWithSpace(str);
 		}
@@ -562,14 +562,6 @@ public class RevCommit extends RevObject {
 		return RawParseUtils.parseEncoding(buffer);
 	}
 
-	private Charset guessEncoding() {
-		try {
-			return getEncoding();
-		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
-			return UTF_8;
-		}
-	}
-
 	/**
 	 * Parse the footer lines (e.g. "Signed-off-by") for machine processing.
 	 * <p>
@@ -592,50 +584,14 @@ public class RevCommit extends RevObject {
 	 * @return ordered list of footer lines; empty list if no footers found.
 	 */
 	public final List<FooterLine> getFooterLines() {
-		final byte[] raw = buffer;
-		int ptr = raw.length - 1;
-		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
-			ptr--;
-
-		final int msgB = RawParseUtils.commitMessage(raw, 0);
-		final ArrayList<FooterLine> r = new ArrayList<>(4);
-		final Charset enc = guessEncoding();
-		for (;;) {
-			ptr = RawParseUtils.prevLF(raw, ptr);
-			if (ptr <= msgB)
-				break; // Don't parse commit headers as footer lines.
-
-			final int keyStart = ptr + 2;
-			if (raw[keyStart] == '\n')
-				break; // Stop at first paragraph break, no footers above it.
-
-			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
-			if (keyEnd < 0)
-				continue; // Not a well formed footer line, skip it.
-
-			// Skip over the ': *' at the end of the key before the value.
-			//
-			int valStart = keyEnd + 1;
-			while (valStart < raw.length && raw[valStart] == ' ')
-				valStart++;
-
-			// Value ends at the LF, and does not include it.
-			//
-			int valEnd = RawParseUtils.nextLF(raw, valStart);
-			if (raw[valEnd - 1] == '\n')
-				valEnd--;
-
-			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
-		}
-		Collections.reverse(r);
-		return r;
+		return FooterLine.fromMessage(buffer);
 	}
 
 	/**
 	 * Get the values of all footer lines with the given key.
 	 *
 	 * @param keyName
-	 *            footer key to find values of, case insensitive.
+	 *            footer key to find values of, case-insensitive.
 	 * @return values of footers with key of {@code keyName}, ordered by their
 	 *         order of appearance. Duplicates may be returned if the same
 	 *         footer appeared more than once. Empty list if no footers appear
@@ -643,30 +599,22 @@ public class RevCommit extends RevObject {
 	 * @see #getFooterLines()
 	 */
 	public final List<String> getFooterLines(String keyName) {
-		return getFooterLines(new FooterKey(keyName));
+		return FooterLine.getValues(getFooterLines(), keyName);
 	}
 
 	/**
 	 * Get the values of all footer lines with the given key.
 	 *
-	 * @param keyName
-	 *            footer key to find values of, case insensitive.
+	 * @param key
+	 *            footer key to find values of, case-insensitive.
 	 * @return values of footers with key of {@code keyName}, ordered by their
 	 *         order of appearance. Duplicates may be returned if the same
 	 *         footer appeared more than once. Empty list if no footers appear
 	 *         with the specified key, or there are no footers at all.
 	 * @see #getFooterLines()
 	 */
-	public final List<String> getFooterLines(FooterKey keyName) {
-		final List<FooterLine> src = getFooterLines();
-		if (src.isEmpty())
-			return Collections.emptyList();
-		final ArrayList<String> r = new ArrayList<>(src.size());
-		for (FooterLine f : src) {
-			if (f.matches(keyName))
-				r.add(f.getValue());
-		}
-		return r;
+	public final List<String> getFooterLines(FooterKey key) {
+		return FooterLine.getValues(getFooterLines(), key);
 	}
 
 	/**
