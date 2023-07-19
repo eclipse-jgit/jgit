@@ -11,6 +11,9 @@
 package org.eclipse.jgit.revwalk;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -44,6 +47,104 @@ public final class FooterLine {
 		keyEnd = ke;
 		valStart = vs;
 		valEnd = ve;
+	}
+
+	/**
+	 * Extract the footer lines from the given message.
+	 *
+	 * @param str
+	 *            the message to extract footers from.
+	 * @return ordered list of footer lines; empty list if no footers found.
+	 * @see RevCommit#getFooterLines()
+	 */
+	public static List<FooterLine> fromMessage(
+			String str) {
+		return fromMessage(str.getBytes());
+	}
+
+	/**
+	 * Extract the footer lines from the given message.
+	 *
+	 * @param raw
+	 *            the raw message to extract footers from.
+	 * @return ordered list of footer lines; empty list if no footers found.
+	 * @see RevCommit#getFooterLines()
+	 */
+	public static List<FooterLine> fromMessage(
+			byte[] raw) {
+		int ptr = raw.length - 1;
+		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
+			ptr--;
+
+		int msgB = RawParseUtils.commitMessage(raw, 0);
+		ArrayList<FooterLine> r = new ArrayList<>(4);
+		Charset enc = RawParseUtils.guessEncoding(raw);
+		for (;;) {
+			ptr = RawParseUtils.prevLF(raw, ptr);
+			if (ptr <= msgB)
+				break; // Don't parse commit headers as footer lines.
+
+			int keyStart = ptr + 2;
+			if (raw[keyStart] == '\n')
+				break; // Stop at first paragraph break, no footers above it.
+
+			int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
+			if (keyEnd < 0)
+				continue; // Not a well formed footer line, skip it.
+
+			// Skip over the ': *' at the end of the key before the value.
+			//
+			int valStart = keyEnd + 1;
+			while (valStart < raw.length && raw[valStart] == ' ')
+				valStart++;
+
+			// Value ends at the LF, and does not include it.
+			//
+			int valEnd = RawParseUtils.nextLF(raw, valStart);
+			if (raw[valEnd - 1] == '\n')
+				valEnd--;
+
+			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
+		}
+		Collections.reverse(r);
+		return r;
+	}
+
+	/**
+	 * Get the values of all footer lines with the given key.
+	 *
+	 * @param keyName
+	 *            footer key to find values of, case-insensitive.
+	 * @return values of footers with key of {@code keyName}, ordered by their
+	 *         order of appearance. Duplicates may be returned if the same
+	 *         footer appeared more than once. Empty list if no footers appear
+	 *         with the specified key, or there are no footers at all.
+	 * @see #fromMessage
+	 */
+	public static List<String> getValues(List<FooterLine> footers, String keyName) {
+		return getValues(footers, new FooterKey(keyName));
+	}
+
+	/**
+	 * Get the values of all footer lines with the given key.
+	 *
+	 * @param key
+	 *            footer key to find values of, case-insensitive.
+	 * @return values of footers with key of {@code keyName}, ordered by their
+	 *         order of appearance. Duplicates may be returned if the same
+	 *         footer appeared more than once. Empty list if no footers appear
+	 *         with the specified key, or there are no footers at all.
+	 * @see #fromMessage
+	 */
+	public static List<String> getValues(List<FooterLine> footers, FooterKey key) {
+		if (footers.isEmpty())
+			return Collections.emptyList();
+		ArrayList<String> r = new ArrayList<>(footers.size());
+		for (FooterLine f : footers) {
+			if (f.matches(key))
+				r.add(f.getValue());
+		}
+		return r;
 	}
 
 	/**
