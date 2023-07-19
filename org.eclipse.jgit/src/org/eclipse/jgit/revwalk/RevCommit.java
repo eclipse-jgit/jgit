@@ -484,7 +484,8 @@ public class RevCommit extends RevObject {
 		if (msgB < 0) {
 			return ""; //$NON-NLS-1$
 		}
-		return RawParseUtils.decode(guessEncoding(), raw, msgB, raw.length);
+		return RawParseUtils.decode(guessEncoding(buffer), raw, msgB,
+				raw.length);
 	}
 
 	/**
@@ -510,7 +511,8 @@ public class RevCommit extends RevObject {
 		}
 
 		int msgE = RawParseUtils.endOfParagraph(raw, msgB);
-		String str = RawParseUtils.decode(guessEncoding(), raw, msgB, msgE);
+		String str = RawParseUtils.decode(guessEncoding(buffer), raw, msgB,
+				msgE);
 		if (hasLF(raw, msgB, msgE)) {
 			str = StringUtils.replaceLineBreaksWithSpace(str);
 		}
@@ -562,9 +564,13 @@ public class RevCommit extends RevObject {
 		return RawParseUtils.parseEncoding(buffer);
 	}
 
-	private Charset guessEncoding() {
+	private static final Charset getEncoding(byte[] buffer) {
+		return RawParseUtils.parseEncoding(buffer);
+	}
+
+	private static Charset guessEncoding(byte[] buffer) {
 		try {
-			return getEncoding();
+			return getEncoding(buffer);
 		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
 			return UTF_8;
 		}
@@ -592,14 +598,27 @@ public class RevCommit extends RevObject {
 	 * @return ordered list of footer lines; empty list if no footers found.
 	 */
 	public final List<FooterLine> getFooterLines() {
-		final byte[] raw = buffer;
+		return extractFooterLinesFromMessage(buffer);
+	}
+
+	/**
+	 * Extract the footer lines from the given message.
+	 * <p>
+	 * See {@link #getFooterLines()} for further details.
+	 *
+	 * @param raw
+	 *            the raw message to extract footers from.
+	 * @return ordered list of footer lines; empty list if no footers found.
+	 */
+	public final static List<FooterLine> extractFooterLinesFromMessage(
+			byte[] raw) {
 		int ptr = raw.length - 1;
 		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
 			ptr--;
 
 		final int msgB = RawParseUtils.commitMessage(raw, 0);
 		final ArrayList<FooterLine> r = new ArrayList<>(4);
-		final Charset enc = guessEncoding();
+		final Charset enc = guessEncoding(raw);
 		for (;;) {
 			ptr = RawParseUtils.prevLF(raw, ptr);
 			if (ptr <= msgB)
