@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ce9d31b_a9b30eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-19T17:24:21Z",
+      "side": 1,
+      "message": "looks like i added it to https://git.eclipse.org/r/c/jgit/jgit/+/203187 but forgot to add it to the original commit (e.g. this commit), nice catch.",
+      "parentUuid": "9a2405b4_73fbe58a",
+      "range": {
+        "startLine": 200,
+        "startChar": 8,
+        "endLine": 200,
+        "endChar": 50
+      },
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03c7cf1c_a7a2f57d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
         "patchSetId": 3
@@ -77,6 +101,30 @@
       "writtenOn": "2023-07-19T03:23:23Z",
       "side": 1,
       "message": "As JGit is an open source software, I think we should add the @Deprecated annotation to Constants#COMMIT_GENERATION_UNKNOWN instead of directly deleting and replacing it.",
+      "range": {
+        "startLine": 769,
+        "startChar": 1,
+        "endLine": 769,
+        "endChar": 74
+      },
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226db392_33b13a79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-19T17:24:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "03c7cf1c_a7a2f57d",
       "range": {
         "startLine": 769,
         "startChar": 1,
