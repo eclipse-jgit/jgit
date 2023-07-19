@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a51485_97674e94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-07-19T02:58:31Z",
+      "side": 0,
+      "message": "As I said above, only need to change \"int\" to \"long\" here.\n\nThere also has an advantage that the higher version of JGit can also use the lower version of the generation number.",
+      "range": {
+        "startLine": 555,
+        "startChar": 3,
+        "endLine": 555,
+        "endChar": 39
+      },
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18aad6a6_17621a16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 304466
+      },
+      "writtenOn": "2023-07-19T02:58:31Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we need to provide two different types of generation numbers in class RevCommit.\n\nIn my opinion, only one #getGeneration() is enough:\n\n1. Refer to [1], the same RevWalk instance can only get the CommitGraph once. So we don\u0027t need to worry about getting two different types of generation numbers in one commit traversal. \nIn other words, whether #getGenration() returns \"corrected commit date\" or \"the distance of the commit from the root\", the main logic of getMergedInto() doesn\u0027t need to change, doesn\u0027t it?\n\n\n2. Although generation number is only used to optimize the #getMergeInto() currently,\nit can be used to optimize more features in the future. Such as \"topological sorting\", \"merge-base calulation\" and so on. Then whenever the generation is upgraded, the code in these places needs to be changed, which feels like a lot of work.\n\nPerhaps, we could change \"int getGeneration()\" to \"long getGeneration()\", like cgit[2].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/183079/53/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java#1174\n\n[2] https://github.com/git/git/commit/d7f92784",
+      "range": {
+        "startLine": 703,
+        "startChar": 1,
+        "endLine": 705,
+        "endChar": 2
+      },
+      "revId": "65c545bf72494aed4f9a64a3e7d2b79f995ddb9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
