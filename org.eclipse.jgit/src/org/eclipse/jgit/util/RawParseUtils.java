@@ -868,6 +868,29 @@ public final class RawParseUtils {
 	}
 
 	/**
+	 * Parse the "encoding " header into a character set reference. If unsuccessful, returns UTF-8.
+	 * <p>
+	 * For more details, see {@link #parseEncoding(byte[])}.
+	 *
+	 * @param buffer
+	 *            buffer to scan.
+	 * @return the Java character set representation. Never null. Default to UTF-8.
+	 * @throws IllegalCharsetNameException
+	 *             if the character set requested by the encoding header is
+	 *             malformed and unsupportable.
+	 * @throws UnsupportedCharsetException
+	 *             if the JRE does not support the character set requested by
+	 *             the encoding header.
+	 */
+	public static Charset guessEncoding(byte[] buffer) {
+		try {
+			return parseEncoding(buffer);
+		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
+			return UTF_8;
+		}
+	}
+
+	/**
 	 * Parse a name string (e.g. author, committer, tagger) into a PersonIdent.
 	 * <p>
 	 * Leading spaces won't be trimmed from the string, i.e. will show up in the
