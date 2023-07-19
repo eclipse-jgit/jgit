@@ -22,6 +22,30 @@
       },
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d421de3_01a496fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-19T20:33:06Z",
+      "side": 0,
+      "message": "not sure if i follow, are you saying that, in the event of having multiple commit graphs, we default to using topo when calling `getGeneration()`? i.e. store decision logic within the `getGeneration` method itself?",
+      "parentUuid": "98a51485_97674e94",
+      "range": {
+        "startLine": 555,
+        "startChar": 3,
+        "endLine": 555,
+        "endChar": 39
+      },
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

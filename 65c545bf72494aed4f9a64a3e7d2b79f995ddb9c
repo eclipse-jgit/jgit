@@ -22,6 +22,30 @@
       },
       "revId": "65c545bf72494aed4f9a64a3e7d2b79f995ddb9c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a31fe9d_69b07ee2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-19T20:33:06Z",
+      "side": 1,
+      "message": "So I decided on having a separate `getGenerationV2` because CGit does have two different methods for getting v1 and v2; get_topo_level vs get_generation_from_graph_data. \n\nTo point 1. It\u0027s a true that we currently only utilize one CommitGraph in RevWalk, so all RevCommitCGs are guaranteed to have the same generation number version. But there\u0027s no guaranteed that corrected timestamp is faster topo than c in all cases or vice versa. See the V0 and V3 columns of https://github.com/derrickstolee/gen-test. However you believe those performance differences are negligible, then I am open to always use corrected timestamp as getGeneration. \n\nTo point 2, im glad you mention there\u0027s other use cases for v2, those will be in my next patch, but let\u0027s get my existing patches merged first 😊.  \n\nOverall I think keep them separate allows us to:\n1. get the best performance out of #getMergeInto() and others in the future. \n2. allow layering commit graph in the future; i.e. default to topo if not all layers have corrected timestamp",
+      "parentUuid": "18aad6a6_17621a16",
+      "range": {
+        "startLine": 703,
+        "startChar": 1,
+        "endLine": 705,
+        "endChar": 2
+      },
+      "revId": "65c545bf72494aed4f9a64a3e7d2b79f995ddb9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
