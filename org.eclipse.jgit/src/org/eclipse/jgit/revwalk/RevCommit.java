@@ -11,8 +11,6 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -484,7 +482,8 @@ public class RevCommit extends RevObject {
 		if (msgB < 0) {
 			return ""; //$NON-NLS-1$
 		}
-		return RawParseUtils.decode(guessEncoding(), raw, msgB, raw.length);
+		return RawParseUtils.decode(guessEncoding(buffer), raw, msgB,
+				raw.length);
 	}
 
 	/**
@@ -510,7 +509,8 @@ public class RevCommit extends RevObject {
 		}
 
 		int msgE = RawParseUtils.endOfParagraph(raw, msgB);
-		String str = RawParseUtils.decode(guessEncoding(), raw, msgB, msgE);
+		String str = RawParseUtils.decode(guessEncoding(buffer), raw, msgB,
+				msgE);
 		if (hasLF(raw, msgB, msgE)) {
 			str = StringUtils.replaceLineBreaksWithSpace(str);
 		}
@@ -562,12 +562,8 @@ public class RevCommit extends RevObject {
 		return RawParseUtils.parseEncoding(buffer);
 	}
 
-	private Charset guessEncoding() {
-		try {
-			return getEncoding();
-		} catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
-			return UTF_8;
-		}
+	private static Charset guessEncoding(byte[] buffer) {
+		return RawParseUtils.guessEncoding(buffer);
 	}
 
 	/**
@@ -592,43 +588,7 @@ public class RevCommit extends RevObject {
 	 * @return ordered list of footer lines; empty list if no footers found.
 	 */
 	public final List<FooterLine> getFooterLines() {
-		final byte[] raw = buffer;
-		int ptr = raw.length - 1;
-		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
-			ptr--;
-
-		final int msgB = RawParseUtils.commitMessage(raw, 0);
-		final ArrayList<FooterLine> r = new ArrayList<>(4);
-		final Charset enc = guessEncoding();
-		for (;;) {
-			ptr = RawParseUtils.prevLF(raw, ptr);
-			if (ptr <= msgB)
-				break; // Don't parse commit headers as footer lines.
-
-			final int keyStart = ptr + 2;
-			if (raw[keyStart] == '\n')
-				break; // Stop at first paragraph break, no footers above it.
-
-			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
-			if (keyEnd < 0)
-				continue; // Not a well formed footer line, skip it.
-
-			// Skip over the ': *' at the end of the key before the value.
-			//
-			int valStart = keyEnd + 1;
-			while (valStart < raw.length && raw[valStart] == ' ')
-				valStart++;
-
-			// Value ends at the LF, and does not include it.
-			//
-			int valEnd = RawParseUtils.nextLF(raw, valStart);
-			if (raw[valEnd - 1] == '\n')
-				valEnd--;
-
-			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
-		}
-		Collections.reverse(r);
-		return r;
+		return FooterLine.fromMessage(buffer);
 	}
 
 	/**

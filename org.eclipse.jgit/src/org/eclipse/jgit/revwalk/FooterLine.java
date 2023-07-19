@@ -11,6 +11,9 @@
 package org.eclipse.jgit.revwalk;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -44,6 +47,69 @@ public final class FooterLine {
 		keyEnd = ke;
 		valStart = vs;
 		valEnd = ve;
+	}
+
+	/**
+	 * Extract the footer lines from the given message.
+	 * <p>
+	 * See {@link RevCommit#getFooterLines()} for further details.
+	 *
+	 * @param str
+	 *            the message to extract footers from.
+	 * @return ordered list of footer lines; empty list if no footers found.
+	 */
+	public static List<FooterLine> fromMessage(
+			String str) {
+		return fromMessage(str.getBytes());
+	}
+
+	/**
+	 * Extract the footer lines from the given message.
+	 * <p>
+	 * See {@link RevCommit#getFooterLines()} for further details.
+	 *
+	 * @param raw
+	 *            the raw message to extract footers from.
+	 * @return ordered list of footer lines; empty list if no footers found.
+	 */
+	public static List<FooterLine> fromMessage(
+			byte[] raw) {
+		int ptr = raw.length - 1;
+		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
+			ptr--;
+
+		final int msgB = RawParseUtils.commitMessage(raw, 0);
+		final ArrayList<FooterLine> r = new ArrayList<>(4);
+		final Charset enc = RawParseUtils.guessEncoding(raw);
+		for (;;) {
+			ptr = RawParseUtils.prevLF(raw, ptr);
+			if (ptr <= msgB)
+				break; // Don't parse commit headers as footer lines.
+
+			final int keyStart = ptr + 2;
+			if (raw[keyStart] == '\n')
+				break; // Stop at first paragraph break, no footers above it.
+
+			final int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
+			if (keyEnd < 0)
+				continue; // Not a well formed footer line, skip it.
+
+			// Skip over the ': *' at the end of the key before the value.
+			//
+			int valStart = keyEnd + 1;
+			while (valStart < raw.length && raw[valStart] == ' ')
+				valStart++;
+
+			// Value ends at the LF, and does not include it.
+			//
+			int valEnd = RawParseUtils.nextLF(raw, valStart);
+			if (raw[valEnd - 1] == '\n')
+				valEnd--;
+
+			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
+		}
+		Collections.reverse(r);
+		return r;
 	}
 
 	/**

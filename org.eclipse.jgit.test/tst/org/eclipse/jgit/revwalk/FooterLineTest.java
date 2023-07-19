@@ -320,18 +320,54 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertFalse("not CC", line.matches(FooterKey.CC));
 	}
 
+	@Test
+	public void testFromMessage_ExtractsAll() {
+		final StringBuilder buf  = new StringBuilder();
+		buf.append("A message\n");
+		buf.append("Footer1: value1\n");
+		buf.append("Footer-2: value 2");
+
+		List<FooterLine> res = FooterLine.fromMessage(buildMessage(buf.toString()));
+
+		assertEquals(2, res.size());
+
+		FooterLine line = res.get(0);
+		assertNotNull(line);
+		assertEquals("Footer1", line.getKey());
+		assertEquals("value1", line.getValue());
+
+		line = res.get(1);
+		assertNotNull(line);
+		assertEquals("Footer-2", line.getKey());
+		assertEquals("value 2", line.getValue());
+	}
+
+
+	@Test
+	public void testFromMessage_NoFooters() {
+		final StringBuilder buf  = new StringBuilder();
+		buf.append("A message\n");
+
+		List<FooterLine> res = FooterLine.fromMessage(buildMessage(buf.toString()));
+
+		assertTrue(res.isEmpty());
+	}
+
 	private RevCommit parse(String msg) throws IOException {
+		try (RevWalk walk = new RevWalk(db)) {
+			RevCommit c = new RevCommit(ObjectId.zeroId());
+			c.parseCanonical(walk, Constants.encode(buildMessage(msg)));
+			return c;
+		}
+	}
+
+	private String buildMessage(String msg) {
 		final StringBuilder buf = new StringBuilder();
 		buf.append("tree " + ObjectId.zeroId().name() + "\n");
 		buf.append("author A. U. Thor <a@example.com> 1 +0000\n");
 		buf.append("committer A. U. Thor <a@example.com> 1 +0000\n");
 		buf.append("\n");
 		buf.append(msg);
-
-		try (RevWalk walk = new RevWalk(db)) {
-			RevCommit c = new RevCommit(ObjectId.zeroId());
-			c.parseCanonical(walk, Constants.encode(buf.toString()));
-			return c;
-		}
+		return buf.toString();
 	}
 }
