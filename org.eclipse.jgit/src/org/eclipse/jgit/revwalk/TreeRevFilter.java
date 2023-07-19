@@ -185,7 +185,8 @@ public class TreeRevFilter extends RevFilter {
 				// commit. We need to update our filter to its older
 				// name, if we can discover it. Find out what that is.
 				//
-				updateFollowFilter(trees, ((FollowFilter) tw.getFilter()).cfg);
+				updateFollowFilter(trees, ((FollowFilter) tw.getFilter()).cfg,
+						c);
 			}
 			return true;
 		} else if (nParents == 0) {
@@ -313,7 +314,8 @@ public class TreeRevFilter extends RevFilter {
 		return changedPathFilterNegative;
 	}
 
-	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg)
+	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,
+			RevCommit commit)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		TreeWalk tw = pathFilter;
@@ -332,7 +334,7 @@ public class TreeRevFilter extends RevFilter {
 				newFilter = FollowFilter.create(ent.getOldPath(), cfg);
 				RenameCallback callback = oldFilter.getRenameCallback();
 				if (callback != null) {
-					callback.renamed(ent);
+					callback.renamed(ent, commit);
 					// forward the callback to the new follow filter
 					((FollowFilter) newFilter).setRenameCallback(callback);
 				}
