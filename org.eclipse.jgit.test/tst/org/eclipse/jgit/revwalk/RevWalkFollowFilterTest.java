@@ -29,6 +29,11 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
 		@Override
 		public void renamed(DiffEntry diff) {
+			throw new UnsupportedOperationException("unimplemented");
+		}
+
+		@Override
+		public void renamed(DiffEntry diff, RevCommit unused) {
 			diffs.add(diff);
 		}
 	}
