@@ -27,4 +27,17 @@ public abstract class RenameCallback {
 	 *            the entry representing the rename/copy
 	 */
 	public abstract void renamed(DiffEntry entry);
+
+	/**
+	 * Called whenever a diff was found that is actually a rename or copy of a
+	 * file along with the commit at which this happened.
+	 *
+	 * @param entry
+	 *            the entry representing the rename/copy
+	 * @param commit
+	 *            commit at which callback occurred
+	 */
+	public void renamed(DiffEntry entry, RevCommit commit) {
+		throw new UnsupportedOperationException("unimplemented");
+	}
 }
