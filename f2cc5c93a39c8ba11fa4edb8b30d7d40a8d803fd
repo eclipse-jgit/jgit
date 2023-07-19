@@ -70,6 +70,24 @@
       "parentUuid": "41ea486e_669786b5",
       "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f48b20ad_0bc3ccb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-19T20:39:59Z",
+      "side": 1,
+      "message": "the CommitGraphWriter objects are created by each thread, there\u0027s no shared global singleton CommitGraphWriter for different threads. I don\u0027t believe immutability is as important as following existing coding pattern of similar classes. I digress since the code is already merged.",
+      "parentUuid": "21c6d8af_411db965",
+      "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
