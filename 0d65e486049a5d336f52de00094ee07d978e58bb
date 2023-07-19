@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c587065_fec1db70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-19T17:34:22Z",
+      "side": 1,
+      "message": "I think this is a minor thing. Also, any bloom filter in BDAT has its format prescribed - it must be a bloom filter that indicates changed paths (we cannot just store anything we want there).",
+      "parentUuid": "38f04fc0_5994e607",
+      "revId": "0d65e486049a5d336f52de00094ee07d978e58bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "695176c6_4cdaa3c6",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-12T15:09:15Z",
       "side": 1,
       "message": "the term \"changedPathFilter\" is a contextual term on the revCommit level, Commit Graph field naming should not be determined by how the invokers want to use the data. This class is only meant to be a data container in memory holding bloom filters, so please just call it GraphBloomFilterData; technically, the bloom filters don\u0027t have to be used to exclusively store changed path either, so forcing the name of \"changedPathFilter\" isn\u0027t ideal on this level of abstraction. \n\nrecommendation: change class name to GraphBloomFilterData.",
+      "revId": "0d65e486049a5d336f52de00094ee07d978e58bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4194f73_f7831d57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-19T17:34:22Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "695176c6_4cdaa3c6",
       "revId": "0d65e486049a5d336f52de00094ee07d978e58bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
