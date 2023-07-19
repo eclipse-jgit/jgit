@@ -52,6 +52,24 @@
       "parentUuid": "476ca760_6d4b349e",
       "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c6d8af_411db965",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-19T17:34:53Z",
+      "side": 1,
+      "message": "I think immutability has a lot of benefits, so I\u0027m going to stay with that.",
+      "parentUuid": "41ea486e_669786b5",
+      "revId": "f2cc5c93a39c8ba11fa4edb8b30d7d40a8d803fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
