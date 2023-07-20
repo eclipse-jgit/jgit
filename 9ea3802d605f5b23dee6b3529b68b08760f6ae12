@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908557e6_6a81c44e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-20T16:09:15Z",
+      "side": 1,
+      "message": "please follow standard description format.\n\nFirst line describing the change. It should tell what it does when read in e.g. git log --format\u003doneline.\n\nOne paragraph explaining why this patch is needed (the problem)\n\nOne paragraph telling what this patch does (in imperative)\n\nFurther explanations if needed.\n\nChange-Id\nSigned-off-by",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9afe0b2_8c0b58ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-20T16:09:15Z",
+      "side": 1,
+      "message": "add a test for checking the commit is indeed collected please.",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb92098c_2633b3ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-20T16:09:15Z",
+      "side": 1,
+      "message": "changing this method might break api. there might be downstream users already using this method.",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522842f6_66d6478f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RenameCallback.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-20T16:09:15Z",
+      "side": 1,
+      "message": "suggestion:\n\n\"with the commit caused the diff\"",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f86097d_100eaaae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RenameCallback.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-20T16:09:15Z",
+      "side": 1,
+      "message": "use JgitText instead of blank string.",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb3c4a5_cbb35446",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-20T16:09:15Z",
+      "side": 1,
+      "message": "are you sure you need the whole commit object here? object id should be sufficient.",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
