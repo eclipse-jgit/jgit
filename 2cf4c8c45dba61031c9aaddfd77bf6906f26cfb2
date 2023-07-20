@@ -328,6 +328,30 @@
       },
       "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1080d70d_afa3fbb0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-20T21:51:41Z",
+      "side": 1,
+      "message": "Having needed to dig through commit history (with the help of \"git blame\") quite a few times on the Git project, I think that simple expansions are not worth the added load we will place on ourselves in the future. So if it\u0027s OK with you, I would prefer to leave it as-is. But as-is, I\u0027m happy to +2.",
+      "parentUuid": "3905fbea_85a0e615",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 124,
+        "endChar": 6
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
