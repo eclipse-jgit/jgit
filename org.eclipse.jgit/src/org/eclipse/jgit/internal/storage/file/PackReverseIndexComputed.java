@@ -30,25 +30,30 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 	private final PackIndex index;
 
 	/**
-	 * The number of bytes per entry in the offsetIndex.
+	 * The difference in offset between the start of an offset bucket and the
+	 * start of its succeeding bucket.
 	 */
 	private final long bucketSize;
 
 	/**
-	 * An index into the nth mapping, where the value is the position after the
-	 * the last index that contains the values of the bucket. For example given
-	 * offset o (and bucket = o / bucketSize), the offset will be contained in
-	 * the range nth[offsetIndex[bucket - 1]] inclusive to
-	 * nth[offsetIndex[bucket]] exclusive.
+	 * The indexes into indexPosInOffsetOrder at which the next bucket starts.
+	 * <p>
+	 * For example, given offset o (and therefore bucket = o / bucketSize), the
+	 * indexPos corresponding to o will be contained in the range
+	 * indexPosInOffsetOrder[nextBucketStart[bucket - 1]] inclusive to
+	 * indexPosInOffsetOrder[nextBucketStart[bucket]] exclusive.
+	 * <p>
+	 * This range information can speed up #binarySearch by identifying the
+	 * relevant bucket and only searching within its range.
 	 * <p>
 	 * See {@link #binarySearch}
 	 */
-	private final int[] offsetIndex;
+	private final int[] nextBucketStart;
 
 	/**
 	 * Mapping from indices in offset order to indices in SHA-1 order.
 	 */
-	private final int[] nth;
+	private final int[] indexPosInOffsetOrder;
 
 	/**
 	 * Create reverse index from straight/forward pack index, by indexing all
@@ -60,62 +65,81 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 	PackReverseIndexComputed(PackIndex packIndex) {
 		index = packIndex;
 
-		final long cnt = index.getObjectCount();
-		if (cnt + 1 > Integer.MAX_VALUE) {
+		long rawCnt = index.getObjectCount();
+		if (rawCnt + 1 > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException(
 					JGitText.get().hugeIndexesAreNotSupportedByJgitYet);
 		}
+		int cnt = (int) rawCnt;
 
 		if (cnt == 0) {
 			bucketSize = Long.MAX_VALUE;
-			offsetIndex = new int[1];
-			nth = new int[0];
+			nextBucketStart = new int[1];
+			indexPosInOffsetOrder = new int[0];
 			return;
 		}
 
-		final long[] offsetsBySha1 = new long[(int) cnt];
-
+		// Sort the index positions according to the corresponding pack offsets.
+		// Use bucket sort since the offsets are somewhat uniformly distributed
+		// over the range (0, pack size).
+		long[] offsetsInIndexOrder = new long[cnt];
 		long maxOffset = 0;
-		int ith = 0;
-		for (MutableEntry me : index) {
-			final long o = me.getOffset();
-			offsetsBySha1[ith++] = o;
-			if (o > maxOffset) {
-				maxOffset = o;
+		int i = 0;
+		for (MutableEntry entry : index) {
+			long offset = entry.getOffset();
+			offsetsInIndexOrder[i++] = offset;
+			if (offset > maxOffset) {
+				maxOffset = offset;
 			}
 		}
 
 		bucketSize = maxOffset / cnt + 1;
-		int[] bucketIndex = new int[(int) cnt];
-		int[] bucketValues = new int[(int) cnt + 1];
-		for (int oi = 0; oi < offsetsBySha1.length; oi++) {
-			final long o = offsetsBySha1[oi];
-			final int bucket = (int) (o / bucketSize);
-			final int bucketValuesPos = oi + 1;
-			final int current = bucketIndex[bucket];
-			bucketIndex[bucket] = bucketValuesPos;
-			bucketValues[bucketValuesPos] = current;
+		// The values in each bucket, stored as a linked list. Given a bucket,
+		// headValues[bucket] contains the first value,
+		// furtherValues[headValues[bucket]] contains the second,
+		// furtherValues[furtherValues[headValues[bucket]]] the third, and so
+		// on. The linked list stops when a value is 0. The values themselves
+		// are shifted index positions. There won't be any
+		// collisions because every index position is unique.
+		int[] headValues = new int[cnt];
+		int[] furtherValues = new int[cnt + 1];
+		for (int indexPos = 0; indexPos < cnt; indexPos++) {
+			// The offset determines which bucket this index position falls
+			// into, since the goal is sort into offset order.
+			long offset = offsetsInIndexOrder[indexPos];
+			int bucket = (int) (offset / bucketSize);
+			// Store the index positions as 1-indexed so that default
+			// initialized value 0 can be interpreted as the end of the bucket
+			// values.
+			int asBucketValue = indexPos + 1;
+			// If there is an existing value in this bucket, push the value to
+			// the front of the linked list.
+			int current = headValues[bucket];
+			headValues[bucket] = asBucketValue;
+			furtherValues[asBucketValue] = current;
 		}
 
 		int nthByOffset = 0;
-		nth = new int[offsetsBySha1.length];
-		offsetIndex = bucketIndex; // Reuse the allocation
-		for (int bi = 0; bi < bucketIndex.length; bi++) {
-			final int start = nthByOffset;
+		indexPosInOffsetOrder = new int[cnt];
+		nextBucketStart = headValues; // Reuse the allocation
+		for (int bi = 0; bi < headValues.length; bi++) {
 			// Insertion sort of the values in the bucket.
-			for (int vi = bucketIndex[bi]; vi > 0; vi = bucketValues[vi]) {
-				final int nthBySha1 = vi - 1;
-				final long o = offsetsBySha1[nthBySha1];
+			int start = nthByOffset;
+			for (int vi = headValues[bi]; vi > 0; vi = furtherValues[vi]) {
+				int nthBySha1 = vi - 1;
+				long o = offsetsInIndexOrder[nthBySha1];
 				int insertion = nthByOffset++;
 				for (; start < insertion; insertion--) {
-					if (o > offsetsBySha1[nth[insertion - 1]]) {
+					if (o > offsetsInIndexOrder[indexPosInOffsetOrder[insertion
+							- 1]]) {
 						break;
 					}
-					nth[insertion] = nth[insertion - 1];
+					indexPosInOffsetOrder[insertion] = indexPosInOffsetOrder[insertion
+							- 1];
 				}
-				nth[insertion] = nthBySha1;
+				indexPosInOffsetOrder[insertion] = nthBySha1;
 			}
-			offsetIndex[bi] = nthByOffset;
+			nextBucketStart[bi] = nthByOffset;
 		}
 	}
 
@@ -125,7 +149,7 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 		if (ith < 0) {
 			return null;
 		}
-		return index.getObjectId(nth[ith]);
+		return index.getObjectId(indexPosInOffsetOrder[ith]);
 	}
 
 	@Override
@@ -138,10 +162,10 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 					Long.valueOf(offset)));
 		}
 
-		if (ith + 1 == nth.length) {
+		if (ith + 1 == indexPosInOffsetOrder.length) {
 			return maxOffset;
 		}
-		return index.getOffset(nth[ith + 1]);
+		return index.getOffset(indexPosInOffsetOrder[ith + 1]);
 	}
 
 	@Override
@@ -151,11 +175,11 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 
 	private int binarySearch(long offset) {
 		int bucket = (int) (offset / bucketSize);
-		int low = bucket == 0 ? 0 : offsetIndex[bucket - 1];
-		int high = offsetIndex[bucket];
+		int low = bucket == 0 ? 0 : nextBucketStart[bucket - 1];
+		int high = nextBucketStart[bucket];
 		while (low < high) {
 			final int mid = (low + high) >>> 1;
-			final long o = index.getOffset(nth[mid]);
+			final long o = index.getOffset(indexPosInOffsetOrder[mid]);
 			if (offset < o) {
 				high = mid;
 			} else if (offset == o) {
@@ -169,6 +193,6 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 
 	@Override
 	public ObjectId findObjectByPosition(int nthPosition) {
-		return index.getObjectId(nth[nthPosition]);
+		return index.getObjectId(indexPosInOffsetOrder[nthPosition]);
 	}
 }
