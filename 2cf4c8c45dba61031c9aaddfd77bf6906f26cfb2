@@ -352,6 +352,30 @@
       },
       "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb6b4541_8aa1c23d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-21T17:11:49Z",
+      "side": 1,
+      "message": "There\u0027s isn\u0027t much useful blame on this file that we would lose, since I had to rename it: https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+blame/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java. But also happy enough as-is.",
+      "parentUuid": "1080d70d_afa3fbb0",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 124,
+        "endChar": 6
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
