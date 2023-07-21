@@ -376,6 +376,30 @@
       },
       "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c34effd_0dc57010",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndexComputed.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-21T18:05:29Z",
+      "side": 1,
+      "message": "In Git, blame can work across renames. OK, I\u0027ll submit it as-is.",
+      "parentUuid": "bb6b4541_8aa1c23d",
+      "range": {
+        "startLine": 124,
+        "startChar": 3,
+        "endLine": 124,
+        "endChar": 6
+      },
+      "revId": "2cf4c8c45dba61031c9aaddfd77bf6906f26cfb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
