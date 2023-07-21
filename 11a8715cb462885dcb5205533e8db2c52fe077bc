@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb7fc02_34af0082",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-07-21T08:57:37Z",
+      "side": 1,
+      "message": "AFAIU, Test failures seem unrelated.",
+      "revId": "11a8715cb462885dcb5205533e8db2c52fe077bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
