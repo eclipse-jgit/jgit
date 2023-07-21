@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "b47fbd8158f6c3a98bf98276a1893d106d0b993d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b67372_69581fbb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-21T19:32:27Z",
+      "side": 1,
+      "message": "how is the order of the expectedCommits determined? does it follow the revwalk.next() popping order?",
+      "revId": "b47fbd8158f6c3a98bf98276a1893d106d0b993d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
