@@ -46,6 +46,30 @@
       },
       "revId": "da9dc746737671707711c1f8271e12181942384a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b8bf35a_2dd78cea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-24T20:50:28Z",
+      "side": 1,
+      "message": "Ah, thanks for that link. Note that that article recommends using things like a factory method, not setting state after construction (which also solves the issue I\u0027m worried about of having to reason about the object\u0027s state). A factory method would indeed be ideal, so if there\u0027s a way to do it, that would be best. Otherwise, yes, please go ahead with rewriting so that the constructor does the verification.",
+      "parentUuid": "2f887465_3bc5367b",
+      "range": {
+        "startLine": 15,
+        "startChar": 42,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "da9dc746737671707711c1f8271e12181942384a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
