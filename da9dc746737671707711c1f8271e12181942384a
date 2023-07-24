@@ -22,6 +22,30 @@
       },
       "revId": "da9dc746737671707711c1f8271e12181942384a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f887465_3bc5367b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-24T18:40:41Z",
+      "side": 1,
+      "message": "I was thinking of the Java best practice \"avoid doing work in constructors\" when I wrote this. But maybe since this an implementation instead of a subclass, it becomes less important; and we can weigh being symmetric with Pack more highly.\n\nLet me know if I should go ahead with rewriting so that the verification is called at the end of the constructor.\n\n(internal: go/java-practices/constructors#avoid-doing-work-in-constructors)",
+      "parentUuid": "1cb6101f_6e2eb266",
+      "range": {
+        "startLine": 15,
+        "startChar": 42,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "da9dc746737671707711c1f8271e12181942384a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
