@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "228971b6_f7685c54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-24T18:25:29Z",
+      "side": 1,
+      "message": "Signed-off-by is no longer mandatory, apparently: https://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines\n\nBut please shorten the first line of the commit message.",
+      "parentUuid": "9eae6677_1087b5a9",
+      "revId": "9ea3802d605f5b23dee6b3529b68b08760f6ae12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9afe0b2_8c0b58ba",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
         "patchSetId": 3
