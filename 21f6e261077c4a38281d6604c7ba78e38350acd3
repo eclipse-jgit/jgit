@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "755cccbf_abbd893b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RenameCallback.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-07-24T23:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c468a3aa_8becc8e9",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 12
+      },
+      "revId": "21f6e261077c4a38281d6604c7ba78e38350acd3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56e4c7e5_88567c4a",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-24T23:16:17Z",
       "side": 1,
       "message": "Add a \u003cp\u003e",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 12
+      },
+      "revId": "21f6e261077c4a38281d6604c7ba78e38350acd3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad2d87c0_d616aa1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RenameCallback.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-07-24T23:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56e4c7e5_88567c4a",
       "range": {
         "startLine": 38,
         "startChar": 4,
