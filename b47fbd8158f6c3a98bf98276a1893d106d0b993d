@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f4004bb7_2515cce9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-07-24T21:58:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "869bb956_fbf0830a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b47fbd8158f6c3a98bf98276a1893d106d0b993d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6591f962_0f889933",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -58,6 +82,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f232ae9_2b667154",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-07-24T21:58:08Z",
+      "side": 1,
+      "message": "yes - works just as the above assertRenames but verifies commits",
+      "parentUuid": "c0b67372_69581fbb",
+      "revId": "b47fbd8158f6c3a98bf98276a1893d106d0b993d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c09ed05_4c13f7a0",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-07-24T18:25:29Z",
       "side": 1,
       "message": "This means that if someone uses their own subclass of RenameCallback and didn\u0027t change their code to override this function, there will be an exception thrown? This doesn\u0027t seem backwards compatible.\n\nThe default implementation probably should call the other function.\n\nAlso document how the subclasses should override these functions.",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "b47fbd8158f6c3a98bf98276a1893d106d0b993d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92865bf2_14156003",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RenameCallback.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-07-24T21:58:08Z",
+      "side": 1,
+      "message": "\u003e If someone uses their own subclass of RenameCallback and didn\u0027t change their code to override this function, there will be an exception thrown? \nNo - unless they call this function without implementing this.\n\nIts an abstract class and older renamed method is pure abstract function. \nNot touching the older method signature at all so as to not break backward compatibility. The new renamed fn that adds commit info is non abstract just to be backward compatible. The default impl is no UnsupportedOperationException but callers have a choice of either implementing it or defaults to UnsupportedOperationException. But updating it to delegate to the method.\n\nDocumenting how subclass should override these functions.",
+      "parentUuid": "4c09ed05_4c13f7a0",
       "range": {
         "startLine": 40,
         "startChar": 13,
