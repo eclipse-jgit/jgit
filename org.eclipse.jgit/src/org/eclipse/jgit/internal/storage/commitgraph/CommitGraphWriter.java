@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.NB;
@@ -405,25 +406,27 @@ public class CommitGraphWriter {
 		data.write(scratch);
 		int dataHeaderSize = data.size();
 
-		for (RevCommit cmit : graphCommits) {
-			ChangedPathFilter cpf = cmit.getChangedPathFilter();
-			if (cpf != null) {
-				stats.changedPathFiltersReused++;
-			} else {
-				stats.changedPathFiltersComputed++;
-				Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
-						graphCommits.getObjectReader(), cmit);
-				if (paths.isEmpty()) {
-					cpf = ChangedPathFilter.FULL;
+		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
+			for (RevCommit cmit : graphCommits) {
+				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
+				if (cpf != null) {
+					stats.changedPathFiltersReused++;
 				} else {
-					cpf = ChangedPathFilter.fromPaths(paths.get());
+					stats.changedPathFiltersComputed++;
+					Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
+							graphCommits.getObjectReader(), cmit);
+					if (paths.isEmpty()) {
+						cpf = ChangedPathFilter.FULL;
+					} else {
+						cpf = ChangedPathFilter.fromPaths(paths.get());
+					}
 				}
+				cpf.writeTo(data);
+				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
+				index.write(scratch);
 			}
-			cpf.writeTo(data);
-			NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
-			index.write(scratch);
+			return new BloomFilterChunks(index, data);
 		}
-		return new BloomFilterChunks(index, data);
 	}
 
 	private void writeExtraEdges(CancellableDigestOutputStream out)

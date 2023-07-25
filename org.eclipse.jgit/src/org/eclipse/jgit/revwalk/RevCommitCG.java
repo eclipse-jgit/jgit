@@ -30,8 +30,6 @@ class RevCommitCG extends RevCommit {
 
 	private final int graphPosition;
 
-	private final ChangedPathFilter changedPathFilter;
-
 	private int generation = Constants.COMMIT_GENERATION_UNKNOWN;
 
 	/**
@@ -41,14 +39,10 @@ class RevCommitCG extends RevCommit {
 	 *            object name for the commit.
 	 * @param graphPosition
 	 *            the position in the commit-graph of the object.
-	 * @param changedPathFilter
-	 *            the changed path filter if one exists
 	 */
-	protected RevCommitCG(AnyObjectId id, int graphPosition,
-			ChangedPathFilter changedPathFilter) {
+	protected RevCommitCG(AnyObjectId id, int graphPosition) {
 		super(id);
 		this.graphPosition = graphPosition;
-		this.changedPathFilter = changedPathFilter;
 	}
 
 	@Override
@@ -110,7 +104,7 @@ class RevCommitCG extends RevCommit {
 
 	/** {@inheritDoc} */
 	@Override
-	public ChangedPathFilter getChangedPathFilter() {
-		return changedPathFilter;
+	public ChangedPathFilter getChangedPathFilter(RevWalk rw) {
+		return rw.commitGraph().getChangedPathFilter(graphPosition);
 	}
 }

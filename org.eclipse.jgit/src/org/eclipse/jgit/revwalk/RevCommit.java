@@ -697,7 +697,7 @@ public class RevCommit extends RevObject {
 	 * @return the changed path filter
 	 * @since 6.7
 	 */
-	public ChangedPathFilter getChangedPathFilter() {
+	public ChangedPathFilter getChangedPathFilter(RevWalk rw) {
 		return null;
 	}
 

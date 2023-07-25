@@ -133,7 +133,7 @@ public class TreeRevFilter extends RevFilter {
 			int chgs = 0, adds = 0;
 			boolean changedPathFilterUsed = false;
 			boolean mustCalculateChgs = true;
-			ChangedPathFilter cpf = c.getChangedPathFilter();
+			ChangedPathFilter cpf = c.getChangedPathFilter(walker);
 			if (cpf != null) {
 				Optional<Set<byte[]>> paths = pathFilter.getFilter()
 						.getPathsBestEffort();
