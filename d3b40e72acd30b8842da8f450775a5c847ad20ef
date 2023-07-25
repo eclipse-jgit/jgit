@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e52ffc_e89b2ff5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-25T21:22:56Z",
+      "side": 1,
+      "message": "missing @since 6.7, fixed in https://git.eclipse.org/r/c/jgit/jgit/+/203340",
+      "revId": "d3b40e72acd30b8842da8f450775a5c847ad20ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a9fcb3_5c5de37e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-25T21:22:56Z",
+      "side": 1,
+      "message": "missing @since 6.7",
+      "revId": "d3b40e72acd30b8842da8f450775a5c847ad20ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88b996f0_4bf820cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-25T21:22:56Z",
+      "side": 1,
+      "message": "missing @since 6.7",
+      "revId": "d3b40e72acd30b8842da8f450775a5c847ad20ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
