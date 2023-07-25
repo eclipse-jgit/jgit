@@ -16,6 +16,23 @@
       "message": "Removing the -2 since I think that C Git is OK with introducing this version.",
       "revId": "49beb5ae519e429d8868b8afe24007ae2d17003a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ac4879_27d15c74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-25T21:21:02Z",
+      "side": 1,
+      "message": "this change missed a package import: https://git.eclipse.org/r/c/jgit/jgit/+/203339\n",
+      "revId": "49beb5ae519e429d8868b8afe24007ae2d17003a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
