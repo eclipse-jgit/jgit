@@ -288,6 +288,7 @@ public class TreeRevFilter extends RevFilter {
 	 * path was changed in a commit, for statistics gathering purposes.
 	 *
 	 * @return count of true positives
+	 * @since 6.7
 	 */
 	public long getChangedPathFilterTruePositive() {
 		return changedPathFilterTruePositive;
@@ -298,6 +299,7 @@ public class TreeRevFilter extends RevFilter {
 	 * was changed in a commit, for statistics gathering purposes.
 	 *
 	 * @return count of false positives
+	 * @since 6.7
 	 */
 	public long getChangedPathFilterFalsePositive() {
 		return changedPathFilterFalsePositive;
@@ -309,6 +311,7 @@ public class TreeRevFilter extends RevFilter {
 	 * gathering purposes.
 	 *
 	 * @return count of negatives
+	 * @since 6.7
 	 */
 	public long getChangedPathFilterNegative() {
 		return changedPathFilterNegative;
