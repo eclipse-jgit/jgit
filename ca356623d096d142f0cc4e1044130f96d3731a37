@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd37ed5_337387d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-25T16:09:10Z",
+      "side": 1,
+      "message": "To clarify, ChangedPathFilter is itself a pointer (it points to the same byte array as what\u0027s in GraphChangedPathFilterData, along with an offset and length). However this change saves us the memory of having to instantiate ChangedPathFilter (one pointer, 2 ints, and whatever the overhead is of an object) and makes this more consistent with other code, so this looks like a good change.",
+      "revId": "ca356623d096d142f0cc4e1044130f96d3731a37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
