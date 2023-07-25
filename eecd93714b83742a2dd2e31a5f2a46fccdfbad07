@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7a31f9_dd489eed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-25T21:24:57Z",
+      "side": 1,
+      "message": "Ah, thanks for catching these (and also noticing that commons codec was updated recently).",
+      "revId": "eecd93714b83742a2dd2e31a5f2a46fccdfbad07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
