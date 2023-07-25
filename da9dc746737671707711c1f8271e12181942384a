@@ -70,6 +70,30 @@
       },
       "revId": "da9dc746737671707711c1f8271e12181942384a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc94329_78839852",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 307629
+      },
+      "writtenOn": "2023-07-25T23:10:51Z",
+      "side": 1,
+      "message": "It\u0027s been so long since I looked at these changes, I forgot what\u0027s in them and why I wrote it that way. \n\nI rewrote the logic to call verifyPackChecksum from PackReverseIndexFactory.readFromFile (we do have a factory). Then every test method that wants to test a V1 reverse index (mostly in P.R.I.Test and P.R.I.V1Test) needs to start passing in real or fake PackIndexes, even when the pack checksum is not the interesting thing being tested. And PackReverseIndexFactory.readFromFile needs to take in the pack file\u0027s path name just for error message formatting. These are both extra code that doesn\u0027t need to be there if we have separation of concerns (initialize the PRI vs. verify the PRI against the PackIndex).\n\nAnother thing I didn\u0027t remember is that you can see the actual usage from Pack in the grandchild change: https://git.eclipse.org/r/c/jgit/jgit/+/203195. The current way it\u0027s set up, we do all PackIndex checksum-related checks in Pack.java. You can see the other ones in this change because I abstracted and reused the error message format. \n\nSo the current approach is already consistent with the existing checksum verification in Pack.java. It creates a PackIndex object by opening a file, and then verifies the checksum. Similarly, in this chain of changes, Pack.java will create a PackReverseIndex by opening a file (if it exists), and then verifying the checksum corresponding to the PackIndex.\n\nPlease let me know if that wasn\u0027t clear! Happy to have a call to explain it more and decide how to move forward.",
+      "parentUuid": "3b8bf35a_2dd78cea",
+      "range": {
+        "startLine": 15,
+        "startChar": 42,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "da9dc746737671707711c1f8271e12181942384a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
