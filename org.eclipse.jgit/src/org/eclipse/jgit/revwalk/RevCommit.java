@@ -694,10 +694,11 @@ public class RevCommit extends RevObject {
 	 * commit graph file, or the commit graph file was generated without changed
 	 * path filters.
 	 *
+	 * @param rw A revwalk to load the commit graph (if available)
 	 * @return the changed path filter
 	 * @since 6.7
 	 */
-	public ChangedPathFilter getChangedPathFilter() {
+	public ChangedPathFilter getChangedPathFilter(RevWalk rw) {
 		return null;
 	}
 
