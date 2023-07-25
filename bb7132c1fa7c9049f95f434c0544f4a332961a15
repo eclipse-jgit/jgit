@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0f3af3f_baff5805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42749326_012f21c8",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5e5e357_add18026",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-17T22:16:46Z",
       "side": 1,
       "message": "Optionally add base chunk in diff3 style in case of conflicts.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6decba06_fe9b94e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5e5e357_add18026",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "942c5b32_f74e4223",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "replaced with \"section\".",
+      "parentUuid": "40c2161c_0b713612",
+      "range": {
+        "startLine": 71,
+        "startChar": 58,
+        "endLine": 71,
+        "endChar": 61
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f82b9ba3_300d6ccd",
@@ -83,6 +155,24 @@
       "writtenOn": "2023-07-14T11:26:17Z",
       "side": 1,
       "message": "Wrong @since.",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6194ae28_5188da43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f82b9ba3_300d6ccd",
       "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ff078b4_61be9a4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "This is actually copied from the other existing constructor. So same the behaviour.",
+      "parentUuid": "85c5bc39_b562fc9d",
+      "range": {
+        "startLine": 120,
+        "startChar": 45,
+        "endLine": 120,
+        "endChar": 60
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5877c163_ad98e868",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
         "patchSetId": 2
@@ -123,6 +237,24 @@
       "writtenOn": "2023-07-14T11:26:17Z",
       "side": 1,
       "message": "Or after a ||||||| .",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cff4e5e8_977282a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5877c163_ad98e868",
       "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -144,6 +276,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f062774_f1103335",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dac16963_13755fac",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07a1f17e_1824b307",
@@ -161,6 +311,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0dc4366_f7c9bb7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07a1f17e_1824b307",
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99429c84_9fad7772",
@@ -174,6 +342,30 @@
       "writtenOn": "2023-07-13T17:50:42Z",
       "side": 1,
       "message": "this breaks backward compatibility. You have to either add a new ctor or a setWriteBase() method.",
+      "range": {
+        "startLine": 89,
+        "startChar": 50,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "676f3bc9_f534b909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Added constructor.",
+      "parentUuid": "99429c84_9fad7772",
       "range": {
         "startLine": 89,
         "startChar": 50,
@@ -207,6 +399,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0a9e84_6d242378",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f394b550_ebe21478",
+      "range": {
+        "startLine": 178,
+        "startChar": 17,
+        "endLine": 178,
+        "endChar": 28
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc036d4f_c6b316d0",
@@ -230,6 +446,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c3d634_c45ca50c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc036d4f_c6b316d0",
+      "range": {
+        "startLine": 182,
+        "startChar": 17,
+        "endLine": 182,
+        "endChar": 28
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e78363db_659aa9ea",
@@ -243,6 +483,30 @@
       "writtenOn": "2023-07-17T22:16:46Z",
       "side": 1,
       "message": "isYours",
+      "range": {
+        "startLine": 187,
+        "startChar": 17,
+        "endLine": 187,
+        "endChar": 29
+      },
+      "revId": "bb7132c1fa7c9049f95f434c0544f4a332961a15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92422e3f_b2c62862",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-25T00:54:42Z",
+      "side": 1,
+      "message": "Renamed to `isTheirs`",
+      "parentUuid": "e78363db_659aa9ea",
       "range": {
         "startLine": 187,
         "startChar": 17,
