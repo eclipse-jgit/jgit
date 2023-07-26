@@ -10,13 +10,52 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.junit.Test;
 
 public class PackReverseIndexTest {
+
+	@Test
+	public void open_fallbackToComputed() throws IOException {
+		String noRevFilePrefix = "pack-3280af9c07ee18a87705ef50b0cc4cd20266cf12.";
+		PackReverseIndex computed = PackReverseIndexFactory.openOrCompute(
+				getResourceFileFor(noRevFilePrefix, PackExt.REVERSE_INDEX), 7,
+				() -> PackIndex.open(
+						getResourceFileFor(noRevFilePrefix, PackExt.INDEX)));
+
+		assertTrue(computed instanceof PackReverseIndexComputed);
+	}
+
+	@Test
+	public void open_readGoodFile() throws IOException {
+		String hasRevFilePrefix = "pack-cbdeda40019ae0e6e789088ea0f51f164f489d14.";
+		PackReverseIndex version1 = PackReverseIndexFactory.openOrCompute(
+				getResourceFileFor(hasRevFilePrefix, PackExt.REVERSE_INDEX), 6,
+				() -> PackIndex.open(
+						getResourceFileFor(hasRevFilePrefix, PackExt.INDEX)));
+
+		assertTrue(version1 instanceof PackReverseIndexV1);
+	}
+
+	@Test
+	public void open_readCorruptFile() {
+		String hasRevFilePrefix = "pack-cbdeda40019ae0e6e789088ea0f51f164f489d14.";
+
+		assertThrows(IOException.class,
+				() -> PackReverseIndexFactory.openOrCompute(
+						getResourceFileFor(hasRevFilePrefix + "corrupt.",
+								PackExt.REVERSE_INDEX),
+						6, () -> PackIndex.open(getResourceFileFor(
+								hasRevFilePrefix, PackExt.INDEX))));
+	}
+
 	@Test
 	public void read_badMagic() {
 		byte[] badMagic = new byte[] { 'R', 'B', 'A', 'D', // magic
@@ -52,5 +91,10 @@ public class PackReverseIndexTest {
 
 		assertThrows(IOException.class,
 				() -> PackReverseIndexFactory.readFromFile(in, 0, () -> null));
+	}
+
+	private File getResourceFileFor(String packFilePrefix, PackExt ext) {
+		return JGitTestUtil
+				.getTestResourceFile(packFilePrefix + ext.getExtension());
 	}
 }

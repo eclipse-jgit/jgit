@@ -15,11 +15,14 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.PackedObjectInfo;
@@ -147,6 +150,26 @@ public class PackReverseIndexV1Test {
 	}
 
 	@Test
+	public void read_incorrectChecksum() {
+		byte[] badChecksum = new byte[] { 'R', 'I', 'D', 'X', // magic
+				0x00, 0x00, 0x00, 0x01, // file version
+				0x00, 0x00, 0x00, 0x01, // oid version
+				// pack checksum to copy into at byte 12
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+				// checksum
+				(byte) 0xf2, 0x1a, 0x1a, (byte) 0xaa, 0x32, 0x2d, (byte) 0xb9,
+				(byte) 0xfd, 0x0f, (byte) 0xa5, 0x4c, (byte) 0xea, (byte) 0xcf,
+				(byte) 0xbb, (byte) 0x99, (byte) 0xde, (byte) 0xd3, 0x4e,
+				(byte) 0xb1, (byte) 0xee, // would be 0x74 if correct
+		};
+		System.arraycopy(FAKE_PACK_CHECKSUM, 0, badChecksum, 12,
+				FAKE_PACK_CHECKSUM.length);
+		ByteArrayInputStream in = new ByteArrayInputStream(badChecksum);
+		assertThrows(CorruptObjectException.class,
+				() -> PackReverseIndexFactory.readFromFile(in, 0, () -> null));
+	}
+
+	@Test
 	public void findObject_noObjects() {
 		assertNull(emptyReverseIndex.findObject(0));
 	}
@@ -233,6 +256,26 @@ public class PackReverseIndexV1Test {
 	public void findObjectByPosition_badOffset() {
 		assertThrows(AssertionError.class,
 				() -> smallReverseIndex.findObjectByPosition(10));
+	}
+
+	@Test
+	public void verifyChecksum_match() throws IOException {
+		smallReverseIndex.verifyPackChecksum("smallPackFilePath");
+	}
+
+	@Test
+	public void verifyChecksum_mismatch() throws IOException {
+		ByteArrayInputStream in = new ByteArrayInputStream(NO_OBJECTS);
+		PackIndex mockForwardIndex = mock(PackIndex.class);
+		when(mockForwardIndex.getChecksum()).thenReturn(
+				new byte[] { 'D', 'I', 'F', 'F', 'P', 'A', 'C', 'K', 'C', 'H',
+						'E', 'C', 'K', 'S', 'U', 'M', '7', '8', '9', '0', });
+		PackReverseIndex reverseIndex = PackReverseIndexFactory.readFromFile(in,
+				0,
+				() -> mockForwardIndex);
+
+		assertThrows(PackMismatchException.class,
+				() -> reverseIndex.verifyPackChecksum("packFilePath"));
 	}
 
 	private static PackedObjectInfo objectInfo(String objectId, int type,
