@@ -94,6 +94,30 @@
       },
       "revId": "da9dc746737671707711c1f8271e12181942384a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c9b45f2_b9f58d41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-07-26T20:23:44Z",
+      "side": 1,
+      "message": "\u003e So the current approach is already consistent with the existing checksum verification in Pack.java. It creates a PackIndex object by opening a file, and then verifies the checksum. \n\nAh, yes you\u0027re right. In Pack#idx, it is as you described. OK, this makes sense to me.",
+      "parentUuid": "9fc94329_78839852",
+      "range": {
+        "startLine": 15,
+        "startChar": 42,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "da9dc746737671707711c1f8271e12181942384a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
