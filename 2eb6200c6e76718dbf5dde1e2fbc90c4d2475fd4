@@ -77,6 +77,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a588754_9f87b72c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:05:01Z",
+      "side": 1,
+      "message": "this is done to mirror the usage of https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitGraphgenerationVersion \n\nbasically, if value is 1, then we generate topo order, if value is 2, we generate both topo order and corrected timestamp offset. \n\n\u003e\u003eAlso, why two constructors?\nSo existing systems using the old api without the generationVersion parameter don\u0027t break upon merged. It\u0027s true that I can adjust the callers, but I can\u0027t adjust downstream systems might be using commit graph already.",
+      "parentUuid": "53aa0271_df77c8a2",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69b5e127_b416ea8d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 3
@@ -88,6 +106,24 @@
       "writtenOn": "2023-07-26T11:41:04Z",
       "side": 1,
       "message": "Please remove all these unrelated formatting changes.",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f3542e3_5a84b792",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:05:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "69b5e127_b416ea8d",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -158,6 +194,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4cfb50c4_29878956",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:05:01Z",
+      "side": 1,
+      "message": "a bit confused by this comment. Are you suggesting reusing computeGenerationNumbers for both v1 and v2?",
+      "parentUuid": "64d39eea_3721f318",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d670061_7f93edc3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 3
@@ -169,6 +223,24 @@
       "writtenOn": "2023-07-26T11:42:07Z",
       "side": 1,
       "message": "This has already being merged for the changed path filters. Rebase on top of master.",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9c58830_5f7a2642",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:05:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d670061_7f93edc3",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },

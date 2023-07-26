@@ -16,6 +16,24 @@
       "message": "Why did this variables move away? Looks like an unrelated change, please move it to a different commit.",
       "revId": "afb013b9837a385b658469f4595b65413e4d0dbf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec59d56_52dca5cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:05:01Z",
+      "side": 0,
+      "message": "ack",
+      "parentUuid": "f2bf98c7_da212b07",
+      "revId": "afb013b9837a385b658469f4595b65413e4d0dbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
