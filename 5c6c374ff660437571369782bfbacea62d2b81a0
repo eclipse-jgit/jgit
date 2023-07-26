@@ -71,6 +71,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b71c742c_4f3fce71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T12:13:27Z",
+      "side": 1,
+      "message": "Deleting orphans wants to delete the sidecar files (.idx, .bitmap...) if there is no .pack file.\n\nThe weird case is that .keep is considered equivalent to the .pack file. If there is a xxx.keep (without xxx.pack), GC won\u0027t remove the sidecar files. There is even a unit test verifying this behavior.\n\nI would expect that if there is no xxx.pack file, any other xxx.{keep|bitmap|idx} should be removed. \n\nIn repack(), if there is a .keep it excludes the objects in .idx... so maybe it is used to \"deny-list\" objects without even keeping them in disk?",
+      "parentUuid": "179e7e8b_ddd5bc91",
+      "revId": "5c6c374ff660437571369782bfbacea62d2b81a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6bfa38e_eee4c822",
