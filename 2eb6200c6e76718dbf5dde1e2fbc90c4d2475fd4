@@ -20,6 +20,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "363136c3_3ad48614",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:41:04Z",
+      "side": 1,
+      "message": "Comments from previous look, forgot to click reply. Please remove the formatting changes to make a clean diff, easier to review.",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f8a2e955_01077b62",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 3
@@ -37,6 +54,40 @@
         "endLine": 71,
         "endChar": 69
       },
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53aa0271_df77c8a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:41:04Z",
+      "side": 1,
+      "message": "This parameter is weird, because we always generate version 1, regardless what this say.\n\nWhat about a boolean, e.g. \"writeGenNumberV2Chunks\"?\n\nAlso, why two constructors? Callers can be explicit about what do they want to write.",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b5e127_b416ea8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:41:04Z",
+      "side": 1,
+      "message": "Please remove all these unrelated formatting changes.",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -84,6 +135,23 @@
         "endLine": 200,
         "endChar": 50
       },
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64d39eea_3721f318",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:41:04Z",
+      "side": 1,
+      "message": "Keep the same function as before so this is a cleaner diff with just a new function adding the V2.",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },

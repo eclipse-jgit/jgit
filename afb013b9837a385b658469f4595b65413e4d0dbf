@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2bf98c7_da212b07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:41:04Z",
+      "side": 0,
+      "message": "Why did this variables move away? Looks like an unrelated change, please move it to a different commit.",
+      "revId": "afb013b9837a385b658469f4595b65413e4d0dbf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
