@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ae83712_532c7949",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:18:22Z",
+      "side": 1,
+      "message": "\u003e\u003ePlease split this change in smaller pieces,\n\nSuggestion? When modifying the loader, I have to modify the Builder and Commit Graph class since the loader depends on them for the read() output. Each of them also have their own test file.",
+      "parentUuid": "db469aef_26ef1ad6",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9d63d35_98e2565b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-26T11:58:39Z",
       "side": 1,
       "message": "I don\u0027t think this interface can promise any performance. It depends on the data structure used by implementors.",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b80f3f9c_c498f70e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:18:22Z",
+      "side": 1,
+      "message": "this is copied from `getCommitData(int graphPos);` method. Are you suggesting changing the getCommitData method javadoc as well?",
+      "parentUuid": "f9d63d35_98e2565b",
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5ec0f31_4e3521b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:18:22Z",
+      "side": 1,
+      "message": "\u003e\u003eif generationVersion is 2 then I can call getGenerationData? otherwise I should use cg#getCommitData()#getGeneration()?\n\nyes. if generationVersion is 1, then getGeneration is not supported.\n\n\u003e\u003eI suspect everything is easier if instead of \"generation v2\" we call this \"fixed commit timestamp\" or \"commit timestamp offset\". It tells what the data is and caller can decide to use it as a generation number or not (note that \"commitData#getGeneration\" IS a generation number).\n\nthe naming is done to follow the naming convention of getCommitData() which means get data from the CommitDataChunk. Thus to getGenerationData() is to get data from the GenerationDataChunk.",
+      "parentUuid": "5c0655ec_892bd7dc",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "689a4767_a1c37848",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4e4bfaf_6c659fdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:18:22Z",
+      "side": 1,
+      "message": "in Cgit, generation number v1 is actually called topo_levels, generation number v2 is being called generation. I think we should follow the existing convention\n\nhttps://github.com/git/git/blob/master/commit-graph.c#L1538\nhttps://github.com/git/git/blob/master/commit-graph.c#L1571",
+      "parentUuid": "689a4767_a1c37848",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8b2f945_85f43a8a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -82,6 +154,24 @@
       "writtenOn": "2023-07-26T11:58:39Z",
       "side": 1,
       "message": "Why an extra interface? Could this just return the value?",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5540ed07_9f482261",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-26T19:18:22Z",
+      "side": 1,
+      "message": "to stay consistent with existing convention of the file that each data chunk gets it own interface.",
+      "parentUuid": "b8b2f945_85f43a8a",
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
