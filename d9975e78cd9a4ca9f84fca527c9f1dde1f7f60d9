@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9366d565_ff49c9f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "Undo the renaming of generation (then this change touches less files)\n\nThen maybe you could have these changes:\n1. Add the new methods in the interface and CGV1 class (builder sets them to null), so we can discuss the API there\n2. Plug the builder with its test\n3. Make the loader to invoke the builder new methods.",
+      "parentUuid": "7ae83712_532c7949",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9d63d35_98e2565b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "this is copied from `getCommitData(int graphPos);` method. Are you suggesting changing the getCommitData method javadoc as well?",
       "parentUuid": "f9d63d35_98e2565b",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8a065b0_6af4b29e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "No, just remove it from this javadoc.",
+      "parentUuid": "b80f3f9c_c498f70e",
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -108,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "44c845c9_cc109e54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "\u003e yes. if generationVersion is 1, then getGeneration is not supported.\n\nThen this method should be boolean hasFixedCommitTimestamps(), so the caller knows if the calls to getCommitTimestampOffset() return valid values.\n\nThe int is confusing. If one day the value is 3... what does it mean? is v2 also generated? Also, the compiler cannot help callers to detect that unexpected value.",
+      "parentUuid": "e5ec0f31_4e3521b1",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "689a4767_a1c37848",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -143,6 +197,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99800004_6321592a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "We haven\u0027t follow cgit code to implement this, and there is no need to if we can make it clearer.\n\nGeneration v1 is truly a generation number (order of the commit) but \"generation v2\" is an offset of the commit timestamp, that you can use to order the commits. That is obvious if we let the old field as \"generation\" and the new one as \"commitTimestampOffset\".",
+      "parentUuid": "d4e4bfaf_6c659fdc",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b8b2f945_85f43a8a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -172,6 +244,87 @@
       "side": 1,
       "message": "to stay consistent with existing convention of the file that each data chunk gets it own interface.",
       "parentUuid": "b8b2f945_85f43a8a",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb75c90_dd5e0300",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "The interface was because the CommitData chunk had multiple fields. That doesn\u0027t apply here.",
+      "parentUuid": "5540ed07_9f482261",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4bb5dab_91d8af5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "This parameter is error-prone: the caller can use an invalid/inconsistent value here and nothing catches the error.\n\nWe can just remove it and do:\n\nboolean hasCommitTimestampOffsets() {\n  return generationData !\u003d null;\n}",
+      "range": {
+        "startLine": 31,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d00a691c_601891f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "AFAIK this is used only by the builder? in that case define only one constructor with a @nullable parameter.",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce383123_22e42f83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphGenerationData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T22:58:30Z",
+      "side": 1,
+      "message": "GraphCommitTimestampOffsetData\n\nSo it is more descriptive about the actual data. The fact that we use it as a \"generation\" is a different issue.",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 32
+      },
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
