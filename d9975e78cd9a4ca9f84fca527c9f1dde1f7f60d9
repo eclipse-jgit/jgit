@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db469aef_26ef1ad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:58:39Z",
+      "side": 1,
+      "message": "I just skim through it. Please split this change in smaller pieces, easier to review.\n\nKeep the existing field as \"generation\" as use \"commitTimestampOffset\" (or something similar) to the new field. Callers are the ones deciding what to use to order the commits.",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9d63d35_98e2565b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:58:39Z",
+      "side": 1,
+      "message": "I don\u0027t think this interface can promise any performance. It depends on the data structure used by implementors.",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0655ec_892bd7dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:58:39Z",
+      "side": 1,
+      "message": "I don\u0027t understand these two new methods. How am I supposed to use this interface?\n\nif generationVersion is 2 then I can call getGenerationData? otherwise I should use cg#getCommitData()#getGeneration()?\n\nI suspect everything is easier if instead of \"generation v2\" we call this \"fixed commit timestamp\" or \"commit timestamp offset\". It tells what the data is and caller can decide to use it as a generation number or not (note that \"commitData#getGeneration\" IS a generation number).",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "689a4767_a1c37848",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:58:39Z",
+      "side": 1,
+      "message": "Leave this as generation, because it is a generation. The new field is a \"commit timestamp offset\", so it should be named like that.",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b2f945_85f43a8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T11:58:39Z",
+      "side": 1,
+      "message": "Why an extra interface? Could this just return the value?",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
