@@ -37,6 +37,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5f545b3b_80aa496e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T23:16:57Z",
+      "side": 1,
+      "message": "One general comment for these changes: \"commitTimestampOffset\" is clearer than \"generation number v2\".\n\n\"commitTimestampOffset\" tells what it is, and that I need to add it to the commit date. \"generation number v2\" doesn\u0027t tell what it is nor if it is the offset or the actual corrected date.",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f8a2e955_01077b62",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 3
@@ -89,6 +106,24 @@
       "side": 1,
       "message": "this is done to mirror the usage of https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitGraphgenerationVersion \n\nbasically, if value is 1, then we generate topo order, if value is 2, we generate both topo order and corrected timestamp offset. \n\n\u003e\u003eAlso, why two constructors?\nSo existing systems using the old api without the generationVersion parameter don\u0027t break upon merged. It\u0027s true that I can adjust the callers, but I can\u0027t adjust downstream systems might be using commit graph already.",
       "parentUuid": "53aa0271_df77c8a2",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a86609ee_23e2c909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T23:16:57Z",
+      "side": 1,
+      "message": "You get the same semantics with a boolean, and if in the future there is a 3rd format, we can always enable/disable versions independently.\n\nThis is in the .internal package, not public API, so we can change the constructor.",
+      "parentUuid": "7a588754_9f87b72c",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -206,6 +241,24 @@
       "side": 1,
       "message": "a bit confused by this comment. Are you suggesting reusing computeGenerationNumbers for both v1 and v2?",
       "parentUuid": "64d39eea_3721f318",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efaa435a_a2373255",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-26T23:16:57Z",
+      "side": 1,
+      "message": "No, I expect a diff where I see just a function being added.\n\nLeave the old one alone (computeGenerationNumber) and make a new one (e.g. computeCommitTimestampOffsets)",
+      "parentUuid": "4cfb50c4_29878956",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
