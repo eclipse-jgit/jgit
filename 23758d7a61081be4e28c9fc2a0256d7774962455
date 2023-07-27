@@ -69,6 +69,24 @@
       "parentUuid": "1309f8b4_730f8566",
       "revId": "23758d7a61081be4e28c9fc2a0256d7774962455",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2765c81_79e490e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-27T20:44:54Z",
+      "side": 1,
+      "message": "Probably we should. Running the maven build with that zulu JDK bazel downloaded works for me:\n\n  JAVA_HOME\u003d/private/var/tmp/_bazel_thomas/3cbfc59db267d030865f53ead902492c/execroot/jgit/external/remotejdk11_macos/zulu-11.jdk/Contents/Home/ mvn clean install -Dmaven.javadoc.skip\u003dtrue -Pjavac -DskipTests\n\nhas no problems building JGit.",
+      "parentUuid": "f35e43d2_f7fc783a",
+      "revId": "23758d7a61081be4e28c9fc2a0256d7774962455",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
