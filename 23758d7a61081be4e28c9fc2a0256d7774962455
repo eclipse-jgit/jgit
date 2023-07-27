@@ -33,6 +33,24 @@
       "message": "reverting this change on top of current master (c77fb9347) fixes the build failure",
       "revId": "23758d7a61081be4e28c9fc2a0256d7774962455",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1309f8b4_730f8566",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-07-27T18:20:14Z",
+      "side": 1,
+      "message": "Yes, also happens on my machine. However, this output is spectacularly unhelpful. I have no idea what bazel\u0027s problem might be, nor how to debug this.",
+      "parentUuid": "bc833e0a_851020db",
+      "revId": "23758d7a61081be4e28c9fc2a0256d7774962455",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
