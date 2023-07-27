@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0819b65_a5d7c23e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "9366d565_ff49c9f6",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9d63d35_98e2565b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "No, just remove it from this javadoc.",
       "parentUuid": "b80f3f9c_c498f70e",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a86dd9f_4319ea0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "d8a065b0_6af4b29e",
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -162,6 +198,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c64aa92_a71b4e9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "this int is to mirror the behavior of cgit as it\u0027s part of the .git/config. it\u0027s expected that the caller knows what chunk is available based on the int value.",
+      "parentUuid": "44c845c9_cc109e54",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "689a4767_a1c37848",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
         "patchSetId": 7
@@ -209,6 +263,24 @@
       "side": 1,
       "message": "We haven\u0027t follow cgit code to implement this, and there is no need to if we can make it clearer.\n\nGeneration v1 is truly a generation number (order of the commit) but \"generation v2\" is an offset of the commit timestamp, that you can use to order the commits. That is obvious if we let the old field as \"generation\" and the new one as \"commitTimestampOffset\".",
       "parentUuid": "d4e4bfaf_6c659fdc",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6642b846_9a1b9b8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "i think it would be confusing for cgit to consider v2 as the generation number and jgit to consider v1 as the generation number; the author Stolee called v1 the topo_level and v2 the generation number, I think we should stick to his convention.\n\nthe way we represent these the corrected timestamp in memory is merely a long, so to the computer, v2 is also a generation number.",
+      "parentUuid": "99800004_6321592a",
       "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -268,6 +340,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ad9f288_9b9b5a89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraph.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "0bb75c90_dd5e0300",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4bb5dab_91d8af5b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
         "patchSetId": 7
@@ -279,6 +369,30 @@
       "writtenOn": "2023-07-26T22:58:30Z",
       "side": 1,
       "message": "This parameter is error-prone: the caller can use an invalid/inconsistent value here and nothing catches the error.\n\nWe can just remove it and do:\n\nboolean hasCommitTimestampOffsets() {\n  return generationData !\u003d null;\n}",
+      "range": {
+        "startLine": 31,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84effa7e_e3c633bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "a4bb5dab_91d8af5b",
       "range": {
         "startLine": 31,
         "startChar": 15,
@@ -308,6 +422,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e088b5cf_27659fed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "d00a691c_601891f0",
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce383123_22e42f83",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphGenerationData.java",
         "patchSetId": 7
@@ -319,6 +451,30 @@
       "writtenOn": "2023-07-26T22:58:30Z",
       "side": 1,
       "message": "GraphCommitTimestampOffsetData\n\nSo it is more descriptive about the actual data. The fact that we use it as a \"generation\" is a different issue.",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "d9975e78cd9a4ca9f84fca527c9f1dde1f7f60d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb539bc8_c5cc5a5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphGenerationData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-07-27T20:17:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "ce383123_22e42f83",
       "range": {
         "startLine": 25,
         "startChar": 13,
