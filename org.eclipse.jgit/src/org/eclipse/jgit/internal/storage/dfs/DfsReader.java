@@ -34,6 +34,8 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener.DfsBlockData;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -41,6 +43,7 @@ import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -79,6 +82,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private DeltaBaseCache baseCache;
 	private DfsPackFile last;
 	private boolean avoidUnreachable;
+	private List<PackLoadListener> packLoadListeners = new ArrayList<>();
 
 	/**
 	 * Initialize a new DfsReader
@@ -832,6 +836,100 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	 */
 	public DfsReaderIoStats getIoStats() {
 		return new DfsReaderIoStats(stats);
+	}
+
+	/** Announces when data is loaded by reader */
+	interface PackLoadListener {
+		/**
+		 * Immutable copy of a DFS block metadata
+		 */
+		class DfsBlockData {
+			private final int identityHash;
+			private final int size;
+
+			static DfsBlockData of(DfsBlock src) {
+				return new DfsBlockData(src);
+			}
+
+			private DfsBlockData(DfsBlock src) {
+				this.identityHash = System.identityHashCode(src);
+				this.size = src.size();
+			}
+
+			int getIdentityHash() {
+				return identityHash;
+			}
+
+			int getSize() {
+				return size;
+			}
+		}
+
+		/**
+		 * This is called when an index reference (e.g. primary index, reverse
+		 * index, ...) is set in the reader, regarless if loaded from scratch or
+		 * copied from cache.
+		 *
+		 * During the lifetime of the reader, the reference for an index should
+		 * be set only once.
+		 *
+		 * @param packName
+		 *            Name of the pack
+		 * @param src
+		 *            Source of the pack (e.g. GC, COMPACT, ...)
+		 * @param ext
+		 *            Extension in the pack (e.g. IDX, RIDX, ...)
+		 * @param size
+		 *            Size of the data loaded (usually as bytes in disk)
+		 * @param loadedIdx
+		 *            reference to the loaded index
+		 */
+		void onIndexLoad(String packName, PackSource src, PackExt ext, long size,
+				Object loadedIdx);
+
+		/**
+		 * This is called when a dfs block is loaded into the reader.
+		 *
+		 * The reader keeps only one block at a time in memory, so during a
+		 * request the same block could be loaded multiple times.
+		 *
+		 * @param packName
+		 *            Name of the pack this block belongs to
+		 * @param src
+		 *            Source of the pack (e.g. GC, COMPACT, ...)
+		 * @param ext
+		 *            Extension in the pack (e.g. PACK or REFTABLE)
+		 * @param position
+		 *            Block offset being loaded
+		 * @param dfsBlockData
+		 *            Metadata of the block
+		 */
+		void onBlockLoad(String packName, PackSource src, PackExt ext,
+				long position, DfsBlockData dfsBlockData);
+	}
+
+	void emitIndexLoad(DfsPackDescription packDescription, PackExt ext,
+			Object loadedIdx) {
+		packLoadListeners.forEach(
+				listener -> listener.onIndexLoad(packDescription.getFileName(ext),
+						packDescription.getPackSource(), ext,
+						packDescription.getFileSize(ext), loadedIdx));
+	}
+
+	void emitBlockLoad(BlockBasedFile file, long position, DfsBlock dfsBlock) {
+		packLoadListeners
+				.forEach(listener -> listener.onBlockLoad(file.getFileName(),
+						file.desc.getPackSource(), file.ext, position,
+						DfsBlockData.of(dfsBlock)));
+	}
+
+	/**
+	 * Add listener to record loads by this reader
+	 *
+	 * @param listener a listener
+	 */
+	protected void addPackLoadListener(PackLoadListener listener) {
+		packLoadListeners.add(listener);
 	}
 
 	/**
