@@ -18,8 +18,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -128,6 +132,93 @@ public class DfsPackFileTest {
 		DfsReader reader = db.getObjectDatabase().newReader();
 		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
 		assertFalse(pack.hasObjectSizeIndex(reader));
+	}
+
+	private static class TestPackLoadListener implements PackLoadListener {
+		final Map<PackExt, Integer> indexLoadCount = new HashMap<>();
+
+		int blockLoadCount;
+
+		@Override
+		public void onIndexLoad(String packName, PackSource src, PackExt ext,
+				long size, int identityHashCode) {
+			indexLoadCount.merge(ext, 1, Integer::sum);
+		}
+
+		@Override
+		public void onBlockLoad(String packName, PackSource src, PackExt ext, long position,
+				DfsBlockData dfsBlockData) {
+			blockLoadCount += 1;
+		}
+	}
+
+	@Test
+	public void testIndexLoadCallback_indexNotInCache() throws IOException {
+		bypassCache = false;
+		clearCache = true;
+		setObjectSizeIndexMinBytes(-1);
+		setupPack(512, 800);
+
+		TestPackLoadListener tal = new TestPackLoadListener();
+		DfsReader reader = db.getObjectDatabase().newReader();
+		reader.addPackLoadListener(tal);
+		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+		pack.getPackIndex(reader);
+
+		assertEquals(1, tal.indexLoadCount.get(PackExt.INDEX).intValue());
+	}
+
+	@Test
+	public void testIndexLoadCallback_indexInCache() throws IOException {
+		bypassCache = false;
+		clearCache = false;
+		setObjectSizeIndexMinBytes(-1);
+		setupPack(512, 800);
+
+		TestPackLoadListener tal = new TestPackLoadListener();
+		DfsReader reader = db.getObjectDatabase().newReader();
+		reader.addPackLoadListener(tal);
+		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+		pack.getPackIndex(reader);
+		pack.getPackIndex(reader);
+		pack.getPackIndex(reader);
+
+		assertEquals(1, tal.indexLoadCount.get(PackExt.INDEX).intValue());
+	}
+
+	@Test
+	public void testIndexLoadCallback_multipleReads() throws IOException {
+		bypassCache = false;
+		clearCache = true;
+		setObjectSizeIndexMinBytes(-1);
+		setupPack(512, 800);
+
+		TestPackLoadListener tal = new TestPackLoadListener();
+		DfsReader reader = db.getObjectDatabase().newReader();
+		reader.addPackLoadListener(tal);
+		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+		pack.getPackIndex(reader);
+		pack.getPackIndex(reader);
+		pack.getPackIndex(reader);
+
+		assertEquals(1, tal.indexLoadCount.get(PackExt.INDEX).intValue());
+	}
+
+
+	@Test
+	public void testBlockLoadCallback_loadInCache() throws IOException {
+		bypassCache = false;
+		clearCache = true;
+		setObjectSizeIndexMinBytes(-1);
+		setupPack(512, 800);
+
+		TestPackLoadListener tal = new TestPackLoadListener();
+		DfsReader reader = db.getObjectDatabase().newReader();
+		reader.addPackLoadListener(tal);
+		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+		ObjectId anObject = pack.getPackIndex(reader).getObjectId(0);
+		pack.get(reader, anObject).getBytes();
+		assertEquals(2, tal.blockLoadCount);
 	}
 
 	private ObjectId setupPack(int bs, int ps) throws IOException {
