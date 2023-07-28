@@ -72,10 +72,23 @@ maven_jar(
     sha1 = "c01428efa717624f7aabf4df319939dda9646b2d",
 )
 
+
 maven_jar(
     name = "javaewah",
     artifact = "com.googlecode.javaewah:JavaEWAH:1.2.3",
     sha1 = "13a27c856e0c8808cee9a64032c58eee11c3adc9",
+)
+
+maven_jar(
+    name = "roaringbitmap",
+    artifact = "org.roaringbitmap:RoaringBitmap:0.9.44",
+    attach_source = True,
+    sha1 = "d25b4bcb67193d587f6e0617da2c6f84e2d02a9c",
+)
+maven_jar(
+        name = "roaringbitmap-shims",
+        artifact = "org.roaringbitmap:shims:0.9.44",
+        sha1 = "e22be0d690a99c046bf9f57106065a77edad1eda",
 )
 
 maven_jar(

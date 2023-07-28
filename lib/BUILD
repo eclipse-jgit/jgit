@@ -117,7 +117,10 @@ java_library(
 java_library(
     name = "javaewah",
     visibility = ["//visibility:public"],
-    exports = ["@javaewah//jar"],
+    exports = ["@javaewah//jar",
+               "@roaringbitmap//jar",
+               "@roaringbitmap-shims//jar",
+    ],
 )
 
 java_library(
