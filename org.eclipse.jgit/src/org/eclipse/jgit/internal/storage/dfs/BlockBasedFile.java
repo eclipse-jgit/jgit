@@ -100,7 +100,9 @@ abstract class BlockBasedFile {
 
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
 		try (LazyChannel c = new LazyChannel(ctx, desc, ext)) {
-			return cache.getOrLoad(this, pos, ctx, c);
+			DfsBlock block = cache.getOrLoad(this, pos, ctx, c);
+			ctx.emitBlockLoad(this, pos, block);
+			return block;
 		}
 	}
 
