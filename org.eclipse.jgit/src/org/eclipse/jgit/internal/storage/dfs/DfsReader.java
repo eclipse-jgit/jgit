@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -79,6 +81,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private DeltaBaseCache baseCache;
 	private DfsPackFile last;
 	private boolean avoidUnreachable;
+	private List<PackLoadListener> packLoadListeners = new ArrayList<>();
 
 	/**
 	 * Initialize a new DfsReader
@@ -832,6 +835,57 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	 */
 	public DfsReaderIoStats getIoStats() {
 		return new DfsReaderIoStats(stats);
+	}
+
+	/** Announces when data is loaded by reader */
+	interface PackLoadListener {
+		/**
+		 * A pack access for the first time an index reference (e.g. primary
+		 * index, reverse index, ...)
+		 *
+		 * @param packName
+		 *            Name of the pack
+		 * @param src
+		 *            Source of the pack (e.g. GC, COMPACT, ...)
+		 * @param ext
+		 *            Extension in the pack (e.g. IDX, RIDX, ...)
+		 * @param size
+		 *            Size of the data loaded (usually as bytes in disk)
+		 * @param identityHashCode
+		 *            Hashcode of the object loaded
+		 *            ({@link System#identityHashCode(Object)}
+		 */
+		void onIndexLoad(String packName, PackSource src, PackExt ext, long size,
+				int identityHashCode);
+
+		void onBlockLoad(String packName, PackSource src, PackExt ext,
+				long size, int identiyHashCode, long position);
+		// TODO the passthrough copy
+	}
+
+	void emitIndexLoad(DfsPackDescription packDescription, PackExt ext,
+			int identityHashCode) {
+		packLoadListeners.forEach(
+				listener -> listener.onIndexLoad(packDescription.getFileName(ext),
+						packDescription.getPackSource(), ext,
+						packDescription.getFileSize(ext), identityHashCode));
+	}
+
+	void emitBlockLoad(BlockBasedFile file, long position,
+			int identityHashCode) {
+		packLoadListeners
+				.forEach(listener -> listener.onBlockLoad(file.getFileName(),
+						file.desc.getPackSource(), file.ext, file.blockSize,
+						identityHashCode, position));
+	}
+
+	/**
+	 * Add listener to record loads by this reader
+	 *
+	 * @param listener a listener
+	 */
+	protected void addPackLoadListener(PackLoadListener listener) {
+		packLoadListeners.add(listener);
 	}
 
 	/**
