@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8610e58b_bac63663",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 149285
+      },
+      "writtenOn": "2023-07-28T12:01:03Z",
+      "side": 1,
+      "message": "IMO this should take a string. For lib users of JGit, the commit message is always a string (e.g. see the message signature of getFullMessage and others in this class).",
+      "range": {
+        "startLine": 614,
+        "startChar": 3,
+        "endLine": 614,
+        "endChar": 13
+      },
+      "revId": "47ca063edb33219dd3f162967eec3fce912815dc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
