@@ -180,6 +180,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			}
 			PackIndex idx = idxref.get();
 			if (index == null && idx != null) {
+				ctx.announceRefLoad(desc, INDEX, System.identityHashCode(idx));
 				index = idx;
 			}
 			return index;
@@ -226,6 +227,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		PackBitmapIndex bmidx = idxref.get();
 		if (bitmapIndex == null && bmidx != null) {
 			bitmapIndex = bmidx;
+			ctx.announceRefLoad(desc, BITMAP_INDEX, System.identityHashCode(bmidx));
 		}
 		return bitmapIndex;
 	}
@@ -263,6 +265,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		CommitGraph cg = cgref.get();
 		if (commitGraph == null && cg != null) {
 			commitGraph = cg;
+			ctx.announceRefLoad(desc, COMMIT_GRAPH, System.identityHashCode(cg));
 		}
 		return commitGraph;
 	}
@@ -296,6 +299,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		PackReverseIndex revidx = revref.get();
 		if (reverseIndex == null && revidx != null) {
 			reverseIndex = revidx;
+			ctx.announceRefLoad(desc, REVERSE_INDEX, System.identityHashCode(revidx));
 		}
 		return reverseIndex;
 	}
@@ -325,6 +329,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			PackObjectSizeIndex sizeIdx = sizeIdxRef.get();
 			if (sizeIdx != null) {
 				objectSizeIndex = sizeIdx;
+				ctx.announceRefLoad(desc, OBJECT_SIZE_INDEX, System.identityHashCode(sizeIdx));
 			}
 		} finally {
 			objectSizeIndexLoadAttempted = true;
