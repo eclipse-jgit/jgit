@@ -158,6 +158,7 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private PackIndex idx(DfsReader ctx) throws IOException {
 		if (index != null) {
+			ctx.announceAccess(desc, INDEX, true);
 			return index;
 		}
 
@@ -175,6 +176,7 @@ public final class DfsPackFile extends BlockBasedFile {
 						cacheHit.set(false);
 						return loadPackIndex(ctx, idxKey);
 					});
+			ctx.announceAccess(desc, INDEX, cacheHit.get());
 			if (cacheHit.get()) {
 				ctx.stats.idxCacheHit++;
 			}
@@ -210,6 +212,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		if (bitmapIndex != null) {
+			ctx.announceAccess(desc, BITMAP_INDEX, true);
 			return bitmapIndex;
 		}
 
@@ -220,6 +223,7 @@ public final class DfsPackFile extends BlockBasedFile {
 					cacheHit.set(false);
 					return loadBitmapIndex(ctx, bitmapKey);
 				});
+		ctx.announceAccess(desc, BITMAP_INDEX, cacheHit.get());
 		if (cacheHit.get()) {
 			ctx.stats.bitmapCacheHit++;
 		}
@@ -247,6 +251,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		if (commitGraph != null) {
+			ctx.announceAccess(desc, COMMIT_GRAPH, true);
 			return commitGraph;
 		}
 
@@ -257,6 +262,7 @@ public final class DfsPackFile extends BlockBasedFile {
 					cacheHit.set(false);
 					return loadCommitGraph(ctx, commitGraphKey);
 				});
+		ctx.announceAccess(desc, COMMIT_GRAPH, cacheHit.get());
 		if (cacheHit.get()) {
 			ctx.stats.commitGraphCacheHit++;
 		}
@@ -279,6 +285,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 */
 	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
 		if (reverseIndex != null) {
+			ctx.announceAccess(desc, REVERSE_INDEX, true);
 			return reverseIndex;
 		}
 
@@ -290,6 +297,7 @@ public final class DfsPackFile extends BlockBasedFile {
 					cacheHit.set(false);
 					return loadReverseIdx(ctx, revKey, idx);
 				});
+		ctx.announceAccess(desc, REVERSE_INDEX, cacheHit.get());
 		if (cacheHit.get()) {
 			ctx.stats.ridxCacheHit++;
 		}
@@ -303,6 +311,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	private PackObjectSizeIndex getObjectSizeIndex(DfsReader ctx)
 			throws IOException {
 		if (objectSizeIndex != null) {
+			ctx.announceAccess(desc, REVERSE_INDEX, true);
 			return objectSizeIndex;
 		}
 
@@ -319,6 +328,7 @@ public final class DfsPackFile extends BlockBasedFile {
 						cacheHit.set(false);
 						return loadObjectSizeIndex(ctx, objSizeKey);
 					});
+			ctx.announceAccess(desc, OBJECT_SIZE_INDEX, cacheHit.get());
 			if (cacheHit.get()) {
 				ctx.stats.objectSizeIndexCacheHit++;
 			}

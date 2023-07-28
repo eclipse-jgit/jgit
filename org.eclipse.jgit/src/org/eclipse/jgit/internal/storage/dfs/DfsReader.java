@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -79,6 +81,16 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private DeltaBaseCache baseCache;
 	private DfsPackFile last;
 	private boolean avoidUnreachable;
+
+	interface AccessListener {
+		void access(DfsPackDescription desc, PackExt ext, boolean ready);
+	}
+
+	private List<AccessListener> accessListeners = new ArrayList<>();
+
+	void announceAccess(DfsPackDescription packDescription, PackExt ext, boolean ready) {
+		accessListeners.forEach(listener -> listener.access(packDescription, ext, ready));
+	}
 
 	/**
 	 * Initialize a new DfsReader
