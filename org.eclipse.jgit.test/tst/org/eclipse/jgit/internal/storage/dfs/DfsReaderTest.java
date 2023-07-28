@@ -11,12 +11,18 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.dfs.DfsReader.AccessListener;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;
@@ -40,31 +46,31 @@ public class DfsReaderTest {
 		ObjectId obj = insertBlobWithSize(200);
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			assertFalse("limit < threshold < obj",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
 			assertEquals(1, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(1, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertFalse("limit = threshold < obj",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
 			assertEquals(2, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(2, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertFalse("threshold < limit < obj",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 150));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 150));
 			assertEquals(3, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(3, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("threshold < limit = obj",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 200));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 200));
 			assertEquals(4, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(4, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("threshold < obj < limit",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 250));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 250));
 			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(5, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
@@ -80,31 +86,31 @@ public class DfsReaderTest {
 		ObjectId obj = insertBlobWithSize(50);
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			assertFalse("limit < obj < threshold",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 10));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 10));
 			assertEquals(1, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(1, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("limit = obj < threshold",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
 			assertEquals(2, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(2, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("obj < limit < threshold",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 80));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 80));
 			assertEquals(3, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(3, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("obj < limit = threshold",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
 			assertEquals(4, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(4, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("obj < threshold < limit",
-					ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 120));
+					ctx.isNotLargerThan(obj, OBJ_BLOB, 120));
 			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(5, ctx.stats.objectSizeIndexMiss);
@@ -116,11 +122,11 @@ public class DfsReaderTest {
 		setObjectSizeIndexMinBytes(100);
 		ObjectId obj = insertBlobWithSize(10);
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
-			assertFalse(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 0));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 10));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 40));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+			assertFalse(ctx.isNotLargerThan(obj, OBJ_BLOB, 0));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 10));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 40));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
 
 			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(5, ctx.stats.objectSizeIndexMiss);
@@ -133,15 +139,100 @@ public class DfsReaderTest {
 		setObjectSizeIndexMinBytes(-1);
 		ObjectId obj = insertBlobWithSize(10);
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
-			assertFalse(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 0));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 10));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 40));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 50));
-			assertTrue(ctx.isNotLargerThan(obj, Constants.OBJ_BLOB, 100));
+			assertFalse(ctx.isNotLargerThan(obj, OBJ_BLOB, 0));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 10));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 40));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
+			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
 
 			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
+		}
+	}
+
+	@Test
+	public void accessListener_noInvocations() throws IOException {
+		ObjectId obj = insertBlobWithSize(100);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			CounterAccessListener listener = new CounterAccessListener();
+			ctx.addAccessListener(listener);
+			assertEquals(null, listener.callsPerExt.get(PackExt.INDEX));
+		}
+	}
+
+	@Test
+	public void accessListener_has_openIdx() throws IOException {
+		ObjectId obj = insertBlobWithSize(100);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			CounterAccessListener listener = new CounterAccessListener();
+			ctx.addAccessListener(listener);
+			boolean has = ctx.has(obj);
+			assertTrue(has);
+			assertEquals(Integer.valueOf(1), listener.callsPerExt.get(PackExt.INDEX));
+		}
+	}
+
+	@Test
+	public void accessListener_notLargerThan_openMultipleIndices() throws IOException {
+			setObjectSizeIndexMinBytes(100);
+			ObjectId obj = insertBlobWithSize(200);
+			try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+				CounterAccessListener listener = new CounterAccessListener();
+				ctx.addAccessListener(listener);
+				boolean notLargerThan = ctx.isNotLargerThan(obj, OBJ_BLOB, 1000);
+				assertTrue(notLargerThan);
+				assertEquals(Integer.valueOf(1), listener.callsPerExt.get(PackExt.INDEX));
+				assertEquals(Integer.valueOf(1), listener.callsPerExt.get(PackExt.OBJECT_SIZE_INDEX));
+			}
+	}
+
+	@Test
+	public void accessListener_has_openMultipleIndices() throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		insertBlobWithSize(200);
+		insertBlobWithSize(230);
+		insertBlobWithSize(100);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			CounterAccessListener listener = new CounterAccessListener();
+			ctx.addAccessListener(listener);
+			ObjectId oid = ObjectId.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f129");
+			boolean has = ctx.has(oid);
+			assertFalse(has);
+			// Open 3 indices trying to find the pack
+			assertEquals(Integer.valueOf(3), listener.callsPerExt.get(PackExt.INDEX));
+		}
+	}
+
+
+	@Test
+	public void accessListener_has_repeatedCalls_openMultipleIndices() throws IOException {
+		// Two objects NOT in the repo
+		ObjectId oid = ObjectId.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f129");
+		ObjectId oid2 = ObjectId.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f130");
+
+		setObjectSizeIndexMinBytes(100);
+		insertBlobWithSize(200);
+		insertBlobWithSize(230);
+		insertBlobWithSize(100);
+		CounterAccessListener listener = new CounterAccessListener();
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			ctx.addAccessListener(listener);
+			boolean has = ctx.has(oid);
+			ctx.has(oid);
+			ctx.has(oid2);
+			assertFalse(has);
+			// The 3 indices were loaded only once each
+			assertEquals(Integer.valueOf(3), listener.callsPerExt.get(PackExt.INDEX));
+		}
+	}
+
+	private static class CounterAccessListener implements DfsReader.AccessListener {
+		Map<PackExt, Integer> callsPerExt = new HashMap<>();
+
+		@Override
+		public void refLoad(String packName, PackSource src, PackExt ext, long size, int refHash) {
+			callsPerExt.merge(ext, 1, Integer::sum);
 		}
 	}
 
@@ -150,7 +241,7 @@ public class DfsReaderTest {
 		TestRng testRng = new TestRng(JGitTestUtil.getName());
 		ObjectId oid;
 		try (ObjectInserter ins = db.newObjectInserter()) {
-				oid = ins.insert(Constants.OBJ_BLOB,
+				oid = ins.insert(OBJ_BLOB,
 						testRng.nextBytes(size));
 			ins.flush();
 		}

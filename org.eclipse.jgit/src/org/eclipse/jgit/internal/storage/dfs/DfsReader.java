@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackList;
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -79,6 +81,31 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	private DeltaBaseCache baseCache;
 	private DfsPackFile last;
 	private boolean avoidUnreachable;
+
+	/** Announces when data is loaded by reader */
+	interface AccessListener {
+		/**
+		 * A pack access for the first time an index reference (e.g. primary index, reverse index, ...)
+		 *
+		 * @param packName Name of the pack
+		 * @param src Source of the pack (e.g. GC, COMPACT, ...)
+		 * @param ext Extension in the pack (e.g. IDX, RIDX, ...)
+		 * @param size Size of the data loaded (usually as bytes in disk)
+		 * @param refHash Hashcode of the object loaded ({@link System#identityHashCode(Object)}
+		 */
+		void refLoad(String packName, PackSource src, PackExt ext, long size, int refHash);
+	}
+
+	private List<AccessListener> accessListeners = new ArrayList<>();
+
+	void announceRefLoad(DfsPackDescription packDescription, PackExt ext, int refHash) {
+		accessListeners.forEach(listener -> listener.refLoad(
+				packDescription.getFileName(ext), packDescription.getPackSource(), ext, packDescription.getFileSize(ext), refHash));
+	}
+
+	void addAccessListener(AccessListener listener) {
+		accessListeners.add(listener);
+	}
 
 	/**
 	 * Initialize a new DfsReader
