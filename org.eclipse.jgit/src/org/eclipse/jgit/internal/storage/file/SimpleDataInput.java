@@ -67,7 +67,8 @@ class SimpleDataInput implements DataInput {
 
 	@Override
 	public int skipBytes(int n) throws IOException {
-		throw new UnsupportedOperationException();
+		IO.skipFully(fd, n);
+		return n;
 	}
 
 	@Override
@@ -97,8 +98,9 @@ class SimpleDataInput implements DataInput {
 
 	@Override
 	public char readChar() throws IOException {
-		throw new UnsupportedOperationException();
-	}
+		readFully(buf, 0, 2);
+		return (char) NB.decodeUInt16(buf, 0);
+  }
 
 	@Override
 	public float readFloat() throws IOException {

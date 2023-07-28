@@ -56,7 +56,7 @@ class SimpleDataOutput implements DataOutput {
 
 	@Override
 	public void write(byte[] b) throws IOException {
-		throw new UnsupportedOperationException();
+		fd.write(b);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ class SimpleDataOutput implements DataOutput {
 
 	@Override
 	public void writeChar(int v) throws IOException {
-		throw new UnsupportedOperationException();
+		writeShort(v);
 	}
 
 	@Override
