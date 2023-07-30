@@ -20,7 +20,8 @@ import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ObjectId;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
-import com.googlecode.javaewah.IntIterator;
+import org.roaringbitmap.PeekableIntIterator;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * A PackBitmapIndex that remaps the bitmaps in the previous index to the
@@ -33,7 +34,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 
 	private final BasePackBitmapIndex oldPackIndex;
 	final PackBitmapIndex newPackIndex;
-	private final BitSet inflated;
 	private final int[] prevToNewMapping;
 
 	/**
@@ -63,7 +63,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	private PackBitmapIndexRemapper(PackBitmapIndex newPackIndex) {
 		this.oldPackIndex = null;
 		this.newPackIndex = newPackIndex;
-		this.inflated = null;
 		this.prevToNewMapping = null;
 	}
 
@@ -71,7 +70,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			BasePackBitmapIndex oldPackIndex, PackBitmapIndex newPackIndex) {
 		this.oldPackIndex = oldPackIndex;
 		this.newPackIndex = newPackIndex;
-		inflated = new BitSet(newPackIndex.getObjectCount());
 
 		prevToNewMapping = new int[oldPackIndex.getObjectCount()];
 		for (int pos = 0; pos < prevToNewMapping.length; pos++)
@@ -95,8 +93,8 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	}
 
 	@Override
-	public EWAHCompressedBitmap ofObjectType(
-			EWAHCompressedBitmap bitmap, int type) {
+	public RoaringBitmap ofObjectType(
+			RoaringBitmap bitmap, int type) {
 		return newPackIndex.ofObjectType(bitmap, type);
 	}
 
@@ -137,8 +135,8 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	}
 
 	@Override
-	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
-		EWAHCompressedBitmap bitmap = newPackIndex.getBitmap(objectId);
+	public RoaringBitmap getBitmap(AnyObjectId objectId) {
+		RoaringBitmap bitmap = newPackIndex.getBitmap(objectId);
 		if (bitmap != null || oldPackIndex == null)
 			return bitmap;
 
@@ -149,13 +147,11 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		if (newPackIndex.findPosition(objectId) == -1)
 			return null;
 
-		inflated.clear();
-		for (IntIterator i = oldBitmap.getBitmapWithoutCaching()
-				.intIterator(); i.hasNext();)
-			inflated.set(prevToNewMapping[i.next()]);
-		bitmap = inflated.toEWAHCompressedBitmap();
-		bitmap.trim();
-		return bitmap;
+		RoaringBitmap inflated = new RoaringBitmap();
+		for (PeekableIntIterator i = oldBitmap.getBitmapWithoutCaching()
+				.getIntIterator(); i.hasNext();)
+			inflated.add(prevToNewMapping[i.next()]);
+		return inflated;
 	}
 
 	/** An entry in the old PackBitmapIndex. */

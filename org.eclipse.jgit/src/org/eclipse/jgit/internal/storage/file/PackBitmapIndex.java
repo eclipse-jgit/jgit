@@ -22,6 +22,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.io.SilentFileInputStream;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Logical representation of the bitmap data stored in the pack index.
@@ -165,8 +166,8 @@ public abstract class PackBitmapIndex {
 	 *            the Git type.
 	 * @return the object bitmap with only objects of the Git type.
 	 */
-	public abstract EWAHCompressedBitmap ofObjectType(
-			EWAHCompressedBitmap bitmap, int type);
+	public abstract RoaringBitmap ofObjectType(
+			RoaringBitmap bitmap, int type);
 
 	/**
 	 * Returns the previously constructed bitmap for the object.
@@ -175,7 +176,7 @@ public abstract class PackBitmapIndex {
 	 *            the id for which the bitmap will be found.
 	 * @return the bitmap or null if the object was not found.
 	 */
-	public abstract EWAHCompressedBitmap getBitmap(AnyObjectId objectId);
+	public abstract RoaringBitmap getBitmap(AnyObjectId objectId);
 
 	/**
 	 * Obtain the total number of objects described by this index.

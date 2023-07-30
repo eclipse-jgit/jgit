@@ -93,11 +93,7 @@ public class PackBitmapIndexWriterV1 {
 		writeBitmaps(bitmaps);
 	}
 
-	private void writeBitmap(EWAHCompressedBitmap bitmap) throws IOException {
-		RoaringBitmap rb = new RoaringBitmap();
-		for (IntIterator it = bitmap.intIterator(); it.hasNext(); ) {
-			rb.add(it.next());
-		}
+	private void writeBitmap(RoaringBitmap rb) throws IOException {
 		rb.runOptimize();
 		rb.serialize(dataOutput);
 	}
