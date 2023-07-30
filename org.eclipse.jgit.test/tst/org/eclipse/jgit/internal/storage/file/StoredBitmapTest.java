@@ -16,13 +16,13 @@ import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndex.StoredBitmap;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 public class StoredBitmapTest {
 
 	@Test
 	public void testGetBitmapWithoutXor() {
-		EWAHCompressedBitmap b = bitmapOf(100);
+		RoaringBitmap b = bitmapOf(100);
 		StoredBitmap sb = newStoredBitmap(bitmapOf(100));
 		assertEquals(b, sb.getBitmap());
 	}
@@ -45,17 +45,17 @@ public class StoredBitmapTest {
 	}
 
 	private static final StoredBitmap newStoredBitmap(
-			EWAHCompressedBitmap... bitmaps) {
+			RoaringBitmap... bitmaps) {
 		StoredBitmap sb = null;
-		for (EWAHCompressedBitmap bitmap : bitmaps)
+		for (RoaringBitmap bitmap : bitmaps)
 			sb = new StoredBitmap(ObjectId.zeroId(), bitmap, sb, 0);
 		return sb;
 	}
 
-	private static final EWAHCompressedBitmap bitmapOf(int... bits) {
-		EWAHCompressedBitmap b = new EWAHCompressedBitmap();
+	private static final RoaringBitmap bitmapOf(int... bits) {
+		RoaringBitmap b = new RoaringBitmap();
 		for (int bit : bits)
-			b.set(bit);
+			b.add(bit);
 		return b;
 	}
 }

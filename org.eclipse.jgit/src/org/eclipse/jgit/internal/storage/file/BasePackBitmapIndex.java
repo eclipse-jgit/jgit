@@ -14,6 +14,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Base implementation of the PackBitmapIndex.
@@ -26,7 +27,7 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 	}
 
 	@Override
-	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
+	public RoaringBitmap getBitmap(AnyObjectId objectId) {
 		StoredBitmap sb = bitmaps.get(objectId);
 		return sb != null ? sb.getBitmap() : null;
 	}
@@ -43,7 +44,7 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		private volatile Object bitmapContainer;
 		private final int flags;
 
-		StoredBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
+		StoredBitmap(AnyObjectId objectId, RoaringBitmap bitmap,
 				StoredBitmap xorBitmap, int flags) {
 			super(objectId);
 			this.bitmapContainer = xorBitmap == null
@@ -57,8 +58,8 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		 *
 		 * @return the full bitmap
 		 */
-		EWAHCompressedBitmap getBitmap() {
-			EWAHCompressedBitmap bitmap = getBitmapWithoutCaching();
+		RoaringBitmap getBitmap() {
+			RoaringBitmap bitmap = getBitmapWithoutCaching();
 			// Cache the result.
 			bitmapContainer = bitmap;
 			return bitmap;
@@ -71,24 +72,27 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		 *
 		 * @return the full bitmap
 		 */
-		EWAHCompressedBitmap getBitmapWithoutCaching() {
+		RoaringBitmap getBitmapWithoutCaching() {
 			// Fast path to immediately return the expanded result.
 			Object r = bitmapContainer;
-			if (r instanceof EWAHCompressedBitmap)
-				return (EWAHCompressedBitmap) r;
+			if (r instanceof RoaringBitmap)
+				return (RoaringBitmap) r;
 
 			// Expand the bitmap but not cache the result.
 			XorCompressedBitmap xb = (XorCompressedBitmap) r;
-			EWAHCompressedBitmap out = xb.bitmap;
+			RoaringBitmap out = xb.bitmap.clone();
 			for (;;) {
 				r = xb.xorBitmap.bitmapContainer;
 				if (r instanceof EWAHCompressedBitmap) {
-					out = out.xor((EWAHCompressedBitmap) r);
-					out.trim();
+					throw new IllegalStateException();
+				}
+				if (r instanceof RoaringBitmap) {
+					out.xor((RoaringBitmap) r);
 					return out;
 				}
+
 				xb = (XorCompressedBitmap) r;
-				out = out.xor(xb.bitmap);
+				out.xor(xb.bitmap);
 			}
 		}
 
@@ -99,10 +103,10 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 	}
 
 	private static final class XorCompressedBitmap {
-		final EWAHCompressedBitmap bitmap;
+		final RoaringBitmap bitmap;
 		final StoredBitmap xorBitmap;
 
-		XorCompressedBitmap(EWAHCompressedBitmap b, StoredBitmap xb) {
+		XorCompressedBitmap(RoaringBitmap b, StoredBitmap xb) {
 			bitmap = b;
 			xorBitmap = xb;
 		}
