@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import com.googlecode.javaewah.IntIterator;
 import java.io.BufferedOutputStream;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.StoredEntry
 import org.eclipse.jgit.lib.Constants;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Creates the version 1 pack bitmap index files.
@@ -92,7 +94,12 @@ public class PackBitmapIndexWriterV1 {
 	}
 
 	private void writeBitmap(EWAHCompressedBitmap bitmap) throws IOException {
-		bitmap.serialize(dataOutput);
+		RoaringBitmap rb = new RoaringBitmap();
+		for (IntIterator it = bitmap.intIterator(); it.hasNext(); ) {
+			rb.add(it.next());
+		}
+		rb.runOptimize();
+		rb.serialize(dataOutput);
 	}
 
 	private void writeBitmaps(PackBitmapIndexBuilder bitmaps)

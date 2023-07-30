@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import com.googlecode.javaewah.IntIterator;
 import java.io.DataInput;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +35,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.PeekableIntIterator;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Support for the pack bitmap index v1 format.
@@ -275,9 +278,21 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	private static EWAHCompressedBitmap readBitmap(DataInput dataInput)
 			throws IOException {
-		EWAHCompressedBitmap bitmap = new EWAHCompressedBitmap();
+		RoaringBitmap bitmap = new RoaringBitmap();
 		bitmap.deserialize(dataInput);
-		return bitmap;
+
+		PeekableIntIterator rit = bitmap.getIntIterator();
+		EWAHCompressedBitmap ewah = new EWAHCompressedBitmap();
+		while (true) {
+			if (!rit.hasNext())
+				break;
+
+			int e = rit.next();
+			ewah.set(e);
+		}
+
+		ewah.trim();
+		return ewah;
 	}
 
 	/**
