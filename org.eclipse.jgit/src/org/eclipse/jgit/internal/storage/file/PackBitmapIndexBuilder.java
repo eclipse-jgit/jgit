@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.util.BlockList;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Helper for constructing
@@ -35,10 +36,10 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
 
-	private final EWAHCompressedBitmap commits;
-	private final EWAHCompressedBitmap trees;
-	private final EWAHCompressedBitmap blobs;
-	private final EWAHCompressedBitmap tags;
+	private final RoaringBitmap commits;
+	private final RoaringBitmap trees;
+	private final RoaringBitmap blobs;
+	private final RoaringBitmap tags;
 	private final BlockList<PositionEntry> byOffset;
 
 	private final LinkedList<StoredBitmap>
@@ -66,24 +67,24 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		// On average a repository is 30% commits, 30% trees, 30% blobs.
 		// Initialize bitmap capacity for worst case to minimize growing.
 		int sizeInWords = Math.max(4, byOffset.size() / 64 / 3);
-		commits = new EWAHCompressedBitmap(sizeInWords);
-		trees = new EWAHCompressedBitmap(sizeInWords);
-		blobs = new EWAHCompressedBitmap(sizeInWords);
-		tags = new EWAHCompressedBitmap(sizeInWords);
+		commits = new RoaringBitmap();
+		trees = new RoaringBitmap();
+		blobs = new RoaringBitmap();
+		tags = new RoaringBitmap();
 		for (int i = 0; i < objects.size(); i++) {
 			int type = objects.get(i).getType();
 			switch (type) {
 			case Constants.OBJ_COMMIT:
-				commits.set(i);
+				commits.add(i);
 				break;
 			case Constants.OBJ_TREE:
-				trees.set(i);
+				trees.add(i);
 				break;
 			case Constants.OBJ_BLOB:
-				blobs.set(i);
+				blobs.add(i);
 				break;
 			case Constants.OBJ_TAG:
-				tags.set(i);
+				tags.add(i);
 				break;
 			default:
 				throw new IllegalArgumentException(MessageFormat.format(
@@ -153,7 +154,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 */
 	public void processBitmapForWrite(BitmapCommit c, Bitmap bitmap,
 			int flags) {
-		EWAHCompressedBitmap compressed = bitmap.retrieveCompressed();
+		RoaringBitmap compressed = bitmap.retrieveCompressed();
 		compressed.trim();
 		StoredBitmap newest = new StoredBitmap(c, compressed, null, flags);
 
@@ -173,13 +174,13 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	private StoredEntry generateStoredEntry(StoredBitmap bitmapToWrite) {
 		int bestXorOffset = 0;
-		EWAHCompressedBitmap bestBitmap = bitmapToWrite.getBitmap();
+		RoaringBitmap bestBitmap = bitmapToWrite.getBitmap();
 
 		int offset = 1;
 		for (StoredBitmap curr : bitmapsToWriteXorBuffer) {
-			EWAHCompressedBitmap bitmap = curr.getBitmap()
-					.xor(bitmapToWrite.getBitmap());
-			if (bitmap.sizeInBytes() < bestBitmap.sizeInBytes()) {
+			RoaringBitmap bitmap = RoaringBitmap.xor(curr.getBitmap(),
+					bitmapToWrite.getBitmap());
+			if (bitmap.getSizeInBytes() < bestBitmap.getSizeInBytes()) {
 				bestBitmap = bitmap;
 				bestXorOffset = offset;
 			}
@@ -191,7 +192,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			throw new IllegalStateException();
 		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap,
+		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap	,
 				bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
@@ -208,24 +209,24 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            the flags to be stored with the bitmap
 	 */
 	public void addBitmap(
-			AnyObjectId objectId, EWAHCompressedBitmap bitmap, int flags) {
+			AnyObjectId objectId, RoaringBitmap bitmap, int flags) {
 		bitmap.trim();
 		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
 		getBitmaps().add(result);
 	}
 
 	@Override
-	public EWAHCompressedBitmap ofObjectType(
-			EWAHCompressedBitmap bitmap, int type) {
+	public RoaringBitmap ofObjectType(
+			RoaringBitmap bitmap, int type) {
 		switch (type) {
 		case Constants.OBJ_BLOB:
-			return getBlobs().and(bitmap);
+			return RoaringBitmap.and(getBlobs(),bitmap);
 		case Constants.OBJ_TREE:
-			return getTrees().and(bitmap);
+			return RoaringBitmap.and(getTrees(),bitmap);
 		case Constants.OBJ_COMMIT:
-			return getCommits().and(bitmap);
+			return RoaringBitmap.and(getCommits(),bitmap);
 		case Constants.OBJ_TAG:
-			return getTags().and(bitmap);
+			return RoaringBitmap.and(getTags(), bitmap);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -251,7 +252,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *
 	 * @return the commit object bitmap.
 	 */
-	public EWAHCompressedBitmap getCommits() {
+	public RoaringBitmap getCommits() {
 		return commits;
 	}
 
@@ -260,7 +261,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *
 	 * @return the tree object bitmap.
 	 */
-	public EWAHCompressedBitmap getTrees() {
+	public RoaringBitmap getTrees() {
 		return trees;
 	}
 
@@ -269,7 +270,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *
 	 * @return the blob object bitmap.
 	 */
-	public EWAHCompressedBitmap getBlobs() {
+	public RoaringBitmap getBlobs() {
 		return blobs;
 	}
 
@@ -278,7 +279,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *
 	 * @return the tag object bitmap.
 	 */
-	public EWAHCompressedBitmap getTags() {
+	public RoaringBitmap getTags() {
 		return tags;
 	}
 
@@ -330,11 +331,11 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
 		private final long objectId;
-		private final EWAHCompressedBitmap bitmap;
+		private final RoaringBitmap bitmap;
 		private final int xorOffset;
 		private final int flags;
 
-		StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
+		StoredEntry(long objectId, RoaringBitmap bitmap,
 				int xorOffset, int flags) {
 			this.objectId = objectId;
 			this.bitmap = bitmap;
@@ -343,7 +344,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 
 		/** @return the bitmap */
-		public EWAHCompressedBitmap getBitmap() {
+		public RoaringBitmap getBitmap() {
 			return bitmap;
 		}
 

@@ -10,7 +10,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import com.googlecode.javaewah.IntIterator;
 import java.io.DataInput;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +34,6 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
-import org.roaringbitmap.PeekableIntIterator;
 import org.roaringbitmap.RoaringBitmap;
 
 /**
@@ -68,10 +66,10 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	private final PackIndex packIndex;
 	private final PackReverseIndex reverseIndex;
-	private final EWAHCompressedBitmap commits;
-	private final EWAHCompressedBitmap trees;
-	private final EWAHCompressedBitmap blobs;
-	private final EWAHCompressedBitmap tags;
+	private final RoaringBitmap commits;
+	private final RoaringBitmap trees;
+	private final RoaringBitmap blobs;
+	private final RoaringBitmap tags;
 
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
 
@@ -150,7 +148,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 			int nthObjectId = NB.decodeInt32(scratch, 0);
 			int xorOffset = scratch[4];
 			int flags = scratch[5];
-			EWAHCompressedBitmap bitmap = readBitmap(dataInput);
+			RoaringBitmap bitmap = readBitmap(dataInput);
 
 			if (nthObjectId < 0) {
 				throw new IOException(MessageFormat.format(
@@ -239,17 +237,21 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	}
 
 	@Override
-	public EWAHCompressedBitmap ofObjectType(
-			EWAHCompressedBitmap bitmap, int type) {
+	public RoaringBitmap ofObjectType(
+			RoaringBitmap bitmap, int type) {
+			return (ofObjectTypeR(bitmap, type));
+	}
+
+	public RoaringBitmap ofObjectTypeR(RoaringBitmap bitmap, int type) {
 		switch (type) {
 		case Constants.OBJ_BLOB:
-			return blobs.and(bitmap);
+			return RoaringBitmap.and(blobs, bitmap);
 		case Constants.OBJ_TREE:
-			return trees.and(bitmap);
+			return RoaringBitmap.and(trees, bitmap);
 		case Constants.OBJ_COMMIT:
-			return commits.and(bitmap);
+			return RoaringBitmap.and(commits, bitmap);
 		case Constants.OBJ_TAG:
-			return tags.and(bitmap);
+			return RoaringBitmap.and(tags, bitmap);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -276,23 +278,11 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		return packIndex;
 	}
 
-	private static EWAHCompressedBitmap readBitmap(DataInput dataInput)
+	private static RoaringBitmap readBitmap(DataInput dataInput)
 			throws IOException {
 		RoaringBitmap bitmap = new RoaringBitmap();
 		bitmap.deserialize(dataInput);
-
-		PeekableIntIterator rit = bitmap.getIntIterator();
-		EWAHCompressedBitmap ewah = new EWAHCompressedBitmap();
-		while (true) {
-			if (!rit.hasNext())
-				break;
-
-			int e = rit.next();
-			ewah.set(e);
-		}
-
-		ewah.trim();
-		return ewah;
+		return bitmap;
 	}
 
 	/**
@@ -304,7 +294,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 		IdxPositionBitmap xorIdxPositionBitmap;
 
-		EWAHCompressedBitmap bitmap;
+		RoaringBitmap bitmap;
 
 		int flags;
 
@@ -312,7 +302,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 		IdxPositionBitmap(int nthObjectId,
 				@Nullable IdxPositionBitmap xorIdxPositionBitmap,
-				EWAHCompressedBitmap bitmap, int flags) {
+				RoaringBitmap bitmap, int flags) {
 			this.nthObjectId = nthObjectId;
 			this.xorIdxPositionBitmap = xorIdxPositionBitmap;
 			this.bitmap = bitmap;

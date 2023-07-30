@@ -15,6 +15,7 @@ import java.util.Iterator;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * A compressed bitmap representation of the entire object graph.
@@ -90,7 +91,7 @@ public interface BitmapIndex {
 		 * @return the corresponding {@code EWAHCompressedBitmap}
 		 * @since 5.8
 		 */
-		EWAHCompressedBitmap retrieveCompressed();
+		RoaringBitmap retrieveCompressed();
 	}
 
 	/**

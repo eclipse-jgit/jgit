@@ -49,6 +49,7 @@ import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.SystemReader;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
+import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Helper class for the {@link PackWriter} to select commits for which to build
@@ -397,7 +398,7 @@ class PackWriterBitmapPreparer {
 			RevCommit rc = (RevCommit) ro;
 			reuseCommits.add(new BitmapCommit(rc, false, entry.getFlags()));
 			if (!reuse.contains(rc)) {
-				EWAHCompressedBitmap bitmap = bitmapRemapper.ofObjectType(
+				RoaringBitmap bitmap = bitmapRemapper.ofObjectType(
 						bitmapRemapper.getBitmap(rc), Constants.OBJ_COMMIT);
 				reuse.or(new CompressedBitmap(bitmap, commitBitmapIndex));
 			}
