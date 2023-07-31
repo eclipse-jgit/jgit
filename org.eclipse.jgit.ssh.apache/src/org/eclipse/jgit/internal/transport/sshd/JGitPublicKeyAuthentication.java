@@ -466,7 +466,7 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 
 				@Override
 				public KeyAgentIdentity next() {
-					if (hasElement == null && !hasNext()
+					if ((hasElement == null && !hasNext())
 							|| !hasElement.booleanValue()) {
 						throw new NoSuchElementException();
 					}
