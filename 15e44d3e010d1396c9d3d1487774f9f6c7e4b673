@@ -41,6 +41,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c49afc2_4ff32243",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-31T19:00:07Z",
+      "side": 1,
+      "message": "Renamed to `formatMergeDiff3`",
+      "parentUuid": "da6da70e_89fac90c",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 44
+      },
+      "revId": "15e44d3e010d1396c9d3d1487774f9f6c7e4b673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47978fcb_10831013",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-31T10:15:22Z",
       "side": 1,
       "message": "newline missing.",
+      "range": {
+        "startLine": 52,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 8
+      },
+      "revId": "15e44d3e010d1396c9d3d1487774f9f6c7e4b673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06bca79b_63996930",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 307790
+      },
+      "writtenOn": "2023-07-31T19:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47978fcb_10831013",
       "range": {
         "startLine": 52,
         "startChar": 3,
