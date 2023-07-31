@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0620ae4e_6a21bb70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-31T14:41:28Z",
+      "side": 1,
+      "message": "nit: This title needs to be updated. Now that code moved to the FooterLine class.",
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06cb9655_9678f0f7",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
         "patchSetId": 9
@@ -20,6 +37,46 @@
         "endLine": 31,
         "endChar": 59
       },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "866bec4c_f24bca6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-31T14:41:28Z",
+      "side": 1,
+      "message": "nit: we don\u0027t use \"final\" for local variables anymore in jgit.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a90815b0_6e34dfd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-07-31T14:41:28Z",
+      "side": 1,
+      "message": "This became a single-line wrapper to another function. \n\nGiven that it is private, could we just get rid of it? (if it makes a too complicated diff, it could be in a different change)",
       "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
