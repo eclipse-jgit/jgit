@@ -87,6 +87,24 @@
       "parentUuid": "f35e43d2_f7fc783a",
       "revId": "23758d7a61081be4e28c9fc2a0256d7774962455",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4367ac27_2d059509",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-07-31T14:01:52Z",
+      "side": 1,
+      "message": "looks like this is fixing it\nhttps://git.eclipse.org/r/c/jgit/jgit/+/203434",
+      "parentUuid": "f2765c81_79e490e2",
+      "revId": "23758d7a61081be4e28c9fc2a0256d7774962455",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
