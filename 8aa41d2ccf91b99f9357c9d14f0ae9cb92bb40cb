@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1d0370_fb75cb72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackBitmapIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-31T18:16:27Z",
+      "side": 1,
+      "message": "do you know what the deal with these classes is? The code review introducing this suggests this all should be thread-safe, but if I look up, `ObjectIdOwnerMap\u003cStoredBitmap\u003e bitmaps` doesn\u0027t look thread-safe to me.",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "8aa41d2ccf91b99f9357c9d14f0ae9cb92bb40cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
