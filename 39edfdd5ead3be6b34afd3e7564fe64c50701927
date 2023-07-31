@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06cb9655_9678f0f7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-31T14:28:49Z",
+      "side": 1,
+      "message": "this could just call `FooterLine.fromMessage` directly, right?",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 31,
+        "endChar": 59
+      },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
