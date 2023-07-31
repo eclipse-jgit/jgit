@@ -10,7 +10,16 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
@@ -28,8 +37,33 @@ class ConvertRefStorage extends TextBuiltin {
 			"-r" }, usage = "usage_convertRefStorageRefLogs")
 	private boolean writeLogs = true;
 
+	@Option(name = "--reps", usage = "usage_mergeRef")
+	private  int reps = 1000;
+
+	@Argument(required = true, metaVar = "metaVar_ref", usage = "usage_mergeRef")
+	private String revision;
+
+	@Argument(required = true, index = 1, metaVar = "metaVar_ref", usage = "usage_mergeRef")
+	private String tip;
+
 	@Override
 	protected void run() throws Exception {
-		((FileRepository) db).convertRefStorage(format, writeLogs, backup);
+		int reachable = 0;
+		for (int i = 0; i < reps; i++) {
+			try (RevWalk rw = new RevWalk(db)) {
+				RevCommit rc = rw.parseCommit(ObjectId.fromString(revision));
+
+				RevCommit masterCommit = rw.parseCommit(ObjectId.fromString(tip));
+
+				ReachabilityChecker checker = rw.getObjectReader().createReachabilityChecker(rw);
+				List<RevCommit> want = new ArrayList<>();
+				want.add(rc);
+				List<RevCommit> branches = new ArrayList<>();
+				want.add(masterCommit);
+				if (checker.areAllReachable(want, branches).isPresent())
+					reachable ++;
+			}
+		}
+		System.err.println("reachable " + reachable);
 	}
 }
