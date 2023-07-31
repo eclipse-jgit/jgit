@@ -86,6 +86,11 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return position;
 	}
 
+	/**
+	 * A bitset for representing small changes (set/remove individual bits)
+	 * relative to an existing EWAH bitmap. Executing bit-vector operations will
+	 * materialize the changes into a fresh EWAH bitmap
+	 */
 	private static final class ComboBitset {
 		private InflatingBitSet inflatingBitmap;
 
@@ -121,18 +126,21 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return inflatingBitmap.getBitmap();
 		}
 
+		/* In-place or operation */
 		void or(EWAHCompressedBitmap inbits) {
 			if (toRemove != null)
 				combine();
 			inflatingBitmap = inflatingBitmap.or(inbits);
 		}
 
+		/* In-place andNot operation */
 		void andNot(EWAHCompressedBitmap inbits) {
 			if (toAdd != null || toRemove != null)
 				combine();
 			inflatingBitmap = inflatingBitmap.andNot(inbits);
 		}
 
+		/* In-place xor operation. */
 		void xor(EWAHCompressedBitmap inbits) {
 			if (toAdd != null || toRemove != null)
 				combine();
