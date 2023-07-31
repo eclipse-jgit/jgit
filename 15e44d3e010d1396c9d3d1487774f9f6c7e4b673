@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf64ea0_eaf029ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-31T10:15:22Z",
+      "side": 1,
+      "message": "did not check code in detail, but the tests give me confidence this is OK.",
+      "revId": "15e44d3e010d1396c9d3d1487774f9f6c7e4b673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da6da70e_89fac90c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-31T10:15:22Z",
+      "side": 1,
+      "message": "the name is a bit unwieldy (and we set it in stone here because of backward compatibility.)\n\nCan you think of something more concise? Maybe just `formatMerge(... , boolean diff3)` ? Or `formatMergeDiff3` ?",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 44
+      },
+      "revId": "15e44d3e010d1396c9d3d1487774f9f6c7e4b673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47978fcb_10831013",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatterPass.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-31T10:15:22Z",
+      "side": 1,
+      "message": "newline missing.",
+      "range": {
+        "startLine": 52,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 8
+      },
+      "revId": "15e44d3e010d1396c9d3d1487774f9f6c7e4b673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
