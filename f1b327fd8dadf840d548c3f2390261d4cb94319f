@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d73f35_3095cae0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-07-31T08:20:14Z",
+      "side": 1,
+      "message": "I think this is better placed in the FooterLine class, as it doesn\u0027t have much to do with RevCommit or RevObject. It will also make the naming more natural, eg.\n\n\n```\nstatic List\u003cFooterLinE\u003e FooterLine.fromBuffer(raw byte[])\n```\n\nlooks like FooterLineTest.java will also become more natural in this case.",
+      "range": {
+        "startLine": 627,
+        "startChar": 39,
+        "endLine": 627,
+        "endChar": 68
+      },
+      "revId": "f1b327fd8dadf840d548c3f2390261d4cb94319f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
