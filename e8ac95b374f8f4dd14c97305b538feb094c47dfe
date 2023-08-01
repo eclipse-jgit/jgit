@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "013cb4b6_fa0d65c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BitmapIndexImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-08-01T09:44:17Z",
+      "side": 0,
+      "message": "Removing this was probably a bad idea.",
+      "range": {
+        "startLine": 89,
+        "startChar": 28,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "e8ac95b374f8f4dd14c97305b538feb094c47dfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
