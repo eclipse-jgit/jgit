@@ -47,7 +47,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testTwoConflictingModifications() throws IOException {
 		assertEquals(t("a<b=Z>Zdefghij"),
-				merge("abcdefghij", "abZdefghij", "aZZdefghij"));
+				merge("abcdefghij", "abZdefghij", "aZZdefghij", false));
+
+		assertEquals(t("a<b|b=Z>Zdefghij"),
+				merge("abcdefghij", "abZdefghij", "aZZdefghij", true));
 	}
 
 	/**
@@ -60,7 +63,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testOneAgainstTwoConflictingModifications() throws IOException {
 		assertEquals(t("aZ<Z=c>Zefghij"),
-				merge("abcdefghij", "aZZZefghij", "aZcZefghij"));
+				merge("abcdefghij", "aZZZefghij", "aZcZefghij", false));
+
+		assertEquals(t("aZ<Z|c=c>Zefghij"),
+				merge("abcdefghij", "aZZZefghij", "aZcZefghij", true));
 	}
 
 	/**
@@ -72,7 +78,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testNoAgainstOneModification() throws IOException {
 		assertEquals(t("aZcZefghij"),
-				merge("abcdefghij", "abcdefghij", "aZcZefghij"));
+				merge("abcdefghij", "abcdefghij", "aZcZefghij", false));
+
+		assertEquals(t("aZcZefghij"),
+				merge("abcdefghij", "abcdefghij", "aZcZefghij", true));
 	}
 
 	/**
@@ -84,7 +93,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testTwoNonConflictingModifications() throws IOException {
 		assertEquals(t("YbZdefghij"),
-				merge("abcdefghij", "abZdefghij", "Ybcdefghij"));
+				merge("abcdefghij", "abZdefghij", "Ybcdefghij", false));
+
+		assertEquals(t("YbZdefghij"),
+				merge("abcdefghij", "abZdefghij", "Ybcdefghij", true));
 	}
 
 	/**
@@ -96,7 +108,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testTwoComplicatedModifications() throws IOException {
 		assertEquals(t("a<ZZZZfZhZj=bYdYYYYiY>"),
-				merge("abcdefghij", "aZZZZfZhZj", "abYdYYYYiY"));
+				merge("abcdefghij", "aZZZZfZhZj", "abYdYYYYiY", false));
+
+		assertEquals(t("a<ZZZZfZhZj|bcdefghij=bYdYYYYiY>"),
+				merge("abcdefghij", "aZZZZfZhZj", "abYdYYYYiY", true));
 	}
 
 	/**
@@ -109,7 +124,9 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testTwoModificationsWithSharedDelete() throws IOException {
 		assertEquals(t("Cb}n}"),
-				merge("ab}n}n}", "ab}n}", "Cb}n}"));
+				merge("ab}n}n}", "ab}n}", "Cb}n}", false));
+
+		assertEquals(t("Cb}n}"), merge("ab}n}n}", "ab}n}", "Cb}n}", true));
 	}
 
 	/**
@@ -122,7 +139,11 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testModificationsWithMiddleInsert() throws IOException {
 		assertEquals(t("aBcd123123uvwxPq"),
-				merge("abcd123uvwxpq", "aBcd123123uvwxPq", "abcd123123uvwxpq"));
+				merge("abcd123uvwxpq", "aBcd123123uvwxPq", "abcd123123uvwxpq",
+						false));
+
+		assertEquals(t("aBcd123123uvwxPq"), merge("abcd123uvwxpq",
+				"aBcd123123uvwxPq", "abcd123123uvwxpq", true));
 	}
 
 	/**
@@ -135,7 +156,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testModificationsWithMiddleDelete() throws IOException {
 		assertEquals(t("Abz}z123Q"),
-				merge("abz}z}z123q", "Abz}z123Q", "abz}z123q"));
+				merge("abz}z}z123q", "Abz}z123Q", "abz}z123q", false));
+
+		assertEquals(t("Abz}z123Q"),
+				merge("abz}z}z123q", "Abz}z123Q", "abz}z123q", true));
 	}
 
 	/**
@@ -146,7 +170,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testConflictAtStart() throws IOException {
 		assertEquals(t("<Z=Y>bcdefghij"),
-				merge("abcdefghij", "Zbcdefghij", "Ybcdefghij"));
+				merge("abcdefghij", "Zbcdefghij", "Ybcdefghij", false));
+
+		assertEquals(t("<Z|a=Y>bcdefghij"),
+				merge("abcdefghij", "Zbcdefghij", "Ybcdefghij", true));
 	}
 
 	/**
@@ -157,7 +184,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testConflictAtEnd() throws IOException {
 		assertEquals(t("abcdefghi<Z=Y>"),
-				merge("abcdefghij", "abcdefghiZ", "abcdefghiY"));
+				merge("abcdefghij", "abcdefghiZ", "abcdefghiY", false));
+
+		assertEquals(t("abcdefghi<Z|j=Y>"),
+				merge("abcdefghij", "abcdefghiZ", "abcdefghiY", true));
 	}
 
 	/**
@@ -169,7 +199,10 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testSameModification() throws IOException {
 		assertEquals(t("abZdefghij"),
-				merge("abcdefghij", "abZdefghij", "abZdefghij"));
+				merge("abcdefghij", "abZdefghij", "abZdefghij", false));
+
+		assertEquals(t("abZdefghij"),
+				merge("abcdefghij", "abZdefghij", "abZdefghij", true));
 	}
 
 	/**
@@ -181,27 +214,36 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testDeleteVsModify() throws IOException {
 		assertEquals(t("ab<=Z>defghij"),
-				merge("abcdefghij", "abdefghij", "abZdefghij"));
+				merge("abcdefghij", "abdefghij", "abZdefghij", false));
+
+		assertEquals(t("ab<|c=Z>defghij"),
+				merge("abcdefghij", "abdefghij", "abZdefghij", true));
 	}
 
 	@Test
 	public void testInsertVsModify() throws IOException {
-		assertEquals(t("a<bZ=XY>"), merge("ab", "abZ", "aXY"));
+		assertEquals(t("a<bZ=XY>"), merge("ab", "abZ", "aXY", false));
+		assertEquals(t("a<bZ|b=XY>"), merge("ab", "abZ", "aXY", true));
 	}
 
 	@Test
 	public void testAdjacentModifications() throws IOException {
-		assertEquals(t("a<Zc=bY>d"), merge("abcd", "aZcd", "abYd"));
+		assertEquals(t("a<Zc=bY>d"), merge("abcd", "aZcd", "abYd", false));
+		assertEquals(t("a<Zc|bc=bY>d"), merge("abcd", "aZcd", "abYd", true));
 	}
 
 	@Test
 	public void testSeparateModifications() throws IOException {
-		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe"));
+		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe", false));
+		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe", true));
 	}
 
 	@Test
 	public void testBlankLines() throws IOException {
-		assertEquals(t("aZc\nYe"), merge("abc\nde", "aZc\nde", "abc\nYe"));
+		assertEquals(t("aZc\nYe"),
+				merge("abc\nde", "aZc\nde", "abc\nYe", false));
+		assertEquals(t("aZc\nYe"),
+				merge("abc\nde", "aZc\nde", "abc\nYe", true));
 	}
 
 	/**
@@ -214,11 +256,22 @@ public class MergeAlgorithmTest {
 	 */
 	@Test
 	public void testTwoSimilarModsAndOneInsert() throws IOException {
-		assertEquals(t("aBcDde"), merge("abcde", "aBcde", "aBcDde"));
-		assertEquals(t("IAAAJCAB"), merge("iACAB", "IACAB", "IAAAJCAB"));
-		assertEquals(t("HIAAAJCAB"), merge("HiACAB", "HIACAB", "HIAAAJCAB"));
+		assertEquals(t("aBcDde"), merge("abcde", "aBcde", "aBcDde", false));
+		assertEquals(t("aBcDde"), merge("abcde", "aBcde", "aBcDde", true));
+
+		assertEquals(t("IAAAJCAB"), merge("iACAB", "IACAB", "IAAAJCAB", false));
+		assertEquals(t("IAAAJCAB"), merge("iACAB", "IACAB", "IAAAJCAB", true));
+
+		assertEquals(t("HIAAAJCAB"),
+				merge("HiACAB", "HIACAB", "HIAAAJCAB", false));
+		assertEquals(t("HIAAAJCAB"),
+				merge("HiACAB", "HIACAB", "HIAAAJCAB", true));
+
 		assertEquals(t("AGADEFHIAAAJCAB"),
-				merge("AGADEFHiACAB", "AGADEFHIACAB", "AGADEFHIAAAJCAB"));
+				merge("AGADEFHiACAB", "AGADEFHIACAB", "AGADEFHIAAAJCAB",
+						false));
+		assertEquals(t("AGADEFHIAAAJCAB"),
+				merge("AGADEFHiACAB", "AGADEFHIACAB", "AGADEFHIAAAJCAB", true));
 	}
 
 	/**
@@ -232,18 +285,28 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testTwoSimilarModsAndOneInsertAtEnd() throws IOException {
 		Assume.assumeTrue(newlineAtEnd);
-		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ"));
-		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ"));
-		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ"));
+		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ", false));
+		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ", true));
+
+		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ", false));
+		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ", true));
+
+		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ", false));
+		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ", true));
 	}
 
 	@Test
 	public void testTwoSimilarModsAndOneInsertAtEndNoNewlineAtEnd()
 			throws IOException {
 		Assume.assumeFalse(newlineAtEnd);
-		assertEquals(t("I<A=AAJ>"), merge("iA", "IA", "IAAJ"));
-		assertEquals(t("I<A=AJ>"), merge("iA", "IA", "IAJ"));
-		assertEquals(t("I<A=AAAJ>"), merge("iA", "IA", "IAAAJ"));
+		assertEquals(t("I<A=AAJ>"), merge("iA", "IA", "IAAJ", false));
+		assertEquals(t("I<A|A=AAJ>"), merge("iA", "IA", "IAAJ", true));
+
+		assertEquals(t("I<A=AJ>"), merge("iA", "IA", "IAJ", false));
+		assertEquals(t("I<A|A=AJ>"), merge("iA", "IA", "IAJ", true));
+
+		assertEquals(t("I<A=AAAJ>"), merge("iA", "IA", "IAAAJ", false));
+		assertEquals(t("I<A|A=AAAJ>"), merge("iA", "IA", "IAAAJ", true));
 	}
 
 	/**
@@ -254,22 +317,34 @@ public class MergeAlgorithmTest {
 	@Test
 	public void testEmptyTexts() throws IOException {
 		// test modification against deletion
-		assertEquals(t("<AB=>"), merge("A", "AB", ""));
-		assertEquals(t("<=AB>"), merge("A", "", "AB"));
+		assertEquals(t("<AB=>"), merge("A", "AB", "", false));
+		assertEquals(t("<AB|A=>"), merge("A", "AB", "", true));
+
+		assertEquals(t("<=AB>"), merge("A", "", "AB", false));
+		assertEquals(t("<|A=AB>"), merge("A", "", "AB", true));
 
 		// test unmodified against deletion
-		assertEquals(t(""), merge("AB", "AB", ""));
-		assertEquals(t(""), merge("AB", "", "AB"));
+		assertEquals(t(""), merge("AB", "AB", "", false));
+		assertEquals(t(""), merge("AB", "AB", "", true));
+
+		assertEquals(t(""), merge("AB", "", "AB", false));
+		assertEquals(t(""), merge("AB", "", "AB", true));
 
 		// test deletion against deletion
-		assertEquals(t(""), merge("AB", "", ""));
+		assertEquals(t(""), merge("AB", "", "", false));
+		assertEquals(t(""), merge("AB", "", "", true));
 	}
 
-	private String merge(String commonBase, String ours, String theirs) throws IOException {
+	private String merge(String commonBase, String ours, String theirs,
+			boolean diff3) throws IOException {
 		MergeResult r = new MergeAlgorithm().merge(RawTextComparator.DEFAULT,
 				T(commonBase), T(ours), T(theirs));
 		ByteArrayOutputStream bo=new ByteArrayOutputStream(50);
-		fmt.formatMerge(bo, r, "B", "O", "T", UTF_8);
+		if (diff3) {
+			fmt.formatMergeDiff3(bo, r, "B", "O", "T", UTF_8);
+		} else {
+			fmt.formatMerge(bo, r, "B", "O", "T", UTF_8);
+		}
 		return new String(bo.toByteArray(), UTF_8);
 	}
 
@@ -283,6 +358,9 @@ public class MergeAlgorithmTest {
 				break;
 			case '=':
 				r.append("=======\n");
+				break;
+			case '|':
+				r.append("||||||| B\n");
 				break;
 			case '>':
 				r.append(">>>>>>> T\n");
