@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c9ad37_6e96eb7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-08-01T09:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0620ae4e_6a21bb70",
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06cb9655_9678f0f7",
@@ -70,6 +88,30 @@
         "id": 98905
       },
       "writtenOn": "2023-08-01T08:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06cb9655_9678f0f7",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 31,
+        "endChar": 59
+      },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b52c57f_b5b6c376",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-08-01T09:15:51Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "06cb9655_9678f0f7",
@@ -119,6 +161,30 @@
       "writtenOn": "2023-08-01T08:34:24Z",
       "side": 1,
       "message": "we should fix this globally, but not in this change.",
+      "parentUuid": "866bec4c_f24bca6e",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "731a76c3_d7ba1c66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-08-01T09:15:51Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "866bec4c_f24bca6e",
       "range": {
         "startLine": 81,
@@ -212,6 +278,48 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9199360f_43f99cb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-08-01T09:15:51Z",
+      "side": 1,
+      "message": "See-\nhttps://git.eclipse.org/r/c/jgit/jgit/+/203223/comments/a90815b0_6e34dfd1",
+      "parentUuid": "d75165cc_10646f7b",
+      "range": {
+        "startLine": 565,
+        "startChar": 24,
+        "endLine": 565,
+        "endChar": 37
+      },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5b8554_76e3296c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-08-01T09:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a90815b0_6e34dfd1",
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0f13323_a2308e65",
@@ -246,6 +354,30 @@
         "id": 98905
       },
       "writtenOn": "2023-08-01T08:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f13323_a2308e65",
+      "range": {
+        "startLine": 878,
+        "startChar": 0,
+        "endLine": 883,
+        "endChar": 36
+      },
+      "revId": "39edfdd5ead3be6b34afd3e7564fe64c50701927",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e693d625_01682730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-08-01T09:15:51Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "f0f13323_a2308e65",
