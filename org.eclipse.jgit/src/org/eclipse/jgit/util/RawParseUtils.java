@@ -875,8 +875,9 @@ public final class RawParseUtils {
 	 * @param buffer
 	 *            buffer to scan.
 	 * @return the Java character set representation. Never null. Default to
-	 *            UTF-8.
+	 *         UTF-8.
 	 * @see #parseEncoding(byte[])
+	 * @since 6.7
 	 */
 	public static Charset guessEncoding(byte[] buffer) {
 		try {

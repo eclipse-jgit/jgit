@@ -56,6 +56,7 @@ public final class FooterLine {
 	 *            the message to extract footers from.
 	 * @return ordered list of footer lines; empty list if no footers found.
 	 * @see RevCommit#getFooterLines()
+	 * @since 6.7
 	 */
 	public static List<FooterLine> fromMessage(
 			String str) {
@@ -69,6 +70,7 @@ public final class FooterLine {
 	 *            the raw message to extract footers from.
 	 * @return ordered list of footer lines; empty list if no footers found.
 	 * @see RevCommit#getFooterLines()
+	 * @since 6.7
 	 */
 	public static List<FooterLine> fromMessage(
 			byte[] raw) {
@@ -122,6 +124,7 @@ public final class FooterLine {
 	 *         footer appeared more than once. Empty list if no footers appear
 	 *         with the specified key, or there are no footers at all.
 	 * @see #fromMessage
+	 * @since 6.7
 	 */
 	public static List<String> getValues(List<FooterLine> footers, String keyName) {
 		return getValues(footers, new FooterKey(keyName));
@@ -139,6 +142,7 @@ public final class FooterLine {
 	 *         footer appeared more than once. Empty list if no footers appear
 	 *         with the specified key, or there are no footers at all.
 	 * @see #fromMessage
+	 * @since 6.7
 	 */
 	public static List<String> getValues(List<FooterLine> footers, FooterKey key) {
 		if (footers.isEmpty())
