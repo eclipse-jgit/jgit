@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2258b664_b544d20e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-08-01T08:38:09Z",
+      "side": 1,
+      "message": "\n\u001b[1mCaused by\u001b[m: org.apache.maven.plugin.compiler.CompilationFailureException: \u001b[1;31mCompilation failure\n/home/jenkins/agent/workspace/stable/jgit.gerrit-pipeline.java11/repo/org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java:[283,51] The declared exception java.io.IOException is not actually thrown by the method testFilterFootersIgnoreCase() from type org.eclipse.jgit.revwalk.FooterLineTest\n\u001b[m",
+      "revId": "dd4bea876ce3170def017f7ada227e57a12006a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
