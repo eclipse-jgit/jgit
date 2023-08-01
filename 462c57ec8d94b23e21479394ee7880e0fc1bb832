@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e02819fd_915b9151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 98905
+      },
+      "writtenOn": "2023-08-01T08:28:05Z",
+      "side": 1,
+      "message": "I\u0027ll wait with submission till end of day to let Matthias/Thomas chime in if they want.",
+      "revId": "462c57ec8d94b23e21479394ee7880e0fc1bb832",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
