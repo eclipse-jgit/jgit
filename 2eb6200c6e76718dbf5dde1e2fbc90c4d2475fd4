@@ -54,6 +54,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "335cd205_badbcf95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:36:25Z",
+      "side": 1,
+      "message": "Answering couple comments.\n\nAbout gerrit etiquette: I always used \"ack\" as \"I agree with your comment but won\u0027t take action on it\" (e.g. because the comment didn\u0027t ask for a change, or it will happen in a follow-up commit). If you plan to work on a comment, you can just leave it open, no need to answer.",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f8a2e955_01077b62",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 3
@@ -142,6 +159,24 @@
       "side": 1,
       "message": "then we would have to evaluate the generationVersion somewhere else, do you have any recommendation where we should evaluate the generationVersion ?",
       "parentUuid": "a86609ee_23e2c909",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de0c3528_d611c5cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:36:25Z",
+      "side": 1,
+      "message": "?! There are other options that we read from conf and act about it (e.g. writeCommitGraph). This is the same, you would need to translate the config option into a boolean.",
+      "parentUuid": "69e178f9_de43c4e8",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -295,6 +330,24 @@
       "side": 1,
       "message": "I see.\nThe author Stolee actually consider V2 to be the generation number, and he calls the v1 topo_level. I think we should stick with that convention.",
       "parentUuid": "efaa435a_a2373255",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71d83efb_e3bc171b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:36:25Z",
+      "side": 1,
+      "message": "This comment was about having a clean diff. Once we have the function, we can discuss the naming.",
+      "parentUuid": "9d38269c_2e04db97",
       "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
