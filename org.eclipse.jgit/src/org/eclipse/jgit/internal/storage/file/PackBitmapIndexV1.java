@@ -40,7 +40,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  *
  * @see PackBitmapIndex
  */
-class PackBitmapIndexV1 extends BasePackBitmapIndex {
+public class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	static final byte[] MAGIC = { 'B', 'I', 'T', 'M' };
 	static final int OPT_FULL = 1;
 
@@ -71,6 +71,8 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	private final EWAHCompressedBitmap tags;
 
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
+
+	public List<IdxPositionBitmap> idxPositionBitmapList;
 
 	PackBitmapIndexV1(final InputStream fd, PackIndex packIndex,
 			PackReverseIndex reverseIndex) throws IOException {
@@ -139,7 +141,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		this.tags = readBitmap(dataInput);
 
 		// Read full bitmap from storage first.
-		List<IdxPositionBitmap> idxPositionBitmapList = new ArrayList<>();
+		idxPositionBitmapList = new ArrayList<>();
 		// The xor offset is a single byte offset back in the list of entries.
 		IdxPositionBitmap[] recentBitmaps = new IdxPositionBitmap[MAX_XOR_OFFSET];
 		for (int i = 0; i < (int) numEntries; i++) {
@@ -180,7 +182,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 				}
 			}
 			IdxPositionBitmap idxPositionBitmap = new IdxPositionBitmap(
-					nthObjectId, xorIdxPositionBitmap, bitmap, flags);
+					nthObjectId, xorIdxPositionBitmap, bitmap, flags, i-xorOffset);
 			idxPositionBitmapList.add(idxPositionBitmap);
 			recentBitmaps[i % recentBitmaps.length] = idxPositionBitmap;
 		}
@@ -256,6 +258,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		return bitmaps.size();
 	}
 
+
 	@Override
 	public boolean equals(Object o) {
 		// TODO(cranger): compare the pack checksum?
@@ -284,24 +287,25 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	 * Temporary holder of object position in pack index and other metadata for
 	 * {@code StoredBitmap}.
 	 */
-	private static final class IdxPositionBitmap {
-		int nthObjectId;
+	public static final class IdxPositionBitmap {
+public		int nthObjectId;
 
-		IdxPositionBitmap xorIdxPositionBitmap;
+		public	IdxPositionBitmap xorIdxPositionBitmap;
 
-		EWAHCompressedBitmap bitmap;
+		public EWAHCompressedBitmap bitmap;
 
-		int flags;
-
-		StoredBitmap sb;
+		public		int flags;
+public int xorIndex;
+		public StoredBitmap sb;
 
 		IdxPositionBitmap(int nthObjectId,
 				@Nullable IdxPositionBitmap xorIdxPositionBitmap,
-				EWAHCompressedBitmap bitmap, int flags) {
+				EWAHCompressedBitmap bitmap, int flags, int xorIndex) {
 			this.nthObjectId = nthObjectId;
 			this.xorIdxPositionBitmap = xorIdxPositionBitmap;
 			this.bitmap = bitmap;
 			this.flags = flags;
+			this.xorIndex = xorIndex;
 		}
 
 		StoredBitmap getXorStoredBitmap() {
