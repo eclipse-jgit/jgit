@@ -356,6 +356,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2df45dc4_1611e361",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2023-08-02T19:58:00Z",
+      "side": 1,
+      "message": "Why pass in the hashcode at all? It just causes the callers to write repetitive code (System.identityHashCode(obj)) and is otherwise error prone.\n\nIs the obj for this method always of type DfsBlock? Because then you could replace both size and identityHashCode with DfsBlock, and now all your parameters are of different types and easy to distinguish.\n\nYou can also replace identityHashCode with Object in the onIndexLoad method.",
+      "parentUuid": "11cb757d_96c269c7",
+      "range": {
+        "startLine": 863,
+        "startChar": 20,
+        "endLine": 863,
+        "endChar": 47
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3e63811_d19b5697",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 5

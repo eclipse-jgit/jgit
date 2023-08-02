@@ -16,6 +16,63 @@
       "message": "Still good",
       "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84910862_b1012bf1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackFileTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2023-08-02T19:58:00Z",
+      "side": 1,
+      "message": "Final?",
+      "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d1cc292_a86f5ac1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2023-08-02T19:58:00Z",
+      "side": 1,
+      "message": "Is there a reason not to do this in the super class? Same comment for DfsReader.",
+      "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab302df_94f38d46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 224620
+      },
+      "writtenOn": "2023-08-02T19:58:00Z",
+      "side": 1,
+      "message": "Can this be more actionable?\n\n\u0027This should be called the first time an index reference is loaded by the pack\u0027",
+      "range": {
+        "startLine": 843,
+        "startChar": 12,
+        "endLine": 843,
+        "endChar": 18
+      },
+      "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
