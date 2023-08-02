@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e8b0a5_4d81a10d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "That is much cleaner, indeed. Thanks!",
+      "parentUuid": "44cbec95_779093b0",
+      "range": {
+        "startLine": 823,
+        "startChar": 16,
+        "endLine": 823,
+        "endChar": 30
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f1c9879_cddf6d29",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-01T15:35:44Z",
       "side": 1,
       "message": "PackLoadListener",
+      "range": {
+        "startLine": 842,
+        "startChar": 11,
+        "endLine": 842,
+        "endChar": 27
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "707fedf9_1b06ee6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f1c9879_cddf6d29",
       "range": {
         "startLine": 842,
         "startChar": 11,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc6d3c2c_3f2cca98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11cbc4f7_b230942c",
+      "range": {
+        "startLine": 859,
+        "startChar": 7,
+        "endLine": 859,
+        "endChar": 14
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d3c3f1e_b4b102c2",
@@ -93,6 +165,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "160702e5_7f0b8eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3c3f1e_b4b102c2",
+      "range": {
+        "startLine": 860,
+        "startChar": 8,
+        "endLine": 860,
+        "endChar": 15
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca1286c8_256c0241",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-08-01T15:35:44Z",
       "side": 1,
       "message": "onBlockLoad",
+      "range": {
+        "startLine": 862,
+        "startChar": 7,
+        "endLine": 862,
+        "endChar": 16
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7adc1521_9c47f07b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1286c8_256c0241",
       "range": {
         "startLine": 862,
         "startChar": 7,
@@ -164,6 +284,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac8e4300_1ea6c2d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "With this order both calls have same params in the same order (only appending the position arg for the blocks) AND alternating types gives a marginal protection against mistakes [1]\n\nNone of the arguments are very strong. Glad to change it if you still think we should.\n\n[1] Effective java 51:  Long sequences of identically typed parameters are especially harmful. Not only won’t users be able to remember the order of the parameters,but when they transpose parameters accidentally, their programs will still compile and run.",
+      "parentUuid": "f1eab86b_504a4d42",
+      "range": {
+        "startLine": 863,
+        "startChar": 20,
+        "endLine": 863,
+        "endChar": 47
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a3615af_489f0526",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74719491_be77491f",
+      "range": {
+        "startLine": 863,
+        "startChar": 9,
+        "endLine": 863,
+        "endChar": 18
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3e63811_d19b5697",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
         "patchSetId": 5
@@ -175,6 +343,30 @@
       "writtenOn": "2023-08-01T15:35:44Z",
       "side": 1,
       "message": "onRefLoad",
+      "range": {
+        "startLine": 867,
+        "startChar": 6,
+        "endLine": 867,
+        "endChar": 21
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3730a9f1_3073ec4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "I think the onXXX convention is for the listeners. This method is a helper to emit the event to all listeners.\n\nRenamed to emitIndexLoad (same for the block).",
+      "parentUuid": "c3e63811_d19b5697",
       "range": {
         "startLine": 867,
         "startChar": 6,
@@ -198,6 +390,30 @@
       "writtenOn": "2023-08-01T15:35:44Z",
       "side": 1,
       "message": "onBlockLoad",
+      "range": {
+        "startLine": 875,
+        "startChar": 6,
+        "endLine": 875,
+        "endChar": 23
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef6fac5_be166a80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-02T16:56:16Z",
+      "side": 1,
+      "message": "Done (see above)",
+      "parentUuid": "8f3168df_61fd95ab",
       "range": {
         "startLine": 875,
         "startChar": 6,
