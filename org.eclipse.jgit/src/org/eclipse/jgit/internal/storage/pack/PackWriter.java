@@ -254,6 +254,8 @@ public class PackWriter implements AutoCloseable {
 
 	private boolean useBitmaps;
 
+	private boolean createBitmaps = true;
+
 	private boolean ignoreMissingUninteresting = true;
 
 	private boolean pruneCurrentObjectList;
@@ -572,6 +574,26 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setUseBitmaps(boolean useBitmaps) {
 		this.useBitmaps = useBitmaps;
+	}
+
+	/**
+	 * Whether to generate bitmaps.
+	 *
+	 * @param createBitmaps
+	 *            if set to true, bitmaps will be generated when creating a pack.
+	 */
+	public void setCreateBitmaps(boolean createBitmaps) {
+		this.createBitmaps = createBitmaps;
+	}
+
+	/**
+	 * Whether the bitmap file is to be created by this PackWriter.
+	 *
+	 * @return {@code true} if the bitmap file is to be created by this
+	 *         PackWriter.
+	 */
+	public boolean isCreateBitmaps() {
+		return createBitmaps;
 	}
 
 	/**
@@ -1910,7 +1932,7 @@ public class PackWriter implements AutoCloseable {
 		canBuildBitmaps = config.isBuildBitmaps()
 				&& !shallowPack
 				&& have.isEmpty()
-				&& (excludeInPacks == null || excludeInPacks.length == 0);
+				&& createBitmaps;
 		if (!shallowPack && useBitmaps) {
 			BitmapIndex bitmapIndex = reader.getBitmapIndex();
 			if (bitmapIndex != null) {
