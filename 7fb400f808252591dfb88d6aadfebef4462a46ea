@@ -330,6 +330,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11cb757d_96c269c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-08-02T17:36:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ac8e4300_1ea6c2d5",
+      "range": {
+        "startLine": 863,
+        "startChar": 20,
+        "endLine": 863,
+        "endChar": 47
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e63811_d19b5697",

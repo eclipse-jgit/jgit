@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "e11fe841b9a0374a8be87e75934eec1c9377b07c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "022e2ace_a22e1ae8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-08-02T17:36:37Z",
+      "side": 1,
+      "message": "The hook interface looks good from functionality and naming point of view, thanks!",
+      "revId": "e11fe841b9a0374a8be87e75934eec1c9377b07c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
