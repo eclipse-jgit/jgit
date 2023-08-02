@@ -69,6 +69,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "39dc6c02_d1b27fdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-08-02T17:24:38Z",
+      "side": 1,
+      "message": "ah. I used \"ack\" as a way of acknowledge and pending for the change.",
+      "parentUuid": "335cd205_badbcf95",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f8a2e955_01077b62",
