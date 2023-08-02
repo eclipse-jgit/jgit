@@ -39,7 +39,7 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 	 * Data representation of the bitmap entry restored from a pack index. The
 	 * commit of the bitmap is the map key.
 	 */
-	static final class StoredBitmap extends ObjectIdOwnerMap.Entry {
+	public static final class StoredBitmap extends ObjectIdOwnerMap.Entry {
 		private volatile Object bitmapContainer;
 		private final int flags;
 
@@ -57,7 +57,7 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		 *
 		 * @return the full bitmap
 		 */
-		EWAHCompressedBitmap getBitmap() {
+		public EWAHCompressedBitmap getBitmap() {
 			EWAHCompressedBitmap bitmap = getBitmapWithoutCaching();
 			// Cache the result.
 			bitmapContainer = bitmap;
@@ -71,7 +71,7 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		 *
 		 * @return the full bitmap
 		 */
-		EWAHCompressedBitmap getBitmapWithoutCaching() {
+		public EWAHCompressedBitmap getBitmapWithoutCaching() {
 			// Fast path to immediately return the expanded result.
 			Object r = bitmapContainer;
 			if (r instanceof EWAHCompressedBitmap)
