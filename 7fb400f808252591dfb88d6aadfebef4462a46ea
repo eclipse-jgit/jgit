@@ -378,6 +378,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aef92fb_c067987a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-03T12:16:57Z",
+      "side": 1,
+      "message": "The intention was to pass immutable data, so listeners don\u0027t get ideas.\n\nA new attempt: copy the DfsBlock data we want in an immutable data object for the listeners.",
+      "parentUuid": "2df45dc4_1611e361",
+      "range": {
+        "startLine": 863,
+        "startChar": 20,
+        "endLine": 863,
+        "endChar": 47
+      },
+      "revId": "7fb400f808252591dfb88d6aadfebef4462a46ea",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e63811_d19b5697",

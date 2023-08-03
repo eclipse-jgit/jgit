@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b4b05a9_81e45fc9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackFileTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-03T12:16:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84910862_b1012bf1",
+      "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d1cc292_a86f5ac1",
@@ -70,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08bc7b7a_85075300",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-03T12:16:57Z",
+      "side": 1,
+      "message": "We BlockBasedFile has the extension and we pass it to the listener. Moved the call to the superclass.",
+      "parentUuid": "4c6a7b42_b920fce3",
+      "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ab302df_94f38d46",
@@ -83,6 +119,30 @@
       "writtenOn": "2023-08-02T19:58:00Z",
       "side": 1,
       "message": "Can this be more actionable?\n\n\u0027This should be called the first time an index reference is loaded by the pack\u0027",
+      "range": {
+        "startLine": 843,
+        "startChar": 12,
+        "endLine": 843,
+        "endChar": 18
+      },
+      "revId": "a4915d09199ff638074a71961ddc22d6b5e84f9c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b3b8c5f_9e0c131c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-03T12:16:57Z",
+      "side": 1,
+      "message": "As this javadoc is for listeners, I rephrase it as \"This is called when...\"",
+      "parentUuid": "9ab302df_94f38d46",
       "range": {
         "startLine": 843,
         "startChar": 12,
