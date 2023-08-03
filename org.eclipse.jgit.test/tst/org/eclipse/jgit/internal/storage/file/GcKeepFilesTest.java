@@ -48,11 +48,15 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertEquals(4, stats.numberOfLooseObjects);
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
+		PackFile bitmapFile = singlePack.getPackFile().create(PackExt.BITMAP_INDEX);
+		assertTrue(keepFile.exists());
+		assertTrue(bitmapFile.delete());
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
 		assertEquals(8, stats.numberOfPackedObjects);
 		assertEquals(2, stats.numberOfPackFiles);
+		assertEquals(1, stats.numberOfBitmaps);
 
 		// check that no object is packed twice
 		Iterator<Pack> packs = repo.getObjectDatabase().getPacks()
