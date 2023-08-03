@@ -363,6 +363,7 @@ public class GC {
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
+		List<PackFile> packFilesToPrune = new ArrayList<>();
 		oldPackLoop: for (Pack oldPack : oldPacks) {
 			checkCancelled();
 			String oldName = oldPack.getPackName();
@@ -380,9 +381,10 @@ public class GC {
 					loosen(inserter, reader, oldPack, ids);
 				}
 				oldPack.close();
-				prunePack(oldPack.getPackFile());
+				packFilesToPrune.add(oldPack.getPackFile());
 			}
 		}
+		packFilesToPrune.forEach(this::prunePack);
 
 		// close the complete object database. That's my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
@@ -887,7 +889,7 @@ public class GC {
 		Pack heads = null;
 		if (!allHeadsAndTags.isEmpty()) {
 			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
-					refsToExcludeFromBitmap, tagTargets, excluded);
+					refsToExcludeFromBitmap, tagTargets, excluded, true);
 			if (heads != null) {
 				ret.add(heads);
 				excluded.add(0, heads.getIndex());
@@ -895,7 +897,7 @@ public class GC {
 		}
 		if (!nonHeads.isEmpty()) {
 			Pack rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
-					PackWriter.NONE, tagTargets, excluded);
+					PackWriter.NONE, tagTargets, excluded, false);
 			if (rest != null)
 				ret.add(rest);
 		}
@@ -1289,7 +1291,7 @@ public class GC {
 	private Pack writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
 			@NonNull Set<ObjectId> excludedRefsTips,
-			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects)
+			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects, boolean createBitmap)
 			throws IOException {
 		checkCancelled();
 		File tmpPack = null;
@@ -1320,6 +1322,7 @@ public class GC {
 			if (excludeObjects != null)
 				for (ObjectIdSet idx : excludeObjects)
 					pw.excludeObjects(idx);
+			pw.setCreateBitmaps(createBitmap);
 			pw.preparePack(pm, want, have, PackWriter.NONE,
 					union(tags, excludedRefsTips));
 			if (pw.getObjectCount() == 0)
