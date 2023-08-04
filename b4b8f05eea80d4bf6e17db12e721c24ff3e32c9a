@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4677073_7a581356",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-04T19:32:07Z",
+      "side": 0,
+      "message": "with this change I get the following warning in Eclipse:\n\n\"Type safety: The field next from the raw type DfsBlockCache.Ref is assigned a value of type DfsBlockCache.Ref. References to generic type DfsBlockCache.Ref\u003cT\u003e should be parameterized\"\n\nin line 208, 500 and 501\n\nLooks like the generic type `Ref\u003cT\u003e` isn\u0027t used consistently in `DfsBlockCache`",
+      "revId": "b4b8f05eea80d4bf6e17db12e721c24ff3e32c9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
