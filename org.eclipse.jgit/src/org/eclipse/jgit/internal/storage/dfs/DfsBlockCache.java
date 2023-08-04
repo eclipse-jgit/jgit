@@ -176,7 +176,6 @@ public final class DfsBlockCache {
 	/** Stores timestamps of the last eviction of indexes. */
 	private final Map<EvictKey, Long> indexEvictionMap = new ConcurrentHashMap<>();
 
-	@SuppressWarnings("unchecked")
 	private DfsBlockCache(DfsBlockCacheConfig cfg) {
 		tableSize = tableSize(cfg);
 		if (tableSize < 1) {
@@ -491,7 +490,6 @@ public final class DfsBlockCache {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addToClock(Ref ref, long credit) {
 		clockLock.lock();
 		try {
