@@ -157,8 +157,13 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 
 		inflated.clear();
 		for (IntIterator i = oldBitmap.getBitmapWithoutCaching()
-				.intIterator(); i.hasNext();)
-			inflated.set(prevToNewMapping[i.next()]);
+				.intIterator(); i.hasNext();) {
+			int next = i.next();
+			// guard for excluded objects
+			if(prevToNewMapping[next] == -1)
+				return null;
+			inflated.set(prevToNewMapping[next]);
+		}
 		bitmap = inflated.toEWAHCompressedBitmap();
 		bitmap.trim();
 		return bitmap;
