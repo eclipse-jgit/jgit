@@ -18,6 +18,7 @@ import java.util.Iterator;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.junit.Test;
 
@@ -71,5 +72,26 @@ public class GcKeepFilesTest extends GcTestCase {
 						"the following object is in both packfiles: "
 								+ e.toObjectId(),
 						ind2.hasObject(e.toObjectId()));
+	}
+
+	@Test
+	public void testKeepFileAllowsBitmapRemapping() throws Exception {
+		TestRepository<FileRepository>.BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().add("A", "A").create();
+		gc.gc();
+
+		bb.commit().add("B", "B").create();
+		gc.gc();
+
+		// Create a keep file, simulating a write operation ongoing
+		Iterator<Pack> packIt = repo.getObjectDatabase().getPacks()
+				.iterator();
+		Pack pack1 = packIt.next();
+		Pack singlePack = packIt.next();
+		PackFile keepFile = singlePack.getPackFile().create(PackExt.KEEP);
+		assertTrue(keepFile.createNewFile());
+
+		// BOOM!
+		gc.gc();
 	}
 }
