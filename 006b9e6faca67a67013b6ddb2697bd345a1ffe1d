@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ceae2a_569460c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-08-10T14:04:42Z",
+      "side": 1,
+      "message": "should we just skip the object instead of returning null?",
+      "revId": "006b9e6faca67a67013b6ddb2697bd345a1ffe1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
