@@ -77,6 +77,8 @@ public class GcKeepFilesTest extends GcTestCase {
 
 	@Test
 	public void testKeepFileAllowsBitmapRemapping() throws Exception {
+		gc.setPackKeptObjects(true);
+
 		TestRepository<FileRepository>.BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").create();
 		gc.gc();
