@@ -3,7 +3,7 @@
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
  * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2023 Thomas Wolf <twolf@apache.org>
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -44,10 +44,10 @@ import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.dircache.Checkout;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.BinaryBlobException;
@@ -76,7 +76,6 @@ import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -86,6 +85,13 @@ import org.eclipse.jgit.util.io.EolStreamTypeUtil;
  * A three-way merger performing a content-merge if necessary
  */
 public class ResolveMerger extends ThreeWayMerger {
+
+	/**
+	 * {@link Checkout} to use for actually checking out files if
+	 * {@link #inCore} is {@code false}.
+	 */
+	private Checkout checkout;
+
 	/**
 	 * If the merge fails (means: not stopped because of unresolved conflicts)
 	 * this enum is used to explain why it failed
@@ -322,6 +328,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			implicitDirCache = true;
 			workingTreeOptions = local.getConfig().get(WorkingTreeOptions.KEY);
 		}
+		checkout = new Checkout(nonNullRepo(), workingTreeOptions);
 	}
 
 	/**
@@ -411,12 +418,14 @@ public class ResolveMerger extends ThreeWayMerger {
 		for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut
 				.entrySet()) {
 			DirCacheEntry cacheEntry = entry.getValue();
+			String gitPath = entry.getKey();
 			if (cacheEntry.getFileMode() == FileMode.GITLINK) {
-				new File(nonNullRepo().getWorkTree(), entry.getKey()).mkdirs();
+				checkout.checkoutGitlink(cacheEntry, gitPath);
 			} else {
-				DirCacheCheckout.checkoutEntry(db, cacheEntry, reader, false,
-						checkoutMetadata.get(entry.getKey()));
-				modifiedFiles.add(entry.getKey());
+				checkout.checkout(cacheEntry,
+						checkoutMetadata.get(entry.getKey()), reader,
+						gitPath);
+				modifiedFiles.add(gitPath);
 			}
 		}
 	}
@@ -446,8 +455,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			String mpath = mpathsIt.next();
 			DirCacheEntry entry = dc.getEntry(mpath);
 			if (entry != null) {
-				DirCacheCheckout.checkoutEntry(db, entry, reader, false,
-						checkoutMetadata.get(mpath));
+				checkout.checkout(entry, checkoutMetadata.get(mpath),
+						reader, mpath);
 			}
 			mpathsIt.remove();
 		}
@@ -1076,15 +1085,12 @@ public class ResolveMerger extends ThreeWayMerger {
 			Attributes attributes)
 			throws FileNotFoundException, IOException {
 		File workTree = nonNullRepo().getWorkTree();
-		FS fs = nonNullRepo().getFS();
-		File of = new File(workTree, tw.getPathString());
-		File parentFolder = of.getParentFile();
-		if (!fs.exists(parentFolder)) {
-			parentFolder.mkdirs();
-		}
+		String gitPath = tw.getPathString();
+		File of = new File(workTree, gitPath);
 		EolStreamType streamType = EolStreamTypeUtil.detectStreamType(
 				OperationType.CHECKOUT_OP, workingTreeOptions,
 				attributes);
+		checkout.safeCreateParentDirectory(gitPath, of.getParentFile(), false);
 		try (OutputStream os = EolStreamTypeUtil.wrapOutputStream(
 				new BufferedOutputStream(new FileOutputStream(of)),
 				streamType)) {
@@ -1362,9 +1368,9 @@ public class ResolveMerger extends ThreeWayMerger {
 			// go into the new index.
 			checkout();
 
-			// All content-merges are successfully done. If we can now write the
-			// new index we are on quite safe ground. Even if the checkout of
-			// files coming from "theirs" fails the user can work around such
+			// All content-merges are successfully done. If we can now write
+			// the new index we are on quite safe ground. Even if the checkout
+			// of files coming from "theirs" fails the user can work around such
 			// failures by checking out the index again.
 			if (!builder.commit()) {
 				cleanUp();
