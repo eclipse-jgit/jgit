@@ -250,6 +250,23 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	private void dotGitTest(String fileName) throws Exception {
+		ApplyResult result = init(fileName, false, false);
+		assertTrue(result != null && !(result.getUpdatedFiles().size() > 0));
+		File b = new File(new File(trash, ".git"), "b");
+		assertFalse(".git/b should not exist", b.exists());
+		}
+
+		@Test
+		public void testDotGit() throws Exception {
+			dotGitTest("dotgit");
+		}
+
+		@Test
+		public void testDotGit2() throws Exception {
+			dotGitTest("dotgit2");
+		}
+
 	private void checkBinary(String name, boolean hasPreImage)
 			throws Exception {
 		checkBinary(name, hasPreImage, 1);

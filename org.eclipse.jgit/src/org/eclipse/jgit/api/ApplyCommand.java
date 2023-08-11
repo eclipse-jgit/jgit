@@ -22,10 +22,12 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.InflaterInputStream;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.PatchApplyException;
@@ -38,12 +40,14 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.FileModeCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
@@ -65,12 +69,19 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.BinaryDeltaInputStream;
 import org.eclipse.jgit.util.io.BinaryHunkInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 import org.eclipse.jgit.util.sha1.SHA1;
+
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.ADD;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.COPY;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.DELETE;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
 
 /**
  * Apply a patch to files and/or to the index.
@@ -117,6 +128,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	@Override
 	public ApplyResult call() throws GitAPIException, PatchFormatException,
 			PatchApplyException {
+		Result result = new Result();
 		checkCallable();
 		setCallable(false);
 		ApplyResult r = new ApplyResult();
@@ -131,30 +143,34 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 				throw new PatchFormatException(p.getErrors());
 			}
 			Repository repository = getRepository();
+			FileModeCache directoryCache = new FileModeCache(repo);
 			DirCache cache = repository.readDirCache();
 			for (FileHeader fh : p.getFiles()) {
 				ChangeType type = fh.getChangeType();
 				File f = null;
+				if (!verifyExistence(fh, new File(repo.getWorkTree(), fh.getOldPath()), new File(repo.getWorkTree(), fh.getNewPath()), result)) {
+					continue;
+				}
 				switch (type) {
 				case ADD:
-					f = getFile(fh.getNewPath(), true);
+					f = getFile(fh.getNewPath(), true, directoryCache);
 					apply(repository, fh.getNewPath(), cache, f, fh);
 					break;
 				case MODIFY:
-					f = getFile(fh.getOldPath(), false);
+					f = getFile(fh.getOldPath(), false, directoryCache);
 					apply(repository, fh.getOldPath(), cache, f, fh);
 					break;
 				case DELETE:
-					f = getFile(fh.getOldPath(), false);
+					f = getFile(fh.getOldPath(), false, directoryCache);
 					if (!f.delete())
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().cannotDeleteFile, f));
 					break;
 				case RENAME:
-					f = getFile(fh.getOldPath(), false);
-					File dest = getFile(fh.getNewPath(), false);
+					f = getFile(fh.getOldPath(), false, directoryCache);
+					File dest = getFile(fh.getNewPath(), false, directoryCache);
 					try {
-						FileUtils.mkdirs(dest.getParentFile(), true);
+						directoryCache.safeCreateParentDirectory(fh.getNewPath(), dest.getParentFile(), false);
 						FileUtils.rename(f, dest,
 								StandardCopyOption.ATOMIC_MOVE);
 					} catch (IOException e) {
@@ -164,9 +180,9 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 					apply(repository, fh.getOldPath(), cache, dest, fh);
 					break;
 				case COPY:
-					f = getFile(fh.getOldPath(), false);
-					File target = getFile(fh.getNewPath(), false);
-					FileUtils.mkdirs(target.getParentFile(), true);
+					f = getFile(fh.getOldPath(), false, directoryCache);
+					File target = getFile(fh.getNewPath(), false, directoryCache);
+					directoryCache.safeCreateParentDirectory(fh.getNewPath(), target.getParentFile(), false);
 					Files.copy(f.toPath(), target.toPath());
 					apply(repository, fh.getOldPath(), cache, target, fh);
 				}
@@ -179,13 +195,122 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		return r;
 	}
 
-	private File getFile(String path, boolean create)
+	/**
+	 * A wrapper for returning both the applied tree ID and the applied files
+	 * list, as well as file specific errors.
+	 *
+	 * @since 6.3
+	 */
+	public static class Result {
+
+		/**
+		 * A wrapper for a patch applying error that affects a given file.
+		 *
+		 * @since 6.6
+		 */
+		// TODO(ms): rename this class in next major release
+		@SuppressWarnings("JavaLangClash")
+		public static class Error {
+
+			private String msg;
+			private String oldFileName;
+			private @Nullable HunkHeader hh;
+
+			private Error(String msg, String oldFileName,
+						  @Nullable HunkHeader hh) {
+				this.msg = msg;
+				this.oldFileName = oldFileName;
+				this.hh = hh;
+			}
+
+			@Override
+			public String toString() {
+				if (hh != null) {
+					return MessageFormat.format(JGitText.get().patchApplyErrorWithHunk,
+							oldFileName, hh, msg);
+				}
+				return MessageFormat.format(JGitText.get().patchApplyErrorWithoutHunk,
+						oldFileName, msg);
+			}
+
+		}
+
+		private ObjectId treeId;
+
+		private List<String> paths;
+
+		private List<Error> errors = new ArrayList<>();
+
+		/**
+		 * Get modified paths
+		 *
+		 * @return List of modified paths.
+		 */
+		public List<String> getPaths() {
+			return paths;
+		}
+
+		/**
+		 * Get tree ID
+		 *
+		 * @return The applied tree ID.
+		 */
+		public ObjectId getTreeId() {
+			return treeId;
+		}
+
+		/**
+		 * Get errors
+		 *
+		 * @return Errors occurred while applying the patch.
+		 *
+		 * @since 6.6
+		 */
+		public List<Error> getErrors() {
+			return errors;
+		}
+
+		private void addError(String msg,String oldFileName, @Nullable HunkHeader hh) {
+			errors.add(new Error(msg, oldFileName, hh));
+		}
+	}
+
+	private boolean verifyExistence(FileHeader fh, File src, File dest,
+									Result result) throws IOException {
+		boolean isValid = true;
+		boolean srcShouldExist = Arrays.asList(new ChangeType[]{MODIFY, DELETE, RENAME, COPY})
+				.contains(fh.getChangeType());
+		boolean destShouldNotExist = Arrays.asList(new ChangeType[]{ADD, RENAME, COPY})
+				.contains(fh.getChangeType());
+		if (srcShouldExist && !validGitPath(fh.getOldPath())) {
+			result.addError(JGitText.get().applyPatchSourceInvalid,
+					fh.getOldPath(), null);
+			isValid = false;
+		}
+		if (destShouldNotExist && !validGitPath(fh.getNewPath())) {
+			result.addError(JGitText.get().applyPatchDestInvalid,
+					fh.getNewPath(), null);
+			isValid = false;
+		}
+		return isValid;
+	}
+
+	private boolean validGitPath(String path) {
+		try {
+			SystemReader.getInstance().checkPath(path);
+			return true;
+		} catch (CorruptObjectException e) {
+			return false;
+		}
+	}
+
+	private File getFile(String path, boolean create, FileModeCache directoryCache)
 			throws PatchApplyException {
 		File f = new File(getRepository().getWorkTree(), path);
 		if (create) {
 			try {
 				File parent = f.getParentFile();
-				FileUtils.mkdirs(parent, true);
+				directoryCache.safeCreateParentDirectory(path, parent, false);
 				FileUtils.createNewFile(f);
 			} catch (IOException e) {
 				throw new PatchApplyException(MessageFormat.format(
