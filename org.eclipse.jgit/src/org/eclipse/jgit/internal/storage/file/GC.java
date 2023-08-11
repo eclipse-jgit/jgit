@@ -837,11 +837,6 @@ public class GC {
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<>();
-		for (Pack p : repo.getObjectDatabase().getPacks()) {
-			checkCancelled();
-			if (p.shouldBeKept())
-				excluded.add(p.getIndex());
-		}
 
 		// Don't exclude tags that are also branch tips
 		allTags.removeAll(allHeads);
