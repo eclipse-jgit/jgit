@@ -276,6 +276,25 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	}
 
 	/**
+	 * Construct a symlink mode tree entry.
+	 *
+	 * @param path
+	 *            path of the symlink.
+	 * @param blob
+	 *            a blob, previously constructed in the repository.
+	 * @return the entry.
+	 * @throws Exception
+	 *             if an error occurred
+	 * @since 5.13.3
+	 */
+	public DirCacheEntry link(String path, RevBlob blob) throws Exception {
+		DirCacheEntry e = new DirCacheEntry(path);
+		e.setFileMode(FileMode.SYMLINK);
+		e.setObjectId(blob);
+		return e;
+	}
+
+	/**
 	 * Construct a tree from a specific listing of file entries.
 	 *
 	 * @param entries
