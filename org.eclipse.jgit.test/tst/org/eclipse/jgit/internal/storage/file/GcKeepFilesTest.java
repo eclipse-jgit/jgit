@@ -56,23 +56,20 @@ public class GcKeepFilesTest extends GcTestCase {
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
-		assertEquals(8, stats.numberOfPackedObjects);
+		assertEquals(12, stats.numberOfPackedObjects);
 		assertEquals(2, stats.numberOfPackFiles);
-		assertEquals(1, stats.numberOfBitmaps);
+		assertEquals(2, stats.numberOfBitmaps);
 
-		// check that no object is packed twice
 		Iterator<Pack> packs = repo.getObjectDatabase().getPacks()
 				.iterator();
 		PackIndex ind1 = packs.next().getIndex();
-		assertEquals(4, ind1.getObjectCount());
+		assertEquals(8, ind1.getObjectCount());
 		PackIndex ind2 = packs.next().getIndex();
 		assertEquals(4, ind2.getObjectCount());
-		for (MutableEntry e: ind1)
-			if (ind2.hasObject(e.toObjectId()))
-				assertFalse(
-						"the following object is in both packfiles: "
-								+ e.toObjectId(),
-						ind2.hasObject(e.toObjectId()));
+		// The objects in the packfile with a keep file are also present in the second packfile
+		for (MutableEntry e: ind2)
+			assertTrue("the following commit from a keep packfile was not found in the consolidated packfile: "
+					+ e.toObjectId(), ind1.hasObject(e.toObjectId()));
 	}
 
 	@Test
