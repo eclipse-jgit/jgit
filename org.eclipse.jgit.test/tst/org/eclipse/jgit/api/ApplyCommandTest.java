@@ -250,6 +250,20 @@ public class ApplyCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	private void dotGitTest(String fileName) throws Exception {
+		init(fileName, false, false);
+	}
+
+	@Test(expected = PatchApplyException.class)
+	public void testDotGit() throws Exception {
+		dotGitTest("dotgit");
+	}
+
+	@Test(expected = PatchApplyException.class)
+	public void testDotGit2() throws Exception {
+		dotGitTest("dotgit2");
+	}
+
 	private void checkBinary(String name, boolean hasPreImage)
 			throws Exception {
 		checkBinary(name, hasPreImage, 1);
