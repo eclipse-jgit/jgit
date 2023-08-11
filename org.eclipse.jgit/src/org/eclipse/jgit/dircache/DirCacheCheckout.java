@@ -4,7 +4,12 @@
  * Copyright (C) 2008, Roger C. Soares <rogersoares@intelinet.com.br>
  * Copyright (C) 2006, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Chrisian Halstrick <christian.halstrick@sap.com>
+<<<<<<< HEAD
  * Copyright (C) 2019-2020, Andre Bossert <andre.bossert@siemens.com>
+=======
+ * Copyright (C) 2019, 2020, Andre Bossert <andre.bossert@siemens.com>
+ * Copyright (C) 2017, 2023, Thomas Wolf <twolf@apache.org> and others
+>>>>>>> 9072103f3 (Checkout: better directory handling)
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,10 +23,8 @@ package org.eclipse.jgit.dircache;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -47,7 +50,6 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
-import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -67,9 +69,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
-import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IntList;
-import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 import org.slf4j.Logger;
@@ -141,6 +141,8 @@ public class DirCacheCheckout {
 	private boolean initialCheckout;
 
 	private boolean performingCheckout;
+
+	private Checkout checkout;
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
@@ -492,6 +494,7 @@ public class DirCacheCheckout {
 			CheckoutConflictException, IndexWriteException, CanceledException {
 		toBeDeleted.clear();
 		try (ObjectReader objectReader = repo.getObjectDatabase().newReader()) {
+			checkout = new Checkout(repo, null);
 			if (headCommitTree != null)
 				preScanTwoTrees();
 			else
@@ -558,9 +561,9 @@ public class DirCacheCheckout {
 					CheckoutMetadata meta = e.getValue();
 					DirCacheEntry entry = dc.getEntry(path);
 					if (FileMode.GITLINK.equals(entry.getRawMode())) {
-						checkoutGitlink(path, entry);
+						checkout.checkoutGitlink(entry, path);
 					} else {
-						checkoutEntry(repo, entry, objectReader, false, meta);
+						checkout.checkout(entry, meta, objectReader, path);
 					}
 					e = null;
 
@@ -595,8 +598,8 @@ public class DirCacheCheckout {
 							break;
 						}
 						if (entry.getStage() == DirCacheEntry.STAGE_3) {
-							checkoutEntry(repo, entry, objectReader, false,
-									null);
+							checkout.checkout(entry, null, objectReader,
+									conflict);
 							break;
 						}
 						++entryIdx;
@@ -617,14 +620,6 @@ public class DirCacheCheckout {
 				throw new IndexWriteException();
 		}
 		return toBeDeleted.isEmpty();
-	}
-
-	private void checkoutGitlink(String path, DirCacheEntry entry)
-			throws IOException {
-		File gitlinkDir = new File(repo.getWorkTree(), path);
-		FileUtils.mkdirs(gitlinkDir, true);
-		FS fs = repo.getFS();
-		entry.setLastModified(fs.lastModifiedInstant(gitlinkDir));
 	}
 
 	private static ArrayList<String> filterOut(ArrayList<String> strings,
@@ -1225,10 +1220,11 @@ public class DirCacheCheckout {
 		if (force) {
 			if (f == null || f.isModified(e, true, walk.getObjectReader())) {
 				kept.add(path);
-				checkoutEntry(repo, e, walk.getObjectReader(), false,
+				checkout.checkout(e,
 						new CheckoutMetadata(walk.getEolStreamType(CHECKOUT_OP),
 								walk.getFilterCommand(
-										Constants.ATTR_FILTER_TYPE_SMUDGE)));
+										Constants.ATTR_FILTER_TYPE_SMUDGE)),
+						walk.getObjectReader(), path);
 			}
 		}
 	}
@@ -1453,76 +1449,9 @@ public class DirCacheCheckout {
 	public static void checkoutEntry(Repository repo, DirCacheEntry entry,
 			ObjectReader or, boolean deleteRecursive,
 			CheckoutMetadata checkoutMetadata) throws IOException {
-		if (checkoutMetadata == null)
-			checkoutMetadata = CheckoutMetadata.EMPTY;
-		ObjectLoader ol = or.open(entry.getObjectId());
-		File f = new File(repo.getWorkTree(), entry.getPathString());
-		File parentDir = f.getParentFile();
-		if (parentDir.isFile()) {
-			FileUtils.delete(parentDir);
-		}
-		FileUtils.mkdirs(parentDir, true);
-		FS fs = repo.getFS();
-		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
-		if (entry.getFileMode() == FileMode.SYMLINK
-				&& opt.getSymLinks() == SymLinks.TRUE) {
-			byte[] bytes = ol.getBytes();
-			String target = RawParseUtils.decode(bytes);
-			if (deleteRecursive && f.isDirectory()) {
-				FileUtils.delete(f, FileUtils.RECURSIVE);
-			}
-			fs.createSymLink(f, target);
-			entry.setLength(bytes.length);
-			entry.setLastModified(fs.lastModifiedInstant(f));
-			return;
-		}
-
-		String name = f.getName();
-		if (name.length() > 200) {
-			name = name.substring(0, 200);
-		}
-		File tmpFile = File.createTempFile(
-				"._" + name, null, parentDir); //$NON-NLS-1$
-
-		getContent(repo, entry.getPathString(), checkoutMetadata, ol, opt,
-				new FileOutputStream(tmpFile));
-
-		// The entry needs to correspond to the on-disk filesize. If the content
-		// was filtered (either by autocrlf handling or smudge filters) ask the
-		// filesystem again for the length. Otherwise the objectloader knows the
-		// size
-		if (checkoutMetadata.eolStreamType == EolStreamType.DIRECT
-				&& checkoutMetadata.smudgeFilterCommand == null) {
-			entry.setLength(ol.getSize());
-		} else {
-			entry.setLength(tmpFile.length());
-		}
-
-		if (opt.isFileMode() && fs.supportsExecute()) {
-			if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())) {
-				if (!fs.canExecute(tmpFile))
-					fs.setExecute(tmpFile, true);
-			} else {
-				if (fs.canExecute(tmpFile))
-					fs.setExecute(tmpFile, false);
-			}
-		}
-		try {
-			if (deleteRecursive && f.isDirectory()) {
-				FileUtils.delete(f, FileUtils.RECURSIVE);
-			}
-			FileUtils.rename(tmpFile, f, StandardCopyOption.ATOMIC_MOVE);
-		} catch (IOException e) {
-			throw new IOException(
-					MessageFormat.format(JGitText.get().renameFileFailed,
-							tmpFile.getPath(), f.getPath()),
-					e);
-		} finally {
-			if (tmpFile.exists()) {
-				FileUtils.delete(tmpFile);
-			}
-		}
-		entry.setLastModified(fs.lastModifiedInstant(f));
+		Checkout checkout = new Checkout(repo, null)
+				.setRecursiveDeletion(deleteRecursive);
+		checkout.checkout(entry, checkoutMetadata, or, null);
 	}
 
 	/**
