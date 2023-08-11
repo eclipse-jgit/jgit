@@ -837,10 +837,11 @@ public class GC {
 		}
 
 		List<ObjectIdSet> excluded = new LinkedList<>();
+		Set<Pack> excludedPacks = new HashSet<>();
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
 			if (p.shouldBeKept())
-				excluded.add(p.getIndex());
+				excludedPacks.add(p);
 		}
 
 		// Don't exclude tags that are also branch tips
@@ -862,7 +863,7 @@ public class GC {
 		Pack heads = null;
 		if (!allHeadsAndTags.isEmpty()) {
 			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
-					refsToExcludeFromBitmap, tagTargets, excluded, true);
+					refsToExcludeFromBitmap, tagTargets, excluded, excludedPacks, true);
 			if (heads != null) {
 				ret.add(heads);
 				excluded.add(0, heads.getIndex());
@@ -870,13 +871,13 @@ public class GC {
 		}
 		if (!nonHeads.isEmpty()) {
 			Pack rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
-					PackWriter.NONE, tagTargets, excluded, false);
+					PackWriter.NONE, tagTargets, excluded, excludedPacks, false);
 			if (rest != null)
 				ret.add(rest);
 		}
 		if (!txnHeads.isEmpty()) {
 			Pack txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
-					PackWriter.NONE, null, excluded, false);
+					PackWriter.NONE, null, excluded, excludedPacks, false);
 			if (txn != null)
 				ret.add(txn);
 		}
@@ -1146,7 +1147,7 @@ public class GC {
 	private Pack writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
 			@NonNull Set<ObjectId> excludedRefsTips,
-			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects, boolean createBitmap)
+			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects, Set<Pack> excludedPacks, boolean createBitmap)
 			throws IOException {
 		checkCancelled();
 		File tmpPack = null;
@@ -1167,7 +1168,7 @@ public class GC {
 		});
 		try (PackWriter pw = new PackWriter(
 				pconfig,
-				repo.newObjectReader())) {
+				new WindowCursorExcludingPacks(repo.newObjectReader(), excludedPacks))) {
 			// prepare the PackWriter
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
