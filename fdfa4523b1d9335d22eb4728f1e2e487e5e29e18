@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c7342c_cb9a8ea9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-08-11T17:46:00Z",
+      "side": 1,
+      "message": "I believe the breakage is caused by these lines in GC.java:\n```\n\t\tfor (Pack p : repo.getObjectDatabase().getPacks()) {\n\t\t\tcheckCancelled();\n\t\t\tif (p.shouldBeKept())\n\t\t\t\texcluded.add(p.getIndex());\n\t\t}\n```\n\nThe keep files are to be completely ignored from the list of packfiles, because:\n- They are intermediate files: they may be never completed or committed\n- We are unsure of how their commits will be linked to refs: how do we know where they should go?\n\nHowever, the keep files may also contain commits that already exists in the repository, because there is no negotiation during `git push`.\n\nExcluding the objects pointed by the packfiles with a keep file associated isn\u0027t exactly the same thing as excluding the packfile altogether.\n\nLet me try a fix to this problem with a follow-up change.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 10
+      },
+      "revId": "fdfa4523b1d9335d22eb4728f1e2e487e5e29e18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
