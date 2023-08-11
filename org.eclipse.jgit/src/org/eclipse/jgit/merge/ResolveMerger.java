@@ -3,8 +3,8 @@
  * Copyright (C) 2010-2012, Matthias Sohn <matthias.sohn@sap.com>
  * Copyright (C) 2012, Research In Motion Limited
  * Copyright (C) 2017, Obeo (mathieu.cartaud@obeo.fr)
- * Copyright (C) 2018, 2022 Thomas Wolf <twolf@apache.org>
- * Copyright (C) 2022, Google Inc. and others
+ * Copyright (C) 2018, 2023 Thomas Wolf <twolf@apache.org>
+ * Copyright (C) 2023, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -47,6 +47,7 @@ import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.dircache.Checkout;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -79,7 +80,6 @@ import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -205,6 +205,12 @@ public class ResolveMerger extends ThreeWayMerger {
 		private boolean indexChangesWritten;
 
 		/**
+		 * {@link Checkout} to use for actually checking out files if
+		 * {@link #inCore} is {@code false}.
+		 */
+		private Checkout checkout;
+
+		/**
 		 * @param repo
 		 *            the {@link Repository}.
 		 * @param dirCache
@@ -223,6 +229,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			this.inCoreFileSizeLimit = getInCoreFileSizeLimit(config);
 			this.checkoutMetadataByPath = new HashMap<>();
 			this.cleanupMetadataByPath = new HashMap<>();
+			this.checkout = new Checkout(nonNullRepo(), workingTreeOptions);
 		}
 
 		/**
@@ -350,9 +357,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 
 			// All content operations are successfully done. If we can now write
-			// the
-			// new index we are on quite safe ground. Even if the checkout of
-			// files coming from "theirs" fails the user can work around such
+			// the new index we are on quite safe ground. Even if the checkout
+			// of files coming from "theirs" fails the user can work around such
 			// failures by checking out the index again.
 			if (!builder.commit()) {
 				revertModifiedFiles();
@@ -518,14 +524,14 @@ public class ResolveMerger extends ThreeWayMerger {
 			for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut
 					.entrySet()) {
 				DirCacheEntry dirCacheEntry = entry.getValue();
+				String gitPath = entry.getKey();
 				if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
-					new File(nonNullRepo().getWorkTree(), entry.getKey())
-							.mkdirs();
+					checkout.checkoutGitlink(dirCacheEntry, gitPath);
 				} else {
-					DirCacheCheckout.checkoutEntry(repo, dirCacheEntry, reader,
-							false, checkoutMetadataByPath.get(entry.getKey()),
-							workingTreeOptions);
-					result.modifiedFiles.add(entry.getKey());
+					checkout.checkout(dirCacheEntry,
+							checkoutMetadataByPath.get(gitPath), reader,
+							gitPath);
+					result.modifiedFiles.add(gitPath);
 				}
 			}
 		}
@@ -550,9 +556,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			for (String path : result.modifiedFiles) {
 				DirCacheEntry entry = dirCache.getEntry(path);
 				if (entry != null) {
-					DirCacheCheckout.checkoutEntry(repo, entry, reader, false,
-							cleanupMetadataByPath.get(path),
-							workingTreeOptions);
+					checkout.checkout(entry, cleanupMetadataByPath.get(path),
+							reader, path);
 				}
 			}
 		}
@@ -586,6 +591,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			if (inCore) {
 				return;
 			}
+			checkout.safeCreateParentDirectory(path, file.getParentFile(),
+					false);
 			CheckoutMetadata metadata = new CheckoutMetadata(streamType,
 					smudgeCommand);
 
@@ -1576,15 +1583,11 @@ public class ResolveMerger extends ThreeWayMerger {
 			Attributes attributes)
 			throws IOException {
 		File workTree = nonNullRepo().getWorkTree();
-		FS fs = nonNullRepo().getFS();
-		File of = new File(workTree, tw.getPathString());
-		File parentFolder = of.getParentFile();
+		String gitPath = tw.getPathString();
+		File of = new File(workTree, gitPath);
 		EolStreamType eol = workTreeUpdater.detectCheckoutStreamType(attributes);
-		if (!fs.exists(parentFolder)) {
-			parentFolder.mkdirs();
-		}
 		workTreeUpdater.updateFileWithContent(rawMerged::openInputStream,
-				eol, tw.getSmudgeCommand(attributes), of.getPath(), of);
+				eol, tw.getSmudgeCommand(attributes), gitPath, of);
 		return of;
 	}
 

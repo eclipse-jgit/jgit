@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022, Google Inc. and others
+ * Copyright (C) 2023, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -52,6 +52,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheCheckout.StreamSupplier;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
@@ -59,6 +60,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.FileModeCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -81,6 +83,7 @@ import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.LfsFactory.LfsInputStream;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.BinaryDeltaInputStream;
@@ -258,6 +261,7 @@ public class PatchApplier {
 		DirCache dirCache = inCore() ? DirCache.read(reader, beforeTree)
 				: repo.lockDirCache();
 
+		FileModeCache directoryCache = new FileModeCache(repo);
 		DirCacheBuilder dirCacheBuilder = dirCache.builder();
 		Set<String> modifiedPaths = new HashSet<>();
 		for (FileHeader fh : p.getFiles()) {
@@ -270,7 +274,8 @@ public class PatchApplier {
 			switch (type) {
 			case ADD: {
 				if (dest != null) {
-					FileUtils.mkdirs(dest.getParentFile(), true);
+					directoryCache.safeCreateParentDirectory(fh.getNewPath(),
+							dest.getParentFile(), false);
 					FileUtils.createNewFile(dest);
 				}
 				apply(fh.getNewPath(), dirCache, dirCacheBuilder, dest, fh, result);
@@ -295,7 +300,8 @@ public class PatchApplier {
 					 * apply() will write a fresh stream anyway, which will
 					 * overwrite if there were hunks in the patch.
 					 */
-					FileUtils.mkdirs(dest.getParentFile(), true);
+					directoryCache.safeCreateParentDirectory(fh.getNewPath(),
+							dest.getParentFile(), false);
 					FileUtils.rename(src, dest,
 							StandardCopyOption.ATOMIC_MOVE);
 				}
@@ -306,7 +312,8 @@ public class PatchApplier {
 			}
 			case COPY: {
 				if (!inCore()) {
-					FileUtils.mkdirs(dest.getParentFile(), true);
+					directoryCache.safeCreateParentDirectory(fh.getNewPath(),
+							dest.getParentFile(), false);
 					Files.copy(src.toPath(), dest.toPath());
 				}
 				apply(fh.getOldPath(), dirCache, dirCacheBuilder, dest, fh, result);
@@ -401,9 +408,27 @@ public class PatchApplier {
 					fh.getPatchType()), fh.getNewPath(), null);
 			isValid = false;
 		}
+		if (srcShouldExist && !validGitPath(fh.getOldPath())) {
+			result.addError(JGitText.get().applyPatchSourceInvalid,
+					fh.getOldPath(), null);
+			isValid = false;
+		}
+		if (destShouldNotExist && !validGitPath(fh.getNewPath())) {
+			result.addError(JGitText.get().applyPatchDestInvalid,
+					fh.getNewPath(), null);
+			isValid = false;
+		}
 		return isValid;
 	}
 
+	private boolean validGitPath(String path) {
+		try {
+			SystemReader.getInstance().checkPath(path);
+			return true;
+		} catch (CorruptObjectException e) {
+			return false;
+		}
+	}
 	private static final int FILE_TREE_INDEX = 1;
 
 	/**

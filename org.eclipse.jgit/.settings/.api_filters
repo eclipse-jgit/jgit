@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/dircache/Checkout.java" type="org.eclipse.jgit.dircache.Checkout">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="6.6.1"/>
+                <message_argument value="org.eclipse.jgit.dircache.Checkout"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/errors/PackMismatchException.java" type="org.eclipse.jgit.errors.PackMismatchException">
         <filter id="1142947843">
             <message_arguments>
@@ -19,6 +27,14 @@
             <message_arguments>
                 <message_argument value="5.13.2"/>
                 <message_argument value="CONFIG_KEY_SKIPHASH"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lib/FileModeCache.java" type="org.eclipse.jgit.lib.FileModeCache">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="6.6.1"/>
+                <message_argument value="org.eclipse.jgit.lib.FileModeCache"/>
             </message_arguments>
         </filter>
     </resource>
