@@ -22,6 +22,30 @@
       },
       "revId": "fdfa4523b1d9335d22eb4728f1e2e487e5e29e18",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8890b814_75a3cc3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:05:41Z",
+      "side": 1,
+      "message": "\u003e I believe the breakage is caused by these lines in GC.java:\n\u003e ```\n\u003e \t\tfor (Pack p : repo.getObjectDatabase().getPacks()) {\n\u003e \t\t\tcheckCancelled();\n\u003e \t\t\tif (p.shouldBeKept())\n\u003e \t\t\t\texcluded.add(p.getIndex());\n\u003e \t\t}\n\u003e ```\n\u003e \n\nYes I agreed.\nThis is also mentioned in the related issue [1]\n\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d582292\n\n\u003e The keep files are to be completely ignored from the list of packfiles, because:\n\u003e - They are intermediate files: they may be never completed or committed\n\u003e - We are unsure of how their commits will be linked to refs: how do we know where they should go?\n\u003e \n\u003e However, the keep files may also contain commits that already exists in the repository, because there is no negotiation during `git push`.\n\n\nYep, the test provided by this change aims at doing exactly that.\n\n\u003e \n\u003e Excluding the objects pointed by the packfiles with a keep file associated isn\u0027t exactly the same thing as excluding the packfile altogether.\n\u003e \n\u003e Let me try a fix to this problem with a follow-up change.\n\nThanks Luca. For reference to the reader that fix can be found here [1]\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/203625/4",
+      "parentUuid": "f9c7342c_cb9a8ea9",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 10
+      },
+      "revId": "fdfa4523b1d9335d22eb4728f1e2e487e5e29e18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
