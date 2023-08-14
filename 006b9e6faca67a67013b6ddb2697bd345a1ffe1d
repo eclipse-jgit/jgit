@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c54dd13_85b2468a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T11:03:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bd0e8eeb_e07dc321",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "006b9e6faca67a67013b6ddb2697bd345a1ffe1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15ceae2a_569460c2",
@@ -73,6 +97,24 @@
       "side": 1,
       "message": "If you look at my alternative solution [2], I just exclude the keep packfile altogether from the processing, avoiding the risk to exclude existing BLOBs from the repacking and bitmap calculation.\n\nThe drawback is that *IF* the keep packfile contained some duplication, that would continue until the next GC phase, which is fine because we have to consider the keep packfiles as something that is _transient_ and _uncommitted_: if the git push fails, the keep packfile may be just a set of unreferences BLOBs.\n\n[2] https://git.eclipse.org/r/c/jgit/jgit/+/203625",
       "parentUuid": "bedeb1d6_7fcdd292",
+      "revId": "006b9e6faca67a67013b6ddb2697bd345a1ffe1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7c9066e_e87fca14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T11:03:36Z",
+      "side": 1,
+      "message": "Ack @luca.\n\n\u003e Should we just skip the object instead of returning null?\n\nNot sure what\u0027s the implication of including a _subset_ of the objects rather than not getting the bitmap altogether.\n\n@luca, @Matthias, thoughts?\n\nP.S. Your alternative approach luca seems promising.\n\nThe difference between the two approaches is:\n- this change proceeds to create a suboptimal bitmap, which includes only the objects not included in the packfile pointed to the keep file. The resulting bitmap will miss objects that were part of the last push, even when they existed already.\n\n- your change [1] creates a bitmap which completely ignores the existence of the keep file. i.e. the generated bitmap would have been the same if the keep file didn\u0027t exist at all. The side effect is to possibly have duplicate objects.\n\n@Luca, @Matthias, WDYT?\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/203625",
+      "parentUuid": "ce80c16d_b2a80473",
       "revId": "006b9e6faca67a67013b6ddb2697bd345a1ffe1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
