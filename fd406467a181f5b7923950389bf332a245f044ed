@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbae7a90_d7efc31b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "nit: repack, to be more specific",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f03ed8a_97a8015b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "nit: not just blobs, also trees (and commits?)",
+      "range": {
+        "startLine": 22,
+        "startChar": 48,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7997e85_5573be2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "nit: generically, git objects.\n\n* I have see this issue manifesting with missing trees.",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03eb94ce_143aa541",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "typoe: existing",
+      "range": {
+        "startLine": 45,
+        "startChar": 45,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afe3b44d_da05f6c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "typo: existing",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767587eb_26db8117",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "Should this comment be moved at L58? I think it would help explaining why 12 objects exist.",
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391f6743_0f75b81a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursorExcludingPacks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "The name seems to suggest this is a specification of a `WindowCursor`, while as I understand it, this is merely an object reader.\n\nHow about `ObjectReaderExcludingPacks`?",
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b20148e5_366eca12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursorExcludingPacks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-14T10:39:12Z",
+      "side": 1,
+      "message": "nit: this could be static",
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
