@@ -259,7 +259,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		PackFile bitmapIdx = pf.create(BITMAP_INDEX);
-		Pack res = new Pack(pack, bitmapIdx.exists() ? bitmapIdx : null);
+		Pack res = new Pack(config, pack, bitmapIdx.exists() ? bitmapIdx : null);
 		packed.insert(res);
 		return res;
 	}
