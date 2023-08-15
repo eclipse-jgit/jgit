@@ -435,7 +435,9 @@ public class WindowCache {
 
 	private final AtomicBoolean publishMBean = new AtomicBoolean();
 
-	private boolean useStrongRefs;
+	private final boolean useStrongRefs;
+
+	public boolean useStrongIndexRefs;
 
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
@@ -467,6 +469,7 @@ public class WindowCache {
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 		useStrongRefs = cfg.isPackedGitUseStrongRefs();
+		useStrongIndexRefs = cfg.isPackedIndexGitUseStrongRefs();
 		queue = useStrongRefs ? new StrongCleanupQueue(this)
 				: new SoftCleanupQueue(this);
 

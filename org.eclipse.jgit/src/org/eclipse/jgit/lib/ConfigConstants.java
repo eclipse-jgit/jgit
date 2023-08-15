@@ -364,6 +364,12 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_PACKED_GIT_USE_STRONGREFS = "packedgitusestrongrefs";
 
+	/**
+	 * The "packedindexgitusestrongrefs" key
+	 * @since 6.x.xx
+	 */
+	public static final String CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS = "packedindexgitusestrongrefs";
+
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
 
