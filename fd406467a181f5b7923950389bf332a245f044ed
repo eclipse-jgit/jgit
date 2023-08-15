@@ -229,6 +229,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f84e62ba_db3581c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-08-15T06:45:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "767587eb_26db8117",
+      "revId": "fd406467a181f5b7923950389bf332a245f044ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "391f6743_0f75b81a",
