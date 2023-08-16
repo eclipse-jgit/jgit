@@ -48,6 +48,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ea4f1b_fd2d50df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-08-16T14:08:04Z",
+      "side": 1,
+      "message": "Abandoning this change, since it does not work.\nThe generated bitmap is invalid, eventually leading to \n\n➜  /tmp git clone --no-local path/repo.git\nCloning into \u0027repo\u0027...\nremote: Enumerating objects: 7249, done.\nremote: Total 7249 (delta 0), reused 0 (delta 0), pack-reused 7249\nReceiving objects: 100% (7249/7249), 11.33 MiB | 35.25 MiB/s, done.\nResolving deltas: 100% (227/227), done.\nfatal: did not receive expected object 99f1cba8e259824aea4a86e5e1d85b14d89ce62a\nfatal: fetch-pack: invalid index-pack output",
+      "revId": "006b9e6faca67a67013b6ddb2697bd345a1ffe1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15ceae2a_569460c2",
