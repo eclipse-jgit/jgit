@@ -33,6 +33,23 @@
       "message": "trigger build",
       "revId": "6f733369391ab45987f87102e626c851454ed141",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d66bff_6f380c74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-16T22:18:07Z",
+      "side": 1,
+      "message": "Verified locally with \"bazel test //org.eclipse.jgit.test:all\"",
+      "revId": "6f733369391ab45987f87102e626c851454ed141",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
