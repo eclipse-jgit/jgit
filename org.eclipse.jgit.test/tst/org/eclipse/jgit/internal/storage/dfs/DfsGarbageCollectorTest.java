@@ -979,7 +979,7 @@ public class DfsGarbageCollectorTest {
 	}
 
 	@Test
-	public void produceCommitGraphAllRefsIncludedFromDisk() throws Exception {
+	public void produceCommitGraphOnlyHeadsAndTags() throws Exception {
 		String tag = "refs/tags/tag1";
 		String head = "refs/heads/head1";
 		String nonHead = "refs/something/nonHead";
@@ -1001,19 +1001,20 @@ public class DfsGarbageCollectorTest {
 		CommitGraph cg = gcPack.getCommitGraph(reader);
 		assertNotNull(cg);
 
-		assertTrue("all commits in commit graph", cg.getCommitCnt() == 3);
+		assertTrue("Only heads and tags reachable commits in commit graph",
+				cg.getCommitCnt() == 2);
 		// GC packed
 		assertTrue("tag referenced commit is in graph",
 				cg.findGraphPosition(rootCommitTagged) != -1);
 		assertTrue("head referenced commit is in graph",
 				cg.findGraphPosition(headTip) != -1);
-		// GC_REST packed
-		assertTrue("nonHead referenced commit is in graph",
-				cg.findGraphPosition(nonHeadTip) != -1);
+		// GC_REST not in commit graph
+		assertEquals("nonHead referenced commit is NOT in graph",
+				-1, cg.findGraphPosition(nonHeadTip));
 	}
 
 	@Test
-	public void produceCommitGraphAllRefsIncludedFromCache() throws Exception {
+	public void produceCommitGraphOnlyHeadsAndTagsIncludedFromCache() throws Exception {
 		String tag = "refs/tags/tag1";
 		String head = "refs/heads/head1";
 		String nonHead = "refs/something/nonHead";
@@ -1043,15 +1044,16 @@ public class DfsGarbageCollectorTest {
 		assertTrue("commit graph read time is recorded",
 				reader.stats.readCommitGraphMicros > 0);
 
-		assertTrue("all commits in commit graph", cachedCG.getCommitCnt() == 3);
+		assertTrue("Only heads and tags reachable commits in commit graph",
+				cachedCG.getCommitCnt() == 2);
 		// GC packed
 		assertTrue("tag referenced commit is in graph",
 				cachedCG.findGraphPosition(rootCommitTagged) != -1);
 		assertTrue("head referenced commit is in graph",
 				cachedCG.findGraphPosition(headTip) != -1);
-		// GC_REST packed
-		assertTrue("nonHead referenced commit is in graph",
-				cachedCG.findGraphPosition(nonHeadTip) != -1);
+		// GC_REST not in commit graph
+		assertEquals("nonHead referenced commit is not in graph",
+				-1, cachedCG.findGraphPosition(nonHeadTip));
 	}
 
 	@Test

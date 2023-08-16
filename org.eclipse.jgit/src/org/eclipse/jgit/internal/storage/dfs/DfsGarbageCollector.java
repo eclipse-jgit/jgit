@@ -783,12 +783,9 @@ public class DfsGarbageCollector {
 			return;
 		}
 
-		Set<ObjectId> allTips = refsBefore.stream().map(Ref::getObjectId)
-				.collect(Collectors.toUnmodifiableSet());
-
 		try (DfsOutputStream out = objdb.writeFile(pack, COMMIT_GRAPH);
 				RevWalk pool = new RevWalk(ctx)) {
-			GraphCommits gcs = GraphCommits.fromWalk(pm, allTips, pool);
+			GraphCommits gcs = GraphCommits.fromWalk(pm, allHeadsAndTags, pool);
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			CommitGraphWriter writer = new CommitGraphWriter(gcs,
 					writeBloomFilter);
