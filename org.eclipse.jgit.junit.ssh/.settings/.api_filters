@@ -5,6 +5,8 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.junit.ssh.SshTestHarness"/>
                 <message_argument value="publicKey2"/>
+			</message_arguments>
+        </filter>
     </resource>
     <resource path="META-INF/MANIFEST.MF">
         <filter id="923795461">
