@@ -62,9 +62,9 @@ class ReadChangedPathFilter extends TextBuiltin {
 		HashSet<String> changed_paths = new HashSet<>();
 		for (int i = 0; i < commit_count; i++) {
 			int prior_cumul = i == 0 ? 0 : changed_path_length_cumuls[i - 1];
-			String changed_path = "";
+			String changed_path = ""; //$NON-NLS-1$
 			for (int j = prior_cumul; j < changed_path_length_cumuls[i]; j++) {
-				changed_path += data[bdat_offset + j] + ",";
+				changed_path += data[bdat_offset + j] + ","; //$NON-NLS-1$
 			}
 			changed_paths.add(changed_path);
 		}
