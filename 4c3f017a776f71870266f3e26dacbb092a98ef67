@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa30319_9883eb72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-08-16T08:46:43Z",
+      "side": 1,
+      "message": "Comment on 10 years-old change :-) \n\nThis does not take into consideration the lack of negotiation for `git push` which may send duplicates of existing Git objects. The keep packfile may contain even substantial (or even *most of them*) existing objects, especially if the client is out of sync with the server.\n\nIf we exclude *all* objects in the keep packfile, we may end up excluding the repacking of a substantial part of the repository and therefore not even creating a useful bitmap for it.\n\nThe correct approach, discussed on a private chat with @Matthias as well, is to consider the keep packfiles as _temporary files_ that are not confirmed or committed to the repo and therefore needs to be ignored and kept as-is.",
+      "range": {
+        "startLine": 435,
+        "startChar": 69,
+        "endLine": 437,
+        "endChar": 13
+      },
+      "revId": "4c3f017a776f71870266f3e26dacbb092a98ef67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
