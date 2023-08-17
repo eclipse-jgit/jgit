@@ -36,7 +36,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
@@ -789,10 +788,11 @@ public class DfsGarbageCollector {
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			CommitGraphWriter writer = new CommitGraphWriter(gcs,
 					writeBloomFilter);
-			writer.write(pm, cnt);
+			CommitGraphWriter.Stats stats = writer.write(pm, cnt);
 			pack.addFileExt(COMMIT_GRAPH);
 			pack.setFileSize(COMMIT_GRAPH, cnt.getCount());
 			pack.setBlockSize(COMMIT_GRAPH, out.blockSize());
+			pack.setCommitGraphStats(stats);
 		}
 	}
 }
