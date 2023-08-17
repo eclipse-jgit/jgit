@@ -66,19 +66,7 @@ public class IO {
 	public static final byte[] readSome(File path, int limit)
 			throws FileNotFoundException, IOException {
 		try (SilentFileInputStream in = new SilentFileInputStream(path)) {
-			byte[] buf = new byte[limit];
-			int cnt = 0;
-			for (;;) {
-				int n = in.read(buf, cnt, buf.length - cnt);
-				if (n <= 0)
-					break;
-				cnt += n;
-			}
-			if (cnt == buf.length)
-				return buf;
-			byte[] res = new byte[cnt];
-			System.arraycopy(buf, 0, res, 0, cnt);
-			return res;
+			return in.readNBytes(limit);
 		}
 	}
 
@@ -99,37 +87,10 @@ public class IO {
 	public static final byte[] readFully(File path, int max)
 			throws FileNotFoundException, IOException {
 		try (SilentFileInputStream in = new SilentFileInputStream(path)) {
-			long sz = Math.max(path.length(), 1);
-			if (sz > max)
+			byte[] buf = in.readNBytes(max);
+			if (in.read() != -1) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().fileIsTooLarge, path));
-
-			byte[] buf = new byte[(int) sz];
-			int valid = 0;
-			for (;;) {
-				if (buf.length == valid) {
-					if (buf.length == max) {
-						int next = in.read();
-						if (next < 0)
-							break;
-
-						throw new IOException(MessageFormat.format(
-								JGitText.get().fileIsTooLarge, path));
-					}
-
-					byte[] nb = new byte[Math.min(buf.length * 2, max)];
-					System.arraycopy(buf, 0, nb, 0, valid);
-					buf = nb;
-				}
-				int n = in.read(buf, valid, buf.length - valid);
-				if (n < 0)
-					break;
-				valid += n;
-			}
-			if (valid < buf.length) {
-				byte[] nb = new byte[valid];
-				System.arraycopy(buf, 0, nb, 0, valid);
-				buf = nb;
 			}
 			return buf;
 		}
@@ -157,26 +118,7 @@ public class IO {
 	 */
 	public static ByteBuffer readWholeStream(InputStream in, int sizeHint)
 			throws IOException {
-		byte[] out = new byte[sizeHint];
-		int pos = 0;
-		while (pos < out.length) {
-			int read = in.read(out, pos, out.length - pos);
-			if (read < 0)
-				return ByteBuffer.wrap(out, 0, pos);
-			pos += read;
-		}
-
-		int last = in.read();
-		if (last < 0)
-			return ByteBuffer.wrap(out, 0, pos);
-
-		try (TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(
-				Integer.MAX_VALUE)) {
-			tmp.write(out);
-			tmp.write(last);
-			tmp.copy(in);
-			return ByteBuffer.wrap(tmp.toByteArray());
-		}
+		return ByteBuffer.wrap(in.readAllBytes());
 	}
 
 	/**
@@ -197,13 +139,9 @@ public class IO {
 	 */
 	public static void readFully(final InputStream fd, final byte[] dst,
 			int off, int len) throws IOException {
-		while (len > 0) {
-			final int r = fd.read(dst, off, len);
-			if (r <= 0)
-				throw new EOFException(JGitText.get().shortReadOfBlock);
-			off += r;
-			len -= r;
-		}
+		int read = fd.readNBytes(dst, off, len);
+		if (read != len)
+			throw new EOFException(JGitText.get().shortReadOfBlock);
 	}
 
 	/**
@@ -271,14 +209,7 @@ public class IO {
 	 */
 	public static int readFully(InputStream fd, byte[] dst, int off)
 			throws IOException {
-		int r;
-		int len = 0;
-		while (off < dst.length
-				&& (r = fd.read(dst, off, dst.length - off)) >= 0) {
-			off += r;
-			len += r;
-		}
-		return len;
+		return fd.readNBytes(dst, off, dst.length - off);
 	}
 
 	/**
@@ -300,6 +231,7 @@ public class IO {
 	 */
 	public static void skipFully(InputStream fd, long toSkip)
 			throws IOException {
+		// same as fd.skipNBytes(toSkip) of JDK 12;
 		while (toSkip > 0) {
 			final long r = fd.skip(toSkip);
 			if (r <= 0)
