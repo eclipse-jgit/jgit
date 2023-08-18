@@ -839,7 +839,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	/** Announces when data is loaded by reader */
-	interface PackLoadListener {
+	protected interface PackLoadListener {
 		/**
 		 * Immutable copy of a DFS block metadata
 		 */
@@ -856,11 +856,11 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				this.size = src.size();
 			}
 
-			int getIdentityHash() {
+			public int getIdentityHash() {
 				return identityHash;
 			}
 
-			int getSize() {
+			public int getSize() {
 				return size;
 			}
 		}
@@ -900,7 +900,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		 * @param ext
 		 *            Extension in the pack (e.g. PACK or REFTABLE)
 		 * @param position
-		 *            Block offset being loaded
+		 *            Offset in the file requested by caller
 		 * @param dfsBlockData
 		 *            Metadata of the block
 		 */
