@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2989fe3_5c319756",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "use camel case to improve readability (git config keys are interpreted case insensitive) ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a321b3ab_00168d44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "nice, thanks for this improvement :-)",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e5c303_5182feb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "add javadoc tag for this new parameter\n\n`@param rc git config`",
+      "range": {
+        "startLine": 144,
+        "startChar": 13,
+        "endLine": 144,
+        "endChar": 23
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf7d679c_b51f4516",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "add missing javadoc",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77acaa76_2636db7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "I think this field should be private to ensure it is read-only and can only be set via git config",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60c7e116_7e775444",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "use camel case to improve readability ?",
+      "range": {
+        "startLine": 368,
+        "startChar": 9,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7c3fd5f_0b96d596",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "6.7",
+      "range": {
+        "startLine": 369,
+        "startChar": 11,
+        "endLine": 369,
+        "endChar": 17
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67eb22bf_f9217817",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Optionally.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-19T19:56:12Z",
+      "side": 1,
+      "message": "- missing @since 6.7 tag for new public interface\n- missing javadoc, JGit is a library used in many applications hence we want javadoc for all public API classes and members",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
