@@ -309,6 +309,24 @@
       "parentUuid": "67eb22bf_f9217817",
       "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d988d8fd_ccf0fbac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Optionally.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-20T05:29:27Z",
+      "side": 1,
+      "message": "move it to a new package org.eclipse.jgit.util.internal, classes in packages containing an .internal segment in their name are considered non-API",
+      "parentUuid": "e4b45869_a1edfd14",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
