@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b011ccc5_cf1d4bbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2989fe3_5c319756",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a321b3ab_00168d44",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -64,6 +88,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68a7c264_510cbbd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23e5c303_5182feb4",
+      "range": {
+        "startLine": 144,
+        "startChar": 13,
+        "endLine": 144,
+        "endChar": 23
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf7d679c_b51f4516",
@@ -77,6 +125,24 @@
       "writtenOn": "2023-08-19T19:56:12Z",
       "side": 1,
       "message": "add missing javadoc",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ca26f6_3de5aec9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Should have been private.",
+      "parentUuid": "bf7d679c_b51f4516",
       "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -98,6 +164,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e581336f_1d91c6bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77acaa76_2636db7a",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60c7e116_7e775444",
@@ -111,6 +195,30 @@
       "writtenOn": "2023-08-19T19:56:12Z",
       "side": 1,
       "message": "use camel case to improve readability ?",
+      "range": {
+        "startLine": 368,
+        "startChar": 9,
+        "endLine": 368,
+        "endChar": 36
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcd33fb3_6093d1d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60c7e116_7e775444",
       "range": {
         "startLine": 368,
         "startChar": 9,
@@ -144,6 +252,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "567ce90e_5ddeb38a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7c3fd5f_0b96d596",
+      "range": {
+        "startLine": 369,
+        "startChar": 11,
+        "endLine": 369,
+        "endChar": 17
+      },
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67eb22bf_f9217817",
@@ -157,6 +289,24 @@
       "writtenOn": "2023-08-19T19:56:12Z",
       "side": 1,
       "message": "- missing @since 6.7 tag for new public interface\n- missing javadoc, JGit is a library used in many applications hence we want javadoc for all public API classes and members",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4b45869_a1edfd14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Optionally.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-20T05:09:01Z",
+      "side": 1,
+      "message": "Makes sense, but I\u0027m not sure we want this to be part of the API? If not, which package should it go in?",
+      "parentUuid": "67eb22bf_f9217817",
       "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
