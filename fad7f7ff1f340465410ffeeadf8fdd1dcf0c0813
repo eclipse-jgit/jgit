@@ -345,6 +345,24 @@
       "parentUuid": "d988d8fd_ccf0fbac",
       "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40533d39_995a0c72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Optionally.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-21T18:45:28Z",
+      "side": 1,
+      "message": "Ack, most of the internal packages are under o.e.j.internal, the few others should probably be renamed to make this consistent",
+      "parentUuid": "2e9688e4_6d85edd5",
+      "revId": "fad7f7ff1f340465410ffeeadf8fdd1dcf0c0813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
