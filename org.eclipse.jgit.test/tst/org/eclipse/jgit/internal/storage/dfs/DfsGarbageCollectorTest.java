@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
@@ -1104,6 +1105,22 @@ public class DfsGarbageCollectorTest {
 	}
 
 	@Test
+	public void produceCommitGraphAndBloomFilter() throws Exception {
+		String head = "refs/heads/head1";
+
+		git.branch(head).commit().message("0").noParents().create();
+
+		gcWithCommitGraphAndBloomFilter();
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		DfsPackDescription desc = pack.getPackDescription();
+		CommitGraphWriter.Stats stats = desc.getCommitGraphStats();
+		assertNotNull(stats);
+		assertEquals(1, stats.getChangedPathFiltersComputed());
+	}
+
+	@Test
 	public void objectSizeIdx_reachableBlob_bigEnough_indexed() throws Exception {
 		String master = "refs/heads/master";
 		RevCommit root = git.branch(master).commit().message("root").noParents()
@@ -1174,6 +1191,13 @@ public class DfsGarbageCollectorTest {
 	private void gcWithCommitGraph() throws IOException {
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
 		gc.setWriteCommitGraph(true);
+		run(gc);
+	}
+
+	private void gcWithCommitGraphAndBloomFilter() throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setWriteCommitGraph(true);
+		gc.setWriteBloomFilter(true);
 		run(gc);
 	}
 
