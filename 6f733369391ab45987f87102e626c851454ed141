@@ -22,6 +22,30 @@
       },
       "revId": "6f733369391ab45987f87102e626c851454ed141",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "476ced5e_9e9a7737",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-08-21T22:40:42Z",
+      "side": 0,
+      "message": "Maven told me this is unused (and it looks correct).",
+      "parentUuid": "b597430b_69258e2b",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 35
+      },
+      "revId": "6f733369391ab45987f87102e626c851454ed141",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
