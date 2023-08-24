@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb719c4d_13a393be",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-24T19:17:08Z",
+      "side": 1,
+      "message": "fixed compile error",
+      "revId": "d9572128f1a34ba3e7baab34145232dba9404b7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d48acf52_9d2d3ed9",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-24T19:17:08Z",
+      "side": 1,
+      "message": "export new package and mark it as internal",
+      "revId": "d9572128f1a34ba3e7baab34145232dba9404b7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12b61117_a9a22713",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/Optionally.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-24T19:17:08Z",
+      "side": 1,
+      "message": "add missing javadoc param",
+      "revId": "d9572128f1a34ba3e7baab34145232dba9404b7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

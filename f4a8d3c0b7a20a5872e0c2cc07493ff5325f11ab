@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df557ad_c25f3d71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/Optionally.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-24T19:17:08Z",
+      "side": 1,
+      "message": "outer class has the since tag hence this is unnecessary since it was introduced together with the outer class",
+      "revId": "f4a8d3c0b7a20a5872e0c2cc07493ff5325f11ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
