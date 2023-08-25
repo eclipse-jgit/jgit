@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e840ea70_5644b34a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-08-25T02:26:37Z",
+      "side": 1,
+      "message": "Thanks for all the fixes. I do apologize that I am not that familiar with the jgit contribution guidelines, I will make an effort to get better with them.",
+      "revId": "d9572128f1a34ba3e7baab34145232dba9404b7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fb719c4d_13a393be",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackTest.java",
         "patchSetId": 6
