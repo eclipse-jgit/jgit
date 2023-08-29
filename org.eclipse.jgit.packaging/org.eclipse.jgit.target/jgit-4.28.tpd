@@ -1,6 +1,6 @@
 target "jgit-4.28" with source configurePhase
 
-include "orbit/R20230531010532-2023-06.tpd"
+include "orbit/orbit-4.29.tpd"
 include "maven/dependencies.tpd"
 
 location "https://download.eclipse.org/releases/2023-06" {
