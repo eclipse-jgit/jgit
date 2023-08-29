@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3e84f5_c543e346",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-08-29T06:54:53Z",
+      "side": 1,
+      "message": "\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/25/ : FAILURE\n\nHas something changed on the Jenkins build node? This failure is highly unexpected and completely unrelated. It looks as if the process running the test has no home directory?\nThe test is also not quite correct; it creates a bare repository by mistake.",
+      "revId": "a2f326b76200c8def03eb136811c2cb5bc304f89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
