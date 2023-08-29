@@ -265,32 +265,32 @@ maven_jar(
     src_sha1 = "135448f8b3b3b06f7f3312d222992525ae4bdd25",
 )
 
-BOUNCYCASTLE_VER = "1.75"
+BOUNCYCASTLE_VER = "1.76"
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "d37fddd467bc3351e4f9a66716f5f3231a3ba540",
-    src_sha1 = "41b22ae4e8455f837ac65cfc618a6900ba392747",
+    sha1 = "d5c23d0470261254d0e84dde1d4237d228540298",
+    src_sha1 = "68d49cdd07da2121a904f481e2e92ca864c08d05",
 )
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "fd9638f6468e934991c56242d0da2ae38890c2a4",
-    src_sha1 = "824c0265a84d1ec214c3513dc14fc7990bb4f70d",
+    sha1 = "3a785d0b41806865ad7e311162bfa3fa60b3965b",
+    src_sha1 = "9e00748625819d7e3cc1447366dfa76f0b354a2d",
 )
 
 maven_jar(
     name = "bcutil",
     artifact = "org.bouncycastle:bcutil-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "0f58f4bbec8a40137bbb04f6174cd164fae0776b",
-    src_sha1 = "47713fc5d0766ab47b7dae237869ae102ed7f103",
+    sha1 = "8c7594e651a278bcde18e038d8ab55b1f97f4d31",
+    src_sha1 = "836bb2c42f10b29127b470ebe5c648927dd4ddc6",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "5adfef8a71a0933454739264b56283cc73dd2383",
-    src_sha1 = "e50746007d8f1ccd9e49180af87811a1e9ce432d",
+    sha1 = "10c9cf5c1b4d64abeda28ee32fbade3b74373622",
+    src_sha1 = "e5700c1de407652c1af5961ac8a04fab02eda365",
 )
