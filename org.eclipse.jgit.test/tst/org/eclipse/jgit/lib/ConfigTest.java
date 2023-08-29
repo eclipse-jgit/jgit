@@ -1482,7 +1482,9 @@ public class ConfigTest {
 
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
@@ -1532,7 +1534,9 @@ public class ConfigTest {
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		File tempFile = tmp.newFile("testCommitTemplate-");
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
@@ -1554,7 +1558,9 @@ public class ConfigTest {
 		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
@@ -1569,7 +1575,9 @@ public class ConfigTest {
 		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// commit message encoding
