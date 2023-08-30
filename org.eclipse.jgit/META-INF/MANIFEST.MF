@@ -124,6 +124,7 @@ Export-Package: org.eclipse.jgit.annotations;version="6.7.0",
   x-friends:="org.eclipse.jgit.ssh.apache,
    org.eclipse.jgit.ssh.jsch,
    org.eclipse.jgit.test",
+ org.eclipse.jgit.internal.util;version="6.7.0";x-internal:=true,
  org.eclipse.jgit.lib;version="6.7.0";
   uses:="org.eclipse.jgit.transport,
    org.eclipse.jgit.util.sha1,

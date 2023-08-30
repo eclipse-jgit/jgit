@@ -23,7 +23,7 @@
 
   <properties>
     <java.version>11</java.version>
-    <tycho-version>4.0.1</tycho-version>
+    <tycho-version>4.0.2</tycho-version>
     <target-platform>jgit-4.17</target-platform>
   </properties>
 
@@ -31,10 +31,6 @@
     <pluginRepository>
       <id>repo.eclipse.org.cbi-releases</id>
       <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>repo.eclipse.org.cbi-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</url>
     </pluginRepository>
   </pluginRepositories>
 

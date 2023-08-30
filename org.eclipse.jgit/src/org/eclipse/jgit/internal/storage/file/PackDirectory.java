@@ -65,6 +65,8 @@ class PackDirectory {
 	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
 			new Pack[0]);
 
+	private final Config config;
+
 	private final File directory;
 
 	private final AtomicReference<PackList> packList;
@@ -80,6 +82,7 @@ class PackDirectory {
 	 *            the location of the {@code pack} directory.
 	 */
 	PackDirectory(Config config, File directory) {
+		this.config = config;
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
 
@@ -457,7 +460,7 @@ class PackDirectory {
 				continue;
 			}
 
-			list.add(new Pack(packFile, packFilesByExt.get(BITMAP_INDEX)));
+			list.add(new Pack(config, packFile, packFilesByExt.get(BITMAP_INDEX)));
 			foundNew = true;
 		}
 

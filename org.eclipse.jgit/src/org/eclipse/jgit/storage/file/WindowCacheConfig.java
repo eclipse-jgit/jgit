@@ -18,6 +18,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_GIT_OPENFIL
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_GIT_WINDOWSIZE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_TRESHOLD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_GIT_USE_STRONGREFS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
 
 import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.Config;
@@ -39,6 +40,8 @@ public class WindowCacheConfig {
 
 	private boolean useStrongRefs;
 
+	private boolean useStrongIndexRefs;
+
 	private int packedGitWindowSize;
 
 	private boolean packedGitMMAP;
@@ -56,6 +59,7 @@ public class WindowCacheConfig {
 		packedGitOpenFiles = 128;
 		packedGitLimit = 10 * MB;
 		useStrongRefs = false;
+		useStrongIndexRefs = true;
 		packedGitWindowSize = 8 * KB;
 		packedGitMMAP = false;
 		deltaBaseCacheLimit = 10 * MB;
@@ -130,6 +134,31 @@ public class WindowCacheConfig {
 	 */
 	public void setPackedGitUseStrongRefs(boolean useStrongRefs) {
 		this.useStrongRefs = useStrongRefs;
+	}
+
+	/**
+	 * Get whether the Pack indices cache should use strong references or
+	 * SoftReferences
+	 *
+	 * @return {@code true} if the cached Pack indices should use strong references,
+	 *         otherwise it will use {@link java.lang.ref.SoftReference}s
+	 * @since 6.7
+	 */
+	public boolean isPackedIndexGitUseStrongRefs() {
+		return useStrongIndexRefs;
+	}
+
+	/**
+	 * Set if the Pack indices cache should use strong refs or soft refs
+	 *
+	 * @param useStrongRefs
+	 *            if @{code true} the Pack strongly references cached indices
+	 *            otherwise it uses {@link java.lang.ref.SoftReference}s which
+	 *            can be evicted by the Java gc if heap is almost full
+	 * @since 6.7
+	 */
+	public void setPackedIndexGitUseStrongRefs(boolean useStrongRefs) {
+		this.useStrongIndexRefs = useStrongRefs;
 	}
 
 	/**
@@ -270,6 +299,8 @@ public class WindowCacheConfig {
 		setPackedGitUseStrongRefs(rc.getBoolean(CONFIG_CORE_SECTION,
 				CONFIG_KEY_PACKED_GIT_USE_STRONGREFS,
 				isPackedGitUseStrongRefs()));
+		setPackedIndexGitUseStrongRefs(rc.getBoolean(CONFIG_CORE_SECTION,
+				CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS, isPackedIndexGitUseStrongRefs()));
 		setPackedGitOpenFiles(rc.getInt(CONFIG_CORE_SECTION, null,
 				CONFIG_KEY_PACKED_GIT_OPENFILES, getPackedGitOpenFiles()));
 		setPackedGitLimit(rc.getLong(CONFIG_CORE_SECTION, null,

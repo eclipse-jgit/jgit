@@ -34,7 +34,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
-		String n = config.getRawString(section, subsection, name);
+		String n = config.getString(section, subsection, name);
 		if (n == null) {
 			return defaultValue;
 		}

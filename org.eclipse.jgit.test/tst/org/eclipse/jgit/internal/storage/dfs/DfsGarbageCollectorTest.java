@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
@@ -979,7 +980,7 @@ public class DfsGarbageCollectorTest {
 	}
 
 	@Test
-	public void produceCommitGraphAllRefsIncludedFromDisk() throws Exception {
+	public void produceCommitGraphOnlyHeadsAndTags() throws Exception {
 		String tag = "refs/tags/tag1";
 		String head = "refs/heads/head1";
 		String nonHead = "refs/something/nonHead";
@@ -1001,19 +1002,20 @@ public class DfsGarbageCollectorTest {
 		CommitGraph cg = gcPack.getCommitGraph(reader);
 		assertNotNull(cg);
 
-		assertTrue("all commits in commit graph", cg.getCommitCnt() == 3);
+		assertTrue("Only heads and tags reachable commits in commit graph",
+				cg.getCommitCnt() == 2);
 		// GC packed
 		assertTrue("tag referenced commit is in graph",
 				cg.findGraphPosition(rootCommitTagged) != -1);
 		assertTrue("head referenced commit is in graph",
 				cg.findGraphPosition(headTip) != -1);
-		// GC_REST packed
-		assertTrue("nonHead referenced commit is in graph",
-				cg.findGraphPosition(nonHeadTip) != -1);
+		// GC_REST not in commit graph
+		assertEquals("nonHead referenced commit is NOT in graph",
+				-1, cg.findGraphPosition(nonHeadTip));
 	}
 
 	@Test
-	public void produceCommitGraphAllRefsIncludedFromCache() throws Exception {
+	public void produceCommitGraphOnlyHeadsAndTagsIncludedFromCache() throws Exception {
 		String tag = "refs/tags/tag1";
 		String head = "refs/heads/head1";
 		String nonHead = "refs/something/nonHead";
@@ -1043,15 +1045,16 @@ public class DfsGarbageCollectorTest {
 		assertTrue("commit graph read time is recorded",
 				reader.stats.readCommitGraphMicros > 0);
 
-		assertTrue("all commits in commit graph", cachedCG.getCommitCnt() == 3);
+		assertTrue("Only heads and tags reachable commits in commit graph",
+				cachedCG.getCommitCnt() == 2);
 		// GC packed
 		assertTrue("tag referenced commit is in graph",
 				cachedCG.findGraphPosition(rootCommitTagged) != -1);
 		assertTrue("head referenced commit is in graph",
 				cachedCG.findGraphPosition(headTip) != -1);
-		// GC_REST packed
-		assertTrue("nonHead referenced commit is in graph",
-				cachedCG.findGraphPosition(nonHeadTip) != -1);
+		// GC_REST not in commit graph
+		assertEquals("nonHead referenced commit is not in graph",
+				-1, cachedCG.findGraphPosition(nonHeadTip));
 	}
 
 	@Test
@@ -1099,6 +1102,22 @@ public class DfsGarbageCollectorTest {
 				break;
 			}
 		}
+	}
+
+	@Test
+	public void produceCommitGraphAndBloomFilter() throws Exception {
+		String head = "refs/heads/head1";
+
+		git.branch(head).commit().message("0").noParents().create();
+
+		gcWithCommitGraphAndBloomFilter();
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		DfsPackDescription desc = pack.getPackDescription();
+		CommitGraphWriter.Stats stats = desc.getCommitGraphStats();
+		assertNotNull(stats);
+		assertEquals(1, stats.getChangedPathFiltersComputed());
 	}
 
 	@Test
@@ -1172,6 +1191,13 @@ public class DfsGarbageCollectorTest {
 	private void gcWithCommitGraph() throws IOException {
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
 		gc.setWriteCommitGraph(true);
+		run(gc);
+	}
+
+	private void gcWithCommitGraphAndBloomFilter() throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setWriteCommitGraph(true);
+		gc.setWriteBloomFilter(true);
 		run(gc);
 	}
 
