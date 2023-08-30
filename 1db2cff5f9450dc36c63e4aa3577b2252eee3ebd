@@ -22,6 +22,30 @@
       },
       "revId": "1db2cff5f9450dc36c63e4aa3577b2252eee3ebd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36955cc8_807e27ff",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.29.tpd",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-08-30T14:15:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef3a2ea5_a77c7602",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "1db2cff5f9450dc36c63e4aa3577b2252eee3ebd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
