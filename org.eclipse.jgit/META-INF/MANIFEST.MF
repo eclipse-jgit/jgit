@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit
 Bundle-SymbolicName: org.eclipse.jgit
-Bundle-Version: 6.7.0.202308301100-rc1
+Bundle-Version: 6.7.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Eclipse-ExtensibleAPI: true
