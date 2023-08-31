@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.24" sequenceNumber="1693398439">
+<target name="jgit-4.24" sequenceNumber="1693469682">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
@@ -186,13 +186,13 @@
     	<dependency>
     		<groupId>net.bytebuddy</groupId>
     		<artifactId>byte-buddy</artifactId>
-    		<version>1.14.5</version>
+    		<version>1.14.7</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>net.bytebuddy</groupId>
     		<artifactId>byte-buddy-agent</artifactId>
-    		<version>1.14.5</version>
+    		<version>1.14.7</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
