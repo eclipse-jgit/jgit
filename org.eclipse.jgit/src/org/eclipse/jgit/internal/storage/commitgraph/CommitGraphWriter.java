@@ -33,8 +33,10 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -133,7 +135,7 @@ public class CommitGraphWriter {
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
-			writeChunks(monitor, out, chunks);
+			writeChunks(monitor, out, chunks, stats);
 			writeCheckSum(out);
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
@@ -196,10 +198,11 @@ public class CommitGraphWriter {
 	}
 
 	private void writeChunks(ProgressMonitor monitor,
-			CancellableDigestOutputStream out, List<ChunkHeader> chunks)
+			CancellableDigestOutputStream out, List<ChunkHeader> chunks, Stats stats)
 			throws IOException {
 		for (ChunkHeader chunk : chunks) {
 			int chunkId = chunk.id;
+			stats.chunkSizeRecord.put(chunkId, chunk.size);
 
 			switch (chunkId) {
 			case CHUNK_ID_OID_FANOUT:
@@ -421,6 +424,7 @@ public class CommitGraphWriter {
 						cpf = ChangedPathFilter.fromPaths(paths.get());
 					}
 				}
+				stats.numOfChangedPath += cpf.getEstimatedNumChangedPath();
 				cpf.writeTo(data);
 				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
 				index.write(scratch);
@@ -491,6 +495,10 @@ public class CommitGraphWriter {
 
 		private long changedPathFiltersComputed = 0;
 
+		private long numOfChangedPath = 0;
+
+		private Map<Integer, Long> chunkSizeRecord = new HashMap<>();
+
 		/**
 		 * Returns the number of existing changed path filters that were reused
 		 * when writing, for statistical purposes.
@@ -509,6 +517,24 @@ public class CommitGraphWriter {
 		 */
 		public long getChangedPathFiltersComputed() {
 			return changedPathFiltersComputed;
+		}
+
+		/**
+		 * Returns the total number of changed path involved during bloom filter computation.
+		 *
+		 * @return count of changed path
+		 */
+		public long getNumOfChangedPath() {
+			return numOfChangedPath;
+		}
+
+		/**
+		 * Returns computed chunk sizes
+		 *
+		 * @return size of each chunk
+		 */
+		public Map<Integer, Long> getChunkSizeRecord() {
+			return chunkSizeRecord;
 		}
 	}
 }
