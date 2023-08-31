@@ -238,6 +238,7 @@ public class DfsReaderTest {
 		@Override
 		public void onBlockLoad(String packName, PackSource src, PackExt ext,
 				long size, DfsBlockData dfsBlockData) {
+			// empty
 		}
 	}
 
