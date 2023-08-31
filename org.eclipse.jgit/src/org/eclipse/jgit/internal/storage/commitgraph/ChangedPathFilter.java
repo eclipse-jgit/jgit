@@ -160,4 +160,11 @@ public class ChangedPathFilter {
 	public void writeTo(ByteArrayOutputStream s) {
 		s.write(data, offset, length);
 	}
+
+	/**
+	 * @return the estimated number of changed paths.
+	 */
+	public int getEstimatedNumChangedPath() {
+		return Math.floorDiv(length * 8, BITS_PER_ENTRY);
+	}
 }
