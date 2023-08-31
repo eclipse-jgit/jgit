@@ -1051,11 +1051,11 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *             no object size index or a problem loading it.
 	 */
 	int getObjectSizeIndexThreshold(DfsReader ctx) throws IOException {
-		PackObjectSizeIndex index = getObjectSizeIndex(ctx);
-		if (index == null) {
+		PackObjectSizeIndex idx = getObjectSizeIndex(ctx);
+		if (idx == null) {
 			throw new IOException("Asking threshold of non-existing obj-size"); //$NON-NLS-1$
 		}
-		return index.getThreshold();
+		return idx.getThreshold();
 	}
 
 	/**
