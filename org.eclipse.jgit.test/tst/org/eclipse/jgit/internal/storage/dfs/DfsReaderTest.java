@@ -229,6 +229,7 @@ public class DfsReaderTest {
 	private static class CounterPackLoadListener implements PackLoadListener {
 		final Map<PackExt, Integer> callsPerExt = new HashMap<>();
 
+		@SuppressWarnings("boxing")
 		@Override
 		public void onIndexLoad(String packName, PackSource src, PackExt ext, long size,
 				Object loadedIdx) {
