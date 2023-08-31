@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "168067bb_ff4d9ec0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-31T21:56:52Z",
+      "side": 1,
+      "message": "Why is this an estimation? IIUC the bloom is \"#-of-paths * BITS_PER_ENTRY / 8\" (rounding up), so you should get also a precise answer (making sure the rounding is fine).",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2fd675_b90fee24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-08-31T21:56:52Z",
+      "side": 1,
+      "message": "Chuncks and their size are already known in createChunks(), if you need this info, you can probably record it there.",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
