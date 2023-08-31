@@ -156,6 +156,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		return idx(ctx);
 	}
 
+	@SuppressWarnings("boxing")
 	private PackIndex idx(DfsReader ctx) throws IOException {
 		if (index != null) {
 			return index;
@@ -205,6 +206,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 * @throws java.io.IOException
 	 *             the bitmap index is not available, or is corrupt.
 	 */
+	@SuppressWarnings("boxing")
 	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
 		if (invalid || isGarbage() || !desc.hasFileExt(BITMAP_INDEX)) {
 			return null;
@@ -243,6 +245,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 * @throws java.io.IOException
 	 *             the Commit Graph is not available, or is corrupt.
 	 */
+	@SuppressWarnings("boxing")
 	public CommitGraph getCommitGraph(DfsReader ctx) throws IOException {
 		if (invalid || isGarbage() || !desc.hasFileExt(COMMIT_GRAPH)) {
 			return null;
@@ -280,6 +283,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 * @throws java.io.IOException
 	 *             the pack index is not available, or is corrupt
 	 */
+	@SuppressWarnings("boxing")
 	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
 		if (reverseIndex != null) {
 			return reverseIndex;
@@ -304,6 +308,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		return reverseIndex;
 	}
 
+	@SuppressWarnings("boxing")
 	private PackObjectSizeIndex getObjectSizeIndex(DfsReader ctx)
 			throws IOException {
 		if (objectSizeIndex != null) {
@@ -1169,6 +1174,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private DfsBlockCache.Ref<PackIndex> loadPackIndex(
 			DfsReader ctx, DfsStreamKey idxKey) throws IOException {
 		try {
@@ -1198,6 +1204,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private DfsBlockCache.Ref<PackReverseIndex> loadReverseIdx(
 			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
 		ctx.stats.readReverseIdx++;
@@ -1213,6 +1220,7 @@ public final class DfsPackFile extends BlockBasedFile {
 				revidx);
 	}
 
+	@SuppressWarnings("boxing")
 	private DfsBlockCache.Ref<PackObjectSizeIndex> loadObjectSizeIndex(
 			DfsReader ctx, DfsStreamKey objectSizeIndexKey) throws IOException {
 		ctx.stats.readObjectSizeIndex++;
