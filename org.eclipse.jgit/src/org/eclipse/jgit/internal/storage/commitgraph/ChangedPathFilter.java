@@ -160,4 +160,15 @@ public class ChangedPathFilter {
 	public void writeTo(ByteArrayOutputStream s) {
 		s.write(data, offset, length);
 	}
+
+	/**
+	 * Depending on the data length and BITS_PER_ENTRY,
+	 * large changed path sizes do not directly translate to a deterministic number of path value.
+	 * This method will calculate the maximum number of paths possible for a given changed path.
+	 *
+	 * @return the estimated number of changed paths.
+	 */
+	public int getEstimatedNumChangedPath() {
+		return Math.floorDiv(length * 8, BITS_PER_ENTRY);
+	}
 }
