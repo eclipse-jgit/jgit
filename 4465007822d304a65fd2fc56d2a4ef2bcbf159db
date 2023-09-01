@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c95eee92_d7696998",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-01T18:23:44Z",
+      "side": 1,
+      "message": "I meant that the calculation is deterministic. Is there any case where this would show a different result?",
+      "parentUuid": "b00dcb3c_3fa96301",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab2fd675_b90fee24",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 3
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "this is a personal preference. imo, createChunks don\u0027t guaranteed the chunks will be write successfully, we should always collect data as close to writing to disk as possible. \n\nif the concern is why don\u0027t we just store the ChunkHeader objects in the stats, that\u0027s because ChunkHeader could contain the stream data which we don\u0027t need.",
       "parentUuid": "ab2fd675_b90fee24",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d35dbe_7d21c7a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-01T18:23:44Z",
+      "side": 1,
+      "message": "\u003e createChunks don\u0027t guaranteed the chunks will be write successfully\n\nWhat guarantee does it provide to do it here? IIUC if there is any problem writing there will be an exception and the stats are gone in any case.\n\nThe flow in this class is:\n#1 createChunks calculates the chunks and sizes to write. As it needs the size, in some it does the actual calculations (e.g. bloom filters)\n#2 writeHeaders uses the information above to write the header\n#3 writeChunks uses the information above to write the different chunks\n\nThe information this is trying to write is calculated in #1 and immutable. Waiting to record it later doesn\u0027t add and spreads \"collecting\" stats. Limiting the scope of the stats object helps to understand/maintain the code. \n\nRight now stats is only modified inside createChucks() and that would be a nice thing to keep.",
+      "parentUuid": "b8c6200c_04f169e7",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
