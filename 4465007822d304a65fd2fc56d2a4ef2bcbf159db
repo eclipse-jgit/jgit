@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b00dcb3c_3fa96301",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-01T15:32:21Z",
+      "side": 1,
+      "message": "this is an estimation because the \"path\" value being returned here is a calculation not the actual value being passed into the constructor at the point of object construction.",
+      "parentUuid": "168067bb_ff4d9ec0",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab2fd675_b90fee24",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-31T21:56:52Z",
       "side": 1,
       "message": "Chuncks and their size are already known in createChunks(), if you need this info, you can probably record it there.",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8c6200c_04f169e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-01T15:32:21Z",
+      "side": 1,
+      "message": "this is a personal preference. imo, createChunks don\u0027t guaranteed the chunks will be write successfully, we should always collect data as close to writing to disk as possible. \n\nif the concern is why don\u0027t we just store the ChunkHeader objects in the stats, that\u0027s because ChunkHeader could contain the stream data which we don\u0027t need.",
+      "parentUuid": "ab2fd675_b90fee24",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
