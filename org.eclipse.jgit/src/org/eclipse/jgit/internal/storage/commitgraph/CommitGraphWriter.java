@@ -222,6 +222,9 @@ public class CommitGraphWriter {
 				}
 				chunk.data.get().writeTo(out);
 				break;
+			default:
+				throw new IllegalStateException(
+						"Don't know how to write chunk " + chunkId); //$NON-NLS-1$
 			}
 		}
 	}
