@@ -105,6 +105,24 @@
       "parentUuid": "b8c6200c_04f169e7",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cd7c8f2_c1621b37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-01T18:28:31Z",
+      "side": 1,
+      "message": "Perhap we could throw an exception of the size written and size passed to createChunks() don\u0027t match?",
+      "parentUuid": "93d35dbe_7d21c7a9",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
