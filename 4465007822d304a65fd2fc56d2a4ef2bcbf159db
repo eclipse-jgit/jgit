@@ -54,6 +54,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "049f3cba_48d5de68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-01T20:20:52Z",
+      "side": 1,
+      "message": "it\u0027s deterministic right now under the current BITS_PER_ENTRY value, but it\u0027s unreliable since BITS_PER_ENTRY can be changed by anyone without changing this getEstimatedNumChangedPath logic.\n\nwhen BITS_PER_ENTRY is small, different number of paths can lead to the same bloom length, hence it\u0027s an \"estimate\" for the largest possible number of paths given a length size.",
+      "parentUuid": "c95eee92_d7696998",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab2fd675_b90fee24",
@@ -121,6 +139,24 @@
       "side": 1,
       "message": "Perhap we could throw an exception of the size written and size passed to createChunks() don\u0027t match?",
       "parentUuid": "93d35dbe_7d21c7a9",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "927ddca4_852f483c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-01T20:20:52Z",
+      "side": 1,
+      "message": "In my opinion, this is wrong review to be discuss whether to spreads \"collecting\" stats. Here are some reasons to consider:\n\n1. the current commit graph writer stats implementation doesn\u0027t match the standard of other writers, e.g. packwriter, reftablewriter. In other writers\u0027 case, their stats object isn\u0027t being passed around or returned following their write logic, instead, their stats object is part of the writer object and lives independently from the write code flow. If we are to pursue minimum \"stats object spread\" in favor of maintainability, we should be following the convention of coupling the stats with the writer object and decoupling from the write code flow.    \n\n2. under the current stats implementation, we might want to extract other computation related stats which would require the stats object being passed into methods outside of `createChunks`.\n\n3. ignoring the topic of limiting stats object spread, making assumption on how a method should operate based on the current state of other method is dangerous; it\u0027s true that the chunks are immutable post `createChunks`, however `writeHeader` and `createChunks` are two different methods and should be able to operate independently from each other. There might be cases in the future that chunks being written not coming from the `createChunks` method caused by new features or human errors. It\u0027s in the stats user\u0027s best interest to record chunk sizes the closest to when they are actually being written. i.e. createChunks isn\u0027t writing, and writeChunks isn\u0027t computing, they should do their jobs separately.",
+      "parentUuid": "5cd7c8f2_c1621b37",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
