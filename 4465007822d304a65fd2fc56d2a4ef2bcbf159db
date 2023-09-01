@@ -159,6 +159,24 @@
       "parentUuid": "5cd7c8f2_c1621b37",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e393af_66ae7507",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-01T20:32:41Z",
+      "side": 1,
+      "message": "We should refactor as much as we need to make this code less fragile, ie knowing exactly what\u0027s written. Stats might be helpful to debug issues, but the logic implemented should be the first priority.",
+      "parentUuid": "927ddca4_852f483c",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
