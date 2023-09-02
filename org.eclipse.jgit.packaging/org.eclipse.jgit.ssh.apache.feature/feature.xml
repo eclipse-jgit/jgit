@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.ssh.apache"
       label="%featureName"
-      version="6.6.1.qualifier"
+      version="6.6.1.202309021850-r"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
