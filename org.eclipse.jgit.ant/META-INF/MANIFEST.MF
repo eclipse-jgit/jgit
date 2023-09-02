@@ -3,13 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ant
 Bundle-SymbolicName: org.eclipse.jgit.ant
-Bundle-Version: 6.6.1.202309021850-r
+Bundle-Version: 6.6.2.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.apache.tools.ant,
-  org.eclipse.jgit.storage.file;version="[6.6.1,6.7.0)"
+  org.eclipse.jgit.storage.file;version="[6.6.2,6.7.0)"
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
-Export-Package: org.eclipse.jgit.ant;version="6.6.1",
- org.eclipse.jgit.ant.tasks;version="6.6.1";
+Export-Package: org.eclipse.jgit.ant;version="6.6.2",
+ org.eclipse.jgit.ant.tasks;version="6.6.2";
   uses:="org.apache.tools.ant,
    org.apache.tools.ant.types"
