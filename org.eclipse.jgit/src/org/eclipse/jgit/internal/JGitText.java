@@ -46,6 +46,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String applyBinaryOidTooShort;
 	/***/ public String applyBinaryPatchTypeNotSupported;
 	/***/ public String applyBinaryResultOidWrong;
+	/***/ public String applyPatchDestInvalid;
+	/***/ public String applyPatchSourceInvalid;
 	/***/ public String applyPatchWithoutSourceOnAlreadyExistingSource;
 	/***/ public String applyPatchWithCreationOverAlreadyExistingDestination;
 	/***/ public String applyPatchWithSourceOnNonExistentSource;
