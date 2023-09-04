@@ -16,6 +16,24 @@
       "message": "Since when does JGit depend on OSGi? I must have missed that.",
       "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91a023fe_18986db0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-04T23:38:03Z",
+      "side": 1,
+      "message": "org.eclipse.jgit.archive depends on OSGi since 2013 for\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+blame/refs/heads/stable-6.7/org.eclipse.jgit.archive/src/org/eclipse/jgit/archive/FormatActivator.java",
+      "parentUuid": "c83a25d3_5ab1ed43",
+      "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
