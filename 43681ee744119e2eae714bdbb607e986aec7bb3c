@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83a25d3_5ab1ed43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-04T22:05:53Z",
+      "side": 1,
+      "message": "Since when does JGit depend on OSGi? I must have missed that.",
+      "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
