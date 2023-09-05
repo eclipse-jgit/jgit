@@ -52,6 +52,24 @@
       "parentUuid": "91a023fe_18986db0",
       "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2550df87_fd234965",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-05T23:42:50Z",
+      "side": 1,
+      "message": "But actually -- did anyone test this activator? I can\u0027t get this to work properly. (Wrote a little ArchiveOperation and command handler for EGit to test this.)\n\nThis bundle has lazy activation. So its activator is called only when a class is loaded from that bundle. Which means to get this activator to run, I have to do something like\n\n  TarFormat unused \u003d new TarFormat();\n  \nat least. Or worse, I might call ArchiveFormats.registerAll() directly and have things registered twice (once by my call, once by the activator). Just adding an import-package or require-bundle for org.eclipse.jgit.archive in the MANIFEST is not good enough.\n\nI think this _could_ work if it was a fragment for the main jgit bundle, and had the declarative immediate component as suggested above. Then it might work with just an import-package. That would force pulling in the fragment and then the immediate component would register the formats as soon as the first class from JGit is loaded. But otherwise?\n\nSo what\u0027s the point of having a bundle activator at all? Just let the user call ArchiveFormats.registerAll() directly and be done with.\n\nIn fact, in an OSGi environment, I think this activator is even detrimental. If I only want to register the ZipFormat, I\u0027d likely do\n\n  ArchiveCommand.registerFormat(\"zip\", new ZipFormat());\n\nbut new ZipFormat() would trigger the activator, which would automatically register _all_ formats.\n\nBTW, the API of ArchiveCommand.call() is strange, too. What\u0027s the point of returning a closed OutputStream?\n\nI do notice that the two users of ArchiveCommand I\u0027m aware of (JGit pgm and Gerrit) are both *not* OSGi environments, and register formats explicitly.",
+      "parentUuid": "71c11653_d95aa638",
+      "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
