@@ -122,6 +122,7 @@ public class CommitGraphWriter {
 		}
 
 		List<ChunkHeader> chunks = createChunks(stats);
+		long expectedSize = calculateExpectedSize(chunks);
 		long writeCount = 256 + 2 * graphCommits.size()
 				+ graphCommits.getExtraEdgeCnt();
 		monitor.beginTask(
@@ -135,6 +136,10 @@ public class CommitGraphWriter {
 			writeChunkLookup(out, chunks);
 			writeChunks(monitor, out, chunks);
 			writeCheckSum(out);
+			if (expectedSize != out.length()) {
+				throw new IllegalStateException(
+						String.format("Commit-graph: expected %d bytes but out has %d bytes", expectedSize, out.length())); //$NON-NLS-1$
+			}
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
 					e);
@@ -166,6 +171,12 @@ public class CommitGraphWriter {
 					bloomFilterChunks.data));
 		}
 		return chunks;
+	}
+
+	private static long calculateExpectedSize(List<ChunkHeader> chunks) {
+		int chunkLookup = (chunks.size() + 1) * CHUNK_LOOKUP_WIDTH;
+		long chunkContent = chunks.stream().mapToLong(c -> c.size).sum();
+		return /* header */ 8 + chunkLookup + chunkContent + /* CRC */ 20;
 	}
 
 	private void writeHeader(CancellableDigestOutputStream out, int numChunks)
