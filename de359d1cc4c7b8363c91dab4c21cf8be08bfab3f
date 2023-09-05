@@ -377,6 +377,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78534393_2105f58c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-05T20:05:34Z",
+      "side": 1,
+      "message": "I am not sure, which code expects that the packlist contains all packfiles including locked ones ?\n\n- PackList is only used in PackDirectory and I couldn\u0027t find any usages which should consider locked packfiles.\n- it seems PackLock is only used in PackParser and classes used in fetch/receive-pack and when explicitly indexing a packfile\n\nI think this makes sense since packs locked by a .keep file should be treated as non-existing for any access to (committed) git objects. Only the code owning the PackLock should have read/write access to the objects in a locked pack until the PackLock is destroyed when the transaction it implements finishes.",
+      "parentUuid": "526a46ff_93a4d09a",
+      "revId": "de359d1cc4c7b8363c91dab4c21cf8be08bfab3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2038be6d_971ff328",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
         "patchSetId": 9
