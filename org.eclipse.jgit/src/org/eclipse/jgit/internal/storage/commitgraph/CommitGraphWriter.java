@@ -33,6 +33,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -171,7 +172,7 @@ public class CommitGraphWriter {
 			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
 					bloomFilterChunks.data));
 		}
-		return chunks;
+		return Collections.unmodifiableList(chunks);
 	}
 
 	private static long calculateExpectedSize(List<ChunkHeader> chunks) {
