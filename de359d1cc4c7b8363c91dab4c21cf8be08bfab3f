@@ -359,6 +359,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "526a46ff_93a4d09a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-09-05T15:51:18Z",
+      "side": 1,
+      "message": "The thing is that the packlist needs to contain all packfiles, including the ones locked with the `.keep` file. However, they should not considered for the repacking business because of two reasons:\n\n1. They cannot be pruned, therefore their content should not referenced by any bitmaps and not included in the repacked packfile\n\n2. They may contain existing Git objects already included in other packfiles, so it cannot be simply excluded at object-level, otherwise it would cause the creation of an invalid bitmap (see the parent change that shows the bug).\n\nI agree that wrapping is always a maintenance pain, which alternative approach would you suggest?",
+      "parentUuid": "cd3bfd09_dafe7aff",
+      "revId": "de359d1cc4c7b8363c91dab4c21cf8be08bfab3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2038be6d_971ff328",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
         "patchSetId": 9
