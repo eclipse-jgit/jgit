@@ -34,6 +34,24 @@
       "parentUuid": "c83a25d3_5ab1ed43",
       "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71c11653_d95aa638",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-05T19:47:06Z",
+      "side": 1,
+      "message": "Oh. I _did_ miss that. I think this can be done without any runtime dependencies on OSGi.\n\nJust use declarative component specification via XML in OSGI-INF. An immediate component[1] with zero-argument activate/deactivate methods [2][3] should do the trick.\n\nThen we don\u0027t need BundleActivator or BundleContext in code, and the MANIFEST.MF doesn\u0027t need a Bundle-Activator.\n\nI may give this a try.\n\n[1] https://docs.osgi.org/specification/osgi.cmpn/7.0.0/service.component.html#d0e36881\n[2] https://docs.osgi.org/specification/osgi.cmpn/7.0.0/service.component.html#service.component-activation\n[3] https://docs.osgi.org/specification/osgi.cmpn/7.0.0/service.component.html#service.component-deactivation",
+      "parentUuid": "91a023fe_18986db0",
+      "revId": "43681ee744119e2eae714bdbb607e986aec7bb3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
