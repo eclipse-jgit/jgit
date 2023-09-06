@@ -14,7 +14,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.eclipse.jgit</groupId>
-  <version>6.7.0.202309050840-r</version>
+  <version>6.7.1-SNAPSHOT</version>
   <artifactId>org.eclipse.jgit.benchmarks</artifactId>
   <packaging>jar</packaging>
 
