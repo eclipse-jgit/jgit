@@ -337,11 +337,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>4.0.0-M9</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh-external</artifactId>
+              <artifactId>wagon-ssh</artifactId>
               <version>3.5.3</version>
             </dependency>
           </dependencies>
@@ -468,7 +468,7 @@
           to check javadoc on tests. We can reconsider to configure this on javadoc
           when it starts supporting access specifiers so that we can set
           -Xdoclint:all,-missing/private -->
-          <additionalJOption>-Xdoclint:none</additionalJOption>-->
+          <additionalJOption>-Xdoclint:none</additionalJOption>
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
           <failOnWarnings>true</failOnWarnings>
@@ -610,7 +610,32 @@
           </reportSet>
         </reportSets>
         <configuration>
-          <failOnWarnings>true</failOnWarnings>
+          <failOnWarnings>false</failOnWarnings>
+          <additionalJOption>-Xdoclint:none</additionalJOption>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <quiet>true</quiet>
+          <failOnWarnings>false</failOnWarnings>
+          <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
+          <links>
+            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+          </links>
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>a</placement>
+              <head>API Note:</head>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>a</placement>
+              <head>Implementation Requirements:</head>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>a</placement>
+              <head>Implementation Note:</head>
+            </tag>
+          </tags>
         </configuration>
       </plugin>
       <plugin>
