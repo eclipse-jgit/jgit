@@ -341,7 +341,7 @@
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh</artifactId>
+              <artifactId>wagon-ssh-external</artifactId>
               <version>3.5.3</version>
             </dependency>
           </dependencies>
