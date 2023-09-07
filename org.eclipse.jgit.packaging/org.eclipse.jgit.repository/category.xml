@@ -39,9 +39,6 @@
    <bundle id="org.eclipse.jgit.ui" version="0.0.0">
       <category name="JGit-additional-bundles"/>
    </bundle>
-   <bundle id="assertj-core">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
    <bundle id="com.google.gson">
       <category name="JGit-dependency-bundles"/>
    </bundle>
@@ -226,6 +223,18 @@
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.tukaani.xz.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.osgi">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.osgi.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.osgi.service.cm">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.osgi.service.cm.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <category-def name="JGit" label="Java implementation of Git">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.28" sequenceNumber="1693398439">
+<target name="jgit-4.28" sequenceNumber="1693839266">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
@@ -25,6 +25,7 @@
       <unit id="org.objenesis" version="3.3.0"/>
       <unit id="org.objenesis.source" version="3.3.0"/>
       <unit id="org.osgi.service.cm" version="1.6.1.202109301733"/>
+      <unit id="org.osgi.service.cm.source" version="1.6.1.202109301733"/>
       <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.29.0"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
@@ -78,7 +79,7 @@
     	<dependency>
     		<groupId>org.mockito</groupId>
     		<artifactId>mockito-core</artifactId>
-    		<version>5.4.0</version>
+    		<version>5.5.0</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
@@ -186,13 +187,13 @@
     	<dependency>
     		<groupId>net.bytebuddy</groupId>
     		<artifactId>byte-buddy</artifactId>
-    		<version>1.14.5</version>
+    		<version>1.14.7</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>net.bytebuddy</groupId>
     		<artifactId>byte-buddy-agent</artifactId>
-    		<version>1.14.5</version>
+    		<version>1.14.7</version>
     		<type>jar</type>
     	</dependency>
     </dependencies>
