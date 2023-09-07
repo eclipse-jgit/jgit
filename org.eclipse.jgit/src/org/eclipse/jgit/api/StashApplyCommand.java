@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, 2021 GitHub Inc. and others
+ * Copyright (C) 2012, 2023 GitHub Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -23,6 +23,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.StashApplyFailureException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.dircache.Checkout;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
@@ -48,7 +49,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 
 /**
  * Command class to apply a stashed commit.
@@ -383,8 +383,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	private void resetUntracked(RevTree tree) throws CheckoutConflictException,
 			IOException {
 		Set<String> actuallyModifiedPaths = new HashSet<>();
-		WorkingTreeOptions options = repo.getConfig()
-				.get(WorkingTreeOptions.KEY);
+		Checkout checkout = new Checkout(repo).setRecursiveDeletion(true);
 		// TODO maybe NameConflictTreeWalk ?
 		try (TreeWalk walk = new TreeWalk(repo)) {
 			walk.addTree(tree);
@@ -408,17 +407,17 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 				FileTreeIterator fIter = walk
 						.getTree(1, FileTreeIterator.class);
+				String gitPath = entry.getPathString();
 				if (fIter != null) {
 					if (fIter.isModified(entry, true, reader)) {
 						// file exists and is dirty
-						throw new CheckoutConflictException(
-								entry.getPathString());
+						throw new CheckoutConflictException(gitPath);
 					}
 				}
 
-				checkoutPath(entry, reader, options,
+				checkoutPath(entry, gitPath, reader, checkout,
 						new CheckoutMetadata(eolStreamType, null));
-				actuallyModifiedPaths.add(entry.getPathString());
+				actuallyModifiedPaths.add(gitPath);
 			}
 		} finally {
 			if (!actuallyModifiedPaths.isEmpty()) {
@@ -428,11 +427,11 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 		}
 	}
 
-	private void checkoutPath(DirCacheEntry entry, ObjectReader reader,
-			WorkingTreeOptions options, CheckoutMetadata checkoutMetadata) {
+	private void checkoutPath(DirCacheEntry entry, String gitPath,
+			ObjectReader reader,
+			Checkout checkout, CheckoutMetadata checkoutMetadata) {
 		try {
-			DirCacheCheckout.checkoutEntry(repo, entry, reader, true,
-					checkoutMetadata, options);
+			checkout.checkout(entry, checkoutMetadata, reader, gitPath);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,

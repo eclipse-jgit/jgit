@@ -9,6 +9,13 @@
 
 For details on native git options see also the official [git config documentation](https://git-scm.com/docs/git-config).
 
+## __commitGraph__ options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `commitGraph.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph. |
+| `commitGraph.readChangedPaths` | `false` | &#x2705; | Whether to use the changed-path Bloom filters in the commit-graph file (if it exists, and they are present). |
+
 ## __core__ options
 
 |  option | default | git option | description |
@@ -18,6 +25,7 @@ For details on native git options see also the official [git config documentatio
 | `core.bare` | set automatically on init or clone | &#x2705; | If true this repository is assumed to be bare and has no working directory associated with it. If this is the case a number of commands that require a working directory will be disabled |
 | `core.bigFileThreshold` | `50 MiB` | &#x2705; | Files larger than this size are stored deflated, without attempting delta compression. Storing large files without delta compression avoids excessive memory usage, at the slight expense of increased disk usage. Additionally files larger than this size are always treated as binary. |
 | `core.checkstat` |  | &#x2705; | When missing or is set to `default`, many fields in the stat structure are checked to detect if a file has been modified since Git looked at it. Checks as much of the dircache stat info as possible (in JGit limited by Java filesystem API). When set to `minimum` only checks the size and whole second part of time stamp when comparing the stat info in the dircache with actual file stat info. |
+| `core.commitGraph`| `false` | &#x2705; | Whether to read the commit-graph file (if it exists) to parse the graph structure of commits. |
 | `core.compression` | `-1` (zlib default) | &#x2705; | An integer `-1..9`, indicating a default compression level. `-1` is the zlib default. `0` means no compression, and `1..9` are various speed/size tradeoffs, `9` being slowest.|
 | `core.deltaBaseCacheLimit` | `10 MiB` | &#x2705; | Maximum number of bytes to reserve for caching base objects that multiple deltafied objects reference. By storing the entire decompressed base object in a cache Git is able to avoid unpacking and decompressing frequently used base objects multiple times. |
 | `core.dfs.blockLimit` | `30 MiB` | &#x20DE; | Maximum number bytes of heap memory to dedicate to caching pack file data in DFS block cache. |
