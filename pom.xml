@@ -18,7 +18,7 @@
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>org.eclipse.jgit-parent</artifactId>
   <packaging>pom</packaging>
-  <version>6.7.0-SNAPSHOT</version>
+  <version>6.7.1-SNAPSHOT</version>
 
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
@@ -150,7 +150,7 @@
     <java.version>11</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>6.5.0.202303070854-r</jgit-last-release-version>
+    <jgit-last-release-version>6.6.0.202305301015-r</jgit-last-release-version>
     <ant-version>1.10.12</ant-version>
     <apache-sshd-version>2.10.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
@@ -337,7 +337,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>4.0.0-M9</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
@@ -468,7 +468,7 @@
           to check javadoc on tests. We can reconsider to configure this on javadoc
           when it starts supporting access specifiers so that we can set
           -Xdoclint:all,-missing/private -->
-          <additionalJOption>-Xdoclint:none</additionalJOption>-->
+          <additionalJOption>-Xdoclint:none</additionalJOption>
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
           <failOnWarnings>true</failOnWarnings>
@@ -610,7 +610,32 @@
           </reportSet>
         </reportSets>
         <configuration>
-          <failOnWarnings>true</failOnWarnings>
+          <failOnWarnings>false</failOnWarnings>
+          <additionalJOption>-Xdoclint:none</additionalJOption>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <quiet>true</quiet>
+          <failOnWarnings>false</failOnWarnings>
+          <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
+          <links>
+            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+          </links>
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>a</placement>
+              <head>API Note:</head>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>a</placement>
+              <head>Implementation Requirements:</head>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>a</placement>
+              <head>Implementation Note:</head>
+            </tag>
+          </tags>
         </configuration>
       </plugin>
       <plugin>

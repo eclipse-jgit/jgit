@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.attributes.FilterCommand;
@@ -891,6 +892,31 @@ public class PatchApplierTest {
 				FilterCommandRegistry.unregister("jgit://builtin/a2e/clean");
 				FilterCommandRegistry.unregister("jgit://builtin/a2e/smudge");
 			}
+		}
+
+		private void dotGitTest(String fileName) throws Exception {
+			init(fileName, false, false);
+			Result result = null;
+			IOException ex = null;
+			try {
+				result = applyPatch();
+			} catch (IOException e) {
+				ex = e;
+			}
+			assertTrue(ex != null
+					|| (result != null && !result.getErrors().isEmpty()));
+			File b = new File(new File(trash, ".git"), "b");
+			assertFalse(".git/b should not exist", b.exists());
+		}
+
+		@Test
+		public void testDotGit() throws Exception {
+			dotGitTest("dotgit");
+		}
+
+		@Test
+		public void testDotGit2() throws Exception {
+			dotGitTest("dotgit2");
 		}
 	}
 }
