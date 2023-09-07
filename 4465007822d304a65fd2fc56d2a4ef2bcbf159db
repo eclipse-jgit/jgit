@@ -177,6 +177,24 @@
       "parentUuid": "927ddca4_852f483c",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d3c86b8_b5bd92ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-07T01:24:41Z",
+      "side": 1,
+      "message": "I think the decision here really comes down to where to collect the chunk metrics. if the consensus here is that createChunks will be the only place for chunk creation and they stay immutable, I don\u0027t mind moving it to createChunks.",
+      "parentUuid": "e5e393af_66ae7507",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
