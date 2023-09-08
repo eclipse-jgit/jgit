@@ -31,6 +31,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS;
@@ -113,6 +114,8 @@ public class LockFile {
 
 	private LockToken token;
 
+	private ShutdownHook.Listener shutdownListener = this::unlock;
+
 	/**
 	 * Create a new lock for any file.
 	 *
@@ -147,6 +150,7 @@ public class LockFile {
 		}
 		boolean obtainedLock = token.isCreated();
 		if (obtainedLock) {
+			ShutdownHook.INSTANCE.register(shutdownListener);
 			haveLck = true;
 			isAppend = false;
 			written = false;
@@ -471,6 +475,7 @@ public class LockFile {
 	 *             the lock is not held.
 	 */
 	public boolean commit() {
+		ShutdownHook.INSTANCE.unregister(shutdownListener);
 		if (os != null) {
 			unlock();
 			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
@@ -551,6 +556,7 @@ public class LockFile {
 	 * The temporary file (if created) is deleted before returning.
 	 */
 	public void unlock() {
+		ShutdownHook.INSTANCE.unregister(shutdownListener);
 		if (os != null) {
 			try {
 				os.close();
