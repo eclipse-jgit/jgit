@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32fcfbbf_1c7dc67b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-08T21:28:37Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "dd51728a_13c25157",
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b492f554_92b2d231",
@@ -41,6 +59,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3de07fb_a8a3fbe4",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-08T21:28:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b492f554_92b2d231",
+      "range": {
+        "startLine": 149,
+        "startChar": 26,
+        "endLine": 149,
+        "endChar": 28
+      },
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5879799a_0fdd37ca",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-09-08T07:38:19Z",
       "side": 1,
       "message": "this::cleanup ?",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 46
+      },
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbf7590b_98f8dda0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-08T21:28:37Z",
+      "side": 1,
+      "message": "Done, and renamed the method",
+      "parentUuid": "5879799a_0fdd37ca",
       "range": {
         "startLine": 154,
         "startChar": 31,
@@ -95,6 +161,24 @@
       "side": 1,
       "message": "It would be cleaner to add a private method that \"knows\" about the shutdown hook:\n\n```\n\tpublic void unlock() {\n\t  unlock(true);\n\t}\n\t\n\tprivate void unlock(boolean removeShutdownHook) {\n\t\tif (removeShutdownHook) {\n\t\t        removeShutdownHook();\n\t\t}\n\t\tif (os !\u003d null) {\n\t\t\ttry {\n\t\t\t\tos.close();\n\t\t\t} catch (IOException e) {\n\t\t\t\tLOG.error(MessageFormat\n...\n...\n\tprivate void cleanup() {\n\t\tLOG.warn(JGitText.get().cleanupLockFile, toString());\n\t\tunlock(false);\n\n```",
       "parentUuid": "69c2a1ed_6cfdee10",
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb7d0d0b_2cc13341",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-08T21:28:37Z",
+      "side": 1,
+      "message": "extracted handling of shutdown hook to a separate class ShutdownHook",
+      "parentUuid": "1e373e72_bb54d35c",
       "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
