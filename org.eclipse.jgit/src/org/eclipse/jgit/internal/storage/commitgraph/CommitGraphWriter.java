@@ -40,6 +40,7 @@ import java.util.Optional;
 import java.util.Stack;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -122,7 +123,10 @@ public class CommitGraphWriter {
 			return stats;
 		}
 
-		List<ChunkHeader> chunks = createChunks(stats);
+		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
+				? computeBloomFilterChunks(stats)
+				: null;
+		List<ChunkHeader> chunks = createChunks(bloomFilterChunks);
 		long expectedSize = calculateExpectedSize(chunks);
 		long writeCount = 256 + 2 * graphCommits.size()
 				+ graphCommits.getExtraEdgeCnt();
@@ -151,7 +155,7 @@ public class CommitGraphWriter {
 		return stats;
 	}
 
-	private List<ChunkHeader> createChunks(Stats stats)
+	private List<ChunkHeader> createChunks(@Nullable BloomFilterChunks bloomFilterChunks)
 			throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		List<ChunkHeader> chunks = new ArrayList<>();
@@ -164,9 +168,7 @@ public class CommitGraphWriter {
 			chunks.add(new ChunkHeader(CHUNK_ID_EXTRA_EDGE_LIST,
 					graphCommits.getExtraEdgeCnt() * 4));
 		}
-		if (generateChangedPathFilters) {
-			BloomFilterChunks bloomFilterChunks = computeBloomFilterChunks(
-					stats);
+		if (bloomFilterChunks != null) {
 			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
 					bloomFilterChunks.index));
 			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
