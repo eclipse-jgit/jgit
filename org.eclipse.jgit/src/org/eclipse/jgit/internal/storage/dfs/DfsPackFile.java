@@ -1272,6 +1272,7 @@ public final class DfsPackFile extends BlockBasedFile {
 				ctx.stats.readBitmapIdxMicros += elapsedMicros(start);
 			}
 			bitmapIndex = bmidx;
+			ctx.emitIndexLoad(desc, BITMAP_INDEX, bitmapIndex);
 			return new DfsBlockCache.Ref<>(
 					bitmapKey, REF_POSITION, size, bmidx);
 		} catch (EOFException e) {
@@ -1300,6 +1301,7 @@ public final class DfsPackFile extends BlockBasedFile {
 				ctx.stats.readCommitGraphMicros += elapsedMicros(start);
 			}
 			commitGraph = cg;
+			ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
 			return new DfsBlockCache.Ref<>(cgkey, REF_POSITION, size, cg);
 		} catch (IOException e) {
 			throw new IOException(
