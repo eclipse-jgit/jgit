@@ -175,6 +175,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String checkoutConflictWithFiles;
 	/***/ public String checkoutUnexpectedResult;
 	/***/ public String classCastNotA;
+	/***/ public String cleanupLockFile;
 	/***/ public String cloneNonEmptyDirectory;
 	/***/ public String closeLockTokenFailed;
 	/***/ public String closed;

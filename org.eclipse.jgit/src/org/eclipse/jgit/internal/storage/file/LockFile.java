@@ -113,6 +113,8 @@ public class LockFile {
 
 	private LockToken token;
 
+	private Thread cleanupHook;
+
 	/**
 	 * Create a new lock for any file.
 	 *
@@ -147,6 +149,12 @@ public class LockFile {
 		}
 		boolean obtainedLock = token.isCreated();
 		if (obtainedLock) {
+			try {
+				Runtime.getRuntime().addShutdownHook(
+						cleanupHook = new Thread(() -> cleanup()));
+			} catch (IllegalStateException e) {
+				// ignore - the VM is already shutting down
+			}
 			haveLck = true;
 			isAppend = false;
 			written = false;
@@ -471,6 +479,7 @@ public class LockFile {
 	 *             the lock is not held.
 	 */
 	public boolean commit() {
+		removeShutdownHook();
 		if (os != null) {
 			unlock();
 			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
@@ -551,6 +560,7 @@ public class LockFile {
 	 * The temporary file (if created) is deleted before returning.
 	 */
 	public void unlock() {
+		removeShutdownHook();
 		if (os != null) {
 			try {
 				os.close();
@@ -574,6 +584,21 @@ public class LockFile {
 		}
 		isAppend = false;
 		written = false;
+	}
+
+	private void cleanup() {
+		LOG.warn(JGitText.get().cleanupLockFile, toString());
+		unlock();
+	}
+
+	private void removeShutdownHook() {
+		if (cleanupHook != null) {
+			try {
+				Runtime.getRuntime().removeShutdownHook(cleanupHook);
+			} catch (IllegalStateException e) {
+				// ignore - the VM is already shutting down
+			}
+		}
 	}
 
 	@SuppressWarnings("nls")
