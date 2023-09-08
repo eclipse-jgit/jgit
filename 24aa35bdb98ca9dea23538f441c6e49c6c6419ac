@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02c7e2b3_4dd0b4e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-08T18:00:33Z",
+      "side": 1,
+      "message": "index",
+      "range": {
+        "startLine": 186,
+        "startChar": 34,
+        "endLine": 186,
+        "endChar": 37
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5bdc5f_15de0d46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-08T18:00:33Z",
+      "side": 1,
+      "message": "bitmapIndex",
+      "range": {
+        "startLine": 233,
+        "startChar": 40,
+        "endLine": 233,
+        "endChar": 45
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ee186d2_2fc73e4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-08T18:00:33Z",
+      "side": 1,
+      "message": "commitGraph",
+      "range": {
+        "startLine": 272,
+        "startChar": 40,
+        "endLine": 272,
+        "endChar": 42
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8213e829_dc23ae77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-08T18:00:33Z",
+      "side": 1,
+      "message": "reverseIndex",
+      "range": {
+        "startLine": 307,
+        "startChar": 41,
+        "endLine": 307,
+        "endChar": 47
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b27fd86_13b231e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-08T18:00:33Z",
+      "side": 1,
+      "message": "optionally, move this to just before the return on line 345 to be consistent with other indices.",
+      "range": {
+        "startLine": 338,
+        "startChar": 4,
+        "endLine": 338,
+        "endChar": 5
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
