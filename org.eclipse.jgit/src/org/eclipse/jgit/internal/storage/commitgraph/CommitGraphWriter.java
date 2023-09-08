@@ -118,13 +118,12 @@ public class CommitGraphWriter {
 	 */
 	public Stats write(@NonNull ProgressMonitor monitor,
 			@NonNull OutputStream commitGraphStream) throws IOException {
-		Stats stats = new Stats();
 		if (graphCommits.size() == 0) {
-			return stats;
+			return Stats.EMPTY;
 		}
 
 		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
-				? computeBloomFilterChunks(stats)
+				? computeBloomFilterChunks()
 				: null;
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.addAll(createCoreChunks(hashsz, graphCommits));
@@ -156,7 +155,7 @@ public class CommitGraphWriter {
 		} finally {
 			monitor.endTask();
 		}
-		return stats;
+		return Stats.from(bloomFilterChunks);
 	}
 
 	private static List<ChunkHeader> createCoreChunks(int hashsz, GraphCommits graphCommits)
@@ -415,12 +414,14 @@ public class CommitGraphWriter {
 		return Optional.of(paths);
 	}
 
-	private BloomFilterChunks computeBloomFilterChunks(Stats stats)
+	private BloomFilterChunks computeBloomFilterChunks()
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 
 		ByteArrayOutputStream index = new ByteArrayOutputStream();
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
+		long filtersReused = 0;
+		long filtersComputed =0;
 
 		// Allocate scratch buffer for converting integers into
 		// big-endian bytes.
@@ -438,9 +439,9 @@ public class CommitGraphWriter {
 			for (RevCommit cmit : graphCommits) {
 				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
 				if (cpf != null) {
-					stats.changedPathFiltersReused++;
+					filtersReused++;
 				} else {
-					stats.changedPathFiltersComputed++;
+					filtersComputed++;
 					Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
 							graphCommits.getObjectReader(), cmit);
 					if (paths.isEmpty()) {
@@ -453,7 +454,7 @@ public class CommitGraphWriter {
 				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
 				index.write(scratch);
 			}
-			return new BloomFilterChunks(index, data);
+			return new BloomFilterChunks(index, data, filtersReused, filtersComputed);
 		}
 	}
 
@@ -503,10 +504,18 @@ public class CommitGraphWriter {
 
 		final ByteArrayOutputStream data;
 
+		final long filtersReused;
+
+		final long filtersComputed;
+
 		BloomFilterChunks(ByteArrayOutputStream index,
-				ByteArrayOutputStream data) {
+				ByteArrayOutputStream data,
+				long filtersReused,
+				long filtersComputed) {
 			this.index = index;
 			this.data = data;
+			this.filtersReused = filtersReused;
+			this.filtersComputed = filtersComputed;
 		}
 	}
 
@@ -514,6 +523,19 @@ public class CommitGraphWriter {
 	 * Statistics collected during a single commit graph write.
 	 */
 	public static class Stats {
+
+		static final Stats EMPTY = new Stats();
+
+		static final Stats from(@Nullable BloomFilterChunks bloomFilterChunks) {
+			Stats stats = new Stats();
+			if (bloomFilterChunks != null) {
+				stats.changedPathFiltersComputed = bloomFilterChunks.filtersComputed;
+				stats.changedPathFiltersReused = bloomFilterChunks.filtersReused;
+			}
+			return stats;
+		}
+
+		private Stats() {};
 
 		private long changedPathFiltersReused = 0;
 
