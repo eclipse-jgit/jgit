@@ -182,7 +182,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			PackIndex idx = idxref.get();
 			if (index == null && idx != null) {
 				index = idx;
-				ctx.emitIndexLoad(desc, INDEX, System.identityHashCode(idx));
+				ctx.emitIndexLoad(desc, INDEX, idx);
 			}
 			return index;
 		} catch (IOException e) {
@@ -229,7 +229,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		PackBitmapIndex bmidx = idxref.get();
 		if (bitmapIndex == null && bmidx != null) {
 			bitmapIndex = bmidx;
-			ctx.emitIndexLoad(desc, BITMAP_INDEX, System.identityHashCode(bmidx));
+			ctx.emitIndexLoad(desc, BITMAP_INDEX, bmidx);
 		}
 		return bitmapIndex;
 	}
@@ -268,7 +268,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		CommitGraph cg = cgref.get();
 		if (commitGraph == null && cg != null) {
 			commitGraph = cg;
-			ctx.emitIndexLoad(desc, COMMIT_GRAPH, System.identityHashCode(cg));
+			ctx.emitIndexLoad(desc, COMMIT_GRAPH, cg);
 		}
 		return commitGraph;
 	}
@@ -303,7 +303,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		PackReverseIndex revidx = revref.get();
 		if (reverseIndex == null && revidx != null) {
 			reverseIndex = revidx;
-			ctx.emitIndexLoad(desc, REVERSE_INDEX, System.identityHashCode(revidx));
+			ctx.emitIndexLoad(desc, REVERSE_INDEX, revidx);
 		}
 		return reverseIndex;
 	}
@@ -334,7 +334,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			PackObjectSizeIndex sizeIdx = sizeIdxRef.get();
 			if (objectSizeIndex == null && sizeIdx != null) {
 				objectSizeIndex = sizeIdx;
-				ctx.emitIndexLoad(desc, OBJECT_SIZE_INDEX, System.identityHashCode(sizeIdx));
+				ctx.emitIndexLoad(desc, OBJECT_SIZE_INDEX, sizeIdx);
 			}
 		} finally {
 			objectSizeIndexLoadAttempted = true;
@@ -1183,7 +1183,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
 				PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
 				ctx.stats.readIdxBytes += rc.position();
-				ctx.emitIndexLoad(desc, INDEX, System.identityHashCode(idx));
+				ctx.emitIndexLoad(desc, INDEX, idx);
 				index = idx;
 				return new DfsBlockCache.Ref<>(
 						idxKey,
@@ -1211,7 +1211,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		long start = System.nanoTime();
 		PackReverseIndex revidx = PackReverseIndexFactory.computeFromIndex(idx);
 		reverseIndex = revidx;
-		ctx.emitIndexLoad(desc, REVERSE_INDEX, System.identityHashCode(revidx));
+		ctx.emitIndexLoad(desc, REVERSE_INDEX, revidx);
 		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
 		return new DfsBlockCache.Ref<>(
 				revKey,
@@ -1232,7 +1232,7 @@ public final class DfsPackFile extends BlockBasedFile {
 				objectSizeIndex = PackObjectSizeIndexLoader
 						.load(Channels.newInputStream(rc));
 				size = rc.position();
-				ctx.emitIndexLoad(desc, OBJECT_SIZE_INDEX, System.identityHashCode(objectSizeIndex));
+				ctx.emitIndexLoad(desc, OBJECT_SIZE_INDEX, objectSizeIndex);
 			} catch (IOException e) {
 				parsingError = e;
 			}
