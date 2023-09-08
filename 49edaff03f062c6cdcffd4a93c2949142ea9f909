@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c1f8f2_dfd892f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "Looks much nicer. Some suggestions and questions inline.",
+      "revId": "49edaff03f062c6cdcffd4a93c2949142ea9f909",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

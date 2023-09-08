@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36c231c2_d419732a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "ShutdownHook?",
+      "range": {
+        "startLine": 25,
+        "startChar": 59,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca61f704_fe365421",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "This class could be an enum. Wouldn\u0027t need getInstance() then, could use ShutdownHook.INSTANCE directly. (The shutdown hook would then be new Thread(this::cleanup).)",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ecd4e7c_41a8b608",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "Needs to be volatile. (Set in shutdown thread, but may be read through public method.)",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd59de3_c642b05b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "private, and keep fields together above the constructor.",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51194867_0fe8aca2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "Which threads does parallelStream() use? We had problems with innocuous thread from a ForkJoinPool used in FS.FileStoreAttributes...\n\nWhat happens in forEach() if a listener throws a RuntimeException? Presumably the (parallel) iteration then just stops. Is that what\u0027s wanted here, or do we want to just log and continue trying to remove the remeining locks?",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d9aa2e2_cf17cb79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T21:50:46Z",
+      "side": 1,
+      "message": "Do you really want to allow registering additional listeners when shutdown is already in progress? (Maybe that makes sense -- I don\u0027t know. It\u0027s a genuine question.) If so, there is a slight asymmetry between registering and unregistering.",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
