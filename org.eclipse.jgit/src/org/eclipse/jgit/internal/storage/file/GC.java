@@ -1799,6 +1799,8 @@ public class GC {
 
 		private FileChannel channel;
 
+		private Thread cleanupHook;
+
 		PidLock() {
 			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
 		}
@@ -1827,9 +1829,9 @@ public class GC {
 				}
 				channel.write(ByteBuffer
 						.wrap(getProcDesc().getBytes(StandardCharsets.UTF_8)));
-				Thread cleanupHook = new Thread(() -> close());
 				try {
-					Runtime.getRuntime().addShutdownHook(cleanupHook);
+					Runtime.getRuntime().addShutdownHook(
+							cleanupHook = new Thread(() -> close()));
 				} catch (IllegalStateException e) {
 					// ignore - the VM is already shutting down
 				}
@@ -1901,6 +1903,13 @@ public class GC {
 		public void close() {
 			boolean wasLocked = false;
 			try {
+				if (cleanupHook != null) {
+					try {
+						Runtime.getRuntime().removeShutdownHook(cleanupHook);
+					} catch (IllegalStateException e) {
+						// ignore - the VM is already shutting down
+					}
+				}
 				if (lock != null && lock.isValid()) {
 					lock.release();
 					wasLocked = true;
