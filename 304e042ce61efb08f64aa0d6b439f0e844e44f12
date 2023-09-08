@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b492f554_92b2d231",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2023-09-08T08:53:42Z",
+      "side": 1,
+      "message": "nit: FWICT most other format strings in this file seem to have an explicit positional argument:\n\n```Unlocking {0} since JVM was killed```",
+      "range": {
+        "startLine": 149,
+        "startChar": 26,
+        "endLine": 149,
+        "endChar": 28
+      },
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5879799a_0fdd37ca",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
         "patchSetId": 1
@@ -54,6 +77,24 @@
       "writtenOn": "2023-09-08T07:38:19Z",
       "side": 1,
       "message": "This _is_ the shutdownHook. So `unlock()` calls `removeShutdownHook()` and will always get an exception there I suppose. We could avoid this by setting cleanupHook \u003d null before calling `unlock()` here.",
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e373e72_bb54d35c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2023-09-08T08:53:42Z",
+      "side": 1,
+      "message": "It would be cleaner to add a private method that \"knows\" about the shutdown hook:\n\n```\n\tpublic void unlock() {\n\t  unlock(true);\n\t}\n\t\n\tprivate void unlock(boolean removeShutdownHook) {\n\t\tif (removeShutdownHook) {\n\t\t        removeShutdownHook();\n\t\t}\n\t\tif (os !\u003d null) {\n\t\t\ttry {\n\t\t\t\tos.close();\n\t\t\t} catch (IOException e) {\n\t\t\t\tLOG.error(MessageFormat\n...\n...\n\tprivate void cleanup() {\n\t\tLOG.warn(JGitText.get().cleanupLockFile, toString());\n\t\tunlock(false);\n\n```",
+      "parentUuid": "69c2a1ed_6cfdee10",
       "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
