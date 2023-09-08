@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,10 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -114,7 +115,7 @@ public abstract class LocalDiskRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		tmp = File.createTempFile("jgit_" + getTestName() + '_', "_tmp");
-		CleanupThread.deleteOnShutdown(tmp);
+		Cleanup.deleteOnShutdown(tmp);
 		if (!tmp.delete() || !tmp.mkdir()) {
 			throw new IOException("Cannot create " + tmp);
 		}
@@ -222,7 +223,7 @@ public abstract class LocalDiskRepositoryTestCase {
 			recursiveDelete(tmp, false, true);
 		}
 		if (tmp != null && !tmp.exists()) {
-			CleanupThread.removed(tmp);
+			Cleanup.removed(tmp);
 		}
 		SystemReader.setInstance(null);
 	}
@@ -623,29 +624,28 @@ public abstract class LocalDiskRepositoryTestCase {
 		return new HashMap<>(System.getenv());
 	}
 
-	private static final class CleanupThread extends Thread {
-		private static final CleanupThread me;
+	private static final class Cleanup {
+		private static final Cleanup INSTANCE = new Cleanup();
+
 		static {
-			me = new CleanupThread();
-			Runtime.getRuntime().addShutdownHook(me);
+			ShutdownHook.INSTANCE.register(() -> INSTANCE.onShutdown());
+		}
+
+		private final Set<File> toDelete = ConcurrentHashMap.newKeySet();
+
+		private Cleanup() {
+			// empty
 		}
 
 		static void deleteOnShutdown(File tmp) {
-			synchronized (me) {
-				me.toDelete.add(tmp);
-			}
+			INSTANCE.toDelete.add(tmp);
 		}
 
 		static void removed(File tmp) {
-			synchronized (me) {
-				me.toDelete.remove(tmp);
-			}
+			INSTANCE.toDelete.remove(tmp);
 		}
 
-		private final List<File> toDelete = new ArrayList<>();
-
-		@Override
-		public void run() {
+		private void onShutdown() {
 			// On windows accidentally open files or memory
 			// mapped regions may prevent files from being deleted.
 			// Suggesting a GC increases the likelihood that our
