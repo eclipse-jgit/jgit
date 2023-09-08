@@ -75,6 +75,7 @@ import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.commitgraph.GraphCommits;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
@@ -1799,7 +1800,7 @@ public class GC {
 
 		private FileChannel channel;
 
-		private Thread cleanupHook;
+		private ShutdownHook.Listener shutdownListener = this::close;
 
 		PidLock() {
 			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
@@ -1829,12 +1830,7 @@ public class GC {
 				}
 				channel.write(ByteBuffer
 						.wrap(getProcDesc().getBytes(StandardCharsets.UTF_8)));
-				try {
-					Runtime.getRuntime().addShutdownHook(
-							cleanupHook = new Thread(() -> close()));
-				} catch (IllegalStateException e) {
-					// ignore - the VM is already shutting down
-				}
+				ShutdownHook.INSTANCE.register(shutdownListener);
 			} catch (IOException | OverlappingFileLockException e) {
 				try {
 					failedToLock();
@@ -1903,13 +1899,7 @@ public class GC {
 		public void close() {
 			boolean wasLocked = false;
 			try {
-				if (cleanupHook != null) {
-					try {
-						Runtime.getRuntime().removeShutdownHook(cleanupHook);
-					} catch (IllegalStateException e) {
-						// ignore - the VM is already shutting down
-					}
-				}
+				ShutdownHook.INSTANCE.unregister(shutdownListener);
 				if (lock != null && lock.isValid()) {
 					lock.release();
 					wasLocked = true;
