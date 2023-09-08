@@ -150,7 +150,7 @@ public class LockFile {
 		}
 		boolean obtainedLock = token.isCreated();
 		if (obtainedLock) {
-			ShutdownHook.getInstance().register(shutdownListener);
+			ShutdownHook.INSTANCE.register(shutdownListener);
 			haveLck = true;
 			isAppend = false;
 			written = false;
@@ -475,7 +475,7 @@ public class LockFile {
 	 *             the lock is not held.
 	 */
 	public boolean commit() {
-		ShutdownHook.getInstance().unregister(shutdownListener);
+		ShutdownHook.INSTANCE.unregister(shutdownListener);
 		if (os != null) {
 			unlock();
 			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
@@ -556,7 +556,7 @@ public class LockFile {
 	 * The temporary file (if created) is deleted before returning.
 	 */
 	public void unlock() {
-		ShutdownHook.getInstance().unregister(shutdownListener);
+		ShutdownHook.INSTANCE.unregister(shutdownListener);
 		if (os != null) {
 			try {
 				os.close();
