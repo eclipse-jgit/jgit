@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd51728a_13c25157",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T07:38:19Z",
+      "side": 1,
+      "message": "This has the potential of adding lots of shutdown hooks. I\u0027m not sure this is a good idea. Perhaps have a single hook, and register/deregister the locks with that hook? The hook can then unlock all still registered locks.",
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5879799a_0fdd37ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T07:38:19Z",
+      "side": 1,
+      "message": "this::cleanup ?",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 46
+      },
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69c2a1ed_6cfdee10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-08T07:38:19Z",
+      "side": 1,
+      "message": "This _is_ the shutdownHook. So `unlock()` calls `removeShutdownHook()` and will always get an exception there I suppose. We could avoid this by setting cleanupHook \u003d null before calling `unlock()` here.",
+      "revId": "304e042ce61efb08f64aa0d6b439f0e844e44f12",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
