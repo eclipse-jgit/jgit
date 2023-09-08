@@ -34,8 +34,10 @@ import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -151,7 +153,7 @@ public class CommitGraphWriter {
 		} finally {
 			monitor.endTask();
 		}
-		return Stats.from(bloomFilterChunks);
+		return Stats.from(chunks, bloomFilterChunks);
 	}
 
 	private List<ChunkHeader> createChunks(@Nullable BloomFilterChunks bloomFilterChunks)
@@ -516,8 +518,12 @@ public class CommitGraphWriter {
 
 		static final Stats EMPTY = new Stats();
 
-		static final Stats from(@Nullable BloomFilterChunks bloomFilterChunks) {
+		static final Stats from(List<ChunkHeader> chunkHeaders, @Nullable BloomFilterChunks bloomFilterChunks) {
 			Stats stats = new Stats();
+			for (ChunkHeader ch: chunkHeaders) {
+				stats.chunksSize.put(ch.id, ch.size);
+			}
+
 			if (bloomFilterChunks != null) {
 				stats.changedPathFiltersComputed = bloomFilterChunks.filtersComputed;
 				stats.changedPathFiltersReused = bloomFilterChunks.filtersReused;
@@ -530,6 +536,8 @@ public class CommitGraphWriter {
 		private long changedPathFiltersReused = 0;
 
 		private long changedPathFiltersComputed = 0;
+
+		private Map<Integer, Long> chunksSize = new HashMap<>();
 
 		/**
 		 * Returns the number of existing changed path filters that were reused
@@ -549,6 +557,17 @@ public class CommitGraphWriter {
 		 */
 		public long getChangedPathFiltersComputed() {
 			return changedPathFiltersComputed;
+		}
+
+		/**
+		 * Returns the chunks written to the commit graph with their sizes.
+		 *
+		 * The chunk ids integers are defined in {@link CommitGraphConstants}.
+		 *
+		 * @return Map from chunk id to its size.
+		 */
+		public Map<Integer, Long> getChunkSizes() {
+			return chunksSize;
 		}
 	}
 }
