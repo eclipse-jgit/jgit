@@ -67,6 +67,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -301,18 +302,15 @@ public abstract class FS {
 
 		static {
 			// Shut down the SAVE_RUNNER on System.exit()
+			ShutdownHook.INSTANCE.register(() -> shutdownSafeRunner());
+		}
+
+		private static void shutdownSafeRunner() {
 			try {
-				Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-					try {
-						SAVE_RUNNER.shutdownNow();
-						SAVE_RUNNER.awaitTermination(100,
-								TimeUnit.MILLISECONDS);
-					} catch (Exception e) {
-						// Ignore; we're shutting down
-					}
-				}));
-			} catch (IllegalStateException e) {
-				// ignore - may fail if shutdown is already in progress
+				SAVE_RUNNER.shutdownNow();
+				SAVE_RUNNER.awaitTermination(100, TimeUnit.MILLISECONDS);
+			} catch (Exception e) {
+				// Ignore; we're shutting down
 			}
 		}
 
