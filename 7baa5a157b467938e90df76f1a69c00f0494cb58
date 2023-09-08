@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a5974ed_536e73ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-08T18:05:41Z",
+      "side": 1,
+      "message": "LGTM, should build successfully now.",
+      "revId": "7baa5a157b467938e90df76f1a69c00f0494cb58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
