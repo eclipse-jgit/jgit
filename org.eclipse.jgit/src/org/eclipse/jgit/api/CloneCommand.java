@@ -29,6 +29,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -99,6 +100,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private Instant shallowSince;
 
 	private List<String> shallowExcludes = new ArrayList<>();
+
+	private ShutdownHook.Listener shutdownListener = this::cleanup;
 
 	private enum FETCH_TYPE {
 		MULTIPLE_BRANCHES, ALL_BRANCHES, MIRROR
@@ -181,12 +184,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		@SuppressWarnings("resource") // Closed by caller
 		Repository repository = init();
 		FetchResult fetchResult = null;
-		Thread cleanupHook = new Thread(() -> cleanup());
-		try {
-			Runtime.getRuntime().addShutdownHook(cleanupHook);
-		} catch (IllegalStateException e) {
-			// ignore - the VM is already shutting down
-		}
+		ShutdownHook.getInstance().register(shutdownListener);
 		try {
 			fetchResult = fetch(repository, u);
 		} catch (IOException ioe) {
@@ -210,11 +208,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			cleanup();
 			throw e;
 		} finally {
-			try {
-				Runtime.getRuntime().removeShutdownHook(cleanupHook);
-			} catch (IllegalStateException e) {
-				// ignore - the VM is already shutting down
-			}
+			ShutdownHook.getInstance().unregister(shutdownListener);
 		}
 		try {
 			checkout(repository, fetchResult);
