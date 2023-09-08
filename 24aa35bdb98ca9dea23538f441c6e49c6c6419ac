@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e1f7fd9_905494c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-08T18:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c7e2b3_4dd0b4e4",
+      "range": {
+        "startLine": 186,
+        "startChar": 34,
+        "endLine": 186,
+        "endChar": 37
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c5bdc5f_15de0d46",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-08T18:00:33Z",
       "side": 1,
       "message": "bitmapIndex",
+      "range": {
+        "startLine": 233,
+        "startChar": 40,
+        "endLine": 233,
+        "endChar": 45
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09cade75_65cfbea2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-08T18:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c5bdc5f_15de0d46",
       "range": {
         "startLine": 233,
         "startChar": 40,
@@ -70,6 +118,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b97016b8_d7ca0160",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-08T18:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ee186d2_2fc73e4d",
+      "range": {
+        "startLine": 272,
+        "startChar": 40,
+        "endLine": 272,
+        "endChar": 42
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8213e829_dc23ae77",
@@ -93,6 +165,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "742a5f45_a609dded",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-08T18:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8213e829_dc23ae77",
+      "range": {
+        "startLine": 307,
+        "startChar": 41,
+        "endLine": 307,
+        "endChar": 47
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b27fd86_13b231e2",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-09-08T18:00:33Z",
       "side": 1,
       "message": "optionally, move this to just before the return on line 345 to be consistent with other indices.",
+      "range": {
+        "startLine": 338,
+        "startChar": 4,
+        "endLine": 338,
+        "endChar": 5
+      },
+      "revId": "24aa35bdb98ca9dea23538f441c6e49c6c6419ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70015a97_64e553b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-08T18:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b27fd86_13b231e2",
       "range": {
         "startLine": 338,
         "startChar": 4,
