@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5955563_70a6ee99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-09T23:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36c231c2_d419732a",
+      "range": {
+        "startLine": 25,
+        "startChar": 59,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca61f704_fe365421",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-08T21:50:46Z",
       "side": 1,
       "message": "This class could be an enum. Wouldn\u0027t need getInstance() then, could use ShutdownHook.INSTANCE directly. (The shutdown hook would then be new Thread(this::cleanup).)",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91b5df39_6e33e91d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-09T23:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca61f704_fe365421",
       "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -58,6 +100,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab4a000_33ee0665",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-09T23:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ecd4e7c_41a8b608",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bd59de3_c642b05b",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-09-08T21:50:46Z",
       "side": 1,
       "message": "private, and keep fields together above the constructor.",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c48111b_1a4ba798",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-09T23:04:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bd59de3_c642b05b",
       "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -92,6 +170,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edaa6dd_75aecf8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-09T23:04:33Z",
+      "side": 1,
+      "message": "Now use a separate thread pool and log errors of failing listeneres",
+      "parentUuid": "51194867_0fe8aca2",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d9aa2e2_cf17cb79",
@@ -105,6 +201,24 @@
       "writtenOn": "2023-09-08T21:50:46Z",
       "side": 1,
       "message": "Do you really want to allow registering additional listeners when shutdown is already in progress? (Maybe that makes sense -- I don\u0027t know. It\u0027s a genuine question.) If so, there is a slight asymmetry between registering and unregistering.",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e204a1e_a10fede8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-09T23:04:33Z",
+      "side": 1,
+      "message": "Don\u0027t know if there is a problem with allowing that. When the JVM shuts down this should not go on forever. If we decide to not allow this we should throw an IllegalStateException so that the caller understands it\u0027s game over.\n\nWhere is the asymmetry ?",
+      "parentUuid": "2d9aa2e2_cf17cb79",
       "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
