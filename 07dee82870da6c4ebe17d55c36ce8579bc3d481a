@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c721702_e3cd40eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-11T18:33:33Z",
+      "side": 1,
+      "message": "BTW: I used the code given at [1] and added two more cases using the pool defined in PS 8, and using Executor.newWorkStealingPool() to see which threads would execute tasks.\n\n[1] https://java2blog.com/java-8-parallel-stream/#Custom_Thread_pool_in_Parallel_Stream",
+      "parentUuid": "899d5e57_f37558b9",
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d43a34d9_3cadf705",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
         "patchSetId": 8
