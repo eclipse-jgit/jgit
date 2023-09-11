@@ -5,7 +5,7 @@ Automatic-Module-Name: org.eclipse.jgit.ssh.jsch
 Bundle-SymbolicName: org.eclipse.jgit.ssh.jsch;singleton:=true
 Fragment-Host: org.eclipse.jgit;bundle-version="[6.8.0,6.9.0)"
 Bundle-Vendor: %Bundle-Vendor
-Bundle-Localization: plugin
+Bundle-Localization: OSGI-INF/l10n/jsch
 Bundle-ActivationPolicy: lazy
 Bundle-Version: 6.8.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
