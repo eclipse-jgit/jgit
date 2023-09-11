@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -113,5 +114,46 @@ public class InMemoryRepositoryTest {
 			assertEquals(ref.getName(), "refs/tags/v0.2");
 			assertEquals(commit.getId(), ref.getObjectId());
 		}
+	}
+
+	@Test
+	public void alternates_hasObject() throws Exception {
+		InMemoryRepository base = new InMemoryRepository(
+				new DfsRepositoryDescription("base"));
+		RevCommit firstBaseCommit;
+		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
+				base)) {
+			firstBaseCommit = git.commit().message("first base commit")
+					.create();
+			git.update("refs/heads/main", firstBaseCommit);
+		}
+
+		InMemoryRepository other = new InMemoryRepository.Builder()
+				.setRepositoryDescription(new DfsRepositoryDescription())
+				.setAlternateObjectDatabase(base.getObjectDatabase()).build();
+		assertTrue(other.getObjectDatabase().has(firstBaseCommit));
+		DfsReader dfsReader = other.getObjectDatabase().newReader();
+		assertTrue(dfsReader.has(firstBaseCommit));
+	}
+
+	@Test
+	public void alternates_open() throws Exception {
+		InMemoryRepository base = new InMemoryRepository(
+				new DfsRepositoryDescription("base"));
+		RevCommit firstBaseCommit;
+		try (TestRepository<InMemoryRepository> git = new TestRepository<>(
+				base)) {
+			firstBaseCommit = git.commit().message("first base commit")
+					.create();
+			git.update("refs/heads/main", firstBaseCommit);
+		}
+
+		InMemoryRepository other = new InMemoryRepository.Builder()
+				.setRepositoryDescription(new DfsRepositoryDescription())
+				.setAlternateObjectDatabase(base.getObjectDatabase()).build();
+		ObjectLoader open = other.getObjectDatabase().open(firstBaseCommit);
+		assertEquals(185, open.getSize());
+		DfsReader dfsReader = other.getObjectDatabase().newReader();
+		assertEquals(185, dfsReader.open(firstBaseCommit).getSize());
 	}
 }
