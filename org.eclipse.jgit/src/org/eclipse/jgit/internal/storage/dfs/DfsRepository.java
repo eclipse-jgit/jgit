@@ -33,6 +33,8 @@ public abstract class DfsRepository extends Repository {
 
 	private final DfsRepositoryDescription description;
 
+	private final DfsObjDatabase alternativeObjectDb;
+
 	/**
 	 * Initialize a DFS repository.
 	 *
@@ -43,10 +45,15 @@ public abstract class DfsRepository extends Repository {
 		super(builder);
 		this.config = new DfsConfig();
 		this.description = builder.getRepositoryDescription();
+		this.alternativeObjectDb = builder.getAlternateObjectDb();
 	}
 
 	@Override
 	public abstract DfsObjDatabase getObjectDatabase();
+
+	DfsObjDatabase getAlternateObjectDatabase() {
+		return alternativeObjectDb;
+	}
 
 	/**
 	 * Get the description of this repository.

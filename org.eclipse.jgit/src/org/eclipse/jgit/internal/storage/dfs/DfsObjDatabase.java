@@ -243,6 +243,10 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	@Override
 	public DfsReader newReader() {
+		if (getRepository().getAlternateObjectDatabase() != null) {
+			return new DfsReaderComposite(this,
+					getRepository().getAlternateObjectDatabase());
+		}
 		return new DfsReader(this);
 	}
 

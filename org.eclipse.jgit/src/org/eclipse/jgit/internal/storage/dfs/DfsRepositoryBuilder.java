@@ -30,6 +30,8 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 
 	private DfsRepositoryDescription repoDesc;
 
+	private DfsObjDatabase alternateObjectDb;
+
 	/**
 	 * Get options used by readers accessing the repository.
 	 *
@@ -69,6 +71,15 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 	 */
 	public B setRepositoryDescription(DfsRepositoryDescription desc) {
 		repoDesc = desc;
+		return self();
+	}
+
+	public DfsObjDatabase getAlternateObjectDb() {
+		return alternateObjectDb;
+	}
+
+	public B setAlternateObjectDatabase(DfsObjDatabase objDb) {
+		alternateObjectDb = objDb;
 		return self();
 	}
 
