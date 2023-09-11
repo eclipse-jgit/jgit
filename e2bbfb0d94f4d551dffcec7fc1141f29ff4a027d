@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbb397f6_f9e1b036",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-11T16:41:21Z",
+      "side": 1,
+      "message": "nit: this sentence implies we are returning everything about the chunks including their sizes. \n\nrecommendation: \"Returns the individual Commit Graph chunk sizes.",
+      "revId": "e2bbfb0d94f4d551dffcec7fc1141f29ff4a027d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
