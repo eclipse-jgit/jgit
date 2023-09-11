@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e9d2038_be12f4f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1834,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-09-11T12:52:10Z",
+      "side": 1,
+      "message": "Is this related? I believe just keeping `cleanupHook` as instance variable should suffice.",
+      "range": {
+        "startLine": 1834,
+        "startChar": 7,
+        "endLine": 1834,
+        "endChar": 48
+      },
+      "revId": "390e05f5f276a593137e1f5f70851742f335c974",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
