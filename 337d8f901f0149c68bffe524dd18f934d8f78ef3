@@ -239,6 +239,24 @@
       "parentUuid": "6e204a1e_a10fede8",
       "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8396390c_499dbb1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-11T22:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6984f8c6_02abccd0",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00717c24_f4bff0ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-11T22:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c721702_e3cd40eb",
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d43a34d9_3cadf705",
@@ -53,6 +71,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bacf979f_536c988a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-11T22:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d43a34d9_3cadf705",
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd484db9_a80673c0",
@@ -66,6 +102,30 @@
       "writtenOn": "2023-09-11T18:30:43Z",
       "side": 1,
       "message": "Don\u0027t catch Throwable. If we get an OOM or any other Error, we should probably just let it propagate. Catch RuntimeException instead. (The listener cannot throw any checked exception per its declaration.)",
+      "range": {
+        "startLine": 92,
+        "startChar": 11,
+        "endLine": 92,
+        "endChar": 20
+      },
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc51aa16_01634512",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-11T22:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd484db9_a80673c0",
       "range": {
         "startLine": 92,
         "startChar": 11,
