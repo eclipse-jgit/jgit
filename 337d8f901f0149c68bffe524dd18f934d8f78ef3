@@ -221,6 +221,24 @@
       "parentUuid": "2d9aa2e2_cf17cb79",
       "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6984f8c6_02abccd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-11T18:30:43Z",
+      "side": 1,
+      "message": "In PS 4, where I made that comment, registering was possible, but unregister did nothing is shutdown was already in progress.\n\nBut I think now it makes not much sense to allow registration when the parallelStream() has started. In the best case it\u0027d be indeterminate whether the registered listener would be executed; in the worst case it might perhaps cause trouble with the stream.\n\nIt might be safer if both operations were not allowed once the shutdown has started.",
+      "parentUuid": "6e204a1e_a10fede8",
+      "revId": "337d8f901f0149c68bffe524dd18f934d8f78ef3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899d5e57_f37558b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-11T18:30:43Z",
+      "side": 1,
+      "message": "In my tests this may still run the parallelStream on the ForkJoinPool.commonPool. Some of the forEach() tasks will run in the pool defined here, but others will still use the common pool, which may be innocuous threads.\n\nUse Executors.newWorkStealingPool() instead. As far as I see that will use the defaultForkJoinWorkerThreadFactory, which never uses innocuous threads.",
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d43a34d9_3cadf705",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-11T18:30:43Z",
+      "side": 1,
+      "message": "Is it safe to shut down the runner here already? This may interrupt the parallel stream handling. I think this can be done safely only once doCleanup has indeed completed.\n\nSomething like\n\n  ExecutorService runner \u003d Executors.newWorkStealingPool();\n  try {\n    runner.submit(() -\u003e {\n      this.doCleanUp();\n      return null;\n    }).get(30L, TimeUnit.SECONDS);\n  } catch (RejectedExecutionException | InterruptedException | ExecutionException e) {\n    // Log e\n  }\n  runner.shutdownNow();",
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd484db9_a80673c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-11T18:30:43Z",
+      "side": 1,
+      "message": "Don\u0027t catch Throwable. If we get an OOM or any other Error, we should probably just let it propagate. Catch RuntimeException instead. (The listener cannot throw any checked exception per its declaration.)",
+      "range": {
+        "startLine": 92,
+        "startChar": 11,
+        "endLine": 92,
+        "endChar": 20
+      },
+      "revId": "07dee82870da6c4ebe17d55c36ce8579bc3d481a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
