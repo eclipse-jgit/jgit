@@ -22,6 +22,30 @@
       },
       "revId": "390e05f5f276a593137e1f5f70851742f335c974",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e4ff34_d8219772",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1834,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-11T13:35:20Z",
+      "side": 1,
+      "message": "This call registers a thread with the JVM to be instantiated and executed when the JVM is terminated. When this happens it will run this GC object\u0027s close method registered here. And this is done for each invocation of lock() for any GC object created during the lifetime of the process.\n\nI think if we don\u0027t unregister this hook below in line 1908 the JVM won\u0027t be aware that this object was closed by the application and doesn\u0027t need to be notified anymore. If GC is run repeatedly each invocation will create another GC object which will register another shutdown hook and the list of registered hooks is growing with each GC run.",
+      "parentUuid": "2e9d2038_be12f4f3",
+      "range": {
+        "startLine": 1834,
+        "startChar": 7,
+        "endLine": 1834,
+        "endChar": 48
+      },
+      "revId": "390e05f5f276a593137e1f5f70851742f335c974",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
