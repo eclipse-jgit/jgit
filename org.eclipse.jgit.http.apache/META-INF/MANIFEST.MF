@@ -5,7 +5,7 @@ Automatic-Module-Name: org.eclipse.jgit.http.apache
 Bundle-SymbolicName: org.eclipse.jgit.http.apache
 Bundle-Version: 6.8.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-Localization: plugin
+Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.http;version="[4.3.0,5.0.0)",

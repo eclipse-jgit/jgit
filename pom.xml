@@ -439,6 +439,20 @@
               <goal>run</goal>
             </goals>
           </execution>
+          <execution>
+            <id>copy-osgi</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <target>
+                <copy todir="${project.build.outputDirectory}" >
+                  <fileset dir="." includes="OSGI-INF/**"/>
+                </copy>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
 

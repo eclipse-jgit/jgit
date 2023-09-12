@@ -4,7 +4,7 @@ Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.junit.ssh
 Bundle-SymbolicName: org.eclipse.jgit.junit.ssh
 Bundle-Version: 6.8.0.qualifier
-Bundle-Localization: plugin
+Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
