@@ -244,7 +244,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 							JGitSshClient.PREFERRED_AUTHENTICATIONS,
 							defaultAuths);
 				}
-				if (home != null && home.getAbsoluteFile() != null) {
+				if (home != null) {
 					try {
 						jgitClient.setAttribute(JGitSshClient.HOME_DIRECTORY,
 								home.getAbsoluteFile().toPath());
