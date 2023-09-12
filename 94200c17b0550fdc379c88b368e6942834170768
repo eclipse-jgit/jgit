@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "032b6c16_2e99ef57",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-12T07:31:41Z",
+      "side": 1,
+      "message": "this text is passed to slf4j\u0027s Logger#warn which expects {} as parameter placeholder, positional index is expected by MessageFormat#format",
+      "parentUuid": "7a7fdeaf_f029bb84",
+      "range": {
+        "startLine": 711,
+        "startChar": 24,
+        "endLine": 711,
+        "endChar": 26
+      },
+      "revId": "94200c17b0550fdc379c88b368e6942834170768",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cdc6d0f_9cb7cec1",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-12T06:53:07Z",
       "side": 1,
       "message": "LockFile.unlock() calls this, and it\u0027s registered as listener.\n\nIf this throws call sites have to code around it and must make sure that a listener does NOT invoke this.",
+      "revId": "94200c17b0550fdc379c88b368e6942834170768",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a80a9a99_842ddf2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-12T07:31:41Z",
+      "side": 1,
+      "message": "ok, then let\u0027s silently skip registration/unregistration if shutdown is already in progress",
+      "parentUuid": "4cdc6d0f_9cb7cec1",
       "revId": "94200c17b0550fdc379c88b368e6942834170768",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
