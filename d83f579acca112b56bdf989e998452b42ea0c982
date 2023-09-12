@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb0e870_9a02b93e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2023-09-12T08:36:33Z",
+      "side": 1,
+      "message": "nit: This claim no longer holds true since the object might be already registered and this method would return `true` shutdown in progress.\nIf I try to register a listener I would expect `true` if it\u0027s registered successfully and `false` if it is *not* registered successfully.\nIt made more sense before since it was always registered the only exception was if it was already registered it made no sense to register it again.\nI.e. I would opt for returning `false` if `shutdownInProgress \u003d\u003d true` and \"if the listener is registered successfully.",
+      "range": {
+        "startLine": 109,
+        "startChar": 25,
+        "endLine": 109,
+        "endChar": 65
+      },
+      "revId": "d83f579acca112b56bdf989e998452b42ea0c982",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
