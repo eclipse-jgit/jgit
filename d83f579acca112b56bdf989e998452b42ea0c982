@@ -22,6 +22,30 @@
       },
       "revId": "d83f579acca112b56bdf989e998452b42ea0c982",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e805292_08bb91b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-12T10:53:21Z",
+      "side": 1,
+      "message": "I changed the semantics of the return value to return true if listener is registered after the call finished",
+      "parentUuid": "2fb0e870_9a02b93e",
+      "range": {
+        "startLine": 109,
+        "startChar": 25,
+        "endLine": 109,
+        "endChar": 65
+      },
+      "revId": "d83f579acca112b56bdf989e998452b42ea0c982",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
