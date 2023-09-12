@@ -22,6 +22,23 @@
       },
       "revId": "94200c17b0550fdc379c88b368e6942834170768",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cdc6d0f_9cb7cec1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-12T06:53:07Z",
+      "side": 1,
+      "message": "LockFile.unlock() calls this, and it\u0027s registered as listener.\n\nIf this throws call sites have to code around it and must make sure that a listener does NOT invoke this.",
+      "revId": "94200c17b0550fdc379c88b368e6942834170768",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
