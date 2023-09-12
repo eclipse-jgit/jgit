@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a7fdeaf_f029bb84",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 5278
+      },
+      "writtenOn": "2023-09-12T06:03:38Z",
+      "side": 1,
+      "message": "nit: positional argument got lost in translation.",
+      "range": {
+        "startLine": 711,
+        "startChar": 24,
+        "endLine": 711,
+        "endChar": 26
+      },
+      "revId": "94200c17b0550fdc379c88b368e6942834170768",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
