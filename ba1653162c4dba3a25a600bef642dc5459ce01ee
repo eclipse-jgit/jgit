@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "783660ca_3b581e1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-12T00:14:48Z",
+      "side": 1,
+      "message": "Thanks! One nit below, but generally I love this change.",
+      "revId": "ba1653162c4dba3a25a600bef642dc5459ce01ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a16d32b_1a8bc6de",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-12T00:14:48Z",
+      "side": 1,
+      "message": "This is always non-null: https://docs.oracle.com/javase/8/docs/api/java/io/File.html#getAbsoluteFile--\n\nWorse, it can throw an exception, that the `try` block in the `if` body isn\u0027t able to catch. https://git.eclipse.org/r/c/jgit/jgit/+/204267 to fix that.",
+      "range": {
+        "startLine": 247,
+        "startChar": 24,
+        "endLine": 247,
+        "endChar": 46
+      },
+      "revId": "ba1653162c4dba3a25a600bef642dc5459ce01ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
