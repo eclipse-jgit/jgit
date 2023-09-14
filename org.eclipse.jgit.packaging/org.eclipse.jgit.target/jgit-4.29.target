@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.29" sequenceNumber="1694732050">
+<target name="jgit-4.29" sequenceNumber="1694733565">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
@@ -105,43 +105,43 @@
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-http</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-io</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-security</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-server</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-servlet</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-util</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-util-ajax</artifactId>
-    		<version>10.0.15</version>
+    		<version>10.0.16</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
