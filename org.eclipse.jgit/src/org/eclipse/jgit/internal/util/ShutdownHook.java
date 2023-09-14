@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
  * A hook registered as a JVM shutdown hook managing a set of objects needing
  * cleanup during JVM shutdown. See {@link Runtime#addShutdownHook}.
  */
+@SuppressWarnings("ImmutableEnumChecker")
 public enum ShutdownHook {
 	/**
 	 * Singleton
