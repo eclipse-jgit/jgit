@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "821c8909_8e3c094b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-15T10:26:23Z",
+      "side": 1,
+      "message": "This comparison always evaluates to false (found with errorprone 2.20):\n\norg.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java:59: error: [ComparisonOutOfRange] ints may have a value in the range -2147483648 to 2147483647; therefore, this comparison to Integer.MAX_VALUE will always evaluate to false\n\t\t\tif (table[k] \u003e Integer.MAX_VALUE) {\n\t\t\t             ^\n    (see https://errorprone.info/bugpattern/ComparisonOutOfRange)\n    \ninstead we need to check `uint32 \u003e Integer.MAX_VALUE` before we cast it to int in line 63.\n\nProposed fix in I675d594f523084be4c1678328cc343065e32d998",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "7b0f633b675863c30c2cd4f192e49137a3950e50",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
