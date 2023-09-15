@@ -56,7 +56,7 @@ class GraphObjectIndex {
 		long uint32;
 		for (int k = 0; k < table.length; k++) {
 			uint32 = NB.decodeUInt32(oidFanout, k * 4);
-			if (table[k] > Integer.MAX_VALUE) {
+			if (uint32 > Integer.MAX_VALUE) {
 				throw new CommitGraphFormatException(
 						JGitText.get().commitGraphFileIsTooLargeForJgit);
 			}
