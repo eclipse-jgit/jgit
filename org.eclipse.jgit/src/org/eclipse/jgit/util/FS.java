@@ -205,7 +205,7 @@ public abstract class FS {
 		 * </p>
 		 */
 		public static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
-				.ofMillis(2000);
+				.ofSeconds(2);
 
 		/**
 		 * Fallback FileStore attributes used when we can't measure the
