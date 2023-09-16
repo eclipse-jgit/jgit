@@ -85,6 +85,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get object ids in the "want" lines
+	 *
 	 * @return object ids in the "want" (and "want-ref") lines of the request
 	 */
 	@NonNull
@@ -93,6 +95,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get the depth set in a "deepen" line
+	 *
 	 * @return the depth set in a "deepen" line. 0 by default.
 	 */
 	int getDepth() {
@@ -112,6 +116,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get the filter spec given in a "filter" line
+	 *
 	 * @return the filter spec given in a "filter" line
 	 */
 	@NonNull
@@ -152,6 +158,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get refs received in "deepen-not" lines
+	 *
 	 * @return refs received in "deepen-not" lines.
 	 */
 	@NonNull
@@ -160,6 +168,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get string identifying the agent
+	 *
 	 * @return string identifying the agent (as sent in the request body by the
 	 *         client)
 	 */
@@ -169,8 +179,10 @@ abstract class FetchRequest {
 	}
 
 	/**
-	 * @return string identifying the client session ID (as sent in the request body by the
-	 *         client)
+	 * Get string identifying the client session ID
+	 *
+	 * @return string identifying the client session ID (as sent in the request
+	 *         body by the client)
 	 */
 	@Nullable
 	String getClientSID() {

@@ -675,7 +675,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			this.reftables = reftables;
 		}
 
-		/** @return last modified time of all packs, in milliseconds. */
+		/**
+		 * Get last modified time of all packs
+		 *
+		 * @return last modified time of all packs, in milliseconds.
+		 */
 		public long getLastModified() {
 			if (lastModified < 0) {
 				long max = 0;

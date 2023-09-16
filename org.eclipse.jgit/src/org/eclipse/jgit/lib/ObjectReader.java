@@ -583,6 +583,8 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	public abstract static class Filter extends ObjectReader {
 		/**
+		 * Get delegate ObjectReader to handle all processing
+		 *
 		 * @return delegate ObjectReader to handle all processing.
 		 * @since 4.4
 		 */

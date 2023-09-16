@@ -1668,17 +1668,27 @@ public abstract class PackParser {
 
 		long sizeBeforeInflating;
 
-		/** @return offset within the input stream. */
+		/**
+		 * Get offset within the input stream
+		 *
+		 * @return offset within the input stream.
+		 */
 		public long getOffset() {
 			return position;
 		}
 
-		/** @return the CRC-32 checksum of the stored delta data. */
+		/**
+		 * Get the CRC-32 checksum of the stored delta data
+		 *
+		 * @return the CRC-32 checksum of the stored delta data.
+		 */
 		public int getCRC() {
 			return crc;
 		}
 
 		/**
+		 * Set the CRC-32 checksum of the stored delta data
+		 *
 		 * @param crc32
 		 *            the CRC-32 checksum of the stored delta data.
 		 */

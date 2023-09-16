@@ -110,6 +110,8 @@ public class UserDefinedDiffTool implements ExternalDiffTool {
 	}
 
 	/**
+	 * Set whether tool is available
+	 *
 	 * @param available
 	 *            true if tool can be found and false if not
 	 */

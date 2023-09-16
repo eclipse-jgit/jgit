@@ -102,12 +102,18 @@ public class FirstWant {
 		this.clientSID = clientSID;
 	}
 
-	/** @return non-capabilities part of the line. */
+	/**
+	 * Get line
+	 *
+	 * @return non-capabilities part of the line.
+	 */
 	public String getLine() {
 		return line;
 	}
 
 	/**
+	 * Get capabilities
+	 *
 	 * @return capabilities parsed from the line as an immutable set (excluding
 	 *         agent and session-id).
 	 */
@@ -115,13 +121,21 @@ public class FirstWant {
 		return capabilities;
 	}
 
-	/** @return client user agent parsed from the line. */
+	/**
+	 * Get agent
+	 *
+	 * @return client user agent parsed from the line.
+	 */
 	@Nullable
 	public String getAgent() {
 		return agent;
 	}
 
-	/** @return client session-id parsed from the line. */
+	/**
+	 * Get client session-id
+	 *
+	 * @return client session-id parsed from the line.
+	 */
 	@Nullable
 	public String getClientSID() {
 		return clientSID;

@@ -92,7 +92,11 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 			}
 		}
 
-		/** @return the flags associated with the bitmap */
+		/**
+		 * Get flags
+		 *
+		 * @return the flags associated with the bitmap
+		 */
 		int getFlags() {
 			return flags;
 		}
