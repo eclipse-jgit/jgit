@@ -116,46 +116,103 @@ public class ObjectChecker {
 	 * @since 4.2
 	 */
 	public enum ErrorType {
-		// @formatter:off
 		// These names match git-core so that fsck section keys also match.
-		/***/ NULL_SHA1,
-		/***/ DUPLICATE_ENTRIES,
-		/***/ TREE_NOT_SORTED,
-		/***/ ZERO_PADDED_FILEMODE,
-		/***/ EMPTY_NAME,
-		/***/ FULL_PATHNAME,
-		/***/ HAS_DOT,
-		/***/ HAS_DOTDOT,
-		/***/ HAS_DOTGIT,
-		/***/ BAD_OBJECT_SHA1,
-		/***/ BAD_PARENT_SHA1,
-		/***/ BAD_TREE_SHA1,
-		/***/ MISSING_AUTHOR,
-		/***/ MISSING_COMMITTER,
-		/***/ MISSING_OBJECT,
-		/***/ MISSING_TREE,
-		/***/ MISSING_TYPE_ENTRY,
-		/***/ MISSING_TAG_ENTRY,
-		/***/ BAD_DATE,
-		/***/ BAD_EMAIL,
-		/***/ BAD_TIMEZONE,
-		/***/ MISSING_EMAIL,
-		/***/ MISSING_SPACE_BEFORE_DATE,
-		/** @since 5.2 */ GITMODULES_BLOB,
-		/** @since 5.2 */ GITMODULES_LARGE,
-		/** @since 5.2 */ GITMODULES_NAME,
-		/** @since 5.2 */ GITMODULES_PARSE,
-		/** @since 5.2 */ GITMODULES_PATH,
-		/** @since 5.2 */ GITMODULES_SYMLINK,
-		/** @since 5.2 */ GITMODULES_URL,
-		/***/ UNKNOWN_TYPE,
+		// See https://git-scm.com/docs/git-fsck#_fsck_messages
+		/** (WARN) Tree contains entries pointing to a null sha1. */
+		NULL_SHA1,
+		/** (ERROR) A tree contains duplicate file entries. */
+		DUPLICATE_ENTRIES,
+		/** (ERROR) A tree is not properly sorted. */
+		TREE_NOT_SORTED,
+		/** (WARN) Found a zero padded filemode in a tree. */
+		ZERO_PADDED_FILEMODE,
+		/** (WARN) A path contains an empty name. */
+		EMPTY_NAME,
+		/** (WARN) A path contains the full path starting with "/". */
+		FULL_PATHNAME,
+		/** (WARN) A tree contains an entry named . */
+		HAS_DOT,
+		/** (WARN) A tree contains an entry named .. */
+		HAS_DOTDOT,
+		/** (WARN) A tree contains an entry named .git */
+		HAS_DOTGIT,
+		/** (ERROR) An object has a bad sha1. */
+		BAD_OBJECT_SHA1,
+		/** (ERROR) A commit object has a bad parent sha1. */
+		BAD_PARENT_SHA1,
+		/** (ERROR) A tree has an invalid format. */
+		BAD_TREE_SHA1,
+		/** (ERROR) Author is missing. */
+		MISSING_AUTHOR,
+		/** (ERROR) Committer is missing. */
+		MISSING_COMMITTER,
+		/** (ERROR) Missing object line in tag object. */
+		MISSING_OBJECT,
+		/** (ERROR) Missing tree line in a commit object. */
+		MISSING_TREE,
+		/** (ERROR) Missing type line in a tag object. */
+		MISSING_TYPE_ENTRY,
+		/** (ERROR) Missing tag line in a tag object. */
+		MISSING_TAG_ENTRY,
+		/** (ERROR) Invalid date format in an author/committer line. */
+		BAD_DATE,
+		/** (ERROR) Invalid email format in an author/committer line. */
+		BAD_EMAIL,
+		/** (ERROR) Found an invalid time zone in an author/committer line. */
+		BAD_TIMEZONE,
+		/** (ERROR) Email is missing in an author/committer line. */
+		MISSING_EMAIL,
+		/** (ERROR) Missing space before date in an author/committer line. */
+		MISSING_SPACE_BEFORE_DATE,
+		/**
+		 * (ERROR) A non-blob found at .gitmodules.
+		 * @since 5.2
+		 */
+		GITMODULES_BLOB,
+		/**
+		 * (ERROR) The .gitmodules file is too large to parse.
+		 * @since 5.2
+		 */
+		GITMODULES_LARGE,
+		/**
+		 * (ERROR) A submodule name is invalid.
+		 * @since 5.2
+		 */
+		GITMODULES_NAME,
+		/**
+		 * (INFO) Could not parse .gitmodules blob.
+		 * @since 5.2
+		 */
+		GITMODULES_PARSE,
+		/**
+		 * (ERROR) .gitmodules path is invalid.
+		 * @since 5.2
+		 */
+		GITMODULES_PATH,
+		/**
+		 * (ERROR) .gitmodules is a symlink.
+		 * @since 5.2
+		 */
+		GITMODULES_SYMLINK,
+		/**
+		 * (ERROR) Found an invalid submodule url.
+		 * @since 5.2
+		 */
+		GITMODULES_URL,
+		/** (ERROR) Found an unknown object type. */
+		UNKNOWN_TYPE,
 
 		// These are unique to JGit.
-		/***/ WIN32_BAD_NAME,
-		/***/ BAD_UTF8;
-		// @formatter:on
+		/** (ERROR) Windows: Invalid name */
+		WIN32_BAD_NAME,
+		/** (ERROR) Byte sequence is not a valid UTF-8 character */
+		BAD_UTF8;
 
-		/** @return camelCaseVersion of the name. */
+		/**
+		 * Get camelCaseVersion of the name
+		 *
+		 * @return camelCaseVersion of the name.
+		 */
 		public String getMessageId() {
 			String n = name();
 			StringBuilder r = new StringBuilder(n.length());

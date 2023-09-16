@@ -29,6 +29,8 @@ public class IndexChangedEvent extends RepositoryEvent<IndexChangedListener> {
 	}
 
 	/**
+	 * Whether the index was changed by the same JGit process
+	 *
 	 * @return {@code true} if the index was changed by the same JGit process
 	 * @since 5.0
 	 */

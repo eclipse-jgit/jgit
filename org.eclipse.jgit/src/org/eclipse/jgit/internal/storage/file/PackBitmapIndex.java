@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.function.Supplier;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -203,6 +204,10 @@ public abstract class PackBitmapIndex {
 	@FunctionalInterface
 	public interface SupplierWithIOException<T> {
 		/**
+		 * Get result.
+		 *
+		 * @see Supplier#get()
+		 *
 		 * @return result
 		 * @throws IOException
 		 *             if an IO error occurred

@@ -177,6 +177,8 @@ public class ArchiveCommand extends GitCommand<OutputStream> {
 		}
 
 		/**
+		 * Get the problematic format name
+		 *
 		 * @return the problematic format name
 		 */
 		public String getFormat() {

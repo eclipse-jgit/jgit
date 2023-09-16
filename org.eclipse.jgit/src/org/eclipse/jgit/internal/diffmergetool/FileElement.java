@@ -28,7 +28,6 @@ public class FileElement {
 
 	/**
 	 * The file element type.
-	 *
 	 */
 	public enum Type {
 		/**
@@ -91,6 +90,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Create file element
+	 *
 	 * @param path
 	 *            the file path
 	 * @param type
@@ -111,6 +112,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Get path
+	 *
 	 * @return the file path
 	 */
 	public String getPath() {
@@ -118,6 +121,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Get type
+	 *
 	 * @return the element type
 	 */
 	public Type getType() {
@@ -125,6 +130,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Get file
+	 * <p>
 	 * Return
 	 * <ul>
 	 * <li>a temporary file if already created and stream is not valid</li>

@@ -48,6 +48,8 @@ public class FilteredRenameDetector {
 	}
 
 	/**
+	 * Compute diff entries
+	 *
 	 * @param diffs
 	 *            The set of changes to check.
 	 * @param pathFilter

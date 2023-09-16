@@ -102,6 +102,8 @@ public interface Optionally<T> {
 	public static final Optionally<?> EMPTY = new Empty<>();
 
 	/**
+	 * Get empty Optionally
+	 *
 	 * @param <T>
 	 *            type of the empty Optionally
 	 * @return the empty Optionally
@@ -113,7 +115,6 @@ public interface Optionally<T> {
 
 	/**
 	 * Clear the object
-	 *
 	 */
 	void clear();
 

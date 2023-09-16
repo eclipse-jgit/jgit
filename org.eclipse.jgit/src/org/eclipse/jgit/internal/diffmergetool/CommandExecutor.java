@@ -54,6 +54,8 @@ public class CommandExecutor {
 	}
 
 	/**
+	 * Run command
+	 *
 	 * @param command
 	 *            the command string
 	 * @param workingDir
@@ -104,6 +106,8 @@ public class CommandExecutor {
 	}
 
 	/**
+	 * Check whether executable file is available
+	 *
 	 * @param path
 	 *            the executable path
 	 * @param workingDir

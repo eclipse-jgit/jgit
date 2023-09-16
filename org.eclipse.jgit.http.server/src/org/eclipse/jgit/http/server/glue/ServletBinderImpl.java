@@ -66,6 +66,10 @@ abstract class ServletBinderImpl implements ServletBinder {
 		return filters.toArray(new Filter[0]);
 	}
 
-	/** @return the pipeline that matches and executes this chain. */
+	/**
+	 * Create UrlPipeline
+	 *
+	 * @return the pipeline that matches and executes this chain.
+	 */
 	abstract UrlPipeline create();
 }

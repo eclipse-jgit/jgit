@@ -21,7 +21,11 @@ public final class CapabilitiesV2Request {
 	private CapabilitiesV2Request() {
 	}
 
-	/** @return A builder of {@link CapabilitiesV2Request}. */
+	/**
+	 * Create builder
+	 *
+	 * @return A builder of {@link CapabilitiesV2Request}.
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -31,7 +35,11 @@ public final class CapabilitiesV2Request {
 		private Builder() {
 		}
 
-		/** @return CapabilitiesV2Request */
+		/**
+		 * Build the request
+		 *
+		 * @return CapabilitiesV2Request
+		 */
 		public CapabilitiesV2Request build() {
 			return new CapabilitiesV2Request();
 		}
