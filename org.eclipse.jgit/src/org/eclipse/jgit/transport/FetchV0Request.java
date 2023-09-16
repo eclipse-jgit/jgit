@@ -58,6 +58,8 @@ final class FetchV0Request extends FetchRequest {
 		String clientSID;
 
 		/**
+		 * Add wantId
+		 *
 		 * @param objectId
 		 *            object id received in a "want" line
 		 * @return this builder
@@ -68,6 +70,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Set depth
+		 *
 		 * @param d
 		 *            depth set in a "deepen" line
 		 * @return this builder
@@ -78,6 +82,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Get depth
+		 *
 		 * @return depth set in the request (via a "deepen" line). Defaulting to
 		 *         0 if not set.
 		 */
@@ -86,6 +92,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Whether there's at least one "deepen not" line
+		 *
 		 * @return true if there has been at least one "deepen not" line in the
 		 *         request so far
 		 */
@@ -94,6 +102,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Add "deepen not"
+		 *
 		 * @param deepenNot
 		 *            reference received in a "deepen not" line
 		 * @return this builder
@@ -104,6 +114,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Set "deepen since"
+		 *
 		 * @param value
 		 *            Unix timestamp received in a "deepen since" line
 		 * @return this builder
@@ -114,6 +126,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Get "deepen since
+		 *
 		 * @return shallow since value, sent before in a "deepen since" line. 0
 		 *         by default.
 		 */
@@ -122,6 +136,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Add client shallow commit
+		 *
 		 * @param shallowOid
 		 *            object id received in a "shallow" line
 		 * @return this builder
@@ -132,6 +148,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Add client capabilities
+		 *
 		 * @param clientCapabilities
 		 *            client capabilities sent by the client in the first want
 		 *            line of the request
@@ -143,6 +161,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Set agent
+		 *
 		 * @param clientAgent
 		 *            agent line sent by the client in the request body
 		 * @return this builder
@@ -153,6 +173,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Set client session id
+		 *
 		 * @param clientSID
 		 *            session-id line sent by the client in the request body
 		 * @return this builder
@@ -163,6 +185,8 @@ final class FetchV0Request extends FetchRequest {
 		}
 
 		/**
+		 * Set filter spec
+		 *
 		 * @param filter
 		 *            the filter set in a filter line
 		 * @return this builder

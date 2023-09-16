@@ -148,6 +148,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 	}
 
 	/**
+	 * Get full size (inflated, undeltified)
+	 *
 	 * @return size of the object (inflated, undeltified)
 	 *
 	 * @since 6.4

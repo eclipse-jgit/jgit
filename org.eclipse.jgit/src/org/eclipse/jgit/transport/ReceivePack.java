@@ -108,12 +108,20 @@ public class ReceivePack {
 			command = FirstCommand.fromLine(line);
 		}
 
-		/** @return non-capabilities part of the line. */
+		/**
+		 * Get non-capabilities part of the line
+		 *
+		 * @return non-capabilities part of the line.
+		 */
 		public String getLine() {
 			return command.getLine();
 		}
 
-		/** @return capabilities parsed from the line. */
+		/**
+		 * Get capabilities parsed from the line
+		 *
+		 * @return capabilities parsed from the line.
+		 */
 		public Set<String> getCapabilities() {
 			Set<String> reconstructedCapabilites = new HashSet<>();
 			for (Map.Entry<String, String> e : command.getCapabilities()
@@ -2130,8 +2138,10 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set the unpackErrorHandler
+	 *
 	 * @param unpackErrorHandler
-	 *            the unpackErrorHandler to set
+	 *            the unpackErrorHandler
 	 * @since 5.7
 	 */
 	public void setUnpackErrorHandler(UnpackErrorHandler unpackErrorHandler) {
@@ -2155,6 +2165,8 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Get the client session-id
+	 *
 	 * @return The client session-id.
 	 * @since 6.4
 	 */

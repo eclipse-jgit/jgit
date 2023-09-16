@@ -246,6 +246,8 @@ public class FileReftableStack implements AutoCloseable {
 	}
 
 	/**
+	 * Get merged reftable
+	 *
 	 * @return the merged reftable
 	 */
 	public MergedReftable getMergedReftable() {

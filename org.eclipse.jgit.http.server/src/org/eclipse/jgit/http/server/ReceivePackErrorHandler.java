@@ -35,6 +35,8 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
  */
 public interface ReceivePackErrorHandler {
 	/**
+	 * Receive pack
+	 *
 	 * @param req
 	 *            The HTTP request
 	 * @param rsp

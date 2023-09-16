@@ -74,7 +74,11 @@ class EolAwareOutputStream extends OutputStream {
 			write('\n');
 	}
 
-	/** @return true if a new line has just begun. */
+	/**
+	 * Whether a new line has just begun
+	 *
+	 * @return true if a new line has just begun.
+	 */
 	boolean isBeginln() {
 		return bol;
 	}

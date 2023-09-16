@@ -290,6 +290,8 @@ public abstract class PackIndex
 			int matchLimit) throws IOException;
 
 	/**
+	 * Get pack checksum
+	 *
 	 * @return the checksum of the pack; caller must not modify it
 	 * @since 5.5
 	 */
@@ -316,19 +318,31 @@ public abstract class PackIndex
 			return offset;
 		}
 
-		/** @return hex string describing the object id of this entry. */
+		/**
+		 * Get hex string representation of the entry's object id
+		 *
+		 * @return hex string describing the object id of this entry.
+		 */
 		public String name() {
 			ensureId();
 			return idBuffer.name();
 		}
 
-		/** @return a copy of the object id. */
+		/**
+		 * Create a copy of the object id
+		 *
+		 * @return a copy of the object id.
+		 */
 		public ObjectId toObjectId() {
 			ensureId();
 			return idBuffer.toObjectId();
 		}
 
-		/** @return a complete copy of this entry, that won't modify */
+		/**
+		 * Clone the entry
+		 *
+		 * @return a complete copy of this entry, that won't modify
+		 */
 		public MutableEntry cloneEntry() {
 			final MutableEntry r = new MutableEntry();
 			ensureId();

@@ -28,6 +28,8 @@ public class DfsCachedPack extends CachedPack {
 	}
 
 	/**
+	 * Get pack file
+	 *
 	 * @return the pack passed to the constructor
 	 */
 	public DfsPackFile getPackFile() {

@@ -821,6 +821,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Whether only first-parent links should be followed when walking
+	 *
 	 * @return whether only first-parent links should be followed when walking.
 	 *
 	 * @since 5.5

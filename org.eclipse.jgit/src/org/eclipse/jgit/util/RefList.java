@@ -357,7 +357,11 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 			list = new Ref[Math.max(capacity, 16)];
 		}
 
-		/** @return number of items in this builder's internal collection. */
+		/**
+		 * Get size
+		 *
+		 * @return number of items in this builder's internal collection.
+		 */
 		public int size() {
 			return size;
 		}
@@ -480,7 +484,11 @@ public class RefList<T extends Ref> implements Iterable<Ref> {
 			Arrays.fill(list, size, list.length, null);
 		}
 
-		/** @return an unmodifiable list using this collection's backing array. */
+		/**
+		 * Get unmodifiable list based on this list
+		 *
+		 * @return an unmodifiable list using this collection's backing array.
+		 */
 		public RefList<T> toRefList() {
 			return new RefList<>(list, size);
 		}
