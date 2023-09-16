@@ -77,9 +77,12 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	public abstract ObjectReader newReader();
 
 	/**
+	 * Get the shallow commits of the current repository
+	 *
 	 * @return the shallow commits of the current repository
 	 *
-	 * @throws IOException the database could not be read
+	 * @throws IOException
+	 *             the database could not be read
 	 *
 	 * @since 6.3
 	 */

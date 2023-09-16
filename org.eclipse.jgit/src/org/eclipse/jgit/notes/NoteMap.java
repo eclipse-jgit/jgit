@@ -348,7 +348,11 @@ public class NoteMap implements Iterable<Note> {
 		return root.writeTree(inserter);
 	}
 
-	/** @return the root note bucket */
+	/**
+	 * Get the root note bucket
+	 *
+	 * @return the root note bucket
+	 */
 	InMemoryNoteBucket getRoot() {
 		return root;
 	}

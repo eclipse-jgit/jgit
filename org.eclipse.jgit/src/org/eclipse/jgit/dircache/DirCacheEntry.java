@@ -865,6 +865,8 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Whether the entry contains extended flags
+	 *
 	 * @return true if the entry contains extended flags.
 	 */
 	boolean isExtended() {

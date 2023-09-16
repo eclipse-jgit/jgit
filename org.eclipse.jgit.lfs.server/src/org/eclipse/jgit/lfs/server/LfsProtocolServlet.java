@@ -140,6 +140,8 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		}
 
 		/**
+		 * Whether operation is upload
+		 *
 		 * @return true if the operation is upload.
 		 * @since 4.7
 		 */
@@ -148,6 +150,8 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		}
 
 		/**
+		 * Whether the operation is download
+		 *
 		 * @return true if the operation is download.
 		 * @since 4.7
 		 */
@@ -156,6 +160,8 @@ public abstract class LfsProtocolServlet extends HttpServlet {
 		}
 
 		/**
+		 * Whether the operation is verify
+		 *
 		 * @return true if the operation is verify.
 		 * @since 4.7
 		 */

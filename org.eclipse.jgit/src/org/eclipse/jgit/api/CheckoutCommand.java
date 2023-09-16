@@ -325,6 +325,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set progress monitor
+	 *
 	 * @param monitor
 	 *            a progress monitor
 	 * @return this instance

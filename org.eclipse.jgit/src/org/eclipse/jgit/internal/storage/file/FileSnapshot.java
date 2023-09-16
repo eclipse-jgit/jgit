@@ -299,6 +299,8 @@ public class FileSnapshot {
 	}
 
 	/**
+	 * Get file size in bytes of last snapshot update
+	 *
 	 * @return file size in bytes of last snapshot update
 	 */
 	public long size() {
@@ -425,38 +427,47 @@ public class FileSnapshot {
 	}
 
 	/**
-	 * @return {@code true} if FileSnapshot.isModified(File) found the file size
-	 *         changed
+	 * Whether #isModified(File) found the file size changed
+	 *
+	 * @return {@code true} if #isModified(File) found the file size changed
 	 */
 	boolean wasSizeChanged() {
 		return sizeChanged;
 	}
 
 	/**
-	 * @return {@code true} if FileSnapshot.isModified(File) found the file key
-	 *         changed
+	 * Whether #isModified(File) found the file key changed
+	 *
+	 * @return {@code true} if #isModified(File) found the file key changed
 	 */
 	boolean wasFileKeyChanged() {
 		return fileKeyChanged;
 	}
 
 	/**
-	 * @return {@code true} if FileSnapshot.isModified(File) found the file's
-	 *         lastModified changed
+	 * Whether #isModified(File) found the file's lastModified changed
+	 *
+	 * @return {@code true} if #isModified(File) found the file's lastModified
+	 *         changed
 	 */
 	boolean wasLastModifiedChanged() {
 		return lastModifiedChanged;
 	}
 
 	/**
-	 * @return {@code true} if FileSnapshot.isModified(File) detected that
-	 *         lastModified is racily clean
+	 * Whether #isModified(File) detected that lastModified is racily clean
+	 *
+	 * @return {@code true} if #isModified(File) detected that lastModified is
+	 *         racily clean
 	 */
 	boolean wasLastModifiedRacilyClean() {
 		return wasRacyClean;
 	}
 
 	/**
+	 * Get the delta in nanoseconds between lastModified and lastRead during
+	 * last racy check
+	 *
 	 * @return the delta in nanoseconds between lastModified and lastRead during
 	 *         last racy check
 	 */
@@ -465,6 +476,8 @@ public class FileSnapshot {
 	}
 
 	/**
+	 * Get the racyLimitNanos threshold in nanoseconds during last racy check
+	 *
 	 * @return the racyLimitNanos threshold in nanoseconds during last racy
 	 *         check
 	 */

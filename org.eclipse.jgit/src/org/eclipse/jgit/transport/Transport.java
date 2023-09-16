@@ -1134,6 +1134,8 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
+	 * Get filter spec
+	 *
 	 * @return the last filter spec set with {@link #setFilterSpec(FilterSpec)},
 	 *         or {@link FilterSpec#NO_FILTER} if it was never invoked.
 	 * @since 5.4
@@ -1143,7 +1145,10 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @param filter a new filter to use for this transport
+	 * Set filter spec
+	 *
+	 * @param filter
+	 *            a new filter to use for this transport
 	 * @since 5.4
 	 */
 	public final void setFilterSpec(@NonNull FilterSpec filter) {
@@ -1192,6 +1197,8 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
+	 * Get deepen-since
+	 *
 	 * @return the deepen-since for a shallow clone
 	 * @since 6.3
 	 */
@@ -1210,7 +1217,9 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @return the deepen-not for a shallow clone
+	 * Get list of deepen-not
+	 *
+	 * @return the list of deepen-not for a shallow clone
 	 * @since 6.3
 	 */
 	public final List<String> getDeepenNots() {

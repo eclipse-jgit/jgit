@@ -53,22 +53,36 @@ public final class LsRefsV2Request {
 		this.clientSID = clientSID;
 	}
 
-	/** @return ref prefixes that the client requested. */
+	/**
+	 * Get ref prefixes
+	 *
+	 * @return ref prefixes that the client requested.
+	 */
 	public List<String> getRefPrefixes() {
 		return refPrefixes;
 	}
 
-	/** @return true if the client requests symbolic references. */
+	/**
+	 * Whether the client requests symbolic references
+	 *
+	 * @return true if the client requests symbolic references.
+	 */
 	public boolean getSymrefs() {
 		return symrefs;
 	}
 
-	/** @return true if the client requests tags to be peeled. */
+	/**
+	 * Whether the client requests tags to be peeled
+	 *
+	 * @return true if the client requests tags to be peeled.
+	 */
 	public boolean getPeel() {
 		return peel;
 	}
 
 	/**
+	 * Get agent reported by the client
+	 *
 	 * @return agent as reported by the client
 	 *
 	 * @since 5.2
@@ -79,6 +93,8 @@ public final class LsRefsV2Request {
 	}
 
 	/**
+	 * Get session-id reported by the client
+	 *
 	 * @return session-id as reported by the client
 	 *
 	 * @since 6.4
@@ -106,7 +122,11 @@ public final class LsRefsV2Request {
 		return serverOptions;
 	}
 
-	/** @return A builder of {@link LsRefsV2Request}. */
+	/**
+	 * Create builder
+	 *
+	 * @return A builder of {@link LsRefsV2Request}.
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -129,6 +149,8 @@ public final class LsRefsV2Request {
 		}
 
 		/**
+		 * Set ref prefixes
+		 *
 		 * @param value
 		 *            ref prefix values
 		 * @return the Builder
@@ -139,6 +161,8 @@ public final class LsRefsV2Request {
 		}
 
 		/**
+		 * Set symrefs
+		 *
 		 * @param value
 		 *            of symrefs
 		 * @return the Builder
@@ -149,6 +173,8 @@ public final class LsRefsV2Request {
 		}
 
 		/**
+		 * Set whether to peel tags
+		 *
 		 * @param value
 		 *            of peel
 		 * @return the Builder

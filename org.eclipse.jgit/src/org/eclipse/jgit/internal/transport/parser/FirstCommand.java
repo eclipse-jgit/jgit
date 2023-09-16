@@ -69,13 +69,21 @@ public final class FirstCommand {
 		this.capabilities = capabilities;
 	}
 
-	/** @return non-capabilities part of the line. */
+	/**
+	 * Get line
+	 *
+	 * @return non-capabilities part of the line.
+	 */
 	@NonNull
 	public String getLine() {
 		return line;
 	}
 
-	/** @return capabilities parsed from the line, as an immutable map. */
+	/**
+	 * Get capabilities
+	 *
+	 * @return capabilities parsed from the line, as an immutable map.
+	 */
 	@NonNull
 	public Map<String, String> getCapabilities() {
 		return capabilities;
