@@ -34,13 +34,15 @@ public class ToolException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 *
+	 * Create tool exception
 	 */
 	public ToolException() {
 		this(null, null, false);
 	}
 
 	/**
+	 * Create tool exception
+	 *
 	 * @param message
 	 *            the exception message
 	 */
@@ -49,6 +51,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Create tool exception
+	 *
 	 * @param message
 	 *            the exception message
 	 * @param result
@@ -64,6 +68,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Create tool exception
+	 *
 	 * @param message
 	 *            the exception message
 	 * @param cause
@@ -76,6 +82,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Create tool exception
+	 *
 	 * @param cause
 	 *            the cause for throw
 	 */
@@ -86,6 +94,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Whether result is valid
+	 *
 	 * @return true if result is valid, false else
 	 */
 	public boolean isResult() {
@@ -93,6 +103,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Get execution result
+	 *
 	 * @return the execution result
 	 */
 	public ExecutionResult getResult() {
@@ -100,6 +112,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Whether execution failed with an error
+	 *
 	 * @return true if command execution error appears, false otherwise
 	 */
 	public boolean isCommandExecutionError() {
@@ -107,6 +121,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Get buffered stderr as a String
+	 *
 	 * @return the result Stderr
 	 */
 	public String getResultStderr() {
@@ -123,6 +139,8 @@ public class ToolException extends Exception {
 	}
 
 	/**
+	 * Get buffered stdout as a String
+	 *
 	 * @return the result Stdout
 	 */
 	public String getResultStdout() {

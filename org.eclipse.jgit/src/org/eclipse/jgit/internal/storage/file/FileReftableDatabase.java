@@ -92,6 +92,8 @@ public class FileReftableDatabase extends RefDatabase {
 	}
 
 	/**
+	 * Whether the given repo uses reftable for refdb storage
+	 *
 	 * @param repoDir
 	 *            the repository's metadata directory
 	 * @return whether the given repo uses reftable for refdb storage.
@@ -598,6 +600,8 @@ public class FileReftableDatabase extends RefDatabase {
 	}
 
 	/**
+	 * Convert FileRepository to a FileReftableDatabase
+	 *
 	 * @param repo
 	 *            the repository
 	 * @param writeLogs

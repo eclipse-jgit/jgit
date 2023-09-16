@@ -81,6 +81,8 @@ public interface FtpChannel {
 	void disconnect();
 
 	/**
+	 * Whether the FtpChannel is connected
+	 *
 	 * @return whether the {@link FtpChannel} is connected
 	 */
 	boolean isConnected();
@@ -96,6 +98,8 @@ public interface FtpChannel {
 	void cd(String path) throws IOException;
 
 	/**
+	 * Get current remote directory path
+	 *
 	 * @return the current remote directory path
 	 * @throws IOException
 	 *             if an IO error occurred

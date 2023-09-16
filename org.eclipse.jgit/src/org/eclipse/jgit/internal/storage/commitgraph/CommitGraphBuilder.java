@@ -41,7 +41,11 @@ class CommitGraphBuilder {
 
 	private byte[] bloomFilterData;
 
-	/** @return A builder of {@link CommitGraph}. */
+	/**
+	 * Create builder
+	 *
+	 * @return A builder of {@link CommitGraph}.
+	 */
 	static CommitGraphBuilder builder() {
 		return new CommitGraphBuilder(OBJECT_ID_LENGTH);
 	}

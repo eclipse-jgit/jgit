@@ -122,6 +122,8 @@ public class IndexDiff {
 		}
 
 		/**
+		 * Whether there is a "base" stage entry
+		 *
 		 * @return whether there is a "base" stage entry
 		 */
 		public boolean hasBase() {
@@ -129,6 +131,8 @@ public class IndexDiff {
 		}
 
 		/**
+		 * Whether there is an "ours" stage entry
+		 *
 		 * @return whether there is an "ours" stage entry
 		 */
 		public boolean hasOurs() {
@@ -136,6 +140,8 @@ public class IndexDiff {
 		}
 
 		/**
+		 * Whether there is a "theirs" stage entry
+		 *
 		 * @return whether there is a "theirs" stage entry
 		 */
 		public boolean hasTheirs() {
@@ -314,6 +320,8 @@ public class IndexDiff {
 	 */
 	public interface WorkingTreeIteratorFactory {
 		/**
+		 * Get working tree iterator
+		 *
 		 * @param repo
 		 *            the repository
 		 * @return working tree iterator

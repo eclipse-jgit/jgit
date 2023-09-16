@@ -253,6 +253,8 @@ public class LfsConnectionFactory {
 	}
 
 	/**
+	 * Create request that can be serialized to JSON
+	 *
 	 * @param operation
 	 *            the operation to perform, e.g. Protocol.OPERATION_DOWNLOAD
 	 * @param resources

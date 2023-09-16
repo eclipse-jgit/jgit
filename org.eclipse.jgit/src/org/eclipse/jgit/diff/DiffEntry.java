@@ -379,6 +379,8 @@ public class DiffEntry {
 	}
 
 	/**
+	 * Get diff attribute
+	 *
 	 * @return the {@link Attribute} determining filters to be applied.
 	 * @since 4.11
 	 */

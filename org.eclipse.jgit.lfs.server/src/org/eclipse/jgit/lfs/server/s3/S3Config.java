@@ -157,6 +157,8 @@ public class S3Config {
 	}
 
 	/**
+	 * Whether SSL verification is disabled
+	 *
 	 * @return {@code true} if Amazon server certificate and hostname
 	 *         verification is disabled
 	 */

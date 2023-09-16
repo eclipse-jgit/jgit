@@ -175,6 +175,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get the value StrictHostKeyChecking property
+		 *
 		 * @return the value StrictHostKeyChecking property, the valid values
 		 *         are "yes" (unknown hosts are not accepted), "no" (unknown
 		 *         hosts are always accepted), and "ask" (user should be asked
@@ -185,6 +187,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get hostname
+		 *
 		 * @return the real IP address or host name to connect to; never null.
 		 */
 		public String getHostName() {
@@ -192,6 +196,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get port
+		 *
 		 * @return the real port number to connect to; never 0.
 		 */
 		public int getPort() {
@@ -199,6 +205,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get identity file
+		 *
 		 * @return path of the private key file to use for authentication; null
 		 *         if the caller should use default authentication strategies.
 		 */
@@ -207,6 +215,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get user
+		 *
 		 * @return the real user name to connect as; never null.
 		 */
 		public String getUser() {
@@ -214,6 +224,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get preferred authentication methods
+		 *
 		 * @return the preferred authentication methods, separated by commas if
 		 *         more than one authentication method is preferred.
 		 */
@@ -222,6 +234,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Whether batch mode is preferred
+		 *
 		 * @return true if batch (non-interactive) mode is preferred for this
 		 *         host connection.
 		 */
@@ -230,6 +244,8 @@ public class OpenSshConfig implements ConfigRepository {
 		}
 
 		/**
+		 * Get connection attempts
+		 *
 		 * @return the number of tries (one per second) to connect before
 		 *         exiting. The argument must be an integer. This may be useful
 		 *         in scripts if the connection sometimes fails. The default is
