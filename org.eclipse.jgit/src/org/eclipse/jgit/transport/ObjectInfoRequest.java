@@ -34,12 +34,20 @@ public final class ObjectInfoRequest {
 		this.objectIDs = objectIDs;
 	}
 
-	/** @return object IDs that the client requested. */
+	/**
+	 * Get object ids requested by the client
+	 *
+	 * @return object IDs that the client requested.
+	 */
 	public List<ObjectId> getObjectIDs() {
 		return this.objectIDs;
 	}
 
-	/** @return A builder of {@link ObjectInfoRequest}. */
+	/**
+	 * Create builder
+	 *
+	 * @return A builder of {@link ObjectInfoRequest}.
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -52,6 +60,8 @@ public final class ObjectInfoRequest {
 		}
 
 		/**
+		 * Set object ids
+		 *
 		 * @param value
 		 *            of objectIds
 		 * @return the Builder

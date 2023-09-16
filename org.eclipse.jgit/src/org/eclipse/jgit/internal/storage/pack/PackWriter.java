@@ -681,7 +681,10 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * @param filter the filter which indicates what and what not this writer
+	 * Set filter spec
+	 *
+	 * @param filter
+	 *            the filter which indicates what and what not this writer
 	 *            should include
 	 */
 	public void setFilterSpec(@NonNull FilterSpec filter) {
@@ -689,7 +692,10 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * @param config configuration related to packfile URIs
+	 * Set packfile URI config
+	 *
+	 * @param config
+	 *            configuration related to packfile URIs
 	 * @since 5.5
 	 */
 	public void setPackfileUriConfig(PackfileUriConfig config) {
@@ -2616,17 +2622,29 @@ public class PackWriter implements AutoCloseable {
 			this.bytesUsed = bytesUsed;
 		}
 
-		/** @return the PackConfig used to build the writer. */
+		/**
+		 * Get pack config
+		 *
+		 * @return the PackConfig used to build the writer.
+		 */
 		public PackConfig getConfig() {
 			return config;
 		}
 
-		/** @return the current phase of the writer. */
+		/**
+		 * Get packing phase
+		 *
+		 * @return the current phase of the writer.
+		 */
 		public PackingPhase getPhase() {
 			return phase;
 		}
 
-		/** @return an estimate of the total memory used by the writer. */
+		/**
+		 * Get estimate of memory by the writer
+		 *
+		 * @return an estimate of the total memory used by the writer.
+		 */
 		public long estimateBytesUsed() {
 			return bytesUsed;
 		}

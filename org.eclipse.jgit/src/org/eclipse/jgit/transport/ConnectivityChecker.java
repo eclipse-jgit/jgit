@@ -60,6 +60,8 @@ public interface ConnectivityChecker {
 		private RevWalk walk;
 
 		/**
+		 * Get database we write the stored objects into
+		 *
 		 * @return database we write the stored objects into.
 		 */
 		public Repository getRepository() {
@@ -67,6 +69,8 @@ public interface ConnectivityChecker {
 		}
 
 		/**
+		 * Set database we write the stored objects into
+		 *
 		 * @param repository
 		 *            set database we write the stored objects into.
 		 */
@@ -75,6 +79,8 @@ public interface ConnectivityChecker {
 		}
 
 		/**
+		 * Get the parser used to parse pack
+		 *
 		 * @return the parser used to parse pack.
 		 */
 		public PackParser getParser() {
@@ -82,6 +88,8 @@ public interface ConnectivityChecker {
 		}
 
 		/**
+		 * Set the parser
+		 *
 		 * @param parser
 		 *            the parser to set
 		 */
@@ -90,6 +98,8 @@ public interface ConnectivityChecker {
 		}
 
 		/**
+		 * Whether checker should check objects
+		 *
 		 * @return if checker should check objects.
 		 */
 		public boolean isCheckObjects() {
@@ -97,6 +107,8 @@ public interface ConnectivityChecker {
 		}
 
 		/**
+		 * Set whether objects should be checked
+		 *
 		 * @param checkObjects
 		 *            set if checker should check referenced objects outside of
 		 *            the received pack are reachable.
@@ -106,21 +118,27 @@ public interface ConnectivityChecker {
 		}
 
 		/**
-		 * @return command received by the current request.
+		 * Get commands received by the current request
+		 *
+		 * @return commands received by the current request.
 		 */
 		public List<ReceiveCommand> getCommands() {
 			return commands;
 		}
 
 		/**
+		 * Set commands received by the current request
+		 *
 		 * @param commands
-		 *            set command received by the current request.
+		 *            commands received by the current request.
 		 */
 		public void setCommands(List<ReceiveCommand> commands) {
 			this.commands = commands;
 		}
 
 		/**
+		 * Set the walk to parse commits
+		 *
 		 * @param walk
 		 *            the walk to parse commits
 		 */
@@ -129,6 +147,8 @@ public interface ConnectivityChecker {
 		}
 
 		/**
+		 * Get the walk to parse commits
+		 *
 		 * @return the walk to parse commits
 		 */
 		public RevWalk getWalk() {

@@ -194,12 +194,20 @@ public class UploadPack implements Closeable {
 			}
 		}
 
-		/** @return non-capabilities part of the line. */
+		/**
+		 * Get non-capabilities part of the line
+		 *
+		 * @return non-capabilities part of the line.
+		 */
 		public String getLine() {
 			return firstWant.getLine();
 		}
 
-		/** @return capabilities parsed from the line. */
+		/**
+		 * Get capabilities parsed from the line
+		 *
+		 * @return capabilities parsed from the line.
+		 */
 		public Set<String> getOptions() {
 			if (firstWant.getAgent() != null) {
 				Set<String> caps = new HashSet<>(firstWant.getCapabilities());
@@ -732,8 +740,11 @@ public class UploadPack implements Closeable {
 	}
 
 	/**
-	 * @param p provider of URIs corresponding to cached packs (to support
-	 *     the packfile URIs feature)
+	 * Set provider of cached pack URIs
+	 *
+	 * @param p
+	 *            provider of URIs corresponding to cached packs (to support the
+	 *            packfile URIs feature)
 	 * @since 5.5
 	 */
 	public void setCachedPackUriProvider(@Nullable CachedPackUriProvider p) {

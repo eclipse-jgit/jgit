@@ -57,6 +57,8 @@ public class RebaseTodoLine {
 		}
 
 		/**
+		 * Get full action token name
+		 *
 		 * @return full action token name
 		 */
 		public String toToken() {
@@ -69,6 +71,8 @@ public class RebaseTodoLine {
 		}
 
 		/**
+		 * Parse a token
+		 *
 		 * @param token
 		 *            token to parse
 		 * @return the Action

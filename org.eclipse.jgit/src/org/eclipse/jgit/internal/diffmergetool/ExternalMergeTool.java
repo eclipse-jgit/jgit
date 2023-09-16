@@ -18,11 +18,15 @@ import org.eclipse.jgit.lib.internal.BooleanTriState;
 public interface ExternalMergeTool extends ExternalDiffTool {
 
 	/**
+	 * Get the tool "trust exit code" option
+	 *
 	 * @return the tool "trust exit code" option
 	 */
 	BooleanTriState getTrustExitCode();
 
 	/**
+	 * Get tool command
+	 *
 	 * @param withBase
 	 *            get command with base present (true) or without base present
 	 *            (false)
