@@ -15,8 +15,8 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -27,11 +27,11 @@ import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1815,7 +1815,7 @@ public abstract class Repository implements AutoCloseable {
 		if (raw == null)
 			return null;
 
-		LinkedList<ObjectId> heads = new LinkedList<>();
+		List<ObjectId> heads = new ArrayList<>();
 		for (int p = 0; p < raw.length;) {
 			heads.add(ObjectId.fromString(raw, p));
 			p = RawParseUtils

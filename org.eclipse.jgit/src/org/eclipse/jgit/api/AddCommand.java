@@ -18,7 +18,7 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
@@ -73,7 +73,7 @@ public class AddCommand extends GitCommand<DirCache> {
 	 */
 	public AddCommand(Repository repo) {
 		super(repo);
-		filepatterns = new LinkedList<>();
+		filepatterns = new ArrayList<>();
 	}
 
 	/**
