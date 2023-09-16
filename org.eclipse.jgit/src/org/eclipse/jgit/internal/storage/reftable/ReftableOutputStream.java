@@ -84,7 +84,11 @@ class ReftableOutputStream extends OutputStream {
 		return paddingUsed;
 	}
 
-	/** @return bytes flushed; excludes {@link #bytesWrittenInBlock()}. */
+	/**
+	 * Get size
+	 *
+	 * @return bytes flushed; excludes {@link #bytesWrittenInBlock()}.
+	 */
 	long size() {
 		return out.getCount();
 	}

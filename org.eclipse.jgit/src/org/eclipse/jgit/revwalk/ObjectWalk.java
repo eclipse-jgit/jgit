@@ -642,6 +642,8 @@ public class ObjectWalk extends RevWalk {
 	}
 
 	/**
+	 * Get the current traversal depth from the root tree object
+	 *
 	 * @return the current traversal depth from the root tree object
 	 * @since 5.4
 	 */

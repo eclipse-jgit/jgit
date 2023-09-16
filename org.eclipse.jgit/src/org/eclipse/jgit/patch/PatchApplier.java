@@ -196,6 +196,8 @@ public class PatchApplier {
 		private List<Error> errors = new ArrayList<>();
 
 		/**
+		 * Get modified paths
+		 *
 		 * @return List of modified paths.
 		 */
 		public List<String> getPaths() {
@@ -203,6 +205,8 @@ public class PatchApplier {
 		}
 
 		/**
+		 * Get tree ID
+		 *
 		 * @return The applied tree ID.
 		 */
 		public ObjectId getTreeId() {
@@ -210,6 +214,8 @@ public class PatchApplier {
 		}
 
 		/**
+		 * Get errors
+		 *
 		 * @return Errors occurred while applying the patch.
 		 *
 		 * @since 6.6

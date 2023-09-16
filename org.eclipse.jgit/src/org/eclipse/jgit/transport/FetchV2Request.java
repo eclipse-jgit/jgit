@@ -70,6 +70,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Get object ids received in the "have" lines
+	 *
 	 * @return object ids received in the "have" lines
 	 */
 	@NonNull
@@ -78,6 +80,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Get list of references received in "want-ref" lines
+	 *
 	 * @return list of references received in "want-ref" lines
 	 *
 	 * @since 5.4
@@ -88,6 +92,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Whether the request had a "done" line
+	 *
 	 * @return true if the request had a "done" line
 	 */
 	boolean wasDoneReceived() {
@@ -95,6 +101,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Whether the request had a "wait-for-done" line
+	 *
 	 * @return true if the request had a "wait-for-done" line
 	 */
 	boolean wasWaitForDoneReceived() {
@@ -115,6 +123,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Whether "sideband-all" was received
+	 *
 	 * @return true if "sideband-all" was received
 	 */
 	boolean getSidebandAll() {
@@ -126,7 +136,11 @@ public final class FetchV2Request extends FetchRequest {
 		return packfileUriProtocols;
 	}
 
-	/** @return A builder of {@link FetchV2Request}. */
+	/**
+	 * Get builder
+	 *
+	 * @return A builder of {@link FetchV2Request}.
+	 */
 	static Builder builder() {
 		return new Builder();
 	}
@@ -171,6 +185,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add object the peer has
+		 *
 		 * @param objectId
 		 *            object id received in a "have" line
 		 * @return this builder
@@ -181,7 +197,7 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * Ref received in "want-ref" line and the object-id it refers to
+		 * Add Ref received in "want-ref" line and the object-id it refers to
 		 *
 		 * @param refName
 		 *            reference name
@@ -193,6 +209,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add client capability
+		 *
 		 * @param clientCapability
 		 *            capability line sent by the client
 		 * @return this builder
@@ -203,6 +221,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add object received in "want" line
+		 *
 		 * @param wantId
 		 *            object id received in a "want" line
 		 * @return this builder
@@ -213,6 +233,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add Object received in a "shallow" line
+		 *
 		 * @param shallowOid
 		 *            object id received in a "shallow" line
 		 * @return this builder
@@ -223,6 +245,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set depth received in "deepen" line
+		 *
 		 * @param d
 		 *            Depth received in a "deepen" line
 		 * @return this builder
@@ -233,6 +257,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Get depth set in request
+		 *
 		 * @return depth set in the request (via a "deepen" line). Defaulting to
 		 *         0 if not set.
 		 */
@@ -241,6 +267,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Whether there has been at least one ""deepen not" line
+		 *
 		 * @return true if there has been at least one "deepen not" line in the
 		 *         request so far
 		 */
@@ -249,6 +277,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add reference received in a "deepen not" line
+		 *
 		 * @param deepenNot
 		 *            reference received in a "deepen not" line
 		 * @return this builder
@@ -259,6 +289,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set Unix timestamp received in a "deepen since" line
+		 *
 		 * @param value
 		 *            Unix timestamp received in a "deepen since" line
 		 * @return this builder
@@ -269,6 +301,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Get shallow since value
+		 *
 		 * @return shallow since value, sent before in a "deepen since" line. 0
 		 *         by default.
 		 */
@@ -277,6 +311,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set filter spec
+		 *
 		 * @param filter
 		 *            spec set in a "filter" line
 		 * @return this builder
@@ -321,6 +357,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set value of client-supplied session capability
+		 *
 		 * @param clientSIDValue
 		 *            the client-supplied session capability, without the
 		 *            leading "session-id="
@@ -347,7 +385,10 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * @param value true if client sent "sideband-all"
+		 * Set whether client sent "sideband-all
+		 *
+		 * @param value
+		 *            true if client sent "sideband-all"
 		 * @return this builder
 		 */
 		Builder setSidebandAll(boolean value) {
@@ -361,6 +402,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Build initialized fetch request
+		 *
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {

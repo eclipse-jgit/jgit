@@ -166,6 +166,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get buffered standard output stream
+		 *
 		 * @return buffered standard output stream
 		 */
 		public TemporaryBuffer getStdout() {
@@ -173,6 +175,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get buffered standard error stream
+		 *
 		 * @return buffered standard error stream
 		 */
 		public TemporaryBuffer getStderr() {
@@ -180,6 +184,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the return code of the process
+		 *
 		 * @return the return code of the process
 		 */
 		public int getRc() {
@@ -832,6 +838,8 @@ public abstract class FS {
 		private Duration minimalRacyInterval;
 
 		/**
+		 * Get the minimal racy interval
+		 *
 		 * @return the measured minimal interval after a file has been modified
 		 *         in which we cannot rely on lastModified to detect
 		 *         modifications
@@ -841,6 +849,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the measured filesystem timestamp resolution
+		 *
 		 * @return the measured filesystem timestamp resolution
 		 */
 		@NonNull
@@ -1828,6 +1838,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether the file was created successfully
+		 *
 		 * @return {@code true} if the file was created successfully
 		 */
 		public boolean isCreated() {
@@ -2367,6 +2379,8 @@ public abstract class FS {
 	public static class Attributes {
 
 		/**
+		 * Whether this are attributes of a directory
+		 *
 		 * @return true if this are the attributes of a directory
 		 */
 		public boolean isDirectory() {
@@ -2374,6 +2388,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether this are attributes of an executable file
+		 *
 		 * @return true if this are the attributes of an executable file
 		 */
 		public boolean isExecutable() {
@@ -2381,6 +2397,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether this are the attributes of a symbolic link
+		 *
 		 * @return true if this are the attributes of a symbolic link
 		 */
 		public boolean isSymbolicLink() {
@@ -2388,6 +2406,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether this are the attributes of a regular file
+		 *
 		 * @return true if this are the attributes of a regular file
 		 */
 		public boolean isRegularFile() {
@@ -2395,6 +2415,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the file creation time
+		 *
 		 * @return the time when the file was created
 		 */
 		public long getCreationTime() {
@@ -2402,6 +2424,9 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the time when the file was last modified in milliseconds since
+		 * the epoch
+		 *
 		 * @return the time (milliseconds since 1970-01-01) when this object was
 		 *         last modified
 		 * @deprecated use getLastModifiedInstant instead
@@ -2412,6 +2437,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the time when this object was last modified
+		 *
 		 * @return the time when this object was last modified
 		 * @since 5.1.9
 		 */
@@ -2472,6 +2499,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the length of this file
+		 *
 		 * @return length of this file object
 		 */
 		public long getLength() {
@@ -2481,6 +2510,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the filename
+		 *
 		 * @return the filename
 		 */
 		public String getName() {
@@ -2488,6 +2519,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the file the attributes apply to
+		 *
 		 * @return the file the attributes apply to
 		 */
 		public File getFile() {
