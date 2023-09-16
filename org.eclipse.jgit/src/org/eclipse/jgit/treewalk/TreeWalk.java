@@ -1514,7 +1514,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		}
 		return filterCommand.replaceAll("%f", //$NON-NLS-1$
 				Matcher.quoteReplacement(
-						QuotedString.BOURNE.quote((getPathString()))));
+						QuotedString.BOURNE.quote(getPathString())));
 	}
 
 	/**
@@ -1564,7 +1564,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		}
 		return filterCommand.replaceAll("%f", //$NON-NLS-1$
 				Matcher.quoteReplacement(
-						QuotedString.BOURNE.quote((getPathString()))));
+						QuotedString.BOURNE.quote(getPathString())));
 	}
 
 	/**
