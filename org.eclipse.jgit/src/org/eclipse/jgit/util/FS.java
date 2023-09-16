@@ -265,7 +265,7 @@ public abstract class FS {
 		 * @see java.util.concurrent.Executors#newCachedThreadPool()
 		 */
 		private static final ExecutorService FUTURE_RUNNER = new ThreadPoolExecutor(
-				0, 5, 30L, TimeUnit.SECONDS,
+				5, 5, 30L, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<>(),
 				runnable -> {
 					Thread t = new Thread(runnable,
