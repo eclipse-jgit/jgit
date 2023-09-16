@@ -18,8 +18,8 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -55,7 +55,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  */
 public class AddCommand extends GitCommand<DirCache> {
 
-	private Collection<String> filepatterns;
+	private List<String> filepatterns;
 
 	private WorkingTreeIterator workingTreeIterator;
 
