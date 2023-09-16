@@ -159,7 +159,11 @@ public interface BitmapIndex {
 		@Override
 		BitmapBuilder xor(Bitmap other);
 
-		/** @return the fully built immutable bitmap */
+		/**
+		 * Build the bitmap
+		 *
+		 * @return the fully built immutable bitmap
+		 */
 		Bitmap build();
 
 		/**
@@ -174,7 +178,11 @@ public interface BitmapIndex {
 		 */
 		boolean removeAllOrNone(PackBitmapIndex bitmapIndex);
 
-		/** @return the number of elements in the bitmap. */
+		/**
+		 * Get number of elements in the bitmap
+		 *
+		 * @return the number of elements in the bitmap.
+		 */
 		int cardinality();
 
 		/**

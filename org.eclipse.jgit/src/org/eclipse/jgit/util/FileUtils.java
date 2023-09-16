@@ -851,6 +851,8 @@ public class FileUtils {
 	}
 
 	/**
+	 * Whether the file exists
+	 *
 	 * @param file
 	 *            the file
 	 * @return {@code true} if the given file exists, not following symbolic
@@ -964,6 +966,8 @@ public class FileUtils {
 	}
 
 	/**
+	 * Get basic file attributes
+	 *
 	 * @param fs
 	 *            a {@link org.eclipse.jgit.util.FS} object.
 	 * @param file

@@ -297,6 +297,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether clients are allowed to specify "filter" line
+	 *
 	 * @return true if clients are allowed to specify a "filter" line
 	 * @since 5.0
 	 */
@@ -305,6 +307,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether clients are allowed to specify "want-ref" line
+	 *
 	 * @return true if clients are allowed to specify a "want-ref" line
 	 * @since 5.1
 	 */
@@ -313,6 +317,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether the server accepts sideband-all requests
+	 *
 	 * @return true if the server accepts sideband-all requests (see
 	 *         {{@link #isAdvertiseSidebandAll()} for the advertisement)
 	 * @since 5.5
@@ -322,6 +328,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise sideband all to the clients
+	 *
 	 * @return true to advertise sideband all to the clients
 	 * @since 5.6
 	 */
@@ -330,6 +338,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise wait-for-done all to the clients
+	 *
 	 * @return true to advertise wait-for-done all to the clients
 	 * @since 5.13
 	 */
@@ -338,6 +348,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise object-info to all clients
+	 *
 	 * @return true to advertise object-info to all clients
 	 * @since 5.13
 	 */
@@ -346,6 +358,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise and receive session-id capability
+	 *
 	 * @return true to advertise and receive session-id capability
 	 * @since 6.4
 	 */

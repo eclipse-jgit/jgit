@@ -78,6 +78,8 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	private static final AbstractTreeIterator[] NO_TREES = {};
 
 	/**
+	 * Type of operation to retrieve git attributes for.
+	 *
 	 * @since 4.2
 	 */
 	public enum OperationType {

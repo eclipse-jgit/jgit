@@ -167,7 +167,11 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			this.flags = flags;
 		}
 
-		/** @return the flags associated with the bitmap. */
+		/**
+		 * Get flags
+		 *
+		 * @return the flags associated with the bitmap.
+		 */
 		public int getFlags() {
 			return flags;
 		}
