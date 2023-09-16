@@ -107,7 +107,7 @@ class BareSuperprojectWriter {
 			PersonIdent author, RemoteReader callback,
 			BareWriterConfig config,
 			List<ExtraContent> extraContents) {
-		assert (repo.isBare());
+		assert repo.isBare();
 		this.repo = repo;
 		this.targetUri = targetUri;
 		this.targetBranch = targetBranch;

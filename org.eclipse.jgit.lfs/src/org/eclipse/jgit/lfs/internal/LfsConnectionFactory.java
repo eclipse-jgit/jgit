@@ -13,6 +13,7 @@ import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 
 import java.io.IOException;
 import java.net.ProxySelector;
@@ -128,8 +129,7 @@ public class LfsConnectionFactory {
 				// This could be done better (more precise logic), but according
 				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs
 				// generally only supports 'origin' in an integrated workflow.
-				if (lfsUrl == null && (remote.equals(
-						org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME))) {
+				if (lfsUrl == null && remote.equals(DEFAULT_REMOTE_NAME)) {
 					remoteUrl = config.getString(
 							ConfigConstants.CONFIG_KEY_REMOTE, remote,
 							ConfigConstants.CONFIG_KEY_URL);

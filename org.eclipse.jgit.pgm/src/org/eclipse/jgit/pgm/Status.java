@@ -226,7 +226,7 @@ class Status extends TextBuiltin {
 			firstHeader = false;
 		}
 		int nbUntracked = untracked.size();
-		if (nbUntracked > 0 && ("all".equals(untrackedFilesMode))) { //$NON-NLS-1$
+		if (nbUntracked > 0 && "all".equals(untrackedFilesMode)) { //$NON-NLS-1$
 			if (!firstHeader)
 				printSectionHeader(""); //$NON-NLS-1$
 			printSectionHeader(CLIText.get().untrackedFiles);

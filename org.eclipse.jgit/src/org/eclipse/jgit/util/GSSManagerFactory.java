@@ -28,7 +28,7 @@ public abstract class GSSManagerFactory {
 	 * @return detected GSSManager factory
 	 */
 	public static GSSManagerFactory detect() {
-		return (SunGSSManagerFactory.isSupported()) ? new SunGSSManagerFactory()
+		return SunGSSManagerFactory.isSupported() ? new SunGSSManagerFactory()
 				: new DefaultGSSManagerFactory();
 	}
 
