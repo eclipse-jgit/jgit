@@ -42,27 +42,47 @@ public class HunkHeader {
 		/** Number of lines added by the post-image not in this file. */
 		int nAdded;
 
-		/** @return first line number the hunk starts on in this file. */
+		/**
+		 * Get line number where hunk starts
+		 *
+		 * @return first line number the hunk starts on in this file.
+		 */
 		public int getStartLine() {
 			return startLine;
 		}
 
-		/** @return total number of lines this hunk covers in this file. */
+		/**
+		 * Get number of lines this hunk covers
+		 *
+		 * @return total number of lines this hunk covers in this file.
+		 */
 		public int getLineCount() {
 			return lineCount;
 		}
 
-		/** @return number of lines deleted by the post-image from this file. */
+		/**
+		 * Get number of lines deleted by the post-image
+		 *
+		 * @return number of lines deleted by the post-image from this file.
+		 */
 		public int getLinesDeleted() {
 			return nDeleted;
 		}
 
-		/** @return number of lines added by the post-image not in this file. */
+		/**
+		 * Get number of lines added by the post-image
+		 *
+		 * @return number of lines added by the post-image not in this file.
+		 */
 		public int getLinesAdded() {
 			return nAdded;
 		}
 
-		/** @return object id of the pre-image file. */
+		/**
+		 * Get id of the pre-image file
+		 *
+		 * @return object id of the pre-image file.
+		 */
 		public abstract AbbreviatedObjectId getId();
 	}
 

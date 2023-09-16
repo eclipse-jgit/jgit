@@ -56,6 +56,8 @@ public class SubmoduleValidator {
 
 
 		/**
+		 * Get the error identifier
+		 *
 		 * @return the error identifier
 		 */
 		public ObjectChecker.ErrorType getFsckMessageId() {

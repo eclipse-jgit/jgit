@@ -342,22 +342,38 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			this.flags = flags;
 		}
 
-		/** @return the bitmap */
+		/**
+		 * Get the bitmap
+		 *
+		 * @return the bitmap
+		 */
 		public EWAHCompressedBitmap getBitmap() {
 			return bitmap;
 		}
 
-		/** @return the xorOffset */
+		/**
+		 * Get the xorOffset
+		 *
+		 * @return the xorOffset
+		 */
 		public int getXorOffset() {
 			return xorOffset;
 		}
 
-		/** @return the flags */
+		/**
+		 * Get the flags
+		 *
+		 * @return the flags
+		 */
 		public int getFlags() {
 			return flags;
 		}
 
-		/** @return the ObjectId */
+		/**
+		 * Get the ObjectId
+		 *
+		 * @return the ObjectId
+		 */
 		public long getObjectId() {
 			return objectId;
 		}

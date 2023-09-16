@@ -122,6 +122,8 @@ public class InMemoryRepository extends DfsRepository {
 		}
 
 		/**
+		 * Set readable channel block size
+		 *
 		 * @param blockSize
 		 *            force a different block size for testing.
 		 */

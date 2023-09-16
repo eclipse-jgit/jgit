@@ -31,7 +31,9 @@ public class MergeResult {
 	 * The status the merge resulted in.
 	 */
 	public enum MergeStatus {
-		/** */
+		/**
+		 * Merge is a fast-forward
+		 */
 		FAST_FORWARD {
 			@Override
 			public String toString() {
@@ -44,6 +46,8 @@ public class MergeResult {
 			}
 		},
 		/**
+		 * Merge is a fast-forward, squashed
+		 *
 		 * @since 2.0
 		 */
 		FAST_FORWARD_SQUASHED {
@@ -57,7 +61,9 @@ public class MergeResult {
 				return true;
 			}
 		},
-		/** */
+		/**
+		 * Already up to date, merge was a no-op
+		 */
 		ALREADY_UP_TO_DATE {
 			@Override
 			public String toString() {
@@ -69,7 +75,9 @@ public class MergeResult {
 				return true;
 			}
 		},
-		/** */
+		/**
+		 * Merge failed
+		 */
 		FAILED {
 			@Override
 			public String toString() {
@@ -81,7 +89,9 @@ public class MergeResult {
 				return false;
 			}
 		},
-		/** */
+		/**
+		 * Merged
+		 */
 		MERGED {
 			@Override
 			public String toString() {
@@ -94,6 +104,8 @@ public class MergeResult {
 			}
 		},
 		/**
+		 * Merged, squashed, not updating HEAD
+		 *
 		 * @since 2.0
 		 */
 		MERGED_SQUASHED {
@@ -108,6 +120,8 @@ public class MergeResult {
 			}
 		},
 		/**
+		 * Merged, squashed, not committed
+		 *
 		 * @since 3.0
 		 */
 		MERGED_SQUASHED_NOT_COMMITTED {
@@ -121,7 +135,9 @@ public class MergeResult {
 				return true;
 			}
 		},
-		/** */
+		/**
+		 * Merge raised conflicts to be resolved
+		 */
 		CONFLICTING {
 			@Override
 			public String toString() {
@@ -134,6 +150,8 @@ public class MergeResult {
 			}
 		},
 		/**
+		 * Merge was aborted
+		 *
 		 * @since 2.2
 		 */
 		ABORTED {
@@ -148,6 +166,8 @@ public class MergeResult {
 			}
 		},
 		/**
+		 * Merged, not committed
+		 *
 		 * @since 3.0
 		 **/
 		MERGED_NOT_COMMITTED {
@@ -161,7 +181,7 @@ public class MergeResult {
 				return true;
 			}
 		},
-		/** */
+		/** Not yet supported */
 		NOT_SUPPORTED {
 			@Override
 			public String toString() {
@@ -191,6 +211,8 @@ public class MergeResult {
 		};
 
 		/**
+		 * Whether the merge was successful
+		 *
 		 * @return whether the status indicates a successful result
 		 */
 		public abstract boolean isSuccessful();

@@ -201,6 +201,8 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		}
 
 		/**
+		 * Get file mode
+		 *
 		 * @return Git file mode for this file (e.g. executable or regular)
 		 */
 		@NonNull

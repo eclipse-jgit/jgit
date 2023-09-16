@@ -52,6 +52,8 @@ public abstract class ReftableDatabase {
 	protected abstract MergedReftable openMergedReftable() throws IOException;
 
 	/**
+	 * Get next update index
+	 *
 	 * @return the next available logical timestamp for an additional reftable
 	 *         in the stack.
 	 * @throws java.io.IOException
@@ -67,6 +69,8 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Get ReflogReader
+	 *
 	 * @return a ReflogReader for the given ref
 	 * @param refname
 	 *            the name of the ref.
@@ -83,6 +87,8 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Create a ReceiveCommand for the change from oldRef to newRef
+	 *
 	 * @return a ReceiveCommand for the change from oldRef to newRef
 	 * @param oldRef
 	 *            a ref
@@ -136,6 +142,8 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Get lock
+	 *
 	 * @return the lock protecting underlying ReftableReaders against concurrent
 	 *         reads.
 	 */
@@ -144,6 +152,8 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Get reader for merged reftable
+	 *
 	 * @return the merged reftable that is implemented by the stack of
 	 *         reftables. Return value must be accessed under lock.
 	 * @throws IOException
@@ -161,6 +171,8 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Whether refName is conflicting
+	 *
 	 * @return whether the given refName would be illegal in a repository that
 	 *         uses loose refs.
 	 * @param refName
@@ -319,8 +331,11 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
+	 * Whether there is a fast SHA1 to ref map
+	 *
 	 * @return whether there is a fast SHA1 to ref map.
-	 * @throws IOException in case of I/O problems.
+	 * @throws IOException
+	 *             in case of I/O problems.
 	 */
 	public boolean hasFastTipsWithSha1() throws IOException {
 		lock.lock();

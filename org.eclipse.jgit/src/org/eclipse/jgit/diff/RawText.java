@@ -106,6 +106,8 @@ public class RawText extends Sequence {
 	}
 
 	/**
+	 * Get the raw content
+	 *
 	 * @return the raw, unprocessed content read.
 	 * @since 4.11
 	 */

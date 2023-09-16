@@ -34,7 +34,6 @@ import org.eclipse.jgit.util.RefMap;
 
 /**
  * Abstract DfsRefDatabase class.
- *
  */
 public abstract class DfsRefDatabase extends RefDatabase {
 	private final DfsRepository repository;
@@ -359,7 +358,11 @@ public abstract class DfsRefDatabase extends RefDatabase {
 			this(ids, old.sym);
 		}
 
-		/** @return number of references in this cache. */
+		/**
+		 * Get number of references
+		 *
+		 * @return number of references in this cache.
+		 */
 		public int size() {
 			return ids.size();
 		}

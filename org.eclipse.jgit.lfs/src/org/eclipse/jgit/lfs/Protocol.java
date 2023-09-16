@@ -131,6 +131,8 @@ public interface Protocol {
 	String OBJECTS_LFS_ENDPOINT = "/objects/batch"; //$NON-NLS-1$
 
 	/**
+	 * Gson instance for handling this protocol
+	 *
 	 * @return a {@link Gson} instance suitable for handling this
 	 *         {@link Protocol}
 	 *

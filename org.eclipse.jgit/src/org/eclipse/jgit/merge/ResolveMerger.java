@@ -113,6 +113,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			private ObjectId treeId = null;
 
 			/**
+			 * Get modified tree id if any
+			 *
 			 * @return Modified tree ID if any, or null otherwise.
 			 */
 			public ObjectId getTreeId() {
@@ -120,6 +122,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 
 			/**
+			 * Get path of files that couldn't be deleted
+			 *
 			 * @return Files that couldn't be deleted.
 			 */
 			public List<String> getFailedToDelete() {
@@ -127,6 +131,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 
 			/**
+			 * Get path of modified files
+			 *
 			 * @return Files modified during this operation.
 			 */
 			public List<String> getModifiedFiles() {

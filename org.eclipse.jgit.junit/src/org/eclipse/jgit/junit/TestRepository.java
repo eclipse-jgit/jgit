@@ -1035,6 +1035,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		}
 
 		/**
+		 * Create commit builder
+		 *
 		 * @return construct a new commit builder that updates this branch. If
 		 *         the branch already exists, the commit builder will have its
 		 *         first parent as the current commit and its tree will be

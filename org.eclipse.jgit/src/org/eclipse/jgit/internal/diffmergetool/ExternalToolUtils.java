@@ -117,6 +117,8 @@ public class ExternalToolUtils {
 	}
 
 	/**
+	 * Quote path
+	 *
 	 * @param path
 	 *            the path to be quoted
 	 * @return quoted path if it contains spaces
@@ -138,6 +140,8 @@ public class ExternalToolUtils {
 	}
 
 	/**
+	 * Whether tool is available
+	 *
 	 * @param fs
 	 *            the file system abstraction
 	 * @param gitDir
@@ -162,6 +166,8 @@ public class ExternalToolUtils {
 	}
 
 	/**
+	 * Create sorted tool set
+	 *
 	 * @param defaultName
 	 *            the default tool name
 	 * @param userDefinedNames
