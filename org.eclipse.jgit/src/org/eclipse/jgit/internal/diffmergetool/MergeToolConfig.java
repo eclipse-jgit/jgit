@@ -89,6 +89,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get default tool name
+	 *
 	 * @return the default merge tool name (merge.tool)
 	 */
 	public String getDefaultToolName() {
@@ -96,6 +98,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get default GUI tool name
+	 *
 	 * @return the default GUI merge tool name (merge.guitool)
 	 */
 	public String getDefaultGuiToolName() {
@@ -103,6 +107,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get mergetool.prompt option
+	 *
 	 * @return the merge tool "prompt" option (mergetool.prompt)
 	 */
 	public boolean isPrompt() {
@@ -110,6 +116,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get tool "keep backup" option
+	 *
 	 * @return the tool "keep backup" option
 	 */
 	public boolean isKeepBackup() {
@@ -117,6 +125,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get tool "keep backup" option
+	 *
 	 * @return the tool "keepTemporaries" option
 	 */
 	public boolean isKeepTemporaries() {
@@ -124,6 +134,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get the tool "write to temp" option
+	 *
 	 * @return the tool "write to temp" option
 	 */
 	public boolean isWriteToTemp() {
@@ -131,6 +143,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get the tools map
+	 *
 	 * @return the tools map
 	 */
 	public Map<String, ExternalMergeTool> getTools() {
@@ -138,6 +152,8 @@ public class MergeToolConfig {
 	}
 
 	/**
+	 * Get tool names
+	 *
 	 * @return the tool names
 	 */
 	public Set<String> getToolNames() {

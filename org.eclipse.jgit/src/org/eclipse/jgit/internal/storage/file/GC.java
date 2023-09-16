@@ -1729,6 +1729,8 @@ public class GC {
 	}
 
 	/**
+	 * Whether number of packs exceeds gc.autopacklimit
+	 *
 	 * @return {@code true} if number of packs &gt; gc.autopacklimit (default
 	 *         50)
 	 */

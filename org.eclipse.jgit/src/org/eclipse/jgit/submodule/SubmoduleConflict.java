@@ -71,8 +71,10 @@ public class SubmoduleConflict extends Sequence {
     }
 
     /**
-     * @return the object id for the conflicting submodule
-     */
+	 * Get objectId for the conflicting submodule
+	 *
+	 * @return the object id for the conflicting submodule
+	 */
     public ObjectId getObjectId() {
         return objectId;
     }

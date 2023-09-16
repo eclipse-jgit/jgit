@@ -75,6 +75,8 @@ public class DiffToolConfig {
 	}
 
 	/**
+	 * Get default tool name
+	 *
 	 * @return the default diff tool name (diff.tool)
 	 */
 	public String getDefaultToolName() {
@@ -82,6 +84,8 @@ public class DiffToolConfig {
 	}
 
 	/**
+	 * Get default GUI tool name
+	 *
 	 * @return the default GUI diff tool name (diff.guitool)
 	 */
 	public String getDefaultGuiToolName() {
@@ -89,6 +93,8 @@ public class DiffToolConfig {
 	}
 
 	/**
+	 * Get difftool.prompt option
+	 *
 	 * @return the diff tool "prompt" option (difftool.prompt)
 	 */
 	public boolean isPrompt() {
@@ -96,6 +102,8 @@ public class DiffToolConfig {
 	}
 
 	/**
+	 * Get difftool.trustExitCode option
+	 *
 	 * @return the diff tool "trust exit code" option (difftool.trustExitCode)
 	 */
 	public boolean isTrustExitCode() {
@@ -103,6 +111,8 @@ public class DiffToolConfig {
 	}
 
 	/**
+	 * Get tools map
+	 *
 	 * @return the tools map
 	 */
 	public Map<String, ExternalDiffTool> getTools() {
@@ -110,6 +120,8 @@ public class DiffToolConfig {
 	}
 
 	/**
+	 * Get tool names
+	 *
 	 * @return the tool names
 	 */
 	public Set<String> getToolNames() {

@@ -24,6 +24,8 @@ public interface ProtocolV2Hook {
 	};
 
 	/**
+	 * Handle capabilities request
+	 *
 	 * @param req
 	 *            the capabilities request
 	 * @throws ServiceMayNotContinueException
@@ -36,6 +38,8 @@ public interface ProtocolV2Hook {
 	}
 
 	/**
+	 * Handle ls-refs request
+	 *
 	 * @param req
 	 *            the ls-refs request
 	 * @throws ServiceMayNotContinueException
@@ -48,8 +52,12 @@ public interface ProtocolV2Hook {
 	}
 
 	/**
-	 * @param req the fetch request
-	 * @throws ServiceMayNotContinueException abort; the message will be sent to the user
+	 * Handle fetch request
+	 *
+	 * @param req
+	 *            the fetch request
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user
 	 */
 	default void onFetch(FetchV2Request req)
 			throws ServiceMayNotContinueException {
@@ -57,6 +65,8 @@ public interface ProtocolV2Hook {
 	}
 
 	/**
+	 * Handle object-info request
+	 *
 	 * @param req
 	 *            the object-info request
 	 * @throws ServiceMayNotContinueException

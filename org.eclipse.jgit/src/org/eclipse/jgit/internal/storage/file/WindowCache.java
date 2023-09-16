@@ -373,6 +373,8 @@ public class WindowCache {
 	}
 
 	/**
+	 * Get singleton instance
+	 *
 	 * @return the cached instance.
 	 */
 	public static WindowCache getInstance() {
@@ -491,6 +493,8 @@ public class WindowCache {
 	}
 
 	/**
+	 * Get cache statistics
+	 *
 	 * @return cache statistics for the WindowCache
 	 */
 	public WindowCacheStats getStats() {

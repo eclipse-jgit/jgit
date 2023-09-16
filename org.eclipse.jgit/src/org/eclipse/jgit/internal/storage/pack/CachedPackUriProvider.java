@@ -21,14 +21,18 @@ import org.eclipse.jgit.annotations.Nullable;
 public interface CachedPackUriProvider {
 
 	/**
-	 * @param pack the cached pack for which to check if a corresponding URI
-	 *	exists
-	 * @param protocolsSupported the protocols that the client has declared
-	 *	support for; if a URI is returned, it must be of one of these
-	 *	protocols
-	 * @throws IOException implementations may throw this
-	 * @return if a URI corresponds to the cached pack, an object
-	 *	containing the URI and some other information; null otherwise
+	 * Get pack info
+	 *
+	 * @param pack
+	 *            the cached pack for which to check if a corresponding URI
+	 *            exists
+	 * @param protocolsSupported
+	 *            the protocols that the client has declared support for; if a
+	 *            URI is returned, it must be of one of these protocols
+	 * @throws IOException
+	 *             implementations may throw this
+	 * @return if a URI corresponds to the cached pack, an object containing the
+	 *         URI and some other information; null otherwise
 	 * @since 5.5
 	 */
 	@Nullable
@@ -62,6 +66,8 @@ public interface CachedPackUriProvider {
 		}
 
 		/**
+		 * Get the hash of the packfile
+		 *
 		 * @return the hash of the packfile as a hexadecimal string
 		 */
 		public String getHash() {
@@ -69,6 +75,8 @@ public interface CachedPackUriProvider {
 		}
 
 		/**
+		 * Get the URI corresponding to the packfile
+		 *
 		 * @return the URI corresponding to the packfile
 		 */
 		public String getUri() {
@@ -76,6 +84,8 @@ public interface CachedPackUriProvider {
 		}
 
 		/**
+		 * Get the size of the packfile in bytes
+		 *
 		 * @return the size of the packfile in bytes (-1 if unknown)
 		 */
 		public long getSize() {

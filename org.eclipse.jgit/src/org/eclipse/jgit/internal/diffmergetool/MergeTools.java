@@ -272,6 +272,8 @@ public class MergeTools {
 	}
 
 	/**
+	 * Get predefined tool names
+	 *
 	 * @return the predefined tool names
 	 */
 	public Set<String> getPredefinedToolNames() {
@@ -331,6 +333,8 @@ public class MergeTools {
 	}
 
 	/**
+	 * Get user defined tools
+	 *
 	 * @return the user defined tools
 	 */
 	public Map<String, ExternalMergeTool> getUserDefinedTools() {
