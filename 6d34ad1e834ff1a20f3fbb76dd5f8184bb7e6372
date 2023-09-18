@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "289a9eda_06d88bc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-18T20:00:35Z",
+      "side": 1,
+      "message": "\u003ccomponent\u003e: \u003cone line description\u003e\n\nIn this case the component can be \"config\"",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecedde0c_a5cf8931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-18T20:00:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t explain why to a future reader. Your answer to my other comment fits here.",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c64fb96f_9e3780c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-18T20:00:35Z",
+      "side": 1,
+      "message": "Could you add another paragraph indicating the change that introduce the option and mentioning that hasn\u0027t been in any release yet?",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ff23a606_42a61fb2",
@@ -14,6 +65,40 @@
       "writtenOn": "2023-09-18T19:17:25Z",
       "side": 1,
       "message": "trigger build",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa5d93bf_c78b1249",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-18T20:00:35Z",
+      "side": 1,
+      "message": "I guess it makes sense. @jonathantan any concern?",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3b516f_46829949",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-18T20:00:35Z",
+      "side": 1,
+      "message": "Please add also an entry in Documentation/config-options.md",
       "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
