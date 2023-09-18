@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c08b64_69bb98c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-09-18T20:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "289a9eda_06d88bc3",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecedde0c_a5cf8931",
@@ -35,6 +53,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ecb7fb_4fc338c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-09-18T20:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecedde0c_a5cf8931",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c64fb96f_9e3780c2",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-09-18T20:00:35Z",
       "side": 1,
       "message": "Could you add another paragraph indicating the change that introduce the option and mentioning that hasn\u0027t been in any release yet?",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "875b0952_dd5142cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-09-18T20:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c64fb96f_9e3780c2",
       "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -99,6 +153,24 @@
       "writtenOn": "2023-09-18T20:00:35Z",
       "side": 1,
       "message": "Please add also an entry in Documentation/config-options.md",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa1cc41b_c43bfdec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-09-18T20:51:05Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/Documentation/config-options.md is correct",
+      "parentUuid": "be3b516f_46829949",
       "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
