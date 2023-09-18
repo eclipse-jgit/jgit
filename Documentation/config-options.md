@@ -13,7 +13,6 @@ For details on native git options see also the official [git config documentatio
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
-| `commitGraph.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph. |
 | `commitGraph.readChangedPaths` | `false` | &#x2705; | Whether to use the changed-path Bloom filters in the commit-graph file (if it exists, and they are present). |
 
 ## __core__ options
@@ -69,6 +68,7 @@ For details on native git options see also the official [git config documentatio
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
+| `commitGraph.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph during a gc operation. |
 | `gc.aggressiveDepth` | `50` | &#x2705; | The depth parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.aggressiveWindow` | `250` | &#x2705; | The window size parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.auto` | `6700` | &#x2705; | Number of loose objects until auto gc combines all loose objects into a pack and consolidates all existing packs into one. Setting to 0 disables automatic packing of loose objects. |
