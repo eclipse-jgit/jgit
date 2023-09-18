@@ -142,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5335ed14_7261a6fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-09-18T23:17:17Z",
+      "side": 1,
+      "message": "I think it\u0027s better to keep this config under GC. In JGit, it\u0027s GC that reads this config and controls what\u0027s going on (as you can see in this commit). Ronald is right that nothing really controls this in C Git though (by default, Bloom filters are written if the commit graph already has one; if the user wants to start using Bloom filters, they must manually call \"git commit-graph write\" with the appropriate argument once).",
+      "parentUuid": "fa5d93bf_c78b1249",
+      "revId": "6d34ad1e834ff1a20f3fbb76dd5f8184bb7e6372",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be3b516f_46829949",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
