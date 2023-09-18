@@ -13,7 +13,6 @@ For details on native git options see also the official [git config documentatio
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
-| `commitGraph.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph. |
 | `commitGraph.readChangedPaths` | `false` | &#x2705; | Whether to use the changed-path Bloom filters in the commit-graph file (if it exists, and they are present). |
 
 ## __core__ options
@@ -69,6 +68,7 @@ For details on native git options see also the official [git config documentatio
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
+| `commitGraph.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph during a gc operation. |
 | `gc.aggressiveDepth` | `50` | &#x2705; | The depth parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.aggressiveWindow` | `250` | &#x2705; | The window size parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.auto` | `6700` | &#x2705; | Number of loose objects until auto gc combines all loose objects into a pack and consolidates all existing packs into one. Setting to 0 disables automatic packing of loose objects. |
@@ -77,6 +77,31 @@ For details on native git options see also the official [git config documentatio
 | `gc.logExpiry` | `1.day.ago` | &#x2705; | If the file `gc.log` exists, then auto gc will print its content and exit successfully instead of running unless that file is more than `gc.logExpiry` old. |
 | `gc.pruneExpire` | `2.weeks.ago` | &#x2705; | Grace period after which unreachable objects will be pruned. |
 | `gc.prunePackExpire` | `1.hour.ago` |  &#x20DE; | Grace period after which packfiles only containing unreachable objects will be pruned. |
+
+# This is the commit message #2:
+
+top
+
+Change-Id: Ia6660dac25505de1e92b36f16d07f0a32fa65458
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Mon Sep 18 11:45:11 2023 -0700
+#
+# interactive rebase in progress; onto 916200e27
+# Last commands done (2 commands done):
+#    pick 42a3fe313 Move writeChangePaths flag to be under commitGraph section.
+#    squash 2f62a475f top
+# No commands remaining.
+# You are currently rebasing branch 'master' on '916200e27'.
+#
+# Changes to be committed:
+#	modified:   org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java
+#	modified:   org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java
+#	modified:   org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java
+#
+
 
 ## __http__ options
 

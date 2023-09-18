@@ -1031,7 +1031,8 @@ public class GC {
 	 * @return true if bloom filter should be written. Default is {@code false}.
 	 */
 	boolean shouldWriteBloomFilter() {
-		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+		return repo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_GC_SECTION,
 				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS,
 				DEFAULT_WRITE_BLOOM_FILTER);
 	}
