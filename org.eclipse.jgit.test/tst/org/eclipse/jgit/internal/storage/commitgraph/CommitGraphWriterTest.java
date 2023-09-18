@@ -331,9 +331,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
-		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
-				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
-		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				null,
 				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
 		GC gc = new GC(db);
 		gc.gc().get();
