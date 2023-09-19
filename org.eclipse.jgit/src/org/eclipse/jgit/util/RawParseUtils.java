@@ -354,6 +354,7 @@ public final class RawParseUtils {
 	 *             if the string is not hex formatted.
 	 * @since 4.3
 	 */
+	@SuppressWarnings("IntLongMath")
 	public static final long parseHexInt64(final byte[] bs, final int p) {
 		long r = digits16[bs[p]] << 4;
 
