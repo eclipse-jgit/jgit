@@ -11,16 +11,13 @@ package org.eclipse.jgit.lfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
+import static org.eclipse.jgit.lfs.Protocol.OPERATION_VERIFY;
 import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
-import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
-import static org.eclipse.jgit.util.HttpSupport.METHOD_PUT;
+import static org.eclipse.jgit.util.HttpSupport.*;
+import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -229,6 +226,13 @@ public class LfsPrePushHook extends PrePushHook {
 							.format(LfsText.get().missingLocalObject, path));
 				}
 				uploadFile(o, uploadAction, path);
+
+				Protocol.Action verifyAction = o.actions.get(OPERATION_VERIFY);
+				if (verifyAction == null || verifyAction.href == null) {
+					continue;
+				}
+
+				verifyUpload(o, verifyAction);
 			}
 		}
 	}
@@ -237,6 +241,30 @@ public class LfsPrePushHook extends PrePushHook {
 		Gson gson = new Gson();
 		Protocol.Response resp = gson.fromJson(reader, Protocol.Response.class);
 		return resp.objects;
+	}
+
+	private void verifyUpload(Protocol.ObjectInfo o, Protocol.Action verifyAction) throws IOException {
+		HttpConnection verificationApi = LfsConnectionFactory.getLfsContentConnection(
+				getRepository(), verifyAction, METHOD_POST);
+		verificationApi.setDoOutput(true);
+		verificationApi.setRequestProperty(HDR_ACCEPT,
+				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
+		verificationApi.setRequestProperty(HDR_CONTENT_TYPE,
+				Protocol.CONTENTTYPE_VND_GIT_LFS_JSON);
+
+		String payload = String.format("{\"oid\": \"%s\", \"size\": %d}", o.oid, o.size);
+
+		try (Writer writer = new OutputStreamWriter(verificationApi.getOutputStream(), UTF_8)) {
+			writer.write(payload);
+			writer.flush();
+		}
+
+		int responseCode = verificationApi.getResponseCode();
+		if (responseCode != HTTP_OK) {
+			throw new IOException(MessageFormat.format(
+					LfsText.get().serverFailure, verificationApi.getURL(),
+					Integer.valueOf(responseCode)));
+		}
 	}
 
 	private void uploadFile(Protocol.ObjectInfo o,
