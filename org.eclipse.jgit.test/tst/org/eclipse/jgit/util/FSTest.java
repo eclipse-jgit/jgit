@@ -13,6 +13,7 @@ package org.eclipse.jgit.util;
 import static java.time.Instant.EPOCH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNoException;
 import static org.junit.Assume.assumeTrue;
@@ -232,5 +233,27 @@ public class FSTest {
 	public void testRepoCacheRelativePathUnbornRepo() {
 		assertFalse(RepositoryCache.FileKey
 				.isGitRepository(new File("repo.git"), FS.DETECTED));
+	}
+
+	@Test
+	public void testSearchPath() throws IOException {
+		File f1 = new File(trash, "file1");
+		FileUtils.createNewFile(f1);
+		f1.setExecutable(true);
+		File f2 = new File(trash, "file2");
+		FileUtils.createNewFile(f2);
+		assertEquals(f1, FS.searchPath(trash.getAbsolutePath(), "file1"));
+		assertNull(FS.searchPath(trash.getAbsolutePath(), "file2"));
+	}
+
+	@Test
+	public void testSearchPathEmptyPath() {
+		assertNull(FS.searchPath("", "file1"));
+		assertNull(FS.searchPath(File.pathSeparator, "file1"));
+		assertNull(FS.searchPath(File.pathSeparator + File.pathSeparator,
+				"file1"));
+		assertNull(FS.searchPath(
+				" " + File.pathSeparator + " " + File.pathSeparator + " \t",
+				"file1"));
 	}
 }
