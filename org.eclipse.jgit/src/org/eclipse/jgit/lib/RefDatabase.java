@@ -441,7 +441,7 @@ public abstract class RefDatabase {
 	 * @param excludes
 	 *            strings that names of refs can't start with; may be empty.
 	 * @return immutable list of refs whose names start with {@code prefix} and
-	 *         none of the strings in {@code exclude}.
+	 *         none of the strings in {@code excludes}.
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 * @since 5.11
