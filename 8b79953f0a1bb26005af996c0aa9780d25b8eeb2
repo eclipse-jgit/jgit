@@ -16,6 +16,29 @@
       "message": "This looks good to me, but I\u0027ll let Ivan and Xing also take a look before submitting.",
       "revId": "8b79953f0a1bb26005af996c0aa9780d25b8eeb2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce767bc4_53cea5fe",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-19T20:30:03Z",
+      "side": 1,
+      "message": "This should be \"gc\"",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "8b79953f0a1bb26005af996c0aa9780d25b8eeb2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
