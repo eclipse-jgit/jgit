@@ -15,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.MurmurHash3;
+import org.eclipse.jgit.util.IO;
 
 /**
  * A changed path filter for a commit.
@@ -94,7 +95,7 @@ public class ChangedPathFilter {
 		byte[] bloom = new byte[-Math
 				.floorDiv(-paths.size() * ChangedPathFilter.BITS_PER_ENTRY, 8)];
 		for (ByteBuffer path : paths) {
-			add(bloom, path.array(), path.position(),
+			add(bloom, IO.safeArray(path), path.position(),
 					path.limit() - path.position());
 		}
 		return new ChangedPathFilter(bloom, 0, bloom.length);
