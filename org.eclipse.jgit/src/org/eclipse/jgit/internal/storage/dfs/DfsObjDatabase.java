@@ -370,7 +370,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * Default implementation of this method would be equivalent to
 	 * {@code newPack(source).setEstimatedPackSize(estimatedPackSize)}. But the
 	 * clients can override this method to use the given
-	 * {@code estomatedPackSize} value more efficiently in the process of
+	 * {@code estimatedPackSize} value more efficiently in the process of
 	 * creating a new
 	 * {@link org.eclipse.jgit.internal.storage.dfs.DfsPackDescription} object.
 	 *
