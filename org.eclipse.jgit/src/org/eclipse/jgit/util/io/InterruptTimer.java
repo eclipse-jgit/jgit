@@ -104,10 +104,20 @@ public final class InterruptTimer {
 	 */
 	public void terminate() {
 		state.terminate();
+		boolean interrupted = false;
 		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			//
+			while (true) {
+				try {
+					thread.join();
+					return;
+				} catch (InterruptedException e) {
+					interrupted = true;
+				}
+			}
+		} finally {
+			if (interrupted) {
+				Thread.currentThread().interrupt();
+			}
 		}
 	}
 
