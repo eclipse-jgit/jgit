@@ -122,6 +122,26 @@ public class IO {
 	}
 
 	/**
+	 * Returns the byte array that backs this buffer if the buffer is backed by
+	 * a byte array
+	 *
+	 * @param buf
+	 *            byte buffer
+	 * @return the byte array that backs this buffer
+	 * @throws IllegalArgumentException
+	 *             if the buffer is not backed by a byte array
+	 * @since 6.8
+	 */
+	@SuppressWarnings("ByteBufferBackingArray")
+	public static byte[] safeArray(ByteBuffer buf) {
+		if (buf.hasArray()) {
+			return buf.array();
+		}
+		throw new IllegalArgumentException(
+				JGitText.get().bufferNotBackedByArray);
+	}
+
+	/**
 	 * Read the entire byte array into memory, or throw an exception.
 	 *
 	 * @param fd

@@ -101,6 +101,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String blockSizeNotPowerOf2;
 	/***/ public String bothRefTargetsMustNotBeNull;
 	/***/ public String branchNameInvalid;
+	/***/ public String bufferNotBackedByArray;
 	/***/ public String buildingBitmaps;
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cachedPacksPreventsListingObjects;
