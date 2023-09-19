@@ -51,9 +51,4 @@ public class PackMismatchException extends IOException {
 	public boolean isPermanent() {
 		return permanent;
 	}
-
-	@Override
-	public String toString() {
-		return super.toString() + ", permanent: " + permanent; //$NON-NLS-1$
-	}
 }
