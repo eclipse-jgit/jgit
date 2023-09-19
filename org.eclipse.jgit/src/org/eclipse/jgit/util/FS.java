@@ -97,6 +97,9 @@ public abstract class FS {
 	private static final Pattern VERSION = Pattern
 			.compile("\\s(\\d+)\\.(\\d+)\\.(\\d+)"); //$NON-NLS-1$
 
+	private static final Pattern EMPTY_PATH = Pattern
+			.compile("^[\\p{javaWhitespace}" + File.pathSeparator + "]*$"); //$NON-NLS-1$ //$NON-NLS-2$
+
 	private volatile Boolean supportSymlinks;
 
 	/**
@@ -1310,8 +1313,10 @@ public abstract class FS {
 	 * @return the first match found, or null
 	 * @since 3.0
 	 */
+	@SuppressWarnings("StringSplitter")
 	protected static File searchPath(String path, String... lookFor) {
-		if (path == null) {
+		if (StringUtils.isEmptyOrNull(path)
+				|| EMPTY_PATH.matcher(path).find()) {
 			return null;
 		}
 
