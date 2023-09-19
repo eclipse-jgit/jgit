@@ -268,14 +268,17 @@ public abstract class ReftableDatabase {
 	}
 
 	/**
-	 * Returns refs whose names start with a given prefix excluding all refs that
-	 * start with one of the given prefixes.
+	 * Returns refs whose names start with a given prefix excluding all refs
+	 * that start with one of the given prefixes.
 	 *
-	 * @param include string that names of refs should start with; may be empty.
-	 * @param excludes strings that names of refs can't start with; may be empty.
+	 * @param include
+	 *            string that names of refs should start with; may be empty.
+	 * @param excludes
+	 *            strings that names of refs can't start with; may be empty.
 	 * @return immutable list of refs whose names start with {@code include} and
-	 *         none of the strings in {@code exclude}.
-	 * @throws java.io.IOException the reference space cannot be accessed.
+	 *         none of the strings in {@code excludes}.
+	 * @throws java.io.IOException
+	 *             the reference space cannot be accessed.
 	 */
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes) throws IOException {
 		if (excludes.isEmpty()) {
