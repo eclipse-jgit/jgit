@@ -66,6 +66,15 @@ public class LfsFactory {
 	}
 
 	/**
+	 * Forces any LFS commands to use the builtin LFS Factory.
+	 *
+	 * @return false if builtin LFS is not required (native LFS may be used if exists)
+	 */
+	public boolean isForceBuiltinLFS() {
+		return false;
+	}
+
+	/**
 	 * Apply clean filtering to the given stream, writing the file content to
 	 * the LFS storage if required and returning a stream to the LFS pointer
 	 * instead.

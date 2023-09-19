@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
@@ -1591,7 +1592,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 			return filterCommand;
 		filterCommand = config.getString(ConfigConstants.CONFIG_FILTER_SECTION,
 				filterDriverName, filterCommandType);
-		boolean useBuiltin = config.getBoolean(
+		boolean useBuiltin = LfsFactory.getInstance().isForceBuiltinLFS() || config.getBoolean(
 				ConfigConstants.CONFIG_FILTER_SECTION,
 				filterDriverName, ConfigConstants.CONFIG_KEY_USEJGITBUILTIN, false);
 		if (useBuiltin) {

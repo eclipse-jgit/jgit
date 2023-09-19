@@ -33,6 +33,8 @@ public class BuiltinLFS extends LfsFactory {
 		CleanFilter.register();
 	}
 
+	private static boolean forcedBuiltin = false;
+
 	/**
 	 * Activates the built-in LFS support.
 	 */
@@ -43,6 +45,19 @@ public class BuiltinLFS extends LfsFactory {
 	@Override
 	public boolean isAvailable() {
 		return true;
+	}
+
+	@Override
+	public boolean isForceBuiltinLFS() {
+		return forcedBuiltin;
+	}
+
+	/**
+	 * Setting forcedBuiltin to true will ensure that native LFS will not be used.
+	 * @param forcedBuiltin false will block any native LFS attempts
+	 */
+	public static void setForcedBuiltin(boolean forcedBuiltin) {
+		BuiltinLFS.forcedBuiltin = forcedBuiltin;
 	}
 
 	@Override
@@ -90,6 +105,8 @@ public class BuiltinLFS extends LfsFactory {
 	 */
 	@Override
 	public boolean isEnabled(Repository db) {
+		if (isForceBuiltinLFS()) return true;
+
 		if (db == null) {
 			return false;
 		}
