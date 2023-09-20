@@ -195,6 +195,24 @@
       "parentUuid": "e5e393af_66ae7507",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8926cea4_15772cd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-20T22:09:13Z",
+      "side": 1,
+      "message": "As I said in the very first comment:\n\n\u003e Chunks and their size are already known in createChunks(), if you need this info, you can probably record it there.",
+      "parentUuid": "4d3c86b8_b5bd92ba",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
