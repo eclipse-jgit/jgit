@@ -11,9 +11,10 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
-import java.util.HashSet;
+
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -91,8 +92,7 @@ public class PathFilter extends TreeFilter {
 
 	@Override
 	public Optional<Set<byte[]>> getPathsBestEffort() {
-		HashSet<byte[]> s = new HashSet<>();
-		s.add(pathRaw);
+		Set<byte[]> s = Collections.singleton(pathRaw);
 		return Optional.of(s);
 	}
 
