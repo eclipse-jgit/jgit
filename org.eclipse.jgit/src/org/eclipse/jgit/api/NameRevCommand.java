@@ -348,7 +348,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		}
 		// Don't tiebreak if prefixes are the same, in order to prefer first-parent
 		// paths.
-		return li - ri;
+		return (long) li - ri;
 	}
 
 	private static String simplify(String refName) {
