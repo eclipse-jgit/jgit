@@ -413,6 +413,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0166db4_342fc1dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-09-20T20:13:53Z",
+      "side": 1,
+      "message": "Cool, can you upload your fix as a separate change? I would be happy to test it E2E and see if resolves the issues !",
+      "parentUuid": "d32d846a_0a297faa",
+      "revId": "de359d1cc4c7b8363c91dab4c21cf8be08bfab3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2038be6d_971ff328",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
         "patchSetId": 9
