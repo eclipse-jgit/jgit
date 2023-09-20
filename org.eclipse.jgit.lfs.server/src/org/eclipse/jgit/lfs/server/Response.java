@@ -20,6 +20,8 @@ import java.util.Map;
  *
  * @since 4.3
  */
+// TODO(ms): rename this class in next major release
+@SuppressWarnings("JavaLangClash")
 public interface Response {
 	/** Describes an action the client can execute on a single object */
 	class Action {
