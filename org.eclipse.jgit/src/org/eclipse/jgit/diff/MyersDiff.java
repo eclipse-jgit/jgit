@@ -334,7 +334,7 @@ if (k < beginK || k > endK)
 			abstract boolean meets(int d, int k, int x, long snake);
 
 			final long newSnake(int k, int x) {
-				long y = k + x;
+				long y = (long) k + x;
 				long ret = ((long) x) << 32;
 				return ret | y;
 			}
