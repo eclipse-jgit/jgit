@@ -395,6 +395,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d32d846a_0a297faa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-09-20T15:48:21Z",
+      "side": 1,
+      "message": "I was digging into this issue for a few hours and got a few insights. I may be lacking some internal jGit knowledge and understanding, but let me summarize what I\u0027ve found.\n\nFirst I\u0027ve looked into `PackDirectory` as Matthias is proposing. It looked promising, as in `PackDirectory.scanPackImpl()` we can exclude `.keep` files. But when the GC is called for the third time from the reproduction test case, that list of pack files is already built and cached, so `scanPackImpl()` won\u0027t be even called. All calls to `PackDirectory.getPacks()` will return a copy of the `packList` member. Potentially we may filter out packs with the `.keep` file on each call to `getPacks()` but that would be unnecessary overhead for all calls.\n\nSecondly, I\u0027ve looked into `PackWriter` to see why it\u0027s not honouring excluded objects. In the `GC.writePack()` we\u0027re adding excluded objects to the writer on line 1179. But then, when the pack file is written (`GC.java:1206`) the `PackWriter.writePack()` clears a list of excluded ObjectIds (`PackWriter.java:1225`). So when we then prepare to write the bitmap file (`GC.java:1221`), `PackWriter` has forgotten about all of the excluded objects.\n\nI\u0027ve tried to modify `PackWriter.prepareBitmapIndex()` to handle excluded objects but went nowhere with it.\n\nThe third attempt was to _just fix the `-1` index_ and it worked! All the tests seem to be green (the changes to `GcKeepFilesTest.java` must be reverted). This may not be the ultimate fix for the `.keep` files, but at least it is fixing the `ArrayIndexOutOfBoundsException` reported by the user. Here\u0027s the diff:\n\n```diff\ndiff --git a/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java b/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java\nindex dd5d03c6e..b6842fc36 100644\n--- a/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java\n+++ b/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java\n@@ -157,8 +157,11 @@ public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {\n \n                inflated.clear();\n                for (IntIterator i \u003d oldBitmap.getBitmapWithoutCaching()\n-                               .intIterator(); i.hasNext();)\n-                       inflated.set(prevToNewMapping[i.next()]);\n+                               .intIterator(); i.hasNext();) {\n+                       int position \u003d prevToNewMapping[i.next()];\n+                       if (position \u003e -1)\n+                               inflated.set(position);\n+               }\n                bitmap \u003d inflated.toEWAHCompressedBitmap();\n                bitmap.trim();\n                return bitmap;\n```",
+      "parentUuid": "78534393_2105f58c",
+      "revId": "de359d1cc4c7b8363c91dab4c21cf8be08bfab3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2038be6d_971ff328",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
         "patchSetId": 9
