@@ -63,6 +63,7 @@ public abstract class BasicAuthentication<ParameterType, TokenType>
 		this.password = convert(initialPassword);
 	}
 
+	@SuppressWarnings("ByteBufferBackingArray")
 	private byte[] convert(char[] pass) {
 		if (pass == null) {
 			return new byte[0];
