@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc26e0be_5da60ac8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-20T21:34:15Z",
+      "side": 1,
+      "message": "This is great improvement as I can see clearly what\u0027s included in the chunks, looking at the write() function.",
+      "revId": "f1a9d92a30abaf8c3d8cfc8030f864d4c642bf1e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
