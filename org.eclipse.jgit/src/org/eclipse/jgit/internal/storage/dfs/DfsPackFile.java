@@ -460,6 +460,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
+	@SuppressWarnings("ByteBufferBackingArray")
 	private long copyPackBypassCache(PackOutputStream out, ReadableChannel rc)
 			throws IOException {
 		ByteBuffer buf = newCopyBuffer(out, rc);
