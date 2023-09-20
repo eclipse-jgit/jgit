@@ -97,7 +97,7 @@ class PackWriterBitmapPreparer {
 		this.distantCommitSpan = config.getBitmapDistantCommitSpan();
 		this.excessiveBranchCount = config.getBitmapExcessiveBranchCount();
 		long now = SystemReader.getInstance().getCurrentTime();
-		long ageInSeconds = config.getBitmapInactiveBranchAgeInDays()
+		long ageInSeconds = (long) config.getBitmapInactiveBranchAgeInDays()
 				* DAY_IN_SECONDS;
 		this.inactiveBranchTimestamp = (now / 1000) - ageInSeconds;
 	}

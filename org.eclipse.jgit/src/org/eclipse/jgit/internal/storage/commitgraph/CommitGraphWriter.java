@@ -131,7 +131,7 @@ public class CommitGraphWriter {
 		chunks = Collections.unmodifiableList(chunks);
 
 		long expectedSize = calculateExpectedSize(chunks);
-		long writeCount = 256 + 2 * graphCommits.size()
+		long writeCount = 256L + 2 * graphCommits.size()
 				+ graphCommits.getExtraEdgeCnt();
 		monitor.beginTask(
 				MessageFormat.format(JGitText.get().writingOutCommitGraph,
@@ -206,7 +206,7 @@ public class CommitGraphWriter {
 	private void writeChunkLookup(CancellableDigestOutputStream out,
 			List<ChunkHeader> chunks) throws IOException {
 		int numChunks = chunks.size();
-		long chunkOffset = 8 + (numChunks + 1) * CHUNK_LOOKUP_WIDTH;
+		long chunkOffset = 8 + (numChunks + 1L) * CHUNK_LOOKUP_WIDTH;
 		byte[] buffer = new byte[CHUNK_LOOKUP_WIDTH];
 		for (ChunkHeader chunk : chunks) {
 			NB.encodeInt32(buffer, 0, chunk.id);
