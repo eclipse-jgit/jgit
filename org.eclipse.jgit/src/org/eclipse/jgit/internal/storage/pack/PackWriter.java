@@ -146,44 +146,46 @@ public class PackWriter implements AutoCloseable {
 	private static final Map<WeakReference<PackWriter>, Boolean> instances =
 			new ConcurrentHashMap<>();
 
-	private static final Iterable<PackWriter> instancesIterable = () -> new Iterator<>() {
+	private static Iterator<PackWriter> instancesIterable() {
+		return new Iterator<>() {
 
-		private final Iterator<WeakReference<PackWriter>> it = instances
-				.keySet().iterator();
+			private final Iterator<WeakReference<PackWriter>> it = instances
+					.keySet().iterator();
 
-		private PackWriter next;
+			private PackWriter next;
 
-		@Override
-		public boolean hasNext() {
-			if (next != null) {
-				return true;
-			}
-			while (it.hasNext()) {
-				WeakReference<PackWriter> ref = it.next();
-				next = ref.get();
+			@Override
+			public boolean hasNext() {
 				if (next != null) {
 					return true;
 				}
-				it.remove();
+				while (it.hasNext()) {
+					WeakReference<PackWriter> ref = it.next();
+					next = ref.get();
+					if (next != null) {
+						return true;
+					}
+					it.remove();
+				}
+				return false;
 			}
-			return false;
-		}
 
-		@Override
-		public PackWriter next() {
-			if (hasNext()) {
-				PackWriter result = next;
-				next = null;
-				return result;
+			@Override
+			public PackWriter next() {
+				if (hasNext()) {
+					PackWriter result = next;
+					next = null;
+					return result;
+				}
+				throw new NoSuchElementException();
 			}
-			throw new NoSuchElementException();
-		}
 
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-	};
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		};
+	}
 
 	/**
 	 * Get all allocated, non-released PackWriters instances.
@@ -191,7 +193,7 @@ public class PackWriter implements AutoCloseable {
 	 * @return all allocated, non-released PackWriters instances.
 	 */
 	public static Iterable<PackWriter> getInstances() {
-		return instancesIterable;
+		return PackWriter::instancesIterable;
 	}
 
 	@SuppressWarnings("unchecked")
