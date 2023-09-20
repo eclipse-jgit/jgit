@@ -614,13 +614,13 @@ public class PushCommand extends
 	 *
 	 * Default setting is Transport.DEFAULT_PUSH_THIN
 	 *
-	 * @param thin
+	 * @param thinPack
 	 *            the thin-pack preference value
 	 * @return {@code this}
 	 */
-	public PushCommand setThin(boolean thin) {
+	public PushCommand setThin(boolean thinPack) {
 		checkCallable();
-		this.thin = thin;
+		this.thin = thinPack;
 		return this;
 	}
 
