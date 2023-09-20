@@ -27,6 +27,8 @@ public interface Response {
 		public Map<String, String> header;
 	}
 
+	// TODO(ms): rename this class in next major release
+	@SuppressWarnings("JavaLangClash")
 	/** Describes an error to be returned by the LFS batch API */
 	class Error {
 		public int code;
