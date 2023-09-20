@@ -863,6 +863,7 @@ public class PatchApplier {
 		}
 	}
 
+	@SuppressWarnings("ByteBufferBackingArray")
 	private @Nullable ContentStreamLoader applyText(RawText rt, FileHeader fh, Result result)
 			throws IOException {
 		List<ByteBuffer> oldLines = new ArrayList<>(rt.size());
@@ -1023,6 +1024,7 @@ public class PatchApplier {
 		}
 	}
 
+	@SuppressWarnings("ByteBufferBackingArray")
 	private boolean canApplyAt(List<ByteBuffer> hunkLines,
 			List<ByteBuffer> newLines, int line) {
 		int sz = hunkLines.size();
@@ -1054,11 +1056,13 @@ public class PatchApplier {
 		return true;
 	}
 
+	@SuppressWarnings("ByteBufferBackingArray")
 	private ByteBuffer slice(ByteBuffer b, int off) {
 		int newOffset = b.position() + off;
 		return ByteBuffer.wrap(b.array(), newOffset, b.limit() - newOffset);
 	}
 
+	@SuppressWarnings("ByteBufferBackingArray")
 	private boolean isNoNewlineAtEnd(ByteBuffer hunkLine) {
 		return Arrays.equals(NO_EOL, 0, NO_EOL.length, hunkLine.array(),
 				hunkLine.position(), hunkLine.limit());
