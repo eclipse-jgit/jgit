@@ -491,13 +491,13 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 *
 	 * Default setting is Transport.DEFAULT_FETCH_THIN
 	 *
-	 * @param thin
+	 * @param thinPack
 	 *            the thin-pack preference
 	 * @return {@code this}
 	 */
-	public FetchCommand setThin(boolean thin) {
+	public FetchCommand setThin(boolean thinPack) {
 		checkCallable();
-		this.thin = thin;
+		this.thin = thinPack;
 		return this;
 	}
 
