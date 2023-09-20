@@ -407,7 +407,7 @@ class SHA1Java extends SHA1 {
 	private static int s1(int a, int b, int c, int d, int w_t) {
 		return rotateLeft(a, 5)
 				// f: 0 <= t <= 19
-				+ ((b & c) | ((~b) & d))
+				+ ((b & c) | (~b & d))
 				+ 0x5A827999 + w_t;
 	}
 

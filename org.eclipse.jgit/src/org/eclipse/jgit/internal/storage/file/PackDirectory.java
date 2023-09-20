@@ -359,7 +359,7 @@ class PackDirectory {
 	}
 
 	boolean searchPacksAgain(PackList old) {
-		return ((!trustFolderStat) || old.snapshot.isModified(directory))
+		return (!trustFolderStat || old.snapshot.isModified(directory))
 				&& old != scanPacks(old);
 	}
 

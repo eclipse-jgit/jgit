@@ -138,7 +138,7 @@ class PackIndexV1 extends PackIndex {
 		int b1 = data[pos - 3] & 0xff;
 		int b2 = data[pos - 2] & 0xff;
 		int b3 = data[pos - 1] & 0xff;
-		return (((long) b0) << 24) | (b1 << 16) | (b2 << 8) | (b3);
+		return (((long) b0) << 24) | (b1 << 16) | (b2 << 8) | b3;
 	}
 
 	@Override

@@ -140,7 +140,7 @@ abstract class HttpAuthMethod {
 										valuePart[0].toUpperCase(Locale.ROOT));
 
 								if ((ignoreTypes != null)
-										&& (ignoreTypes.contains(methodType))) {
+										&& ignoreTypes.contains(methodType)) {
 									continue;
 								}
 

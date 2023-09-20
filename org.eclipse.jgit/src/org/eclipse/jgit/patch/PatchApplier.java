@@ -351,7 +351,7 @@ public class PatchApplier {
 	}
 
 	private File getFile(String path) {
-		return (inCore()) ? null : new File(repo.getWorkTree(), path);
+		return inCore() ? null : new File(repo.getWorkTree(), path);
 	}
 
 	/* returns null if the path is not found. */

@@ -614,7 +614,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// specified the commit should not be empty. This behaviour differs
 			// from native git but can only be adapted in the next release.
 			// TODO(ch) align the defaults with native git
-			allowEmpty = (only.isEmpty()) ? Boolean.TRUE : Boolean.FALSE;
+			allowEmpty = only.isEmpty() ? Boolean.TRUE : Boolean.FALSE;
 
 		// when doing a merge commit parse MERGE_HEAD and MERGE_MSG files
 		if (state == RepositoryState.MERGING_RESOLVED

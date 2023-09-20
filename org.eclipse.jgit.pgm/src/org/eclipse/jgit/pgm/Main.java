@@ -355,8 +355,7 @@ public class Main {
 				continue;
 			}
 
-			final URL u = new URL(
-					(!s.contains("://")) ? protocol + "://" + s : s); //$NON-NLS-1$ //$NON-NLS-2$
+			URL u = new URL(!s.contains("://") ? protocol + "://" + s : s); //$NON-NLS-1$ //$NON-NLS-2$
 			if (!u.getProtocol().startsWith("http")) //$NON-NLS-1$
 				throw new MalformedURLException(MessageFormat.format(
 						CLIText.get().invalidHttpProxyOnlyHttpSupported, s));

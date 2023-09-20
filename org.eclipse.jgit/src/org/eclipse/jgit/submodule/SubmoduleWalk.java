@@ -540,7 +540,7 @@ public class SubmoduleWalk implements AutoCloseable {
 		}
 		File modulesFile = new File(repository.getWorkTree(),
 				Constants.DOT_GIT_MODULES);
-		return (modulesFile.exists());
+		return modulesFile.exists();
 	}
 
 	private void lazyLoadModulesConfig() throws IOException, ConfigInvalidException {
