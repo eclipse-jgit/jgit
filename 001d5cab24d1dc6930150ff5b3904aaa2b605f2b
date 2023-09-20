@@ -16,6 +16,24 @@
       "message": "I fail to see the confusion of having computeBloomFilterChunks in createChunks. In terms of clarity, I think it makes more sense to keep all chunk creation logic under the method name \"createChunks\". \n\nthe distinct reason to compute the bf chunks first is due to its variable sizing, the cleaner way to separate the code here to create two sub private methods under createChunks, one for static sized chunks, one for variable sized chunks (which then call into the chunk\u0027s own computation). this way we can also retain the unmodifiableList by the end of createChunks.",
       "revId": "001d5cab24d1dc6930150ff5b3904aaa2b605f2b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c1aa26_41e7dcb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-20T21:37:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8a90296b_e4370bb1",
+      "revId": "001d5cab24d1dc6930150ff5b3904aaa2b605f2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
