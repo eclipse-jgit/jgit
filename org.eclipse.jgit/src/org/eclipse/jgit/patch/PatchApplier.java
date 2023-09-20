@@ -162,6 +162,8 @@ public class PatchApplier {
 		 *
 		 * @since 6.6
 		 */
+		// TODO(ms): rename this class in next major release
+		@SuppressWarnings("JavaLangClash")
 		public static class Error {
 
 			private String msg;

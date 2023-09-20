@@ -87,6 +87,8 @@ public interface Protocol {
 	}
 
 	/** Describes an error to be returned by the LFS batch API */
+	// TODO(ms): rename this class in next major release
+	@SuppressWarnings("JavaLangClash")
 	class Error {
 		public int code;
 
