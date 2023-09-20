@@ -122,7 +122,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 
 	@Override
 	public long getObjectCount() {
-		return positions24.size() + positions32.length;
+		return (long) positions24.size() + positions32.length;
 	}
 
 	@Override
