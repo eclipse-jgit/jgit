@@ -423,6 +423,7 @@ public class DirCacheEntry {
 	 * @return true if extra careful checks should be used.
 	 * @since 5.1.9
 	 */
+	@SuppressWarnings("JavaInstantGetSecondsGetNano")
 	public final boolean mightBeRacilyClean(Instant smudge) {
 		// If the index has a modification time then it came from disk
 		// and was not generated from scratch in memory. In such cases
