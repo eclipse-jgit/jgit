@@ -2362,6 +2362,67 @@ public class UploadPackTest {
 		}
 	}
 
+	/**
+	 * <pre>
+	 * remote:
+	 *    foo &lt;- foofoo &lt;-- branchFoo
+	 *    bar &lt;- barbar &lt;-- branchBar
+	 *
+	 * client:
+	 *    none
+	 *
+	 * fetch(branchFoo) should not send have and should get only branchFoo back
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTipDoesNotDoFullClone() throws Exception {
+		RevCommit fooParent = remote.commit().message("foo").create();
+		RevCommit fooChild = remote.commit().message("foofoo").parent(fooParent)
+				.create();
+		RevCommit barParent = remote.commit().message("bar").create();
+		RevCommit barChild = remote.commit().message("barbar").parent(barParent)
+				.create();
+
+		// Remote has branchFoo at fooChild and branchBar at barChild
+		remote.update("branchFoo", fooChild);
+		remote.update("branchBar", barChild);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+		RevCommit localFooParent = null;
+
+		// Client does not have branchFoo & branchBar
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES, true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(
+								new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		assertTrue(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barChild.toObjectId()));
+
+		assertEquals(0, uploadPack.get().getStatistics().getHaves());
+		assertTrue(countHavesHook.havesSentDuringNegotiation.isEmpty());
+	}
+
 	private static class CountHavesPreUploadHook implements PreUploadHook {
 		Set<ObjectId> havesSentDuringNegotiation = new HashSet<>();
 
