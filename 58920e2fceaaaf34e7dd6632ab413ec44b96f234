@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258e437c_a96c76c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "Here are some local comments, but the main thing is that I haven\u0027t wrapped my head around this change properly yet. Can the commit message describe what scenario it\u0027s fixing? E.g. if there was a regression, what change introduced it? What user operation runs into this, and what happens when that user operation occurs?",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "442f56a5_0c551dc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "Can this use Constants.R_HEADS instead?",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7af046_1fcd3c07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "Can this have a comment saying what it\u0027s doing?",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a1145b3_17a6e355",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "Can this have a comment saying what it\u0027s doing?",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adaa9857_1beba91b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "Should this be exactRef instead of findRef?",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f35253_6395b0c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "Can this have a short comment describing what it\u0027s for (and what its semantics are)?",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4583708_bb78d9ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:41:33Z",
+      "side": 1,
+      "message": "This seems expensive - could we do this without listing all refs, by doing something like\n\n  if (useNegotiationTip) {\n     for (Map.Entry\u003cString, Ref\u003e entry : local.getRefDatabase().exactRef(wantRefs)) {\n        ...\n      }\n  } else {\n    ...\n  }\n\nBy the way, what should be happening with wantRefs when we aren\u0027t using negotiation tip? I think it\u0027s harder to understand at a glance with this method pulled out, where the context isn\u0027t as visible.",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
