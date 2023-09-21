@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -682,29 +684,24 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	}
 
 	private void markReachable(Collection<Ref> want, Set<ObjectId> have,
-			int maxTime)
-			throws IOException {
-		Set<String> wantRefs = want.stream().map(Ref::getName)
-				.collect(Collectors.toSet());
-
-		for (Ref r : local.getRefDatabase().getRefs()) {
-			if (useNegotiationTip && !wantRefs.contains(r.getName())) {
-				continue;
+			int maxTime) throws IOException {
+		Collection<Ref> refsToMark;
+		if (useNegotiationTip) {
+			refsToMark = translateToLocalTips(want);
+			if (refsToMark.isEmpty()) {
+				refsToMark = local.getRefDatabase()
+						.getRefsByPrefix(Constants.R_HEADS);
 			}
-
-			ObjectId id = r.getPeeledObjectId();
-			if (id == null)
-				id = r.getObjectId();
-			if (id == null)
-				continue;
-			parseReachable(id);
+		} else {
+			refsToMark = local.getRefDatabase().getRefs();
 		}
+		markReachableRefTips(refsToMark);
 
 		for (ObjectId id : local.getAdditionalHaves())
-			parseReachable(id);
+			markReachable(id);
 
 		for (ObjectId id : have)
-			parseReachable(id);
+			markReachable(id);
 
 		if (maxTime > 0) {
 			// Mark reachable commits until we reach maxTime. These may
@@ -731,7 +728,47 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private void parseReachable(ObjectId id) {
+	private Collection<Ref> translateToLocalTips(Collection<Ref> want)
+			throws IOException {
+		String[] refs = want.stream().map(Ref::getName)
+				.collect(Collectors.toSet()).toArray(String[]::new);
+		Map<String, Ref> wantRefMap = local.getRefDatabase().exactRef(refs);
+		List<Ref> refsToMark = wantRefMap.values().stream().filter(r -> {
+			ObjectId id = r.getPeeledObjectId();
+			if (id == null) {
+				id = r.getObjectId();
+			}
+			if (id == null) {
+				return false;
+			}
+			return true;
+		}).collect(Collectors.toList());
+		return refsToMark;
+	}
+
+	/**
+	 * Marks commits reachable.
+	 *
+	 * @param refsToMark
+	 *            references that client is requesting to be marked.
+	 * @throws IOException
+	 *             If the reference space cannot be accessed.
+	 */
+	private void markReachableRefTips(Collection<Ref> refsToMark)
+			throws IOException {
+		for (Ref r : refsToMark) {
+			ObjectId id = r.getPeeledObjectId();
+			if (id == null) {
+				id = r.getObjectId();
+			}
+			if (id == null) {
+				continue;
+			}
+			markReachable(id);
+		}
+	}
+
+	private void markReachable(ObjectId id) {
 		try {
 			RevCommit o = walk.parseCommit(id);
 			if (!o.has(REACHABLE)) {
@@ -838,7 +875,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		if (statelessRPC && multiAck != MultiAck.DETAILED) {
 			// Our stateless RPC implementation relies upon the detailed
 			// ACK status to tell us common objects for reuse in future
-			// requests.  If its not enabled, we can't talk to the peer.
+			// requests. If its not enabled, we can't talk to the peer.
 			//
 			throw new PackProtocolException(uri, MessageFormat.format(
 					JGitText.get().statelessRPCRequiresOptionToBeEnabled,
