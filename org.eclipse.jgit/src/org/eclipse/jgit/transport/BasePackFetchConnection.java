@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -89,6 +90,8 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  */
 public abstract class BasePackFetchConnection extends BasePackConnection
 		implements FetchConnection {
+	private static final String REFS_HEADS = "refs/heads/";
+
 	/**
 	 * Maximum number of 'have' lines to send before giving up.
 	 * <p>
@@ -686,18 +689,20 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			throws IOException {
 		Set<String> wantRefs = want.stream().map(Ref::getName)
 				.collect(Collectors.toSet());
+		parseReachable(wantRefs);
+		if (reachableCommits.isEmpty()) {
+			List<Ref> localRefs = local.getRefDatabase()
+					.getRefsByPrefix(REFS_HEADS);
 
-		for (Ref r : local.getRefDatabase().getRefs()) {
-			if (useNegotiationTip && !wantRefs.contains(r.getName())) {
-				continue;
+			parseReachable(localRefs.stream().map(Ref::getName)
+					.collect(Collectors.toSet()));
+			List<String> refsUnavailableInLocalDb = new ArrayList<>();
+			for (String ref : wantRefs) {
+				Ref r = local.getRefDatabase().findRef(ref);
+				if (r == null) {
+					refsUnavailableInLocalDb.add(ref);
+				}
 			}
-
-			ObjectId id = r.getPeeledObjectId();
-			if (id == null)
-				id = r.getObjectId();
-			if (id == null)
-				continue;
-			parseReachable(id);
 		}
 
 		for (ObjectId id : local.getAdditionalHaves())
@@ -728,6 +733,20 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					reachableCommits.add(c);
 				}
 			}
+		}
+	}
+
+	private void parseReachable(Set<String> wantRefs) throws IOException {
+		for (Ref r : local.getRefDatabase().getRefs()) {
+			if (useNegotiationTip && !wantRefs.contains(r.getName())) {
+				continue;
+			}
+			ObjectId id = r.getPeeledObjectId();
+			if (id == null)
+				id = r.getObjectId();
+			if (id == null)
+				continue;
+			parseReachable(id);
 		}
 	}
 
