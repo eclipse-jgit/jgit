@@ -10,9 +10,6 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static java.lang.Integer.valueOf;
-import static java.lang.Long.valueOf;
-
 import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
@@ -216,10 +213,10 @@ class DiffAlgorithms extends TextBuiltin {
 			outw.println(name + ": start at " + startId.name()); //$NON-NLS-1$
 		}
 
-		outw.format("  %12d files,     %8d commits\n", valueOf(files), //$NON-NLS-1$
-				valueOf(commits));
-		outw.format("  N=%10d min lines, %8d max lines\n", valueOf(minN), //$NON-NLS-1$
-				valueOf(maxN));
+		outw.format("  %12d files,     %8d commits\n", Long.valueOf(files), //$NON-NLS-1$
+				Integer.valueOf(commits));
+		outw.format("  N=%10d min lines, %8d max lines\n", //$NON-NLS-1$
+				Integer.valueOf(minN), Integer.valueOf(maxN));
 
 		outw.format("%-25s %12s ( %12s  %12s )\n", //$NON-NLS-1$
 				"Algorithm", "Time(ns)", "Time(ns) on", "Time(ns) on"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -231,9 +228,9 @@ class DiffAlgorithms extends TextBuiltin {
 		for (Test test : all) {
 			outw.format("%-25s %12d ( %12d  %12d )", // //$NON-NLS-1$
 					test.algorithm.name, //
-					valueOf(test.runningTimeNanos), //
-					valueOf(test.minN.runningTimeNanos), //
-					valueOf(test.maxN.runningTimeNanos));
+					Long.valueOf(test.runningTimeNanos), //
+					Long.valueOf(test.minN.runningTimeNanos), //
+					Long.valueOf(test.maxN.runningTimeNanos));
 			outw.println();
 		}
 		outw.println();
