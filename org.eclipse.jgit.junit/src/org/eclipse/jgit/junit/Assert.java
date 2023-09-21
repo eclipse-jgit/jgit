@@ -9,8 +9,6 @@
  */
 package org.eclipse.jgit.junit;
 
-import static java.lang.Boolean.valueOf;
-
 /**
  * Assertion class
  */
@@ -25,7 +23,8 @@ public class Assert {
 	 *            actual value
 	 */
 	public static void assertEquals(boolean expect, boolean actual) {
-		org.junit.Assert.assertEquals(valueOf(expect), valueOf(actual));
+		org.junit.Assert.assertEquals(Boolean.valueOf(expect),
+				Boolean.valueOf(actual));
 	}
 
 	/**
@@ -41,6 +40,7 @@ public class Assert {
 	public static void assertEquals(String message, boolean expect,
 			boolean actual) {
 		org.junit.Assert
-				.assertEquals(message, valueOf(expect), valueOf(actual));
+				.assertEquals(message, Boolean.valueOf(expect),
+						Boolean.valueOf(actual));
 	}
 }

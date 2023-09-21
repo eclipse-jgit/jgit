@@ -13,8 +13,6 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static java.lang.Integer.valueOf;
-
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -49,7 +47,7 @@ class ShowDirCache extends TextBuiltin {
 			final int stage = ent.getStage();
 
 			outw.print(mode);
-			outw.format(" %6d", valueOf(len)); //$NON-NLS-1$
+			outw.format(" %6d", Integer.valueOf(len)); //$NON-NLS-1$
 			outw.print(' ');
 			if (millis) {
 				outw.print(mtime.toEpochMilli());
