@@ -69,6 +69,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "275e19cf_6be1b92c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-09-21T23:48:57Z",
+      "side": 1,
+      "message": "(sorry, network blip produced double comment.)",
+      "parentUuid": "0e7af046_1fcd3c07",
+      "revId": "58920e2fceaaaf34e7dd6632ab413ec44b96f234",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adaa9857_1beba91b",
