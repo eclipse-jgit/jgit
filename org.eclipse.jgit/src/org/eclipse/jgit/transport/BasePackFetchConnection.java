@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -684,27 +686,26 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	private void markReachable(Collection<Ref> want, Set<ObjectId> have,
 			int maxTime)
 			throws IOException {
+
 		Set<String> wantRefs = want.stream().map(Ref::getName)
 				.collect(Collectors.toSet());
 
-		for (Ref r : local.getRefDatabase().getRefs()) {
-			if (useNegotiationTip && !wantRefs.contains(r.getName())) {
-				continue;
-			}
-
-			ObjectId id = r.getPeeledObjectId();
-			if (id == null)
-				id = r.getObjectId();
-			if (id == null)
-				continue;
-			parseReachable(id);
+		if (useNegotiationTip) {
+			// this marks all local available refs reachable from wants as
+			// reachable and if no commits were marked reachable, in that case
+			// marks all refs/heads/ the client has as reachable
+			markReachableTips(wantRefs);
+		} else {
+			// marks all local refs as reachable
+			List<Ref> refsToMark = local.getRefDatabase().getRefs();
+			markReachableRefTips(refsToMark);
 		}
 
 		for (ObjectId id : local.getAdditionalHaves())
-			parseReachable(id);
+			markReachable(id);
 
 		for (ObjectId id : have)
-			parseReachable(id);
+			markReachable(id);
 
 		if (maxTime > 0) {
 			// Mark reachable commits until we reach maxTime. These may
@@ -731,7 +732,57 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private void parseReachable(ObjectId id) {
+	/**
+	 * Only used to marks commits reachable when useNegotiationTip is enabled.
+	 * It marks all tip available with client that is reachable from the
+	 * wantRefs. If nothing can be marked reachable then it marks all refs/heads
+	 * as reachable.
+	 *
+	 * @param wantRefs
+	 *            references that client is requesting
+	 * @throws IOException
+	 *             If the reference space cannot be accessed.
+	 */
+	private void markReachableTips(Collection<String> wantRefs)
+			throws IOException {
+		String[] wants = wantRefs.toArray(String[]::new);
+		Map<String, Ref> wantRefMap = local.getRefDatabase()
+				.exactRef(wants);
+		List<Ref> refsToMark = wantRefMap.values().stream()
+				.collect(Collectors.toList());
+
+		markReachableRefTips(refsToMark);
+
+		if (reachableCommits.isEmpty()) {
+			List<Ref> localRefs = local.getRefDatabase()
+					.getRefsByPrefix(Constants.R_HEADS);
+			markReachableRefTips(localRefs);
+		}
+	}
+
+	/**
+	 * Marks commits reachable.
+	 *
+	 * @param refsToMark
+	 *            references that client is requesting to be marked.
+	 * @throws IOException
+	 *             If the reference space cannot be accessed.
+	 */
+	private void markReachableRefTips(Collection<Ref> refsToMark)
+			throws IOException {
+		for (Ref r : refsToMark) {
+			ObjectId id = r.getPeeledObjectId();
+			if (id == null) {
+				id = r.getObjectId();
+			}
+			if (id == null) {
+				continue;
+			}
+			markReachable(id);
+		}
+	}
+
+	private void markReachable(ObjectId id) {
 		try {
 			RevCommit o = walk.parseCommit(id);
 			if (!o.has(REACHABLE)) {
