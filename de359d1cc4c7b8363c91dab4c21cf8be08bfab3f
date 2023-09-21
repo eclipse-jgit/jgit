@@ -431,6 +431,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0214b136_b1fbadab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-09-21T08:38:44Z",
+      "side": 1,
+      "message": "Here\u0027s the proposed fix (or rather workaround) for ArrayIndexOutOfBoundsException",
+      "parentUuid": "a0166db4_342fc1dd",
+      "revId": "de359d1cc4c7b8363c91dab4c21cf8be08bfab3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2038be6d_971ff328",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
         "patchSetId": 9
