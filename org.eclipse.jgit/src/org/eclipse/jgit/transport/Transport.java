@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -192,10 +193,13 @@ public abstract class Transport implements AutoCloseable {
 	 *            the exact object previously given to register.
 	 */
 	public static void unregister(TransportProtocol proto) {
-		for (WeakReference<TransportProtocol> ref : protocols) {
+		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		while (it.hasNext()) {
+			WeakReference<TransportProtocol> ref = it.next();
 			TransportProtocol refProto = ref.get();
-			if (refProto == null || refProto == proto)
+			if (refProto == null || refProto == proto) {
 				protocols.remove(ref);
+			}
 		}
 	}
 
@@ -207,12 +211,15 @@ public abstract class Transport implements AutoCloseable {
 	public static List<TransportProtocol> getTransportProtocols() {
 		int cnt = protocols.size();
 		List<TransportProtocol> res = new ArrayList<>(cnt);
-		for (WeakReference<TransportProtocol> ref : protocols) {
+		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		while (it.hasNext()) {
+			WeakReference<TransportProtocol> ref = it.next();
 			TransportProtocol proto = ref.get();
-			if (proto != null)
+			if (proto != null) {
 				res.add(proto);
-			else
-				protocols.remove(ref);
+			} else {
+				it.remove();
+			}
 		}
 		return Collections.unmodifiableList(res);
 	}
@@ -510,10 +517,12 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public static Transport open(Repository local, URIish uri, String remoteName)
 			throws NotSupportedException, TransportException {
-		for (WeakReference<TransportProtocol> ref : protocols) {
+		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		while (it.hasNext()) {
+			WeakReference<TransportProtocol> ref = it.next();
 			TransportProtocol proto = ref.get();
 			if (proto == null) {
-				protocols.remove(ref);
+				it.remove();
 				continue;
 			}
 
@@ -542,15 +551,19 @@ public abstract class Transport implements AutoCloseable {
 	 *             if transport failed
 	 */
 	public static Transport open(URIish uri) throws NotSupportedException, TransportException {
-		for (WeakReference<TransportProtocol> ref : protocols) {
+		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		while (it.hasNext()) {
+			WeakReference<TransportProtocol> ref = it.next();
 			TransportProtocol proto = ref.get();
 			if (proto == null) {
-				protocols.remove(ref);
+				it.remove();
 				continue;
 			}
 
-			if (proto.canHandle(uri, null, null))
+
+			if (proto.canHandle(uri, null, null)) {
 				return proto.open(uri);
+			}
 		}
 
 		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
