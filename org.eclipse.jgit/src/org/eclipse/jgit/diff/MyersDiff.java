@@ -11,6 +11,10 @@
 
 package org.eclipse.jgit.diff;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.DiffInterruptedException;
@@ -531,7 +535,7 @@ if (k < beginK || k > endK)
 	 */
 	public static void main(String[] args) {
 		if (args.length != 2) {
-			System.err.println(JGitText.get().need2Arguments);
+			err().println(JGitText.get().need2Arguments);
 			System.exit(1);
 		}
 		try {
@@ -540,7 +544,13 @@ if (k < beginK || k > endK)
 			EditList r = INSTANCE.diff(RawTextComparator.DEFAULT, a, b);
 			System.out.println(r.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			PrintWriter err = err();
+			err.println(e.getMessage());
+			e.printStackTrace(err);
 		}
+	}
+
+	private static PrintWriter err() {
+		return new PrintWriter(new OutputStreamWriter(System.err, UTF_8));
 	}
 }
