@@ -449,6 +449,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5478a070_7e3c09c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-09-21T08:39:08Z",
+      "side": 1,
+      "message": "https://git.eclipse.org/r/c/jgit/jgit/+/204473",
+      "parentUuid": "0214b136_b1fbadab",
+      "revId": "de359d1cc4c7b8363c91dab4c21cf8be08bfab3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2038be6d_971ff328",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectReaderExcludingPacks.java",
         "patchSetId": 9
