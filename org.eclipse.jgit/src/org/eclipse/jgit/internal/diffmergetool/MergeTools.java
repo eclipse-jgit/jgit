@@ -26,14 +26,13 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Manages merge tools.
@@ -242,7 +241,7 @@ public class MergeTools {
 		FileElement backup = null;
 		Path path = Paths.get(from.getPath());
 		if (Files.exists(path)) {
-			backup = new FileElement(from.getPath(), Type.BACKUP);
+			backup = new FileElement(from.getPath(), FileElement.Type.BACKUP);
 			Files.copy(path, backup.createTempFile(toParentDir).toPath(),
 					StandardCopyOption.REPLACE_EXISTING);
 		}

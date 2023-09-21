@@ -13,8 +13,6 @@
 
 package org.eclipse.jgit.pgm;
 
-import static java.lang.Integer.valueOf;
-import static java.lang.Long.valueOf;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
@@ -197,13 +195,14 @@ class Blame extends TextBuiltin {
 				maxSourceLine = Math.max(maxSourceLine, blame.getSourceLine(line));
 			}
 
-			String pathFmt = MessageFormat.format(" %{0}s", valueOf(pathWidth)); //$NON-NLS-1$
+			String pathFmt = MessageFormat.format(" %{0}s", //$NON-NLS-1$
+					Integer.valueOf(pathWidth));
 			String numFmt = MessageFormat.format(" %{0}d", //$NON-NLS-1$
-					valueOf(1 + (int) Math.log10(maxSourceLine + 1)));
+					Integer.valueOf(1 + (int) Math.log10(maxSourceLine + 1)));
 			String lineFmt = MessageFormat.format(" %{0}d) ", //$NON-NLS-1$
-					valueOf(1 + (int) Math.log10(end + 1)));
+					Integer.valueOf(1 + (int) Math.log10(end + 1)));
 			String authorFmt = MessageFormat.format(" (%-{0}s %{1}s", //$NON-NLS-1$
-					valueOf(authorWidth), valueOf(dateWidth));
+					Integer.valueOf(authorWidth), Integer.valueOf(dateWidth));
 
 			for (int line = begin; line < end;) {
 				RevCommit c = blame.getSourceCommit(line);
@@ -220,12 +219,13 @@ class Blame extends TextBuiltin {
 						outw.format(pathFmt, path(line));
 					}
 					if (showSourceLine) {
-						outw.format(numFmt, valueOf(blame.getSourceLine(line) + 1));
+						outw.format(numFmt,
+								Integer.valueOf(blame.getSourceLine(line) + 1));
 					}
 					if (!noAuthor) {
 						outw.format(authorFmt, author, date);
 					}
-					outw.format(lineFmt, valueOf(line + 1));
+					outw.format(lineFmt, Integer.valueOf(line + 1));
 					outw.flush();
 					blame.getResultContents().writeLine(outs, line);
 					outs.flush();
@@ -339,7 +339,7 @@ class Blame extends TextBuiltin {
 		if (!showRawTimestamp)
 			return dateFmt.format(author.getWhen());
 		return String.format("%d %s", //$NON-NLS-1$
-				valueOf(author.getWhen().getTime() / 1000L),
+				Long.valueOf(author.getWhen().getTime() / 1000L),
 				dateFmt.format(author.getWhen()));
 	}
 
