@@ -21,6 +21,7 @@ import org.kohsuke.args4j.Localizable;
 /**
  * Translation bundle for JGit command line interface
  */
+@SuppressWarnings("MissingSummary")
 public class CLIText extends TranslationBundle {
 	/**
 	 * Formats text strings using {@code Localizable}.
