@@ -11,8 +11,6 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static java.lang.Long.valueOf;
-
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.pgm.Command;
@@ -30,6 +28,6 @@ class ReadDirCache extends TextBuiltin {
 		final long end = System.currentTimeMillis();
 		outw.print(" "); //$NON-NLS-1$
 		outw.println(MessageFormat.format(CLIText.get().averageMSPerRead,
-				valueOf((end - start) / cnt)));
+				Long.valueOf((end - start) / cnt)));
 	}
 }
