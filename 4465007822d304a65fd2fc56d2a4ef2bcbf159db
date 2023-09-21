@@ -213,6 +213,24 @@
       "parentUuid": "4d3c86b8_b5bd92ba",
       "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf820faf_28995b04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-09-21T15:43:30Z",
+      "side": 1,
+      "message": "lets move forward with https://git.eclipse.org/r/c/jgit/jgit/+/204245; this patch is out of date anyway.",
+      "parentUuid": "8926cea4_15772cd0",
+      "revId": "4465007822d304a65fd2fc56d2a4ef2bcbf159db",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
