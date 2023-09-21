@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
@@ -77,7 +76,7 @@ public abstract class Transport implements AutoCloseable {
 		PUSH;
 	}
 
-	private static final List<WeakReference<TransportProtocol>> protocols =
+	private static final List<TransportProtocol> protocols =
 		new CopyOnWriteArrayList<>();
 
 	static {
@@ -177,7 +176,9 @@ public abstract class Transport implements AutoCloseable {
 	 *            the protocol definition. Must not be null.
 	 */
 	public static void register(TransportProtocol proto) {
-		protocols.add(0, new WeakReference<>(proto));
+		if (proto != null) {
+			protocols.add(0, proto);
+		}
 	}
 
 	/**
@@ -193,12 +194,11 @@ public abstract class Transport implements AutoCloseable {
 	 *            the exact object previously given to register.
 	 */
 	public static void unregister(TransportProtocol proto) {
-		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		Iterator<TransportProtocol> it = protocols.iterator();
 		while (it.hasNext()) {
-			WeakReference<TransportProtocol> ref = it.next();
-			TransportProtocol refProto = ref.get();
-			if (refProto == null || refProto == proto) {
-				protocols.remove(ref);
+			TransportProtocol p = it.next();
+			if (p == proto) {
+				protocols.remove(p);
 			}
 		}
 	}
@@ -211,14 +211,11 @@ public abstract class Transport implements AutoCloseable {
 	public static List<TransportProtocol> getTransportProtocols() {
 		int cnt = protocols.size();
 		List<TransportProtocol> res = new ArrayList<>(cnt);
-		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		Iterator<TransportProtocol> it = protocols.iterator();
 		while (it.hasNext()) {
-			WeakReference<TransportProtocol> ref = it.next();
-			TransportProtocol proto = ref.get();
+			TransportProtocol proto = it.next();
 			if (proto != null) {
 				res.add(proto);
-			} else {
-				it.remove();
 			}
 		}
 		return Collections.unmodifiableList(res);
@@ -517,15 +514,9 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public static Transport open(Repository local, URIish uri, String remoteName)
 			throws NotSupportedException, TransportException {
-		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		Iterator<TransportProtocol> it = protocols.iterator();
 		while (it.hasNext()) {
-			WeakReference<TransportProtocol> ref = it.next();
-			TransportProtocol proto = ref.get();
-			if (proto == null) {
-				it.remove();
-				continue;
-			}
-
+			TransportProtocol proto = it.next();
 			if (proto.canHandle(uri, local, remoteName)) {
 				Transport tn = proto.open(uri, local, remoteName);
 				tn.remoteName = remoteName;
@@ -551,16 +542,9 @@ public abstract class Transport implements AutoCloseable {
 	 *             if transport failed
 	 */
 	public static Transport open(URIish uri) throws NotSupportedException, TransportException {
-		Iterator<WeakReference<TransportProtocol>> it = protocols.iterator();
+		Iterator<TransportProtocol> it = protocols.iterator();
 		while (it.hasNext()) {
-			WeakReference<TransportProtocol> ref = it.next();
-			TransportProtocol proto = ref.get();
-			if (proto == null) {
-				it.remove();
-				continue;
-			}
-
-
+			TransportProtocol proto = it.next();
 			if (proto.canHandle(uri, null, null)) {
 				return proto.open(uri);
 			}
