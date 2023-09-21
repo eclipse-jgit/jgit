@@ -16,6 +16,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for the DFS storage implementation.
  */
+@SuppressWarnings("MissingSummary")
 public class DfsText extends TranslationBundle {
 	/**
 	 * Get an instance of this translation bundle.
