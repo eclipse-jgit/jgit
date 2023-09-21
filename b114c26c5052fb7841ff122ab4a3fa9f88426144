@@ -22,6 +22,30 @@
       },
       "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97caf77b_184925bc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-09-21T20:21:16Z",
+      "side": 1,
+      "message": "\u003e This test case replicates a scenario that will never happen in real life.\n\nIt is a simulated scenario, yes. However, it tries to _mimic_ the case where a packfile (locked with the .keep) contains objects also contained in other packfiles, which is a scenario that _may_ happen in real life.\n\n\u003e What we do here, is that we create two commits, run GC twice and then say: \"hey git, you know what, you haven\u0027t seen the second PACK file as it is not complete, right?\". We also use the same `Repository` instance, meaning it has the internal state that we try to influence with the `.keep` file.\n\nTrue.\n\n\u003e Also if we push the same PACK file to git, it should ignore it, as the PACK sha1 will be the same (similarly for the objects).\n\nThat\u0027s not true: packfiles are always discovered and kept in the pack list in memory. Also, two packfiles cannot have the same SHA1s because the name is obtained with a combined SHA1 of all its sorted content: if you have two packfiles with the same content, they are the same file with the same name.\n\nIf the second packfile (with a .keep associated) has extra SHA1s, then it never ignored, even if it has a .keep associated. The keep file is just used for checking if the file should be kept during the prune phase of a repack.\n\n\u003e To replicate what\u0027s going on, we should have two separate git repositories, crate commit in the first one copy/clone it. Amend that commit, then push (or copy PACK files), create a `.keep` file and finally run the GC.\n\nYou could also replicate with two repositories an a push, however, you would have to create the `.keep` file artificially, so it would still be a simulated scenario.\n\n\u003e With amending, we\u0027ll convince Git to create a new PACK file that would have a new commit object and reuse tree and blob objects.\n\u003e This should truly simulate a situation when there\u0027s an outgoing push with PACK files that have new and old objects while the GC is running.\n\nHave you tried yourself? Would that generate a packfile with duplicates objects on the server side of the push?",
+      "parentUuid": "202e7b1c_16c726c1",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
