@@ -11,8 +11,6 @@
 
 package org.eclipse.jgit.pgm.debug;
 
-import static java.lang.Integer.valueOf;
-
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -33,8 +31,8 @@ class MakeCacheTree extends TextBuiltin {
 
 	private void show(DirCacheTree tree) throws IOException {
 		outw.println(MessageFormat.format(CLIText.get().cacheTreePathInfo,
-				tree.getPathString(), valueOf(tree.getEntrySpan()),
-				valueOf(tree.getChildCount())));
+				tree.getPathString(), Integer.valueOf(tree.getEntrySpan()),
+				Integer.valueOf(tree.getChildCount())));
 
 		for (int i = 0; i < tree.getChildCount(); i++)
 			show(tree.getChild(i));

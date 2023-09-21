@@ -95,7 +95,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
@@ -647,7 +646,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		int authAttempts = 1;
 		int redirects = 0;
-		Collection<Type> ignoreTypes = null;
+		Collection<HttpAuthMethod.Type> ignoreTypes = null;
 		for (;;) {
 			try {
 				final HttpConnection conn = httpOpen(METHOD_GET, u, AcceptEncoding.GZIP);
@@ -1666,7 +1665,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			}
 
 			HttpAuthMethod authenticator = null;
-			Collection<Type> ignoreTypes = EnumSet.noneOf(Type.class);
+			Collection<HttpAuthMethod.Type> ignoreTypes = EnumSet
+					.noneOf(HttpAuthMethod.Type.class);
 			// Counts number of repeated authentication attempts using the same
 			// authentication scheme
 			int authAttempts = 1;
