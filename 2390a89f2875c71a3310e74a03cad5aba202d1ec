@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "793d0ce6_76c54e48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-09-21T18:56:07Z",
+      "side": 1,
+      "message": "Refactor stats out of the main function sgtm.",
+      "revId": "2390a89f2875c71a3310e74a03cad5aba202d1ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
