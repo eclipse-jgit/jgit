@@ -273,11 +273,6 @@ public enum CommandLineMergeTool {
 		this.exitCodeTrustable = exitCodeTrustable;
     }
 
-	CommandLineMergeTool(CommandLineMergeTool from) {
-		this(from.getPath(), from.getParameters(true),
-				from.getParameters(false), from.isExitCodeTrustable());
-	}
-
 	CommandLineMergeTool(String path, CommandLineMergeTool from) {
 		this(path, from.getParameters(true), from.getParameters(false),
 				from.isExitCodeTrustable());
