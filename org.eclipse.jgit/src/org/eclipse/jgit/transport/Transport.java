@@ -191,11 +191,13 @@ public abstract class Transport implements AutoCloseable {
 	 * @param proto
 	 *            the exact object previously given to register.
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static void unregister(TransportProtocol proto) {
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol refProto = ref.get();
-			if (refProto == null || refProto == proto)
+			if (refProto == null || refProto == proto) {
 				protocols.remove(ref);
+			}
 		}
 	}
 
@@ -204,15 +206,17 @@ public abstract class Transport implements AutoCloseable {
 	 *
 	 * @return an immutable copy of the currently registered protocols.
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static List<TransportProtocol> getTransportProtocols() {
 		int cnt = protocols.size();
 		List<TransportProtocol> res = new ArrayList<>(cnt);
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
-			if (proto != null)
+			if (proto != null) {
 				res.add(proto);
-			else
+			} else {
 				protocols.remove(ref);
+			}
 		}
 		return Collections.unmodifiableList(res);
 	}
@@ -508,6 +512,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the transport cannot open this URI.
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static Transport open(Repository local, URIish uri, String remoteName)
 			throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {
@@ -541,6 +546,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             if transport failed
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static Transport open(URIish uri) throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
@@ -549,8 +555,9 @@ public abstract class Transport implements AutoCloseable {
 				continue;
 			}
 
-			if (proto.canHandle(uri, null, null))
+			if (proto.canHandle(uri, null, null)) {
 				return proto.open(uri);
+			}
 		}
 
 		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
