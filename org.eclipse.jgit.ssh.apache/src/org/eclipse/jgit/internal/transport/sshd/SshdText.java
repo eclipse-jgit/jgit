@@ -15,6 +15,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Externalized text messages for localization.
  */
+@SuppressWarnings("MissingSummary")
 public final class SshdText extends TranslationBundle {
 
 	/**
