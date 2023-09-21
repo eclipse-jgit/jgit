@@ -16,6 +16,23 @@
       "message": "Refactor stats out of the main function sgtm.",
       "revId": "2390a89f2875c71a3310e74a03cad5aba202d1ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96c1d6d1_f9b37646",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-21T20:09:50Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "2390a89f2875c71a3310e74a03cad5aba202d1ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

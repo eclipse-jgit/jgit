@@ -16,6 +16,24 @@
       "message": "nit: IIUC you are introducing a pattern of \"collect metrics related to each chunk in their chunk objects first, then insert the chunk objects into the Stats class to extract out their individual metrics.\" \n\nI like the pattern but this might not be maintainable long term because we are still exposing each metric independently from their chunk in the Stats class (i.e. each metric regardless of their chunk origin gets a getter). If we have 10 chunks in the future, and each chunk has 5 metrics, then this quickly gets out of hand to have 50 getters for the stats class.\n\nRecommendation: I assume if a invoker gets a metric like \"changedPathFiltersReused\", it probably is also interested in getting every metrics about the bf chunks. Maybe we can create individual chunk stats, \"gettable\" from the main Stats class? this way, we are limiting the growth of getters to the number of chunks and consolidate every metrics of a chunk under one getter method.",
       "revId": "45ccae2f2fea68d56a319f23b3a29147a4e18455",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e09a354_77b4e039",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-21T20:09:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d55ce924_9e6455fb",
+      "revId": "45ccae2f2fea68d56a319f23b3a29147a4e18455",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
