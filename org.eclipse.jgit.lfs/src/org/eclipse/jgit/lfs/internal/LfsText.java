@@ -15,6 +15,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for JGit LFS server
  */
+@SuppressWarnings("MissingSummary")
 public class LfsText extends TranslationBundle {
 
 	/**

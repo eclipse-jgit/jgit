@@ -16,6 +16,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for JGit UI
  */
+@SuppressWarnings("MissingSummary")
 public class UIText extends TranslationBundle {
 
 	/**
