@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,6 +37,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,6 +47,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -686,18 +689,22 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			throws IOException {
 		Set<String> wantRefs = want.stream().map(Ref::getName)
 				.collect(Collectors.toSet());
+		parseReachable(wantRefs);
+		// Check if no commits were marked reachable, in that case mark all refs
+		// the client has under refs/heads/ as reachable
+		if (reachableCommits.isEmpty()) {
+			List<Ref> localRefs = local.getRefDatabase()
+					.getRefsByPrefix(Constants.R_HEADS);
 
-		for (Ref r : local.getRefDatabase().getRefs()) {
-			if (useNegotiationTip && !wantRefs.contains(r.getName())) {
-				continue;
+			parseReachable(localRefs.stream().map(Ref::getName)
+					.collect(Collectors.toSet()));
+			List<String> refsUnavailableInLocalDb = new ArrayList<>();
+			for (String ref : wantRefs) {
+				Ref r = local.getRefDatabase().exactRef(ref);
+				if (r == null) {
+					refsUnavailableInLocalDb.add(ref);
+				}
 			}
-
-			ObjectId id = r.getPeeledObjectId();
-			if (id == null)
-				id = r.getObjectId();
-			if (id == null)
-				continue;
-			parseReachable(id);
 		}
 
 		for (ObjectId id : local.getAdditionalHaves())
@@ -728,6 +735,38 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					reachableCommits.add(c);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Marks commits reachable. When useNegotiationTip is disabled then it marks
+	 * all tip available with client. Otherwise, it only marks the tips
+	 * available with the client that is in the wants list.
+	 *
+	 * @param wantRefs
+	 *            references that client is requesting
+	 * @throws IOException
+	 *             If the reference space cannot be accessed.
+	 */
+	private void parseReachable(Set<String> wantRefs) throws IOException {
+		List<Ref> refsToMark;
+		if (useNegotiationTip) {
+			String[] wants = wantRefs.toArray(String[]::new);
+			Map<String, Ref> wantRefMap = local.getRefDatabase()
+					.exactRef(wants);
+			refsToMark = wantRefMap.values().stream()
+					.collect(Collectors.toList());
+		} else {
+			refsToMark = local.getRefDatabase().getRefs();
+		}
+
+		for (Ref r : refsToMark) {
+			ObjectId id = r.getPeeledObjectId();
+			if (id == null)
+				id = r.getObjectId();
+			if (id == null)
+				continue;
+			parseReachable(id);
 		}
 	}
 
