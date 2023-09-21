@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbe39e6b_7d5977f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-09-21T20:23:31Z",
+      "side": 1,
+      "message": "Whilst this solves the AIOBE, it does not fix the root cause of the issue , which is the exclusion of the SHA1s contained in the packfile (with .keep) from the repack.\n\nIf you exclude SHA1s from the repacking phase, then the generated packfile won\u0027t be suitable for having a bitmap, that\u0027s why the remapping fails with AIOBE (some of the SHA1s are missing in the new remapped bitmap).\n\nRather than avoiding the exception, we should fix the issue that causes the exception.",
+      "revId": "043cea2df3b0aeb27407ac46c1ac5387cf15754b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
