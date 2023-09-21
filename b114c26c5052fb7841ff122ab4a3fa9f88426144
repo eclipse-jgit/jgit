@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "202e7b1c_16c726c1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-09-21T11:28:39Z",
+      "side": 1,
+      "message": "This test case replicates a scenario that will never happen in real life.\n\nWhat we do here, is that we create two commits, run GC twice and then say: \"hey git, you know what, you haven\u0027t seen the second PACK file as it is not complete, right?\". We also use the same `Repository` instance, meaning it has the internal state that we try to influence with the `.keep` file.\n\nAlso if we push the same PACK file to git, it should ignore it, as the PACK sha1 will be the same (similarly for the objects).\n\nTo replicate what\u0027s going on, we should have two separate git repositories, crate commit in the first one copy/clone it. Amend that commit, then push (or copy PACK files), create a `.keep` file and finally run the GC.\n\nWith amending, we\u0027ll convince Git to create a new PACK file that would have a new commit object and reuse tree and blob objects.\n\nThis should truly simulate a situation when there\u0027s an outgoing push with PACK files that have new and old objects while the GC is running.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
