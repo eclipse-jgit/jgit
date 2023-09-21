@@ -16,6 +16,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for repo command
  */
+@SuppressWarnings("MissingSummary")
 public class RepoText extends TranslationBundle {
 
 	/**
