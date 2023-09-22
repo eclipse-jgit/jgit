@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed84bd64_77af806b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-22T20:58:23Z",
+      "side": 1,
+      "message": "The change itself is fine, but I find this errorprone rule causes many questionable findings. It may be fine for types that convey information about immutability, but in general I prefer to use the most general interface that still gives the guarantees the code needs or wants to expose. In my book using Collection is preferrable if the implementation doesn\u0027t care whether it\u0027s a list or a set or whatever. And likewise for return values. Sometimes it\u0027s an implementation detail whether something is a list or a set, and then using Collection (or perhaps even Iterable) as return type is perfectly fine.",
+      "revId": "f0439432d617ab6c9ff17e8a764baa6bf83c0f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
