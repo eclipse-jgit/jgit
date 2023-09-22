@@ -302,7 +302,7 @@ public class MockSystemReader extends SystemReader {
 			field.setAccessible(true);
 			field.set(null, null);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
