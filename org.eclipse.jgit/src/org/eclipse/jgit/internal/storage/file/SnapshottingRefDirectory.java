@@ -228,13 +228,13 @@ class SnapshottingRefDirectory extends RefDirectory {
 
 	private static class SnapshotPackedBatchRefUpdate
 			extends PackedBatchRefUpdate {
-		SnapshotPackedBatchRefUpdate(RefDirectory refdb) {
-			super(refdb);
+		SnapshotPackedBatchRefUpdate(RefDirectory refDb) {
+			super(refDb);
 		}
 
-		SnapshotPackedBatchRefUpdate(RefDirectory refdb,
+		SnapshotPackedBatchRefUpdate(RefDirectory refDb,
 				boolean shouldLockLooseRefs) {
-			super(refdb, shouldLockLooseRefs);
+			super(refDb, shouldLockLooseRefs);
 		}
 
 		@Override
