@@ -158,9 +158,8 @@ public class CommitGraphWriter {
 		return Stats.from(bloomFilterChunks);
 	}
 
-	private static List<ChunkHeader> createCoreChunks(int hashsz, GraphCommits graphCommits)
-			throws MissingObjectException,
-			IncorrectObjectTypeException, CorruptObjectException, IOException {
+	private static List<ChunkHeader> createCoreChunks(int hashsz,
+			GraphCommits graphCommits) {
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.add(new ChunkHeader(CHUNK_ID_OID_FANOUT, GRAPH_FANOUT_SIZE));
 		chunks.add(new ChunkHeader(CHUNK_ID_OID_LOOKUP,
