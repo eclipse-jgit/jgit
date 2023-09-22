@@ -535,7 +535,7 @@ public class CommitGraphWriter {
 			return stats;
 		}
 
-		private Stats() {};
+		private Stats() {}
 
 		private long changedPathFiltersReused = 0;
 
