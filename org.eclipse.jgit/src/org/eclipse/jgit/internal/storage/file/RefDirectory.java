@@ -1413,10 +1413,10 @@ public class RefDirectory extends RefDatabase {
 			implements LooseRef {
 		private final FileSnapshot snapShot;
 
-		LoosePeeledTag(FileSnapshot snapshot, @NonNull String refName,
+		LoosePeeledTag(FileSnapshot snapShot, @NonNull String refName,
 				@NonNull ObjectId id, @NonNull ObjectId p) {
 			super(LOOSE, refName, id, p);
-			this.snapShot = snapshot;
+			this.snapShot = snapShot;
 		}
 
 		@Override
@@ -1434,10 +1434,10 @@ public class RefDirectory extends RefDatabase {
 			implements LooseRef {
 		private final FileSnapshot snapShot;
 
-		LooseNonTag(FileSnapshot snapshot, @NonNull String refName,
+		LooseNonTag(FileSnapshot snapShot, @NonNull String refName,
 				@NonNull ObjectId id) {
 			super(LOOSE, refName, id);
-			this.snapShot = snapshot;
+			this.snapShot = snapShot;
 		}
 
 		@Override
@@ -1490,10 +1490,10 @@ public class RefDirectory extends RefDatabase {
 			LooseRef {
 		private final FileSnapshot snapShot;
 
-		LooseSymbolicRef(FileSnapshot snapshot, @NonNull String refName,
+		LooseSymbolicRef(FileSnapshot snapShot, @NonNull String refName,
 				@NonNull Ref target) {
 			super(refName, target);
-			this.snapShot = snapshot;
+			this.snapShot = snapShot;
 		}
 
 		@Override
