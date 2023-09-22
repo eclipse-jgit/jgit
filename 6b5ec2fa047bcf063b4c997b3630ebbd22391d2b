@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0289ccb4_73bc15b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/MergeToolConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-22T22:48:45Z",
+      "side": 1,
+      "message": "temporaries",
+      "range": {
+        "startLine": 128,
+        "startChar": 19,
+        "endLine": 128,
+        "endChar": 25
+      },
+      "revId": "6b5ec2fa047bcf063b4c997b3630ebbd22391d2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
