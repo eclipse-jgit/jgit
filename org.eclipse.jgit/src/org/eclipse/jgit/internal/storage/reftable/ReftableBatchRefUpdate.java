@@ -64,7 +64,7 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 	/**
 	 * Initialize.
 	 *
-	 * @param refdb
+	 * @param refDb
 	 *            The RefDatabase
 	 * @param reftableDb
 	 *            The ReftableDatabase
@@ -73,9 +73,9 @@ public abstract class ReftableBatchRefUpdate extends BatchRefUpdate {
 	 * @param repository
 	 *            The repository on which this update will run
 	 */
-	protected ReftableBatchRefUpdate(RefDatabase refdb, ReftableDatabase reftableDb, Lock lock,
-			Repository repository) {
-		super(refdb);
+	protected ReftableBatchRefUpdate(RefDatabase refDb,
+			ReftableDatabase reftableDb, Lock lock, Repository repository) {
+		super(refDb);
 		this.refDb = reftableDb;
 		this.lock = lock;
 		this.repository = repository;
