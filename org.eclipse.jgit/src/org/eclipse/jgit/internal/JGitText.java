@@ -187,6 +187,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitGraphChunkRepeated;
 	/***/ public String commitGraphChunkUnknown;
 	/***/ public String commitGraphFileIsTooLargeForJgit;
+	/***/ public String commitGraphUnexpectedSize;
 	/***/ public String commitGraphWritingCancelled;
 	/***/ public String commitMessageNotSpecified;
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;

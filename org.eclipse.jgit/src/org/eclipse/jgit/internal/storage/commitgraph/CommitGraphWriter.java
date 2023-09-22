@@ -146,8 +146,9 @@ public class CommitGraphWriter {
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
-						"Commit-graph: expected %d bytes but out has %d bytes", //$NON-NLS-1$
-						expectedSize, out.length()));
+						JGitText.get().commitGraphUnexpectedSize,
+						Long.valueOf(expectedSize),
+						Long.valueOf(out.length())));
 			}
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
