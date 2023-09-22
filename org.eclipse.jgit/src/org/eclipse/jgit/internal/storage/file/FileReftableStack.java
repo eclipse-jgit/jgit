@@ -617,6 +617,9 @@ public class FileReftableStack implements AutoCloseable {
 			if (other == null) {
 				return false;
 			}
+			if (!(other instanceof Segment)) {
+				return false;
+			}
 			Segment o = (Segment) other;
 			return o.bytes == bytes && o.log == log && o.start == start
 					&& o.end == end;
