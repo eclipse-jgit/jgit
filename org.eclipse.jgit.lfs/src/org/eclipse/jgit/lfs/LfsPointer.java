@@ -294,7 +294,7 @@ public class LfsPointer implements Comparable<LfsPointer> {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null || getClass() != obj.getClass()) {
+		if (!(obj instanceof LfsPointer)) {
 			return false;
 		}
 		LfsPointer other = (LfsPointer) obj;
