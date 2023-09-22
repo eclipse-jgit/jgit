@@ -94,6 +94,30 @@
       },
       "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07c6d14a_386e5d21",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-09-22T09:18:46Z",
+      "side": 1,
+      "message": "@Luca, just created bug 582455 for the use case with an amended commit. Could you also respond to the other part of my previous comment? Just wanted to know if my findings in .git/objects and pack files content make sense.",
+      "parentUuid": "825126e9_ada0e8ea",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
