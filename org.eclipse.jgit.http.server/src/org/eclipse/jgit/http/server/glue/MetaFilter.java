@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -113,7 +112,7 @@ public class MetaFilter implements Filter {
 	}
 
 	private static Set<Object> newIdentitySet() {
-		final Map<Object, Object> m = new IdentityHashMap<>();
+		final IdentityHashMap<Object, Object> m = new IdentityHashMap<>();
 		return new AbstractSet<>() {
 
 			@Override
