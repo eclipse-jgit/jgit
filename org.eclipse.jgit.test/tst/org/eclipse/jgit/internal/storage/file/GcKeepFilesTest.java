@@ -12,13 +12,18 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class GcKeepFilesTest extends GcTestCase {
@@ -71,5 +76,49 @@ public class GcKeepFilesTest extends GcTestCase {
 						"the following object is in both packfiles: "
 								+ e.toObjectId(),
 						ind2.hasObject(e.toObjectId()));
+	}
+
+	@Test
+	public void testKeepFileForPackWithAmendedCommitAllowsBitmapRemapping()
+			throws Exception {
+		TestRepository<FileRepository>.BranchBuilder bb = tr
+				.branch("refs/heads/master");
+		bb.commit().add("A", "A").message("first").create();
+		bb.commit().add("B", "B").message("second").create();
+		// all good - just pack the objects
+		gc.gc();
+
+		TestRepository<Repository> clone = new TestRepository<>(
+				cloneRepository(repo));
+		// amend last commit to create new commit object and reuse tree and blob
+		RevCommit amended = clone.amendRef("refs/heads/master")
+				.message("amended").create();
+
+		// materialise new pack on the parent repository
+		clone.git().push().setForce(true).call();
+
+		// create new repository to access pushed pack files
+		FileRepository tmpRepo = new FileRepository(repo.getDirectory());
+		Iterator<Pack> packIt = tmpRepo.getObjectDatabase().getPacks()
+				.iterator();
+		Pack pack1 = packIt.next();
+		assertNotNull(pack1);
+		// ensure that we have multiple pack files in repository
+		assertTrue(packIt.hasNext());
+		// ensure that we lock pack file that has amended commit
+		assertTrue(pack1.hasObject(amended));
+		PackFile keepFile = pack1.getPackFile().create(PackExt.KEEP);
+		// create keep file
+		assertTrue(keepFile.createNewFile());
+
+		// BOOM
+		gc.gc();
+	}
+
+	private Repository cloneRepository(Repository repo) throws Exception {
+		return Git.cloneRepository()
+				.setURI(repo.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true)).call()
+				.getRepository();
 	}
 }
