@@ -70,6 +70,30 @@
       },
       "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "825126e9_ada0e8ea",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-09-22T07:54:37Z",
+      "side": 1,
+      "message": "\u003e Yes, I did. In my test case, I ended up with two PACK files (only one had BITMAP) and both had the same TREE and BLOB objects. **But** it resulted in a different excepton:\n\u003e \n\u003e ```\n\u003e java.lang.IllegalStateException\n\u003e \tat org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.generateStoredEntry(PackBitmapIndexBuilder.java:191)\n\u003e \tat org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.getCompressedBitmaps(PackBitmapIndexBuilder.java:328)\n\u003e \tat org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1.writeBitmaps(PackBitmapIndexWriterV1.java:101)\n\u003e \tat org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1.writeBody(PackBitmapIndexWriterV1.java:91)\n\u003e \tat org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1.write(PackBitmapIndexWriterV1.java:70)\n\u003e \tat org.eclipse.jgit.internal.storage.pack.PackWriter.writeBitmapIndex(PackWriter.java:1134)\n\u003e \tat org.eclipse.jgit.internal.storage.file.GC.writePack(GC.java:1232)\n\u003e \tat org.eclipse.jgit.internal.storage.file.GC.repack(GC.java:864)\n\u003e \tat org.eclipse.jgit.internal.storage.file.GC.doGc(GC.java:285)\n\u003e \tat org.eclipse.jgit.internal.storage.file.GC.gc(GC.java:232)\n\u003e \tat org.eclipse.jgit.internal.storage.file.GcKeepFilesTest.testKeepFileAllowsBitmapRemapping2(GcKeepFilesTest.java:136)\n\u003e ```\n\nCool finding @Darek, could you please file a different bug? It is a different use-case but still produces an error and would need to be:\n\n- Covered by tests (as you did, just need to be a separate change with a test-case)\n- Fixed\n\nGood stuff.",
+      "parentUuid": "abb28f8a_06c15755",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "b114c26c5052fb7841ff122ab4a3fa9f88426144",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
