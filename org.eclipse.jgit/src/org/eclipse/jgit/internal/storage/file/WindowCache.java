@@ -848,6 +848,7 @@ public class WindowCache {
 		 * Whether this is a strong reference.
 		 * @return {@code true} if this is a strong reference
 		 */
+		@SuppressWarnings("unused")
 		boolean isStrongRef();
 	}
 
