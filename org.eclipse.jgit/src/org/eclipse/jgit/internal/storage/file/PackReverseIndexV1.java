@@ -66,7 +66,7 @@ final class PackReverseIndexV1 implements PackReverseIndex {
 			this.objectCount = Math.toIntExact(objectCount);
 		} catch (ArithmeticException e) {
 			throw new IllegalArgumentException(
-					JGitText.get().hugeIndexesAreNotSupportedByJgitYet);
+					JGitText.get().hugeIndexesAreNotSupportedByJgitYet, e);
 		}
 
 		this.inputStream = inputStream;
