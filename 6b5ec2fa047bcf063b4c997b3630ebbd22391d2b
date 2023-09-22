@@ -22,6 +22,30 @@
       },
       "revId": "6b5ec2fa047bcf063b4c997b3630ebbd22391d2b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9054bb4_7aeaa61e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/diffmergetool/MergeToolConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-22T22:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0289ccb4_73bc15b7",
+      "range": {
+        "startLine": 128,
+        "startChar": 19,
+        "endLine": 128,
+        "endChar": 25
+      },
+      "revId": "6b5ec2fa047bcf063b4c997b3630ebbd22391d2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
