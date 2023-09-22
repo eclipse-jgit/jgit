@@ -22,6 +22,30 @@
       },
       "revId": "ec0657ba014585261d3c3c4d69cb905216c5efb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f19d9055_e7ab394f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-22T22:59:50Z",
+      "side": 1,
+      "message": "AddCommand#call creates a PathFilterGroup from this collection which is fed sequentially from this list [1], hence I think we should not make this a set\n\n[1] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java#168",
+      "parentUuid": "81bb7c61_250b262f",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 14
+      },
+      "revId": "ec0657ba014585261d3c3c4d69cb905216c5efb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
