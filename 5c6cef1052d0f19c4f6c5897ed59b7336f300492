@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de1dd23b_97a5fcaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T16:40:26Z",
+      "side": 1,
+      "message": "ByteBuffer doesn\u0027t have an available() method, did you mean capacity() ?\n\nWhere can I find ByteBufferInputStream ?",
+      "parentUuid": "da96508c_d272741e",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b912d41e_2d0a6fc5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
