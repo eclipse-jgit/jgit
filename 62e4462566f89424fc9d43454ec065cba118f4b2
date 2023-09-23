@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0af9ad67_4e5373df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T07:55:06Z",
+      "side": 1,
+      "message": "This would break the dynamic loading mechanism Shawn had introduced in commit Iafd8e3a6285261412aac6cba8e2c333f8b7b76a5.",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cff334c4_c0a500c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T07:55:06Z",
+      "side": 1,
+      "message": "The protocols registered above will _not_ be garbage collected since there are static hard references to them.",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "999436e4_5128127a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T07:55:06Z",
+      "side": 1,
+      "message": "The dynamically supplied ones may be garbage collected.",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373d5686_13e785a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T07:55:06Z",
+      "side": 1,
+      "message": "I think this is the reason for the weak references. What if some bundles that have registered services get unloaded? (For instance in OSGi?)",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0121f544_2e251605",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T07:55:06Z",
+      "side": 1,
+      "message": "OK. So the classes providing dynamically loaded protocols must provide a static field. Hence the dynamically loaded protocols get garbage collected only when that class disappears, for instance if the bundle containing them gets unloaded in an OSGi environment.\n\nThat is why WeakReference was used, and should be used.",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
