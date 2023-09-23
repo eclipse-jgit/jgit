@@ -46,6 +46,30 @@
       },
       "revId": "ec0657ba014585261d3c3c4d69cb905216c5efb5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7fd84c_eeea7736",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-09-23T00:12:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f19d9055_e7ab394f",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 14
+      },
+      "revId": "ec0657ba014585261d3c3c4d69cb905216c5efb5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
