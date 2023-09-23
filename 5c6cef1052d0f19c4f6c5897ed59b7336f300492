@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efaf8ab9_2eb5b3ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T17:15:29Z",
+      "side": 1,
+      "message": "Sorry. available() is the method in the Apache MINA sshd buffer implementation. For Java ByteBuffer, it\u0027s remaining().\n\nByteBufferInputStream: that\u0027s the rub. Java doesn\u0027t have it, so we\u0027d have to write it ourselves. But on first glance [1] looks like a reasonable implementation. (I\u0027d drop \"synchronized\", though.)\n\n[1] https://gist.github.com/ncruces/da984d7d024eeeb5597ad81c7ac7683a",
+      "parentUuid": "de1dd23b_97a5fcaf",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b912d41e_2d0a6fc5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
