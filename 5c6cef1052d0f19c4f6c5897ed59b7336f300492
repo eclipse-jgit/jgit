@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b10c2d50_79cd7d13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T08:29:09Z",
+      "side": 1,
+      "message": "Can\u0027t comment on the commit graph use of ByteBuffer. The method takes a Set\u003cByteBuffer\u003e as input, but ByteBuffer\u0027s hashCode and equals depend on the **remaining** content, so they may change if the buffers are read. Perhaps ByteBuffer is not the correct abstraction there. In any case the use of ByteBuffer there looks suspicious to me.",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1233d6_4ed99d57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T08:29:09Z",
+      "side": 1,
+      "message": "Same as below?\n\n  ByteBuffer rawbuf \u003d IO.readWholeStream(filterClean(is), (int) len);\n  return rawbuf.available();",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da96508c_d272741e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T08:29:09Z",
+      "side": 1,
+      "message": "Why are we reading into a ByteBuffer here?\n\nSeems to me we could just do\n\n  ByteBuffer rawbuf \u003d IO.readWholeStream(filterClean(is), (int) len);\n  canonLen \u003d rawBuf.available();\n  \nFor returning, I\u0027d create a new ByteBufferInputStream that can wrap a ByteBuffer as an InputStream, and then\n\n  return new ByteBufferInputStream(rawBuf);\n  \nAnd finally I\u0027d rename rawbuf to filteredData.",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b912d41e_2d0a6fc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-23T08:29:09Z",
+      "side": 1,
+      "message": "This method would then be superfluous.",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
