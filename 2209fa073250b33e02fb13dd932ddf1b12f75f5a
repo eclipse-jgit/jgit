@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83d79b9_fa532aee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-09-23T00:21:31Z",
+      "side": 1,
+      "message": "Should this be `it.remove()` like you did below?",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 13
+      },
+      "revId": "2209fa073250b33e02fb13dd932ddf1b12f75f5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
