@@ -77,6 +77,7 @@ public abstract class Transport implements AutoCloseable {
 		PUSH;
 	}
 
+	// Use weak references to enable unloading dynamically loaded protocols
 	private static final List<WeakReference<TransportProtocol>> protocols =
 		new CopyOnWriteArrayList<>();
 
