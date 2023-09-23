@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c93c588_c779da40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T23:53:19Z",
+      "side": 1,
+      "message": "Done in I461c82090de2562ea9b649b3f953aad4571e3d25",
+      "parentUuid": "ca1233d6_4ed99d57",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da96508c_d272741e",
@@ -88,6 +106,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2056a3ec_c87c0bf2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T23:53:19Z",
+      "side": 1,
+      "message": "Done in I461c82090de2562ea9b649b3f953aad4571e3d25",
+      "parentUuid": "efaf8ab9_2eb5b3ed",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b912d41e_2d0a6fc5",
@@ -101,6 +137,24 @@
       "writtenOn": "2023-09-23T08:29:09Z",
       "side": 1,
       "message": "This method would then be superfluous.",
+      "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fcf5d7e_cfab3832",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T23:53:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b912d41e_2d0a6fc5",
       "revId": "5c6cef1052d0f19c4f6c5897ed59b7336f300492",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
