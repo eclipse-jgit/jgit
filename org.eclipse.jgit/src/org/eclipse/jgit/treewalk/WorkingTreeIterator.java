@@ -407,9 +407,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
 			InputStream is = e.openInputStream();
 			try {
-				ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
-				rawbuf = filterClean(rawbuf.array(), rawbuf.limit());
-				return rawbuf.limit();
+				ByteBuffer rawbuf = IO.readWholeStream(filterClean(is),
+						(int) len);
+				return rawbuf.capacity();
 			} finally {
 				safeClose(is);
 			}
@@ -438,10 +438,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
-			ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
-			rawbuf = filterClean(rawbuf.array(), rawbuf.limit());
-			canonLen = rawbuf.limit();
-			return new ByteArrayInputStream(rawbuf.array(), 0, (int) canonLen);
+			ByteBuffer rawbuf = IO.readWholeStream(filterClean(is), (int) len);
+			canonLen = rawbuf.capacity();
+			return new ByteArrayInputStream(rawbuf.array());
 		}
 
 		if (getCleanFilterCommand() == null && isBinary(e)) {
@@ -472,16 +471,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		InputStream in = entry.openInputStream();
 		try {
 			return RawText.isBinary(in);
-		} finally {
-			safeClose(in);
-		}
-	}
-
-	private ByteBuffer filterClean(byte[] src, int n)
-			throws IOException {
-		InputStream in = new ByteArrayInputStream(src);
-		try {
-			return IO.readWholeStream(filterClean(in), n);
 		} finally {
 			safeClose(in);
 		}
