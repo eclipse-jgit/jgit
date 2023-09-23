@@ -419,6 +419,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String initFailedNonBareRepoSameDirs;
 	/***/ public String inMemoryBufferLimitExceeded;
 	/***/ public String inputDidntMatchLength;
+	/***/ public String inputStreamClosed;
 	/***/ public String inputStreamMustSupportMark;
 	/***/ public String integerValueNotInRange;
 	/***/ public String integerValueNotInRangeSubSection;

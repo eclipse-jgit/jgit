@@ -15,7 +15,6 @@ package org.eclipse.jgit.treewalk;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -72,6 +71,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
+import org.eclipse.jgit.util.io.ByteBufferInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 import org.eclipse.jgit.util.sha1.SHA1;
 
@@ -407,9 +407,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
 			InputStream is = e.openInputStream();
 			try {
-				ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
-				rawbuf = filterClean(rawbuf.array(), rawbuf.limit());
-				return rawbuf.limit();
+				ByteBuffer filteredData = IO.readWholeStream(filterClean(is),
+						(int) len);
+				return filteredData.remaining();
 			} finally {
 				safeClose(is);
 			}
@@ -438,10 +438,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 
 		if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
-			ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
-			rawbuf = filterClean(rawbuf.array(), rawbuf.limit());
-			canonLen = rawbuf.limit();
-			return new ByteArrayInputStream(rawbuf.array(), 0, (int) canonLen);
+			ByteBuffer filteredData = IO.readWholeStream(filterClean(is), (int) len);
+			canonLen = filteredData.remaining();
+			return new ByteBufferInputStream(filteredData);
 		}
 
 		if (getCleanFilterCommand() == null && isBinary(e)) {
@@ -472,16 +471,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		InputStream in = entry.openInputStream();
 		try {
 			return RawText.isBinary(in);
-		} finally {
-			safeClose(in);
-		}
-	}
-
-	private ByteBuffer filterClean(byte[] src, int n)
-			throws IOException {
-		InputStream in = new ByteArrayInputStream(src);
-		try {
-			return IO.readWholeStream(filterClean(in), n);
 		} finally {
 			safeClose(in);
 		}
