@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0eecf6_99aa9a0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T15:55:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cff334c4_c0a500c4",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "999436e4_5128127a",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-09-23T07:55:06Z",
       "side": 1,
       "message": "The dynamically supplied ones may be garbage collected.",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "672b5826_b09d5d71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T15:55:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "999436e4_5128127a",
       "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a9ac04_923d8c6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T15:55:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "373d5686_13e785a7",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0121f544_2e251605",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-09-23T07:55:06Z",
       "side": 1,
       "message": "OK. So the classes providing dynamically loaded protocols must provide a static field. Hence the dynamically loaded protocols get garbage collected only when that class disappears, for instance if the bundle containing them gets unloaded in an OSGi environment.\n\nThat is why WeakReference was used, and should be used.",
+      "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a878581a_cf6a4e4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-23T15:55:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0121f544_2e251605",
       "revId": "62e4462566f89424fc9d43454ec065cba118f4b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
