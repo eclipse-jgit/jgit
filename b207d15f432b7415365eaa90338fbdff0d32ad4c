@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499149a6_3fa7f446",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-24T09:43:07Z",
+      "side": 1,
+      "message": "According to the errorprone bug description, this should take into account buffer.arrayOffset().\n\nlimit - position is path.remaining().\n\nI wonder if the new utility function in IO is useful. I presume as soon as one uses arrayOffset() here, it\u0027ll flag this again.\n\nShould probably simply be\n\n  for (ByteBuffer path : paths) {\n    if (path.hasArray()) {\n      add(bloom, path.array(), path.arrayOffset() + path.position(), path.remaining());\n    } else {\n      throw ...\n    }\n  }\n  \nOr perhaps don\u0027t throw but use\n\n  ...\n  } else {\n    byte[] data \u003d new byte[path.remaining()];\n    path.get(data);\n    add(bloom, data, 0, data.length);\n  }\n  \nBut overall I really wonder if ByteBuffer is the correct abstraction for these paths.",
+      "revId": "b207d15f432b7415365eaa90338fbdff0d32ad4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
