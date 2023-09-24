@@ -132,6 +132,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86863bce_255284e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-24T19:42:51Z",
+      "side": 1,
+      "message": "Ignore; I overlooked that it\u0027s set to null in close().",
+      "parentUuid": "64b4086f_f59457e8",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2654b3ba_391aeca6",
