@@ -34,6 +34,24 @@
       "parentUuid": "e32ae05c_a34de2ca",
       "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e21367ea_da6049a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-25T13:29:46Z",
+      "side": 1,
+      "message": "It looks like any manual trigger adds duplicate elements in that job XML. Something is fishy with this Jenkins installation.",
+      "parentUuid": "43297090_568510db",
+      "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
