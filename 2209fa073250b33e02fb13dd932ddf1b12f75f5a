@@ -70,6 +70,30 @@
       },
       "revId": "2209fa073250b33e02fb13dd932ddf1b12f75f5a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3543bff3_16db7f4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T19:41:51Z",
+      "side": 1,
+      "message": "CopyOnWriteArrayList\u0027s iterator doesn\u0027t support mutation operations and throws UnsupportedOperationException :-(\n\nhttps://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CopyOnWriteArrayList.html",
+      "parentUuid": "f8646ccd_b0441953",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 13
+      },
+      "revId": "2209fa073250b33e02fb13dd932ddf1b12f75f5a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
