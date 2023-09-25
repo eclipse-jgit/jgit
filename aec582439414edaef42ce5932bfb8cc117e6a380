@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d4e0852_5d438df2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ByteBufferInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "370d4f78_e25d0309",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64f683ac_738d6057",
@@ -52,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0074bc65_8c06a240",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ByteBufferInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64f683ac_738d6057",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b69f8cbb_32b72f7f",
@@ -65,6 +101,30 @@
       "writtenOn": "2023-09-24T09:18:11Z",
       "side": 1,
       "message": "Should be remaining()? Also rename \"rawbuf\" to \"data\" or \"filteredData\".",
+      "range": {
+        "startLine": 412,
+        "startChar": 18,
+        "endLine": 412,
+        "endChar": 29
+      },
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b1e7a4_69c7665d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69f8cbb_32b72f7f",
       "range": {
         "startLine": 412,
         "startChar": 18,
@@ -98,6 +158,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed1ae2b_4e95a64c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "738a1009_5fed0679",
+      "range": {
+        "startLine": 443,
+        "startChar": 14,
+        "endLine": 443,
+        "endChar": 51
+      },
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bb74c06_c3e4f23e",
@@ -111,6 +195,24 @@
       "writtenOn": "2023-09-24T09:18:11Z",
       "side": 1,
       "message": "Missing period at the end. For class-level descriptions, I prefer to have full sentences. (\"An InputStream...\").\n\nI\u0027d also recommend linking InputStream and ByteBuffer. It makes the generated HTML more useful since it\u0027ll have the links.",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b1d4789_eedf188f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bb74c06_c3e4f23e",
       "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -150,6 +252,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ff0175_a13d778b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "then we can\u0027t set it to null in close()",
+      "parentUuid": "64b4086f_f59457e8",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2654b3ba_391aeca6",
@@ -163,6 +283,24 @@
       "writtenOn": "2023-09-24T09:18:11Z",
       "side": 1,
       "message": "Missing period. Use third person singular instead of imperative voice.[1][2]\n\nPersonally, I tend to link the class name. If I refactor the class name in the IDE, it is then smart enough to also update the link text. Without link, I\u0027d then have to update the comment manually afterwards. (Minor thing; we\u0027re unlikely to rename this class.)\n\n[1] https://developers.google.com/style/reference-verbs\n[2] https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html#styleguide",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a68ccdc6_4454de96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2654b3ba_391aeca6",
       "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -184,6 +322,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93b9ba8a_242916ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31b11371_469429af",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5ca2b9c_8e676236",
@@ -197,6 +353,24 @@
       "writtenOn": "2023-09-24T09:18:11Z",
       "side": 1,
       "message": "Whitespace around the operator is missing.",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "291e57f5_12b71d91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ca2b9c_8e676236",
       "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -218,6 +392,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4db5d9_932a71b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1131cc83_949356a7",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4d4c6dc_7573c628",
@@ -235,6 +427,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2843a08a_eb69081d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d4c6dc_7573c628",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3300aaed_40cc2ec5",
@@ -248,6 +458,24 @@
       "writtenOn": "2023-09-24T09:18:11Z",
       "side": 1,
       "message": "Catch InvalidMarkException and rethrow as IOE. Javadoc on InputStream says it may throw an IOE if mark() wasn\u0027t called.",
+      "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6438ce9_60b489a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/ByteBufferInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T08:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3300aaed_40cc2ec5",
       "revId": "aec582439414edaef42ce5932bfb8cc117e6a380",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
