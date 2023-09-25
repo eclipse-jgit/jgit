@@ -70,6 +70,23 @@
       "parentUuid": "e21367ea_da6049a4",
       "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e27402af_f4bdeacb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ByteBufferInputStreamTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T14:12:31Z",
+      "side": 1,
+      "message": "this should reside in the same package as the implementation:\n\n package org.eclipse.jgit.util.io;",
+      "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
