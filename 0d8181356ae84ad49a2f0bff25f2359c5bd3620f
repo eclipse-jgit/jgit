@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a405bf6_38bfcd2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 171685
+      },
+      "writtenOn": "2023-09-25T13:41:49Z",
+      "side": 1,
+      "message": "This looks promising, and build is fine, would be great to see this fixed!",
+      "revId": "0d8181356ae84ad49a2f0bff25f2359c5bd3620f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
