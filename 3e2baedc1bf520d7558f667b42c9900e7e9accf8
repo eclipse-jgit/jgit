@@ -52,6 +52,24 @@
       "parentUuid": "43297090_568510db",
       "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d30a9cb_0e315e4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T14:11:09Z",
+      "side": 1,
+      "message": "where do you see the job XML ?",
+      "parentUuid": "e21367ea_da6049a4",
+      "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
