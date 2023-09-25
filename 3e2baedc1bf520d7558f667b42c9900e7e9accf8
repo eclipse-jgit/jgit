@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e32ae05c_a34de2ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-25T11:23:43Z",
+      "side": 1,
+      "message": "No builds are being triggered. It appears that Jenkins decided on 2023-09-24 04:22:21 to remove a lot of duplicated elements from the job\u0027s definition file (XML). [1] I don\u0027t see a problem with this automated clean-up, though. But possibly something got confused somewhere. Perhaps not in the XML but in Jenkins\u0027 internal state?\n\n[1] https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/jobConfigHistory/showDiffFiles?timestamp1\u003d2023-09-23_19-50-30\u0026timestamp2\u003d2023-09-24_04-22-21",
+      "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
