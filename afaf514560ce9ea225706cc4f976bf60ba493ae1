@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58a97575_ef190f4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-25T18:59:55Z",
+      "side": 1,
+      "message": "LGTM; nice. The build failure is unrelated (racy detection).",
+      "revId": "afaf514560ce9ea225706cc4f976bf60ba493ae1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
