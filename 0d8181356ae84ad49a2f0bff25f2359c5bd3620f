@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "215c8910_d6bb7c27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T23:16:30Z",
+      "side": 1,
+      "message": "nit: add a blank line before the trailers",
+      "revId": "0d8181356ae84ad49a2f0bff25f2359c5bd3620f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3a405bf6_38bfcd2f",
@@ -14,6 +31,40 @@
       "writtenOn": "2023-09-25T13:41:49Z",
       "side": 1,
       "message": "This looks promising, and build is fine, would be great to see this fixed!",
+      "revId": "0d8181356ae84ad49a2f0bff25f2359c5bd3620f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c18bc613_9b450ead",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T23:16:30Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "0d8181356ae84ad49a2f0bff25f2359c5bd3620f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "033e546d_4cb2c340",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-25T23:16:30Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
       "revId": "0d8181356ae84ad49a2f0bff25f2359c5bd3620f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
