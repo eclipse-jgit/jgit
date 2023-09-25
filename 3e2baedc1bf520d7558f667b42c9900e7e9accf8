@@ -72,6 +72,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a158530a_2c6bcbae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-25T14:49:44Z",
+      "side": 1,
+      "message": "In the \"Job Config History\". For instance the diff: [1], but there are also links to the full raw XMLs.\n\nDo these duplicates have any purpose?\n\n[1] https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/jobConfigHistory/showDiffFiles?timestamp1\u003d2023-09-24_04-22-21\u0026timestamp2\u003d2023-09-25_08-22-16",
+      "parentUuid": "8d30a9cb_0e315e4a",
+      "revId": "3e2baedc1bf520d7558f667b42c9900e7e9accf8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e27402af_f4bdeacb",
