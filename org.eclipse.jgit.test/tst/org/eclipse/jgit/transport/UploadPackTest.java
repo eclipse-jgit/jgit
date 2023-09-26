@@ -2905,7 +2905,7 @@ public class UploadPackTest {
 				Collections.singletonList(new RefSpec(one.name())));
 		}
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
-		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+		assertEquals(1, ((RefCallsCountingRepository)server).numAllRefCalls());
 	}
 
 	@Test
@@ -2937,7 +2937,7 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
-		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+		assertEquals(1, ((RefCallsCountingRepository)server).numAllRefCalls());
 	}
 
 	@Test
@@ -3073,21 +3073,24 @@ public class UploadPackTest {
 
 	private class RefCallsCountingRepository extends InMemoryRepository {
 		private final InMemoryRepository.MemRefDatabase refdb;
-		private int numRefCalls;
+		private int numAllRefsCalls;
 
 		public RefCallsCountingRepository(DfsRepositoryDescription repoDesc) {
 			super(repoDesc);
 			refdb = new InMemoryRepository.MemRefDatabase() {
 				@Override
-				public List<Ref> getRefs() throws IOException {
-					numRefCalls++;
-					return super.getRefs();
+				public List<Ref> getRefsByPrefix(String prefix) throws IOException {
+					if (prefix == RefDatabase.ALL) {
+						numAllRefsCalls++;
+					}
+					return super.getRefsByPrefix(prefix);
 				}
+
 			};
 		}
 
-		public int numRefCalls() {
-			return numRefCalls;
+		public int numAllRefCalls() {
+			return numAllRefsCalls;
 		}
 
 		@Override
