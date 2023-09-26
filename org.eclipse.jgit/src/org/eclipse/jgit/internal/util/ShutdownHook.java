@@ -92,7 +92,7 @@ public enum ShutdownHook {
 	}
 
 	private void notify(Listener l) {
-		LOG.warn(JGitText.get().shutdownCleanup, l);
+		LOG.debug(JGitText.get().shutdownCleanup, l);
 		try {
 			l.onShutdown();
 		} catch (RuntimeException e) {
