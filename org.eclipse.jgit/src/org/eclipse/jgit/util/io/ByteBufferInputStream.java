@@ -21,6 +21,8 @@ import org.eclipse.jgit.internal.JGitText;
 
 /**
  * An {@link InputStream} backed by a {@link ByteBuffer}.
+ *
+ * @since 6.8
  */
 public class ByteBufferInputStream extends InputStream {
 
