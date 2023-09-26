@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d70084f1_3904d920",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-26T21:35:39Z",
+      "side": 1,
+      "message": "refs/heads/* the client has",
+      "range": {
+        "startLine": 693,
+        "startChar": 70,
+        "endLine": 694,
+        "endChar": 37
+      },
+      "revId": "3913bacf5b48b488811cd94a4d1f6a2bc3e70955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2c1c26_1bcd1c4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-26T21:35:39Z",
+      "side": 1,
+      "message": "`parseReachable` sounds like the purpose of this method is parsing and I expect it to return some result of this parsing and don\u0027t expect side effects, though it seems the purpose is marking tips already reachable to client, hence maybe better `markReachableTips` ?\n\nSimilarily I\u0027d rename the method `parseReachable` in line 773 to `markReachable`",
+      "range": {
+        "startLine": 751,
+        "startChar": 14,
+        "endLine": 751,
+        "endChar": 28
+      },
+      "revId": "3913bacf5b48b488811cd94a4d1f6a2bc3e70955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d171c664_1b032d1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-09-26T21:35:39Z",
+      "side": 1,
+      "message": "nit: missing braces around single line blocks",
+      "revId": "3913bacf5b48b488811cd94a4d1f6a2bc3e70955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
