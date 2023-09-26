@@ -59,6 +59,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -1012,19 +1013,13 @@ public class UploadPack implements Closeable {
 	@Nullable
 	private Ref findRef(String name) throws IOException {
 		if (requestRefDatabase != null) {
-			return RefDatabase.findRef(requestRefDatabase.asMap(), name);
+			return requestRefDatabase.findRef(name);
 		}
 		if (!advertiseRefsHookCalled) {
 			advertiseRefsHook.advertiseRefs(this);
 			advertiseRefsHookCalled = true;
 		}
-		if (requestRefDatabase == null &&
-				refFilter == RefFilter.DEFAULT &&
-				transferConfig.hasDefaultRefFilter()) {
-			// Fast path: no ref filtering is needed.
-			return db.getRefDatabase().findRef(name);
-		}
-		return RefDatabase.findRef(getAdvertisedOrDefaultRefs(), name);
+		return requestRefDatabase.findRef(name);
 	}
 
 	private void service(PacketLineOut pckOut) throws IOException {
@@ -2608,6 +2603,9 @@ public class UploadPack implements Closeable {
 		 *         limited to the refPrefixes.
 		 */
 		Map<String, Ref> asMap(Collection<String> refPrefixes);
+
+		@Nullable
+		Ref findRef(String name) throws IOException;
 	}
 
 	/**
@@ -2637,6 +2635,17 @@ public class UploadPack implements Closeable {
 					.filter(ref -> refPrefixes.stream()
 							.anyMatch(ref.getName()::startsWith))
 					.collect(toRefMap((a, b) -> b));
+		}
+
+		@Override
+		public Ref findRef(String name) {
+			for (String prefix : RefDatabase.SEARCH_PATH) {
+				String fullname = prefix + name;
+				Ref ref = refs.get(fullname);
+				if (ref != null)
+					return ref;
+			}
+			return null;
 		}
 	}
 
@@ -2691,6 +2700,28 @@ public class UploadPack implements Closeable {
 				// it should be null
 				return null;
 			}
+		}
+
+		@Override
+		public Ref findRef(String name) throws IOException {
+			Ref candidate = refdb.findRef(name);
+
+			if (candidate == null) {
+				return null;
+			}
+
+			// Fast path: no need to filter
+			if (filter == RefFilter.DEFAULT) {
+				return candidate;
+			}
+
+			//TODO(ifrade): RefFilter only filters maps
+			HashMap<String, Ref> m = new HashMap<>(1);
+			m.put(candidate.getName(), candidate);
+			if (filter.filter(m).size() == 1) {
+				return candidate;
+			}
+			return null;
 		}
 	}
 }

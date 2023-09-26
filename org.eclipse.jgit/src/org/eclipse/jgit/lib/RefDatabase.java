@@ -45,7 +45,7 @@ public abstract class RefDatabase {
 	 * {@code ""}, ensuring that absolute references are resolved without
 	 * further mangling.
 	 */
-	protected static final String[] SEARCH_PATH = { "", //$NON-NLS-1$
+	public static final String[] SEARCH_PATH = { "", //$NON-NLS-1$
 			Constants.R_REFS, //
 			Constants.R_TAGS, //
 			Constants.R_HEADS, //
