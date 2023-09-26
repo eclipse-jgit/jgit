@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d1335a3_7ec763dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-26T18:01:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be LOG.debug()? Otherwise it may produce output such as\n\n  2023-09-26 19:57:10 [ForkJoinPool-1-worker-1] WARN org.eclipse.jgit.internal.util.ShutdownHook - Cleanup org.eclipse.jgit.util.FS$FileStoreAttributes$$Lambda$54/0x000000080108fac8@1c3a4799 during JVM shutdown\n\nWhy WARN? There\u0027s nothing the user can do about it.",
+      "revId": "d4d6c2b5af9b984ae824fb0073e1b368b39b1aa4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
