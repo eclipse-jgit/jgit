@@ -30,11 +30,11 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_D
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ACK;
@@ -66,7 +66,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -278,7 +277,7 @@ public class UploadPack implements Closeable {
 	 * Refs eligible for advertising to the client, set using
 	 * {@link #setAdvertisedRefs}.
 	 */
-	private Map<String, Ref> refs;
+	private RequestRefDatabase requestRefDatabase;
 
 	/** Hook used while processing Git protocol v2 requests. */
 	private ProtocolV2Hook protocolV2Hook = ProtocolV2Hook.DEFAULT;
@@ -407,7 +406,10 @@ public class UploadPack implements Closeable {
 	 *         {@code #sendPack()} has been called.
 	 */
 	public final Map<String, Ref> getAdvertisedRefs() {
-		return refs;
+		if (requestRefDatabase != null) {
+			return requestRefDatabase.asMap();
+		}
+		return null;
 	}
 
 	/**
@@ -424,16 +426,15 @@ public class UploadPack implements Closeable {
 	 *            were advertised.
 	 */
 	public void setAdvertisedRefs(@Nullable Map<String, Ref> allRefs) {
+		RefFilter actualFilter = refFilter == RefFilter.DEFAULT ?
+				transferConfig.getRefFilter() :
+				refFilter;
 		if (allRefs != null) {
-			refs = allRefs;
-		} else {
-			refs = getAllRefs();
+			requestRefDatabase = new MapRequestRefDatabase(actualFilter.filter(allRefs));
+			return;
 		}
-		if (refFilter == RefFilter.DEFAULT) {
-			refs = transferConfig.getRefFilter().filter(refs);
-		} else {
-			refs = refFilter.filter(refs);
-		}
+
+		requestRefDatabase = new DbRequestRefDatabase(actualFilter, db.getRefDatabase());
 	}
 
 	/**
@@ -905,36 +906,20 @@ public class UploadPack implements Closeable {
 		return statistics;
 	}
 
-	/**
-	 * Extract the full list of refs from the ref-db.
-	 *
-	 * @return Map of all refname/ref
-	 */
-	private Map<String, Ref> getAllRefs() {
-		try {
-			return db.getRefDatabase().getRefs().stream().collect(
-					Collectors.toMap(Ref::getName, Function.identity()));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
-		if (refs != null) {
-			return refs;
+		if (requestRefDatabase != null) {
+			return requestRefDatabase.asMap();
 		}
 
 		if (!advertiseRefsHookCalled) {
 			advertiseRefsHook.advertiseRefs(this);
 			advertiseRefsHookCalled = true;
 		}
-		if (refs == null) {
+		if (requestRefDatabase == null) {
 			// Fall back to all refs.
-			setAdvertisedRefs(
-					db.getRefDatabase().getRefs().stream()
-							.collect(toRefMap((a, b) -> b)));
+			requestRefDatabase = new DbRequestRefDatabase(refFilter, db.getRefDatabase());
 		}
-		return refs;
+		return requestRefDatabase.asMap();
 	}
 
 	private Map<String, Ref> getFilteredRefs(Collection<String> refPrefixes)
@@ -942,28 +927,16 @@ public class UploadPack implements Closeable {
 		if (refPrefixes.isEmpty()) {
 			return getAdvertisedOrDefaultRefs();
 		}
-		if (refs == null && !advertiseRefsHookCalled) {
+		if (requestRefDatabase == null && !advertiseRefsHookCalled) {
 			advertiseRefsHook.advertiseRefs(this);
 			advertiseRefsHookCalled = true;
 		}
-		if (refs == null) {
-			// Fast path: the advertised refs hook did not set advertised refs.
-			String[] prefixes = refPrefixes.toArray(new String[0]);
-			Map<String, Ref> rs =
-					db.getRefDatabase().getRefsByPrefix(prefixes).stream()
-							.collect(toRefMap((a, b) -> b));
-			if (refFilter != RefFilter.DEFAULT) {
-				return refFilter.filter(rs);
-			}
-			return transferConfig.getRefFilter().filter(rs);
+		if (requestRefDatabase == null) {
+			// Hook didn't set the refs
+			requestRefDatabase = new DbRequestRefDatabase(refFilter, db.getRefDatabase());
 		}
 
-		// Slow path: filter the refs provided by the advertised refs hook.
-		// refFilter has already been applied to refs.
-		return refs.values().stream()
-				.filter(ref -> refPrefixes.stream()
-						.anyMatch(ref.getName()::startsWith))
-				.collect(toRefMap((a, b) -> b));
+		return requestRefDatabase.asMap(refPrefixes);
 	}
 
 	/**
@@ -1005,14 +978,14 @@ public class UploadPack implements Closeable {
 	 */
 	@NonNull
 	private Map<String, Ref> exactRefs(List<String> names) throws IOException {
-		if (refs != null) {
-			return mapRefs(refs, names);
+		if (requestRefDatabase != null) {
+			return mapRefs(requestRefDatabase.asMap(), names);
 		}
 		if (!advertiseRefsHookCalled) {
 			advertiseRefsHook.advertiseRefs(this);
 			advertiseRefsHookCalled = true;
 		}
-		if (refs == null &&
+		if (requestRefDatabase == null &&
 				refFilter == RefFilter.DEFAULT &&
 				transferConfig.hasDefaultRefFilter()) {
 			// Fast path: no ref filtering is needed.
@@ -1038,14 +1011,14 @@ public class UploadPack implements Closeable {
 	 */
 	@Nullable
 	private Ref findRef(String name) throws IOException {
-		if (refs != null) {
-			return RefDatabase.findRef(refs, name);
+		if (requestRefDatabase != null) {
+			return RefDatabase.findRef(requestRefDatabase.asMap(), name);
 		}
 		if (!advertiseRefsHookCalled) {
 			advertiseRefsHook.advertiseRefs(this);
 			advertiseRefsHookCalled = true;
 		}
-		if (refs == null &&
+		if (requestRefDatabase == null &&
 				refFilter == RefFilter.DEFAULT &&
 				transferConfig.hasDefaultRefFilter()) {
 			// Fast path: no ref filtering is needed.
@@ -1138,7 +1111,9 @@ public class UploadPack implements Closeable {
 		}
 
 		if (sendPack) {
-			sendPack(accumulator, req, refs == null ? null : refs.values(),
+			sendPack(accumulator, req,
+					requestRefDatabase == null ? null
+							: requestRefDatabase.asMap().values(),
 					unshallowCommits, deepenNots, pckOut);
 		}
 	}
@@ -2392,9 +2367,9 @@ public class UploadPack implements Closeable {
 
 			// Objects named directly by references go at the beginning
 			// of the pack.
-			if (commonBase.isEmpty() && refs != null) {
+			if (commonBase.isEmpty() && requestRefDatabase != null) {
 				Set<ObjectId> tagTargets = new HashSet<>();
-				for (Ref ref : refs.values()) {
+				for (Ref ref : requestRefDatabase.asMap().values()) {
 					if (ref.getPeeledObjectId() != null)
 						tagTargets.add(ref.getPeeledObjectId());
 					else if (ref.getObjectId() == null)
@@ -2408,7 +2383,7 @@ public class UploadPack implements Closeable {
 			// Advertised objects and refs are not used from here on and can be
 			// cleared.
 			advertised = null;
-			refs = null;
+			requestRefDatabase = null;
 
 			RevWalk rw = walk;
 			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
@@ -2611,6 +2586,111 @@ public class UploadPack implements Closeable {
 		public void writeError(String message) throws IOException {
 			new PacketLineOut(requireNonNull(rawOut))
 					.writeString(PACKET_ERR + message + '\n');
+		}
+	}
+
+	/**
+	 * Reference database as seen by the request
+	 *
+	 * Implementations can decide the most memory efficient way to keep the data.
+	 */
+	interface RequestRefDatabase {
+		/**
+		 * @return Refs visible for this request after passing the refFilters.
+		 */
+		Map<String, Ref> asMap();
+
+		/**
+		 * @param refPrefixes
+		 *            only refs with these prefixes are returned. Empty for
+		 *            "all".
+		 * @return Refs visible for this request after passing the refFilters,
+		 *         limited to the refPrefixes.
+		 */
+		Map<String, Ref> asMap(Collection<String> refPrefixes);
+	}
+
+	/**
+	 * RequestRefDatabase backed by a Map.
+	 *
+	 * This is usually created when the refs come from the hook, already in a Map.
+	 */
+	private static class MapRequestRefDatabase implements RequestRefDatabase {
+
+		private final Map<String, Ref> refs;
+
+		MapRequestRefDatabase(Map<String, Ref> refs) {
+			this.refs = refs;
+		}
+
+		@Override
+		public Map<String, Ref> asMap() {
+			return refs;
+		}
+
+		@Override
+		public Map<String, Ref> asMap(Collection<String> refPrefixes) {
+			if (refPrefixes.isEmpty()) {
+				return asMap();
+			}
+			return this.refs.values().stream()
+					.filter(ref -> refPrefixes.stream()
+							.anyMatch(ref.getName()::startsWith))
+					.collect(toRefMap((a, b) -> b));
+		}
+	}
+
+	/**
+	 * RequestRefDatabase backed by a RefDatabase
+	 */
+	private static class DbRequestRefDatabase implements RequestRefDatabase {
+		private final RefFilter filter;
+		private final RefDatabase refdb;
+
+		//TODO(ifrade): This is equivalent to the "refs" and the MapReequestRefDatabase, but once
+		// we have all access through this abstraction, we can try to remove it and save that memory.
+		private Map<String, Ref> cachedRefs;
+
+		DbRequestRefDatabase(RefFilter filter, RefDatabase refdb) {
+			this.filter = filter;
+			this.refdb = refdb;
+		}
+
+		@Override
+		public Map<String, Ref> asMap() {
+			if (cachedRefs == null) {
+				try {
+					cachedRefs = filter.filter(refdb.getRefsByPrefix(RefDatabase.ALL).stream()
+							.collect(toRefMap((a, b) -> b)));
+				} catch (IOException e) {
+					throw new UncheckedIOException(e);
+				}
+			}
+			return cachedRefs;
+		}
+
+		@Override
+		public Map<String, Ref> asMap(Collection<String> refPrefixes) {
+			if (refPrefixes.isEmpty()) {
+				return asMap();
+			}
+
+			if (cachedRefs != null) {
+				return cachedRefs.values().stream()
+						.filter(ref -> refPrefixes.stream()
+								.anyMatch(ref.getName()::startsWith))
+						.collect(toRefMap((a, b) -> b));
+			}
+
+			try {
+				String[] prefixes = refPrefixes.toArray(new String[0]);
+				return filter.filter(refdb.getRefsByPrefix(prefixes).stream()
+						.collect(toRefMap((a, b) -> b)));
+			} catch (IOException e) {
+				// This replaces direct access to the map, so if it is not set,
+				// it should be null
+				return null;
+			}
 		}
 	}
 }
