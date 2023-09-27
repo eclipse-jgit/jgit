@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "381b1b64_2ab85ae9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-09-27T17:24:29Z",
+      "side": 1,
+      "message": "Had added a log line in the previous patch to verify.\nhttps://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/415/console\n\nTest printed \"refsUnavailableInLocal: refs/heads/master\" as expected.",
+      "revId": "1053c0706aef8a641def7d88c793b16d605c2907",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
