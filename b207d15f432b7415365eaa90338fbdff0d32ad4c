@@ -34,6 +34,24 @@
       "parentUuid": "499149a6_3fa7f446",
       "revId": "b207d15f432b7415365eaa90338fbdff0d32ad4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01bca717_e8e44ee5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/ChangedPathFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-09-27T09:09:11Z",
+      "side": 1,
+      "message": "The main problem is Set\u003cByteBuffer\u003e and the fact that equals() and hashCode() of a ByteBuffer change when the buffer is read via get().\n\nPerhaps Set is not quite right, and it should be Collection?\n\nOr perhaps comments are needed explaining the assumptions. Why a Set? Does it matter whether one reads the ByteBuffer via ByteBuffer.get()? Can one rely on all ByteBuffers being backed by an array?\n\nAlso, if one wants to keep ByteBuffer and it\u0027s known that the ByteBuffers are all backed by an array: perhaps just suppress the errorprone warning?\n\nOr perhaps an explicit abstraction for \"segments of a byte array\" would be more appropriate. Here\u0027s a suggestion.\n\nWith Java 14+ one might use\n\n  interface ByteArray {\n    byte[] array();\n    int from();\n    int length();\n  }\n  \n  record ByteString(byte[] array) implements ByteArray {\n    public ByteString {\n      Objects.requireNonNull(array);\n    }\n    \n    public int from() {\n      return 0;\n    }\n    \n    public int length() {\n      return array.length;\n    }\n  }\n  \n  record ArraySlice(byte[] array, int from, int length) implements ByteArray {\n    public ArraySlice {\n      Objects.checkFromIndexSize(from, length, array.length);\n    }\n  }\n\nSomething like that can of course also be done in Java 11 without records. It just gets a bit more verbose.\n\nThen use Set\u003cByteArray\u003e (or possibly just Collection) and\n\n  for (ByteArray path: paths) {\n    add(bloom, path.array(), path.from(), path.length());\n  }\n\nAdvantages:\n- we know there\u0027s an array\n- equals() and hashCode() don\u0027t change\n- it just describes what you said: a segment of some array\n- multiple ArraySlices can reference the same array\n- the interface works whether it\u0027s all different arrays or slices of a single backing array, or of several backing arrays\n\nEven if in the use case here it\u0027s all ArraySlices from a single backing array, I\u0027d still use the interface ByteArray. Ultimately it\u0027s an implementation detail/decision whether the paths are different arrays or slices of a single array.\n\nIt\u0027s still a bit dodgy because records are supposed to be immutable, so clients should never modify the array. But as long as it\u0027s internal I guess we could live with that.",
+      "parentUuid": "c1a9e847_776b8a53",
+      "revId": "b207d15f432b7415365eaa90338fbdff0d32ad4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
