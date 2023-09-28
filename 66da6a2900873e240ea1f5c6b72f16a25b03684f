@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "265b840a_7ff54c57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-28T23:30:01Z",
+      "side": 1,
+      "message": "This should be only a minor code massage that clarifies things.",
+      "revId": "66da6a2900873e240ea1f5c6b72f16a25b03684f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
