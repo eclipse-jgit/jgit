@@ -2320,12 +2320,31 @@ public class UploadPack implements Closeable {
 			}
 
 			sendPack(pm, pckOut, packOut, req, accumulator, allTags,
-					unshallowCommits, deepenNots);
+					unshallowCommits, deepenNots, getReferencedObjects());
 			pckOut.end();
 		} else {
 			sendPack(NullProgressMonitor.INSTANCE, pckOut, rawOut, req,
-					accumulator, allTags, unshallowCommits, deepenNots);
+					accumulator, allTags, unshallowCommits, deepenNots, getReferencedObjects());
 		}
+	}
+
+	private Set<ObjectId> getReferencedObjects() {
+		// Objects named directly by references go at the beginning
+		// of the pack.
+		if (commonBase.isEmpty() && refs != null) {
+			Set<ObjectId> tagTargets = new HashSet<>();
+			for (Ref ref : refs.values()) {
+				if (ref.getPeeledObjectId() != null)
+					tagTargets.add(ref.getPeeledObjectId());
+				else if (ref.getObjectId() == null)
+					continue;
+				else if (ref.getName().startsWith(Constants.R_HEADS))
+					tagTargets.add(ref.getObjectId());
+			}
+			return tagTargets;
+		}
+
+		return PackWriter.NONE;
 	}
 
 	/**
@@ -2349,6 +2368,8 @@ public class UploadPack implements Closeable {
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
 	 *            objects that the client specified using --shallow-exclude
+	 * @param tagTargets
+	 *            objects to hoist at the front of the pack
 	 * @throws IOException
 	 *             if an error occurred while generating or writing the pack.
 	 */
@@ -2356,7 +2377,12 @@ public class UploadPack implements Closeable {
 			OutputStream packOut, FetchRequest req,
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots) throws IOException {
+			List<ObjectId> deepenNots, Set<ObjectId> tagTargets) throws IOException {
+		// Advertised objects and refs are not used from here on and can be
+		// cleared.
+		advertised = null;
+		refs = null;
+
 		if (wantAll.isEmpty()) {
 			preUploadHook.onSendPack(this, wantIds, commonBase);
 		} else {
@@ -2389,26 +2415,7 @@ public class UploadPack implements Closeable {
 					req.getClientCapabilities().contains(OPTION_OFS_DELTA));
 			pw.setThin(req.getClientCapabilities().contains(OPTION_THIN_PACK));
 			pw.setReuseValidatingObjects(false);
-
-			// Objects named directly by references go at the beginning
-			// of the pack.
-			if (commonBase.isEmpty() && refs != null) {
-				Set<ObjectId> tagTargets = new HashSet<>();
-				for (Ref ref : refs.values()) {
-					if (ref.getPeeledObjectId() != null)
-						tagTargets.add(ref.getPeeledObjectId());
-					else if (ref.getObjectId() == null)
-						continue;
-					else if (ref.getName().startsWith(Constants.R_HEADS))
-						tagTargets.add(ref.getObjectId());
-				}
-				pw.setTagTargets(tagTargets);
-			}
-
-			// Advertised objects and refs are not used from here on and can be
-			// cleared.
-			advertised = null;
-			refs = null;
+      pw.setTagTargets(tagTargets);
 
 			RevWalk rw = walk;
 			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
