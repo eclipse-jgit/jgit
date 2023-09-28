@@ -2364,11 +2364,6 @@ public class UploadPack implements Closeable {
 		}
 		msgOut.flush();
 
-		// Advertised objects and refs are not used from here on and can be
-		// cleared.
-		advertised = null;
-		refs = null;
-
 		PackConfig cfg = packConfig;
 		if (cfg == null)
 			cfg = new PackConfig(db);
@@ -2409,6 +2404,11 @@ public class UploadPack implements Closeable {
 				}
 				pw.setTagTargets(tagTargets);
 			}
+
+			// Advertised objects and refs are not used from here on and can be
+			// cleared.
+			advertised = null;
+			refs = null;
 
 			RevWalk rw = walk;
 			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
