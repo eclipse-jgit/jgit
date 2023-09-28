@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd9b49a_6c8c628a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-28T17:31:59Z",
+      "side": 1,
+      "message": "This is a draft implementing alternates as a composite reader. Up to patchset #2 is not good: the alternate object db reference must be in the main object db (not in the repository).",
+      "revId": "7bdcdaba02592a8eddc6dc1ebaace16a41ff9b04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a7d5dbe_9c269728",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-09-28T17:31:59Z",
+      "side": 1,
+      "message": "This is wrong. A caller could do repo.getAlternateObjectDatabase().newReader() and break havoc.\n\n\nThe alternate should be inside the object database itself and not visible to caller anywhere. The reader is the only one that needs to know about it.",
+      "revId": "7bdcdaba02592a8eddc6dc1ebaace16a41ff9b04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
