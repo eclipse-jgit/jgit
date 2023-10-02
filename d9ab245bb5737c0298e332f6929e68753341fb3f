@@ -16,6 +16,24 @@
       "message": "This behavior is controlled in git.git via `git repack --pack-kept-objects`, which is false by default, but has a note explaining that it is useful to set to true when writing bitmaps. JGit should probably have similar configuration for repacking.",
       "revId": "d9ab245bb5737c0298e332f6929e68753341fb3f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f85e8dc6_e072d29e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-10-02T18:01:33Z",
+      "side": 1,
+      "message": "Thanks for the hint, will have a look at the C code-base and will propose something similar. Good stuff 👍",
+      "parentUuid": "53d6c32e_16bd2d7f",
+      "revId": "d9ab245bb5737c0298e332f6929e68753341fb3f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
