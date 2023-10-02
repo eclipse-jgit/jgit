@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f380e76f_9139bc65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-10-02T11:33:09Z",
+      "side": 1,
+      "message": "@Matthias PTAL, all comments have been addressed. Also, the new solution is a lot smaller and self-contained. I\u0027ll also create now the merge-ups and resolve any conflicts.",
+      "revId": "ea8293fd4a564575a5c2a13ed4fa57251005555b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
