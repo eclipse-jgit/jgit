@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.ssh.apache
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 6.8.0.qualifier
+Bundle-Version: 6.8.0.202310031045-m1
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.jgit.internal.transport.sshd;version="6.8.0";x-internal:=true;
   uses:="org.apache.sshd.client,
