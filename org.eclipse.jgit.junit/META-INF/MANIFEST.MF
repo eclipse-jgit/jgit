@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.junit
 Bundle-SymbolicName: org.eclipse.jgit.junit
-Bundle-Version: 6.8.0.202310031045-m1
+Bundle-Version: 6.8.0.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
