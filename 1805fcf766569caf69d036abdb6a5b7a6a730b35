@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a392b70_a5c69df2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-10-04T23:20:37Z",
+      "side": 1,
+      "message": "@Matthias PTAL, the new logic is now fully covered by unit-tests and is compliant with the behaviour of C-Git.",
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
