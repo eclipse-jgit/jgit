@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.27" sequenceNumber="1694733565">
+<target name="jgit-4.27" sequenceNumber="1696408433">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
-      <unit id="com.jcraft.jsch" version="0.1.55.v20221112-0806"/>
-      <unit id="com.jcraft.jsch.source" version="0.1.55.v20221112-0806"/>
-      <unit id="com.jcraft.jzlib" version="1.1.3.v20220502-1820"/>
-      <unit id="com.jcraft.jzlib.source" version="1.1.3.v20220502-1820"/>
+      <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
+      <unit id="com.jcraft.jsch.source" version="0.1.55.v20230916-1400"/>
+      <unit id="com.jcraft.jzlib" version="1.1.3.v20230916-1400"/>
+      <unit id="com.jcraft.jzlib.source" version="1.1.3.v20230916-1400"/>
       <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20220506-1020"/>
       <unit id="net.i2p.crypto.eddsa.source" version="0.3.0.v20220506-1020"/>
-      <unit id="org.apache.ant" version="1.10.12.v20211102-1452"/>
-      <unit id="org.apache.ant.source" version="1.10.12.v20211102-1452"/>
+      <unit id="org.apache.ant" version="1.10.14.v20230922-1200"/>
+      <unit id="org.apache.ant.source" version="1.10.14.v20230922-1200"/>
       <unit id="org.apache.httpcomponents.httpclient" version="4.5.14"/>
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.14"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.16"/>
@@ -26,7 +26,7 @@
       <unit id="org.objenesis.source" version="3.3.0"/>
       <unit id="org.osgi.service.cm" version="1.6.1.202109301733"/>
       <unit id="org.osgi.service.cm.source" version="1.6.1.202109301733"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.29.0"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/2023-12"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
