@@ -53,6 +53,18 @@
                 <message_argument value="SHA1_IMPLEMENTATION"/>
             </message_arguments>
         </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.3"/>
+                <message_argument value="CONFIG_KEY_PACK_KEPT_OBJECTS"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.3"/>
+                <message_argument value="CONFIG_REPACK_SECTION"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lib/Repository.java" type="org.eclipse.jgit.lib.Repository">
         <filter id="1142947843">
@@ -67,6 +79,12 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
                 <message_argument value="DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES"/>
+            </message_arguments>
+        </filter>
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
+                <message_argument value="DEFAULT_PACK_KEPT_OBJECTS"/>
             </message_arguments>
         </filter>
         <filter id="336658481">
@@ -91,6 +109,12 @@
             <message_arguments>
                 <message_argument value="5.13.2"/>
                 <message_argument value="setBitmapExcludedRefsPrefixes(String[])"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.3"/>
+                <message_argument value="DEFAULT_PACK_KEPT_OBJECTS"/>
             </message_arguments>
         </filter>
     </resource>

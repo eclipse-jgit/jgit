@@ -158,7 +158,7 @@ public class GC {
 
 	private Date packExpire;
 
-	private boolean packKeptObjects;
+	private Boolean packKeptObjects;
 
 	private PackConfig pconfig;
 
@@ -841,7 +841,7 @@ public class GC {
 		List<ObjectIdSet> excluded = new LinkedList<>();
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
-			if (!packKeptObjects && p.shouldBeKept()) {
+			if (!shouldPackKeptObjects() && p.shouldBeKept()) {
 				excluded.add(p.getIndex());
 			}
 		}
@@ -1316,7 +1316,13 @@ public class GC {
 	 * @param packKeptObjects Whether to include objects in `.keep` files when repacking.
 	 */
 	public void setPackKeptObjects(boolean packKeptObjects) {
-		this.packKeptObjects = packKeptObjects;
+		this.packKeptObjects = Boolean.valueOf(packKeptObjects);
+	}
+
+	@SuppressWarnings("boxing")
+	private boolean shouldPackKeptObjects() {
+		return Optional.ofNullable(packKeptObjects)
+				.orElse(pconfig.isPackKeptObjects());
 	}
 
 	/**
