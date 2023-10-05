@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "05de3ded_2e3a238c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-10-05T10:43:42Z",
+      "side": 1,
+      "message": "Well, JGit doesn\u0027t load everything on memory and though its WindowCache anyway. I don\u0027t believe the above is relevant anyway. The duplication is minimal and the difference would be negligible anyway.\n\nC-Git doesn\u0027t document the feature mentioning any memory overload, I\u0027ve just copy\u0026pasted the C-Git documentation and I\u0027d prefer to keep it consistent with it.",
+      "parentUuid": "32785926_d68ee560",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 11
+      },
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2a392b70_a5c69df2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 17
