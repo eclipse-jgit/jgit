@@ -32,6 +32,7 @@
     <java.version>11</java.version>
     <tycho-version>4.0.2</tycho-version>
     <target-platform>jgit-4.17</target-platform>
+    <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
 
   <pluginRepositories>
@@ -223,7 +224,7 @@
           <outputFormat>json</outputFormat>
           <outputName>bom</outputName>
           <outputDirectory>${project.build.directory}</outputDirectory>
-          <outputTimestamp>${project.build.outputTimestamp}</outputTimestamp>
+          <outputTimestamp>${git.commit.time}</outputTimestamp>
           <verbose>false</verbose>
         </configuration>
         <executions>
@@ -253,6 +254,30 @@
           <version>3.3.1</version>
           <configuration>
             <encoding>ISO-8859-1</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.3.0</version>
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Implementation-Title>JGit ${project.artifactId}</Implementation-Title>
+                <Implementation-Version>${project.version}</Implementation-Version>
+                <Implementation-Vendor>Eclipse.org - JGit</Implementation-Vendor>
+                <Implementation-Vendor-Id>org.eclipse.jgit</Implementation-Vendor-Id>
+                <Implementation-Vendor-URL>${jgit-url}</Implementation-Vendor-URL>
+                <git-describe>${git.commit.id.describe}</git-describe>
+                <git-commit-id>${git.commit.id}</git-commit-id>
+                <git-commit-time>${git.commit.time}</git-commit-time>
+                <git-tags>${git.tags}</git-tags>
+                <git-remote-origin-url>${git.remote.origin.url}</git-remote-origin-url>
+              </manifestEntries>
+            </archive>
+            <!-- TODO: uncomment this in order to skip empty artifact of test modules as soon as bug 416299 is fixed
+            <skipIfEmpty>true</skipIfEmpty>
+            -->
           </configuration>
         </plugin>
         <plugin>
