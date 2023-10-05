@@ -104,6 +104,87 @@
       "message": "nice fix :-)\n\nThis change adds support on API level and jgit pgm\u0027s gc command\nI think we should also add support for the git config option repack.packKeptObjects [1]\nand implement the same default behaviour (Defaults to false normally, but true if a bitmap index is being written). With these automatic defaults no manual configuration should be necessary.\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-repackpackKeptObjects",
       "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb3f611_5c982b35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-10-05T19:28:13Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "21b44a87_f55b71b3",
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cd29c8f_9a5287d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-10-05T19:28:13Z",
+      "side": 1,
+      "message": "I know this comes from the c-git docs, but this is a little misleading. The `.keep` files don\u0027t list any objects, it\u0027s the `.idx` and `.pack` files with the same name as the `.keep` file that have that information. You could reword using another phrase (\".keep packs\") used in the git docs:\n\n * Whether to include objects in `.keep` packs when repacking.",
+      "range": {
+        "startLine": 136,
+        "startChar": 23,
+        "endLine": 136,
+        "endChar": 47
+      },
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca67d14_38e69976",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-10-05T19:28:13Z",
+      "side": 1,
+      "message": "Does this comment add value? I think the intent to match C-git is captured well enough in the commit message and the description of the option is clear enough that the comment isn\u0027t necessary to explain why this code exists like this.",
+      "range": {
+        "startLine": 844,
+        "startChar": 0,
+        "endLine": 845,
+        "endChar": 59
+      },
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d01dd7b8_0a2e3b42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-10-05T19:28:13Z",
+      "side": 1,
+      "message": "nit: I think if you\u0027re modifying this line you should also be adding the braces for the if? (I think the approach is to add them whenever you modify older code that doesn\u0027t have them)",
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
