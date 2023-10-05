@@ -158,7 +158,7 @@ public class GC {
 
 	private Date packExpire;
 
-	private boolean packKeptObjects;
+	private Boolean packKeptObjects = null;
 
 	private PackConfig pconfig;
 
@@ -843,7 +843,7 @@ public class GC {
 			checkCancelled();
 			// Similar to the check that the C implementation of git
 			// !pack_kept_objects && p->pack_keep [builtin/repack.c]
-			if (!packKeptObjects && p.shouldBeKept())
+			if (!shouldPackKeptObjects() && p.shouldBeKept())
 				excluded.add(p.getIndex());
 		}
 
@@ -1318,6 +1318,10 @@ public class GC {
 	 */
 	public void setPackKeptObjects(boolean packKeptObjects) {
 		this.packKeptObjects = packKeptObjects;
+	}
+
+	private boolean shouldPackKeptObjects() {
+		return Optional.ofNullable(this.packKeptObjects).orElse(pconfig.isPackKeptObjects());
 	}
 
 	/**
