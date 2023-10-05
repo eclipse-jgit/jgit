@@ -21,6 +21,13 @@
 
   <name>JGit Tycho Parent</name>
 
+  <licenses>
+    <license>
+      <name>BSD-3-Clause</name>
+      <url>https://www.eclipse.org/org/documents/edl-v10.php</url>
+    </license>
+  </licenses>
+
   <properties>
     <java.version>11</java.version>
     <tycho-version>4.0.2</tycho-version>
@@ -197,6 +204,36 @@
         <configuration>
           <resolver>p2</resolver>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <version>2.7.9</version>
+        <configuration>
+          <projectType>library</projectType>
+          <schemaVersion>1.4</schemaVersion>
+          <includeBomSerialNumber>false</includeBomSerialNumber>
+          <includeCompileScope>true</includeCompileScope>
+          <includeProvidedScope>true</includeProvidedScope>
+          <includeRuntimeScope>true</includeRuntimeScope>
+          <includeSystemScope>true</includeSystemScope>
+          <includeTestScope>false</includeTestScope>
+          <includeLicenseText>false</includeLicenseText>
+          <outputReactorProjects>true</outputReactorProjects>
+          <outputFormat>json</outputFormat>
+          <outputName>bom</outputName>
+          <outputDirectory>${project.build.directory}</outputDirectory>
+          <outputTimestamp>${project.build.outputTimestamp}</outputTimestamp>
+          <verbose>false</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>makeAggregateBom</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <pluginManagement>
