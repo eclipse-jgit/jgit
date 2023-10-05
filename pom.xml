@@ -116,6 +116,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <java.version>11</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
+    <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
 
     <jgit-last-release-version>6.7.0.202309050840-r</jgit-last-release-version>
     <ant-version>1.10.14</ant-version>
@@ -191,6 +192,11 @@
                 <Implementation-Vendor>Eclipse.org - JGit</Implementation-Vendor>
                 <Implementation-Vendor-Id>org.eclipse.jgit</Implementation-Vendor-Id>
                 <Implementation-Vendor-URL>${jgit-url}</Implementation-Vendor-URL>
+                <git-describe>${git.commit.id.describe}</git-describe>
+                <git-commit-id>${git.commit.id}</git-commit-id>
+                <git-commit-time>${git.commit.time}</git-commit-time>
+                <git-tags>${git.tags}</git-tags>
+                <git-remote-origin-url>${git.remote.origin.url}</git-remote-origin-url>
               </manifestEntries>
             </archive>
             <!-- TODO: uncomment this in order to skip empty artifact of test modules as soon as bug 416299 is fixed
@@ -574,7 +580,7 @@
         <configuration>
           <projectType>library</projectType>
           <schemaVersion>1.4</schemaVersion>
-          <includeBomSerialNumber>true</includeBomSerialNumber>
+          <includeBomSerialNumber>false</includeBomSerialNumber>
           <includeCompileScope>true</includeCompileScope>
           <includeProvidedScope>true</includeProvidedScope>
           <includeRuntimeScope>true</includeRuntimeScope>
@@ -585,6 +591,7 @@
           <outputFormat>json</outputFormat>
           <outputName>bom</outputName>
           <outputDirectory>${project.build.directory}</outputDirectory>
+          <outputTimestamp>${git.commit.time}</outputTimestamp>
           <verbose>false</verbose>
         </configuration>
         <executions>
@@ -595,6 +602,26 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>6.0.0</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <generateGitPropertiesFile>false</generateGitPropertiesFile>
+          <injectAllReactorProjects>true</injectAllReactorProjects>
+          <dateFormat>yyyy-MM-dd'T'HH:mm:ss'Z'</dateFormat>
+          <dateFormatTimeZone>UTC</dateFormatTimeZone>
+        </configuration>
       </plugin>
     </plugins>
   </build>
