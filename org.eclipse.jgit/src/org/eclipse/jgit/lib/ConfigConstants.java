@@ -650,6 +650,14 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_BUILD_BITMAPS = "buildbitmaps";
 
+
+	/**
+	 * The "pack.packKeptObjects" key
+	 * @since 5.13
+	 */
+	public static final String CONFIG_KEY_PACK_KEPT_OBJECTS = "packKeptObjects";
+
+
 	/**
 	 * The "pack.cutDeltaChains" key
 	 * @since 5.8
