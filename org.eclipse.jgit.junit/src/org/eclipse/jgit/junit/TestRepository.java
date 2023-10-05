@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -199,6 +200,16 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 */
 	public Date getDate() {
 		return new Date(mockSystemReader.getCurrentTime());
+	}
+
+	/**
+	 * Get instant
+	 *
+	 * @return current instant.
+	 * @since 6.8
+	 */
+	public Instant getInstant() {
+		return Instant.ofEpochMilli(mockSystemReader.getCurrentTime());
 	}
 
 	/**
