@@ -113,9 +113,11 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <java.version>11</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
+
+    <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
+    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 
     <jgit-last-release-version>6.7.0.202309050840-r</jgit-last-release-version>
     <ant-version>1.10.14</ant-version>
@@ -191,6 +193,11 @@
                 <Implementation-Vendor>Eclipse.org - JGit</Implementation-Vendor>
                 <Implementation-Vendor-Id>org.eclipse.jgit</Implementation-Vendor-Id>
                 <Implementation-Vendor-URL>${jgit-url}</Implementation-Vendor-URL>
+                <git-describe>${git.commit.id.describe}</git-describe>
+                <git-commit-id>${git.commit.id}</git-commit-id>
+                <git-commit-time>${git.commit.time}</git-commit-time>
+                <git-tags>${git.tags}</git-tags>
+                <git-remote-origin-url>${git.remote.origin.url}</git-remote-origin-url>
               </manifestEntries>
             </archive>
             <!-- TODO: uncomment this in order to skip empty artifact of test modules as soon as bug 416299 is fixed
@@ -358,6 +365,20 @@
           <artifactId>license-tool-plugin</artifactId>
           <version>1.0.2</version>
         </plugin>
+        <plugin>
+          <groupId>org.cyclonedx</groupId>
+          <artifactId>cyclonedx-maven-plugin</artifactId>
+          <version>2.7.9</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-artifact-plugin</artifactId>
+          <version>3.5.0</version>
+          <configuration>
+            <ignore>**/*cyclonedx.json</ignore>
+            <reproducible>true</reproducible>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -398,7 +419,7 @@
               <target if="${translate-qualifier}">
                 <copy file="META-INF/MANIFEST.MF" tofile="${bundle-manifest}" overwrite="true"/>
                 <replace file="${bundle-manifest}">
-                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
+                  <replacefilter token=".qualifier" value=".${project.build.outputTimestamp}"/>
                 </replace>
               </target>
             </configuration>
@@ -570,7 +591,6 @@
       <plugin>
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
-        <version>2.7.9</version>
         <configuration>
           <projectType>library</projectType>
           <schemaVersion>1.4</schemaVersion>
@@ -586,6 +606,7 @@
           <outputName>cyclonedx</outputName>
           <outputDirectory>${project.build.directory}</outputDirectory>
           <verbose>false</verbose>
+          <detectUnusedForOptionalScope>true</detectUnusedForOptionalScope>
         </configuration>
         <executions>
           <execution>
@@ -595,6 +616,26 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>6.0.0</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <generateGitPropertiesFile>false</generateGitPropertiesFile>
+          <injectAllReactorProjects>true</injectAllReactorProjects>
+          <dateFormat>yyyyMMddHHmm</dateFormat>
+          <dateFormatTimeZone>UTC</dateFormatTimeZone>
+        </configuration>
       </plugin>
     </plugins>
   </build>
