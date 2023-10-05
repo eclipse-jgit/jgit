@@ -87,6 +87,23 @@
       "message": "@Matthias PTAL, the new logic is now fully covered by unit-tests and is compliant with the behaviour of C-Git.",
       "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21b44a87_f55b71b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-05T12:08:08Z",
+      "side": 1,
+      "message": "nice fix :-)\n\nThis change adds support on API level and jgit pgm\u0027s gc command\nI think we should also add support for the git config option repack.packKeptObjects [1]\nand implement the same default behaviour (Defaults to false normally, but true if a bitmap index is being written). With these automatic defaults no manual configuration should be necessary.\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-repackpackKeptObjects",
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
