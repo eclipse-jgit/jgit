@@ -10,6 +10,10 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAPS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_KEPT_OBJECTS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REPACK_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -20,7 +24,9 @@ import java.util.Iterator;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Test;
 
 public class GcKeepFilesTest extends GcTestCase {
@@ -55,6 +61,7 @@ public class GcKeepFilesTest extends GcTestCase {
 		PackFile bitmapFile = singlePack.getPackFile().create(PackExt.BITMAP_INDEX);
 		assertTrue(keepFile.exists());
 		assertTrue(bitmapFile.delete());
+		gc.setPackKeptObjects(false);
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -78,17 +85,91 @@ public class GcKeepFilesTest extends GcTestCase {
 	}
 
 	@Test
-	public void testKeptObjectsAreIncluded() throws Exception {
+	public void testKeptObjectsAreIncludedByDefault() throws Exception {
+		testKeptObjectsAreIncluded();
+	}
+
+	@Test
+	public void testKeptObjectsAreIncludedByDefaultWhenBuildBitmapsIsTrue()
+			throws Exception {
+		PackConfig packConfig = new PackConfig();
+		Config repoConfig = repo.getObjectDatabase().getConfig();
+		repoConfig.setBoolean(CONFIG_PACK_SECTION, null,
+				CONFIG_KEY_BUILD_BITMAPS, true);
+		packConfig.fromConfig(repoConfig);
+		gc.setPackConfig(packConfig);
+
+		testKeptObjectsAreIncluded();
+	}
+
+	@Test
+	public void testKeptObjectsAreIncludedWhenPackKeptObjectsIsFalseButOverriddenViaCommandLine()
+			throws Exception {
+		PackConfig packConfig = new PackConfig();
+		packConfig.setPackKeptObjects(false);
+		gc.setPackConfig(packConfig);
+		gc.setPackKeptObjects(true);
+
+		testKeptObjectsAreIncluded();
+	}
+
+	@Test
+	public void testKeptObjectsAreNotIncludedByDefaultWhenBuildBitmapsIsFalse()
+			throws Exception {
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBuildBitmaps(false);
+		gc.setPackConfig(packConfig);
+
+		testKeptObjectsAreNotIncluded();
+	}
+
+	@Test
+	public void testKeptObjectsAreIncludedWhenBuildBitmapsIsFalseButPackKeptObjectsIsTrue()
+			throws Exception {
+		PackConfig packConfig = new PackConfig();
+		Config repoConfig = repo.getObjectDatabase().getConfig();
+		repoConfig.setBoolean(CONFIG_PACK_SECTION, null,
+				CONFIG_KEY_BUILD_BITMAPS, false);
+		repoConfig.setBoolean(CONFIG_REPACK_SECTION, null,
+				CONFIG_KEY_PACK_KEPT_OBJECTS, true);
+		packConfig.fromConfig(repoConfig);
+		gc.setPackConfig(packConfig);
+
+		testKeptObjectsAreIncluded();
+	}
+
+	@Test
+	public void testKeptObjectsAreNotIncludedWhenPackKeptObjectsIsTrueButOverriddenViaCommandLine()
+			throws Exception {
+		PackConfig packConfig = new PackConfig();
+		packConfig.setPackKeptObjects(true);
+		gc.setPackConfig(packConfig);
+		gc.setPackKeptObjects(false);
+
+		testKeptObjectsAreNotIncluded();
+	}
+
+	@Test
+	public void testKeptObjectsAreNotIncludedWhenPackKeptObjectsConfigIsFalse()
+			throws Exception {
+		PackConfig packConfig = new PackConfig();
+		packConfig.setPackKeptObjects(false);
+		gc.setPackConfig(packConfig);
+
+		testKeptObjectsAreNotIncluded();
+	}
+
+	private void testKeptObjectsAreIncluded() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		ObjectId commitObjectInLockedPack = bb.commit().create().toObjectId();
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(COMMIT_AND_TREE_OBJECTS, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
-		assertTrue(getSinglePack().getPackFile().create(PackExt.KEEP).createNewFile());
+		assertTrue(getSinglePack().getPackFile().create(PackExt.KEEP)
+				.createNewFile());
 
 		bb.commit().create();
-		gc.setPackKeptObjects(true);
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(2 * COMMIT_AND_TREE_OBJECTS + 1,
@@ -110,15 +191,15 @@ public class GcKeepFilesTest extends GcTestCase {
 		assertTrue(newPackIdx.hasObject(commitObjectInLockedPack));
 	}
 
-	@Test
-	public void testKeptObjectsAreNotIncludedByDefault() throws Exception {
+	private void testKeptObjectsAreNotIncluded() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		ObjectId commitObjectInLockedPack = bb.commit().create().toObjectId();
 		gc.gc();
 		stats = gc.getStatistics();
 		assertEquals(COMMIT_AND_TREE_OBJECTS, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
-		assertTrue(getSinglePack().getPackFile().create(PackExt.KEEP).createNewFile());
+		assertTrue(getSinglePack().getPackFile().create(PackExt.KEEP)
+				.createNewFile());
 
 		bb.commit().create();
 		gc.gc();
@@ -142,8 +223,7 @@ public class GcKeepFilesTest extends GcTestCase {
 	}
 
 	private Pack getSinglePack() {
-		Iterator<Pack> packIt = repo.getObjectDatabase().getPacks()
-				.iterator();
+		Iterator<Pack> packIt = repo.getObjectDatabase().getPacks().iterator();
 		Pack singlePack = packIt.next();
 		assertFalse(packIt.hasNext());
 		return singlePack;

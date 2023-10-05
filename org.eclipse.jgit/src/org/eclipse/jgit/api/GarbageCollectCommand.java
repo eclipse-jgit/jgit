@@ -62,7 +62,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private PackConfig pconfig;
 
-	private boolean packKeptObjects;
+	private Boolean packKeptObjects;
 
 	/**
 	 * Constructor for GarbageCollectCommand.
@@ -141,7 +141,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * @since 5.13.3
 	 */
 	public GarbageCollectCommand setPackKeptObjects(boolean packKeptObjects) {
-		this.packKeptObjects = packKeptObjects;
+		this.packKeptObjects = Boolean.valueOf(packKeptObjects);
 		return this;
 	}
 
@@ -189,8 +189,9 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 				gc.setProgressMonitor(monitor);
 				if (this.expire != null)
 					gc.setExpire(expire);
-				gc.setPackKeptObjects(packKeptObjects);
-
+				if (this.packKeptObjects != null) {
+					gc.setPackKeptObjects(packKeptObjects.booleanValue());
+				}
 				try {
 					gc.gc();
 					return toProperties(gc.getStatistics());
