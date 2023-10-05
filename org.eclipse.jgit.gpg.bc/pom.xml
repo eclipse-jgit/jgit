@@ -93,7 +93,7 @@
               <target>
                 <copy file="META-INF/SOURCE-MANIFEST.MF" tofile="${source-bundle-manifest}" overwrite="true" />
                 <replace file="${source-bundle-manifest}">
-                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}" />
+                  <replacefilter token=".qualifier" value=".${project.build.outputTimestamp}" />
                 </replace>
               </target>
             </configuration>
