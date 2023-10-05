@@ -124,6 +124,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c357a72f_8f6ae0c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-10-05T20:44:15Z",
+      "side": 1,
+      "message": "Follow up change available here: https://git.eclipse.org/r/c/jgit/jgit/+/204820",
+      "parentUuid": "beb3f611_5c982b35",
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cd29c8f_9a5287d3",
