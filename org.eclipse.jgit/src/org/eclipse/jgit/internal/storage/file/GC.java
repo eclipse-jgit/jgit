@@ -158,6 +158,8 @@ public class GC {
 
 	private Date packExpire;
 
+	private Boolean packKeptObjects = null;
+
 	private PackConfig pconfig;
 
 	/**
@@ -839,7 +841,7 @@ public class GC {
 		List<ObjectIdSet> excluded = new LinkedList<>();
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
-			if (p.shouldBeKept())
+			if (!shouldPackKeptObjects() && p.shouldBeKept())
 				excluded.add(p.getIndex());
 		}
 
@@ -1308,6 +1310,22 @@ public class GC {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Define whether to include objects in `.keep` files when repacking.
+	 *
+	 * @param packKeptObjects Whether to include objects in `.keep` files when repacking.
+	 */
+	public void setPackKeptObjects(boolean packKeptObjects) {
+		this.packKeptObjects = packKeptObjects;
+	}
+
+	private boolean shouldPackKeptObjects() {
+		return Optional.ofNullable(this.packKeptObjects).orElse(pconfig.isPackKeptObjects());
+	}
+
+	/**
+>>>>>>> b26f39af0 (Add support for git config repack.packKeptObjects)
 	 * A class holding statistical data for a FileRepository regarding how many
 	 * objects are stored as loose or packed objects
 	 */
