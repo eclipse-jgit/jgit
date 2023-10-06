@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c8343e_efc07e85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-10-06T15:17:52Z",
+      "side": 1,
+      "message": "Seems to work with this warning:\n\n[WARNING] *****************************************************************\n[WARNING] * The                                                           *\n[WARNING] * org.cyclonedx:cyclonedx-maven-plugin:2.7.9:makeAggregateBom   *\n[WARNING] * aggregator mojo is already being executed in this parallel    *\n[WARNING] * build, those kind of mojos require exclusive access to        *\n[WARNING] * reactor to prevent race conditions. This mojo execution will  *\n[WARNING] * be blocked until the aggregator mojo is done.                 *\n[WARNING] *****************************************************************\n[INFO] CycloneDX: Creating BOM version 1.4 with 5 component(s)\n[INFO] CycloneDX: Writing and validating BOM (JSON): /home/davido/projects/jgit/org.eclipse.jgit.lfs/target/bom.json\n[INFO]            attaching as org.eclipse.jgit.lfs-6.8.0-SNAPSHOT-cyclonedx.json\n\n",
+      "revId": "2a28b8f02f4bbba47a833799cd7d0825cb24de69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
