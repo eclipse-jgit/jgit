@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e59989_faa87102",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-10-06T15:27:17Z",
+      "side": 1,
+      "message": "If I run this command as pointed out in the documentation:\n\n$\u003e mvn -X artifact:check-buildplan\n\nI\u0027m getting this error:\n\n[ERROR] Reproducible Build not activated by project.build.outputTimestamp property: see https://maven.apache.org/guides/mini/guide-reproducible-builds.html\n\nAm I missing something or is this a known issue?",
+      "revId": "7c7c845bcc19d65e13042ab70e53f6aa2ab5227e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
