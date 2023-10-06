@@ -16,6 +16,24 @@
       "message": "If I run this command as pointed out in the documentation:\n\n$\u003e mvn -X artifact:check-buildplan\n\nI\u0027m getting this error:\n\n[ERROR] Reproducible Build not activated by project.build.outputTimestamp property: see https://maven.apache.org/guides/mini/guide-reproducible-builds.html\n\nAm I missing something or is this a known issue?",
       "revId": "7c7c845bcc19d65e13042ab70e53f6aa2ab5227e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f8a3cc6_172eb90b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-06T17:10:19Z",
+      "side": 1,
+      "message": "I guess the maven-artifact-plugin doesn\u0027t accept git-commit-id-maven-plugin setting the build timestamp or it doesn\u0027t run it and then the property isn\u0027t set.\n\nI tried the test described in\nhttps://maven.apache.org/guides/mini/guide-reproducible-builds.html#how-to-test-my-maven-build-reproducibility\nand that finds only one difference in the bom.json created by cyclonedx plugin:\n\nsha512 mismatch org.eclipse.jgit-parent-6.8.0-SNAPSHOT-cyclonedx.json: investigate with diffoscope target/reference/org.eclipse.jgit/org.eclipse.jgit-parent-6.8.0-SNAPSHOT-cyclonedx.json target/bom.json\n\ndiffoscope reveals that this SBOM file contains a timestamp which is changing with every build despite the fact that we set outputTimestamp of the cyclonedx-maven-plugin to the timestamp of the checked out commit using the git-commit-id-maven-plugin. I will raise a bug for the cyclonedx-maven-plugin.",
+      "parentUuid": "a1e59989_faa87102",
+      "revId": "7c7c845bcc19d65e13042ab70e53f6aa2ab5227e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
