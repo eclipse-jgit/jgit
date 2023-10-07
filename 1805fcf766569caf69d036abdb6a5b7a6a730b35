@@ -188,6 +188,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c10109_8e3c5ce5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-10-07T02:07:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6ca67d14_38e69976",
+      "range": {
+        "startLine": 844,
+        "startChar": 0,
+        "endLine": 845,
+        "endChar": 59
+      },
+      "revId": "1805fcf766569caf69d036abdb6a5b7a6a730b35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d01dd7b8_0a2e3b42",
