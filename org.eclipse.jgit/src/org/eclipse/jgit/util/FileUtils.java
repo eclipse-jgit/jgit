@@ -295,6 +295,7 @@ public class FileUtils {
 			CopyOption... options)
 					throws AtomicMoveNotSupportedException, IOException {
 		int attempts = FS.DETECTED.retryFailedLockFileCommit() ? 10 : 1;
+		IOException finalError = null;
 		while (--attempts >= 0) {
 			try {
 				Files.move(toPath(src), toPath(dst), options);
@@ -302,29 +303,35 @@ public class FileUtils {
 			} catch (AtomicMoveNotSupportedException e) {
 				throw e;
 			} catch (IOException e) {
-				try {
-					if (!dst.delete()) {
-						delete(dst, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
+				if (attempts == 0) {
+					// Only delete on the last attempt.
+					try {
+						if (!dst.delete()) {
+							delete(dst, EMPTY_DIRECTORIES_ONLY | RECURSIVE);
+						}
+						// On *nix there is no try, you do or do not
+						Files.move(toPath(src), toPath(dst), options);
+						return;
+					} catch (IOException e2) {
+						e2.addSuppressed(e);
+						finalError = e2;
 					}
-					// On *nix there is no try, you do or do not
-					Files.move(toPath(src), toPath(dst), options);
-					return;
-				} catch (IOException e2) {
-					// ignore and continue retry
 				}
 			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				throw new IOException(
-						MessageFormat.format(JGitText.get().renameFileFailed,
-								src.getAbsolutePath(), dst.getAbsolutePath()),
-						e);
+			if (attempts > 0) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().renameFileFailed,
+							src.getAbsolutePath(), dst.getAbsolutePath()), e);
+				}
 			}
 		}
 		throw new IOException(
 				MessageFormat.format(JGitText.get().renameFileFailed,
-						src.getAbsolutePath(), dst.getAbsolutePath()));
+						src.getAbsolutePath(), dst.getAbsolutePath()),
+				finalError);
 	}
 
 	/**
