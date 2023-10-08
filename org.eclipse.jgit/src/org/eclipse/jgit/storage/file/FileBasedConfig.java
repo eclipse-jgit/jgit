@@ -5,7 +5,7 @@
  * Copyright (C) 2009, JetBrains s.r.o.
  * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2008, Thad Hughes <thadh@thad.corp.google.com> and others
+ * Copyright (C) 2008, 2023 Thad Hughes <thadh@thad.corp.google.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -105,17 +104,6 @@ public class FileBasedConfig extends StoredConfig {
 
 	boolean exists() {
 		return exists.get();
-	}
-
-	@Override
-	public void setStringList(String section, String subsection, String name,
-			List<String> values) {
-		super.setStringList(section, subsection, name, values);
-	}
-
-	@Override
-	public void unsetSection(String section, String subsection) {
-		super.unsetSection(section, subsection);
 	}
 
 	/**

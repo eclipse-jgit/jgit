@@ -507,6 +507,35 @@ public class ConfigTest {
 	}
 
 	@Test
+	public void testRemoveBranchSection() throws ConfigInvalidException {
+		Config c = parse("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[branch \"remove\"]\n"
+				+ "  merge = this.will.get.deleted\n"
+				+ "  remote = origin-for-some-long-gone-place\n"
+				+ "\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n");
+		assertFalse(c.removeSection("branch", "does.not.exist"));
+		assertTrue(c.removeSection("branch", "remove"));
+		assertEquals("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n", c.toText());
+	}
+
+	@Test
 	public void testUnsetBranchSection() throws ConfigInvalidException {
 		Config c = parse("" //
 				+ "[branch \"keep\"]\n"
@@ -516,8 +545,12 @@ public class ConfigTest {
 				+ "  merge = this.will.get.deleted\n"
 				+ "  remote = origin-for-some-long-gone-place\n"
 				+ "\n"
+				+ "\n"
 				+ "[core-section-not-to-remove-in-test]\n"
-				+ "  packedGitLimit = 14\n");
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n");
 		c.unsetSection("branch", "does.not.exist");
 		c.unsetSection("branch", "remove");
 		assertEquals("" //
@@ -525,7 +558,10 @@ public class ConfigTest {
 				+ "  merge = master.branch.to.keep.in.the.file\n"
 				+ "\n"
 				+ "[core-section-not-to-remove-in-test]\n"
-				+ "  packedGitLimit = 14\n", c.toText());
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n", c.toText());
 	}
 
 	@Test
