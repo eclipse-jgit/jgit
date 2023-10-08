@@ -117,13 +117,11 @@ public class FileBasedConfig extends StoredConfig {
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
 		try {
-			FileSnapshot[] lastSnapshot = { null };
 			Boolean wasRead = FileUtils.readWithRetries(getFile(), f -> {
 				final FileSnapshot oldSnapshot = snapshot;
 				final FileSnapshot newSnapshot;
 				// don't use config in this snapshot to avoid endless recursion
 				newSnapshot = FileSnapshot.saveNoConfig(f);
-				lastSnapshot[0] = newSnapshot;
 				final byte[] in = IO.readFully(f);
 				final ObjectId newHash = hash(in);
 				if (hash.equals(newHash)) {
@@ -149,7 +147,7 @@ public class FileBasedConfig extends StoredConfig {
 			});
 			if (wasRead == null) {
 				clear();
-				snapshot = lastSnapshot[0];
+				snapshot = FileSnapshot.MISSING_FILE;
 			}
 			exists.set(wasRead != null);
 		} catch (IOException e) {
