@@ -289,6 +289,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deletedOrphanInPackDir;
 	/***/ public String deleteRequiresZeroNewId;
 	/***/ public String deleteTagUnexpectedResult;
+	/***/ public String deletingBranches;
 	/***/ public String deletingNotSupported;
 	/***/ public String depthMustBeAt1;
 	/***/ public String depthWithUnshallow;
@@ -884,6 +885,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedRepositoryDescription;
 	/***/ public String unsupportedSizesObjSizeIndex;
 	/***/ public String updateRequiresOldIdAndNewId;
+	/***/ public String updatingConfig;
 	/***/ public String updatingHeadFailed;
 	/***/ public String updatingReferences;
 	/***/ public String updatingRefFailed;
