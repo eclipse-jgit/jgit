@@ -13,8 +13,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.eclipse.jgit</groupId>
-  <version>6.8.0-SNAPSHOT</version>
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
+    <version>6.8.0-SNAPSHOT</version>
+  </parent>
+
   <artifactId>org.eclipse.jgit.benchmarks</artifactId>
   <packaging>jar</packaging>
 
@@ -140,6 +144,30 @@
                 </filter>
               </filters>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- We check javadoc when compiling with ecj (option -Pecj) and configurations
+          set in .settings/org.eclipse.jdt.core.prefs. This allows more fine grained
+          configuration and fails the build on missing javadoc for protected and
+          public but not for private classes, methods and fields. We don't want
+          to check javadoc on tests. We can reconsider to configure this on javadoc
+          when it starts supporting access specifiers so that we can set
+          -Xdoclint:all,-missing/private -->
+          <additionalJOption>-Xdoclint:none</additionalJOption>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <quiet>true</quiet>
+          <failOnWarnings>false</failOnWarnings>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
