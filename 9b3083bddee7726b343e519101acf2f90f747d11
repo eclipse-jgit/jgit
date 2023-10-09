@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cb87e06_6f831476",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-09T23:44:02Z",
+      "side": 1,
+      "message": "this produces the desired version number in MANIFEST.MF but file timestamps are wrong (23.12.1980 instead of timestamp of last commit).\n\nWith ISO dateformat yyyy-MM-dd\u0027T\u0027HH:mm:ss\u0027Z\u0027 we get correct file timestamps since that\u0027s the format expected by https://maven.apache.org/guides/mini/guide-reproducible-builds.html which only allows ISO format or seconds since epoch. But this creates invalid version numbers in MANIFEST.MF:\n\nBundle-Version: 6.8.0.2023-10-09T23:30:00Z\n\nOSGi allows alphanum \u0027-\u0027 and \u0027_\u0027 in the qualifier\n\nhttps://docs.osgi.org/specification/osgi.core/7.0.0/framework.module.html#i2655136\n\nwe set this version using antrun, maybe there\u0027s a way how we can change timestamp format using antrun then we can fix the versions there.\n\nOr we contribute a second time format exposed as another timestamp property to the git-commit-id-maven-plugin.",
+      "range": {
+        "startLine": 636,
+        "startChar": 22,
+        "endLine": 636,
+        "endChar": 34
+      },
+      "revId": "9b3083bddee7726b343e519101acf2f90f747d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
