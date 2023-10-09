@@ -48,6 +48,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "def90509_baf505c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-10-09T15:08:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35b5a842_7cd55e65",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "b26f39af07d89476fc538a6ce7299a31968d7f4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f11b78c1_1e4b1a9a",
@@ -71,6 +95,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57c72179_ca9a3c57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-10-09T15:08:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f11b78c1_1e4b1a9a",
+      "range": {
+        "startLine": 1275,
+        "startChar": 10,
+        "endLine": 1275,
+        "endChar": 24
+      },
+      "revId": "b26f39af07d89476fc538a6ce7299a31968d7f4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06a89052_4f8e6f41",
@@ -84,6 +132,30 @@
       "writtenOn": "2023-10-07T02:00:24Z",
       "side": 1,
       "message": "`CONFIG_REPACK_SECTION` ?",
+      "range": {
+        "startLine": 1278,
+        "startChar": 35,
+        "endLine": 1278,
+        "endChar": 54
+      },
+      "revId": "b26f39af07d89476fc538a6ce7299a31968d7f4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a89d29e_f9c33d42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-10-09T15:08:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06a89052_4f8e6f41",
       "range": {
         "startLine": 1278,
         "startChar": 35,
