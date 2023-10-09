@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35b5a842_7cd55e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 244435
+      },
+      "writtenOn": "2023-10-09T14:58:19Z",
+      "side": 1,
+      "message": "There is no `repack` section in jgit.\nAll packing related configurations are in the `pack` stanza, so I thought we were consolidating them under the `pack` one.\n\nIf this is not the case I am going to fix this.",
+      "parentUuid": "687b2dc7_ca8a1d25",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 47
+      },
+      "revId": "b26f39af07d89476fc538a6ce7299a31968d7f4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f11b78c1_1e4b1a9a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 2
