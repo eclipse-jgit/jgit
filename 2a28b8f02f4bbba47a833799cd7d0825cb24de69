@@ -52,6 +52,52 @@
       "parentUuid": "c98d5902_5359b9d5",
       "revId": "2a28b8f02f4bbba47a833799cd7d0825cb24de69",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb048bf_e5468869",
+        "filename": "org.eclipse.jgit.packaging/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-09T22:48:33Z",
+      "side": 1,
+      "message": "cyclonedx",
+      "range": {
+        "startLine": 224,
+        "startChar": 22,
+        "endLine": 224,
+        "endChar": 25
+      },
+      "revId": "2a28b8f02f4bbba47a833799cd7d0825cb24de69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eae59a5_1afbe571",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-09T22:48:33Z",
+      "side": 1,
+      "message": "cyclonedx",
+      "range": {
+        "startLine": 586,
+        "startChar": 22,
+        "endLine": 586,
+        "endChar": 25
+      },
+      "revId": "2a28b8f02f4bbba47a833799cd7d0825cb24de69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
