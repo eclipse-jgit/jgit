@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aa9e74f_e4537a56",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2405,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-11T19:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca669dd1_8dc78b4f",
+      "range": {
+        "startLine": 2405,
+        "startChar": 64,
+        "endLine": 2405,
+        "endChar": 68
+      },
+      "revId": "22efea10cacdf877858aa8e0f193a93f77269c62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c852041_0f16dfaa",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-10-10T20:52:11Z",
       "side": 1,
       "message": "IIUC Here we have a list of Ref, it is translated into a list of String and in \"markReachableTips\" it is retranslated into Ref... could we avoid this back and forth?",
+      "revId": "22efea10cacdf877858aa8e0f193a93f77269c62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bc5138c_35f72bef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-11T19:41:46Z",
+      "side": 1,
+      "message": "the wants provided here isn\u0027t available at the client and hence the want :) This is transformed to a ref string and the tip at the client is retrieved and hence ref to string and back to ref that doesn\u0027t mean its the same object id.",
+      "parentUuid": "7c852041_0f16dfaa",
       "revId": "22efea10cacdf877858aa8e0f193a93f77269c62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -58,6 +100,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cac63c7_f543a3dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-11T19:41:46Z",
+      "side": 1,
+      "message": "This can be achieved with a little refactoring. Will do this.",
+      "parentUuid": "c5cd29c8_6f5c28cd",
+      "revId": "22efea10cacdf877858aa8e0f193a93f77269c62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8582ec55_a6142469",
@@ -71,6 +131,30 @@
       "writtenOn": "2023-10-10T20:52:11Z",
       "side": 1,
       "message": "nit: Maybe \"markReachable\"? It needs to be in singular (it marks only one object) and this method is not really about tips.",
+      "range": {
+        "startLine": 767,
+        "startChar": 14,
+        "endLine": 767,
+        "endChar": 31
+      },
+      "revId": "22efea10cacdf877858aa8e0f193a93f77269c62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc0f06e0_80d526b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-11T19:41:46Z",
+      "side": 1,
+      "message": "agreed",
+      "parentUuid": "8582ec55_a6142469",
       "range": {
         "startLine": 767,
         "startChar": 14,
