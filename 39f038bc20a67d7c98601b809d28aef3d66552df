@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "486d5a18_284f40a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Commit message format is broken. (Single title line followed by empty line followed by body.)\n\nKeep line 9 as title, then an empty line, then lines 7 and 8 (hard-wrapped at most at 72 chars), then 10ff.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dded629e_1ac380ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Thanks for attempting this. We\u0027ll have to see what we do about merging up. This patch will need to be adapted basically for each and every version... up to 6.6, where it was introduced. And from 6.6. on, we may have to take over the 5.13.3 as @since.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e6e6a2_631f9c40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "This result appears to be unused.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "190568e7_8684de9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Wrong @since. But I don\u0027t think you can backport this to 5.13. Before the PatchApplier was introduced in 6.3, the behavior of ApplyCommand was to throw a PatchApplyException immediately. (Which this version still does, see line 166 above.)\n\nSo do not introduce Result here. Instead throw PatchApplyException in verifyExistence() directly.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d0d252_9638a272",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Make this void, and throw PatchApplyException directly.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342ea185_53abb41e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Wrong @since.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bce7bd45_99120f61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Unresolved merge conflict.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e913c5_e7a72a19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileModeCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Wrong @since",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884fb923_52ff05a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Just remove this line. It\u0027s me, and is added with an updated e-mail address below.",
+      "range": {
+        "startLine": 6,
+        "startChar": 60,
+        "endLine": 6,
+        "endChar": 70
+      },
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa7ad258_daf60b1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "This attribution is only be correct if you work at Google. Do you? (Though other Google employees have contributed.)",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "583eefb0_8a5f5c02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "This line was removed in the original patch.",
+      "range": {
+        "startLine": 425,
+        "startChar": 4,
+        "endLine": 425,
+        "endChar": 67
+      },
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c6d01b_ec46ea2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-11T20:36:26Z",
+      "side": 1,
+      "message": "Use gitPath here.",
+      "range": {
+        "startLine": 1096,
+        "startChar": 37,
+        "endLine": 1096,
+        "endChar": 55
+      },
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
