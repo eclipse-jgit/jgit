@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "417bc950_59571208",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-12T08:21:06Z",
+      "side": 1,
+      "message": "nit: you can also add foot note for the bug 582455, as this is also fixing it.",
+      "revId": "9c1e18fca1f33ed48fa291e5928c2a844aae0892",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
