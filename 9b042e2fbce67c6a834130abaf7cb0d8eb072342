@@ -16,6 +16,24 @@
       "message": "Thanks! This would be easier to read if the selection of the refs were together in one place/level.\n\nIIUC currently it does:\n\n```\n  if (useNegotiationTip) {\n     translate advertised refs (wants) to local refs (so we get the local tips)\n     mark these local refs as reachable\n   } else {\n     mark all refs as reachable\n   }\n\nif nothing marked as reachable:\n   use all heads\n```\n\nThe only way to \"use all heads\" is that the local refs does not exist. \n\nCould we do something like:\n```\nif (useNegotationTip) {\n  translate....\n  refsToUse \u003d wantedLocalRefs.size() \u003e 0 ? wantedLocalRefs : allHeads;\n} else {\n  refsToUse \u003d allRefs\n}\n\nmarkReachableTips(refsToUse);\n```\n\nThen we see clearly the refs selection criteria and when the wants need to be translated into local refs.",
       "revId": "9b042e2fbce67c6a834130abaf7cb0d8eb072342",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c90512ca_8020cf23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-12T22:32:05Z",
+      "side": 1,
+      "message": "Doing the proposed refactoring with a slight change.",
+      "parentUuid": "b9952d85_e4305cdb",
+      "revId": "9b042e2fbce67c6a834130abaf7cb0d8eb072342",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
