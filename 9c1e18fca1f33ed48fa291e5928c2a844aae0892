@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2cb189c_8ff3c45f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "417bc950_59571208",
+      "revId": "9c1e18fca1f33ed48fa291e5928c2a844aae0892",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25e9f004_f2c50fd1",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-12T20:43:33Z",
       "side": 1,
       "message": "packs locked by a \".keep\" file\n\n.keep files are empty marker files",
+      "range": {
+        "startLine": 268,
+        "startChar": 41,
+        "endLine": 268,
+        "endChar": 54
+      },
+      "revId": "9c1e18fca1f33ed48fa291e5928c2a844aae0892",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7098453a_a5717bdd",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 20
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e9f004_f2c50fd1",
       "range": {
         "startLine": 268,
         "startChar": 41,
@@ -64,6 +106,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c05acc_502b1167",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abf35b80_917e5eac",
+      "range": {
+        "startLine": 81,
+        "startChar": 13,
+        "endLine": 81,
+        "endChar": 37
+      },
+      "revId": "9c1e18fca1f33ed48fa291e5928c2a844aae0892",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c04fd6a9_64ed3445",
@@ -87,6 +153,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6145352_ddccaa59",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c04fd6a9_64ed3445",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 68
+      },
+      "revId": "9c1e18fca1f33ed48fa291e5928c2a844aae0892",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11b08024_cae5826d",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-10-12T20:43:33Z",
       "side": 1,
       "message": "`testKeptObjectsAreNotIncludedByDefault`",
+      "range": {
+        "startLine": 113,
+        "startChar": 13,
+        "endLine": 113,
+        "endChar": 49
+      },
+      "revId": "9c1e18fca1f33ed48fa291e5928c2a844aae0892",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ba5e14_bee4dcb2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b08024_cae5826d",
       "range": {
         "startLine": 113,
         "startChar": 13,
