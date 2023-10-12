@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccff4c2_8cdaa67b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-12T03:13:42Z",
+      "side": 1,
+      "message": "Hi Thomas, thanks for the review. I have updated this to address your comments.\n\nCould you check it again? ",
+      "revId": "976ad9f1c786195ec609915744567c30b8ca7871",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
