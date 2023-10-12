@@ -1007,11 +1007,13 @@ public class PackConfig {
 	/**
 	 * Set whether to include objects in `.keep` files when repacking.
 	 *
-	 * <p>Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
+	 * <p>
+	 * Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
 	 *
-	 * @param packKeptObjects boolean indicating whether to include objects in
-	 *     `.keep` files when repacking.
-	 * @since 5.13
+	 * @param packKeptObjects
+	 *            boolean indicating whether to include objects in `.keep` files
+	 *            when repacking.
+	 * @since 5.13.3
 	 */
 	public void setPackKeptObjects(boolean packKeptObjects) {
 		this.packKeptObjects = packKeptObjects;
@@ -1022,8 +1024,9 @@ public class PackConfig {
 	 *
 	 * Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
 	 *
-	 * @return True if objects in `.keep` files should be included when repacking.
-	 * @since 5.13
+	 * @return True if objects in `.keep` files should be included when
+	 *         repacking.
+	 * @since 5.13.3
 	 */
 	public boolean isPackKeptObjects() {
 		return packKeptObjects;
