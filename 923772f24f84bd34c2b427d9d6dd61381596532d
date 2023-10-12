@@ -104,6 +104,78 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aa0cac7_43c81d79",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a6c8568_e097fd84",
+      "range": {
+        "startLine": 102,
+        "startChar": 87,
+        "endLine": 102,
+        "endChar": 95
+      },
+      "revId": "923772f24f84bd34c2b427d9d6dd61381596532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb0f1a8_2adbc46e",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b544ffd_186faee8",
+      "range": {
+        "startLine": 102,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "923772f24f84bd34c2b427d9d6dd61381596532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71af4898_dcee1d46",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebf1a6e_f5cebcc5",
+      "range": {
+        "startLine": 102,
+        "startChar": 117,
+        "endLine": 102,
+        "endChar": 130
+      },
+      "revId": "923772f24f84bd34c2b427d9d6dd61381596532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57c102dd_b64f586f",
@@ -117,6 +189,30 @@
       "writtenOn": "2023-10-12T20:43:44Z",
       "side": 1,
       "message": "misleading method name, also below",
+      "range": {
+        "startLine": 88,
+        "startChar": 13,
+        "endLine": 88,
+        "endChar": 46
+      },
+      "revId": "923772f24f84bd34c2b427d9d6dd61381596532d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ac0d1af_3bc2dd97",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcKeepFilesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-12T20:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57c102dd_b64f586f",
       "range": {
         "startLine": 88,
         "startChar": 13,
