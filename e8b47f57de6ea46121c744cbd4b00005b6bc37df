@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dedbbf3_e06be8cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-13T10:24:31Z",
+      "side": 1,
+      "message": "This can be even more optimised when `RefMap` instead of `List\u003cRef\u003e` and we\u0027d skip iterations for prefixes that are already present in the map.",
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
