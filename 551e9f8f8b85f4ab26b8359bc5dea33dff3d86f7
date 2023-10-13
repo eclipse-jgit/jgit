@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2f2dd1_54574eb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-13T22:18:32Z",
+      "side": 1,
+      "message": "Thanks, it is getting into shape!",
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9096a9c3_f439248d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-13T22:18:32Z",
+      "side": 1,
+      "message": "wantRefs is only an artifact to translate want to refsToMark... move this lines inside \"translateToLocalTips().",
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efaff8b4_b53e8c1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-13T22:18:32Z",
+      "side": 1,
+      "message": "What happens if refsToMark has some refs but none of them have an objectId or a peeledObjectId?",
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8789966_fdf7f352",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-13T22:18:32Z",
+      "side": 1,
+      "message": "You can just return refsToMark, no need of this forEach(add).",
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
