@@ -277,6 +277,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ab87803_84cf41d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-10-13T16:37:12Z",
+      "side": 1,
+      "message": "I agree that if we know that the current one is slow, then we should just abandoning and use the new implementation. Are you OK for doing this in a very old branch like stable-5.13?",
+      "parentUuid": "c3528b29_76567833",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bf3cea4_8e6f90f2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 3
