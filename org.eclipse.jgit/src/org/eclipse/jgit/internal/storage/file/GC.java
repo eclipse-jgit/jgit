@@ -164,6 +164,8 @@ public class GC {
 
 	private Date packExpire;
 
+	private Boolean packKeptObjects;
+
 	private PackConfig pconfig;
 
 	/**
@@ -866,8 +868,9 @@ public class GC {
 		List<ObjectIdSet> excluded = new LinkedList<>();
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
-			if (p.shouldBeKept())
+			if (!shouldPackKeptObjects() && p.shouldBeKept()) {
 				excluded.add(p.getIndex());
+			}
 		}
 
 		// Don't exclude tags that are also branch tips
@@ -1471,6 +1474,21 @@ public class GC {
 		if (pm.isCancelled() || Thread.currentThread().isInterrupted()) {
 			throw new CancelledException(JGitText.get().operationCanceled);
 		}
+	}
+
+	/**
+	 * Define whether to include objects in `.keep` files when repacking.
+	 *
+	 * @param packKeptObjects Whether to include objects in `.keep` files when repacking.
+	 */
+	public void setPackKeptObjects(boolean packKeptObjects) {
+		this.packKeptObjects = Boolean.valueOf(packKeptObjects);
+	}
+
+	@SuppressWarnings("boxing")
+	private boolean shouldPackKeptObjects() {
+		return Optional.ofNullable(packKeptObjects)
+				.orElse(pconfig.isPackKeptObjects());
 	}
 
 	/**
