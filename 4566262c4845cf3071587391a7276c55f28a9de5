@@ -253,6 +253,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3528b29_76567833",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-10-13T14:17:04Z",
+      "side": 1,
+      "message": "\u003e Another option (or in addition) would be to use Java System Property. That way we \u003e could set container. javaOptions in Gerrit\u0027s \u003cgerrit_site\u003e/etc/gerrit.config file:\n\nThat\u0027s already implemented in patchset 5\nhttps://git.eclipse.org/r/c/jgit/jgit/+/194140/4..6/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java#248",
+      "parentUuid": "982dead5_f67a89d4",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bf3cea4_8e6f90f2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 3

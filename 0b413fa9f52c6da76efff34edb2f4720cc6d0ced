@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d7ed31f_ed851584",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-10-13T14:17:04Z",
+      "side": 1,
+      "message": "This method is not implemented in any of the inheritors. This means that we always return zero and the capacity doesn\u0027t include existing queue size. Is this a bug or this was done on purpose?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 2
+      },
+      "revId": "0b413fa9f52c6da76efff34edb2f4720cc6d0ced",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
