@@ -11,6 +11,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -374,12 +379,19 @@ public class UploadPackTest {
 	private ByteArrayInputStream uploadPackSetup(String version,
 			Consumer<UploadPack> postConstructionSetup, String... inputLines)
 			throws Exception {
+		return uploadPackSetup(server, version, postConstructionSetup,
+				inputLines);
+	}
+
+	private ByteArrayInputStream uploadPackSetup(Repository repo,
+			String version, Consumer<UploadPack> postConstructionSetup,
+			String... inputLines) throws Exception {
 
 		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
-		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+		repo.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
 				null, ConfigConstants.CONFIG_KEY_VERSION, version);
-		UploadPack up = new UploadPack(server);
+		UploadPack up = new UploadPack(repo);
 		if (postConstructionSetup != null) {
 			postConstructionSetup.accept(up);
 		}
@@ -440,10 +452,21 @@ public class UploadPackTest {
 	 * advertisement by the server.
 	 */
 	private ByteArrayInputStream uploadPackV2(
-			Consumer<UploadPack> postConstructionSetup,
-			String... inputLines)
+			Consumer<UploadPack> postConstructionSetup, String... inputLines)
+			throws Exception {
+		return uploadPackV2(server, postConstructionSetup, inputLines);
+	}
+
+	/*
+	 * Invokes UploadPack with protocol v2 and sends it the given lines. Returns
+	 * UploadPack's output stream, not including the capability advertisement by
+	 * the server.
+	 */
+	private ByteArrayInputStream uploadPackV2(Repository repo,
+			Consumer<UploadPack> postConstructionSetup, String... inputLines)
 			throws Exception {
 		ByteArrayInputStream recvStream = uploadPackSetup(
+				repo,
 				TransferConfig.ProtocolVersion.V2.version(),
 				postConstructionSetup, inputLines);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
@@ -455,8 +478,13 @@ public class UploadPackTest {
 		return recvStream;
 	}
 
+	private ByteArrayInputStream uploadPackV2(Repository repo,
+			String... inputLines) throws Exception {
+		return uploadPackV2(repo, null, inputLines);
+	}
+
 	private ByteArrayInputStream uploadPackV2(String... inputLines) throws Exception {
-		return uploadPackV2(null, inputLines);
+		return uploadPackV2(server, null, inputLines);
 	}
 
 	private static class TestV2Hook implements ProtocolV2Hook {
@@ -704,12 +732,17 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2LsRefsRefPrefix() throws Exception {
+		RefDatabase refDbSpy = spy(server.getRefDatabase());
+		Repository repoSpy = spy(server);
+		when(repoSpy.getRefDatabase()).thenReturn(refDbSpy);
+
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		remote.update("other", tip);
 		remote.update("yetAnother", tip);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
+			repoSpy,
 			"command=ls-refs\n",
 			PacketLineIn.delimiter(),
 			"ref-prefix refs/heads/maste",
@@ -720,15 +753,22 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+		verify(refDbSpy, times(2)).exactRef(any(String.class));
+		verify(refDbSpy, times(1)).getRefsByPrefix(any(String.class));
 	}
 
 	@Test
 	public void testV2LsRefsRefPrefixNoSlash() throws Exception {
+		RefDatabase refDbSpy = spy(server.getRefDatabase());
+		Repository repoSpy = spy(server);
+		when(repoSpy.getRefDatabase()).thenReturn(refDbSpy);
+
 		RevCommit tip = remote.commit().message("message").create();
 		remote.update("master", tip);
 		remote.update("other", tip);
 
 		ByteArrayInputStream recvStream = uploadPackV2(
+			repoSpy,
 			"command=ls-refs\n",
 			PacketLineIn.delimiter(),
 			"ref-prefix refs/heads/maste",
@@ -739,6 +779,8 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/master"));
 		assertThat(pckIn.readString(), is(tip.toObjectId().getName() + " refs/heads/other"));
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+		verify(refDbSpy, times(2)).exactRef(any(String.class));
+		verify(refDbSpy, times(2)).getRefsByPrefix(any(String.class));
 	}
 
 	@Test
