@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d342ff4_a30a6126",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-13T19:48:55Z",
+      "side": 1,
+      "message": "I verified that egit can start with this and cloning via ssh using ed25519 key works",
+      "revId": "8f3224757a4b1dc5cec6eb0ce3b9d75239b309e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79f46b77_47b5d0dd",
