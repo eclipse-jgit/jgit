@@ -16,6 +16,24 @@
       "message": "\u003e - did you observe this problem in production ? How often does it occur ? I can\u0027t remember having seen anybody fetching HEAD explicitly.\n\nProbably no one is fetching HEAD directly, but it\u0027s part of the clone command, one can see this when tracing git packages:\n```\n$ GIT_TRACE_PACKET\u003d1 git clone http://localhost:8080/repo.git\n(cut)\n06:58:23.812890 pkt-line.c:85           packet:        clone\u003e command\u003dls-refs\n06:58:23.812892 pkt-line.c:85           packet:        clone\u003e 0001\n06:58:23.812894 pkt-line.c:85           packet:        clone\u003e peel\n06:58:23.812902 pkt-line.c:85           packet:        clone\u003e symrefs\n06:58:23.812905 pkt-line.c:85           packet:        clone\u003e ref-prefix HEAD\n06:58:23.812907 pkt-line.c:85           packet:        clone\u003e ref-prefix refs/heads/\n06:58:23.812909 pkt-line.c:85           packet:        clone\u003e ref-prefix refs/tags/\n(cut)\n```\n\nThis optimisation will have a positive impact on systems that are heavy on clones.\n\nThere\u0027s a difference in `ref-prefix` commands being sent during `ls-refs` phase. When the clone command is used, only `HEAD`, `refs/heads/` and `refs/tags` are requested (see the output above). But when `git fetch origin HEAD` is executed it requests more refs:\n* `HEAD`\n* `refs/HEAD`\n* `refs/tags/HEAD`\n* `refs/heads/HEAD`\n* `refs/remotes/HEAD`\n* `refs/remotes/HEAD/HEAD`\n\n\u003e Can you provide some stack traces showing the call sites using getRefsByPrefix with prefix \"HEAD\" ?\n\nThe `getRefsByPrefix` is called from `UploadPack.getFilteredRefs(Collection\u003cString\u003e refPrefixes)` (line 953 in dc27dbd2fef). I\u0027ve tried changing that to:\n```java\nList\u003cRef\u003e resolvedRefs \u003d new ArrayList\u003c\u003e();\nfor (String prefix : prefixes) {\n  if (prefix.endsWith(\"/\") {\n    resolvedRefs.addAll(db.getRefDatabase().getRefsByPrefix(prefix));\n  } else {\n    Ref exact \u003d db.getRefDatabase().exactRef(prefix);\n    if (exact !\u003d null) {\n      resolvedRefs.add(exact);\n    }\n  }\n}\n```\nwhich will be even more optimized. But that broke two UploadPack tests:\n* `UploadPackTest.testV2LsRefsRefPrefixNoSlash()`\n* `UploadPackTest.testV2LsRefsRefPrefix()`\n\nAnother approach would be to first look for the exact match with `exactRef()` and if not found, try `getRefsByPrefix()`. But this will add one _read operation_ for each `ref-prefix`.\n\nPotentially, we can combine the two above approaches:\n```java\nList\u003cRef\u003e resolvedRefs \u003d new ArrayList\u003c\u003e();\nfor (String prefix : prefixes) {\n  if (prefix.endsWith(\"/\") {\n    resolvedRefs.addAll(db.getRefDatabase().getRefsByPrefix(prefix));\n  } else {\n    Ref exact \u003d db.getRefDatabase().exactRef(prefix);\n    if (exact !\u003d null) {\n      resolvedRefs.add(exact);\n    } else {\n      resolvedRefs.addAll(db.getRefDatabase().getRefsByPrefix(prefix));\n    }\n  }\n}\n```\n\nWDYT?",
       "revId": "a662d4efe3ca4f2719471edd704cefee8329c648",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1c3d007_1fd8c06a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-13T08:51:14Z",
+      "side": 1,
+      "message": "here\u0027s a WIP change implementing approach mentioned above:\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/204910",
+      "parentUuid": "4f0dc5ea_e4c8e381",
+      "revId": "a662d4efe3ca4f2719471edd704cefee8329c648",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
