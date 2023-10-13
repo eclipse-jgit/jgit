@@ -315,6 +315,10 @@ public final class DfsPackFile extends BlockBasedFile {
 			return null;
 		}
 
+		if (!desc.hasFileExt(OBJECT_SIZE_INDEX)) {
+			return null;
+		}
+
 		DfsStreamKey objSizeKey = desc.getStreamKey(OBJECT_SIZE_INDEX);
 		AtomicBoolean cacheHit = new AtomicBoolean(true);
 		try {
