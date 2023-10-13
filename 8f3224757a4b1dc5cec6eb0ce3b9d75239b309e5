@@ -16,6 +16,24 @@
       "message": "Why do we need this? Isn\u0027t the export good enough?",
       "revId": "8f3224757a4b1dc5cec6eb0ce3b9d75239b309e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e1bac7_0d3268b0",
+        "filename": "org.eclipse.jgit.ssh.apache/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-13T19:32:43Z",
+      "side": 1,
+      "message": "of course",
+      "parentUuid": "79f46b77_47b5d0dd",
+      "revId": "8f3224757a4b1dc5cec6eb0ce3b9d75239b309e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
