@@ -63,6 +63,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private PackConfig pconfig;
 
+	private Boolean packKeptObjects;
+
 	/**
 	 * Constructor for GarbageCollectCommand.
 	 *
@@ -132,6 +134,19 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	}
 
 	/**
+	 * Whether to include objects in `.keep` packs when repacking.
+	 *
+	 * @param packKeptObjects
+	 *            whether to include objects in `.keep` files when repacking.
+	 * @return this instance
+	 * @since 5.13.3
+	 */
+	public GarbageCollectCommand setPackKeptObjects(boolean packKeptObjects) {
+		this.packKeptObjects = Boolean.valueOf(packKeptObjects);
+		return this;
+	}
+
+	/**
 	 * Whether to preserve old pack files instead of deleting them.
 	 *
 	 * @since 4.7
@@ -174,7 +189,9 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 				gc.setProgressMonitor(monitor);
 				if (this.expire != null)
 					gc.setExpire(expire);
-
+				if (this.packKeptObjects != null) {
+					gc.setPackKeptObjects(packKeptObjects.booleanValue());
+				}
 				try {
 					gc.gc().get();
 					return toProperties(gc.getStatistics());

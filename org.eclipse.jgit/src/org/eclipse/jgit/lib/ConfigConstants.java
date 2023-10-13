@@ -104,6 +104,12 @@ public final class ConfigConstants {
 	/** The "gc" section */
 	public static final String CONFIG_GC_SECTION = "gc";
 
+	/**
+	 * The "repack" section
+	 * @since 5.13.3
+	 */
+	public static final String CONFIG_REPACK_SECTION = "repack";
+
 	/** The "pack" section */
 	public static final String CONFIG_PACK_SECTION = "pack";
 
@@ -849,6 +855,13 @@ public final class ConfigConstants {
 	 * @since 6.5
 	 */
 	public static final String CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX = "minBytesForObjSizeIndex";
+
+	/**
+	 * The "repack.packKeptObjects" key
+	 *
+	 * @since 5.13.3
+	 */
+	public static final String CONFIG_KEY_PACK_KEPT_OBJECTS = "packkeptobjects";
 
 	/**
 	 * The "feature" section
