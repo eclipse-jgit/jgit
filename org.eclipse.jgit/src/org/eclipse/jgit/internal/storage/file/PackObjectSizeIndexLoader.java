@@ -26,12 +26,15 @@ public class PackObjectSizeIndexLoader {
 	 *            input stream at the beginning of the object size data
 	 * @return an implementation of the object size index
 	 * @throws IOException
-	 *             error reading the streams
+	 *             error reading the stream, empty stream or content is not an
+	 *             object size index
 	 */
 	public static PackObjectSizeIndex load(InputStream in) throws IOException {
 		byte[] header = in.readNBytes(4);
 		if (!Arrays.equals(header, PackObjectSizeIndexWriter.HEADER)) {
-			throw new IOException("Stream is not an object index"); //$NON-NLS-1$
+			throw new IOException(String.format(
+					"Stream is not an object index (first %d bytes = %s)", //$NON-NLS-1$
+					header.length, Arrays.toString(header)));
 		}
 
 		int version = in.readNBytes(1)[0];
