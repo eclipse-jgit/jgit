@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a21ee1b2_4d1cdbfc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-13T16:05:43Z",
+      "side": 1,
+      "message": "The idea is to calculate first what to mark and then invoke \"markReachabeRefTips\" (once), so looking at a single section of code we can understand what is being marked.\n\nCurrently this is more messy because we check if the refs are pointing to an object in the #markReachableRefTips\" method and it forces us to check the output (reachableObjects) to see if anything was marked and then try to mark something else. This is brittle and hard to follow.\n\nWe could make it clearer with a couple of helper functions:\n\n````\nCollection\u003cRef\u003e translateToLocalTips(Collection\u003cRef\u003e remoteRefs);\nboolean pointsToObject(Ref ref);\n```\n\nThen in the main function we can do:\n```\nif (useNegotiationTip) {\n   toMark \u003d translateToLocalTips(wantRefs)\n               .stream()\n                .filter(pointsAtObject)\n                .collect(...);\n   // wantRefs that don\u0027t exist locally are filtered out\n   if (toMark.isEmpty()) {\n     toMark \u003d ...getAllHeads()\n   }\n}\n\nmarkReachableRefTips(toMark)\n```",
+      "revId": "6f903ca306a7c321f78f862ae157ade208ce611f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
