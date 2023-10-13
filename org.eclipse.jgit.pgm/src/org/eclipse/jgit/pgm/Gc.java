@@ -27,6 +27,10 @@ class Gc extends TextBuiltin {
 	@Option(name = "--prune-preserved", usage = "usage_PrunePreserved")
 	private Boolean prunePreserved;
 
+	@Option(name = "--pack-kept-objects", usage = "usage_PackKeptObjects")
+	private Boolean packKeptObjects;
+
+	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		Git git = Git.wrap(db);
@@ -38,6 +42,9 @@ class Gc extends TextBuiltin {
 			}
 			if (prunePreserved != null) {
 				command.setPrunePreserved(prunePreserved.booleanValue());
+			}
+			if (packKeptObjects != null) {
+				command.setPackKeptObjects(packKeptObjects.booleanValue());
 			}
 			command.call();
 		} catch (GitAPIException e) {

@@ -29,6 +29,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DEPTH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_KEPT_OBJECTS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRESERVE_OLD_PACKS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRUNE_PRESERVED;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
@@ -41,6 +42,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WRITE_REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REPACK_SECTION;
 
 import java.time.Duration;
 import java.util.concurrent.Executor;
@@ -178,6 +180,16 @@ public class PackConfig {
 	 */
 	public static final boolean DEFAULT_BUILD_BITMAPS = true;
 
+
+	/**
+	 * Default value for including objects in packs locked by .keep file when
+	 * repacking: {@value}
+	 *
+	 * @see #setPackKeptObjects(boolean)
+	 * @since 5.13.3
+	 */
+	public static final boolean DEFAULT_PACK_KEPT_OBJECTS = false;
+
 	/**
 	 * Default count of most recent commits to select for bitmaps. Only applies
 	 * when bitmaps are enabled: {@value}
@@ -306,6 +318,8 @@ public class PackConfig {
 
 	private boolean buildBitmaps = DEFAULT_BUILD_BITMAPS;
 
+	private boolean packKeptObjects = DEFAULT_PACK_KEPT_OBJECTS;
+
 	private int bitmapContiguousCommitCount = DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT;
 
 	private int bitmapRecentCommitCount = DEFAULT_BITMAP_RECENT_COMMIT_COUNT;
@@ -387,6 +401,7 @@ public class PackConfig {
 		this.indexVersion = cfg.indexVersion;
 		this.writeReverseIndex = cfg.writeReverseIndex;
 		this.buildBitmaps = cfg.buildBitmaps;
+		this.packKeptObjects = cfg.packKeptObjects;
 		this.bitmapContiguousCommitCount = cfg.bitmapContiguousCommitCount;
 		this.bitmapRecentCommitCount = cfg.bitmapRecentCommitCount;
 		this.bitmapRecentCommitSpan = cfg.bitmapRecentCommitSpan;
@@ -1041,6 +1056,34 @@ public class PackConfig {
 	}
 
 	/**
+	 * Set whether to include objects in `.keep` files when repacking.
+	 *
+	 * <p>
+	 * Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
+	 *
+	 * @param packKeptObjects
+	 *            boolean indicating whether to include objects in `.keep` files
+	 *            when repacking.
+	 * @since 5.13.3
+	 */
+	public void setPackKeptObjects(boolean packKeptObjects) {
+		this.packKeptObjects = packKeptObjects;
+	}
+
+	/**
+	 * True if objects in `.keep` files should be included when repacking.
+	 *
+	 * Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
+	 *
+	 * @return True if objects in `.keep` files should be included when
+	 *         repacking.
+	 * @since 5.13.3
+	 */
+	public boolean isPackKeptObjects() {
+		return packKeptObjects;
+	}
+
+	/**
 	 * Get the count of most recent commits for which to build bitmaps.
 	 *
 	 * Default setting: {@value #DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT}
@@ -1326,8 +1369,12 @@ public class PackConfig {
 				getSinglePack()));
 		setWriteReverseIndex(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WRITE_REVERSE_INDEX, isWriteReverseIndex()));
-		setBuildBitmaps(rc.getBoolean(CONFIG_PACK_SECTION,
-				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps()));
+		boolean buildBitmapsFromConfig = rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps());
+		setBuildBitmaps(buildBitmapsFromConfig);
+		setPackKeptObjects(rc.getBoolean(CONFIG_REPACK_SECTION,
+				CONFIG_KEY_PACK_KEPT_OBJECTS,
+				buildBitmapsFromConfig || isPackKeptObjects()));
 		setBitmapContiguousCommitCount(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_CONTIGUOUS_COMMIT_COUNT,
 				getBitmapContiguousCommitCount()));
