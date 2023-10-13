@@ -864,6 +864,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;
 	/***/ public String unreadableCommitGraph;
+	/***/ public String unreadableObjectSizeIndex;
 	/***/ public String unreadablePackIndex;
 	/***/ public String unrecognizedPackExtension;
 	/***/ public String unrecognizedRef;
@@ -877,6 +878,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedGC;
 	/***/ public String unsupportedMark;
 	/***/ public String unsupportedObjectIdVersion;
+	/***/ public String unsupportedObjectSizeIndexVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackReverseIndexVersion;
