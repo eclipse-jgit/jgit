@@ -1,6 +1,92 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef72193_065b7eef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T21:15:32Z",
+      "side": 1,
+      "message": "shorten this, e.g.\n\navoid full clone with useNegotationTip",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 76
+      },
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c419cdc_317ffb73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T21:15:32Z",
+      "side": 1,
+      "message": "nit: reformat this message, lines are way too long\n\nit seems in this message usage of past tense, present tense and future needs to be sorted out",
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b05b2b4_ab744a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T21:15:32Z",
+      "side": 1,
+      "message": "How is the rest of this sentence related to the time before this feature was introduced ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfc7ce6a_7eb3d64f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T21:15:32Z",
+      "side": 1,
+      "message": "optimizes",
+      "range": {
+        "startLine": 11,
+        "startChar": 217,
+        "endLine": 11,
+        "endChar": 225
+      },
+      "revId": "551e9f8f8b85f4ab26b8359bc5dea33dff3d86f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3d2f2dd1_54574eb0",
