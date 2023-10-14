@@ -20,9 +20,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
@@ -47,6 +49,9 @@ public class FileBasedConfig extends StoredConfig {
 
 	private final FS fs;
 
+	// In-process synchronization between load() and save().
+	private final ReentrantReadWriteLock lock;
+
 	private boolean utf8Bom;
 
 	private volatile FileSnapshot snapshot;
@@ -54,6 +59,7 @@ public class FileBasedConfig extends StoredConfig {
 	private volatile ObjectId hash;
 
 	private AtomicBoolean exists = new AtomicBoolean();
+
 
 	/**
 	 * Create a configuration with no default fallback.
@@ -85,6 +91,7 @@ public class FileBasedConfig extends StoredConfig {
 		this.fs = fs;
 		this.snapshot = FileSnapshot.DIRTY;
 		this.hash = ObjectId.zeroId();
+		this.lock = new ReentrantReadWriteLock(false);
 	}
 
 	@Override
@@ -116,35 +123,9 @@ public class FileBasedConfig extends StoredConfig {
 	 */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
+		lock.readLock().lock();
 		try {
-			Boolean wasRead = FileUtils.readWithRetries(getFile(), f -> {
-				final FileSnapshot oldSnapshot = snapshot;
-				final FileSnapshot newSnapshot;
-				// don't use config in this snapshot to avoid endless recursion
-				newSnapshot = FileSnapshot.saveNoConfig(f);
-				final byte[] in = IO.readFully(f);
-				final ObjectId newHash = hash(in);
-				if (hash.equals(newHash)) {
-					if (oldSnapshot.equals(newSnapshot)) {
-						oldSnapshot.setClean(newSnapshot);
-					} else {
-						snapshot = newSnapshot;
-					}
-				} else {
-					final String decoded;
-					if (isUtf8(in)) {
-						decoded = RawParseUtils.decode(UTF_8,
-								in, 3, in.length);
-						utf8Bom = true;
-					} else {
-						decoded = RawParseUtils.decode(in);
-					}
-					fromText(decoded);
-					snapshot = newSnapshot;
-					hash = newHash;
-				}
-				return Boolean.TRUE;
-			});
+			Boolean wasRead = FileUtils.readWithRetries(getFile(), this::load);
 			if (wasRead == null) {
 				clear();
 				snapshot = FileSnapshot.MISSING_FILE;
@@ -155,7 +136,36 @@ public class FileBasedConfig extends StoredConfig {
 		} catch (Exception e) {
 			throw new ConfigInvalidException(MessageFormat
 					.format(JGitText.get().cannotReadFile, getFile()), e);
+		} finally {
+			lock.readLock().unlock();
 		}
+	}
+
+	private Boolean load(File f) throws Exception {
+		FileSnapshot oldSnapshot = snapshot;
+		// don't use config in this snapshot to avoid endless recursion
+		FileSnapshot newSnapshot = FileSnapshot.saveNoConfig(f);
+		byte[] in = IO.readFully(f);
+		ObjectId newHash = hash(in);
+		if (hash.equals(newHash)) {
+			if (oldSnapshot.equals(newSnapshot)) {
+				oldSnapshot.setClean(newSnapshot);
+			} else {
+				snapshot = newSnapshot;
+			}
+		} else {
+			String decoded;
+			if (isUtf8(in)) {
+				decoded = RawParseUtils.decode(UTF_8, in, 3, in.length);
+				utf8Bom = true;
+			} else {
+				decoded = RawParseUtils.decode(in);
+			}
+			fromText(decoded);
+			snapshot = newSnapshot;
+			hash = newHash;
+		}
+		return Boolean.TRUE;
 	}
 
 	/**
@@ -171,33 +181,41 @@ public class FileBasedConfig extends StoredConfig {
 	 */
 	@Override
 	public void save() throws IOException {
-		final byte[] out;
-		final String text = toText();
-		if (utf8Bom) {
-			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			bos.write(0xEF);
-			bos.write(0xBB);
-			bos.write(0xBF);
-			bos.write(text.getBytes(UTF_8));
-			out = bos.toByteArray();
-		} else {
-			out = Constants.encode(text);
-		}
-
-		final LockFile lf = new LockFile(getFile());
+		lock.writeLock().lock();
 		try {
-			if (!lf.lock()) {
-				throw new LockFailedException(getFile());
+			byte[] out;
+			String text = toText();
+			if (utf8Bom) {
+				final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				bos.write(0xEF);
+				bos.write(0xBB);
+				bos.write(0xBF);
+				bos.write(text.getBytes(UTF_8));
+				out = bos.toByteArray();
+			} else {
+				out = Constants.encode(text);
 			}
-			lf.setNeedSnapshotNoConfig(true);
-			lf.write(out);
-			if (!lf.commit())
-				throw new IOException(MessageFormat.format(JGitText.get().cannotCommitWriteTo, getFile()));
+
+			LockFile lf = new LockFile(getFile());
+			try {
+				if (!lf.lock()) {
+					throw new LockFailedException(getFile());
+				}
+				lf.setNeedSnapshotNoConfig(true);
+				lf.write(out);
+				if (!lf.commit()) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().cannotCommitWriteTo, getFile()));
+				}
+			} finally {
+				lf.unlock();
+			}
+			snapshot = lf.getCommitSnapshot();
+			hash = hash(out);
+			exists.set(true);
 		} finally {
-			lf.unlock();
+			lock.writeLock().unlock();
 		}
-		snapshot = lf.getCommitSnapshot();
-		hash = hash(out);
 		// notify the listeners
 		fireConfigChangedEvent();
 	}
@@ -249,6 +267,8 @@ public class FileBasedConfig extends StoredConfig {
 
 		try {
 			return IO.readFully(file);
+		} catch (FileNotFoundException e) {
+			return null;
 		} catch (IOException ioe) {
 			throw new ConfigInvalidException(MessageFormat
 					.format(JGitText.get().cannotReadFile, relPath), ioe);
