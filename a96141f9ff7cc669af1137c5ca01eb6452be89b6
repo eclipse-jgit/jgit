@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de88e75_cdc59fd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44628
+      },
+      "writtenOn": "2023-10-14T21:41:19Z",
+      "side": 1,
+      "message": "This is a rather old change. I suppose we would need to double-check that it is still meaningful, and works with recent git versions. Git has changed its rebase implementation since 2019... is this change still needed at all?",
+      "revId": "a96141f9ff7cc669af1137c5ca01eb6452be89b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
