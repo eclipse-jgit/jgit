@@ -3,6 +3,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ee9042a_30d99b48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T22:26:58Z",
+      "side": 1,
+      "message": "what\u0027s this ?",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04712dd6_30946b55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T22:26:58Z",
+      "side": 1,
+      "message": "scans",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09d28701_f40c413b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T22:26:58Z",
+      "side": 1,
+      "message": "can you provide some measurements on large repos with many refs demonstrating the improvement ?",
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8f7c60_9dc8c1aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-14T22:26:58Z",
+      "side": 1,
+      "message": "To reduce this overhead use the following strategy:\n- if `ref-prefix` is a collection ending with \"/\" use `#getRefsByPrefix`\n- otherwise we use `#exactRef`, if it doesn\u0027t resolve any ref fallback to `#getRefsByPrefix`\n\nwhy is fallback needed if exactRef returns any ref ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dedbbf3_e06be8cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
