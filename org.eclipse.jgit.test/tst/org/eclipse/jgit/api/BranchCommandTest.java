@@ -160,6 +160,24 @@ public class BranchCommandTest extends RepositoryTestCase {
 				- allBefore);
 	}
 
+  @Test
+  public void testExistingNameInBothBranchesAndTags() throws Exception {
+
+    git.branchCreate().setName("test").call();
+    git.tag().setName("test").call();
+
+    // existing name not allowed w/o force
+    try {
+      git.branchCreate().setName("test").call();
+      fail("Create branch with existing ref name should fail");
+    } catch (RefAlreadyExistsException e) {
+      // expected
+    }
+
+    // existing name allowed with force option
+    git.branchCreate().setName("test").setForce(true).call();
+  }
+
 	@Test(expected = InvalidRefNameException.class)
 	public void testInvalidBranchHEAD() throws Exception {
 		git.branchCreate().setName("HEAD").call();
