@@ -88,9 +88,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 		checkCallable();
 		processOptions();
 		try (RevWalk revWalk = new RevWalk(repo)) {
-			Ref refToCheck = repo.findRef(name);
-			boolean exists = refToCheck != null
-					&& refToCheck.getName().startsWith(R_HEADS);
+			boolean exists = repo.findRef(R_HEADS + name) != null;
 			if (!force && exists)
 				throw new RefAlreadyExistsException(MessageFormat.format(
 						JGitText.get().refAlreadyExists1, name));
