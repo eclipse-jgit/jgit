@@ -16,6 +16,24 @@
       "message": "remove unused imports",
       "revId": "83ebe49c7839c4993c2a5e48f35b50979d030d3b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5857f84_0f4192d0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-16T14:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "037d5a29_db7a8978",
+      "revId": "83ebe49c7839c4993c2a5e48f35b50979d030d3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
