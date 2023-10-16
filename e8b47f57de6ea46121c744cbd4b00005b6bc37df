@@ -132,6 +132,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "548f5813_68083982",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-16T18:31:10Z",
+      "side": 1,
+      "message": "I\u0027ve done a simple test, by creating an empty repo, with one commit, then created 300k branches. Then modified `UploadPackTest.testV2LsRefsRefPrefix()` to mimic `ls-refs` sent during the `git clone` operation, and pointed it to the file-based repository created in the first step.\n\nThe code from `master` executed that test in about 33s, whereas the code in this change took about 24s.\n\nI\u0027ve also tested `Map` based implementation, proposed in the other comment (https://git.eclipse.org/r/c/jgit/jgit/+/204910/comments/1dedbbf3_e06be8cf), but it was twice time slower and consumed much more CPU.",
+      "parentUuid": "4434a296_25ea8936",
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a8f7c60_9dc8c1aa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -190,6 +208,24 @@
       "writtenOn": "2023-10-13T10:24:31Z",
       "side": 1,
       "message": "This can be even more optimised when `RefMap` instead of `List\u003cRef\u003e` and we\u0027d skip iterations for prefixes that are already present in the map.",
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "880a0330_3fbdbffd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-16T18:31:10Z",
+      "side": 1,
+      "message": "Using `Map` turned out to be slower and more CPU-consuming when dealing with repositories that have a large number of refs.",
+      "parentUuid": "1dedbbf3_e06be8cf",
       "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
