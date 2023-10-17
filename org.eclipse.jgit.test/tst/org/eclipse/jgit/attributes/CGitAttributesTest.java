@@ -104,10 +104,9 @@ public class CGitAttributesTest extends RepositoryTestCase {
 				UTF_8))) {
 			r.lines().forEach(line -> {
 				// Parse the line and add to result map
-				int start = 0;
 				int i = line.indexOf(':');
 				String path = line.substring(0, i).trim();
-				start = i + 1;
+				int start = i + 1;
 				i = line.indexOf(':', start);
 				String key = line.substring(start, i).trim();
 				String value = line.substring(i + 1).trim();

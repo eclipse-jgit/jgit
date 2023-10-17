@@ -123,7 +123,7 @@ java_package_configuration(
         "-Xep:DurationGetTemporalUnit:ERROR",
         "-Xep:DurationTemporalUnit:ERROR",
         "-Xep:DurationToLongTimeUnit:ERROR",
-        "-Xep:EmptyBlockTag:ERROR",
+        "-Xep:EmptyBlockTag:WARN",
         "-Xep:EmptyCatch:ERROR",
         "-Xep:EmptySetMultibindingContributions:ERROR",
         "-Xep:EqualsGetClass:ERROR",

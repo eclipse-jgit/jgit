@@ -269,6 +269,7 @@ public class RefMapTest {
 	}
 
 	@Test
+	@SuppressWarnings("ModifiedButNotUsed")
 	public void testPut_KeyMustMatchName_NoPrefix() {
 		final Ref refA = newRef("refs/heads/A", ID_ONE);
 		RefMap map = new RefMap("", packed, loose, resolved);
@@ -281,6 +282,7 @@ public class RefMapTest {
 	}
 
 	@Test
+	@SuppressWarnings("ModifiedButNotUsed")
 	public void testPut_KeyMustMatchName_WithPrefix() {
 		final Ref refA = newRef("refs/heads/A", ID_ONE);
 		RefMap map = new RefMap("refs/heads/", packed, loose, resolved);
