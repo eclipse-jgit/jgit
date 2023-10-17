@@ -16,6 +16,24 @@
       "message": "externalize the message",
       "revId": "77a78527fa47af776b2b66f47d6c34b1481de0fb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc4b01b_428d1e93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-17T22:46:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bb937a9_938fd85c",
+      "revId": "77a78527fa47af776b2b66f47d6c34b1481de0fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
