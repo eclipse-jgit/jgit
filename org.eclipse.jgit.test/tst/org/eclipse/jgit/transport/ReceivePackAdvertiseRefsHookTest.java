@@ -187,10 +187,10 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 
 		packHeader(pack, 2);
-		pack.write((Constants.OBJ_BLOB) << 4 | 1);
+		pack.write(Constants.OBJ_BLOB << 4 | 1);
 		deflate(pack, new byte[] { 'a' });
 
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		a.copyRawTo(pack);
 		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
 
@@ -296,7 +296,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			packHeader(pack, 3);
 			copy(pack, src.open(N));
 			copy(pack, src.open(s.parseBody(N).getTree()));
-			pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+			pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 			b.copyRawTo(pack);
 			deflate(pack, delta);
 			digest(pack);

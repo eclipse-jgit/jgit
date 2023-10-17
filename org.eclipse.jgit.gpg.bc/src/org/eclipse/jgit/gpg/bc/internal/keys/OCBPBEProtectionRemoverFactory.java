@@ -63,6 +63,7 @@ class OCBPBEProtectionRemoverFactory
 	}
 
 	@Override
+	@SuppressWarnings("InsecureCryptoUsage")
 	public PBESecretKeyDecryptor createDecryptor(String protection)
 			throws PGPException {
 		return new PBESecretKeyDecryptor(passphrase, calculatorProvider) {

@@ -13,6 +13,7 @@ package org.eclipse.jgit.api;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
@@ -613,7 +614,7 @@ public class AddCommandTest extends RepositoryTestCase {
 				writer.print("other content");
 			}
 
-			dc = git.add().addFilepattern("a.txt").call();
+			git.add().addFilepattern("a.txt").call();
 
 			assertEquals(
 					"[a.txt, mode:100644, content:other content]",
@@ -640,7 +641,7 @@ public class AddCommandTest extends RepositoryTestCase {
 				writer.print("other content");
 			}
 
-			dc = git.add().addFilepattern("a.txt").call();
+			git.add().addFilepattern("a.txt").call();
 
 			assertEquals(
 					"[a.txt, mode:100644, content:other content]",
@@ -663,7 +664,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			FileUtils.delete(file);
 
 			// is supposed to do nothing
-			dc = git.add().addFilepattern("a.txt").call();
+			git.add().addFilepattern("a.txt").call();
 
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
@@ -688,7 +689,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			FileUtils.delete(file);
 
 			// is supposed to do nothing
-			dc = git.add().addFilepattern("a.txt").call();
+			git.add().addFilepattern("a.txt").call();
 
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
@@ -878,7 +879,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			}
 		}
 		// Help null pointer analysis.
-		assert lastFile != null;
+		assertNotNull(lastFile);
 		// Wait a bit. If entries are "racily clean", we'll recompute
 		// hashes from the disk files, and then the second add is also slow.
 		// We want to test the normal case.
@@ -1259,7 +1260,7 @@ public class AddCommandTest extends RepositoryTestCase {
 					"[git-link-dir, mode:160000]",
 					indexState(0));
 			Set<String> untrackedFiles = git.status().call().getUntracked();
-			assert (untrackedFiles.isEmpty());
+			assertTrue(untrackedFiles.isEmpty());
 		}
 
 	}
@@ -1274,7 +1275,7 @@ public class AddCommandTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_DIRNOGITLINKS, true);
 		config.save();
 
-		assert (db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks());
+		assertTrue(db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks());
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("nested-repo").call();

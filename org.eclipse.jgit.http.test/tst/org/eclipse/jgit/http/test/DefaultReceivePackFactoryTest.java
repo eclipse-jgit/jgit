@@ -95,6 +95,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	@SuppressWarnings("UndefinedEquals")
 	public void testCreate_AuthUser() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
 		ReceivePack rp;
@@ -142,6 +143,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	@SuppressWarnings("UndefinedEquals")
 	public void testCreate_Enabled() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException, IOException {
 		final StoredConfig cfg = db.getConfig();

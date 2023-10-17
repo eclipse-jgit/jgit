@@ -153,9 +153,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
 		}
 		assertEquals(
-				new PersonIdent("", "a_u_thor@example.com", 1218123387000l, 7),
+				new PersonIdent("", "a_u_thor@example.com", 1218123387000L, 7),
 				c.getAuthorIdent());
-		assertEquals(new PersonIdent("", "", 1218123390000l, -5),
+		assertEquals(new PersonIdent("", "", 1218123390000L, -5),
 				c.getCommitterIdent());
 	}
 
