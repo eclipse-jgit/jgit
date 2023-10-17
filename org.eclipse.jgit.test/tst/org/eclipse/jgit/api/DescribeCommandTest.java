@@ -284,11 +284,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	/**
 	 * When t1 annotated dominates t2 lightweight tag
 	 *
-	 * <pre>
+	 * {@code
 	 * t1 -+-> t2  -
 	 *     |       |
 	 *     +-> c3 -+-> c4
-	 * </pre>
+	 * }
 	 *
 	 * @throws Exception
 	 */
@@ -440,11 +440,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	/**
 	 * Branch off from master and then tag
 	 *
-	 * <pre>
+	 * {@code
 	 * c1 -+ -> c2
 	 *     |
 	 *     +-> t1
-	 * </pre>
+	 * }
 	 * @throws Exception
 	 * */
 	@Test

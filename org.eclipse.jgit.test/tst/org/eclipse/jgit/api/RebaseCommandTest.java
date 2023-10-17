@@ -71,6 +71,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("AssertionFailureIgnored")
 public class RebaseCommandTest extends RepositoryTestCase {
 	private static final String GIT_REBASE_TODO = "rebase-merge/git-rebase-todo";
 
@@ -2650,7 +2651,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 			assertEquals("1111111", firstLine.getCommit().name());
 			assertEquals("pick", firstLine.getAction().toToken());
 		} catch (Exception e) {
-			fail("Valid parsable RebaseTodoLine that has been commented out should allow to change the action, but failed");
+			throw new AssertionError("Valid parsable RebaseTodoLine that has been commented out should allow to change the action, but failed", e);
 		}
 
 		assertEquals("2222222", steps.get(1).getCommit().name());

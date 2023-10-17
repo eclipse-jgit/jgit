@@ -116,6 +116,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 				.setStartPoint(dst.name()).call();
 	}
 
+	@SuppressWarnings("UndefinedEquals")
 	private void assertContains(RevCommit commit, Collection<Ref> refsThatShouldContainCommit) throws Exception {
 		Collection<Ref> allRefs = db.getRefDatabase().getRefs();
 		Collection<Ref> sortedRefs = RefComparator.sort(allRefs);

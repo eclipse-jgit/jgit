@@ -25,7 +25,7 @@ public class PersonIdentTest {
 	@Test
 	public void test001_NewIdent() {
 		final PersonIdent p = new PersonIdent("A U Thor", "author@example.com",
-				new Date(1142878501000L), TimeZone.getTimeZone("EST"));
+				new Date(1142878501000L), TimeZone.getTimeZone("America/New_York"));
 		assertEquals("A U Thor", p.getName());
 		assertEquals("author@example.com", p.getEmailAddress());
 		assertEquals(1142878501000L, p.getWhen().getTime());

@@ -110,7 +110,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		tr.branch(mainBranch).update(commit1);
 
 		gc.setExpireAgeMillis(0);
-		gc.gc();
+		gc.gc().get();
 
 		// Create only 2 bitmaps, for commit0 and commit1, excluding commit2
 		assertEquals(2, gc.getStatistics().numberOfBitmaps);
@@ -227,7 +227,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		PackConfig packConfig = new PackConfig();
 		packConfig.setBitmapExcludedRefsPrefixes(new String[] { "refs/heads/other" });
 		gc.setPackConfig(packConfig);
-		gc.gc();
+		gc.gc().get();
 		assertEquals(1,
 			gc.getStatistics().numberOfBitmaps);
 	}

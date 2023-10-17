@@ -1444,7 +1444,7 @@ public class MergerTest extends RepositoryTestCase {
 
 		// Merge merge-both-sides into master
 		git.checkout().setName("master").call();
-		mergeResult = git.merge().include(commitX).setStrategy(strategy)
+		git.merge().include(commitX).setStrategy(strategy)
 				.call();
 
 		// Now, merge commit A and B (i.e. "master" and "second-branch").
@@ -1739,25 +1739,25 @@ public class MergerTest extends RepositoryTestCase {
 		git.add().addFilepattern("c").call();
 		RevCommit commitI = git.commit().setMessage("Initial commit").call();
 
-		File a = writeTrashFile("a", "content in Ancestor");
+		writeTrashFile("a", "content in Ancestor");
 		git.add().addFilepattern("a").call();
 		RevCommit commitA1 = git.commit().setMessage("Ancestor 1").call();
 
-		a = writeTrashFile("a", "content in Child 1 (commited on master)");
+		writeTrashFile("a", "content in Child 1 (commited on master)");
 		git.add().addFilepattern("a").call();
 		// commit C1M
 		git.commit().setMessage("Child 1 on master").call();
 
 		git.checkout().setCreateBranch(true).setStartPoint(commitI).setName("branch-to-merge").call();
 		// "a" becomes executable in A2
-		a = writeTrashFile("a", "content in Ancestor");
+		File a = writeTrashFile("a", "content in Ancestor");
 		a.setExecutable(true);
 		git.add().addFilepattern("a").call();
 		RevCommit commitA2 = git.commit().setMessage("Ancestor 2").call();
 
 		// second branch
 		git.checkout().setCreateBranch(true).setStartPoint(commitA1).setName("second-branch").call();
-		a = writeTrashFile("a", "content in Child 2 (commited on second-branch)");
+		writeTrashFile("a", "content in Child 2 (commited on second-branch)");
 		git.add().addFilepattern("a").call();
 		// commit C2S
 		git.commit().setMessage("Child 2 on second-branch").call();

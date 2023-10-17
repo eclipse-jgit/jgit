@@ -92,7 +92,7 @@ public final class HttpCookiesMatcher {
 		}
 
 		@SuppressWarnings("boxing")
-		protected static void describeCookie(Description description,
+		static void describeCookie(Description description,
 				HttpCookie cookie) {
 			description.appendText("HttpCookie[");
 			description.appendText("name: ").appendValue(cookie.getName())

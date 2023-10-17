@@ -68,7 +68,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNull(stashRef);
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
-		stashRef = git.getRepository().exactRef(Constants.R_STASH);
+		git.getRepository().exactRef(Constants.R_STASH);
 		assertEquals(stashed,
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 		try {
@@ -87,7 +87,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNull(stashRef);
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
-		stashRef = git.getRepository().exactRef(Constants.R_STASH);
+		git.getRepository().exactRef(Constants.R_STASH);
 		assertEquals(stashed,
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 		assertNull(git.stashDrop().call());

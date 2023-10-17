@@ -44,12 +44,12 @@ import org.junit.Test;
 
 public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
-	private RevWalk rw;
+	private RevWalk walk;
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		rw = new RevWalk(db);
+		walk = new RevWalk(db);
 		mockSystemReader.setJGitConfig(new MockConfig());
 	}
 
@@ -58,7 +58,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit c1 = commitFile("file1", "1", "master");
 
 		RevCommit notParseInGraph = rw.lookupCommit(c1);
-		rw.parseHeaders(notParseInGraph);
+		walk.parseHeaders(notParseInGraph);
 		assertFalse(notParseInGraph instanceof RevCommitCG);
 		assertNotNull(notParseInGraph.getRawBuffer());
 		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
@@ -67,8 +67,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		enableAndWriteCommitGraph();
 
 		reinitializeRevWalk();
-		RevCommit parseInGraph = rw.lookupCommit(c1);
-		parseInGraph.parseHeaders(rw);
+		RevCommit parseInGraph = walk.lookupCommit(c1);
+		parseInGraph.parseHeaders(walk);
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
@@ -79,9 +79,9 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertArrayEquals(notParseInGraph.getParents(), parseInGraph.getParents());
 
 		reinitializeRevWalk();
-		rw.setRetainBody(false);
-		RevCommit noBody = rw.lookupCommit(c1);
-		noBody.parseHeaders(rw);
+		walk.setRetainBody(false);
+		RevCommit noBody = walk.lookupCommit(c1);
+		noBody.parseHeaders(walk);
 
 		assertTrue(noBody instanceof RevCommitCG);
 		assertNull(noBody.getRawBuffer());
@@ -97,12 +97,12 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit c1 = commitFile("file1", "1", "master");
 		enableAndWriteCommitGraph();
 
-		RevCommit notParseInGraph = rw.lookupCommit(c1);
-		rw.parseHeaders(notParseInGraph);
+		RevCommit notParseInGraph = walk.lookupCommit(c1);
+		walk.parseHeaders(notParseInGraph);
 
 		reinitializeRevWalk();
-		RevCommit parseInGraph = rw.lookupCommit(c1);
-		parseInGraph.parseCanonical(rw, rw.getCachedBytes(c1));
+		RevCommit parseInGraph = walk.lookupCommit(c1);
+		parseInGraph.parseCanonical(walk, walk.getCachedBytes(c1));
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
@@ -115,9 +115,9 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 				parseInGraph.getParents());
 
 		reinitializeRevWalk();
-		rw.setRetainBody(false);
-		RevCommit noBody = rw.lookupCommit(c1);
-		noBody.parseCanonical(rw, rw.getCachedBytes(c1));
+		walk.setRetainBody(false);
+		RevCommit noBody = walk.lookupCommit(c1);
+		noBody.parseCanonical(walk, walk.getCachedBytes(c1));
 
 		assertTrue(noBody instanceof RevCommitCG);
 		assertNull(noBody.getRawBuffer());
@@ -136,8 +136,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertCommitCntInGraph(2);
 
 		db.getObjectDatabase().setShallowCommits(Collections.singleton(c1));
-		RevCommit parseInGraph = rw.lookupCommit(c1);
-		parseInGraph.parseHeaders(rw);
+		RevCommit parseInGraph = walk.lookupCommit(c1);
+		parseInGraph.parseHeaders(walk);
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
@@ -155,20 +155,20 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		enableAndWriteCommitGraph();
 		assertCommitCntInGraph(4);
 
-		rw.markStart(rw.lookupCommit(c4));
-		rw.setTreeFilter(AndTreeFilter.create(PathFilter.create("file1"),
+		walk.markStart(walk.lookupCommit(c4));
+		walk.setTreeFilter(AndTreeFilter.create(PathFilter.create("file1"),
 				TreeFilter.ANY_DIFF));
-		assertEquals(c3, rw.next());
-		assertEquals(c1, rw.next());
-		assertNull(rw.next());
+		assertEquals(c3, walk.next());
+		assertEquals(c1, walk.next());
+		assertNull(walk.next());
 
 		reinitializeRevWalk();
-		rw.markStart(rw.lookupCommit(c4));
-		rw.setTreeFilter(AndTreeFilter.create(PathFilter.create("file2"),
+		walk.markStart(walk.lookupCommit(c4));
+		walk.setTreeFilter(AndTreeFilter.create(PathFilter.create("file2"),
 				TreeFilter.ANY_DIFF));
-		assertEquals(c4, rw.next());
-		assertEquals(c2, rw.next());
-		assertNull(rw.next());
+		assertEquals(c4, walk.next());
+		assertEquals(c2, walk.next());
+		assertNull(walk.next());
 	}
 
 	@Test
@@ -180,12 +180,12 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		enableAndWriteCommitGraph();
 
-		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"));
-		rw.markStart(rw.lookupCommit(c4));
-		rw.setRevFilter(trf);
-		assertEquals(c3, rw.next());
-		assertEquals(c1, rw.next());
-		assertNull(rw.next());
+		TreeRevFilter trf = new TreeRevFilter(walk, PathFilter.create("file1"));
+		walk.markStart(walk.lookupCommit(c4));
+		walk.setRevFilter(trf);
+		assertEquals(c3, walk.next());
+		assertEquals(c1, walk.next());
+		assertNull(walk.next());
 
 		// 1 commit that has exactly one parent and matches path
 		assertEquals(1, trf.getChangedPathFilterTruePositive());
@@ -245,14 +245,14 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		db.getConfig().setString(ConfigConstants.CONFIG_DIFF_SECTION, null,
 				ConfigConstants.CONFIG_KEY_RENAMES, "true");
 
-		TreeRevFilter trf = new TreeRevFilter(rw,
+		TreeRevFilter trf = new TreeRevFilter(walk,
 				new FollowFilter(PathFilter.create("renamed-file"),
 						db.getConfig().get(DiffConfig.KEY)));
-		rw.markStart(rw.lookupCommit(c4));
-		rw.setRevFilter(trf);
-		assertEquals(c3, rw.next());
-		assertEquals(c1, rw.next());
-		assertNull(rw.next());
+		walk.markStart(walk.lookupCommit(c4));
+		walk.setRevFilter(trf);
+		assertEquals(c3, walk.next());
+		assertEquals(c1, walk.next());
+		assertNull(walk.next());
 
 		// Path "renamed-file" is in c3's bloom filter, and another path "file"
 		// is in c1's bloom filter (we know of "file" because the rev walk
@@ -278,10 +278,10 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		enableAndWriteCommitGraph();
 		assertCommitCntInGraph(3);
 
-		rw.setRevFilter(MessageRevFilter.create("quick brown fox jumps"));
-		rw.markStart(rw.lookupCommit(c));
-		assertEquals(b, rw.next());
-		assertNull(rw.next());
+		walk.setRevFilter(MessageRevFilter.create("quick brown fox jumps"));
+		walk.markStart(walk.lookupCommit(c));
+		assertEquals(b, walk.next());
+		assertNull(walk.next());
 	}
 
 	@Test
@@ -427,12 +427,12 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	}
 
 	boolean isObjectIdInGraph(AnyObjectId id) {
-		return rw.commitGraph().findGraphPosition(id) >= 0;
+		return walk.commitGraph().findGraphPosition(id) >= 0;
 	}
 
 	List<Ref> allMergedInto(RevCommit needle) throws IOException {
 		List<Ref> refs = db.getRefDatabase().getRefs();
-		return rw.getMergedInto(rw.lookupCommit(needle), refs);
+		return walk.getMergedInto(walk.lookupCommit(needle), refs);
 	}
 
 	void assertRefsEquals(List<Ref> expecteds, List<Ref> actuals) {
@@ -480,7 +480,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	}
 
 	void assertCommitCntInGraph(int expect) {
-		assertEquals(expect, rw.commitGraph().getCommitCnt());
+		assertEquals(expect, walk.commitGraph().getCommitCnt());
 	}
 
 	void assertCommits(List<RevCommit> expect, List<RevCommit> actual) {
@@ -544,8 +544,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	}
 
 	private void reinitializeRevWalk() {
-		rw.close();
-		rw = new RevWalk(db);
+		walk.close();
+		walk = new RevWalk(db);
 	}
 
 	private static final class MockConfig extends FileBasedConfig {
