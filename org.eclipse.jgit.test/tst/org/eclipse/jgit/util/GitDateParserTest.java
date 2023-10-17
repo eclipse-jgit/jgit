@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("UndefinedEquals")
 public class GitDateParserTest {
 	@Before
 	public void setUp() {

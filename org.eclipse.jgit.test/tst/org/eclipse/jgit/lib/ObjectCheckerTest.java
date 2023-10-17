@@ -11,7 +11,6 @@
 
 package org.eclipse.jgit.lib;
 
-import static java.lang.Integer.valueOf;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.junit.JGitTestUtil.concat;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
@@ -92,7 +91,7 @@ public class ObjectCheckerTest {
 	public void testInvalidType() {
 		String msg = MessageFormat.format(
 				JGitText.get().corruptObjectInvalidType2,
-				valueOf(OBJ_BAD));
+				Integer.valueOf(OBJ_BAD));
 		assertCorrupt(msg, OBJ_BAD, new byte[0]);
 	}
 

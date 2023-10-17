@@ -293,6 +293,7 @@ public class BlockListTest {
 	}
 
 	@Test
+	@SuppressWarnings("ModifiedButNotUsed")
 	public void testAddRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
@@ -313,6 +314,7 @@ public class BlockListTest {
 	}
 
 	@Test
+	@SuppressWarnings("ModifiedButNotUsed")
 	public void testRemoveRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
