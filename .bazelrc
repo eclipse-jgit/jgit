@@ -21,7 +21,7 @@ build:remote11 --tool_java_language_version=11
 build:remote11 --tool_java_runtime_version=remotejdk_11
 build:remote11 --config=remote
 
-# Builds using remote_jdk17, executes using remote_jdk11 or local_jdk
+# Builds using remote_jdk17, executes using remote_jdk17 or local_jdk
 build:java17 --java_language_version=17
 build:java17 --java_runtime_version=remotejdk_17
 build:java17 --tool_java_language_version=17
@@ -33,6 +33,19 @@ build:remote17 --java_runtime_version=remotejdk_17
 build:remote17 --tool_java_language_version=17
 build:remote17 --tool_java_runtime_version=remotejdk_17
 build:remote17 --config=remote
+
+# Builds using remote_jdk21, executes using remote_jdk21 or local_jdk
+build:java21 --java_language_version=21
+build:java21 --java_runtime_version=remotejdk_21
+build:java21 --tool_java_language_version=21
+build:java21 --tool_java_runtime_version=remotejdk_21
+
+# Builds and executes on RBE using remotejdk_21
+build:remote21 --java_language_version=21
+build:remote21 --java_runtime_version=remotejdk_21
+build:remote21 --tool_java_language_version=21
+build:remote21 --tool_java_runtime_version=remotejdk_21
+build:remote21 --config=remote
 
 test --build_tests_only
 test --test_output=errors
