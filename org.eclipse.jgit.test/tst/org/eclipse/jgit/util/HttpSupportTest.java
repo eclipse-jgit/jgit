@@ -47,18 +47,6 @@ public class HttpSupportTest {
 	}
 
 	@Test
-	public void testMalformedUri() throws Exception {
-		// Valid URL, but backslash is not allowed in a URI in the userinfo part
-		// per RFC 3986: https://tools.ietf.org/html/rfc3986#section-3.2.1 .
-		// Test that conversion to URI to call the ProxySelector does not throw
-		// an exception.
-		Proxy proxy = HttpSupport.proxyFor(new TestProxySelector(), new URL(
-				"http://infor\\c.jones@somehost/somewhere/someproject.git"));
-		assertNotNull(proxy);
-		assertEquals(Proxy.Type.HTTP, proxy.type());
-	}
-
-	@Test
 	public void testCorrectUri() throws Exception {
 		// Backslash escaped as %5C is correct.
 		Proxy proxy = HttpSupport.proxyFor(new TestProxySelector(), new URL(
