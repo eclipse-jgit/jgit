@@ -54,6 +54,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "12f54b68_e2b1719f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-17T21:44:17Z",
+      "side": 1,
+      "message": "yes, it will only return `master`, but isn\u0027t it exactly what the client and user wanted?\n\nthe fetch was for the `master` branch, and although other branches were included in the response, only the `master` branch was fetched.\n\nthe specification for `ref-prefix` says:\n\u003e  Note that this is purely for optimization; a server MAY show refs not matching the prefix if it chooses, and clients should filter the result themselves.\n\nmeaning that the server can return any arbitrary refs, even those that do not match to requested prefix.\n\nI\u0027d argue, that this implementation is more optimised as it will return only refs that the user is interested in ;)\n\nI got your point, the parameter is called `ref-prefix` and the proposed implementation will not return all matching prefixes when the exact match is present. I\u0027m struggling to find a valid use case where the preference for exact matches would break things for clients. Even in the demonstrated example, we asked for `master` and discarded all of the other master branches, which was what we expected.\n\nYes, this will result in different communication with the git client. But the overall result for the end user will be the same (or even better as the clone and fetch operations will take less time).\n\nIf this is not convincing, then maybe we can get back to the Ib340ff0ff0... or try a different approach.",
+      "parentUuid": "8889ebb3_3cddae0b",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
