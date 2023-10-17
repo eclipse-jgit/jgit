@@ -22,7 +22,7 @@ public class RawParseUtils_ParsePersonIdentTest {
 
 	@Test
 	public void testParsePersonIdent_legalCases() {
-		final Date when = new Date(1234567890000l);
+		final Date when = new Date(1234567890000L);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertPersonIdent("Me <me@example.com> 1234567890 -0700",
@@ -50,7 +50,7 @@ public class RawParseUtils_ParsePersonIdentTest {
 
 	@Test
 	public void testParsePersonIdent_fuzzyCases() {
-		final Date when = new Date(1234567890000l);
+		final Date when = new Date(1234567890000L);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertPersonIdent(
@@ -64,7 +64,7 @@ public class RawParseUtils_ParsePersonIdentTest {
 
 	@Test
 	public void testParsePersonIdent_incompleteCases() {
-		final Date when = new Date(1234567890000l);
+		final Date when = new Date(1234567890000L);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertPersonIdent("Me <> 1234567890 -0700", new PersonIdent("Me", "",

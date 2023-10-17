@@ -513,7 +513,6 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testRefsCacheAfterUpdate() throws Exception {
 		// Do not use the default repo for this case.
-		List<Ref> allRefs = db.getRefDatabase().getRefs();
 		ObjectId oldValue = db.resolve("HEAD");
 		ObjectId newValue = db.resolve("HEAD^");
 		// first make HEAD refer to loose ref
@@ -529,7 +528,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		update = updateRef.update();
 		assertEquals(Result.FAST_FORWARD, update);
 
-		allRefs = db.getRefDatabase().getRefs();
+		List<Ref> allRefs = db.getRefDatabase().getRefs();
 		Ref master = getRef(allRefs, "refs/heads/master").get();
 		Ref head = getRef(allRefs, "HEAD").get();
 		assertEquals("refs/heads/master", master.getName());
@@ -550,7 +549,6 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void testRefsCacheAfterUpdateLooseOnly() throws Exception {
 		// Do not use the default repo for this case.
-		List<Ref> allRefs = db.getRefDatabase().getRefs();
 		ObjectId oldValue = db.resolve("HEAD");
 		writeSymref(Constants.HEAD, "refs/heads/newref");
 		RefUpdate updateRef = db.updateRef(Constants.HEAD);
@@ -559,7 +557,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		Result update = updateRef.update();
 		assertEquals(Result.NEW, update);
 
-		allRefs = db.getRefDatabase().getRefs();
+		List<Ref> allRefs = db.getRefDatabase().getRefs();
 		Ref head = getRef(allRefs, "HEAD").get();
 		Ref newref = getRef(allRefs, "refs/heads/newref").get();
 		assertEquals("refs/heads/newref", newref.getName());

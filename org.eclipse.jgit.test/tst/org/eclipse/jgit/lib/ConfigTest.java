@@ -1532,7 +1532,6 @@ public class ConfigTest {
 	@Test
 	public void testCommitTemplateEncoding()
 			throws ConfigInvalidException, IOException {
-		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		Repository repo = FileRepositoryBuilder
 				.create(new File(workTree, ".git"));
@@ -1541,7 +1540,7 @@ public class ConfigTest {
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
-		config = parse("[i18n]\n\tcommitEncoding = utf-8\n"
+		Config config = parse("[i18n]\n\tcommitEncoding = utf-8\n"
 				+ "[commit]\n\ttemplate = "
 				+ Config.escapeValue(expectedTemplatePath) + "\n");
 		assertEquals(templateContent,
@@ -1555,7 +1554,6 @@ public class ConfigTest {
 	@Test(expected = ConfigInvalidException.class)
 	public void testCommitTemplateWithInvalidEncoding()
 			throws ConfigInvalidException, IOException {
-		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
 		Repository repo = FileRepositoryBuilder
@@ -1563,7 +1561,7 @@ public class ConfigTest {
 		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
-		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
+		Config config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
 				+ "[commit]\n\ttemplate = "
 				+ Config.escapeValue(tempFile.getPath()) + "\n");
 		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
@@ -1572,7 +1570,6 @@ public class ConfigTest {
 	@Test(expected = FileNotFoundException.class)
 	public void testCommitTemplateWithInvalidPath()
 			throws ConfigInvalidException, IOException {
-		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
 		Repository repo = FileRepositoryBuilder
@@ -1582,7 +1579,7 @@ public class ConfigTest {
 		JGitTestUtil.write(tempFile, templateContent);
 		// commit message encoding
 		String expectedTemplatePath = "~/nonExistingTemplate";
-		config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
+		Config config = parse("[commit]\n\ttemplate = " + expectedTemplatePath + "\n");
 		String templatePath = config.get(CommitConfig.KEY)
 				.getCommitTemplatePath();
 		assertEquals(expectedTemplatePath, templatePath);

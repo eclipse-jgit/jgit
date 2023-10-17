@@ -48,6 +48,7 @@ public class SpiTransport extends Transport {
 		}
 	};
 
+	@SuppressWarnings("unused")
 	private SpiTransport(Repository local, URIish uri) {
 		super(local, uri);
 	}
