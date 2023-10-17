@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4282c2b3_46bbb978",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-17T23:01:04Z",
+      "side": 1,
+      "message": "Submitting already as I would like to see this logging to debug ASAP.\n\nGlad to fix further comments in follow up change.",
+      "revId": "9323b430b99fd8b1b645d4beec4dba158ff29610",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
