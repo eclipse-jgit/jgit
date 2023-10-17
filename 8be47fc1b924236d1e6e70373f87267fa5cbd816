@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8889ebb3_3cddae0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-17T20:50:49Z",
+      "side": 1,
+      "message": "I tried with a test repo\n- clone the repo https://github.com/msohn/HelloWorld\n- fetching master yields\n  `$ GIT_TRACE_PACKET\u003d1 git fetch origin master\n  22:42:42.899062 pkt-line.c:85           packet:        fetch\u003c version 2\n  22:42:42.901426 pkt-line.c:85           packet:        fetch\u003c agent\u003dgit/github-cbc05ce31956\n  22:42:42.901443 pkt-line.c:85           packet:        fetch\u003c ls-refs\u003dunborn\n  22:42:42.901450 pkt-line.c:85           packet:        fetch\u003c fetch\u003dshallow wait-for-done filter\n  22:42:42.901456 pkt-line.c:85           packet:        fetch\u003c server-option\n  22:42:42.901462 pkt-line.c:85           packet:        fetch\u003c object-format\u003dsha1\n  22:42:42.901468 pkt-line.c:85           packet:        fetch\u003c 0000\n  22:42:42.901480 pkt-line.c:85           packet:        fetch\u003e command\u003dls-refs\n  22:42:42.901505 pkt-line.c:85           packet:        fetch\u003e agent\u003dgit/2.42.0\n  22:42:42.901514 pkt-line.c:85           packet:        fetch\u003e object-format\u003dsha1\n  22:42:42.901519 pkt-line.c:85           packet:        fetch\u003e 0001\n  22:42:42.901524 pkt-line.c:85           packet:        fetch\u003e peel\n  22:42:42.901530 pkt-line.c:85           packet:        fetch\u003e symrefs\n  22:42:42.901536 pkt-line.c:85           packet:        fetch\u003e unborn\n  22:42:42.902135 pkt-line.c:85           packet:        fetch\u003e ref-prefix master\n  22:42:42.902157 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/master\n  22:42:42.902163 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/tags/master\n  22:42:42.902168 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/heads/master\n  22:42:42.902174 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/remotes/master\n  22:42:42.902179 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/remotes/master/HEAD\n  22:42:42.902184 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/tags/\n  22:42:42.902195 pkt-line.c:85           packet:        fetch\u003e 0000\n  22:42:43.065645 pkt-line.c:85           packet:        fetch\u003c aae7a87ba960aa29c272b8539f63c079ae341cd8 refs/heads/master\n  22:42:43.065820 pkt-line.c:85           packet:        fetch\u003c aae7a87ba960aa29c272b8539f63c079ae341cd8 refs/heads/master1\n  22:42:43.065836 pkt-line.c:85           packet:        fetch\u003c aae7a87ba960aa29c272b8539f63c079ae341cd8 refs/heads/master2\n  22:42:43.065848 pkt-line.c:85           packet:        fetch\u003c aae7a87ba960aa29c272b8539f63c079ae341cd8 refs/heads/master3\n  22:42:43.065886 pkt-line.c:85           packet:        fetch\u003c 8a65db4c3b3239b927167e16e5a62f809d96982a refs/tags/1.1.2 peeled:033ccdb24883e06fedaedaee2edb842c53dbdbc2\n  22:42:43.065992 pkt-line.c:85           packet:        fetch\u003c 2a602437d1196f89d93156b8f78ecd9b60bff172 refs/tags/annotated peeled:5bc914e131235a2505c726dc1c0cb459960654b5\n  22:42:43.066062 pkt-line.c:85           packet:        fetch\u003c 5bc914e131235a2505c726dc1c0cb459960654b5 refs/tags/light\n  22:42:43.066079 pkt-line.c:85           packet:        fetch\u003c 099baa4938018fda1c1032e878ecb648fb4f4856 refs/tags/signed peeled:5bc914e131235a2505c726dc1c0cb459960654b5\n  22:42:43.066204 pkt-line.c:85           packet:        fetch\u003c ff929fc60c280f2b179fa7a91f491613b3f18cea refs/tags/tag-to-pin peeled:e2b3854d42066ba1f1ca2e777f882c8fad8f4899\n  22:42:43.066219 pkt-line.c:85           packet:        fetch\u003c 0000\n  From github.com:msohn/HelloWorld\n  * branch            master     -\u003e FETCH_HEAD\n  22:42:43.089090 pkt-line.c:85           packet:        fetch\u003e 0000 \n\nThis shows that github (AFAIK they use libgit2) returns the branches\n- refs/heads/master\n- refs/heads/master1\n- refs/heads/master2\n- refs/heads/master3\n\nI think with your change jgit only returns the branch refs/heads/master",
+      "parentUuid": "aca289eb_a05d6de7",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
