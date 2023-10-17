@@ -80,6 +80,12 @@ def tests(tests):
                 "//org.eclipse.jgit.lfs:jgit-lfs",
             ],
             flaky = flaky,
-            jvm_flags = [heap_size, "-Dfile.encoding=UTF-8"],
+            jvm_flags = [
+                heap_size,
+                "-Dfile.encoding=UTF-8",
+                # Enforce JDK 8 compatibility on Java 9, see
+                # https://docs.oracle.com/javase/9/intl/internationalization-enhancements-jdk-9.htm#JSINT-GUID-AF5AECA7-07C1-4E7D-BC10-BC7E73DC6C7F
+                "-Djava.locale.providers=COMPAT",
+            ],
             timeout = timeout,
         )
