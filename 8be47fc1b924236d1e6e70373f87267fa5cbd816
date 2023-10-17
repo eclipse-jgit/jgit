@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca289eb_a05d6de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-17T20:10:49Z",
+      "side": 1,
+      "message": "yes, the specification is not explicit about the format of `\u003cprefix\u003e` values. But observing what is sent by the cgit clinet and knowing the format of refs, we can _safely_ assume that the prefix without \"/\" at the end is a **potential** exact match. If it isn\u0027t we still fall back to `#getRefsByPrefix`.\n\n\u003e git searches for all prefixes given in ls-refs command in one pass which is more efficient than the current jgit implementation using one pass per ref prefix\n\nthis sounds like a much better approach, especially if stream processing is possible (so that all refs are not loaded into memory). But jgit\u0027s `RefDatabase` was not designed in a way that would make it possible.\n\nI can give a try to `RefDatabase.getRefs()` and filter them in one go. That would definitely reduce the IO, as we only load each ref once, but we still need to do N comparisons.\n\nOr we can go back to the proposal in the Ib340ff0ff0.\n\nWDYT?",
+      "parentUuid": "43fcdfec_5bcdf881",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
