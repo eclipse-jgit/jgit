@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98b8d0ee_87a58034",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1684
+      },
+      "writtenOn": "2023-10-17T12:51:29Z",
+      "side": 1,
+      "message": "I\u0027m seeing two test failures when running with JDK 21, compared to JDK 17:\n\n  //org.eclipse.jgit.test:org_eclipse_jgit_util_GitDateFormatterTest FAILED in 1.0s\n  //org.eclipse.jgit.test:org_eclipse_jgit_util_HttpSupportTest      FAILED in 0.9s\n",
+      "revId": "af460701790e8635331c46f6ebff54e757668d3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
