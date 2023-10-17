@@ -11,6 +11,19 @@ load(
 )
 
 http_archive(
+    name = "rules_java",
+    sha256 = "07a8785349bdaa63bf42654d0d6cde189a250b2ca59d120c3a96376c30bf6b8b",
+    strip_prefix = "rules_java-6.5.2",
+    urls = [
+        "https://github.com/davido/rules_java/archive/refs/tags/6.5.2.tar.gz",
+    ],
+)
+
+load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+
+rules_java_dependencies()
+
+http_archive(
     name = "rbe_jdk11",
     sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
     strip_prefix = "rbe_autoconfig-3.1.0",
@@ -23,6 +36,14 @@ http_archive(
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
+
+# Order of registering toolchains matters. rules_java toolchains take precedence
+# over the custom toolchains, so the default jdk21 toolchain gets picked
+# (one without custom package_config). That's why the `rules_java_toolchains()`
+# must be called after the `register_toolchain()` invocation
+rules_java_toolchains()
 
 JMH_VERS = "1.37"
 
