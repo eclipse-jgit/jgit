@@ -157,7 +157,7 @@ public class HookTest extends RepositoryTestCase {
 			git.commit().setMessage("commit")
 					.setHookOutputStream(new PrintStream(out)).call();
 		} catch (AbortedByHookException e) {
-			fail("unexpected hook failure");
+			throw new AssertionError("unexpected hook failure", e);
 		}
 		assertEquals("unexpected hook output",
 				"test pre-commit\ntest commit-msg .git/COMMIT_EDITMSG\ntest post-commit\n",

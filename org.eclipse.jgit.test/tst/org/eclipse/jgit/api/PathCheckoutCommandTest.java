@@ -172,9 +172,9 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testUpdateWorkingDirectoryFromIndex() throws Exception {
 		CheckoutCommand co = git.checkout();
-		File written = writeTrashFile(FILE1, "3a");
+		writeTrashFile(FILE1, "3a");
 		git.add().addFilepattern(FILE1).call();
-		written = writeTrashFile(FILE1, "");
+		File written = writeTrashFile(FILE1, "");
 		assertEquals("", read(written));
 		co.addPath(FILE1).call();
 		assertEquals("3a", read(written));
@@ -185,9 +185,9 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	public void testUpdateWorkingDirectoryFromHeadWithIndexChange()
 			throws Exception {
 		CheckoutCommand co = git.checkout();
-		File written = writeTrashFile(FILE1, "3a");
+		writeTrashFile(FILE1, "3a");
 		git.add().addFilepattern(FILE1).call();
-		written = writeTrashFile(FILE1, "");
+		File written = writeTrashFile(FILE1, "");
 		assertEquals("", read(written));
 		co.addPath(FILE1).setStartPoint("HEAD").call();
 		assertEquals("3", read(written));

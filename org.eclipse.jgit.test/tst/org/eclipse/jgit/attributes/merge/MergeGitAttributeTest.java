@@ -45,6 +45,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.junit.Ignore;
 import org.junit.Test;
 
+@SuppressWarnings("CatchAndPrintStackTrace")
 public class MergeGitAttributeTest extends RepositoryTestCase {
 
 	private static final String REFS_HEADS_RIGHT = "refs/heads/right";
