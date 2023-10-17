@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "43fcdfec_5bcdf881",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-17T09:05:47Z",
+      "side": 1,
+      "message": "I think this is wrong, the protocol spec says the ls-refs command takes the following arguments [1]:\n- symrefs\n- peel\n- ref-prefix \u003cprefix\u003e\n\nThis means assuming that a prefix not ending with \u0027/\u0027 is to be treated as an exact match is a false assumption.\n\ngit searches for all prefixes given in ls-refs command in one pass which is more efficient than the current jgit implementation using one pass per ref prefix\n\n[1] https://git-scm.com/docs/protocol-v2/#_ls_refs",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
