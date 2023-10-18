@@ -90,6 +90,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "781fc07b_d2c34bf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-10-18T20:39:44Z",
+      "side": 1,
+      "message": "I don\u0027t remember offhand if we ever made a conscious decision to not treat \"/\" specially, but that seems like the obvious thing to do (in the absence of a reason to treat it specially). In particular, \"*\" can be embedded in git refspecs not necessarily after a slash (e.g. \"refs/tags/prefix*:refs/tags/prefix*\"), so to support that use case, it seems natural that the spec (and Git implementation) be like that.\n\nAlso, note that this behavior is specifically tested in Git. See \"fetch supports various ways of have lines\" in t/t5702-protocol-v2.sh in the git.git repo - notice that the line sent to the server is \"ref-prefix refs/tags/prefix\", and what\u0027s returned are prefix1 and prefix2.",
+      "parentUuid": "e64e041c_c7c6e011",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
