@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f11e026_b2152a26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-18T21:01:29Z",
+      "side": 1,
+      "message": "Describe the current situation in present tense.\n\nAlso, this says \"before the change the default was...\" like it has changed now, but now the default is the same. We just have a new flag to do something else.\n\nAnother way to word this could be:\n```\nWith the useNegotiationTip flag (introduced in change 738dacb), the client sends to the server only the tips of the wanted refs for the negotiation. Some wanted refs may not exist in the client (yet) and our implementation ignores them. So when only non-existing refs are wanted, jgit doesn\u0027t send any tips and the server understands it is a full clone.\n```\n\nThen the solution is:\n```\nIn useNegotiationTip, send ALL_HEADS if none of the wanted refs exists locally.\n```",
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3075ab50_df7dc340",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-18T21:01:29Z",
+      "side": 1,
+      "message": "Why only ALL_HEADS? Could this produce wrong results? Can you explain this decision?",
+      "range": {
+        "startLine": 13,
+        "startChar": 125,
+        "endLine": 13,
+        "endChar": 133
+      },
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "30955b6e_8687796e",
