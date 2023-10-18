@@ -75,6 +75,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d8e5fc7_dc83e219",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-18T21:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08f5428f_81e8e90b",
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ea7cc60_0760e533",
@@ -92,6 +110,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc1c829_570ad596",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-18T21:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea7cc60_0760e533",
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5961c429_4192c90f",
@@ -105,6 +141,30 @@
       "writtenOn": "2023-10-18T20:27:37Z",
       "side": 1,
       "message": "Is this IOException really thrown?",
+      "range": {
+        "startLine": 758,
+        "startChar": 10,
+        "endLine": 758,
+        "endChar": 21
+      },
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0868a975_f228d36c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-18T21:06:45Z",
+      "side": 1,
+      "message": "No - removed",
+      "parentUuid": "5961c429_4192c90f",
       "range": {
         "startLine": 758,
         "startChar": 10,
