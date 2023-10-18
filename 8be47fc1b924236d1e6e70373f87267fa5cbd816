@@ -72,6 +72,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e64e041c_c7c6e011",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-18T20:27:49Z",
+      "side": 1,
+      "message": "I don\u0027t know the details why the spec was written this way hence I am not sure if this change would break some use cases.\nMaybe Jonathan Tan, who implemented parts of ls-ref in git can comment on this.",
+      "parentUuid": "12f54b68_e2b1719f",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
