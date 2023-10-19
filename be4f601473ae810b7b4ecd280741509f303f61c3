@@ -33,6 +33,24 @@
       "message": "static: it doesn\u0027t use anything from the surrounding class.",
       "revId": "be4f601473ae810b7b4ecd280741509f303f61c3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc73d6b_77045575",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-19T18:56:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3e0e9b7c_e0505a9a",
+      "revId": "be4f601473ae810b7b4ecd280741509f303f61c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

@@ -146,6 +146,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b19c29_623a4784",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-19T18:56:56Z",
+      "side": 1,
+      "message": "I don\u0027t know a case when a ref does not point to an object id nor is an annotated tag? I\u0027ll add the filter here just incase but exclude any test changes",
+      "parentUuid": "7619b9fa_e84512bc",
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5961c429_4192c90f",
