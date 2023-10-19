@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42804c5d_0c42111b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-19T21:19:14Z",
+      "side": 1,
+      "message": "Thanks! Code-wise this looks fine. I think the 3 cases are covered in the tests (no negotiation tip in the regular, valid negotiation tip in the existing test, no valid want in the new case).\n\nI would just like to clarify why do we default to only HEADS instead of all refs.",
+      "revId": "9405925740286d9e836b9e53429932110d2ad81f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

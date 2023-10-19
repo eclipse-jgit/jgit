@@ -83,6 +83,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "136333d6_22915ace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-19T21:19:14Z",
+      "side": 1,
+      "message": "Yes, you are explaining what it does. But *why* only ALL_HEADS?\n\nWhen in the future somebody looks at this and wonders why only all_heads and not e.g. all_refs... can you explain why do you choose this value?",
+      "parentUuid": "18f9eaab_433591ad",
+      "range": {
+        "startLine": 13,
+        "startChar": 125,
+        "endLine": 13,
+        "endChar": 133
+      },
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "30955b6e_8687796e",
