@@ -130,6 +130,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7619b9fa_e84512bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-19T18:44:08Z",
+      "side": 1,
+      "message": "\u003e So here you can do .filter(r -\u003e getRefOjectId(r) !\u003d null)\n\nYou removed this filter and it is needed, otherwise what happens if none of the refs in wantRefMap have objectId?\n\nAlso, why no test have failed? Is there any way to cover this filtering?",
+      "parentUuid": "cbc1c829_570ad596",
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5961c429_4192c90f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
         "patchSetId": 21
