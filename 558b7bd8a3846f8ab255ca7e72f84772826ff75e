@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "885912bf_41927ba6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T00:51:53Z",
+      "side": 1,
+      "message": "Hi Thomas, I have updated this as per your last comments. May I ask any suggestion to move this forward? Should I mark all resolved comments as \"DONE\" ? ",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
