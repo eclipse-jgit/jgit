@@ -108,6 +108,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c6dc4ea_4cef75ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-20T19:01:21Z",
+      "side": 1,
+      "message": "tried fetch with refspec using wildcard and this shows why we need to use prefix search also for patterns not ending with \u0027/\u0027:\n\n $ GIT_TRACE_PACKET\u003d1 git fetch origin \n refs/heads/master*:refs/remotes/origin/master*\n 20:57:25.773437 pkt-line.c:85           packet:          git\u003c version 2\n 20:57:25.775897 pkt-line.c:85           packet:          git\u003c version 2\n 20:57:25.775930 pkt-line.c:85           packet:          git\u003c ls-refs\n 20:57:25.775935 pkt-line.c:85           packet:          git\u003c fetch\u003dshallow\n 20:57:25.775940 pkt-line.c:85           packet:          git\u003c server-option\n 20:57:25.775945 pkt-line.c:85           packet:          git\u003c 0000\n 20:57:25.776214 pkt-line.c:85           packet:        fetch\u003c version 2\n 20:57:25.777940 pkt-line.c:85           packet:        fetch\u003c ls-refs\n 20:57:25.777946 pkt-line.c:85           packet:        fetch\u003c fetch\u003dshallow\n 20:57:25.777948 pkt-line.c:85           packet:        fetch\u003c server-option\n 20:57:25.777950 pkt-line.c:85           packet:        fetch\u003c 0000\n 20:57:25.777955 pkt-line.c:85           packet:        fetch\u003e command\u003dls-refs\n 20:57:25.777961 pkt-line.c:85           packet:        fetch\u003e 0001\n 20:57:25.777963 pkt-line.c:85           packet:        fetch\u003e peel\n 20:57:25.777964 pkt-line.c:85           packet:        fetch\u003e symrefs\n 20:57:25.777968 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/heads/master\n 20:57:25.777971 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/tags/\n 20:57:25.777972 pkt-line.c:85           packet:        fetch\u003e 0000\n 20:57:25.777987 pkt-line.c:85           packet:          git\u003c command\u003dls-refs\n ...",
+      "parentUuid": "781fc07b_d2c34bf7",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
