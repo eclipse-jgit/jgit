@@ -69,6 +69,57 @@
       "message": "Sure, I have resolved them as \"Done\".",
       "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61d7801_6249fb64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-20T18:54:02Z",
+      "side": 1,
+      "message": "nit: line is too wide, we use max line length of 80\nsee https://wiki.eclipse.org/EGit/Contributor_Guide#Coding_standards\n\nIf you are using Eclipse for editing select this line and click Ctrl-Shift-F (Mac Cmd-Shift-F) to auto-format it.",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5960b2_16921acf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-20T18:54:02Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5249601f_703d8544",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-20T18:54:02Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
