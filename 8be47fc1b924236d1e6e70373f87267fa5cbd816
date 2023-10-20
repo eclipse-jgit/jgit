@@ -144,6 +144,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1901e8a7_d9c943ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-20T21:29:18Z",
+      "side": 1,
+      "message": "I\u0027ve tried it on GitHub:\n```\n$ GIT_TRACE_PACKET\u003d1 git fetch origin \u0027refs/heads/main*:refs/remotes/origin/main*\u0027\n22:22:36.722034 pkt-line.c:85           packet:        fetch\u003c version 2\n22:22:36.724113 pkt-line.c:85           packet:        fetch\u003c agent\u003dgit/github-cbc05ce31956\n22:22:36.724128 pkt-line.c:85           packet:        fetch\u003c ls-refs\u003dunborn\n22:22:36.724134 pkt-line.c:85           packet:        fetch\u003c fetch\u003dshallow wait-for-done filter\n22:22:36.724140 pkt-line.c:85           packet:        fetch\u003c server-option\n22:22:36.724145 pkt-line.c:85           packet:        fetch\u003c object-format\u003dsha1\n22:22:36.724150 pkt-line.c:85           packet:        fetch\u003c 0000\n22:22:36.724158 pkt-line.c:85           packet:        fetch\u003e command\u003dls-refs\n22:22:36.724176 pkt-line.c:85           packet:        fetch\u003e agent\u003dgit/2.42.0\n22:22:36.724183 pkt-line.c:85           packet:        fetch\u003e object-format\u003dsha1\n22:22:36.724187 pkt-line.c:85           packet:        fetch\u003e 0001\n22:22:36.724192 pkt-line.c:85           packet:        fetch\u003e peel\n22:22:36.724197 pkt-line.c:85           packet:        fetch\u003e symrefs\n22:22:36.724234 pkt-line.c:85           packet:        fetch\u003e unborn\n22:22:36.724250 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/heads/main\n22:22:36.724256 pkt-line.c:85           packet:        fetch\u003e ref-prefix refs/tags/\n22:22:36.724261 pkt-line.c:85           packet:        fetch\u003e 0000\n22:22:36.883507 pkt-line.c:85           packet:        fetch\u003c af143bc95cd647c70926a28eebd75f07cbf25b0e refs/heads/main\n22:22:36.883606 pkt-line.c:85           packet:        fetch\u003c af143bc95cd647c70926a28eebd75f07cbf25b0e refs/heads/main1\n22:22:36.883631 pkt-line.c:85           packet:        fetch\u003c af143bc95cd647c70926a28eebd75f07cbf25b0e refs/heads/main2\n22:22:36.883642 pkt-line.c:85           packet:        fetch\u003c 0000\n22:22:36.898572 pkt-line.c:85           packet:        fetch\u003e 0000\n```\n\nyou can see that this is GH, as it also includes `agent` in the response ;)\n\nBut going back to `ref-prefix` the client drops the `*` so the server never gets it. I don\u0027t think that we need another test in `UploadPackTest`, as the server doesn\u0027t get the `*`.\n\nAt least from the cgit client perspective, we\u0027re covered.",
+      "parentUuid": "5ef659ec_35136f79",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
