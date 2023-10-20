@@ -109,6 +109,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d92386f0_36b368b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-20T18:00:41Z",
+      "side": 1,
+      "message": "When you are requesting a ref under refs/heads - negotiating non-refs (eg refs/config) is just as waste of negotiation round. I\u0027ll update this statement on the description as well.",
+      "parentUuid": "136333d6_22915ace",
+      "range": {
+        "startLine": 13,
+        "startChar": 125,
+        "endLine": 13,
+        "endChar": 133
+      },
+      "revId": "f3068256edfead273cc1e5c459282f94214318b6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "30955b6e_8687796e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 21
