@@ -16,6 +16,24 @@
       "message": "Hi Thomas, I have updated this as per your last comments. May I ask any suggestion to move this forward? Should I mark all resolved comments as \"DONE\" ? ",
       "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8e77fda_b54f33d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-10-20T06:29:27Z",
+      "side": 1,
+      "message": "Yes, please mark the comments you addressed in your latest patchset as \"done\". This simplifies reviewing your change.",
+      "parentUuid": "885912bf_41927ba6",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
