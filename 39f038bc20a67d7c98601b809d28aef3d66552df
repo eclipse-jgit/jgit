@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5634ed9f_b71a2c96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "486d5a18_284f40a8",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "dded629e_1ac380ed",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -52,6 +70,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4638c134_67ee1dda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95e6e6a2_631f9c40",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "190568e7_8684de9b",
@@ -65,6 +101,24 @@
       "writtenOn": "2023-10-11T20:36:26Z",
       "side": 1,
       "message": "Wrong @since. But I don\u0027t think you can backport this to 5.13. Before the PatchApplier was introduced in 6.3, the behavior of ApplyCommand was to throw a PatchApplyException immediately. (Which this version still does, see line 166 above.)\n\nSo do not introduce Result here. Instead throw PatchApplyException in verifyExistence() directly.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c30bda00_8dc42d96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190568e7_8684de9b",
       "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -86,6 +140,42 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4769814_44584c19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20d0d252_9638a272",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a47ce368_8c18dee6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20d0d252_9638a272",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "342ea185_53abb41e",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-10-11T20:36:26Z",
       "side": 1,
       "message": "Wrong @since.",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a315a64c_467dbeee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "342ea185_53abb41e",
       "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -120,6 +228,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60878ee7_05e937f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bce7bd45_99120f61",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e913c5_e7a72a19",
@@ -133,6 +259,24 @@
       "writtenOn": "2023-10-11T20:36:26Z",
       "side": 1,
       "message": "Wrong @since",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4a8042_85db12cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileModeCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e913c5_e7a72a19",
       "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -160,6 +304,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38b45bb_f9dc68db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "884fb923_52ff05a6",
+      "range": {
+        "startLine": 6,
+        "startChar": 60,
+        "endLine": 6,
+        "endChar": 70
+      },
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa7ad258_daf60b1c",
@@ -173,6 +341,24 @@
       "writtenOn": "2023-10-11T20:36:26Z",
       "side": 1,
       "message": "This attribution is only be correct if you work at Google. Do you? (Though other Google employees have contributed.)",
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c6dfab_14e60275",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa7ad258_daf60b1c",
       "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -200,6 +386,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "145d05a4_0ebd781d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "583eefb0_8a5f5c02",
+      "range": {
+        "startLine": 425,
+        "startChar": 4,
+        "endLine": 425,
+        "endChar": 67
+      },
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82c6d01b_ec46ea2b",
@@ -213,6 +423,30 @@
       "writtenOn": "2023-10-11T20:36:26Z",
       "side": 1,
       "message": "Use gitPath here.",
+      "range": {
+        "startLine": 1096,
+        "startChar": 37,
+        "endLine": 1096,
+        "endChar": 55
+      },
+      "revId": "39f038bc20a67d7c98601b809d28aef3d66552df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8527c6f7_a24c63a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-20T06:58:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82c6d01b_ec46ea2b",
       "range": {
         "startLine": 1096,
         "startChar": 37,
