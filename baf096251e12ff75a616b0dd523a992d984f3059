@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d34a4dec_1b159eda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-21T20:47:24Z",
+      "side": 1,
+      "message": "if I understand this correctly, this will load the whole `packedRefsFile` into memory and compare its content byte by byte. This code will execute regardless of the state of `comparePackedRefsBySha1` flag, so it is changing the memory footprint even if SHA1 comparison is enabled. The commit message say that the default setting will not result in additional memory consumption.\n\nThe previous code has used `FileInputStream` which will not load file content into memory.",
+      "range": {
+        "startLine": 915,
+        "startChar": 4,
+        "endLine": 919,
+        "endChar": 5
+      },
+      "revId": "baf096251e12ff75a616b0dd523a992d984f3059",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
