@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7b1ebba_cca1b395",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-21T19:45:10Z",
+      "side": 1,
+      "message": "Just thinking out loud, would it make the \"rename\" operation more _atomic_ if we first move .idx, .bitmap and .pack into _staled_ directory, then copy them with new names back in the reverse order, first .pack, then .bitmap and finally .index?\n\nFor sure this will be a more IO-intense operation and the repo data will consume more space, but if it will reduce the possibility of race conditions it may be worth giving it a try. WDYT?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "ab3dc9bd1d62d4bd3d704faf44f1efe5f78be05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67eb6e55_7fcce84a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
