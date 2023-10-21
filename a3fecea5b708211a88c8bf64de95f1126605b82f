@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b059fbc_7d7b4eee",
+        "filename": "pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 440
+      },
+      "writtenOn": "2023-10-21T08:36:48Z",
+      "side": 1,
+      "message": "From https://github.com/CycloneDX/cyclonedx-maven-plugin/pull/353 I would think that exclusion is not necessary, because the SBOM timestamp should be removed when the maven timestamp property is set. But I\u0027ve not tested, I just stumbled over that reading the hyperlinks attached to this change.",
+      "revId": "a3fecea5b708211a88c8bf64de95f1126605b82f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
