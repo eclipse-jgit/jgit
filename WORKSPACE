@@ -90,18 +90,18 @@ maven_jar(
     sha1 = "51cf043c87253c9f58b539c9f7e44c8894223850",
 )
 
-SSHD_VERS = "2.10.0"
+SSHD_VERS = "2.11.0"
 
 maven_jar(
     name = "sshd-osgi",
     artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-    sha1 = "03677ac1da780b7bdb682da50b762d79ea0d940d",
+    sha1 = "7ec6b14ab789fc4b1ce9fdcd0e13d22b5c940e7b",
 )
 
 maven_jar(
     name = "sshd-sftp",
     artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
-    sha1 = "88707339ac0693d48df0ec1bafb84c78d792ed08",
+    sha1 = "3a293bba303c486a9ff6be8e11c9c68fd56b63c7",
 )
 
 maven_jar(
