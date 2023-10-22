@@ -88,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a53d97_3b00ebdb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-22T12:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a61d7801_6249fb64",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a5960b2_16921acf",
@@ -118,6 +136,42 @@
       "writtenOn": "2023-10-20T18:54:02Z",
       "side": 1,
       "message": "nit: line is too wide",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "957b96cc_7f81f8c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-22T12:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5249601f_703d8544",
+      "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9c9f587_12ea583c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 235680
+      },
+      "writtenOn": "2023-10-22T12:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a5960b2_16921acf",
       "revId": "558b7bd8a3846f8ab255ca7e72f84772826ff75e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
