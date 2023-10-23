@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cec9583_a033b329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-10-23T20:21:30Z",
+      "side": 1,
+      "message": "so maybe we can make use of `lock` files, telling jgit that the PACK file is not fully ready yet. It may be wishful tinking and adding more complexity but would be probably the closest to an _atomic_ operation as we can get.\n\nI\u0027m just afraid that only changing the order of operations may not be enough and we could be back to similar problems in the future.",
+      "parentUuid": "43184e81_617c4541",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "ab3dc9bd1d62d4bd3d704faf44f1efe5f78be05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67eb6e55_7fcce84a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
