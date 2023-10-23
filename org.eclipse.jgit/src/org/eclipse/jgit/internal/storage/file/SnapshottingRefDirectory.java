@@ -17,8 +17,17 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Snapshotting write-through cache of a {@link RefDirectory}.
@@ -35,6 +44,7 @@ import java.util.List;
  */
 class SnapshottingRefDirectory extends RefDirectory {
 	final RefDirectory refDb;
+	private final Set<File> refreshedDirectories = ConcurrentHashMap.newKeySet();
 
 	private volatile boolean isValid;
 
@@ -65,6 +75,24 @@ class SnapshottingRefDirectory extends RefDirectory {
 			}
 		}
 		return packedRefs.get();
+	}
+
+	@Override
+	protected LooseRef scanRef(LooseRef ref, String name) throws IOException {
+		Path refPath = Paths.get(name);
+		for (int i = 0; i < (refPath.getNameCount() - 2); i++) {
+			File dir = fileFor(refPath.getName(i).toString());
+			if (!refreshedDirectories.contains(dir)) {
+				try (InputStream stream = Files.newInputStream(dir.toPath())) {
+					// open the dir to refresh attributes (on some NFS clients)
+				} catch (FileNotFoundException | NoSuchFileException e) {
+					break; // loose-ref may not exist
+				} finally {
+					refreshedDirectories.add(dir);
+				}
+			}
+		}
+		return super.scanRef(ref, name);
 	}
 
 	@Override
@@ -109,6 +137,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 
 	synchronized void invalidateSnapshot() {
 		isValid = false;
+		refreshedDirectories.clear();
 	}
 
 	/**

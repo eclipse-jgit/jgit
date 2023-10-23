@@ -1403,7 +1403,7 @@ public class RefDirectory extends RefDatabase {
 		return new LooseSymbolicRef(snapshot, name, dst);
 	}
 
-	private static interface LooseRef extends Ref {
+	static interface LooseRef extends Ref {
 		FileSnapshot getSnapShot();
 
 		LooseRef peel(ObjectIdRef newLeaf);
