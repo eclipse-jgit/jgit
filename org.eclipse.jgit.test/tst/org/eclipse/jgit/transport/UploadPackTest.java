@@ -3003,6 +3003,68 @@ public class UploadPackTest {
 		assertEquals(0, ((RefCallsCountingRepository)server).numRefCalls());
 	}
 
+	/*
+	 * Invokes UploadPack with specified protocol version and sends it the given
+	 * lines, and returns UploadPack statistics (use uploadPackSetup to get the
+	 * output stream)
+	 */
+	private PackStatistics uploadPackV2SetupStats(String... inputLines)
+			throws Exception {
+
+		ByteArrayInputStream send = linesAsInputStream(inputLines);
+		String version = TransferConfig.ProtocolVersion.V2.version();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION, version);
+		UploadPack up = new UploadPack(server);
+		up.setExtraParameters(Sets.of("version=".concat(version)));
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		up.upload(send, recv, null);
+		return up.getStatistics();
+	}
+
+	@Test
+	public void testUseWantedRefsAsAdvertisedSetV2_onlyWantedRefs()
+			throws Exception {
+		server = new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+		PackStatistics stats = uploadPackV2SetupStats("command=fetch\n",
+				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
+				"want-ref refs/heads/two\n", "done\n", PacketLineIn.end());
+		assertEquals("only wanted-refs", 2, stats.getAdvertised());
+		assertEquals(0, ((RefCallsCountingRepository) server).numRefCalls());
+	}
+
+	@Test
+	public void testUseWantedRefsAsAdvertisedSetV2_withWantId()
+			throws Exception {
+		server = new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+		PackStatistics stats = uploadPackV2SetupStats("command=fetch\n",
+				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
+				"want " + one.getName() + "\n", "done\n", PacketLineIn.end());
+		assertEquals("all refs", 3, stats.getAdvertised());
+		assertEquals(1, ((RefCallsCountingRepository) server).numRefCalls());
+	}
+
 	@Test
 	public void testNotAdvertisedWantsV1Fetch() throws Exception {
 		String commonInBlob = "abcdefghijklmnopqrstuvwxyz";
