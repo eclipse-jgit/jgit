@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c39216b_ddad94b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-25T21:40:29Z",
+      "side": 1,
+      "message": "Format of commit message:\n\u003cComponent\u003e: \u003cshort description\u003e\n\n\u003cproblem in present tense\u003e (what is the code doing now and why is it a problem)\n\n\u003csolution in imperative\u003e (how are you fixing the problem described above)\n\n\u003cfurther comments if needed\u003e",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5eb5e63_e208d698",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-25T21:40:29Z",
+      "side": 1,
+      "message": "Cannot review the code yet, but the commit message could be more helpful.",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42baa8ed_6b7e7bc1",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 1
