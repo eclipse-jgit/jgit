@@ -254,6 +254,20 @@ public abstract class RevFilter {
 			IncorrectObjectTypeException, IOException;
 
 	/**
+	 * Informs if the revFilter is marked to rewrite
+	 * <p>
+	 * If the revFilter concluded that this commit matches his parents' for all
+	 * of the paths that the filter is interested in then we mark the commit
+	 * REWRITE. Later we can rewrite the parents of a REWRITE child to remove
+	 * chains of REWRITE commits before we produce the child to the application.
+	 *
+	 * @return true if any of the RevFilter implementation has rewrite set.
+	 */
+	public boolean isRewriteEnabled() {
+		return false;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Clone this revision filter, including its parameters.
