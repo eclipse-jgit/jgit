@@ -16,6 +16,24 @@
       "message": "This is the old commit message.",
       "revId": "1d1589940d32dd538e7bd73cf0953a725972ec61",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7130ac74_6a135287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T18:55:38Z",
+      "side": 1,
+      "message": "sorry my local push reverted the commit message.",
+      "parentUuid": "2f12279a_8c874381",
+      "revId": "1d1589940d32dd538e7bd73cf0953a725972ec61",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
