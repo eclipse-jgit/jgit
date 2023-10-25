@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fff7c2d_3c038bf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-10-25T21:44:27Z",
+      "side": 1,
+      "message": "Also, if rf itself is already rewrite-enabled, why do you need to wrap it again in another AndRevFilter?",
+      "parentUuid": "e9bbed54_cb021b03",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02d9b191_939803c6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
         "patchSetId": 1
