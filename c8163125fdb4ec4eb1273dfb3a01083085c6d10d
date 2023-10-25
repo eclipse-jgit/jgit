@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42baa8ed_6b7e7bc1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T21:16:26Z",
+      "side": 1,
+      "message": "why is c1 becoming a parent for c3?\nif the goal just to get a list of commits from the same path, they can be returned sequential without modifying their relationship, no?",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9bbed54_cb021b03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T21:16:26Z",
+      "side": 1,
+      "message": "this is making this code more messy than it should. \ndo you have another way of doing this without making what appears to be two same TreeRevFilters within an AndRevFilter?",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02d9b191_939803c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T21:16:26Z",
+      "side": 1,
+      "message": "looks rather redundant, purely semantic. up to the maintainer on this.",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e732c526_aed0cee1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T21:16:26Z",
+      "side": 1,
+      "message": "what is the use case for this? \n\nthe state of this filter is meant to be jointly stored within the `flags` field. if you really need this, let\u0027s just expose the full flags field, then let the invoker do bit matching.",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
