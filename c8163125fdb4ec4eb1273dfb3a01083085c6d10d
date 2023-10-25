@@ -205,6 +205,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc9d965_70f905c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T22:34:02Z",
+      "side": 1,
+      "message": "You mean to use a boolean instead of a int flag? The flag state is used to mark the commits. To the Q of why can\u0027t the caller pass in the flag instead of a boolean? This is because the flag states are protected under RevCommit. Callers creating the TreeRevFilter outside the package doesn\u0027t have access to flag states and hence this boolean.",
+      "parentUuid": "02d9b191_939803c6",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e732c526_aed0cee1",
@@ -218,6 +236,24 @@
       "writtenOn": "2023-10-25T21:16:26Z",
       "side": 1,
       "message": "what is the use case for this? \n\nthe state of this filter is meant to be jointly stored within the `flags` field. if you really need this, let\u0027s just expose the full flags field, then let the invoker do bit matching.",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "842addc8_acbb6b9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T22:34:02Z",
+      "side": 1,
+      "message": "The rewriteFlag already existed here. I am just exposing this flag state through an overridden function defined at RevFilter. \nRevCommit stores a flag set because there are various flags that can be set on each commit which is not the case here. This is only a single flag state recorded here and not a list of flag states.",
+      "parentUuid": "e732c526_aed0cee1",
       "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
