@@ -151,6 +151,20 @@ public abstract class AndRevFilter extends RevFilter {
 			return requiresCommitBody;
 		}
 
+		/**
+		 * @return true if the rewrite flag is set on any of the sub filter,
+		 *         false otherwise.
+		 */
+		@Override
+		public boolean isRewriteEnabled() {
+			for (RevFilter f : subfilters) {
+				if (f.isRewriteEnabled()) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		@Override
 		public RevFilter clone() {
 			final RevFilter[] s = new RevFilter[subfilters.length];
