@@ -73,6 +73,24 @@ public class TreeRevFilter extends RevFilter {
 	}
 
 	/**
+	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
+	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
+	 *
+	 * @param walker
+	 *            walker used for reading trees.
+	 * @param t
+	 *            filter to compare against any changed paths in each commit. If
+	 *            a {@link org.eclipse.jgit.revwalk.FollowFilter}, will be
+	 *            replaced with a new filter following new paths after a rename.
+	 * @param rewriteFlag
+	 *            flag to color commits to be removed from the simplified DAT.
+	 * @since 6.9
+	 */
+	public TreeRevFilter(RevWalk walker, TreeFilter t, boolean rewriteFlag) {
+		this(walker, t, rewriteFlag ? RevWalk.REWRITE : 0);
+	}
+
+	/**
 	 * Create a filter for the first phase of a parent-rewriting limited
 	 * revision walk.
 	 * <p>
