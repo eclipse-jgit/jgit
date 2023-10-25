@@ -137,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f776a4c_5d78c98f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T23:27:44Z",
+      "side": 1,
+      "message": "Yes, it\u0027s being rewritten by the treeRevFilter, but is it necessarily to rewrite the parents to ensure they are returned in the desired order?",
+      "parentUuid": "c3be0105_eac9d184",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9bbed54_cb021b03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
         "patchSetId": 1
@@ -190,6 +208,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4d48bf3_fce4b228",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T23:27:44Z",
+      "side": 1,
+      "message": "i think jtan\u0027s question is \"if the rf from the walk already does what the re-write, why do you need the new AndRevFilter as rf\".",
+      "parentUuid": "ebedf41b_bb3790f5",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02d9b191_939803c6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
         "patchSetId": 1
@@ -219,6 +255,24 @@
       "side": 1,
       "message": "You mean to use a boolean instead of a int flag? The flag state is used to mark the commits. To the Q of why can\u0027t the caller pass in the flag instead of a boolean? This is because the flag states are protected under RevCommit. Callers creating the TreeRevFilter outside the package doesn\u0027t have access to flag states and hence this boolean.",
       "parentUuid": "02d9b191_939803c6",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1292426_8896d8ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-25T23:27:44Z",
+      "side": 1,
+      "message": "why not make the `TreeRevFilter(RevWalk walker, TreeFilter t, int rewriteFlag)` public?",
+      "parentUuid": "8fc9d965_70f905c4",
       "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
