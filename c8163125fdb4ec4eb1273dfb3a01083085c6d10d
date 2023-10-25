@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a8f2b6bf_46183cdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T22:25:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c39216b_ddad94b4",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f5eb5e63_e208d698",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -58,6 +76,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68633d3a_8b9a5edd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T22:25:10Z",
+      "side": 1,
+      "message": "Its a general problem exposed when changed path filter is used. Since Change Path Filter invoked via TreeRevFilter. This test uses ChangePathFilter but doesn\u0027t have to.",
+      "parentUuid": "f38c2d4f_892ad0ce",
+      "range": {
+        "startLine": 200,
+        "startChar": 13,
+        "endLine": 200,
+        "endChar": 52
+      },
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42baa8ed_6b7e7bc1",
@@ -71,6 +113,24 @@
       "writtenOn": "2023-10-25T21:16:26Z",
       "side": 1,
       "message": "why is c1 becoming a parent for c3?\nif the goal just to get a list of commits from the same path, they can be returned sequential without modifying their relationship, no?",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3be0105_eac9d184",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T22:25:10Z",
+      "side": 1,
+      "message": "note this is only updating the result of the revWalk because its rewriting parents as asked in TreeRevFilter in line 208.",
+      "parentUuid": "42baa8ed_6b7e7bc1",
       "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -105,6 +165,24 @@
       "writtenOn": "2023-10-25T21:44:27Z",
       "side": 1,
       "message": "Also, if rf itself is already rewrite-enabled, why do you need to wrap it again in another AndRevFilter?",
+      "parentUuid": "e9bbed54_cb021b03",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebedf41b_bb3790f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-25T22:25:10Z",
+      "side": 1,
+      "message": "I was actually on it. Hope the new version is cleaner.\n\nfor Jonathan\u0027s comment: There could be an AndRevFilter(TreeRevFilter(with rewriteParents), SomeOtherRevFilter) in this case we want to still use rewrite parents.",
       "parentUuid": "e9bbed54_cb021b03",
       "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
