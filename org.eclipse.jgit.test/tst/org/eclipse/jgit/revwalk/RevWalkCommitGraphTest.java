@@ -197,6 +197,54 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testTreeRevFilterWithRewriteParents() throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		commitFile("file2", "2", "master");
+		RevCommit c3 = commitFile("file1", "3", "master");
+		RevCommit c4 = commitFile("file2", "4", "master");
+
+		enableAndWriteCommitGraph();
+		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"));
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		RevCommit result = rw.next();
+		assertEquals(c3, result);
+		assertEquals(result.getParent(0), c1);
+
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// 1 commit that has exactly one parent and matches path
+		assertEquals(1, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// 2 commits that have exactly one parent and don't match path
+		assertEquals(2, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testTreeRevFilterWithoutRewriteParents() throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
+		RevCommit c3 = commitFile("file1", "3", "master");
+		RevCommit c4 = commitFile("file2", "4", "master");
+
+		enableAndWriteCommitGraph();
+		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"));
+		rw.setRewriteParents(false);
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		RevCommit result = rw.next();
+		assertEquals(c3, result);
+		assertEquals(result.getParent(0), c2);
+
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testChangedPathFilterWithFollowFilter() throws Exception {
 		RevCommit c0 = commit(tree());
 		RevCommit c1 = commit(tree(file("file", blob("contents"))), c0);
