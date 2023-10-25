@@ -57,22 +57,6 @@ public class TreeRevFilter extends RevFilter {
 	private long changedPathFilterNegative = 0;
 
 	/**
-	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
-	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
-	 *
-	 * @param walker
-	 *            walker used for reading trees.
-	 * @param t
-	 *            filter to compare against any changed paths in each commit. If
-	 *            a {@link org.eclipse.jgit.revwalk.FollowFilter}, will be
-	 *            replaced with a new filter following new paths after a rename.
-	 * @since 3.5
-	 */
-	public TreeRevFilter(RevWalk walker, TreeFilter t) {
-		this(walker, t, 0);
-	}
-
-	/**
 	 * Create a filter for the first phase of a parent-rewriting limited
 	 * revision walk.
 	 * <p>
@@ -91,14 +75,12 @@ public class TreeRevFilter extends RevFilter {
 	 *            filter to compare against any changed paths in each commit. If
 	 *            a {@link FollowFilter}, will be replaced with a new filter
 	 *            following new paths after a rename.
-	 * @param rewriteFlag
-	 *            flag to color commits to be removed from the simplified DAT.
 	 */
-	TreeRevFilter(RevWalk walker, TreeFilter t, int rewriteFlag) {
+	TreeRevFilter(RevWalk walker, TreeFilter t) {
 		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
-		this.rewriteFlag = rewriteFlag;
+		this.rewriteFlag = walker.getRewriteParents() ? RevWalk.REWRITE : 0;
 	}
 
 	@Override
