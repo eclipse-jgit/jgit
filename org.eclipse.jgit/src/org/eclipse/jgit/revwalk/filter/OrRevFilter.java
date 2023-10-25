@@ -157,6 +157,20 @@ public abstract class OrRevFilter extends RevFilter {
 			return new List(s);
 		}
 
+		/**
+		 * @return true if the rewrite flag is set on any of the sub filter,
+		 *         false otherwise.
+		 */
+		@Override
+		public boolean isRewriteEnabled() {
+			for (RevFilter f : subfilters) {
+				if (f.isRewriteEnabled()) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		@Override
 		public String toString() {
 			final StringBuilder r = new StringBuilder();

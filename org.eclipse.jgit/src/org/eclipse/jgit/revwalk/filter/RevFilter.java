@@ -254,6 +254,19 @@ public abstract class RevFilter {
 			IncorrectObjectTypeException, IOException;
 
 	/**
+	 * This filter can mark commits for rewrite.
+	 * <p>
+	 * RevFilters those using paths as filter can mark commits for rewrite to
+	 * simplify history.
+	 *
+	 * @return true if the filter should mark commits to be rewritten.
+	 * @since 6.9
+	 */
+	public boolean isRewriteEnabled() {
+		return false;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Clone this revision filter, including its parameters.
