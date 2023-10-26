@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "108a4f9b_f631e60e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-10-26T20:37:45Z",
+      "side": 1,
+      "message": "@Matthias, I\u0027d appreciate your thoughts on this TODO and what you think the direction should be. I\u0027m leaning towards having a policy switch in RefDirectory to refresh loose ref dirs (off by default), something like `trustLooseRefStat.AFTER_OPEN`, and then in a follow-up change, add the functionality for SnapshottingRefDirectory to remember which loose ref dirs have been refreshed and not refresh them again unless the snapshot becomes invalid.",
+      "revId": "c194114aaffc54653364e991e818570610b9411c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
