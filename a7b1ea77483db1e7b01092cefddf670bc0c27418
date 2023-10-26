@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca0a8f97_d0e4a7d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-26T23:40:18Z",
+      "side": 1,
+      "message": "I rebased the change on top of master and created a follow-up change with couple tests.\n\nIf you are fine with it, I can edit the commit-message a bit and submit.",
+      "revId": "a7b1ea77483db1e7b01092cefddf670bc0c27418",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

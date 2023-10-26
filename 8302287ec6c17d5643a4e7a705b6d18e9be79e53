@@ -73,6 +73,24 @@
       "message": "Maybe you can override here #getRefsByPrefix(...) and assert it was invoked with the expected prefixes.",
       "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e12574_424c0c45",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-26T23:40:18Z",
+      "side": 1,
+      "message": "In a follow-up change, I propose a couple tests that uses the count of advertise refs to check this is working, so this can be marked as resolved.",
+      "parentUuid": "7cfc894a_3b91fe0e",
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
