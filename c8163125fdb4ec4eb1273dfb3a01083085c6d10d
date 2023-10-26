@@ -153,6 +153,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "827632d9_f9f478a6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-26T16:38:20Z",
+      "side": 1,
+      "message": "They are not rewritten by TreeRevFilter. It is rewritten by the RewriteGenerator. TreeRevFilter only skips the commit based on the filter condition. \n\n\u003e  but is it necessarily to rewrite the parents to ensure they are returned in the desired order?\nI do not follow what you mean here. This is doing what a rewrite generator is supposed to be doing. Which wasn\u0027t being honored earlier. It works on a TreeFilter as expected but not for the TreeRevFilter.",
+      "parentUuid": "2f776a4c_5d78c98f",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9bbed54_cb021b03",
@@ -224,6 +242,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3515e75e_125171c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-26T16:38:20Z",
+      "side": 1,
+      "message": "I missed this earlier. \nRefactored it now.",
+      "parentUuid": "d4d48bf3_fce4b228",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02d9b191_939803c6",
@@ -273,6 +309,24 @@
       "side": 1,
       "message": "why not make the `TreeRevFilter(RevWalk walker, TreeFilter t, int rewriteFlag)` public?",
       "parentUuid": "8fc9d965_70f905c4",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2edcef2_9e5a211c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-26T16:38:20Z",
+      "side": 1,
+      "message": "Because the caller doesn\u0027t need to know specifics about the flag values. In this case the caller sits outside the package and doesn\u0027t have access to the flag values unless the flag values itself is made public. Hence its easier this way.",
+      "parentUuid": "a1292426_8896d8ef",
       "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
