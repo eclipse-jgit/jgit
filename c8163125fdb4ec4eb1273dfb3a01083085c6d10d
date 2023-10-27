@@ -209,6 +209,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "884907e4_80b43bc7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-10-27T21:32:17Z",
+      "side": 1,
+      "message": "I agree the rewrite flag and the rewriteGenerator are working as intended; this suggestion is more about whether we need to rewrite the parents to produce the desire next() order. \n\nexample: say, A-\u003eB-\u003eC-\u003eD, only A and D had modified the given path. under your implementation, we return A -\u003e D. yes?\n\nbut that result is inherently confusing because A actually doesn\u0027t built on D; the invoker might mis-interpret this relationship. is there another way that can we return A and D in the same order without resetting the parent field of A?",
+      "parentUuid": "e0e1a0c6_dd6f3816",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9bbed54_cb021b03",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
         "patchSetId": 1
