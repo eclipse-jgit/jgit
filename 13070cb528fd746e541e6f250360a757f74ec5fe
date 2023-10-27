@@ -16,6 +16,24 @@
       "message": "Can you update the commit message if it is now the generator that needs to be changed, not RevWalk itself?\n\nAlso, looking at this code, if there is any change made, I would assume that it should be near RewriteGenerator is used.\n\nBesides that, I still don\u0027t understand why the filters need to be changed. Isn\u0027t rewriting parents a concern of the generator (or RevWalk), not of the filters (which filter by either commits or trees)?",
       "revId": "13070cb528fd746e541e6f250360a757f74ec5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f18ef90d_f1b8556f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-27T23:45:37Z",
+      "side": 1,
+      "message": "1. I\u0027ll update the commit message. \n\n2. RewriteGenerator is used by the RevWalk. RevWalk creates StartGenerator which delegates to RewriteGenerator based on the flag state. \n\n3. The rewrite flag already existed on the TreeRevFilter and I am honoring that. This is the only reason I am exposing isRewriteEnabled on RevFilter. Given And/Or Filter also nestles TreeRevFilter we need it there as well. Its cleaner to have it on the RevFilter.",
+      "parentUuid": "beb729ac_a412f837",
+      "revId": "13070cb528fd746e541e6f250360a757f74ec5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

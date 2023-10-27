@@ -225,6 +225,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "931399c5_78f4ed7a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-27T23:45:37Z",
+      "side": 1,
+      "message": "To clarify this is within the scope of RevWalk.\n\nIf client requests a walk with the Filter with rewrite parent set they get what they ask. If they do not want to rewrite parent then skip the rewrite flag. \n\nNot sure why it is confusing as this is being done in other cases when TreeFilter is set.",
+      "parentUuid": "884907e4_80b43bc7",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9bbed54_cb021b03",
