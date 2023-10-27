@@ -39,6 +39,30 @@
       },
       "revId": "5f563e386ec9f696d9681720d8649b1e9b4adb7c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "206331c8_29bcdb22",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 3137,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-27T17:16:55Z",
+      "side": 1,
+      "message": "This is an existing class, I can rename in a follow-up.",
+      "parentUuid": "34213467_2e4e62e8",
+      "range": {
+        "startLine": 3137,
+        "startChar": 15,
+        "endLine": 3137,
+        "endChar": 41
+      },
+      "revId": "5f563e386ec9f696d9681720d8649b1e9b4adb7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
