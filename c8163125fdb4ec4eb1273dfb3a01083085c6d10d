@@ -189,6 +189,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e1a0c6_dd6f3816",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-10-27T21:06:33Z",
+      "side": 1,
+      "message": "I still do not understand your suggestion. The TreeRevFilter filters is only supposed to filter and not rewrite parents. The RewriteGenerator is designed to do exactly this. So why reinvent the wheel especially when revWalk can handle rewrites. \n\nThe goal here is to have rewrite flag work exactly whats its supposed to do. The use-case is up to the client. If client asks for rewriteParents we should give it as requested. It doesn\u0027t change anything if rewriteParent flag is unset.",
+      "parentUuid": "7bc65581_44034ec0",
+      "revId": "c8163125fdb4ec4eb1273dfb3a01083085c6d10d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9bbed54_cb021b03",
