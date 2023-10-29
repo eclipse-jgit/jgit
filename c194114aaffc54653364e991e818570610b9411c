@@ -16,6 +16,23 @@
       "message": "@Matthias, I\u0027d appreciate your thoughts on this TODO and what you think the direction should be. I\u0027m leaning towards having a policy switch in RefDirectory to refresh loose ref dirs (off by default), something like `trustLooseRefStat.AFTER_OPEN`, and then in a follow-up change, add the functionality for SnapshottingRefDirectory to remember which loose ref dirs have been refreshed and not refresh them again unless the snapshot becomes invalid.",
       "revId": "c194114aaffc54653364e991e818570610b9411c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07c6c449_82104c96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5082
+      },
+      "writtenOn": "2023-10-29T20:50:50Z",
+      "side": 1,
+      "message": "A write from this snapshot object could happen by another three another could happen after the refresh and get missed by the next reader because this will mark it refreshed. Perhaps instead of clearing the set, it makes more sense to make the set volatile and to create a new one, so that you could grab a reference to the existing set before the loop above and only add to it. Using that approach, if the set were replaced in the meantime with a new blank one, you wouldn\u0027t be adding to it!",
+      "revId": "c194114aaffc54653364e991e818570610b9411c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
