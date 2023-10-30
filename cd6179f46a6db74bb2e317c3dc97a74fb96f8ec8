@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec381c9_3b539dd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand this paragraph. What is the problem with the current implementation? *why* do we need to change anything? Use simple sentences and present tense for readability.",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c61d48b_b690d5ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "Not sure what do you mean here and how it relates to rewriteParent.\n\nMy best guess is that filters can be composed, so this propagates the rewriteParent flag through them to make it visible even when the TreeRevFilter is not the top-level filter? If so, please explain it clearly.",
+      "range": {
+        "startLine": 16,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90c48102_32f0b1eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "Trying to understand the problem before digging into the code (I am not familiar with the rewritting).\n\nIf the \"isRewriteEnabled\" is just exposing the property to the hierarchy of filters, move it to its own change and add unit tests (build filter combinations with AND/OR/rewrite/no-write and see the property is correctly set).",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8224661c_22b189a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "This formulation is confusing, the revfilters can rewrite or not, but that is not configuration; they are not \"marked\".\n\nDo you mean something like \"This filter can mark commits for rewrite\"",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1529cdcf_1bb804c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "RevFilters act of other things than paths (e.g. author or commit message), so this explanation is confusing. Can it be more generic?\n\nMaybe just explain that some filters (specially those using paths) can mark commits for rewrite to simplify history.",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f31665_ec47fd4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "This would always be true, because the TreeRevFilter is an \"implementation\" and has it set.\n\nI guess you mean \"if this filter could mark commits for rewrite\".",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd44096a_3ea92cf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T17:37:22Z",
+      "side": 1,
+      "message": "This is public API, needs a @since tag",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
