@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "771ecca7_f3383ac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6df9c52_aaee819c",
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f58982a2_a2237044",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-11-29T21:45:14Z",
       "side": 1,
       "message": "This paragraph and the next say ~ the same, probably you can just delete this one.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 56
+      },
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74bd9f90_23300c0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f58982a2_a2237044",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -89,6 +131,24 @@
       "side": 1,
       "message": "In a follow-up change, I propose a couple tests that uses the count of advertise refs to check this is working, so this can be marked as resolved.",
       "parentUuid": "7cfc894a_3b91fe0e",
+      "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cb75e72_81c77f70",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2735,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45e12574_424c0c45",
       "revId": "8302287ec6c17d5643a4e7a705b6d18e9be79e53",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

@@ -35,6 +35,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1379a512_62444295",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-10-30T16:08:57Z",
+      "side": 1,
+      "message": "Closing old comments.",
+      "revId": "5f563e386ec9f696d9681720d8649b1e9b4adb7c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34213467_2e4e62e8",
