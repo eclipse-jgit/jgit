@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "063fb299_c030104d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ec381c9_3b539dd8",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c61d48b_b690d5ae",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-30T17:37:22Z",
       "side": 1,
       "message": "Not sure what do you mean here and how it relates to rewriteParent.\n\nMy best guess is that filters can be composed, so this propagates the rewriteParent flag through them to make it visible even when the TreeRevFilter is not the top-level filter? If so, please explain it clearly.",
+      "range": {
+        "startLine": 16,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1346d51_749a53b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c61d48b_b690d5ae",
       "range": {
         "startLine": 16,
         "startChar": 11,
@@ -75,6 +117,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d43f1806_0e8639f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8224661c_22b189a3",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1529cdcf_1bb804c2",
@@ -88,6 +148,24 @@
       "writtenOn": "2023-10-30T17:37:22Z",
       "side": 1,
       "message": "RevFilters act of other things than paths (e.g. author or commit message), so this explanation is confusing. Can it be more generic?\n\nMaybe just explain that some filters (specially those using paths) can mark commits for rewrite to simplify history.",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f4e9786_b2d310d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1529cdcf_1bb804c2",
       "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -109,6 +187,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f82b34d_adfa907a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2f31665_ec47fd4c",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd44096a_3ea92cf7",
@@ -122,6 +218,24 @@
       "writtenOn": "2023-10-30T17:37:22Z",
       "side": 1,
       "message": "This is public API, needs a @since tag",
+      "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1a7833f_28302e3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/RevFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd44096a_3ea92cf7",
       "revId": "cd6179f46a6db74bb2e317c3dc97a74fb96f8ec8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
