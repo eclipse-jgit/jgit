@@ -16,6 +16,75 @@
       "message": "fixing commitGraphWriter progress monitoring",
       "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7aa9d5_a42e0ee3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:05:36Z",
+      "side": 1,
+      "message": "Can you make this as constants to be clear on what they mean",
+      "range": {
+        "startLine": 126,
+        "startChar": 57,
+        "endLine": 126,
+        "endChar": 62
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5153a48c_2e2b07e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:05:36Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be paired with a corresponding endTask()? I don\u0027t see any monitor termination here.",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 20
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a573fce1_0ab69c7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:05:36Z",
+      "side": 1,
+      "message": "previously monitor would monitor all chunks written out but with this change it will not monitor this. \n\nThis patc only monitor bloom filter chunk writes and not the rest. Is this intended?",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
