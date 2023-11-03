@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6df35b_69d5d1c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-03T21:11:26Z",
+      "side": 1,
+      "message": "nit: JGit",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9179ca_befc71e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-03T21:11:26Z",
+      "side": 1,
+      "message": "It\u0027s unusual to have so many loose refs. Can you also provide numbers when refs are packed ? And we should also test it with RefTable.\n\nWas this a real-life repository or a synthetic one ?",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0621056d_cab6afe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-03T21:11:26Z",
+      "side": 1,
+      "message": "nice :-)",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76278b44_138619e0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3003,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-03T21:11:26Z",
+      "side": 1,
+      "message": "why do these counts change ?",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83e8b78d_cbdb90da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-03T21:11:26Z",
+      "side": 1,
+      "message": "I\u0027d move this implementation to `RefDatabase#getRefsByPrefix(String... prefixes)` to allow other use cases to also benefit from this improvement",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
