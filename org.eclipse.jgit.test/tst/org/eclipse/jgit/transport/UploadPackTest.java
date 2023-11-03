@@ -3000,7 +3000,7 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
-		assertEquals(0, ((RefCallsCountingRepository)server).numRefCalls());
+		assertEquals(0, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
 	/*
