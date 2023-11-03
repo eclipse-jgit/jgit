@@ -948,10 +948,10 @@ public class UploadPack implements Closeable {
 		}
 		if (refs == null) {
 			// Fast path: the advertised refs hook did not set advertised refs.
-			String[] prefixes = refPrefixes.toArray(new String[0]);
-			Map<String, Ref> rs =
-					db.getRefDatabase().getRefsByPrefix(prefixes).stream()
-							.collect(toRefMap((a, b) -> b));
+			Map<String, Ref> rs = db.getRefDatabase().getRefs().stream()
+					.filter(ref -> refPrefixes.stream()
+							.anyMatch(ref.getName()::startsWith))
+					.collect(toRefMap((a, b) -> b));
 			if (refFilter != RefFilter.DEFAULT) {
 				return refFilter.filter(rs);
 			}

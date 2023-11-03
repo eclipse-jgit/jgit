@@ -3000,7 +3000,7 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
-		assertEquals(0, ((RefCallsCountingRepository)server).numRefCalls());
+		assertEquals(1, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
 	/*
@@ -3041,7 +3041,7 @@ public class UploadPackTest {
 				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
 				"want-ref refs/heads/two\n", "done\n", PacketLineIn.end());
 		assertEquals("only wanted-refs", 2, stats.getAdvertised());
-		assertEquals(0, ((RefCallsCountingRepository) server).numRefCalls());
+		assertEquals(1, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
 	@Test
