@@ -22,6 +22,7 @@ import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_EXTRA_EDGES_NEEDED;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_LAST_EDGE;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_NO_PARENT;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.NUM_CORE_CHUNKS;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_NOT_COMPUTED;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
@@ -122,27 +123,27 @@ public class CommitGraphWriter {
 			return Stats.EMPTY;
 		}
 
+		int expectedLineItemCount = expectedLineItemCount(graphCommits);
+		int expectedNumOfChunks = NUM_CORE_CHUNKS;
+		monitor.beginTask(
+				MessageFormat.format(JGitText.get().writingOutCommitGraph,
+						Integer.valueOf(expectedNumOfChunks)),
+				expectedLineItemCount);
+
+		List<ChunkHeader> chunks = new ArrayList<>();
+		chunks.addAll(createCoreChunks(hashsz, graphCommits));
 		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
 				? computeBloomFilterChunks()
 				: null;
-		List<ChunkHeader> chunks = new ArrayList<>();
-		chunks.addAll(createCoreChunks(hashsz, graphCommits));
 		chunks.addAll(createBloomFilterChunkHeaders(bloomFilterChunks));
 		chunks = Collections.unmodifiableList(chunks);
 
 		long expectedSize = calculateExpectedSize(chunks);
-		long writeCount = 256L + 2 * graphCommits.size()
-				+ graphCommits.getExtraEdgeCnt();
-		monitor.beginTask(
-				MessageFormat.format(JGitText.get().writingOutCommitGraph,
-						Integer.valueOf(chunks.size())),
-				(int) writeCount);
-
 		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
-			writeChunks(monitor, out, chunks);
+			writeChunks(out, chunks);
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
@@ -157,6 +158,26 @@ public class CommitGraphWriter {
 			monitor.endTask();
 		}
 		return Stats.from(bloomFilterChunks);
+	}
+
+	/**
+	 * Get an expected number of line items needed to be written into a commit
+	 * graph.
+	 *
+	 * @param graphCommits
+	 *            number of commits in the commit graph
+	 * @return a number of line items
+	 */
+	public static int expectedLineItemCount(GraphCommits graphCommits) {
+		int total = 0;
+		// CHUNK_ID_OID_FANOUT
+		total += 256;
+		// CHUNK_ID_OID_LOOKUP
+		// CHUNK_ID_COMMIT_DATA
+		total += 2 * graphCommits.size();
+		// CHUNK_ID_EXTRA_EDGE_LIST
+		total += graphCommits.getExtraEdgeCnt();
+		return total;
 	}
 
 	private static List<ChunkHeader> createCoreChunks(int hashsz,
@@ -219,9 +240,8 @@ public class CommitGraphWriter {
 		out.write(buffer);
 	}
 
-	private void writeChunks(ProgressMonitor monitor,
-			CancellableDigestOutputStream out, List<ChunkHeader> chunks)
-			throws IOException {
+	private void writeChunks(CancellableDigestOutputStream out,
+			List<ChunkHeader> chunks) throws IOException {
 		for (ChunkHeader chunk : chunks) {
 			int chunkId = chunk.id;
 
@@ -233,7 +253,7 @@ public class CommitGraphWriter {
 				writeOidLookUp(out);
 				break;
 			case CHUNK_ID_COMMIT_DATA:
-				writeCommitData(monitor, out);
+				writeCommitData(out);
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				writeExtraEdges(out);
@@ -287,9 +307,9 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private void writeCommitData(ProgressMonitor monitor,
-			CancellableDigestOutputStream out) throws IOException {
-		int[] generations = computeGenerationNumbers(monitor);
+	private void writeCommitData(CancellableDigestOutputStream out)
+			throws IOException {
+		int[] generations = computeGenerationNumbers();
 		int num = 0;
 		byte[] tmp = new byte[hashsz + COMMIT_DATA_WIDTH];
 		int i = 0;
@@ -332,13 +352,9 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private int[] computeGenerationNumbers(ProgressMonitor monitor)
-			throws MissingObjectException {
+	private int[] computeGenerationNumbers() throws MissingObjectException {
 		int[] generations = new int[graphCommits.size()];
-		monitor.beginTask(JGitText.get().computingCommitGeneration,
-				graphCommits.size());
 		for (RevCommit cmit : graphCommits) {
-			monitor.update(1);
 			int generation = generations[graphCommits.getOidPosition(cmit)];
 			if (generation != COMMIT_GENERATION_NOT_COMPUTED
 					&& generation != COMMIT_GENERATION_UNKNOWN) {
@@ -379,7 +395,6 @@ public class CommitGraphWriter {
 				}
 			}
 		}
-		monitor.endTask();
 		return generations;
 	}
 
@@ -421,7 +436,7 @@ public class CommitGraphWriter {
 		ByteArrayOutputStream index = new ByteArrayOutputStream();
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
 		long filtersReused = 0;
-		long filtersComputed =0;
+		long filtersComputed = 0;
 
 		// Allocate scratch buffer for converting integers into
 		// big-endian bytes.

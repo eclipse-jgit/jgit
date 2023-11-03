@@ -16,6 +16,11 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -227,11 +232,21 @@ public class CommitGraphTest extends RepositoryTestCase {
 
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+		NullProgressMonitor mockWriterMonitor = mock(NullProgressMonitor.class);
 		try (RevWalk walk = new RevWalk(db)) {
-			CommitGraphWriter writer = new CommitGraphWriter(
-					GraphCommits.fromWalk(m, wants, walk), true);
+			GraphCommits graphCommits = GraphCommits.fromWalk(m, wants, walk);
+			CommitGraphWriter writer = new CommitGraphWriter(graphCommits,
+					true);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			writer.write(m, os);
+			writer.write(mockWriterMonitor, os);
+
+			verify(mockWriterMonitor, times(
+					CommitGraphWriter.expectedLineItemCount(graphCommits)))
+							.update(1);
+			verify(mockWriterMonitor, times(1)).beginTask(anyString(),
+					anyInt());
+			verify(mockWriterMonitor, times(1)).endTask();
+
 			InputStream inputStream = new ByteArrayInputStream(
 					os.toByteArray());
 			commitGraph = CommitGraphLoader.read(inputStream);

@@ -56,4 +56,13 @@ class CommitGraphConstants {
 	 * in Chunk Extra Edge List
 	 */
 	static final int GRAPH_EXTRA_EDGES_NEEDED = 0x80000000;
+
+	/**
+	 * Every Commit Graph is expected to have at least 4 chunks
+	 * CHUNK_ID_OID_FANOUT
+	 * CHUNK_ID_OID_LOOKUP
+	 * CHUNK_ID_COMMIT_DATA
+	 * CHUNK_ID_EXTRA_EDGE_LIST
+	 */
+	static final int NUM_CORE_CHUNKS = 4;
 }
