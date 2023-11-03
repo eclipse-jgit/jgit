@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6742164_e9021d5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-03T20:11:23Z",
+      "side": 1,
+      "message": "Also if this monitor is specific to compute Bloom filter it must be call beginTask inside that function itself.\n\nsince you have expectedNumOfChunks for non bf path I dont see it being used thou. Something missing?",
+      "parentUuid": "5153a48c_2e2b07e3",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 20
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a573fce1_0ab69c7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 1
