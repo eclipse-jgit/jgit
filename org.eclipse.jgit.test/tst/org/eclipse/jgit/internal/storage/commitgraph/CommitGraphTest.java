@@ -16,6 +16,11 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -104,6 +109,37 @@ public class CommitGraphTest extends RepositoryTestCase {
 		verifyCommitGraph();
 		for (int i = 0; i < commitNum; i++) {
 			assertEquals(i + 1, getGenerationNumber(commits[i]));
+		}
+	}
+
+	@Test
+	public void testProgressMonitor() throws Exception {
+		int commitNum = 20;
+		RevCommit[] commits = new RevCommit[commitNum];
+		for (int i = 0; i < commitNum; i++) {
+			if (i == 0) {
+				commits[i] = commit();
+			} else {
+				commits[i] = commit(commits[i - 1]);
+			}
+		}
+
+		Set<ObjectId> wants = Collections.singleton(commits[commitNum - 1]);
+		NullProgressMonitor mockWriterMonitor = mock(NullProgressMonitor.class);
+		try (RevWalk walk = new RevWalk(db)) {
+			GraphCommits graphCommits = GraphCommits
+					.fromWalk(NullProgressMonitor.INSTANCE, wants, walk);
+			CommitGraphWriter writer = new CommitGraphWriter(graphCommits,
+					true);
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			writer.write(mockWriterMonitor, os);
+
+			verify(mockWriterMonitor, times(
+					CommitGraphWriter.expectedLineItemCount(graphCommits)))
+							.update(1);
+			verify(mockWriterMonitor, times(1)).beginTask(anyString(),
+					anyInt());
+			verify(mockWriterMonitor, times(1)).endTask();
 		}
 	}
 
