@@ -1,6 +1,80 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e64d6ed_fdb69105",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-03T21:10:49Z",
+      "side": 1,
+      "message": "This title doesn\u0027t tell me anything. Can it be more concrete?",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0f07a0_0be91c90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-03T21:10:49Z",
+      "side": 1,
+      "message": "Mention that ProgressMonitor doesn\u0027t support nested tasks (otherwise there wouldn\u0027t be any problem!).",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dede5413_7614e960",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-03T21:10:49Z",
+      "side": 1,
+      "message": "Don\u0027t understand this \"since\". What is the relation of these two things? The number of items is the same, but the progress that being monitored is different.",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dd04e39_49f8a920",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-03T21:10:49Z",
+      "side": 1,
+      "message": "This patch is doing two things? if so, please split in two changes. One is fixing the duplicate counting we see in the logs, another monitoring bloom filters.",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e23221f_bbcf8604",
@@ -14,6 +88,23 @@
       "writtenOn": "2023-11-03T19:41:42Z",
       "side": 1,
       "message": "fixing commitGraphWriter progress monitoring",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62db27e0_4e5b7d28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-03T21:10:49Z",
+      "side": 1,
+      "message": "We discovered that the progress monitor records twice some events. Can you add a unit test that reproduces the problem? That also helps you to verify that your fix actually works.\n\nAlso split the monitoring of bloom filters to its own change.",
       "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
