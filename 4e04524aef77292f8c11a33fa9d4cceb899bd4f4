@@ -83,6 +83,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f463cc_ee965187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-04T22:58:44Z",
+      "side": 1,
+      "message": "either configure [1] the empty repo to use reftable format before populating it\n\n```\n[core]\n    repositoryformatversion \u003d 1\n[extensions]\n    refStorage \u003d reftable\n```\n\nor use the pgm command convert-ref-storage to convert it from refdir to reftable format:\n\n```\r\njgit convert-ref-storage [--backup (-b) VAL] [--format VAL] [--help (-h)] [--reflogs (-r) VAL] [--ssh [JSCH | APACHE]]\n\n --backup (-b) VAL     : Create backup of old ref storage format (default: true)\n --format VAL          : Format to convert to (reftable or refdir) (default:\n                         reftable)\n --help (-h)           : display this help text (default: true)\n --reflogs (-r) VAL    : Write reflogs to reftable (default: true)\n```\n\r\n[1] https://www.git-scm.com/docs/reftable#_version_1",
+      "parentUuid": "24704f2b_abd6695f",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0621056d_cab6afe9",
