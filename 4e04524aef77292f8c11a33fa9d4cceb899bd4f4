@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e283c6_65e47f13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T13:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b6df35b_69d5d1c9",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c9179ca_befc71e9",
@@ -41,6 +65,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "24704f2b_abd6695f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T13:41:26Z",
+      "side": 1,
+      "message": "\u003e It\u0027s unusual to have so many loose refs. Can you also provide numbers when refs are packed ? And we should also test it with RefTable.\n\nYeah, make sense to pack those refs.\n\nHow can I test this with `RefTable`?\n\n\u003e Was this a real-life repository or a synthetic one ?\n\nThat was a synthetic one.\n\nI\u0027m thinking that I should change my benchmarking approach. As I\u0027ve used a modified version of `UploadPackTest.testV2LsRefsRefPrefix()` to measure the overall performance of the `ls-refs` command, which will include command parsing, repository opening etc. IMO, it would be better to just compare the execution time of part of `UploadPack.getFilteredRefs(Collection\u003cString\u003e)` (or `RefDatabase.getRefsByPrefix(String...)` when we move the code). Hopefully, the packged/unpacked refs will not affect the results.",
+      "parentUuid": "1c9179ca_befc71e9",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0621056d_cab6afe9",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-11-03T21:11:26Z",
       "side": 1,
       "message": "nice :-)",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e24f2577_d7750e42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T13:41:26Z",
+      "side": 1,
+      "message": "Thank you 😄",
+      "parentUuid": "0621056d_cab6afe9",
       "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -77,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d33047c_431a1b80",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3003,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T13:41:26Z",
+      "side": 1,
+      "message": "Because previous implementation doesn\u0027t call `RefDatabase.getRefs()` instead it uses the deprecated `RefDatabase.getRefs(String)` which is not counted by the `RefCallsCountingRepository`.",
+      "parentUuid": "76278b44_138619e0",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83e8b78d_cbdb90da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 8
@@ -88,6 +166,24 @@
       "writtenOn": "2023-11-03T21:11:26Z",
       "side": 1,
       "message": "I\u0027d move this implementation to `RefDatabase#getRefsByPrefix(String... prefixes)` to allow other use cases to also benefit from this improvement",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c140752_61a2f119",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T13:41:26Z",
+      "side": 1,
+      "message": "sure, we can move it to `RefDatabase`.\n\nAlso in a separate change, we can add more `Stream` based APIs to it, so that we don\u0027t need to wrap and unwrap streams. I\u0027m thinking about `RefDatabase.getRefs()` and `RefDatabase.getRefsByPrefix(String...)`.",
+      "parentUuid": "83e8b78d_cbdb90da",
       "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
