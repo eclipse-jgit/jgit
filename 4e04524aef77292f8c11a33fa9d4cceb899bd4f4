@@ -153,6 +153,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60a8a990_9f39369e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3003,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T18:05:07Z",
+      "side": 1,
+      "message": "Changing the implementation of `RefDatabase.getRefsByPrefix()` will allow sneakily use deprecated `getRefs(String)` internally and revert changes to those tests.",
+      "parentUuid": "6d33047c_431a1b80",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83e8b78d_cbdb90da",
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "sure, we can move it to `RefDatabase`.\n\nAlso in a separate change, we can add more `Stream` based APIs to it, so that we don\u0027t need to wrap and unwrap streams. I\u0027m thinking about `RefDatabase.getRefs()` and `RefDatabase.getRefsByPrefix(String...)`.",
       "parentUuid": "83e8b78d_cbdb90da",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c005a5_14493854",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-04T18:05:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c140752_61a2f119",
       "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
