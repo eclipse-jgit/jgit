@@ -240,9 +240,8 @@ public class CommitGraphTest extends RepositoryTestCase {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			writer.write(mockWriterMonitor, os);
 
-			verify(mockWriterMonitor, times(
-					CommitGraphWriter.expectedLineItemCount(graphCommits)))
-							.update(1);
+			verify(mockWriterMonitor, times(CommitGraphWriter
+					.expectedLineItemCount(graphCommits, true))).update(1);
 			verify(mockWriterMonitor, times(1)).beginTask(anyString(),
 					anyInt());
 			verify(mockWriterMonitor, times(1)).endTask();
