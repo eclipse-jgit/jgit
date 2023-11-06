@@ -22,6 +22,7 @@ import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_EXTRA_EDGES_NEEDED;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_LAST_EDGE;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.GRAPH_NO_PARENT;
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.NUM_BF_CHUNKS;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraphConstants.NUM_CORE_CHUNKS;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_NOT_COMPUTED;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
@@ -123,8 +124,8 @@ public class CommitGraphWriter {
 			return Stats.EMPTY;
 		}
 
-		int expectedLineItemCount = expectedLineItemCount(graphCommits);
-		int expectedNumOfChunks = NUM_CORE_CHUNKS;
+		int expectedLineItemCount = expectedLineItemCount(graphCommits, generateChangedPathFilters);
+		int expectedNumOfChunks = generateChangedPathFilters ? NUM_CORE_CHUNKS + NUM_BF_CHUNKS : NUM_CORE_CHUNKS;
 		monitor.beginTask(
 				MessageFormat.format(JGitText.get().writingOutCommitGraph,
 						Integer.valueOf(expectedNumOfChunks)),
@@ -133,7 +134,7 @@ public class CommitGraphWriter {
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.addAll(createCoreChunks(hashsz, graphCommits));
 		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
-				? computeBloomFilterChunks()
+				? computeBloomFilterChunks(monitor)
 				: null;
 		chunks.addAll(createBloomFilterChunkHeaders(bloomFilterChunks));
 		chunks = Collections.unmodifiableList(chunks);
@@ -166,9 +167,11 @@ public class CommitGraphWriter {
 	 *
 	 * @param graphCommits
 	 *            number of commits in the commit graph
+	 * @param generateChangedPathFilters
+	 *            whether to generate bloom filter chunks
 	 * @return a number of line items
 	 */
-	public static int expectedLineItemCount(GraphCommits graphCommits) {
+	public static int expectedLineItemCount(GraphCommits graphCommits, boolean generateChangedPathFilters) {
 		int total = 0;
 		// CHUNK_ID_OID_FANOUT
 		total += 256;
@@ -177,6 +180,11 @@ public class CommitGraphWriter {
 		total += 2 * graphCommits.size();
 		// CHUNK_ID_EXTRA_EDGE_LIST
 		total += graphCommits.getExtraEdgeCnt();
+		if (generateChangedPathFilters) {
+			// CHUNK_ID_BLOOM_FILTER_INDEX
+			// CHUNK_ID_BLOOM_FILTER_DATA
+			total += 2 * graphCommits.size();
+		}
 		return total;
 	}
 
@@ -429,7 +437,7 @@ public class CommitGraphWriter {
 		return Optional.of(paths);
 	}
 
-	private BloomFilterChunks computeBloomFilterChunks()
+	private BloomFilterChunks computeBloomFilterChunks(ProgressMonitor monitor)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 
@@ -466,8 +474,10 @@ public class CommitGraphWriter {
 					}
 				}
 				cpf.writeTo(data);
+				monitor.update(1);
 				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
 				index.write(scratch);
+				monitor.update(1);
 			}
 			return new BloomFilterChunks(index, data, filtersReused, filtersComputed);
 		}

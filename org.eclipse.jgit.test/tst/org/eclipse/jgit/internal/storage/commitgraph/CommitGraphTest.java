@@ -135,7 +135,7 @@ public class CommitGraphTest extends RepositoryTestCase {
 			writer.write(mockWriterMonitor, os);
 
 			verify(mockWriterMonitor, times(
-					CommitGraphWriter.expectedLineItemCount(graphCommits)))
+					CommitGraphWriter.expectedLineItemCount(graphCommits, true)))
 							.update(1);
 			verify(mockWriterMonitor, times(1)).beginTask(anyString(),
 					anyInt());

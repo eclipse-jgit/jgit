@@ -65,4 +65,11 @@ class CommitGraphConstants {
 	 * CHUNK_ID_EXTRA_EDGE_LIST
 	 */
 	static final int NUM_CORE_CHUNKS = 4;
+
+	/**
+	 * Every Bloom Filter enabled Commit Graph will have 2 additional chunks
+	 * CHUNK_ID_BLOOM_FILTER_INDEX
+	 * CHUNK_ID_BLOOM_FILTER_DATA
+	 */
+	static final int NUM_BF_CHUNKS = 2;
 }
