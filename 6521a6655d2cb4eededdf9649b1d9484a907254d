@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a271e5d1_8ea1a1de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "word",
+      "parentUuid": "6e64d6ed_fdb69105",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb0f07a0_0be91c90",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-03T21:10:49Z",
       "side": 1,
       "message": "Mention that ProgressMonitor doesn\u0027t support nested tasks (otherwise there wouldn\u0027t be any problem!).",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d457a8e0_1cded72e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "word",
+      "parentUuid": "bb0f07a0_0be91c90",
       "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -60,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f56fc3c_bc81f0c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "there\u0027s two monitoring layers atm; one for all line items in every chunks (minus the bf chunks), one for the generation number which overrides the former one. \n\n\"since\" as in the generation number monitor is not needed because the top level one already count the number of generation number lineitems within the commit data chunk lineitems.",
+      "parentUuid": "dede5413_7614e960",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6dd04e39_49f8a920",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +131,24 @@
       "writtenOn": "2023-11-03T21:10:49Z",
       "side": 1,
       "message": "This patch is doing two things? if so, please split in two changes. One is fixing the duplicate counting we see in the logs, another monitoring bloom filters.",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a9bfe5d_04de841f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "yes, this patch has two goals:\n1. remove the generation number layer of monitoring since it overrides the top level monitoring. \n2. add monitoring support for line items under the bf chunks; since the lineitems of the bf chunks are calculated prior to the `List\u003cChunkHeader\u003e chunks`, the monitor can\u0027t rely on it to determine the number of chunks, thus new expectedNumOfChunks and expectedLineItemCount fields.",
+      "parentUuid": "6dd04e39_49f8a920",
       "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -111,6 +189,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36bee93e_73611a8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "word",
+      "parentUuid": "62db27e0_4e5b7d28",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e7aa9d5_a42e0ee3",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 1
@@ -122,6 +218,30 @@
       "writtenOn": "2023-11-03T20:05:36Z",
       "side": 1,
       "message": "Can you make this as constants to be clear on what they mean",
+      "range": {
+        "startLine": 126,
+        "startChar": 57,
+        "endLine": 126,
+        "endChar": 62
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23683271_0bd99f77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "word",
+      "parentUuid": "7e7aa9d5_a42e0ee3",
       "range": {
         "startLine": 126,
         "startChar": 57,
@@ -181,6 +301,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d21176e_f970d6df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "this is not a monitor exclusive to bf chunks, this is a monitor for all chunks. \n\nendTask() is under the `finally` block.",
+      "parentUuid": "e6742164_e9021d5f",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 20
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a573fce1_0ab69c7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 1
@@ -192,6 +336,30 @@
       "writtenOn": "2023-11-03T20:05:36Z",
       "side": 1,
       "message": "previously monitor would monitor all chunks written out but with this change it will not monitor this. \n\nThis patc only monitor bloom filter chunk writes and not the rest. Is this intended?",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93c16f7_e4fbba29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T17:39:39Z",
+      "side": 1,
+      "message": "I think that you might have misunderstood the code. \n\nthe removed monitor parameter of the `writeChunks` has nothing to do what\u0027s being monitored. the old field is merely a way to pass the monitor into the generation number method since the method doesn\u0027t take a outputstream. \n\nall lineitems outside of the bf chunks are monitored exclusively using the output stream.",
+      "parentUuid": "a573fce1_0ab69c7b",
       "range": {
         "startLine": 145,
         "startChar": 0,
