@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50112e3d_712fa9d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-06T19:39:22Z",
+      "side": 1,
+      "message": "Again, why redundant? There is a stage that is calculating generation numbers and another that is writing commit data.",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76cbf83_007eed79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-06T19:39:22Z",
+      "side": 1,
+      "message": "What if instead of having a task for all lines in the commit graph, we let each chunk start/end their task (when needed).\n\nThen writeCommitData can start/end a task for the compute_generation_numbers and another for writing the lines?\n\nI don\u0027t see any benefit on having the monitor started for the TOTAL amount of expected \"lines\", and it doesn\u0027t play well with having extra chunks or calculations.",
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5559e6c1_bace5685",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-06T19:39:22Z",
+      "side": 1,
+      "message": "The monitor calls are a different behavior. Write this in a different test (you can copy this one and remove other assertions or unnecessary variables). \n\nhttps://testing.googleblog.com/2014/04/testing-on-toilet-test-behaviors-not.html",
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67cf2424_bde3820e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-06T19:39:22Z",
+      "side": 1,
+      "message": "IIUC All this change is irrelevant for what you are trying to do in this change.",
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
