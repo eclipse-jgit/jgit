@@ -103,6 +103,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "82971f83_25781916",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-06T10:30:25Z",
+      "side": 1,
+      "message": "\u003e either configure [1] the empty repo to use reftable format before populating it\n\u003e \u003e [core]\n\u003e \u003e     repositoryformatversion \u003d 1\n\u003e \u003e [extensions]\n\u003e \u003e     refStorage \u003d reftable\n\ncouldn\u0027t get this to work with cgit client, but the JGit pgm command worked just fine. Will add test results into the commit message, but with the new approach, we get ~5% improvements also for reftable.",
+      "parentUuid": "e1f463cc_ee965187",
+      "revId": "4e04524aef77292f8c11a33fa9d4cceb899bd4f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0621056d_cab6afe9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
