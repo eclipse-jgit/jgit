@@ -76,6 +76,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa2929d7_e235e327",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-06T11:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21c26bbb_5c3f34be",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "699c1bd8_075cc35d",
@@ -136,6 +160,30 @@
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
       "message": "least",
+      "range": {
+        "startLine": 27,
+        "startChar": 42,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c572ab2_10c90740",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-06T11:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df04fd70_7336a724",
       "range": {
         "startLine": 27,
         "startChar": 42,
