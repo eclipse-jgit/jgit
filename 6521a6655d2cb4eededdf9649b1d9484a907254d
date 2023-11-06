@@ -36,6 +36,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b22e3bba_2b9bda1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a271e5d1_8ea1a1de",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb0f07a0_0be91c90",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "word",
       "parentUuid": "bb0f07a0_0be91c90",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b46aaf_fffee66c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d457a8e0_1cded72e",
       "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -118,6 +154,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baa1ca26_463dd9cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f56fc3c_bc81f0c1",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6dd04e39_49f8a920",
@@ -149,6 +209,24 @@
       "side": 1,
       "message": "yes, this patch has two goals:\n1. remove the generation number layer of monitoring since it overrides the top level monitoring. \n2. add monitoring support for line items under the bf chunks; since the lineitems of the bf chunks are calculated prior to the `List\u003cChunkHeader\u003e chunks`, the monitor can\u0027t rely on it to determine the number of chunks, thus new expectedNumOfChunks and expectedLineItemCount fields.",
       "parentUuid": "6dd04e39_49f8a920",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2f5b288_590a8874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9bfe5d_04de841f",
       "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -205,6 +283,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c151c729_1262f43b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bee93e_73611a8f",
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e7aa9d5_a42e0ee3",
@@ -242,6 +338,30 @@
       "side": 1,
       "message": "word",
       "parentUuid": "7e7aa9d5_a42e0ee3",
+      "range": {
+        "startLine": 126,
+        "startChar": 57,
+        "endLine": 126,
+        "endChar": 62
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "496c4163_3ad9c032",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23683271_0bd99f77",
       "range": {
         "startLine": 126,
         "startChar": 57,
@@ -323,6 +443,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1701df1a_d00d7e11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d21176e_f970d6df",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 127,
+        "endChar": 20
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a573fce1_0ab69c7b",
@@ -360,6 +504,30 @@
       "side": 1,
       "message": "I think that you might have misunderstood the code. \n\nthe removed monitor parameter of the `writeChunks` has nothing to do what\u0027s being monitored. the old field is merely a way to pass the monitor into the generation number method since the method doesn\u0027t take a outputstream. \n\nall lineitems outside of the bf chunks are monitored exclusively using the output stream.",
       "parentUuid": "a573fce1_0ab69c7b",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 28
+      },
+      "revId": "6521a6655d2cb4eededdf9649b1d9484a907254d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22479076_b1f983bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-06T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b93c16f7_e4fbba29",
       "range": {
         "startLine": 145,
         "startChar": 0,
