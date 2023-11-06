@@ -394,6 +394,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee1b8b8_a68b6283",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-06T13:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf3cea4_8e6f90f2",
+      "range": {
+        "startLine": 361,
+        "startChar": 2,
+        "endLine": 361,
+        "endChar": 38
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcdc1636_116d6607",
@@ -407,6 +431,30 @@
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
       "message": "This is a no-op in case the default instance: DateRevQueue is used. Would it make sense to be more explicit about it? For example we could add: `boolean isAdjustingCapacitySupported()` to those implementations, and guard it here:\n\n  if (queue.isAdjustingCapacitySupported()) {\n      queue.setCapacity(queue.capacity() + list.size());\n  }\n\nAlso the addition is forcing the caller sites to perform calculation. There could be two methods: setCapacity(size) and increaseCapacityBy(size) the former just set the value and the latter would add new capacity value to the current capacity internally.",
+      "range": {
+        "startLine": 361,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 48
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5d339e_19dd919a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-06T13:17:31Z",
+      "side": 1,
+      "message": "queue.capacity was always returning 0 and with the new approach suggested by Matthias we have just `ensureCapacity` method",
+      "parentUuid": "bcdc1636_116d6607",
       "range": {
         "startLine": 361,
         "startChar": 2,
@@ -440,6 +488,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b34261_22afa7d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-06T13:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c686794_5123eb66",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 10
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9dbaa5e_a960fc81",
@@ -453,6 +525,30 @@
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
       "message": "DRY: The body of the both if branches is the same, combine the if condition:\n\n  if (q instanceof DateRevQueue || q instanceof DateRevPriorityQueue)",
+      "range": {
+        "startLine": 99,
+        "startChar": 3,
+        "endLine": 99,
+        "endChar": 29
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a2b2b9_2e9d3174",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-06T13:17:31Z",
+      "side": 1,
+      "message": "`DateRevPriorityQueue` is implementing `DataRevQueue` so it can be:\n\nif (q instanceof DateRevQueue)",
+      "parentUuid": "f9dbaa5e_a960fc81",
       "range": {
         "startLine": 99,
         "startChar": 3,
