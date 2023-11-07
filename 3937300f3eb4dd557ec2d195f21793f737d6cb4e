@@ -16,6 +16,24 @@
       "message": "I like the improvement, well done! However, the Bug isn\u0027t resolved as including a symbolic ref as a prefix still triggers a full scan.\n\nAre you planning to also fix the issue?",
       "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74764ea4_688817e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-07T09:30:53Z",
+      "side": 1,
+      "message": "Yes, there is no special handling for symbolic refs here. But with this change, JGit will **always** do a **single** full ref scan, no matter if the `ref-prefix` had only one symbolic (or non-symbolic) ref or 53 filters for different types of refs.\n\nAdditionally, in my investigation, I\u0027ve never seen a git client sending only a single `ref-prefix HEAD`. It always included other `ref-prefix`es like `refs/HEAD` or `refs/heads/HEAD` or `refs/tags/`.",
+      "parentUuid": "805393ec_f71c8bbe",
+      "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
