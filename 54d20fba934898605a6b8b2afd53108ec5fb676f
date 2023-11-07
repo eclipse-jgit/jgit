@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f13602c3_78ac36fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-07T17:27:32Z",
+      "side": 1,
+      "message": "\"redundant\" in the sense that every lineitem being counted by the old generation number monitor has already been included by the top level monitor. \n\nremoved \"redundant\" from the description",
+      "parentUuid": "50112e3d_712fa9d6",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c76cbf83_007eed79",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-06T19:39:22Z",
       "side": 1,
       "message": "What if instead of having a task for all lines in the commit graph, we let each chunk start/end their task (when needed).\n\nThen writeCommitData can start/end a task for the compute_generation_numbers and another for writing the lines?\n\nI don\u0027t see any benefit on having the monitor started for the TOTAL amount of expected \"lines\", and it doesn\u0027t play well with having extra chunks or calculations.",
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "018333d6_d391f900",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-07T17:27:32Z",
+      "side": 1,
+      "message": "agree the way of monitoring you suggesting is more informative, but that\u0027s not the goal of this cl. the goal of this cl is merely to remove the generation number monitoring so it does not override the top level monitoring.",
+      "parentUuid": "c76cbf83_007eed79",
       "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -58,6 +100,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ca950bb_8c587e84",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-07T17:27:32Z",
+      "side": 1,
+      "message": "i think this is a subjective opinion since \n\n1. all other unit tests (with different commit tree structures) all use this helper method; asserting the monitor counts here could help other tests to catch errors.\n\n2. the commitGraphTest class is meant to test the different behaviors of commit graph, and the monitoring logic is not a behavior of the commit graph, i.e. commit graph would still work without any monitoring logic. \n\nanyway, I moved it to a dedicated `testProgressMonitor` method.",
+      "parentUuid": "5559e6c1_bace5685",
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67cf2424_bde3820e",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-11-06T19:39:22Z",
       "side": 1,
       "message": "IIUC All this change is irrelevant for what you are trying to do in this change.",
+      "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2666baa1_811a044a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-07T17:27:32Z",
+      "side": 1,
+      "message": "this is more of a refactoring from existing way of determining the expected line item count; \n\n```\nlong writeCount \u003d 256L + 2 * graphCommits.size()\n\t\t\t\t+ graphCommits.getExtraEdgeCnt();\n```\n\nthe old way does not show enough context for human to understand how these numbers are derived.\n\nalso, exposing the expectedLineItemCount method helps with unit testing.",
+      "parentUuid": "67cf2424_bde3820e",
       "revId": "54d20fba934898605a6b8b2afd53108ec5fb676f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
