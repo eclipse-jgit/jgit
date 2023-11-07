@@ -34,6 +34,29 @@
       "parentUuid": "805393ec_f71c8bbe",
       "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8a406a0_61665720",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-07T14:29:53Z",
+      "side": 1,
+      "message": "I\u0027m not familiar with the code paths that lead to this method, but wouldn\u0027t this potentially perform much worse than before if a prefix representing a low % of total refs is given? i.e. if you have 5 tags and 300k other refs and you give the prefix `refs/tags/`, now you need to get 300k+5 refs instead of only 5. Am I missing something for why that wouldn\u0027t be the case?",
+      "range": {
+        "startLine": 477,
+        "startChar": 9,
+        "endLine": 477,
+        "endChar": 29
+      },
+      "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
