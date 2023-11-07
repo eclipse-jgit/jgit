@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -131,13 +130,6 @@ public class CommitGraphWriter {
 		chunks = Collections.unmodifiableList(chunks);
 
 		long expectedSize = calculateExpectedSize(chunks);
-		long writeCount = 256L + 2 * graphCommits.size()
-				+ graphCommits.getExtraEdgeCnt();
-		monitor.beginTask(
-				MessageFormat.format(JGitText.get().writingOutCommitGraph,
-						Integer.valueOf(chunks.size())),
-				(int) writeCount);
-
 		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
@@ -153,8 +145,6 @@ public class CommitGraphWriter {
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
 					e);
-		} finally {
-			monitor.endTask();
 		}
 		return Stats.from(bloomFilterChunks);
 	}
@@ -290,6 +280,8 @@ public class CommitGraphWriter {
 	private void writeCommitData(ProgressMonitor monitor,
 			CancellableDigestOutputStream out) throws IOException {
 		int[] generations = computeGenerationNumbers(monitor);
+		monitor.beginTask(JGitText.get().writingOutCommitGraph,
+				graphCommits.size());
 		int num = 0;
 		byte[] tmp = new byte[hashsz + COMMIT_DATA_WIDTH];
 		int i = 0;
@@ -330,6 +322,7 @@ public class CommitGraphWriter {
 			out.getWriteMonitor().update(1);
 			i++;
 		}
+		monitor.endTask();
 	}
 
 	private int[] computeGenerationNumbers(ProgressMonitor monitor)
