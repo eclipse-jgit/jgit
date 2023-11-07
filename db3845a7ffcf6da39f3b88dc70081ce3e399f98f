@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "761754fe_ad6cdd3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-07T21:47:11Z",
+      "side": 1,
+      "message": "I think counting the output lines is bounded for trouble. As we add chunks the calculation becomes more and more complicated (followup change for bloom filter chunks shows this clearly).\n\nThis can be much simpler starting/ending the task where the work is done. Then we can start/end tasks when we need it (e.g. with expensive to calculate chunks).\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/205339 makes the task reporting sequential. After that, adding the bloom filter progress should be trivial.",
+      "revId": "db3845a7ffcf6da39f3b88dc70081ce3e399f98f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
