@@ -148,6 +148,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a06186_0935dce4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-07T00:43:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "548f5813_68083982",
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a8f7c60_9dc8c1aa",
@@ -185,6 +203,30 @@
       "side": 1,
       "message": "\u003e why is fallback needed if exactRef returns any ref ?\n\nwithout the fallback the following tests will fail:\n* `UploadPackTest.testV2LsRefsRefPrefixNoSlash`\n* `UploadPackTest.testV2LsRefsRefPrefix`",
       "parentUuid": "3a8f7c60_9dc8c1aa",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "e8b47f57de6ea46121c744cbd4b00005b6bc37df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb41ecce_040ef540",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-07T00:43:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d4ff091_d120a744",
       "range": {
         "startLine": 34,
         "startChar": 0,
