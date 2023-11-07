@@ -180,6 +180,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "993da8ec_2a03585b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-07T22:03:23Z",
+      "side": 1,
+      "message": "I\u0027m looking at that git.git test Jonathan referenced and I tried adding some more cases to it to understand the expected behavior better. Based on that, I think we should special case a prefix without any `/`. The only \"valid\" (i.e. expected to return any results) ref-prefix without a slash is `HEAD`. If we\u0027re doing `getRefsByPrefix(ALL)` for a __`ls-refs ref-prefix`__ without a slash, I\u0027m pretty sure it\u0027s wrong. And if that\u0027s the source of the performance problem reported in the bug, then we should fix that before making a change like this.\n\n[1] https://github.com/git/git/blob/master/t/t5702-protocol-v2.sh#L576",
+      "parentUuid": "cb8b4191_4a8afc4e",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
