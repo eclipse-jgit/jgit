@@ -134,7 +134,7 @@ public class CommitGraphWriter {
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
-			writeChunks(monitor, out, chunks);
+			writeChunks(out, chunks);
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
@@ -209,9 +209,8 @@ public class CommitGraphWriter {
 		out.write(buffer);
 	}
 
-	private void writeChunks(ProgressMonitor monitor,
-			CancellableDigestOutputStream out, List<ChunkHeader> chunks)
-			throws IOException {
+	private void writeChunks(CancellableDigestOutputStream out,
+			List<ChunkHeader> chunks) throws IOException {
 		for (ChunkHeader chunk : chunks) {
 			int chunkId = chunk.id;
 
@@ -223,7 +222,7 @@ public class CommitGraphWriter {
 				writeOidLookUp(out);
 				break;
 			case CHUNK_ID_COMMIT_DATA:
-				writeCommitData(monitor, out);
+				writeCommitData(out);
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				writeExtraEdges(out);
@@ -277,8 +276,9 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private void writeCommitData(ProgressMonitor monitor,
-			CancellableDigestOutputStream out) throws IOException {
+	private void writeCommitData(CancellableDigestOutputStream out)
+			throws IOException {
+		ProgressMonitor monitor = out.getWriteMonitor();
 		int[] generations = computeGenerationNumbers(monitor);
 		monitor.beginTask(JGitText.get().writingOutCommitGraph,
 				graphCommits.size());
@@ -319,7 +319,7 @@ public class CommitGraphWriter {
 			NB.encodeInt32(tmp, hashsz + 12, packedDate[1]);
 
 			out.write(tmp);
-			out.getWriteMonitor().update(1);
+			monitor.update(1);
 			i++;
 		}
 		monitor.endTask();
