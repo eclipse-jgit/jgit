@@ -16,6 +16,24 @@
       "message": "I\u0027m very hesitant about this interaction. once these flags are set, then they being passed into the pendingGenerator and substantially, the rewriteGenerator. \n\ngiven next() is both for setting up the generation chain and for outputting the next expected element, there\u0027s a lot of logic in this method that keeps on chaining generators during each next() call, I don\u0027t think the current unit tests is sufficient.\n\nI would like to see more unit test for this next() method where each form of \"return\" and \"throw\" are tested with this new if statement interaction.",
       "revId": "98cfe84d049714c9f98f3074edc0939af8bfc826",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceab5d85_b1a0a5ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-07T21:54:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51890a11_59e0aac7",
+      "revId": "98cfe84d049714c9f98f3074edc0939af8bfc826",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
