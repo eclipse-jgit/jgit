@@ -196,6 +196,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitsHaveAlreadyBeenMarkedAsStart;
 	/***/ public String compressingObjects;
 	/***/ public String computingCommitGeneration;
+	/***/ public String computingPathBloomFilters;
 	/***/ public String configSubsectionContainsNewline;
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;

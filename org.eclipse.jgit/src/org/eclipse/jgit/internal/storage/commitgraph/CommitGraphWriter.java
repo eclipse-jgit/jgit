@@ -122,7 +122,7 @@ public class CommitGraphWriter {
 		}
 
 		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
-				? computeBloomFilterChunks()
+				? computeBloomFilterChunks(monitor)
 				: null;
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.addAll(createCoreChunks(hashsz, graphCommits));
@@ -407,7 +407,7 @@ public class CommitGraphWriter {
 		return Optional.of(paths);
 	}
 
-	private BloomFilterChunks computeBloomFilterChunks()
+	private BloomFilterChunks computeBloomFilterChunks(ProgressMonitor monitor)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 
@@ -429,6 +429,8 @@ public class CommitGraphWriter {
 		int dataHeaderSize = data.size();
 
 		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
+			monitor.beginTask(JGitText.get().computingPathBloomFilters,
+					graphCommits.size());
 			for (RevCommit cmit : graphCommits) {
 				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
 				if (cpf != null) {
@@ -446,7 +448,9 @@ public class CommitGraphWriter {
 				cpf.writeTo(data);
 				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
 				index.write(scratch);
+				monitor.update(1);
 			}
+			monitor.endTask();
 			return new BloomFilterChunks(index, data, filtersReused, filtersComputed);
 		}
 	}
