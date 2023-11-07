@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "805393ec_f71c8bbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-11-07T08:36:32Z",
+      "side": 1,
+      "message": "I like the improvement, well done! However, the Bug isn\u0027t resolved as including a symbolic ref as a prefix still triggers a full scan.\n\nAre you planning to also fix the issue?",
+      "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
