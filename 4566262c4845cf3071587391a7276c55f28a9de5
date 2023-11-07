@@ -147,6 +147,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48795e6_674fc7f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-07T13:17:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f58e6d5_1f803056",
+      "range": {
+        "startLine": 57,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 46
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df04fd70_7336a724",
