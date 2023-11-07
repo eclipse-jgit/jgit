@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbb5f5ef_30bc6e12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-07T22:43:30Z",
+      "side": 1,
+      "message": "Once we move from counting total lines in the graph file to progress inside each chunck/computation, everything looks simpler.\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/205344/1 to introduce progress tracking in the bloom filter computation",
+      "revId": "a417b6c751387a010c88ca53bdc6e74d2396c135",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
