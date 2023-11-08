@@ -36,6 +36,23 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4037b5c7_4578258d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-08T22:46:55Z",
+      "side": 1,
+      "message": "Sorry for not reacting to this before.\n\nThis change is not good for the DFS side. In DFS we use a lot of Reftable (good prefix search) and try hard to avoid loading too many refs (to reduce memory).\n\nIf this is really valuable for the FS stack... can it be an override in a more specific class?\n\nI\u0027ll revert until reaching a decision to have a safe master tip. If we decide it is ok like this, we can reapply.",
+      "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8a406a0_61665720",
@@ -73,6 +90,30 @@
       "side": 1,
       "message": "I think this will still be more performant because in the previous implementation, we\u0027d scan all refs 5 times and for each `ref-prefix` go over all refs again.\n\nWith the current approach, we read all refs once, and do 5 comparisons for each ref.\n\nIMO, the main overhead here is reading refs from the repository. You can see that from the test results in the commit message. When refs are packed, execution time went down by half, and with RefTable it was significantly lower.",
       "parentUuid": "c8a406a0_61665720",
+      "range": {
+        "startLine": 477,
+        "startChar": 9,
+        "endLine": 477,
+        "endChar": 29
+      },
+      "revId": "3937300f3eb4dd557ec2d195f21793f737d6cb4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf77e42e_6b2b084f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-08T22:46:55Z",
+      "side": 1,
+      "message": "Agree with Nasser\u0027s example: loading all refs in memory can be prohibitive. Note that the RefDatabase could come from an RPC call. Also, RefDatabase implementations can have optimized prefix-searches that don\u0027t mean a full scan.\n\nFor DFS we definitely need the old behaviour.\n\nI think the best way forward is to revert this change and try to reintroduce it in a subclass on the FS side of the stack.",
+      "parentUuid": "8234fe26_fa005abf",
       "range": {
         "startLine": 477,
         "startChar": 9,
