@@ -216,6 +216,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5edcbe_0bf2e0b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-08T04:15:19Z",
+      "side": 1,
+      "message": "\u003e Hence we cannot shortcut refspecs which don\u0027t end with a \u0027/\u0027 but always need to do a prefix search.\n\nSo I wasn\u0027t suggesting that (though I know it was raised earlier). I\u0027m just talking about the case where there is no `/` character anywhere in the ref-prefix string, i.e. \"HEAD\" or \"foo\", not \"refs/HEAD\" or \"refs/foo\". In that case, we shouldn\u0027t look for all refs and try to post-filter to only \"HEAD\" or \"foo\".",
+      "parentUuid": "1597c518_58d6e10a",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
