@@ -22,6 +22,30 @@
       },
       "revId": "9b3083bddee7726b343e519101acf2f90f747d11",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e6eeb8_00d4a817",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-08T01:39:21Z",
+      "side": 1,
+      "message": "now I use groovy and jgit to compute the 2 timestamp formats",
+      "parentUuid": "7cb87e06_6f831476",
+      "range": {
+        "startLine": 636,
+        "startChar": 22,
+        "endLine": 636,
+        "endChar": 34
+      },
+      "revId": "9b3083bddee7726b343e519101acf2f90f747d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
