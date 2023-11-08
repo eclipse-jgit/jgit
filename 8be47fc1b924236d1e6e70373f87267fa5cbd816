@@ -234,6 +234,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "93cd3aff_ddf079ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-08T20:25:19Z",
+      "side": 1,
+      "message": "don\u0027t know if this case exists, I tried fetching a single symbolic ref with and without wildcard and it asks for multiple ref-prefixes:\n\n```\n$ git remote -v\norigin\tgit@github.com:msohn/HelloWorld.git (fetch)\norigin\tgit@github.com:msohn/HelloWorld.git (push)\n[d029788@MacBook-Pro-22 HelloWorld (master)]$ GIT_TRACE_PACKET\u003d1 git fetch origin HEAD:refs/remotes/origin/HEAD\nfetch\u003c version 2\nfetch\u003c agent\u003dgit/github-cbc05ce31956\nfetch\u003c ls-refs\u003dunborn\nfetch\u003c fetch\u003dshallow wait-for-done filter\nfetch\u003c server-option\nfetch\u003c object-format\u003dsha1\nfetch\u003c 0000\nfetch\u003e command\u003dls-refs\nfetch\u003e agent\u003dgit/2.42.0\nfetch\u003e object-format\u003dsha1\nfetch\u003e 0001\nfetch\u003e peel\nfetch\u003e symrefs\nfetch\u003e unborn\nfetch\u003e ref-prefix HEAD\nfetch\u003e ref-prefix refs/HEAD\nfetch\u003e ref-prefix refs/tags/HEAD\nfetch\u003e ref-prefix refs/heads/HEAD\nfetch\u003e ref-prefix refs/remotes/HEAD\nfetch\u003e ref-prefix refs/remotes/HEAD/HEAD\nfetch\u003e ref-prefix refs/tags/\nfetch\u003e 0000\nfetch\u003c aae7a87ba960aa29c272b8539f63c079ae341cd8 HEAD symref-target:refs/heads/master\nfetch\u003c 8a65db4c3b3239b927167e16e5a62f809d96982a refs/tags/1.1.2 peeled:033ccdb24883e06fedaedaee2edb842c53dbdbc2\nfetch\u003c 2a602437d1196f89d93156b8f78ecd9b60bff172 refs/tags/annotated peeled:5bc914e131235a2505c726dc1c0cb459960654b5\nfetch\u003c 5bc914e131235a2505c726dc1c0cb459960654b5 refs/tags/light\nfetch\u003c 099baa4938018fda1c1032e878ecb648fb4f4856 refs/tags/signed peeled:5bc914e131235a2505c726dc1c0cb459960654b5\nfetch\u003c ff929fc60c280f2b179fa7a91f491613b3f18cea refs/tags/tag-to-pin peeled:e2b3854d42066ba1f1ca2e777f882c8fad8f4899\nfetch\u003c 0000\nFrom github.com:msohn/HelloWorld\n * [new ref]         HEAD       -\u003e origin/HEAD\npacket:        fetch\u003e 0000\n\n$ GIT_TRACE_PACKET\u003d1 git fetch origin HEAD*:refs/remotes/origin/HEAD*\nfetch\u003c version 2\nfetch\u003c agent\u003dgit/github-cbc05ce31956\nfetch\u003c ls-refs\u003dunborn\nfetch\u003c fetch\u003dshallow wait-for-done filter\nfetch\u003c server-option\nfetch\u003c object-format\u003dsha1\nfetch\u003c 0000\nfetch\u003e command\u003dls-refs\nfetch\u003e agent\u003dgit/2.42.0\nfetch\u003e object-format\u003dsha1\nfetch\u003e 0001\nfetch\u003e peel\nfetch\u003e symrefs\nfetch\u003e unborn\nfetch\u003e ref-prefix HEAD\nfetch\u003e ref-prefix refs/tags/\nfetch\u003e 0000\nfetch\u003c aae7a87ba960aa29c272b8539f63c079ae341cd8 HEAD symref-target:refs/heads/master\nfetch\u003c 8a65db4c3b3239b927167e16e5a62f809d96982a refs/tags/1.1.2 peeled:033ccdb24883e06fedaedaee2edb842c53dbdbc2\nfetch\u003c 2a602437d1196f89d93156b8f78ecd9b60bff172 refs/tags/annotated peeled:5bc914e131235a2505c726dc1c0cb459960654b5\nfetch\u003c 5bc914e131235a2505c726dc1c0cb459960654b5 refs/tags/light\nfetch\u003c 099baa4938018fda1c1032e878ecb648fb4f4856 refs/tags/signed peeled:5bc914e131235a2505c726dc1c0cb459960654b5\nfetch\u003c ff929fc60c280f2b179fa7a91f491613b3f18cea refs/tags/tag-to-pin peeled:e2b3854d42066ba1f1ca2e777f882c8fad8f4899\nfetch\u003c 0000\nfetch\u003e 0000\n```\n\nAlso it seems wrong to me to interpret `ref-prefix HEAD` not as a prefix since it says `ref-prefix`.",
+      "parentUuid": "cd5edcbe_0bf2e0b4",
+      "revId": "8be47fc1b924236d1e6e70373f87267fa5cbd816",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "44396bd7_73db07c0",
