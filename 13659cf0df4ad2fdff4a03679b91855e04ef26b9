@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58a23e71_0d7e34c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-08T18:30:31Z",
+      "side": 1,
+      "message": "this if statement is basically saying, \"if the rf is not default and the walk wants to override parents, then set rewrite flags.\"\n\natm, there\u0027s two different source of truth when setting up the behavior in your unit test; one is set in the rf and rf flag is not influenced by anything in this next() method, another is set in the revwalk, which is also not influenced by this method. \n\njudging from the existing logic of TreeFilter enabling the rewriteFlag in the filter (line 105), the revwalk should be the only source of truth; i.e. if the revwalk rewriteParent is enable, then we enable the rf\u0027s rewriteflag. Looking at other existing invocation to `setRewriteParents`, it appears to be the case too.\n\nrecommendation: instead of introducing a public construction for TreeRevFilter to set the rewriteflag outside of the startGenerator, I recommend we don\u0027t pass in a rf into revwalk. Just pass in the PathFilter as the tf into revwalk, set the RewriteParents flag in revwalk, then have the desired rf created within the next() method similar to line 110.",
+      "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
