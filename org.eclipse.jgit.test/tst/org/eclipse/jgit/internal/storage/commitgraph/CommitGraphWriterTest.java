@@ -159,6 +159,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 
 		@Override
 		public void start(int totalTasks) {
+			// empty
 		}
 
 		@Override
@@ -169,6 +170,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 
 		@Override
 		public void update(int completed) {
+			// empty
 		}
 
 		@Override
@@ -184,6 +186,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 
 		@Override
 		public void showDuration(boolean enabled) {
+			// empty
 		}
 	}
 
