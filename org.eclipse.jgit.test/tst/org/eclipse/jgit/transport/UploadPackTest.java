@@ -3015,12 +3015,13 @@ public class UploadPackTest {
 		String version = TransferConfig.ProtocolVersion.V2.version();
 		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
 				null, ConfigConstants.CONFIG_KEY_VERSION, version);
-		UploadPack up = new UploadPack(server);
-		up.setExtraParameters(Sets.of("version=".concat(version)));
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=".concat(version)));
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
-		return up.getStatistics();
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
+			return up.getStatistics();
+		}
 	}
 
 	@Test
