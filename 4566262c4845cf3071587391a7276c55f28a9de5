@@ -276,6 +276,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2747d844_88969b83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-08T15:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ccfc41d_34913aaa",
+      "range": {
+        "startLine": 232,
+        "startChar": 1,
+        "endLine": 232,
+        "endChar": 7
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1be0f17d_029b58be",
@@ -385,6 +409,30 @@
       "side": 1,
       "message": "I\u0027d prefer to do this on master",
       "parentUuid": "1ab87803_84cf41d8",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b105dacb_fe3a3a76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-08T15:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a345ef18_25725b39",
       "range": {
         "startLine": 233,
         "startChar": 2,
