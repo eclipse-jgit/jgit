@@ -3037,10 +3037,10 @@ public class UploadPackTest {
 		remote.update("three", three);
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
 				true);
-		PackStatistics stats = uploadPackV2SetupStats("command=fetch\n",
+		PackStatistics packStats = uploadPackV2SetupStats("command=fetch\n",
 				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
 				"want-ref refs/heads/two\n", "done\n", PacketLineIn.end());
-		assertEquals("only wanted-refs", 2, stats.getAdvertised());
+		assertEquals("only wanted-refs", 2, packStats.getAdvertised());
 		assertEquals(0, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
@@ -3058,10 +3058,10 @@ public class UploadPackTest {
 		remote.update("three", three);
 		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
 				true);
-		PackStatistics stats = uploadPackV2SetupStats("command=fetch\n",
+		PackStatistics packStats = uploadPackV2SetupStats("command=fetch\n",
 				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
 				"want " + one.getName() + "\n", "done\n", PacketLineIn.end());
-		assertEquals("all refs", 3, stats.getAdvertised());
+		assertEquals("all refs", 3, packStats.getAdvertised());
 		assertEquals(1, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
