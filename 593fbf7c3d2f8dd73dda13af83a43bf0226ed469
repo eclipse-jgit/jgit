@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a008a43_f310d6ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-08T01:36:04Z",
+      "side": 1,
+      "message": "did you know that you can set GIT_TRACE_PERFORMANCE\u003dtrue to get timings on the progress monitor:\n\n$ GIT_TRACE_PERFORMANCE\u003dtrue jgit gc\nPack refs:              100% (486/486) [0.006s]\nCounting objects:       186344 [0.359s]\nFinding sources:        100% (186344/186344) [0.176s]\nGetting sizes:          100% (59394/59394) [0.051s]\nWriting objects:        100% (186344/186344) [0.881s]\nSelecting commits:      100% (10039/10039) [0.122s]\nBuilding bitmaps:       100% (349/349) [0.353s]\nFinding sources:        100% (39783/39783) [0.042s]\nGetting sizes:          100% (7644/7644) [0.005s]\nWriting objects:        100% (39783/39783) [0.204s]\nPrune loose objects also found in pack files: 100% (230/230) [0.052s]\nPrune loose, unreferenced objects: 100% (230/230) [0.016s]\nComputing commit-graph path bloom filters: 100% (15622/15622) [34.127s]\nComputing commit-graph generation numbers: 100% (15622/15622) [0.009s]\nWriting out commit-graph: 100% (15622/15622) [0.035s]\n\nsee https://git.eclipse.org/r/c/jgit/jgit/+/199682",
+      "revId": "593fbf7c3d2f8dd73dda13af83a43bf0226ed469",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
