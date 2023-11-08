@@ -133,3 +133,19 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
 | `repack.packKeptObjects` | `true` when `pack.buildBitmaps` is set, `false` otherwise | &#x2705; | Include objects in packs locked by a `.keep` file when repacking. |
+
+## Tracing
+
+**GIT_TRACE_PERFORMANCE**: set this to `true` as a Java system property or environment variable to trace timings from the progress monitor. The system property takes
+precedence. Defaults to `false`. Can also be set programmatically via `ProgressMonitor#showDuration`.
+
+*Example using JGit CLI:*
+
+```bash
+$ GIT_TRACE_PERFORMANCE=true jgit clone https://foo.bar/foobar
+Cloning into 'foobar'...
+remote: Counting objects: 1 [0.002s]
+remote: Finding sources: 100% (15531/15531) [0.006s]
+Receiving objects:      100% (169737/169737) [13.045s]
+Resolving deltas:       100% (67579/67579) [1.842s]
+```
