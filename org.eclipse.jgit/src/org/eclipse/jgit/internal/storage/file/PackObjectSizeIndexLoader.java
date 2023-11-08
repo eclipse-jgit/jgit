@@ -35,15 +35,14 @@ public class PackObjectSizeIndexLoader {
 		byte[] header = in.readNBytes(4);
 		if (!Arrays.equals(header, PackObjectSizeIndexWriter.HEADER)) {
 			throw new IOException(MessageFormat.format(
-					JGitText.get().unreadableObjectSizeIndex,
-					header.length, Arrays.toString(header)));
+					JGitText.get().unreadableObjectSizeIndex, header.length,
+					Arrays.toString(header)));
 		}
 
 		int version = in.readNBytes(1)[0];
 		if (version != 1) {
-			throw new IOException((MessageFormat.format(
-					JGitText.get().unsupportedObjectSizeIndexVersion,
-					version)));
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unsupportedObjectSizeIndexVersion, version));
 		}
 		return PackObjectSizeIndexV1.parse(in);
 	}
