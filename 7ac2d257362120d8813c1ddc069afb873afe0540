@@ -16,6 +16,24 @@
       "message": "We can move this to RefDirectory to not affect the DFS implementation",
       "revId": "7ac2d257362120d8813c1ddc069afb873afe0540",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99c06a29_319bfb0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-09T09:39:56Z",
+      "side": 1,
+      "message": "Sure, overriding `getRefsByPrefix(String...)` in `RefDirectory` is straight forward, just copy past the implementation. I\u0027ll do that, and also re-run performance tests with 10k refs in `refs/heads` and 290k in `refs/changes`, hopefully this will better simulate Gerrit repositories out in the wild.",
+      "parentUuid": "45112bd9_b5c2fd35",
+      "revId": "7ac2d257362120d8813c1ddc069afb873afe0540",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
