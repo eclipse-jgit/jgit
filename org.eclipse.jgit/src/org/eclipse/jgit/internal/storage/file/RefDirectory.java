@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -389,6 +390,13 @@ public class RefDirectory extends RefDatabase {
 		symbolic.sort();
 
 		return new RefMap(prefix, packed, upcast(loose), symbolic.toRefList());
+	}
+
+	@Override
+	public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
+		return getRefsByPrefix(ALL).parallelStream().filter(
+				ref -> Stream.of(prefixes).anyMatch(ref.getName()::startsWith))
+				.collect(Collectors.toUnmodifiableList());
 	}
 
 	@Override
