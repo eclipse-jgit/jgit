@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 
@@ -21,6 +22,8 @@ import org.eclipse.jgit.lib.Constants;
  * Miscellaneous string comparison utility methods.
  */
 public final class StringUtils {
+
+	private static final String EMPTY = ""; //$NON-NLS-1$
 
 	private static final long KiB = 1024;
 
@@ -462,5 +465,40 @@ public final class StringUtils {
 			return String.valueOf(value / KiB) + 'k';
 		}
 		return String.valueOf(value);
+	}
+
+	/**
+	 * Compares Strings and returns the initial sequence of characters that is
+	 * common to all of them.
+	 *
+	 * @param strings
+	 *            Strings to consider
+	 * @return common prefix of all Strings
+	 * @since 6.8
+	 */
+	public static String commonPrefix(@Nullable String... strings) {
+		if (strings == null || strings.length == 0) {
+			return EMPTY;
+		}
+		if (strings.length == 1) {
+			return strings[0];
+		}
+		String first = strings[0];
+		if (first == null) {
+			return EMPTY;
+		}
+		for (int i = 0; i < first.length(); i++) {
+			char currentChar = first.charAt(i);
+			for (int j = 1; j < strings.length; j++) {
+				String str = strings[j];
+				if (str == null) {
+					return EMPTY;
+				}
+				if (str.length() == i || currentChar != str.charAt(i)) {
+					return str.substring(0, i);
+				}
+			}
+		}
+		return first;
 	}
 }

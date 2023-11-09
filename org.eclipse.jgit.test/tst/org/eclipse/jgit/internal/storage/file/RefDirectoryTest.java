@@ -51,6 +51,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1347,6 +1348,18 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		}
 		Ref ref = refdir.findRef("refs/heads/master");
 		assertEquals(Storage.LOOSE, ref.getStorage());
+	}
+
+	@Test
+	public void testCommonRefPrefix() {
+		assertEquals("", StringUtils.commonPrefix());
+		assertEquals("HEAD", StringUtils.commonPrefix("HEAD"));
+		assertEquals("", StringUtils.commonPrefix("HEAD", ""));
+		assertEquals("", StringUtils.commonPrefix("HEAD", "refs/heads/"));
+		assertEquals("refs/heads/",
+				StringUtils.commonPrefix("refs/heads/master", "refs/heads/"));
+		assertEquals("refs/heads/",
+				StringUtils.commonPrefix("refs/heads/", "refs/heads/main"));
 	}
 
 	void writePackedRef(String name, AnyObjectId id) throws IOException {
