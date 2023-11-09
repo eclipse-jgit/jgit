@@ -34,6 +34,24 @@
       "parentUuid": "58a23e71_0d7e34c8",
       "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51273ee5_017863f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 307612
+      },
+      "writtenOn": "2023-11-09T01:55:38Z",
+      "side": 1,
+      "message": "\u003eThe order of the AndRevFilter created below is TreeRevFilter first and then a RevFilter. It does filter is this order of the filter defined, which is problem here given the bloom filter is working too late.\n\nim not following. The PathFilter is a treeFilter, yes? if so, the first TreeRevFilter within the AndRevFilter would be the same one you created in the unit test; the default rf which is the default ALL would not matter. https://git.eclipse.org/r/c/jgit/jgit/+/205382 is what I meant. You don\u0027t need to add logic to StartGenerator.java or making TreeRevFilter public to get the order of rewrite you are looking for in the unit tests; I am able to pass your unit tests with this suggestion. \n\nThe only reason to make TreeRevFilter public is so we can get its reference and track its filtering history post filtering with counts like changedPathFilterTruePositive, etc. \n\nimho, storing states like changedPathFilterTruePositive in TreeRevFilter, a class that\u0027s traditionally only initiated by other classes (in our case, startGenerator) was a bad idea for 2 reasons, \n\n1. it forces the invokers to pass in its own TreeRevFilter into startGenerator, so the invokers can hold the passed in TreeRevFilter reference to get the counts later. \n2. it untie the source of truth of the rewrite flag away from the revwalk. imo, there should only be one source of truth for the rewrite flag. If revwalk rewriteParent flag is on, then that flag state should be passed into the revFilter just like line 110 do with treeFilter. \n\nanyway, i digress, up to the maintainers on this one.",
+      "parentUuid": "d9cb1c71_928b5f5f",
+      "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
