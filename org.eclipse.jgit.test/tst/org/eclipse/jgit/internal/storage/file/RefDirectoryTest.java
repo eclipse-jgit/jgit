@@ -1349,6 +1349,21 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
+	@Test
+	public void testCommonRefPrefix() {
+		assertEquals("", RefDirectory.commonRefPrefix());
+		assertEquals("HEAD", RefDirectory.commonRefPrefix("HEAD"));
+		assertEquals("", RefDirectory.commonRefPrefix("HEAD", ""));
+		assertEquals("", RefDirectory.commonRefPrefix("HEAD", "refs/heads/"));
+		assertEquals(
+				"refs/heads/",
+				RefDirectory.commonRefPrefix("refs/heads/mater",
+						"refs/heads/"));
+		assertEquals(
+				"refs/heads/",
+				RefDirectory.commonRefPrefix("refs/heads/", "refs/heads/main"));
+	}
+
 	void writePackedRef(String name, AnyObjectId id) throws IOException {
 		writePackedRefs(id.name() + " " + name + "\n");
 	}

@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -392,6 +393,14 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
+	public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
+		return getRefsByPrefix(commonRefPrefix(prefixes)).parallelStream()
+				.filter(
+				ref -> Stream.of(prefixes).anyMatch(ref.getName()::startsWith))
+				.collect(Collectors.toUnmodifiableList());
+	}
+
+	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
 		List<Ref> ret = new LinkedList<>();
 		for (String name : additionalRefsNames) {
@@ -400,6 +409,26 @@ public class RefDirectory extends RefDatabase {
 				ret.add(r);
 		}
 		return ret;
+	}
+
+	static String commonRefPrefix(String... strings) {
+		if (strings == null || strings.length == 0) {
+			return ""; //$NON-NLS-1$
+		}
+		if (strings.length == 1) {
+			return strings[0];
+		}
+		String first = strings[0];
+		for (int i = 0; i < first.length(); i++) {
+			char currentChar = first.charAt(i);
+			for (int j = 1; j < strings.length; j++) {
+				String str = strings[j];
+				if (str.length() == i || currentChar != str.charAt(i)) {
+					return str.substring(0, i);
+				}
+			}
+		}
+		return first;
 	}
 
 	@SuppressWarnings("unchecked")
