@@ -34,6 +34,24 @@
       "parentUuid": "45112bd9_b5c2fd35",
       "revId": "7ac2d257362120d8813c1ddc069afb873afe0540",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5142601a_aa479570",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-09T11:50:17Z",
+      "side": 1,
+      "message": "Proposed a change for `RefDirectory`: https://git.eclipse.org/r/c/jgit/jgit/+/205387",
+      "parentUuid": "99c06a29_319bfb0c",
+      "revId": "7ac2d257362120d8813c1ddc069afb873afe0540",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
