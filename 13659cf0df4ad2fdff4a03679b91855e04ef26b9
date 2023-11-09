@@ -16,6 +16,24 @@
       "message": "this if statement is basically saying, \"if the rf is not default and the walk wants to override parents, then set rewrite flags.\"\n\natm, there\u0027s two different source of truth when setting up the behavior in your unit test; one is set in the rf and rf flag is not influenced by anything in this next() method, another is set in the revwalk, which is also not influenced by this method. \n\njudging from the existing logic of TreeFilter enabling the rewriteFlag in the filter (line 105), the revwalk should be the only source of truth; i.e. if the revwalk rewriteParent is enable, then we enable the rf\u0027s rewriteflag. Looking at other existing invocation to `setRewriteParents`, it appears to be the case too.\n\nrecommendation: instead of introducing a public construction for TreeRevFilter to set the rewriteflag outside of the startGenerator, I recommend we don\u0027t pass in a rf into revwalk. Just pass in the PathFilter as the tf into revwalk, set the RewriteParents flag in revwalk, then have the desired rf created within the next() method similar to line 110.",
       "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9cb1c71_928b5f5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-09T00:38:19Z",
+      "side": 1,
+      "message": "Your recommendation is good but does not work.\n\nThe bloom filter needs a RevFilter to work.  \nThe order of the AndRevFilter created below is TreeRevFilter first and then a RevFilter. It does filter is this order of the filter defined, which is problem here given the bloom filter is working too late.\n\nWhen we use bloom filter we would only use a RevFilter with no TreeFilter.\n\n\n\nGoing back to the other comment above:\nNo change to the TreeRevFilter impl. Just exposing the constructor to be public with RevFilter.WRITE as boolean given the flags are package protected and my callers would be outside the revwalk\u0027s umbrella.\n\n\nRegarding bypassing the flag state from revWalk to the commit through the TreeRevFilter. Its feels like a good idea but something goes wrong. The assumption right now is do not overwrite by default. The Rewrite parents does not work well with non TreeRevFilter and I want to keep the behavior as is.\n\nRefer to patch 13: https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/596/",
+      "parentUuid": "58a23e71_0d7e34c8",
+      "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
