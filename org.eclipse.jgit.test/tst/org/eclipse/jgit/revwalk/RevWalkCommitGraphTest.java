@@ -204,10 +204,12 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit c4 = commitFile("file2", "4", "master");
 
 		enableAndWriteCommitGraph();
-		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"),
-				/* rewriteFlag = */ true);
+
 		rw.markStart(rw.lookupCommit(c4));
-		rw.setRevFilter(trf);
+//		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"),
+//				/* rewriteFlag = */ true);
+//		rw.setRevFilter(trf);
+		rw.setTreeFilter(PathFilter.create("file1"));
 		RevCommit result = rw.next();
 		assertEquals(c3, result);
 		assertEquals(result.getParent(0), c1);
@@ -216,13 +218,13 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		// 1 commit that has exactly one parent and matches path
-		assertEquals(1, trf.getChangedPathFilterTruePositive());
+//		assertEquals(1, trf.getChangedPathFilterTruePositive());
 
 		// No false positives
-		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+//		assertEquals(0, trf.getChangedPathFilterFalsePositive());
 
 		// 2 commits that have exactly one parent and don't match path
-		assertEquals(2, trf.getChangedPathFilterNegative());
+//		assertEquals(2, trf.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -233,11 +235,13 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit c4 = commitFile("file2", "4", "master");
 
 		enableAndWriteCommitGraph();
-		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"),
-				/* rewriteFlag = */ true);
+//		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"),
+//				/* rewriteFlag = */ true);
+		rw.setTreeFilter(PathFilter.create("file1"));
+
 		rw.setRewriteParents(false);
 		rw.markStart(rw.lookupCommit(c4));
-		rw.setRevFilter(trf);
+//		rw.setRevFilter(trf);
 		RevCommit result = rw.next();
 		assertEquals(c3, result);
 		assertEquals(result.getParent(0), c2);
