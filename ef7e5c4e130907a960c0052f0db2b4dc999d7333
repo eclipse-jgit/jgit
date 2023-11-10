@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b65f233e_2615c751",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-10T18:14:44Z",
+      "side": 1,
+      "message": "Sorry, missed that you already had a new PS when I posted my comment. It probably makes sense to use `StringUtils.getCommonPrefix()` instead of this custom method.\n\nhttps://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html#getCommonPrefix-java.lang.String...-",
+      "range": {
+        "startLine": 414,
+        "startChar": 15,
+        "endLine": 414,
+        "endChar": 30
+      },
+      "revId": "ef7e5c4e130907a960c0052f0db2b4dc999d7333",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}

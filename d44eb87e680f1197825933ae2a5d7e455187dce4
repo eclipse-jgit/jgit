@@ -70,6 +70,30 @@
       },
       "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af491420_52d771ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-10T18:14:44Z",
+      "side": 1,
+      "message": "Marking this as done since PS2 does the common prefix approach.",
+      "parentUuid": "a9cd61ca_986d7e9b",
+      "range": {
+        "startLine": 397,
+        "startChar": 25,
+        "endLine": 397,
+        "endChar": 28
+      },
+      "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
