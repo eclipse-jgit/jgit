@@ -196,6 +196,41 @@ public abstract class PackBitmapIndex {
 	public abstract int getBitmapCount();
 
 	/**
+	 * Returns the number of bitmaps in this bitmap index ready to use, not
+	 * XOR'ed against other entries.
+	 *
+	 * @return the number of bitmaps in this bitmap index ready to use.
+	 */
+	public abstract int getBaseBitmapCount();
+
+	/**
+	 * Current size in bytes of all base bitmaps in the index.
+	 *
+	 * Resolving xors for bitmaps can affect this size.
+	 *
+	 * @return Current size (in bytes) of all base bitmaps in this index.
+	 */
+	public abstract long getBaseBitmapSizeInBytes();
+
+	/**
+	 * Returns the number of bitmaps in this bitmap index XOR'ed against other
+	 * entries.
+	 *
+	 * @return the number of bitmaps in this bitmap index represented as XOR
+	 *         masks.
+	 */
+	public abstract int getXorBitmapCount();
+
+	/**
+	 * Current size in bytes of all XOR'ed bitmaps in the index.
+	 *
+	 * Resolving xors for bitmaps can affect this size.
+	 *
+	 * @return Current size (in bytes) of all xor bitmaps in this index.
+	 */
+	public abstract long getXorBitmapSizeInBytes();
+
+	/**
 	 * Supplier that propagates IOException.
 	 *
 	 * @param <T>
