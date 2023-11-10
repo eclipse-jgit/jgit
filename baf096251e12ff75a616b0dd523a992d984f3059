@@ -22,6 +22,30 @@
       },
       "revId": "baf096251e12ff75a616b0dd523a992d984f3059",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f91583_3a61160d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 88043
+      },
+      "writtenOn": "2023-11-10T06:37:33Z",
+      "side": 1,
+      "message": "Good catch!\n\nHaving said that I believe that it could be improved to adhere to the previous behaviour with sth like:\n\n  byte[] packedRefsContent;\n  if (oldPackedRefs !\u003d null) {\n    packedRefsContent \u003d Files.readAllBytes(packedRefsFile.toPath());\n    if (oldPackedRefs.hasTheSamePackedRefsBytes(packedRefsContent)) {\n      return oldPackedRefs;\n    }\n  }\n\nthis way ref content is only read when there is anything to compare with and there is anything to compare with when\n\n  comparePackedRefsBySha1 \u003d\u003d true\n\nWDYT?",
+      "parentUuid": "d34a4dec_1b159eda",
+      "range": {
+        "startLine": 915,
+        "startChar": 4,
+        "endLine": 919,
+        "endChar": 5
+      },
+      "revId": "baf096251e12ff75a616b0dd523a992d984f3059",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
