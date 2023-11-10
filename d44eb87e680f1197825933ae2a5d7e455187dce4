@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5652af2_d78d5184",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-10T00:51:33Z",
+      "side": 1,
+      "message": "Instead of ALL, can you make this more efficient in the non-worst-case by finding the longest common prefix of all the prefixes? For example:\n\n prefixes \u003d [\"refs/heads/stable/foo\", \"refs/heads/next/bar\"]\n common_prefix \u003d \"refs/heads/\"\n return getRefsByPrefix(common_prefix).parallelStream().filter(\n\nObviously this will often work out to be \"refs/\" and that\u0027s the worst case, but in other cases it could be much better.",
+      "range": {
+        "startLine": 397,
+        "startChar": 25,
+        "endLine": 397,
+        "endChar": 28
+      },
+      "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
