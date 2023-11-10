@@ -11,6 +11,8 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndex.StoredBitmap;
 import org.eclipse.jgit.lib.ObjectId;
@@ -42,6 +44,33 @@ public class StoredBitmapTest {
 				bitmapOf(50));
 		assertEquals(bitmapOf(50, 90), sb.getBitmap());
 		assertEquals(bitmapOf(50, 90), sb.getBitmap());
+	}
+
+	@Test
+	public void testGetSizeWithoutXor() {
+		EWAHCompressedBitmap base = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(base);
+		assertEquals(base.sizeInBytes(), sb.getCurrentSizeInBytes());
+		sb.getBitmap();
+		assertEquals(base.sizeInBytes(), sb.getCurrentSizeInBytes());
+	}
+
+	@Test
+	public void testGetSizeWithOneXor() {
+		EWAHCompressedBitmap base = bitmapOf(100, 101);
+		EWAHCompressedBitmap xor = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(base, xor);
+		assertEquals(xor.sizeInBytes(), sb.getCurrentSizeInBytes());
+	}
+
+	@Test
+	public void testIsBase() {
+		EWAHCompressedBitmap one = bitmapOf(100, 101);
+		EWAHCompressedBitmap two = bitmapOf(100);
+		StoredBitmap baseBitmap = newStoredBitmap(one);
+		StoredBitmap xoredBitmap = newStoredBitmap(one, two);
+		assertTrue(baseBitmap.isBase());
+		assertFalse(xoredBitmap.isBase());
 	}
 
 	private static final StoredBitmap newStoredBitmap(
