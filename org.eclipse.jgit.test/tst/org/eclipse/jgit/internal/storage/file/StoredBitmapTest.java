@@ -44,6 +44,23 @@ public class StoredBitmapTest {
 		assertEquals(bitmapOf(50, 90), sb.getBitmap());
 	}
 
+	@Test
+	public void testGetSizeWithoutXor() {
+		EWAHCompressedBitmap base = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(base);
+		assertEquals(base.sizeInBytes(), sb.getCurrentSizeInBytes());
+		sb.getBitmap();
+		assertEquals(base.sizeInBytes(), sb.getCurrentSizeInBytes());
+	}
+
+	@Test
+	public void testGetSizeWithOneXor() {
+		EWAHCompressedBitmap base = bitmapOf(100, 101);
+		EWAHCompressedBitmap xor = bitmapOf(100);
+		StoredBitmap sb = newStoredBitmap(base, xor);
+		assertEquals(xor.sizeInBytes(), sb.getCurrentSizeInBytes());
+	}
+
 	private static final StoredBitmap newStoredBitmap(
 			EWAHCompressedBitmap... bitmaps) {
 		StoredBitmap sb = null;

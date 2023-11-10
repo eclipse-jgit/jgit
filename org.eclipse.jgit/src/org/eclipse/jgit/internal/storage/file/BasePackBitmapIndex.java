@@ -31,8 +31,39 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		return sb != null ? sb.getBitmap() : null;
 	}
 
-	ObjectIdOwnerMap<StoredBitmap> getBitmaps() {
+	protected ObjectIdOwnerMap<StoredBitmap> getBitmaps() {
 		return bitmaps;
+	}
+
+	@Override
+	public int getBaseBitmapCount() {
+		int bases = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			if (sb.bitmapContainer instanceof EWAHCompressedBitmap) {
+				bases += 1;
+			}
+		}
+		return bases;
+	}
+
+	@Override
+	public int getXorBitmapCount() {
+		int xored = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			if (sb.bitmapContainer instanceof XorCompressedBitmap) {
+				xored += 1;
+			}
+		}
+		return xored;
+	}
+
+	@Override
+	public long getSizeInBytes() {
+		long size = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			size += sb.getCurrentSizeInBytes();
+		}
+		return size;
 	}
 
 	/**
@@ -74,8 +105,9 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		EWAHCompressedBitmap getBitmapWithoutCaching() {
 			// Fast path to immediately return the expanded result.
 			Object r = bitmapContainer;
-			if (r instanceof EWAHCompressedBitmap)
+			if (r instanceof EWAHCompressedBitmap) {
 				return (EWAHCompressedBitmap) r;
+			}
 
 			// Expand the bitmap but not cache the result.
 			XorCompressedBitmap xb = (XorCompressedBitmap) r;
@@ -100,10 +132,29 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		int getFlags() {
 			return flags;
 		}
+
+		/**
+		 * Size in bytes of this bitmap in its current representation
+		 *
+		 * If this is a XOR'ed bitmap, size is different before/after
+		 * {@link #getBitmap()}. Before is the byte size of the xor mask,
+		 * afterwards is the size of the "ready" bitmap
+		 *
+		 * @return size in bytes of the bitmap in its current representation
+		 */
+		long getCurrentSizeInBytes() {
+			Object r = bitmapContainer;
+			if (r instanceof EWAHCompressedBitmap) {
+				return ((EWAHCompressedBitmap) r).sizeInBytes();
+			}
+			XorCompressedBitmap xor = ((XorCompressedBitmap) r);
+			return xor.bitmap.sizeInBytes();
+		}
 	}
 
 	private static final class XorCompressedBitmap {
 		final EWAHCompressedBitmap bitmap;
+
 		final StoredBitmap xorBitmap;
 
 		XorCompressedBitmap(EWAHCompressedBitmap b, StoredBitmap xb) {
