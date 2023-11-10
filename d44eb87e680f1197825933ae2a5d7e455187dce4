@@ -22,6 +22,30 @@
       },
       "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "842e274d_f775074a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-10T10:50:18Z",
+      "side": 1,
+      "message": "Sure, can do that, but that won\u0027t improve things for _standard_ `clone` and `fetch` operations, as for them common prefix will be `\"\"` and `\"refs/\"` (as you said) respectively.\n\nThe `getRefsByPrefix(String...)` is called from three places:\n * `ListBranchCommand` where, `refs/heads` and `refs/remotes/` are hardcoded,\n * `UploadPack` - which handles `clone` and `fetch` operations,\n * GC.\n\nFrom the `fetch` perspective, we\u0027ll always end up in the worst-case scenario, as even when you do `git fetch origin refs/heads/master` the client will send:\n```\nfetch\u003e ref-prefix refs/heads/master\nfetch\u003e ref-prefix refs/refs/heads/master\nfetch\u003e ref-prefix refs/tags/refs/heads/master\nfetch\u003e ref-prefix refs/heads/refs/heads/master\nfetch\u003e ref-prefix refs/remotes/refs/heads/master\nfetch\u003e ref-prefix refs/remotes/refs/heads/master/HEAD\nfetch\u003e ref-prefix refs/tags/\n``` \n\nIn the case of GC, we use `getRefsByPrefix(String...)` to get excluded bitmap prefixes, and this is where common prefix can potentially make a difference. I don\u0027t know what `pconfig.getBitmapExcludedRefsPrefixes()` will return, but hopefully, something that will have more in common than `refs/`.\n\nI know that having the `commonPrefix` looks better from _algorithmic_ perspective, as we potentially can do less iterations. But it may not give us any improvements in real-world scenarios, as potentially in _most of the cases_ we will get `\"\"` or `refs/` as a prefix.\n\nAnyway, the list of prefixes should not be massive, so finding a common one won\u0027t be a massive overhead. I\u0027m happy to add it.",
+      "parentUuid": "d5652af2_d78d5184",
+      "range": {
+        "startLine": 397,
+        "startChar": 25,
+        "endLine": 397,
+        "endChar": 28
+      },
+      "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
