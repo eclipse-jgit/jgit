@@ -46,6 +46,30 @@
       },
       "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9cd61ca_986d7e9b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-10T17:59:55Z",
+      "side": 1,
+      "message": "\u003e Sure, can do that, but that won\u0027t improve things for _standard_ `clone` and `fetch` operations, as for them common prefix will be `\"\"` and `\"refs/\"` (as you said) respectively.\n\nAck.\n\n\u003e \n\u003e The `getRefsByPrefix(String...)` is called from three places:\n\u003e  * `ListBranchCommand` where, `refs/heads` and `refs/remotes/` are hardcoded,\n\u003e  * `UploadPack` - which handles `clone` and `fetch` operations,\n\u003e  * GC.\n\nAck.\n\n\u003e \n\u003e From the `fetch` perspective, we\u0027ll always end up in the worst-case scenario, as even when you do `git fetch origin refs/heads/master` the client will send:\n\u003e ```\n\u003e fetch\u003e ref-prefix refs/heads/master\n\u003e fetch\u003e ref-prefix refs/refs/heads/master\n\u003e fetch\u003e ref-prefix refs/tags/refs/heads/master\n\u003e fetch\u003e ref-prefix refs/heads/refs/heads/master\n\u003e fetch\u003e ref-prefix refs/remotes/refs/heads/master\n\u003e fetch\u003e ref-prefix refs/remotes/refs/heads/master/HEAD\n\u003e fetch\u003e ref-prefix refs/tags/\n\u003e ``` \n\nThis heavily depends on the client configuration (including defaults) now and in the future. You can definitely run `git fetch` in a way that the client sends fewer ref-prefix lines (for example, add `--no-tags`).\n\n\u003e \n\u003e In the case of GC, we use `getRefsByPrefix(String...)` to get excluded bitmap prefixes, and this is where common prefix can potentially make a difference. I don\u0027t know what `pconfig.getBitmapExcludedRefsPrefixes()` will return, but hopefully, something that will have more in common than `refs/`.\n\n`getBitmapExcludedRefsPrefixes` is empty by default, but someone could configure it in the config `pack` section.\n\n\u003e \n\u003e I know that having the `commonPrefix` looks better from _algorithmic_ perspective, as we potentially can do less iterations. But it may not give us any improvements in real-world scenarios, as potentially in _most of the cases_ we will get `\"\"` or `refs/` as a prefix.\n\u003e \n\u003e Anyway, the list of prefixes should not be massive, so finding a common one won\u0027t be a massive overhead. I\u0027m happy to add it.\n\nI think it\u0027s a good way to not leave this as debt. A future caller of `getRefsByPrefix(String...)` could reasonably assume we\u0027ll attempt to do a minimal amount of work to get the refs, so we should try to do that. And yes, should be a simple O(n) that you can probably shortcut (return if common_prefix\u003d\u003d\"\") or just use the StringUtils version [1].\n\n[1] https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html#getCommonPrefix-java.lang.String...-",
+      "parentUuid": "842e274d_f775074a",
+      "range": {
+        "startLine": 397,
+        "startChar": 25,
+        "endLine": 397,
+        "endChar": 28
+      },
+      "revId": "d44eb87e680f1197825933ae2a5d7e455187dce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
