@@ -95,6 +95,13 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	}
 
 	@Override
+	public long getSize() {
+		// TODO(ifrade): Probably like #getBitmapCount, this doesn't make sense for this index.
+		return newPackIndex.getSize() +
+				(oldPackIndex != null ? oldPackIndex.getSize() : 0);
+	}
+
+	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
 		return newPackIndex.ofObjectType(bitmap, type);

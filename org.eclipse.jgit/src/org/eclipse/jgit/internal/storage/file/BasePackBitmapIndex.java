@@ -31,8 +31,17 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		return sb != null ? sb.getBitmap() : null;
 	}
 
-	ObjectIdOwnerMap<StoredBitmap> getBitmaps() {
+	protected ObjectIdOwnerMap<StoredBitmap> getBitmaps() {
 		return bitmaps;
+	}
+
+	@Override
+	public long getSize() {
+		long size = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			size += sb.getCurrentBitmapSize();
+		}
+		return size;
 	}
 
 	/**
@@ -74,8 +83,9 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		EWAHCompressedBitmap getBitmapWithoutCaching() {
 			// Fast path to immediately return the expanded result.
 			Object r = bitmapContainer;
-			if (r instanceof EWAHCompressedBitmap)
+			if (r instanceof EWAHCompressedBitmap) {
 				return (EWAHCompressedBitmap) r;
+			}
 
 			// Expand the bitmap but not cache the result.
 			XorCompressedBitmap xb = (XorCompressedBitmap) r;
@@ -99,6 +109,51 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		 */
 		int getFlags() {
 			return flags;
+		}
+
+		/**
+		 * Number of bitmaps in the xor chain
+		 *
+		 * Including this one, so a base bitmap has a chain depth of 0, and xor
+		 * over the base has depth 1 and so on.
+		 *
+		 * @return number of xor bitmaps to the base (including this one).
+		 */
+		int getChainDepth() {
+			int depth = 0;
+			Object r = bitmapContainer;
+			if (r instanceof EWAHCompressedBitmap) {
+				return depth;
+			}
+			for (;;) {
+				if (r instanceof  EWAHCompressedBitmap) {
+					return depth;
+				}
+				r = ((XorCompressedBitmap)r).xorBitmap.bitmapContainer;
+				depth++;
+			}
+		}
+
+		/**
+		 * Size in bytes of this bitmap in its current representation
+		 *
+		 * If this is a XOR'ed bitmap, size is different before/after
+		 * {@link #getBitmap()}. Before is the bitmap size of the base plus all
+		 * xor bitmaps in the chain. Afterwards is just a single bitmap size.
+		 *
+		 * @return size in bytes of the bitmap in its current representation
+		 */
+		long getCurrentBitmapSize() {
+			Object r = bitmapContainer;
+			long bitmapSizeInBytes = 0;
+			for (;;) {
+				if (r instanceof EWAHCompressedBitmap) {
+					return bitmapSizeInBytes + ((EWAHCompressedBitmap) r).sizeInBytes();
+				}
+				XorCompressedBitmap xor = ((XorCompressedBitmap) r);
+				bitmapSizeInBytes += xor.bitmap.sizeInBytes();
+				r = xor.xorBitmap.bitmapContainer;
+			}
 		}
 	}
 

@@ -196,6 +196,15 @@ public abstract class PackBitmapIndex {
 	public abstract int getBitmapCount();
 
 	/**
+	 * Current size in bytes of all bitmaps in the index.
+	 *
+	 * Resolving xors for bitmaps can affect this size.
+	 *
+	 * @return Current size (in bytes) of all bitmaps in this index.
+	 */
+	public abstract long getSize();
+
+	/**
 	 * Supplier that propagates IOException.
 	 *
 	 * @param <T>
