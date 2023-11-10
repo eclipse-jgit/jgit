@@ -95,6 +95,26 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	}
 
 	@Override
+	public int getBaseBitmapCount() {
+		return newPackIndex.getBaseBitmapCount();
+	}
+
+	@Override
+	public long getBaseBitmapSizeInBytes() {
+		return newPackIndex.getBaseBitmapSizeInBytes();
+	}
+
+	@Override
+	public int getXorBitmapCount() {
+		return newPackIndex.getXorBitmapCount();
+	}
+
+	@Override
+	public long getXorBitmapSizeInBytes() {
+		return newPackIndex.getXorBitmapSizeInBytes();
+	}
+
+	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
 		return newPackIndex.ofObjectType(bitmap, type);
