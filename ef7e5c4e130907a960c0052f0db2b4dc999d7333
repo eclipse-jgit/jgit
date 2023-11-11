@@ -22,6 +22,30 @@
       },
       "revId": "ef7e5c4e130907a960c0052f0db2b4dc999d7333",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4a53b6d_8dfe3058",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-11T22:08:03Z",
+      "side": 1,
+      "message": "We will not add a new dependency for using a single method.\n\nI suggest to move this method to org.eclipse.jgit.util.StringUtils and add some tests to StringUtilsTest.",
+      "parentUuid": "b65f233e_2615c751",
+      "range": {
+        "startLine": 414,
+        "startChar": 15,
+        "endLine": 414,
+        "endChar": 30
+      },
+      "revId": "ef7e5c4e130907a960c0052f0db2b4dc999d7333",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
