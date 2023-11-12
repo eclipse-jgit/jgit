@@ -16,6 +16,29 @@
       "message": "can we also handle a case for this:\n\n```java\nassertEquals(\"\", StringUtils.commonPrefix(new String[] { null }));\n```\n\ncurrently this will return `null`, and it will be the only case where `commonPrefix` returns that value.",
       "revId": "229ff07ac9140770efcb7a8092db79f4dd1c6829",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44559515_0bca0497",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-12T12:27:22Z",
+      "side": 1,
+      "message": "How about using `Optional.ofNullable(strings[0]).orElse(EMPTY)`? to cover the last case that potentially can return `null` instead of empty stirng.",
+      "range": {
+        "startLine": 484,
+        "startChar": 9,
+        "endLine": 484,
+        "endChar": 21
+      },
+      "revId": "229ff07ac9140770efcb7a8092db79f4dd1c6829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
