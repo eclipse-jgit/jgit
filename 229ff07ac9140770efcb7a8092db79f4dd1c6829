@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b4c0df_0da3a85b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StringUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-12T12:25:59Z",
+      "side": 1,
+      "message": "can we also handle a case for this:\n\n```java\nassertEquals(\"\", StringUtils.commonPrefix(new String[] { null }));\n```\n\ncurrently this will return `null`, and it will be the only case where `commonPrefix` returns that value.",
+      "revId": "229ff07ac9140770efcb7a8092db79f4dd1c6829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
