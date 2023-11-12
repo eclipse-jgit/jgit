@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99407b30_28d6be35",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/StringUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-12T13:34:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3b4c0df_0da3a85b",
+      "revId": "229ff07ac9140770efcb7a8092db79f4dd1c6829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44559515_0bca0497",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "Or we can also achieve the same result by:\n```\nString first \u003d strings[0];\nif (first \u003d\u003d null || strings.length \u003d\u003d 1) {\n\treturn EMPTY;\n}\n```",
       "parentUuid": "44559515_0bca0497",
+      "range": {
+        "startLine": 484,
+        "startChar": 9,
+        "endLine": 484,
+        "endChar": 21
+      },
+      "revId": "229ff07ac9140770efcb7a8092db79f4dd1c6829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "006a2e01_d70f5aa1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-12T13:34:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5316efdd_8bff82ac",
       "range": {
         "startLine": 484,
         "startChar": 9,
