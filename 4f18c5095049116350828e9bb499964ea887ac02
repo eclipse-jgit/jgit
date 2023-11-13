@@ -22,6 +22,30 @@
       },
       "revId": "4f18c5095049116350828e9bb499964ea887ac02",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f07c5c2d_b0d7bcfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-13T23:14:53Z",
+      "side": 1,
+      "message": "done here https://git.eclipse.org/r/c/jgit/jgit/+/205466",
+      "parentUuid": "ffe286a0_76539cff",
+      "range": {
+        "startLine": 483,
+        "startChar": 0,
+        "endLine": 489,
+        "endChar": 3
+      },
+      "revId": "4f18c5095049116350828e9bb499964ea887ac02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
