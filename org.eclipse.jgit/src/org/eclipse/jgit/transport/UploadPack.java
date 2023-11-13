@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -948,10 +949,26 @@ public class UploadPack implements Closeable {
 		}
 		if (refs == null) {
 			// Fast path: the advertised refs hook did not set advertised refs.
-			String[] prefixes = refPrefixes.toArray(new String[0]);
-			Map<String, Ref> rs =
-					db.getRefDatabase().getRefsByPrefix(prefixes).stream()
+			Ref refHEAD = null;
+			List<String> prefixesWithSlash = new ArrayList<>(refPrefixes);
+			Iterator<String> prefixItr = prefixesWithSlash.iterator();
+			while (prefixItr.hasNext()) {
+				String prefix = prefixItr.next();
+				// handle the prefixes without a '/'. The only valid ones are 'HEAD' and subsets of 'refs'.
+				if (!prefix.contains("/")) {
+					if (Constants.HEAD.equals(prefix)) {
+						refHEAD = db.getRefDatabase().exactRef(prefix);
+					} else if (Constants.R_REFS.startsWith(prefix)) {
+						continue;
+					}
+					prefixItr.remove();
+				}
+			}
+			Map<String, Ref> rs = db.getRefDatabase().getRefsByPrefix(prefixesWithSlash.toArray(new String[0])).stream()
 							.collect(toRefMap((a, b) -> b));
+			if (refHEAD != null) {
+				rs.put(refHEAD.getName(), refHEAD);
+			}
 			if (refFilter != RefFilter.DEFAULT) {
 				return refFilter.filter(rs);
 			}
