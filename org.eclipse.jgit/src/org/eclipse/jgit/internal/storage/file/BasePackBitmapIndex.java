@@ -28,7 +28,20 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 	@Override
 	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
 		StoredBitmap sb = bitmaps.get(objectId);
-		return sb != null ? sb.getBitmap() : null;
+		if (sb != null) {
+			stats.bitmapLookupHit += 1;
+			int xorDepth = sb.getChainDepth();
+			if (xorDepth > 0) {
+				stats.xoredBitmap += xorDepth;
+			} else {
+				stats.readyBitmap += 1;
+			}
+			long sizeBefore = sb.getCurrentBitmapSize();
+			EWAHCompressedBitmap bitmap = sb.getBitmap();
+			stats.xorSizeDiff += bitmap.sizeInBytes() - sizeBefore;
+			return bitmap;
+		}
+		return null;
 	}
 
 	protected ObjectIdOwnerMap<StoredBitmap> getBitmaps() {

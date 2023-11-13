@@ -223,4 +223,31 @@ public abstract class PackBitmapIndex {
 		 */
 		T get() throws IOException;
 	}
+
+	protected PackBitmapIndexStats stats = new PackBitmapIndexStats();
+
+	/** Stats accumulated in this index since opening */
+	public PackBitmapIndexStats getStats() {
+		return stats;
+	}
+
+	public static class PackBitmapIndexStats {
+		// Total count of bitmap lookups in this index
+		int bitmapLookups;
+
+		// Count of bitmap lookups that had a bitmap in the index
+		int bitmapLookupHit;
+
+		// Count of bitmaps returned as they are
+		int readyBitmap;
+
+		// Count of XOR's operations performed to uncompress bitmaps
+		int xoredBitmap;
+
+		// Accumulated size difference of the bitmaps before/after resolving
+		// their xor-chain
+		// As final results are cached, the order of xors matters and this
+		// doesn't need to match final - initial size
+		long xorSizeDiff;
+	}
 }
