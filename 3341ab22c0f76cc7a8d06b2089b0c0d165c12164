@@ -16,6 +16,24 @@
       "message": "Are we getting any performance improvements from this?\n\nResolving `HEAD` _immediately_ will save us a single `String#startsWith()` per each ref in `RefDirectory`, but does that result in perceived faster refs advertisement?\n\nHave you run any measurements for this? Would be interesting to know at what point this would make a measurable difference.",
       "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adab3987_50f2cceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-13T20:57:00Z",
+      "side": 1,
+      "message": "\u003e but does that result in perceived faster refs advertisement?\n\nI\u0027m not sure, but I doubt that it\u0027s a significant difference if we\u0027ve already read all the refs.\n\nThis likely has an impact for a case like `ref-prefixes: [\"HEAD\", \"refs/heads/\"]` since now we\u0027ll only check the \"refs/heads/\" prefix instead of all refs, or in any other case where we would get a subset of refs if we exclude HEAD from the prefixes.\n\n\u003e Have you run any measurements for this? Would be interesting to know at what point this would make a measurable difference.\n\nI haven\u0027t and I agree it would be good to see before merging this.",
+      "parentUuid": "43c5dea8_8813ab64",
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
