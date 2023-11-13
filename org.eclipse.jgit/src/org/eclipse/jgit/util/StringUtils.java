@@ -480,12 +480,12 @@ public final class StringUtils {
 		if (strings == null || strings.length == 0) {
 			return EMPTY;
 		}
-		if (strings.length == 1) {
-			return strings[0] == null ? EMPTY : strings[0];
-		}
 		String first = strings[0];
 		if (first == null) {
 			return EMPTY;
+		}
+		if (strings.length == 1) {
+			return first;
 		}
 		for (int i = 0; i < first.length(); i++) {
 			char currentChar = first.charAt(i);
