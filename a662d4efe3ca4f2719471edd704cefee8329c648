@@ -34,6 +34,23 @@
       "parentUuid": "4f0dc5ea_e4c8e381",
       "revId": "a662d4efe3ca4f2719471edd704cefee8329c648",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec1bb9dd_7a596333",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-13T20:00:32Z",
+      "side": 1,
+      "message": "I created a change that specifically addresses HEAD and tries to do so safely.\nhttps://git.eclipse.org/r/c/jgit/jgit/+/205423 UploadPack: Optimize ref-prefix lookups",
+      "revId": "a662d4efe3ca4f2719471edd704cefee8329c648",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
