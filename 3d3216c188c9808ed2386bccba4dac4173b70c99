@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2570b0eb_ac0e4762",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T11:10:31Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b33c342e_abfb960a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T11:10:31Z",
+      "side": 1,
+      "message": "missing `@since` javadoc annotation",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "493404f3_aba85fac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T11:10:31Z",
+      "side": 1,
+      "message": "I\u0027d rather throw `IllegalArgumentExecption` here with a proper message, that `null` arguments are not supported.",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a5801a_bbcb1511",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T11:10:31Z",
+      "side": 1,
+      "message": "it should be better to use `anyMatch(c -\u003e (c.flags \u0026 f) \u003d\u003d 0)` here instead of `filter`, as it should bail out when the predicate is `true` and not iterate through the whole collection.",
+      "range": {
+        "startLine": 123,
+        "startChar": 68,
+        "endLine": 123,
+        "endChar": 122
+      },
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5924d93f_5ad900d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T11:10:31Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 128,
+        "startChar": 67,
+        "endLine": 128,
+        "endChar": 121
+      },
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b2724c_d172ca53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T11:10:31Z",
+      "side": 1,
+      "message": "nit: I\u0027d rather use _old java for each_ (`for (RevCommitEntry e: priorityQueue) {}`) and not create anonymous class with a side effect.",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
