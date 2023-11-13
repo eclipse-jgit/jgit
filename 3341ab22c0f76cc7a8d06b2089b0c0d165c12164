@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43c5dea8_8813ab64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-13T20:42:41Z",
+      "side": 1,
+      "message": "Are we getting any performance improvements from this?\n\nResolving `HEAD` _immediately_ will save us a single `String#startsWith()` per each ref in `RefDirectory`, but does that result in perceived faster refs advertisement?\n\nHave you run any measurements for this? Would be interesting to know at what point this would make a measurable difference.",
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
