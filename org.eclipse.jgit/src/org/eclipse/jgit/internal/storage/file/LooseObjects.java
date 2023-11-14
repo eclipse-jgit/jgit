@@ -282,7 +282,7 @@ class LooseObjects {
 			// that already exists. We can't be sure renameTo() would
 			// fail on all platforms if dst exists, so we check first.
 			//
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 
@@ -300,7 +300,7 @@ class LooseObjects {
 			// Any other IO error is considered a failure.
 			//
 			LOG.error(e.getMessage(), e);
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.FAILURE;
 		}
 
@@ -312,7 +312,7 @@ class LooseObjects {
 			// know what went wrong, so fail.
 			//
 			LOG.error(e.getMessage(), e);
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.FAILURE;
 		}
 	}

@@ -548,11 +548,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// If the object is already in the repository, remove temporary file.
 		//
 		if (loose.hasCached(id)) {
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		if (!createDuplicate && has(id)) {
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}
 		return loose.insert(tmp, id);

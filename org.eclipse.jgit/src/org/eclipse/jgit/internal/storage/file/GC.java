@@ -1934,7 +1934,7 @@ public class GC {
 					token.close();
 				}
 				if (wasLocked) {
-					FileUtils.delete(pidFile.toFile(), FileUtils.RETRY);
+					FileUtils.delete(pidFile.toFile(), FileUtils.RETRY | FileUtils.SKIP_MISSING);
 				}
 			} catch (IOException e) {
 				LOG.error(MessageFormat
