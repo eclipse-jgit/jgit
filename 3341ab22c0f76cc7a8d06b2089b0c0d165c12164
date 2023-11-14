@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "faa0fe80_7c58ed36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-14T17:54:14Z",
+      "side": 1,
+      "message": "I am still not sure what is the benefit of handling HEAD separately. Is this specific to RefDirectory and how it is handling now prefixes?",
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a98b252f_4a2bf2af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-14T17:54:14Z",
+      "side": 1,
+      "message": "Was this mismatch causing any problem? If so, could we have a test case to cover it?",
+      "range": {
+        "startLine": 11,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "43c5dea8_8813ab64",
@@ -32,6 +72,23 @@
       "side": 1,
       "message": "\u003e but does that result in perceived faster refs advertisement?\n\nI\u0027m not sure, but I doubt that it\u0027s a significant difference if we\u0027ve already read all the refs.\n\nThis likely has an impact for a case like `ref-prefixes: [\"HEAD\", \"refs/heads/\"]` since now we\u0027ll only check the \"refs/heads/\" prefix instead of all refs, or in any other case where we would get a subset of refs if we exclude HEAD from the prefixes.\n\n\u003e Have you run any measurements for this? Would be interesting to know at what point this would make a measurable difference.\n\nI haven\u0027t and I agree it would be good to see before merging this.",
       "parentUuid": "43c5dea8_8813ab64",
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6decde_922e8429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-14T17:54:14Z",
+      "side": 1,
+      "message": "IIUC here you are: removing prefixes that do NOT start with refs/ and handling HEAD differently. \n\nIf so, the loop is hard to follow; maybe streams could make this more readable. Something like:\nboolean hasHead \u003d refPrefixes.contains(Contants.HEAD);\nList\u003cString\u003e validPrefixes \u003d refPrefixes.stream().filter(prefix -\u003e ... starts with refs/ and NOT head).collect();\n\nThen query the prefixes and add head if needed.",
       "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
