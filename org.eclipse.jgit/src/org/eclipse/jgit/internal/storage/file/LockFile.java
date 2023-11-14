@@ -67,9 +67,8 @@ public class LockFile {
 	 */
 	public static boolean unlock(File file) {
 		final File lockFile = getLockFile(file);
-		final int flags = FileUtils.RETRY | FileUtils.SKIP_MISSING;
 		try {
-			FileUtils.delete(lockFile, flags);
+			FileUtils.delete(lockFile, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 		} catch (IOException ignored) {
 			// Ignore and return whether lock file still exists
 		}
@@ -570,7 +569,7 @@ public class LockFile {
 		if (haveLck) {
 			haveLck = false;
 			try {
-				FileUtils.delete(lck, FileUtils.RETRY);
+				FileUtils.delete(lck, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			} catch (IOException e) {
 				LOG.error(MessageFormat
 						.format(JGitText.get().unlockLockFileFailed, lck), e);
