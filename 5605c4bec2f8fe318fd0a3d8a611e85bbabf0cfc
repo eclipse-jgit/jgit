@@ -16,6 +16,24 @@
       "message": "Looks identical to my patch that I was too slow to push 😊",
       "revId": "5605c4bec2f8fe318fd0a3d8a611e85bbabf0cfc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb64ebf_77d0f9c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-14T08:27:20Z",
+      "side": 1,
+      "message": "fixed author of this commit ;-)",
+      "parentUuid": "cecdd85d_471312cb",
+      "revId": "5605c4bec2f8fe318fd0a3d8a611e85bbabf0cfc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
