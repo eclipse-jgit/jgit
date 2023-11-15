@@ -48,8 +48,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
- 		PatchApplierTest.WithWorktree. class, //
+@Suite.SuiteClasses({ PatchApplierTest.WithWorktree.class, //
 		PatchApplierTest.InCore.class, //
 })
 public class PatchApplierTest {
@@ -75,8 +74,7 @@ public class PatchApplierTest {
 			init(aName, true, true);
 		}
 
-		protected void init(String aName, boolean preExists, boolean postExists)
-				throws Exception {
+		protected void init(String aName, boolean preExists, boolean postExists) throws Exception {
 			// Patch and pre/postimage are read from data
 			// org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/
 			this.name = aName;
@@ -94,9 +92,7 @@ public class PatchApplierTest {
 		}
 
 		protected void initPreImage(String aName) throws Exception {
-			preImage = IO
-					.readWholeStream(getTestResource(aName + "_PreImage"), 0)
-					.array();
+			preImage = IO.readWholeStream(getTestResource(aName + "_PreImage"), 0).array();
 			addFile(aName, preImage);
 		}
 
@@ -109,9 +105,7 @@ public class PatchApplierTest {
 		}
 
 		protected String initPostImage(String aName) throws Exception {
-			postImage = IO
-					.readWholeStream(getTestResource(aName + "_PostImage"), 0)
-					.array();
+			postImage = IO.readWholeStream(getTestResource(aName + "_PostImage"), 0).array();
 			return new String(postImage, StandardCharsets.UTF_8);
 		}
 
@@ -129,29 +123,25 @@ public class PatchApplierTest {
 		}
 
 		protected static InputStream getTestResource(String patchFile) {
-			return PatchApplierTest.class.getClassLoader()
-					.getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
+			return PatchApplierTest.class.getClassLoader().getResourceAsStream("org/eclipse/jgit/diff/" + patchFile);
 		}
 
 		void verifyChange(Result result, String aName) throws Exception {
 			verifyChange(result, aName, true);
 		}
 
-		protected void verifyContent(Result result, String path, boolean exists)
-				throws Exception {
+		protected void verifyContent(Result result, String path, boolean exists) throws Exception {
 			verifyContent(result, path, exists ? expectedText : null);
 		}
 
-		protected void verifyContent(Result result, String path,
-				@Nullable String expectedContent) throws Exception {
+		protected void verifyContent(Result result, String path, @Nullable String expectedContent) throws Exception {
 			if (inCore) {
 				byte[] output = readBlob(result.getTreeId(), path);
 				if (expectedContent == null)
 					assertNull(output);
 				else {
 					assertNotNull(output);
-					assertEquals(expectedContent,
-							new String(output, StandardCharsets.UTF_8));
+					assertEquals(expectedContent, new String(output, StandardCharsets.UTF_8));
 				}
 			} else {
 				File f = new File(db.getWorkTree(), path);
@@ -162,36 +152,30 @@ public class PatchApplierTest {
 			}
 		}
 
-		void verifyChange(Result result, String aName, boolean exists)
-				throws Exception {
+		void verifyChange(Result result, String aName, boolean exists) throws Exception {
 			assertEquals(0, result.getErrors().size());
 			assertEquals(1, result.getPaths().size());
 			verifyContent(result, aName, exists);
 		}
 
-		protected byte[] readBlob(ObjectId treeish, String path)
-				throws Exception {
-			try (TestRepository<?> tr = new TestRepository<>(db);
-					RevWalk rw = tr.getRevWalk()) {
+		protected byte[] readBlob(ObjectId treeish, String path) throws Exception {
+			try (TestRepository<?> tr = new TestRepository<>(db); RevWalk rw = tr.getRevWalk()) {
 				db.incrementOpen();
 				RevTree tree = rw.parseTree(treeish);
 				try (TreeWalk tw = TreeWalk.forPath(db, path, tree)) {
 					if (tw == null) {
 						return null;
 					}
-					return tw.getObjectReader()
-							.open(tw.getObjectId(0), OBJ_BLOB).getBytes();
+					return tw.getObjectReader().open(tw.getObjectId(0), OBJ_BLOB).getBytes();
 				}
 			}
 		}
 
-		protected void checkBinary(Result result, int numberOfFiles)
-				throws Exception {
+		protected void checkBinary(Result result, int numberOfFiles) throws Exception {
 			assertEquals(0, result.getErrors().size());
 			assertEquals(numberOfFiles, result.getPaths().size());
 			if (inCore) {
-				assertArrayEquals(postImage,
-						readBlob(result.getTreeId(), result.getPaths().get(0)));
+				assertArrayEquals(postImage, readBlob(result.getTreeId(), result.getPaths().get(0)));
 			} else {
 				File f = new File(db.getWorkTree(), name);
 				assertArrayEquals(postImage, Files.readAllBytes(f.toPath()));
@@ -496,6 +480,14 @@ public class PatchApplierTest {
 			Result result = applyPatch();
 			verifyChange(result, "x_last_rm_nl");
 		}
+		
+		@Test
+		public void testVeryLongFile() throws Exception {
+			init("very_long_file");
+
+			Result result = applyPatch();
+			verifyChange(result, "very_long_file");
+		}
 	}
 
 	public static class WithWorktree extends Base {
@@ -514,80 +506,75 @@ public class PatchApplierTest {
 		@Test
 		public void testCrLf() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 				init("crlf", true, true);
 
 				Result result = applyPatch();
 
 				verifyChange(result, "crlf");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testCrLfOff() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 				init("crlf", true, true);
 
 				Result result = applyPatch();
 
 				verifyChange(result, "crlf");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testCrLfEmptyCommitted() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 				init("crlf3", true, true);
 
 				Result result = applyPatch();
 
 				verifyChange(result, "crlf3");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testCrLfNewFile() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 				init("crlf4", false, true);
 
 				Result result = applyPatch();
 
 				verifyChange(result, "crlf4");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testPatchWithCrLf() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 				init("crlf2", true, true);
 
 				Result result = applyPatch();
 
 				verifyChange(result, "crlf2");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
@@ -595,210 +582,197 @@ public class PatchApplierTest {
 		public void testPatchWithCrLf2() throws Exception {
 			String aName = "crlf2";
 			try (Git git = new Git(db)) {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 				init(aName, true, true);
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				Result result = applyPatch();
 
 				verifyChange(result, aName);
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testNoNewlineAtEndAutoCRLF_true() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				init("x_d_crlf", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_d_crlf");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testNoNewlineAtEndAutoCRLF_false() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
 				init("x_d", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_d");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testNoNewlineAtEndAutoCRLF_input() throws Exception {
 			try {
-				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF,
+						"input");
 
 				init("x_d", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_d");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testNoNewlineAtEndInHunkAutoCRLF_true() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				init("x_e_crlf", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_e_crlf");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testNoNewlineAtEndInHunkAutoCRLF_false() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
 				init("x_e", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_e");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testNoNewlineAtEndInHunkAutoCRLF_input() throws Exception {
 			try {
-				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF,
+						"input");
 
 				init("x_e", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_e");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testAddNewlineAtEndAutoCRLF_true() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				init("x_add_nl_crlf", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_add_nl_crlf");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testAddNewlineAtEndAutoCRLF_false() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
 				init("x_add_nl", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_add_nl");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testAddNewlineAtEndAutoCRLF_input() throws Exception {
 			try {
-				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF,
+						"input");
 
 				init("x_add_nl", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_add_nl");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testRemoveNewlineAtEndAutoCRLF_true() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
 
 				init("x_last_rm_nl_crlf", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_last_rm_nl_crlf");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testRemoveNewlineAtEndAutoCRLF_false() throws Exception {
 			try {
-				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
+				db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 
 				init("x_last_rm_nl", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_last_rm_nl");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
 		@Test
 		public void testRemoveNewlineAtEndAutoCRLF_input() throws Exception {
 			try {
-				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION,
-						null, ConfigConstants.CONFIG_KEY_AUTOCRLF, "input");
+				db.getConfig().setString(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF,
+						"input");
 
 				init("x_last_rm_nl", true, true);
 
 				Result result = applyPatch();
 				verifyChange(result, "x_last_rm_nl");
 			} finally {
-				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_AUTOCRLF);
+				db.getConfig().unset(ConfigConstants.CONFIG_CORE_SECTION, null, ConfigConstants.CONFIG_KEY_AUTOCRLF);
 			}
 		}
 
@@ -836,8 +810,7 @@ public class PatchApplierTest {
 
 			private final char replacement;
 
-			ReplaceFilter(InputStream in, OutputStream out, char toReplace,
-					char replacement) {
+			ReplaceFilter(InputStream in, OutputStream out, char toReplace, char replacement) {
 				super(in, out);
 				this.toReplace = toReplace;
 				this.replacement = replacement;
@@ -862,20 +835,15 @@ public class PatchApplierTest {
 		@Test
 		public void testFiltering() throws Exception {
 			// Set up filter
-			FilterCommandFactory clean =
-					(repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
-			FilterCommandFactory smudge =
-					(repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
+			FilterCommandFactory clean = (repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
+			FilterCommandFactory smudge = (repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
 			FilterCommandRegistry.register("jgit://builtin/a2e/clean", clean);
 			FilterCommandRegistry.register("jgit://builtin/a2e/smudge", smudge);
 			Config config = db.getConfig();
 			try (Git git = new Git(db)) {
-				config.setString(ConfigConstants.CONFIG_FILTER_SECTION, "a2e",
-						"clean", "jgit://builtin/a2e/clean");
-				config.setString(ConfigConstants.CONFIG_FILTER_SECTION, "a2e",
-						"smudge", "jgit://builtin/a2e/smudge");
-				write(new File(db.getWorkTree(), ".gitattributes"),
-						"smudgetest filter=a2e");
+				config.setString(ConfigConstants.CONFIG_FILTER_SECTION, "a2e", "clean", "jgit://builtin/a2e/clean");
+				config.setString(ConfigConstants.CONFIG_FILTER_SECTION, "a2e", "smudge", "jgit://builtin/a2e/smudge");
+				write(new File(db.getWorkTree(), ".gitattributes"), "smudgetest filter=a2e");
 				git.add().addFilepattern(".gitattributes").call();
 				git.commit().setMessage("Attributes").call();
 				init("smudgetest", true, true);
@@ -884,10 +852,8 @@ public class PatchApplierTest {
 
 				verifyChange(result, name);
 			} finally {
-				config.unset(ConfigConstants.CONFIG_FILTER_SECTION, "a2e",
-						"clean");
-				config.unset(ConfigConstants.CONFIG_FILTER_SECTION, "a2e",
-						"smudge");
+				config.unset(ConfigConstants.CONFIG_FILTER_SECTION, "a2e", "clean");
+				config.unset(ConfigConstants.CONFIG_FILTER_SECTION, "a2e", "smudge");
 				// Tear down filter
 				FilterCommandRegistry.unregister("jgit://builtin/a2e/clean");
 				FilterCommandRegistry.unregister("jgit://builtin/a2e/smudge");
@@ -903,8 +869,7 @@ public class PatchApplierTest {
 			} catch (IOException e) {
 				ex = e;
 			}
-			assertTrue(ex != null
-					|| (result != null && !result.getErrors().isEmpty()));
+			assertTrue(ex != null || (result != null && !result.getErrors().isEmpty()));
 			File b = new File(new File(trash, ".git"), "b");
 			assertFalse(".git/b should not exist", b.exists());
 		}
