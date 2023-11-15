@@ -496,6 +496,14 @@ public class PatchApplierTest {
 			Result result = applyPatch();
 			verifyChange(result, "x_last_rm_nl");
 		}
+
+		@Test
+		public void testVeryLongFile() throws Exception {
+			init("very_long_file");
+
+			Result result = applyPatch();
+			verifyChange(result, "very_long_file");
+		}
 	}
 
 	public static class WithWorktree extends Base {
