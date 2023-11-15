@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21466d17_147cac58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:08:55Z",
+      "side": 1,
+      "message": "This is continuation of https://git.eclipse.org/r/c/jgit/jgit/+/181123 that was targeting old stable branch.",
+      "revId": "ee0355ad3af5fda4360085432114797b6f68905b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
