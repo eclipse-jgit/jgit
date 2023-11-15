@@ -16,6 +16,40 @@
       "message": "The change was successfully verified before I edited the change message, and the test logs are very spammy. I\u0027m not sure what\u0027s wrong with the new patchsets.",
       "revId": "513d6d087627c45b985fcc5dde709c4426e406b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32a1ea9_e3c23e11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T14:50:56Z",
+      "side": 1,
+      "message": "Nice finding! What symptom does this address? Could it be covered in tests?",
+      "revId": "513d6d087627c45b985fcc5dde709c4426e406b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc30003f_e0bdffd3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T14:50:56Z",
+      "side": 1,
+      "message": "nit: I might do\n\n try (CountingOutputStream out \u003d new CountingOutputStream(buffer)) {\n   ..\n }\n\nso the scope where the CountingOutputStream is used is a bit more clear",
+      "revId": "513d6d087627c45b985fcc5dde709c4426e406b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
