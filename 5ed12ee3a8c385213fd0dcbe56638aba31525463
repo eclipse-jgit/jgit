@@ -16,6 +16,24 @@
       "message": "Isn\u0027t that an error we should raise if we think that we have the lock but actually it\u0027s already gone ?",
       "revId": "5ed12ee3a8c385213fd0dcbe56638aba31525463",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c78616b_eb635cc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-15T17:53:48Z",
+      "side": 1,
+      "message": "I was a little torn on this too because it does seem like a problem if someone else removed our lock file. However, all we\u0027re doing is logging it if the file is missing and we\u0027re logging with a potentially misleading message. Maybe the better approach is to not add SKIP_MISSING and add another catch block specific to a NoSuchFileException with a WARN level message?",
+      "parentUuid": "dc64d618_711ca5c2",
+      "revId": "5ed12ee3a8c385213fd0dcbe56638aba31525463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
