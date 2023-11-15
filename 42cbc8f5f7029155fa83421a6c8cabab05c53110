@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1e49859_fd0d350e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-15T21:56:36Z",
+      "side": 1,
+      "message": "waiting for license approval https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/11593",
+      "revId": "42cbc8f5f7029155fa83421a6c8cabab05c53110",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
