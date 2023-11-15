@@ -345,8 +345,9 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_STREAM_FILE_THRESHOLD = "streamFileThreshold";
 
 	/**
-	 * @Deprecated typo, use CONFIG_KEY_STREAM_FILE_THRESHOLD instead
+	 * @deprecated typo, use CONFIG_KEY_STREAM_FILE_THRESHOLD instead
 	 */
+	@Deprecated(since = "6.8")
 	public static final String CONFIG_KEY_STREAM_FILE_TRESHOLD = CONFIG_KEY_STREAM_FILE_THRESHOLD;
 
 	/**
