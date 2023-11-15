@@ -83,6 +83,14 @@ public class UserConfigFile extends FileBasedConfig {
 	}
 
 	@Override
+	public boolean removeSection(String section, String subsection) {
+		if (exists() || !parent.exists()) {
+			return super.removeSection(section, subsection);
+		}
+		return parent.removeSection(section, subsection);
+	}
+
+	@Override
 	public boolean isOutdated() {
 		return super.isOutdated() || parent.isOutdated();
 	}

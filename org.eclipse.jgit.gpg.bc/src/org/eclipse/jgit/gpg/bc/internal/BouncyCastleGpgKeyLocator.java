@@ -551,7 +551,7 @@ public class BouncyCastleGpgKeyLocator {
 	 * Return the first suitable key for signing in the key ring collection. For
 	 * this case we only expect there to be one key available for signing.
 	 *
-	 * @param signingkey
+	 * @param signingKeyName
 	 *            the signing key
 	 * @param secringFile
 	 *            the secring file
@@ -562,7 +562,7 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws PGPException
 	 *             on BouncyCastle errors
 	 */
-	private PGPSecretKey findSecretKeyInLegacySecring(String signingkey,
+	private PGPSecretKey findSecretKeyInLegacySecring(String signingKeyName,
 			Path secringFile) throws IOException, PGPException {
 
 		try (InputStream in = newInputStream(secringFile)) {
@@ -570,7 +570,7 @@ public class BouncyCastleGpgKeyLocator {
 					PGPUtil.getDecoderStream(new BufferedInputStream(in)),
 					new JcaKeyFingerprintCalculator());
 
-			String keyId = toFingerprint(signingkey).toLowerCase(Locale.ROOT);
+			String keyId = toFingerprint(signingKeyName).toLowerCase(Locale.ROOT);
 			Iterator<PGPSecretKeyRing> keyrings = pgpSec.getKeyRings();
 			while (keyrings.hasNext()) {
 				PGPSecretKeyRing keyRing = keyrings.next();

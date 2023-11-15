@@ -14,6 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -133,6 +135,59 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 				NB.decodeInt32(data, 44));
 		assertEquals(CommitGraphConstants.CHUNK_ID_BLOOM_FILTER_DATA,
 				NB.decodeInt32(data, 56));
+	}
+
+	@Test
+	public void testProgressMonitor() throws Exception {
+		RevCommit root = commit();
+		RevCommit a = commit(root);
+		RevCommit b = commit(root);
+		RevCommit tip = commit(a, b);
+		Set<ObjectId> wants = Collections.singleton(tip);
+
+		NonNestedTasksProgressMonitor nonNested = new NonNestedTasksProgressMonitor();
+		GraphCommits graphCommits = GraphCommits.fromWalk(nonNested, wants,
+				walk);
+		writer = new CommitGraphWriter(graphCommits, true);
+		writer.write(nonNested, os);
+	}
+
+	private static class NonNestedTasksProgressMonitor
+			implements ProgressMonitor {
+
+		boolean inTask;
+
+		@Override
+		public void start(int totalTasks) {
+			// empty
+		}
+
+		@Override
+		public void beginTask(String title, int totalWork) {
+			assertFalse("Previous monitoring task is not closed", inTask);
+			inTask = true;
+		}
+
+		@Override
+		public void update(int completed) {
+			// empty
+		}
+
+		@Override
+		public void endTask() {
+			assertTrue("Closing task that wasn't started", inTask);
+			inTask = false;
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return false;
+		}
+
+		@Override
+		public void showDuration(boolean enabled) {
+			// empty
+		}
 	}
 
 	static HashSet<String> changedPathStrings(byte[] data) {

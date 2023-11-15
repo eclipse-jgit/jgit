@@ -11,7 +11,9 @@ package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Arrays;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Chooses the specific implementation of the object-size index based on the
@@ -26,17 +28,23 @@ public class PackObjectSizeIndexLoader {
 	 *            input stream at the beginning of the object size data
 	 * @return an implementation of the object size index
 	 * @throws IOException
-	 *             error reading the streams
+	 *             error reading the stream, empty stream or content is not an
+	 *             object size index
 	 */
 	public static PackObjectSizeIndex load(InputStream in) throws IOException {
 		byte[] header = in.readNBytes(4);
 		if (!Arrays.equals(header, PackObjectSizeIndexWriter.HEADER)) {
-			throw new IOException("Stream is not an object index"); //$NON-NLS-1$
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unreadableObjectSizeIndex,
+					Integer.valueOf(header.length),
+					Arrays.toString(header)));
 		}
 
 		int version = in.readNBytes(1)[0];
 		if (version != 1) {
-			throw new IOException("Unknown object size version: " + version); //$NON-NLS-1$
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unsupportedObjectSizeIndexVersion,
+					Integer.valueOf(version)));
 		}
 		return PackObjectSizeIndexV1.parse(in);
 	}

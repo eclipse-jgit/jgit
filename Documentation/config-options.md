@@ -68,7 +68,6 @@ For details on native git options see also the official [git config documentatio
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
-| `gc.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph during a gc operation. |
 | `gc.aggressiveDepth` | `50` | &#x2705; | The depth parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.aggressiveWindow` | `250` | &#x2705; | The window size parameter used in the delta compression algorithm used by aggressive garbage collection. |
 | `gc.auto` | `6700` | &#x2705; | Number of loose objects until auto gc combines all loose objects into a pack and consolidates all existing packs into one. Setting to 0 disables automatic packing of loose objects. |
@@ -77,6 +76,7 @@ For details on native git options see also the official [git config documentatio
 | `gc.logExpiry` | `1.day.ago` | &#x2705; | If the file `gc.log` exists, then auto gc will print its content and exit successfully instead of running unless that file is more than `gc.logExpiry` old. |
 | `gc.pruneExpire` | `2.weeks.ago` | &#x2705; | Grace period after which unreachable objects will be pruned. |
 | `gc.prunePackExpire` | `1.hour.ago` |  &#x20DE; | Grace period after which packfiles only containing unreachable objects will be pruned. |
+| `gc.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph during a gc operation. |
 
 ## __http__ options
 
@@ -127,3 +127,25 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.waitPreventRacyPack` | `false` | &#x20DE; | Whether we wait before opening a newly written pack to prevent its lastModified timestamp could be racy. |
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
+
+## __repack__ options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `repack.packKeptObjects` | `true` when `pack.buildBitmaps` is set, `false` otherwise | &#x2705; | Include objects in packs locked by a `.keep` file when repacking. |
+
+## Tracing
+
+**GIT_TRACE_PERFORMANCE**: set this to `true` as a Java system property or environment variable to trace timings from the progress monitor. The system property takes
+precedence. Defaults to `false`. Can also be set programmatically via `ProgressMonitor#showDuration`.
+
+*Example using JGit CLI:*
+
+```bash
+$ GIT_TRACE_PERFORMANCE=true jgit clone https://foo.bar/foobar
+Cloning into 'foobar'...
+remote: Counting objects: 1 [0.002s]
+remote: Finding sources: 100% (15531/15531) [0.006s]
+Receiving objects:      100% (169737/169737) [13.045s]
+Resolving deltas:       100% (67579/67579) [1.842s]
+```

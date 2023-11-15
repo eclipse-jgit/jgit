@@ -2221,7 +2221,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/master");
 		writeTrashFile(FILE1, "modified file1");
 		git.add().addFilepattern(FILE1).call();
-		git.commit().setMessage("commit3").call();
+		git.commit().setMessage("commit2").call();
 
 		// checkout topic branch / modify file0
 		checkoutBranch("refs/heads/topic");
@@ -2238,6 +2238,57 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				+ "[file1, mode:100644, content:modified file1]",
 				indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	@Test
+	public void testFastForwardRebaseWithAutoStashConflict() throws Exception {
+		// create file0, add and commit
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_REBASE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSTASH, true);
+		writeTrashFile("file0", "file0");
+		git.add().addFilepattern("file0").call();
+		git.commit().setMessage("commit0").call();
+		// create file1, add and commit
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit commit = git.commit().setMessage("commit1").call();
+
+		// create topic branch
+		createBranch(commit, "refs/heads/topic");
+
+		// checkout master branch / modify file1, add and commit
+		checkoutBranch("refs/heads/master");
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit master = git.commit().setMessage("commit2").call();
+
+		// checkout topic branch / modify file0 and file1
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file0", "unstaged modified file0");
+		writeTrashFile(FILE1, "unstaged modified file1");
+
+		// rebase
+		assertEquals(Status.STASH_APPLY_CONFLICTS,
+				git.rebase().setUpstream("refs/heads/master").call()
+						.getStatus());
+		checkFile(new File(db.getWorkTree(), "file0"),
+				"unstaged modified file0");
+		checkFile(new File(db.getWorkTree(), FILE1),
+				"<<<<<<< HEAD\n"
+						+ "modified file1\n"
+						+ "=======\n"
+						+ "unstaged modified file1\n"
+						+ ">>>>>>> stash\n");
+		// If there is a merge conflict, the index is not reset, and thus file0
+		// is staged here. This is the same behavior as in C git.
+		String expected = "[file0, mode:100644, content:unstaged modified file0]"
+				+ "[file1, mode:100644, stage:1, content:file1]"
+				+ "[file1, mode:100644, stage:2, content:modified file1]"
+				+ "[file1, mode:100644, stage:3, content:unstaged modified file1]";
+		assertEquals(expected, indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertEquals(master, db.resolve(Constants.HEAD));
+		assertEquals(master, db.resolve("refs/heads/topic"));
 	}
 
 	private List<DiffEntry> getStashedDiff() throws AmbiguousObjectException,

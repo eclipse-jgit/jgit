@@ -3,7 +3,7 @@ workspace(name = "jgit")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools:bazlets.bzl", "load_bazlets")
 
-load_bazlets(commit = "f30a992da9fc855dce819875afb59f9dd6f860cd")
+load_bazlets(commit = "f9c119e45d9a241bee720b7fbd6c7fdbc952da5f")
 
 load(
     "@com_googlesource_gerrit_bazlets//tools:maven_jar.bzl",
@@ -178,8 +178,8 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:5.5.0",
-    sha1 = "1660ec3ce0af7f713af923817b225a37cc5cf965",
+    artifact = "org.mockito:mockito-core:5.7.0",
+    sha1 = "a1c258331ab91d66863c983aff7136357e9de056",
 )
 
 maven_jar(

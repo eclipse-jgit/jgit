@@ -196,6 +196,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitsHaveAlreadyBeenMarkedAsStart;
 	/***/ public String compressingObjects;
 	/***/ public String computingCommitGeneration;
+	/***/ public String computingPathBloomFilters;
 	/***/ public String configSubsectionContainsNewline;
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;
@@ -289,6 +290,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deletedOrphanInPackDir;
 	/***/ public String deleteRequiresZeroNewId;
 	/***/ public String deleteTagUnexpectedResult;
+	/***/ public String deletingBranches;
 	/***/ public String deletingNotSupported;
 	/***/ public String depthMustBeAt1;
 	/***/ public String depthWithUnshallow;
@@ -863,6 +865,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;
 	/***/ public String unreadableCommitGraph;
+	/***/ public String unreadableObjectSizeIndex;
 	/***/ public String unreadablePackIndex;
 	/***/ public String unrecognizedPackExtension;
 	/***/ public String unrecognizedRef;
@@ -876,6 +879,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedGC;
 	/***/ public String unsupportedMark;
 	/***/ public String unsupportedObjectIdVersion;
+	/***/ public String unsupportedObjectSizeIndexVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackReverseIndexVersion;
@@ -884,6 +888,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedRepositoryDescription;
 	/***/ public String unsupportedSizesObjSizeIndex;
 	/***/ public String updateRequiresOldIdAndNewId;
+	/***/ public String updatingConfig;
 	/***/ public String updatingHeadFailed;
 	/***/ public String updatingReferences;
 	/***/ public String updatingRefFailed;

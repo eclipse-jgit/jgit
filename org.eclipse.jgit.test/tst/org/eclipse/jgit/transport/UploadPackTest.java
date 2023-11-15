@@ -2215,7 +2215,8 @@ public class UploadPackTest {
 
 			uri = testProtocol.register(ctx, server);
 
-			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES, true));
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES,
+					/* useNegotiationTip= */true));
 			try (Transport tn = testProtocol.open(uri,
 					clientRepo.getRepository(), "server")) {
 
@@ -2335,7 +2336,8 @@ public class UploadPackTest {
 			}, null);
 
 			uri = testProtocol.register(ctx, server);
-			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES, true));
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES,
+					/* useNegotiationTip= */true));
 			try (Transport tn = testProtocol.open(uri,
 					clientRepo.getRepository(), "server")) {
 
@@ -2360,6 +2362,67 @@ public class UploadPackTest {
 		for (Object id : countHavesHook.havesSentDuringNegotiation) {
 			assertTrue(localFooCommits.contains(id));
 		}
+	}
+
+	/**
+	 * <pre>
+	 * remote:
+	 *    foo &lt;- foofoo &lt;-- branchFoo
+	 *    bar &lt;- barbar &lt;-- branchBar
+	 *
+	 * client:
+	 *    none
+	 *
+	 * fetch(branchFoo) should not send have and should get only branchFoo back
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTipDoesNotDoFullClone() throws Exception {
+		RevCommit fooParent = remote.commit().message("foo").create();
+		RevCommit fooChild = remote.commit().message("foofoo").parent(fooParent)
+				.create();
+		RevCommit barParent = remote.commit().message("bar").create();
+		RevCommit barChild = remote.commit().message("barbar").parent(barParent)
+				.create();
+
+		// Remote has branchFoo at fooChild and branchBar at barChild
+		remote.update("branchFoo", fooChild);
+		remote.update("branchBar", barChild);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+
+		// Client does not have branchFoo & branchBar
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES,
+					/* useNegotiationTip= */true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(
+								new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		assertTrue(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barChild.toObjectId()));
+
+		assertEquals(0, uploadPack.get().getStatistics().getHaves());
+		assertTrue(countHavesHook.havesSentDuringNegotiation.isEmpty());
 	}
 
 	private static class CountHavesPreUploadHook implements PreUploadHook {
@@ -2937,7 +3000,70 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
-		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+		assertEquals(0, ((RefCallsCountingRepository)server).numRefCalls());
+	}
+
+	/*
+	 * Invokes UploadPack with specified protocol version and sends it the given
+	 * lines, and returns UploadPack statistics (use uploadPackSetup to get the
+	 * output stream)
+	 */
+	private PackStatistics uploadPackV2SetupStats(String... inputLines)
+			throws Exception {
+
+		ByteArrayInputStream send = linesAsInputStream(inputLines);
+		String version = TransferConfig.ProtocolVersion.V2.version();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION, version);
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=".concat(version)));
+
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
+			return up.getStatistics();
+		}
+	}
+
+	@Test
+	public void testUseWantedRefsAsAdvertisedSetV2_onlyWantedRefs()
+			throws Exception {
+		server = new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+		PackStatistics packStats = uploadPackV2SetupStats("command=fetch\n",
+				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
+				"want-ref refs/heads/two\n", "done\n", PacketLineIn.end());
+		assertEquals("only wanted-refs", 2, packStats.getAdvertised());
+		assertEquals(0, ((RefCallsCountingRepository) server).numRefCalls());
+	}
+
+	@Test
+	public void testUseWantedRefsAsAdvertisedSetV2_withWantId()
+			throws Exception {
+		server = new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+		PackStatistics packStats = uploadPackV2SetupStats("command=fetch\n",
+				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
+				"want " + one.getName() + "\n", "done\n", PacketLineIn.end());
+		assertEquals("all refs", 3, packStats.getAdvertised());
+		assertEquals(1, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
 	@Test

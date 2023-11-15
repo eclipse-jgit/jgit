@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -123,7 +122,7 @@ public class CommitGraphWriter {
 		}
 
 		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
-				? computeBloomFilterChunks()
+				? computeBloomFilterChunks(monitor)
 				: null;
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.addAll(createCoreChunks(hashsz, graphCommits));
@@ -131,18 +130,11 @@ public class CommitGraphWriter {
 		chunks = Collections.unmodifiableList(chunks);
 
 		long expectedSize = calculateExpectedSize(chunks);
-		long writeCount = 256L + 2 * graphCommits.size()
-				+ graphCommits.getExtraEdgeCnt();
-		monitor.beginTask(
-				MessageFormat.format(JGitText.get().writingOutCommitGraph,
-						Integer.valueOf(chunks.size())),
-				(int) writeCount);
-
 		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
-			writeChunks(monitor, out, chunks);
+			writeChunks(out, chunks);
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
@@ -153,8 +145,6 @@ public class CommitGraphWriter {
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
 					e);
-		} finally {
-			monitor.endTask();
 		}
 		return Stats.from(bloomFilterChunks);
 	}
@@ -219,9 +209,8 @@ public class CommitGraphWriter {
 		out.write(buffer);
 	}
 
-	private void writeChunks(ProgressMonitor monitor,
-			CancellableDigestOutputStream out, List<ChunkHeader> chunks)
-			throws IOException {
+	private void writeChunks(CancellableDigestOutputStream out,
+			List<ChunkHeader> chunks) throws IOException {
 		for (ChunkHeader chunk : chunks) {
 			int chunkId = chunk.id;
 
@@ -233,7 +222,7 @@ public class CommitGraphWriter {
 				writeOidLookUp(out);
 				break;
 			case CHUNK_ID_COMMIT_DATA:
-				writeCommitData(monitor, out);
+				writeCommitData(out);
 				break;
 			case CHUNK_ID_EXTRA_EDGE_LIST:
 				writeExtraEdges(out);
@@ -287,9 +276,12 @@ public class CommitGraphWriter {
 		}
 	}
 
-	private void writeCommitData(ProgressMonitor monitor,
-			CancellableDigestOutputStream out) throws IOException {
+	private void writeCommitData(CancellableDigestOutputStream out)
+			throws IOException {
+		ProgressMonitor monitor = out.getWriteMonitor();
 		int[] generations = computeGenerationNumbers(monitor);
+		monitor.beginTask(JGitText.get().writingOutCommitGraph,
+				graphCommits.size());
 		int num = 0;
 		byte[] tmp = new byte[hashsz + COMMIT_DATA_WIDTH];
 		int i = 0;
@@ -327,9 +319,10 @@ public class CommitGraphWriter {
 			NB.encodeInt32(tmp, hashsz + 12, packedDate[1]);
 
 			out.write(tmp);
-			out.getWriteMonitor().update(1);
+			monitor.update(1);
 			i++;
 		}
+		monitor.endTask();
 	}
 
 	private int[] computeGenerationNumbers(ProgressMonitor monitor)
@@ -414,7 +407,7 @@ public class CommitGraphWriter {
 		return Optional.of(paths);
 	}
 
-	private BloomFilterChunks computeBloomFilterChunks()
+	private BloomFilterChunks computeBloomFilterChunks(ProgressMonitor monitor)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 
@@ -436,6 +429,8 @@ public class CommitGraphWriter {
 		int dataHeaderSize = data.size();
 
 		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
+			monitor.beginTask(JGitText.get().computingPathBloomFilters,
+					graphCommits.size());
 			for (RevCommit cmit : graphCommits) {
 				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
 				if (cpf != null) {
@@ -453,7 +448,9 @@ public class CommitGraphWriter {
 				cpf.writeTo(data);
 				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
 				index.write(scratch);
+				monitor.update(1);
 			}
+			monitor.endTask();
 			return new BloomFilterChunks(index, data, filtersReused, filtersComputed);
 		}
 	}
