@@ -118,6 +118,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bf59e99_b1bd28fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-15T23:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbbf00f5_f2c44924",
+      "revId": "773a13da2c29c1990ae631d8813a129262f07985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38ecd9fa_f6b2a942",
