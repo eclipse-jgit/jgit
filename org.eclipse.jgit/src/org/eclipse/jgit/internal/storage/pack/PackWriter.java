@@ -81,6 +81,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.BitmapWalker;
+import org.eclipse.jgit.revwalk.BitmapWalker.BitmapWalkListener;
 import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -2029,8 +2030,17 @@ public class PackWriter implements AutoCloseable {
 		if (!shallowPack && useBitmaps) {
 			BitmapIndex bitmapIndex = reader.getBitmapIndex();
 			if (bitmapIndex != null) {
-				BitmapWalker bitmapWalker = new BitmapWalker(
-						walker, bitmapIndex, countingMonitor);
+				BitmapWalkListener saveObjectsWithBitmaps = new BitmapWalkListener() {
+					@Override
+					public void onBitmapFound(ObjectId oid) {
+						if (stats.objectsWithBitmaps == null) {
+							stats.objectsWithBitmaps = new HashSet<>();
+						}
+						stats.objectsWithBitmaps.add(oid);
+					}
+				};
+				BitmapWalker bitmapWalker = new BitmapWalker(walker,
+						bitmapIndex, countingMonitor, saveObjectsWithBitmaps);
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
 				endPhase(countingMonitor);
 				stats.timeCounting = System.currentTimeMillis() - countingStart;
