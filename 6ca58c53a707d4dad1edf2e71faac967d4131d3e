@@ -39,6 +39,29 @@
       "message": "add a test to check this for some example ?",
       "revId": "6ca58c53a707d4dad1edf2e71faac967d4131d3e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b9be02e_37d21a5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 129259
+      },
+      "writtenOn": "2023-11-15T23:46:44Z",
+      "side": 1,
+      "message": "objectsWithBitmapLookups?",
+      "range": {
+        "startLine": 244,
+        "startChar": 23,
+        "endLine": 244,
+        "endChar": 41
+      },
+      "revId": "6ca58c53a707d4dad1edf2e71faac967d4131d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
