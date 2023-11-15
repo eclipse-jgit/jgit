@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "506c1a0a_bb611aa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T21:49:12Z",
+      "side": 1,
+      "message": "Thanks for the test. Looks like some other changes snuck in; once that\u0027s fixed, LGTM.",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45c376b_b05b1bf6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T21:49:12Z",
+      "side": 1,
+      "message": "nit: it would be nice to avoid these unrelated formatting changes, or to make them in a separate commit",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c5fe80a_7e1ccba1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T21:49:12Z",
+      "side": 1,
+      "message": "nit: trailing tabs",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2ca4d36_d8311a24",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T21:49:12Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca177fc_f6babe9b",
+        "filename": "tools/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 951
+      },
+      "writtenOn": "2023-11-15T21:49:12Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
