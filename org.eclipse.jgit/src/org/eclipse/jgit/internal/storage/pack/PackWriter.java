@@ -2038,13 +2038,16 @@ public class PackWriter implements AutoCloseable {
 						}
 						stats.objectsWithBitmaps.add(oid);
 					}
+					@Override
+					public void onBitmapNotFound(ObjectId oid) {
+						stats.bitmapIndexMisses += 1;
+					}
 				};
 				BitmapWalker bitmapWalker = new BitmapWalker(walker,
 						bitmapIndex, countingMonitor, saveObjectsWithBitmaps);
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
 				endPhase(countingMonitor);
 				stats.timeCounting = System.currentTimeMillis() - countingStart;
-				stats.bitmapIndexMisses = bitmapWalker.getCountOfBitmapIndexMisses();
 				return;
 			}
 		}
