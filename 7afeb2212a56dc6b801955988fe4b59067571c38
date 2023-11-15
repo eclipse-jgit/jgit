@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25da7c07_dae2c4c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:08:04Z",
+      "side": 1,
+      "message": "I\u0027ve rebased this on `master` and addressed the feedback.\n\nThe discussion is still open. Hope we can continue on the change targeting the `master` branch.\n\nhttps://git.eclipse.org/r/c/jgit/jgit/+/205501",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "650e6fef_325722d2",
