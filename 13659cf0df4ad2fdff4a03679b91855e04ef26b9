@@ -52,6 +52,24 @@
       "parentUuid": "d9cb1c71_928b5f5f",
       "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e9e2f1b_7cb866fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 227701
+      },
+      "writtenOn": "2023-11-15T00:25:19Z",
+      "side": 1,
+      "message": "simplified and I assume these comments are no longer valid on this patch. Kindly refer and close",
+      "parentUuid": "51273ee5_017863f1",
+      "revId": "13659cf0df4ad2fdff4a03679b91855e04ef26b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
