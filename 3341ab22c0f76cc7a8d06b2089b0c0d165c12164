@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e517e0c_745b1576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-15T17:59:14Z",
+      "side": 1,
+      "message": "I think I address this below as well as in my response to another comment https://git.eclipse.org/r/c/jgit/jgit/+/205423/comments/43c5dea8_8813ab64\n\nIt\u0027s not RefDirectory specific, it\u0027s rather that Reftable overrides `getRefsByPrefix(String prefix)` and the base implementation of that method gets all refs when the prefix string has no \u0027/\u0027. I was changing UploadPack because I was assuming the restriction to HEAD and refs/ namespaces only applied there, but going back and reading the javadoc on RefDatabase.getRefs(), that seems to have the same contract (but unless I\u0027m missing something, the implementation doesn\u0027t match). If you agree, it might be more appropriate to move this logic into RefDatabase.",
+      "parentUuid": "faa0fe80_7c58ed36",
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a98b252f_4a2bf2af",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-14T17:54:14Z",
       "side": 1,
       "message": "Was this mismatch causing any problem? If so, could we have a test case to cover it?",
+      "range": {
+        "startLine": 11,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25fea033_20c9fb09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-15T17:59:14Z",
+      "side": 1,
+      "message": "It could advertise refs outside of the `refs/` namespace other than `HEAD`. For example, if someone had a symref like `NOT_HEAD` on their remote, I think fetching with a refspec like `NOT*:refs/remotes/origin/*` would return it, but with git.git it wouldn\u0027t. I could try to add a test case for that.\n\nIt was also potentially wasted work for the more likely case where there was no matching ref outside of `refs`. For example, if someone ran `git fetch origin d*:refs/remotes/origin/d*`, RefDatabase would try to get all refs (since there\u0027s no \u0027/\u0027) and then filter for any starting with \u0027d\u0027. Since almost all refs are going to start with `refs/`, that won\u0027t match any. I can check the existing test cases for coverage, but I don\u0027t know if it\u0027s worth mocking the classes to test that we don\u0027t try to get all refs in this case. If it\u0027s simple to do I\u0027ll try to add it.",
+      "parentUuid": "a98b252f_4a2bf2af",
       "range": {
         "startLine": 11,
         "startChar": 44,
@@ -89,6 +131,24 @@
       "writtenOn": "2023-11-14T17:54:14Z",
       "side": 1,
       "message": "IIUC here you are: removing prefixes that do NOT start with refs/ and handling HEAD differently. \n\nIf so, the loop is hard to follow; maybe streams could make this more readable. Something like:\nboolean hasHead \u003d refPrefixes.contains(Contants.HEAD);\nList\u003cString\u003e validPrefixes \u003d refPrefixes.stream().filter(prefix -\u003e ... starts with refs/ and NOT head).collect();\n\nThen query the prefixes and add head if needed.",
+      "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3469a26e_5ca50b27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-15T17:59:14Z",
+      "side": 1,
+      "message": "\u003e IIUC here you are: removing prefixes that do NOT start with refs/ and handling HEAD differently. \n\nYes.\n\n\u003e \n\u003e If so, the loop is hard to follow; maybe streams could make this more readable. Something like:\n\u003e boolean hasHead \u003d refPrefixes.contains(Contants.HEAD);\n\u003e List\u003cString\u003e validPrefixes \u003d refPrefixes.stream().filter(prefix -\u003e ... starts with refs/ and NOT head).collect();\n\u003e \n\u003e Then query the prefixes and add head if needed.\n\nI had something like that in my first version, but I was trying to limit the number of times I iterated the refPrefixes. But I also had a bug, so maybe I can improve it now. I\u0027ll update tests first and then try to improve this.",
+      "parentUuid": "ee6decde_922e8429",
       "revId": "3341ab22c0f76cc7a8d06b2089b0c0d165c12164",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
