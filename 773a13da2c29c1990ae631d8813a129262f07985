@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b34fab97_46377dbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-15T23:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30d8c8b3_271d23e2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "773a13da2c29c1990ae631d8813a129262f07985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3691ad8d_b4b6da35",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-15T22:39:53Z",
       "side": 1,
       "message": "Eclipse raises a warning on empty blocks which aren\u0027t commented",
+      "revId": "773a13da2c29c1990ae631d8813a129262f07985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2ab6874_10962357",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-15T23:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3691ad8d_b4b6da35",
       "revId": "773a13da2c29c1990ae631d8813a129262f07985",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dbbf00f5_f2c44924",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-15T23:05:33Z",
+      "side": 1,
+      "message": "Done (?). Eclipse (and Intellij with eclipse formatter) doesn\u0027t break this line (only the {}). I added at least the comment for an empty block.",
+      "parentUuid": "fb8f2677_23453738",
+      "revId": "773a13da2c29c1990ae631d8813a129262f07985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38ecd9fa_f6b2a942",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
         "patchSetId": 1
@@ -71,6 +131,24 @@
       "writtenOn": "2023-11-15T22:39:53Z",
       "side": 1,
       "message": "nit: line is too wide",
+      "revId": "773a13da2c29c1990ae631d8813a129262f07985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31404b23_f0599bbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/BitmapWalker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-15T23:05:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38ecd9fa_f6b2a942",
       "revId": "773a13da2c29c1990ae631d8813a129262f07985",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
