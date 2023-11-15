@@ -88,6 +88,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.BinaryDeltaInputStream;
 import org.eclipse.jgit.util.io.BinaryHunkInputStream;
+import org.eclipse.jgit.util.io.CountingOutputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 import org.eclipse.jgit.util.sha1.SHA1;
 
@@ -1013,7 +1014,11 @@ public class PatchApplier {
 		// We could check if old == new, but the short-circuiting complicates
 		// logic for inCore patching, so just write the new thing regardless.
 		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
-		try (OutputStream out = buffer) {
+		// TemporaryBuffer::length reports incorrect length until the buffer
+		// is closed. To use it as input for ContentStreamLoader below, we
+		// need a wrapper with a reliable in-progress length.
+		CountingOutputStream countingStream = new CountingOutputStream(buffer);
+		try (OutputStream out = countingStream) {
 			for (Iterator<ByteBuffer> l = newLines.iterator(); l.hasNext();) {
 				ByteBuffer line = l.next();
 				if (line == null) {
@@ -1026,7 +1031,7 @@ public class PatchApplier {
 				}
 			}
 			return new ContentStreamLoader(buffer::openInputStream,
-					buffer.length());
+				countingStream.getCount());
 		}
 	}
 
