@@ -166,9 +166,12 @@ public final class BitmapWalker {
 	 * Return the number of objects that had to be walked because they were not covered by a
 	 * bitmap.
 	 *
+	 * @deprecated Use the {@link BitmapWalkListener} to keep this counter
+	 *
 	 * @return the number of objects that had to be walked because they were not covered by a
 	 *     bitmap.
 	 */
+	@Deprecated(since = "6.8")
 	public long getCountOfBitmapIndexMisses() {
 		return countOfBitmapIndexMisses;
 	}
