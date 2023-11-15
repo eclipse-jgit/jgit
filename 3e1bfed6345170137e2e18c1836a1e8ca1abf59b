@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26cc2e5f_055ec47d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-11-15T22:54:20Z",
+      "side": 1,
+      "message": "Can we change this word to \"fix\"? This is not about a design choice, but a bug, so \"fix\" is more appropriate.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "3e1bfed6345170137e2e18c1836a1e8ca1abf59b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dca67f2_9759b5c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-11-15T22:54:20Z",
+      "side": 1,
+      "message": "Also explain what the correct behavior is. E.g.\n\nStartGenerator is responsible for propagating the RevWalk\u0027s parent rewrite setting, but it currently only does so when a non-default TreeFilter is set, when it should also do so if the default TreeFilter is used with a non-default RevFilter.",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "3e1bfed6345170137e2e18c1836a1e8ca1abf59b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8449f37c_43cb8804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-11-15T22:54:20Z",
+      "side": 1,
+      "message": "I see that in patchset 20, we no longer have the constructor that takes in a rewriteFlag from the outside. Does this paragraph need to be updated?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "3e1bfed6345170137e2e18c1836a1e8ca1abf59b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "403cb092_9faeb3a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-11-15T22:54:20Z",
+      "side": 1,
+      "message": "Also mention that TreeRevFilterTest relied on the old buggy functionality and has been modified to explicitly refrain from rewriting parents.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "3e1bfed6345170137e2e18c1836a1e8ca1abf59b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb045202_90e1e18b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 150123
+      },
+      "writtenOn": "2023-11-15T22:54:20Z",
+      "side": 1,
+      "message": "This commit has nothing to do with the commit graph file and the rest of the tests are of good enough coverage, I think, so we can just remove the changes to this file.",
+      "revId": "3e1bfed6345170137e2e18c1836a1e8ca1abf59b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
