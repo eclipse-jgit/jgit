@@ -33,6 +33,24 @@
       "message": "potentially we can move this check to `PackDirectory#getPacks()` and re-scan packs if any of them don\u0027t exist, something like:\n\n```java\nCollection\u003cPack\u003e getPacks() {\n\tPackList list \u003d packList.get();\n\tif (list \u003d\u003d NO_PACKS) {\n\t\tlist \u003d scanPacks(list);\n\t} else {\n\t\ttry {\n\t\t\tfor (Pack pack : list.packs) {\n\t\t\t\tif (!pack.exists()) {\n\t\t\t\t\tlist \u003d scanPacks(list);\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t} catch (IOException e) {\n\t\t\t// TODO Auto-generated catch block\n\t\t\te.printStackTrace();\n\t\t}\n\t}\n\tPack[] packs \u003d list.packs;\n\n\treturn Collections.unmodifiableCollection(Arrays.asList(packs));\n}\n```\n\nBut:\n * that will result in IO overhead each time packs are read, we cache them for a reason,\n * we need to decide what to do in case of `IOExeption`\n * this is still \"racy\", as the pack may have been removed a millisecond after we checked if it exists",
       "revId": "ee0355ad3af5fda4360085432114797b6f68905b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b91837f9_be591f66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-15T17:42:54Z",
+      "side": 1,
+      "message": "\u003e  * this is still \"racy\", as the pack may have been removed a millisecond after we checked if it exists\n\nI think we want to solve this problem with whatever refactoring is needed now that the change is on master (as discussed in [1]). That probably means trying to read the pack and gracefully handling the error if the file no longer exists.\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/181123/comments/9988a75d_3e6b41fe",
+      "parentUuid": "0f6474db_dc1c2e61",
+      "revId": "ee0355ad3af5fda4360085432114797b6f68905b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
