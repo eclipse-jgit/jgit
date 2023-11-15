@@ -2046,7 +2046,7 @@ public class PackWriter implements AutoCloseable {
 
 					@Override
 					public void onCommitWithoutBitmap(ObjectId oid) {
-						// Nothing to do
+						stats.bitmapIndexMisses += 1;
 					}
 				};
 				BitmapWalker bitmapWalker = new BitmapWalker(walker,
@@ -2054,7 +2054,6 @@ public class PackWriter implements AutoCloseable {
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
 				endPhase(countingMonitor);
 				stats.timeCounting = System.currentTimeMillis() - countingStart;
-				stats.bitmapIndexMisses = bitmapWalker.getCountOfBitmapIndexMisses();
 				return;
 			}
 		}
