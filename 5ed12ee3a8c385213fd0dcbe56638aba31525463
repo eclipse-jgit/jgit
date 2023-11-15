@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc64d618_711ca5c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-15T17:26:31Z",
+      "side": 1,
+      "message": "Isn\u0027t that an error we should raise if we think that we have the lock but actually it\u0027s already gone ?",
+      "revId": "5ed12ee3a8c385213fd0dcbe56638aba31525463",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
