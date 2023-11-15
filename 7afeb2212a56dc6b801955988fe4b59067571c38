@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "650e6fef_325722d2",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "incomplete conflict resolution ?",
       "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce7d541e_377571ca",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "650e6fef_325722d2",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "0b5ffe38_6303dd45",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
@@ -31,10 +50,28 @@
       "side": 1,
       "message": "fix unresolved conflicts",
       "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18393b85_d67d6600",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b5ffe38_6303dd45",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "62006531_d72853df",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
@@ -48,8 +85,25 @@
       "side": 1,
       "message": "this is still racy",
       "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "addaf9ef_3205b1f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "yes, all FS operations are \"racy\", as the underlying file can be deleted immediately after it is checked for existence or read.\n\nMaybe we can try to handle it inside of the `CachedPack`? Potentially we can gracefully handle the \"file not found\" exception and simply return \"zero content\". But this could have wider consequences than just removing a pack from the list.",
+      "parentUuid": "62006531_d72853df",
+      "revId": "7afeb2212a56dc6b801955988fe4b59067571c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

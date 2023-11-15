@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "cd1f91ae_9f589695",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
@@ -20,8 +21,31 @@
         "endChar": 12
       },
       "revId": "c5fde33a268c84769e65d943eed0165c1c403448",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58242639_727f5a2a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd1f91ae_9f589695",
+      "range": {
+        "startLine": 665,
+        "startChar": 0,
+        "endLine": 665,
+        "endChar": 12
+      },
+      "revId": "c5fde33a268c84769e65d943eed0165c1c403448",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }

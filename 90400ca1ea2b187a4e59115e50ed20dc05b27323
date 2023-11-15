@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "182521b1_6c6a13c9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "we externalize error messages",
       "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4297f356_93d19ac1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "182521b1_6c6a13c9",
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "eb2a60a9_55f378bd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
@@ -37,10 +56,34 @@
         "endChar": 31
       },
       "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90c173ce_37262846",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb2a60a9_55f378bd",
+      "range": {
+        "startLine": 297,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 31
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4d276564_c2539de7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
@@ -60,10 +103,34 @@
         "endChar": 21
       },
       "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20bca6ce_3a5211ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d276564_c2539de7",
+      "range": {
+        "startLine": 299,
+        "startChar": 7,
+        "endLine": 299,
+        "endChar": 21
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5413a8f2_25a53ef4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
@@ -83,10 +150,34 @@
         "endChar": 21
       },
       "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7afee570_b928dbfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5413a8f2_25a53ef4",
+      "range": {
+        "startLine": 316,
+        "startChar": 7,
+        "endLine": 316,
+        "endChar": 21
+      },
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9b6c085d_18cc12a9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
@@ -106,10 +197,10 @@
         "endChar": 20
       },
       "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "db15ec86_01ef1892",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
@@ -123,8 +214,25 @@
       "side": 1,
       "message": "don\u0027t we need to remove the pack from the transient pack list if the pack file does not exist ?",
       "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
-      "unresolved": true
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0405bcca_75c764ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-15T15:05:58Z",
+      "side": 1,
+      "message": "I think we do, but it may not be easy.\n\nThe same pack file will not appear again, it would be _wasteful_ to always check if it\u0027s still there.\n\nAs suggested above, maybe we can move this to the lover abstraction layer, and make it the responsibility of `ObjectDirectory` to discover and remove deleted files?",
+      "parentUuid": "db15ec86_01ef1892",
+      "revId": "90400ca1ea2b187a4e59115e50ed20dc05b27323",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
