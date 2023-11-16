@@ -48,29 +48,39 @@ public final class BitmapWalker {
 	private Bitmap prevBitmap;
 
 	/**
-	 * Report events happening during the walk.
+	 * Report commits found during the walk
 	 *
 	 * @since 6.8
 	 */
 	public interface BitmapWalkListener {
-
 		/**
-		 * The object is in the walk, and it has a bitmap
+		 * The commit is already in the walk bitmap
 		 *
 		 * @param oid
-		 *            objectId with a bitmap in the bitmap index
+		 *            objectId of the commit already in bitmap
 		 */
-		default void onBitmapFound(ObjectId oid) {
+		default void onCommitInBitmap(ObjectId oid) {
 			// Nothing to do
 		}
 
 		/**
-		 * The object is in the walk but doesn't have bitmap
+		 * The commit has a bitmap in the bitmap index
 		 *
 		 * @param oid
-		 *            objectId without a bitmap in the bitmap index
+		 *            objectId of the commit with a bitmap in the bitmap index
 		 */
-		default void onBitmapNotFound(ObjectId oid) {
+		default void onCommitWithBitmap(ObjectId oid) {
+			// Nothing to do
+		}
+
+		/**
+		 * The commit doesn't have bitmap
+		 *
+		 * @param oid
+		 *            objectId of the commit without a bitmap in the bitmap
+		 *            index
+		 */
+		default void onCommitWithoutBitmap(ObjectId oid) {
 			// Nothing to do
 		}
 	}
@@ -195,7 +205,7 @@ public final class BitmapWalker {
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
 			if (bitmap != null) {
 				result.or(bitmap);
-				listener.onBitmapFound(obj);
+				listener.onCommitWithBitmap(obj);
 			}
 		}
 
@@ -236,7 +246,7 @@ public final class BitmapWalker {
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
 			if (bitmap != null) {
 				bitmapResult.or(bitmap);
-				listener.onBitmapFound(obj);
+				listener.onCommitWithBitmap(obj);
 			}
 		}
 
@@ -279,7 +289,7 @@ public final class BitmapWalker {
 				// of bitmaps.
 				pm.update(1);
 				countOfBitmapIndexMisses++;
-				listener.onBitmapNotFound(oid);
+				listener.onCommitWithoutBitmap(oid);
 			}
 
 			RevObject ro;
