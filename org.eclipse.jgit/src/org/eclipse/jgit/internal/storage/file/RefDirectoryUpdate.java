@@ -25,6 +25,7 @@ class RefDirectoryUpdate extends RefUpdate {
 	private final RefDirectory database;
 
 	private boolean shouldDeref;
+	private boolean isDelete;
 	private LockFile lock;
 
 	RefDirectoryUpdate(RefDirectory r, Ref ref) {
@@ -63,6 +64,24 @@ class RefDirectoryUpdate extends RefUpdate {
 		if (lock != null) {
 			lock.unlock();
 			lock = null;
+
+			Ref dst = getRef();
+			if (shouldDeref) {
+				dst = dst.getLeaf();
+			}
+			if (dst.getStorage().isPacked() && isDelete) {
+				// If we deleted a packed-ref, clean up the directories we may have created when we locked the loose ref
+				String refName = dst.getName();
+				int levels = RefDirectory.levelsIn(refName) - 3;
+				if (levels >= 0) {
+					try {
+						RefDirectory.delete(getRefDatabase().fileFor(refName)
+								.getParentFile(), levels);
+					} catch (IOException e) {
+						// ignore failures, logging already done by delete()
+					}
+				}
+			}
 		}
 	}
 
@@ -109,6 +128,7 @@ class RefDirectoryUpdate extends RefUpdate {
 
 	@Override
 	protected Result doDelete(Result status) throws IOException {
+		isDelete = true;
 		if (getRef().getStorage() != Ref.Storage.NEW)
 			database.delete(this);
 		return status;
