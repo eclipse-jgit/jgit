@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "259e6627_3c68d8a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T22:45:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "515fa97b_6333e80f",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "6ca58c53a707d4dad1edf2e71faac967d4131d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bc9ec26_4797ecf4",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-15T23:27:21Z",
       "side": 1,
       "message": "add a test to check this for some example ?",
+      "revId": "6ca58c53a707d4dad1edf2e71faac967d4131d3e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c488def9_fa95d1ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T22:45:43Z",
+      "side": 1,
+      "message": "Parent change added a BitmapWalkerTest that validates the counters.",
+      "parentUuid": "5bc9ec26_4797ecf4",
       "revId": "6ca58c53a707d4dad1edf2e71faac967d4131d3e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
