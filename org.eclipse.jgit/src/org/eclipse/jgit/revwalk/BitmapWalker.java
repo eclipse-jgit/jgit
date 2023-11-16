@@ -54,14 +54,13 @@ public final class BitmapWalker {
 	 */
 	public interface BitmapWalkListener {
 		/**
-		 * The commit is already in the walk bitmap
+		 * The commit was already visited or is reachable from a visited commit
 		 *
 		 * @param oid
-		 *            objectId of the commit already in bitmap
+		 *            objectId of the commit already visited directly or
+		 *            indirectly
 		 */
-		default void onCommitInBitmap(ObjectId oid) {
-			// Nothing to do
-		}
+		void onCommitSeen(ObjectId oid);
 
 		/**
 		 * The commit has a bitmap in the bitmap index
@@ -69,9 +68,7 @@ public final class BitmapWalker {
 		 * @param oid
 		 *            objectId of the commit with a bitmap in the bitmap index
 		 */
-		default void onCommitWithBitmap(ObjectId oid) {
-			// Nothing to do
-		}
+		void onCommitWithBitmap(ObjectId oid);
 
 		/**
 		 * The commit doesn't have bitmap
@@ -80,13 +77,25 @@ public final class BitmapWalker {
 		 *            objectId of the commit without a bitmap in the bitmap
 		 *            index
 		 */
-		default void onCommitWithoutBitmap(ObjectId oid) {
-			// Nothing to do
-		}
+		void onCommitWithoutBitmap(ObjectId oid);
+
 	}
 
-	private static final BitmapWalkListener NO_LISTENER = new BitmapWalkListener() {
-		// Default methods
+	public static final BitmapWalkListener NOOP_LISTENER = new BitmapWalkListener() {
+		@Override
+		public void onCommitSeen(ObjectId oid) {
+			// Nothing to do
+		}
+
+		@Override
+		public void onCommitWithBitmap(ObjectId oid) {
+			// Nothing to do
+		}
+
+		@Override
+		public void onCommitWithoutBitmap(ObjectId oid) {
+			// Nothing to do
+		}
 	};
 
 	private final BitmapWalkListener listener;
@@ -100,7 +109,7 @@ public final class BitmapWalker {
 	 */
 	public BitmapWalker(
 			ObjectWalk walker, BitmapIndex bitmapIndex, ProgressMonitor pm) {
-		this(walker, bitmapIndex, pm, NO_LISTENER);
+		this(walker, bitmapIndex, pm, NOOP_LISTENER);
 	}
 
 	/**
@@ -114,7 +123,7 @@ public final class BitmapWalker {
 	 *            progress monitor to report progress on.
 	 * @param listener
 	 *            listener of event happening during the walk. Use
-	 *            {@link #NO_LISTENER} for a no-op listener.
+	 *            {@link BitmapWalker#NOOP_LISTENER} for a no-op listener.
 	 *
 	 * @since 6.8
 	 */
