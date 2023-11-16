@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.BitmapWalker;
+import org.eclipse.jgit.revwalk.BitmapWalker.BitmapWalkListener;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -257,7 +258,8 @@ class PackWriterBitmapPreparer {
 					rw.reset();
 					rw.markStart(c);
 					rw.setRevFilter(new AddUnseenToBitmapFilter(
-							selectionHelper.reusedCommitsBitmap, bitmap));
+							selectionHelper.reusedCommitsBitmap, bitmap,
+							BitmapWalker.NOOP_LISTENER));
 					while (rw.next() != null) {
 						// The filter adds the reachable commits to bitmap.
 					}
