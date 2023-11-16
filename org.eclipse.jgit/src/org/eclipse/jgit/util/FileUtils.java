@@ -635,7 +635,7 @@ public class FileUtils {
 	 *
 	 * @param ioe
 	 *            an {@link java.io.IOException} object.
-	 * @return a boolean true if the IOException is a Stale NFS FIle Handle
+	 * @return a boolean true if the IOException is a Stale NFS File Handle
 	 * @since 4.1
 	 */
 	public static boolean isStaleFileHandle(IOException ioe) {
