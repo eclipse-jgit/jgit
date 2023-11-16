@@ -16,6 +16,24 @@
       "message": "nit: the `@since` annotation is usually the last in javadoc",
       "revId": "332f6b3b4dba9f427c09fe3b48ed5d541ae44ea6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a909f0c2_a2fef1e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:43:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "332ec403_7c9dcde6",
+      "revId": "332f6b3b4dba9f427c09fe3b48ed5d541ae44ea6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
