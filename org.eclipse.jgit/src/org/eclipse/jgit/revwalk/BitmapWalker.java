@@ -281,17 +281,18 @@ public final class BitmapWalker {
 		if (marked) {
 			if (prevCommit != null) {
 				walker.setRevFilter(new AddToBitmapWithCacheFilter(prevCommit,
-						prevBitmap, bitmapResult));
+						prevBitmap, bitmapResult, listener));
 			} else if (seen == null) {
-				walker.setRevFilter(new AddToBitmapFilter(bitmapResult));
+				walker.setRevFilter(
+						new AddToBitmapFilter(bitmapResult, listener));
 			} else {
 				walker.setRevFilter(
-						new AddUnseenToBitmapFilter(seen, bitmapResult));
+						new AddUnseenToBitmapFilter(seen, bitmapResult,
+								listener));
 			}
 			walker.setObjectFilter(new BitmapObjectFilter(bitmapResult));
 
-			ObjectId oid;
-			while ((oid = walker.next()) != null) {
+			while (walker.next() != null) {
 				// Iterate through all of the commits. The BitmapRevFilter does
 				// the work.
 				//
@@ -303,7 +304,6 @@ public final class BitmapWalker {
 				// of bitmaps.
 				pm.update(1);
 				countOfBitmapIndexMisses++;
-				listener.onCommitWithoutBitmap(oid);
 			}
 
 			RevObject ro;
