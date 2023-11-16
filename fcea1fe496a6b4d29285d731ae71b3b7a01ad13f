@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da5e07be_5d077250",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T19:52:59Z",
+      "side": 1,
+      "message": "Agree that it would be nice, but it is not worthy to mess the code for this nit.",
+      "parentUuid": "3dc4b84d_9586d89c",
+      "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d13ddb10_bf4d2ec3",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-10T18:09:26Z",
       "side": 1,
       "message": "since we have setting up monitoring for each chunk\u0027s line items, can you add a new monitor task for this fanout chunk?",
+      "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83a2b24d_a4165175",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T19:52:59Z",
+      "side": 1,
+      "message": "I understand that ProgressMonitor is for operations that can potentially take time and we want to keep the user informed on their progress.\n\nIn this case it is a small and fixed-sized section, it doesn\u0027t deserve a progress monitor.",
+      "parentUuid": "d13ddb10_bf4d2ec3",
       "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -52,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e52ae4c_adf2f2fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T19:52:59Z",
+      "side": 1,
+      "message": "As above, for this small predictable steps I don\u0027t think it is worth.",
+      "parentUuid": "472fdb28_dda66092",
+      "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6189e40_cbcf18fd",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-11-10T18:09:26Z",
       "side": 1,
       "message": "please update \"writingOutCommitGraph\", this method is only meant to record the line items of the CDAT chunk, not the whole cg",
+      "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4a0fd2_4244a019",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T19:52:59Z",
+      "side": 1,
+      "message": "Ack (this is for another change, as this one is only removing unnecessary calls to the PM).",
+      "parentUuid": "f6189e40_cbcf18fd",
       "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -86,6 +158,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf99849_0cb39eb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T19:52:59Z",
+      "side": 1,
+      "message": "If calculating generation numbers take e.g. a minute, the user wouldn\u0027t know what is going on.",
+      "parentUuid": "6a44b11a_ac588048",
+      "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f56dcf8_64a5ecad",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-11-10T18:09:26Z",
       "side": 1,
       "message": "since we have setting up monitoring for each chunk\u0027s line items, can you add a new monitor task for this extra edge chunk?",
+      "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afae4207_6d1af7b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 201156
+      },
+      "writtenOn": "2023-11-16T19:52:59Z",
+      "side": 1,
+      "message": "I am on the fence on this one. If we see unexplained delays writing the commit graph we can add it.",
+      "parentUuid": "6f56dcf8_64a5ecad",
       "revId": "fcea1fe496a6b4d29285d731ae71b3b7a01ad13f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
