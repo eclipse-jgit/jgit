@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea175e1_7bbedec4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2570b0eb_ac0e4762",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b33c342e_abfb960a",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-13T11:10:31Z",
       "side": 1,
       "message": "missing `@since` javadoc annotation",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f79ad63_e45553d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b33c342e_abfb960a",
       "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -52,6 +88,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f10421_af00ecf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 1,
+      "message": "That\u0027s following Java PriorityQueue implementation so I believer we should be compatible here",
+      "parentUuid": "493404f3_aba85fac",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1a5801a_bbcb1511",
@@ -65,6 +119,30 @@
       "writtenOn": "2023-11-13T11:10:31Z",
       "side": 1,
       "message": "it should be better to use `anyMatch(c -\u003e (c.flags \u0026 f) \u003d\u003d 0)` here instead of `filter`, as it should bail out when the predicate is `true` and not iterate through the whole collection.",
+      "range": {
+        "startLine": 123,
+        "startChar": 68,
+        "endLine": 123,
+        "endChar": 122
+      },
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f06e3d_58b878ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1a5801a_bbcb1511",
       "range": {
         "startLine": 123,
         "startChar": 68,
@@ -98,6 +176,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2693451c_f2974813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5924d93f_5ad900d7",
+      "range": {
+        "startLine": 128,
+        "startChar": 67,
+        "endLine": 128,
+        "endChar": 121
+      },
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93b2724c_d172ca53",
@@ -111,6 +213,24 @@
       "writtenOn": "2023-11-13T11:10:31Z",
       "side": 1,
       "message": "nit: I\u0027d rather use _old java for each_ (`for (RevCommitEntry e: priorityQueue) {}`) and not create anonymous class with a side effect.",
+      "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4e4f112_4ced9b8a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93b2724c_d172ca53",
       "revId": "3d3216c188c9808ed2386bccba4dac4173b70c99",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }

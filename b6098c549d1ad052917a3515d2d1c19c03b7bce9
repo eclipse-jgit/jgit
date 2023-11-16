@@ -18,6 +18,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43f5016_32402057",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "981a292d_b4fa8f94",
+      "revId": "b6098c549d1ad052917a3515d2d1c19c03b7bce9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9581c0e6_75b1c83a",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-13T11:10:31Z",
       "side": 0,
       "message": "nit: unrelated change",
+      "revId": "b6098c549d1ad052917a3515d2d1c19c03b7bce9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1dae197_3584ee38",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 290522
+      },
+      "writtenOn": "2023-11-16T13:38:09Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9581c0e6_75b1c83a",
       "revId": "b6098c549d1ad052917a3515d2d1c19c03b7bce9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
