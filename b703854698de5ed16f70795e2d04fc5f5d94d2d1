@@ -35,6 +35,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57b45b87_e81bce5b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-11-16T08:48:24Z",
+      "side": 1,
+      "message": "Sorry about that, I had to reclone the project and forgot to disable IntelliJ reformatting EVERYWHERE. Removed.",
+      "parentUuid": "b45c376b_b05b1bf6",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c5fe80a_7e1ccba1",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-11-15T21:49:12Z",
       "side": 1,
       "message": "nit: trailing tabs",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbda29a9_1af103b2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-11-16T08:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5fe80a_7e1ccba1",
       "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -69,6 +105,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03999778_87c102ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-11-16T08:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2ca4d36_d8311a24",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ca177fc_f6babe9b",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-11-15T21:49:12Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "049ae017_0ccc5f18",
+        "filename": "tools/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 307467
+      },
+      "writtenOn": "2023-11-16T08:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ca177fc_f6babe9b",
       "revId": "b703854698de5ed16f70795e2d04fc5f5d94d2d1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
