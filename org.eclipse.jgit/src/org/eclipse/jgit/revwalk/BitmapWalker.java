@@ -259,10 +259,12 @@ public final class BitmapWalker {
 				walker.setRevFilter(new AddToBitmapWithCacheFilter(prevCommit,
 						prevBitmap, bitmapResult));
 			} else if (seen == null) {
-				walker.setRevFilter(new AddToBitmapFilter(bitmapResult));
+				walker.setRevFilter(
+						new AddToBitmapFilter(bitmapResult, listener));
 			} else {
 				walker.setRevFilter(
-						new AddUnseenToBitmapFilter(seen, bitmapResult));
+						new AddUnseenToBitmapFilter(seen, bitmapResult,
+								listener));
 			}
 			walker.setObjectFilter(new BitmapObjectFilter(bitmapResult));
 
@@ -279,7 +281,6 @@ public final class BitmapWalker {
 				// of bitmaps.
 				pm.update(1);
 				countOfBitmapIndexMisses++;
-				listener.onCommitWithoutBitmap(oid);
 			}
 
 			RevObject ro;

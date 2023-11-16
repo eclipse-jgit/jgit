@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.revwalk;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.BitmapWalker.BitmapWalkListener;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -31,13 +32,17 @@ import org.eclipse.jgit.revwalk.RevFlag;
 public class AddToBitmapFilter extends RevFilter {
 	private final BitmapBuilder bitmap;
 
+	private final BitmapWalkListener listener;
+
 	/**
 	 * Create a filter that adds visited commits to the given bitmap.
 	 *
 	 * @param bitmap bitmap to write visited commits to
 	 */
-	public AddToBitmapFilter(BitmapBuilder bitmap) {
+	public AddToBitmapFilter(BitmapBuilder bitmap,
+			BitmapWalkListener listener) {
 		this.bitmap = bitmap;
+		this.listener = listener;
 	}
 
 	@Override
@@ -49,8 +54,10 @@ public class AddToBitmapFilter extends RevFilter {
 		} else if ((visitedBitmap = bitmap.getBitmapIndex()
 				.getBitmap(cmit)) != null) {
 			bitmap.or(visitedBitmap);
+			listener.onCommitWithBitmap(cmit);
 		} else {
 			bitmap.addObject(cmit, Constants.OBJ_COMMIT);
+			listener.onCommitWithoutBitmap(cmit);
 			return true;
 		}
 
