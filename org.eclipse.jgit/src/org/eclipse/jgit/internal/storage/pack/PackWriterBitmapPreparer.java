@@ -257,7 +257,8 @@ class PackWriterBitmapPreparer {
 					rw.reset();
 					rw.markStart(c);
 					rw.setRevFilter(new AddUnseenToBitmapFilter(
-							selectionHelper.reusedCommitsBitmap, bitmap));
+							selectionHelper.reusedCommitsBitmap, bitmap,
+							BitmapWalker.NOOP_LISTENER));
 					while (rw.next() != null) {
 						// The filter adds the reachable commits to bitmap.
 					}

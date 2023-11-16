@@ -9,14 +9,15 @@
  */
 package org.eclipse.jgit.internal.revwalk;
 
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.BitmapWalker.BitmapWalkListener;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 /**
  * A RevFilter that adds the visited commits to {@code bitmap} as a side effect.
@@ -34,6 +35,8 @@ public class AddToBitmapWithCacheFilter extends RevFilter {
 
 	private final BitmapBuilder bitmap;
 
+	private final BitmapWalkListener listener;
+
 	/**
 	 * Create a filter with a cached BitmapCommit that adds visited commits to
 	 * the given bitmap.
@@ -44,13 +47,16 @@ public class AddToBitmapWithCacheFilter extends RevFilter {
 	 *            the bitmap corresponds to {@code cachedCommit}}
 	 * @param bitmap
 	 *            bitmap to write visited commits to
+	 * @param listener
+	 *            report commits with/out bitmaps found in the walk
 	 */
 	public AddToBitmapWithCacheFilter(AnyObjectId cachedCommit,
 			Bitmap cachedBitmap,
-			BitmapBuilder bitmap) {
+			BitmapBuilder bitmap, BitmapWalkListener listener) {
 		this.cachedCommit = cachedCommit;
 		this.cachedBitmap = cachedBitmap;
 		this.bitmap = bitmap;
+		this.listener = listener;
 	}
 
 	@Override
@@ -59,13 +65,16 @@ public class AddToBitmapWithCacheFilter extends RevFilter {
 
 		if (bitmap.contains(c)) {
 			// already included
+			listener.onCommitSeen(c);
 		} else if ((visitedBitmap = bitmap.getBitmapIndex()
 				.getBitmap(c)) != null) {
 			bitmap.or(visitedBitmap);
+			listener.onCommitWithBitmap(c);
 		} else if (cachedCommit.equals(c)) {
 			bitmap.or(cachedBitmap);
 		} else {
 			bitmap.addObject(c, Constants.OBJ_COMMIT);
+			listener.onCommitWithoutBitmap(c);
 			return true;
 		}
 
