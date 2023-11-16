@@ -261,7 +261,6 @@ public class CommitGraphWriter {
 		for (int n : fanout) {
 			NB.encodeInt32(tmp, 0, n);
 			out.write(tmp, 0, 4);
-			out.getWriteMonitor().update(1);
 		}
 	}
 
@@ -272,7 +271,6 @@ public class CommitGraphWriter {
 		for (RevCommit c : graphCommits) {
 			c.copyRawTo(tmp, 0);
 			out.write(tmp, 0, hashsz);
-			out.getWriteMonitor().update(1);
 		}
 	}
 
@@ -470,7 +468,6 @@ public class CommitGraphWriter {
 					}
 					NB.encodeInt32(tmp, 0, edgeValue);
 					out.write(tmp);
-					out.getWriteMonitor().update(1);
 				}
 			}
 		}
