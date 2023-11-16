@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.revwalk;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.BitmapWalker.BitmapWalkListener;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -36,16 +37,24 @@ public class AddUnseenToBitmapFilter extends RevFilter {
 	private final BitmapBuilder seen;
 	private final BitmapBuilder bitmap;
 
+	private final BitmapWalkListener listener;
+
 	/**
-	 * Create a filter that adds visited commits to the given bitmap, but does not walk
-	 * through the objects in {@code seen}.
+	 * Create a filter that adds visited commits to the given bitmap, but does
+	 * not walk through the objects in {@code seen}.
 	 *
-	 * @param seen objects that are already seen
-	 * @param bitmap bitmap to write visited commits to
+	 * @param seen
+	 *            objects that are already seen
+	 * @param bitmap
+	 *            bitmap to write visited commits to
+	 * @param listener
+	 *            report commits with/out bitmaps found in the walk
 	 */
-	public AddUnseenToBitmapFilter(BitmapBuilder seen, BitmapBuilder bitmap) {
+	public AddUnseenToBitmapFilter(BitmapBuilder seen, BitmapBuilder bitmap,
+			BitmapWalkListener listener) {
 		this.seen = seen;
 		this.bitmap = bitmap;
+		this.listener = listener;
 	}
 
 	@Override
@@ -54,11 +63,14 @@ public class AddUnseenToBitmapFilter extends RevFilter {
 
 		if (seen.contains(cmit) || bitmap.contains(cmit)) {
 			// already seen or included
+			listener.onCommitInBitmap(cmit);
 		} else if ((visitedBitmap = bitmap.getBitmapIndex()
 				.getBitmap(cmit)) != null) {
 			bitmap.or(visitedBitmap);
+			listener.onCommitWithBitmap(cmit);
 		} else {
 			bitmap.addObject(cmit, Constants.OBJ_COMMIT);
+			listener.onCommitWithoutBitmap(cmit);
 			return true;
 		}
 
