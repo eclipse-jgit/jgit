@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da090dd7_c10e386a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-16T20:44:42Z",
+      "side": 1,
+      "message": "I\u0027ve noticed this problem before but saw it again this morning and thought I\u0027d try creating a patch for it. We have CI systems that create shorter-lived branches (typically now through the Gerrit batch plugin) and the refs are deleted automatically after a few days. By then they\u0027re packed and deleting them always leaves a lot of empty directories which slows down ref access overall.\n\nI haven\u0027t actually tried running this yet and I think some test coverage would be good, so that\u0027s why I have it as WIP. If anyone can take an early look and give me feedback, that\u0027d be great.",
+      "revId": "fa1ed42300819aac456e3a26cbc912d48df3d5da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
