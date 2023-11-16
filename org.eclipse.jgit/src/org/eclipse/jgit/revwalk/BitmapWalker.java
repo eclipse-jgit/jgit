@@ -59,9 +59,7 @@ public final class BitmapWalker {
 		 * @param oid
 		 *            objectId of the commit already in bitmap
 		 */
-		default void onCommitInBitmap(ObjectId oid) {
-			// Nothing to do
-		}
+		void onCommitInBitmap(ObjectId oid);
 
 		/**
 		 * The commit has a bitmap in the bitmap index
@@ -69,9 +67,7 @@ public final class BitmapWalker {
 		 * @param oid
 		 *            objectId of the commit with a bitmap in the bitmap index
 		 */
-		default void onCommitWithBitmap(ObjectId oid) {
-			// Nothing to do
-		}
+		void onCommitWithBitmap(ObjectId oid);
 
 		/**
 		 * The commit doesn't have bitmap
@@ -80,14 +76,25 @@ public final class BitmapWalker {
 		 *            objectId of the commit without a bitmap in the bitmap
 		 *            index
 		 */
-		default void onCommitWithoutBitmap(ObjectId oid) {
-			// Nothing to do
-		}
-	}
+		void onCommitWithoutBitmap(ObjectId oid);
 
-	private static final BitmapWalkListener NO_LISTENER = new BitmapWalkListener() {
-		// Default methods
-	};
+		BitmapWalkListener NOOP = new BitmapWalkListener() {
+			@Override
+			public void onCommitInBitmap(ObjectId oid) {
+				// Nothing to do
+			}
+
+			@Override
+			public void onCommitWithBitmap(ObjectId oid) {
+				// Nothing to do
+			}
+
+			@Override
+			public void onCommitWithoutBitmap(ObjectId oid) {
+				// Nothing to do
+			}
+		};
+	}
 
 	private final BitmapWalkListener listener;
 
@@ -100,7 +107,7 @@ public final class BitmapWalker {
 	 */
 	public BitmapWalker(
 			ObjectWalk walker, BitmapIndex bitmapIndex, ProgressMonitor pm) {
-		this(walker, bitmapIndex, pm, NO_LISTENER);
+		this(walker, bitmapIndex, pm, BitmapWalkListener.NOOP);
 	}
 
 	/**
@@ -114,7 +121,7 @@ public final class BitmapWalker {
 	 *            progress monitor to report progress on.
 	 * @param listener
 	 *            listener of event happening during the walk. Use
-	 *            {@link #NO_LISTENER} for a no-op listener.
+	 *            {@link BitmapWalkListener#NOOP} for a no-op listener.
 	 *
 	 * @since 6.8
 	 */
