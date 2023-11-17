@@ -35,7 +35,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
  * Unix TAR format (ustar + some PAX extensions).
  */
 public final class TarFormat extends BaseFormat implements
-		ArchiveCommand.Format<ArchiveOutputStream> {
+		ArchiveCommand.Format<ArchiveOutputStream<TarArchiveEntry>> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar")); //$NON-NLS-1$
 
@@ -57,7 +57,7 @@ public final class TarFormat extends BaseFormat implements
 	}
 
 	@Override
-	public void putEntry(ArchiveOutputStream out,
+	public void putEntry(ArchiveOutputStream<TarArchiveEntry> out,
 			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
 		if (mode == FileMode.SYMLINK) {
