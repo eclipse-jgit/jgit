@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "298f219d_b9ebcd01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-17T19:11:45Z",
+      "side": 1,
+      "message": "I think we should configure errorprone to not raise javadoc errors on tests",
+      "revId": "5c173c632d184d9fc5dd7994b2eccb7c9d28511f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
