@@ -48,6 +48,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -231,6 +233,16 @@ public class PackStatistics {
 
 		/** Commits with no parents. */
 		public Set<ObjectId> rootCommits;
+
+		/**
+		 * Set of objects with bitmap hit when finding objects to pack.
+		 *
+		 * The size of this set plus {@link #bitmapIndexMisses} should be the
+		 * walked size of the graph
+		 *
+		 * @since 6.8
+		 */
+		public Set<AnyObjectId> objectsWithBitmaps;
 
 		/** If a shallow pack, the depth in commits. */
 		public int depth;
@@ -430,6 +442,17 @@ public class PackStatistics {
 	 */
 	public Set<ObjectId> getClientShallowCommits() {
 		return statistics.clientShallowCommits;
+	}
+
+	/**
+	 * Get unmodifiable collection of objects walked in the request that had a bitmap.
+	 *
+	 * @return ummodifiable collection of objects that had a bitmap attached
+	 *
+	 * @since 6.8
+	 */
+	public Set<AnyObjectId> getObjectsWithBitmaps() {
+		return Collections.unmodifiableSet(statistics.objectsWithBitmaps);
 	}
 
 	/**
