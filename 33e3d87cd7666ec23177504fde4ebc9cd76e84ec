@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb66f91c_d1960828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "This is in Pack on line 656: https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java#656",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "26ad12dc_950797c5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -43,6 +66,23 @@
         "endLine": 23,
         "endChar": 73
       },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2966121c_a7527b64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "This is a great find! I was looking at an issue this morning that I wondered if this could be happening.",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -89,6 +129,103 @@
         "startChar": 34,
         "endLine": 31,
         "endChar": 43
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4beb7da4_dc022982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "I had no idea you could build tests like this in JGit! Thanks for showing me something new 😊",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa5cf858_3d7a281c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "Does this need a `tearDown()` like UploadPackTest has?",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cf68e10_e0f55773",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "nit: I would rename these as \"DuringFetch\" or \"DuringUploadPack\"",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab12395_de5cd3f9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "Since you said this is currently failing, is there a way to mark is as an expected failure so this change could be merged?",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b33f6db7_f9f9c832",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1541
+      },
+      "writtenOn": "2023-11-17T23:49:57Z",
+      "side": 1,
+      "message": "nit: \"Add new commit, repack repository, and remove old pack\"",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 45
       },
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
