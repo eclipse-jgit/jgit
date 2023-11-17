@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5d2e4f_7f3ad25b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-17T23:11:11Z",
+      "side": 1,
+      "message": "use lower case ?",
+      "range": {
+        "startLine": 634,
+        "startChar": 37,
+        "endLine": 634,
+        "endChar": 58
+      },
+      "revId": "ef3cdb872840aa7bae957e033678f7b545461e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77154b05_bba02392",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-17T23:11:11Z",
+      "side": 1,
+      "message": "use lower case ?",
+      "range": {
+        "startLine": 638,
+        "startChar": 51,
+        "endLine": 638,
+        "endChar": 72
+      },
+      "revId": "ef3cdb872840aa7bae957e033678f7b545461e1b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
