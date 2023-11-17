@@ -68,6 +68,30 @@
       },
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a6d771_e353da57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-17T23:25:57Z",
+      "side": 1,
+      "message": "TBH, this should be a WIP change. That\u0027s why I\u0027ve added this sentence to the commit message, I\u0027ll definitely remove before this will be merged.",
+      "parentUuid": "8fba9c3b_fff9856b",
+      "range": {
+        "startLine": 31,
+        "startChar": 34,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
