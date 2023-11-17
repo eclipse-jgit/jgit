@@ -631,11 +631,11 @@ public class FileUtils {
 	}
 
 	/**
-	 * Determine if an IOException is a Stale NFS File Handle
+	 * Determine if an IOException is a stale NFS file handle
 	 *
 	 * @param ioe
 	 *            an {@link java.io.IOException} object.
-	 * @return a boolean true if the IOException is a Stale NFS FIle Handle
+	 * @return a boolean true if the IOException is a stale NFS file handle
 	 * @since 4.1
 	 */
 	public static boolean isStaleFileHandle(IOException ioe) {
@@ -646,13 +646,13 @@ public class FileUtils {
 	}
 
 	/**
-	 * Determine if a throwable or a cause in its causal chain is a Stale NFS
-	 * File Handle
+	 * Determine if a throwable or a cause in its causal chain is a stale NFS
+	 * file handle
 	 *
 	 * @param throwable
 	 *            a {@link java.lang.Throwable} object.
 	 * @return a boolean true if the throwable or a cause in its causal chain is
-	 *         a Stale NFS File Handle
+	 *         a stale NFS file handle
 	 * @since 4.7
 	 */
 	public static boolean isStaleFileHandleInCausalChain(Throwable throwable) {
