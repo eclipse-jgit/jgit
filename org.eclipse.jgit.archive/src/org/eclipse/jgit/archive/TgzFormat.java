@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipParameters;
 import org.eclipse.jgit.api.ArchiveCommand;
@@ -27,12 +28,12 @@ import org.eclipse.jgit.lib.ObjectLoader;
 /**
  * gzip-compressed tarball (tar.gz) format.
  */
-public final class TgzFormat extends BaseFormat implements
-		ArchiveCommand.Format<ArchiveOutputStream> {
+public final class TgzFormat extends BaseFormat
+		implements ArchiveCommand.Format<ArchiveOutputStream<TarArchiveEntry>> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar.gz", ".tgz")); //$NON-NLS-1$ //$NON-NLS-2$
 
-	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
+	private final ArchiveCommand.Format<ArchiveOutputStream<TarArchiveEntry>> tarFormat = new TarFormat();
 
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
@@ -57,7 +58,7 @@ public final class TgzFormat extends BaseFormat implements
 	}
 
 	@Override
-	public void putEntry(ArchiveOutputStream out,
+	public void putEntry(ArchiveOutputStream<TarArchiveEntry> out,
 			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
 		tarFormat.putEntry(out, tree, path, mode, loader);
