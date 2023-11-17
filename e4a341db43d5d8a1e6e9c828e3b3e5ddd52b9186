@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa996aa7_f306766c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-17T23:08:15Z",
+      "side": 1,
+      "message": "reformatted commit message",
+      "revId": "e4a341db43d5d8a1e6e9c828e3b3e5ddd52b9186",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43046d98_6dbda8e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-17T23:08:15Z",
+      "side": 1,
+      "message": "using assertThrows instead of old-style expected exception test",
+      "revId": "e4a341db43d5d8a1e6e9c828e3b3e5ddd52b9186",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    }
+  ]
+}
