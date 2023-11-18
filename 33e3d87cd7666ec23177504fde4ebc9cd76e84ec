@@ -95,6 +95,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ee06963_fd1f89dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T00:22:12Z",
+      "side": 1,
+      "message": "This is a _theoretical_ corner case, where the repository is GC\u0027ed on a separate process and the index is removed before the pack file. This also could be a bug in the GC implementation.\n\nIMO handling this will make JGit more resilient. But, I\u0027m also fine with dropping that case as it should not happen. Although @Nasser said[1] he encountered something like this.",
+      "parentUuid": "74b2155b_2514b088",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2966121c_a7527b64",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -205,6 +229,24 @@
       "writtenOn": "2023-11-18T00:11:47Z",
       "side": 1,
       "message": "servers should use a bare repo",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e8d9b1_7772b023",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T00:22:12Z",
+      "side": 1,
+      "message": "right, the we should also change `UploadPackLsRefsFileRepositoryTest` L43, as this test case is base on it.",
+      "parentUuid": "345a5c6e_ddaf127e",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
