@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74b2155b_2514b088",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-18T00:11:47Z",
+      "side": 1,
+      "message": "pack file without index ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2966121c_a7527b64",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -165,6 +188,23 @@
       "side": 1,
       "message": "This morning I had no idea either ;) But apparently, you can :D",
       "parentUuid": "4beb7da4_dc022982",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345a5c6e_ddaf127e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-18T00:11:47Z",
+      "side": 1,
+      "message": "servers should use a bare repo",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -300,6 +340,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "331b09fd_90600fb8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-18T00:11:47Z",
+      "side": 1,
+      "message": "we use final only for constants and fields, see https://wiki.eclipse.org/EGit/Contributor_Guide#Use_of_the_.22final.22_modifier",
+      "range": {
+        "startLine": 73,
+        "startChar": 44,
+        "endLine": 73,
+        "endChar": 49
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b33f6db7_f9f9c832",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
         "patchSetId": 2
@@ -317,6 +380,23 @@
         "endLine": 86,
         "endChar": 45
       },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "994ab201_309cf34d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2023-11-18T00:11:47Z",
+      "side": 1,
+      "message": "instead of populating the repo manually you may consider to use SampleDataRepositoryTestCase providing an existing repo imported from test resources",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
