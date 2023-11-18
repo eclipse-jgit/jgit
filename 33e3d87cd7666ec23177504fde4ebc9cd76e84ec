@@ -119,6 +119,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14f157b9_933d8cff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T00:23:40Z",
+      "side": 1,
+      "message": "[1] https://git.eclipse.org/r/c/jgit/jgit/+/205546/comments/2966121c_a7527b64",
+      "parentUuid": "6ee06963_fd1f89dc",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2966121c_a7527b64",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
