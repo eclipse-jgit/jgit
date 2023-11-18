@@ -24,6 +24,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72523300_807fd5b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3421ef6_8195450c",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb66f91c_d1960828",
@@ -47,6 +71,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "481f660b_9e1f4b33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb66f91c_d1960828",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26ad12dc_950797c5",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-11-17T21:40:18Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 23,
+        "startChar": 69,
+        "endLine": 23,
+        "endChar": 73
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "486c1072_230a277f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26ad12dc_950797c5",
       "range": {
         "startLine": 23,
         "startChar": 69,
@@ -207,6 +279,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7c2a25c2_70f22b63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6a6d771_e353da57",
+      "range": {
+        "startLine": 31,
+        "startChar": 34,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4beb7da4_dc022982",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -271,6 +367,24 @@
       "side": 1,
       "message": "right, the we should also change `UploadPackLsRefsFileRepositoryTest` L43, as this test case is base on it.",
       "parentUuid": "345a5c6e_ddaf127e",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31717148_8a865439",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e8d9b1_7772b023",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -341,6 +455,54 @@
       "writtenOn": "2023-11-17T23:49:57Z",
       "side": 1,
       "message": "nit: I would rename these as \"DuringFetch\" or \"DuringUploadPack\"",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20e1d163_a8920577",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cf68e10_e0f55773",
+      "range": {
+        "startLine": 59,
+        "startChar": 40,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a5128f6_5921dd77",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cf68e10_e0f55773",
       "range": {
         "startLine": 59,
         "startChar": 40,
@@ -427,6 +589,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74300ae3_765fae2e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "331b09fd_90600fb8",
+      "range": {
+        "startLine": 73,
+        "startChar": 44,
+        "endLine": 73,
+        "endChar": 49
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b33f6db7_f9f9c832",
@@ -450,6 +636,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f2a0e9_cd0ab55d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b33f6db7_f9f9c832",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 45
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "994ab201_309cf34d",
@@ -463,6 +673,24 @@
       "writtenOn": "2023-11-18T00:11:47Z",
       "side": 1,
       "message": "instead of populating the repo manually you may consider to use SampleDataRepositoryTestCase providing an existing repo imported from test resources",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e99877_bac3c1bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:15:52Z",
+      "side": 1,
+      "message": "Populating the repository manually gives us control over what\u0027s actually in it and reduces the noise that will be generated by the usage of `SampleDataRepositoryTestCase`. \n\nThat sample repository contains multiple pack files already, to simplify things, we\u0027d need to run GC and remove old pack files. This will generate some noise from multiple files being removed.\n\nI\u0027ll upload a patchset demonstrating the usage of `SampleDataRepositoryTestCase`, but would still prefer having the version with manual repository creation merged as it would be easier to understand what it\u0027s doing and testing.",
+      "parentUuid": "994ab201_309cf34d",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
