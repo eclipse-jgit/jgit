@@ -389,6 +389,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bdf3ae7_5c088542",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T10:30:44Z",
+      "side": 1,
+      "message": "I\u0027ve created a followup change to fix the same issue in `UploadPackalsRefsFilearepositoryTest` https://git.eclipse.org/r/c/jgit/jgit/+/205547",
+      "parentUuid": "31717148_8a865439",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa5cf858_3d7a281c",
