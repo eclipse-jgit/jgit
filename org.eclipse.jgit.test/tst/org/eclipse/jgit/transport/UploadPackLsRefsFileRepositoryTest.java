@@ -40,7 +40,7 @@ public class UploadPackLsRefsFileRepositoryTest
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		server = createWorkRepository();
+		server = createBareRepository();
 		remote = new TestRepository<>(server);
 	}
 
