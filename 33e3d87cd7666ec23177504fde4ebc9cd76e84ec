@@ -151,6 +151,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3e0e99_1e9d44ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T00:01:31Z",
+      "side": 1,
+      "message": "This morning I had no idea either ;) But apparently, you can :D",
+      "parentUuid": "4beb7da4_dc022982",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa5cf858_3d7a281c",
@@ -164,6 +182,24 @@
       "writtenOn": "2023-11-17T23:49:57Z",
       "side": 1,
       "message": "Does this need a `tearDown()` like UploadPackTest has?",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cddd9505_e4d9f316",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T00:01:31Z",
+      "side": 1,
+      "message": "I figured that UploadPackTest had `TestProtocol` as a class member, and that\u0027s why it had the tear-down phase. But that was my assumption, I maybe wrong.",
+      "parentUuid": "fa5cf858_3d7a281c",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
@@ -204,6 +240,24 @@
       "writtenOn": "2023-11-17T23:49:57Z",
       "side": 1,
       "message": "Since you said this is currently failing, is there a way to mark is as an expected failure so this change could be merged?",
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa1b227e_25e9bcec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-18T00:01:31Z",
+      "side": 1,
+      "message": "I\u0027d rather attempt to fix it in this change (if we agree that it\u0027s a bug and tests do make sense) before marking it as failing.",
+      "parentUuid": "2ab12395_de5cd3f9",
       "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
