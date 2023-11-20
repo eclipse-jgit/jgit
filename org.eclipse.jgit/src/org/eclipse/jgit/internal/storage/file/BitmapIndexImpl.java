@@ -38,6 +38,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 	final int indexObjectCount;
 
+	private BitmapLookupListener listener = BitmapLookupListener.NOOP;
+
 	/**
 	 * Creates a BitmapIndex that is back by Compressed bitmaps.
 	 *
@@ -57,14 +59,26 @@ public class BitmapIndexImpl implements BitmapIndex {
 	@Override
 	public CompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap compressed = packIndex.getBitmap(objectId);
-		if (compressed == null)
+		if (compressed == null) {
+			listener.onBitmapNotFound(objectId);
 			return null;
+		}
+		listener.onBitmapFound(objectId);
 		return new CompressedBitmap(compressed, this);
 	}
 
 	@Override
 	public CompressedBitmapBuilder newBitmapBuilder() {
 		return new CompressedBitmapBuilder(this);
+	}
+
+	@Override
+	public void addBitmapLookupListener(BitmapLookupListener listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException(
+					"Use NOOP instance for no listener"); // @NON-NLS-1@
+		}
+		this.listener = listener;
 	}
 
 	int findPosition(AnyObjectId objectId) {

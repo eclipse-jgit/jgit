@@ -40,6 +40,58 @@ public interface BitmapIndex {
 	BitmapBuilder newBitmapBuilder();
 
 	/**
+	 * Report the results of {@link #getBitmap(AnyObjectId)}
+	 *
+	 * @since 6.8
+	 */
+	interface BitmapLookupListener {
+
+		/**
+		 * This object has a bitmap in the index
+		 *
+		 * @param oid
+		 *            object id
+		 */
+		void onBitmapFound(AnyObjectId oid);
+
+		/**
+		 * This object does not have a bitmap in the index
+		 *
+		 * @param oid
+		 *            object id
+		 */
+		void onBitmapNotFound(AnyObjectId oid);
+
+		/**
+		 * No-op instance
+		 */
+		BitmapLookupListener NOOP = new BitmapLookupListener() {
+			@Override
+			public void onBitmapFound(AnyObjectId oid) {
+				// Nothing to do
+			}
+
+			@Override
+			public void onBitmapNotFound(AnyObjectId oid) {
+				// Nothing to do
+			}
+		};
+	}
+
+	/**
+	 * Report to this listener whether {@link #getBitmap(AnyObjectId)} finds a
+	 * commit.
+	 *
+	 * @param listener
+	 *            instance listening to lookup events in the index. Never null.
+	 *            Set to {@link BitmapLookupListener#NOOP} to disable.
+	 * @since 6.8
+	 */
+	default void addBitmapLookupListener(BitmapLookupListener listener) {
+		// Empty implementation for API compatibility
+	}
+
+	/**
 	 * A bitmap representation of ObjectIds that can be iterated to return the
 	 * underlying {@code ObjectId}s or operated on with other {@code Bitmap}s.
 	 */
