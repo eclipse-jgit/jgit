@@ -21,6 +21,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * Includes an entry only if the subfilter does not include the entry.
  */
 public class NotTreeFilter extends TreeFilter {
+
 	/**
 	 * Create a filter that negates the result of another filter.
 	 *
