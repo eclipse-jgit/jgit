@@ -1153,9 +1153,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				return idx;
 			}
 		} catch (FileNotFoundException e) {
-			// Once upon a time this bitmap file existed. Now it
-			// has been removed. Most likely an external gc  has
-			// removed this packfile and the bitmap
+			// Once upon a time the bitmap or index files existed. Now one
+			// of them has been removed. Most likely an external gc has
+			// removed index, packfile or the bitmap
 		}
 		bitmapIdxFile = null;
 		return null;
