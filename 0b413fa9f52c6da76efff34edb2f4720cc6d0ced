@@ -22,6 +22,30 @@
       },
       "revId": "0b413fa9f52c6da76efff34edb2f4720cc6d0ced",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe409220_5b34b3bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 97483
+      },
+      "writtenOn": "2023-11-20T08:45:54Z",
+      "side": 1,
+      "message": "From the documentation, it just means it isn\u0027t implemented.",
+      "parentUuid": "4d7ed31f_ed851584",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 2
+      },
+      "revId": "0b413fa9f52c6da76efff34edb2f4720cc6d0ced",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     }
   ]
 }
