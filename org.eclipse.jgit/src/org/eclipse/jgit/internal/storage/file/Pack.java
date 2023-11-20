@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
@@ -682,7 +683,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			// exceptions signaling permanent problems with a pack
 			openFail(true, pe);
 			throw pe;
-		} catch (IOException | RuntimeException ge) {
+		} catch (IOException ioe) {
+			// mark this packfile as invalid when NFS stale file handle error
+			// occur
+			openFail(FileUtils.isStaleFileHandleInCausalChain(ioe), ioe);
+			throw ioe;
+		} catch (RuntimeException ge) {
 			// generic exceptions could be transient so we should not mark the
 			// pack invalid to avoid false MissingObjectExceptions
 			openFail(false, ge);
@@ -1156,6 +1162,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			// Once upon a time the bitmap or index files existed. Now one
 			// of them has been removed. Most likely an external gc has
 			// removed index, packfile or the bitmap
+		} catch (IOException e) {
+			if (!FileUtils.isStaleFileHandleInCausalChain(e)) {
+				throw e;
+			}
+			// Ignore NFS stale handle exception the same way as
+			// FileNotFoundException above.
 		}
 		bitmapIdxFile = null;
 		return null;
