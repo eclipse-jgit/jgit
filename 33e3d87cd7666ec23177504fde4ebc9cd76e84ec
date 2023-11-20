@@ -237,6 +237,30 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "631d5196_cb8a070e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2023-11-20T10:39:39Z",
+      "side": 1,
+      "message": "I\u0027ll update the commit message accordingly. Also, find out that this error will only occur when the HEAD commit is empty.",
+      "parentUuid": "ed30cf40_2e75a82f",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "33e3d87cd7666ec23177504fde4ebc9cd76e84ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2966121c_a7527b64",
