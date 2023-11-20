@@ -32,7 +32,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -80,7 +79,6 @@ public class UploadPackHandleDeletedPackFileTest
 	}
 
 	@Test
-	@Ignore("pending fix")
 	public void testV2IdxFileRemovedDuringUploadPack() throws Exception {
 		doRemovePackFileDuringUploadPack(PackExt.INDEX);
 	}
