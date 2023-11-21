@@ -9,13 +9,30 @@
       },
       "lineNbr": 0,
       "author": {
-        "id": 201156
+        "id": 1020855
       },
       "writtenOn": "2023-11-17T19:30:20Z",
       "side": 1,
       "message": "\u003e Patch Set 11: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/708/ : FAILURE\n\ntrigger build",
       "revId": "899f1baab9ab2ac7b3ef29d6a9757c879444fa17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7fd494a_36c712e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-11-21T19:43:31Z",
+      "side": 1,
+      "message": "Reworking this so the events are emitted by the bitmapindex and not the walker.",
+      "revId": "899f1baab9ab2ac7b3ef29d6a9757c879444fa17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
