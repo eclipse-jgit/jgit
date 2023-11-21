@@ -48,6 +48,64 @@ public final class BitmapWalker {
 	private Bitmap prevBitmap;
 
 	/**
+	 * Report commits found during the walk
+	 *
+	 * @since 6.8
+	 */
+	public interface BitmapWalkListener {
+		/**
+		 * The commit was already visited or is reachable from a visited commit
+		 *
+		 * @param oid
+		 *            objectId of the commit already visited directly or
+		 *            indirectly
+		 */
+		void onCommitSeen(ObjectId oid);
+
+		/**
+		 * The commit has a bitmap in the bitmap index
+		 *
+		 * @param oid
+		 *            objectId of the commit with a bitmap in the bitmap index
+		 */
+		void onCommitWithBitmap(ObjectId oid);
+
+		/**
+		 * The commit doesn't have bitmap
+		 *
+		 * @param oid
+		 *            objectId of the commit without a bitmap in the bitmap
+		 *            index
+		 */
+		void onCommitWithoutBitmap(ObjectId oid);
+
+	}
+
+	/**
+	 * Empty listener
+	 *
+	 * @since 6.8
+	 */
+	public static final BitmapWalkListener NOOP_LISTENER = new BitmapWalkListener() {
+		@Override
+		public void onCommitSeen(ObjectId oid) {
+			// Nothing to do
+		}
+
+		@Override
+		public void onCommitWithBitmap(ObjectId oid) {
+			// Nothing to do
+		}
+
+		@Override
+		public void onCommitWithoutBitmap(ObjectId oid) {
+			// Nothing to do
+		}
+	};
+
+	private final BitmapWalkListener listener;
+
+	/**
 	 * Create a BitmapWalker.
 	 *
 	 * @param walker walker to use when traversing the object graph.
@@ -56,9 +114,30 @@ public final class BitmapWalker {
 	 */
 	public BitmapWalker(
 			ObjectWalk walker, BitmapIndex bitmapIndex, ProgressMonitor pm) {
+		this(walker, bitmapIndex, pm, NOOP_LISTENER);
+	}
+
+	/**
+	 * Create a BitmapWalker.
+	 *
+	 * @param walker
+	 *            walker to use when traversing the object graph.
+	 * @param bitmapIndex
+	 *            index to obtain bitmaps from.
+	 * @param pm
+	 *            progress monitor to report progress on.
+	 * @param listener
+	 *            listener of event happening during the walk. Use
+	 *            {@link BitmapWalker#NOOP_LISTENER} for a no-op listener.
+	 *
+	 * @since 6.8
+	 */
+	public BitmapWalker(ObjectWalk walker, BitmapIndex bitmapIndex,
+			ProgressMonitor pm, BitmapWalkListener listener) {
 		this.walker = walker;
 		this.bitmapIndex = bitmapIndex;
 		this.pm = (pm == null) ? NullProgressMonitor.INSTANCE : pm;
+		this.listener = listener;
 	}
 
 	/**
@@ -140,6 +219,7 @@ public final class BitmapWalker {
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
 			if (bitmap != null) {
 				result.or(bitmap);
+				listener.onCommitWithBitmap(obj);
 			}
 		}
 
@@ -178,8 +258,10 @@ public final class BitmapWalker {
 
 		for (ObjectId obj : start) {
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
-			if (bitmap != null)
+			if (bitmap != null) {
 				bitmapResult.or(bitmap);
+				listener.onCommitWithBitmap(obj);
+			}
 		}
 
 		boolean marked = false;
@@ -208,7 +290,8 @@ public final class BitmapWalker {
 			}
 			walker.setObjectFilter(new BitmapObjectFilter(bitmapResult));
 
-			while (walker.next() != null) {
+			ObjectId oid;
+			while ((oid = walker.next()) != null) {
 				// Iterate through all of the commits. The BitmapRevFilter does
 				// the work.
 				//
@@ -220,6 +303,7 @@ public final class BitmapWalker {
 				// of bitmaps.
 				pm.update(1);
 				countOfBitmapIndexMisses++;
+				listener.onCommitWithoutBitmap(oid);
 			}
 
 			RevObject ro;

@@ -66,7 +66,9 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Verify CRC32 support.
 	 *
 	 * @throws MissingObjectException
+	 *             object is missing in the underlying index
 	 * @throws UnsupportedOperationException
+	 *             the index doesn't have CRC
 	 */
 	public abstract void testCRC32() throws MissingObjectException,
 			UnsupportedOperationException;

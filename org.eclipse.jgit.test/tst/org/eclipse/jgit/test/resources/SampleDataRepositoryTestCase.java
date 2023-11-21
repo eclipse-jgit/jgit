@@ -35,6 +35,7 @@ public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 	 * @param repo
 	 *            test repository to receive packfile copies
 	 * @throws IOException
+	 *             an error occurred
 	 */
 	public static void copyCGitTestPacks(FileRepository repo) throws IOException {
 		final String[] packs = {

@@ -12,17 +12,17 @@ chance to give input and is useful for tracking.
 
 ## Submitting changes
 
-- We use [Gerrit](https://git.eclipse.org/r/) to review all changes by committers
-or contributors before they are merged.
+- We use [Gerrit on GerritHub](https://eclipse.gerrithub.io/q/project:eclipse-jgit/jgit+status:open)
+  to review all changes by committers or contributors before they are merged.
 - Make sure you have an account and have set up the `commit-msg` hook
 before committing.
 - When committing your changes, see the contributor guide or other commits
 on what your commit message should include.
 - Run the following to push your change for review (with `username`
-replaced by your Gerrit username):
+replaced by your GitHub username):
 
 ```bash
-git push ssh://username@git.eclipse.org:29418/jgit/jgit.git HEAD:refs/for/master
+git push ssh://username@eclipse.gerrithub.io:29418/eclipse-jgit/jgit HEAD:refs/for/master
 ```
 
 - Add the link to the review as a comment on the bug report, so that
