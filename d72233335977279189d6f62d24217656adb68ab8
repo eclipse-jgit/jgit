@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d15ec6c_9746e114",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037536
+      },
+      "writtenOn": "2023-11-21T16:59:40Z",
+      "side": 1,
+      "message": "Thanks!\n\nI don\u0027t think this breaks ABI or anything, so it should be pretty safe. (Callers using ArchiveOutputStream might need to add the type parameter to their code, but that\u0027s due to the change in the dependency, not our own change.)",
+      "revId": "d72233335977279189d6f62d24217656adb68ab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
