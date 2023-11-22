@@ -282,18 +282,26 @@ public class FooterLineTest extends RepositoryTestCase {
 		f = footers.get(0);
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("A. U. Thor <a@example.com>", f.getValue());
+		assertEquals(217, f.getStartOffset());
+		assertEquals(258, f.getEndOffset());
 
 		f = footers.get(1);
 		assertEquals("CC", f.getKey());
 		assertEquals("<some.mailing.list@example.com>", f.getValue());
+		assertEquals(259, f.getStartOffset());
+		assertEquals(305, f.getEndOffset());
 
 		f = footers.get(2);
 		assertEquals("Acked-by", f.getKey());
 		assertEquals("Some Reviewer <sr@example.com>", f.getValue());
+		assertEquals(356, f.getStartOffset());
+		assertEquals(396, f.getEndOffset());
 
 		f = footers.get(3);
 		assertEquals("Signed-off-by", f.getKey());
 		assertEquals("Main Tain Er <mte@example.com>", f.getValue());
+		assertEquals(397, f.getStartOffset());
+		assertEquals(442, f.getEndOffset());
 	}
 
 	@Test
