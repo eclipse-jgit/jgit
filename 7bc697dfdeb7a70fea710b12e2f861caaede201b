@@ -16,6 +16,24 @@
       "message": "Reviewed file by file. I\u0027d like to find time to get reviews of this kind of routine version bump to be more automated (or maybe for a trustworthy bot to make the version bump changes and not require review at all).",
       "revId": "7bc697dfdeb7a70fea710b12e2f861caaede201b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ac7b6e_0345aa07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-22T09:43:34Z",
+      "side": 1,
+      "message": "This kind of changes is generated using this script:\n`$ ./tools/release.sh v6.8.0.202311212206-rc1`\nThe only thing I check when reviewing such a change is the version number, compare it to the previous tagged versions and check the timestamp.\nSee https://wiki.eclipse.org/EGit/Contributor_Guide#Creating_a_release",
+      "parentUuid": "bca07a3e_22a229bd",
+      "revId": "7bc697dfdeb7a70fea710b12e2f861caaede201b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
