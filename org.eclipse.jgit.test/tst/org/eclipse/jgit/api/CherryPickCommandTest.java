@@ -590,4 +590,94 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			checkFile(new File(db.getWorkTree(), "file"), "a\n2\n3\n");
 		}
 	}
+
+	private void doCherryPickWithCustomProviderBaseTest(final Git git,
+			final CherryPickCommitMessageProvider commitMessageProvider)
+			throws Exception {
+		writeTrashFile("fileA", "line 1\nline 2\nline 3\n");
+		git.add().addFilepattern("fileA").call();
+		RevCommit commitFirst = git
+				.commit()
+				.setMessage("create fileA")
+				.call();
+
+		writeTrashFile("fileB", "content from file B\n");
+		git.add().addFilepattern("fileB").call();
+		RevCommit commitCreateFileB = git
+				.commit()
+				.setMessage("create fileB\n\nsome commit details")
+				.call();
+
+		writeTrashFile("fileA", "line 1\nline 2\nline 3\nline 4\n");
+		git.add().addFilepattern("fileA").call();
+		RevCommit commitEditFileA1 = git
+				.commit()
+				.setMessage("patch fileA 1")
+				.call();
+
+		writeTrashFile("fileA", "line 1\nline 2\nline 3\nline 4\nline 5\n");
+		git.add().addFilepattern("fileA").call();
+		RevCommit commitEditFileA2 = git
+				.commit()
+				.setMessage("patch fileA 2")
+				.call();
+
+		git.branchCreate().setName("side").setStartPoint(commitFirst).call();
+		checkoutBranch("refs/heads/side");
+
+		CherryPickResult pickResult = git.cherryPick()
+				.setCherryPickCommitMessageProvider(commitMessageProvider)
+				.include(commitCreateFileB).include(commitEditFileA1)
+				.include(commitEditFileA2).call();
+
+		assertEquals(CherryPickStatus.OK, pickResult.getStatus());
+
+		assertTrue(new File(db.getWorkTree(), "fileA").exists());
+		assertTrue(new File(db.getWorkTree(), "fileB").exists());
+
+		checkFile(new File(db.getWorkTree(), "fileA"),
+				"line 1\nline 2\nline 3\nline 4\nline 5\n");
+		checkFile(new File(db.getWorkTree(), "fileB"), "content from file B\n");
+	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			CherryPickCommitMessageProvider messageProvider = srcCommit -> {
+				String message = srcCommit.getFullMessage();
+				return String.format("%s (message length: %d)", message,
+						message.length());
+			};
+			doCherryPickWithCustomProviderBaseTest(git, messageProvider);
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("patch fileA 2 (message length: 13)",
+					history.next().getFullMessage());
+			assertEquals("patch fileA 1 (message length: 13)",
+					history.next().getFullMessage());
+			assertEquals(
+					"create fileB\n\nsome commit details (message length: 33)",
+					history.next().getFullMessage());
+			assertEquals("create fileA", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider_ORIGINAL()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			doCherryPickWithCustomProviderBaseTest(git,
+					CherryPickCommitMessageProvider.ORIGINAL);
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("patch fileA 2", history.next().getFullMessage());
+			assertEquals("patch fileA 1", history.next().getFullMessage());
+			assertEquals("create fileB\n\nsome commit details",
+					history.next().getFullMessage());
+			assertEquals("create fileA", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
 }
