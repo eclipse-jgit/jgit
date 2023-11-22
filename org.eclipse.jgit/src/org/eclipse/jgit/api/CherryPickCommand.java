@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.api.CherryPickCommitMessageProvider.ORIGINAL;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 
 import java.io.IOException;
@@ -65,6 +66,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private List<Ref> commits = new LinkedList<>();
 
 	private String ourCommitName = null;
+
+	private CherryPickCommitMessageProvider messageProvider = ORIGINAL;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
@@ -168,8 +171,10 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					dco.checkout();
 					if (!noCommit) {
 						try (Git git = new Git(getRepository())) {
+							String commitMessage = messageProvider
+									.getCherryPickedCommitMessage(srcCommit);
 							newHead = git.commit()
-									.setMessage(srcCommit.getFullMessage())
+									.setMessage(commitMessage)
 									.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
 											+ srcCommit.getShortMessage())
 									.setAuthor(srcCommit.getAuthorIdent())
@@ -293,6 +298,22 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 */
 	public CherryPickCommand setOurCommitName(String ourCommitName) {
 		this.ourCommitName = ourCommitName;
+		return this;
+	}
+
+	/**
+	 * Set a message provider for a target cherry-picked commit<br>
+	 * By default original commit message is used (see
+	 * {@link CherryPickCommitMessageProvider#ORIGINAL})
+	 *
+	 * @param messageProvider
+	 *            the commit message provider
+	 * @return {@code this}
+	 * @since 6.9
+	 */
+	public CherryPickCommand setCherryPickCommitMessageProvider(
+			CherryPickCommitMessageProvider messageProvider) {
+		this.messageProvider = messageProvider;
 		return this;
 	}
 

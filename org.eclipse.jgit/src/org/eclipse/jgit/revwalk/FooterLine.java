@@ -251,6 +251,28 @@ public final class FooterLine {
 		return RawParseUtils.decode(enc, buffer, lt, gt - 1);
 	}
 
+	/**
+	 * @return start offset of the footer relative to the original raw message
+	 *         byte buffer
+	 *
+	 * @see #fromMessage(byte[])
+	 * @since 6.9
+	 */
+	public int getStartOffset() {
+		return keyStart;
+	}
+
+	/**
+	 * @return end offset of the footer relative to the original raw message
+	 *         byte buffer
+	 *
+	 * @see #fromMessage(byte[])
+	 * @since 6.9
+	 */
+	public int getEndOffset() {
+		return valEnd;
+	}
+
 	@Override
 	public String toString() {
 		return getKey() + ": " + getValue(); //$NON-NLS-1$
