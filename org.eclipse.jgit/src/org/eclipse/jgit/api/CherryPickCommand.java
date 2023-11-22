@@ -9,7 +9,18 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
+import org.eclipse.jgit.api.errors.*;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.merge.*;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -17,37 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.NoMessageException;
-import org.eclipse.jgit.api.errors.UnmergedPathsException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.CommitConfig;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdRef;
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Ref.Storage;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.ContentMergeStrategy;
-import org.eclipse.jgit.merge.MergeMessageFormatter;
-import org.eclipse.jgit.merge.MergeStrategy;
-import org.eclipse.jgit.merge.Merger;
-import org.eclipse.jgit.merge.ResolveMerger;
-import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.FileTreeIterator;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 
 /**
  * A class used to execute a {@code cherry-pick} command. It has setters for all
@@ -65,6 +46,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private List<Ref> commits = new LinkedList<>();
 
 	private String ourCommitName = null;
+
+	private CherryPickedCommitMessageProvider messageProvider = CherryPickedCommitMessageProvider.USE_ORIGINAL_MESSAGE;
 
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
@@ -168,8 +151,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					dco.checkout();
 					if (!noCommit) {
 						try (Git git = new Git(getRepository())) {
+							String commitMessage = messageProvider.getCherryPickedCommitMessage(srcCommit);
 							newHead = git.commit()
-									.setMessage(srcCommit.getFullMessage())
+									.setMessage(commitMessage)
 									.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
 											+ srcCommit.getShortMessage())
 									.setAuthor(srcCommit.getAuthorIdent())
@@ -293,6 +277,19 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 */
 	public CherryPickCommand setOurCommitName(String ourCommitName) {
 		this.ourCommitName = ourCommitName;
+		return this;
+	}
+
+	/**
+	 * Set a message provider for a target cherry-picked commit<br>
+	 * By default original commit message is used (see {@link CherryPickedCommitMessageProvider#USE_ORIGINAL_MESSAGE})
+	 *
+	 * @param messageProvider
+	 *            the commit message provider
+	 * @return {@code this}
+	 */
+	public CherryPickCommand setCherryPickedCommitMessageProvider(CherryPickedCommitMessageProvider messageProvider) {
+		this.messageProvider = messageProvider;
 		return this;
 	}
 
