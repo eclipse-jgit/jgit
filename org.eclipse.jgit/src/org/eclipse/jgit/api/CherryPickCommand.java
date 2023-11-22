@@ -66,6 +66,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 
 	private String ourCommitName = null;
 
+	private CherryPickedCommitMessageProvider messageProvider = CherryPickedCommitMessageProvider.USE_ORIGINAL_MESSAGE;
+
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	private ContentMergeStrategy contentStrategy;
@@ -168,8 +170,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					dco.checkout();
 					if (!noCommit) {
 						try (Git git = new Git(getRepository())) {
+							String commitMessage = messageProvider.getCherryPickedCommitMessage(srcCommit);
 							newHead = git.commit()
-									.setMessage(srcCommit.getFullMessage())
+									.setMessage(commitMessage)
 									.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
 											+ srcCommit.getShortMessage())
 									.setAuthor(srcCommit.getAuthorIdent())
@@ -293,6 +296,19 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 */
 	public CherryPickCommand setOurCommitName(String ourCommitName) {
 		this.ourCommitName = ourCommitName;
+		return this;
+	}
+
+	/**
+	 * Set a message provider for a target cherry-picked commit<br>
+	 * By default original commit message is used (see {@link CherryPickedCommitMessageProvider#USE_ORIGINAL_MESSAGE})
+	 *
+	 * @param messageProvider
+	 *            the commit message provider
+	 * @return {@code this}
+	 */
+	public CherryPickCommand setCherryPickedCommitMessageProvider(CherryPickedCommitMessageProvider messageProvider) {
+		this.messageProvider = messageProvider;
 		return this;
 	}
 
