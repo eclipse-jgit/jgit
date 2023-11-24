@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58a2b486_a26ff58e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-24T16:35:54Z",
+      "side": 1,
+      "message": "Thanks for fixing this, I guess this happened with the last bazel update. To prevent this from reoccurring we should to add another build job verifying the bazel build.",
+      "revId": "2a739ad2c1e948b34f6644eca39aa75fe020309d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02159c89_eba5b68e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-24T16:35:54Z",
+      "side": 1,
+      "message": "works for me on MacOS",
+      "revId": "2a739ad2c1e948b34f6644eca39aa75fe020309d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea13d132_233291a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-24T16:35:54Z",
+      "side": 1,
+      "message": "verified that running tests with bazel succeeds with this patch",
+      "revId": "2a739ad2c1e948b34f6644eca39aa75fe020309d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
