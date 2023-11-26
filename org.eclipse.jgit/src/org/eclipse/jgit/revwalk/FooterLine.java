@@ -74,41 +74,42 @@ public final class FooterLine {
 	 */
 	public static List<FooterLine> fromMessage(
 			byte[] raw) {
-		int ptr = raw.length - 1;
-		while (raw[ptr] == '\n') // trim any trailing LFs, not interesting
-			ptr--;
+		// Find the end of the last paragraph.
+		int parEnd = raw.length;
+		for (; parEnd > 0 && (raw[parEnd - 1] == '\n' || raw[parEnd - 1] == ' '); --parEnd);
 
 		int msgB = RawParseUtils.commitMessage(raw, 0);
 		ArrayList<FooterLine> r = new ArrayList<>(4);
 		Charset enc = RawParseUtils.guessEncoding(raw);
-		for (;;) {
-			ptr = RawParseUtils.prevLF(raw, ptr);
-			if (ptr <= msgB)
-				break; // Don't parse commit headers as footer lines.
 
-			int keyStart = ptr + 2;
-			if (raw[keyStart] == '\n')
-				break; // Stop at first paragraph break, no footers above it.
+		// Search for the beginning of last paragraph
+		int parStart = parEnd;
+		for (; parStart > msgB && (raw[parStart - 1] != '\n' || raw[parStart - 2] != '\n'); --parStart);
 
-			int keyEnd = RawParseUtils.endOfFooterLineKey(raw, keyStart);
-			if (keyEnd < 0)
-				continue; // Not a well formed footer line, skip it.
+		for (int ptr = parStart; ptr < parEnd;) {
+			int keyStart = ptr;
+			int keyEnd = RawParseUtils.endOfFooterLineKey(raw, ptr);
+			if (keyEnd < 0) {
+				// Not a well-formed footer line, skip it.
+				ptr = RawParseUtils.nextLF(raw, ptr);
+				continue;
+			}
 
 			// Skip over the ': *' at the end of the key before the value.
-			//
-			int valStart = keyEnd + 1;
-			while (valStart < raw.length && raw[valStart] == ' ')
-				valStart++;
+			int valStart, valEnd;
+			for (valStart = keyEnd + 1; valStart < raw.length && raw[valStart] == ' '; ++valStart);
 
-			// Value ends at the LF, and does not include it.
-			//
-			int valEnd = RawParseUtils.nextLF(raw, valStart);
-			if (raw[valEnd - 1] == '\n')
-				valEnd--;
-
+			for(ptr = valStart;;) {
+				ptr = RawParseUtils.nextLF(raw, ptr);
+				// Next line starts with whitespace for a multiline footer.
+				if (ptr == raw.length || raw[ptr] != ' ') {
+					valEnd = raw[ptr - 1] == '\n' ? ptr - 1 : ptr;
+					break;
+				}
+			}
 			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
 		}
-		Collections.reverse(r);
+
 		return r;
 	}
 
@@ -199,7 +200,7 @@ public final class FooterLine {
 	 *         character encoding.
 	 */
 	public String getValue() {
-		return RawParseUtils.decode(enc, buffer, valStart, valEnd);
+		return RawParseUtils.decode(enc, buffer, valStart, valEnd).replaceAll("\n +", " ");
 	}
 
 	/**
