@@ -570,8 +570,9 @@ public class RevCommit extends RevObject {
 	 * the order of the line's appearance in the commit message itself.
 	 * <p>
 	 * A footer line's key must match the pattern {@code ^[A-Za-z0-9-]+:}, while
-	 * the value is free-form, but must not contain an LF. Very common keys seen
-	 * in the wild are:
+	 * the value is free-form. The Value may be split over multiple lines with
+	 * each subsequent line starting with at least one whitespace. Very common
+	 * keys seen in the wild are:
 	 * <ul>
 	 * <li>{@code Signed-off-by} (agrees to Developer Certificate of Origin)
 	 * <li>{@code Acked-by} (thinks change looks sane in context)
