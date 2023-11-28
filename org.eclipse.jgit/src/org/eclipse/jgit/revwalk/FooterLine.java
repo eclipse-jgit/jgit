@@ -76,7 +76,10 @@ public final class FooterLine {
 			byte[] raw) {
 		// Find the end of the last paragraph.
 		int parEnd = raw.length;
-		for (; parEnd > 0 && (raw[parEnd - 1] == '\n' || raw[parEnd - 1] == ' '); --parEnd);
+		for (; parEnd > 0 && (raw[parEnd - 1] == '\n'
+				|| raw[parEnd - 1] == ' '); --parEnd) {
+			// empty
+		}
 
 		int msgB = RawParseUtils.commitMessage(raw, 0);
 		ArrayList<FooterLine> r = new ArrayList<>(4);
@@ -84,7 +87,9 @@ public final class FooterLine {
 
 		// Search for the beginning of last paragraph
 		int parStart = parEnd;
-		for (; parStart > msgB && (raw[parStart - 1] != '\n' || raw[parStart - 2] != '\n'); --parStart);
+		for (; parStart > msgB && (raw[parStart - 1] != '\n' || raw[parStart - 2] != '\n'); --parStart) {
+			// empty
+		}
 
 		for (int ptr = parStart; ptr < parEnd;) {
 			int keyStart = ptr;
@@ -97,7 +102,10 @@ public final class FooterLine {
 
 			// Skip over the ': *' at the end of the key before the value.
 			int valStart, valEnd;
-			for (valStart = keyEnd + 1; valStart < raw.length && raw[valStart] == ' '; ++valStart);
+			for (valStart = keyEnd + 1; valStart < raw.length
+					&& raw[valStart] == ' '; ++valStart) {
+				// empty
+			}
 
 			for(ptr = valStart;;) {
 				ptr = RawParseUtils.nextLF(raw, ptr);
