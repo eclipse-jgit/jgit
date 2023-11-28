@@ -200,7 +200,7 @@ public final class FooterLine {
 	 *         character encoding.
 	 */
 	public String getValue() {
-		return RawParseUtils.decode(enc, buffer, valStart, valEnd).replaceAll("\n +", " ");
+		return RawParseUtils.decode(enc, buffer, valStart, valEnd).replaceAll("\n +", " "); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
