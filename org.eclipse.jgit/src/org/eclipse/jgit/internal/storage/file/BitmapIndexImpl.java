@@ -73,12 +73,12 @@ public class BitmapIndexImpl implements BitmapIndex {
 	}
 
 	@Override
-	public void addBitmapLookupListener(BitmapLookupListener listener) {
-		if (listener == null) {
+	public void addBitmapLookupListener(BitmapLookupListener l) {
+		if (l == null) {
 			throw new IllegalArgumentException(
 					JGitText.get().bitmapUseNoopNoListener);
 		}
-		this.listener = listener;
+		this.listener = l;
 	}
 
 	int findPosition(AnyObjectId objectId) {
