@@ -76,7 +76,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 	public void addBitmapLookupListener(BitmapLookupListener listener) {
 		if (listener == null) {
 			throw new IllegalArgumentException(
-					"Use NOOP instance for no listener"); // @NON-NLS-1@
+					JGitText.get().bitmapUseNoopNoListener);
 		}
 		this.listener = listener;
 	}
