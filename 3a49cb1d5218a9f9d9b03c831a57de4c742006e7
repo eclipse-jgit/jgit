@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e288936_71c887c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c50efe64_60abc98f",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc512048_4981af6d",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-26T20:01:42Z",
       "side": 1,
       "message": "add a blank line before trailers",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8685d756_6407519c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc512048_4981af6d",
       "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -58,6 +94,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7481e74a_07c04a61",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Ok.\nNote, I used existing method `doCherryPickAndCheckResult` as a reference.\nThat one uses `final`",
+      "parentUuid": "c53637c7_3c708e08",
+      "range": {
+        "startLine": 594,
+        "startChar": 53,
+        "endLine": 594,
+        "endChar": 58
+      },
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb62c4ea_a0c79c30",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-11-26T20:01:42Z",
       "side": 1,
       "message": "we use tabs (4 spaces wide) for indentation and a line length of 80 chars, please reformat, see https://wiki.eclipse.org/EGit/Contributor_Guide#Coding_standards\n\nIf you use Eclipse IDE for editing it will auto-format modified code on save using the project settings we share in the git repo.",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57414055_d27e144a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb62c4ea_a0c79c30",
       "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -92,6 +170,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64d3868_e58e2711",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "971ca207_e5a1888a",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c35337c7_ac54399f",
@@ -105,6 +201,24 @@
       "writtenOn": "2023-11-26T20:01:42Z",
       "side": 1,
       "message": "missing license header, see\nhttps://wiki.eclipse.org/EGit/Contributor_Guide#License_Header",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39517a60_3acba44e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c35337c7_ac54399f",
       "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -149,6 +263,48 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8cfe0e_e108e3f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "I assumed it should be `@since 6.9`.\nIs that correct?",
+      "parentUuid": "e2bb03a4_de17462c",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1373936_b4b0dffd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a82feb5f_f22913a1",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67bd8634_1d7a304d",
@@ -172,6 +328,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3227190_72914136",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67bd8634_1d7a304d",
+      "range": {
+        "startLine": 21,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "113f0dbb_fce7e7fd",
@@ -185,6 +365,30 @@
       "writtenOn": "2023-11-26T20:01:42Z",
       "side": 1,
       "message": "shorten to ORIGINAL_WITH_REFERENCE",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 82
+      },
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb979b6a_874d1553",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "113f0dbb_fce7e7fd",
       "range": {
         "startLine": 32,
         "startChar": 7,
@@ -225,6 +429,42 @@
       "writtenOn": "2023-11-26T20:01:42Z",
       "side": 1,
       "message": "We need to ensure that, in case the commit message has trailers [1], that no blank lines are added between the trailers and the \"cherry picked from\" reference to avoid the bug [2] git fixed a while ago. Add a test with a trailer.\n\n[1] https://git-scm.com/docs/git-interpret-trailers\n[2] https://stackoverflow.com/questions/70007405/git-log-exclude-cherry-pick-messages-for-trailers and https://lore.kernel.org/git/7vmx136cdc.fsf@alter.siamese.dyndns.org/",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e95fe261_f81e81ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62a2eecf_da7bca8f",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38d4212a_ee501b6a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2023-11-28T10:59:59Z",
+      "side": 1,
+      "message": "Do I understand correctly that in current JGit repository there is not logic related to trailers detection of generation?",
+      "parentUuid": "eb384759_31917e1a",
       "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
