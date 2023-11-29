@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1695492e_81df8f66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-11-29T22:34:35Z",
+      "side": 1,
+      "message": "This is just the original change reapplied. The fix for the first line is in the following change.",
+      "revId": "acf97be2d650ee9c24084498360617a6246a1235",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
