@@ -318,6 +318,57 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertFalse("not CC", line.matches(FooterKey.CC));
 	}
 
+	@Test
+	public void testMultilineFooters() {
+		String msg = buildMessage("subject\n\nbody of commit\n"
+				+ "Not-A-Footer-Line: this line must not be read as a footer\n"
+				+ "\n" // paragraph break, now footers appear in final block
+				+ "Notes: The change must not be merged until dependency ABC is\n"
+				+ " updated.\n"
+				+ "CC:            <some.mailing.list@example.com>\n"
+				+ "not really a footer line but we'll skip it anyway\n"
+				+ "Acked-by: Some Reviewer <sr@example.com>\n");
+		List<FooterLine> footers = FooterLine.fromMessage(msg);
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(3, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Notes", f.getKey());
+		assertEquals(
+				"The change must not be merged until dependency ABC is updated.",
+				f.getValue());
+
+		f = footers.get(1);
+		assertEquals("CC", f.getKey());
+		assertEquals("<some.mailing.list@example.com>", f.getValue());
+
+		f = footers.get(2);
+		assertEquals("Acked-by", f.getKey());
+		assertEquals("Some Reviewer <sr@example.com>", f.getValue());
+	}
+
+	@Test
+	public void testMultilineFooters_multipleWhitespaceAreAllowed() {
+		String msg = buildMessage("subject\n\nbody of commit\n"
+				+ "Not-A-Footer-Line: this line must not be read as a footer\n"
+				+ "\n" // paragraph break, now footers appear in final block
+				+ "Notes: The change must not be merged until dependency ABC is\n"
+				+ "    updated.\n");
+		List<FooterLine> footers = FooterLine.fromMessage(msg);
+		FooterLine f;
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		f = footers.get(0);
+		assertEquals("Notes", f.getKey());
+		assertEquals(
+				"The change must not be merged until dependency ABC is updated.",
+				f.getValue());
+	}
+
 	private String buildMessage(String msg) {
 		StringBuilder buf = new StringBuilder();
 		buf.append("tree " + ObjectId.zeroId().name() + "\n");
