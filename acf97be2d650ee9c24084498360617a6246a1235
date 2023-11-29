@@ -33,6 +33,24 @@
       "message": "Can you move this series to stable-6.8 ?\nThen I can publish the fix in 6.8.1.",
       "revId": "acf97be2d650ee9c24084498360617a6246a1235",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6766824_5aa695ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-29T22:56:55Z",
+      "side": 1,
+      "message": "no, on stable-6.8 the feature wasn\u0027t reverted, hence let\u0027s review this on master and afterwards we can cherrypick https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1172930 to stable-6.8",
+      "parentUuid": "33905b24_3fa1e539",
+      "revId": "acf97be2d650ee9c24084498360617a6246a1235",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
