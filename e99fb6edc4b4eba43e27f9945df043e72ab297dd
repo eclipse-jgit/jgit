@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a79540_43a0119d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-29T19:25:54Z",
+      "side": 1,
+      "message": "I don\u0027t understand why a failing test in a gerrit plugin for a corner case justifies an immediate revert of this change instead of giving the author a heads-up this corner case should be also considered.",
+      "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
