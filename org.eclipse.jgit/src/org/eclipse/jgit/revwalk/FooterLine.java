@@ -107,6 +107,10 @@ public final class FooterLine {
 					break;
 				}
 			}
+			if (keyStart == msgB) {
+				// Fist line cannot be a footer
+				continue;
+			}
 			r.add(new FooterLine(raw, enc, keyStart, keyEnd, valStart, valEnd));
 		}
 
