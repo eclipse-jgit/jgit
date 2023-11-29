@@ -68,6 +68,24 @@
       "parentUuid": "15a1e48d_832c6c7b",
       "revId": "170244d05977491271a1cc234583d2e5ba75145d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d665feb2_f8a1255e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037548
+      },
+      "writtenOn": "2023-11-29T13:00:07Z",
+      "side": 1,
+      "message": "Hi Matthias, understand. I appreciate your reply.\n\nMaking this available in 5.13 and from 6.6.1 upwards sounds a reasonable plan to me. \n\nWe unfortunately can\u0027t upgrade to JGit 6 because we can\u0027t drop Java 8. Thus fixing this security issue in stable-5.13 would also benefit other users who face same situation.",
+      "parentUuid": "d6426065_7c0f7be2",
+      "revId": "170244d05977491271a1cc234583d2e5ba75145d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
