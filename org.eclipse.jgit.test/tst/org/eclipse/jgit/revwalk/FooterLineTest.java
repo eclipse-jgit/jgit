@@ -318,6 +318,26 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertFalse("not CC", line.matches(FooterKey.CC));
 	}
 
+	@Test
+	public void testFirstLineNeverFooter() {
+		String msg = buildMessage(
+				String.join("\n", "First-Line: is never a footer", "Foo: ter",
+						"1-is: also a footer"));
+		List<FooterLine> footers = FooterLine.fromMessage(msg);
+		assertNotNull(footers);
+		assertEquals(2, footers.size());
+	}
+
+	@Test
+	public void testLineAfterFooters() {
+		String msg = buildMessage(
+				String.join("\n", "Subject line: is never a footer", "Foo: ter",
+						"1-is: also a footer", "this is not a footer"));
+		List<FooterLine> footers = FooterLine.fromMessage(msg);
+		assertNotNull(footers);
+		assertEquals(2, footers.size());
+	}
+
 	private String buildMessage(String msg) {
 		StringBuilder buf = new StringBuilder();
 		buf.append("tree " + ObjectId.zeroId().name() + "\n");
