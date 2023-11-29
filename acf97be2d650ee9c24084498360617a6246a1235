@@ -16,6 +16,23 @@
       "message": "This is just the original change reapplied. The fix for the first line is in the following change.",
       "revId": "acf97be2d650ee9c24084498360617a6246a1235",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33905b24_3fa1e539",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-29T22:52:53Z",
+      "side": 1,
+      "message": "Can you move this series to stable-6.8 ?\nThen I can publish the fix in 6.8.1.",
+      "revId": "acf97be2d650ee9c24084498360617a6246a1235",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
