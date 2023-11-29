@@ -50,6 +50,24 @@
       "message": "Hi Matthias and Thomas, I hope this message finds you well. \n\nIs there anything I can do to move this forward and get it merged ? Thanks.",
       "revId": "170244d05977491271a1cc234583d2e5ba75145d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6426065_7c0f7be2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-29T12:43:10Z",
+      "side": 1,
+      "message": "The bottleneck is on our end, I spent quite some time organizing the migration to gerrithub and need to finish releasing 6.8. Didn\u0027t hear from Thomas for a while, I guess he is busy with something else.\n\nQuestion is what to do with the other branches when this gets submitted ? I guess nobody has the time to adapt this fix to all the different branches between 5.13 and master. We could merge stable-5.13 to stable-6.0 and remove the fix in this merge to avoid we have to do this work. This would mean the fix is only available in 5.13 and from 6.6.1 upwards.",
+      "parentUuid": "15a1e48d_832c6c7b",
+      "revId": "170244d05977491271a1cc234583d2e5ba75145d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
