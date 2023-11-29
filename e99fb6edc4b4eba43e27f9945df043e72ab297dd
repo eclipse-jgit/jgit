@@ -52,6 +52,24 @@
       "parentUuid": "45864e50_2dda2e8b",
       "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7de7ee12_d0a268a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-11-29T22:33:13Z",
+      "side": 1,
+      "message": "Again, sorry for the bad timing with the release.\n\nIn https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1172930 I reapply the original change and suggest a fix with tests.",
+      "parentUuid": "c254a03a_986aa58d",
+      "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
