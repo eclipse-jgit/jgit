@@ -16,6 +16,24 @@
       "message": "I don\u0027t understand why a failing test in a gerrit plugin for a corner case justifies an immediate revert of this change instead of giving the author a heads-up this corner case should be also considered.",
       "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45864e50_2dda2e8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-11-29T21:05:53Z",
+      "side": 1,
+      "message": "Sorry for the hassle. This was blocking the import of JGit into our systems. The plugin test looks reasonable and chromium cared enough to write a test. I don\u0027t know how important is that case for them, but I wouldn\u0027t risk a regression for a new feature that can wait a bit.\n\nI reported this to the author and he is ok with the revert. In https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1172926, I copy the test into FooterLineTest hoping it helps to get this work in.\n\nIf this revert is causing problems somewhere else, we can reapply the change and I can patch it internally.",
+      "parentUuid": "56a79540_43a0119d",
+      "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
