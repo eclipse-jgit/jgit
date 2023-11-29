@@ -34,6 +34,24 @@
       "parentUuid": "56a79540_43a0119d",
       "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c254a03a_986aa58d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-11-29T21:46:12Z",
+      "side": 1,
+      "message": "Ok. I released 6.8.0 this afternoon which contains this commit. I think that\u0027s not a big issue for most users. Kamil can push the reworked, improved implementation to stable-6.8 then I can release 6.8.1 to publish the fix.",
+      "parentUuid": "45864e50_2dda2e8b",
+      "revId": "e99fb6edc4b4eba43e27f9945df043e72ab297dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
