@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8240aa7_01ff9629",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-02T11:21:01Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com @david.ostrovsky@gmail.com this improvement has a massive impact on JGit performance, can we check if we can push this through? This makes such a big difference for pull-replication plugin on Gerrit that we currently have to cherry-pick this change and make a custom build every time.",
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
