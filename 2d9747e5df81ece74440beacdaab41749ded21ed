@@ -16,6 +16,247 @@
       "message": "@matthias.sohn@sap.com @david.ostrovsky@gmail.com this improvement has a massive impact on JGit performance, can we check if we can push this through? This makes such a big difference for pull-replication plugin on Gerrit that we currently have to cherry-pick this change and make a custom build every time.",
       "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93efbb41_2426a312",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/DateRevQueueBenchmark.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Formatting is wrong here.",
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc82cd39_9d9371a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "revision or commit",
+      "range": {
+        "startLine": 24,
+        "startChar": 42,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dab8e31_bb422c03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "I\u0027m getting warning in Eclipse: empty method should be documented.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5651bd7f_9a88a470",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Here and other files. The formatting is wrong. In JGit, the formatting uses tabs as delimiter and not spaces. The easiest way to fix it, is to open the files in Eclipse and just reformat it with Ctrl-a (select all) \u003d\u003e Ctrl-Shift-f (source format).",
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2416f353_3286658b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Call it just `queue`? Javadoc is saying already, that this implementation is backed by PriorityQueue.",
+      "range": {
+        "startLine": 27,
+        "startChar": 42,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed65fcc_0c9753b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "I have concerns to create 1024 element per default. JDK `PriorityQueue` default is 11:\n\n  private static final int DEFAULT_INITIAL_CAPACITY \u003d 11;\n\nI have instrumented `RevWalk` class, where this queue is used, and running the tests in JGit producing thousands of this outputs:\n\n```\n  RevWalk ctor: allocating commit queue with 1024 elements\n  RevWalk reset(): allocating commit queue with 1024 elements\n  RevWalk dispose(): allocating commit queue with 1024 elements\n```\n\n^^^ so to say every time the ctor of `DateRevQueue`, it\u0027s re-creating 1024 element in  `PriorityQueue`: `this.queue \u003d new Object[initialCapacity];`.\n\nI think this was probably major reason, not to use the priority queue? In any event, I would start with significantly smaller default capaity.",
+      "range": {
+        "startLine": 38,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9652a10_d0c0c21a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Original code used different formatting \"(;;)\".",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 17
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb7d0bc_a058b4ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "@Override Annotation is missing: this produces Warning for me in Eclipse IDE.",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 39
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83b5ad42_0abd9933",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Well, this is totally wrong, this comparison is flawed.\n\nThe size()-method (how many element were added to the queue until now) has absolutely nothing to do with the queue capacity (length of the underlying array) in the implementation of the `PriorityQueue`.\n\nThis is a known limitation, see also this SO question: [1]. To demonstrate the problem, I forked PriorityQueue from the JDK: [2], and called it `PriorityQueueWithExposedCapacity` and added new `capacity` method, in addition to the existing `size()` method.\n\n```\n\t@Override\n\tpublic int size() {\n\t\treturn size;\n\t}\n\n\t/**\n\t * Return current queue capacity\n\t *\n\t * @return queue capacity\n\t */\n\tpublic int capacity() {\n\t\treturn queue.length;\n\t}\n```\n\nNow consider this example usage code of default and custom implementation of priority queue:\n\n```\npublic class Test {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(\n\t\t\t\t\"Adding 1 element to default priority queue with 32767 elements capacity\");\n\t\tPriorityQueue\u003cInteger\u003e q \u003d new PriorityQueue\u003c\u003e(Short.MAX_VALUE);\n\t\tif (q.size() \u003c 1) {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"small capacity: %d re-init queue with 32767 elements\",\n\t\t\t\t\tq.size()));\n\t\t\tq \u003d new PriorityQueue\u003c\u003e(Short.MAX_VALUE);\n\t\t\tq.add(Integer.valueOf(42));\n\t\t} else {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"enough capacity: %d to add one element\", q.size()));\n\t\t\tq.add(Integer.valueOf(42));\n\t\t}\n\n\t\tSystem.out.println(\n\t\t\t\t\"Adding 1 element to priority queue with exposed capacity, with 32767 elements capacity\");\n\t\tPriorityQueueWithExposedCapacity\u003cInteger\u003e q2 \u003d new PriorityQueueWithExposedCapacity\u003c\u003e(\n\t\t\t\tShort.MAX_VALUE);\n\t\tif (q2.capacity() \u003c 1) {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"small capacity: %d re-init queue with 32767\",\n\t\t\t\t\tq.size()));\n\t\t\tq2 \u003d new PriorityQueueWithExposedCapacity\u003c\u003e(Short.MAX_VALUE);\n\t\t\tq2.add(Integer.valueOf(42));\n\t\t} else {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"enough capacity: %d to add one element\", q2.capacity()));\n\t\t\tq2.add(Integer.valueOf(42));\n\t\t}\n\n\t}\n}\n```  \n\nThe output is produced:\n\n```\nAdding 1 element to default priority queue with 32767 elements capacity\nsmall capacity: 0 re-init queue with 32767 elements\n\nAdding 1 element to priority queue with exposed capacity, with 32767 elements capacity\nenough capacity: 32767 to add one element\n```\n\nTo show, that the real code is affected, consider this unit test:\n`PullCommandTest.testPullFastForward()`, that is running in the above if, and erroneously re-allocates 1024 element size array again, to just add one single element to the priority queue (with size 0, capacity 1024).\n\nBottom line, either we don\u0027t use the default PriorityQueue, or we don\u0027t rely on the capacity, and just rely, that the queue is growing if needed, as described in the conract.\n\n[1]: https://stackoverflow.com/questions/49938221/how-to-check-capacity-of-priority-queue\n[2]: https://paste.opendev.org/show/b76r6lPZd58N9T9aw4o1/",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fe1c5d_d69a3063",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Nit: Blank between // and P.",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 10
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f38846_2dedc888",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2023-12-02T17:47:47Z",
+      "side": 1,
+      "message": "Add parameter to describe what\u0027s missing, e.g.: \"Null revCommit\".",
+      "range": {
+        "startLine": 90,
+        "startChar": 42,
+        "endLine": 90,
+        "endChar": 44
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
