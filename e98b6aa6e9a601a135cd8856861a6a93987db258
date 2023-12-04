@@ -22,6 +22,30 @@
       },
       "revId": "e98b6aa6e9a601a135cd8856861a6a93987db258",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc8ba1c2_d42847be",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterWithRewriteParentsTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2023-12-04T23:02:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb34f6c_9bf7a94f",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "e98b6aa6e9a601a135cd8856861a6a93987db258",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
