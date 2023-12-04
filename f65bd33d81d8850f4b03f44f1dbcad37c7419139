@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802eadf9_ab268bea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-04T23:00:27Z",
+      "side": 1,
+      "message": "A nit. I am  not very familiar with this code nor understand well the motivation of the change, but Jonathan is OK with it and test will tell if something breaks.",
+      "revId": "f65bd33d81d8850f4b03f44f1dbcad37c7419139",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
