@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb34f6c_9bf7a94f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterWithRewriteParentsTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-04T22:58:20Z",
+      "side": 1,
+      "message": "LLC (We were Inc. before, so old files use that form)",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "e98b6aa6e9a601a135cd8856861a6a93987db258",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
