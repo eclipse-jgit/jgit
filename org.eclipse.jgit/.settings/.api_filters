@@ -8,6 +8,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/BitmapIndex.java" type="org.eclipse.jgit.lib.BitmapIndex">
+        <filter id="404000815">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.BitmapIndex"/>
+                <message_argument value="addBitmapLookupListener(BitmapIndex.BitmapLookupListener)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
         <filter id="1142947843">
             <message_arguments>

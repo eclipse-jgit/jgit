@@ -1,7 +1,7 @@
 target "orbit-4.30" with source configurePhase
 // see https://download.eclipse.org/tools/orbit/downloads/
 
-location "https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/milestone/latest" {
+location "https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/2023-12" {
 	com.jcraft.jsch [0.1.55.v20230916-1400,0.1.55.v20230916-1400]
 	com.jcraft.jsch.source [0.1.55.v20230916-1400,0.1.55.v20230916-1400]
 	com.jcraft.jzlib [1.1.3.v20230916-1400,1.1.3.v20230916-1400]
