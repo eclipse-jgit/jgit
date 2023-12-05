@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2022, Simeon Andreev <simeon.danailov.andreev@gmail.com> and others.
+ * Copyright (C) 2020-2022, 2024, Simeon Andreev <simeon.danailov.andreev@gmail.com> and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -158,6 +158,9 @@ public class ExternalMergeToolTest extends ExternalToolTestCase {
 
 	@Test
 	public void testUserDefinedToolWithCancelledPrompt() throws Exception {
+		FileBasedConfig config = db.getConfig();
+		config.setString(CONFIG_MERGE_SECTION, null, CONFIG_KEY_TOOL, "exit 1");
+
 		MergeTools manager = new MergeTools(db);
 
 		PromptHandler promptHandler = PromptHandler.cancelPrompt();
