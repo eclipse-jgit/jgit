@@ -77,6 +77,7 @@ For details on native git options see also the official [git config documentatio
 | `gc.pruneExpire` | `2.weeks.ago` | &#x2705; | Grace period after which unreachable objects will be pruned. |
 | `gc.prunePackExpire` | `1.hour.ago` |  &#x20DE; | Grace period after which packfiles only containing unreachable objects will be pruned. |
 | `gc.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph during a gc operation. |
+| `gc.writeCommitGraph`| `false` | &#x20DE; | If true, then gc will rewrite the commit-graph file when jgit gc is run. |
 
 ## __http__ options
 
