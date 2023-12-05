@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2016, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2015, Sasa Zivkov <sasa.zivkov@sap.com> and others
+ * Copyright (C) 2015, 2024, Sasa Zivkov <sasa.zivkov@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -104,6 +104,16 @@ public interface Protocol {
 	 * The "upload" operation
 	 */
 	String OPERATION_UPLOAD = "upload"; //$NON-NLS-1$
+
+	/**
+	 * The "upload" action
+	 */
+	String ACTION_UPLOAD = "upload"; //$NON-NLS-1$
+
+	/**
+	 * The "verify" action
+	 */
+	String ACTION_VERIFY = "verify"; //$NON-NLS-1$
 
 	/**
 	 * The contenttype used in LFS requests
