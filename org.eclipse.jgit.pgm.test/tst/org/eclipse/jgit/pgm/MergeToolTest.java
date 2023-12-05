@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022, Simeon Andreev <simeon.danailov.andreev@gmail.com> and others.
+ * Copyright (C) 2022, 2024, Simeon Andreev <simeon.danailov.andreev@gmail.com> and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -91,9 +91,11 @@ public class MergeToolTest extends ToolTestCase {
 
 		createMergeConflict();
 
-		String araxisErrorLine = "compare: unrecognized option `-wait' @ error/compare.c/CompareImageCommand/1123.";
-		String[] expectedErrorOutput = { araxisErrorLine, araxisErrorLine, };
-		runAndCaptureUsingInitRaw(Arrays.asList(expectedErrorOutput),
+		var expectedErrorOutput = Arrays.asList("No diff tool provided and no defaults configured.",
+				"merge of dir1/a failed",
+				"No diff tool provided and no defaults configured.",
+				"merge of dir2/b failed");
+		runAndCaptureUsingInitRaw(expectedErrorOutput,
 				MERGE_TOOL, "--no-prompt");
 	}
 
