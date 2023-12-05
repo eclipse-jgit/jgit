@@ -80,6 +80,24 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testNoFooters_noRawMsg_SingleLineNoHeaders() {
+		String noRawMsg = "commit message with no header lines\n";
+		List<FooterLine> footers = FooterLine.fromMessage(noRawMsg);
+		assertNotNull(footers);
+		assertEquals(0, footers.size());
+	}
+
+	@Test
+	public void testOneFooter_noRawMsg_MultiParagraphNoHeaders() {
+		String noRawMsg = "subject\n\n"
+			+ "Not: footer\n\n"
+			+ "Footer: value\n";
+		List<FooterLine> footers = FooterLine.fromMessage(noRawMsg);
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+	}
+
+	@Test
 	public void testSignedOffBy_OneUserNoLF() {
 		String msg = buildMessage("subject\n\nbody of commit\n" + "\n"
 			+ "Signed-off-by: A. U. Thor <a@example.com>");
