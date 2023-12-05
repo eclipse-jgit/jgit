@@ -87,8 +87,14 @@ public final class FooterLine {
 
 		// Search for the beginning of last paragraph
 		int parStart = parEnd;
-		for (; parStart > msgB && (raw[parStart - 1] != '\n' || raw[parStart - 2] != '\n'); --parStart) {
-			// empty
+		for (; parStart > msgB; --parStart) {
+			if (parStart < 2) {
+				parStart = 0;
+				break;
+			}
+			if (raw[parStart - 1] == '\n' && raw[parStart - 2] == '\n') {
+				break;
+			}
 		}
 
 		for (int ptr = parStart; ptr < parEnd;) {
@@ -101,7 +107,8 @@ public final class FooterLine {
 			}
 
 			// Skip over the ': *' at the end of the key before the value.
-			int valStart, valEnd;
+			int valStart;
+			int valEnd;
 			for (valStart = keyEnd + 1; valStart < raw.length
 					&& raw[valStart] == ' '; ++valStart) {
 				// empty
