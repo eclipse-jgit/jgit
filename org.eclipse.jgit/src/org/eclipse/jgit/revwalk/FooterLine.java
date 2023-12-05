@@ -86,10 +86,17 @@ public final class FooterLine {
 		Charset enc = RawParseUtils.guessEncoding(raw);
 
 		// Search for the beginning of last paragraph
-		int parStart = parEnd;
-		for (; parStart > msgB && (raw[parStart - 1] != '\n' || raw[parStart - 2] != '\n'); --parStart) {
-			// empty
-		}
+		int parStart;
+    if (msgB == -1) {
+			parStart = 0;
+		} else {
+      for (
+        parStart = parEnd;
+        parStart > msgB && (raw[parStart - 1] != '\n' || raw[parStart - 2] != '\n');
+        --parStart) {
+        // empty
+      }
+    }
 
 		for (int ptr = parStart; ptr < parEnd;) {
 			int keyStart = ptr;
@@ -101,7 +108,8 @@ public final class FooterLine {
 			}
 
 			// Skip over the ': *' at the end of the key before the value.
-			int valStart, valEnd;
+			int valStart;
+      int valEnd;
 			for (valStart = keyEnd + 1; valStart < raw.length
 					&& raw[valStart] == ' '; ++valStart) {
 				// empty
