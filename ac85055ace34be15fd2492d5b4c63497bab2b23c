@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feeb9da5_c3efb440",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-05T19:37:07Z",
+      "side": 1,
+      "message": "Thanks! I understand better this code. Couple nits. I can fix them myself to expedite the merge, just let me know.",
+      "revId": "ac85055ace34be15fd2492d5b4c63497bab2b23c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14118bdd_12e9a770",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/FooterLineTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-05T19:37:07Z",
+      "side": 1,
+      "message": "nit: testNoFooters_nonRaw_...\n\nSame for the other test. Maybe rename String msg to  String nonRawMsg, to mark clearly what these tests are covering.",
+      "revId": "ac85055ace34be15fd2492d5b4c63497bab2b23c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10f0e652_44c5f3e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-05T19:37:07Z",
+      "side": 1,
+      "message": "nit: IIUC parStart only gets that small if this message is not raw? If so, can you add a comment explaining it? (it is not intuitive and the javadoc only mentions \"raw\" messages, so it is not clear this would support non-raw messages.",
+      "revId": "ac85055ace34be15fd2492d5b4c63497bab2b23c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
