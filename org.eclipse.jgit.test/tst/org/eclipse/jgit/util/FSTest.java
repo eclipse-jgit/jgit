@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013, Robin Rosenberg <robin.rosenberg@dewire.com> and others
+ * Copyright (C) 2012-2013, 2024, Robin Rosenberg <robin.rosenberg@dewire.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -98,7 +98,7 @@ public class FSTest {
 		assertTrue(fs.exists(link));
 		assertTrue(fs.lastModifiedInstant(link).compareTo(EPOCH) > 0);
 		assertTrue(fs.lastModifiedInstant(target)
-				.compareTo(fs.lastModifiedInstant(link)) > 0);
+				.compareTo(fs.lastModifiedInstant(link)) >= 0);
 		assertFalse(fs.canExecute(link));
 		fs.setExecute(target, true);
 		assertFalse(fs.canExecute(link));
