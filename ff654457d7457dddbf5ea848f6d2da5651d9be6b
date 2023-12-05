@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25c5214_7b288a6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037539
+      },
+      "writtenOn": "2023-12-05T18:58:04Z",
+      "side": 1,
+      "message": "Added a test",
+      "parentUuid": "88181191_a266ad91",
+      "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1fbe6ad_f570947b",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc4d13a2_f7e64cde",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1037539
+      },
+      "writtenOn": "2023-12-05T18:58:04Z",
+      "side": 1,
+      "message": "This isn\u0027t actually enough. Because, then it\u0027s still possible for parStart - 2 to be out of bounds. If you pick msgB \u003d 1, then you need to handle the case when it stops on 1 in a special way. This was the minimal change.\n\nI rewrote the logic, to actually check for out of bounds access. I think it\u0027s clearer now. PTAL",
+      "parentUuid": "e1fbe6ad_f570947b",
+      "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e275937a_e14e18b8",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-12-05T17:57:23Z",
       "side": 1,
       "message": "Indentation is off",
+      "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecba6dc9_48dfd84e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1037539
+      },
+      "writtenOn": "2023-12-05T18:58:04Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "e275937a_e14e18b8",
       "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
