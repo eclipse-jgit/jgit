@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88181191_a266ad91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-05T17:57:23Z",
+      "side": 1,
+      "message": "Could we get a unit test to cover this case?",
+      "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1fbe6ad_f570947b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-05T17:57:23Z",
+      "side": 1,
+      "message": "This would be easier to follow setting msgB to 0 here if needed with a comment \"this is not a raw message\". Then we don\u0027t need to touch later code?",
+      "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e275937a_e14e18b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FooterLine.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-05T17:57:23Z",
+      "side": 1,
+      "message": "Indentation is off",
+      "revId": "ff654457d7457dddbf5ea848f6d2da5651d9be6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
