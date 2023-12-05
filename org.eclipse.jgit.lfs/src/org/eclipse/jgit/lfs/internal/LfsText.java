@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2015, 2024, Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -45,5 +45,6 @@ public class LfsText extends TranslationBundle {
 	/***/ public String repositoryReadOnly;
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String serverFailure;
+	/***/ public String verifyFailure;
 	/***/ public String wrongAmountOfDataReceived;
 }
