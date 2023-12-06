@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2015, 2024, Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -68,7 +68,7 @@ public class FileLfsRepository implements LargeFileRepository {
 	@Override
 	@Nullable
 	public Action getVerifyAction(AnyLongObjectId id) {
-		return null;
+		return getAction(id);
 	}
 
 	@Override

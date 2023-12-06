@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2015, 2024, Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -125,6 +125,17 @@ public class FileLfsServlet extends HttpServlet {
 			AsyncContext context = req.startAsync();
 			context.setTimeout(timeout);
 			req.getInputStream().setReadListener(new ObjectUploadListener(
+					repository, context, req, rsp, id));
+		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+		AnyLongObjectId id = getObjectToTransfer(req, rsp);
+		if (id != null) {
+			AsyncContext context = req.startAsync();
+			context.setTimeout(timeout);
+			req.getInputStream().setReadListener(new ObjectVerifyListener(
 					repository, context, req, rsp, id));
 		}
 	}
