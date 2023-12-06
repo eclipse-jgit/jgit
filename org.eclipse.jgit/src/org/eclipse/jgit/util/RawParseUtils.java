@@ -16,7 +16,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.ObjectChecker.author;
 import static org.eclipse.jgit.lib.ObjectChecker.committer;
 import static org.eclipse.jgit.lib.ObjectChecker.encoding;
+import static org.eclipse.jgit.lib.ObjectChecker.object;
+import static org.eclipse.jgit.lib.ObjectChecker.parent;
+import static org.eclipse.jgit.lib.ObjectChecker.tag;
 import static org.eclipse.jgit.lib.ObjectChecker.tagger;
+import static org.eclipse.jgit.lib.ObjectChecker.tree;
+import static org.eclipse.jgit.lib.ObjectChecker.type;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
@@ -520,17 +525,24 @@ public final class RawParseUtils {
 	}
 
 	/**
-	 * Locate the end of the header.  Note that headers may be
-	 * more than one line long.
+	 * Locate the first end of line after the given position, while treating
+	 * following lines which are starting with spaces as part of the current
+	 * line.
+	 * <p>
+	 * For example, {@code nextLfSkippingSplitLines(
+	 * "row \n with space at beginning of a following line\nThe actual next line",
+	 * 0)} will return the position of {@code "\nThe actual next line"}.
+	 *
 	 * @param b
 	 *            buffer to scan.
 	 * @param ptr
-	 *            position within buffer to start looking for the end-of-header.
-	 * @return new position just after the header.  This is either
-	 * b.length, or the index of the header's terminating newline.
+	 *            position within buffer to start looking for the header
+	 *            (normally a new-line).
+	 * @return new position just after the line end. This is either b.length, or
+	 *         the index of the header's terminating newline.
 	 * @since 5.1
 	 */
-	public static final int headerEnd(final byte[] b, int ptr) {
+	public static final int nextLfSkippingSplitLines(final byte[] b, int ptr) {
 		final int sz = b.length;
 		while (ptr < sz) {
 			final byte c = b[ptr++];
@@ -539,6 +551,26 @@ public final class RawParseUtils {
 			}
 		}
 		return ptr - 1;
+	}
+
+	/**
+	 * Locate the first end of header after the given position. Note that
+	 * headers may be more than one line long.
+	 * <p>
+	 * Also note that there might be multiple headers. If you wish to find the
+	 * last header's end - call this in a loop.
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within buffer to start looking for the header
+	 *            (normally a new-line).
+	 * @return new position just after the line end. This is either b.length, or
+	 *         the index of the header's terminating newline.
+	 * @since 5.1
+	 */
+	public static final int headerEnd(final byte[] b, int ptr) {
+		return nextLfSkippingSplitLines(b, ptr);
 	}
 
 	/**
@@ -573,6 +605,21 @@ public final class RawParseUtils {
 			ptr = nextLF(b, ptr);
 		}
 		return -1;
+	}
+
+	/**
+	 * Returns whether the message starts with any known headers.
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @return whether the message starts with any known headers
+	 */
+	public static final boolean hasAnyKnownHeaders(byte[] b) {
+		return match(b, 0, tree) != -1 || match(b, 0, parent) != -1
+				|| match(b, 0, author) != -1 || match(b, 0, committer) != -1
+				|| match(b, 0, encoding) != -1 || match(b, 0, object) != -1
+				|| match(b, 0, type) != -1 || match(b, 0, tag) != -1
+				|| match(b, 0, tagger) != -1;
 	}
 
 	/**
@@ -1258,6 +1305,7 @@ public final class RawParseUtils {
 		final int sz = b.length;
 		if (ptr == 0)
 			ptr += 48; // skip the "object ..." line.
+		// Assume the rest of the current paragraph is all headers.
 		while (ptr < sz && b[ptr] != '\n')
 			ptr = nextLF(b, ptr);
 		if (ptr < sz && b[ptr] == '\n')
