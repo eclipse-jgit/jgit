@@ -98,6 +98,15 @@ public class FooterLineTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testOneFooter_longSubject_NoHeaders() {
+		String noRawMsg = "50+ chars loooooooooooooong custom commit message.\n\n"
+				+ "Footer: value\n";
+		List<FooterLine> footers = FooterLine.fromMessage(noRawMsg);
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+	}
+
+	@Test
 	public void testSignedOffBy_OneUserNoLF() {
 		String msg = buildMessage("subject\n\nbody of commit\n" + "\n"
 			+ "Signed-off-by: A. U. Thor <a@example.com>");
