@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ecb3572_4c2c7878",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/DateRevQueueBenchmark.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Good catch! I\u0027m using Intellij IDE and I forgot that JGit project is using default Eclipse formatter",
+      "parentUuid": "93efbb41_2426a312",
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc82cd39_9d9371a7",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-12-02T17:47:47Z",
       "side": 1,
       "message": "revision or commit",
+      "range": {
+        "startLine": 24,
+        "startChar": 42,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0b19c16_923f9719",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc82cd39_9d9371a7",
       "range": {
         "startLine": 24,
         "startChar": 42,
@@ -81,6 +123,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0795791_c59b591b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dab8e31_bb422c03",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5651bd7f_9a88a470",
@@ -98,6 +164,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09baa854_af524f9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5651bd7f_9a88a470",
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2416f353_3286658b",
@@ -111,6 +195,30 @@
       "writtenOn": "2023-12-02T17:47:47Z",
       "side": 1,
       "message": "Call it just `queue`? Javadoc is saying already, that this implementation is backed by PriorityQueue.",
+      "range": {
+        "startLine": 27,
+        "startChar": 42,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae42f8a3_d1c6dd06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2416f353_3286658b",
       "range": {
         "startLine": 27,
         "startChar": 42,
@@ -167,6 +275,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d848ffc3_06da0533",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9652a10_d0c0c21a",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 17
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfb7d0bc_a058b4ae",
@@ -180,6 +312,30 @@
       "writtenOn": "2023-12-02T17:47:47Z",
       "side": 1,
       "message": "@Override Annotation is missing: this produces Warning for me in Eclipse IDE.",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 39
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17c30822_8107f886",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfb7d0bc_a058b4ae",
       "range": {
         "startLine": 74,
         "startChar": 4,
@@ -236,6 +392,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb31d33_0c0cd59d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72fe1c5d_d69a3063",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 10
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0f38846_2dedc888",
@@ -249,6 +429,30 @@
       "writtenOn": "2023-12-02T17:47:47Z",
       "side": 1,
       "message": "Add parameter to describe what\u0027s missing, e.g.: \"Null revCommit\".",
+      "range": {
+        "startLine": 90,
+        "startChar": 42,
+        "endLine": 90,
+        "endChar": 44
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba5fa930_d94d72c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-06T15:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0f38846_2dedc888",
       "range": {
         "startLine": 90,
         "startChar": 42,
