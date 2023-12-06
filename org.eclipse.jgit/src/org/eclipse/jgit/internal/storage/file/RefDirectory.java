@@ -813,7 +813,7 @@ public class RefDirectory extends RefDatabase {
 						}
 						Ref packedRef = newPacked.get(refName);
 						ObjectId clr_oid = currentLooseRef.getObjectId();
-						if (clr_oid != null
+						if (clr_oid != null && packedRef != null
 								&& clr_oid.equals(packedRef.getObjectId())) {
 							RefList<LooseRef> curLoose, newLoose;
 							do {
