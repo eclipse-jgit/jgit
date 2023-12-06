@@ -725,9 +725,9 @@ public final class RawParseUtils {
 	 */
 	public static final int author(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
+		if (ptr == 0 && sz >= 46 && subArrayMatches(b, ptr, "tree"))
 			ptr += 46; // skip the "tree ..." line.
-		while (ptr < sz && b[ptr] == 'p')
+		while (ptr < sz - 48 && subArrayMatches(b, ptr, "parent"))
 			ptr += 48; // skip this parent.
 		return match(b, ptr, author);
 	}
@@ -747,11 +747,11 @@ public final class RawParseUtils {
 	 */
 	public static final int committer(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
+		if (ptr == 0 && sz >= 46 && subArrayMatches(b, ptr, "tree"))
 			ptr += 46; // skip the "tree ..." line.
-		while (ptr < sz && b[ptr] == 'p')
+		while (ptr < sz - 48 && subArrayMatches(b, ptr, "parent"))
 			ptr += 48; // skip this parent.
-		if (ptr < sz && b[ptr] == 'a')
+		if (ptr < sz - 6 && subArrayMatches(b, ptr, "author"))
 			ptr = nextLF(b, ptr);
 		return match(b, ptr, committer);
 	}
@@ -771,7 +771,7 @@ public final class RawParseUtils {
 	 */
 	public static final int tagger(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
+		if (ptr == 0 && sz >= 48 && subArrayMatches(b, ptr, "object"))
 			ptr += 48; // skip the "object ..." line.
 		while (ptr < sz) {
 			if (b[ptr] == '\n')
@@ -1232,9 +1232,9 @@ public final class RawParseUtils {
 	 */
 	public static final int commitMessage(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
+		if (ptr == 0 && sz >= 46 && subArrayMatches(b, ptr, "tree"))
 			ptr += 46; // skip the "tree ..." line.
-		while (ptr < sz && b[ptr] == 'p')
+		while (ptr < sz - 48 && subArrayMatches(b, ptr, "parent"))
 			ptr += 48; // skip this parent.
 
 		// Skip any remaining header lines, ignoring what their actual
@@ -1256,10 +1256,14 @@ public final class RawParseUtils {
 	 */
 	public static final int tagMessage(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
+		if (ptr == 0 && sz >= 48 && subArrayMatches(b, ptr, "object"))
 			ptr += 48; // skip the "object ..." line.
-		while (ptr < sz && b[ptr] != '\n')
-			ptr = nextLF(b, ptr);
+		if (ptr != 0) {
+			// Some headers were found. Assume the rest of the current paragraph
+			// is all headers.
+			while (ptr < sz && b[ptr] != '\n')
+				ptr = nextLF(b, ptr);
+		}
 		if (ptr < sz && b[ptr] == '\n')
 			return ptr + 1;
 		return -1;
@@ -1319,5 +1323,12 @@ public final class RawParseUtils {
 
 	private RawParseUtils() {
 		// Don't create instances of a static only utility.
+	}
+
+	private static boolean subArrayMatches(byte[] b, int startingPtr,
+			String val) {
+		int len = val.length();
+		return Arrays.equals(b, startingPtr, startingPtr + len,
+				val.getBytes(UTF_8), 0, len);
 	}
 }
