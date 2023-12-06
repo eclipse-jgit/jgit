@@ -81,7 +81,11 @@ public final class FooterLine {
 			// empty
 		}
 
-		int msgB = RawParseUtils.commitMessage(raw, 0);
+		// The first non-header line is never a footer.
+		int msgB = RawParseUtils.currentLineEnd(raw,
+				RawParseUtils.hasAnyKnownHeaders(raw)
+						? RawParseUtils.commitMessage(raw, 0)
+						: 0);
 		ArrayList<FooterLine> r = new ArrayList<>(4);
 		Charset enc = RawParseUtils.guessEncoding(raw);
 
