@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, 2022 Markus Duft <markus.duft@ssi-schaefer.com> and others
+ * Copyright (C) 2017, 2022, 2024 Markus Duft <markus.duft@ssi-schaefer.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,9 +9,11 @@
  */
 package org.eclipse.jgit.lfs.internal;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
+import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 
@@ -34,11 +36,15 @@ import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.HttpConfig;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
+import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.HttpSupport;
+import org.eclipse.jgit.util.LfsFactory;
 import org.eclipse.jgit.util.SshSupport;
 import org.eclipse.jgit.util.StringUtils;
 
@@ -78,6 +84,10 @@ public class LfsConnectionFactory {
 		URL url = new URL(lfsUrl + Protocol.OBJECTS_LFS_ENDPOINT);
 		HttpConnection connection = HttpTransport.getConnectionFactory().create(
 				url, HttpSupport.proxyFor(ProxySelector.getDefault(), url));
+
+		// Set Authorization header by default.
+		fillAuthorizationHeader(connection);
+
 		connection.setDoOutput(true);
 		if (url.getProtocol().equals(SCHEME_HTTPS)
 				&& !config.getBoolean(HttpConfig.HTTP,
@@ -222,6 +232,10 @@ public class LfsConnectionFactory {
 				.create(contentUrl, HttpSupport
 						.proxyFor(ProxySelector.getDefault(), contentUrl));
 		contentServerConn.setRequestMethod(method);
+
+		// Set Authorization header by default. It can be rewritten by headers from the action.
+		fillAuthorizationHeader(contentServerConn);
+
 		if (action.header != null) {
 			action.header.forEach(
 					(k, v) -> contentServerConn.setRequestProperty(k, v));
@@ -275,6 +289,34 @@ public class LfsConnectionFactory {
 			}
 		}
 		return req;
+	}
+
+	private static void fillAuthorizationHeader(HttpConnection connection) {
+		CredentialsProvider provider = LfsFactory.getCredentialsProvider();
+
+		if (provider == null) {
+			return;
+		}
+
+		CredentialItem.Username u = new CredentialItem.Username();
+		CredentialItem.Password p = new CredentialItem.Password();
+
+		final URIish uri = new URIish(connection.getURL());
+		provider.get(uri, u);
+		provider.get(uri, p);
+
+		if (provider.supports(u, p) && provider.get(uri, u, p)) {
+			String username;
+			String password;
+			username = u.getValue();
+			char[] v = p.getValue();
+			password = (v == null) ? null : new String(v);
+			p.clear();
+
+			String ident = username + ":" + password; //$NON-NLS-1$
+			String enc = Base64.encodeBytes(ident.getBytes(UTF_8));
+			connection.setRequestProperty(HDR_AUTHORIZATION, "Basic " + enc); //$NON-NLS-1$
+		}
 	}
 
 	private static final class AuthCache {

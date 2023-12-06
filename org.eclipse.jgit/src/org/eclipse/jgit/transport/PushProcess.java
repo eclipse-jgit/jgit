@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2022 Marek Zawirski <marek.zawirski@gmail.com> and others
+ * Copyright (C) 2008, 2022, 2024 Marek Zawirski <marek.zawirski@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -34,6 +34,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.LfsFactory;
 
 /**
  * Class performing push operation on remote repository.
@@ -167,11 +168,14 @@ class PushProcess {
 				if (!willBeAttempted.isEmpty()) {
 					if (prePush != null) {
 						try {
+							LfsFactory.setCredentialsProvider(transport.getCredentialsProvider());
 							prePush.setRefs(willBeAttempted);
 							prePush.setDryRun(transport.isDryRun());
 							prePush.call();
 						} catch (AbortedByHookException | IOException e) {
 							throw new TransportException(e.getMessage(), e);
+						} finally {
+							LfsFactory.removeCredentialsProvider();
 						}
 					}
 				}
