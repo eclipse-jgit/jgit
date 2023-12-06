@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Robin Rosenberg and others
+ * Copyright (C) 2010, 2024, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -203,7 +203,16 @@ public class FS_POSIX extends FS {
 	/** {@inheritDoc} */
 	@Override
 	public boolean canExecute(File f) {
-		return FileUtils.canExecute(f);
+		if (!isFile(f)) {
+			return false;
+		}
+		try {
+			Path path = FileUtils.toPath(f);
+			Set<PosixFilePermission> pset = Files.getPosixFilePermissions(path);
+			return pset.contains(PosixFilePermission.OWNER_EXECUTE);
+		} catch (IOException ex) {
+			return false;
+		}
 	}
 
 	/** {@inheritDoc} */
