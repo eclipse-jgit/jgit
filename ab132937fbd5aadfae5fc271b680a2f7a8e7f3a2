@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "ab132937fbd5aadfae5fc271b680a2f7a8e7f3a2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8d6a0e_53dafb96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-06T00:23:38Z",
+      "side": 1,
+      "message": "Tests pass locally.",
+      "revId": "ab132937fbd5aadfae5fc271b680a2f7a8e7f3a2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
