@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7649c025_9421e06e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "552c63c7_4396eb8e",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 32
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5717a32_568c1263",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-07T14:20:28Z",
       "side": 1,
       "message": "This is one example, but possibly not the only one. I would avoid putting stack trace in the commit message but just comment on the place where you had the add the check.\n\nFor adding a full stack trace, the most suitable place would be a JGit issue.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d6067e5_c2f0fc06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5717a32_568c1263",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a442e955_e58c9eb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bed2f25c_8631d79c",
+      "range": {
+        "startLine": 30,
+        "startChar": 53,
+        "endLine": 30,
+        "endChar": 58
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c0d1116_68195c84",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-12-07T14:20:28Z",
       "side": 1,
       "message": "makes",
+      "range": {
+        "startLine": 31,
+        "startChar": 12,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc454647_93d02308",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c0d1116_68195c84",
       "range": {
         "startLine": 31,
         "startChar": 12,
@@ -139,6 +235,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16833f9_a0491ff3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52202c4e_a969b845",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 36
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "436f0cf8_327bd111",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31888784_a5d22994",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 7
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "285c24ae_c2c54bce",
@@ -152,6 +296,30 @@
       "writtenOn": "2023-12-07T14:20:28Z",
       "side": 1,
       "message": "The number and values of loose refs on the filesystem can mutate at any time whilst the RefDirectory.pack() is in progress.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 50
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "711efec6_ccc84007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "285c24ae_c2c54bce",
       "range": {
         "startLine": 34,
         "startChar": 0,
@@ -185,6 +353,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae55b2b_53c7cc42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf7cc6a_10833c58",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc66dd31_f19b7e5b",
@@ -198,6 +390,30 @@
       "writtenOn": "2023-12-07T14:20:28Z",
       "side": 1,
       "message": "That\u0027s not what the change is about: I would just say _\"Make sure that the ref is not null before dereferencing its object-id value\"_",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "7c2d310538777f89bdac8f08fd1f1f04067c9bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43d53639_096d032f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2023-12-07T16:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc66dd31_f19b7e5b",
       "range": {
         "startLine": 37,
         "startChar": 0,
