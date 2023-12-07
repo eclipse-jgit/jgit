@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c03f8d4_aea59ede",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2023-12-07T05:24:18Z",
+      "side": 1,
+      "message": "The loose ref should be locked during this entire time too. Where do you see that it\u0027s not?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 51
+      },
+      "revId": "25e5fb56f110faf03163031d53b1953aa2974378",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
