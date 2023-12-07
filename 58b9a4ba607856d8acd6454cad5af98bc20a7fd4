@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4a200c_cdb8202a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-07T17:44:07Z",
+      "side": 1,
+      "message": "IIUC RawParseUtils assumes raw messages and the start parsing position (ptr) to be on some header limit. Now we are complicating the code to support non-raw messages, which doesn\u0027t sound right. \n\nThe desirable final state could be something like:\n\nIf ptr \u003d\u003d 0 and the first line of the object doesn\u0027t look right, RawParseUtils could just return an error. With commitMessage we can be more lenient and consider everything commitMessage (for the existing callers that use this with non-raw messages).\n\nIf ptr !\u003d 0, then the caller should know what it is doing (e.g. using the right ptr).\n\nFor this change, we could just fix commitMessage, as it is the only problematic method invoked with non-raw messages (?). Other methods, if needed, can be handled in a different change.",
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "941db6f2_5b4006f7",
@@ -26,6 +43,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b617eef8_33e773bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-07T17:44:07Z",
+      "side": 1,
+      "message": "I suspect old code compared a single-character for performance reasons and was working fine (didn\u0027t find wrong headers). Can we keep it like that?",
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48bbd500_a0a64f68",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 2
@@ -37,6 +71,29 @@
       "writtenOn": "2023-12-07T17:38:14Z",
       "side": 1,
       "message": "Isn\u0027t this same as match() method above, except it returns a boolean and accepts a string",
+      "range": {
+        "startLine": 1328,
+        "startChar": 24,
+        "endLine": 1328,
+        "endChar": 39
+      },
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8500721a_d920acdc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-07T17:44:07Z",
+      "side": 1,
+      "message": "Can you use the \"match\" function already in this class?",
       "range": {
         "startLine": 1328,
         "startChar": 24,
