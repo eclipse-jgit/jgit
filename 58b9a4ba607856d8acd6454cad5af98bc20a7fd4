@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941db6f2_5b4006f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1037539
+      },
+      "writtenOn": "2023-12-07T17:38:14Z",
+      "side": 1,
+      "message": "This changes when the function returns -1.\n\nSince know there are more cases where ptr wouldn\u0027t be increased. It makes intuitive sense to me, that since this functions end with match(). It doesn\u0027t really change anything (except for `tagger`). But I would at least mention this in the commit message",
+      "range": {
+        "startLine": 726,
+        "startChar": 1,
+        "endLine": 733,
+        "endChar": 2
+      },
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48bbd500_a0a64f68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 1037539
+      },
+      "writtenOn": "2023-12-07T17:38:14Z",
+      "side": 1,
+      "message": "Isn\u0027t this same as match() method above, except it returns a boolean and accepts a string",
+      "range": {
+        "startLine": 1328,
+        "startChar": 24,
+        "endLine": 1328,
+        "endChar": 39
+      },
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
