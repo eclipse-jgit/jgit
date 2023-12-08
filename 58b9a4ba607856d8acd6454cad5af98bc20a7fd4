@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1b3046a_f9c94c3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2023-12-08T10:12:41Z",
+      "side": 1,
+      "message": "Reverted this change.",
+      "parentUuid": "941db6f2_5b4006f7",
+      "range": {
+        "startLine": 726,
+        "startChar": 1,
+        "endLine": 733,
+        "endChar": 2
+      },
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b617eef8_33e773bf",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-12-07T17:44:07Z",
       "side": 1,
       "message": "I suspect old code compared a single-character for performance reasons and was working fine (didn\u0027t find wrong headers). Can we keep it like that?",
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efab8a8e_3ae32b13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2023-12-08T10:12:41Z",
+      "side": 1,
+      "message": "The original code would wrongly parse this message:\n\n```\nThe first line is 46 chars long ..............\np is the first letter of a 48 chars fake header.\nNow finally comes a row that is detected as a free text.\n```\nIf the last line here would start with `author`, the `author()` method would misbehave. Same for the other methods.\n\nHowever, since it\u0027s not the bug I\u0027m trying to solve - I\u0027ve reverted these changes, and now only changing the footer parsing logic to check for whether headers should be skipped.",
+      "parentUuid": "b617eef8_33e773bf",
       "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -94,6 +136,54 @@
       "writtenOn": "2023-12-07T17:44:07Z",
       "side": 1,
       "message": "Can you use the \"match\" function already in this class?",
+      "range": {
+        "startLine": 1328,
+        "startChar": 24,
+        "endLine": 1328,
+        "endChar": 39
+      },
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e0c681_5cde9604",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2023-12-08T10:12:41Z",
+      "side": 1,
+      "message": "Sorry, missed the `match()` method. Fixed.",
+      "parentUuid": "48bbd500_a0a64f68",
+      "range": {
+        "startLine": 1328,
+        "startChar": 24,
+        "endLine": 1328,
+        "endChar": 39
+      },
+      "revId": "58b9a4ba607856d8acd6454cad5af98bc20a7fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a32d7f_39f4c418",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1328,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2023-12-08T10:12:41Z",
+      "side": 1,
+      "message": "Sorry, missed the `match()` method. Fixed.",
+      "parentUuid": "8500721a_d920acdc",
       "range": {
         "startLine": 1328,
         "startChar": 24,
