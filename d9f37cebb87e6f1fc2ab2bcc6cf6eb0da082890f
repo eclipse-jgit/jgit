@@ -16,6 +16,24 @@
       "message": "you can link this using this trailer\n\nBug: jgit-4",
       "revId": "d9f37cebb87e6f1fc2ab2bcc6cf6eb0da082890f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d470fb70_437d9733",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-09T11:19:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf69eb5_031f1f14",
+      "revId": "d9f37cebb87e6f1fc2ab2bcc6cf6eb0da082890f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
