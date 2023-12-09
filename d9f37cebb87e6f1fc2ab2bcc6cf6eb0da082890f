@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf69eb5_031f1f14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-12-09T10:32:25Z",
+      "side": 1,
+      "message": "you can link this using this trailer\n\nBug: jgit-4",
+      "revId": "d9f37cebb87e6f1fc2ab2bcc6cf6eb0da082890f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
