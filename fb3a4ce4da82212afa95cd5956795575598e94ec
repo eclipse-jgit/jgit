@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb16508c_3c49d534",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-12-09T22:44:54Z",
+      "side": 1,
+      "message": "CherryPickCommitMessageProvider",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "fb3a4ce4da82212afa95cd5956795575598e94ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516c7061_ec9960f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommitMessageProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-12-09T22:44:54Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "fb3a4ce4da82212afa95cd5956795575598e94ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
