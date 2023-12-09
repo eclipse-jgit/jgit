@@ -22,6 +22,11 @@ maven apache
 		artifactId = "commons-logging"
 		version = "1.2"
 	}
+	dependency {
+		groupId = "org.apache.aries.spifly"
+		artifactId = "org.apache.aries.spifly.dynamic.bundle"
+		version = "1.3.6"
+	}
 }
 
 maven args4j
@@ -34,6 +39,39 @@ maven args4j
 		groupId = "args4j"
 		artifactId = "args4j"
 		version = "2.33"
+	}
+}
+
+maven asm
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.ow2.asm"
+		artifactId = "asm"
+		version = "9.6"
+	}
+	dependency {
+		groupId = "org.ow2.asm"
+		artifactId = "asm-analysis"
+		version = "9.6"
+	}
+	dependency {
+		groupId = "org.ow2.asm"
+		artifactId = "asm-commons"
+		version = "9.6"
+	}
+	dependency {
+		groupId = "org.ow2.asm"
+		artifactId = "asm-tree"
+		version = "9.6"
+	}
+	dependency {
+		groupId = "org.ow2.asm"
+		artifactId = "asm-util"
+		version = "9.6"
 	}
 }
 
@@ -241,12 +279,12 @@ maven slf4j
 	dependency {
 		groupId = "org.slf4j"
 		artifactId = "slf4j-api"
-		version = "1.7.36"
+		version = "2.0.9"
 	}
 	dependency {
 		groupId = "org.slf4j"
 		artifactId = "slf4j-simple"
-		version = "1.7.36"
+		version = "2.0.9"
 	}
 }
 
