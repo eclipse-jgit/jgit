@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121d6e87_d8abe979",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2023-12-10T22:07:27Z",
+      "side": 1,
+      "message": "I would only relax the upper bound in the manifests. I would not update maven dependencies; we don\u0027t want to force JGit users to use slf4j 2.x. Also, we then don\u0027t need to update target platforms (note that Eclipse platform also fiddled with start levels to get spi-fly to work, see [1] \u0026 [2]), nor the bazel dependency.\n\n[1] https://github.com/eclipse-platform/eclipse.platform.releng.aggregator/pull/1195\n[2] https://github.com/eclipse-platform/eclipse.platform.releng.aggregator/pull/1252",
+      "revId": "b099a110b7229eb2147c80338ac1f782519b22c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
