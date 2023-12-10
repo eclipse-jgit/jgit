@@ -1,0 +1,61 @@
+name: Bug Report
+description: File a bug report.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report!
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: With what version(s) of Eclipse JGit do you observe the problem?
+      placeholder: a version, like 5.13.0 or 6.8.0
+    validations:
+      required: true
+  - type: dropdown
+    id: operatingSystem
+    attributes:
+      label: Operating System
+      description: On what Operating System(s) do you observe the problem?
+      multiple: true
+      options:
+        - "Linux/Unix"
+        - MacOS
+        - Windows
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: Explain the buggy behavior, and how to reproduce it.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened?
+      placeholder: Enclose exception stack traces by backticks, or paste them in the "Relevant log output" field below.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output or exception stack traces. This will be automatically formatted into code, so no need for backticks.
+      render: Shell
+  - type: textarea
+    id: other
+    attributes:
+      label: Other information
+      description: Any other relevant information.
+      placeholder: "For instance if you're reporting a cloning or fetching/pushing problem, what git server is used, and if the repository is public, what's its URL?"
