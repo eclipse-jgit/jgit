@@ -58,6 +58,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
@@ -2030,10 +2031,23 @@ public class PackWriter implements AutoCloseable {
 		if (!shallowPack && useBitmaps) {
 			BitmapIndex bitmapIndex = reader.getBitmapIndex();
 			if (bitmapIndex != null) {
+				CommitGraph cg = reader.getCommitGraph().orElse(CommitGraph.EMPTY);
 				bitmapIndex.addBitmapLookupListener(new BitmapLookupListener() {
 					@Override
 					public void onBitmapFound(AnyObjectId oid) {
-						stats.objectsWithBitmapsFound.add(oid);
+						int pos = cg.findGraphPosition(oid);
+						if (pos < 0) {
+							stats.objectsWithBitmapsFound.add(oid);
+							return;
+						}
+						CommitGraph.CommitData commitData = cg
+								.getCommitData(pos);
+						if (commitData == null) {
+							stats.objectsWithBitmapsFound.add(oid);
+							return;
+						}
+						stats.objectsWithBitmapsFoundGenV1
+								.add(commitData.getGeneration());
 					}
 
 					@Override

@@ -59,6 +59,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.IntList;
 
 /**
  * Statistics about {@link org.eclipse.jgit.internal.storage.pack.PackWriter}
@@ -238,12 +239,22 @@ public class PackStatistics {
 		/**
 		 * Set of objects with bitmap hit when finding objects to pack.
 		 *
-		 * The size of this set plus {@link #bitmapIndexMisses} should be the
-		 * walked size of the graph
-		 *
 		 * @since 6.9
 		 */
 		public Set<AnyObjectId> objectsWithBitmapsFound = new HashSet<>();
+
+		/**
+		 * Generation number of the objects with bitmap hit when finding objects
+		 * to pack.
+		 * <p>
+		 * This generation number is the longest distance from the object to the
+		 * root. This is available only for commits in the commit-graph. Objects
+		 * out of the commit-graph are recorded in
+		 * {@link #objectsWithBitmapsFound}
+		 *
+		 * @since 6.9
+		 */
+		public IntList objectsWithBitmapsFoundGenV1 = new IntList();
 
 		/** If a shallow pack, the depth in commits. */
 		public int depth;
@@ -455,6 +466,21 @@ public class PackStatistics {
 	 */
 	public Set<AnyObjectId> getObjectsWithBitmapsFound() {
 		return Collections.unmodifiableSet(statistics.objectsWithBitmapsFound);
+	}
+
+	/**
+	 * List of generation numbers (~distance from the root) for the objects with
+	 * bitmaps found in the request.
+	 *
+	 * Objects not in the commit-graph are stored in
+	 * {@link #getObjectsWithBitmapsFound()}
+	 *
+	 * @return list of generation numbers
+	 *
+	 * @since 6.9
+	 */
+	public IntList getObjectsWithBitmapsFoundGenV1() {
+		return statistics.objectsWithBitmapsFoundGenV1;
 	}
 
 	/**
