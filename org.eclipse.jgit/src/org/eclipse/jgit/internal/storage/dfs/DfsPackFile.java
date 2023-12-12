@@ -233,6 +233,16 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	/**
+	 * Tell if this pack has a commit-graph already loaded.
+	 *
+	 * @return true if the commit-graph in this pack has been loaded. False if
+	 *         the pack doesn't have commit-graph or it hasn't been loaded
+	 */
+	boolean isCommitGraphLoaded() {
+		return commitGraph != null;
+	}
+
+	/**
 	 * Get the Commit Graph for this PackFile.
 	 *
 	 * @param ctx

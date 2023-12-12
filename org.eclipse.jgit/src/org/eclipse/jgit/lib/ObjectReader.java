@@ -507,6 +507,21 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * Tell if this reader has a commit-graph loaded
+	 *
+	 * For callers that want to use the commit-graph only if it has been already
+	 * loaded.
+	 *
+	 * @return true if this reader has a commit-graph loaded
+	 *
+	 * @throws IOException
+	 *             if it cannot read the packs
+	 */
+	public boolean isCommitGraphLoaded() throws IOException {
+		return false;
+	}
+
+	/**
 	 * Get the commit-graph for this repository if available.
 	 * <p>
 	 * The commit graph can be created/modified/deleted while the repository is

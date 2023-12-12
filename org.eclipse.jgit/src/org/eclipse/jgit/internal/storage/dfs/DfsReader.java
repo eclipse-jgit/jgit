@@ -126,6 +126,16 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	@Override
+	public boolean isCommitGraphLoaded() throws IOException {
+		for (DfsPackFile pack : db.getPacks()) {
+			if (pack.isCommitGraphLoaded()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public Optional<CommitGraph> getCommitGraph() throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
 			CommitGraph cg = pack.getCommitGraph(this);
