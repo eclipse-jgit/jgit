@@ -68,7 +68,6 @@ import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapLookupListener;
 import org.eclipse.jgit.lib.BitmapObject;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -2030,17 +2029,6 @@ public class PackWriter implements AutoCloseable {
 		if (!shallowPack && useBitmaps) {
 			BitmapIndex bitmapIndex = reader.getBitmapIndex();
 			if (bitmapIndex != null) {
-				bitmapIndex.addBitmapLookupListener(new BitmapLookupListener() {
-					@Override
-					public void onBitmapFound(AnyObjectId oid) {
-						stats.objectsWithBitmapsFound.add(oid);
-					}
-
-					@Override
-					public void onBitmapNotFound(AnyObjectId oid) {
-						// Nothing to do
-					}
-				});
 				BitmapWalker bitmapWalker = new BitmapWalker(walker,
 						bitmapIndex, countingMonitor);
 				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
