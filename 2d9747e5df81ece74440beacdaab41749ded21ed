@@ -254,6 +254,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d7043ac8_9608c16c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-12T08:30:54Z",
+      "side": 1,
+      "message": "+1 to reduce to `DEFAULT_INITIAL_CAPACITY`",
+      "parentUuid": "7ed65fcc_0c9753b5",
+      "range": {
+        "startLine": 38,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9652a10_d0c0c21a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
         "patchSetId": 19
@@ -359,6 +383,30 @@
       "writtenOn": "2023-12-02T17:47:47Z",
       "side": 1,
       "message": "Well, this is totally wrong, this comparison is flawed.\n\nThe size()-method (how many element were added to the queue until now) has absolutely nothing to do with the queue capacity (length of the underlying array) in the implementation of the `PriorityQueue`.\n\nThis is a known limitation, see also this SO question: [1]. To demonstrate the problem, I forked PriorityQueue from the JDK: [2], and called it `PriorityQueueWithExposedCapacity` and added new `capacity` method, in addition to the existing `size()` method.\n\n```\n\t@Override\n\tpublic int size() {\n\t\treturn size;\n\t}\n\n\t/**\n\t * Return current queue capacity\n\t *\n\t * @return queue capacity\n\t */\n\tpublic int capacity() {\n\t\treturn queue.length;\n\t}\n```\n\nNow consider this example usage code of default and custom implementation of priority queue:\n\n```\npublic class Test {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println(\n\t\t\t\t\"Adding 1 element to default priority queue with 32767 elements capacity\");\n\t\tPriorityQueue\u003cInteger\u003e q \u003d new PriorityQueue\u003c\u003e(Short.MAX_VALUE);\n\t\tif (q.size() \u003c 1) {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"small capacity: %d re-init queue with 32767 elements\",\n\t\t\t\t\tq.size()));\n\t\t\tq \u003d new PriorityQueue\u003c\u003e(Short.MAX_VALUE);\n\t\t\tq.add(Integer.valueOf(42));\n\t\t} else {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"enough capacity: %d to add one element\", q.size()));\n\t\t\tq.add(Integer.valueOf(42));\n\t\t}\n\n\t\tSystem.out.println(\n\t\t\t\t\"Adding 1 element to priority queue with exposed capacity, with 32767 elements capacity\");\n\t\tPriorityQueueWithExposedCapacity\u003cInteger\u003e q2 \u003d new PriorityQueueWithExposedCapacity\u003c\u003e(\n\t\t\t\tShort.MAX_VALUE);\n\t\tif (q2.capacity() \u003c 1) {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"small capacity: %d re-init queue with 32767\",\n\t\t\t\t\tq.size()));\n\t\t\tq2 \u003d new PriorityQueueWithExposedCapacity\u003c\u003e(Short.MAX_VALUE);\n\t\t\tq2.add(Integer.valueOf(42));\n\t\t} else {\n\t\t\tSystem.out.println(String.format(\n\t\t\t\t\t\"enough capacity: %d to add one element\", q2.capacity()));\n\t\t\tq2.add(Integer.valueOf(42));\n\t\t}\n\n\t}\n}\n```  \n\nThe output is produced:\n\n```\nAdding 1 element to default priority queue with 32767 elements capacity\nsmall capacity: 0 re-init queue with 32767 elements\n\nAdding 1 element to priority queue with exposed capacity, with 32767 elements capacity\nenough capacity: 32767 to add one element\n```\n\nTo show, that the real code is affected, consider this unit test:\n`PullCommandTest.testPullFastForward()`, that is running in the above if, and erroneously re-allocates 1024 element size array again, to just add one single element to the priority queue (with size 0, capacity 1024).\n\nBottom line, either we don\u0027t use the default PriorityQueue, or we don\u0027t rely on the capacity, and just rely, that the queue is growing if needed, as described in the conract.\n\n[1]: https://stackoverflow.com/questions/49938221/how-to-check-capacity-of-priority-queue\n[2]: https://paste.opendev.org/show/b76r6lPZd58N9T9aw4o1/",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "2d9747e5df81ece74440beacdaab41749ded21ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e88096_a3d96b0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-12T08:30:54Z",
+      "side": 1,
+      "message": "I agree, the `ensureCapacity` doesn\u0027t make sense in the Java\u0027s priority queue. I did not find any reference to it in JGit\u0027s code-base. I would just make the `ensureCapacity` an empty method, because the priority queue already ensures that there is always capacity to allocate new elements.",
+      "parentUuid": "83b5ad42_0abd9933",
       "range": {
         "startLine": 75,
         "startChar": 8,
