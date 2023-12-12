@@ -506,6 +506,10 @@ public abstract class ObjectReader implements AutoCloseable {
 		return new PedestrianObjectReachabilityChecker(ow);
 	}
 
+	public boolean isCommitGraphLoaded() throws IOException {
+		return false;
+	}
+
 	/**
 	 * Get the commit-graph for this repository if available.
 	 * <p>
