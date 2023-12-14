@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
@@ -120,9 +121,21 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		for (DfsPackFile pack : db.getPacks()) {
 			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
 			if (bitmapIndex != null)
-				return new BitmapIndexImpl(bitmapIndex);
+				return createBitmapIndex(bitmapIndex);
 		}
 		return null;
+	}
+
+	/**
+	 * Give subclasses a chance to record pack index stats
+	 *
+	 * @param packBitmapIndex
+	 *            packBitmapIndex found in a pack (never null)
+	 * @return an instance of BitmapIndex
+	 */
+	protected BitmapIndex createBitmapIndex(
+			@NonNull PackBitmapIndex packBitmapIndex) {
+		return new BitmapIndexImpl(packBitmapIndex);
 	}
 
 	@Override
