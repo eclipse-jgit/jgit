@@ -147,7 +147,7 @@
     <plexus-compiler-version>2.14.1</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
     <assertj-version>3.24.2</assertj-version>
-    <jna-version>5.13.0</jna-version>
+    <jna-version>5.14.0</jna-version>
     <byte-buddy-version>1.14.10</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
