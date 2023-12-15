@@ -192,12 +192,12 @@ maven jna
 	dependency {
 		groupId = "net.java.dev.jna"
 		artifactId = "jna"
-		version = "5.13.0"
+		version = "5.14.0"
 	}
 	dependency {
 		groupId = "net.java.dev.jna"
 		artifactId = "jna-platform"
-		version = "5.13.0"
+		version = "5.14.0"
 	}
 }
 
