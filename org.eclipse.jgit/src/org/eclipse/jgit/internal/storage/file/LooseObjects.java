@@ -167,6 +167,9 @@ class LooseObjects {
 		while (readAttempts < MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS) {
 			readAttempts++;
 			File path = fileFor(id);
+			if (trustFolderStat && !path.exists()) {
+				break;
+			}
 			try {
 				return getObjectLoader(curs, path, id);
 			} catch (FileNotFoundException noFile) {
