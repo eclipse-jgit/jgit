@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23947ed6_16ad35be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2023-12-18T19:16:32Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t// we don\u0027t have any objects locally, we can immediately bail out\n```",
+      "range": {
+        "startLine": 678,
+        "startChar": 9,
+        "endLine": 678,
+        "endChar": 15
+      },
+      "revId": "79ec301d51ad643876b796a541217d7d28150d48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
