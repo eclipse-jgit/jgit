@@ -402,11 +402,14 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	protected void doFetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,
 			OutputStream outputStream) throws TransportException {
+		boolean hasObjects = !have.isEmpty();
 		try {
 			noProgress = monitor == NullProgressMonitor.INSTANCE;
 
-			markRefsAdvertised();
-			markReachable(want, have, maxTimeWanted(want));
+			if (hasObjects) {
+				markRefsAdvertised();
+			}
+			markReachable(want, have, maxTimeWanted(want, hasObjects));
 
 			if (TransferConfig.ProtocolVersion.V2
 					.equals(getProtocolVersion())) {
@@ -418,7 +421,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				state = new TemporaryBuffer.Heap(Integer.MAX_VALUE);
 				pckState = new PacketLineOut(state);
 				try {
-					doFetchV2(monitor, want, outputStream);
+					doFetchV2(monitor, want, outputStream, hasObjects);
 				} finally {
 					clearState();
 				}
@@ -430,7 +433,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				pckState = new PacketLineOut(state);
 			}
 			PacketLineOut output = statelessRPC ? pckState : pckOut;
-			if (sendWants(want, output)) {
+			if (sendWants(want, output, hasObjects)) {
 				boolean mayHaveShallow = depth != null || deepenSince != null || !deepenNots.isEmpty();
 				Set<ObjectId> shallowCommits = local.getObjectDatabase().getShallowCommits();
 				if (isCapableOf(GitProtocolConstants.CAPABILITY_SHALLOW)) {
@@ -457,7 +460,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	}
 
 	private void doFetchV2(ProgressMonitor monitor, Collection<Ref> want,
-			OutputStream outputStream) throws IOException, CancelledException {
+			OutputStream outputStream, boolean hasObjects)
+			throws IOException, CancelledException {
 		sideband = true;
 		negotiateBegin();
 
@@ -479,7 +483,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			pckState.writeString(capability);
 		}
 
-		if (!sendWants(want, pckState)) {
+		if (!sendWants(want, pckState, hasObjects)) {
 			// We already have everything we wanted.
 			return;
 		}
@@ -666,8 +670,12 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		return local.getConfig().get(FetchConfig::new);
 	}
 
-	private int maxTimeWanted(Collection<Ref> wants) {
+	private int maxTimeWanted(Collection<Ref> wants, boolean hasObjects) {
 		int maxTime = 0;
+		if (!hasObjects) {
+			// we don't have any objects locally, we can immediately bail out
+			return maxTime;
+		}
 		for (Ref r : wants) {
 			try {
 				final RevObject obj = walk.parseAny(r.getObjectId());
@@ -769,7 +777,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 	}
 
-	private boolean sendWants(Collection<Ref> want, PacketLineOut p)
+	private boolean sendWants(Collection<Ref> want, PacketLineOut p,
+			boolean hasObjects)
 			throws IOException {
 		boolean first = true;
 		for (Ref r : want) {
@@ -778,7 +787,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				continue;
 			}
 			// if depth is set we need to fetch the objects even if they are already available
-			if (transport.getDepth() == null) {
+			if (transport.getDepth() == null
+					// only check reachable objects when we have objects
+					&& hasObjects) {
 				try {
 					if (walk.parseAny(objectId).has(REACHABLE)) {
 						// We already have this object. Asking for it is
