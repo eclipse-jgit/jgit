@@ -224,6 +224,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private boolean noProgress;
 
+	private boolean hasObjects;
+
 	private String lockMessage;
 
 	private PackLock packLock;
@@ -277,6 +279,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		depth = transport.getDepth();
 		deepenSince = transport.getDeepenSince();
 		deepenNots = transport.getDeepenNots();
+		hasObjects = true;
 
 		if (local != null) {
 			walk = new RevWalk(local);
@@ -402,10 +405,13 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	protected void doFetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,
 			OutputStream outputStream) throws TransportException {
+		hasObjects = !have.isEmpty();
 		try {
 			noProgress = monitor == NullProgressMonitor.INSTANCE;
 
-			markRefsAdvertised();
+			if (hasObjects) {
+				markRefsAdvertised();
+			}
 			markReachable(want, have, maxTimeWanted(want));
 
 			if (TransferConfig.ProtocolVersion.V2
@@ -668,6 +674,10 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 
 	private int maxTimeWanted(Collection<Ref> wants) {
 		int maxTime = 0;
+		if (!hasObjects) {
+			// we don't have any objects locally, we can immediately bail out
+			return maxTime;
+		}
 		for (Ref r : wants) {
 			try {
 				final RevObject obj = walk.parseAny(r.getObjectId());
@@ -778,7 +788,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				continue;
 			}
 			// if depth is set we need to fetch the objects even if they are already available
-			if (transport.getDepth() == null) {
+			if (transport.getDepth() == null
+					// only check reachable objects when we have objects
+					&& hasObjects) {
 				try {
 					if (walk.parseAny(objectId).has(REACHABLE)) {
 						// We already have this object. Asking for it is
