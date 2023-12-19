@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f460ddf_c1ec285d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:16:56Z",
+      "side": 1,
+      "message": "We follow the following pattern for commit title:\n\u003ccomponent\u003e: description\n\nAlso, \"optimize clone\" is too generic, could we have something more specific? All together, what about something like:\n\nBasePackFetchConnection: Skip object/ref lookups if local repo is empty",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb63311_034eb38d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:16:56Z",
+      "side": 1,
+      "message": "Thanks! This looks reasonable. Just some nits.",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5da3b5_b01c7920",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:16:56Z",
+      "side": 1,
+      "message": "nit: in java is more common to have the \"isEmpty\" idiom",
+      "range": {
+        "startLine": 282,
+        "startChar": 2,
+        "endLine": 282,
+        "endChar": 12
+      },
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e10a5c38_6dd8931d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:16:56Z",
+      "side": 1,
+      "message": "nit: maybe we can set maxTimeWanted here and call maxTimeWanted(want) only if needed?\n\ni.e:\n\nint maxTimeWanted \u003d 0;\nif (!isEmpty) {\n   markRefsAdverised();\n   maxTimeWanted; \u003d maxTimeWanted(want);\n}\nmarkReachable(want, have, maxTimeWanted);",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f1cdb3b_adf05e46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:16:56Z",
+      "side": 1,
+      "message": "IIUC we could pass hasObjects as parameter and avoid the field (less state in the class).",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
