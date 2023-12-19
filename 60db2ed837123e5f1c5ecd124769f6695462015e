@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d04112_18358378",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-19T07:21:58Z",
+      "side": 1,
+      "message": "having the sequence `static` means that all instances of `DateRevQueue` would share it, when we clear or init one, it will override the sequence for another.\n\nDon\u0027t think this is an issue for a single repository, but in case of a Git server (eg. Gerrit) this may lead to issues.\n\nDo we prevent from having multiple `DateRevQueue`?",
+      "range": {
+        "startLine": 28,
+        "startChar": 9,
+        "endLine": 28,
+        "endChar": 15
+      },
+      "revId": "60db2ed837123e5f1c5ecd124769f6695462015e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
