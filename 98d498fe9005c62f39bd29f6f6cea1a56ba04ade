@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82d47874_269be811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:33:41Z",
+      "side": 1,
+      "message": "Nit: \u003cComponent\u003e: brief specific description\n\nMaybe something like:\nLooseObjects: Use File#exists when possible",
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2e0af0d_b31c250d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:33:41Z",
+      "side": 1,
+      "message": "nit: Based on your benchmark below, it actually does improve it! You can say it directly: \"This improves performance of cloning and fetching\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc00f035_97d280eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:33:41Z",
+      "side": 1,
+      "message": "nit: rethrowing",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a6fa01a_352aa36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-19T18:33:41Z",
+      "side": 1,
+      "message": "Code looks to me, few nits about commit message.",
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
