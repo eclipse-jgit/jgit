@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd725df3_255dd484",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82d47874_269be811",
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2e0af0d_b31c250d",
@@ -54,6 +72,54 @@
       "writtenOn": "2023-12-19T18:33:41Z",
       "side": 1,
       "message": "nit: rethrowing",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff147ca0_53b1cb41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2e0af0d_b31c250d",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "98d498fe9005c62f39bd29f6f6cea1a56ba04ade",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13726166_491cc545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc00f035_97d280eb",
       "range": {
         "startLine": 10,
         "startChar": 11,
