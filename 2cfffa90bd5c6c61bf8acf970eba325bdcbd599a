@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "639ee65c_435949f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f460ddf_c1ec285d",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8cb63311_034eb38d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -60,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02d73dde_289b538c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:33:29Z",
+      "side": 1,
+      "message": "sure, I\u0027m slightly concerned that simple \"isEmpty\" is too generic here, because it can mean that \"the connection is empty\", \"the repository is empty\" or the \"pack is empty\". I prefer to be more specific and explicitly say that _there are no objects_\n\nMaybe `isRepoEmpty`? WDYT?",
+      "parentUuid": "cd5da3b5_b01c7920",
+      "range": {
+        "startLine": 282,
+        "startChar": 2,
+        "endLine": 282,
+        "endChar": 12
+      },
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e10a5c38_6dd8931d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
         "patchSetId": 2
@@ -77,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d2d0bec_2a7a8820",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:33:29Z",
+      "side": 1,
+      "message": "wouldn\u0027t that leak some of the logic in `maxTimeWanted` out of that method?\n\nsure we can save one method call (aka. it would be _more performant_), but then to understand the logic behind `maxTimeWanted` one would need to examine that method and `doFetch()`. IMO, it\u0027s better to keep the logic in one place. WDYT?",
+      "parentUuid": "e10a5c38_6dd8931d",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f1cdb3b_adf05e46",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
         "patchSetId": 2
@@ -88,6 +148,24 @@
       "writtenOn": "2023-12-19T18:16:56Z",
       "side": 1,
       "message": "IIUC we could pass hasObjects as parameter and avoid the field (less state in the class).",
+      "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5a7736_04270467",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-20T08:33:29Z",
+      "side": 1,
+      "message": "I don\u0027t like \"gangling boolean\" arguments, TBH. Also, we would need to push that through `doFetchV2`.\n\nBut, you\u0027re right, having it as a parameter is less of an evil as we don\u0027t need to manage the state, which can bite use in the future.",
+      "parentUuid": "5f1cdb3b_adf05e46",
       "revId": "2cfffa90bd5c6c61bf8acf970eba325bdcbd599a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
