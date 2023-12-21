@@ -22,6 +22,30 @@
       },
       "revId": "60db2ed837123e5f1c5ecd124769f6695462015e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da18eca_5d924ab0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-21T15:03:05Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "66d04112_18358378",
+      "range": {
+        "startLine": 28,
+        "startChar": 9,
+        "endLine": 28,
+        "endChar": 15
+      },
+      "revId": "60db2ed837123e5f1c5ecd124769f6695462015e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
