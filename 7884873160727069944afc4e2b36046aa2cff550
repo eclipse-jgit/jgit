@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8f70377_aff2293f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2023-12-21T17:47:05Z",
+      "side": 1,
+      "message": "Optionally a better name for \"hasObjects\" that hints it talks about the local repo.\n\nThis looks good to me. Thanks!",
+      "revId": "7884873160727069944afc4e2b36046aa2cff550",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
