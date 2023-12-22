@@ -50,6 +50,23 @@
       "message": "Ping?",
       "revId": "697013c2567bac22c624acd638f0a7e8ede00e88",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1cfeea4_fcf62be8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-22T08:57:40Z",
+      "side": 1,
+      "message": "Hi @ifrade@google.com,\n\nWould you mind having a look at this chain of changes?",
+      "revId": "697013c2567bac22c624acd638f0a7e8ede00e88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
