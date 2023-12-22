@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ac96d74_723e0778",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2023-12-22T09:48:24Z",
+      "side": 1,
+      "message": "nit: do we still need this call (and possibly the `ensureCapacity()` method), as it\u0027s now a no-op on the queue?",
+      "range": {
+        "startLine": 353,
+        "startChar": 2,
+        "endLine": 353,
+        "endChar": 36
+      },
+      "revId": "d3877e6ae3a7d286ff614ee6ac1258d2bf7f25fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
