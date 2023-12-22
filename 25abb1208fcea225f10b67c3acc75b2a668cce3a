@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd1adb45_b72eee89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2023-12-22T23:04:22Z",
+      "side": 1,
+      "message": "jna 5.14.0 was approved in https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/11861",
+      "revId": "25abb1208fcea225f10b67c3acc75b2a668cce3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
