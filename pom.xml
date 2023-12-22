@@ -263,7 +263,6 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${spotbugs-maven-plugin-version}</version>
           <configuration>
-            <findbugsXmlOutput>true</findbugsXmlOutput>
             <failOnError>false</failOnError>
           </configuration>
           <executions>
