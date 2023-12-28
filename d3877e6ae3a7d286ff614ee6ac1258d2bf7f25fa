@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffd0f201_4b86e130",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/AbstractRevQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-28T12:25:09Z",
+      "side": 1,
+      "message": "But this is no-op only for DateRevQueue, other implementations of `AbstactRevQueue` could provide implementation so I believe we should keep it in the abstract class",
+      "parentUuid": "926afd01_d3f2e2e5",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 2
+      },
+      "revId": "d3877e6ae3a7d286ff614ee6ac1258d2bf7f25fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43b5d5b8_0f698d82",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-27T07:54:18Z",
       "side": 1,
       "message": "Remove this.",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 2
+      },
+      "revId": "d3877e6ae3a7d286ff614ee6ac1258d2bf7f25fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d47d368d_9a05ed55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-28T12:25:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43b5d5b8_0f698d82",
       "range": {
         "startLine": 70,
         "startChar": 1,
@@ -84,6 +132,30 @@
       "side": 1,
       "message": "Indeed, this no-op method should be removed.",
       "parentUuid": "0ac96d74_723e0778",
+      "range": {
+        "startLine": 353,
+        "startChar": 2,
+        "endLine": 353,
+        "endChar": 36
+      },
+      "revId": "d3877e6ae3a7d286ff614ee6ac1258d2bf7f25fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58d2297_cb35c053",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2023-12-28T12:25:09Z",
+      "side": 1,
+      "message": "This is no-op only for `DateRevQueue` for other implementations this doesn\u0027t have to be no-op so we should keep it",
+      "parentUuid": "3b385135_bf925265",
       "range": {
         "startLine": 353,
         "startChar": 2,
