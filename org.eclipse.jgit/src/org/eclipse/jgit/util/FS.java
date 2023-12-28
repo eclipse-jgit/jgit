@@ -1024,7 +1024,7 @@ public abstract class FS {
 		File tempFile = null;
 		try {
 			tempFile = File.createTempFile("tempsymlinktarget", ""); //$NON-NLS-1$ //$NON-NLS-2$
-			File linkName = new File(tempFile.getParentFile(), "tempsymlink"); //$NON-NLS-1$
+			File linkName = new File(tempFile.getPath() + "-tempsymlink"); //$NON-NLS-1$
 			createSymLink(linkName, tempFile.getPath());
 			supportSymlinks = Boolean.TRUE;
 			linkName.delete();
