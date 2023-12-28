@@ -32,6 +32,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.junit.MockSystemReader;
@@ -194,6 +196,22 @@ public class FSTest {
 				  new String[] { "this-command-does-not-exist" },
 				  SystemReader.getInstance().getDefaultCharset().name());
 	}
+
+    @Test
+    public void testConcurrentSymlinkSupport()
+        throws ExecutionException, InterruptedException {
+        Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+        int n = 3;
+        CompletableFuture<Boolean>[] futures = new CompletableFuture[n];
+        for (int i = 0; i < n; i++)
+            futures[i] = CompletableFuture.supplyAsync(() ->
+                FS.DETECTED.newInstance().supportsSymlinks()
+            );
+
+        for (int i = 0; i < n; i++)
+            assertTrue(futures[i].get());
+    }
+
 
 	@Test
 	public void testFsTimestampResolution() throws Exception {
