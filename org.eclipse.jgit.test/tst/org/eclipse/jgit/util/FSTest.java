@@ -29,8 +29,12 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.errors.CommandFailedException;
@@ -193,6 +197,23 @@ public class FSTest {
 		FS.readPipe(fs.userHome(),
 				  new String[] { "this-command-does-not-exist" },
 				  SystemReader.getInstance().getDefaultCharset().name());
+	}
+
+	@Test
+	@SuppressWarnings("boxing")
+	public void testConcurrentSymlinkSupport()
+			throws ExecutionException, InterruptedException {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		int n = 3;
+		List<CompletableFuture<Boolean>> futures = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			futures.add(CompletableFuture.supplyAsync(
+					() -> FS.DETECTED.newInstance().supportsSymlinks()));
+		}
+
+		for (int i = 0; i < n; i++) {
+			assertTrue(futures.get(i).get());
+		}
 	}
 
 	@Test
