@@ -9,7 +9,7 @@
       },
       "lineNbr": 12,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -26,7 +26,7 @@
       },
       "lineNbr": 12,
       "author": {
-        "id": 4
+        "id": 1000671
       },
       "writtenOn": "2022-06-27T11:48:43Z",
       "side": 1,
@@ -44,7 +44,7 @@
       },
       "lineNbr": 12,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-16T13:38:09Z",
       "side": 1,
@@ -62,7 +62,7 @@
       },
       "lineNbr": 0,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -79,7 +79,7 @@
       },
       "lineNbr": 2,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -102,7 +102,7 @@
       },
       "lineNbr": 2,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-06T11:19:59Z",
       "side": 1,
@@ -126,7 +126,7 @@
       },
       "lineNbr": 58,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -149,7 +149,7 @@
       },
       "lineNbr": 58,
       "author": {
-        "id": 4
+        "id": 1000671
       },
       "writtenOn": "2022-06-27T11:48:43Z",
       "side": 1,
@@ -173,7 +173,7 @@
       },
       "lineNbr": 58,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-07T13:17:26Z",
       "side": 1,
@@ -197,7 +197,7 @@
       },
       "lineNbr": 27,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -220,7 +220,7 @@
       },
       "lineNbr": 27,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-06T11:19:59Z",
       "side": 1,
@@ -244,7 +244,7 @@
       },
       "lineNbr": 0,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -261,7 +261,7 @@
       },
       "lineNbr": 0,
       "author": {
-        "id": 4
+        "id": 1000671
       },
       "writtenOn": "2022-06-27T11:48:43Z",
       "side": 1,
@@ -279,7 +279,7 @@
       },
       "lineNbr": 0,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-16T13:38:09Z",
       "side": 1,
@@ -297,7 +297,7 @@
       },
       "lineNbr": 232,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -320,7 +320,7 @@
       },
       "lineNbr": 232,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-08T15:23:38Z",
       "side": 1,
@@ -344,7 +344,7 @@
       },
       "lineNbr": 233,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -367,7 +367,7 @@
       },
       "lineNbr": 233,
       "author": {
-        "id": 4
+        "id": 1000671
       },
       "writtenOn": "2022-06-27T11:48:43Z",
       "side": 1,
@@ -391,7 +391,7 @@
       },
       "lineNbr": 233,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-10-13T14:17:04Z",
       "side": 1,
@@ -415,7 +415,7 @@
       },
       "lineNbr": 233,
       "author": {
-        "id": 97483
+        "id": 1000000
       },
       "writtenOn": "2023-10-13T16:37:12Z",
       "side": 1,
@@ -439,7 +439,7 @@
       },
       "lineNbr": 233,
       "author": {
-        "id": 4
+        "id": 1000671
       },
       "writtenOn": "2023-10-14T20:42:43Z",
       "side": 1,
@@ -463,7 +463,7 @@
       },
       "lineNbr": 233,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-08T15:23:38Z",
       "side": 1,
@@ -529,13 +529,37 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "178f1ab6_fec5fe4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-30T01:17:24Z",
+      "side": 1,
+      "message": "Ping @matthias.sohn@sap.com that\u0027s your first decision for January 2024 😊\n\nJGit is downloaded millions of times and this queue is a central point for many use-cases. We\u0027ve been using it for years with Gerrit and it works fine, but it would be safer to have a _safety net_ just-in-case.\n\nI agree with the 3-steps approach proposed by @david.ostrovsky@gmail.com.",
+      "parentUuid": "ebef9d62_4fb99ced",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bf3cea4_8e6f90f2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 3
       },
       "lineNbr": 361,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -558,7 +582,7 @@
       },
       "lineNbr": 361,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-06T13:17:31Z",
       "side": 1,
@@ -582,7 +606,7 @@
       },
       "lineNbr": 362,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -605,7 +629,7 @@
       },
       "lineNbr": 362,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-06T13:17:31Z",
       "side": 1,
@@ -629,7 +653,7 @@
       },
       "lineNbr": 98,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -652,7 +676,7 @@
       },
       "lineNbr": 98,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-06T13:17:31Z",
       "side": 1,
@@ -676,7 +700,7 @@
       },
       "lineNbr": 99,
       "author": {
-        "id": 1684
+        "id": 1000177
       },
       "writtenOn": "2022-06-14T06:13:12Z",
       "side": 1,
@@ -699,7 +723,7 @@
       },
       "lineNbr": 99,
       "author": {
-        "id": 290522
+        "id": 1005270
       },
       "writtenOn": "2023-11-06T13:17:31Z",
       "side": 1,
