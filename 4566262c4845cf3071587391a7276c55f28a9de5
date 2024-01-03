@@ -575,6 +575,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bee3c1fe_9aae1a50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-03T14:17:14Z",
+      "side": 1,
+      "message": "In stable-6.6 new implementation can be enabled by setting REVWALK_USE_PRIORITY_QUEUE environment/system variable to true",
+      "parentUuid": "03fb438f_8b3fbfc5",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bf3cea4_8e6f90f2",
