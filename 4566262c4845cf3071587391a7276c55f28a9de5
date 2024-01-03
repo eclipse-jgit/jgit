@@ -599,6 +599,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "354269fd_e8bac88a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-03T21:57:51Z",
+      "side": 1,
+      "message": "I would prefer a Java system property as suggested by @david.ostrovsky@gmail.com, it is easier to control and configure.",
+      "parentUuid": "bee3c1fe_9aae1a50",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bf3cea4_8e6f90f2",
