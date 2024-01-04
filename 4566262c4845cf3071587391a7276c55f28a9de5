@@ -623,6 +623,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "924de113_34315bf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-04T11:33:18Z",
+      "side": 1,
+      "message": "We supports both options:\n```\n\tprivate static boolean usePriorityQueue() {\n\t\treturn Optional.ofNullable(System.getenv(\"REVWALK_USE_PRIORITY_QUEUE\"))\n\t\t\t\t\t.map(Boolean::parseBoolean)\n\t\t\t\t\t.orElseGet(() -\u003e  Optional.ofNullable(System.getProperty(\"REVWALK_USE_PRIORITY_QUEUE\"))\n\t\t\t\t\t\t\t.map(Boolean::parseBoolean)\n\t\t\t\t\t\t\t.orElse(false));\n\t}\n```",
+      "parentUuid": "354269fd_e8bac88a",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 233,
+        "endChar": 93
+      },
+      "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bf3cea4_8e6f90f2",
