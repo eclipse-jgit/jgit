@@ -59,6 +59,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b479d4be_29f0b6be",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "988499f7_49974796",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95565550_9b04ed4a",
@@ -72,6 +96,30 @@
       "writtenOn": "2024-01-08T09:54:09Z",
       "side": 1,
       "message": "I think this class \n- should extend AbstractRevQueue and not DateRevQueue, we will remove the latter soon\n- should not be exposed in the public API but should be package private. It\u0027s only used by RevWalk",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ead53f5_38fe7d60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "\u003e should extend AbstractRevQueue and not DateRevQueue, we will remove the latter soon\n\nI agree but we should do it as a separate change, `DateRevQueue` has an extra method `peek` which needs to be moved to `AbstractRevQueue`. If we do that we have to implement it in:\n* `LIFORevQueue`\n* `FIFORevQueue`\n\nI think it is out of scope of this change and will make it large and difficult to review.\n\n\u003e should not be exposed in the public API but should be package private. It\u0027s only used by RevWalk\n\nIt is also used in: `org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/DateRevQueueBenchmark.java`\nso it require some refactoring to allow changing scope to private",
+      "parentUuid": "95565550_9b04ed4a",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -105,6 +153,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32b0ee51_c4eae17d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "I believe `this` method should called to make sure that we call `initPriorityQueue()`:\n```\n\tpublic DateRevPriorityQueue(boolean firstParent) {\n\t\tsuper(firstParent);\n\t\tinitPriorityQueue();\n\t}\n```",
+      "parentUuid": "b1b15fc6_cd2a5e79",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d3b5bce_bc325640",
@@ -118,6 +190,30 @@
       "writtenOn": "2024-01-08T09:54:09Z",
       "side": 1,
       "message": "this is not a date queue but a queue of commits sorted by commit time order",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a8b1745_76af76b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "You are correct, I think this java doc was copied from `DateRevQueue` which has the same description",
+      "parentUuid": "8d3b5bce_bc325640",
       "range": {
         "startLine": 38,
         "startChar": 20,
@@ -151,6 +247,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f018027_2d008067",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "This will cause warning related to the check is L77. We shouldn\u0027t remove the if, check my comment below",
+      "parentUuid": "abb4e906_47b289f7",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8333cc24_18598dbc",
@@ -164,6 +284,30 @@
       "writtenOn": "2024-01-08T09:54:09Z",
       "side": 1,
       "message": "I think this is unnecessary since `queue.add()` already throws an NPE if we try to add a null entry",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba659aed_9e2b692c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "It is required because we are wrapping `RevCommit` with `RevCommitEntry` to support insertion order for commits with the same commit time. This means that we do not pass null to the queue so NPE will not be thrown from `queue.add`",
+      "parentUuid": "8333cc24_18598dbc",
       "range": {
         "startLine": 75,
         "startChar": 0,
@@ -191,6 +335,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d74e4f9_e77c7d47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3bb5f88_c5fa4c16",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f42da6ca_f45c807b",
@@ -208,6 +370,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d04019ef_179ea4ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f42da6ca_f45c807b",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "075d7fbf_32f9e38c",
@@ -221,6 +401,24 @@
       "writtenOn": "2024-01-08T09:54:09Z",
       "side": 1,
       "message": "remove this unrelated change",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2768a9e7_5eb39d7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-08T13:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "075d7fbf_32f9e38c",
       "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
