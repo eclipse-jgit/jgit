@@ -596,30 +596,21 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			throws Exception {
 		writeTrashFile("fileA", "line 1\nline 2\nline 3\n");
 		git.add().addFilepattern("fileA").call();
-		RevCommit commitFirst = git
-				.commit()
-				.setMessage("create fileA")
-				.call();
+		RevCommit commitFirst = git.commit().setMessage("create fileA").call();
 
 		writeTrashFile("fileB", "content from file B\n");
 		git.add().addFilepattern("fileB").call();
-		RevCommit commitCreateFileB = git
-				.commit()
-				.setMessage("create fileB\n\nsome commit details")
-				.call();
+		RevCommit commitCreateFileB = git.commit()
+				.setMessage("create fileB\n\nsome commit details").call();
 
 		writeTrashFile("fileA", "line 1\nline 2\nline 3\nline 4\n");
 		git.add().addFilepattern("fileA").call();
-		RevCommit commitEditFileA1 = git
-				.commit()
-				.setMessage("patch fileA 1")
+		RevCommit commitEditFileA1 = git.commit().setMessage("patch fileA 1")
 				.call();
 
 		writeTrashFile("fileA", "line 1\nline 2\nline 3\nline 4\nline 5\n");
 		git.add().addFilepattern("fileA").call();
-		RevCommit commitEditFileA2 = git
-				.commit()
-				.setMessage("patch fileA 2")
+		RevCommit commitEditFileA2 = git.commit().setMessage("patch fileA 2")
 				.call();
 
 		git.branchCreate().setName("side").setStartPoint(commitFirst).call();
