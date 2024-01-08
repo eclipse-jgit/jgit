@@ -36,7 +36,7 @@ public interface CherryPickCommitMessageProvider {
 	 * This provider returns the original commit message with original commit
 	 * hash in SHA-1 form.<br>
 	 * Example:
-	 * 
+	 *
 	 * <pre>
 	 * <code>my original commit message
 	 *
