@@ -16,6 +16,213 @@
       "message": "I found the issue with this benchmark, you generate numCommits commits in the setupBenchmark method but here you keep adding commits randomly picked from the bounded commits array containing numCommits. Hence you end up adding commits until the configured time of 10 seconds is reached. This means the queue grows much bigger than what you think and the numbers are rather meaningless. When increasing iterations to 10 the new implementation always crashes with OOM since it\u0027s faster than the old one and hence the queue is growing faster.\n\nTo limit the max size of the queue I added the following method which is executed after each invocation of the test method:\n\n```\n@TearDown(Level.Invocation)\npublic void check() {\n\tif (++count \u003d\u003d numCommits) {\n\t\tcount \u003d 0;\n\t\tqueue \u003d new DateRevQueue(false);\n\t}\n}\n```\n\nand instead of generating synthetic commits I altered the setup method to use commits from an already existing real repo:\n\n```\ncommits \u003d new RevCommit[numCommits];\nGit git \u003d Git.open(new File(\"repo/path\"));\nRepository repo \u003d git.getRepository();\ntry (RevWalk rw \u003d new RevWalk(repo)) {\n\tfor (Ref r : repo.getRefDatabase().getRefs()) {\n\t\tRevObject ro \u003d rw.peel(rw.parseAny(r.getObjectId()));\n\t\tif (!(ro instanceof RevCommit)) {\n\t\t\tcontinue;\n\t\t}\n\t\trw.markStart((RevCommit) ro);\n\t}\n\trepo.exactRef(\"refs/heads/master\").getObjectId()));\n\tfor (int i \u003d 0; i \u003c numCommits; i++) {\n\t\tcommits[i] \u003d rw.next();\n\t}\n}\nqueue \u003d new DateRevQueue(false);\n```\nI used our largest repo with \u003e20 mio commits, enabled profiling using JFR and got the following numbers using this command to run the benchmark:\n`java -jar ./target/benchmarks.jar DateRevQueueBenchmark -jvmArgs \u0027-Xmx16g\u0027 -f 1 -prof jfr`\n\n\nold implementation\n```\nBenchmark                                    (numCommits)  Mode  Cnt   Score    Error  Units    add     buildIndex\nDateRevQueueBenchmark.testDataRevQueue               1000  avgt    5   0,468 ±  0,005  us/op    94,3%    0,0%\nDateRevQueueBenchmark.testDataRevQueue               5000  avgt    5   0,276 ±  0,011  us/op    80,0%    1,5%\nDateRevQueueBenchmark.testDataRevQueue              10000  avgt    5   0,323 ±  0,013  us/op    74,2%    5,1%\nDateRevQueueBenchmark.testDataRevQueue              50000  avgt    5   0,568 ±  0,034  us/op    57,2%   23,2%\nDateRevQueueBenchmark.testDataRevQueue             100000  avgt    5   0,848 ±  0,083  us/op    49,3%   33,0%\nDateRevQueueBenchmark.testDataRevQueue             500000  avgt    5   4,956 ±  0,325  us/op    17,6%   73,9%\nDateRevQueueBenchmark.testDataRevQueue            1000000  avgt    5  15,902 ± 25,453  us/op    10,1%   85,5%\nDateRevQueueBenchmark.testDataRevQueue            5000000  avgt    5  50,852 ± 98,362  us/op     5,4%   91,7%\nDateRevQueueBenchmark.testDataRevQueue           10000000  avgt    5  48,062 ± 97,302  us/op     5,9%   91,6%\n```\nthe numbers above 500000 commits are questionable, std dev goes through the roof.\nProfiling shows that at small number of commits performance is dominated by DateRevQueue\u0027s add method, starting around 500000 commits it\u0027s dominated by rebuilding the index every 1000 commits.\n\n\nnew implementation\n```\nBenchmark                                    (numCommits)  Mode  Cnt  Score   Error  Units    Integer.compare   RevCommitEntry.init\nDateRevQueueBenchmark.testDataRevQueue               1000  avgt    5  0,040 ± 0,002  us/op    37,2%             7,9%\nDateRevQueueBenchmark.testDataRevQueue               5000  avgt    5  0,042 ± 0,002  us/op    43,3%             5,8%\nDateRevQueueBenchmark.testDataRevQueue              10000  avgt    5  0,042 ± 0,002  us/op    46,9%\nDateRevQueueBenchmark.testDataRevQueue              50000  avgt    5  0,050 ± 0,001  us/op    61,4%             3,8%\nDateRevQueueBenchmark.testDataRevQueue             100000  avgt    5  0,064 ± 0,014  us/op    70,1%             2,8%\nDateRevQueueBenchmark.testDataRevQueue             500000  avgt    5  0,105 ± 0,005  us/op    85,0%             2,3%\nDateRevQueueBenchmark.testDataRevQueue            1000000  avgt    5  0,141 ± 0,013  us/op    86,6%             1,9%\nDateRevQueueBenchmark.testDataRevQueue            5000000  avgt    5  0,195 ± 0,037  us/op    89,7%             1,2%\nDateRevQueueBenchmark.testDataRevQueue           10000000  avgt    5  0,220 ± 0,038  us/op    90,6%             1,5%\n```\nwhen using PriorityQueue performance is dominated by comparing integers used for sorting.",
       "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c169432_8c2f9ebf",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/DateRevQueueBenchmark.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "these numbers are still a crude approximation since we measure the average runtime from 0 up to numCommits commits in the queue.\n\nI further improved this by only measuring time for commits added between 90-100% of numCommits\n\n```\npublic static class BenchmarkState {\n...\nint low, count;\n...\n\t@Setup\n\tpublic void setupBenchmark() throws Exception {\n\t\t...\n\n\t\tqueue \u003d new DateRevQueue(false);\n\t\tlow \u003d 9 * numCommits / 10;\n\t\tThreadLocalRandom random \u003d ThreadLocalRandom.current();\n\t\t// add 90% * numCommits commits, benchmark adding commits from 90-100%\n\t\tfor (int i \u003d 0; i \u003c low; i++) {\n\t\t\tRevCommit commit \u003d commits[random.nextInt(numCommits)];\n\t\t\tqueue.add(commit);\n\t\t\t++count;\n\t\t}\n\t}\n\n\t@TearDown(Level.Invocation)\n\tpublic void check() {\n\t\t// if queue is full remove 10% of its entries\n\t\tif (++count \u003d\u003d numCommits) {\n\t\t\tdo {\n\t\t\t\tqueue.next();\n\t\t\t} while (--count \u003e low);\n\t\t}\n\t}\n}\n```\n\nwith this I measured the following numbers on our 20 mio commits repo:\n\nold implementation:\n```\nBenchmark                                    (numCommits)  Mode  Cnt    Score    Error  Units\nDateRevQueueBenchmark.testDataRevQueue               1000  avgt    5    0,066 ±  0,001  us/op\nDateRevQueueBenchmark.testDataRevQueue               5000  avgt    5    0,235 ±  0,001  us/op\nDateRevQueueBenchmark.testDataRevQueue              10000  avgt    5    0,377 ±  0,008  us/op\nDateRevQueueBenchmark.testDataRevQueue              50000  avgt    5    0,701 ±  0,018  us/op\nDateRevQueueBenchmark.testDataRevQueue             100000  avgt    5    1,107 ±  0,038  us/op\nDateRevQueueBenchmark.testDataRevQueue             500000  avgt    5   10,672 ±  1,764  us/op\nDateRevQueueBenchmark.testDataRevQueue            1000000  avgt    5   34,907 ±  1,710  us/op\nDateRevQueueBenchmark.testDataRevQueue            5000000  avgt    5  451,558 ± 13,649  us/op\n```\nthis shows the claimed quadratic complexity of O(n^2) and again at large queue size the queue performance is dominated by rebuilding the index every 1000 commits\n\nnew implementation:\n```\nBenchmark                                    (numCommits)  Mode  Cnt  Score   Error  Units\nDateRevQueueBenchmark.testDataRevQueue               1000  avgt    5  0,044 ± 0,003  us/op\nDateRevQueueBenchmark.testDataRevQueue               5000  avgt    5  0,044 ± 0,003  us/op\nDateRevQueueBenchmark.testDataRevQueue              10000  avgt    5  0,046 ± 0,001  us/op\nDateRevQueueBenchmark.testDataRevQueue              50000  avgt    5  0,059 ± 0,012  us/op\nDateRevQueueBenchmark.testDataRevQueue             100000  avgt    5  0,078 ± 0,009  us/op\nDateRevQueueBenchmark.testDataRevQueue             500000  avgt    5  0,161 ± 0,021  us/op\nDateRevQueueBenchmark.testDataRevQueue            1000000  avgt    5  0,196 ± 0,014  us/op\nDateRevQueueBenchmark.testDataRevQueue            5000000  avgt    5  0,258 ± 0,069  us/op\nDateRevQueueBenchmark.testDataRevQueue           10000000  avgt    5  0,272 ± 0,106  us/op\n```\nthis is roughly showing complexity of O(ln(n))\n\nInserting commits in random order is a worst case scenario, in real RevWalks insertion order should be less random which should improve performance.",
+      "parentUuid": "2cb22e10_17add618",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "988499f7_49974796",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/DateRevPriorityQueueTest.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95565550_9b04ed4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "I think this class \n- should extend AbstractRevQueue and not DateRevQueue, we will remove the latter soon\n- should not be exposed in the public API but should be package private. It\u0027s only used by RevWalk",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1b15fc6_cd2a5e79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "super",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3b5bce_bc325640",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "this is not a date queue but a queue of commits sorted by commit time order",
+      "range": {
+        "startLine": 38,
+        "startChar": 20,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abb4e906_47b289f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "this should be done in AbstractRevQueue\n```suggestion\n\tpublic void add(@NonNull RevCommit c) {\n```",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8333cc24_18598dbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "I think this is unnecessary since `queue.add()` already throws an NPE if we try to add a null entry",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3bb5f88_c5fa4c16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "This class should not be in the public API, unfortunately it is. Hence this should be annotated with @since 6.6.2. \n\nIn addition we should deprecate this class to announce that it will be removed .",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42da6ca_f45c807b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "I think \n- system property is enough, we don\u0027t need 2 ways to enable the new implementation and we will remove this option in the next release\n- using Java streams and Optional.ofNullable hampers readability",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "075d7fbf_32f9e38c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-08T09:54:09Z",
+      "side": 1,
+      "message": "remove this unrelated change",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
