@@ -671,4 +671,21 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			assertFalse(history.hasNext());
 		}
 	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider_ORIGINAL_WITH_REFERENCE()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			doCherryPickWithCustomProviderBaseTest(git,
+					CherryPickCommitMessageProvider.ORIGINAL_WITH_REFERENCE);
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("patch fileA 2\n\n(cherry picked from commit 1ac121e90b0fb6fb18bbb4307e3e9731ceeba9e1)", history.next().getFullMessage());
+			assertEquals("patch fileA 1\n\n(cherry picked from commit 71475239df59076e18564fa360e3a74280926c2a)", history.next().getFullMessage());
+			assertEquals("create fileB\n\nsome commit details\n\n(cherry picked from commit 29b4501297ccf8de9de9f451e7beb384b51f5378)",
+					history.next().getFullMessage());
+			assertEquals("create fileA", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
 }
