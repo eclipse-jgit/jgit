@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8700c1c8_0d06ea5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-08T20:20:21Z",
+      "side": 1,
+      "message": "Also, lines in the commit message seems to be too long. I *think* the limit is 72 characters.",
+      "revId": "5bf0b5c95114c0447250d1170325600e881ec4e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e7ca1b4_ceaa9062",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
