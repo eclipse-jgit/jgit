@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aacd125_f9e8bde4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-08T15:20:31Z",
+      "side": 1,
+      "message": "Renamed and rephrased documentation.",
+      "parentUuid": "9e379471_578eb1ed",
+      "revId": "409e817ba546b1bfa8ac83f838b123af7fd76fb4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c543ecdc_9d220269",
@@ -41,6 +59,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2ca5022_c6685f15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-08T15:20:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c543ecdc_9d220269",
+      "range": {
+        "startLine": 550,
+        "startChar": 39,
+        "endLine": 550,
+        "endChar": 46
+      },
+      "revId": "409e817ba546b1bfa8ac83f838b123af7fd76fb4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e15115c1_7f3c1ae4",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-12-08T14:15:51Z",
       "side": 1,
       "message": "nit: spacing",
+      "range": {
+        "startLine": 603,
+        "startChar": 3,
+        "endLine": 603,
+        "endChar": 4
+      },
+      "revId": "409e817ba546b1bfa8ac83f838b123af7fd76fb4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45f7a42_069dc3de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-08T15:20:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e15115c1_7f3c1ae4",
       "range": {
         "startLine": 603,
         "startChar": 3,
