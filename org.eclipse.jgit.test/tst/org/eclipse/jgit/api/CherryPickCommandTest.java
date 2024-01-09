@@ -591,8 +591,8 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	private void doCherryPickWithCustomProviderBaseTest(final Git git,
-			final CherryPickCommitMessageProvider commitMessageProvider)
+	private void doCherryPickWithCustomProviderBaseTest(Git git,
+			CherryPickCommitMessageProvider commitMessageProvider)
 			throws Exception {
 		writeTrashFile("fileA", "line 1\nline 2\nline 3\n");
 		git.add().addFilepattern("fileA").call();
