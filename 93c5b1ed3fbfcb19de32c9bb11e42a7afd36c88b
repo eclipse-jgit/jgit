@@ -130,6 +130,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2f86c7a_9539ffed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-09T01:21:38Z",
+      "side": 1,
+      "message": "moving the benchmark to the revwalk package is sufficient",
+      "parentUuid": "4ead53f5_38fe7d60",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1b15fc6_cd2a5e79",
@@ -167,6 +191,30 @@
       "side": 1,
       "message": "I believe `this` method should called to make sure that we call `initPriorityQueue()`:\n```\n\tpublic DateRevPriorityQueue(boolean firstParent) {\n\t\tsuper(firstParent);\n\t\tinitPriorityQueue();\n\t}\n```",
       "parentUuid": "b1b15fc6_cd2a5e79",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d366f604_943e63f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-09T01:21:38Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "32b0ee51_c4eae17d",
       "range": {
         "startLine": 34,
         "startChar": 2,
@@ -271,6 +319,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f29b6cf_8392f17d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-09T01:21:38Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "8f018027_2d008067",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8333cc24_18598dbc",
@@ -318,6 +390,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a91bdc_dcef264c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-09T01:21:38Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "ba659aed_9e2b692c",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3bb5f88_c5fa4c16",
@@ -349,6 +445,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e3bb5f88_c5fa4c16",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a91e50d8_ff1d804d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-09T01:21:38Z",
+      "side": 1,
+      "message": "this is too ugly, we can replace this class by the new priority queue based implementation and make it package private in the next major release",
+      "parentUuid": "4d74e4f9_e77c7d47",
       "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
