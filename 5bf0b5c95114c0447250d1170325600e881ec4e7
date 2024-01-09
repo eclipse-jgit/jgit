@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7b45e20_51df5231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-09T08:15:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e185b876_b7488da6",
+      "revId": "5bf0b5c95114c0447250d1170325600e881ec4e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8700c1c8_0d06ea5b",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "889e4f76_8d9e66ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-09T08:15:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8700c1c8_0d06ea5b",
+      "revId": "5bf0b5c95114c0447250d1170325600e881ec4e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e7ca1b4_ceaa9062",
@@ -48,6 +84,30 @@
       "writtenOn": "2024-01-08T20:18:32Z",
       "side": 1,
       "message": "\"were\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "5bf0b5c95114c0447250d1170325600e881ec4e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56e24471_9581310f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-09T08:15:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e7ca1b4_ceaa9062",
       "range": {
         "startLine": 10,
         "startChar": 23,
@@ -88,6 +148,24 @@
       "writtenOn": "2024-01-08T20:18:32Z",
       "side": 1,
       "message": "Mark this one as deprecated (we can remove it on 7.0 release).\n\nI think you need to add two things:\n1. A \"@deprecated Use {@link nextLfSkippingSplitLines directly)\" in the javadoc\n2. @Deprecated annotation to the method",
+      "revId": "5bf0b5c95114c0447250d1170325600e881ec4e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eced591a_524aa6c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1037564
+      },
+      "writtenOn": "2024-01-09T08:15:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e18e3397_16d77c09",
       "revId": "5bf0b5c95114c0447250d1170325600e881ec4e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
