@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fd5857b_4d518ded",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/DateRevQueueBenchmark.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-09T09:46:40Z",
+      "side": 1,
+      "message": "Measuring performance of a method in a loop should be avoided in benchmarks to avoid that JVM loop optimizations affect the measurement. See https://www.researchgate.net/publication/333825812_What%27s_Wrong_with_My_Benchmark_Results_Studying_Bad_Practices_in_JMH_Benchmarks\n\nHow was memory allocation measured ?",
+      "parentUuid": "19af6e38_69732820",
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "988499f7_49974796",
