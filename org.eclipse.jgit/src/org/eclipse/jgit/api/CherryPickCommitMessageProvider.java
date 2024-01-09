@@ -9,6 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
+import java.util.List;
+
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -48,8 +51,21 @@ public interface CherryPickCommitMessageProvider {
 	 */
 	CherryPickCommitMessageProvider ORIGINAL_WITH_REFERENCE = srcCommit -> {
 		String fullMessage = srcCommit.getFullMessage();
+
+		// Don't add extra new line after footer (aka trailer)
+		// https://stackoverflow.com/questions/70007405/git-log-exclude-cherry-pick-messages-for-trailers
+		// https://lore.kernel.org/git/7vmx136cdc.fsf@alter.siamese.dyndns.org/
+		String separator = messageEndsWithFooter(srcCommit) ? "\n" : "\n\n";
 		String revisionString = srcCommit.getName();
-		return String.format("%s\n\n(cherry picked from commit %s)", //$NON-NLS-1$
-				fullMessage, revisionString);
+		return String.format("%s%s(cherry picked from commit %s)", //$NON-NLS-1$
+				fullMessage, separator, revisionString);
 	};
+
+	private static boolean messageEndsWithFooter(RevCommit srcCommit) {
+		byte[] rawBuffer = srcCommit.getRawBuffer();
+		List<FooterLine> footers = srcCommit.getFooterLines();
+		int maxFooterEnd = footers.stream().mapToInt(FooterLine::getEndOffset).max()
+				.orElse(-1);
+		return rawBuffer.length == maxFooterEnd;
+	}
 }

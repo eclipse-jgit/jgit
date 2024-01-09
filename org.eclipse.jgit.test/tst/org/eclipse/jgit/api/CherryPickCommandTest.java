@@ -688,4 +688,89 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			assertFalse(history.hasNext());
 		}
 	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider_ORIGINAL_WITH_REFERENCE_DonNotAddNewLineAfterFooter()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			CherryPickCommitMessageProvider commitMessageProvider = CherryPickCommitMessageProvider.ORIGINAL_WITH_REFERENCE;
+
+			RevCommit commit1 = addFileAndCommit(git, "file1", "content 1",
+					"commit1: no footer line");
+			RevCommit commit2 = addFileAndCommit(git, "file2", "content 2",
+					"commit2: simple single footer line"
+							+ "\n\nSigned-off-by: Alice <alice@example.com>");
+			RevCommit commit3 = addFileAndCommit(git, "file3", "content 3",
+					"commit3: multiple footer lines\n\n"
+							+ "Signed-off-by: Alice <alice@example.com>\n"
+							+ "Signed-off-by: Bob <bob@example.com>");
+			RevCommit commit4 = addFileAndCommit(git, "file4", "content 4",
+					"commit4: extra commit text before footer line\n\n"
+							+ "Commit message details\n\n"
+							+ "Signed-off-by: Alice <alice@example.com>\n"
+							+ "Signed-off-by: Bob <bob@example.com>");
+			RevCommit commit5 = addFileAndCommit(git, "file5", "content 5",
+					"commit5: extra commit text after footer line\n\n"
+							+ "Signed-off-by: Alice <alice@example.com>\n"
+							+ "Signed-off-by: Bob <bob@example.com>\n\n"
+							+ "some extra description after footer");
+
+			git.branchCreate().setName("side").setStartPoint(commit1).call();
+			checkoutBranch("refs/heads/side");
+
+			CherryPickResult pickResult = git.cherryPick()
+					.setCherryPickCommitMessageProvider(commitMessageProvider)
+					.include(commit2).include(commit3).include(commit4)
+					.include(commit5).call();
+
+			assertEquals(CherryPickStatus.OK, pickResult.getStatus());
+
+			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(db.getWorkTree(), "file4").exists());
+			assertTrue(new File(db.getWorkTree(), "file5").exists());
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			RevCommit cpCommit1 = history.next();
+			RevCommit cpCommit2 = history.next();
+			RevCommit cpCommit3 = history.next();
+			RevCommit cpCommit4 = history.next();
+			RevCommit cpCommitInit = history.next();
+			assertFalse(history.hasNext());
+
+			assertEquals("commit5: extra commit text after footer line\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "Signed-off-by: Bob <bob@example.com>\n\n"
+					+ "some extra description after footer\n\n"
+					+ "(cherry picked from commit c3c9959207dc7ae7c83da5d36dc14ef2ca42d572)",
+					cpCommit1.getFullMessage());
+			assertEquals("commit4: extra commit text before footer line\n\n"
+					+ "Commit message details\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "Signed-off-by: Bob <bob@example.com>\n"
+					+ "(cherry picked from commit af3e8106c12cb946a37b403ddb2dd6c11a883698)",
+					cpCommit2.getFullMessage());
+			assertEquals("commit3: multiple footer lines\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "Signed-off-by: Bob <bob@example.com>\n"
+					+ "(cherry picked from commit 6d60f1a70a11a32dff4402c157c4ac328c32ce6c)",
+					cpCommit3.getFullMessage());
+			assertEquals("commit2: simple single footer line\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "(cherry picked from commit 92bf0ec458814ecc73da8e050e60547d2ea6cce5)",
+					cpCommit4.getFullMessage());
+
+			assertEquals("commit1: no footer line",
+					cpCommitInit.getFullMessage());
+		}
+	}
+
+	private RevCommit addFileAndCommit(Git git, String fileName,
+			String fileText, String commitMessage)
+			throws IOException, GitAPIException {
+		writeTrashFile(fileName, fileText);
+		git.add().addFilepattern(fileName).call();
+		return git.commit().setMessage(commitMessage).call();
+	}
 }

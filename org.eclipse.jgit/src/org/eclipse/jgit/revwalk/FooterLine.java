@@ -247,6 +247,24 @@ public final class FooterLine {
 		return RawParseUtils.decode(enc, buffer, lt, gt - 1);
 	}
 
+	/**
+	 * @return start offset of the footer relative to the original raw message byte buffer
+	 * 
+	 * @see org.eclipse.jgit.revwalk.FooterLine#fromMessage(byte[])
+	 */
+	public int getStartOffset() {
+		return keyStart;
+	}
+
+	/**
+	 * @return end offset of the footer relative to the original raw message byte buffer
+	 *
+	 * @see org.eclipse.jgit.revwalk.FooterLine#fromMessage(byte[])
+	 */
+	public int getEndOffset() {
+		return valEnd;
+	}
+
 	@Override
 	public String toString() {
 		return getKey() + ": " + getValue(); //$NON-NLS-1$
