@@ -142,6 +142,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88815795_23e44109",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2024-01-09T15:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c21a2dcd_3edcf3fd",
+      "range": {
+        "startLine": 594,
+        "startChar": 53,
+        "endLine": 594,
+        "endChar": 58
+      },
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb62c4ea_a0c79c30",
@@ -506,6 +530,24 @@
       "writtenOn": "2023-12-09T22:44:54Z",
       "side": 1,
       "message": "see class `org.eclipse.jgit.revwalk.Footerline`",
+      "parentUuid": "38d4212a_ee501b6a",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "269de897_e78f95d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2024-01-09T15:23:42Z",
+      "side": 1,
+      "message": "Done.\nAlso added the tests.\n\nThough, there is one unhandled case, which I omitted - trailing spaces in the commit message.\nMy current implementation treats trailing spaces as a valid content.\nIf there are some trailing spaces, extra new line will be inserted anyway.\n\nFrom what I checked Git will always trim the trailing spaces in the commit message.\nBut JGit doesn\u0027t do that.\nI am not a Git guru, but this seems \"wrong\" to me.",
       "parentUuid": "38d4212a_ee501b6a",
       "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"

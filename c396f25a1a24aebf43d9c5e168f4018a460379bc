@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab2cc6e1_c73fc1a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2024-01-09T15:23:42Z",
+      "side": 1,
+      "message": "I\u0027ve added latest review patches as separate \"WIP\" commits to review it easier.\nOnce we agree on the final implementation I will squash them into a single commit.\nThough I might move the \"trailers handling\" in a separate commit",
+      "revId": "c396f25a1a24aebf43d9c5e168f4018a460379bc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
