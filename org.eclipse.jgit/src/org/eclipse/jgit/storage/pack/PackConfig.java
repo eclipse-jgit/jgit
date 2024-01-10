@@ -78,6 +78,7 @@ public class PackConfig {
 
 	/**
 	 * Default value of keep old packs option: {@value}
+	 * 
 	 * @see #setPreserveOldPacks(boolean)
 	 * @since 4.7
 	 */
@@ -85,6 +86,7 @@ public class PackConfig {
 
 	/**
 	 * Default value of prune old packs option: {@value}
+	 * 
 	 * @see #setPrunePreserved(boolean)
 	 * @since 4.7
 	 */
@@ -180,7 +182,6 @@ public class PackConfig {
 	 */
 	public static final boolean DEFAULT_BUILD_BITMAPS = true;
 
-
 	/**
 	 * Default value for including objects in packs locked by .keep file when
 	 * repacking: {@value}
@@ -240,10 +241,21 @@ public class PackConfig {
 	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT = 100;
 
 	/**
+	 * Default maxium count of branches to create tip bitmaps for. If the number
+	 * of branches exceeds this, then tip bitmaps will only be created for the
+	 * most recently active branches. Branches exceeding this count will receive
+	 * 0 bitmaps: {@value}
+	 *
+	 * @see #setBitmapExcessiveBranchTipCount(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT = 250;
+
+	/**
 	 * Default age at which a branch is considered inactive. Age is taken as the
 	 * number of days ago that the most recent commit was made to a branch. Only
-	 * affects bitmap processing if bitmaps are enabled and the
-	 * "excessive branch count" has been exceeded: {@value}
+	 * affects bitmap processing if bitmaps are enabled and the "excessive
+	 * branch count" has been exceeded: {@value}
 	 *
 	 * @see #setBitmapInactiveBranchAgeInDays(int)
 	 * @since 4.2
@@ -270,7 +282,8 @@ public class PackConfig {
 	/**
 	 * Default max time to spend during the search for reuse phase.
 	 *
-	 * This optimization is disabled by default: {@link Integer#MAX_VALUE} seconds.
+	 * This optimization is disabled by default: {@link Integer#MAX_VALUE}
+	 * seconds.
 	 *
 	 * @see #setSearchForReuseTimeout(Duration)
 	 * @since 5.13
@@ -329,6 +342,8 @@ public class PackConfig {
 	private int bitmapDistantCommitSpan = DEFAULT_BITMAP_DISTANT_COMMIT_SPAN;
 
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
+
+	private int bitmapExcessiveBranchTipCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
 
@@ -490,8 +505,8 @@ public class PackConfig {
 	/**
 	 * Set preserve old packs configuration option for repacking.
 	 *
-	 * If enabled, old pack files are moved into a preserved subdirectory instead
-	 * of being deleted
+	 * If enabled, old pack files are moved into a preserved subdirectory
+	 * instead of being deleted
 	 *
 	 * Default setting: {@value #DEFAULT_PRESERVE_OLD_PACKS}
 	 *
@@ -518,7 +533,8 @@ public class PackConfig {
 	/**
 	 * Set prune preserved configuration option for repacking.
 	 *
-	 * If enabled, preserved pack files are removed from a preserved subdirectory
+	 * If enabled, preserved pack files are removed from a preserved
+	 * subdirectory
 	 *
 	 * Default setting: {@value #DEFAULT_PRESERVE_OLD_PACKS}
 	 *
@@ -1190,7 +1206,8 @@ public class PackConfig {
 	 * a repository exceeds this number and bitmaps are enabled, "inactive"
 	 * branches will have fewer bitmaps than "active" branches.
 	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}. See
+	 * also {@link #getBitmapExcessiveBranchTipCount(int)}.
 	 *
 	 * @return the count of branches deemed "excessive"
 	 * @since 4.2
@@ -1204,7 +1221,8 @@ public class PackConfig {
 	 * a repository exceeds this number and bitmaps are enabled, "inactive"
 	 * branches will have fewer bitmaps than "active" branches.
 	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}. See
+	 * also {@link #setBitmapExcessiveBranchTipCount(int)}.
 	 *
 	 * @param count
 	 *            the count of branches deemed "excessive"
@@ -1212,6 +1230,57 @@ public class PackConfig {
 	 */
 	public void setBitmapExcessiveBranchCount(int count) {
 		bitmapExcessiveBranchCount = count;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, branches
+	 * exceeding this count will have no bitmaps selected. Branches are indexed
+	 * most recent first.
+	 *
+	 * <li>The first {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} most active
+	 * branches have full bitmap coverage.
+	 * <li>The {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} to {@code
+	 * 	  DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT} most active branches have
+	 * only the tip commit covered.
+	 * <li>The remaining branches have no bitmap coverage.
+	 *
+	 * If {@link #getBitmapExcessiveBranchCount()} is greater, then that value
+	 * will override this value.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @return the count of branch tips deemed "excessive"
+	 * @since 4.2
+	 */
+	public int getBitmapExcessiveBranchTipCount() {
+		return bitmapExcessiveBranchTipCount;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, branches
+	 * exceeding this count will have no bitmaps selected. Branches are indexed
+	 * most recent first.
+	 *
+	 * <li>The first {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} most active
+	 * branches have full bitmap coverage.
+	 * <li>The {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} to {@code
+	 * 	  DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT} most active branches have
+	 * only the tip commit covered.
+	 * <li>The remaining branches have no bitmap coverage.
+	 *
+	 * If {@link #getBitmapExcessiveBranchCount()} is greater, then that value
+	 * will override this value.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @param count
+	 *            the count of branch tips deemed "excessive"
+	 * @since 4.2
+	 */
+	public void setBitmapExcessiveBranchTipCount(int count) {
+		bitmapExcessiveBranchTipCount = count;
 	}
 
 	/**
@@ -1347,8 +1416,7 @@ public class PackConfig {
 		setCompressionLevel(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_COMPRESSION, rc.getInt(CONFIG_CORE_SECTION,
 						CONFIG_KEY_COMPRESSION, getCompressionLevel())));
-		setIndexVersion(rc.getInt(CONFIG_PACK_SECTION,
-				CONFIG_KEY_INDEXVERSION,
+		setIndexVersion(rc.getInt(CONFIG_PACK_SECTION, CONFIG_KEY_INDEXVERSION,
 				getIndexVersion()));
 		setBigFileThreshold(rc.getInt(CONFIG_CORE_SECTION,
 				CONFIG_KEY_BIGFILE_THRESHOLD, getBigFileThreshold()));
@@ -1364,8 +1432,7 @@ public class PackConfig {
 				CONFIG_KEY_DELTA_COMPRESSION, isDeltaCompress()));
 		setCutDeltaChains(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_CUT_DELTACHAINS, getCutDeltaChains()));
-		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION,
-				CONFIG_KEY_SINGLE_PACK,
+		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION, CONFIG_KEY_SINGLE_PACK,
 				getSinglePack()));
 		setWriteReverseIndex(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WRITE_REVERSE_INDEX, isWriteReverseIndex()));
@@ -1393,15 +1460,14 @@ public class PackConfig {
 		setBitmapInactiveBranchAgeInDays(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS,
 				getBitmapInactiveBranchAgeInDays()));
-		String[] excludedRefsPrefixesArray = rc.getStringList(CONFIG_PACK_SECTION,
-			null,
-			CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES);
-		if(excludedRefsPrefixesArray.length > 0) {
+		String[] excludedRefsPrefixesArray = rc.getStringList(
+				CONFIG_PACK_SECTION, null,
+				CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES);
+		if (excludedRefsPrefixesArray.length > 0) {
 			setBitmapExcludedRefsPrefixes(excludedRefsPrefixesArray);
 		}
 		setSearchForReuseTimeout(Duration.ofSeconds(rc.getTimeUnit(
-				CONFIG_PACK_SECTION, null,
-				CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT,
+				CONFIG_PACK_SECTION, null, CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT,
 				getSearchForReuseTimeout().getSeconds(), TimeUnit.SECONDS)));
 		setWaitPreventRacyPack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WAIT_PREVENT_RACYPACK, isWaitPreventRacyPack()));

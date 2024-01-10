@@ -65,37 +65,53 @@ class PackWriterBitmapPreparer {
 					.signum(b.getCommitTime() - a.getCommitTime());
 
 	private final ObjectReader reader;
+
 	private final ProgressMonitor pm;
+
 	private final Set<? extends ObjectId> want;
+
 	private final PackBitmapIndexBuilder writeBitmaps;
+
 	private final BitmapIndexImpl commitBitmapIndex;
+
 	private final PackBitmapIndexRemapper bitmapRemapper;
+
 	private final BitmapIndexImpl bitmapIndex;
 
 	private final int contiguousCommitCount;
+
 	private final int recentCommitCount;
+
 	private final int recentCommitSpan;
+
 	private final int distantCommitSpan;
+
 	private final int excessiveBranchCount;
+
+	private final int excessiveBranchTipCount;
+
 	private final long inactiveBranchTimestamp;
 
 	PackWriterBitmapPreparer(ObjectReader reader,
 			PackBitmapIndexBuilder writeBitmaps, ProgressMonitor pm,
 			Set<? extends ObjectId> want, PackConfig config)
-					throws IOException {
+			throws IOException {
 		this.reader = reader;
 		this.writeBitmaps = writeBitmaps;
 		this.pm = pm;
 		this.want = want;
 		this.commitBitmapIndex = new BitmapIndexImpl(writeBitmaps);
-		this.bitmapRemapper = PackBitmapIndexRemapper.newPackBitmapIndex(
-				reader.getBitmapIndex(), writeBitmaps);
+		this.bitmapRemapper = PackBitmapIndexRemapper
+				.newPackBitmapIndex(reader.getBitmapIndex(), writeBitmaps);
 		this.bitmapIndex = new BitmapIndexImpl(bitmapRemapper);
 		this.contiguousCommitCount = config.getBitmapContiguousCommitCount();
 		this.recentCommitCount = config.getBitmapRecentCommitCount();
 		this.recentCommitSpan = config.getBitmapRecentCommitSpan();
 		this.distantCommitSpan = config.getBitmapDistantCommitSpan();
 		this.excessiveBranchCount = config.getBitmapExcessiveBranchCount();
+		this.excessiveBranchTipCount = Math.max(
+				config.getBitmapExcessiveBranchTipCount(),
+				excessiveBranchCount);
 		long now = SystemReader.getInstance().getCurrentTime();
 		long ageInSeconds = (long) config.getBitmapInactiveBranchAgeInDays()
 				* DAY_IN_SECONDS;
@@ -163,11 +179,14 @@ class PackWriterBitmapPreparer {
 			rw2.setRetainBody(false);
 			rw2.setRevFilter(new NotInBitmapFilter(seen));
 
+			int maxBranches = Math.min(excessiveBranchTipCount,
+					selectionHelper.newWantsByNewest.size());
 			// For each branch, do a revwalk to enumerate its commits. Exclude
 			// both reused commits and any commits seen in a previous branch.
 			// Then iterate through all new commits from oldest to newest,
 			// selecting well-spaced commits in this branch.
-			for (RevCommit rc : selectionHelper.newWantsByNewest) {
+			for (RevCommit rc : selectionHelper.newWantsByNewest.subList(0,
+					maxBranches)) {
 				BitmapBuilder tipBitmap = commitBitmapIndex.newBitmapBuilder();
 				rw2.markStart((RevCommit) rw2.peel(rw2.parseAny(rc)));
 				RevCommit rc2;
