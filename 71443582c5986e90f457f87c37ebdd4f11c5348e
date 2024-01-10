@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f62af3ef_a8245ad4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-10T20:58:28Z",
+      "side": 1,
+      "message": "This would break the fix made in I8e620bec74dd.",
+      "revId": "71443582c5986e90f457f87c37ebdd4f11c5348e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
