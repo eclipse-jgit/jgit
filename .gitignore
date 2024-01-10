@@ -3,6 +3,7 @@
 target/
 infer-out
 bazel-*
+.idea/
 
 # Do not add editor- and OS-specific files like *~ (Emacs) and .DS_Store
 # (macOS). Instead, add them to $XDG_CONFIG_HOME/git/ignore
