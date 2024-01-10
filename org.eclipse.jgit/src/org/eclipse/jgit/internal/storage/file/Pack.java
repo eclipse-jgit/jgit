@@ -1160,6 +1160,19 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return bitmapIdx;
 	}
 
+	synchronized void refreshBitmapIndex(PackFile bitmapIdxFile) {
+		this.bitmapIdx = null;
+		this.invalid = false;
+		this.bitmapIdxFile = bitmapIdxFile;
+		try {
+			getBitmapIndex();
+		} catch (IOException e) {
+			LOG.warn("Unable to access bitmap file {}, flagging it as invalid", //$NON-NLS-1$
+					bitmapIdxFile, e);
+			this.invalid = true;
+		}
+	}
+
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
 		if (reverseIdx == null)
 			reverseIdx = new PackReverseIndex(idx());
