@@ -54,7 +54,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.IO;
@@ -83,6 +82,8 @@ public class DfsInserter extends ObjectInserter {
 	private boolean rollback;
 	private boolean checkExisting = true;
 
+	private int minBytesForObjectSizeIndex = -1;
+
 	/**
 	 * Initialize a new inserter.
 	 *
@@ -107,6 +108,20 @@ public class DfsInserter extends ObjectInserter {
 
 	void setCompressionLevel(int compression) {
 		this.compression = compression;
+	}
+
+	/**
+	 * Set minimum size for an object to be included in the object size index.
+	 *
+	 * <p>
+	 * Use 0 for all and -1 for nothing (the pack won't have object size index).
+	 *
+	 * @param minBytes
+	 *            only objects with size bigger or equal to this are included in
+	 *            the index.
+	 */
+	protected void setMinBytesForObjectSizeIndex(int minBytes) {
+		this.minBytesForObjectSizeIndex = minBytes;
 	}
 
 	@Override
@@ -195,11 +210,7 @@ public class DfsInserter extends ObjectInserter {
 		sortObjectsById();
 
 		PackIndex index = writePackIndex(packDsc, packHash, objectList);
-		PackConfig pConfig = new PackConfig(db.getRepository().getConfig());
-		if (pConfig.isWriteObjSizeIndex()) {
-			writeObjectSizeIndex(packDsc, objectList,
-					pConfig.getMinBytesForObjSizeIndex());
-		}
+		writeObjectSizeIndex(packDsc, objectList);
 		db.commitPack(Collections.singletonList(packDsc), null);
 		rollback = false;
 
@@ -323,10 +334,14 @@ public class DfsInserter extends ObjectInserter {
 	}
 
 	void writeObjectSizeIndex(DfsPackDescription pack,
-			List<PackedObjectInfo> packedObjs, int minSize) throws IOException {
+			List<PackedObjectInfo> packedObjs) throws IOException {
+		if (minBytesForObjectSizeIndex < 0) {
+			return;
+		}
 		try (DfsOutputStream os = db.writeFile(pack, PackExt.OBJECT_SIZE_INDEX);
 				CountingOutputStream cnt = new CountingOutputStream(os)) {
-			PackObjectSizeIndexWriter.createWriter(os, minSize)
+			PackObjectSizeIndexWriter
+					.createWriter(os, minBytesForObjectSizeIndex)
 					.write(packedObjs);
 			pack.addFileExt(OBJECT_SIZE_INDEX);
 			pack.setBlockSize(OBJECT_SIZE_INDEX, os.blockSize());
