@@ -115,10 +115,13 @@ class PackDirectory {
 	}
 
 	Collection<Pack> getPacks() {
-		PackList list = packList.get();
-		if (list == NO_PACKS) {
-			list = scanPacks(list);
-		}
+		PackList list;
+		do {
+			list = packList.get();
+			if (list == NO_PACKS) {
+				list = scanPacks(list);
+			}
+		} while (searchPacksAgain(list));
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
@@ -455,6 +458,13 @@ class PackDirectory {
 					&& !oldPack.getFileSnapshot().isModified(packFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
+				try {
+					if(oldPack.getBitmapIndex() == null) {
+						oldPack.refreshBitmapIndex(packFilesByExt.get(BITMAP_INDEX));
+					}
+				} catch (IOException e) {
+					LOG.warn(JGitText.get().bitmapAccessErrorForPackfile, oldPack.getPackName(), e);
+				}
 				continue;
 			}
 
