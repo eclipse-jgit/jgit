@@ -163,11 +163,14 @@ class PackWriterBitmapPreparer {
 			rw2.setRetainBody(false);
 			rw2.setRevFilter(new NotInBitmapFilter(seen));
 
+			int maxBranches = Math.min(excessiveBranchTipCount,
+					selectionHelper.newWantsByNewest.size());
 			// For each branch, do a revwalk to enumerate its commits. Exclude
 			// both reused commits and any commits seen in a previous branch.
 			// Then iterate through all new commits from oldest to newest,
 			// selecting well-spaced commits in this branch.
-			for (RevCommit rc : selectionHelper.newWantsByNewest) {
+			for (RevCommit rc : selectionHelper.newWantsByNewest.subList(0,
+					maxBranches)) {
 				BitmapBuilder tipBitmap = commitBitmapIndex.newBitmapBuilder();
 				rw2.markStart((RevCommit) rw2.peel(rw2.parseAny(rc)));
 				RevCommit rc2;
