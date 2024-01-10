@@ -332,6 +332,40 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	/**
+	 * Create a commit A and an unrelated commit B creating the same file with
+	 * different content. Then rebase A onto B. The rebase should stop with a
+	 * conflict.
+	 *
+	 * @throws Exception
+	 *             on errors
+	 */
+	@Test
+	public void testRebaseNoMergeBaseConflict() throws Exception {
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit first = git.commit().setMessage("Add file").call();
+		File file1 = new File(db.getWorkTree(), FILE1);
+		assertTrue(file1.exists());
+		// Create an independent branch
+		git.checkout().setOrphan(true).setName("orphan").call();
+		git.rm().addFilepattern(FILE1).call();
+		assertFalse(file1.exists());
+		writeTrashFile(FILE1, "something else");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Orphan").call();
+		checkoutBranch("refs/heads/master");
+		assertEquals(first.getId(), db.resolve("HEAD"));
+		RebaseResult res = git.rebase().setUpstream("refs/heads/orphan").call();
+		assertEquals(Status.STOPPED, res.getStatus());
+		assertEquals(first, res.getCurrentCommit());
+		checkFile(file1, "<<<<<<< Upstream, based on orphan\n"
+				+ "something else\n"
+				+ "=======\n"
+				+ "file1\n"
+				+ ">>>>>>> " + first.abbreviate(7).name() + " Add file\n");
+	}
+
+	/**
 	 * Create the following commits and then attempt to rebase topic onto
 	 * master. This will serialize the branches.
 	 *
