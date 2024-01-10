@@ -26,7 +26,6 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.PackLock;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
@@ -123,11 +122,7 @@ public class DfsPackParser extends PackParser {
 			packDsc.setBlockSize(PACK, blockSize);
 
 			writePackIndex();
-			PackConfig pConfig = new PackConfig(objdb.getRepository().getConfig());
-			if (pConfig.isWriteObjSizeIndex()) {
-				objins.writeObjectSizeIndex(packDsc, getSortedObjectList(null),
-						pConfig.getMinBytesForObjSizeIndex());
-			}
+			objins.writeObjectSizeIndex(packDsc, getSortedObjectList(null));
 			objdb.commitPack(Collections.singletonList(packDsc), null);
 			rollback = false;
 
