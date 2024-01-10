@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8ed25af_99dd5dc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-01-10T17:36:52Z",
+      "side": 1,
+      "message": "So this isn\u0027t the first attempt at an improvement like this. Dave B had a POC [1] and Martin provided a version [2] that we used in production for several years.\n\nHow does the improvement in this change compare to what would be provided by [2]? Martin\u0027s testing had shown a PriorityQueue wasn\u0027t as performant as his alternate solution.\n\n[1] 5491: Proof-of-concept PriorityQueue implementation of DateRevQueue | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/5491\n[2] 24295: RFC: BucketQueue (LinearMinFinder) | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/24295",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
