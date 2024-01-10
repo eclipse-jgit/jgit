@@ -86,6 +86,23 @@
       "parentUuid": "d6426065_7c0f7be2",
       "revId": "170244d05977491271a1cc234583d2e5ba75145d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92e73843_c0d0556f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-01-10T07:43:48Z",
+      "side": 1,
+      "message": "Merging to 6.0 and then reverting on stable-6.0 sounds like a reasonable way forward.",
+      "revId": "170244d05977491271a1cc234583d2e5ba75145d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
