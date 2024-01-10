@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02a2cf62_ee783776",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcConcurrentTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-10T21:11:13Z",
+      "side": 1,
+      "message": "Why? If the situation of the packfiles is different on the filesystem, we must refresh the in-memory packlist.\n\nAt the moment, we have the paradox that if the situation of the packfiles changes on disk in the middle of a Git operation, half of the operation would work with a stale list of packfiles and the other half will get a refreshed list, making the operation to miserably fail.\n\nThe second attempt will then succeed because the refreshed list will help the 2nd attempt to get the whole git operation in a consistent fashion.\n\nI believe also this assertion isn\u0027t directly related to the problem that @Christian wanted to fix. The only fix was related to bitmaps, making sure that they are invalidated in memory if the index file is gone.",
+      "range": {
+        "startLine": 212,
+        "startChar": 22,
+        "endLine": 213,
+        "endChar": 61
+      },
+      "revId": "1ed1e40387c859786cf1932d22fe0001fbd5abb6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
