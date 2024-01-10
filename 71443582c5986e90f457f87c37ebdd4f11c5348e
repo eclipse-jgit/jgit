@@ -16,6 +16,24 @@
       "message": "This would break the fix made in I8e620bec74dd.",
       "revId": "71443582c5986e90f457f87c37ebdd4f11c5348e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b950ede8_29b33b74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-10T21:05:35Z",
+      "side": 1,
+      "message": "No, looking at the change again, it was actually making sure that bitmaps are refreshed when index files are gone. Assuming that the bitmap index is null until you really verify that it is there and can be loaded it is therefore correct here.",
+      "parentUuid": "f62af3ef_a8245ad4",
+      "revId": "71443582c5986e90f457f87c37ebdd4f11c5348e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
