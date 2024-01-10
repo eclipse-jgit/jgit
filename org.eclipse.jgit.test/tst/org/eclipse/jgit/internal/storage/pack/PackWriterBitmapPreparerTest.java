@@ -120,6 +120,14 @@ public class PackWriterBitmapPreparerTest {
 		}
 	}
 
+  @Test
+	public void testExcessiveStaleBitmapCount() throws Exception {
+		PackWriterBitmapPreparer preparer = newPeparer(
+				DEFAULT_BITMAP_RECENT_COMMIT_COUNT, // 20000
+				DEFAULT_BITMAP_RECENT_COMMIT_SPAN, // 100
+				1000);
+	}
+
 	private PackWriterBitmapPreparer newPeparer(int recentCount, int recentSpan,
 			int distantSpan) throws IOException {
 		List<ObjectToPack> objects = Collections.emptyList();
