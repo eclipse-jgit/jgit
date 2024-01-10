@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5809b468_c142dbe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-10T22:04:16Z",
+      "side": 1,
+      "message": "I\u0027ve run a no-op build (see https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/908/console) against this build and see overall the same performance figures.\n\nNo-op: Total time:  01:05 min (Wall Clock)\nThis : Total time:  01:08 min (Wall Clock)",
+      "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
