@@ -48,7 +48,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.References;
 
 /**
- * Walks a commit graph and produces the matching commits in order.
+ * Walk a commit graph and produces the matching commits in order.
  * <p>
  * A RevWalk instance can only be used once to generate results. Running a
  * second time requires creating a new RevWalk instance, or invoking
