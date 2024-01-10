@@ -240,6 +240,17 @@ public class PackConfig {
 	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT = 100;
 
 	/**
+	 * Default maxium count of branches to create tip bitmaps for. If the number of
+	 * branches exceeds this, then tip bitmaps will only be created for the most
+	 * recently active branches. Branches exceeding this count will receive 0 bitmaps:
+	 * {@value}
+	 *
+	 * @see #setBitmapExcessiveBranchTipCount(int)
+	 * @since 4.2
+	 */
+	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT = 250;
+
+	/**
 	 * Default age at which a branch is considered inactive. Age is taken as the
 	 * number of days ago that the most recent commit was made to a branch. Only
 	 * affects bitmap processing if bitmaps are enabled and the
@@ -329,6 +340,8 @@ public class PackConfig {
 	private int bitmapDistantCommitSpan = DEFAULT_BITMAP_DISTANT_COMMIT_SPAN;
 
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
+
+	private int bitmapExcessiveBranchTipCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT;
 
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
 
@@ -1212,6 +1225,41 @@ public class PackConfig {
 	 */
 	public void setBitmapExcessiveBranchCount(int count) {
 		bitmapExcessiveBranchCount = count;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, branches exceeding
+	 * this count will have no bitmaps selected. Branches are indexed most recent first.
+	 *
+	 * If {@link getBitmapExcessiveBranchCount()} is greater, then that value will
+	 * override this value.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @return the count of branch tips deemed "excessive"
+	 * @since 4.2
+	 */
+	public int getBitmapExcessiveBranchTipCount() {
+		return bitmapExcessiveBranchTipCount;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, branches exceeding
+	 * this count will have no bitmaps selected. Branches are indexed most recent first.
+	 *
+	 * If {@link getBitmapExcessiveBranchCount()} is greater, then that value will
+	 * override this value.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @param count
+	 *            the count of branch tips deemed "excessive"
+	 * @since 4.2
+	 */
+	public void setBitmapExcessiveBranchTipCount(int count) {
+		bitmapExcessiveBranchTipCount = count;
 	}
 
 	/**
