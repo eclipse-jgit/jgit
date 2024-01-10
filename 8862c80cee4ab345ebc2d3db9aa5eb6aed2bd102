@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a188206a_e8a0397a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-01-10T22:24:26Z",
+      "side": 1,
+      "message": "Looks correct, no changes with respect to add5c14.",
+      "revId": "8862c80cee4ab345ebc2d3db9aa5eb6aed2bd102",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
