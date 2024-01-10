@@ -1064,12 +1064,16 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		String authorScript = toAuthorScript(author);
 		rebaseState.createFile(AUTHOR_SCRIPT, authorScript);
 		rebaseState.createFile(MESSAGE, commitToPick.getFullMessage());
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		try (DiffFormatter df = new DiffFormatter(bos)) {
-			df.setRepository(repo);
-			df.format(commitToPick.getParent(0), commitToPick);
+		if (commitToPick.getParentCount() > 0) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			try (DiffFormatter df = new DiffFormatter(bos)) {
+				df.setRepository(repo);
+				df.format(commitToPick.getParent(0), commitToPick);
+			}
+			rebaseState.createFile(PATCH, new String(bos.toByteArray(), UTF_8));
+		} else {
+			rebaseState.createFile(PATCH, ""); //$NON-NLS-1$
 		}
-		rebaseState.createFile(PATCH, new String(bos.toByteArray(), UTF_8));
 		rebaseState.createFile(STOPPED_SHA,
 				repo.newObjectReader()
 				.abbreviate(
