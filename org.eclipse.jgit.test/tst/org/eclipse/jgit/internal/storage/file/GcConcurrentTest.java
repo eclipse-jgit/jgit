@@ -186,13 +186,12 @@ public class GcConcurrentTest extends GcTestCase {
 		// make sure gc() has caused creation of a new packfile
 		assertNotEquals(oldPackName, newPackName);
 
-		// Even when asking again for the set of packfiles outdated data
-		// will be returned. As long as the repository can work on cached data
-		// it will do so and not detect that a new packfile exists.
-		assertNotEquals(getSinglePack(repository).getPackName(), newPackName);
+		// When asking again for the set of packfiles the new updated data
+		// will be returned because of the rescan of the pack directory.
+		assertEquals(getSinglePack(repository).getPackName(), newPackName);
 
-		// Only when accessing object content it is required to rescan the pack
-		// directory and the new packfile will be detected.
+		// When accessing object content the new packfile refreshed from
+		// the rescan triggered from the list of packs.
 		repository.getObjectDatabase().open(b).getSize();
 		assertEquals(getSinglePack(repository).getPackName(), newPackName);
 		assertNotNull(getSinglePack(repository).getBitmapIndex());
