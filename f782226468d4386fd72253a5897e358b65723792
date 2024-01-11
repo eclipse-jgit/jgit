@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe5e39d_8ba3fae2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-11T00:35:53Z",
+      "side": 1,
+      "message": "\u003cComponent\u003e: description\n\ne.g.\nPackWriterBitmapPreparer: Limit branches with bitmaps",
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98cbc187_21cb9dad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-11T00:35:53Z",
+      "side": 1,
+      "message": "\"still\" somewhere (This can still be...)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8909638a_ff58ec9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-11T00:35:53Z",
+      "side": 1,
+      "message": "The problem is that we spend more time with the bitmaps of inactive branches than the really useful ones? or is about resources?",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1047fa3_8612c1b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-11T00:35:53Z",
+      "side": 1,
+      "message": "Unrelated formatting changes.\n\nJust in case, you can ~easily get rid of them with `git checkout -p \u003cfile\u003e` (it asks to keep/discard each chunk).",
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b0f60a5_7fe78da3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-11T00:35:53Z",
+      "side": 1,
+      "message": "For my understanding: with the branches ordered by \"recently modified\"...\n* the first excessiveBranchCount branches get full bitmap coverage\n* from excessiveBranchCount to excessiveBranchTipCount, they get only tip bitmap\n* over excessiveBranchTipCount, branches get no bitmap\n\nIs it so? (Maybe this is worth mentioning in the commit message)",
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b64ac38a_93b82af8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-11T00:35:53Z",
+      "side": 1,
+      "message": "6.9 (same for the methods below)",
+      "range": {
+        "startLine": 249,
+        "startChar": 11,
+        "endLine": 249,
+        "endChar": 14
+      },
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
