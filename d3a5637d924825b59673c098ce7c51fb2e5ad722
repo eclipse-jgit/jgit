@@ -34,6 +34,24 @@
       "parentUuid": "303ee1c5_565ef1f7",
       "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0eeedb_303848df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-11T21:32:47Z",
+      "side": 1,
+      "message": "I reopened https://gitlab.eclipse.org/security/cve-assignement/-/issues/10 to ask for an update of the CVE report.",
+      "parentUuid": "3dfa414a_e4d9acf1",
+      "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
