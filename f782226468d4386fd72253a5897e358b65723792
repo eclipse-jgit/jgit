@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1f69548_d34a5064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-11T23:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efe5e39d_8ba3fae2",
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98cbc187_21cb9dad",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-01-11T00:35:53Z",
       "side": 1,
       "message": "\"still\" somewhere (This can still be...)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c21838_fc90ef7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-11T23:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98cbc187_21cb9dad",
       "range": {
         "startLine": 11,
         "startChar": 10,
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0c38a62_52e321e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-11T23:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8909638a_ff58ec9d",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1047fa3_8612c1b1",
@@ -81,6 +147,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de23847_1bbee518",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-11T23:49:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1047fa3_8612c1b1",
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b0f60a5_7fe78da3",
@@ -94,6 +178,24 @@
       "writtenOn": "2024-01-11T00:35:53Z",
       "side": 1,
       "message": "For my understanding: with the branches ordered by \"recently modified\"...\n* the first excessiveBranchCount branches get full bitmap coverage\n* from excessiveBranchCount to excessiveBranchTipCount, they get only tip bitmap\n* over excessiveBranchTipCount, branches get no bitmap\n\nIs it so? (Maybe this is worth mentioning in the commit message)",
+      "revId": "f782226468d4386fd72253a5897e358b65723792",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b29e0d2_482efb43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-11T23:49:04Z",
+      "side": 1,
+      "message": "I put these bullets in the javadoc for the new constant\u0027s getter and setter, as well as the commit message.",
+      "parentUuid": "4b0f60a5_7fe78da3",
       "revId": "f782226468d4386fd72253a5897e358b65723792",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

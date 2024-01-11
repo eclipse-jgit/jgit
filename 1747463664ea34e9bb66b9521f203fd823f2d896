@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afe23fa6_8380eedb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-11T23:49:04Z",
+      "side": 1,
+      "message": "It occurs to me that this might reduce bitmap coverage of existing jgit installations without them expecting it. Should I change the default value to Int.MAX or something?",
+      "revId": "1747463664ea34e9bb66b9521f203fd823f2d896",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
