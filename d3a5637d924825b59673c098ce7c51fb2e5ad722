@@ -16,6 +16,24 @@
       "message": "Great, thanks! Will this release also be pushed to Maven Central? How do we update the CVE report to reflect that this is fixed now also on [5.13.3, 6.0.0)?",
       "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dfa414a_e4d9acf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-11T20:58:50Z",
+      "side": 1,
+      "message": "I deployed the release to Sonatype OSS Nexus and released the staging repository.\nThough it\u0027s not yet showing up on Maven Central\nhttps://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/\nThis can take a while.\n\nI can reopen the ticket we had created to file the CVE, I guess Eclipse Foundation can update the report.",
+      "parentUuid": "303ee1c5_565ef1f7",
+      "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
