@@ -106,6 +106,24 @@
       "parentUuid": "0f91d8ec_20d2be20",
       "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a65197fb_c6d5c467",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-12T13:44:09Z",
+      "side": 1,
+      "message": "I tried directly accessing the artefacts \ne.g. https://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/5.13.3.202401111512-r/\nand that works, looks like only the directory listing https://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/\nwasn\u0027t updated",
+      "parentUuid": "5edecaff_4937068c",
+      "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
