@@ -16,6 +16,24 @@
       "message": "It occurs to me that this might reduce bitmap coverage of existing jgit installations without them expecting it. Should I change the default value to Int.MAX or something?",
       "revId": "1747463664ea34e9bb66b9521f203fd823f2d896",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3afb73f5_e5fb39a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-12T19:03:58Z",
+      "side": 1,
+      "message": "Great catch!\n\nYes. We can set it to Int.max by default in the conf to keep current behavior. Operators can override with a tighter value.",
+      "parentUuid": "afe23fa6_8380eedb",
+      "revId": "1747463664ea34e9bb66b9521f203fd823f2d896",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
