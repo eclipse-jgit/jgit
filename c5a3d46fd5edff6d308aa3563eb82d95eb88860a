@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bf563db_d869bddf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-12T11:55:56Z",
+      "side": 1,
+      "message": "This feels to me like another variation of the importance of in what order pack files are created. As described in the ticket, the rsync is used to transfer bare git repository data, in this case we don\u0027t have any guarantee on the order (rsync can create the IDX file first, before the PACK and BITMAP).\n\nJGit is supporting running GC externally (regardless if it\u0027s JGit or CGit gc). This means that \"externally\" created objects **should** be detected. Based on that, the \"late detection\" of BITMAP file also makes sense. But it adds some costs, if we really need to restart JGit (more specifically Gerrit) just to detect it, IMO it\u0027s a worth cost to pay.",
+      "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dbc9635c_82f8e770",
@@ -54,6 +71,30 @@
       "writtenOn": "2024-01-12T10:56:35Z",
       "side": 1,
       "message": "\u003e My only concern is about performance impact of refreshing bitmap index every time we do scan pack.\n\nTrue, let me address in the next PS. We don\u0027t need to do anything if the in-memory bitmap still exist on disk.\n\n\u003e Have you benchmark the new approach?\n\nI\u0027ve verified that the tests are taking around the same time with or without this change. However, I acknowledge that there is at the moment a slight performance degradation, let me address that shortly.",
+      "parentUuid": "dbc9635c_82f8e770",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 33
+      },
+      "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bc8b49f_322cb53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-12T11:55:56Z",
+      "side": 1,
+      "message": "shall we only call the `refreshBitmapIndex` in case the bitmap file is not set yet? It doesn\u0027t make sense to try to \"refresh\" it when it was already loaded, as it is an immutable file.",
       "parentUuid": "dbc9635c_82f8e770",
       "range": {
         "startLine": 461,
