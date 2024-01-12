@@ -16,6 +16,29 @@
       "message": "I\u0027ve run a no-op build (see https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/908/console) against this build and see overall the same performance figures.\n\nNo-op: Total time:  01:05 min (Wall Clock)\nThis : Total time:  01:08 min (Wall Clock)",
       "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc9635c_82f8e770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-12T10:28:59Z",
+      "side": 1,
+      "message": "My only concern is about performance impact of refreshing bitmap index every time we do scan pack. I\u0027ve looked into the `refreshBitmapIndex` method and it looks like it reads the bitmap index from disc every time we call refresh.\n\nHave you benchmark the new approach?",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 33
+      },
+      "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
