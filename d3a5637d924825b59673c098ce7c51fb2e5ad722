@@ -70,6 +70,24 @@
       "parentUuid": "2d0eeedb_303848df",
       "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f91d8ec_20d2be20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-01-12T10:40:22Z",
+      "side": 1,
+      "message": "Seems to be there now: https://central.sonatype.com/artifact/org.eclipse.jgit/org.eclipse.jgit/5.13.3.202401111512-r\n\nIt also shows up at https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit/5.13.3.202401111512-r",
+      "parentUuid": "739f50fc_2dd045be",
+      "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
