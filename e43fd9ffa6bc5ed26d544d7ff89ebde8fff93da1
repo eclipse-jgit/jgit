@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24711e1a_26ddc2bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-12T22:36:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fa587e8_639cdece",
+      "revId": "e43fd9ffa6bc5ed26d544d7ff89ebde8fff93da1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60a0d7f0_ff167a42",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-01-12T19:03:58Z",
       "side": 1,
       "message": "You need to set here the TipCount also, so the value is copied from Config to PackConfig",
+      "revId": "e43fd9ffa6bc5ed26d544d7ff89ebde8fff93da1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb4147f_dc065e53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-12T22:36:40Z",
+      "side": 1,
+      "message": "Is there a good way to check the diff against the base patchset before uploading? I feel like I\u0027ve uploaded an inordinate number of patchsets just to verify formatting.",
+      "parentUuid": "60a0d7f0_ff167a42",
       "revId": "e43fd9ffa6bc5ed26d544d7ff89ebde8fff93da1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

@@ -34,6 +34,24 @@
       "parentUuid": "afe23fa6_8380eedb",
       "revId": "1747463664ea34e9bb66b9521f203fd823f2d896",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f119792_f5e199ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-01-12T22:36:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afb73f5_e5fb39a8",
+      "revId": "1747463664ea34e9bb66b9521f203fd823f2d896",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
