@@ -34,6 +34,24 @@
       "parentUuid": "dd1adb45_b72eee89",
       "revId": "25abb1208fcea225f10b67c3acc75b2a668cce3a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5b712f_e809590c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-12T21:52:14Z",
+      "side": 1,
+      "message": "jna-platform was approved",
+      "parentUuid": "ae98b447_26104e26",
+      "revId": "25abb1208fcea225f10b67c3acc75b2a668cce3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
