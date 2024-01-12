@@ -34,6 +34,24 @@
       "parentUuid": "c8ed25af_99dd5dc7",
       "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ae66036_2d8b0662",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-12T10:05:13Z",
+      "side": 1,
+      "message": "I see that [1] is similar to this change but it doesn\u0027t have any benchmark or tests and it is replacing the default implementation so I would prefer to finalise this one.\n\nAbout [2] I agree with @matthias.sohn@sap.com we could address it as a separate change by moving it to a separate class and running benchmarks. Based on the results we can decide if we want to add it as a third option or replace PriorityQueue based implementation.",
+      "parentUuid": "2f923c1c_2ee48686",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
