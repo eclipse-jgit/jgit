@@ -88,6 +88,24 @@
       "parentUuid": "739f50fc_2dd045be",
       "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5edecaff_4937068c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-12T13:41:13Z",
+      "side": 1,
+      "message": "ok, but https://central.sonatype.org/consume/ says the canonical URL for Maven Central is https://repo1.maven.org/maven2 and I still can\u0027t see jgit 5.13.3 there https://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit/\n\nNot sure how a new release is propagated from the released staging repo on Nexus to Maven Central. I guess they use some CDN.",
+      "parentUuid": "0f91d8ec_20d2be20",
+      "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
