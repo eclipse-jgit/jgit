@@ -86,6 +86,24 @@
       "parentUuid": "60a0d7f0_ff167a42",
       "revId": "e43fd9ffa6bc5ed26d544d7ff89ebde8fff93da1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b29ede33_d3dd1a0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-12T23:26:26Z",
+      "side": 1,
+      "message": "I usually do locally a `git diff HEAD~` to see the diff before uploading, if that is what you mean.",
+      "parentUuid": "ddb4147f_dc065e53",
+      "revId": "e43fd9ffa6bc5ed26d544d7ff89ebde8fff93da1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
