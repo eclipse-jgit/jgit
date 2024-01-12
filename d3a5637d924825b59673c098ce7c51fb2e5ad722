@@ -52,6 +52,24 @@
       "parentUuid": "3dfa414a_e4d9acf1",
       "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "739f50fc_2dd045be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-12T08:18:29Z",
+      "side": 1,
+      "message": "I released the Nexus staging repo for this release yesterday but the new version still doesn\u0027t show up on Maven Central. Hence I filed https://issues.sonatype.org/browse/OSSRH-98239 to get help from Sonatype support",
+      "parentUuid": "2d0eeedb_303848df",
+      "revId": "d3a5637d924825b59673c098ce7c51fb2e5ad722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
