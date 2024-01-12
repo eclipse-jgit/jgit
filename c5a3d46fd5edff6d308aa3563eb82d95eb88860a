@@ -104,6 +104,30 @@
       },
       "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "182480a2_d6b41dff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-12T13:31:24Z",
+      "side": 1,
+      "message": "\u003e shall we only call the `refreshBitmapIndex` in case the bitmap file is not set yet? It doesn\u0027t make sense to try to \"refresh\" it when it was already loaded, as it is an immutable file.\n\n+1",
+      "parentUuid": "9bc8b49f_322cb53e",
+      "range": {
+        "startLine": 461,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 33
+      },
+      "revId": "c5a3d46fd5edff6d308aa3563eb82d95eb88860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
