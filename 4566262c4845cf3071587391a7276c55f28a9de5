@@ -15,7 +15,7 @@
       "side": 1,
       "message": "Can you add some statistics for old/new fetch command performance for big repository to better understand motivation and justification for this change? Also a comparison with C-Git fetch would be nice.",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -33,7 +33,7 @@
       "message": "can you also add statistics regarding memory allocation compared to the old implementation on some large repos ?",
       "parentUuid": "dd1673d2_c6ba5b6c",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -51,7 +51,7 @@
       "message": "I\u0027ve tested both old and new implementation with a modified version of the jmh test. I\u0027ve loaded 850 000 commit to the queue and I\u0027ve checked the heap size.\n\nResults can be found here:\nhttps://drive.google.com/drive/folders/1VgfQ67SdROq1Thm4x6xcENuqSe0PzUIS?usp\u003dsharing",
       "parentUuid": "5bba0b93_f6e33e01",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -68,7 +68,7 @@
       "side": 1,
       "message": "I think this is good and non invasive optimization.",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -91,7 +91,7 @@
         "endChar": 26
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -115,7 +115,7 @@
         "endChar": 26
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -138,7 +138,7 @@
         "endChar": 46
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -162,7 +162,7 @@
         "endChar": 46
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -186,7 +186,7 @@
         "endChar": 46
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -209,7 +209,7 @@
         "endChar": 46
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -233,7 +233,7 @@
         "endChar": 46
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -250,7 +250,7 @@
       "side": 1,
       "message": "Wrong formatting: indentation with 4 spaces instead of tabs. Why JGit doesn\u0027t use google-java-format? There is option for indentation level 4:\n\n  google-java-format-1.7 -help\n  Usage: google-java-format [options] file(s)\n  Options:\n  --aosp, -aosp, -a\n    Use AOSP style instead of Google Style (4-space indentation).\n\nThough, it does not support tabs, I think.",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -268,7 +268,7 @@
       "message": "JGit always used tabs, we use the Eclipse formatter and if you are using Eclipse for editing the projects are configured to auto-format new/modified code",
       "parentUuid": "a83478bd_fb71397a",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -286,7 +286,7 @@
       "message": "Ack",
       "parentUuid": "f2687ae2_c05ea66e",
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -309,7 +309,7 @@
         "endChar": 7
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -333,7 +333,7 @@
         "endChar": 7
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -356,7 +356,7 @@
         "endChar": 93
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -380,7 +380,7 @@
         "endChar": 93
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -404,7 +404,7 @@
         "endChar": 93
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -428,7 +428,7 @@
         "endChar": 93
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -452,7 +452,7 @@
         "endChar": 93
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -476,7 +476,7 @@
         "endChar": 93
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -667,7 +667,7 @@
         "endChar": 38
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -691,7 +691,7 @@
         "endChar": 38
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -714,7 +714,7 @@
         "endChar": 48
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -738,7 +738,7 @@
         "endChar": 48
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -761,7 +761,7 @@
         "endChar": 10
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -785,7 +785,7 @@
         "endChar": 10
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": true,
@@ -808,7 +808,7 @@
         "endChar": 29
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
       "unresolved": false,
@@ -832,7 +832,7 @@
         "endChar": 29
       },
       "revId": "4566262c4845cf3071587391a7276c55f28a9de5",
-      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
