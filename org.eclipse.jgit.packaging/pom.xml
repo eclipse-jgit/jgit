@@ -43,7 +43,6 @@
   </pluginRepositories>
 
   <modules>
-    <module>org.eclipse.jgit.target</module>
     <module>org.eclipse.jgit.feature</module>
     <module>org.eclipse.jgit.gpg.bc.feature</module>
     <module>org.eclipse.jgit.http.apache.feature</module>
@@ -201,10 +200,6 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <resolver>p2</resolver>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.cyclonedx</groupId>
@@ -304,7 +299,6 @@
           <artifactId>target-platform-configuration</artifactId>
           <version>${tycho-version}</version>
           <configuration>
-            <resolver>p2</resolver>
             <pomDependencies>consider</pomDependencies>
             <target>
               <file>${project.basedir}/../org.eclipse.jgit.target/${target-platform}.target</file>
@@ -434,9 +428,6 @@
           <plugin>
             <groupId>org.eclipse.tycho</groupId>
             <artifactId>target-platform-configuration</artifactId>
-            <configuration>
-              <includePackedArtifacts>true</includePackedArtifacts>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
@@ -477,9 +468,6 @@
           <plugin>
             <groupId>org.eclipse.tycho</groupId>
             <artifactId>target-platform-configuration</artifactId>
-            <configuration>
-              <includePackedArtifacts>true</includePackedArtifacts>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>org.eclipse.tycho</groupId>
