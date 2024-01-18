@@ -52,6 +52,23 @@
       "parentUuid": "2f923c1c_2ee48686",
       "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5888bba0_514dd9ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-01-18T07:56:36Z",
+      "side": 1,
+      "message": "Hi @matthias.sohn@sap.com all comments are addressed. If you don\u0027t have any other topics to discuss maybe we could finalise the change?",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
