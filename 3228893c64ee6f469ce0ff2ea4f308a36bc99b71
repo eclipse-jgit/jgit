@@ -122,6 +122,24 @@
       "parentUuid": "eb5a5d32_d2324e18",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f08659c_3c275b98",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T22:49:45Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Does this perform well with smaller values too?\n\u003e \u003e \n\u003e \u003e With 1000 commits (a very tiny repository) it performs *slightly* better, 14 nanos better. Overall we are talking about 60-50 nanos.\n\u003e \n\u003e I think you\u0027re assuming too much here. If you look at how DateRevQueue is used (especially by RevWalk) you\u0027ll see that it often only has a few commits added to it and not anywhere close to all the commits in the repo.\n\nTrue, my use-case is for the execution of a `git-upload-pack`.\n\nWith regards to the order of complexity, I agree that with very low N, the difference between N*N/2 and N*log(N) is not significant at all. That is why for RevWalk using one or another won\u0027t make big difference at all.\n\nExample: N\u003d2\n- N*N/2 \u003d 2.0\n- N*log(N) \u003d 1.38\n\nThe improvement is marginal, around 30%. In real-life, possibly the improvement is negligible. Maybe that\u0027s the reason Martin\u0027s change was shelved.\n\n@maczech@gmail.com did you mention that in the commit message? Can you also add \u002710\u0027 and \u0027100\u0027 in the benchmark?\n\n\u003e Do you know which caller/user of DateRevQueue was taking the longest in your pull-replication issue? Was it RevWalk or was it maybe one of the *Generator classes? Benchmarking some of those callers would be nice since they use DateRevQueue in significantly different ways.\n\u003e \n\u003e \u003e Also bear in mind that:\n\u003e \u003e - Is *enabled* via feature switch (so you can always do A/B testing)\n\u003e \u003e - Is *false* (disabled) by default, which is a precaution for extra safety\n\u003e \u003e \n\u003e \u003e We had it in staging (18 months) and in prod (10 months) with the feature switch enabled.\n\u003e \n\u003e I understand it\u0027s not the default and I\u0027m not doubting that it fixed the pain point you had. I\u0027m just trying to ensure we have meaningful benchmarks for future changes (such as changing the default).\n\nSure.",
+      "parentUuid": "2e2ff7cc_f8f66d83",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
