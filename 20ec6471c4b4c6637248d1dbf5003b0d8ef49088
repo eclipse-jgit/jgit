@@ -104,6 +104,24 @@
       "message": "I think we should change this to an enum so that we can add the bucket queue implementation in another change so that we can compare all three implementations",
       "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbe0e88a_72063ecf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-18T09:58:42Z",
+      "side": 1,
+      "message": "IMO, this feels like an unrelated change that doesn\u0027t belong here. I know that future changes to an enum may be \"backwards incompatible\", but if there\u0027s no interest in other implementations we\u0027ll end up with an unnecessary enum. When there\u0027s an interest in other implementations we can change this as we go.\n\nJust my 2c.",
+      "parentUuid": "07535a67_99d1dba8",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
