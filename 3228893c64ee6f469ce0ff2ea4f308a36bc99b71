@@ -86,6 +86,24 @@
       "message": "Does this perform well with smaller values too? I can\u0027t remember the details, but based on the comment on change 24295 it seemed that at least the BucketQueue implementation was slightly slower than the default DateRevQueue when only a few commits were added/removed at a time.\n\ni.e. is this benchmark sufficient to show there won\u0027t be a real world perf regression?",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb5a5d32_d2324e18",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T20:46:13Z",
+      "side": 1,
+      "message": "\u003e Does this perform well with smaller values too?\n\nWith 1000 commits (a very tiny repository) it performs *slightly* better, 14 nanos better. Overall we are talking about 60-50 nanos.\n\n```\n        1000                true  avgt    5  0,049 ±  0,003  us/op\n        1000               false  avgt    5  0,063 ±  0,001  us/op\n```\n\n\u003e I can\u0027t remember the details, but based on the comment on change 24295 it seemed that at least the BucketQueue implementation was slightly slower than the default DateRevQueue when only a few commits were added/removed at a time.\n\u003e \n\u003e i.e. is this benchmark sufficient to show there won\u0027t be a real world perf regression?\n\nI would say the opposite is true: without this change there is a substantial performance penalty, see the benchmark with 500k commits:\n\n```\n      500000                true  avgt    5  0,139 ±  0,018  us/op\n      500000               false  avgt    5  9,999 ±  0,552  us/op\n```\n\nAlso bear in mind that:\n- Is *enabled* via feature switch (so you can always do A/B testing)\n- Is *false* (disabled) by default, which is a precaution for extra safety\n\nWe had it in staging (18 months) and in prod (10 months) with the feature switch enabled.",
+      "parentUuid": "ecdead47_21234d73",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
