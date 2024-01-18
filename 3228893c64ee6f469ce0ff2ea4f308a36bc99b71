@@ -158,6 +158,24 @@
       "parentUuid": "1f08659c_3c275b98",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f205cda_34540342",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T23:58:44Z",
+      "side": 1,
+      "message": "\u003e \u003e The improvement is marginal, around 30%. In real-life, possibly the improvement is negligible. Maybe that\u0027s the reason Martin\u0027s change was shelved.\n\u003e \n\u003e No, actually we saw it become a regression when N was small and we couldn\u0027t find a use case where N was very large. That\u0027s why we abandoned the change.\n\nOh, that\u0027s interesting. Can you share your test scenario and benchmark data?\n\nI don\u0027t believe there is an integer N where N*N/2 \u003c N*log(N), so I am curious to see the use-case in practice.",
+      "parentUuid": "4cbea7a5_ccef0805",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
