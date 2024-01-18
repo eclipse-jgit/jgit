@@ -140,6 +140,24 @@
       "parentUuid": "2e2ff7cc_f8f66d83",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cbea7a5_ccef0805",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-01-18T23:50:53Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e \u003e Does this perform well with smaller values too?\n\u003e \u003e \u003e \n\u003e \u003e \u003e With 1000 commits (a very tiny repository) it performs *slightly* better, 14 nanos better. Overall we are talking about 60-50 nanos.\n\u003e \u003e \n\u003e \u003e I think you\u0027re assuming too much here. If you look at how DateRevQueue is used (especially by RevWalk) you\u0027ll see that it often only has a few commits added to it and not anywhere close to all the commits in the repo.\n\u003e \n\u003e True, my use-case is for the execution of a `git-upload-pack`.\n\nOk, thanks. I\u0027ll try to look through the code sometime to see how DateRevQueues are used there.\n\n\u003e \n\u003e The improvement is marginal, around 30%. In real-life, possibly the improvement is negligible. Maybe that\u0027s the reason Martin\u0027s change was shelved.\n\nNo, actually we saw it become a regression when N was small and we couldn\u0027t find a use case where N was very large. That\u0027s why we abandoned the change.\n\n\u003e \n\u003e @maczech@gmail.com did you mention that in the commit message? Can you also add \u002710\u0027 and \u0027100\u0027 in the benchmark?\n\n+1\n\n\u003e \n\u003e \u003e Do you know which caller/user of DateRevQueue was taking the longest in your pull-replication issue? Was it RevWalk or was it maybe one of the *Generator classes? Benchmarking some of those callers would be nice since they use DateRevQueue in significantly different ways.\n\nIt would still be great if you had profiler output showing the hotspot methods during your upload-pack. That would make for a lot less code searching/guessing 😊",
+      "parentUuid": "1f08659c_3c275b98",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
