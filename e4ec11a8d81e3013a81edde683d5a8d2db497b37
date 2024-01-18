@@ -16,6 +16,23 @@
       "message": "Ping?",
       "revId": "e4ec11a8d81e3013a81edde683d5a8d2db497b37",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efc06eb1_2e4002dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-18T08:35:42Z",
+      "side": 1,
+      "message": "Responding here to @quic_nasserg@quicinc.com\u0027s comments from [git.eclipse](https://git.eclipse.org/r/c/jgit/jgit/+/205552/comments/9c3caf1d_ed2b0712):\n\u003e Do you notice any other locations in the code where we unintentionally wrap a FNFE inside an IOE? That could lead to similar issues if we do.\n\nIt was almost two months ago, but from what I remember I did look for similar cases in this code area and haven\u0027t found anything. We should also examine FNFE handling on a case-by-case basis and not bundle multiple fixes into a single change. HTH.\n\nI\u0027ll also address typos pointed out on the git.eclipse instance.",
+      "revId": "e4ec11a8d81e3013a81edde683d5a8d2db497b37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
