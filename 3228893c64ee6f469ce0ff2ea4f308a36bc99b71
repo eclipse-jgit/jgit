@@ -69,6 +69,23 @@
       "parentUuid": "d3cf2c69_4f0414bc",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecdead47_21234d73",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-01-18T19:51:39Z",
+      "side": 1,
+      "message": "Does this perform well with smaller values too? I can\u0027t remember the details, but based on the comment on change 24295 it seemed that at least the BucketQueue implementation was slightly slower than the default DateRevQueue when only a few commits were added/removed at a time.\n\ni.e. is this benchmark sufficient to show there won\u0027t be a real world perf regression?",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
