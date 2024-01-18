@@ -279,6 +279,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff11c9d0_a12b3dd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-18T09:46:06Z",
+      "side": 1,
+      "message": "ack, you are right",
+      "parentUuid": "32b0ee51_c4eae17d",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 6
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d3b5bce_bc325640",
@@ -455,6 +479,30 @@
         "id": 1000671
       },
       "writtenOn": "2024-01-09T01:21:38Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "ba659aed_9e2b692c",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "93c5b1ed3fbfcb19de32c9bb11e42a7afd36c88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbaf4f3e_c5d2cb37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DateRevPriorityQueue.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-18T09:46:06Z",
       "side": 1,
       "message": "ack",
       "parentUuid": "ba659aed_9e2b692c",
