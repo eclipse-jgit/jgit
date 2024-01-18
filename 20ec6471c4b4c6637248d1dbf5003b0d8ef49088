@@ -69,6 +69,24 @@
       "message": "Hi @matthias.sohn@sap.com all comments are addressed. If you don\u0027t have any other topics to discuss maybe we could finalise the change?",
       "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75a9855_81be550c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T08:55:00Z",
+      "side": 1,
+      "message": "Just to add that we use this fix on JGit on a production Gerrit setup, it has been in testing for 18 months and has been live for another 10 months: without it the pull-replication won\u0027t be usable at all.\n\nI am sure that we may find even better solution in the future, but this is definitely a first step to improve things up 👍",
+      "parentUuid": "5888bba0_514dd9ae",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
