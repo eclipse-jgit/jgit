@@ -104,6 +104,24 @@
       "parentUuid": "ecdead47_21234d73",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2ff7cc_f8f66d83",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-01-18T22:33:27Z",
+      "side": 1,
+      "message": "\u003e \u003e Does this perform well with smaller values too?\n\u003e \n\u003e With 1000 commits (a very tiny repository) it performs *slightly* better, 14 nanos better. Overall we are talking about 60-50 nanos.\n\nI think you\u0027re assuming too much here. If you look at how DateRevQueue is used (especially by RevWalk) you\u0027ll see that it often only has a few commits added to it and not anywhere close to all the commits in the repo.\n\nDo you know which caller/user of DateRevQueue was taking the longest in your pull-replication issue? Was it RevWalk or was it maybe one of the *Generator classes? Benchmarking some of those callers would be nice since they use DateRevQueue in significantly different ways.\n\n\u003e Also bear in mind that:\n\u003e - Is *enabled* via feature switch (so you can always do A/B testing)\n\u003e - Is *false* (disabled) by default, which is a precaution for extra safety\n\u003e \n\u003e We had it in staging (18 months) and in prod (10 months) with the feature switch enabled.\n\nI understand it\u0027s not the default and I\u0027m not doubting that it fixed the pain point you had. I\u0027m just trying to ensure we have meaningful benchmarks for future changes (such as changing the default).",
+      "parentUuid": "eb5a5d32_d2324e18",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
