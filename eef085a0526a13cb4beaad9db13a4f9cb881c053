@@ -22,6 +22,30 @@
       },
       "revId": "eef085a0526a13cb4beaad9db13a4f9cb881c053",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa3be95_bfee9840",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackHandleDeletedPackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-18T18:21:54Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "2c9ae03d_9d019ed0",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 44
+      },
+      "revId": "eef085a0526a13cb4beaad9db13a4f9cb881c053",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
