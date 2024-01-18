@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff12cc4a_7c041dfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T11:26:24Z",
+      "side": 1,
+      "message": "Not sure why Jenkins wasn\u0027t able to provide the feedback, however, see here the output I got from https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/958/console:\n\n```\n00:01:16.193  [ERROR] Failed to execute goal org.eclipse.dash:license-tool-plugin:1.0.2:license-check (license-check) on project org.eclipse.jgit-parent: Some dependencies must be vetted. -\u003e [Help 1]\n00:01:16.193  org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.eclipse.dash:license-tool-plugin:1.0.2:license-check (license-check) on project org.eclipse.jgit-parent: Some dependencies must be vetted.\n```",
+      "revId": "f36b713a9702dd2e64f45d991782b692265eab4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
