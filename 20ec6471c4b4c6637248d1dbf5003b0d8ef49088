@@ -89,6 +89,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8752559_d714f3fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-18T11:11:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d75a9855_81be550c",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07535a67_99d1dba8",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "IMO, this feels like an unrelated change that doesn\u0027t belong here. I know that future changes to an enum may be \"backwards incompatible\", but if there\u0027s no interest in other implementations we\u0027ll end up with an unnecessary enum. When there\u0027s an interest in other implementations we can change this as we go.\n\nJust my 2c.",
       "parentUuid": "07535a67_99d1dba8",
+      "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a5e4285_73224133",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-18T11:11:58Z",
+      "side": 1,
+      "message": "ok, this can also be done when bucketqueue is added",
+      "parentUuid": "cbe0e88a_72063ecf",
       "revId": "20ec6471c4b4c6637248d1dbf5003b0d8ef49088",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
