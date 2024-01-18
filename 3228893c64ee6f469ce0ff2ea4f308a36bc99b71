@@ -51,6 +51,24 @@
       "parentUuid": "cab1ee7e_28233f5f",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22b81a66_ec8faf51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-18T16:54:33Z",
+      "side": 1,
+      "message": "@ponch78@gmail.com raised a Gerrit bug for the missed reporting on this change https://issues.gerritcodereview.com/u/0/issues/320946495",
+      "parentUuid": "d3cf2c69_4f0414bc",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
