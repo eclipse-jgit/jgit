@@ -16,6 +16,29 @@
       "message": "Ping?",
       "revId": "6484f531e8746287a30488daf5e2a3e8085428da",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62c541df_1db0f0c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-18T08:50:05Z",
+      "side": 1,
+      "message": "Responsing here to @quic_nasserg@quicinc.com comment from [git.eclipse](https://git.eclipse.org/r/c/jgit/jgit/+/205553/comments/bb487a30_90214ee1):\n\u003eWhy not use `isStaleFileHandleInCausalChain()`?\n\nAFAIR, in my testing the stale file handle was the first cause in the exception chain therefore I went with `isStaleFileHandler`. This could be a \"nano\" optimization as we don\u0027t need to do the looping.\n\nDon\u0027t know how much defensive we should be here. I would go for the `isStaleFileHandle` for now, if we see a similar problem again, we can simply change this to `isStaleafileHandleainCauseChain`. If you don\u0027t agree, I can change this approach.",
+      "range": {
+        "startLine": 688,
+        "startChar": 22,
+        "endLine": 688,
+        "endChar": 39
+      },
+      "revId": "6484f531e8746287a30488daf5e2a3e8085428da",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
