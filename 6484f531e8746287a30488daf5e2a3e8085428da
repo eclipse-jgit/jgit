@@ -39,6 +39,30 @@
       },
       "revId": "6484f531e8746287a30488daf5e2a3e8085428da",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c8abba9_5a812aed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-01-18T19:37:56Z",
+      "side": 1,
+      "message": "\u003e Responsing here to @quic_nasserg@quicinc.com comment from [git.eclipse](https://git.eclipse.org/r/c/jgit/jgit/+/205553/comments/bb487a30_90214ee1):\n\u003e \u003eWhy not use `isStaleFileHandleInCausalChain()`?\n\u003e \n\u003e AFAIR, in my testing the stale file handle was the first cause in the exception chain therefore I went with `isStaleFileHandler`. This could be a \"nano\" optimization as we don\u0027t need to do the looping.\n\u003e \n\u003e Don\u0027t know how much defensive we should be here. I would go for the `isStaleFileHandle` for now, if we see a similar problem again, we can simply change this to `isStaleafileHandleainCauseChain`. If you don\u0027t agree, I can change this approach.\n\nI would say it\u0027s better to stick with `isStaleFileHandleInCausalChain()` unless there\u0027s a strong reason not to. Otherwise we\u0027ll just end up having to fix the code later. Building it future-proof now seems like the pragmatic approach. Most exceptions won\u0027t have any causal chain, so there should be no measurable performance impact.",
+      "parentUuid": "62c541df_1db0f0c9",
+      "range": {
+        "startLine": 688,
+        "startChar": 22,
+        "endLine": 688,
+        "endChar": 39
+      },
+      "revId": "6484f531e8746287a30488daf5e2a3e8085428da",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
