@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c6eb745_9d968841",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-18T12:47:30Z",
+      "side": 1,
+      "message": "the license check failed on a transitive dependency of jmh used in benchmarks\nI updated jmh to 1.37 (version we use on master) to fix this",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
