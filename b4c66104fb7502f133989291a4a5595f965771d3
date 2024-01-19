@@ -170,6 +170,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f205985b_8d05fa17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-01-19T17:01:01Z",
+      "side": 1,
+      "message": "\u003e I found some more benchmarks from Qualcomm around DateRevQueue and RevWalk\n\u003e https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/185386\n\u003e we could adapt them to this change to get more insight\n\nThanks for finding those! I think they rely on an external \"real\" repo and I don\u0027t remember if they showed the performance regression with the BucketQueue or not, but they do look like they cover more of the scenarios I was referring to. It would be great to see their results based on JGit tip and with/without the new config added by this change.",
+      "parentUuid": "0c498375_9ada9eb3",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 66
+      },
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a356e6bf_2cebed01",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 36
