@@ -33,6 +33,24 @@
       "message": "https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/973/\n\nI triggered the build manually and it went fine. I don\u0027t know why jenkins is not posting the results.",
       "revId": "ba5adc4ce6f234cb300b0f73a1efdba9bba1b5d8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbe8483f_7eb3ead1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-19T23:28:00Z",
+      "side": 1,
+      "message": "that\u0027s caused by a Gerrit bug with changes imported from another server (this change was imported from git.eclipse.org), see https://issues.gerritcodereview.com/u/0/issues/320946495",
+      "parentUuid": "cab86066_48be87fb",
+      "revId": "ba5adc4ce6f234cb300b0f73a1efdba9bba1b5d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
