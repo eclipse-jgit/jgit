@@ -72,6 +72,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "13c0d93f_4e49a6ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-19T13:27:20Z",
+      "side": 1,
+      "message": "I think you misread my benchmark.\n\nthe setup method\n- generates a list of n commits\n- adds 9/10 n commits to the queue\n\nthen the benchmark method\n- adds 1/10 n commits to the queue\n\non each invocation of the benchmark method\n- check if the queue contains n commits (filled up to 100% of n)\n- when the queue reached 100% of n then remove 10% of the commits\n\nThe resulting score gives the avg time it took to add another commit to the queue with queue size between 90-100% of n.\n\nThe benchmark results for the priority queue can be fitted with a linear function.\nThis might be due to the fact that commits are added randomly to the queue.\n\nAnother factor is that timestamp are stored in git with a resolution of 1 second.\nThis has the effect that for low n all commit timestamps are identical since they were generated in \u003c1 second. That means sorting by timestamp is a no-op.\n\nThe benchmark results for DateRevQueue cannot be well fitted by a single 2nd order polynom. I guess the reason is that buildIndex() is run every 1000 commits. I.e. for small n this is never called while for large n it\u0027s dominating the time needed to add commits. I could confirm that by profiling the benchmark using JFR.\n\nFitting results for DateRevQueue \n\nfrom 5 up to 1000 commits yields\n```\nt \u003d 0,0425 * n + 16.7  R²\u003d0,998\n```\nfrom 1000 to 500000 commits\n```\nt \u003d 2,86E-08 n² + 4,34E-03 * n + 283  R²\u003d1,000\n```",
+      "parentUuid": "5c338c3d_228acac5",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 66
+      },
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a356e6bf_2cebed01",
