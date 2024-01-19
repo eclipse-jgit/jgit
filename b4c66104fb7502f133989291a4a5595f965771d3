@@ -146,6 +146,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0c498375_9ada9eb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-19T16:46:15Z",
+      "side": 1,
+      "message": "I found some more benchmarks from Qualcomm around DateRevQueue and RevWalk\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/185386\nwe could adapt them to this change to get more insight",
+      "parentUuid": "f26f61a6_fa011026",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 66
+      },
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a356e6bf_2cebed01",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 36
