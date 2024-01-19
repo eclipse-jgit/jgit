@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -409,7 +408,7 @@ public class RevCommit extends RevObject {
 			return null;
 		}
 		final int end = RawParseUtils.headerEnd(raw, start);
-		return Arrays.copyOfRange(raw, start, end);
+		return RawParseUtils.headerValue(raw, start, end);
 	}
 
 	/**
