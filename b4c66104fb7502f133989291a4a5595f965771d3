@@ -46,6 +46,30 @@
       },
       "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c338c3d_228acac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-19T12:23:04Z",
+      "side": 1,
+      "message": "Sorry, I realised I wrote `refs` but I meant `commits`, apologies for the confusion.",
+      "parentUuid": "29773eb0_a775bdb0",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 66
+      },
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
