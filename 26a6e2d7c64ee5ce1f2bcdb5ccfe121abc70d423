@@ -39,6 +39,23 @@
       "message": "Also tested the Bazel build and works as expected.\n\nI\u0027ve also noticed one flaky test:\n//org.eclipse.jgit.http.test:http                                         FLAKY, failed in 1 out of 2 in 301.0s\n\nWere you aware of it? I believe it is unrelated to this change though.",
       "revId": "26a6e2d7c64ee5ce1f2bcdb5ccfe121abc70d423",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "939a3d98_c5b024a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037536
+      },
+      "writtenOn": "2024-01-19T00:21:00Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "26a6e2d7c64ee5ce1f2bcdb5ccfe121abc70d423",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
