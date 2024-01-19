@@ -176,6 +176,24 @@
       "parentUuid": "4cbea7a5_ccef0805",
       "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d456c7_d3cc2538",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/revwalk/DateRevQueueBenchmark.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-19T00:30:59Z",
+      "side": 1,
+      "message": "I extended the benchmark to smaller queues",
+      "parentUuid": "9f205cda_34540342",
+      "revId": "3228893c64ee6f469ce0ff2ea4f308a36bc99b71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
