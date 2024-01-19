@@ -21,7 +21,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -30,7 +29,6 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
-import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -43,7 +41,6 @@ public class DateRevQueueBenchmark {
 
 	@State(Scope.Benchmark)
 	public static class BenchmarkState {
-
 		@Param({ "5", "10", "50", "100", "500", "1000", "5000", "10000",
 				"50000", "100000", "500000" })
 		int numCommits;
@@ -87,25 +84,6 @@ public class DateRevQueueBenchmark {
 				queue = new DateRevQueue(false);
 			}
 
-			low = 9 * numCommits / 10;
-			ThreadLocalRandom random = ThreadLocalRandom.current();
-			// add 90% * numCommits commits, benchmark adding commits from
-			// 90-100%
-			for (int i = 0; i < low; i++) {
-				RevCommit commit = commits[random.nextInt(numCommits)];
-				queue.add(commit);
-				++count;
-			}
-		}
-
-		@TearDown(Level.Invocation)
-		public void check() {
-			// if queue is full remove 10% of its entries
-			if (++count == numCommits) {
-				do {
-					queue.next();
-				} while (--count > low);
-			}
 		}
 
 		@TearDown
@@ -117,14 +95,16 @@ public class DateRevQueueBenchmark {
 	}
 
 	@Benchmark
-	@BenchmarkMode({ Mode.AverageTime })
-	@OutputTimeUnit(TimeUnit.NANOSECONDS)
-	@Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = 10, time = 10, timeUnit = TimeUnit.SECONDS)
-	public void testDataRevQueue(BenchmarkState state) throws Exception {
-		RevCommit commit = state.commits[commitsIndex
+	@BenchmarkMode(Mode.SingleShotTime)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	@Measurement(iterations = 10)
+	public boolean testDataRevQueue(BenchmarkState state) throws Exception {
+		for(int i = 0 ; i< state.numCommits; i++) {
+			RevCommit commit = state.commits[commitsIndex
 				.nextInt(state.numCommits)];
-		state.queue.add(commit);
+			state.queue.add(commit);
+		}
+		return false;
 	}
 
 	public static void main(String[] args) throws RunnerException {
