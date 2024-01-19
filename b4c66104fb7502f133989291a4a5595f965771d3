@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a2b32d_e15409e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-19T11:00:29Z",
+      "side": 1,
+      "message": "I believe there must be some issue with the benchmark: how can be quicker with 10k refs than 50 refs? 😮\n\n- 10k refs \u003d\u003e score 44\n- 50 refs \u003d\u003e score 50",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 66
+      },
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
