@@ -1,0 +1,9 @@
+Code-Review+1: Nasser Grainawi <quic_nasserg@quicinc.com>
+Code-Review+2: Ivan Frade <ifrade@google.com>
+Verified+1: Ivan Frade <ifrade@google.com>
+Submitted-by: Ivan Frade <ifrade@google.com>
+Submitted-at: Fri, 19 Jan 2024 19:40:41 +0000
+Reviewed-on: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/205546
+Comments-Total: 47
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
