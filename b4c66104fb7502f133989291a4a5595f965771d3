@@ -70,6 +70,23 @@
       },
       "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a356e6bf_2cebed01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-01-19T12:50:59Z",
+      "side": 1,
+      "message": "CI job succeeded: https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/971/",
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
