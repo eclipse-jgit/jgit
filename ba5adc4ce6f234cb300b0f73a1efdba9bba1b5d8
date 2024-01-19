@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2cf58e_01c5c548",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-19T10:35:44Z",
+      "side": 1,
+      "message": "I\u0027ve verified it locally by running `mvn test`, build has passed without any error.\n\nDo we know what\u0027s going on with the CI and why it\u0027s not voting?",
+      "revId": "ba5adc4ce6f234cb300b0f73a1efdba9bba1b5d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
