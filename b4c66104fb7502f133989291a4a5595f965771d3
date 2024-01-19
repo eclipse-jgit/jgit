@@ -22,6 +22,30 @@
       },
       "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29773eb0_a775bdb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-19T12:21:53Z",
+      "side": 1,
+      "message": "I believe I misread the benchmark test, after talking with Marcin, my understanding from @matthias.sohn@sap.com \u0027s adaptation of the benchmark is the following:\n\n- For 10 seconds the test keeps on adding elements to the queue\n- Each addition takes around 50 ns\n- During the tests, we will add 200M elements to the queue\n- The queue is resized to avoid exploding\n\nThat\u0027s why the score is similar for 10k refs and 50 refs, which makes total sense.\n\nThat isn\u0027t exactly the scenario that @quic_nasserg@quicinc.com wanted to make sure that we don\u0027t have regressions. I believe his point was to make sure that with a large repo (e.g. 500k commits), creating a RevWalk and navigating to 5 commits is comparable or faster.\n\nHere we are testing the time for one addition repeated 200M times on *the same queue*, which is a valid but different scenario.\n\n@maczech@gmail.com can you upload your original version of the benchmark on a separate change and run it with @quic_nasserg@quicinc.com \u0027s numbers?",
+      "parentUuid": "79a2b32d_e15409e5",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 66
+      },
+      "revId": "b4c66104fb7502f133989291a4a5595f965771d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
