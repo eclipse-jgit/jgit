@@ -133,3 +133,9 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
 | `repack.packKeptObjects` | `true` when `pack.buildBitmaps` is set, `false` otherwise | &#x2705; | Include objects in packs locked by a `.keep` file when repacking. |
+
+## Java System Properties
+
+| system property | default | description |
+|-----------------|---------|-------------|
+| `REVWALK_USE_PRIORITY_QUEUE` | `false` | If set to `true` `RevWalk` uses `DateRevPriorityQueue` which is faster, otherwise it uses the old `DateRevQueue`. |
