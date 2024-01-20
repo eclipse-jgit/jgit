@@ -51,6 +51,24 @@
       "parentUuid": "cab86066_48be87fb",
       "revId": "ba5adc4ce6f234cb300b0f73a1efdba9bba1b5d8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e22ac3c_3f0917ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-20T02:01:02Z",
+      "side": 1,
+      "message": "\u003e that\u0027s caused by a Gerrit bug with changes imported from another server (this change was imported from git.eclipse.org), see https://issues.gerritcodereview.com/u/0/issues/320946495\n\n@ponch78@gmail.com is already working on a fix, hopefully it should be merged by next week and we can upgrade GerritHub.io. Fingers crossed, we won\u0027t have to report the feedback manually anymore in a week.",
+      "parentUuid": "dbe8483f_7eb3ead1",
+      "revId": "ba5adc4ce6f234cb300b0f73a1efdba9bba1b5d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
