@@ -587,6 +587,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notMergedExceptionMessage;
 	/***/ public String notShallowedUnshallow;
 	/***/ public String noXMLParserAvailable;
+	/***/ public String nullRevCommit;
 	/***/ public String numberDoesntFit;
 	/***/ public String objectAtHasBadZlibStream;
 	/***/ public String objectIsCorrupt;
