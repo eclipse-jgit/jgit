@@ -34,25 +34,7 @@
         <filter id="336658481">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
-                <message_argument value="DEFAULT_PACK_KEPT_OBJECTS"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.3"/>
-                <message_argument value="DEFAULT_PACK_KEPT_OBJECTS"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.3"/>
-                <message_argument value="isPackKeptObjects()"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.3"/>
-                <message_argument value="setPackKeptObjects(boolean)"/>
+                <message_argument value="DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT"/>
             </message_arguments>
         </filter>
     </resource>
