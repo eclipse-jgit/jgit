@@ -615,6 +615,7 @@ public final class RawParseUtils {
 	 * @param b
 	 *            buffer to scan.
 	 * @return whether the message starts with any known headers
+	 * @since 6.9
 	 */
 	public static final boolean hasAnyKnownHeaders(byte[] b) {
 		return match(b, 0, tree) != -1 || match(b, 0, parent) != -1
