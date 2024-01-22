@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ebc680_0ee58564",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-22T22:34:09Z",
+      "side": 1,
+      "message": "Tested E2E and works as expected:\n1. When JGit discovers the bitmap, the reload does not happen and the bitmap is kept\n2. When JGit does not discover the bitmap, the it refreshed an found later on\n3. There aren\u0027t any Gerrit restarts needed for allowing JGit to discover the bitmap",
+      "revId": "b41f3d92b102eb3d7442668c808022b42f0fd3eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
