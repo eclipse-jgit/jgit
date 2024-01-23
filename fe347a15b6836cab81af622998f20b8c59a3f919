@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d3a1c9e_8071491c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-01-23T14:12:17Z",
+      "side": 1,
+      "message": "Hi @ifrade@google.com,\n\nThis is the follow-up for the change 205546 that is fixing the test introduced in the other change. For now, that test is marked with `@Ignore(\"pending fix\")`, this change is removing that annotation. Could you please, review this one, so that we get the issue fixed?",
+      "revId": "fe347a15b6836cab81af622998f20b8c59a3f919",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
