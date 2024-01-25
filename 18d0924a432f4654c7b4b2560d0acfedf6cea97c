@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c077d74_a92e1a1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-01-25T22:49:31Z",
+      "side": 0,
+      "message": "This is public API, we cannot just remove it.\n\nAt most, mark is as deprecated to remove in the next big release. For this:\n1. mark the variable as @Deprecated\n2. Add a @deprecated tag to the javadoc\n3. Add somewhere \"Use xyz instead\". Check other javadoc for examples.",
+      "revId": "18d0924a432f4654c7b4b2560d0acfedf6cea97c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
