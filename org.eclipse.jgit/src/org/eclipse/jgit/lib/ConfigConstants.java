@@ -988,8 +988,9 @@ public final class ConfigConstants {
 	/**
 	 * The "commitGraph" section
 	 *
-	 * @since 6.7
+	 * @deprecated use {{@link #CONFIG_COMMIT_GRAPH}} directly instead
 	 */
+	@Deprecated
 	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
 
 	/**

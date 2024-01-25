@@ -310,7 +310,7 @@ public class CommitGraphTest extends RepositoryTestCase {
 		@Override
 		public boolean getBoolean(final String section, final String name,
 				final boolean defaultValue) {
-			if (section.equals(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION)
+			if (section.equals(ConfigConstants.CONFIG_COMMIT_GRAPH)
 					&& name.equals(
 							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS)) {
 				return true;
