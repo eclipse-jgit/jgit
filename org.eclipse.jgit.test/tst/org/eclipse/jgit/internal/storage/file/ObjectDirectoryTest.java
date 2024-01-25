@@ -244,7 +244,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
-		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH, null,
 				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
 
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
@@ -269,7 +269,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
 
-		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH,
 				null, ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
 
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
@@ -281,7 +281,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		CommitGraph cg1 = curs.getCommitGraph().get();
 		assertNotNull(cg1.getChangedPathFilter(0));
 
-		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH,
 				null, ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
 
 		CommitGraph cg2 = curs.getCommitGraph().get();
