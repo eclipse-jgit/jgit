@@ -146,7 +146,7 @@ public class CommitGraphLoader {
 		try {
 			readChangedPathFilters = SystemReader.getInstance()
 					.getJGitConfig()
-					.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+					.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH,
 						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
 		} catch (ConfigInvalidException e) {
 			// Use the default value if, for some reason, the config couldn't be read.

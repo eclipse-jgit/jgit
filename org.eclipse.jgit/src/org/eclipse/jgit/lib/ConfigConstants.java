@@ -986,13 +986,6 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_PRUNE_PRESERVED = "prunepreserved";
 
 	/**
-	 * The "commitGraph" section
-	 *
-	 * @since 6.7
-	 */
-	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
-
-	/**
 	 * The "writeChangedPaths" key
 	 *
 	 * @since 6.7
