@@ -454,7 +454,7 @@ public class DfsBlockCacheTest {
 
 		InMemoryRepository.MemObjDatabase db = r1.getObjectDatabase();
 		Config repoConfig = db.getRepository().getConfig();
-		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH, null,
 				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
 
 		DfsReader reader = (DfsReader) r1.newObjectReader();
