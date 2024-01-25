@@ -213,6 +213,21 @@ class SnapshottingRefDirectory extends RefDirectory {
 					getRefDatabase());
 		}
 
+		/**
+		 * Invalidate the SnapshottingRefDirectory snapshot after locking the
+		 * ref.
+		 * <p>
+		 * Doing this after locking the ref ensures that the upcoming write is
+		 * not based on a cached value.
+		 *
+		 * @param name
+		 *            the name of the reference.
+		 */
+		@Override
+		protected void doAfterLocking(String name) {
+			getRefDatabase().invalidateSnapshot();
+		}
+
 		@Override
 		public SnapshottingRefDirectory getRefDatabase() {
 			return (SnapshottingRefDirectory) super.getRefDatabase();
