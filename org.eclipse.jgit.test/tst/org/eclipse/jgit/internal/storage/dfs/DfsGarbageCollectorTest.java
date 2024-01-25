@@ -1142,7 +1142,7 @@ public class DfsGarbageCollectorTest {
 		gcWithCommitGraphAndBloomFilter();
 
 		Config repoConfig = odb.getRepository().getConfig();
-		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH, null,
 				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
 
 		DfsPackFile gcPack = odb.getPacks()[0];
