@@ -215,6 +215,20 @@ class SnapshottingRefDirectory extends RefDirectory {
 			return invalidateSnapshotOnError(t -> super.link(t), target,
 					getRefDatabase());
 		}
+
+		/**
+		 * Invalidate the SnapshottingRefDirectory snapshot after locking the ref
+		 *
+		 * Doing this after locking the ref ensures that the upcoming write is
+		 * not based on a cached value.
+		 *
+		 * @param name
+		 * 		the name of the reference.
+		 */
+		@Override
+		protected void doWhenLocked(String name) throws IOException {
+			((SnapshottingRefDirectory) getRefDatabase()).invalidateSnapshot();
+		}
 	}
 
 	private static class SnapshotRefDirectoryRename extends RefDirectoryRename {
