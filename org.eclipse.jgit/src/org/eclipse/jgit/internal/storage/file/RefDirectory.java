@@ -706,8 +706,7 @@ public class RefDirectory extends RefDatabase {
 		int levels = levelsIn(name) - 2;
 		delete(logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
-			update.unlock();
-			delete(fileFor(name), levels);
+			deleteAndUnlock(fileFor(name), levels, update);
 		}
 
 		modCnt.incrementAndGet();
@@ -825,7 +824,7 @@ public class RefDirectory extends RefDatabase {
 								newLoose = curLoose.remove(idx);
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
 							int levels = levelsIn(refName) - 2;
-							delete(refFile, levels, rLck);
+							deleteAndUnlock(refFile, levels, rLck);
 						}
 					} finally {
 						if (shouldUnlock) {
@@ -1302,19 +1301,37 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	static void delete(File file, int depth) throws IOException {
-		delete(file, depth, null);
+		delete(file);
+		deleteParentDirs(file, depth);
 	}
 
-	private static void delete(File file, int depth, LockFile rLck)
-			throws IOException {
+	private static void delete(File file) throws IOException {
 		if (!file.delete() && file.isFile()) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().fileCannotBeDeleted, file));
+			throw new IOException(
+					MessageFormat.format(JGitText.get().fileCannotBeDeleted,
+							file));
 		}
+	}
 
+	private static void deleteAndUnlock(File file, int depth,
+			RefDirectoryUpdate refUpdate) throws IOException {
+		delete(file);
+		if (refUpdate != null) {
+			refUpdate.unlock(); // otherwise cannot delete dir below
+		}
+		deleteParentDirs(file, depth);
+	}
+
+	private static void deleteAndUnlock(File file, int depth, LockFile rLck)
+			throws IOException {
+		delete(file);
 		if (rLck != null) {
 			rLck.unlock(); // otherwise cannot delete dir below
 		}
+		deleteParentDirs(file, depth);
+	}
+
+	private static void deleteParentDirs(File file, int depth) {
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
 			try {
