@@ -569,6 +569,24 @@
       "parentUuid": "269de897_e78f95d0",
       "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "190a5d11_7e645b58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickedCommitMessageProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037540
+      },
+      "writtenOn": "2024-01-26T09:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fd653ae_94765188",
+      "revId": "3a49cb1d5218a9f9d9b03c831a57de4c742006e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
