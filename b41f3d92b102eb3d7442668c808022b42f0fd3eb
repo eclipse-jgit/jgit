@@ -16,6 +16,23 @@
       "message": "Tested E2E and works as expected:\n1. When JGit discovers the bitmap, the reload does not happen and the bitmap is kept\n2. When JGit does not discover the bitmap, the it refreshed an found later on\n3. There aren\u0027t any Gerrit restarts needed for allowing JGit to discover the bitmap",
       "revId": "b41f3d92b102eb3d7442668c808022b42f0fd3eb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f134080_28a4b1e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-31T23:19:36Z",
+      "side": 1,
+      "message": "Ping @david.ostrovsky@gmail.com @matthias.sohn@sap.com would you have any time to review this change? From what I see it\u0027s pretty bad that Gerrit isn\u0027t able to discover bitmaps created by external GCs operations.",
+      "revId": "b41f3d92b102eb3d7442668c808022b42f0fd3eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
