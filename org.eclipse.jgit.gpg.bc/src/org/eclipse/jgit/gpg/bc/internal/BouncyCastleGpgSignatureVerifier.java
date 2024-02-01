@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.security.Security;
 import java.text.MessageFormat;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
@@ -33,21 +32,18 @@ import org.bouncycastle.openpgp.jcajce.JcaPGPObjectFactory;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProvider;
 import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.AbstractGpgSignatureVerifier;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgSignatureVerifier;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.util.LRUMap;
-import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A {@link GpgSignatureVerifier} to verify GPG signatures using BouncyCastle.
  */
-public class BouncyCastleGpgSignatureVerifier implements GpgSignatureVerifier {
+public class BouncyCastleGpgSignatureVerifier
+		extends AbstractGpgSignatureVerifier {
 
 	private static void registerBouncyCastleProviderIfNecessary() {
 		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
@@ -77,50 +73,6 @@ public class BouncyCastleGpgSignatureVerifier implements GpgSignatureVerifier {
 		return "bc"; //$NON-NLS-1$
 	}
 
-	@Override
-	@Nullable
-	public SignatureVerification verifySignature(@NonNull RevObject object,
-			@NonNull GpgConfig config) throws IOException {
-		if (object instanceof RevCommit) {
-			RevCommit commit = (RevCommit) object;
-			byte[] signatureData = commit.getRawGpgSignature();
-			if (signatureData == null) {
-				return null;
-			}
-			byte[] raw = commit.getRawBuffer();
-			// Now remove the GPG signature
-			byte[] header = { 'g', 'p', 'g', 's', 'i', 'g' };
-			int start = RawParseUtils.headerStart(header, raw, 0);
-			if (start < 0) {
-				return null;
-			}
-			int end = RawParseUtils.headerEnd(raw, start);
-			// start is at the beginning of the header's content
-			start -= header.length + 1;
-			// end is on the terminating LF; we need to skip that, too
-			if (end < raw.length) {
-				end++;
-			}
-			byte[] data = new byte[raw.length - (end - start)];
-			System.arraycopy(raw, 0, data, 0, start);
-			System.arraycopy(raw, end, data, start, raw.length - end);
-			return verify(data, signatureData);
-		} else if (object instanceof RevTag) {
-			RevTag tag = (RevTag) object;
-			byte[] signatureData = tag.getRawGpgSignature();
-			if (signatureData == null) {
-				return null;
-			}
-			byte[] raw = tag.getRawBuffer();
-			// The signature is just tacked onto the end of the message, which
-			// is last in the buffer.
-			byte[] data = Arrays.copyOfRange(raw, 0,
-					raw.length - signatureData.length);
-			return verify(data, signatureData);
-		}
-		return null;
-	}
-
 	static PGPSignature parseSignature(InputStream in)
 			throws IOException, PGPException {
 		try (InputStream sigIn = PGPUtil.getDecoderStream(in)) {
@@ -138,7 +90,8 @@ public class BouncyCastleGpgSignatureVerifier implements GpgSignatureVerifier {
 	}
 
 	@Override
-	public SignatureVerification verify(byte[] data, byte[] signatureData)
+	public SignatureVerification verify(@NonNull GpgConfig config, byte[] data,
+			byte[] signatureData)
 			throws IOException {
 		PGPSignature signature = null;
 		String fingerprint = null;
@@ -278,6 +231,13 @@ public class BouncyCastleGpgSignatureVerifier implements GpgSignatureVerifier {
 		}
 		return new VerificationResult(signatureCreatedAt, signer, fingerprint, user,
 				verified, expired, trust, null);
+	}
+
+	@Override
+	public SignatureVerification verify(byte[] data, byte[] signatureData)
+			throws IOException {
+		throw new UnsupportedOperationException(
+				"Call verify(GpgConfig, byte[], byte[]) instead."); //$NON-NLS-1$
 	}
 
 	private TrustLevel parseGpgTrustPacket(byte[] packet) {
