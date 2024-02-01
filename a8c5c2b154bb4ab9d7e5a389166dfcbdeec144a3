@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f121ac78_e1f0e24d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-01T19:28:05Z",
+      "side": 1,
+      "message": "Good catch ! Maybe worth raising an issue on https://github.com/eclipse-jgit/jgit/issues ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cd390686_5ffae507",
