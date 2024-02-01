@@ -550,7 +550,7 @@ public final class RawParseUtils {
 				return ptr - 1;
 			}
 		}
-		return ptr - 1;
+		return ptr;
 	}
 
 	/**

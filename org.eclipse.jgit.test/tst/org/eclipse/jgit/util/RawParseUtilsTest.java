@@ -123,4 +123,14 @@ public class RawParseUtilsTest {
 			start = end + 1;
 		}
 	}
+
+	@Test
+	public void testLastHeaderEnd() {
+		byte[] raw = "headerA A header\nheaderB Another header".getBytes(UTF_8);
+		int bStart = RawParseUtils.headerStart("headerB".getBytes(UTF_8), raw,
+				0);
+		assertEquals(25, bStart);
+		int bEnd = RawParseUtils.nextLfSkippingSplitLines(raw, bStart);
+		assertEquals(raw.length, bEnd);
+	}
 }
