@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa1c24e7_30d0c55b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-01T19:32:54Z",
+      "side": 1,
+      "message": "This fix is crucial for https://eclipse.gerrithub.io/c/eclipse-egit/egit/+/1176329 : external GPG chokes on a signature blob with leading blanks. (Bouncy Castle tolerates it, which is why we didn\u0027t notice this earlier.)",
+      "revId": "b079968cdd31bb305b99f860c6b1194662619921",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
