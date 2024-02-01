@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd390686_5ffae507",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-01T00:12:35Z",
+      "side": 1,
+      "message": "Luca, this may have been the issue you found when you had the per-thread refDb set to defaults. We suspect that this issue recently caused our change sequence to be reset and then changes with duplicate numbers created.",
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
