@@ -56,6 +56,24 @@
       "message": "Isn\u0027t this introducing another potential concurrency issue, when `SnapshottingRefDirectory` would potentially read \"inconsistent\" packed-refs? I\u0027m thinking here about the following scenario:\n* lock is obtained \u003d\u003e we invalidate the snapshot\n* packed-refs are being prepared\n* `getPackedRefs()` is called, as the snapshot is invalid, we\u0027ll try to refresh it and read latest version\n* packed-refs are sill being written\n* lock is removed\n*`SnapshottingRefDirectory` has inconsistent view on the packed_refs\n\nIMO, we should invalidate the snapshot when lock is removed, not when it\u0027s acquired. With that approach we could have a slight delay before new packed-refs are used, but we should always snapshot the consistent version of it.",
       "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b254d1f5_39b1d3dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-02T17:05:12Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t this introducing another potential concurrency issue, when `SnapshottingRefDirectory` would potentially read \"inconsistent\" packed-refs? I\u0027m thinking here about the following scenario:\n\u003e * lock is obtained \u003d\u003e we invalidate the snapshot\n\u003e * packed-refs are being prepared\n\nI\u0027m confused on this step. This is a loose ref update that we\u0027re locking during, so this thread isn\u0027t doing any preparing of packed-refs.\n\nDo you mean another thread is updating packed-refs while our thread is updating a loose ref? If yes, that other thread can\u0027t be updating *our ref*, because we have the lock, so it doesn\u0027t matter what they write into packed refs, we won\u0027t need that updated data.\n\n\u003e * `getPackedRefs()` is called, as the snapshot is invalid, we\u0027ll try to refresh it and read latest version\n\u003e * packed-refs are sill being written\n\u003e * lock is removed\n\u003e *`SnapshottingRefDirectory` has inconsistent view on the packed_refs\n\u003e \n\u003e IMO, we should invalidate the snapshot when lock is removed, not when it\u0027s acquired. With that approach we could have a slight delay before new packed-refs are used, but we should always snapshot the consistent version of it.\n\nI think you\u0027re coming from the view that we\u0027re the ones updated packed-refs always. However, it may be on NFS and updated via a completely different host, so we need to invalidate it once we know (via the lock) that other actors can\u0027t modify the data we care about. That\u0027s why the invalidate happens just before the `database.findRef()` call on line 58 in RefDirectoryUpdate. If we waited to invalidate until after we released the lock, we would do that findRef based on potentially outdated data.",
+      "parentUuid": "d4fa73fe_1a94131c",
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
