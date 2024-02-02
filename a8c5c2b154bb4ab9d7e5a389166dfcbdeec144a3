@@ -39,6 +39,23 @@
       "message": "Luca, this may have been the issue you found when you had the per-thread refDb set to defaults. We suspect that this issue recently caused our change sequence to be reset and then changes with duplicate numbers created.",
       "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4fa73fe_1a94131c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-02-02T11:44:24Z",
+      "side": 1,
+      "message": "Isn\u0027t this introducing another potential concurrency issue, when `SnapshottingRefDirectory` would potentially read \"inconsistent\" packed-refs? I\u0027m thinking here about the following scenario:\n* lock is obtained \u003d\u003e we invalidate the snapshot\n* packed-refs are being prepared\n* `getPackedRefs()` is called, as the snapshot is invalid, we\u0027ll try to refresh it and read latest version\n* packed-refs are sill being written\n* lock is removed\n*`SnapshottingRefDirectory` has inconsistent view on the packed_refs\n\nIMO, we should invalidate the snapshot when lock is removed, not when it\u0027s acquired. With that approach we could have a slight delay before new packed-refs are used, but we should always snapshot the consistent version of it.",
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
