@@ -1559,7 +1559,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		try {
 			rawMerged = doMerge(result);
 			File mergedFile = inCore ? null
-					: writeMergedFile(rawMerged, attributes);
+					: (rawMerged.length() == 0) ? null
+							: writeMergedFile(rawMerged, attributes);
 			if (result.containsConflicts()) {
 				// A conflict occurred, the file will contain conflict markers
 				// the index will be populated with the three stages and the

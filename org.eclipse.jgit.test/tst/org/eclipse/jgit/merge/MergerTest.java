@@ -22,9 +22,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -51,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -1786,6 +1792,122 @@ public class MergerTest extends RepositoryTestCase {
 		// children
 		mergeResult = git.merge().include(commitC3S).call();
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.MERGED);
+
+	}
+
+	@Theory
+	public void testMergeConflictWithBinaryFile(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+		String childBranch1 = "child1";
+		String childBranch2 = "child2";
+		String binaryFile = "file";
+
+
+		writeTrashFile(binaryFile, getRandomBinaryContent(100));
+
+
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit parent = git.commit().setMessage("PARENT COMMIT").call();
+
+		String fileHashInParentBeforeFirstMerge = getFileHashInWorkTree(git,
+				binaryFile);
+
+		String parentBranch = git.getRepository().getBranch();
+
+		git.branchCreate().setForce(true).setName(childBranch1)
+				.setStartPoint(parent).call();
+		git.branchCreate().setForce(true).setName(childBranch2)
+				.setStartPoint(parent).call();
+
+		git.checkout().setName(childBranch1).call();
+
+		writeTrashFile(binaryFile, getRandomBinaryContent(200));
+
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit child1 = git.commit().setMessage("CHILD1 COMMIT").call();
+
+		String fileHashInFirstChild = getFileHashInWorkTree(git, binaryFile);
+
+		git.checkout().setName(parentBranch).call();
+
+		git.merge().include(child1).setCommit(true)
+				.setMessage("Merge child1 into parent").setStrategy(strategy)
+				.call();
+
+		String fileHashInParentAfterFirstMerge = getFileHashInWorkTree(git,
+				binaryFile);
+
+		assertEquals(fileHashInFirstChild, fileHashInParentAfterFirstMerge);
+
+
+		git.checkout().setName(childBranch2).call();
+
+		writeTrashFile(binaryFile, getRandomBinaryContent(300));
+
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit child2 = git.commit().setMessage("CHILD2 COMMIT").call();
+
+		String fileHashInSecondChild = getFileHashInWorkTree(git, binaryFile);
+
+		git.checkout().setName(parentBranch).call();
+
+		MergeResult mergeResult = git.merge().include(child2).setCommit(true)
+				.setMessage("Merge child2 into parent").setStrategy(strategy)
+				.call();
+
+		String fileHashInParentAfterMergeConflict = getFileHashInWorkTree(git,
+				binaryFile);
+
+
+		assertTrue(mergeResult.getConflicts() != null
+				&& !mergeResult.getConflicts().isEmpty());
+
+		assertEquals(fileHashInParentAfterFirstMerge,
+				fileHashInParentAfterMergeConflict);
+
+		Set<String> hashesInIndexFile = new HashSet<>();
+
+		DirCache indexContent = git.getRepository().readDirCache();
+
+		for (int i = 0; i < indexContent.getEntryCount(); ++i) {
+			DirCacheEntry indexEntry = indexContent.getEntry(i);
+			if (binaryFile.equals(indexEntry.getPathString())) {
+				hashesInIndexFile.add(indexEntry.getObjectId().name());
+			}
+		}
+
+		assertTrue(hashesInIndexFile.contains(fileHashInParentAfterFirstMerge));
+		assertTrue(hashesInIndexFile.contains(fileHashInSecondChild));
+		assertTrue(
+				hashesInIndexFile.contains(fileHashInParentBeforeFirstMerge));
+
+	}
+
+	private String getRandomBinaryContent(int size) {
+		byte[] binary = new byte[size];
+		Random random = new Random();
+		for (int i = 0; i < binary.length; i++) {
+			binary[i] = (byte) ((random.nextInt(26) + 97));
+		}
+		binary[50] = '\0';
+		return new String(binary, StandardCharsets.UTF_8);
+
+	}
+
+	private String getFileHashInWorkTree(Git git, String filePath)
+			throws IOException {
+		Repository repository = git.getRepository();
+		ObjectInserter objectInserter = repository.newObjectInserter();
+
+		File untrackedFile = new File(repository.getWorkTree(), filePath);
+		byte[] fileContent = Files.readAllBytes(untrackedFile.toPath());
+
+		ObjectId blobId = objectInserter.insert(Constants.OBJ_BLOB,
+				fileContent);
+		objectInserter.flush();
+
+		return blobId.name();
 
 	}
 
