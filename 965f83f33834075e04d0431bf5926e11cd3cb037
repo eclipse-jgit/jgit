@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25a5288d_b44ca548",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-04T23:52:22Z",
+      "side": 1,
+      "message": "I don\u0027t think this is good enough. Looking at the code of ResolveMerger.processEntry(), I see more bugs:\n\n* binary delete-modify (OURS deleted, THEIRS modified) conflicts are wrong; they should check out the THEIRS version.\n* delete-modify or modify-delete conflicts should honor the gitattributes. If gitattributes say a file was binary, it is to be treated as binary, and no content merge should be attempted.\n* on a modify-modify conflict on a file marked as binary in .gitattributes, the conflict is entered in the index, but not added to the list of conflicts in the MergeResult.\n\nLooks like processEntry() needs to be improved anyway, and if done correctly, that should give code that doesn\u0027t call updateIndex() at all for binary files.\n\nApart from that, the test could be simplified quite a bit. It\u0027s not necessary to use random bytes; a modify-modify binary conflict could be produced with just two bytes. 0x00, 0x01 in the base, 0x01, 0x00 in the first branch, 0x02, 0x00 in the second branch. It\u0027s not even necessary to create branches, just three commits would suffice. The MergeCommand accepts arbitrary commit IDs, so one can create just three commits like\n```\n  parent     child1\n    o------------o\n     \\\n      ------o\n          child2\n```\nand then merge child1 into child2 or vice versa. I also notice that the first merge in the test is actually merging the child1 branch into the parent branch, which is a fast-forward merge. That\u0027s not needed at all. When you\u0027ve created child2, you could simply merge child1.\n\nFinally, please format the commit message according to the guidelines.[1]\n\n[1] https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#commit-message-guidelines",
+      "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
