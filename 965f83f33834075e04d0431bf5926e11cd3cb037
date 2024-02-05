@@ -68,6 +68,24 @@
       "message": "We any how need to call the method updateIndex() in processEntry() even if there is a conflict in a binary file as it will add that particular entry to INDEX file.\n\nRegarding the test case, yes, I should\u0027ve made it simpler. I will work on it",
       "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cca1e3b_f1035924",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-05T13:28:13Z",
+      "side": 1,
+      "message": "\u003e We any how need to call the method updateIndex()\n\nNot quite. The binary case is more similar to the symlink cases. addConflict() can be called directly instead of updateIndex(), which does all this file handling that was intended for text conflicts.",
+      "parentUuid": "70ee1bfc_dfd93258",
+      "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
