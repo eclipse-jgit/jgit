@@ -33,6 +33,41 @@
       "message": "Oh, and please make the correction on the current master branch.",
       "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c395770d_238e39fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037690
+      },
+      "writtenOn": "2024-02-05T11:45:41Z",
+      "side": 1,
+      "message": "Hi @twolf@apache.org\nWe any how need to call the method updateIndex() in processEntry() even if there is a conflict in a binary file as it will add that particular entry to INDEX file.\n\nRegarding the test case, yes, I should\u0027ve made it simpler. I will work on it",
+      "parentUuid": "25a5288d_b44ca548",
+      "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ee1bfc_dfd93258",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037690
+      },
+      "writtenOn": "2024-02-05T11:45:41Z",
+      "side": 1,
+      "message": "We any how need to call the method updateIndex() in processEntry() even if there is a conflict in a binary file as it will add that particular entry to INDEX file.\n\nRegarding the test case, yes, I should\u0027ve made it simpler. I will work on it",
+      "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
