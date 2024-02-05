@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0c87216_5ef1afce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-05T14:48:38Z",
+      "side": 1,
+      "message": "Even though this loop makes use of bitmaps, it could still be *very* expensive. We are experiencing git fetch that stay in this loop for *at least 30 mins* (the client times out a lot sooner than that) trying to see if we should serve the SHA1 or not.\n\nAs Shawn (RIP) said: _\"Performance *IS* a feature, and a *VERY IMPORTANT* one\"_. I completely agree with Shawn\u0027s perspective; if this loop cannot be completed promptly, what is the point of keeping a client hung for 30 mins and then failing for timeout? Isn\u0027t it better to just return a \"wants not valid\" and fail straight away?\n\nBear in mind that the bitmaps do not contain all objects, otherwise they would explode. The ones not directly contained in the bitmaps are resolved by fetching them from the underlying packfiles/indexes, which make this loop very very expensive indeed.\n\nMy production scenario is:\n- 1.5M refs\n- 50M objects\n- fetching a BLOB\n\n@ifrade@google.com do you recall why was this loop put in the first place? Did you ever experience long times in the execution of this for-loop?",
+      "range": {
+        "startLine": 1326,
+        "startChar": 0,
+        "endLine": 1331,
+        "endChar": 3
+      },
+      "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
