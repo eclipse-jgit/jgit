@@ -74,6 +74,70 @@
       "parentUuid": "d4fa73fe_1a94131c",
       "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7309537b_b6e85713",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-02-05T09:54:18Z",
+      "side": 1,
+      "message": "OK, sorry I got confused a but. You\u0027re right we\u0027re in the same thread and as **we** obtain the lock, no one else should modify that file. Now it makes sense, thanks.",
+      "parentUuid": "b254d1f5_39b1d3dd",
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff4ddedc_f275fbec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-02-05T09:54:18Z",
+      "side": 1,
+      "message": "nit: s/afer/immediately afer/",
+      "range": {
+        "startLine": 147,
+        "startChar": 26,
+        "endLine": 147,
+        "endChar": 31
+      },
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bfd4788_6b6dbf42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-02-05T09:54:18Z",
+      "side": 1,
+      "message": "nit: how about making it bit more descriptive, eg `doAfterLocking`, this way it will also suggest when this is called. The current name doesn\u0027t say when it\u0027s executed.",
+      "range": {
+        "startLine": 152,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 28
+      },
+      "revId": "a8c5c2b154bb4ab9d7e5a389166dfcbdeec144a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
