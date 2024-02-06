@@ -82,7 +82,9 @@ public enum ShutdownHook {
 			}).get(30L, TimeUnit.SECONDS);
 		} catch (RejectedExecutionException | InterruptedException
 				| ExecutionException | TimeoutException e) {
-			LOG.error(JGitText.get().shutdownCleanupFailed, e);
+			// message isn't localized since during shutdown there's no
+			// guarantee which classes are still loaded
+			LOG.error("Cleanup during JVM shutdown failed", e); //$NON-NLS-1$
 		}
 		runner.shutdownNow();
 	}
