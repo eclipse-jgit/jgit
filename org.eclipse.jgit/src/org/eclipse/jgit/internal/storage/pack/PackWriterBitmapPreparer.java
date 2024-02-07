@@ -166,8 +166,11 @@ class PackWriterBitmapPreparer {
 			rw2.setRetainBody(false);
 			rw2.setRevFilter(new NotInBitmapFilter(seen));
 
-			int maxBranches = Math.min(excessiveBranchTipCount,
-					selectionHelper.newWantsByNewest.size());
+			int newWantsCount = selectionHelper.newWantsByNewest.size();
+			int maxBranches = Math.min(excessiveBranchTipCount, newWantsCount);
+			Set<RevCommit> excessiveBranches = new HashSet<>(
+					selectionHelper.newWantsByNewest.subList(maxBranches,
+							newWantsCount));
 			// For each branch, do a revwalk to enumerate its commits. Exclude
 			// both reused commits and any commits seen in a previous branch.
 			// Then iterate through all new commits from oldest to newest,
@@ -229,7 +232,7 @@ class PackWriterBitmapPreparer {
 					pm.update(1);
 
 					// Always pick the items in wants, prefer merge commits.
-					if (selectionHelper.newWants.remove(c)) {
+					if (!excessiveBranches.contains(c) && selectionHelper.newWants.remove(c)) {
 						if (nextIn > 0) {
 							nextFlg = 0;
 						}
