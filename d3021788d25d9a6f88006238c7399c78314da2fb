@@ -46,6 +46,30 @@
       },
       "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0a7df50_4218137b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-07T21:33:44Z",
+      "side": 1,
+      "message": "\u003e Which non-commit objects are advertised in your scenario and for which purpose ?\n\nGerrit has refs that point to non-commits (e.g. `refs/sequences/changes`) and also those are replicated across Gerrit sites using `git-upload-pack` (e.g. with the `pull-replication` plugin).\n\nLast but not least, when you perform a partial clone, the git client will fetch the BLOBs \"on-demand\", and they may or may not be commits.",
+      "parentUuid": "7b4b9566_a562d8d7",
+      "range": {
+        "startLine": 1326,
+        "startChar": 0,
+        "endLine": 1331,
+        "endChar": 3
+      },
+      "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
