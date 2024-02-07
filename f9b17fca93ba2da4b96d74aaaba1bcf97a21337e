@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3684131_9e9934b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-02-07T21:04:06Z",
+      "side": 1,
+      "message": "I reformated the title of the commit and added a line with the proposed solution. Please check that I got it right.\n\nOther than that, this LGTM",
+      "revId": "f9b17fca93ba2da4b96d74aaaba1bcf97a21337e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
