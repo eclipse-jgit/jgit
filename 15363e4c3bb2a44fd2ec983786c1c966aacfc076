@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29659d23_6dd801ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-02-07T22:38:20Z",
+      "side": 1,
+      "message": "Verified locally, applying the patch and running `$ bazel test //org.eclipse.jgit.test:all`",
+      "revId": "15363e4c3bb2a44fd2ec983786c1c966aacfc076",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
