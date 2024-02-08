@@ -70,6 +70,30 @@
       },
       "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c822a6d0_fdfbc869",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-08T08:34:47Z",
+      "side": 1,
+      "message": "the method containing this loop was removed in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/160558\nin jgit 5.10.0",
+      "parentUuid": "b0a7df50_4218137b",
+      "range": {
+        "startLine": 1326,
+        "startChar": 0,
+        "endLine": 1331,
+        "endChar": 3
+      },
+      "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
