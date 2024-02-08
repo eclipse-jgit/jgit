@@ -94,6 +94,30 @@
       },
       "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f838a7da_22c06b9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-02-08T17:06:50Z",
+      "side": 1,
+      "message": "IIRC this was bad because it was marking all references as starts in the revwalk before walking and just that could take too long (when maybe the object was already reachable from the first ref).\n\nThe new code marks the start points incrementally, trying the most \"popular\" branches first.",
+      "parentUuid": "c822a6d0_fdfbc869",
+      "range": {
+        "startLine": 1326,
+        "startChar": 0,
+        "endLine": 1331,
+        "endChar": 3
+      },
+      "revId": "d3021788d25d9a6f88006238c7399c78314da2fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
