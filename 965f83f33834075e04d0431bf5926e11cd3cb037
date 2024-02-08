@@ -86,6 +86,23 @@
       "parentUuid": "70ee1bfc_dfd93258",
       "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4139ac39_33cbbc8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037690
+      },
+      "writtenOn": "2024-02-08T15:26:33Z",
+      "side": 1,
+      "message": "Hi @twolf@apache.org\n\nI understood what has to be done. But I have a concern here\n\nAll the logic for binary modify-modify conflict can be written in contentMerge\u0027s BinaryBlobException catch block. Why is it written separately?",
+      "revId": "965f83f33834075e04d0431bf5926e11cd3cb037",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
