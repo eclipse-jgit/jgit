@@ -87,6 +87,7 @@ public class ChangedPathFilter {
 	 *            the paths that the filter must match
 	 * @return the corresponding filter
 	 */
+	@SuppressWarnings("ByteBufferBackingArray")
 	public static ChangedPathFilter fromPaths(Set<ByteBuffer> paths) {
 		if (paths.isEmpty()) {
 			return EMPTY;
