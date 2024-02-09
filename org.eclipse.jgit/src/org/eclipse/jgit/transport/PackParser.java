@@ -1566,7 +1566,7 @@ public abstract class PackParser {
 	 * @param baseStreamPosition
 	 *            position of the base object in the incoming stream. The base
 	 *            must be before the delta, therefore {@code baseStreamPosition
-	 *            &lt; deltaStreamPosition}. This is <b>not</b> the position
+	 *            < deltaStreamPosition}. This is <b>not</b> the position
 	 *            returned by a prior end object event.
 	 * @param inflatedSize
 	 *            size of the delta when fully inflated. The size stored within
