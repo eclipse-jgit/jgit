@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9395affc_4f856fe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-11T22:57:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand this, if a ref is present both as a loose ref and in packed-refs, the loose ref takes precedence",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62abebee_f9bebefe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-11T22:57:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence. Which ref value doesn\u0027t change again after invalidation of the snapshot ? The ref was locked in order to execute the ref update, this means, if no exception happens the ref will be updated.",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "834b78d9_4e12d389",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-11T22:57:38Z",
+      "side": 1,
+      "message": "missing @throws tag in javadoc",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "824e229c_0ce4c82c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-11T22:57:38Z",
+      "side": 1,
+      "message": "this raises an \"empty block should be documented\" warning",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24cfdfbe_af7b77d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-11T22:57:38Z",
+      "side": 1,
+      "message": "missing @throws tag",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a704818_81839d64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-11T22:57:38Z",
+      "side": 1,
+      "message": "I\u0027d override getRefDatabase to avoid the cast here:\n\n\t\t@Override\n\t\tpublic SnapshottingRefDirectory getRefDatabase() {\n\t\t\treturn (SnapshottingRefDirectory) super.getRefDatabase();\n\t\t}",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
