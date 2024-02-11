@@ -1,0 +1,9 @@
+Code-Review+1: Luca Milanesio <luca.milanesio@gmail.com>
+Verified+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Nasser Grainawi <quic_nasserg@quicinc.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Sun, 11 Feb 2024 21:57:19 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1176123
+Project: eclipse-jgit/jgit
+Branch: refs/heads/stable-6.6
