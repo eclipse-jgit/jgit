@@ -181,37 +181,35 @@ class SnapshottingRefDirectory extends RefDirectory {
 
 		@Override
 		public Result forceUpdate() throws IOException {
-			return invalidateSnapshotOnError(() -> super.forceUpdate(),
+			return invalidateSnapshotOnError(super::forceUpdate,
 					getRefDatabase());
 		}
 
 		@Override
 		public Result update() throws IOException {
-			return invalidateSnapshotOnError(() -> super.update(),
-					getRefDatabase());
+			return invalidateSnapshotOnError(super::update, getRefDatabase());
 		}
 
 		@Override
 		public Result update(RevWalk walk) throws IOException {
-			return invalidateSnapshotOnError(rw -> super.update(rw), walk,
+			return invalidateSnapshotOnError(super::update, walk,
 					getRefDatabase());
 		}
 
 		@Override
 		public Result delete() throws IOException {
-			return invalidateSnapshotOnError(() -> super.delete(),
-					getRefDatabase());
+			return invalidateSnapshotOnError(super::delete, getRefDatabase());
 		}
 
 		@Override
 		public Result delete(RevWalk walk) throws IOException {
-			return invalidateSnapshotOnError(rw -> super.delete(rw), walk,
+			return invalidateSnapshotOnError(super::delete, walk,
 					getRefDatabase());
 		}
 
 		@Override
 		public Result link(String target) throws IOException {
-			return invalidateSnapshotOnError(t -> super.link(t), target,
+			return invalidateSnapshotOnError(super::link, target,
 					getRefDatabase());
 		}
 
@@ -229,8 +227,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 
 		@Override
 		public RefUpdate.Result rename() throws IOException {
-			return invalidateSnapshotOnError(() -> super.rename(),
-					getRefDirectory());
+			return invalidateSnapshotOnError(super::rename, getRefDirectory());
 		}
 
 		@Override
@@ -253,7 +250,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 		@Override
 		public void execute(RevWalk walk, ProgressMonitor monitor,
 				List<String> options) throws IOException {
-			invalidateSnapshotOnError((rw, m, o) -> super.execute(rw, m, o),
+			invalidateSnapshotOnError(super::execute,
 					walk, monitor, options, getRefDatabase());
 		}
 
