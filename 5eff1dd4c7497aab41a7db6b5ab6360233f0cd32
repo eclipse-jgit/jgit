@@ -16,6 +16,23 @@
       "message": "See https://eclipse.gerrithub.io/c/eclipse-egit/egit/+/1176329 for a use of this. EGit implements a signature verifier that uses an external GPG process to verify a signature.",
       "revId": "5eff1dd4c7497aab41a7db6b5ab6360233f0cd32",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7aeeb9_f10cf879",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-12T22:01:07Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "5eff1dd4c7497aab41a7db6b5ab6360233f0cd32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
