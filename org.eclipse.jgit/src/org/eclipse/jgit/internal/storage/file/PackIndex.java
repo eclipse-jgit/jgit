@@ -64,7 +64,9 @@ public abstract class PackIndex
 	public static PackIndex open(File idxFile) throws IOException {
 		try (SilentFileInputStream fd = new SilentFileInputStream(
 				idxFile)) {
-				return read(fd);
+			return read(fd);
+		} catch (FileNotFoundException e) {
+			throw e;
 		} catch (IOException ioe) {
 			throw new IOException(
 					MessageFormat.format(JGitText.get().unreadablePackIndex,
