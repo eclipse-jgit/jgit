@@ -73,6 +73,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1351fec4_91f042e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-12T23:54:53Z",
+      "side": 1,
+      "message": "Raised Bug: jgit-21",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "834b78d9_4e12d389",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
         "patchSetId": 2
