@@ -13,7 +13,6 @@ package org.eclipse.jgit.internal.storage.file;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -148,29 +147,29 @@ class SnapshottingRefDirectory extends RefDirectory {
 	}
 
 	private static <T> T invalidateSnapshotOnError(
-			SupplierThrowsException<T, IOException> f, RefDatabase refDb)
+			SupplierThrowsException<T, IOException> f, SnapshottingRefDirectory refDb)
 			throws IOException {
 		return invalidateSnapshotOnError(a -> f.call(), null, refDb);
 	}
 
 	private static <A, R> R invalidateSnapshotOnError(
 			FunctionThrowsException<A, R, IOException> f, A a,
-			RefDatabase refDb) throws IOException {
+			SnapshottingRefDirectory refDb) throws IOException {
 		try {
 			return f.apply(a);
 		} catch (IOException e) {
-			((SnapshottingRefDirectory) refDb).invalidateSnapshot();
+			refDb.invalidateSnapshot();
 			throw e;
 		}
 	}
 
 	private static <A1, A2, A3> void invalidateSnapshotOnError(
 			TriConsumerThrowsException<A1, A2, A3, IOException> f, A1 a1, A2 a2,
-			A3 a3, RefDatabase refDb) throws IOException {
+			A3 a3, SnapshottingRefDirectory refDb) throws IOException {
 		try {
 			f.accept(a1, a2, a3);
 		} catch (IOException e) {
-			((SnapshottingRefDirectory) refDb).invalidateSnapshot();
+			refDb.invalidateSnapshot();
 			throw e;
 		}
 	}
@@ -215,6 +214,11 @@ class SnapshottingRefDirectory extends RefDirectory {
 			return invalidateSnapshotOnError(t -> super.link(t), target,
 					getRefDatabase());
 		}
+
+		@Override
+		public SnapshottingRefDirectory getRefDatabase() {
+			return (SnapshottingRefDirectory) super.getRefDatabase();
+		}
 	}
 
 	private static class SnapshotRefDirectoryRename extends RefDirectoryRename {
@@ -227,6 +231,11 @@ class SnapshottingRefDirectory extends RefDirectory {
 		public RefUpdate.Result rename() throws IOException {
 			return invalidateSnapshotOnError(() -> super.rename(),
 					getRefDirectory());
+		}
+
+		@Override
+		public SnapshottingRefDirectory getRefDirectory() {
+			return (SnapshottingRefDirectory) super.getRefDirectory();
 		}
 	}
 
@@ -253,6 +262,11 @@ class SnapshottingRefDirectory extends RefDirectory {
 				throws IOException {
 			invalidateSnapshotOnError((rw, m, a3) -> super.execute(rw, m), walk,
 					monitor, null, getRefDatabase());
+		}
+
+		@Override
+		public SnapshottingRefDirectory getRefDatabase() {
+			return (SnapshottingRefDirectory) super.getRefDatabase();
 		}
 	}
 }
