@@ -1274,8 +1274,12 @@ public class ResolveMerger extends ThreeWayMerger {
 					default:
 						break;
 				}
+				// add the conflicting path to merge result
+				MergeResult<RawText> result = new MergeResult<>(
+						Collections.emptyList());
+				result.setContainsConflicts(true);
+				mergeResults.put(tw.getPathString(), result);
 				addConflict(base, ours, theirs);
-
 				// attribute merge issues are conflicts but not failures
 				unmergedPaths.add(tw.getPathString());
 				return true;
@@ -1286,68 +1290,70 @@ public class ResolveMerger extends ThreeWayMerger {
 				return false;
 			}
 
-			MergeResult<RawText> result = null;
+			// based on the content merge strategy, keep/checkout/break
+			switch (getContentMergeStrategy()) {
+			case OURS:
+				keep(ourDce);
+				return true;
+			case THEIRS:
+				DirCacheEntry e = add(tw.getRawPath(), theirs,
+						DirCacheEntry.STAGE_0, EPOCH, 0);
+				if (e != null) {
+					addToCheckout(tw.getPathString(), e, attributes);
+				}
+				return true;
+			default:
+				break;
+			}
+
+			MergeResult<RawText> result = new MergeResult<>(
+					Collections.emptyList());
 			boolean hasSymlink = FileMode.SYMLINK.equals(modeO)
 					|| FileMode.SYMLINK.equals(modeT);
+
+			// if the path is not a symlink in ours and theirs
 			if (!hasSymlink) {
 				try {
 					result = contentMerge(base, ours, theirs, attributes,
 							getContentMergeStrategy());
-				} catch (BinaryBlobException e) {
-					// result == null
-				}
-			}
-			if (result == null) {
-				switch (getContentMergeStrategy()) {
-				case OURS:
-					keep(ourDce);
-					return true;
-				case THEIRS:
-					DirCacheEntry e = add(tw.getRawPath(), theirs,
-							DirCacheEntry.STAGE_0, EPOCH, 0);
-					if (e != null) {
-						addToCheckout(tw.getPathString(), e, attributes);
+					if (result.containsConflicts() && !ignoreConflicts) {
+						result.setContainsConflicts(true);
+						unmergedPaths.add(tw.getPathString());
+					} else if (ignoreConflicts) {
+						result.setContainsConflicts(false);
 					}
+					updateIndex(base, ours, theirs, result, attributes[T_OURS]);
+					workTreeUpdater.markAsModified(tw.getPathString());
 					return true;
-				default:
-					result = new MergeResult<>(Collections.emptyList());
+				} catch (BinaryBlobException e) {
+					// when the file is binary in either OURS, THEIRS or BASE
+					// here, we don't have an option to ignore conflicts
 					result.setContainsConflicts(true);
-					break;
+					addConflict(base, ours, theirs);
+					unmergedPaths.add(tw.getPathString());
+					mergeResults.put(tw.getPathString(), result);
+					return true;
 				}
 			}
 			if (ignoreConflicts) {
-				result.setContainsConflicts(false);
-			}
-			String currentPath = tw.getPathString();
-			if (hasSymlink) {
-				if (ignoreConflicts) {
-					if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)) {
-						DirCacheEntry e = add(tw.getRawPath(), theirs,
-								DirCacheEntry.STAGE_0, EPOCH, 0);
-						addToCheckout(currentPath, e, attributes);
-					} else {
-						keep(ourDce);
-					}
+				if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)) {
+					DirCacheEntry e = add(tw.getRawPath(), theirs,
+							DirCacheEntry.STAGE_0, EPOCH, 0);
+					addToCheckout(tw.getPathString(), e, attributes);
 				} else {
-					// Record the conflict
-					DirCacheEntry e = addConflict(base, ours, theirs);
-					mergeResults.put(currentPath, result);
-					// If theirs is a file, check it out. In link/file
-					// conflicts, C git prefers the file.
-					if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)
-							&& e != null) {
-						addToCheckout(currentPath, e, attributes);
-					}
+					keep(ourDce);
 				}
 			} else {
-				updateIndex(base, ours, theirs, result, attributes[T_OURS]);
+				DirCacheEntry e = addConflict(base, ours, theirs);
+				mergeResults.put(tw.getPathString(), result);
+				unmergedPaths.add(tw.getPathString());
+				// If theirs is a file, check it out. In link/file
+				// conflicts, C git prefers the file.
+				if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)
+						&& e != null) {
+					addToCheckout(tw.getPathString(), e, attributes);
+				}
 			}
-			if (result.containsConflicts() && !ignoreConflicts) {
-				unmergedPaths.add(currentPath);
-			}
-			workTreeUpdater.markAsModified(currentPath);
-			// Entry is null - only adds the metadata.
-			addToCheckout(currentPath, null, attributes);
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
