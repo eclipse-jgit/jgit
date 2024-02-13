@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86ddf58_24327ba5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1320,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:34:16Z",
+      "side": 1,
+      "message": "Done (I updated the comment below to better align with this too)",
+      "parentUuid": "822d8fb7_f60e8e27",
+      "range": {
+        "startLine": 1320,
+        "startChar": 26,
+        "endLine": 1320,
+        "endChar": 59
+      },
+      "revId": "54573ebcc63b740bb231062c19d365dfd4082cb4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91979dcb_fe5bc588",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-02-11T23:18:53Z",
       "side": 1,
       "message": "deleteEmptyParentDirs",
+      "range": {
+        "startLine": 1334,
+        "startChar": 21,
+        "endLine": 1334,
+        "endChar": 37
+      },
+      "revId": "54573ebcc63b740bb231062c19d365dfd4082cb4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02d92244_4828bc11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:34:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91979dcb_fe5bc588",
       "range": {
         "startLine": 1334,
         "startChar": 21,
