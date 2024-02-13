@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e31a310_dbf513d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-02-13T09:29:55Z",
+      "side": 1,
+      "message": "nit: have you run the code formatter? I think this should fit in a single line",
+      "range": {
+        "startLine": 230,
+        "startChar": 36,
+        "endLine": 231,
+        "endChar": 23
+      },
+      "revId": "bf23fe59d5d1abb38e703fe119920ec0593c7b6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
