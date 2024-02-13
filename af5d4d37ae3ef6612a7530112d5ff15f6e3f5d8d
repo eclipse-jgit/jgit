@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d88db3ca_e4b99811",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/GraphObjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-02-13T13:44:30Z",
+      "side": 0,
+      "message": "nit: potentially the fact that `table[k]` is not yet initialised (and should have `0` value) could be included in the commit message.\n\nAnyway, good catch by errorprone ;)",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 59,
+        "endChar": 15
+      },
+      "revId": "af5d4d37ae3ef6612a7530112d5ff15f6e3f5d8d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
