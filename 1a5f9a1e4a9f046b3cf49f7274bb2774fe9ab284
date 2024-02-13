@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "019962f3_f28ffd2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "I updated the wording, maybe it\u0027s clearer now?",
+      "parentUuid": "ab4a3ac6_1f79a750",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62abebee_f9bebefe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -73,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "011f41ed_a3695e6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "I think I fixed this wording, please let me know.",
+      "parentUuid": "061fbb90_412b0d6a",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1351fec4_91f042e1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -84,6 +120,24 @@
       "writtenOn": "2024-02-12T23:54:53Z",
       "side": 1,
       "message": "Raised Bug: jgit-21",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9130f2_33f517db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "Added, thanks!",
+      "parentUuid": "1351fec4_91f042e1",
       "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -105,6 +159,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0633f24a_318b5667",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "I actually removed it since this change doesn\u0027t need the exception. If you think it belongs in the method contract I\u0027ll put it back and figure out how to suppress the \"not thrown from this method\" warnings I see in my IDE.",
+      "parentUuid": "834b78d9_4e12d389",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "824e229c_0ce4c82c",
@@ -118,6 +190,24 @@
       "writtenOn": "2024-02-11T22:57:38Z",
       "side": 1,
       "message": "this raises an \"empty block should be documented\" warning",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a86431_c8dd6d56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "Done (assuming a comment removes those, I don\u0027t see them in IntelliJ and I haven\u0027t updated my Eclipse setup in a while).",
+      "parentUuid": "824e229c_0ce4c82c",
       "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -139,6 +229,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd6a6db8_e7aa09bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24cfdfbe_af7b77d9",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a704818_81839d64",
@@ -152,6 +260,24 @@
       "writtenOn": "2024-02-11T22:57:38Z",
       "side": 1,
       "message": "I\u0027d override getRefDatabase to avoid the cast here:\n\n\t\t@Override\n\t\tpublic SnapshottingRefDirectory getRefDatabase() {\n\t\t\treturn (SnapshottingRefDirectory) super.getRefDatabase();\n\t\t}",
+      "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e95a9c1_d731d3b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-13T00:15:46Z",
+      "side": 1,
+      "message": "Done (I pushed this as a refactor in a parent change since there\u0027s existing code that can benefit from it)",
+      "parentUuid": "5a704818_81839d64",
       "revId": "1a5f9a1e4a9f046b3cf49f7274bb2774fe9ab284",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
