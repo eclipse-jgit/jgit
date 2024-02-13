@@ -125,6 +125,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 	 * threads use this snapshot.
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private synchronized void refreshSnapshot() throws IOException {
 		compareAndSetPackedRefs(packedRefs.get(), refDb.getPackedRefs());
