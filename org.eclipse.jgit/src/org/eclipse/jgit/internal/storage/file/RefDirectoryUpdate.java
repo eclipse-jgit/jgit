@@ -51,6 +51,7 @@ class RefDirectoryUpdate extends RefUpdate {
 		String name = dst.getName();
 		lock = new LockFile(database.fileFor(name));
 		if (lock.lock()) {
+			doAfterLocking(name);
 			dst = database.findRef(name);
 			setOldObjectId(dst != null ? dst.getObjectId() : null);
 			return true;
@@ -133,5 +134,15 @@ class RefDirectoryUpdate extends RefUpdate {
 		if (getRef().getStorage() == Ref.Storage.NEW)
 			return Result.NEW;
 		return Result.FORCED;
+	}
+
+	/**
+	 * Do any actions needed immediately after a lock on the ref is acquired
+	 *
+	 * @param name
+	 *            the name of the reference.
+	 */
+	protected void doAfterLocking(String name) {
+		// No actions by default
 	}
 }
