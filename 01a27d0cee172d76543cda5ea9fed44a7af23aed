@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5d64ecb_92b35e48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-19T21:25:49Z",
+      "side": 1,
+      "message": "this name raises a warning that it is hiding the field with the same name, hence I\u0027d rename it",
+      "range": {
+        "startLine": 1163,
+        "startChar": 47,
+        "endLine": 1163,
+        "endChar": 60
+      },
+      "revId": "01a27d0cee172d76543cda5ea9fed44a7af23aed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89b4bce9_c239af54",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 14
