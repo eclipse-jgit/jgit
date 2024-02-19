@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.ReceivePack.parseCommand;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_PUSH_CERT;
+import static org.eclipse.jgit.transport.ReceivePack.parseCommand;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -317,7 +317,7 @@ public class PushCertificateParser {
 	 * certificate.
 	 * <p>
 	 * This method doesn't parse the first line {@code "push-cert \NUL
-	 * &lt;capabilities&gt;"}, but assumes the first line including the
+	 * <capabilities>"}, but assumes the first line including the
 	 * capabilities has already been handled by the caller.
 	 *
 	 * @param pckIn
