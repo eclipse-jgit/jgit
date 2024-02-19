@@ -16,6 +16,24 @@
       "message": "I think it is wrong to mark the pack invalid if the bitmap index cannot be loaded, since the bitmap index is optional. Instead bitmapIdxFile should be set to null if the bitmap index cannot be loaded, at least if the error is caused by a missing bitmap index file. If the bitmap index is corrupt we could delete it and wait for the next gc to recreate it.",
       "revId": "01a27d0cee172d76543cda5ea9fed44a7af23aed",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ce57a0_958380d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-19T21:18:45Z",
+      "side": 1,
+      "message": "\u003e I think it is wrong to mark the pack invalid if the bitmap index cannot be loaded, since the bitmap index is optional.\n\nYou are right, let me address this point in the next PS.",
+      "parentUuid": "89b4bce9_c239af54",
+      "revId": "01a27d0cee172d76543cda5ea9fed44a7af23aed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
