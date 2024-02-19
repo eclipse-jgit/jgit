@@ -550,7 +550,40 @@ public final class RawParseUtils {
 				return ptr - 1;
 			}
 		}
-		return ptr - 1;
+		return ptr;
+	}
+
+	/**
+	 * Extract a part of a buffer as a header value, removing the single blanks
+	 * at the front of continuation lines.
+	 *
+	 * @param b
+	 *            buffer to extract the header from
+	 * @param start
+	 *            of the header value, see
+	 *            {@link #headerStart(byte[], byte[], int)}
+	 * @param end
+	 *            of the header; see
+	 *            {@link #nextLfSkippingSplitLines(byte[], int)}
+	 * @return the header value, with blanks indicating continuation lines
+	 *         stripped
+	 * @since 6.9
+	 */
+	public static final byte[] headerValue(final byte[] b, int start, int end) {
+		byte[] data = new byte[end - start];
+		int out = 0;
+		byte last = '\0';
+		for (int in = start; in < end; in++) {
+			byte ch = b[in];
+			if (ch != ' ' || last != '\n') {
+				data[out++] = ch;
+			}
+			last = ch;
+		}
+		if (out == data.length) {
+			return data;
+		}
+		return Arrays.copyOf(data, out);
 	}
 
 	/**

@@ -30,6 +30,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/lib/GpgSignatureVerifier.java" type="org.eclipse.jgit.lib.GpgSignatureVerifier">
+        <filter id="404000815">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lib.GpgSignatureVerifier"/>
+                <message_argument value="verify(GpgConfig, byte[], byte[])"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/storage/pack/PackConfig.java" type="org.eclipse.jgit.storage.pack.PackConfig">
         <filter id="336658481">
             <message_arguments>

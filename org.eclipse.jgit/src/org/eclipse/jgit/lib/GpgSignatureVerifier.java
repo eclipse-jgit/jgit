@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2021, 2024 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,7 +18,8 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.revwalk.RevObject;
 
 /**
- * A {@code GpgVerifier} can verify GPG signatures on git commits and tags.
+ * A {@code GpgSignatureVerifier} can verify GPG signatures on git commits and
+ * tags.
  *
  * @since 5.11
  */
@@ -42,6 +43,28 @@ public interface GpgSignatureVerifier {
 	SignatureVerification verifySignature(@NonNull RevObject object,
 			@NonNull GpgConfig config) throws IOException;
 
+	/**
+	 * Verifies a given signature for given data.
+	 *
+	 * @param config
+	 *            the {@link GpgConfig}
+	 * @param data
+	 *            the signature is for
+	 * @param signatureData
+	 *            the ASCII-armored signature
+	 * @return a {@link SignatureVerification} describing the outcome
+	 * @throws IOException
+	 *             if the signature cannot be parsed
+	 * @throws JGitInternalException
+	 *             if signature verification fails
+	 * @since 6.9
+	 */
+	default SignatureVerification verify(@NonNull GpgConfig config, byte[] data,
+			byte[] signatureData) throws IOException {
+		// Default implementation for backwards compatibility; override as
+		// appropriate
+		return verify(data, signatureData);
+	}
 
 	/**
 	 * Verifies a given signature for given data.
@@ -55,7 +78,10 @@ public interface GpgSignatureVerifier {
 	 *             if the signature cannot be parsed
 	 * @throws JGitInternalException
 	 *             if signature verification fails
+	 * @deprecated since 6.9, use {@link #verify(GpgConfig, byte[], byte[])}
+	 *             instead
 	 */
+	@Deprecated
 	public SignatureVerification verify(byte[] data, byte[] signatureData)
 			throws IOException;
 
