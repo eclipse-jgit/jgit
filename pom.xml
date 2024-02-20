@@ -146,7 +146,7 @@
     <maven-compiler-plugin-version>3.12.0</maven-compiler-plugin-version>
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
-    <assertj-version>3.24.2</assertj-version>
+    <assertj-version>3.25.3</assertj-version>
     <jna-version>5.14.0</jna-version>
     <byte-buddy-version>1.14.12</byte-buddy-version>
 
