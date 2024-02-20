@@ -15,6 +15,7 @@ junit_tests(
     deps = [
         ":helpers",
         "//lib:args4j",
+        "//lib:commons-io",
         "//lib:commons-compress",
         "//lib:javaewah",
         "//lib:junit",

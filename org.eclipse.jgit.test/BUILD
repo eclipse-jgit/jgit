@@ -78,6 +78,7 @@ java_library(
     deps = [
         "//lib:assertj-core",
         "//lib:commons-codec",
+        "//lib:commons-io",
         "//lib:junit",
         "//lib:mockito",
         "//lib:slf4j-simple",
