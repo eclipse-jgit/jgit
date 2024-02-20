@@ -174,6 +174,67 @@ public abstract class SystemReader {
 		}
 	}
 
+	/**
+	 * Delegating SystemReader. Reduces boiler-plate code applications need to
+	 * implement when overriding only a few of the SystemReader's methods.
+	 *
+	 * @since 6.9
+	 */
+	public static class Delegate extends SystemReader {
+
+		private final SystemReader delegate;
+
+		/**
+		 * Create a delegating system reader
+		 *
+		 * @param delegate
+		 *            the system reader to delegate to
+		 */
+		public Delegate(SystemReader delegate) {
+			this.delegate = delegate;
+		}
+
+		@Override
+		public String getHostname() {
+			return delegate.getHostname();
+		}
+
+		@Override
+		public String getenv(String variable) {
+			return delegate.getenv(variable);
+		}
+
+		@Override
+		public String getProperty(String key) {
+			return delegate.getProperty(key);
+		}
+
+		@Override
+		public FileBasedConfig openUserConfig(Config parent, FS fs) {
+			return delegate.openUserConfig(parent, fs);
+		}
+
+		@Override
+		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+			return delegate.openSystemConfig(parent, fs);
+		}
+
+		@Override
+		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+			return delegate.openJGitConfig(parent, fs);
+		}
+
+		@Override
+		public long getCurrentTime() {
+			return delegate.getCurrentTime();
+		}
+
+		@Override
+		public int getTimezone(long when) {
+			return delegate.getTimezone(when);
+		}
+	}
+
 	private static volatile SystemReader INSTANCE = DEFAULT;
 
 	/**
