@@ -60,7 +60,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.3.0</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -80,7 +79,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <release>${java.version}</release>
@@ -117,7 +116,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.4.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -203,7 +201,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M9</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
@@ -215,17 +212,16 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>${maven-jxr-plugin-version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.4.3</version>
+          <version>${maven-project-info-reports-plugin-version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
