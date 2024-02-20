@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3bec850_feafda63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-20T00:19:18Z",
+      "side": 1,
+      "message": "@hanwenn@gmail.com: do you agree to borrowing this implementation from Gerrit ?",
+      "revId": "f4f992cdcbcdad677b92e6dc1606bd670937b919",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
