@@ -48,9 +48,7 @@ import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.FactoryManager;
 import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
-import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.config.keys.u2f.SecurityKeyPublicKey;
 import org.apache.sshd.common.signature.Signature;
 import org.apache.sshd.common.signature.SignatureFactoriesManager;
@@ -314,6 +312,8 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 
 	private class KeyIterator extends UserAuthPublicKeyIterator {
 
+		private static final String PUB_KEY_SUFFIX = ".pub"; //$NON-NLS-1$
+
 		public KeyIterator(ClientSession session,
 				SignatureFactoriesManager manager)
 				throws Exception {
@@ -326,20 +326,51 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 				return null;
 			}
 			return explicitFiles.stream().map(s -> {
-				try {
-					Path p = Paths.get(s + ".pub"); //$NON-NLS-1$
-					if (Files.isRegularFile(p, LinkOption.NOFOLLOW_LINKS)) {
-						return AuthorizedKeyEntry.readAuthorizedKeys(p).get(0)
-								.resolvePublicKey(null,
-										PublicKeyEntryResolver.IGNORING);
-					}
-				} catch (InvalidPathException | IOException
-						| GeneralSecurityException e) {
-					log.warn("{}", //$NON-NLS-1$
-							format(SshdText.get().cannotReadPublicKey, s), e);
+				// assume the explicit key is a public key
+				PublicKey publicKey = readPublicKey(s, false);
+				if (publicKey == null && !s.endsWith(PUB_KEY_SUFFIX)) {
+					// if this is not the case, try to lookup public key with
+					// same filename and extension .pub
+					publicKey = readPublicKey(s + PUB_KEY_SUFFIX, true);
 				}
-				return null;
+				return publicKey;
 			}).filter(Objects::nonNull).collect(Collectors.toList());
+		}
+
+		/**
+		 *
+		 * @param keyFile
+		 *            the path to a public key
+		 * @param isDerived
+		 *            {@code false} in case the given {@code keyFile} is set in
+		 *            the SSH config as is, otherwise {@code false}
+		 * @return the public key read from the key file
+		 */
+		private PublicKey readPublicKey(String keyFile, boolean isDerived) {
+			try {
+				Path p = Paths.get(keyFile);
+				if (Files.isRegularFile(p, LinkOption.NOFOLLOW_LINKS)) {
+					return KeyUtils.loadPublicKey(p);
+				}
+				// only warn about non-existing files in case the key file is
+				// not derived
+				if (!isDerived) {
+					log.warn("{}", //$NON-NLS-1$
+						format(SshdText.get().cannotReadPublicKey, keyFile));
+				}
+			} catch (InvalidPathException | IOException e) {
+				log.warn("{}", //$NON-NLS-1$
+						format(SshdText.get().cannotReadPublicKey, keyFile), e);
+			} catch (GeneralSecurityException e) {
+				// ignore in case this is not a derived key path, as in most
+				// cases this specifies a private key
+				if (isDerived) {
+					log.warn("{}", //$NON-NLS-1$
+							format(SshdText.get().cannotReadPublicKey, keyFile),
+							e);
+				}
+			}
+			return null;
 		}
 
 		@Override
