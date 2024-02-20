@@ -326,20 +326,31 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 				return null;
 			}
 			return explicitFiles.stream().map(s -> {
-				try {
+				// first assume the explicit key is a public key
+				PublicKey publicKey = readPublicKey(Paths.get(s));
+				if (publicKey == null) {
+					// if not, try to lookup public key with same filename and
+					// extension .pub
 					Path p = Paths.get(s + ".pub"); //$NON-NLS-1$
-					if (Files.isRegularFile(p, LinkOption.NOFOLLOW_LINKS)) {
-						return AuthorizedKeyEntry.readAuthorizedKeys(p).get(0)
-								.resolvePublicKey(null,
-										PublicKeyEntryResolver.IGNORING);
-					}
-				} catch (InvalidPathException | IOException
-						| GeneralSecurityException e) {
-					log.warn("{}", //$NON-NLS-1$
-							format(SshdText.get().cannotReadPublicKey, s), e);
+					publicKey = readPublicKey(p);
 				}
-				return null;
+				return publicKey;
 			}).filter(Objects::nonNull).collect(Collectors.toList());
+		}
+
+		private PublicKey readPublicKey(Path p) {
+			try {
+				if (Files.isRegularFile(p, LinkOption.NOFOLLOW_LINKS)) {
+					return AuthorizedKeyEntry.readAuthorizedKeys(p).get(0)
+							.resolvePublicKey(null,
+									PublicKeyEntryResolver.IGNORING);
+				}
+			} catch (InvalidPathException | IOException
+					| GeneralSecurityException e) {
+				log.warn("{}", //$NON-NLS-1$
+						format(SshdText.get().cannotReadPublicKey, s), e);
+			}
+			return null;
 		}
 
 		@Override
