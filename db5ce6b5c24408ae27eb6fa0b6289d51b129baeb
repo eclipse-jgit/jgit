@@ -16,6 +16,23 @@
       "message": "Tests passing locally.",
       "revId": "db5ce6b5c24408ae27eb6fa0b6289d51b129baeb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27400056_9f4b08c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-02-21T23:45:58Z",
+      "side": 1,
+      "message": "Revert LGTM.",
+      "revId": "db5ce6b5c24408ae27eb6fa0b6289d51b129baeb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
