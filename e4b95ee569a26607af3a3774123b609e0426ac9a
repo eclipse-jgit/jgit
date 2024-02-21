@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536630bc_40e978c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-02-21T23:50:16Z",
+      "side": 1,
+      "message": "should this check be inside pack.getObjectSize() so we don\u0027t need pack.getIndexedObjectSize()?",
+      "range": {
+        "startLine": 515,
+        "startChar": 2,
+        "endLine": 518,
+        "endChar": 0
+      },
+      "revId": "e4b95ee569a26607af3a3774123b609e0426ac9a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
