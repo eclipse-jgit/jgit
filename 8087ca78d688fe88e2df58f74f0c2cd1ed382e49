@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eebc609_797a520b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T10:28:22Z",
+      "side": 1,
+      "message": "Thanks for tackling this. See inline comments; needs a little more care with `InvalidPathException`.",
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfe56510_3a93d435",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T10:28:22Z",
+      "side": 1,
+      "message": "While we\u0027re at it, please change this to\n```\nreturn KeyUtils.loadPublicKey(p);\n```\n(New utility method available since Apache MINA sshd 2.9.2.)",
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c44466_7a39d974",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T10:28:22Z",
+      "side": 1,
+      "message": "`InvalidPathException` might be thrown by `Paths.get()`, but that call is now outside this `try-catch`. Pass in the string, and do the call inside the `try`block. (And then log the string again since `p` is not set in that case.)",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 32
+      },
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
