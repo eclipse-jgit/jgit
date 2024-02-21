@@ -127,6 +127,7 @@ public class SmudgeFilter extends FilterCommand {
 	 *            the objects to download
 	 * @return the paths of all mediafiles which have been downloaded
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 4.11
 	 */
 	public static Collection<Path> downloadLfsResource(Lfs lfs, Repository db,
@@ -217,7 +218,6 @@ public class SmudgeFilter extends FilterCommand {
 		return downloadedPaths;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int run() throws IOException {
 		try {

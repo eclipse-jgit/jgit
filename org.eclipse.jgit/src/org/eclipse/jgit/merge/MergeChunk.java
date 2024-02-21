@@ -29,14 +29,22 @@ public class MergeChunk {
 		NO_CONFLICT,
 
 		/**
-		 * This chunk does belong to a conflict and is the first one of the
+		 * This chunk does belong to a conflict and is the ours section of the
 		 * conflicting chunks
 		 */
 		FIRST_CONFLICTING_RANGE,
 
 		/**
-		 * This chunk does belong to a conflict but is not the first one of the
-		 * conflicting chunks. It's a subsequent one.
+		 * This chunk does belong to a conflict and is the base section of the
+		 * conflicting chunks
+		 *
+		 * @since 6.7
+		 */
+		BASE_CONFLICTING_RANGE,
+
+		/**
+		 * This chunk does belong to a conflict and is the theirs section of
+		 * the conflicting chunks. It's a subsequent one.
 		 */
 		NEXT_CONFLICTING_RANGE
 	}

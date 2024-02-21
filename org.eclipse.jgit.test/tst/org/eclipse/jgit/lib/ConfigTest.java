@@ -507,6 +507,35 @@ public class ConfigTest {
 	}
 
 	@Test
+	public void testRemoveBranchSection() throws ConfigInvalidException {
+		Config c = parse("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[branch \"remove\"]\n"
+				+ "  merge = this.will.get.deleted\n"
+				+ "  remote = origin-for-some-long-gone-place\n"
+				+ "\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n");
+		assertFalse(c.removeSection("branch", "does.not.exist"));
+		assertTrue(c.removeSection("branch", "remove"));
+		assertEquals("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n", c.toText());
+	}
+
+	@Test
 	public void testUnsetBranchSection() throws ConfigInvalidException {
 		Config c = parse("" //
 				+ "[branch \"keep\"]\n"
@@ -516,8 +545,12 @@ public class ConfigTest {
 				+ "  merge = this.will.get.deleted\n"
 				+ "  remote = origin-for-some-long-gone-place\n"
 				+ "\n"
+				+ "\n"
 				+ "[core-section-not-to-remove-in-test]\n"
-				+ "  packedGitLimit = 14\n");
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n");
 		c.unsetSection("branch", "does.not.exist");
 		c.unsetSection("branch", "remove");
 		assertEquals("" //
@@ -525,7 +558,10 @@ public class ConfigTest {
 				+ "  merge = master.branch.to.keep.in.the.file\n"
 				+ "\n"
 				+ "[core-section-not-to-remove-in-test]\n"
-				+ "  packedGitLimit = 14\n", c.toText());
+				+ "  packedGitLimit = 14\n"
+				+ "\n"
+				+ "[other]\n"
+				+ "  foo = bar\n", c.toText());
 	}
 
 	@Test
@@ -1482,7 +1518,9 @@ public class ConfigTest {
 
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		String expectedTemplatePath = tempFile.getPath();
@@ -1532,7 +1570,9 @@ public class ConfigTest {
 			throws ConfigInvalidException, IOException {
 		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		File tempFile = tmp.newFile("testCommitTemplate-");
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
@@ -1554,7 +1594,9 @@ public class ConfigTest {
 		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		config = parse("[i18n]\n\tcommitEncoding = invalidEcoding\n"
@@ -1569,7 +1611,9 @@ public class ConfigTest {
 		Config config = new Config(null);
 		File workTree = tmp.newFolder("dummy-worktree");
 		File tempFile = tmp.newFile("testCommitTemplate-");
-		Repository repo = FileRepositoryBuilder.create(workTree);
+		Repository repo = FileRepositoryBuilder
+				.create(new File(workTree, ".git"));
+		repo.create();
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// commit message encoding
@@ -1579,6 +1623,20 @@ public class ConfigTest {
 				.getCommitTemplatePath();
 		assertEquals(expectedTemplatePath, templatePath);
 		config.get(CommitConfig.KEY).getCommitTemplateContent(repo);
+	}
+
+	@Test
+	public void testCoreCommitGraphConfig() {
+		Config config = new Config();
+		assertFalse(config.get(CoreConfig.KEY).enableCommitGraph());
+
+		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		assertTrue(config.get(CoreConfig.KEY).enableCommitGraph());
+
+		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
+		assertFalse(config.get(CoreConfig.KEY).enableCommitGraph());
 	}
 
 	private static void assertValueRoundTrip(String value)

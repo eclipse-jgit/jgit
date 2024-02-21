@@ -62,8 +62,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Copy a file
 	 *
 	 * @param src
+	 *            file to copy
 	 * @param dst
+	 *            destination of the copy
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected static void copyFile(File src, File dst)
 			throws IOException {
@@ -81,9 +84,12 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Write a trash file
 	 *
 	 * @param name
+	 *            file name
 	 * @param data
+	 *            file content
 	 * @return the trash file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected File writeTrashFile(String name, String data)
 			throws IOException {
@@ -99,6 +105,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            the target of the symbolic link
 	 * @return the path to the symbolic link
 	 * @throws Exception
+	 *             if an error occurred
 	 * @since 4.2
 	 */
 	protected Path writeLink(String link, String target)
@@ -110,10 +117,14 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Write a trash file
 	 *
 	 * @param subdir
+	 *            in working tree
 	 * @param name
+	 *            file name
 	 * @param data
+	 *            file content
 	 * @return the trash file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected File writeTrashFile(final String subdir, final String name,
 			final String data)
@@ -125,8 +136,10 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Read content of a file
 	 *
 	 * @param name
+	 *            file name
 	 * @return the file's content
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected String read(String name) throws IOException {
 		return JGitTestUtil.read(db, name);
@@ -149,6 +162,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @param name
 	 *            file name
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected void deleteTrashFile(String name) throws IOException {
 		JGitTestUtil.deleteTrashFile(db, name);
@@ -158,9 +172,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Check content of a file.
 	 *
 	 * @param f
+	 *            file
 	 * @param checkData
 	 *            expected content
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected static void checkFile(File f, String checkData)
 			throws IOException {
@@ -181,7 +197,6 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	/** Working directory of {@link #db}. */
 	protected File trash;
 
-	/** {@inheritDoc} */
 	@Override
 	@Before
 	public void setUp() throws Exception {
@@ -229,11 +244,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            {@link #CONTENT} controlling which info is present in the
 	 *            resulting string.
 	 * @return a string encoding the index state
-	 * @throws IllegalStateException
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public String indexState(int includedOptions)
-			throws IllegalStateException, IOException {
+			throws IOException {
 		return indexState(db, includedOptions);
 	}
 
@@ -251,7 +266,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            a {@link org.eclipse.jgit.treewalk.FileTreeIterator} which
 	 *            determines which files should go into the new index
 	 * @throws FileNotFoundException
+	 *             file was not found
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected void resetIndex(FileTreeIterator treeItr)
 			throws FileNotFoundException, IOException {
@@ -339,7 +356,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * @return return the last measured value of the filesystem timer which is
 	 *         greater than then the lastmodification time of lastfile.
 	 * @throws InterruptedException
+	 *             if thread was interrupted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 5.1.9
 	 */
 	public static Instant fsTick(File lastFile)
@@ -378,8 +397,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Create a branch
 	 *
 	 * @param objectId
+	 *            new value to create the branch on
 	 * @param branchName
+	 *            branch name
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected void createBranch(ObjectId objectId, String branchName)
 			throws IOException {
@@ -393,6 +415,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *
 	 * @return list of refs
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public List<Ref> getRefs() throws IOException {
 		return db.getRefDatabase().getRefs();
@@ -402,11 +425,12 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Checkout a branch
 	 *
 	 * @param branchName
-	 * @throws IllegalStateException
+	 *            branch name
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected void checkoutBranch(String branchName)
-			throws IllegalStateException, IOException {
+			throws IOException {
 		try (RevWalk walk = new RevWalk(db)) {
 			RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
 			RevCommit branch = walk.parseCommit(db.resolve(branchName));
@@ -436,7 +460,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 *            the contents which should be written into the files
 	 * @return the File object associated to the last written file.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws InterruptedException
+	 *             if thread was interrupted
 	 */
 	protected File writeTrashFiles(boolean ensureDistinctTimestamps,
 			String... contents)
@@ -459,8 +485,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * one.
 	 *
 	 * @param filename
+	 *            file name
 	 * @param contents
+	 *            file content
 	 * @param branch
+	 *            branch name
 	 * @return the created commit
 	 */
 	protected RevCommit commitFile(String filename, String contents, String branch) {
@@ -494,7 +523,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Create <code>DirCacheEntry</code>
 	 *
 	 * @param path
+	 *            file path
 	 * @param mode
+	 *            file mode
 	 * @return the DirCacheEntry
 	 */
 	protected DirCacheEntry createEntry(String path, FileMode mode) {
@@ -505,8 +536,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Create <code>DirCacheEntry</code>
 	 *
 	 * @param path
+	 *            file path
 	 * @param mode
+	 *            file mode
 	 * @param content
+	 *            file content
 	 * @return the DirCacheEntry
 	 */
 	protected DirCacheEntry createEntry(final String path, final FileMode mode,
@@ -518,9 +552,13 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Create <code>DirCacheEntry</code>
 	 *
 	 * @param path
+	 *            file path
 	 * @param mode
+	 *            file mode
 	 * @param stage
+	 *            stage index of the new entry
 	 * @param content
+	 *            file content
 	 * @return the DirCacheEntry
 	 */
 	protected DirCacheEntry createEntry(final String path, final FileMode mode,
@@ -538,7 +576,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Create <code>DirCacheEntry</code>
 	 *
 	 * @param path
+	 *            file path
 	 * @param objectId
+	 *            of the entry
 	 * @return the DirCacheEntry
 	 */
 	protected DirCacheEntry createGitLink(String path, AnyObjectId objectId) {
@@ -553,8 +593,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * Assert files are equal
 	 *
 	 * @param expected
+	 *            expected file
 	 * @param actual
+	 *            actual file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static void assertEqualsFile(File expected, File actual)
 			throws IOException {

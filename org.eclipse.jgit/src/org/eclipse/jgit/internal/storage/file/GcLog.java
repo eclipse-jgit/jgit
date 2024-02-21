@@ -132,6 +132,7 @@ class GcLog {
 	 * @param content
 	 *            The content to write
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void write(String content) throws IOException {
 		if (content.length() > 0) {

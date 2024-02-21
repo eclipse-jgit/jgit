@@ -20,6 +20,9 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_QUIET;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_REPORT_STATUS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
@@ -33,6 +36,7 @@ import java.io.UncheckedIOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -104,14 +108,30 @@ public class ReceivePack {
 			command = FirstCommand.fromLine(line);
 		}
 
-		/** @return non-capabilities part of the line. */
+		/**
+		 * Get non-capabilities part of the line
+		 *
+		 * @return non-capabilities part of the line.
+		 */
 		public String getLine() {
 			return command.getLine();
 		}
 
-		/** @return capabilities parsed from the line. */
+		/**
+		 * Get capabilities parsed from the line
+		 *
+		 * @return capabilities parsed from the line.
+		 */
 		public Set<String> getCapabilities() {
-			return command.getCapabilities();
+			Set<String> reconstructedCapabilites = new HashSet<>();
+			for (Map.Entry<String, String> e : command.getCapabilities()
+					.entrySet()) {
+				String cap = e.getValue() == null ? e.getKey()
+						: e.getKey() + "=" + e.getValue(); //$NON-NLS-1$
+				reconstructedCapabilites.add(cap);
+			}
+
+			return reconstructedCapabilites;
 		}
 	}
 
@@ -164,6 +184,9 @@ public class ReceivePack {
 
 	private boolean allowQuiet = true;
 
+	/** Should the server advertise and accept the session-id capability. */
+	private boolean allowReceiveClientSID;
+
 	/** Identity to record action as within the reflog. */
 	private PersonIdent refLogIdent;
 
@@ -213,7 +236,10 @@ public class ReceivePack {
 	private Set<ObjectId> advertisedHaves;
 
 	/** Capabilities requested by the client. */
-	private Set<String> enabledCapabilities;
+	private Map<String, String> enabledCapabilities;
+
+	/** Session ID sent from the client. Null if none was received. */
+	private String clientSID;
 
 	String userAgent;
 
@@ -294,6 +320,7 @@ public class ReceivePack {
 
 		TransferConfig tc = db.getConfig().get(TransferConfig.KEY);
 		objectChecker = tc.newReceiveObjectChecker();
+		allowReceiveClientSID = tc.isAllowReceiveClientSID();
 
 		ReceiveConfig rc = db.getConfig().get(ReceiveConfig::new);
 		allowCreates = rc.allowCreates;
@@ -441,6 +468,7 @@ public class ReceivePack {
 	 *            null, assumes the default set of additional haves from the
 	 *            repository.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs,
 			Set<ObjectId> additionalHaves) throws IOException {
@@ -884,7 +912,7 @@ public class ReceivePack {
 	 */
 	public boolean isSideBand() throws RequestNotYetReadException {
 		checkRequestWasRead();
-		return enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
+		return enabledCapabilities.containsKey(CAPABILITY_SIDE_BAND_64K);
 	}
 
 	/**
@@ -985,7 +1013,11 @@ public class ReceivePack {
 	 * @since 4.0
 	 */
 	public String getPeerUserAgent() {
-		return UserAgent.getAgent(enabledCapabilities, userAgent);
+		if (enabledCapabilities == null || enabledCapabilities.isEmpty()) {
+			return userAgent;
+		}
+
+		return enabledCapabilities.getOrDefault(OPTION_AGENT, userAgent);
 	}
 
 	/**
@@ -1001,6 +1033,7 @@ public class ReceivePack {
 	 * Set an error handler for {@link ReceiveCommand}.
 	 *
 	 * @param receiveCommandErrorHandler
+	 *            the error handler
 	 * @since 5.7
 	 */
 	public void setReceiveCommandErrorHandler(
@@ -1180,7 +1213,7 @@ public class ReceivePack {
 		pckOut = new PacketLineOut(rawOut);
 		pckOut.setFlushOnEnd(false);
 
-		enabledCapabilities = new HashSet<>();
+		enabledCapabilities = new HashMap<>();
 		commands = new ArrayList<>();
 	}
 
@@ -1189,6 +1222,7 @@ public class ReceivePack {
 	 *
 	 * @return advertised refs, or the default if not explicitly advertised.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Map<String, Ref> getAdvertisedOrDefaultRefs() throws IOException {
 		if (refs == null)
@@ -1247,7 +1281,7 @@ public class ReceivePack {
 	public void sendAdvertisedRefs(RefAdvertiser adv)
 			throws IOException, ServiceMayNotContinueException {
 		if (advertiseError != null) {
-			adv.writeOne("ERR " + advertiseError); //$NON-NLS-1$
+			adv.writeOne(PACKET_ERR + advertiseError);
 			return;
 		}
 
@@ -1255,7 +1289,7 @@ public class ReceivePack {
 			advertiseRefsHook.advertiseRefs(this);
 		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
-				adv.writeOne("ERR " + fail.getMessage()); //$NON-NLS-1$
+				adv.writeOne(PACKET_ERR + fail.getMessage());
 				fail.setOutput();
 			}
 			throw fail;
@@ -1265,25 +1299,33 @@ public class ReceivePack {
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
-		if (allowQuiet)
+		if (allowReceiveClientSID) {
+			adv.advertiseCapability(OPTION_SESSION_ID);
+		}
+		if (allowQuiet) {
 			adv.advertiseCapability(CAPABILITY_QUIET);
+		}
 		String nonce = getPushCertificateParser().getAdvertiseNonce();
 		if (nonce != null) {
 			adv.advertiseCapability(nonce);
 		}
-		if (db.getRefDatabase().performsAtomicTransactions())
+		if (db.getRefDatabase().performsAtomicTransactions()) {
 			adv.advertiseCapability(CAPABILITY_ATOMIC);
-		if (allowOfsDelta)
+		}
+		if (allowOfsDelta) {
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
+		}
 		if (allowPushOptions) {
 			adv.advertiseCapability(CAPABILITY_PUSH_OPTIONS);
 		}
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		adv.send(getAdvertisedOrDefaultRefs().values());
-		for (ObjectId obj : advertisedHaves)
+		for (ObjectId obj : advertisedHaves) {
 			adv.advertiseHave(obj);
-		if (adv.isEmpty())
+		}
+		if (adv.isEmpty()) {
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}"); //$NON-NLS-1$
+		}
 		adv.end();
 	}
 
@@ -1317,7 +1359,8 @@ public class ReceivePack {
 	/**
 	 * Receive a list of commands from the input.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void recvCommands() throws IOException {
 		PacketLineIn pck = maxCommandBytes > 0
@@ -1339,8 +1382,9 @@ public class ReceivePack {
 					break;
 				}
 
-				if (line.length() >= 48 && line.startsWith("shallow ")) { //$NON-NLS-1$
-					parseShallow(line.substring(8, 48));
+				int len = PACKET_SHALLOW.length() + 40;
+				if (line.length() >= len && line.startsWith(PACKET_SHALLOW)) {
+					parseShallow(line.substring(PACKET_SHALLOW.length(), len));
 					continue;
 				}
 
@@ -1434,6 +1478,9 @@ public class ReceivePack {
 		usePushOptions = isCapabilityEnabled(CAPABILITY_PUSH_OPTIONS);
 		sideBand = isCapabilityEnabled(CAPABILITY_SIDE_BAND_64K);
 		quiet = allowQuiet && isCapabilityEnabled(CAPABILITY_QUIET);
+
+		clientSID = enabledCapabilities.get(OPTION_SESSION_ID);
+
 		if (sideBand) {
 			OutputStream out = rawOut;
 
@@ -1454,7 +1501,7 @@ public class ReceivePack {
 	 * @return true if the peer requested the capability to be enabled.
 	 */
 	private boolean isCapabilityEnabled(String name) {
-		return enabledCapabilities.contains(name);
+		return enabledCapabilities.containsKey(name);
 	}
 
 	private void checkRequestWasRead() {
@@ -1795,9 +1842,9 @@ public class ReceivePack {
 			@Override
 			void sendString(String s) throws IOException {
 				if (reportStatus) {
-					pckOut.writeString(s + "\n"); //$NON-NLS-1$
+					pckOut.writeString(s + '\n');
 				} else if (msgOut != null) {
-					msgOut.write(Constants.encode(s + "\n")); //$NON-NLS-1$
+					msgOut.write(Constants.encode(s + '\n'));
 				}
 			}
 		};
@@ -1901,7 +1948,8 @@ public class ReceivePack {
 	/**
 	 * Close and flush (if necessary) the underlying streams.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void close() throws IOException {
 		if (sideBand) {
@@ -2090,8 +2138,10 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set the unpackErrorHandler
+	 *
 	 * @param unpackErrorHandler
-	 *            the unpackErrorHandler to set
+	 *            the unpackErrorHandler
 	 * @since 5.7
 	 */
 	public void setUnpackErrorHandler(UnpackErrorHandler unpackErrorHandler) {
@@ -2115,6 +2165,16 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Get the client session-id
+	 *
+	 * @return The client session-id.
+	 * @since 6.4
+	 */
+	public String getClientSID() {
+		return clientSID;
+	}
+
+	/**
 	 * Execute the receive task on the socket.
 	 *
 	 * @param input
@@ -2131,6 +2191,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void receive(final InputStream input, final OutputStream output,
 			final OutputStream messages) throws IOException {
@@ -2174,6 +2235,7 @@ public class ReceivePack {
 	 *            standard error channel of the command execution. For most
 	 *            other network connections this should be null.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.7
 	 */
 	public void receiveWithExceptionPropagation(InputStream input,

@@ -9,24 +9,30 @@
  */
 package org.eclipse.jgit.pgm;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TagTest extends CLIRepositoryTestCase {
 	private Git git;
 
+	private RevCommit initialCommit;
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
-		git.commit().setMessage("initial commit").call();
+		initialCommit = git.commit().setMessage("initial commit").call();
 	}
 
 	@Test
@@ -55,6 +61,41 @@ public class TagTest extends CLIRepositoryTestCase {
 					executeUnchecked("git tag -d test")[0]);
 		} catch (Die e) {
 			assertEquals("fatal: error: tag 'test' not found", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testContains() throws Exception {
+		/*      c3
+		 *      |
+		 * v2 - c2   b2 - v1
+		 *      |    |
+		 *      c1   b1
+		 *       \   /
+		 *         a
+		 */
+		try (TestRepository<Repository> r = new TestRepository<>(
+				db)) {
+			RevCommit b1 = r.commit(initialCommit);
+			RevCommit b2 = r.commit(b1);
+			RevCommit c1 = r.commit(initialCommit);
+			RevCommit c2 = r.commit(c1);
+			RevCommit c3 = r.commit(c2);
+			r.update("refs/tags/v1", r.tag("v1", b2));
+			r.update("refs/tags/v2", r.tag("v1.1", c2));
+
+			assertArrayEquals(
+					new String[] { "v1", "v2", "" },
+					execute("git tag --contains " + initialCommit.name()));
+
+			assertArrayEquals(new String[] { "v1", "" },
+					execute("git tag --contains " + b1.name()));
+
+			assertArrayEquals(new String[] { "v2", "" },
+					execute("git tag --contains " + c1.name()));
+
+			assertArrayEquals(new String[] { "" },
+					execute("git tag --contains " + c3.name()));
 		}
 	}
 }

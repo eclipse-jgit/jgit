@@ -63,7 +63,6 @@ public class TimeoutInputStream extends FilterInputStream {
 		timeout = millis;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		try {
@@ -76,13 +75,11 @@ public class TimeoutInputStream extends FilterInputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] buf) throws IOException {
 		return read(buf, 0, buf.length);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] buf, int off, int cnt) throws IOException {
 		try {
@@ -95,7 +92,6 @@ public class TimeoutInputStream extends FilterInputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long skip(long cnt) throws IOException {
 		try {

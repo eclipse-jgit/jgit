@@ -260,7 +260,9 @@ public class AppServer {
 	 * Configure basic authentication.
 	 *
 	 * @param ctx
+	 *            servlet context handler
 	 * @param methods
+	 *            the methods
 	 * @return servlet context handler
 	 */
 	public ServletContextHandler authBasic(ServletContextHandler ctx,

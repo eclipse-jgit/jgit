@@ -66,6 +66,7 @@ public class SubmoduleAddCommand extends
 	 * Set the submodule name
 	 *
 	 * @param name
+	 *            name of the submodule
 	 * @return this command
 	 * @since 5.1
 	 */
@@ -117,6 +118,7 @@ public class SubmoduleAddCommand extends
 	 *
 	 * @return true if submodule exists in index, false otherwise
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected boolean submoduleExists() throws IOException {
 		TreeFilter filter = PathFilter.create(path);

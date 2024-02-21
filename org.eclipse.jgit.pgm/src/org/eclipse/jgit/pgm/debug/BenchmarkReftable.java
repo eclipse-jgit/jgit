@@ -70,7 +70,6 @@ class BenchmarkReftable extends TextBuiltin {
 	@Argument(index = 1)
 	private String reftablePath;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		switch (test) {

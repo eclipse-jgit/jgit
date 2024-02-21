@@ -26,14 +26,13 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.internal.BooleanTriState;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Manages merge tools.
@@ -184,6 +183,7 @@ public class MergeTools {
 	 *            the selected tool
 	 * @return the execution result from tool
 	 * @throws ToolException
+	 *             if the tool failed
 	 */
 	public ExecutionResult merge(FileElement localFile, FileElement remoteFile,
 			FileElement mergedFile, FileElement baseFile, File tempDir,
@@ -241,7 +241,7 @@ public class MergeTools {
 		FileElement backup = null;
 		Path path = Paths.get(from.getPath());
 		if (Files.exists(path)) {
-			backup = new FileElement(from.getPath(), Type.BACKUP);
+			backup = new FileElement(from.getPath(), FileElement.Type.BACKUP);
 			Files.copy(path, backup.createTempFile(toParentDir).toPath(),
 					StandardCopyOption.REPLACE_EXISTING);
 		}
@@ -254,6 +254,7 @@ public class MergeTools {
 	 * @return the created temporary directory if (mergetol.writeToTemp == true)
 	 *         or null if not configured or false.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public File createTempDirectory() throws IOException {
 		return config.isWriteToTemp()
@@ -271,6 +272,8 @@ public class MergeTools {
 	}
 
 	/**
+	 * Get predefined tool names
+	 *
 	 * @return the predefined tool names
 	 */
 	public Set<String> getPredefinedToolNames() {
@@ -305,6 +308,7 @@ public class MergeTools {
 	 *            path to the node in repository to parse git attributes for
 	 * @return name of the difftool if set
 	 * @throws ToolException
+	 *             if the tool failed
 	 */
 	public Optional<String> getExternalToolFromAttributes(final String path)
 			throws ToolException {
@@ -329,6 +333,8 @@ public class MergeTools {
 	}
 
 	/**
+	 * Get user defined tools
+	 *
 	 * @return the user defined tools
 	 */
 	public Map<String, ExternalMergeTool> getUserDefinedTools() {

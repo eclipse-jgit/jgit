@@ -25,6 +25,7 @@ import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.Paths;
 
 /**
  * Remove untracked files from the working tree
@@ -91,15 +92,16 @@ public class CleanCommand extends GitCommand<Set<String>> {
 			Set<String> notIgnoredDirs = filterIgnorePaths(untrackedDirs,
 					status.getIgnoredNotInIndex(), false);
 
-			for (String file : notIgnoredFiles)
+			for (String file : notIgnoredFiles) {
 				if (paths.isEmpty() || paths.contains(file)) {
 					files = cleanPath(file, files);
 				}
-
-			for (String dir : notIgnoredDirs)
+			}
+			for (String dir : notIgnoredDirs) {
 				if (paths.isEmpty() || paths.contains(dir)) {
 					files = cleanPath(dir, files);
 				}
+			}
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		} finally {
@@ -111,24 +113,25 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	}
 
 	/**
-	 * When dryRun is false, deletes the specified path from disk. If dryRun
-	 * is true, no paths are actually deleted. In both cases, the paths that
-	 * would have been deleted are added to inFiles and returned.
+	 * When dryRun is false, deletes the specified path from disk. If dryRun is
+	 * true, no paths are actually deleted. In both cases, the paths that would
+	 * have been deleted are added to inFiles and returned.
 	 *
 	 * Paths that are directories are recursively deleted when
-	 * {@link #directories} is true.
-	 * Paths that are git repositories are recursively deleted when
-	 * {@link #directories} and {@link #force} are both true.
+	 * {@link #directories} is true. Paths that are git repositories are
+	 * recursively deleted when {@link #directories} and {@link #force} are both
+	 * true.
 	 *
 	 * @param path
-	 * 			The path to be cleaned
+	 *            The path to be cleaned
 	 * @param inFiles
-	 * 			A set of strings representing the files that have been cleaned
-	 * 			already, the path to be cleaned will be added to this set
-	 * 			before being returned.
+	 *            A set of strings representing the files that have been cleaned
+	 *            already, the path to be cleaned will be added to this set
+	 *            before being returned.
 	 *
 	 * @return a set of strings with the cleaned path added to it
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Set<String> cleanPath(String path, Set<String> inFiles)
 			throws IOException {
@@ -142,14 +145,14 @@ public class CleanCommand extends GitCommand<Set<String>> {
 							FileUtils.delete(curFile, FileUtils.RECURSIVE
 									| FileUtils.SKIP_MISSING);
 						}
-						inFiles.add(path + "/"); //$NON-NLS-1$
+						inFiles.add(path + '/');
 					}
 				} else {
 					if (!dryRun) {
 						FileUtils.delete(curFile,
 								FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 					}
-					inFiles.add(path + "/"); //$NON-NLS-1$
+					inFiles.add(path + '/');
 				}
 			}
 		} else {
@@ -166,14 +169,16 @@ public class CleanCommand extends GitCommand<Set<String>> {
 			Set<String> ignoredNotInIndex, boolean exact) {
 		if (ignore) {
 			Set<String> filtered = new TreeSet<>(inputPaths);
-			for (String path : inputPaths)
-				for (String ignored : ignoredNotInIndex)
+			for (String path : inputPaths) {
+				for (String ignored : ignoredNotInIndex) {
 					if ((exact && path.equals(ignored))
-							|| (!exact && path.startsWith(ignored))) {
+							|| (!exact
+									&& Paths.isEqualOrPrefix(ignored, path))) {
 						filtered.remove(path);
 						break;
 					}
-
+				}
+			}
 			return filtered;
 		}
 		return inputPaths;
@@ -182,14 +187,14 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	private Set<String> filterFolders(Set<String> untracked,
 			Set<String> untrackedFolders) {
 		Set<String> filtered = new TreeSet<>(untracked);
-		for (String file : untracked)
-			for (String folder : untrackedFolders)
-				if (file.startsWith(folder)) {
+		for (String file : untracked) {
+			for (String folder : untrackedFolders) {
+				if (Paths.isEqualOrPrefix(folder, file)) {
 					filtered.remove(file);
 					break;
 				}
-
-
+			}
+		}
 		return filtered;
 	}
 

@@ -273,11 +273,6 @@ public enum CommandLineMergeTool {
 		this.exitCodeTrustable = exitCodeTrustable;
     }
 
-	CommandLineMergeTool(CommandLineMergeTool from) {
-		this(from.getPath(), from.getParameters(true),
-				from.getParameters(false), from.isExitCodeTrustable());
-	}
-
 	CommandLineMergeTool(String path, CommandLineMergeTool from) {
 		this(path, from.getParameters(true), from.getParameters(false),
 				from.isExitCodeTrustable());
@@ -292,6 +287,8 @@ public enum CommandLineMergeTool {
 	private final boolean exitCodeTrustable;
 
 	/**
+	 * Get path
+	 *
 	 * @return path
 	 */
 	public String getPath() {
@@ -299,6 +296,8 @@ public enum CommandLineMergeTool {
 	}
 
 	/**
+	 * Get parameters
+	 *
 	 * @param withBase
 	 *            return parameters with base present?
 	 * @return parameters with or without base present
@@ -311,6 +310,8 @@ public enum CommandLineMergeTool {
 	}
 
 	/**
+	 * Whether exit code can be trusted
+	 *
 	 * @return parameters
 	 */
 	public boolean isExitCodeTrustable() {
@@ -318,6 +319,8 @@ public enum CommandLineMergeTool {
 	}
 
 	/**
+	 * Whether command with with base present is valid
+	 *
 	 * @return true if command with base present is valid, false otherwise
 	 */
 	public boolean canMergeWithoutBasePresent() {

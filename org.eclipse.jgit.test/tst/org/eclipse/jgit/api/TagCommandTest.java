@@ -17,13 +17,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -286,4 +289,45 @@ public class TagCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testListTagsContainingCommit() throws Exception {
+		/*      c3
+		 *      |
+		 * v2 - c2   b2 - v1
+		 *      |    |
+		 *      c1   b1
+		 *       \   /
+		 *         a
+		 */
+		try (TestRepository<Repository> r = new TestRepository<>(
+				db)) {
+			Git git = Git.wrap(db);
+			RevCommit a = r.commit().create();
+			RevCommit b1 = r.commit(a);
+			RevCommit b2 = r.commit(b1);
+			RevCommit c1 = r.commit(a);
+			RevCommit c2 = r.commit(c1);
+			RevCommit c3 = r.commit(c2);
+			r.update("refs/tags/v1", r.tag("v1", b2));
+			r.update("refs/tags/v2", r.tag("v1.1", c2));
+			List<Ref> res = git.tagList().setContains(a).call();
+			assertEquals(2, res.size());
+			assertTrue(res.stream().map(Ref::getName)
+					.collect(Collectors.toSet()).containsAll(
+							Arrays.asList("refs/tags/v1", "refs/tags/v2")));
+
+			res = git.tagList().setContains(b1).call();
+			assertEquals(1, res.size());
+			assertTrue(res.stream().map(Ref::getName)
+					.collect(Collectors.toSet()).contains("refs/tags/v1"));
+
+			res = git.tagList().setContains(c1).call();
+			assertEquals(1, res.size());
+			assertTrue(res.stream().map(Ref::getName)
+					.collect(Collectors.toSet()).contains("refs/tags/v2"));
+
+			res = git.tagList().setContains(c3).call();
+			assertEquals(0, res.size());
+		}
+	}
 }

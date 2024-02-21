@@ -191,7 +191,6 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		reset(reader.open(id, OBJ_TREE).getCachedBytes());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader,
 			final MutableObjectId idBuffer)
@@ -227,51 +226,43 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		return p;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CanonicalTreeParser createSubtreeIterator(ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
 		return createSubtreeIterator(reader, new MutableObjectId());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean hasId() {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public byte[] idBuffer() {
 		return raw;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int idOffset() {
 		return nextPtr - OBJECT_ID_LENGTH;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void reset() {
 		if (!first())
 			reset(raw);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean first() {
 		return currPtr == 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean eof() {
 		return currPtr == raw.length;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void next(int delta) {
 		if (delta == 1) {
@@ -301,7 +292,6 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			parseEntry();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void back(int delta) {
 		if (delta == 1 && 0 <= prevPtr) {
@@ -376,6 +366,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @return {@link org.eclipse.jgit.attributes.AttributesNode} for the
 	 *         current entry.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public AttributesNode getEntryAttributesNode(ObjectReader reader)

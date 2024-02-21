@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) 2011, 2022 Google Inc. and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.ByteArrayOutputStream;
@@ -6,13 +15,16 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefDatabase;
 
 /**
@@ -54,16 +66,23 @@ public class InMemoryRepository extends DfsRepository {
 	InMemoryRepository(Builder builder) {
 		super(builder);
 		objdb = new MemObjDatabase(this);
-		refdb = new MemRefDatabase();
+		refdb = createRefDatabase();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * Creates a new in-memory ref database.
+	 *
+	 * @return a new in-memory reference database.
+	 */
+	protected MemRefDatabase createRefDatabase() {
+		return new MemRefDatabase();
+	}
+
 	@Override
 	public MemObjDatabase getObjectDatabase() {
 		return objdb;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refdb;
@@ -81,14 +100,12 @@ public class InMemoryRepository extends DfsRepository {
 		refdb.performsAtomicTransactions = atomic;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public String getGitwebDescription() {
 		return gitwebDescription;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setGitwebDescription(@Nullable String d) {
 		gitwebDescription = d;
@@ -98,12 +115,15 @@ public class InMemoryRepository extends DfsRepository {
 	public static class MemObjDatabase extends DfsObjDatabase {
 		private List<DfsPackDescription> packs = new ArrayList<>();
 		private int blockSize;
+		private Set<ObjectId> shallowCommits = Collections.emptySet();
 
 		MemObjDatabase(DfsRepository repo) {
 			super(repo, new DfsReaderOptions());
 		}
 
 		/**
+		 * Set readable channel block size
+		 *
 		 * @param blockSize
 		 *            force a different block size for testing.
 		 */
@@ -164,6 +184,16 @@ public class InMemoryRepository extends DfsRepository {
 					memPack.put(ext, getData());
 				}
 			};
+		}
+
+		@Override
+		public Set<ObjectId> getShallowCommits() throws IOException {
+			return shallowCommits;
+		}
+
+		@Override
+		public void setShallowCommits(Set<ObjectId> shallowCommits) {
+			this.shallowCommits = shallowCommits;
 		}
 
 		@Override

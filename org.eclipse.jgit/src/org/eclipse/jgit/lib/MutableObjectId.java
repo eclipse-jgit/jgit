@@ -242,7 +242,6 @@ public class MutableObjectId extends AnyObjectId {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId toObjectId() {
 		return new ObjectId(this);

@@ -174,7 +174,10 @@ public class ReceivedPackStatistics {
 		private long numDeltaTag;
 
 		/**
-		 * @param numBytesRead number of bytes read from the input stream
+		 * Set number of bytes read from the input stream
+		 *
+		 * @param numBytesRead
+		 *            number of bytes read from the input stream
 		 * @return this
 		 */
 		public Builder setNumBytesRead(long numBytesRead) {
@@ -183,6 +186,8 @@ public class ReceivedPackStatistics {
 		}
 
 		/**
+		 * Increment additional bytes already in the local database
+		 *
 		 * @param size
 		 *            additional bytes already in the local database
 		 * @return this
@@ -220,13 +225,21 @@ public class ReceivedPackStatistics {
 			return this;
 		}
 
-		/** @return this */
+		/**
+		 * Increment offset delta
+		 *
+		 * @return this
+		 */
 		public Builder addOffsetDelta() {
 			numOfsDelta++;
 			return this;
 		}
 
-		/** @return this */
+		/**
+		 * Increment ref delta
+		 *
+		 * @return this
+		 */
 		public Builder addRefDelta() {
 			numRefDelta++;
 			return this;

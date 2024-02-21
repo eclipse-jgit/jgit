@@ -97,7 +97,6 @@ public final class Attribute {
 		this(key, State.CUSTOM, value);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -144,7 +143,6 @@ public final class Attribute {
 		return value;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -155,7 +153,6 @@ public final class Attribute {
 		return result;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		switch (state) {

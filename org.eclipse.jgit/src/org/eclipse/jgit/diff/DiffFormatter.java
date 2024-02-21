@@ -777,6 +777,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @param b
 	 *            the text B which was compared
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void format(EditList edits, RawText a, RawText b)
 			throws IOException {
@@ -825,6 +826,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @param line
 	 *            the line number within text
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected void writeContextLine(RawText text, int line)
 			throws IOException {
@@ -843,6 +845,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @param line
 	 *            the line number within text
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected void writeAddedLine(RawText text, int line)
 			throws IOException {
@@ -857,6 +860,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @param line
 	 *            the line number within text
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected void writeRemovedLine(RawText text, int line)
 			throws IOException {
@@ -875,6 +879,7 @@ public class DiffFormatter implements AutoCloseable {
 	 * @param bEndLine
 	 *            within second source
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected void writeHunkHeader(int aStartLine, int aEndLine,
 			int bStartLine, int bEndLine) throws IOException {

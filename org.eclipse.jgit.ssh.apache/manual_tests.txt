@@ -1,0 +1,45 @@
+Testing PKCS11 support
+----------------------
+
+# Install SoftHSM and OpenSC
+
+I got SoftHSM via MacPorts, and OpenSC from https://github.com/OpenSC/OpenSC#downloads
+
+You need both; softhsm2-util cannot import certificates.
+
+# Initialize SoftHSM
+
+$ softhsm2-util --init-token --slot 0 --label "TestToken" --pin 1234 --so-pin 4567
+The token has been initialized and is reassigned to slot 2006661923
+
+# Create a new RSA key and certificate
+
+$ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -subj "/CN=MyCertTEST" -nodes
+
+# Import the RSA key pair into the SoftHSM token
+
+$ softhsm2-util --import key.pem --slot 2006661923 --label "testkey" --id 1212 --pin 1234
+
+# Convert the certificate to DER and import it into SoftHSM token
+
+$ openssl x509 -in cert.pem -out cert.der -outform DER
+$ pkcs11-tool --module /opt/local/lib/softhsm/libsofthsm2.so -l --id 1212 --label "testcert" -y cert -w cert.der --pin 1234
+
+# Export the RSA public key convert to PEM, and show in SSH format
+# (I'm sure this could be done simpler from the original key.pem, but what the heck.)
+
+pkcs11-tool --module /opt/local/lib/softhsm/libsofthsm2.so --slot 2006661923 --read-object --type pubkey --id 1212 -o key.der
+openssl rsa -pubin -inform DER -in key.der -outform PEM -out key.pub.pem
+ssh-keygen -f key.pub.pem -m pkcs8 -i
+
+# Install that public key at Gerrit (or your git server of choice)
+
+# Have an ~/.ssh/config with a host entry for your git server using the SoftHSM library as PKCS11 provider:
+
+Host gitserver
+Hostname git.eclipse.org
+Port 29418
+User ...
+PKCS11Provider /opt/local/lib/softhsm/libsofthsm2.so
+
+# Fetch from your git server! When asked for the PIN, enter 1234.

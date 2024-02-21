@@ -96,6 +96,8 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 * mapping prior to adding a new mapping, or use
 	 * {@link #addIfAbsent(ObjectId)}.
 	 *
+	 * @param <Q>
+	 *            type of values
 	 * @param newValue
 	 *            the object to store.
 	 */
@@ -117,6 +119,8 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 * boolean wasNew = map.addIfAbsent(obj) == obj;
 	 * </pre>
 	 *
+	 * @param <Q>
+	 *            type of values
 	 * @param newValue
 	 *            the object to store.
 	 * @return {@code newValue} if stored, or the prior value already stored and
@@ -162,7 +166,6 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 		return size == 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<V> iterator() {
 		return new Iterator<>() {

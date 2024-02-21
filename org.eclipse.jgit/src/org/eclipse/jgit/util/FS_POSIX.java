@@ -374,8 +374,8 @@ public class FS_POSIX extends FS {
 			link = Files.createLink(
 					Paths.get(lock.getAbsolutePath() + ".lnk"), //$NON-NLS-1$
 					lockPath);
-			Integer nlink = (Integer) (Files.getAttribute(lockPath,
-					"unix:nlink")); //$NON-NLS-1$
+			Integer nlink = (Integer) Files.getAttribute(lockPath,
+					"unix:nlink"); //$NON-NLS-1$
 			if (nlink > 2) {
 				LOG.warn(MessageFormat.format(
 						JGitText.get().failedAtomicFileCreation, lockPath,
@@ -418,6 +418,7 @@ public class FS_POSIX extends FS {
 	 * @return LockToken this lock token must be held until the file is no
 	 *         longer needed
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 5.0
 	 */
 	@Override
@@ -446,8 +447,7 @@ public class FS_POSIX extends FS {
 				return token(true, null);
 			}
 			link = Files.createLink(Paths.get(uniqueLinkPath(file)), path);
-			Integer nlink = (Integer) (Files.getAttribute(path,
-					"unix:nlink")); //$NON-NLS-1$
+			Integer nlink = (Integer) Files.getAttribute(path, "unix:nlink"); //$NON-NLS-1$
 			if (nlink.intValue() > 2) {
 				LOG.warn(MessageFormat.format(
 						JGitText.get().failedAtomicFileCreation, path, nlink));

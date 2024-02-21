@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.UserConfigFile;
 import org.eclipse.jgit.util.time.MonotonicClock;
 import org.eclipse.jgit.util.time.MonotonicSystemClock;
 import org.slf4j.Logger;
@@ -64,6 +65,21 @@ public abstract class SystemReader {
 	private static volatile Boolean isWindows;
 
 	private static volatile Boolean isLinux;
+
+	private static final String GIT_TRACE_PERFORMANCE = "GIT_TRACE_PERFORMANCE"; //$NON-NLS-1$
+
+	private static final boolean performanceTrace = initPerformanceTrace();
+
+	private static boolean initPerformanceTrace() {
+		String val = System.getenv(GIT_TRACE_PERFORMANCE);
+		if (val == null) {
+			val = System.getenv(GIT_TRACE_PERFORMANCE);
+		}
+		if (val != null) {
+			return Boolean.valueOf(val).booleanValue();
+		}
+		return false;
+	}
 
 	static {
 		SystemReader r = new Default();
@@ -109,28 +125,20 @@ public abstract class SystemReader {
 
 		@Override
 		public FileBasedConfig openUserConfig(Config parent, FS fs) {
-			return new FileBasedConfig(parent, new File(fs.userHome(), ".gitconfig"), //$NON-NLS-1$
-					fs);
-		}
-
-		private Path getXDGConfigHome(FS fs) {
-			String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
-			if (StringUtils.isEmptyOrNull(configHomePath)) {
-				configHomePath = new File(fs.userHome(), ".config") //$NON-NLS-1$
-						.getAbsolutePath();
+			File homeFile = new File(fs.userHome(), ".gitconfig"); //$NON-NLS-1$
+			Path xdgPath = getXdgConfigDirectory(fs);
+			if (xdgPath != null) {
+				Path configPath = xdgPath.resolve("git") //$NON-NLS-1$
+						.resolve(Constants.CONFIG);
+				return new UserConfigFile(parent, homeFile, configPath.toFile(),
+						fs);
 			}
-			try {
-				return Paths.get(configHomePath);
-			} catch (InvalidPathException e) {
-				LOG.error(JGitText.get().logXDGConfigHomeInvalid,
-						configHomePath, e);
-			}
-			return null;
+			return new FileBasedConfig(parent, homeFile, fs);
 		}
 
 		@Override
 		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
-			Path xdgPath = getXDGConfigHome(fs);
+			Path xdgPath = getXdgConfigDirectory(fs);
 			if (xdgPath != null) {
 				Path configPath = xdgPath.resolve("jgit") //$NON-NLS-1$
 						.resolve(Constants.CONFIG);
@@ -163,6 +171,67 @@ public abstract class SystemReader {
 		@Override
 		public int getTimezone(long when) {
 			return getTimeZone().getOffset(when) / (60 * 1000);
+		}
+	}
+
+	/**
+	 * Delegating SystemReader. Reduces boiler-plate code applications need to
+	 * implement when overriding only a few of the SystemReader's methods.
+	 *
+	 * @since 6.9
+	 */
+	public static class Delegate extends SystemReader {
+
+		private final SystemReader delegate;
+
+		/**
+		 * Create a delegating system reader
+		 *
+		 * @param delegate
+		 *            the system reader to delegate to
+		 */
+		public Delegate(SystemReader delegate) {
+			this.delegate = delegate;
+		}
+
+		@Override
+		public String getHostname() {
+			return delegate.getHostname();
+		}
+
+		@Override
+		public String getenv(String variable) {
+			return delegate.getenv(variable);
+		}
+
+		@Override
+		public String getProperty(String key) {
+			return delegate.getProperty(key);
+		}
+
+		@Override
+		public FileBasedConfig openUserConfig(Config parent, FS fs) {
+			return delegate.openUserConfig(parent, fs);
+		}
+
+		@Override
+		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+			return delegate.openSystemConfig(parent, fs);
+		}
+
+		@Override
+		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+			return delegate.openJGitConfig(parent, fs);
+		}
+
+		@Override
+		public long getCurrentTime() {
+			return delegate.getCurrentTime();
+		}
+
+		@Override
+		public int getTimezone(long when) {
+			return delegate.getTimezone(when);
 		}
 	}
 
@@ -376,6 +445,36 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * Gets the directory denoted by environment variable XDG_CONFIG_HOME. If
+	 * the variable is not set or empty, return a path for
+	 * {@code $HOME/.config}.
+	 *
+	 * @param fileSystem
+	 *            {@link FS} to get the user's home directory
+	 * @return a {@link Path} denoting the directory, which may exist or not, or
+	 *         {@code null} if the environment variable is not set and there is
+	 *         no home directory, or the path is invalid.
+	 * @since 6.7
+	 */
+	public Path getXdgConfigDirectory(FS fileSystem) {
+		String configHomePath = getenv(Constants.XDG_CONFIG_HOME);
+		if (StringUtils.isEmptyOrNull(configHomePath)) {
+			File home = fileSystem.userHome();
+			if (home == null) {
+				return null;
+			}
+			configHomePath = new File(home, ".config").getAbsolutePath(); //$NON-NLS-1$
+		}
+		try {
+			return Paths.get(configHomePath);
+		} catch (InvalidPathException e) {
+			LOG.error(JGitText.get().logXDGConfigHomeInvalid, configHomePath,
+					e);
+		}
+		return null;
+	}
+
+	/**
 	 * Update config and its parents if they seem modified
 	 *
 	 * @param config
@@ -558,6 +657,16 @@ public abstract class SystemReader {
 			isLinux = Boolean.valueOf(osname.toLowerCase().startsWith("linux")); //$NON-NLS-1$
 		}
 		return isLinux.booleanValue();
+	}
+
+	/**
+	 * Whether performance trace is enabled
+	 *
+	 * @return whether performance trace is enabled
+	 * @since 6.5
+	 */
+	public boolean isPerformanceTraceEnabled() {
+		return performanceTrace;
 	}
 
 	private String getOsName() {

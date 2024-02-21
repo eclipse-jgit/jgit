@@ -251,7 +251,9 @@ public abstract class TransportProtocol {
 	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @return new Transport
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             this protocol does not support the URI.
 	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public Transport open(URIish uri)
 			throws NotSupportedException, TransportException {

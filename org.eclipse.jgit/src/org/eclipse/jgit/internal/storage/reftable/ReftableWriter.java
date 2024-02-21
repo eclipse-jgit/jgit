@@ -565,92 +565,163 @@ public class ReftableWriter {
 			objIndexLevels = objIdx != null ? objIdx.levels : 0;
 		}
 
-		/** @return number of bytes in a ref block. */
+		/**
+		 * Get ref block size
+		 *
+		 * @return number of bytes in a ref block.
+		 */
 		public int refBlockSize() {
 			return refBlockSize;
 		}
 
-		/** @return number of bytes to compress into a log block. */
+		/**
+		 * Get log block size
+		 *
+		 * @return number of bytes to compress into a log block.
+		 */
 		public int logBlockSize() {
 			return logBlockSize;
 		}
 
-		/** @return number of references between binary search markers. */
+		/**
+		 * Get restart interval
+		 *
+		 * @return number of references between binary search markers.
+		 */
 		public int restartInterval() {
 			return restartInterval;
 		}
 
-		/** @return smallest update index contained in this reftable. */
+		/**
+		 * Get smallest update index
+		 *
+		 * @return smallest update index contained in this reftable.
+		 */
 		public long minUpdateIndex() {
 			return minUpdateIndex;
 		}
 
-		/** @return largest update index contained in this reftable. */
+		/**
+		 * Get largest updated index
+		 *
+		 * @return largest update index contained in this reftable.
+		 */
 		public long maxUpdateIndex() {
 			return maxUpdateIndex;
 		}
 
-		/** @return total number of references in the reftable. */
+		/**
+		 * Get number of refs
+		 *
+		 * @return total number of references in the reftable.
+		 */
 		public long refCount() {
 			return refCnt;
 		}
 
-		/** @return number of unique objects in the reftable. */
+		/**
+		 * Get number of unique objects
+		 *
+		 * @return number of unique objects in the reftable.
+		 */
 		public long objCount() {
 			return objCnt;
 		}
 
-		/** @return total number of log records in the reftable. */
+		/**
+		 * Get number of log records
+		 *
+		 * @return total number of log records in the reftable.
+		 */
 		public long logCount() {
 			return logCnt;
 		}
 
-		/** @return number of bytes for references, including ref index. */
+		/**
+		 * Get number of bytes for references
+		 *
+		 * @return number of bytes for references, including ref index.
+		 */
 		public long refBytes() {
 			return refBytes;
 		}
 
-		/** @return number of bytes for objects, including object index. */
+		/**
+		 * Get number of bytes for objects
+		 *
+		 * @return number of bytes for objects, including object index.
+		 */
 		public long objBytes() {
 			return objBytes;
 		}
 
-		/** @return number of bytes for log, including log index. */
+		/**
+		 * Get number of bytes for log
+		 *
+		 * @return number of bytes for log, including log index.
+		 */
 		public long logBytes() {
 			return logBytes;
 		}
 
-		/** @return total number of bytes in the reftable. */
+		/**
+		 * Get total number of bytes
+		 *
+		 * @return total number of bytes in the reftable.
+		 */
 		public long totalBytes() {
 			return totalBytes;
 		}
 
-		/** @return bytes of padding used to maintain block alignment. */
+		/**
+		 * Get number of padding bytes
+		 *
+		 * @return bytes of padding used to maintain block alignment.
+		 */
 		public long paddingBytes() {
 			return paddingUsed;
 		}
 
-		/** @return number of bytes in the ref index; 0 if no index was used. */
+		/**
+		 * Get size of ref index
+		 *
+		 * @return number of bytes in the ref index; 0 if no index was used.
+		 */
 		public int refIndexSize() {
 			return refIndexSize;
 		}
 
-		/** @return number of levels in the ref index. */
+		/**
+		 * Get number of ref index levels
+		 *
+		 * @return number of levels in the ref index.
+		 */
 		public int refIndexLevels() {
 			return refIndexLevels;
 		}
 
-		/** @return number of bytes in the object index; 0 if no index. */
+		/**
+		 * Get size of object index
+		 *
+		 * @return number of bytes in the object index; 0 if no index.
+		 */
 		public int objIndexSize() {
 			return objIndexSize;
 		}
 
-		/** @return number of levels in the object index. */
+		/**
+		 * Get number of levels in object index
+		 *
+		 * @return number of levels in the object index.
+		 */
 		public int objIndexLevels() {
 			return objIndexLevels;
 		}
 
 		/**
+		 * Get number of bytes required to uniquely identify all objects in the
+		 * reftable
+		 *
 		 * @return number of bytes required to uniquely identify all objects in
 		 *         the reftable. Unique abbreviations in hex would be
 		 *         {@code 2 * objIdLength()}.

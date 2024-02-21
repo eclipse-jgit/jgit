@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Google LLC. and others
+ * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -35,10 +35,13 @@ abstract class FetchRequest {
 
 	final int deepenSince;
 
-	final List<String> deepenNotRefs;
+	final List<String> deepenNots;
 
 	@Nullable
 	final String agent;
+
+	@Nullable
+	final String clientSID;
 
 	/**
 	 * Initialize the common fields of a fetch request.
@@ -53,7 +56,7 @@ abstract class FetchRequest {
 	 *            the filter spec
 	 * @param clientCapabilities
 	 *            capabilities sent in the request
-	 * @param deepenNotRefs
+	 * @param deepenNots
 	 *            Requests that the shallow clone/fetch should be cut at these
 	 *            specific revisions instead of a depth.
 	 * @param deepenSince
@@ -61,23 +64,29 @@ abstract class FetchRequest {
 	 *            specific time, instead of depth
 	 * @param agent
 	 *            agent as reported by the client in the request body
+	 * @param clientSID
+	 *            agent as reported by the client in the request body
 	 */
 	FetchRequest(@NonNull Set<ObjectId> wantIds, int depth,
 			@NonNull Set<ObjectId> clientShallowCommits,
 			@NonNull FilterSpec filterSpec,
 			@NonNull Set<String> clientCapabilities, int deepenSince,
-			@NonNull List<String> deepenNotRefs, @Nullable String agent) {
+			@NonNull List<String> deepenNots, @Nullable String agent,
+			@Nullable String clientSID) {
 		this.wantIds = requireNonNull(wantIds);
 		this.depth = depth;
 		this.clientShallowCommits = requireNonNull(clientShallowCommits);
 		this.filterSpec = requireNonNull(filterSpec);
 		this.clientCapabilities = requireNonNull(clientCapabilities);
 		this.deepenSince = deepenSince;
-		this.deepenNotRefs = requireNonNull(deepenNotRefs);
+		this.deepenNots = requireNonNull(deepenNots);
 		this.agent = agent;
+		this.clientSID = clientSID;
 	}
 
 	/**
+	 * Get object ids in the "want" lines
+	 *
 	 * @return object ids in the "want" (and "want-ref") lines of the request
 	 */
 	@NonNull
@@ -86,6 +95,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get the depth set in a "deepen" line
+	 *
 	 * @return the depth set in a "deepen" line. 0 by default.
 	 */
 	int getDepth() {
@@ -105,6 +116,8 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get the filter spec given in a "filter" line
+	 *
 	 * @return the filter spec given in a "filter" line
 	 */
 	@NonNull
@@ -145,19 +158,34 @@ abstract class FetchRequest {
 	}
 
 	/**
+	 * Get refs received in "deepen-not" lines
+	 *
 	 * @return refs received in "deepen-not" lines.
 	 */
 	@NonNull
-	List<String> getDeepenNotRefs() {
-		return deepenNotRefs;
+	List<String> getDeepenNots() {
+		return deepenNots;
 	}
 
 	/**
+	 * Get string identifying the agent
+	 *
 	 * @return string identifying the agent (as sent in the request body by the
 	 *         client)
 	 */
 	@Nullable
 	String getAgent() {
 		return agent;
+	}
+
+	/**
+	 * Get string identifying the client session ID
+	 *
+	 * @return string identifying the client session ID (as sent in the request
+	 *         body by the client)
+	 */
+	@Nullable
+	String getClientSID() {
+		return clientSID;
 	}
 }

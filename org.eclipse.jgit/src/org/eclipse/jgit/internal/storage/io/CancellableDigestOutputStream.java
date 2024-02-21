@@ -80,7 +80,6 @@ public class CancellableDigestOutputStream extends OutputStream {
 		return count;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final void write(int b) throws IOException {
 		if (checkCancelAt <= count) {
@@ -95,7 +94,6 @@ public class CancellableDigestOutputStream extends OutputStream {
 		count++;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final void write(byte[] b, int off, int len) throws IOException {
 		while (0 < len) {
@@ -116,7 +114,6 @@ public class CancellableDigestOutputStream extends OutputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		out.flush();

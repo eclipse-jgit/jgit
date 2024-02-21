@@ -19,7 +19,7 @@ import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Git configuration option <a
- * href=https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreabbrev">
+ * href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreabbrev">
  * core.abbrev</a>
  *
  * @since 6.1
@@ -100,6 +100,7 @@ public final class AbbrevConfig {
 	 * object names to stay unique for some time.
 	 *
 	 * @param repo
+	 *            the repository the AbbrevConfig shall be computed for
 	 * @return appropriate value computed based on the approximate number of
 	 *         packed objects in a repository
 	 */
@@ -128,7 +129,10 @@ public final class AbbrevConfig {
 	private int abbrev;
 
 	/**
+	 * Create an {@code AbbrevConfig}
+	 *
 	 * @param abbrev
+	 *            abbreviation length
 	 */
 	private AbbrevConfig(int abbrev) {
 		this.abbrev = capAbbrev(abbrev);

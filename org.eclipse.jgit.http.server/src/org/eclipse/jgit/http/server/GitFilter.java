@@ -189,7 +189,6 @@ public class GitFilter extends MetaFilter {
 			throw new IllegalStateException(HttpServerText.get().alreadyInitializedByContainer);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		super.init(filterConfig);
@@ -305,7 +304,6 @@ public class GitFilter extends MetaFilter {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected ServletBinder register(ServletBinder binder) {
 		if (resolver == null)

@@ -52,7 +52,6 @@ class Remote extends TextBuiltin {
 	@Argument(index = 2, metaVar = "metaVar_uriish")
 	private String uri;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {
@@ -114,7 +113,6 @@ class Remote extends TextBuiltin {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void printUsage(String message, CmdLineParser clp)
 			throws IOException {

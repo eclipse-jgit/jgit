@@ -13,6 +13,7 @@ HELPERS = glob(
 ) + [PKG + c for c in [
     "api/AbstractRemoteCommandTest.java",
     "diff/AbstractDiffTestCase.java",
+    "diff/AbstractRenameDetectionTestCase.java",
     "internal/diffmergetool/ExternalToolTestCase.java",
     "internal/revwalk/ObjectReachabilityTestCase.java",
     "internal/revwalk/ReachabilityCheckerTestCase.java",
@@ -28,6 +29,7 @@ HELPERS = glob(
     "transport/ObjectIdMatcher.java",
     "transport/RequestValidatorTestCase.java",
     "transport/SpiTransport.java",
+    "transport/InMemoryPack.java",
     "treewalk/filter/AlwaysCloneTreeFilter.java",
     "test/resources/SampleDataRepositoryTestCase.java",
     "util/CPUTimeStopWatch.java",
@@ -51,6 +53,23 @@ tests(tests = glob(
     exclude = HELPERS + DATA + EXCLUDED,
 ))
 
+# Non abstract base classes used for tests by other test classes
+BASE = [
+    PKG + "internal/storage/file/FileRepositoryBuilderTest.java",
+    PKG + "internal/storage/file/RefDirectoryTest.java",
+]
+
+java_library(
+    name = "base",
+    testonly = 1,
+    srcs = BASE,
+    deps = [
+        "//lib:junit",
+        "//org.eclipse.jgit:jgit",
+        "//org.eclipse.jgit.junit:junit",
+    ],
+)
+
 java_library(
     name = "helpers",
     testonly = 1,
@@ -58,6 +77,8 @@ java_library(
     resources = DATA,
     deps = [
         "//lib:assertj-core",
+        "//lib:commons-codec",
+        "//lib:commons-io",
         "//lib:junit",
         "//lib:mockito",
         "//lib:slf4j-simple",

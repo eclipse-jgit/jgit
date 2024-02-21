@@ -33,6 +33,7 @@ public class BranchTrackingStatus {
 	 *            the local branch
 	 * @return the tracking status, or null if it is not known
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public static BranchTrackingStatus of(Repository repository, String branchName)
 			throws IOException {

@@ -31,7 +31,6 @@ import org.eclipse.jgit.lib.Ref;
  */
 abstract class BaseFetchConnection extends BaseConnection implements
 		FetchConnection {
-	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
@@ -39,7 +38,6 @@ abstract class BaseFetchConnection extends BaseConnection implements
 		fetch(monitor, want, have, null);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final void fetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have,

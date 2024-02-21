@@ -1,0 +1,269 @@
+target "dependencies"
+
+
+maven apache
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "commons-codec"
+		artifactId = "commons-codec"
+		version = "1.16.0"
+	}
+	dependency {
+		groupId = "org.apache.commons"
+		artifactId = "commons-compress"
+		version = "1.26.0"
+	}
+	dependency {
+		groupId = "commons-io"
+		artifactId = "commons-io"
+		version = "2.15.1"
+	}
+	dependency {
+		groupId = "commons-logging"
+		artifactId = "commons-logging"
+		version = "1.2"
+	}
+}
+
+maven args4j
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "args4j"
+		artifactId = "args4j"
+		version = "2.33"
+	}
+}
+
+maven assertj
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.assertj"
+		artifactId = "assertj-core"
+		version = "3.25.3"
+	}
+}
+
+maven bouncycastle
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.bouncycastle"
+		artifactId = "bcpg-jdk18on"
+		version = "1.77"
+	}
+	dependency {
+		groupId = "org.bouncycastle"
+		artifactId = "bcprov-jdk18on"
+		version = "1.77"
+	}
+	dependency {
+		groupId = "org.bouncycastle"
+		artifactId = "bcpkix-jdk18on"
+		version = "1.77"
+	}
+	dependency {
+		groupId = "org.bouncycastle"
+		artifactId = "bcutil-jdk18on"
+		version = "1.77"
+	}
+}
+
+maven bytebuddy
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.bytebuddy"
+		artifactId = "byte-buddy"
+		version = "1.14.12"
+	}
+	dependency {
+		groupId = "net.bytebuddy"
+		artifactId = "byte-buddy-agent"
+		version = "1.14.12"
+	}
+}
+
+maven gson
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "com.google.code.gson"
+		artifactId = "gson"
+		version = "2.10.1"
+	}
+}
+
+maven hamcrest
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.hamcrest"
+		artifactId = "hamcrest"
+		version = "2.2"
+	}
+}
+
+maven javaewah
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "com.googlecode.javaewah"
+		artifactId = "JavaEWAH"
+		version = "1.2.3"
+	}
+}
+
+maven jetty
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-http"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-io"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-security"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-server"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-servlet"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-util"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty"
+		artifactId = "jetty-util-ajax"
+		version = "10.0.20"
+	}
+	dependency {
+		groupId = "jakarta.servlet"
+		artifactId = "jakarta.servlet-api"
+		version = "4.0.4"
+	}
+}
+
+maven jna
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "net.java.dev.jna"
+		artifactId = "jna"
+		version = "5.14.0"
+	}
+	dependency {
+		groupId = "net.java.dev.jna"
+		artifactId = "jna-platform"
+		version = "5.14.0"
+	}
+}
+
+maven mockito
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.mockito"
+		artifactId = "mockito-core"
+		version = "5.10.0"
+	}
+}
+
+maven sshd
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-osgi"
+		version = "2.12.0"
+	}
+	dependency {
+		groupId = "org.apache.sshd"
+		artifactId = "sshd-sftp"
+		version = "2.12.0"
+	}
+}
+
+maven slf4j
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.slf4j"
+		artifactId = "slf4j-api"
+		version = "1.7.36"
+	}
+	dependency {
+		groupId = "org.slf4j"
+		artifactId = "slf4j-simple"
+		version = "1.7.36"
+	}
+}
+
+maven xz
+	scope = compile
+	dependencyDepth = none
+	missingManifest = error
+	includeSources
+{
+	dependency {
+		groupId = "org.tukaani"
+		artifactId = "xz"
+		version = "1.9"
+	}
+}

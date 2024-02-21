@@ -43,13 +43,11 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 
 	private final Console cons = System.console();
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isInteractive() {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialItem i : items) {
@@ -71,7 +69,6 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {

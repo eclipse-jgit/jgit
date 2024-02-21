@@ -76,6 +76,7 @@ class PushProcess {
 	 *            {@link PrePushHook} to run after the remote advertisement has
 	 *            been gotten
 	 * @throws TransportException
+	 *             if a protocol error occurred during push/fetch
 	 */
 	PushProcess(Transport transport, Collection<RemoteRefUpdate> toPush,
 			PrePushHook prePush) throws TransportException {
@@ -96,6 +97,7 @@ class PushProcess {
 	 * @param out
 	 *            OutputStream to write messages to
 	 * @throws TransportException
+	 *             if a protocol error occurred during push/fetch
 	 */
 	PushProcess(Transport transport, Collection<RemoteRefUpdate> toPush,
 			PrePushHook prePush, OutputStream out) throws TransportException {
@@ -272,6 +274,7 @@ class PushProcess {
 	 *            {@link ObjectId} of the new commit
 	 * @return {@code true} if the update fast-forwards, {@code false} otherwise
 	 * @throws TransportException
+	 *             if a protocol error occurred during push/fetch
 	 */
 	private boolean isFastForward(ObjectId oldOid, ObjectId newOid)
 			throws TransportException {

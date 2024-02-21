@@ -93,18 +93,19 @@ class StartGenerator extends Generator {
 
 		final DateRevQueue pending;
 		int pendingOutputType = 0;
-		if (q instanceof DateRevQueue)
+		if (q instanceof DateRevQueue) {
 			pending = (DateRevQueue)q;
-		else
-			pending = new DateRevQueue(q);
+		} else {
+			pending = RevWalk.newDateRevQueue(q);
+		}
+		if (rf != RevFilter.ALL && w.getRewriteParents()) {
+			pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
+		}
 		if (tf != TreeFilter.ALL) {
-			int rewriteFlag;
 			if (w.getRewriteParents()) {
 				pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
-				rewriteFlag = RevWalk.REWRITE;
-			} else
-				rewriteFlag = 0;
-			rf = AndRevFilter.create(new TreeRevFilter(w, tf, rewriteFlag), rf);
+			}
+			rf = AndRevFilter.create(new TreeRevFilter(w, tf), rf);
 		}
 
 		walker.queue = q;

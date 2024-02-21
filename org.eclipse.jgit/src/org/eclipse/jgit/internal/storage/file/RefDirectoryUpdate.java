@@ -32,19 +32,16 @@ class RefDirectoryUpdate extends RefUpdate {
 		database = r;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected RefDirectory getRefDatabase() {
 		return database;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Repository getRepository() {
 		return database.getRepository();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean tryLock(boolean deref) throws IOException {
 		shouldDeref = deref;
@@ -54,6 +51,7 @@ class RefDirectoryUpdate extends RefUpdate {
 		String name = dst.getName();
 		lock = new LockFile(database.fileFor(name));
 		if (lock.lock()) {
+			doAfterLocking(name);
 			dst = database.findRef(name);
 			setOldObjectId(dst != null ? dst.getObjectId() : null);
 			return true;
@@ -61,7 +59,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void unlock() {
 		if (lock != null) {
@@ -70,7 +67,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Result doUpdate(Result status) throws IOException {
 		WriteConfig wc = database.getRepository().getConfig()
@@ -112,7 +108,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Result doDelete(Result status) throws IOException {
 		if (getRef().getStorage() != Ref.Storage.NEW)
@@ -120,7 +115,6 @@ class RefDirectoryUpdate extends RefUpdate {
 		return status;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected Result doLink(String target) throws IOException {
 		WriteConfig wc = database.getRepository().getConfig()
@@ -140,5 +134,15 @@ class RefDirectoryUpdate extends RefUpdate {
 		if (getRef().getStorage() == Ref.Storage.NEW)
 			return Result.NEW;
 		return Result.FORCED;
+	}
+
+	/**
+	 * Do any actions needed immediately after a lock on the ref is acquired
+	 *
+	 * @param name
+	 *            the name of the reference.
+	 */
+	protected void doAfterLocking(String name) {
+		// No actions by default
 	}
 }

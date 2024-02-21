@@ -71,6 +71,8 @@ public class ListenerList {
 	/**
 	 * Add a listener to the list.
 	 *
+	 * @param <T>
+	 *            type of {@code RepositoryListener}
 	 * @param type
 	 *            type of listener being registered.
 	 * @param listener

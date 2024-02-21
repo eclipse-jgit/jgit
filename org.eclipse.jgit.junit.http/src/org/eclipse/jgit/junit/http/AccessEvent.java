@@ -30,16 +30,18 @@ public class AccessEvent {
 
 	private final Map<String, String[]> parameters;
 
-	private final int status;
+	private int status;
 
-	private final Map<String, String> responseHeaders;
+	private Map<String, String> responseHeaders;
 
-	AccessEvent(Request req, Response rsp) {
+	AccessEvent(Request req) {
 		method = req.getMethod();
 		uri = req.getRequestURI();
 		requestHeaders = cloneHeaders(req);
 		parameters = clone(req.getParameterMap());
+	}
 
+	void setResponse(Response rsp) {
 		status = rsp.getStatus();
 		responseHeaders = cloneHeaders(rsp);
 	}
@@ -141,10 +143,9 @@ public class AccessEvent {
 	 * @return first value of the response header; null if not sent.
 	 */
 	public String getResponseHeader(String name) {
-		return responseHeaders.get(name);
+		return responseHeaders != null ? responseHeaders.get(name) : null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();

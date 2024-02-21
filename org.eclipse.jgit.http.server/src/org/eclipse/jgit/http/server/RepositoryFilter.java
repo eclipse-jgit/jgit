@@ -71,19 +71,16 @@ public class RepositoryFilter implements Filter {
 		this.resolver = resolver;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		context = config.getServletContext();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		context = null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doFilter(final ServletRequest request,
 			final ServletResponse response, final FilterChain chain)

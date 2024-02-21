@@ -30,7 +30,6 @@ class PackIndexWriterV2 extends PackIndexWriter {
 		super(dst);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void writeImpl() throws IOException {
 		writeTOC(2);

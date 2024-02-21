@@ -4,7 +4,7 @@ Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit
 Bundle-SymbolicName: org.eclipse.jgit
 Bundle-Version: 7.0.0.qualifier
-Bundle-Localization: plugin
+Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Eclipse-ExtensibleAPI: true
 Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
@@ -75,10 +75,13 @@ Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
  org.eclipse.jgit.internal.diffmergetool;version="7.0.0";
   x-friends:="org.eclipse.jgit.test,
    org.eclipse.jgit.pgm.test,
-   org.eclipse.jgit.pgm",
+   org.eclipse.jgit.pgm,
+   org.eclipse.egit.ui",
  org.eclipse.jgit.internal.fsck;version="7.0.0";
   x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.revwalk;version="7.0.0";
+  x-friends:="org.eclipse.jgit.test",
+ org.eclipse.jgit.internal.storage.commitgraph;version="7.0.0";
   x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.storage.dfs;version="7.0.0";
   x-friends:="org.eclipse.jgit.test,
@@ -98,6 +101,8 @@ Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
   x-friends:="org.eclipse.jgit.junit,
    org.eclipse.jgit.test,
    org.eclipse.jgit.pgm",
+ org.eclipse.jgit.internal.storage.memory;version="7.0.0";
+  x-friends:="org.eclipse.jgit.test",
  org.eclipse.jgit.internal.storage.pack;version="7.0.0";
   x-friends:="org.eclipse.jgit.junit,
    org.eclipse.jgit.test,
@@ -119,6 +124,8 @@ Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
   x-friends:="org.eclipse.jgit.ssh.apache,
    org.eclipse.jgit.ssh.jsch,
    org.eclipse.jgit.test",
+ org.eclipse.jgit.internal.util;version="7.0.0";
+  x-friends:=" org.eclipse.jgit.junit",
  org.eclipse.jgit.lib;version="7.0.0";
   uses:="org.eclipse.jgit.transport,
    org.eclipse.jgit.util.sha1,
@@ -134,7 +141,9 @@ Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
    org.eclipse.jgit.submodule,
    org.eclipse.jgit.util.time",
  org.eclipse.jgit.lib.internal;version="7.0.0";
-  x-friends:="org.eclipse.jgit.test",
+  x-friends:="org.eclipse.jgit.test,
+   org.eclipse.jgit.pgm,
+   org.eclipse.egit.ui",
  org.eclipse.jgit.logging;version="7.0.0",
  org.eclipse.jgit.merge;version="7.0.0";
   uses:="org.eclipse.jgit.dircache,
@@ -227,7 +236,9 @@ Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
  javax.crypto,
+ javax.management,
  javax.net.ssl,
- org.slf4j;version="[1.7.0,2.0.0)",
+ org.apache.commons.codec.digest;version="1.15.0",
+ org.slf4j;version="[1.7.0,3.0.0)",
  org.xml.sax,
  org.xml.sax.helpers

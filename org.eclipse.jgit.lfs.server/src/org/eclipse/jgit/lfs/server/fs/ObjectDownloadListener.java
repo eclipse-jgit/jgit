@@ -50,7 +50,9 @@ public class ObjectDownloadListener implements WriteListener {
 	private ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
 
 	/**
-	 * <p>Constructor for ObjectDownloadListener.</p>
+	 * <p>
+	 * Constructor for ObjectDownloadListener.
+	 * </p>
 	 *
 	 * @param repository
 	 *            the repository storing large objects
@@ -61,6 +63,7 @@ public class ObjectDownloadListener implements WriteListener {
 	 * @param id
 	 *            id of the object to be downloaded
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public ObjectDownloadListener(FileLfsRepository repository,
 			AsyncContext context, HttpServletResponse response,

@@ -33,7 +33,6 @@ public final class HashedSequenceComparator<S extends Sequence> extends
 		this.cmp = cmp;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(HashedSequence<S> a, int ai, //
 			HashedSequence<S> b, int bi) {
@@ -41,7 +40,6 @@ public final class HashedSequenceComparator<S extends Sequence> extends
 				&& cmp.equals(a.base, ai, b.base, bi);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hash(HashedSequence<S> seq, int ptr) {
 		return seq.hashes[ptr];

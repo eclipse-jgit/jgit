@@ -20,9 +20,16 @@ java_library(
     resources = RESOURCES,
     deps = [
         ":insecure_cipher_factory",
+        "//lib:commons-codec",
         "//lib:javaewah",
         "//lib:slf4j-api",
     ],
+    javacopts = [
+        "-Xep:ReferenceEquality:OFF",
+        "-Xep:StringEquality:OFF",
+        "-Xep:TypeParameterUnusedInFormals:OFF",
+        "-Xep:DefaultCharset:OFF",
+    ]
 )
 
 genrule(

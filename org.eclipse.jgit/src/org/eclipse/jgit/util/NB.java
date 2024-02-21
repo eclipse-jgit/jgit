@@ -133,7 +133,7 @@ public final class NB {
 	 * @since 3.0
 	 */
 	public static long decodeInt64(final byte[] intbuf, final int offset) {
-		long r = intbuf[offset] << 8;
+		long r = (long) intbuf[offset] << 8;
 
 		r |= intbuf[offset + 1] & 0xff;
 		r <<= 8;

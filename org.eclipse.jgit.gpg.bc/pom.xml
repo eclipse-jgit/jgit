@@ -41,22 +41,22 @@
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpg-jdk15on</artifactId>
+      <artifactId>bcpg-jdk18on</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
+      <artifactId>bcprov-jdk18on</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcutil-jdk15on</artifactId>
+      <artifactId>bcutil-jdk18on</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
+      <artifactId>bcpkix-jdk18on</artifactId>
     </dependency>
 
     <dependency>
@@ -93,7 +93,7 @@
               <target>
                 <copy file="META-INF/SOURCE-MANIFEST.MF" tofile="${source-bundle-manifest}" overwrite="true" />
                 <replace file="${source-bundle-manifest}">
-                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}" />
+                  <replacefilter token=".qualifier" value=".${commit.time.version}" />
                 </replace>
               </target>
             </configuration>

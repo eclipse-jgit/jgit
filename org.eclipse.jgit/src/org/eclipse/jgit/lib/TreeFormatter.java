@@ -332,7 +332,6 @@ public class TreeFormatter {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

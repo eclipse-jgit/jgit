@@ -22,7 +22,6 @@ public class LeadingAsteriskMatcher extends NameMatcher {
 					"Pattern must have leading asterisk: " + pattern); //$NON-NLS-1$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String segment, int startIncl, int endExcl) {
 		// faster local access, same as in string.indexOf()

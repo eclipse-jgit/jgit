@@ -228,20 +228,17 @@ public class PushCertificateIdent {
 		return tzOffset;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		return (o instanceof PushCertificateIdent)
 			&& raw.equals(((PushCertificateIdent) o).raw);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return raw.hashCode();
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

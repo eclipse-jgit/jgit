@@ -43,6 +43,7 @@ public class PreDefinedDiffTool extends UserDefinedDiffTool {
 
 	/**
 	 * @param path
+	 *            path string
 	 */
 	@Override
 	public void setPath(String path) {

@@ -43,26 +43,22 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 		//
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getName() {
 		return "simple-two-way-in-core"; //$NON-NLS-1$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(Repository db) {
 		return new InCoreMerger(db);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(Repository db, boolean inCore) {
 		// This class is always inCore, so ignore the parameter
 		return newMerger(db);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ThreeWayMerger newMerger(ObjectInserter inserter, Config config) {
 		return new InCoreMerger(inserter);

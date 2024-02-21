@@ -303,12 +303,16 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
 		dce.setFileMode(FileMode.SYMLINK);
 		try (ObjectReader objectReader = db.newObjectReader()) {
-			DirCacheCheckout.checkoutEntry(db, dce, objectReader, false, null);
+			WorkingTreeOptions options = db.getConfig()
+					.get(WorkingTreeOptions.KEY);
+			DirCacheCheckout.checkoutEntry(db, dce, objectReader, false, null,
+					options);
 
 			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
-					db.getConfig().get(WorkingTreeOptions.KEY));
-			while (!fti.getEntryPathString().equals("symlink"))
+					options);
+			while (!fti.getEntryPathString().equals("symlink")) {
 				fti.next(1);
+			}
 			assertFalse(fti.isModified(dce, false, objectReader));
 		}
 	}

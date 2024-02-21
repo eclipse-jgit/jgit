@@ -140,7 +140,6 @@ public class LongList {
 		entries = n;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

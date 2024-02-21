@@ -12,6 +12,7 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -159,6 +160,20 @@ public class BranchCommandTest extends RepositoryTestCase {
 				.size()
 				- allBefore);
 	}
+
+  @Test
+  public void testExistingNameInBothBranchesAndTags() throws Exception {
+    git.branchCreate().setName("test").call();
+    git.tag().setName("test").call();
+
+    // existing name not allowed w/o force
+	assertThrows("Create branch with existing ref name should fail",
+			RefAlreadyExistsException.class,
+			() -> git.branchCreate().setName("test").call());
+
+    // existing name allowed with force option
+    git.branchCreate().setName("test").setForce(true).call();
+  }
 
 	@Test(expected = InvalidRefNameException.class)
 	public void testInvalidBranchHEAD() throws Exception {

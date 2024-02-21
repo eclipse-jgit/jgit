@@ -114,7 +114,7 @@ class MergeBaseGenerator extends Generator {
 				return null;
 			}
 
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				if ((p.flags & IN_PENDING) != 0)
 					continue;
 				if ((p.flags & PARSED) == 0)
@@ -180,7 +180,7 @@ class MergeBaseGenerator extends Generator {
 
 	private void carryOntoHistoryInnerLoop(RevCommit c, int carry) {
 		for (;;) {
-			RevCommit[] parents = c.parents;
+			RevCommit[] parents = c.getParents();
 			if (parents == null || parents.length == 0) {
 				break;
 			}

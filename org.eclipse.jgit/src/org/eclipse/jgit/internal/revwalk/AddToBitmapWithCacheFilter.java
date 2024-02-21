@@ -53,7 +53,6 @@ public class AddToBitmapWithCacheFilter extends RevFilter {
 		this.bitmap = bitmap;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final boolean include(RevWalk rw, RevCommit c) {
 		Bitmap visitedBitmap;
@@ -76,13 +75,11 @@ public class AddToBitmapWithCacheFilter extends RevFilter {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final RevFilter clone() {
 		throw new UnsupportedOperationException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final boolean requiresCommitBody() {
 		return false;

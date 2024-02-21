@@ -48,7 +48,6 @@ public class PreUploadHookChain implements PreUploadHook {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onBeginNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntOffered)
@@ -58,7 +57,6 @@ public class PreUploadHookChain implements PreUploadHook {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onEndNegotiateRound(UploadPack up,
 			Collection<? extends ObjectId> wants, int cntCommon,
@@ -69,7 +67,6 @@ public class PreUploadHookChain implements PreUploadHook {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onSendPack(UploadPack up,
 			Collection<? extends ObjectId> wants,

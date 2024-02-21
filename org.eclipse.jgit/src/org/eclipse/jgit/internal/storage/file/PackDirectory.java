@@ -60,6 +60,8 @@ class PackDirectory {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(PackDirectory.class);
 
+	private static final int MAX_PACKLIST_RESCAN_ATTEMPTS = 5;
+
 	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
 			new Pack[0]);
 
@@ -68,6 +70,8 @@ class PackDirectory {
 	private final File directory;
 
 	private final AtomicReference<PackList> packList;
+
+	private final boolean trustFolderStat;
 
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
@@ -81,6 +85,14 @@ class PackDirectory {
 		this.config = config;
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
+
+		// Whether to trust the pack folder's modification time. If set to false
+		// we will always scan the .git/objects/pack folder to check for new
+		// pack files. If set to true (default) we use the folder's size,
+		// modification time, and key (inode) and assume that no new pack files
+		// can be in this folder if these attributes have not changed.
+		trustFolderStat = config.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
 	}
 
 	/**
@@ -106,15 +118,17 @@ class PackDirectory {
 	}
 
 	Collection<Pack> getPacks() {
-		PackList list = packList.get();
-		if (list == NO_PACKS) {
-			list = scanPacks(list);
-		}
+		PackList list;
+		do {
+			list = packList.get();
+			if (list == NO_PACKS) {
+				list = scanPacks(list);
+			}
+		} while (searchPacksAgain(list));
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "PackDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -202,9 +216,11 @@ class PackDirectory {
 		return true;
 	}
 
-	ObjectLoader open(WindowCursor curs, AnyObjectId objectId) {
+	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
+			throws PackMismatchException {
 		PackList pList;
 		do {
+			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
 				for (Pack p : pList.packs) {
@@ -216,6 +232,7 @@ class PackDirectory {
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
+							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
 					} catch (IOException e) {
@@ -228,9 +245,11 @@ class PackDirectory {
 		return null;
 	}
 
-	long getSize(WindowCursor curs, AnyObjectId id) {
+	long getSize(WindowCursor curs, AnyObjectId id)
+			throws PackMismatchException {
 		PackList pList;
 		do {
+			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
 				for (Pack p : pList.packs) {
@@ -243,6 +262,7 @@ class PackDirectory {
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
+							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
 					} catch (IOException e) {
@@ -256,8 +276,9 @@ class PackDirectory {
 	}
 
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
-			WindowCursor curs) {
+			WindowCursor curs) throws PackMismatchException {
 		PackList pList = packList.get();
+		int retries = 0;
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
 				try {
@@ -272,6 +293,7 @@ class PackDirectory {
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
+					retries = checkRescanPackThreshold(retries, e);
 					pList = scanPacks(pList);
 					continue SEARCH;
 				} catch (IOException e) {
@@ -280,6 +302,15 @@ class PackDirectory {
 			}
 			break SEARCH;
 		}
+	}
+
+	private int checkRescanPackThreshold(int retries, PackMismatchException e)
+			throws PackMismatchException {
+		if (retries++ > MAX_PACKLIST_RESCAN_ATTEMPTS) {
+			e.setPermanent(true);
+			throw e;
+		}
+		return retries;
 	}
 
 	private void handlePackError(IOException e, Pack p) {
@@ -324,24 +355,14 @@ class PackDirectory {
 	/**
 	 * @param n
 	 *            count of consecutive failures
-	 * @return @{code true} if i is a power of 2
+	 * @return {@code true} if i is a power of 2
 	 */
 	private boolean doLogExponentialBackoff(int n) {
 		return (n & (n - 1)) == 0;
 	}
 
 	boolean searchPacksAgain(PackList old) {
-		// Whether to trust the pack folder's modification time. If set
-		// to false we will always scan the .git/objects/pack folder to
-		// check for new pack files. If set to true (default) we use the
-		// lastmodified attribute of the folder and assume that no new
-		// pack files can be in this folder if his modification time has
-		// not changed.
-		boolean trustFolderStat = config.getBoolean(
-				ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
-
-		return ((!trustFolderStat) || old.snapshot.isModified(directory))
+		return (!trustFolderStat || old.snapshot.isModified(directory))
 				&& old != scanPacks(old);
 	}
 
@@ -439,10 +460,17 @@ class PackDirectory {
 					&& !oldPack.getFileSnapshot().isModified(packFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
+				try {
+					if(oldPack.getBitmapIndex() == null) {
+						oldPack.refreshBitmapIndex(packFilesByExt.get(BITMAP_INDEX));
+					}
+				} catch (IOException e) {
+					LOG.warn(JGitText.get().bitmapAccessErrorForPackfile, oldPack.getPackName(), e);
+				}
 				continue;
 			}
 
-			list.add(new Pack(packFile, packFilesByExt.get(BITMAP_INDEX)));
+			list.add(new Pack(config, packFile, packFilesByExt.get(BITMAP_INDEX)));
 			foundNew = true;
 		}
 

@@ -141,7 +141,6 @@ public class CommandRef {
 		return r;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

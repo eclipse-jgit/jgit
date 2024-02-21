@@ -51,7 +51,6 @@ public abstract class ObjectReachabilityTestCase
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Before
 	public void setUp() throws Exception {

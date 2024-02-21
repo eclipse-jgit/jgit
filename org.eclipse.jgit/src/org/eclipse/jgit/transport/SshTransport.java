@@ -108,7 +108,6 @@ public abstract class SshTransport extends TcpTransport {
 		return sock;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (sock != null) {

@@ -28,6 +28,8 @@ public class DfsCachedPack extends CachedPack {
 	}
 
 	/**
+	 * Get pack file
+	 *
 	 * @return the pack passed to the constructor
 	 */
 	public DfsPackFile getPackFile() {
@@ -43,19 +45,16 @@ public class DfsCachedPack extends CachedPack {
 		return pack.getPackDescription();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getObjectCount() throws IOException {
 		return getPackDescription().getObjectCount();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getDeltaCount() throws IOException {
 		return getPackDescription().getDeltaCount();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean hasObject(ObjectToPack obj, StoredObjectRepresentation rep) {
 		return ((DfsObjectRepresentation) rep).pack == pack;

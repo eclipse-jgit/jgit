@@ -27,9 +27,17 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 	private static class DiffCollector extends RenameCallback {
 		List<DiffEntry> diffs = new ArrayList<>();
 
+		List<RevCommit> commits = new ArrayList<>();
+
 		@Override
 		public void renamed(DiffEntry diff) {
+			throw new UnsupportedOperationException("unimplemented");
+		}
+
+		@Override
+		public void renamed(DiffEntry diff, RevCommit commit) {
 			diffs.add(diff);
+			commits.add(commit);
 		}
 	}
 
@@ -77,6 +85,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		assertRenames("a->b");
+		assertRenameCommits(renameCommit);
 	}
 
 	@Test
@@ -108,6 +117,7 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		assertRenames("c->a", "b->c", "a->b");
+		assertRenameCommits(renameCommit3, renameCommit2, renameCommit1);
 	}
 
 	/**
@@ -133,6 +143,20 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 
 			Assert.assertEquals(src, diff.getOldPath());
 			Assert.assertEquals(target, diff.getNewPath());
+		}
+	}
+
+	protected void assertRenameCommits(RevCommit... expectedCommits) {
+		Assert.assertEquals(
+				"Unexpected number of rename commits. Expected: "
+						+ expectedCommits.length + ", actual: "
+						+ diffCollector.diffs.size(),
+				expectedCommits.length, diffCollector.diffs.size());
+
+		for (int i = 0; i < expectedCommits.length; i++) {
+			RevCommit renameCommit = diffCollector.commits.get(i);
+			Assert.assertNotNull(renameCommit);
+			Assert.assertEquals(expectedCommits[i], renameCommit);
 		}
 	}
 

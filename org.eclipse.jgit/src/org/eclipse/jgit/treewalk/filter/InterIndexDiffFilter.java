@@ -28,7 +28,6 @@ public final class InterIndexDiffFilter extends TreeFilter {
 	 */
 	public static final TreeFilter INSTANCE = new InterIndexDiffFilter();
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker) {
 		final int n = walker.getTreeCount();
@@ -57,19 +56,16 @@ public final class InterIndexDiffFilter extends TreeFilter {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "INTERINDEX_DIFF"; //$NON-NLS-1$

@@ -56,13 +56,11 @@ public class PathSuffixFilter extends TreeFilter {
 		pathRaw = Constants.encode(pathStr);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -82,7 +80,6 @@ public class PathSuffixFilter extends TreeFilter {
 		return super.matchFilter(walker);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return true;

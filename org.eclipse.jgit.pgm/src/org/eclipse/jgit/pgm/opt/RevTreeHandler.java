@@ -52,7 +52,6 @@ public class RevTreeHandler extends OptionHandler<RevTree> {
 		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		final String name = params.getParameter(0);
@@ -83,7 +82,6 @@ public class RevTreeHandler extends OptionHandler<RevTree> {
 		return 1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_treeish;

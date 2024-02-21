@@ -13,8 +13,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.eclipse.jgit</groupId>
-  <version>7.0.0-SNAPSHOT</version>
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
+    <version>7.0.0-SNAPSHOT</version>
+  </parent>
+
   <artifactId>org.eclipse.jgit.benchmarks</artifactId>
   <packaging>jar</packaging>
 
@@ -23,7 +27,7 @@
   <properties>
     <java.version>11</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jmh.version>1.32</jmh.version>
+    <jmh.version>1.37</jmh.version>
     <uberjar.name>benchmarks</uberjar.name>
   </properties>
 
@@ -37,11 +41,15 @@
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-generator-annprocess</artifactId>
       <version>${jmh.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
@@ -52,7 +60,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0-M3</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -72,7 +79,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <release>${java.version}</release>
@@ -109,7 +116,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -136,6 +142,30 @@
                 </filter>
               </filters>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- We check javadoc when compiling with ecj (option -Pecj) and configurations
+          set in .settings/org.eclipse.jdt.core.prefs. This allows more fine grained
+          configuration and fails the build on missing javadoc for protected and
+          public but not for private classes, methods and fields. We don't want
+          to check javadoc on tests. We can reconsider to configure this on javadoc
+          when it starts supporting access specifiers so that we can set
+          -Xdoclint:all,-missing/private -->
+          <additionalJOption>-Xdoclint:none</additionalJOption>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <quiet>true</quiet>
+          <failOnWarnings>false</failOnWarnings>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -171,29 +201,27 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.9.1</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh</artifactId>
-              <version>3.4.3</version>
+              <artifactId>wagon-ssh-external</artifactId>
+              <version>3.5.3</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.0.0-M5</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${maven-jxr-plugin-version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${maven-project-info-reports-plugin-version}</version>
         </plugin>
       </plugins>
     </pluginManagement>

@@ -36,35 +36,53 @@ public final class LsRefsV2Request {
 	@Nullable
 	private final String agent;
 
+	private final String clientSID;
+
 	@NonNull
 	private final List<String> serverOptions;
 
 	private LsRefsV2Request(List<String> refPrefixes, boolean symrefs,
 			boolean peel, @Nullable String agent,
-			@NonNull List<String> serverOptions) {
+			@NonNull List<String> serverOptions,
+			@Nullable String clientSID) {
 		this.refPrefixes = refPrefixes;
 		this.symrefs = symrefs;
 		this.peel = peel;
 		this.agent = agent;
 		this.serverOptions = requireNonNull(serverOptions);
+		this.clientSID = clientSID;
 	}
 
-	/** @return ref prefixes that the client requested. */
+	/**
+	 * Get ref prefixes
+	 *
+	 * @return ref prefixes that the client requested.
+	 */
 	public List<String> getRefPrefixes() {
 		return refPrefixes;
 	}
 
-	/** @return true if the client requests symbolic references. */
+	/**
+	 * Whether the client requests symbolic references
+	 *
+	 * @return true if the client requests symbolic references.
+	 */
 	public boolean getSymrefs() {
 		return symrefs;
 	}
 
-	/** @return true if the client requests tags to be peeled. */
+	/**
+	 * Whether the client requests tags to be peeled
+	 *
+	 * @return true if the client requests tags to be peeled.
+	 */
 	public boolean getPeel() {
 		return peel;
 	}
 
 	/**
+	 * Get agent reported by the client
+	 *
 	 * @return agent as reported by the client
 	 *
 	 * @since 5.2
@@ -72,6 +90,18 @@ public final class LsRefsV2Request {
 	@Nullable
 	public String getAgent() {
 		return agent;
+	}
+
+	/**
+	 * Get session-id reported by the client
+	 *
+	 * @return session-id as reported by the client
+	 *
+	 * @since 6.4
+	 */
+	@Nullable
+	public String getClientSID() {
+		return clientSID;
 	}
 
 	/**
@@ -92,7 +122,11 @@ public final class LsRefsV2Request {
 		return serverOptions;
 	}
 
-	/** @return A builder of {@link LsRefsV2Request}. */
+	/**
+	 * Create builder
+	 *
+	 * @return A builder of {@link LsRefsV2Request}.
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -109,11 +143,16 @@ public final class LsRefsV2Request {
 
 		private String agent;
 
+		private String clientSID;
+
 		private Builder() {
 		}
 
 		/**
+		 * Set ref prefixes
+		 *
 		 * @param value
+		 *            ref prefix values
 		 * @return the Builder
 		 */
 		public Builder setRefPrefixes(List<String> value) {
@@ -122,7 +161,10 @@ public final class LsRefsV2Request {
 		}
 
 		/**
+		 * Set symrefs
+		 *
 		 * @param value
+		 *            of symrefs
 		 * @return the Builder
 		 */
 		public Builder setSymrefs(boolean value) {
@@ -131,7 +173,10 @@ public final class LsRefsV2Request {
 		}
 
 		/**
+		 * Set whether to peel tags
+		 *
 		 * @param value
+		 *            of peel
 		 * @return the Builder
 		 */
 		public Builder setPeel(boolean value) {
@@ -171,11 +216,32 @@ public final class LsRefsV2Request {
 			return this;
 		}
 
-		/** @return LsRefsV2Request */
+		/**
+		 * Value of a session-id line received after the command and before the
+		 * arguments. E.g. "session-id=a.b.c" should set "a.b.c".
+		 *
+		 * @param value
+		 *            the client-supplied session-id capability, without leading
+		 *            "session-id="
+		 * @return this builder
+		 *
+		 * @since 6.4
+		 */
+		public Builder setClientSID(@Nullable String value) {
+			clientSID = value;
+			return this;
+		}
+
+		/**
+		 * Builds the request
+		 *
+		 * @return LsRefsV2Request the request
+		 */
 		public LsRefsV2Request build() {
 			return new LsRefsV2Request(
 					Collections.unmodifiableList(refPrefixes), symrefs, peel,
-					agent, Collections.unmodifiableList(serverOptions));
+					agent, Collections.unmodifiableList(serverOptions),
+					clientSID);
 		}
 	}
 }

@@ -70,20 +70,30 @@ public abstract class RequestValidatorTestCase {
 	}
 
 	/**
+	 * Check if the validator accepts a reachable commit
+	 *
 	 * @return true if a commit reachable from a visible tip (but not directly
 	 *         the tip) is valid
 	 */
 	protected abstract boolean isReachableCommitValid();
 
-	/** @return true if a commit not reachable from any tip is valid */
+	/**
+	 * Check if the validator accepts an unreachable commit
+	 *
+	 * @return true if a commit not reachable from any tip is valid
+	 **/
 	protected abstract boolean isUnreachableCommitValid();
 
 	/**
+	 * Check if the validator accepts a previously advertised tip
+	 *
 	 * @return true if the commit directly pointed by an advertised ref is valid
 	 */
 	protected abstract boolean isAdvertisedTipValid();
 
 	/**
+	 * Check if the validator accepts a previous unadvertised tip
+	 *
 	 * @return true if the object directly pointed by a non-advertised ref is
 	 *         valid
 	 */
@@ -92,17 +102,23 @@ public abstract class RequestValidatorTestCase {
 	// UploadPack doesn't allow to ask for blobs when there is no
 	// bitmap. Test both cases separately.
 	/**
+	 * Check if the validator accepts a reachable blob (repo with bitmaps)
+	 *
 	 * @return true if a reachable blob is valid (and the repo has bitmaps)
 	 */
 	protected abstract boolean isReachableBlobValid_withBitmaps();
 
 	/**
+	 * Check if the validator accepts a reachable blob (repo without bitmaps)
+	 *
 	 * @return true if a reachable blob is valid (and the repo does NOT have
 	 *         bitmaps)
 	 */
 	protected abstract boolean isReachableBlobValid_withoutBitmaps();
 
 	/**
+	 * Check if the validator accepts an unreachable blob
+	 *
 	 * @return true if a blob unreachable from any tip is valid
 	 */
 	protected abstract boolean isUnreachableBlobValid();

@@ -33,6 +33,7 @@ import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
+import org.apache.sshd.client.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
@@ -46,7 +47,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
 import org.eclipse.jgit.internal.transport.sshd.CachingKeyPairProvider;
 import org.eclipse.jgit.internal.transport.sshd.GssApiWithMicAuthFactory;
-import org.eclipse.jgit.internal.transport.sshd.JGitPasswordAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitPublicKeyAuthFactory;
 import org.eclipse.jgit.internal.transport.sshd.JGitServerKeyVerifier;
 import org.eclipse.jgit.internal.transport.sshd.JGitSshClient;
@@ -210,11 +210,12 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
+				Supplier<KeyPasswordProvider> keyPasswordProvider = () -> createKeyPasswordProvider(
+						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
 						.filePasswordProvider(createFilePasswordProvider(
-								() -> createKeyPasswordProvider(
-										credentialsProvider)))
+								keyPasswordProvider))
 						.hostConfigEntryResolver(configFile)
 						.serverKeyVerifier(new JGitServerKeyVerifier(
 								getServerKeyDatabase(home, sshDir)))
@@ -236,17 +237,20 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				jgitClient.setKeyCache(getKeyCache());
 				jgitClient.setCredentialsProvider(credentialsProvider);
 				jgitClient.setProxyDatabase(proxies);
+				jgitClient.setKeyPasswordProviderFactory(keyPasswordProvider);
 				String defaultAuths = getDefaultPreferredAuthentications();
 				if (defaultAuths != null) {
 					jgitClient.setAttribute(
 							JGitSshClient.PREFERRED_AUTHENTICATIONS,
 							defaultAuths);
 				}
-				try {
-					jgitClient.setAttribute(JGitSshClient.HOME_DIRECTORY,
-							home.getAbsoluteFile().toPath());
-				} catch (SecurityException | InvalidPathException e) {
+				if (home != null) {
+					try {
+						jgitClient.setAttribute(JGitSshClient.HOME_DIRECTORY,
+								home.getAbsoluteFile().toPath());
+					} catch (SecurityException | InvalidPathException e) {
 					// Ignore
+					}
 				}
 				// Other things?
 				return client;
@@ -386,7 +390,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	}
 
 	/**
-	 * Obtains a {@link SshConfigStore}, or {@code null} if not SSH config is to
+	 * Obtains a {@link SshConfigStore}, or {@code null} if no SSH config is to
 	 * be used. The default implementation returns {@code null} if
 	 * {@code configFile == null} and otherwise an OpenSSH-compatible store
 	 * reading host entries from the given file.
@@ -471,6 +475,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * {@code UserKnownHostsFile} overrides this default.
 	 *
 	 * @param sshDir
+	 *            directory containing ssh configurations
 	 * @return the possibly empty list of default known host file paths.
 	 */
 	@NonNull
@@ -607,7 +612,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		return Collections.unmodifiableList(
 				Arrays.asList(GssApiWithMicAuthFactory.INSTANCE,
 						JGitPublicKeyAuthFactory.FACTORY,
-						JGitPasswordAuthFactory.INSTANCE,
+						UserAuthPasswordFactory.INSTANCE,
 						UserAuthKeyboardInteractiveFactory.INSTANCE));
 	}
 

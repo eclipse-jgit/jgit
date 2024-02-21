@@ -41,7 +41,6 @@ public class LazyObjectIdSetFile implements ObjectIdSet {
 		this.src = src;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean contains(AnyObjectId objectId) {
 		if (set == null) {

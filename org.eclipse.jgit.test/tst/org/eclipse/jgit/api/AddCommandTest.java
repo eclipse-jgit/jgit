@@ -15,13 +15,20 @@ import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -34,6 +41,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lfs.BuiltinLFS;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -95,6 +103,43 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddLink() throws IOException, GitAPIException {
+		assumeTrue(db.getFS().supportsSymlinks());
+		try (Git git = new Git(db)) {
+			writeTrashFile("a.txt", "a");
+			File link = new File(db.getWorkTree(), "link");
+			db.getFS().createSymLink(link, "a.txt");
+			git.add().addFilepattern(".").call();
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:120000, content:a.txt]",
+					indexState(CONTENT));
+			git.commit().setMessage("link").call();
+			StoredConfig config = db.getConfig();
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SYMLINKS, SymLinks.FALSE);
+			config.save();
+			Files.delete(link.toPath());
+			git.reset().setMode(ResetType.HARD).call();
+			assertTrue(Files.isRegularFile(link.toPath()));
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:120000, content:a.txt]",
+					indexState(CONTENT));
+			writeTrashFile("link", "b.txt");
+			git.add().addFilepattern("link").call();
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:120000, content:b.txt]",
+					indexState(CONTENT));
+			config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_SYMLINKS, SymLinks.TRUE);
+			config.save();
+			git.add().addFilepattern("link").call();
+			assertEquals(
+					"[a.txt, mode:100644, content:a][link, mode:100644, content:b.txt]",
 					indexState(CONTENT));
 		}
 	}
@@ -784,7 +829,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddWholeRepo() throws Exception  {
+	public void testAddWholeRepo() throws Exception {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -804,6 +849,72 @@ public class AddCommandTest extends RepositoryTestCase {
 					"[sub/a.txt, mode:100644, content:content]" +
 					"[sub/b.txt, mode:100644, content:content b]",
 					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddAllNoRenormalize() throws Exception {
+		final int nOfFiles = 1000;
+		final int filesPerDir = nOfFiles / 10;
+		final int fileSizeInBytes = 10_000;
+		assertTrue(nOfFiles > 0);
+		assertTrue(filesPerDir > 0);
+		File dir = null;
+		File lastFile = null;
+		for (int i = 0; i < nOfFiles; i++) {
+			if (i % filesPerDir == 0) {
+				dir = new File(db.getWorkTree(), "dir" + (i / filesPerDir));
+				FileUtils.mkdir(dir);
+			}
+			lastFile = new File(dir, "file" + i);
+			try (OutputStream out = new BufferedOutputStream(
+					new FileOutputStream(lastFile))) {
+				for (int b = 0; b < fileSizeInBytes; b++) {
+					out.write('a' + (b % 26));
+					if (((b + 1) % 70) == 0) {
+						out.write('\n');
+					}
+				}
+			}
+		}
+		// Help null pointer analysis.
+		assert lastFile != null;
+		// Wait a bit. If entries are "racily clean", we'll recompute
+		// hashes from the disk files, and then the second add is also slow.
+		// We want to test the normal case.
+		fsTick(lastFile);
+		try (Git git = new Git(db)) {
+			long start = System.nanoTime();
+			git.add().addFilepattern(".").call();
+			long initialElapsed = System.nanoTime() - start;
+			assertEquals("Unexpected number on index entries", nOfFiles,
+					db.readDirCache().getEntryCount());
+			start = System.nanoTime();
+			git.add().addFilepattern(".").setRenormalize(false).call();
+			long secondElapsed = System.nanoTime() - start;
+			assertEquals("Unexpected number on index entries", nOfFiles,
+					db.readDirCache().getEntryCount());
+			// Fail the test if the second add all was not significantly faster.
+			// A factor of 4 is rather generous. The speed-up depends on the
+			// file system and OS caching and is hard to predict.
+			assertTrue(
+					"Second add all was too slow; initial took "
+							+ TimeUnit.NANOSECONDS.toMillis(initialElapsed)
+							+ ", second took "
+							+ TimeUnit.NANOSECONDS.toMillis(secondElapsed),
+					secondElapsed * 4 <= initialElapsed);
+			// Change one file. The index should be updated even if
+			// renormalize==false. It doesn't matter what kind of change we do.
+			final String newData = "Hello";
+			Files.writeString(lastFile.toPath(), newData);
+			git.add().addFilepattern(".").setRenormalize(false).call();
+			DirCache dc = db.readDirCache();
+			DirCacheEntry e = dc.getEntry(lastFile.getParentFile().getName()
+					+ '/' + lastFile.getName());
+			String blob = new String(db
+					.open(e.getObjectId(), Constants.OBJ_BLOB).getCachedBytes(),
+					UTF_8);
+			assertEquals("Unexpected index content", newData, blob);
 		}
 	}
 

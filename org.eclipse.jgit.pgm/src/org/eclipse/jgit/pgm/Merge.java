@@ -86,7 +86,6 @@ class Merge extends TextBuiltin {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		if (squash && ff == FastForwardMode.NO_FF) {

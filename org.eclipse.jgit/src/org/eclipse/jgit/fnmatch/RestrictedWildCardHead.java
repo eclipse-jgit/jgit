@@ -18,13 +18,11 @@ final class RestrictedWildCardHead extends AbstractHead {
 		this.excludedCharacter = excludedCharacter;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected final boolean matches(char c) {
 		return c != excludedCharacter;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return isStar() ? "*" : "?"; //$NON-NLS-1$ //$NON-NLS-2$

@@ -51,6 +51,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,13 +59,13 @@ import org.junit.Test;
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private Repository diskRepo;
 
-	private TestRepository<Repository> repo;
+	TestRepository<Repository> repo;
 
-	private RefDirectory refdir;
+	RefDirectory refdir;
 
-	private RevCommit A;
+	RevCommit A;
 
-	private RevCommit B;
+	RevCommit B;
 
 	private RevTag v1_0;
 
@@ -72,7 +73,10 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		refDirectorySetup();
+	}
 
+	public void refDirectorySetup() throws Exception {
 		diskRepo = createBareRepository();
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
 
@@ -552,10 +556,6 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testGetRefs_LooseSorting_Bug_348834() throws IOException {
 		Map<String, Ref> refs;
-
-		writeLooseRef("refs/heads/my/a+b", A);
-		writeLooseRef("refs/heads/my/a/b/c", B);
-
 		final int[] count = new int[1];
 
 		ListenerHandle listener = Repository.getGlobalListenerList()
@@ -563,14 +563,27 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 					count[0]++;
 				});
 
+		// RefsChangedEvent on the first attempt to read a ref is not expected
+		// to be triggered (See Iea3a5035b0a1410b80b09cf53387b22b78b18018), so
+		// create an update and fire pending events to ensure subsequent events
+		// are fired.
+		writeLooseRef("refs/heads/test", A);
 		refs = refdir.getRefs(RefDatabase.ALL);
+		count[0] = 0;
+		int origSize = refs.size();
+
+		writeLooseRef("refs/heads/my/a+b", A);
+		writeLooseRef("refs/heads/my/a/b/c", B);
+
 		refs = refdir.getRefs(RefDatabase.ALL);
-		listener.remove();
-		assertEquals(1, count[0]); // Bug 348834 multiple RefsChangedEvents
-		assertEquals(2, refs.size());
+		assertEquals(1, count[0]);
+		assertEquals(2, refs.size() - origSize);
 		assertEquals(A, refs.get("refs/heads/my/a+b").getObjectId());
 		assertEquals(B, refs.get("refs/heads/my/a/b/c").getObjectId());
 
+		refs = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(1, count[0]); // Bug 348834 multiple RefsChangedEvents
+		listener.remove();
 	}
 
 	@Test
@@ -1337,23 +1350,35 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(Storage.LOOSE, ref.getStorage());
 	}
 
+	@Test
+	public void testCommonRefPrefix() {
+		assertEquals("", StringUtils.commonPrefix());
+		assertEquals("HEAD", StringUtils.commonPrefix("HEAD"));
+		assertEquals("", StringUtils.commonPrefix("HEAD", ""));
+		assertEquals("", StringUtils.commonPrefix("HEAD", "refs/heads/"));
+		assertEquals("refs/heads/",
+				StringUtils.commonPrefix("refs/heads/master", "refs/heads/"));
+		assertEquals("refs/heads/",
+				StringUtils.commonPrefix("refs/heads/", "refs/heads/main"));
+	}
+
+	void writePackedRef(String name, AnyObjectId id) throws IOException {
+		writePackedRefs(id.name() + " " + name + "\n");
+	}
+
+	void writePackedRefs(String content) throws IOException {
+		File pr = new File(diskRepo.getDirectory(), "packed-refs");
+		write(pr, content);
+		FS fs = diskRepo.getFS();
+		fs.setLastModified(pr.toPath(), Instant.now().minusSeconds(3600));
+	}
+
 	private void writeLooseRef(String name, AnyObjectId id) throws IOException {
 		writeLooseRef(name, id.name() + "\n");
 	}
 
 	private void writeLooseRef(String name, String content) throws IOException {
 		write(new File(diskRepo.getDirectory(), name), content);
-	}
-
-	private void writePackedRef(String name, AnyObjectId id) throws IOException {
-		writePackedRefs(id.name() + " " + name + "\n");
-	}
-
-	private void writePackedRefs(String content) throws IOException {
-		File pr = new File(diskRepo.getDirectory(), "packed-refs");
-		write(pr, content);
-		FS fs = diskRepo.getFS();
-		fs.setLastModified(pr.toPath(), Instant.now().minusSeconds(3600));
 	}
 
 	private void deleteLooseRef(String name) {

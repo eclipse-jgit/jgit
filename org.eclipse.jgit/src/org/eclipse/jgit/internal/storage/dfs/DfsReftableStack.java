@@ -80,7 +80,6 @@ public class DfsReftableStack implements AutoCloseable {
 		return Collections.unmodifiableList(tables);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		for (ReftableReader t : tables) {

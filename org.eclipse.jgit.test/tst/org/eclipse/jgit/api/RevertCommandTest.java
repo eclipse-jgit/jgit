@@ -39,6 +39,7 @@ import org.junit.Test;
  * Test revert command
  */
 public class RevertCommandTest extends RepositoryTestCase {
+
 	@Test
 	public void testRevert() throws IOException, JGitInternalException,
 			GitAPIException {
@@ -90,7 +91,43 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
+	}
 
+	@Test
+	public void testRevertWithChangeId()
+			throws IOException, JGitInternalException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "first line\nthird line\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("create a").call();
+
+			writeTrashFile("a", "first line\nsecond line\nthird line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit second = git.commit().setMessage("changed a").call();
+
+			writeTrashFile("a",
+					"first line\nsecond line\nthird line\nfourth line\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("changed a again").call();
+
+			git.revert().include(second).setInsertChangeId(true).call();
+
+			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+			checkFile(new File(db.getWorkTree(), "a"),
+					"first line\nthird line\nfourth line\n");
+			Iterator<RevCommit> history = git.log().call().iterator();
+			RevCommit revertCommit = history.next();
+			String expectedMessage = "Revert \"changed a\"\n\n"
+					+ "This reverts commit " + second.getId().getName() + ".\n";
+			String commitMessage = revertCommit.getFullMessage();
+			assertTrue(commitMessage.matches("^\\Q" + expectedMessage
+					+ "\\E\nChange-Id: I[a-fA-F0-9]{40}\n$"));
+			assertEquals("changed a again", history.next().getFullMessage());
+			assertEquals("changed a", history.next().getFullMessage());
+			assertEquals("create a", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
 	}
 
 	@Test

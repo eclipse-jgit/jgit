@@ -1002,6 +1002,65 @@ public class MergerTest extends RepositoryTestCase {
 		}
 	}
 
+	@Theory
+	public void fileBecomesDir_noTree(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("file", "1\n2\n3");
+		writeTrashFile("side", "1\n2\n3");
+		git.add().addFilepattern("file").addFilepattern("side").call();
+		RevCommit first = git.commit().setMessage("base").call();
+
+		writeTrashFile("side", "our changed");
+		RevCommit ours = git.commit().setAll(true)
+				.setMessage("ours").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("theirs").call();
+		deleteTrashFile("file");
+		writeTrashFile("file/file", "in subdir");
+		git.add().addFilepattern("file/file").call();
+
+		RevCommit theirs = git.commit().setAll(true)
+				.setMessage("theirs").call();
+
+		// Exercise inCore flavor of the merge.
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ResolveMerger merger =
+					(ResolveMerger) strategy.newMerger(ins, db.getConfig());
+			boolean success = merger.merge(ours, theirs);
+			assertTrue(success);
+			assertTrue(merger.getModifiedFiles().isEmpty());
+		}
+	}
+
+	/**
+	 * This is a high-level test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=535919
+	 *
+	 * The actual fix was made in {@link org.eclipse.jgit.treewalk.NameConflictTreeWalk}
+	 * and tested in {@link org.eclipse.jgit.treewalk.NameConflictTreeWalkTest#tesdDF_LastItemsInTreeHasDFConflictAndSpecialNames}.
+	 */
+	@Theory
+	public void checkMergeDoesntCrashWithSpecialFileNames(
+			MergeStrategy strategy) throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("subtree", "");
+		writeTrashFile("subtree-0", "");
+		git.add().addFilepattern("subtree").call();
+		git.add().addFilepattern("subtree-0").call();
+		RevCommit toMerge = git.commit().setMessage("commit-1").call();
+
+		git.rm().addFilepattern("subtree").call();
+		writeTrashFile("subtree/file", "");
+		git.add().addFilepattern("subtree").call();
+		RevCommit mergeTip = git.commit().setMessage("commit2").call();
+
+		ResolveMerger merger = (ResolveMerger) strategy.newMerger(db, false);
+		assertTrue(merger.merge(mergeTip, toMerge));
+	}
+
 	/**
 	 * Merging after criss-cross merges. In this case we merge together two
 	 * commits which have two equally good common ancestors

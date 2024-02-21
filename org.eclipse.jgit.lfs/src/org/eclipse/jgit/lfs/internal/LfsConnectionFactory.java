@@ -13,6 +13,7 @@ import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
+import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 
 import java.io.IOException;
 import java.net.ProxySelector;
@@ -67,6 +68,7 @@ public class LfsConnectionFactory {
 	 * @return the connection for the lfs server. e.g.
 	 *         "https://github.com/github/git-lfs.git/info/lfs"
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public static HttpConnection getLfsConnection(Repository db, String method,
 			String purpose) throws IOException {
@@ -127,8 +129,7 @@ public class LfsConnectionFactory {
 				// This could be done better (more precise logic), but according
 				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs
 				// generally only supports 'origin' in an integrated workflow.
-				if (lfsUrl == null && (remote.equals(
-						org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME))) {
+				if (lfsUrl == null && remote.equals(DEFAULT_REMOTE_NAME)) {
 					remoteUrl = config.getString(
 							ConfigConstants.CONFIG_KEY_REMOTE, remote,
 							ConfigConstants.CONFIG_KEY_URL);
@@ -252,6 +253,8 @@ public class LfsConnectionFactory {
 	}
 
 	/**
+	 * Create request that can be serialized to JSON
+	 *
 	 * @param operation
 	 *            the operation to perform, e.g. Protocol.OPERATION_DOWNLOAD
 	 * @param resources
@@ -287,6 +290,7 @@ public class LfsConnectionFactory {
 		 * no timeout can be determined, the token will be used only once.
 		 *
 		 * @param action
+		 *            action with an additional expiration timestamp
 		 */
 		public AuthCache(Protocol.ExpiringAction action) {
 			this.cachedAction = action;

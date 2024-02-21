@@ -849,7 +849,6 @@ public class ReceiveCommand {
 				JGitText.get().lockError, err.getMessage()));
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

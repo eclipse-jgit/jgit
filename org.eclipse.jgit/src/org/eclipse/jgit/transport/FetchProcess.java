@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.StringUtils;
 
@@ -89,6 +90,7 @@ class FetchProcess {
 				.collect(Collectors.toList());
 	}
 
+	@SuppressWarnings("Finally")
 	void execute(ProgressMonitor monitor, FetchResult result,
 			String initialBranch)
 			throws NotSupportedException, TransportException {
@@ -109,7 +111,7 @@ class FetchProcess {
 				for (PackLock lock : packLocks) {
 					lock.unlock();
 				}
-			} catch (IOException e) {
+			} catch (Throwable e) {
 				if (e1 != null) {
 					e.addSuppressed(e1);
 				}
@@ -387,13 +389,21 @@ class FetchProcess {
 	private boolean askForIsComplete() throws TransportException {
 		try {
 			try (ObjectWalk ow = new ObjectWalk(transport.local)) {
-				for (ObjectId want : askFor.keySet())
-					ow.markStart(ow.parseAny(want));
-				for (Ref ref : localRefs().values())
-					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
-				ow.checkConnectivity();
+				boolean hasCommitObject = false;
+				for (ObjectId want : askFor.keySet()) {
+					RevObject obj = ow.parseAny(want);
+					ow.markStart(obj);
+					hasCommitObject |= obj.getType() == Constants.OBJ_COMMIT;
+				}
+				// Checking connectivity makes sense on commits only
+				if (hasCommitObject) {
+					for (Ref ref : localRefs().values()) {
+						ow.markUninteresting(ow.parseAny(ref.getObjectId()));
+					}
+					ow.checkConnectivity();
+				}
 			}
-			return true;
+			return transport.getDepth() == null; // if depth is set we need to request objects that are already available
 		} catch (MissingObjectException e) {
 			return false;
 		} catch (IOException e) {
@@ -516,8 +526,10 @@ class FetchProcess {
 		}
 		if (spec.getDestination() != null) {
 			final TrackingRefUpdate tru = createUpdate(spec, newId);
-			if (newId.equals(tru.getOldObjectId()))
+			// if depth is set we need to update the ref
+			if (newId.equals(tru.getOldObjectId()) && transport.getDepth() == null) {
 				return;
+			}
 			localUpdates.add(tru);
 		}
 

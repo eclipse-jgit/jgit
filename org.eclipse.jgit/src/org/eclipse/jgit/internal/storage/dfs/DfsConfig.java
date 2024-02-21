@@ -22,13 +22,11 @@ import org.eclipse.jgit.lib.StoredConfig;
  * simply clears the config, and saving does nothing.
  */
 public final class DfsConfig extends StoredConfig {
-	/** {@inheritDoc} */
 	@Override
 	public void load() throws IOException, ConfigInvalidException {
 		clear();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void save() throws IOException {
 		// TODO actually store this configuration.

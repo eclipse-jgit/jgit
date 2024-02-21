@@ -31,6 +31,8 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 
 	private long sizeBeforeInflating;
 
+	private long fullSize;
+
 	PackedObjectInfo(final long headerOffset, final int packedCRC,
 			final AnyObjectId id) {
 		super(id);
@@ -111,11 +113,48 @@ public class PackedObjectInfo extends ObjectIdOwnerMap.Entry {
 		this.type = type;
 	}
 
+	/**
+	 * Size in storage
+	 *
+	 * @param sizeBeforeInflating
+	 *            size before inflating
+	 */
 	void setSize(long sizeBeforeInflating) {
 		this.sizeBeforeInflating = sizeBeforeInflating;
 	}
 
+	/**
+	 * Size in storage (maybe deflated and/or deltified).
+	 *
+	 * This is the size in storage. In packs, this is the bytes used by the
+	 * object contents (themselves or as deltas) compressed by zlib (deflated).
+	 *
+	 * @return size in storage
+	 */
 	long getSize() {
 		return sizeBeforeInflating;
+	}
+
+	/**
+	 * Real (materialized) size of the object (inflated, undeltified)
+	 *
+	 * @param size
+	 *            size of the object in bytes, without compressing nor
+	 *            deltifying
+	 * @since 6.4
+	 */
+	public void setFullSize(long size) {
+		this.fullSize = size;
+	}
+
+	/**
+	 * Get full size (inflated, undeltified)
+	 *
+	 * @return size of the object (inflated, undeltified)
+	 *
+	 * @since 6.4
+	 */
+	public long getFullSize() {
+		return fullSize;
 	}
 }

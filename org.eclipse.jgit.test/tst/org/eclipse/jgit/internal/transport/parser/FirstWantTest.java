@@ -27,7 +27,8 @@ public class FirstWantTest {
 	@Test
 	public void testFirstWantWithOptions() throws PackProtocolException {
 		String line = "want b9d4d1eb2f93058814480eae9e1b67550f46ee38 "
-				+ "no-progress include-tag ofs-delta agent=JGit/unknown";
+				+ "no-progress include-tag ofs-delta agent=JGit/unknown "
+				+ "session-id=the.client.sid";
 
 		FirstWant r = FirstWant.fromLine(line);
 		assertEquals("want b9d4d1eb2f93058814480eae9e1b67550f46ee38",
@@ -37,6 +38,7 @@ public class FirstWantTest {
 				Arrays.asList("no-progress", "include-tag", "ofs-delta"));
 		assertEquals(expectedCapabilities, capabilities);
 		assertEquals("JGit/unknown", r.getAgent());
+		assertEquals("the.client.sid", r.getClientSID());
 	}
 
 	@Test
@@ -93,5 +95,13 @@ public class FirstWantTest {
 		FirstWant r = FirstWant.fromLine(makeFirstWantLine("agent=pack.age/Version"));
 		assertEquals(r.getCapabilities().size(), 0);
 		assertEquals("pack.age/Version", r.getAgent());
+	}
+
+	@Test
+	public void testFirstWantValidSessionID() throws PackProtocolException {
+		FirstWant r = FirstWant
+				.fromLine(makeFirstWantLine("session-id=client.session.id"));
+		assertEquals(r.getCapabilities().size(), 0);
+		assertEquals("client.session.id", r.getClientSID());
 	}
 }

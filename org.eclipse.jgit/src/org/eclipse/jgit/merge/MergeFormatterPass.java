@@ -31,6 +31,8 @@ class MergeFormatterPass {
 
 	private final boolean threeWayMerge;
 
+	private final boolean writeBase; // diff3-style requested
+
 	private String lastConflictingName; // is set to non-null whenever we are in
 										// a conflict
 
@@ -50,22 +52,47 @@ class MergeFormatterPass {
 	 */
 	MergeFormatterPass(OutputStream out, MergeResult<RawText> res,
 			List<String> seqName, Charset charset) {
+		this(out, res, seqName, charset, false);
+	}
+
+	/**
+	 * @param out
+	 *            the {@link java.io.OutputStream} where to write the textual
+	 *            presentation
+	 * @param res
+	 *            the merge result which should be presented
+	 * @param seqName
+	 *            When a conflict is reported each conflicting range will get a
+	 *            name. This name is following the "&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+	 *            ", "|||||||" or "&gt;&gt;&gt;&gt;&gt;&gt;&gt; " conflict
+	 *            markers. The names for the sequences are given in this list
+	 * @param charset
+	 *            the character set used when writing conflict metadata
+	 * @param writeBase
+	 *            base's contribution should be written in conflicts
+	 */
+	MergeFormatterPass(OutputStream out, MergeResult<RawText> res,
+			List<String> seqName, Charset charset, boolean writeBase) {
 		this.out = new EolAwareOutputStream(out);
 		this.res = res;
 		this.seqName = seqName;
 		this.charset = charset;
 		this.threeWayMerge = (res.getSequences().size() == 3);
+		this.writeBase = writeBase;
 	}
 
 	void formatMerge() throws IOException {
 		boolean missingNewlineAtEnd = false;
 		for (MergeChunk chunk : res) {
-			RawText seq = res.getSequences().get(chunk.getSequenceIndex());
-			writeConflictMetadata(chunk);
-			// the lines with conflict-metadata are written. Now write the chunk
-			for (int i = chunk.getBegin(); i < chunk.getEnd(); i++)
-				writeLine(seq, i);
-			missingNewlineAtEnd = seq.isMissingNewlineAtEnd();
+			if (!isBase(chunk) || writeBase) {
+				RawText seq = res.getSequences().get(chunk.getSequenceIndex());
+				writeConflictMetadata(chunk);
+				// the lines with conflict-metadata are written. Now write the
+				// chunk
+				for (int i = chunk.getBegin(); i < chunk.getEnd(); i++)
+					writeLine(seq, i);
+				missingNewlineAtEnd = seq.isMissingNewlineAtEnd();
+			}
 		}
 		// one possible leftover: if the merge result ended with a conflict we
 		// have to close the last conflict here
@@ -77,16 +104,19 @@ class MergeFormatterPass {
 
 	private void writeConflictMetadata(MergeChunk chunk) throws IOException {
 		if (lastConflictingName != null
-				&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
-			// found the end of an conflict
+				&& !isTheirs(chunk) && !isBase(chunk)) {
+			// found the end of a conflict
 			writeConflictEnd();
 		}
-		if (chunk.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE) {
-			// found the start of an conflict
+		if (isOurs(chunk)) {
+			// found the start of a conflict
 			writeConflictStart(chunk);
-		} else if (chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE) {
-			// found another conflicting chunk
+		} else if (isTheirs(chunk)) {
+			// found the theirs conflicting chunk
 			writeConflictChange(chunk);
+		} else if (isBase(chunk)) {
+			// found the base conflicting chunk
+			writeConflictBase(chunk);
 		}
 	}
 
@@ -113,6 +143,11 @@ class MergeFormatterPass {
 				+ lastConflictingName);
 	}
 
+	private void writeConflictBase(MergeChunk chunk) throws IOException {
+		lastConflictingName = seqName.get(chunk.getSequenceIndex());
+		writeln("||||||| " + lastConflictingName); //$NON-NLS-1$
+	}
+
 	private void writeln(String s) throws IOException {
 		out.beginln();
 		out.write((s + "\n").getBytes(charset)); //$NON-NLS-1$
@@ -124,5 +159,18 @@ class MergeFormatterPass {
 		// still BOL? It was a blank line. But writeLine won't lf, so we do.
 		if (out.isBeginln())
 			out.write('\n');
+	}
+
+	private boolean isBase(MergeChunk chunk) {
+		return chunk.getConflictState() == ConflictState.BASE_CONFLICTING_RANGE;
+	}
+
+	private boolean isOurs(MergeChunk chunk) {
+		return chunk
+				.getConflictState() == ConflictState.FIRST_CONFLICTING_RANGE;
+	}
+
+	private boolean isTheirs(MergeChunk chunk) {
+		return chunk.getConflictState() == ConflictState.NEXT_CONFLICTING_RANGE;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc. and others
+ * Copyright (C) 2010, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,8 +13,10 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -31,13 +33,11 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		INSERTED, EXISTS_PACKED, EXISTS_LOOSE, FAILURE;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new WindowCursor(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, getConfig());
@@ -49,8 +49,6 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Config getConfig();
 
 	abstract FS getFS();
-
-	abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	abstract void selectObjectRepresentation(PackWriter packer,
 			ObjectToPack otp, WindowCursor curs) throws IOException;
@@ -74,4 +72,6 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Pack openPack(File pack) throws IOException;
 
 	abstract Collection<Pack> getPacks();
+
+	abstract Optional<CommitGraph> getCommitGraph();
 }

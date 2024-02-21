@@ -60,6 +60,10 @@ class Log extends RevWalkTextBuiltin {
 
 	private Map<String, NoteMap> noteMaps;
 
+	private boolean showNameOnly = false;
+
+	private boolean showNameAndStatusOnly = false;
+
 	@Option(name="--decorate", usage="usage_showRefNamesMatchingCommits")
 	private boolean decorate;
 
@@ -99,7 +103,22 @@ class Log extends RevWalkTextBuiltin {
 	private Integer renameLimit;
 
 	@Option(name = "--name-status", usage = "usage_nameStatus")
-	private boolean showNameAndStatusOnly;
+	void nameAndStatusOnly(boolean on) {
+		if (showNameOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameAndStatusOnly = on;
+	}
+
+	@Option(name = "--name-only", usage = "usage_nameOnly")
+	void nameOnly(boolean on) {
+		if (showNameAndStatusOnly) {
+			throw new IllegalArgumentException(
+					CLIText.get().cannotUseNameStatusOnlyAndNameOnly);
+		}
+		showNameOnly = on;
+	}
 
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
@@ -163,14 +182,12 @@ class Log extends RevWalkTextBuiltin {
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void init(Repository repository, String gitDir) {
 		super.init(repository, gitDir);
 		diffFmt = new DiffFormatter(new BufferedOutputStream(outs));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		config = new GpgConfig(db.getConfig());
@@ -225,7 +242,6 @@ class Log extends RevWalkTextBuiltin {
 				NoteMap.read(argWalk.getObjectReader(), notesCommit));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void show(RevCommit c) throws Exception {
 		outw.print(CLIText.get().commitLabel);
@@ -266,8 +282,10 @@ class Log extends RevWalkTextBuiltin {
 		if (showNotes(c))
 			outw.println();
 
-		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch))
+		if (c.getParentCount() <= 1 && (showNameAndStatusOnly || showPatch
+				|| showNameOnly)) {
 			showDiff(c);
+		}
 		outw.flush();
 	}
 
@@ -293,10 +311,14 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	/**
+	 * Show notes for given commit
+	 *
 	 * @param c
+	 *            given commit
 	 * @return <code>true</code> if at least one note was printed,
 	 *         <code>false</code> otherwise
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean showNotes(RevCommit c) throws IOException {
 		if (noteMaps == null)
@@ -323,12 +345,17 @@ class Log extends RevWalkTextBuiltin {
 
 	/**
 	 * @param c
+	 *            given commit
 	 * @param map
+	 *            note map
 	 * @param label
+	 *            label
 	 * @param emptyLine
+	 *            whether to start with an empty line
 	 * @return <code>true</code> if note was printed, <code>false</code>
 	 *         otherwise
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private boolean showNotes(RevCommit c, NoteMap map, String label,
 			boolean emptyLine)
@@ -364,9 +391,11 @@ class Log extends RevWalkTextBuiltin {
 				: null;
 		final RevTree b = c.getTree();
 
-		if (showNameAndStatusOnly)
+		if (showNameAndStatusOnly) {
 			Diff.nameStatus(outw, diffFmt.scan(a, b));
-		else {
+		} else if (showNameOnly) {
+			Diff.nameOnly(outw, diffFmt.scan(a, b));
+		} else {
 			outw.flush();
 			diffFmt.format(a, b);
 			diffFmt.flush();

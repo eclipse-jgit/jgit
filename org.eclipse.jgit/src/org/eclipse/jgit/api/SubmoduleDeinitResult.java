@@ -25,6 +25,7 @@ public class SubmoduleDeinitResult {
 	 * @param path
 	 *            path of the submodule
 	 * @param status
+	 *            effect of a SubmoduleDeinitCommand's execution
 	 */
 	public SubmoduleDeinitResult(String path,
 			SubmoduleDeinitCommand.SubmoduleDeinitStatus status) {

@@ -238,13 +238,11 @@ public class Edit {
 		endB = sEnd;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return beginA ^ endA;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Edit) {
@@ -255,7 +253,6 @@ public class Edit {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

@@ -10,12 +10,15 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import org.eclipse.jgit.lib.AnyObjectId;
+
 /**
  * IO statistics for a {@link org.eclipse.jgit.internal.storage.dfs.DfsReader}.
  */
 public class DfsReaderIoStats {
 	/** POJO to accumulate IO statistics. */
 	public static class Accumulator {
+
 		/** Number of times the reader explicitly called scanPacks. */
 		long scanPacks;
 
@@ -28,6 +31,12 @@ public class DfsReaderIoStats {
 		/** Total number of cache hits for bitmap indexes. */
 		long bitmapCacheHit;
 
+		/** Total number of cache hits for commit graphs. */
+		long commitGraphCacheHit;
+
+		/** Total number of cache hits for object size indexes. */
+		long objectSizeIndexCacheHit;
+
 		/** Total number of complete pack indexes read into memory. */
 		long readIdx;
 
@@ -37,14 +46,32 @@ public class DfsReaderIoStats {
 		/** Total number of reverse indexes added into memory. */
 		long readReverseIdx;
 
+		/** Total number of complete commit graphs read into memory. */
+		long readCommitGraph;
+
+		/** Total number of object size indexes added into memory. */
+		long readObjectSizeIndex;
+
 		/** Total number of bytes read from pack indexes. */
 		long readIdxBytes;
+
+		/** Total number of bytes read from commit graphs. */
+		long readCommitGraphBytes;
+
+		/** Total numer of bytes read from object size index */
+		long readObjectSizeIndexBytes;
 
 		/** Total microseconds spent reading pack indexes. */
 		long readIdxMicros;
 
 		/** Total microseconds spent creating reverse indexes. */
 		long readReverseIdxMicros;
+
+		/** Total microseconds spent creating commit graphs. */
+		long readCommitGraphMicros;
+
+		/** Total microseconds spent creating object size indexes */
+		long readObjectSizeIndexMicros;
 
 		/** Total number of bytes read from bitmap indexes. */
 		long readBitmapIdxBytes;
@@ -75,6 +102,15 @@ public class DfsReaderIoStats {
 
 		/** Total microseconds spent inflating compressed bytes. */
 		long inflationMicros;
+
+		/** Count of queries for the size of an object via #isNotLargerThan */
+		long isNotLargerThanCallCount;
+
+		/** Object was below threshold in the object size index */
+		long objectSizeIndexMiss;
+
+		/** Object size found in the object size index */
+		long objectSizeIndexHit;
 
 		Accumulator() {
 		}
@@ -123,6 +159,24 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of commit graph cache hits.
+	 *
+	 * @return total number of commit graph cache hits.
+	 */
+	public long getCommitGraphCacheHits() {
+		return stats.commitGraphCacheHit;
+	}
+
+	/**
+	 * Get total number of object size index cache hits.
+	 *
+	 * @return total number of object size index cache hits.
+	 */
+	public long getObjectSizeIndexCacheHits() {
+		return stats.objectSizeIndexCacheHit;
+	}
+
+	/**
 	 * Get total number of complete pack indexes read into memory.
 	 *
 	 * @return total number of complete pack indexes read into memory.
@@ -141,6 +195,15 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of times the commit graph read into memory.
+	 *
+	 * @return total number of commit graph read into memory.
+	 */
+	public long getReadCommitGraphCount() {
+		return stats.readCommitGraph;
+	}
+
+	/**
 	 * Get total number of complete bitmap indexes read into memory.
 	 *
 	 * @return total number of complete bitmap indexes read into memory.
@@ -150,12 +213,30 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of complete object size indexes read into memory.
+	 *
+	 * @return total number of complete object size indexes read into memory.
+	 */
+	public long getReadObjectSizeIndexCount() {
+		return stats.readObjectSizeIndex;
+	}
+
+	/**
 	 * Get total number of bytes read from pack indexes.
 	 *
 	 * @return total number of bytes read from pack indexes.
 	 */
 	public long getReadIndexBytes() {
 		return stats.readIdxBytes;
+	}
+
+	/**
+	 * Get total number of bytes read from commit graphs.
+	 *
+	 * @return total number of bytes read from commit graphs.
+	 */
+	public long getCommitGraphBytes() {
+		return stats.readCommitGraphBytes;
 	}
 
 	/**
@@ -174,6 +255,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadReverseIndexMicros() {
 		return stats.readReverseIdxMicros;
+	}
+
+	/**
+	 * Get total microseconds spent reading commit graphs.
+	 *
+	 * @return total microseconds spent reading commit graphs.
+	 */
+	public long getReadCommitGraphMicros() {
+		return stats.readCommitGraphMicros;
 	}
 
 	/**
@@ -248,5 +338,42 @@ public class DfsReaderIoStats {
 	 */
 	public long getInflationMicros() {
 		return stats.inflationMicros;
+	}
+
+	/**
+	 * Get count of invocations to
+	 * {@link DfsReader#isNotLargerThan(AnyObjectId, int, long)}
+	 * <p>
+	 * Each call could use the object-size index or not.
+	 *
+	 * @return how many times the size of an object was checked with
+	 *         {@link DfsReader#isNotLargerThan(AnyObjectId, int, long)}
+	 */
+	public long getIsNotLargerThanCallCount() {
+		return stats.isNotLargerThanCallCount;
+	}
+
+	/**
+	 * Get number of times the size of a blob was found in the object size
+	 * index.
+	 * <p>
+	 * This counts only queries for blobs on packs with object size index.
+	 *
+	 * @return count of object size index hits
+	 */
+	public long getObjectSizeIndexHits() {
+		return stats.objectSizeIndexHit;
+	}
+
+	/**
+	 * Get number of times the size of an object was not found in the object
+	 * size index. This usually means it was below the threshold.
+	 * <p>
+	 * This counts only queries for blobs on packs with object size index.
+	 *
+	 * @return count of object size index misses.
+	 */
+	public long getObjectSizeIndexMisses() {
+		return stats.objectSizeIndexMiss;
 	}
 }

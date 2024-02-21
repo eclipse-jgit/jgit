@@ -47,21 +47,18 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		this.limit = limit;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int available() throws IOException {
 		return (int) Math.min(in.available(), left);
 	}
 
 	// it's okay to mark even if mark isn't supported, as reset won't work
-	/** {@inheritDoc} */
 	@Override
 	public synchronized void mark(int readLimit) {
 		in.mark(readLimit);
 		mark = left;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		if (left == 0) {
@@ -78,7 +75,6 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		return result;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (left == 0) {
@@ -96,7 +92,6 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		return result;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public synchronized void reset() throws IOException {
 		if (!in.markSupported())
@@ -109,7 +104,6 @@ public abstract class LimitedInputStream extends FilterInputStream {
 		left = mark;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long skip(long n) throws IOException {
 		n = Math.min(n, left);

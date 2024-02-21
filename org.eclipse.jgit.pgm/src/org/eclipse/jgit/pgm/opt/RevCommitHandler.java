@@ -53,7 +53,6 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		String name = params.getParameter(0);
@@ -116,7 +115,6 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		setter.addValue(c);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_commitish;

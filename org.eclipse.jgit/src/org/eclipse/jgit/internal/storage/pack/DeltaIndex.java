@@ -48,7 +48,7 @@ public class DeltaIndex {
 	 * @return estimated size. Approximately {@code 1.75 * sourceLength}.
 	 */
 	public static long estimateIndexSize(int sourceLength) {
-		return sourceLength + (sourceLength * 3 / 4);
+		return sourceLength + (sourceLength * 3L / 4);
 	}
 
 	/**
@@ -393,7 +393,6 @@ public class DeltaIndex {
 		return start - resPtr;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

@@ -21,6 +21,8 @@ import java.lang.annotation.Target;
 public @interface Repeat {
 	/**
 	 * Number of repetitions
+	 *
+	 * @return number of repetitions
 	 */
 	public abstract int n();
 

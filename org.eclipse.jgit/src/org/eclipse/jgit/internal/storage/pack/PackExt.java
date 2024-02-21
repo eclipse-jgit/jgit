@@ -27,7 +27,16 @@ public enum PackExt {
 	BITMAP_INDEX("bitmap"), //$NON-NLS-1$
 
 	/** A reftable file. */
-	REFTABLE("ref"); //$NON-NLS-1$
+	REFTABLE("ref"), //$NON-NLS-1$
+
+	/** A pack reverse index file extension. */
+	REVERSE_INDEX("rev"), //$NON-NLS-1$
+
+	/** A commit graph file extension. */
+	COMMIT_GRAPH("graph"), //$NON-NLS-1$
+
+	/** An object size index. */
+	OBJECT_SIZE_INDEX("objsize"); //$NON-NLS-1$
 
 	private final String ext;
 
@@ -62,7 +71,15 @@ public enum PackExt {
 		return 1 << getPosition();
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * Format a temporary file extension for this PackExt.
+	 *
+	 * @return a temporary file extension
+	 */
+	public String getTmpExtension() {
+		return String.format(".%s_tmp", ext); //$NON-NLS-1$
+	}
+
 	@Override
 	public String toString() {
 		return String.format("PackExt[%s, bit=0x%s]", getExtension(), //$NON-NLS-1$

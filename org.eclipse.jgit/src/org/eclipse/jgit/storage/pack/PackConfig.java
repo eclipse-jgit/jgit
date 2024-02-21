@@ -16,6 +16,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BIGFILE_THRESHOLD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_CONTIGUOUS_COMMIT_COUNT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAPS;
@@ -26,7 +28,11 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_CACHE_SIZE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_COMPRESSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DEPTH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_KEPT_OBJECTS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRESERVE_OLD_PACKS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PRUNE_PRESERVED;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT;
@@ -35,7 +41,9 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WRITE_REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REPACK_SECTION;
 
 import java.time.Duration;
 import java.util.concurrent.Executor;
@@ -158,12 +166,30 @@ public class PackConfig {
 	public static final int DEFAULT_INDEX_VERSION = 2;
 
 	/**
+	 * Default value of the write reverse index option: {@value}
+	 *
+	 * @see #setWriteReverseIndex(boolean)
+	 * @since 6.6
+	 */
+	public static final boolean DEFAULT_WRITE_REVERSE_INDEX = false;
+
+	/**
 	 * Default value of the build bitmaps option: {@value}
 	 *
 	 * @see #setBuildBitmaps(boolean)
 	 * @since 3.0
 	 */
 	public static final boolean DEFAULT_BUILD_BITMAPS = true;
+
+
+	/**
+	 * Default value for including objects in packs locked by .keep file when
+	 * repacking: {@value}
+	 *
+	 * @see #setPackKeptObjects(boolean)
+	 * @since 5.13.3
+	 */
+	public static final boolean DEFAULT_PACK_KEPT_OBJECTS = false;
 
 	/**
 	 * Default count of most recent commits to select for bitmaps. Only applies
@@ -215,6 +241,17 @@ public class PackConfig {
 	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT = 100;
 
 	/**
+	 * Default maxium count of branches to create tip bitmaps for. If the number
+	 * of branches exceeds this, then tip bitmaps will only be created for the
+	 * most recently active branches. Branches exceeding this count will receive
+	 * 0 bitmaps: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @see #setBitmapExcessiveBranchTipCount(int)
+	 * @since 6.9
+	 */
+	public static final int DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT = Integer.MAX_VALUE;
+
+	/**
 	 * Default age at which a branch is considered inactive. Age is taken as the
 	 * number of days ago that the most recent commit was made to a branch. Only
 	 * affects bitmap processing if bitmaps are enabled and the
@@ -226,8 +263,26 @@ public class PackConfig {
 	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
 	/**
-	 * Default max time to spend during the search for reuse phase. This
-	 * optimization is disabled by default: {@value}
+	 * Default refs prefixes excluded from the calculation of pack bitmaps.
+	 *
+	 * @see #setBitmapExcludedRefsPrefixes(String[])
+	 * @since 5.13.2
+	 */
+	public static final String[] DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES = new String[0];
+
+	/**
+	 * Default minimum size for an object to be included in the size index:
+	 * {@value}
+	 *
+	 * @see #setMinBytesForObjSizeIndex(int)
+	 * @since 6.5
+	 */
+	public static final int DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX = -1;
+
+	/**
+	 * Default max time to spend during the search for reuse phase.
+	 *
+	 * This optimization is disabled by default: {@link Integer#MAX_VALUE} seconds.
 	 *
 	 * @see #setSearchForReuseTimeout(Duration)
 	 * @since 5.13
@@ -271,7 +326,11 @@ public class PackConfig {
 
 	private int indexVersion = DEFAULT_INDEX_VERSION;
 
+	private boolean writeReverseIndex = DEFAULT_WRITE_REVERSE_INDEX;
+
 	private boolean buildBitmaps = DEFAULT_BUILD_BITMAPS;
+
+	private boolean packKeptObjects = DEFAULT_PACK_KEPT_OBJECTS;
 
 	private int bitmapContiguousCommitCount = DEFAULT_BITMAP_CONTIGUOUS_COMMIT_COUNT;
 
@@ -283,13 +342,19 @@ public class PackConfig {
 
 	private int bitmapExcessiveBranchCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT;
 
+	private int bitmapExcessiveBranchTipCount = DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT;
+
 	private int bitmapInactiveBranchAgeInDays = DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS;
+
+	private String[] bitmapExcludedRefsPrefixes = DEFAULT_BITMAP_EXCLUDED_REFS_PREFIXES;
 
 	private Duration searchForReuseTimeout = DEFAULT_SEARCH_FOR_REUSE_TIMEOUT;
 
 	private boolean cutDeltaChains;
 
 	private boolean singlePack;
+
+	private int minBytesForObjSizeIndex = DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX;
 
 	/**
 	 * Create a default configuration.
@@ -348,7 +413,9 @@ public class PackConfig {
 		this.threads = cfg.threads;
 		this.executor = cfg.executor;
 		this.indexVersion = cfg.indexVersion;
+		this.writeReverseIndex = cfg.writeReverseIndex;
 		this.buildBitmaps = cfg.buildBitmaps;
+		this.packKeptObjects = cfg.packKeptObjects;
 		this.bitmapContiguousCommitCount = cfg.bitmapContiguousCommitCount;
 		this.bitmapRecentCommitCount = cfg.bitmapRecentCommitCount;
 		this.bitmapRecentCommitSpan = cfg.bitmapRecentCommitSpan;
@@ -358,6 +425,7 @@ public class PackConfig {
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
 		this.searchForReuseTimeout = cfg.searchForReuseTimeout;
+		this.minBytesForObjSizeIndex = cfg.minBytesForObjSizeIndex;
 	}
 
 	/**
@@ -948,6 +1016,31 @@ public class PackConfig {
 	}
 
 	/**
+	 * True if the writer should write reverse index files.
+	 *
+	 * Default setting: {@value #DEFAULT_WRITE_REVERSE_INDEX}
+	 *
+	 * @return whether the writer should write reverse index files
+	 * @since 6.6
+	 */
+	public boolean isWriteReverseIndex() {
+		return writeReverseIndex;
+	}
+
+	/**
+	 * Set whether the writer will write reverse index files.
+	 *
+	 * Default setting: {@value #DEFAULT_WRITE_REVERSE_INDEX}
+	 *
+	 * @param writeReverseIndex
+	 *            whether the writer should write reverse index files
+	 * @since 6.6
+	 */
+	public void setWriteReverseIndex(boolean writeReverseIndex) {
+		this.writeReverseIndex = writeReverseIndex;
+	}
+
+	/**
 	 * True if writer is allowed to build bitmaps for indexes.
 	 *
 	 * Default setting: {@value #DEFAULT_BUILD_BITMAPS}
@@ -974,6 +1067,34 @@ public class PackConfig {
 	 */
 	public void setBuildBitmaps(boolean buildBitmaps) {
 		this.buildBitmaps = buildBitmaps;
+	}
+
+	/**
+	 * Set whether to include objects in `.keep` files when repacking.
+	 *
+	 * <p>
+	 * Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
+	 *
+	 * @param packKeptObjects
+	 *            boolean indicating whether to include objects in `.keep` files
+	 *            when repacking.
+	 * @since 5.13.3
+	 */
+	public void setPackKeptObjects(boolean packKeptObjects) {
+		this.packKeptObjects = packKeptObjects;
+	}
+
+	/**
+	 * True if objects in `.keep` files should be included when repacking.
+	 *
+	 * Default setting: {@value #DEFAULT_PACK_KEPT_OBJECTS}
+	 *
+	 * @return True if objects in `.keep` files should be included when
+	 *         repacking.
+	 * @since 5.13.3
+	 */
+	public boolean isPackKeptObjects() {
+		return packKeptObjects;
 	}
 
 	/**
@@ -1083,7 +1204,8 @@ public class PackConfig {
 	 * a repository exceeds this number and bitmaps are enabled, "inactive"
 	 * branches will have fewer bitmaps than "active" branches.
 	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}. See
+	 * also {@link #getBitmapExcessiveBranchTipCount}.
 	 *
 	 * @return the count of branches deemed "excessive"
 	 * @since 4.2
@@ -1097,7 +1219,8 @@ public class PackConfig {
 	 * a repository exceeds this number and bitmaps are enabled, "inactive"
 	 * branches will have fewer bitmaps than "active" branches.
 	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT}. See
+	 * also {@link #setBitmapExcessiveBranchTipCount(int)}.
 	 *
 	 * @param count
 	 *            the count of branches deemed "excessive"
@@ -1105,6 +1228,57 @@ public class PackConfig {
 	 */
 	public void setBitmapExcessiveBranchCount(int count) {
 		bitmapExcessiveBranchCount = count;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, branches
+	 * exceeding this count will have no bitmaps selected. Branches are indexed
+	 * most recent first.
+	 *
+	 * <li>The first {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} most active
+	 * branches have full bitmap coverage.
+	 * <li>The {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} to {@code
+	 * 	  DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT} most active branches have
+	 * only the tip commit covered.
+	 * <li>The remaining branches have no bitmap coverage.
+	 *
+	 * If {@link #getBitmapExcessiveBranchCount()} is greater, then that value
+	 * will override this value.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @return the count of branch tips deemed "excessive"
+	 * @since 6.9
+	 */
+	public int getBitmapExcessiveBranchTipCount() {
+		return bitmapExcessiveBranchTipCount;
+	}
+
+	/**
+	 * Get the count of branches deemed "excessive". If the count of branches in
+	 * a repository exceeds this number and bitmaps are enabled, branches
+	 * exceeding this count will have no bitmaps selected. Branches are indexed
+	 * most recent first.
+	 *
+	 * <li>The first {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} most active
+	 * branches have full bitmap coverage.
+	 * <li>The {@code DEFAULT_BITMAP_EXCESSIVE_BRANCH_COUNT} to {@code
+	 * 	  DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT} most active branches have
+	 * only the tip commit covered.
+	 * <li>The remaining branches have no bitmap coverage.
+	 *
+	 * If {@link #getBitmapExcessiveBranchCount()} is greater, then that value
+	 * will override this value.
+	 *
+	 * Default setting: {@value #DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT}
+	 *
+	 * @param count
+	 *            the count of branch tips deemed "excessive"
+	 * @since 6.9
+	 */
+	public void setBitmapExcessiveBranchTipCount(int count) {
+		bitmapExcessiveBranchTipCount = count;
 	}
 
 	/**
@@ -1122,7 +1296,7 @@ public class PackConfig {
 	/**
 	 * Get the max time to spend during the search for reuse phase.
 	 *
-	 * Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
+	 * Default setting: {@link #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
 	 *
 	 * @return the maximum time to spend during the search for reuse phase.
 	 * @since 5.13
@@ -1134,7 +1308,7 @@ public class PackConfig {
 	/**
 	 * Set the age in days that marks a branch as "inactive".
 	 *
-	 * Default setting: {@value #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
+	 * Default setting: {@link #DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS}
 	 *
 	 * @param ageInDays
 	 *            the age in days that marks a branch as "inactive"
@@ -1145,16 +1319,76 @@ public class PackConfig {
 	}
 
 	/**
+	 * Get the refs prefixes excluded from the Bitmap.
+	 *
+	 * @return the refs prefixes excluded from the Bitmap.
+	 * @since 5.13.2
+	 */
+	public String[] getBitmapExcludedRefsPrefixes() {
+		return bitmapExcludedRefsPrefixes;
+	}
+
+	/**
+	 * Set the refs prefixes excluded from the Bitmap.
+	 *
+	 * @param excludedRefsPrefixes
+	 *            the refs prefixes excluded from the Bitmap.
+	 * @since 5.13.2
+	 */
+	public void setBitmapExcludedRefsPrefixes(String[] excludedRefsPrefixes) {
+		bitmapExcludedRefsPrefixes = excludedRefsPrefixes;
+	}
+
+	/**
 	 * Set the max time to spend during the search for reuse phase.
 	 *
 	 * @param timeout
 	 *            max time allowed during the search for reuse phase
 	 *
-	 *            Default setting: {@value #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
+	 *            Default setting: {@link #DEFAULT_SEARCH_FOR_REUSE_TIMEOUT}
 	 * @since 5.13
 	 */
 	public void setSearchForReuseTimeout(Duration timeout) {
 		searchForReuseTimeout = timeout;
+	}
+
+	/**
+	 * Minimum size of an object (inclusive) to be added in the object size
+	 * index.
+	 *
+	 * A negative value disables the writing of the object size index.
+	 *
+	 * @return minimum size an object must have to be included in the object
+	 *         index.
+	 * @since 6.5
+	 */
+	public int getMinBytesForObjSizeIndex() {
+		return minBytesForObjSizeIndex;
+	}
+
+	/**
+	 * Set minimum size an object must have to be included in the object size
+	 * index.
+	 *
+	 * A negative value disables the object index.
+	 *
+	 * @param minBytesForObjSizeIndex
+	 *            minimum size (inclusive) of an object to be included in the
+	 *            object size index. -1 disables the index.
+	 * @since 6.5
+	 */
+	public void setMinBytesForObjSizeIndex(int minBytesForObjSizeIndex) {
+		this.minBytesForObjSizeIndex = minBytesForObjSizeIndex;
+	}
+
+	/**
+	 * Should writers add an object size index when writing a pack.
+	 *
+	 * @return true to write an object-size index with the pack
+	 * @since 6.5
+	 */
+	public boolean isWriteObjSizeIndex() {
+		return this.minBytesForObjSizeIndex >= 0;
 	}
 
 	/**
@@ -1200,8 +1434,14 @@ public class PackConfig {
 		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_SINGLE_PACK,
 				getSinglePack()));
-		setBuildBitmaps(rc.getBoolean(CONFIG_PACK_SECTION,
-				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps()));
+		setWriteReverseIndex(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_WRITE_REVERSE_INDEX, isWriteReverseIndex()));
+		boolean buildBitmapsFromConfig = rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps());
+		setBuildBitmaps(buildBitmapsFromConfig);
+		setPackKeptObjects(rc.getBoolean(CONFIG_REPACK_SECTION,
+				CONFIG_KEY_PACK_KEPT_OBJECTS,
+				buildBitmapsFromConfig || isPackKeptObjects()));
 		setBitmapContiguousCommitCount(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_CONTIGUOUS_COMMIT_COUNT,
 				getBitmapContiguousCommitCount()));
@@ -1217,9 +1457,18 @@ public class PackConfig {
 		setBitmapExcessiveBranchCount(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT,
 				getBitmapExcessiveBranchCount()));
+		setBitmapExcessiveBranchTipCount(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT,
+				getBitmapExcessiveBranchTipCount()));
 		setBitmapInactiveBranchAgeInDays(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS,
 				getBitmapInactiveBranchAgeInDays()));
+		String[] excludedRefsPrefixesArray = rc.getStringList(CONFIG_PACK_SECTION,
+			null,
+			CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES);
+		if(excludedRefsPrefixesArray.length > 0) {
+			setBitmapExcludedRefsPrefixes(excludedRefsPrefixesArray);
+		}
 		setSearchForReuseTimeout(Duration.ofSeconds(rc.getTimeUnit(
 				CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT,
@@ -1229,9 +1478,15 @@ public class PackConfig {
 		setMinSizePreventRacyPack(rc.getLong(CONFIG_PACK_SECTION,
 				CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK,
 				getMinSizePreventRacyPack()));
+		setMinBytesForObjSizeIndex(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX,
+				DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX));
+		setPreserveOldPacks(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_PRESERVE_OLD_PACKS, DEFAULT_PRESERVE_OLD_PACKS));
+		setPrunePreserved(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_PRUNE_PRESERVED, DEFAULT_PRUNE_PRESERVED));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder b = new StringBuilder();
@@ -1248,6 +1503,7 @@ public class PackConfig {
 		b.append(", reuseDeltas=").append(isReuseDeltas()); //$NON-NLS-1$
 		b.append(", reuseObjects=").append(isReuseObjects()); //$NON-NLS-1$
 		b.append(", deltaCompress=").append(isDeltaCompress()); //$NON-NLS-1$
+		b.append(", writeReverseIndex=").append(isWriteReverseIndex()); //$NON-NLS-1$
 		b.append(", buildBitmaps=").append(isBuildBitmaps()); //$NON-NLS-1$
 		b.append(", bitmapContiguousCommitCount=") //$NON-NLS-1$
 				.append(getBitmapContiguousCommitCount());
@@ -1264,6 +1520,8 @@ public class PackConfig {
 		b.append(", searchForReuseTimeout") //$NON-NLS-1$
 				.append(getSearchForReuseTimeout());
 		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
+		b.append(", minBytesForObjSizeIndex=") //$NON-NLS-1$
+				.append(getMinBytesForObjSizeIndex());
 		return b.toString();
 	}
 }

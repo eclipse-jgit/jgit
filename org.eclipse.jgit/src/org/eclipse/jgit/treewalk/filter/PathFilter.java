@@ -11,6 +11,10 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -45,7 +49,8 @@ public class PathFilter extends TreeFilter {
 		while (path.endsWith("/")) //$NON-NLS-1$
 			path = path.substring(0, path.length() - 1);
 		if (path.length() == 0)
-			throw new IllegalArgumentException(JGitText.get().emptyPathNotPermitted);
+			throw new IllegalArgumentException(
+					JGitText.get().emptyPathNotPermitted);
 		return new PathFilter(path);
 	}
 
@@ -67,19 +72,16 @@ public class PathFilter extends TreeFilter {
 		return pathStr;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker) {
 		return matchFilter(walker) <= 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int matchFilter(TreeWalk walker) {
 		return walker.isPathMatch(pathRaw, pathRaw.length);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		for (byte b : pathRaw)
@@ -88,13 +90,18 @@ public class PathFilter extends TreeFilter {
 		return false;
 	}
 
+	@Override
+	public Optional<Set<byte[]>> getPathsBestEffort() {
+		Set<byte[]> s = Collections.singleton(pathRaw);
+		return Optional.of(s);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public PathFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("nls")
 	public String toString() {

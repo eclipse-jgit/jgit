@@ -45,7 +45,6 @@ public class Note extends ObjectId {
 		data = newData;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

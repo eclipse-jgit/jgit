@@ -28,7 +28,6 @@ public class FileElement {
 
 	/**
 	 * The file element type.
-	 *
 	 */
 	public enum Type {
 		/**
@@ -91,6 +90,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Create file element
+	 *
 	 * @param path
 	 *            the file path
 	 * @param type
@@ -111,6 +112,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Get path
+	 *
 	 * @return the file path
 	 */
 	public String getPath() {
@@ -118,6 +121,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Get type
+	 *
 	 * @return the element type
 	 */
 	public Type getType() {
@@ -125,6 +130,8 @@ public class FileElement {
 	}
 
 	/**
+	 * Get file
+	 * <p>
 	 * Return
 	 * <ul>
 	 * <li>a temporary file if already created and stream is not valid</li>
@@ -138,6 +145,7 @@ public class FileElement {
 	 *
 	 * @return the object stream
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public File getFile() throws IOException {
 		// if we have already temp file and no stream
@@ -179,6 +187,7 @@ public class FileElement {
 	 *            temporary directory is used
 	 * @return temporary file in directory or in the system temporary directory
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public File createTempFile(File directory) throws IOException {
 		if (tempFile == null) {
@@ -204,6 +213,7 @@ public class FileElement {
 	 *            the input string
 	 * @return the replaced input string
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public String replaceVariable(String input) throws IOException {
 		return input.replace("$" + type.name(), getFile().getPath()); //$NON-NLS-1$
@@ -215,6 +225,7 @@ public class FileElement {
 	 * @param env
 	 *            the environment where this element should be added
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public void addToEnv(Map<String, String> env) throws IOException {
 		env.put(type.name(), getFile().getPath());

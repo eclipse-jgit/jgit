@@ -95,7 +95,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.eclipse.jgit.transport.HttpAuthMethod.Type;
 import org.eclipse.jgit.transport.HttpConfig.HttpRedirectMode;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
@@ -311,6 +310,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * @param uri
 	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             if URI is not supported by JGit
 	 * @since 4.9
 	 */
 	protected void setURI(URIish uri) throws NotSupportedException {
@@ -327,7 +327,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * Create a minimal HTTP transport with default configuration values.
 	 *
 	 * @param uri
+	 *            URI to create a HTTP transport for
 	 * @throws NotSupportedException
+	 *             if URI is not supported by JGit
 	 */
 	TransportHttp(URIish uri) throws NotSupportedException {
 		super(uri);
@@ -445,7 +447,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException,
 			NotSupportedException {
@@ -532,7 +533,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new BufferedReader(new InputStreamReader(in, UTF_8));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
@@ -567,7 +567,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return p;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		if (gitSession != null) {
@@ -586,6 +585,17 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 */
 	public void setAdditionalHeaders(Map<String, String> headers) {
 		this.headers = headers;
+	}
+
+	/**
+	 * Get additional headers on the HTTP connection
+	 *
+	 * @return unmodifiable map of additional name:values that are set as
+	 *         headers on the HTTP connection
+	 * @since 6.6
+	 */
+	public Map<String, String> getAdditionalHeaders() {
+		return Collections.unmodifiableMap(headers);
 	}
 
 	private NoRemoteRepositoryException createNotFoundException(URIish u,
@@ -636,7 +646,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		int authAttempts = 1;
 		int redirects = 0;
-		Collection<Type> ignoreTypes = null;
+		Collection<HttpAuthMethod.Type> ignoreTypes = null;
 		for (;;) {
 			try {
 				final HttpConnection conn = httpOpen(METHOD_GET, u, AcceptEncoding.GZIP);
@@ -811,7 +821,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		/**
 		 * Trust the server for all git operations from this repository; may be
 		 * {@code null} if the transport was created via
-		 * {@link #TransportHttp(URIish)}.
+		 * {@link TransportHttp#TransportHttp(URIish)}.
 		 */
 		CredentialItem.YesNoType forRepo;
 
@@ -1024,11 +1034,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	/**
 	 * Open an HTTP connection.
 	 *
-	 * @param method HTTP request method
-	 * @param u url of the HTTP connection
-	 * @param acceptEncoding accept-encoding header option
+	 * @param method
+	 *            HTTP request method
+	 * @param u
+	 *            url of the HTTP connection
+	 * @param acceptEncoding
+	 *            accept-encoding header option
 	 * @return the HTTP connection
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.6
 	 */
 	protected HttpConnection httpOpen(String method, URL u,
@@ -1651,7 +1665,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			}
 
 			HttpAuthMethod authenticator = null;
-			Collection<Type> ignoreTypes = EnumSet.noneOf(Type.class);
+			Collection<HttpAuthMethod.Type> ignoreTypes = EnumSet
+					.noneOf(HttpAuthMethod.Type.class);
 			// Counts number of repeated authentication attempts using the same
 			// authentication scheme
 			int authAttempts = 1;

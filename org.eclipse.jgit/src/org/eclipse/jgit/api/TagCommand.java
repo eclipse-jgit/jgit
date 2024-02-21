@@ -33,7 +33,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.TagBuilder;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -51,13 +50,11 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * </pre>
  * <p>
  *
- * <p>
  * Create a new unannotated tag for the current commit:
  *
  * <pre>
  * git.tag().setName(&quot;v1.0&quot;).setAnnotated(false).call();
  * </pre>
- * <p>
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-tag.html"
  *      >Git documentation about Tag</a>
@@ -110,9 +107,7 @@ public class TagCommand extends GitCommand<Ref> {
 	public Ref call() throws GitAPIException, ConcurrentRefUpdateException,
 			InvalidTagNameException, NoHeadException {
 		checkCallable();
-
-		RepositoryState state = repo.getRepositoryState();
-		processOptions(state);
+		processOptions();
 
 		try (RevWalk revWalk = new RevWalk(repo)) {
 			// if no id is set, we should attempt to use HEAD
@@ -199,9 +194,6 @@ public class TagCommand extends GitCommand<Ref> {
 	 * Sets default values for not explicitly specified options. Then validates
 	 * that all required data has been provided.
 	 *
-	 * @param state
-	 *            the state of the repository we are working on
-	 *
 	 * @throws InvalidTagNameException
 	 *             if the tag name is null or invalid
 	 * @throws ServiceUnavailableException
@@ -210,7 +202,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 *             if the tag should be signed but {@code gpg.format} is not
 	 *             {@link GpgFormat#OPENPGP}
 	 */
-	private void processOptions(RepositoryState state)
+	private void processOptions()
 			throws InvalidTagNameException, ServiceUnavailableException,
 			UnsupportedSigningFormatException {
 		if (name == null

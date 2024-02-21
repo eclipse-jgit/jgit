@@ -31,10 +31,8 @@ public interface NonceGenerator {
 	 * @param timestamp
 	 *            The current time in seconds.
 	 * @return The nonce to be signed by the pusher
-	 * @throws java.lang.IllegalStateException
 	 */
-	String createNonce(Repository db, long timestamp)
-			throws IllegalStateException;
+	String createNonce(Repository db, long timestamp);
 
 	/**
 	 * Verify trustworthiness of the received nonce.

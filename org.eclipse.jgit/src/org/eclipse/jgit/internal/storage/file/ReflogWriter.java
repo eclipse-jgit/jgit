@@ -91,6 +91,7 @@ public class ReflogWriter {
 	 * Create the log directories.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @return this writer.
 	 */
 	public ReflogWriter create() throws IOException {
@@ -110,6 +111,7 @@ public class ReflogWriter {
 	 *            a {@link org.eclipse.jgit.lib.ReflogEntry} object.
 	 * @return this writer
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public ReflogWriter log(String refName, ReflogEntry entry)
 			throws IOException {
@@ -132,6 +134,7 @@ public class ReflogWriter {
 	 *            reflog message
 	 * @return this writer
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public ReflogWriter log(String refName, ObjectId oldId,
 			ObjectId newId, PersonIdent ident, String message) throws IOException {
@@ -150,6 +153,7 @@ public class ReflogWriter {
 	 *            whether to dereference symbolic refs
 	 * @return this writer
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public ReflogWriter log(RefUpdate update, String msg,
 			boolean deref) throws IOException {

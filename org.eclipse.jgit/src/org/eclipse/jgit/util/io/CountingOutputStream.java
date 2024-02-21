@@ -39,27 +39,23 @@ public class CountingOutputStream extends OutputStream {
 		return cnt;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int val) throws IOException {
 		out.write(val);
 		cnt++;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int off, int len) throws IOException {
 		out.write(buf, off, len);
 		cnt += len;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		out.flush();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		out.close();

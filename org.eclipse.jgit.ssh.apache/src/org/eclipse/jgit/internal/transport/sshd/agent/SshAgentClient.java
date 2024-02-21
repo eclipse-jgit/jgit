@@ -427,14 +427,14 @@ public class SshAgentClient implements SshAgent {
 	private static PublicKey readKey(Buffer buffer) throws BufferException {
 		int endOfBuffer = buffer.wpos();
 		int keyLength = buffer.getInt();
-		int afterKey = buffer.rpos() + keyLength;
-		if (keyLength <= 0 || afterKey > endOfBuffer) {
+		if (keyLength <= 0 || keyLength > buffer.available()) {
 			throw new BufferException(
 					MessageFormat.format(SshdText.get().sshAgentWrongKeyLength,
 							Integer.toString(keyLength),
 							Integer.toString(buffer.rpos()),
 							Integer.toString(endOfBuffer)));
 		}
+		int afterKey = buffer.rpos() + keyLength;
 		// Limit subsequent reads to the public key blob
 		buffer.wpos(afterKey);
 		try {

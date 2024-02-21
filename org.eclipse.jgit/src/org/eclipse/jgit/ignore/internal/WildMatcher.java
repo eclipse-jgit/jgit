@@ -26,7 +26,6 @@ public final class WildMatcher extends AbstractMatcher {
 		super(WILDMATCH, dirOnly);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
@@ -34,7 +33,6 @@ public final class WildMatcher extends AbstractMatcher {
 				|| (!pathMatch && isSubdirectory(path));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final boolean matches(String segment, int startIncl, int endExcl) {
 		return true;

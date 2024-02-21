@@ -46,7 +46,6 @@ public class PreReceiveHookChain implements PreReceiveHook {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onPreReceive(ReceivePack rp,
 			Collection<ReceiveCommand> commands) {

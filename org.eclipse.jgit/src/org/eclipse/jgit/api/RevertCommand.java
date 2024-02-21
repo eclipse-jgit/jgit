@@ -62,6 +62,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 
 	private String ourCommitName = null;
 
+	private boolean insertChangeId;
+
 	private List<Ref> revertedRefs = new LinkedList<>();
 
 	private MergeResult failingResult;
@@ -132,7 +134,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 
 				String ourName = calculateOurName(headRef);
 				String revertName = srcCommit.getId()
-						.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name() + " " //$NON-NLS-1$
+						.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name() + ' '
 						+ srcCommit.getShortMessage();
 
 				ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
@@ -162,6 +164,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 					dco.checkout();
 					try (Git git = new Git(getRepository())) {
 						newHead = git.commit().setMessage(newMessage)
+								.setInsertChangeId(insertChangeId)
 								.setReflogComment("revert: " + shortMessage) //$NON-NLS-1$
 								.call();
 					}
@@ -327,4 +330,18 @@ public class RevertCommand extends GitCommand<RevCommit> {
 		this.monitor = monitor;
 		return this;
 	}
+
+	/**
+	 * Defines whether to add a Gerrit change ID to each revert commit message.
+	 *
+	 * @param insertChangeId
+	 *            whether to insert a change ID
+	 * @return {@code this}
+	 * @since 6.8
+	 */
+	public RevertCommand setInsertChangeId(boolean insertChangeId) {
+		this.insertChangeId = insertChangeId;
+		return this;
+	}
+
 }

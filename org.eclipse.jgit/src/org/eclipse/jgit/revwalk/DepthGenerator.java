@@ -55,10 +55,15 @@ class DepthGenerator extends Generator {
 
 	/**
 	 * @param w
-	 * @param s Parent generator
+	 *            walk used for depth filtering
+	 * @param s
+	 *            Parent generator
 	 * @throws MissingObjectException
+	 *             if an object is missing
 	 * @throws IncorrectObjectTypeException
+	 *             if an object has an unexpected type
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	DepthGenerator(DepthWalk w, Generator s) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -164,11 +169,12 @@ class DepthGenerator extends Generator {
 
 			int newDepth = c.depth + 1;
 
-			for (int i = 0; i < c.parents.length; i++) {
+			int n = c.getParentCount();
+			for (int i = 0; i < n; i++) {
 				if (firstParent && i > 0) {
 					break;
 				}
-				RevCommit p = c.parents[i];
+				RevCommit p = c.getParent(i);
 				DepthWalk.Commit dp = (DepthWalk.Commit) p;
 
 				// If no depth has been assigned to this commit, assign

@@ -94,6 +94,7 @@ public class NoteMapMerger {
 	 *            theirs version of the note tree
 	 * @return merge result as a new NoteMap
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public NoteMap merge(NoteMap base, NoteMap ours, NoteMap theirs)
 			throws IOException {
@@ -113,11 +114,16 @@ public class NoteMapMerger {
 	 * between base, ours and theirs.
 	 *
 	 * @param treeDepth
+	 *            depth of the tree
 	 * @param base
+	 *            base version
 	 * @param ours
+	 *            ours version
 	 * @param theirs
+	 *            theirs version
 	 * @return merge result as an InMemoryBucket
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private InMemoryNoteBucket merge(int treeDepth, InMemoryNoteBucket base,
 			InMemoryNoteBucket ours, InMemoryNoteBucket theirs)

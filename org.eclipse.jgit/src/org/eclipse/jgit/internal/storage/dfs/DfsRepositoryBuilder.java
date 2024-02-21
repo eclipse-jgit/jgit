@@ -72,7 +72,6 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 		return self();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public B setup() throws IllegalArgumentException, IOException {
 		super.setup();
@@ -97,7 +96,6 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 
 	// We don't support local file IO and thus shouldn't permit these to set.
 
-	/** {@inheritDoc} */
 	@Override
 	public B setGitDir(File gitDir) {
 		if (gitDir != null)
@@ -105,7 +103,6 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 		return self();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public B setObjectDirectory(File objectDirectory) {
 		if (objectDirectory != null)
@@ -113,14 +110,12 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 		return self();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public B addAlternateObjectDirectory(File other) {
 		throw new UnsupportedOperationException(
 				JGitText.get().unsupportedAlternates);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public B setWorkTree(File workTree) {
 		if (workTree != null)
@@ -128,7 +123,6 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 		return self();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public B setIndexFile(File indexFile) {
 		if (indexFile != null)

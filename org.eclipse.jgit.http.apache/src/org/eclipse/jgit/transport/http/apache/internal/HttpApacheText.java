@@ -16,6 +16,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for archivers
  */
+@SuppressWarnings("MissingSummary")
 public class HttpApacheText extends TranslationBundle {
 	/**
 	 * Get an instance of this translation bundle.

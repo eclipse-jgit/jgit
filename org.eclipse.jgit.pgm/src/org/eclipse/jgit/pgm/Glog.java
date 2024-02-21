@@ -65,7 +65,6 @@ class Glog extends RevWalkTextBuiltin {
 		frame.getContentPane().add(world);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected int walkLoop() throws Exception {
 		graphPane.getCommitList().source(walk);
@@ -77,13 +76,11 @@ class Glog extends RevWalkTextBuiltin {
 		return graphPane.getCommitList().size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void show(RevCommit c) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected RevWalk createWalk() {
 		if (objects)

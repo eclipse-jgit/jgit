@@ -96,7 +96,6 @@ final class GroupHead extends AbstractHead {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected final boolean matches(char c) {
 		for (CharacterPattern pattern : characterClasses) {

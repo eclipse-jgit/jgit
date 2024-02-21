@@ -72,7 +72,7 @@ class RewriteGenerator extends Generator {
 		applyFilterToParents(c);
 
 		boolean rewrote = false;
-		final RevCommit[] pList = c.parents;
+		final RevCommit[] pList = c.getParents();
 		final int nParents = pList.length;
 		for (int i = 0; i < nParents; i++) {
 			final RevCommit oldp = pList[i];
@@ -101,14 +101,18 @@ class RewriteGenerator extends Generator {
 	 * of this commit by the previous {@link PendingGenerator}.
 	 *
 	 * @param c
+	 *            given commit
 	 * @throws MissingObjectException
+	 *             if an object is missing
 	 * @throws IncorrectObjectTypeException
+	 *             if an object has an unexpected type
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void applyFilterToParents(RevCommit c)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		for (RevCommit parent : c.parents) {
+		for (RevCommit parent : c.getParents()) {
 			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
 
 				RevCommit n = source.next();
@@ -130,7 +134,7 @@ class RewriteGenerator extends Generator {
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
 
-			if (p.parents.length > 1) {
+			if (p.getParentCount() > 1) {
 				// This parent is a merge, so keep it.
 				//
 				return p;
@@ -150,15 +154,15 @@ class RewriteGenerator extends Generator {
 				return p;
 			}
 
-			if (p.parents.length == 0) {
+			if (p.getParentCount() == 0) {
 				// We can't go back any further, other than to
 				// just delete the parent entirely.
 				//
 				return null;
 			}
 
-			applyFilterToParents(p.parents[0]);
-			p = p.parents[0];
+			applyFilterToParents(p.getParent(0));
+			p = p.getParent(0);
 
 		}
 	}

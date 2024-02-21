@@ -176,12 +176,12 @@ public abstract class FileMode {
 	 * Test a file mode for equality with this
 	 * {@link org.eclipse.jgit.lib.FileMode} object.
 	 *
-	 * @param modebits
+	 * @param modeBits
 	 *            a int.
 	 * @return true if the mode bits represent the same mode as this object
 	 */
 	@SuppressWarnings("NonOverridingEquals")
-	public abstract boolean equals(int modebits);
+	public abstract boolean equals(int modeBits);
 
 	/**
 	 * Copy this mode as a sequence of octal US-ASCII bytes.

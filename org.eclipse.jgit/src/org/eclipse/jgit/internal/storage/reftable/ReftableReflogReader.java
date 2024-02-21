@@ -34,7 +34,6 @@ public class ReftableReflogReader implements ReflogReader {
 		this.refname = refname;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ReflogEntry getLastEntry() throws IOException {
 		lock.lock();
@@ -46,13 +45,11 @@ public class ReftableReflogReader implements ReflogReader {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<ReflogEntry> getReverseEntries() throws IOException {
 		return getReverseEntries(Integer.MAX_VALUE);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ReflogEntry getReverseEntry(int number) throws IOException {
 		lock.lock();
@@ -72,7 +69,6 @@ public class ReftableReflogReader implements ReflogReader {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
 		lock.lock();

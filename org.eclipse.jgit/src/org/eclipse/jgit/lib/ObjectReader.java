@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -27,6 +28,7 @@ import org.eclipse.jgit.internal.revwalk.BitmappedObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.BitmappedReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianObjectReachabilityChecker;
 import org.eclipse.jgit.internal.revwalk.PedestrianReachabilityChecker;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
@@ -243,12 +245,15 @@ public abstract class ObjectReader implements AutoCloseable {
 	 *
 	 * @return IDs of shallow commits
 	 * @throws java.io.IOException
+	 *             if an error occurred
 	 */
 	public abstract Set<ObjectId> getShallowCommits() throws IOException;
 
 	/**
 	 * Asynchronous object opening.
 	 *
+	 * @param <T>
+	 *            type of {@code ObjectId}
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.
@@ -333,8 +338,43 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * Check if the object size is less or equal than certain value
+	 *
+	 * By default, it reads the object from storage to get the size. Subclasses
+	 * can implement more efficient lookups.
+	 *
+	 * @param objectId
+	 *            identity of the object to open.
+	 * @param typeHint
+	 *            hint about the type of object being requested, e.g.
+	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB};
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
+	 * @param size
+	 *            threshold value for the size of the object in bytes.
+	 * @return true if the object size is equal or smaller than the threshold
+	 *         value
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
+	 *             the object does not exist.
+	 * @throws org.eclipse.jgit.errors.IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
+	 * @throws java.io.IOException
+	 *             the object store cannot be accessed.
+	 *
+	 * @since 6.4
+	 */
+	public boolean isNotLargerThan(AnyObjectId objectId, int typeHint, long size)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		return open(objectId, typeHint).getSize() <= size;
+	}
+
+	/**
 	 * Asynchronous object size lookup.
 	 *
+	 * @param <T>
+	 *            type of {@code ObjectId}
 	 * @param objectIds
 	 *            objects to get the size of from the object store. The supplied
 	 *            collection must not be modified until the queue has finished.
@@ -467,6 +507,26 @@ public abstract class ObjectReader implements AutoCloseable {
 	}
 
 	/**
+	 * Get the commit-graph for this repository if available.
+	 * <p>
+	 * The commit graph can be created/modified/deleted while the repository is
+	 * open and specific implementations decide when to refresh it.
+	 *
+	 * @return the commit-graph or empty if the commit-graph does not exist or
+	 *         is invalid; always returns empty when core.commitGraph is false
+	 *         (default is
+	 *         {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_COMMIT_GRAPH_ENABLE}).
+	 *
+	 * @throws IOException
+	 *             if it cannot open any of the underlying commit graph.
+	 *
+	 * @since 6.5
+	 */
+	public Optional<CommitGraph> getCommitGraph() throws IOException {
+		return Optional.empty();
+	}
+
+	/**
 	 * Get the {@link org.eclipse.jgit.lib.ObjectInserter} from which this
 	 * reader was created using {@code inserter.newReader()}
 	 *
@@ -523,6 +583,8 @@ public abstract class ObjectReader implements AutoCloseable {
 	 */
 	public abstract static class Filter extends ObjectReader {
 		/**
+		 * Get delegate ObjectReader to handle all processing
+		 *
 		 * @return delegate ObjectReader to handle all processing.
 		 * @since 4.4
 		 */
@@ -606,6 +668,11 @@ public abstract class ObjectReader implements AutoCloseable {
 		@Override
 		public BitmapIndex getBitmapIndex() throws IOException {
 			return delegate().getBitmapIndex();
+		}
+
+		@Override
+		public Optional<CommitGraph> getCommitGraph() throws IOException{
+			return delegate().getCommitGraph();
 		}
 
 		@Override

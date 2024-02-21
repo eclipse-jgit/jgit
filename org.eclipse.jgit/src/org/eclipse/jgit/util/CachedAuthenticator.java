@@ -32,7 +32,6 @@ public abstract class CachedAuthenticator extends Authenticator {
 		cached.add(ca);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected final PasswordAuthentication getPasswordAuthentication() {
 		final String host = getRequestingHost();

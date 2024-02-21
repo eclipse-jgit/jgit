@@ -89,6 +89,7 @@ final class UbcCheck {
 	private static final int DV_II_55_0_bit = 1 << 30;
 	private static final int DV_II_56_0_bit = 1 << 31;
 
+	@SuppressWarnings("UnnecessaryParentheses")
 	static int check(int[] w) {
 		int mask = ~0;
 		mask &= (((((w[44] ^ w[45]) >>> 29) & 1) - 1) | ~(DV_I_48_0_bit

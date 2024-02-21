@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2020 Google Inc. and others
+ * Copyright (C) 2008, 2023 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -118,12 +118,15 @@ public class TransferConfig {
 	private final boolean allowRefInWant;
 	private final boolean allowTipSha1InWant;
 	private final boolean allowReachableSha1InWant;
+	private final boolean allowAnySha1InWant;
 	private final boolean allowFilter;
 	private final boolean allowSidebandAll;
 
 	private final boolean advertiseSidebandAll;
 	private final boolean advertiseWaitForDone;
 	private final boolean advertiseObjectInfo;
+
+	private final boolean allowReceiveClientSID;
 
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
@@ -200,6 +203,8 @@ public class TransferConfig {
 				"uploadpack", "allowtipsha1inwant", false);
 		allowReachableSha1InWant = rc.getBoolean(
 				"uploadpack", "allowreachablesha1inwant", false);
+		allowAnySha1InWant = rc.getBoolean("uploadpack", "allowanysha1inwant",
+				false);
 		allowFilter = rc.getBoolean(
 				"uploadpack", "allowfilter", false);
 		protocolVersion = ProtocolVersion.parse(rc
@@ -214,6 +219,8 @@ public class TransferConfig {
 				"advertisewaitfordone", false);
 		advertiseObjectInfo = rc.getBoolean("uploadpack",
 				"advertiseobjectinfo", false);
+		allowReceiveClientSID = rc.getBoolean("transfer", "advertisesid",
+				false);
 	}
 
 	/**
@@ -280,6 +287,18 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to allow clients to request any SHA-1s
+	 *
+	 * @return allow clients to request any SHA-1s?
+	 * @since 6.5
+	 */
+	public boolean isAllowAnySha1InWant() {
+		return allowAnySha1InWant;
+	}
+
+	/**
+	 * Whether clients are allowed to specify "filter" line
+	 *
 	 * @return true if clients are allowed to specify a "filter" line
 	 * @since 5.0
 	 */
@@ -288,6 +307,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether clients are allowed to specify "want-ref" line
+	 *
 	 * @return true if clients are allowed to specify a "want-ref" line
 	 * @since 5.1
 	 */
@@ -296,6 +317,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether the server accepts sideband-all requests
+	 *
 	 * @return true if the server accepts sideband-all requests (see
 	 *         {{@link #isAdvertiseSidebandAll()} for the advertisement)
 	 * @since 5.5
@@ -305,6 +328,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise sideband all to the clients
+	 *
 	 * @return true to advertise sideband all to the clients
 	 * @since 5.6
 	 */
@@ -313,6 +338,8 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise wait-for-done all to the clients
+	 *
 	 * @return true to advertise wait-for-done all to the clients
 	 * @since 5.13
 	 */
@@ -321,11 +348,23 @@ public class TransferConfig {
 	}
 
 	/**
+	 * Whether to advertise object-info to all clients
+	 *
 	 * @return true to advertise object-info to all clients
 	 * @since 5.13
 	 */
 	public boolean isAdvertiseObjectInfo() {
 		return advertiseObjectInfo;
+	}
+
+	/**
+	 * Whether to advertise and receive session-id capability
+	 *
+	 * @return true to advertise and receive session-id capability
+	 * @since 6.4
+	 */
+	public boolean isAllowReceiveClientSID() {
+		return allowReceiveClientSID;
 	}
 
 	/**

@@ -181,13 +181,11 @@ class LfsStore extends TextBuiltin {
 
 	String secretKey;
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean requiresRepository() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		AppServer server = new AppServer(port);

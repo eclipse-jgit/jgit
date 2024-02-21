@@ -52,7 +52,6 @@ public class UntrackedFilesHandler extends StringOptionHandler {
 		super(parser, option, setter);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		String alias = params.getParameter(-1);

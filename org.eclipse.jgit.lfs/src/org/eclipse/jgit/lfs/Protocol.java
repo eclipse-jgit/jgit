@@ -87,6 +87,8 @@ public interface Protocol {
 	}
 
 	/** Describes an error to be returned by the LFS batch API */
+	// TODO(ms): rename this class in next major release
+	@SuppressWarnings("JavaLangClash")
 	class Error {
 		public int code;
 
@@ -129,6 +131,8 @@ public interface Protocol {
 	String OBJECTS_LFS_ENDPOINT = "/objects/batch"; //$NON-NLS-1$
 
 	/**
+	 * Gson instance for handling this protocol
+	 *
 	 * @return a {@link Gson} instance suitable for handling this
 	 *         {@link Protocol}
 	 *

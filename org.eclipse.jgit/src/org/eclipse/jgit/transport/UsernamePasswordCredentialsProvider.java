@@ -48,13 +48,11 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 		this.password = password;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isInteractive() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialItem i : items) {
@@ -77,7 +75,6 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean get(URIish uri, CredentialItem... items)
 			throws UnsupportedCredentialItem {

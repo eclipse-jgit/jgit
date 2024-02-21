@@ -97,7 +97,6 @@ public class MergeResult<S extends Sequence> implements Iterable<MergeChunk> {
 
 	static final ConflictState[] states = ConflictState.values();
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<MergeChunk> iterator() {
 		return new Iterator<>() {

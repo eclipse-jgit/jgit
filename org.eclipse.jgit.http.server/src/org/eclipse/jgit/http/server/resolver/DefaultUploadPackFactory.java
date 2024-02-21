@@ -38,7 +38,6 @@ public class DefaultUploadPackFactory implements
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public UploadPack create(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {

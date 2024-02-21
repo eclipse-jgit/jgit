@@ -60,14 +60,12 @@ public class PreCommitHook extends GitHook<Void> {
 		super(repo, outputStream, errorStream);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Void call() throws IOException, AbortedByHookException {
 		doRun();
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getHookName() {
 		return NAME;

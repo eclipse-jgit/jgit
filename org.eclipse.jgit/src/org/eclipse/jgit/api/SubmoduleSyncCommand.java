@@ -70,6 +70,7 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 	 *            a {@link org.eclipse.jgit.lib.Repository} object.
 	 * @return shortened branch name, null on failures
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected String getHeadBranch(Repository subRepo) throws IOException {
 		Ref head = subRepo.exactRef(Constants.HEAD);
@@ -79,7 +80,6 @@ public class SubmoduleSyncCommand extends GitCommand<Map<String, String>> {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, String> call() throws GitAPIException {
 		checkCallable();

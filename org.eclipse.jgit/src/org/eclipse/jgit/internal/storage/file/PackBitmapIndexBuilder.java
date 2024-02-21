@@ -58,7 +58,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            ObjectId (name); it will be resorted in place.
 	 */
 	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
-		super(new ObjectIdOwnerMap<StoredBitmap>());
+		super(new ObjectIdOwnerMap<>());
 		byOffset = new BlockList<>(objects.size());
 		sortByOffsetAndIndex(byOffset, positionEntries, objects);
 
@@ -214,7 +214,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		getBitmaps().add(result);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
@@ -231,7 +230,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		throw new IllegalArgumentException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		PositionEntry entry = positionEntries.get(objectId);
@@ -240,7 +238,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return entry.offsetPosition;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		ObjectId objectId = byOffset.get(position);
@@ -294,7 +291,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return PackBitmapIndexV1.OPT_FULL;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
@@ -311,7 +307,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		bitmapsToWrite = new ArrayList<>(size);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return byOffset.size();
@@ -347,22 +342,38 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			this.flags = flags;
 		}
 
-		/** @return the bitmap */
+		/**
+		 * Get the bitmap
+		 *
+		 * @return the bitmap
+		 */
 		public EWAHCompressedBitmap getBitmap() {
 			return bitmap;
 		}
 
-		/** @return the xorOffset */
+		/**
+		 * Get the xorOffset
+		 *
+		 * @return the xorOffset
+		 */
 		public int getXorOffset() {
 			return xorOffset;
 		}
 
-		/** @return the flags */
+		/**
+		 * Get the flags
+		 *
+		 * @return the flags
+		 */
 		public int getFlags() {
 			return flags;
 		}
 
-		/** @return the ObjectId */
+		/**
+		 * Get the ObjectId
+		 *
+		 * @return the ObjectId
+		 */
 		public long getObjectId() {
 			return objectId;
 		}

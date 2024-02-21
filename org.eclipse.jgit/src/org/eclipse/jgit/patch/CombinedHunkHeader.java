@@ -45,13 +45,11 @@ public class CombinedHunkHeader extends HunkHeader {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CombinedFileHeader getFileHeader() {
 		return (CombinedFileHeader) super.getFileHeader();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public OldImage getOldImage() {
 		return getOldImage(0);

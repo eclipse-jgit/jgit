@@ -115,7 +115,6 @@ public abstract class RefUpdate {
 
 		/**
 		 * The ref was renamed from another name
-		 * <p>
 		 */
 		RENAMED,
 
@@ -245,6 +244,7 @@ public abstract class RefUpdate {
 	 *            a {@link org.eclipse.jgit.lib.RefUpdate.Result} object.
 	 * @return {@code result}
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected abstract Result doUpdate(Result desiredResult) throws IOException;
 
@@ -255,6 +255,7 @@ public abstract class RefUpdate {
 	 *            a {@link org.eclipse.jgit.lib.RefUpdate.Result} object.
 	 * @return {@code result}
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected abstract Result doDelete(Result desiredResult) throws IOException;
 
@@ -265,6 +266,7 @@ public abstract class RefUpdate {
 	 *            a {@link java.lang.String} object.
 	 * @return {@link org.eclipse.jgit.lib.RefUpdate.Result#NEW} on success.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected abstract Result doLink(String target) throws IOException;
 
@@ -612,6 +614,7 @@ public abstract class RefUpdate {
 	 *
 	 * @return the result status of the delete.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public Result delete() throws IOException {
 		try (RevWalk rw = new RevWalk(getRepository())) {
@@ -628,6 +631,7 @@ public abstract class RefUpdate {
 	 *            the merge test. The walk will be reset to perform the test.
 	 * @return the result status of the delete.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public Result delete(RevWalk walk) throws IOException {
 		final String myName = detachingSymbolicRef
@@ -668,6 +672,7 @@ public abstract class RefUpdate {
 	 * @return {@link org.eclipse.jgit.lib.RefUpdate.Result#NEW} or
 	 *         {@link org.eclipse.jgit.lib.RefUpdate.Result#FORCED} on success.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public Result link(String target) throws IOException {
 		if (!target.startsWith(Constants.R_REFS))

@@ -74,7 +74,6 @@ import org.slf4j.LoggerFactory;
  * ignored.
  * <p>
  * {@code StrictHostKeyChecking} accepts the following values:
- * </p>
  * <dl>
  * <dt>ask</dt>
  * <dd>Ask the user whether new or changed keys shall be accepted and be added
@@ -91,7 +90,6 @@ import org.slf4j.LoggerFactory;
  * <p>
  * If {@code StrictHostKeyChecking} is not set, or set to any other value, the
  * default value <b>ask</b> is active.
- * </p>
  * <p>
  * This implementation relies on the {@link ClientSession} being a
  * {@link JGitClientSession}. By default Apache MINA sshd does not forward the
@@ -100,23 +98,19 @@ import org.slf4j.LoggerFactory;
  * used. If used with some other session type, the implementation assumes
  * "<b>ask</b>".
  * <p>
- * <p>
  * Asking the user is done via a {@link CredentialsProvider} obtained from the
  * session. If none is set, the implementation falls back to strict host key
  * checking ("<b>yes</b>").
- * </p>
  * <p>
  * Note that adding a key to the known hosts file may create the file. You can
  * specify in the constructor whether the user shall be asked about that, too.
  * If the user declines updating the file, but the key was otherwise
  * accepted (user confirmed for "<b>ask</b>", or "no" or "accept-new" are
  * active), the key is accepted for this session only.
- * </p>
  * <p>
  * If several known hosts files are specified, a new key is always added to the
  * first file (even if it doesn't exist yet; see the note about file creation
  * above).
- * </p>
  *
  * @see <a href="http://man.openbsd.org/OpenBSD-current/man5/ssh_config.5">man
  *      ssh-config</a>

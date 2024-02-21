@@ -16,6 +16,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for the DFS storage implementation.
  */
+@SuppressWarnings("MissingSummary")
 public class DfsText extends TranslationBundle {
 	/**
 	 * Get an instance of this translation bundle.
@@ -28,6 +29,7 @@ public class DfsText extends TranslationBundle {
 
 	// @formatter:off
 	/***/ public String cannotReadIndex;
+	/***/ public String cannotReadCommitGraph;
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfIndex;
 	/***/ public String willNotStoreEmptyPack;

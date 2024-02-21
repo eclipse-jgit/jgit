@@ -40,7 +40,6 @@ public class MonotonicFakeClock implements MonotonicClock {
 		now += unit.toMillis(add);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ProposedTimestamp propose() {
 		long t = now++;

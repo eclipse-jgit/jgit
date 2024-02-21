@@ -28,19 +28,19 @@ public class MockServletConfig implements ServletConfig {
 	 * Set init parameter.
 	 *
 	 * @param name
+	 *            parameter name
 	 * @param value
+	 *            parameter value
 	 */
 	public void setInitParameter(String name, String value) {
 		parameters.put(name, value);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getInitParameter(String name) {
 		return parameters.get(name);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Enumeration<String> getInitParameterNames() {
 		final Iterator<String> i = parameters.keySet().iterator();
@@ -58,13 +58,11 @@ public class MockServletConfig implements ServletConfig {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getServletName() {
 		return "MOCK_SERVLET";
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ServletContext getServletContext() {
 		return null;

@@ -38,13 +38,16 @@ public class FileLfsRepository implements LargeFileRepository {
 	private final Path dir;
 
 	/**
-	 * <p>Constructor for FileLfsRepository.</p>
+	 * <p>
+	 * Constructor for FileLfsRepository.
+	 * </p>
 	 *
 	 * @param url
 	 *            external URL of this repository
 	 * @param dir
 	 *            storage directory
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public FileLfsRepository(String url, Path dir) throws IOException {
 		this.url = url;
@@ -52,26 +55,22 @@ public class FileLfsRepository implements LargeFileRepository {
 		Files.createDirectories(dir);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Response.Action getDownloadAction(AnyLongObjectId id) {
 		return getAction(id);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Action getUploadAction(AnyLongObjectId id, long size) {
 		return getAction(id);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public Action getVerifyAction(AnyLongObjectId id) {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getSize(AnyLongObjectId id) throws IOException {
 		Path p = getPath(id);
@@ -148,6 +147,8 @@ public class FileLfsRepository implements LargeFileRepository {
 	}
 
 	/**
+	 * Get URL of content server
+	 *
 	 * @return the url of the content server
 	 * @since 4.11
 	 */
@@ -156,6 +157,8 @@ public class FileLfsRepository implements LargeFileRepository {
 	}
 
 	/**
+	 * Set the URL of the content server
+	 *
 	 * @param url
 	 *            the url of the content server
 	 * @since 4.11

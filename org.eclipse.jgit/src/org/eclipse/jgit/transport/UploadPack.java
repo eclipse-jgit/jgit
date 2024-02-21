@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, 2020 Google Inc. and others
+ * Copyright (C) 2008, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -33,8 +34,15 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ACK;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DONE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_HAVE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_UNSHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.VERSION_2_REQUEST;
 import static org.eclipse.jgit.util.RefMap.toRefMap;
 
@@ -186,12 +194,20 @@ public class UploadPack implements Closeable {
 			}
 		}
 
-		/** @return non-capabilities part of the line. */
+		/**
+		 * Get non-capabilities part of the line
+		 *
+		 * @return non-capabilities part of the line.
+		 */
 		public String getLine() {
 			return firstWant.getLine();
 		}
 
-		/** @return capabilities parsed from the line. */
+		/**
+		 * Get capabilities parsed from the line
+		 *
+		 * @return capabilities parsed from the line.
+		 */
 		public Set<String> getOptions() {
 			if (firstWant.getAgent() != null) {
 				Set<String> caps = new HashSet<>(firstWant.getCapabilities());
@@ -673,6 +689,10 @@ public class UploadPack implements Closeable {
 	 */
 	public void setTransferConfig(@Nullable TransferConfig tc) {
 		this.transferConfig = tc != null ? tc : new TransferConfig(db);
+		if (transferConfig.isAllowAnySha1InWant()) {
+			setRequestPolicy(RequestPolicy.ANY);
+			return;
+		}
 		if (transferConfig.isAllowTipSha1InWant()) {
 			setRequestPolicy(transferConfig.isAllowReachableSha1InWant()
 				? RequestPolicy.REACHABLE_COMMIT_TIP : RequestPolicy.TIP);
@@ -720,8 +740,11 @@ public class UploadPack implements Closeable {
 	}
 
 	/**
-	 * @param p provider of URIs corresponding to cached packs (to support
-	 *     the packfile URIs feature)
+	 * Set provider of cached pack URIs
+	 *
+	 * @param p
+	 *            provider of URIs corresponding to cached packs (to support the
+	 *            packfile URIs feature)
 	 * @since 5.5
 	 */
 	public void setCachedPackUriProvider(@Nullable CachedPackUriProvider p) {
@@ -759,9 +782,13 @@ public class UploadPack implements Closeable {
 	 * its own error handling mechanism.
 	 *
 	 * @param input
+	 *            input stream
 	 * @param output
+	 *            output stream
 	 * @param messages
+	 *            stream for messages
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void upload(InputStream input, OutputStream output,
 			@Nullable OutputStream messages) throws IOException {
@@ -1033,6 +1060,7 @@ public class UploadPack implements Closeable {
 		// writing a response. Buffer the response until then.
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
+		List<ObjectId> deepenNots = emptyList();
 		FetchRequest req;
 		try {
 			if (biDirectionalPipe)
@@ -1071,13 +1099,15 @@ public class UploadPack implements Closeable {
 				verifyClientShallow(req.getClientShallowCommits());
 			}
 
-			if (req.getDepth() != 0 || req.getDeepenSince() != 0) {
+			deepenNots = parseDeepenNots(req.getDeepenNots());
+			if (req.getDepth() != 0 || req.getDeepenSince() != 0 || !req.getDeepenNots().isEmpty()) {
 				computeShallowsAndUnshallows(req, shallow -> {
-					pckOut.writeString("shallow " + shallow.name() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(PACKET_SHALLOW + shallow.name() + '\n');
 				}, unshallow -> {
-					pckOut.writeString("unshallow " + unshallow.name() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(
+							PACKET_UNSHALLOW + unshallow.name() + '\n');
 					unshallowCommits.add(unshallow);
-				}, Collections.emptyList());
+				}, deepenNots);
 				pckOut.end();
 			}
 
@@ -1109,7 +1139,7 @@ public class UploadPack implements Closeable {
 
 		if (sendPack) {
 			sendPack(accumulator, req, refs == null ? null : refs.values(),
-					unshallowCommits, Collections.emptyList(), pckOut);
+					unshallowCommits, deepenNots, pckOut);
 		}
 	}
 
@@ -1160,6 +1190,11 @@ public class UploadPack implements Closeable {
 	}
 
 	private void fetchV2(PacketLineOut pckOut) throws IOException {
+		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
+		FetchV2Request req = parser.parseFetchRequest(pckIn);
+		currentRequest = req;
+		Map<String, ObjectId> wantedRefs = wantedRefs(req);
+
 		// Depending on the requestValidator, #processHaveLines may
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
@@ -1169,15 +1204,25 @@ public class UploadPack implements Closeable {
 				requestValidator instanceof AnyRequestValidator) {
 			advertised = Collections.emptySet();
 		} else {
-			advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			if (req.wantIds.isEmpty()) {
+				// Only refs-in-wants in request. These ref-in-wants where used as
+				// filters already in the ls-refs, there is no need to use a full
+				// advertisement now in fetch. This improves performance and also
+				// accuracy: when the ref db prioritize and truncates the returned
+				// refs (e.g. Gerrit hides too old refs), applying a filter can
+				// return different results than a plain listing.
+				advertised = refIdSet(getFilteredRefs(wantedRefs.keySet()).values());
+			} else {
+				// At least one SHA1 in wants, so we need to take the full
+				// advertisement as base for a reachability check.
+				advertised = refIdSet(getAdvertisedOrDefaultRefs().values());
+			}
 		}
 
 		PackStatistics.Accumulator accumulator = new PackStatistics.Accumulator();
 		Instant negotiateStart = Instant.now();
+		accumulator.advertised = advertised.size();
 
-		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
-		FetchV2Request req = parser.parseFetchRequest(pckIn);
-		currentRequest = req;
 		rawOut.stopBuffering();
 
 		protocolV2Hook.onFetch(req);
@@ -1188,25 +1233,17 @@ public class UploadPack implements Closeable {
 
 		// TODO(ifrade): Refactor to pass around the Request object, instead of
 		// copying data back to class fields
-		List<ObjectId> deepenNots = new ArrayList<>();
-		for (String s : req.getDeepenNotRefs()) {
-			Ref ref = findRef(s);
-			if (ref == null) {
-				throw new PackProtocolException(MessageFormat
-						.format(JGitText.get().invalidRefName, s));
-			}
-			deepenNots.add(ref.getObjectId());
-		}
+		List<ObjectId> deepenNots = parseDeepenNots(req.getDeepenNots());
 
-		Map<String, ObjectId> wantedRefs = wantedRefs(req);
 		// TODO(ifrade): Avoid mutating the parsed request.
 		req.getWantIds().addAll(wantedRefs.values());
 		wantIds = req.getWantIds();
+		accumulator.wants = wantIds.size();
 
 		boolean sectionSent = false;
 		boolean mayHaveShallow = req.getDepth() != 0
 				|| req.getDeepenSince() != 0
-				|| !req.getDeepenNotRefs().isEmpty();
+				|| !req.getDeepenNots().isEmpty();
 		List<ObjectId> shallowCommits = new ArrayList<>();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
@@ -1232,7 +1269,7 @@ public class UploadPack implements Closeable {
 					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
 			for (ObjectId id : req.getPeerHas()) {
 				if (walk.getObjectReader().has(id)) {
-					pckOut.writeString("ACK " + id.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString(PACKET_ACK + id.getName() + '\n');
 				}
 			}
 			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
@@ -1250,12 +1287,13 @@ public class UploadPack implements Closeable {
 			if (mayHaveShallow) {
 				if (sectionSent)
 					pckOut.writeDelim();
-				pckOut.writeString("shallow-info\n"); //$NON-NLS-1$
+				pckOut.writeString(
+						GitProtocolConstants.SECTION_SHALLOW_INFO + '\n');
 				for (ObjectId o : shallowCommits) {
-					pckOut.writeString("shallow " + o.getName() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(PACKET_SHALLOW + o.getName() + '\n');
 				}
 				for (ObjectId o : unshallowCommits) {
-					pckOut.writeString("unshallow " + o.getName() + '\n'); //$NON-NLS-1$
+					pckOut.writeString(PACKET_UNSHALLOW + o.getName() + '\n');
 				}
 				sectionSent = true;
 			}
@@ -1319,7 +1357,7 @@ public class UploadPack implements Closeable {
 						.format(JGitText.get().missingObject, oid.name()), e);
 			}
 
-			pckOut.writeString(oid.getName() + " " + size); //$NON-NLS-1$
+			pckOut.writeString(oid.getName() + ' ' + size);
 		}
 
 		pckOut.end();
@@ -1379,6 +1417,13 @@ public class UploadPack implements Closeable {
 						: "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
+		if (transferConfig.isAllowReceiveClientSID()) {
+			caps.add(OPTION_SESSION_ID);
+		}
+		if (transferConfig.isAdvertiseObjectInfo()) {
+			caps.add(COMMAND_OBJECT_INFO);
+		}
+
 		return caps;
 	}
 
@@ -1391,7 +1436,7 @@ public class UploadPack implements Closeable {
 			protocolV2Hook
 					.onCapabilities(CapabilitiesV2Request.builder().build());
 			for (String s : getV2CapabilityAdvertisement()) {
-				pckOut.writeString(s + "\n"); //$NON-NLS-1$
+				pckOut.writeString(s + '\n');
 			}
 			pckOut.end();
 
@@ -1618,7 +1663,7 @@ public class UploadPack implements Closeable {
 	 */
 	public void sendMessage(String what) {
 		try {
-			msgOut.write(Constants.encode(what + "\n")); //$NON-NLS-1$
+			msgOut.write(Constants.encode(what + '\n'));
 		} catch (IOException e) {
 			// Ignore write failures.
 		}
@@ -1697,6 +1742,21 @@ public class UploadPack implements Closeable {
 		return userAgent;
 	}
 
+	/**
+	 * Get the session ID if received from the client.
+	 *
+	 * @return The session ID if it has been received from the client.
+	 * @since 6.4
+	 */
+	@Nullable
+	public String getClientSID() {
+		if (currentRequest == null) {
+			return null;
+		}
+
+		return currentRequest.getClientSID();
+	}
+
 	private boolean negotiate(FetchRequest req,
 			PackStatistics.Accumulator accumulator,
 			PacketLineOut pckOut)
@@ -1725,24 +1785,25 @@ public class UploadPack implements Closeable {
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 				if (noDone && sentReady) {
-					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString(PACKET_ACK + last.name() + '\n');
 					return true;
 				}
 				if (!biDirectionalPipe)
 					return false;
 				pckOut.flush();
 
-			} else if (line.startsWith("have ") && line.length() == 45) { //$NON-NLS-1$
-				peerHas.add(ObjectId.fromString(line.substring(5)));
-				accumulator.haves++;
-			} else if (line.equals("done")) { //$NON-NLS-1$
+			} else if (line.startsWith(PACKET_HAVE)
+					&& line.length() == PACKET_HAVE.length() + 40) {
+				peerHas.add(ObjectId
+						.fromString(line.substring(PACKET_HAVE.length())));
+			} else if (line.equals(PACKET_DONE)) {
 				last = processHaveLines(peerHas, last, pckOut, accumulator, Option.NONE);
 
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n"); //$NON-NLS-1$
 
 				else if (multiAck != MultiAck.OFF)
-					pckOut.writeString("ACK " + last.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					pckOut.writeString(PACKET_ACK + last.name() + '\n');
 
 				return true;
 
@@ -1766,6 +1827,7 @@ public class UploadPack implements Closeable {
 			parseWants(accumulator);
 		if (peerHas.isEmpty())
 			return last;
+		accumulator.haves += peerHas.size();
 
 		sentReady = false;
 		int haveCnt = 0;
@@ -1803,14 +1865,15 @@ public class UploadPack implements Closeable {
 				//
 				switch (multiAck) {
 				case OFF:
-					if (commonBase.size() == 1)
-						out.writeString("ACK " + obj.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					if (commonBase.size() == 1) {
+						out.writeString(PACKET_ACK + obj.name() + '\n');
+					}
 					break;
 				case CONTINUE:
-					out.writeString("ACK " + obj.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString(PACKET_ACK + obj.name() + " continue\n"); //$NON-NLS-1$
 					break;
 				case DETAILED:
-					out.writeString("ACK " + obj.name() + " common\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					out.writeString(PACKET_ACK + obj.name() + " common\n"); //$NON-NLS-1$
 					break;
 				}
 			}
@@ -1849,11 +1912,11 @@ public class UploadPack implements Closeable {
 							break;
 						case CONTINUE:
 							out.writeString(
-									"ACK " + id.name() + " continue\n"); //$NON-NLS-1$ //$NON-NLS-2$
+									PACKET_ACK + id.name() + " continue\n"); //$NON-NLS-1$
 							break;
 						case DETAILED:
 							out.writeString(
-									"ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+									PACKET_ACK + id.name() + " ready\n"); //$NON-NLS-1$
 							readySent = true;
 							break;
 						}
@@ -1866,7 +1929,7 @@ public class UploadPack implements Closeable {
 		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp
 				&& okToGiveUp()) {
 			ObjectId id = peerHas.get(peerHas.size() - 1);
-			out.writeString("ACK " + id.name() + " ready\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			out.writeString(PACKET_ACK + id.name() + " ready\n"); //$NON-NLS-1$
 			readySent = true;
 		}
 
@@ -2231,7 +2294,8 @@ public class UploadPack implements Closeable {
 	 *            request in process
 	 * @param allTags
 	 *            refs to search for annotated tags to include in the pack if
-	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
+	 *            the {@link GitProtocolConstants#OPTION_INCLUDE_TAG} capability
+	 *            was requested.
 	 * @param unshallowCommits
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
@@ -2292,7 +2356,8 @@ public class UploadPack implements Closeable {
 	 *            where to write statistics about the content of the pack.
 	 * @param allTags
 	 *            refs to search for annotated tags to include in the pack if
-	 *            the {@link #OPTION_INCLUDE_TAG} capability was requested.
+	 *            the {@link GitProtocolConstants#OPTION_INCLUDE_TAG} capability
+	 *            was requested.
 	 * @param unshallowCommits
 	 *            shallow commits on the client that are now becoming unshallow
 	 * @param deepenNots
@@ -2311,11 +2376,6 @@ public class UploadPack implements Closeable {
 			preUploadHook.onSendPack(this, wantAll, commonBase);
 		}
 		msgOut.flush();
-
-		// Advertised objects and refs are not used from here on and can be
-		// cleared.
-		advertised = null;
-		refs = null;
 
 		PackConfig cfg = packConfig;
 		if (cfg == null)
@@ -2357,6 +2417,11 @@ public class UploadPack implements Closeable {
 				}
 				pw.setTagTargets(tagTargets);
 			}
+
+			// Advertised objects and refs are not used from here on and can be
+			// cleared.
+			advertised = null;
+			refs = null;
 
 			RevWalk rw = walk;
 			if (req.getDepth() > 0 || req.getDeepenSince() != 0 || !deepenNots.isEmpty()) {
@@ -2411,11 +2476,11 @@ public class UploadPack implements Closeable {
 					if (peeledId == null || objectId == null)
 						continue;
 
-					objectId = ref.getObjectId();
-					if (pw.willInclude(peeledId) && !pw.willInclude(objectId)) {
-						RevObject o = rw.parseAny(objectId);
-						addTagChain(o, pw);
-						pw.addObject(o);
+					if (pw.willInclude(peeledId)) {
+						// We don't need to handle parseTag throwing an
+						// IncorrectObjectTypeException as we only reach
+						// here when ref is an annotated tag
+						addTagChain(rw.parseTag(objectId), pw);
 					}
 				}
 			}
@@ -2465,15 +2530,34 @@ public class UploadPack implements Closeable {
 	}
 
 	private void addTagChain(
-			RevObject o, PackWriter pw) throws IOException {
-		while (Constants.OBJ_TAG == o.getType()) {
-			RevTag t = (RevTag) o;
-			o = t.getObject();
-			if (o.getType() == Constants.OBJ_TAG && !pw.willInclude(o.getId())) {
-				walk.parseBody(o);
-				pw.addObject(o);
+			RevTag tag, PackWriter pw) throws IOException {
+		RevObject o = tag;
+		do {
+			tag = (RevTag) o;
+			walk.parseBody(tag);
+			if (!pw.willInclude(tag.getId())) {
+				pw.addObject(tag);
+			}
+			o = tag.getObject();
+		} while (Constants.OBJ_TAG == o.getType());
+	}
+
+	private List<ObjectId> parseDeepenNots(List<String> deepenNots)
+			throws IOException {
+		List<ObjectId> result = new ArrayList<>();
+		for (String s : deepenNots) {
+			if (ObjectId.isId(s)) {
+				result.add(ObjectId.fromString(s));
+			} else {
+				Ref ref = findRef(s);
+				if (ref == null) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidRefName, s));
+				}
+				result.add(ref.getObjectId());
 			}
 		}
+		return result;
 	}
 
 	private static class ResponseBufferedOutputStream extends OutputStream {
@@ -2539,7 +2623,7 @@ public class UploadPack implements Closeable {
 		@Override
 		public void writeError(String message) throws IOException {
 			new PacketLineOut(requireNonNull(rawOut))
-					.writeString("ERR " + message + '\n'); //$NON-NLS-1$
+					.writeString(PACKET_ERR + message + '\n');
 		}
 	}
 }

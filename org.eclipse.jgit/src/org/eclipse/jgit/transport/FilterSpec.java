@@ -55,7 +55,6 @@ public final class FilterSpec {
 			return val.testBit(type);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public boolean equals(Object obj) {
 			if (!(obj instanceof ObjectTypes)) {
@@ -66,7 +65,6 @@ public final class FilterSpec {
 			return other.val.equals(val);
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public int hashCode() {
 			return val.hashCode();
@@ -139,6 +137,8 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * Specify permitted object types
+	 *
 	 * @param types
 	 *            set of permitted object types, for use in "blob:none" and
 	 *            "object:none" filters
@@ -149,6 +149,8 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * Specify blob limit
+	 *
 	 * @param blobLimit
 	 *            the blob limit in a "blob:[limit]" filter line
 	 * @return a filter spec which filters blobs above a certain size
@@ -162,6 +164,8 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * Specify tree depth limit
+	 *
 	 * @param treeDepthLimit
 	 *            the tree depth limit in a "tree:[depth]" filter line
 	 * @return a filter spec which filters blobs and trees beyond a certain tree
@@ -181,6 +185,8 @@ public final class FilterSpec {
 	public static final FilterSpec NO_FILTER = new FilterSpec(ObjectTypes.ALL, -1, -1);
 
 	/**
+	 * Whether object type is allowed
+	 *
 	 * @param type
 	 *            a Git object type, such as
 	 *            {@link org.eclipse.jgit.lib.Constants#OBJ_BLOB}
@@ -193,6 +199,8 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * Get blob size limit
+	 *
 	 * @return -1 if this filter does not filter blobs based on size, or a
 	 *         non-negative integer representing the max size of blobs to allow
 	 */
@@ -201,6 +209,8 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * Get tree depth limit
+	 *
 	 * @return -1 if this filter does not filter blobs and trees based on depth,
 	 *         or a non-negative integer representing the max tree depth of
 	 *         blobs and trees to fetch
@@ -210,6 +220,8 @@ public final class FilterSpec {
 	}
 
 	/**
+	 * Whether this filter is a no-op
+	 *
 	 * @return true if this filter doesn't filter out anything
 	 */
 	public boolean isNoOp() {
@@ -217,7 +229,10 @@ public final class FilterSpec {
 	}
 
 	/**
-	 * @return the filter line which describes this spec, e.g. "filter blob:limit=42"
+	 * Get filter line describing this spec
+	 *
+	 * @return the filter line which describes this spec, e.g. "filter
+	 *         blob:limit=42"
 	 */
 	@Nullable
 	public String filterLine() {

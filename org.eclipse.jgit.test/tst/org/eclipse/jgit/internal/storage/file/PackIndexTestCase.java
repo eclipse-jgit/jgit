@@ -25,6 +25,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public abstract class PackIndexTestCase extends RepositoryTestCase {
@@ -65,7 +66,9 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Verify CRC32 support.
 	 *
 	 * @throws MissingObjectException
+	 *             object is missing in the underlying index
 	 * @throws UnsupportedOperationException
+	 *             the index doesn't have CRC
 	 */
 	public abstract void testCRC32() throws MissingObjectException,
 			UnsupportedOperationException;
@@ -122,6 +125,37 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 		assertFalse(iter.hasNext());
 	}
 
+	@Test
+	public void testEntriesPositionsRamdomAccess() {
+		assertEquals(4, smallIdx.findPosition(ObjectId
+				.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7")));
+		assertEquals(7, smallIdx.findPosition(ObjectId
+				.fromString("c59759f143fb1fe21c197981df75a7ee00290799")));
+		assertEquals(0, smallIdx.findPosition(ObjectId
+				.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904")));
+	}
+
+	@Test
+	public void testEntriesPositionsWithIteratorOrder() {
+		int i = 0;
+		for (MutableEntry me : smallIdx) {
+			assertEquals(smallIdx.findPosition(me.toObjectId()), i);
+			i++;
+		}
+		i = 0;
+		for (MutableEntry me : denseIdx) {
+			assertEquals(denseIdx.findPosition(me.toObjectId()), i);
+			i++;
+		}
+	}
+
+	@Test
+	public void testEntriesPositionsObjectNotInPack() {
+		assertEquals(-1, smallIdx.findPosition(ObjectId.zeroId()));
+		assertEquals(-1, smallIdx.findPosition(ObjectId
+				.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
+	}
+
 	/**
 	 * Compare offset from iterator entries with output of findOffset() method.
 	 */
@@ -133,6 +167,13 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 		for (MutableEntry me : denseIdx) {
 			assertEquals(denseIdx.findOffset(me.toObjectId()), me.getOffset());
 		}
+	}
+
+	@Test
+	public void testEntriesOffsetsObjectNotInPack() {
+		assertEquals(-1, smallIdx.findOffset(ObjectId.zeroId()));
+		assertEquals(-1, smallIdx.findOffset(ObjectId
+				.fromString("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")));
 	}
 
 	/**

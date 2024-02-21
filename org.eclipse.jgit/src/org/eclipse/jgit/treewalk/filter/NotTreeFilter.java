@@ -38,13 +38,11 @@ public class NotTreeFilter extends TreeFilter {
 		a = one;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter negate() {
 		return a;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -52,7 +50,6 @@ public class NotTreeFilter extends TreeFilter {
 		return matchFilter(walker) == 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int matchFilter(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
@@ -69,20 +66,17 @@ public class NotTreeFilter extends TreeFilter {
 		return -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return a.shouldBeRecursive();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		final TreeFilter n = a.clone();
 		return n == a ? this : new NotTreeFilter(n);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "NOT " + a.toString(); //$NON-NLS-1$

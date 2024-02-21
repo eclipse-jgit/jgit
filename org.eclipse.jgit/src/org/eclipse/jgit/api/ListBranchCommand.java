@@ -73,7 +73,6 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Ref> call() throws GitAPIException {
 		checkCallable();

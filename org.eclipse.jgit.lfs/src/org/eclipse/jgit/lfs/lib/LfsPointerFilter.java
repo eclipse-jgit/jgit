@@ -41,7 +41,6 @@ public class LfsPointerFilter extends TreeFilter {
 		return pointer;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -63,13 +62,11 @@ public class LfsPointerFilter extends TreeFilter {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return new LfsPointerFilter();

@@ -39,14 +39,12 @@ class DfsObjectToPack extends ObjectToPack {
 		setExtendedFlag(FLAG_FOUND);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void clearReuseAsIs() {
 		super.clearReuseAsIs();
 		pack = null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void select(StoredObjectRepresentation ref) {
 		DfsObjectRepresentation ptr = (DfsObjectRepresentation) ref;

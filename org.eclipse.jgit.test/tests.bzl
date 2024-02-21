@@ -52,6 +52,12 @@ def tests(tests):
                 "//lib:xz",
                 "//org.eclipse.jgit.archive:jgit-archive",
             ]
+        if src.endswith("FileRepositoryBuilderAfterOpenConfigTest.java") or \
+           src.endswith("RefDirectoryAfterOpenConfigTest.java") or \
+           src.endswith("SnapshottingRefDirectoryTest.java"):
+            additional_deps = [
+                ":base",
+            ]
         heap_size = "-Xmx256m"
         if src.endswith("HugeCommitMessageTest.java"):
             heap_size = "-Xmx512m"

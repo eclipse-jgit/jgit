@@ -38,6 +38,8 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 	final int indexObjectCount;
 
+	private BitmapLookupListener listener = BitmapLookupListener.NOOP;
+
 	/**
 	 * Creates a BitmapIndex that is back by Compressed bitmaps.
 	 *
@@ -54,19 +56,29 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return packIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap compressed = packIndex.getBitmap(objectId);
-		if (compressed == null)
+		if (compressed == null) {
+			listener.onBitmapNotFound(objectId);
 			return null;
+		}
+		listener.onBitmapFound(objectId);
 		return new CompressedBitmap(compressed, this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public CompressedBitmapBuilder newBitmapBuilder() {
 		return new CompressedBitmapBuilder(this);
+	}
+
+	@Override
+	public void addBitmapLookupListener(BitmapLookupListener l) {
+		if (l == null) {
+			throw new IllegalArgumentException(
+					JGitText.get().bitmapUseNoopNoListener);
+		}
+		this.listener = l;
 	}
 
 	int findPosition(AnyObjectId objectId) {
@@ -88,6 +100,11 @@ public class BitmapIndexImpl implements BitmapIndex {
 		return position;
 	}
 
+	/**
+	 * A bitset for representing small changes (set/remove individual bits)
+	 * relative to an existing EWAH bitmap. Executing bit-vector operations will
+	 * materialize the changes into a fresh EWAH bitmap
+	 */
 	private static final class ComboBitset {
 		private InflatingBitSet inflatingBitmap;
 
@@ -123,18 +140,21 @@ public class BitmapIndexImpl implements BitmapIndex {
 			return inflatingBitmap.getBitmap();
 		}
 
+		/* In-place or operation */
 		void or(EWAHCompressedBitmap inbits) {
 			if (toRemove != null)
 				combine();
 			inflatingBitmap = inflatingBitmap.or(inbits);
 		}
 
+		/* In-place andNot operation */
 		void andNot(EWAHCompressedBitmap inbits) {
 			if (toAdd != null || toRemove != null)
 				combine();
 			inflatingBitmap = inflatingBitmap.andNot(inbits);
 		}
 
+		/* In-place xor operation. */
 		void xor(EWAHCompressedBitmap inbits) {
 			if (toAdd != null || toRemove != null)
 				combine();
@@ -291,7 +311,9 @@ public class BitmapIndexImpl implements BitmapIndex {
 		 * Construct compressed bitmap for given bitmap and bitmap index
 		 *
 		 * @param bitmap
+		 *            the bitmap
 		 * @param bitmapIndex
+		 *            the bitmap index
 		 */
 		public CompressedBitmap(EWAHCompressedBitmap bitmap, BitmapIndexImpl bitmapIndex) {
 			this.bitmap = bitmap;

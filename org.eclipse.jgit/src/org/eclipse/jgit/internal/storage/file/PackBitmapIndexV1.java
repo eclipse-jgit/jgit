@@ -84,7 +84,7 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 			throws IOException {
 		// An entry is object id, xor offset, flag byte, and a length encoded
 		// bitmap. The object id is an int32 of the nth position sorted by name.
-		super(new ObjectIdOwnerMap<StoredBitmap>());
+		super(new ObjectIdOwnerMap<>());
 		this.bitmaps = getBitmaps();
 
 		// Optionally start loading reverse index in parallel to loading bitmap
@@ -214,16 +214,14 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		this.reverseIndex = computedReverseIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		long offset = packIndex.findOffset(objectId);
 		if (offset == -1)
 			return -1;
-		return reverseIndex.findPostion(offset);
+		return reverseIndex.findPosition(offset);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		ObjectId objectId = reverseIndex.findObjectByPosition(position);
@@ -232,13 +230,11 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		return objectId;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return (int) packIndex.getObjectCount();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
@@ -255,13 +251,11 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		throw new IllegalArgumentException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		return bitmaps.size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		// TODO(cranger): compare the pack checksum?
@@ -270,7 +264,6 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return getPackIndex().hashCode();

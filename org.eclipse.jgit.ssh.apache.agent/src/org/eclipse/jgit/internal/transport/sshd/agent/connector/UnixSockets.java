@@ -67,6 +67,7 @@ interface UnixSockets extends LibCAPI, Library {
 	 *            set it
 	 * @return -1 on error, otherwise a value >= 0
 	 * @throws LastErrorException
+	 *             represents non-zero error code for the last error
 	 */
 	int fcntl(int fd, int command, int flag) throws LastErrorException;
 

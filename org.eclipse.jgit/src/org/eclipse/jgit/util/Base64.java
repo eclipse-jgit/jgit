@@ -96,6 +96,7 @@ public class Base64 {
 	 * @param destOffset
 	 *            the index where output will be put
 	 */
+	@SuppressWarnings("UnnecessaryParentheses")
 	private static void encode3to4(byte[] source, int srcOffset,
 			int numSigBytes, byte[] destination, int destOffset) {
 		// We have to shift left 24 in order to flush out the 1's that appear
@@ -201,6 +202,7 @@ public class Base64 {
 	 *            the index where output will be put
 	 * @return the number of decoded bytes converted
 	 */
+	@SuppressWarnings("UnnecessaryParentheses")
 	private static int decode4to3(byte[] source, int srcOffset,
 			byte[] destination, int destOffset) {
 		// Example: Dk==

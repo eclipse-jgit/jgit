@@ -57,6 +57,8 @@ public interface TypedConfigGetter {
 	/**
 	 * Parse an enumeration from a git {@link Config}.
 	 *
+	 * @param <T>
+	 *            type of the enum
 	 * @param config
 	 *            to get the value from
 	 * @param all

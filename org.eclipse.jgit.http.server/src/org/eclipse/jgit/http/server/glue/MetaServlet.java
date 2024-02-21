@@ -88,7 +88,6 @@ public class MetaServlet extends HttpServlet {
 		return filter.serveRegex(expression);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		String name = filter.getClass().getName();
@@ -96,13 +95,11 @@ public class MetaServlet extends HttpServlet {
 		filter.init(new NoParameterFilterConfig(name, ctx));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		filter.destroy();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {

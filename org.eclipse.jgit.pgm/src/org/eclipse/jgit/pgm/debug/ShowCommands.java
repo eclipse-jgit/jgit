@@ -26,7 +26,6 @@ class ShowCommands extends TextBuiltin {
 	@Option(name = "--pretty", metaVar = "metaVar_commandDetail", usage = "usage_alterTheDetailShown")
 	private Format pretty = Format.USAGE;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		final CommandRef[] list = CommandCatalog.all();
@@ -51,7 +50,7 @@ class ShowCommands extends TextBuiltin {
 	}
 
 	enum Format {
-		/** */
+		/** Get usage */
 		USAGE {
 			@Override
 			void print(ThrowingPrintWriter err, CommandRef c) throws IOException {
@@ -61,7 +60,7 @@ class ShowCommands extends TextBuiltin {
 			}
 		},
 
-		/** */
+		/** Get implementation class name */
 		CLASSES {
 			@Override
 			void print(ThrowingPrintWriter err, CommandRef c) throws IOException {
@@ -69,7 +68,7 @@ class ShowCommands extends TextBuiltin {
 			}
 		},
 
-		/** */
+		/** Get URL of implementation class */
 		URLS {
 			@Override
 			void print(ThrowingPrintWriter err, CommandRef c) throws IOException {

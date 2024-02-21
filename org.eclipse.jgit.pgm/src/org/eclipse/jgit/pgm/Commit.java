@@ -84,7 +84,6 @@ class Commit extends TextBuiltin {
 	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
 	private List<String> paths = new ArrayList<>();
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {

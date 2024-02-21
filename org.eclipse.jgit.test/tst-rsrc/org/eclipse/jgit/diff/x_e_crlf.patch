@@ -1,0 +1,14 @@
+diff --git a/x_e_crlf b/x_e_crlf
+index 33a3e0e..b3ab996 100644
+--- a/x_e_crlf
++++ b/x_e_crlf
+@@ -2,7 +2,7 @@ a
+ b
+ c
+ d
+-e
++E
+ f
+ g
+ h
+\ No newline at end of file

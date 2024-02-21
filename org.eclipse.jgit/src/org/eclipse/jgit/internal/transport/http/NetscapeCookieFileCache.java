@@ -39,6 +39,8 @@ public class NetscapeCookieFileCache {
 	}
 
 	/**
+	 * Get singleton instance
+	 *
 	 * @param config
 	 *            the config which defines the limit for this cache
 	 * @return the singleton instance of the cookie file cache. If the cache has
@@ -54,6 +56,8 @@ public class NetscapeCookieFileCache {
 	}
 
 	/**
+	 * Get a cache entry
+	 *
 	 * @param path
 	 *            the path of the cookie file to retrieve
 	 * @return the cache entry belonging to the requested file

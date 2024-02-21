@@ -92,7 +92,9 @@ public class ObjectUploadListener implements ReadListener {
 	 * @param id
 	 *            a {@link org.eclipse.jgit.lfs.lib.AnyLongObjectId} object.
 	 * @throws java.io.FileNotFoundException
+	 *             if file wasn't found
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public ObjectUploadListener(FileLfsRepository repository,
 			AsyncContext context, HttpServletRequest request,
@@ -146,7 +148,6 @@ public class ObjectUploadListener implements ReadListener {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onAllDataRead() throws IOException {
 		close();
@@ -156,6 +157,7 @@ public class ObjectUploadListener implements ReadListener {
 	 * Close resources held by this listener
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected void close() throws IOException {
 		try {
@@ -174,7 +176,6 @@ public class ObjectUploadListener implements ReadListener {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onError(Throwable e) {
 		try {

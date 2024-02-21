@@ -47,7 +47,6 @@ public class RemoveNoteCommand extends GitCommand<Note> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Note call() throws GitAPIException {
 		checkCallable();

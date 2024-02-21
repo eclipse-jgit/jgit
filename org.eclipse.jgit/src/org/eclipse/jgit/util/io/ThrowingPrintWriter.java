@@ -41,19 +41,16 @@ public class ThrowingPrintWriter extends Writer {
 				);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(char[] cbuf, int off, int len) throws IOException {
 		out.write(cbuf, off, len);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		out.flush();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		out.close();
@@ -62,8 +59,10 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a string and terminate with a line feed.
 	 *
-	 * @param s a {@link java.lang.String} object.
+	 * @param s
+	 *            a {@link java.lang.String} object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void println(String s) throws IOException {
 		print(s + LF);
@@ -73,6 +72,7 @@ public class ThrowingPrintWriter extends Writer {
 	 * Print a platform dependent new line
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void println() throws IOException {
 		print(LF);
@@ -81,8 +81,10 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a char
 	 *
-	 * @param value a char.
+	 * @param value
+	 *            a char.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void print(char value) throws IOException {
 		print(String.valueOf(value));
@@ -94,6 +96,7 @@ public class ThrowingPrintWriter extends Writer {
 	 * @param value
 	 *            an int.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void print(int value) throws IOException {
 		print(String.valueOf(value));
@@ -102,8 +105,10 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a long as string
 	 *
-	 * @param value a long.
+	 * @param value
+	 *            a long.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void print(long value) throws IOException {
 		print(String.valueOf(value));
@@ -112,8 +117,10 @@ public class ThrowingPrintWriter extends Writer {
 	/**
 	 * Print a short as string
 	 *
-	 * @param value a short.
+	 * @param value
+	 *            a short.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void print(short value) throws IOException {
 		print(String.valueOf(value));
@@ -128,6 +135,7 @@ public class ThrowingPrintWriter extends Writer {
 	 * @param args
 	 *            objects.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void format(String fmt, Object... args) throws IOException {
 		print(String.format(fmt, args));
@@ -139,6 +147,7 @@ public class ThrowingPrintWriter extends Writer {
 	 * @param any
 	 *            an object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void print(Object any) throws IOException {
 		out.write(String.valueOf(any));

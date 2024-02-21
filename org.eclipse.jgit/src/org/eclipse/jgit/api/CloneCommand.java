@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2017 Chris Aniszczyk <caniszczyk@gmail.com> and others
+ * Copyright (C) 2011, 2022 Chris Aniszczyk <caniszczyk@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,10 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -26,6 +29,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -90,6 +94,14 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private FETCH_TYPE fetchType;
 
 	private TagOpt tagOption;
+
+	private Integer depth;
+
+	private Instant shallowSince;
+
+	private List<String> shallowExcludes = new ArrayList<>();
+
+	private ShutdownHook.Listener shutdownListener = this::cleanup;
 
 	private enum FETCH_TYPE {
 		MULTIPLE_BRANCHES, ALL_BRANCHES, MIRROR
@@ -172,12 +184,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		@SuppressWarnings("resource") // Closed by caller
 		Repository repository = init();
 		FetchResult fetchResult = null;
-		Thread cleanupHook = new Thread(() -> cleanup());
-		try {
-			Runtime.getRuntime().addShutdownHook(cleanupHook);
-		} catch (IllegalStateException e) {
-			// ignore - the VM is already shutting down
-		}
+		ShutdownHook.INSTANCE.register(shutdownListener);
 		try {
 			fetchResult = fetch(repository, u);
 		} catch (IOException ioe) {
@@ -201,22 +208,16 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			cleanup();
 			throw e;
 		} finally {
-			try {
-				Runtime.getRuntime().removeShutdownHook(cleanupHook);
-			} catch (IllegalStateException e) {
-				// ignore - the VM is already shutting down
-			}
+			ShutdownHook.INSTANCE.unregister(shutdownListener);
 		}
-		if (!noCheckout) {
-			try {
-				checkout(repository, fetchResult);
-			} catch (IOException ioe) {
-				repository.close();
-				throw new JGitInternalException(ioe.getMessage(), ioe);
-			} catch (GitAPIException | RuntimeException e) {
-				repository.close();
-				throw e;
-			}
+		try {
+			checkout(repository, fetchResult);
+		} catch (IOException ioe) {
+			repository.close();
+			throw new JGitInternalException(ioe.getMessage(), ioe);
+		} catch (GitAPIException | RuntimeException e) {
+			repository.close();
+			throw e;
 		}
 		return new Git(repository, true);
 	}
@@ -306,6 +307,13 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 					fetchAll ? TagOpt.FETCH_TAGS : TagOpt.AUTO_FOLLOW);
 		}
 		command.setInitialBranch(branch);
+		if (depth != null) {
+			command.setDepth(depth.intValue());
+		}
+		if (shallowSince != null) {
+			command.setShallowSince(shallowSince);
+		}
+		command.setShallowExcludes(shallowExcludes);
 		configure(command);
 
 		return command.call();
@@ -377,7 +385,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		u.setNewObjectId(commit.getId());
 		u.forceUpdate();
 
-		if (!bare) {
+		if (!bare && !noCheckout) {
 			DirCache dc = clonedRepo.lockDirCache();
 			DirCacheCheckout co = new DirCacheCheckout(clonedRepo, dc,
 					commit.getTree());
@@ -734,6 +742,82 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public CloneCommand setCallback(Callback callback) {
 		this.callback = callback;
+		return this;
+	}
+
+	/**
+	 * Creates a shallow clone with a history truncated to the specified number
+	 * of commits.
+	 *
+	 * @param depth
+	 *            the depth
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public CloneCommand setDepth(int depth) {
+		if (depth < 1) {
+			throw new IllegalArgumentException(JGitText.get().depthMustBeAt1);
+		}
+		this.depth = Integer.valueOf(depth);
+		return this;
+	}
+
+	/**
+	 * Creates a shallow clone with a history after the specified time.
+	 *
+	 * @param shallowSince
+	 *            the timestammp; must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public CloneCommand setShallowSince(@NonNull OffsetDateTime shallowSince) {
+		this.shallowSince = shallowSince.toInstant();
+		return this;
+	}
+
+	/**
+	 * Creates a shallow clone with a history after the specified time.
+	 *
+	 * @param shallowSince
+	 *            the timestammp; must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public CloneCommand setShallowSince(@NonNull Instant shallowSince) {
+		this.shallowSince = shallowSince;
+		return this;
+	}
+
+	/**
+	 * Creates a shallow clone with a history, excluding commits reachable from
+	 * a specified remote branch or tag.
+	 *
+	 * @param shallowExclude
+	 *            the ref or commit; must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public CloneCommand addShallowExclude(@NonNull String shallowExclude) {
+		shallowExcludes.add(shallowExclude);
+		return this;
+	}
+
+	/**
+	 * Creates a shallow clone with a history, excluding commits reachable from
+	 * a specified remote branch or tag.
+	 *
+	 * @param shallowExclude
+	 *            the commit; must not be {@code null}
+	 * @return {@code this}
+	 *
+	 * @since 6.3
+	 */
+	public CloneCommand addShallowExclude(@NonNull ObjectId shallowExclude) {
+		shallowExcludes.add(shallowExclude.name());
 		return this;
 	}
 

@@ -5,10 +5,11 @@ Automatic-Module-Name: org.eclipse.jgit.http.apache
 Bundle-SymbolicName: org.eclipse.jgit.http.apache
 Bundle-Version: 7.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-Localization: plugin
+Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.http;version="[4.3.0,5.0.0)",
+Import-Package: javax.net.ssl,
+ org.apache.http;version="[4.3.0,5.0.0)",
  org.apache.http.client;version="[4.4.0,5.0.0)",
  org.apache.http.client.config;version="[4.4.0,5.0.0)",
  org.apache.http.client.methods;version="[4.4.0,5.0.0)",

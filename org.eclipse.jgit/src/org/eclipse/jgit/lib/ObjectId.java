@@ -262,7 +262,6 @@ public class ObjectId extends AnyObjectId implements Serializable {
 		w5 = src.w5;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId toObjectId() {
 		return this;

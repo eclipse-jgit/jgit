@@ -436,7 +436,6 @@ public class ResetCommand extends GitCommand<Ref> {
 		repo.writeMergeCommitMsg(null);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

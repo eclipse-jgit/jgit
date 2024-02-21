@@ -140,7 +140,6 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		return new SshFetchConnection();
@@ -153,7 +152,6 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return new SshFetchConnection(refSpecs, additionalPatterns);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		return new SshPushConnection();
@@ -162,7 +160,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	String commandFor(String exe) {
 		String path = uri.getPath();
 		if (uri.getScheme() != null && uri.getPath().startsWith("/~")) //$NON-NLS-1$
-			path = (uri.getPath().substring(1));
+			path = uri.getPath().substring(1);
 
 		final StringBuilder cmd = new StringBuilder();
 		cmd.append(exe);

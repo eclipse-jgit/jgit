@@ -46,6 +46,7 @@ org.eclipse.jgit.pgm.debug.BenchmarkReftable
 org.eclipse.jgit.pgm.debug.DiffAlgorithms
 org.eclipse.jgit.pgm.debug.LfsStore
 org.eclipse.jgit.pgm.debug.MakeCacheTree
+org.eclipse.jgit.pgm.debug.ReadChangedPathFilter
 org.eclipse.jgit.pgm.debug.ReadDirCache
 org.eclipse.jgit.pgm.debug.ReadReftable
 org.eclipse.jgit.pgm.debug.RebuildCommitGraph

@@ -249,6 +249,7 @@ public abstract class TextBuiltin {
 	 * @param args
 	 *            the arguments supplied on the command line, if any.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected void parseArguments(String[] args) throws IOException {
 		final CmdLineParser clp = new CmdLineParser(this);
@@ -277,6 +278,7 @@ public abstract class TextBuiltin {
 	 * @param clp
 	 *            a {@link org.eclipse.jgit.pgm.opt.CmdLineParser} object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void printUsageAndExit(CmdLineParser clp) throws IOException {
 		printUsageAndExit("", clp); //$NON-NLS-1$
@@ -290,6 +292,7 @@ public abstract class TextBuiltin {
 	 * @param clp
 	 *            a {@link org.eclipse.jgit.pgm.opt.CmdLineParser} object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void printUsageAndExit(String message, CmdLineParser clp) throws IOException {
 		printUsage(message, clp);
@@ -304,6 +307,7 @@ public abstract class TextBuiltin {
 	 * @param clp
 	 *            parser used to print options
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	protected void printUsage(String message, CmdLineParser clp)

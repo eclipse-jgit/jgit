@@ -76,7 +76,6 @@ public class GitCloneTask extends Task {
 		this.branch = branch;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		log("Cloning repository " + uri);

@@ -241,13 +241,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		this.packComparator = packComparator;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public DfsReader newReader() {
 		return new DfsReader(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectInserter newInserter() {
 		return new DfsInserter(this);
@@ -372,7 +370,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * Default implementation of this method would be equivalent to
 	 * {@code newPack(source).setEstimatedPackSize(estimatedPackSize)}. But the
 	 * clients can override this method to use the given
-	 * {@code estomatedPackSize} value more efficiently in the process of
+	 * {@code estimatedPackSize} value more efficiently in the process of
 	 * creating a new
 	 * {@link org.eclipse.jgit.internal.storage.dfs.DfsPackDescription} object.
 	 *
@@ -657,7 +655,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		packList.set(NO_PACKS);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		packList.set(NO_PACKS);
@@ -678,7 +675,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			this.reftables = reftables;
 		}
 
-		/** @return last modified time of all packs, in milliseconds. */
+		/**
+		 * Get last modified time of all packs
+		 *
+		 * @return last modified time of all packs, in milliseconds.
+		 */
 		public long getLastModified() {
 			if (lastModified < 0) {
 				long max = 0;

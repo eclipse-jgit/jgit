@@ -30,6 +30,8 @@ public class LfsGson {
 	/**
 	 * Wrapper class only used for serialization of error messages.
 	 */
+	// TODO(ms): rename this class in next major release
+	@SuppressWarnings("JavaLangClash")
 	static class Error {
 		String message;
 

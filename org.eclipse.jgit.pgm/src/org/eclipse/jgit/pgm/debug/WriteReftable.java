@@ -71,7 +71,6 @@ class WriteReftable extends TextBuiltin {
 	@Argument(index = 1)
 	private String out;
 
-	/** {@inheritDoc} */
 	@SuppressWarnings({ "nls", "boxing" })
 	@Override
 	protected void run() throws Exception {

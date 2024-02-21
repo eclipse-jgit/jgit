@@ -104,7 +104,6 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		super(local, uri);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		final SftpObjectDB c = new SftpObjectDB(uri.getPath());
@@ -113,7 +112,6 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		return r;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		final SftpObjectDB c = new SftpObjectDB(uri.getPath());

@@ -9,13 +9,19 @@
  */
 package org.eclipse.jgit.http.server;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 /**
  * Handle git-upload-pack errors.
@@ -35,6 +41,27 @@ import org.eclipse.jgit.transport.UploadPack;
  */
 public interface UploadPackErrorHandler {
 	/**
+	 * Maps a thrown git related Exception to an appropriate HTTP status code.
+	 *
+	 * @param error
+	 *            The thrown Exception.
+	 * @return the HTTP status code as an int
+	 * @since 6.1.1
+	 */
+	public static int statusCodeForThrowable(Throwable error) {
+		if (error instanceof ServiceNotEnabledException) {
+			return SC_FORBIDDEN;
+		}
+		if (error instanceof PackProtocolException) {
+			// Internal git errors are not errors from an HTTP standpoint.
+			return SC_OK;
+		}
+		return SC_INTERNAL_SERVER_ERROR;
+	}
+
+	/**
+	 * Upload pack
+	 *
 	 * @param req
 	 *            The HTTP request
 	 * @param rsp
@@ -42,6 +69,7 @@ public interface UploadPackErrorHandler {
 	 * @param r
 	 *            A continuation that handles a git-upload-pack request.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void upload(HttpServletRequest req, HttpServletResponse rsp,
 			UploadPackRunnable r) throws IOException;
@@ -52,7 +80,9 @@ public interface UploadPackErrorHandler {
 		 * See {@link UploadPack#uploadWithExceptionPropagation}.
 		 *
 		 * @throws ServiceMayNotContinueException
+		 *             transport service cannot continue
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		void upload() throws ServiceMayNotContinueException, IOException;
 	}

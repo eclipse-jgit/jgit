@@ -54,6 +54,8 @@ public class CommandExecutor {
 	}
 
 	/**
+	 * Run command
+	 *
 	 * @param command
 	 *            the command string
 	 * @param workingDir
@@ -62,8 +64,11 @@ public class CommandExecutor {
 	 *            the environment
 	 * @return the execution result
 	 * @throws ToolException
+	 *             if a tool raised an error
 	 * @throws InterruptedException
+	 *             if thread was interrupted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public ExecutionResult run(String command, File workingDir,
 			Map<String, String> env)
@@ -101,6 +106,8 @@ public class CommandExecutor {
 	}
 
 	/**
+	 * Check whether executable file is available
+	 *
 	 * @param path
 	 *            the executable path
 	 * @param workingDir
@@ -109,8 +116,11 @@ public class CommandExecutor {
 	 *            the environment
 	 * @return the execution result
 	 * @throws ToolException
+	 *             if a tool raised an error
 	 * @throws InterruptedException
+	 *             if thread was interrupted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public boolean checkExecutable(String path, File workingDir,
 			Map<String, String> env)

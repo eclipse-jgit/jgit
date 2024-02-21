@@ -137,8 +137,8 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 * <dt>BranchRebaseMode.REBASE</dt>
 	 * <dd>Equivalent to {@code --rebase} on the command line: use rebase
 	 * instead of merge after fetching.</dd>
-	 * <dt>BranchRebaseMode.PRESERVE</dt>
-	 * <dd>Equivalent to {@code --preserve-merges} on the command line: rebase
+	 * <dt>BranchRebaseMode.MERGES</dt>
+	 * <dd>Equivalent to {@code --rebase-merges} on the command line: rebase
 	 * preserving local merge commits.</dd>
 	 * <dt>BranchRebaseMode.INTERACTIVE</dt>
 	 * <dd>Equivalent to {@code --interactive} on the command line: use
@@ -362,7 +362,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 					.setStrategy(strategy)
 					.setContentMergeStrategy(contentStrategy)
 					.setPreserveMerges(
-							pullRebaseMode == BranchRebaseMode.PRESERVE)
+							pullRebaseMode == BranchRebaseMode.MERGES)
 					.call();
 			result = new PullResult(fetchRes, remote, rebaseRes);
 		} else {

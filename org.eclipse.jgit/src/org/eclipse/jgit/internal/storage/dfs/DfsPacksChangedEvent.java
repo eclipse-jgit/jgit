@@ -18,13 +18,11 @@ import org.eclipse.jgit.events.RepositoryEvent;
  */
 public class DfsPacksChangedEvent
 		extends RepositoryEvent<DfsPacksChangedListener> {
-	/** {@inheritDoc} */
 	@Override
 	public Class<DfsPacksChangedListener> getListenerType() {
 		return DfsPacksChangedListener.class;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void dispatch(DfsPacksChangedListener listener) {
 		listener.onPacksChanged(this);

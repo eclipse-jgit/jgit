@@ -231,7 +231,6 @@ public final class Attributes {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
@@ -246,13 +245,11 @@ public final class Attributes {
 		return buf.toString();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return map.hashCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

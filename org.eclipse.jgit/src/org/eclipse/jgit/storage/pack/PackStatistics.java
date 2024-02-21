@@ -111,6 +111,8 @@ public class PackStatistics {
 		}
 
 		/**
+		 * Get total number of objects output
+		 *
 		 * @return total number of objects output. This total includes the value
 		 *         of {@link #getDeltas()}.
 		 */
@@ -119,6 +121,8 @@ public class PackStatistics {
 		}
 
 		/**
+		 * Get total number of deltas output
+		 *
 		 * @return total number of deltas output. This may be lower than the
 		 *         actual number of deltas if a cached pack was reused.
 		 */
@@ -127,6 +131,9 @@ public class PackStatistics {
 		}
 
 		/**
+		 * Get number of objects whose existing representation was reused in the
+		 * output
+		 *
 		 * @return number of objects whose existing representation was reused in
 		 *         the output. This count includes {@link #getReusedDeltas()}.
 		 */
@@ -135,6 +142,9 @@ public class PackStatistics {
 		}
 
 		/**
+		 * Get number of deltas whose existing representation was reused in the
+		 * output
+		 *
 		 * @return number of deltas whose existing representation was reused in
 		 *         the output, as their base object was also output or was
 		 *         assumed present for a thin pack. This may be lower than the
@@ -145,6 +155,8 @@ public class PackStatistics {
 		}
 
 		/**
+		 * Get total number of bytes written
+		 *
 		 * @return total number of bytes written. This size includes the object
 		 *         headers as well as the compressed data. This size also
 		 *         includes all of {@link #getDeltaBytes()}.
@@ -154,6 +166,8 @@ public class PackStatistics {
 		}
 
 		/**
+		 * Get number of delta bytes written
+		 *
 		 * @return number of delta bytes written. This size includes the object
 		 *         headers for the delta objects.
 		 */
@@ -641,6 +655,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get number of trees traversed
+	 *
 	 * @return number of trees traversed in the walk when writing the pack.
 	 * @since 5.4
 	 */
@@ -649,6 +665,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get amount of packfiles offloaded
+	 *
 	 * @return amount of packfiles offloaded (sent as "packfile-uri")/
 	 * @since 5.6
 	 */
@@ -657,6 +675,8 @@ public class PackStatistics {
 	}
 
 	/**
+	 * Get total size (in bytes) offloaded
+	 *
 	 * @return total size (in bytes) offloaded to HTTP downloads.
 	 * @since 5.6
 	 */

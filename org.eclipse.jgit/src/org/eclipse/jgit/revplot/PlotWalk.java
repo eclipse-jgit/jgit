@@ -49,7 +49,6 @@ public class PlotWalk extends RevWalk {
 
 	private Repository repository;
 
-	/** {@inheritDoc} */
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -83,6 +82,7 @@ public class PlotWalk extends RevWalk {
 	 * @param refs
 	 *            additional refs
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void addAdditionalRefs(Iterable<Ref> refs) throws IOException {
 		for (Ref ref : refs) {
@@ -97,7 +97,6 @@ public class PlotWalk extends RevWalk {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void sort(RevSort s, boolean use) {
 		if (s == RevSort.TOPO && !use)
@@ -105,13 +104,11 @@ public class PlotWalk extends RevWalk {
 		super.sort(s, use);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected RevCommit createCommit(AnyObjectId id) {
 		return new PlotCommit(id);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {

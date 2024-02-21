@@ -41,13 +41,11 @@ public class BeforeDfsPackIndexLoadedEvent
 		return pack;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Class<BeforeDfsPackIndexLoadedListener> getListenerType() {
 		return BeforeDfsPackIndexLoadedListener.class;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void dispatch(BeforeDfsPackIndexLoadedListener listener) {
 		listener.onBeforeDfsPackIndexLoaded(this);

@@ -15,7 +15,6 @@ final class WildCardHead extends AbstractHead {
 		super(star);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected final boolean matches(char c) {
 		return true;

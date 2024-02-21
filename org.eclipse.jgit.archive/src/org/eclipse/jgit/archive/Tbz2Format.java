@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.lib.FileMode;
@@ -26,14 +27,13 @@ import org.eclipse.jgit.lib.ObjectLoader;
 /**
  * bzip2-compressed tarball (tar.bz2) format.
  */
-public final class Tbz2Format extends BaseFormat implements
-		ArchiveCommand.Format<ArchiveOutputStream> {
+public final class Tbz2Format extends BaseFormat
+		implements ArchiveCommand.Format<ArchiveOutputStream<TarArchiveEntry>> {
 	private static final List<String> SUFFIXES = Collections
 			.unmodifiableList(Arrays.asList(".tar.bz2", ".tbz", ".tbz2")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-	private final ArchiveCommand.Format<ArchiveOutputStream> tarFormat = new TarFormat();
+	private final ArchiveCommand.Format<ArchiveOutputStream<TarArchiveEntry>> tarFormat = new TarFormat();
 
-	/** {@inheritDoc} */
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s)
 			throws IOException {
@@ -41,7 +41,6 @@ public final class Tbz2Format extends BaseFormat implements
 				Collections.<String, Object> emptyMap());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ArchiveOutputStream createArchiveOutputStream(OutputStream s,
 			Map<String, Object> o) throws IOException {
@@ -55,27 +54,23 @@ public final class Tbz2Format extends BaseFormat implements
 		return tarFormat.createArchiveOutputStream(out, o);
 	}
 
-	/** {@inheritDoc} */
 	@Override
-	public void putEntry(ArchiveOutputStream out,
+	public void putEntry(ArchiveOutputStream<TarArchiveEntry> out,
 			ObjectId tree, String path, FileMode mode, ObjectLoader loader)
 			throws IOException {
 		tarFormat.putEntry(out, tree, path, mode, loader);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterable<String> suffixes() {
 		return SUFFIXES;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object other) {
 		return (other instanceof Tbz2Format);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return getClass().hashCode();

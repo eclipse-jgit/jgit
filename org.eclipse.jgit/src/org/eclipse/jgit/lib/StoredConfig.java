@@ -57,7 +57,6 @@ public abstract class StoredConfig extends Config {
 	 */
 	public abstract void save() throws IOException;
 
-	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		super.clear();

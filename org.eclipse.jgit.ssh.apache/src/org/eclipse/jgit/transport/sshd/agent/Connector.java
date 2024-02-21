@@ -26,7 +26,7 @@ public interface Connector extends Closeable {
 	 * connected just returns {@code true}.
 	 *
 	 * @return {@code true} if an SSH agent is available and connected,
-	 *         {@false} if no SSH agent is available
+	 *         {@code false} if no SSH agent is available
 	 * @throws IOException
 	 *             if connecting to the SSH agent failed
 	 */

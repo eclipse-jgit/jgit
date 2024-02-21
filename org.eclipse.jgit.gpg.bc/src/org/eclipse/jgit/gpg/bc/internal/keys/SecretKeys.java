@@ -373,6 +373,7 @@ public final class SecretKeys {
 	 *            index of the closing quote in {@code in}
 	 * @return the dequoted raw string value
 	 * @throws StreamCorruptedException
+	 *             if object stream is corrupt
 	 */
 	private static byte[] dequote(byte[] in, int from, int to)
 			throws StreamCorruptedException {

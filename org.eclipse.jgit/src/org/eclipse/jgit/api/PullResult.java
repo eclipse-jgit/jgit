@@ -89,7 +89,6 @@ public class PullResult {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

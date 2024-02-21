@@ -75,6 +75,10 @@ class OCBPBEProtectionRemoverFactory
 						.getSymmetricCipherName(encAlgorithm);
 				byte[] decrypted = null;
 				try {
+					// errorprone: "Dynamically constructed transformation
+					// strings are also flagged, as they may conceal an instance
+					// of ECB mode."
+					@SuppressWarnings("InsecureCryptoUsage")
 					Cipher c = Cipher
 							.getInstance(algorithmName + "/OCB/NoPadding"); //$NON-NLS-1$
 					SecretKey secretKey = new SecretKeySpec(key, algorithmName);

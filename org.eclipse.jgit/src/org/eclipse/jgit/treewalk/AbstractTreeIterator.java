@@ -718,7 +718,6 @@ public abstract class AbstractTreeIterator {
 		System.arraycopy(path, pathOffset, buffer, offset, pathLen - pathOffset);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

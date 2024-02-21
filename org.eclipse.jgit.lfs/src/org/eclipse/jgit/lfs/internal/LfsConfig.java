@@ -70,6 +70,7 @@ public class LfsConfig {
 	 *
 	 * @return the delegate {@link Config}
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Config getDelegate() throws IOException {
 		if (delegate == null) {
@@ -86,6 +87,7 @@ public class LfsConfig {
 	 * @return The loaded lfs config
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Config load() throws IOException {
 		Config result = null;
@@ -114,6 +116,7 @@ public class LfsConfig {
 	 *
 	 * @return the config, or <code>null</code>
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	private Config loadFromWorkingTree()
@@ -139,6 +142,7 @@ public class LfsConfig {
 	 *
 	 * @return the config, or <code>null</code> if the entry does not exist
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	private Config loadFromIndex()
@@ -162,6 +166,7 @@ public class LfsConfig {
 	 *
 	 * @return the config, or <code>null</code> if the file does not exist
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	private Config loadFromHead() throws IOException {
@@ -207,6 +212,7 @@ public class LfsConfig {
 	 *            the key name
 	 * @return a String value from the config, <code>null</code> if not found
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Nullable
 	public String getString(final String section, final String subsection,

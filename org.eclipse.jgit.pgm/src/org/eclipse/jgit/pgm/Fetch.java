@@ -14,6 +14,8 @@ package org.eclipse.jgit.pgm;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.FetchCommand;
@@ -62,6 +64,15 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	@Option(name = "--tags", usage="usage_tags", aliases = { "-t" })
 	private Boolean tags;
 
+	@Option(name = "--depth", metaVar = "metaVar_depth", usage = "usage_depth")
+	private Integer depth = null;
+
+	@Option(name = "--shallow-since", metaVar = "metaVar_shallowSince", usage = "usage_shallowSince")
+	private Instant shallowSince = null;
+
+	@Option(name = "--shallow-exclude", metaVar = "metaVar_shallowExclude", usage = "usage_shallowExclude")
+	private List<String> shallowExcludes = new ArrayList<>();
+
 	@Option(name = "--no-tags", usage = "usage_notags", aliases = { "-n" })
 	void notags(@SuppressWarnings("unused")
 	final boolean ignored) {
@@ -102,7 +113,6 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	@Argument(index = 1, metaVar = "metaVar_refspec")
 	private List<RefSpec> toget;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {
@@ -119,6 +129,15 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 			if (tags != null) {
 				fetch.setTagOpt(tags.booleanValue() ? TagOpt.FETCH_TAGS
 						: TagOpt.NO_TAGS);
+			}
+			if (depth != null) {
+				fetch.setDepth(depth.intValue());
+			}
+			if (shallowSince != null) {
+				fetch.setShallowSince(shallowSince);
+			}
+			for (String shallowExclude : shallowExcludes) {
+				fetch.addShallowExclude(shallowExclude);
 			}
 			if (0 <= timeout) {
 				fetch.setTimeout(timeout);
@@ -147,7 +166,6 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void fetchingSubmodule(String name) {
 		try {

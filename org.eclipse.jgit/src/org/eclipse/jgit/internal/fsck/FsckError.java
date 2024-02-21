@@ -46,17 +46,29 @@ public class FsckError {
 			this.errorType = errorType;
 		}
 
-		/** @return identifier of the object. */
+		/**
+		 * Get Id
+		 *
+		 * @return identifier of the object.
+		 */
 		public ObjectId getId() {
 			return id;
 		}
 
-		/** @return type of the object. */
+		/**
+		 * Get type
+		 *
+		 * @return type of the object.
+		 */
 		public int getType() {
 			return type;
 		}
 
-		/** @return error type of the corruption. */
+		/**
+		 * Get error type
+		 *
+		 * @return error type of the corruption.
+		 */
 		@Nullable
 		public ObjectChecker.ErrorType getErrorType() {
 			return errorType;
@@ -81,12 +93,20 @@ public class FsckError {
 			this.errorType = errorType;
 		}
 
-		/** @return the file name of the index file. */
+		/**
+		 * Get file name
+		 *
+		 * @return the file name of the index file.
+		 */
 		public String getFileName() {
 			return fileName;
 		}
 
-		/** @return the error type of the corruption. */
+		/**
+		 * Get error type
+		 *
+		 * @return the error type of the corruption.
+		 */
 		public ErrorType getErrorType() {
 			return errorType;
 		}

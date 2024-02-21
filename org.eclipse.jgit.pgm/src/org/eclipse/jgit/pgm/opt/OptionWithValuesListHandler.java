@@ -33,7 +33,6 @@ public class OptionWithValuesListHandler extends OptionHandler<List<?>> {
 		super(parser, option, setter);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		final List<String> list = new ArrayList<>();
@@ -50,7 +49,6 @@ public class OptionWithValuesListHandler extends OptionHandler<List<?>> {
 		return list.size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getDefaultMetaVariable() {
 		return CLIText.get().metaVar_values;

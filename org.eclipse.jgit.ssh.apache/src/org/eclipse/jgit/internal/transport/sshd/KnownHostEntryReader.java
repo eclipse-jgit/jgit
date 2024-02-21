@@ -34,9 +34,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Apache MINA sshd 2.0.0 KnownHostEntry cannot read a host entry line like
- * "host:port ssh-rsa <key>"; it complains about an illegal character in the
- * host name (correct would be "[host]:port"). The default known_hosts reader
- * also aborts reading on the first error.
+ * "host:port ssh-rsa &lt;key&gt;"; it complains about an illegal character in
+ * the host name (correct would be "[host]:port"). The default known_hosts
+ * reader also aborts reading on the first error.
  * <p>
  * This reader is a bit more robust and tries to handle this case if there is
  * only one colon (otherwise it might be an IPv6 address (without port)), and it

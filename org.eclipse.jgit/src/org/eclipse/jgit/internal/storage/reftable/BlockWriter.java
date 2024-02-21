@@ -92,7 +92,7 @@ class BlockWriter {
 			}
 		}
 
-		int cnt = (int) (Math.ceil(blockLimitBytes / avgBytesPerEntry));
+		int cnt = (int) Math.ceil(blockLimitBytes / avgBytesPerEntry);
 		return Math.min(cnt, 4096);
 	}
 

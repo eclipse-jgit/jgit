@@ -122,6 +122,7 @@ public abstract class RefRename {
 	 *
 	 * @return the result of the new ref update
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public Result rename() throws IOException {
 		try {
@@ -138,6 +139,7 @@ public abstract class RefRename {
 	 *
 	 * @return the result of the rename operation.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected abstract Result doRename() throws IOException;
 

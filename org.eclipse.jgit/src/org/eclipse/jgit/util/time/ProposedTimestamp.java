@@ -162,7 +162,6 @@ public abstract class ProposedTimestamp implements AutoCloseable {
 		// Do nothing by default.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return instant().toString();

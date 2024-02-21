@@ -33,6 +33,7 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 	 * content stored in the specified buffer
 	 *
 	 * @param buffer
+	 *            the buffer
 	 */
 	public TemporaryBufferEntity(TemporaryBuffer buffer) {
 		this.buffer = buffer;
@@ -47,13 +48,11 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 		return buffer;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isRepeatable() {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getContentLength() {
 		if (contentLength != null)
@@ -61,20 +60,17 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 		return buffer.length();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public InputStream getContent() throws IOException, IllegalStateException {
 		return buffer.openInputStream();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void writeTo(OutputStream outstream) throws IOException {
 		// TODO: dont we need a progressmonitor
 		buffer.writeTo(outstream, null);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isStreaming() {
 		return false;
@@ -84,6 +80,7 @@ public class TemporaryBufferEntity extends AbstractHttpEntity
 	 * Set the <code>contentLength</code>
 	 *
 	 * @param contentLength
+	 *            content length
 	 */
 	public void setContentLength(int contentLength) {
 		this.contentLength = Integer.valueOf(contentLength);

@@ -36,6 +36,8 @@ public final class GitmoduleEntry {
 	}
 
 	/**
+	 * Get Id of a .gitmodules file found in the pack
+	 *
 	 * @return Id of a .gitmodules file found in the pack
 	 */
 	public AnyObjectId getBlobId() {
@@ -43,6 +45,8 @@ public final class GitmoduleEntry {
 	}
 
 	/**
+	 * Get Id of a tree object where the .gitmodules file was found
+	 *
 	 * @return Id of a tree object where the .gitmodules file was found
 	 */
 	public AnyObjectId getTreeId() {

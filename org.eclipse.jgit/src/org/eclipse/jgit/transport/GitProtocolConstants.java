@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, 2013 Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2020 Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2022 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -234,11 +234,25 @@ public final class GitProtocolConstants {
 	public static final String CAPABILITY_SERVER_OPTION = "server-option"; //$NON-NLS-1$
 
 	/**
+	 * The server supports the receiving of shallow options.
+	 *
+	 * @since 6.3
+	 */
+	public static final String CAPABILITY_SHALLOW = "shallow"; //$NON-NLS-1$
+
+	/**
 	 * Option for passing application-specific options to the server.
 	 *
 	 * @since 5.2
 	 */
 	public static final String OPTION_SERVER_OPTION = "server-option"; //$NON-NLS-1$
+
+	/**
+	 * Option for passing client session ID to the server.
+	 *
+	 * @since 6.4
+	 */
+	public static final String OPTION_SESSION_ID = "session-id"; //$NON-NLS-1$
 
 	/**
 	 * The server supports listing refs using protocol v2.
@@ -308,6 +322,13 @@ public final class GitProtocolConstants {
 	public static final String SECTION_PACKFILE = "packfile"; //$NON-NLS-1$
 
 	/**
+	 * Protocol V2 shallow-info section header.
+	 *
+	 * @since 6.3
+	 */
+	public static final String SECTION_SHALLOW_INFO = "shallow-info"; //$NON-NLS-1$
+
+	/**
 	 * Protocol announcement for protocol version 1. This is the same as V0,
 	 * except for this initial line.
 	 *
@@ -328,6 +349,106 @@ public final class GitProtocolConstants {
 	 * @since 5.11
 	 */
 	public static final String VERSION_2_REQUEST = "version=2"; //$NON-NLS-1$
+
+	/**
+	 * The flush packet.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_FLUSH = "0000"; //$NON-NLS-1$
+
+	/**
+	 * An alias for {@link #PACKET_FLUSH}. "Flush" is the name used in the C git
+	 * documentation; the Java implementation calls this "end" in several
+	 * places.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_END = PACKET_FLUSH;
+
+	/**
+	 * The delimiter packet in protocol V2.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DELIM = "0001"; //$NON-NLS-1$
+
+	/**
+	 * A "deepen" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DEEPEN = "deepen "; //$NON-NLS-1$
+
+	/**
+	 * A "deepen-not" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DEEPEN_NOT = "deepen-not "; //$NON-NLS-1$
+
+	/**
+	 * A "deepen-since" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DEEPEN_SINCE = "deepen-since "; //$NON-NLS-1$
+
+	/**
+	 * An "ACK" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_ACK = "ACK "; //$NON-NLS-1$
+
+	/**
+	 * A "done" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_DONE = "done"; //$NON-NLS-1$
+
+	/**
+	 * A "ERR" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_ERR = "ERR "; //$NON-NLS-1$
+
+	/**
+	 * A "have" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_HAVE = "have "; //$NON-NLS-1$
+
+	/**
+	 * A "shallow" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_SHALLOW = OPTION_SHALLOW + ' ';
+
+	/**
+	 * A "shallow" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_UNSHALLOW = "unshallow "; //$NON-NLS-1$
+
+	/**
+	 * A "want" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_WANT = "want "; //$NON-NLS-1$
+
+	/**
+	 * A "want-ref" packet beginning.
+	 *
+	 * @since 6.3
+	 */
+	public static final String PACKET_WANT_REF = OPTION_WANT_REF + ' ';
 
 	enum MultiAck {
 		OFF, CONTINUE, DETAILED;
