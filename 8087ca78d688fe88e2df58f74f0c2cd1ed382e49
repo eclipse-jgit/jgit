@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bfd5306_6ec04a81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T10:30:51Z",
+      "side": 1,
+      "message": "Should be\n```\nBug: jgit-25\n```\n(Missing colon.)",
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5eebc609_797a520b",
