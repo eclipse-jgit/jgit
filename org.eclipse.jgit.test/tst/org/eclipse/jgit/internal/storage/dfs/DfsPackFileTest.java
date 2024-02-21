@@ -14,6 +14,8 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -24,14 +26,18 @@ import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -120,6 +126,41 @@ public class DfsPackFileTest {
 		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
 		assertTrue(pack.hasObjectSizeIndex(reader));
 		assertEquals(800, pack.getIndexedObjectSize(reader, blobId));
+	}
+
+	@Test
+	public void testGetBitmapIndex() throws IOException {
+		bypassCache = false;
+		clearCache = true;
+		ObjectId objectId = setupPack(512, 800);
+
+		// Add a ref for GC
+		BatchRefUpdate batchRefUpdate = db.getRefDatabase().newBatchUpdate();
+		batchRefUpdate.addCommand(new ReceiveCommand(ObjectId.zeroId(),
+				objectId, "refs/heads/master"));
+		try (RevWalk rw = new RevWalk(db)) {
+			batchRefUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+		}
+		DfsGarbageCollector gc = new DfsGarbageCollector(db);
+		gc.pack(NullProgressMonitor.INSTANCE);
+
+		DfsReader reader = db.getObjectDatabase().newReader();
+		PackBitmapIndex bitmapIndex = db.getObjectDatabase().getPacks()[0]
+				.getBitmapIndex(reader);
+		assertNotNull(bitmapIndex);
+		assertEquals(1, bitmapIndex.getObjectCount());
+	}
+
+	@Test
+	public void testGetBitmapIndex_noBitmaps() throws IOException {
+		bypassCache = false;
+		clearCache = true;
+		setupPack(512, 800);
+
+		DfsReader reader = db.getObjectDatabase().newReader();
+		PackBitmapIndex bitmapIndex = db.getObjectDatabase().getPacks()[0]
+				.getBitmapIndex(reader);
+		assertNull(bitmapIndex);
 	}
 
 	@Test
