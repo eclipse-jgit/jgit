@@ -1178,14 +1178,14 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
-		this.bitmapIdx = null;
+		this.bitmapIdx = Optionally.empty();
 		this.invalid = false;
 		this.bitmapIdxFile = bitmapIndexFile;
 		try {
 			getBitmapIndex();
 		} catch (IOException e) {
 			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
-			this.bitmapIdx = null;
+			this.bitmapIdx = Optionally.empty();
 			this.bitmapIdxFile = null;
 		}
 	}
