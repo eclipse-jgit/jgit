@@ -1177,6 +1177,19 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return null;
 	}
 
+	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
+		this.bitmapIdx = Optionally.empty();
+		this.invalid = false;
+		this.bitmapIdxFile = bitmapIndexFile;
+		try {
+			getBitmapIndex();
+		} catch (IOException e) {
+			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
+			this.bitmapIdx = Optionally.empty();
+			this.bitmapIdxFile = null;
+		}
+	}
+
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
 		if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
