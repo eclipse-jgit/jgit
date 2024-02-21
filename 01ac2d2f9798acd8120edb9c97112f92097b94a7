@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20ef80d7_f1e3046f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T20:40:58Z",
+      "side": 1,
+      "message": "Format the commit message properly. Single subject line, followed by an empty line, then the message body. No lines longer than 72 characters.\n\nThe subject \"ResolveMerger: Fixed issues with merging\" is not very telling. Better would be \"ResolveMerger: fix binary modify-modify conflicts\". (The change still doesn\u0027t handle delete-modify or modify-delete conflicts correctly. I suggest to focus on modify-modify conflicts only, as you did, in this change. Delete-modify/modify-delete conflicts can be handled in a follow-up change.)",
+      "revId": "01ac2d2f9798acd8120edb9c97112f92097b94a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e024066_879274fe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T20:40:58Z",
+      "side": 1,
+      "message": "This @Ignore (and the comment above) can be removed now. This test should work now.",
+      "revId": "01ac2d2f9798acd8120edb9c97112f92097b94a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da215244_78d98258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-21T20:40:58Z",
+      "side": 1,
+      "message": "Lines 1349/50 from the old version should probably go here now. Recording the attributes is important after updateIndex; file modifications might need to be undone if there are problems later. To undo them correctly, one needs to have the attributes.",
+      "revId": "01ac2d2f9798acd8120edb9c97112f92097b94a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
