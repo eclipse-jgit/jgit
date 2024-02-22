@@ -86,6 +86,24 @@
       "message": "Lines 1349/50 from the old version should probably go here now. Recording the attributes is important after updateIndex; file modifications might need to be undone if there are problems later. To undo them correctly, one needs to have the attributes.",
       "revId": "01ac2d2f9798acd8120edb9c97112f92097b94a7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a757c130_6d7ad39c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1309,
+      "author": {
+        "id": 1037690
+      },
+      "writtenOn": "2024-02-22T14:09:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da215244_78d98258",
+      "revId": "01ac2d2f9798acd8120edb9c97112f92097b94a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
