@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "547adc84_5851645a",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2024-02-22T12:26:33Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6b38620f_e2acba7d",
+      "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d1855af_9ea38458",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-02-22T09:52:43Z",
       "side": 1,
       "message": "I think we may need to check whether the file exists. Otherwise someone with the old setup (IdentityFile\u003dfoo, no file foo, but a file foo.pub) will get warnings about \"foo\".",
+      "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c22b3103_dc23f226",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2024-02-22T12:26:33Z",
+      "side": 1,
+      "message": "I think always getting a warning about a non-existing IdentityFile is fine, but the warning should be hidden for derived public keys. WDYT?",
+      "parentUuid": "3d1855af_9ea38458",
       "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

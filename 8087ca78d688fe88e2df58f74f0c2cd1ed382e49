@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c5176977_2b33ae05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2024-02-22T12:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bfd5306_6ec04a81",
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5eebc609_797a520b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -52,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2add0970_330bc0b8",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2024-02-22T12:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfe56510_3a93d435",
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37c44466_7a39d974",
@@ -65,6 +101,30 @@
       "writtenOn": "2024-02-21T10:28:22Z",
       "side": 1,
       "message": "`InvalidPathException` might be thrown by `Paths.get()`, but that call is now outside this `try-catch`. Pass in the string, and do the call inside the `try`block. (And then log the string again since `p` is not set in that case.)",
+      "range": {
+        "startLine": 348,
+        "startChar": 12,
+        "endLine": 348,
+        "endChar": 32
+      },
+      "revId": "8087ca78d688fe88e2df58f74f0c2cd1ed382e49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fdc3cf5_41882f00",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2024-02-22T12:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c44466_7a39d974",
       "range": {
         "startLine": 348,
         "startChar": 12,
