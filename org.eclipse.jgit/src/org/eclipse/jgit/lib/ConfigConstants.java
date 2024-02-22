@@ -972,6 +972,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_TRUST_PACKED_REFS_STAT = "trustPackedRefsStat";
 
 	/**
+	 * The "trustLooseRefStat" key
+	 *
+	 * @since 6.9
+	 */
+	public static final String CONFIG_KEY_TRUST_LOOSE_REF_STAT = "trustLooseRefStat";
+
+	/**
 	 * The "pack.preserveOldPacks" key
 	 *
 	 * @since 5.13.2
