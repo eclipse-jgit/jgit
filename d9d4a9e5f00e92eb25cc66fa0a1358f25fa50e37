@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e84f38c_aca5f1d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-22T09:52:43Z",
+      "side": 1,
+      "message": "I also wonder: if we allow public keys here, and the agent does not have the given key, we\u0027d then later try to read the given file as a private key, which is",
+      "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b38620f_e2acba7d",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-22T09:52:43Z",
+      "side": 1,
+      "message": "I think we should do this only if the given filename doesn\u0027t already end with \".pub\".\n```\n  if (publicKey \u003d\u003d null \u0026\u0026 !s.endsWith(\".pub\")) {\n```\nMakes no sense to try \".pub.pub\".",
+      "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1855af_9ea38458",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-22T09:52:43Z",
+      "side": 1,
+      "message": "I think we may need to check whether the file exists. Otherwise someone with the old setup (IdentityFile\u003dfoo, no file foo, but a file foo.pub) will get warnings about \"foo\".",
+      "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
