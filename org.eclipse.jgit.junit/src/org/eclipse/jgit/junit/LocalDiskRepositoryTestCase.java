@@ -142,6 +142,7 @@ public abstract class LocalDiskRepositoryTestCase {
 				new File(tmp, "systemgitconfig"), FS.DETECTED);
 		FileBasedConfig userConfig = new FileBasedConfig(systemConfig,
 				new File(tmp, "usergitconfig"), FS.DETECTED);
+		userConfig.setString("core", null, "trustLooseRefStat", "after_open");
 		// We have to set autoDetach to false for tests, because tests expect to be able
 		// to clean up by recursively removing the repository, and background GC might be
 		// in the middle of writing or deleting files, which would disrupt this.
