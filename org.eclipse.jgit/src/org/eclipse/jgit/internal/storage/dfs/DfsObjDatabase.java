@@ -592,7 +592,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			if (oldPack != null) {
 				newPacks.add(oldPack);
 			} else if (dsc.hasFileExt(PackExt.PACK)) {
-				newPacks.add(new DfsPackFile(cache, dsc));
+				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
 			}
 
@@ -615,6 +615,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return new PackListImpl(
 				newPacks.toArray(new DfsPackFile[0]),
 				newReftables.toArray(new DfsReftable[0]));
+	}
+
+	protected DfsPackFile createDfsPackFile(DfsBlockCache cache,
+			DfsPackDescription dsc) {
+		return new DfsPackFile(cache, dsc);
 	}
 
 	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
