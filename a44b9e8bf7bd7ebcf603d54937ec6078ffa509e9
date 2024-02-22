@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7613bb96_491cef25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-22T20:42:53Z",
+      "side": 1,
+      "message": "Looks OK, just one worry: what happens if you specify\n```\n  IdentityFile ~/.ssh/some_key.pub\n  IdentitiesOnly\n```\nand the corresponding key is _not_ in the agent? Do you get any halfway meaningful error message in EGit?\n\n(I can\u0027t test myself unfortunately. Had problems with the target platform, and now my Eclipse refuses to laucnh a child Eclipse with a SIGSEGV. Bah. It\u0027ll cost me hours to get a working development environment again.)",
+      "revId": "a44b9e8bf7bd7ebcf603d54937ec6078ffa509e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
