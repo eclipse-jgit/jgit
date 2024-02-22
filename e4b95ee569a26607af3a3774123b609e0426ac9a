@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39515be0_1f54394a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-02-22T05:54:05Z",
+      "side": 1,
+      "message": "LGTM, thanks for the explanation.",
+      "revId": "e4b95ee569a26607af3a3774123b609e0426ac9a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "536630bc_40e978c8",
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "We need to differentiate both (size and indexed size), because part of the success of isNotLargerThan is due to the case \"there is no indexed size, so I know is below X and I don\u0027t need the real size\".",
       "parentUuid": "536630bc_40e978c8",
+      "range": {
+        "startLine": 515,
+        "startChar": 2,
+        "endLine": 518,
+        "endChar": 0
+      },
+      "revId": "e4b95ee569a26607af3a3774123b609e0426ac9a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "627df0d8_bf5698ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-02-22T05:54:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c10658b0_6a613ada",
       "range": {
         "startLine": 515,
         "startChar": 2,
