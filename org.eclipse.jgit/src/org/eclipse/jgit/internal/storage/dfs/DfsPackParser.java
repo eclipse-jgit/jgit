@@ -126,7 +126,7 @@ public class DfsPackParser extends PackParser {
 			objdb.commitPack(Collections.singletonList(packDsc), null);
 			rollback = false;
 
-			DfsPackFile p = new DfsPackFile(blockCache, packDsc);
+			DfsPackFile p = objdb.createDfsPackFile(blockCache, packDsc);
 			p.setBlockSize(blockSize);
 			if (packIndex != null)
 				p.setPackIndex(packIndex);
