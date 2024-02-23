@@ -52,6 +52,24 @@
       "parentUuid": "4c73fa5e_88cd54f3",
       "revId": "a44b9e8bf7bd7ebcf603d54937ec6078ffa509e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1868f23b_15dd193a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-23T12:29:52Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s not what I meant. I\u0027ve managed to get my Eclipse back into a working state, and could test myself. Behavior is unchanged.\n\nThe point is: there\u0027s no key from the agent, so later that public key file will be read as a private key, which will fail. If that\u0027s the only IdentityFile specified, the user will get a message about there not being any keys to try. (Improving that so that the user would get a message \"Cannot read private key from file XYZ\" is indeed out of scope for this change. It\u0027s also not exactly trivial to funnel that message back to the user. We do log a message, but an Eclipse user won\u0027t see that.)",
+      "parentUuid": "0a45d00e_7afca782",
+      "revId": "a44b9e8bf7bd7ebcf603d54937ec6078ffa509e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

@@ -86,6 +86,24 @@
       "parentUuid": "3d1855af_9ea38458",
       "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2730a5e4_5c2c38fc",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/transport/sshd/JGitPublicKeyAuthentication.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-02-23T12:29:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c22b3103_dc23f226",
+      "revId": "d9d4a9e5f00e92eb25cc66fa0a1358f25fa50e37",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
