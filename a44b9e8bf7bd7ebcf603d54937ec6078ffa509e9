@@ -34,6 +34,24 @@
       "parentUuid": "7613bb96_491cef25",
       "revId": "a44b9e8bf7bd7ebcf603d54937ec6078ffa509e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a45d00e_7afca782",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2024-02-23T10:35:11Z",
+      "side": 1,
+      "message": "This is dealt with in `org.eclipse.jgit.internal.transport.sshd.agent.SshAgentClient` in method `sign(...)`. In that case the response would not be `SSH2_AGENT_SIGN_RESPONSE` but rather `SSH_AGENT_FAILURE` which would trigger an exception (compare with https://datatracker.ietf.org/doc/html/draft-miller-ssh-agent#name-private-key-operations). However this is outside of the scope of this request if it needs to be improved as this edge case may already happen today (i.e. a public key is identified for which the agent does not find a suitable private key)",
+      "parentUuid": "4c73fa5e_88cd54f3",
+      "revId": "a44b9e8bf7bd7ebcf603d54937ec6078ffa509e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
