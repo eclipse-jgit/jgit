@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5e5590_5ee765a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-23T21:43:37Z",
+      "side": 1,
+      "message": "nit: \"will optionally refresh\"?",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603dbe1e_3a3e2770",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-23T21:43:37Z",
+      "side": 1,
+      "message": "typo: s/of/the/\n\nalso, nit: s/and parent/and its parent/",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a5f74a4_8d686c1f",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-23T21:43:37Z",
+      "side": 1,
+      "message": "nits: \" and its parent directories.\", s/same as/similar to/\n\n```suggestion\n| `core.trustLooseRefStat` | `always` | \u0026#x20DE; | Whether to trust the file attributes (Java equivalent of stat command on *nix) of the loose ref. If `always` JGit will trust the file attributes of the loose ref and its parent directories. `after_open` behaves similar to `always`, except that all parent directories of the loose ref up to the repository root are opened and closed before its file attributes are considered. An open/close of these parent directories is known to refresh the file attributes, at least on some NFS clients. |\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 133,
+        "endLine": 59,
+        "endChar": 146
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4655c8e8_368a8a14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-23T21:43:37Z",
+      "side": 1,
+      "message": "Can you add a javadoc? Especially to document the refPath parameter since it\u0027s not expected to be an absolute path.",
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28ac140_09c552a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-23T21:43:37Z",
+      "side": 1,
+      "message": "I don\u0027t think `fs.resolve()` is really helping you here, and it will create two File objects each time it\u0027s called. Maybe use `fileFor()` instead?\n\n```suggestion\n\t\tfor (int i \u003d 1; i \u003c refPath.getNameCount(); i++) {\n\t\t\tFile dir \u003d fileFor(refPath.subpath(0, i).toString());\n\t\t\ttry (InputStream stream \u003d Files.newInputStream(dir.toPath())) {\n```",
+      "range": {
+        "startLine": 1239,
+        "startChar": 0,
+        "endLine": 1243,
+        "endChar": 66
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78c7077c_3c48ef17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-23T21:43:37Z",
+      "side": 1,
+      "message": "should be \"6.9\"\n```suggestion\n\t * @since 6.9\n```",
+      "range": {
+        "startLine": 150,
+        "startChar": 11,
+        "endLine": 150,
+        "endChar": 16
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
