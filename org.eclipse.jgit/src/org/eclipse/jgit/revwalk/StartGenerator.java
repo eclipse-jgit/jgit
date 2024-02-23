@@ -48,6 +48,7 @@ class StartGenerator extends Generator {
 			IncorrectObjectTypeException, IOException {
 		Generator g;
 
+		boolean hasTreeRevFilter = false;
 		final RevWalk w = walker;
 		RevFilter rf = w.getRevFilter();
 		final TreeFilter tf = w.getTreeFilter();
@@ -106,6 +107,7 @@ class StartGenerator extends Generator {
 			} else
 				rewriteFlag = 0;
 			rf = AndRevFilter.create(new TreeRevFilter(w, tf, rewriteFlag), rf);
+			hasTreeRevFilter = true;
 		}
 
 		walker.queue = q;
@@ -125,7 +127,7 @@ class StartGenerator extends Generator {
 			}
 		}
 
-		if ((g.outputType() & NEEDS_REWRITE) != 0) {
+		if ((g.outputType() & NEEDS_REWRITE) != 0 && hasTreeRevFilter) {
 			g = new RewriteGenerator(g);
 		}
 
