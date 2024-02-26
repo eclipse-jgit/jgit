@@ -51,6 +51,24 @@
       "parentUuid": "112e79d7_801cb240",
       "revId": "736bfad89f7e6302231132b657594814241dc88e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d6ced9_8153a150",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-02-26T18:10:48Z",
+      "side": 1,
+      "message": "But this change here would make it easier for future maintainer and reviewer to catch this particular failure mode. This change here would make the reviewers of https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177216 take a second look and say \"oh wait, we\u0027re not setting a TreeRevFilter\"",
+      "parentUuid": "bde1e6b8_b84aadad",
+      "revId": "736bfad89f7e6302231132b657594814241dc88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
