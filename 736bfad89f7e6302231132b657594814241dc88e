@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2911cd1d_5bea9763",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-02-26T17:08:09Z",
+      "side": 1,
+      "message": "the RewriteGenerator expects whatever combination of generators (in this case, g) to have TreeRevFilter in them; g could be a chain of different generators, as long at least one of them have TreeRevFilter, the rewriteGenerator would work. \n\nthe ideal way to always ensure the rewriteGenerator works regardless where it\u0027s constructed from, is to run a dfs into the g being passed in. To do this, we have to have a method for every RevFilter implementation to check whether they are capable of applying the TreeRevFilter flag. The dfs would then choose to fail the constructor if dfs can\u0027t find a TreeRevFilter in the generator chain. This approach would require refactoring every generator class and every revFilter implementation. \n\ngiven the rewriteGenerator is only constructed in startGenerator atm and L131 can\u0027t be called without L109, I am not prioritizing such comprehensive change.\n\nabandoning this change.",
+      "revId": "736bfad89f7e6302231132b657594814241dc88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "112e79d7_801cb240",
