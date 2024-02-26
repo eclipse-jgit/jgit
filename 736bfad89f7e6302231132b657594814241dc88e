@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "112e79d7_801cb240",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-02-26T09:52:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this fail at this point instead of skipping `g \u003d new RewriteGenerator(g)`?",
+      "revId": "736bfad89f7e6302231132b657594814241dc88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
