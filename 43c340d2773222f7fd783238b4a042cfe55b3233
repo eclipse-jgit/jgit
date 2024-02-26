@@ -16,6 +16,29 @@
       "message": "Thanks, this is a godsend, I was just considering to implement this since we face these issues on our new k8s setup running multiple primaries/replicas with HA plugin on a shared NFS volume :-)\n\nWill deploy this on our staging cluster and run some load tests.",
       "revId": "43c340d2773222f7fd783238b4a042cfe55b3233",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11755b2b_41fb665b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1018954
+      },
+      "writtenOn": "2024-02-26T14:55:00Z",
+      "side": 1,
+      "message": "Javadoc of the `newInputStream` doesn\u0027t specify that it supports paths which represent directories. I tried this method with a directory and found out that it indeed returns an input stream. The Javadoc also doesn\u0027t specify that it doesn\u0027t support paths which are directories. How did find out to use `newInputStream` on directories? Maybe put a note/link in a comment here?",
+      "range": {
+        "startLine": 1250,
+        "startChar": 29,
+        "endLine": 1250,
+        "endChar": 64
+      },
+      "revId": "43c340d2773222f7fd783238b4a042cfe55b3233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
