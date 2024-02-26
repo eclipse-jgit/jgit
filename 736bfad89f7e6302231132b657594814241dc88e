@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this fail at this point instead of skipping `g \u003d new RewriteGenerator(g)`?",
       "revId": "736bfad89f7e6302231132b657594814241dc88e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bde1e6b8_b84aadad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-02-26T17:07:32Z",
+      "side": 1,
+      "message": "the more i think about this code change, i don\u0027t believe this code change is needed at all. \n\nthis is only place the rewriteGenerator is being created, and people can\u0027t created the generator without going through L109 which has the TreeRevFilter\n\nif there\u0027s going to be a future change that people create rewriteGenerator without TreeRevFilter, that\u0027s up to the reviewer and maintainer to catch in review.",
+      "parentUuid": "112e79d7_801cb240",
+      "revId": "736bfad89f7e6302231132b657594814241dc88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
