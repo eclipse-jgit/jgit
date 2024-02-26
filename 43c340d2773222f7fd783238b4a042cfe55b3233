@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2ab60ba_63b30f13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Thanks, this is a godsend, I was just considering to implement this since we face these issues on our new k8s setup running multiple primaries/replicas with HA plugin on a shared NFS volume :-)\n\nWill deploy this on our staging cluster and run some load tests.",
+      "revId": "43c340d2773222f7fd783238b4a042cfe55b3233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

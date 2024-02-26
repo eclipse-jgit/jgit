@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4762833f_cc2865de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5e5590_5ee765a7",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "603dbe1e_3a3e2770",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-23T21:43:37Z",
       "side": 1,
       "message": "typo: s/of/the/\n\nalso, nit: s/and parent/and its parent/",
+      "range": {
+        "startLine": 19,
+        "startChar": 14,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96cfbcd1_d5df3172",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "603dbe1e_3a3e2770",
       "range": {
         "startLine": 19,
         "startChar": 14,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "972fce0d_fd9656ca",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a5f74a4_8d686c1f",
+      "range": {
+        "startLine": 59,
+        "startChar": 133,
+        "endLine": 59,
+        "endChar": 146
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4655c8e8_368a8a14",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-02-23T21:43:37Z",
       "side": 1,
       "message": "Can you add a javadoc? Especially to document the refPath parameter since it\u0027s not expected to be an absolute path.",
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ec14790_8a917fce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4655c8e8_368a8a14",
       "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -110,6 +200,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26d77c0a_6c7f660a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b28ac140_09c552a0",
+      "range": {
+        "startLine": 1239,
+        "startChar": 0,
+        "endLine": 1243,
+        "endChar": 66
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78c7077c_3c48ef17",
@@ -123,6 +237,30 @@
       "writtenOn": "2024-02-23T21:43:37Z",
       "side": 1,
       "message": "should be \"6.9\"\n```suggestion\n\t * @since 6.9\n```",
+      "range": {
+        "startLine": 150,
+        "startChar": 11,
+        "endLine": 150,
+        "endChar": 16
+      },
+      "revId": "6a17c73366eecac4f8e6deddf6c643a8f33807d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f70794_e833ed0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-26T09:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78c7077c_3c48ef17",
       "range": {
         "startLine": 150,
         "startChar": 11,
