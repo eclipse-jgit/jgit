@@ -69,6 +69,24 @@
       "parentUuid": "bde1e6b8_b84aadad",
       "revId": "736bfad89f7e6302231132b657594814241dc88e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bfaee38_81b3cd24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-02-26T18:26:21Z",
+      "side": 1,
+      "message": "the so called \"failure mode\" only happens if people submit code without understanding the nature of RewriteGenerator first. i.e. it\u0027s a result of people submitting changes without fully understanding what they are changing.\n\nany future change to allow such \"failure mode\" to happen would explicitly state something like \"create RewriteGenerator without a TreeRevFilter\" in the description, so it\u0027s up to the maintainers and reviewers to have domain knowledge to block it accordingly.",
+      "parentUuid": "89d6ced9_8153a150",
+      "revId": "736bfad89f7e6302231132b657594814241dc88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
