@@ -43,8 +43,11 @@ import org.junit.rules.TestName;
 public class DfsBlockCacheTest {
 	@Rule
 	public TestName testName = new TestName();
+
 	private TestRng rng;
+
 	private DfsBlockCache cache;
+
 	private ExecutorService pool;
 
 	@Before

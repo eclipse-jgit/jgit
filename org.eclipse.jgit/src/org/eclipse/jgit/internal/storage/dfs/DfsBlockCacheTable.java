@@ -1,0 +1,135 @@
+/*
+ * Copyright (c) 2024, Google LLC and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+package org.eclipse.jgit.internal.storage.dfs;
+
+import java.io.IOException;
+
+/**
+ * Block cache table.
+ */
+public interface DfsBlockCacheTable {
+	/**
+	 * Quickly check if the cache contains block 0 of the given stream.
+	 * <p>
+	 * This can be useful for sophisticated pre-read algorithms to quickly
+	 * determine if a file is likely already in cache, especially small
+	 * reftables which may be smaller than a typical DFS block size.
+	 *
+	 * @param key
+	 *            the file to check.
+	 * @return true if block 0 (the first block) is in the cache.
+	 */
+	boolean hasBlock0(DfsStreamKey key);
+
+	/**
+	 * Look up a cached object, creating and loading it if it doesn't exist.
+	 *
+	 * @param file
+	 *            the pack that "contains" the cached object.
+	 * @param position
+	 *            offset within <code>pack</code> of the object.
+	 * @param dfsReader
+	 *            current thread's reader.
+	 * @param fileChannel
+	 *            supplier for channel to read {@code pack}.
+	 * @return the object reference.
+	 * @throws IOException
+	 *             the reference was not in the cache and could not be loaded.
+	 */
+	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader dfsReader,
+			DfsBlockCache.ReadableChannelSupplier fileChannel)
+			throws IOException;
+
+	/**
+	 * Look up a cached object, creating and loading it if it doesn't exist.
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param position
+	 *            the position in the key. The default should be 0.
+	 * @param loader
+	 *            the function to load the reference.
+	 * @return the object reference.
+	 * @throws IOException
+	 *             the reference was not in the cache and could not be loaded.
+	 */
+	<T> DfsBlockCache.Ref<T> getOrLoadRef(DfsStreamKey key, long position,
+			DfsBlockCache.RefLoader<T> loader) throws IOException;
+
+	/**
+	 * Put a block in the block cache.
+	 * 
+	 * @param v
+	 *            the block to put in the cache.
+	 */
+	void put(DfsBlock v);
+
+	/**
+	 * Put a block in the block cache.
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param pos
+	 *            the position in the key.
+	 * @param size
+	 *            the size of the object.
+	 * @param v
+	 *            the object to put in the block cache.
+	 * @return the object reference.
+	 */
+	<T> DfsBlockCache.Ref<T> put(DfsStreamKey key, long pos, long size, T v);
+
+	/**
+	 * Put an object in the block cache.
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param size
+	 *            the size of the object.
+	 * @param v
+	 *            the object to put in the block cache.
+	 * @return the object reference.
+	 */
+	<T> DfsBlockCache.Ref<T> putRef(DfsStreamKey key, long size, T v);
+
+	/**
+	 * Check if the block cache contains an object identified by (key,
+	 * position).
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param position
+	 *            the position in the key.
+	 * @return if the block cache contains the object identified by (key,
+	 *         position).
+	 */
+	boolean contains(DfsStreamKey key, long position);
+
+	/**
+	 * Get the object identified by (key, position) from the block cache.
+	 *
+	 * @param key
+	 *            the stream key of the pack.
+	 * @param position
+	 *            the position in the key.
+	 * @return the object identified by (key, position).
+	 */
+	<T> T get(DfsStreamKey key, long position);
+
+	/**
+	 * Get the DfsBlockCacheStats object for this block cache table's
+	 * statistics.
+	 *
+	 * @return the DfsBlockCacheStats tracking this block cache table's
+	 *         statistics.
+	 */
+	DfsBlockCacheStats getDfsBlockCacheStats();
+}
