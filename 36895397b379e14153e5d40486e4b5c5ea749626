@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7c32fe_542be509",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-27T20:43:52Z",
+      "side": 1,
+      "message": "This should be updated with info on the new behavior related to loose refs.",
+      "revId": "36895397b379e14153e5d40486e4b5c5ea749626",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

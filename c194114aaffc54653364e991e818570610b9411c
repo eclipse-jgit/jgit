@@ -51,6 +51,24 @@
       "parentUuid": "07c6c449_82104c96",
       "revId": "c194114aaffc54653364e991e818570610b9411c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d3d59a7_ee5f4c3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-27T20:43:52Z",
+      "side": 1,
+      "message": "Hmm, thinking on this more. Even if the set were cleared, we did *just* refresh this dir, so I don\u0027t think it\u0027s a problem to add it to the set.",
+      "parentUuid": "a01ed55d_36629638",
+      "revId": "c194114aaffc54653364e991e818570610b9411c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
