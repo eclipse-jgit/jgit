@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb367831_e0c06375",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-27T00:27:07Z",
+      "side": 1,
+      "message": "Why set this here?",
+      "revId": "e886df47e22b637db7b974a2add9c814a69f40e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

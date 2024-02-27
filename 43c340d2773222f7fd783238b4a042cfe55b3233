@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed2985e7_5311b740",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-02-27T00:27:07Z",
+      "side": 1,
+      "message": "Fantastic! Glad that worked out. Please do let us know how your testing goes. Kaushik ran some tests with this + the (soon to be pushed) child change that updates SnapshottingRefDirectoy and it seemed \"ok\".",
+      "parentUuid": "f2ab60ba_63b30f13",
+      "revId": "43c340d2773222f7fd783238b4a042cfe55b3233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11755b2b_41fb665b",
