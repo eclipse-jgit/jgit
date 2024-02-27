@@ -51,6 +51,24 @@
       "message": "@matthias.sohn@sap.com did you intend to remove this or was that just an accident when you fixed my other comment?",
       "revId": "e886df47e22b637db7b974a2add9c814a69f40e8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eabc9cf3_04ac7d95",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-02-27T22:15:46Z",
+      "side": 1,
+      "message": "this was an accident and not intended",
+      "parentUuid": "60ee78a4_60436247",
+      "revId": "e886df47e22b637db7b974a2add9c814a69f40e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
