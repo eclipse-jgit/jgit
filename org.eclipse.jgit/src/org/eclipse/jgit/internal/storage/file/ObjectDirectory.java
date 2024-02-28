@@ -230,6 +230,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	public Optional<CommitGraph> getCommitGraph() {
 		if (config.get(CoreConfig.KEY).enableCommitGraph()) {
+			boolean readBloomFilter = config.get(CoreConfig.KEY).enableReadChangedPaths();
+			fileCommitGraph.setReadBloomFilter(readBloomFilter);
 			return Optional.ofNullable(fileCommitGraph.get());
 		}
 		return Optional.empty();
