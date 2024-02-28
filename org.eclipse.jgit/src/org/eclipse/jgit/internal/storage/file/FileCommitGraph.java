@@ -37,6 +37,8 @@ public class FileCommitGraph {
 
 	private final AtomicReference<GraphSnapshot> baseGraph;
 
+	private boolean readBloomFilter;
+
 	/**
 	 * Initialize a reference to an on-disk commit-graph.
 	 *
@@ -68,13 +70,25 @@ public class FileCommitGraph {
 					//
 					return o.getCommitGraph();
 				}
-				n = o.refresh();
+				n = o.refresh(readBloomFilter);
 				if (n == o) {
 					return n.getCommitGraph();
 				}
 			} while (!baseGraph.compareAndSet(o, n));
 			return n.getCommitGraph();
 		}
+	}
+
+
+	/**
+	 * Control whether to read bloom filter chunks from Commit Graph
+	 *
+	 * @param readBloomFilter
+	 *            read bloom filter data if exist.
+	 *
+	 */
+	public void setReadBloomFilter(boolean readBloomFilter) {
+		this.readBloomFilter = readBloomFilter;
 	}
 
 	private static final class GraphSnapshot {
@@ -84,37 +98,41 @@ public class FileCommitGraph {
 
 		private final CommitGraph graph;
 
+		private final boolean hasBloomFilter;
+
 		GraphSnapshot(@NonNull File file) {
-			this(file, null, null);
+			this(file, null, null, false);
 		}
 
 		GraphSnapshot(@NonNull File file, FileSnapshot snapshot,
-				CommitGraph graph) {
+				CommitGraph graph, boolean readBloomFilter) {
 			this.file = file;
 			this.snapshot = snapshot;
 			this.graph = graph;
+			this.hasBloomFilter = readBloomFilter;
 		}
 
 		CommitGraph getCommitGraph() {
 			return graph;
 		}
 
-		GraphSnapshot refresh() {
+		GraphSnapshot refresh(boolean readBloomFilter) {
 			if (graph == null && !file.exists()) {
 				// commit-graph file didn't exist
 				return this;
 			}
-			if (snapshot != null && !snapshot.isModified(file)) {
+			if (snapshot != null && !snapshot.isModified(file)
+					&& hasBloomFilter == readBloomFilter) {
 				// commit-graph file was not modified
 				return this;
 			}
 			return new GraphSnapshot(file, FileSnapshot.save(file),
-					open(file));
+					open(file, readBloomFilter), readBloomFilter);
 		}
 
-		private static CommitGraph open(File file) {
+		private static CommitGraph open(File file, boolean readBloomFilter) {
 			try {
-				return CommitGraphLoader.open(file);
+				return CommitGraphLoader.open(file, readBloomFilter);
 			} catch (FileNotFoundException noFile) {
 				// ignore if file do not exist
 				return null;
