@@ -21,7 +21,6 @@ import org.junit.Test;
 
 public class TreeRevFilterTest extends RevWalkTestCase {
 	private RevFilter treeRevFilter() {
-		rw.setRewriteParents(false);
 		return new TreeRevFilter(rw, TreeFilter.ANY_DIFF);
 	}
 

@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,8 +40,56 @@ public class DfsReaderTest {
 	}
 
 	@Test
-	public void isNotLargerThan_objAboveThreshold()
-			throws IOException {
+	public void getObjectSize_noIndex_blob() throws IOException {
+		ObjectId obj = insertBlobWithSize(100);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			long size = ctx.getObjectSize(obj, OBJ_BLOB);
+			assertEquals(100, size);
+		}
+	}
+
+	@Test
+	public void getObjectSize_noIndex_commit() throws IOException {
+		ObjectId obj = insertObjectWithSize(OBJ_COMMIT, 110);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			long size = ctx.getObjectSize(obj, OBJ_COMMIT);
+			assertEquals(110, size);
+		}
+	}
+
+	@Test
+	public void getObjectSize_index_indexedBlob() throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		ObjectId obj = insertBlobWithSize(200);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			long size = ctx.getObjectSize(obj, OBJ_BLOB);
+			assertEquals(200, size);
+		}
+	}
+
+	@Test
+	public void getObjectSize_index_nonIndexedBlob() throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		ObjectId obj = insertBlobWithSize(50);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			long size = ctx.getObjectSize(obj, OBJ_BLOB);
+			assertEquals(50, size);
+		}
+	}
+
+	@Test
+	public void getObjectSize_index_commit() throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		insertBlobWithSize(110);
+		ObjectId obj = insertObjectWithSize(OBJ_COMMIT, 120);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			long size = ctx.getObjectSize(obj, OBJ_COMMIT);
+			assertEquals(120, size);
+		}
+	}
+
+	@Test
+	public void isNotLargerThan_objAboveThreshold() throws IOException {
 		setObjectSizeIndexMinBytes(100);
 		ObjectId obj = insertBlobWithSize(200);
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -76,10 +125,8 @@ public class DfsReaderTest {
 		}
 	}
 
-
 	@Test
-	public void isNotLargerThan_objBelowThreshold()
-			throws IOException {
+	public void isNotLargerThan_objBelowThreshold() throws IOException {
 		setObjectSizeIndexMinBytes(100);
 		insertBlobWithSize(1000); // index not empty
 		ObjectId obj = insertBlobWithSize(50);
@@ -168,22 +215,26 @@ public class DfsReaderTest {
 			ctx.addPackLoadListener(listener);
 			boolean has = ctx.has(obj);
 			assertTrue(has);
-			assertEquals(Integer.valueOf(1), listener.callsPerExt.get(PackExt.INDEX));
+			assertEquals(Integer.valueOf(1),
+					listener.callsPerExt.get(PackExt.INDEX));
 		}
 	}
 
 	@Test
-	public void packLoadListener_notLargerThan_openMultipleIndices() throws IOException {
-			setObjectSizeIndexMinBytes(100);
-			ObjectId obj = insertBlobWithSize(200);
-			try (DfsReader ctx = db.getObjectDatabase().newReader()) {
-				CounterPackLoadListener listener = new CounterPackLoadListener();
-				ctx.addPackLoadListener(listener);
-				boolean notLargerThan = ctx.isNotLargerThan(obj, OBJ_BLOB, 1000);
-				assertTrue(notLargerThan);
-				assertEquals(Integer.valueOf(1), listener.callsPerExt.get(PackExt.INDEX));
-				assertEquals(Integer.valueOf(1), listener.callsPerExt.get(PackExt.OBJECT_SIZE_INDEX));
-			}
+	public void packLoadListener_notLargerThan_openMultipleIndices()
+			throws IOException {
+		setObjectSizeIndexMinBytes(100);
+		ObjectId obj = insertBlobWithSize(200);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			CounterPackLoadListener listener = new CounterPackLoadListener();
+			ctx.addPackLoadListener(listener);
+			boolean notLargerThan = ctx.isNotLargerThan(obj, OBJ_BLOB, 1000);
+			assertTrue(notLargerThan);
+			assertEquals(Integer.valueOf(1),
+					listener.callsPerExt.get(PackExt.INDEX));
+			assertEquals(Integer.valueOf(1),
+					listener.callsPerExt.get(PackExt.OBJECT_SIZE_INDEX));
+		}
 	}
 
 	@Test
@@ -195,20 +246,24 @@ public class DfsReaderTest {
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			CounterPackLoadListener listener = new CounterPackLoadListener();
 			ctx.addPackLoadListener(listener);
-			ObjectId oid = ObjectId.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f129");
+			ObjectId oid = ObjectId
+					.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f129");
 			boolean has = ctx.has(oid);
 			assertFalse(has);
 			// Open 3 indices trying to find the pack
-			assertEquals(Integer.valueOf(3), listener.callsPerExt.get(PackExt.INDEX));
+			assertEquals(Integer.valueOf(3),
+					listener.callsPerExt.get(PackExt.INDEX));
 		}
 	}
 
-
 	@Test
-	public void packLoadListener_has_repeatedCalls_openMultipleIndices() throws IOException {
+	public void packLoadListener_has_repeatedCalls_openMultipleIndices()
+			throws IOException {
 		// Two objects NOT in the repo
-		ObjectId oid = ObjectId.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f129");
-		ObjectId oid2 = ObjectId.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f130");
+		ObjectId oid = ObjectId
+				.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f129");
+		ObjectId oid2 = ObjectId
+				.fromString("aa48de2aa61d9dffa8a05439dc115fe82f10f130");
 
 		setObjectSizeIndexMinBytes(100);
 		insertBlobWithSize(200);
@@ -222,7 +277,8 @@ public class DfsReaderTest {
 			ctx.has(oid2);
 			assertFalse(has);
 			// The 3 indices were loaded only once each
-			assertEquals(Integer.valueOf(3), listener.callsPerExt.get(PackExt.INDEX));
+			assertEquals(Integer.valueOf(3),
+					listener.callsPerExt.get(PackExt.INDEX));
 		}
 	}
 
@@ -231,8 +287,8 @@ public class DfsReaderTest {
 
 		@SuppressWarnings("boxing")
 		@Override
-		public void onIndexLoad(String packName, PackSource src, PackExt ext, long size,
-				Object loadedIdx) {
+		public void onIndexLoad(String packName, PackSource src, PackExt ext,
+				long size, Object loadedIdx) {
 			callsPerExt.merge(ext, 1, Integer::sum);
 		}
 
@@ -243,13 +299,16 @@ public class DfsReaderTest {
 		}
 	}
 
-	private ObjectId insertBlobWithSize(int size)
+	private ObjectId insertBlobWithSize(int size) throws IOException {
+		return insertObjectWithSize(OBJ_BLOB, size);
+	}
+
+	private ObjectId insertObjectWithSize(int object_type, int size)
 			throws IOException {
 		TestRng testRng = new TestRng(JGitTestUtil.getName());
 		ObjectId oid;
 		try (ObjectInserter ins = db.newObjectInserter()) {
-				oid = ins.insert(OBJ_BLOB,
-						testRng.nextBytes(size));
+			oid = ins.insert(object_type, testRng.nextBytes(size));
 			ins.flush();
 		}
 		return oid;
