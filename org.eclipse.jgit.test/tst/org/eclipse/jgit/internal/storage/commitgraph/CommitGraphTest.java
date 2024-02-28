@@ -19,22 +19,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,8 +47,7 @@ public class CommitGraphTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		tr = new TestRepository<>(db, new RevWalk(db), mockSystemReader);
-		mockSystemReader.setJGitConfig(new MockConfig());
+		tr = new TestRepository<>(db, new RevWalk(db));
 	}
 
 	@Test
@@ -210,7 +205,7 @@ public class CommitGraphTest extends RepositoryTestCase {
 		RevCommit b = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))), a);
 		RevCommit c = tr.commit(tr.tree(tr.file("d/f", tr.blob("b"))), b);
 
-		writeAndReadCommitGraph(Collections.singleton(c));
+		writeAndReadCommitGraph(Collections.singleton(c), true);
 		ChangedPathFilter acpf = commitGraph
 				.getChangedPathFilter(commitGraph.findGraphPosition(a));
 		assertTrue(acpf.maybeContains("d".getBytes(UTF_8)));
@@ -226,6 +221,11 @@ public class CommitGraphTest extends RepositoryTestCase {
 	}
 
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {
+		writeAndReadCommitGraph(wants, false);
+	}
+
+	void writeAndReadCommitGraph(Set<ObjectId> wants,
+			boolean readChangedPathFilters) throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		try (RevWalk walk = new RevWalk(db)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
@@ -234,7 +234,8 @@ public class CommitGraphTest extends RepositoryTestCase {
 			writer.write(m, os);
 			InputStream inputStream = new ByteArrayInputStream(
 					os.toByteArray());
-			commitGraph = CommitGraphLoader.read(inputStream);
+			commitGraph = CommitGraphLoader.read(inputStream,
+					readChangedPathFilters);
 		}
 	}
 
@@ -280,42 +281,5 @@ public class CommitGraphTest extends RepositoryTestCase {
 
 	RevCommit commit(RevCommit... parents) throws Exception {
 		return tr.commit(parents);
-	}
-
-	private static final class MockConfig extends FileBasedConfig {
-		private MockConfig() {
-			super(null, null);
-		}
-
-		@Override
-		public void load() throws IOException, ConfigInvalidException {
-			// Do nothing
-		}
-
-		@Override
-		public void save() throws IOException {
-			// Do nothing
-		}
-
-		@Override
-		public boolean isOutdated() {
-			return false;
-		}
-
-		@Override
-		public String toString() {
-			return "MockConfig";
-		}
-
-		@Override
-		public boolean getBoolean(final String section, final String name,
-				final boolean defaultValue) {
-			if (section.equals(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION)
-					&& name.equals(
-							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS)) {
-				return true;
-			}
-			return defaultValue;
-		}
 	}
 }

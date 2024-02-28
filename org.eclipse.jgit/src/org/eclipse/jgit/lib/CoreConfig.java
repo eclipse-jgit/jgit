@@ -124,6 +124,13 @@ public class CoreConfig {
 	public static final boolean DEFAULT_COMMIT_GRAPH_ENABLE = false;
 
 	/**
+	 * Default value of bloom filter read enable option: {@value}
+	 *
+	 * @since 6.8
+	 */
+	public static final boolean DEFAULT_BLOOM_FILTER_READ_ENABLE = false;
+
+	/**
 	 * Permissible values for {@code core.trustPackedRefsStat}.
 	 *
 	 * @since 6.1.1
@@ -155,6 +162,8 @@ public class CoreConfig {
 	private final String attributesfile;
 
 	private final boolean commitGraph;
+
+	private final boolean readBloomFilter;
 
 	/**
 	 * Options for symlink handling
@@ -199,6 +208,9 @@ public class CoreConfig {
 				null, ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE);
 		commitGraph = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_COMMIT_GRAPH,
+				DEFAULT_COMMIT_GRAPH_ENABLE);
+		readBloomFilter = rc.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS,
 				DEFAULT_COMMIT_GRAPH_ENABLE);
 	}
 
@@ -263,5 +275,16 @@ public class CoreConfig {
 	 */
 	public boolean enableCommitGraph() {
 		return commitGraph;
+	}
+
+	/**
+	 * Whether to read the bloom filter data (if it exists). Default to
+	 * {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_BLOOM_FILTER_READ_ENABLE}.
+	 *
+	 * @return whether to read the bloom filter data
+	 * @since 6.8
+	 */
+	public boolean enableReadBloomFilter() {
+		return readBloomFilter;
 	}
 }
