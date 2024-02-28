@@ -28,8 +28,8 @@ public class CommitGraphLoaderTest {
 
 	@Test
 	public void readCommitGraphV1() throws Exception {
-		commitGraph = CommitGraphLoader
-				.open(JGitTestUtil.getTestResourceFile("commit-graph.v1"));
+		commitGraph = CommitGraphLoader.open(
+				JGitTestUtil.getTestResourceFile("commit-graph.v1"), /* readBloomFilter */ false);
 		assertNotNull(commitGraph);
 		assertEquals(10, commitGraph.getCommitCnt());
 		verifyGraphObjectIndex();

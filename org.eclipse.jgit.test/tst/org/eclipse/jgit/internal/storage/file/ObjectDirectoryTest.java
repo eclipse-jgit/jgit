@@ -45,6 +45,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -65,6 +66,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -242,6 +244,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
 
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
 		assertTrue(curs.getCommitGraph().isEmpty());
@@ -254,6 +258,34 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
 
 		assertTrue(curs.getCommitGraph().isEmpty());
+	}
+
+	@Test
+	public void testExistenceOfBloomFilterAlongWithCommitGraph() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
+
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				null, ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
+
+		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
+		assertTrue(curs.getCommitGraph().isEmpty());
+		commitFile("file.txt", "content", "master");
+		GC gc = new GC(db);
+		gc.gc().get();
+
+		CommitGraph cg1 = curs.getCommitGraph().get();
+		assertNotNull(cg1.getChangedPathFilter(0));
+
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				null, ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
+		CommitGraph cg2 = curs.getCommitGraph().get();
+		assertNull(cg2.getChangedPathFilter(0));
 	}
 
 	@Test
