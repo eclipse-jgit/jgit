@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
@@ -27,10 +28,13 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.IndexEventConsumer;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -443,6 +447,28 @@ public class DfsBlockCacheTest {
 		assertEquals(1, cache.getMissCount()[PackExt.COMMIT_GRAPH.ordinal()]);
 	}
 
+	@Test
+	public void testReadingBloomFilterAlongWithCommitGraph() throws Exception {
+		InMemoryRepository r1 = createRepoWithBitmap("test");
+		resetCache();
+
+		InMemoryRepository.MemObjDatabase db = r1.getObjectDatabase();
+		Config repoConfig = db.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
+
+		DfsReader reader = (DfsReader) r1.newObjectReader();
+		for (DfsPackFile pack : r1.getObjectDatabase().getPacks()) {
+			// Only load non-garbage pack with bitmap.
+			if (pack.isGarbage()) {
+				continue;
+			}
+
+			CommitGraph cg = pack.getCommitGraph(reader);
+			assertNotNull(cg.getChangedPathFilter(0));
+		}
+	}
+
 	private void resetCache() {
 		resetCache(32);
 	}
@@ -465,7 +491,7 @@ public class DfsBlockCacheTest {
 			repository.branch("/refs/ref2" + repoName).commit()
 					.add("blob2", "blob2" + repoName).parent(commit).create();
 		}
-		new DfsGarbageCollector(repo).setWriteCommitGraph(true).pack(null);
+		new DfsGarbageCollector(repo).setWriteCommitGraph(true).setWriteBloomFilter(true).pack(null);
 		return repo;
 	}
 

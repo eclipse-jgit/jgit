@@ -27,7 +27,6 @@ import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffConfig;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -35,7 +34,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -49,7 +47,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		rw = new RevWalk(db);
-		mockSystemReader.setJGitConfig(new MockConfig());
 	}
 
 	@Test
@@ -516,42 +513,5 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	private void reinitializeRevWalk() {
 		rw.close();
 		rw = new RevWalk(db);
-	}
-
-	private static final class MockConfig extends FileBasedConfig {
-		private MockConfig() {
-			super(null, null);
-		}
-
-		@Override
-		public void load() throws IOException, ConfigInvalidException {
-			// Do nothing
-		}
-
-		@Override
-		public void save() throws IOException {
-			// Do nothing
-		}
-
-		@Override
-		public boolean isOutdated() {
-			return false;
-		}
-
-		@Override
-		public String toString() {
-			return "MockConfig";
-		}
-
-		@Override
-		public boolean getBoolean(final String section, final String name,
-				final boolean defaultValue) {
-			if (section.equals(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION)
-					&& name.equals(
-							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS)) {
-				return true;
-			}
-			return defaultValue;
-		}
 	}
 }
