@@ -16,6 +16,24 @@
       "message": "This should be updated with info on the new behavior related to loose refs.",
       "revId": "36895397b379e14153e5d40486e4b5c5ea749626",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d8fd91_5be4eac7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-02-28T20:32:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c7c32fe_542be509",
+      "revId": "36895397b379e14153e5d40486e4b5c5ea749626",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
