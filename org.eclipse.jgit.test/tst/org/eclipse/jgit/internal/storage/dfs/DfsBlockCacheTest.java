@@ -491,7 +491,13 @@ public class DfsBlockCacheTest {
 			repository.branch("/refs/ref2" + repoName).commit()
 					.add("blob2", "blob2" + repoName).parent(commit).create();
 		}
-		new DfsGarbageCollector(repo).setWriteCommitGraph(true).setWriteBloomFilter(true).pack(null);
+
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
+
+		new DfsGarbageCollector(repo).pack(null);
 		return repo;
 	}
 

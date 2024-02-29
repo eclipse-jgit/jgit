@@ -49,6 +49,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -79,9 +80,6 @@ public class DfsGarbageCollector {
 	private PackConfig packConfig;
 	private ReftableConfig reftableConfig;
 	private boolean convertToReftable = true;
-	private boolean writeCommitGraph;
-
-	private boolean writeBloomFilter;
 	private boolean includeDeletes;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
@@ -286,31 +284,25 @@ public class DfsGarbageCollector {
 	}
 
 	/**
-	 * Toggle commit graph generation.
-	 * <p>
-	 * False by default.
+	 * If {@code true}, will rewrite the commit-graph file when gc is run.
 	 *
-	 * @param enable
-	 *            Allow/Disallow commit graph generation.
-	 * @return {@code this}
+	 * @return true if commit-graph should be written. Default is {@code false}.
 	 */
-	public DfsGarbageCollector setWriteCommitGraph(boolean enable) {
-		writeCommitGraph = enable;
-		return this;
+	boolean shouldWriteCommitGraphWhenGc() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH,
+				false);
 	}
 
 	/**
-	 * Toggle bloom filter generation.
-	 * <p>
-	 * False by default.
+	 * If {@code true}, generates bloom filter in the commit-graph file.
 	 *
-	 * @param enable
-	 *            Whether bloom filter generation is enabled
-	 * @return {@code this}
+	 * @return true if bloom filter should be written. Default is {@code false}.
 	 */
-	public DfsGarbageCollector setWriteBloomFilter(boolean enable) {
-		writeBloomFilter = enable;
-		return this;
+	boolean shouldWriteBloomFilter() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS,
+				false);
 	}
 
 	/**
@@ -778,7 +770,7 @@ public class DfsGarbageCollector {
 
 	private void writeCommitGraph(DfsPackDescription pack, ProgressMonitor pm)
 			throws IOException {
-		if (!writeCommitGraph || !objdb.getShallowCommits().isEmpty()) {
+		if (!shouldWriteCommitGraphWhenGc() || !objdb.getShallowCommits().isEmpty()) {
 			return;
 		}
 
@@ -787,7 +779,7 @@ public class DfsGarbageCollector {
 			GraphCommits gcs = GraphCommits.fromWalk(pm, allHeadsAndTags, pool);
 			CountingOutputStream cnt = new CountingOutputStream(out);
 			CommitGraphWriter writer = new CommitGraphWriter(gcs,
-					writeBloomFilter);
+					shouldWriteBloomFilter());
 			CommitGraphWriter.Stats stats = writer.write(pm, cnt);
 			pack.addFileExt(COMMIT_GRAPH);
 			pack.setFileSize(COMMIT_GRAPH, cnt.getCount());
