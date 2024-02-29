@@ -20,23 +20,32 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DfsReaderTest {
-	InMemoryRepository db;
+
+	private TestRepository<InMemoryRepository> git;
+
+	private InMemoryRepository db;
 
 	@Before
-	public void setUp() {
-		db = new InMemoryRepository(new DfsRepositoryDescription("test"));
+	public void setUp() throws IOException {
+		DfsRepositoryDescription desc = new DfsRepositoryDescription("test");
+		db = new InMemoryRepository(desc);
+		git = new TestRepository<>(db);
 	}
 
 	@Test
@@ -282,6 +291,25 @@ public class DfsReaderTest {
 		}
 	}
 
+	@Test
+	public void testCommitGraphEnableForServing() throws Exception {
+		git.branch("refs/heads/main").commit().message("0").noParents()
+				.create();
+		gcWithCommitGraph();
+
+		setCommitGraphServingEnable(true);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			Optional<CommitGraph> cg = ctx.getCommitGraph();
+			assertTrue(cg.isPresent());
+		}
+
+		setCommitGraphServingEnable(false);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			Optional<CommitGraph> cg = ctx.getCommitGraph();
+			assertTrue(cg.isEmpty());
+		}
+	}
+
 	private static class CounterPackLoadListener implements PackLoadListener {
 		final Map<PackExt, Integer> callsPerExt = new HashMap<>();
 
@@ -317,5 +345,16 @@ public class DfsReaderTest {
 	private void setObjectSizeIndexMinBytes(int threshold) {
 		db.getConfig().setInt(CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, threshold);
+	}
+
+	private void gcWithCommitGraph() throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(db);
+		gc.setWriteCommitGraph(true);
+		gc.pack(null);
+	}
+
+	private void setCommitGraphServingEnable(boolean enable) {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, enable);
 	}
 }
