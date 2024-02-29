@@ -29,7 +29,7 @@ public class CommitGraphLoaderTest {
 	@Test
 	public void readCommitGraphV1() throws Exception {
 		commitGraph = CommitGraphLoader.open(
-				JGitTestUtil.getTestResourceFile("commit-graph.v1"), true);
+				JGitTestUtil.getTestResourceFile("commit-graph.v1"), false);
 		assertNotNull(commitGraph);
 		assertEquals(10, commitGraph.getCommitCnt());
 		verifyGraphObjectIndex();
@@ -56,11 +56,28 @@ public class CommitGraphLoaderTest {
 				new int[] { 7, 5 }, 1670570364L, 3, 9);
 	}
 
+	@Test
+	public void readBloomFilter() throws Exception {
+		commitGraph = CommitGraphLoader.open(JGitTestUtil
+				.getTestResourceFile("commit-graph-with-bloom-filters"), true);
+		assertNotNull(commitGraph);
+		assertEquals(4, commitGraph.getCommitCnt());
+		verifyGraphObjectIndex();
+		assertChangedPathFiltersExitence();
+	}
+
 	private void verifyGraphObjectIndex() {
 		for (int i = 0; i < commitGraph.getCommitCnt(); i++) {
 			ObjectId id = commitGraph.getObjectId(i);
 			int pos = commitGraph.findGraphPosition(id);
 			assertEquals(i, pos);
+		}
+	}
+
+	private void assertChangedPathFiltersExitence() {
+		for (int i = 0; i < commitGraph.getCommitCnt(); i++) {
+			ChangedPathFilter filter = commitGraph.getChangedPathFilter(i);
+			assertNotNull(filter);
 		}
 	}
 
