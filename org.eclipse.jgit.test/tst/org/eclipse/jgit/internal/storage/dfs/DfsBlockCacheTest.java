@@ -31,6 +31,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.IndexEventConsu
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -465,7 +466,11 @@ public class DfsBlockCacheTest {
 			repository.branch("/refs/ref2" + repoName).commit()
 					.add("blob2", "blob2" + repoName).parent(commit).create();
 		}
-		new DfsGarbageCollector(repo).setWriteCommitGraph(true).pack(null);
+
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+
+		new DfsGarbageCollector(repo).pack(null);
 		return repo;
 	}
 

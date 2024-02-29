@@ -1225,15 +1225,23 @@ public class DfsGarbageCollectorTest {
 	}
 
 	private void gcWithCommitGraph() throws IOException {
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
+
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
-		gc.setWriteCommitGraph(true);
+
 		run(gc);
 	}
 
 	private void gcWithCommitGraphAndBloomFilter() throws IOException {
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
+		repo.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS, true);
+
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
-		gc.setWriteCommitGraph(true);
-		gc.setWriteBloomFilter(true);
 		run(gc);
 	}
 
