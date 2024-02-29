@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
+import static org.eclipse.jgit.lib.CoreConfig.DEFAULT_COMMIT_GRAPH_ENABLE;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
@@ -140,6 +142,13 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public Optional<CommitGraph> getCommitGraph() throws IOException {
+		boolean enableCommitGraph = db.getRepository().getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_COMMIT_GRAPH,
+				DEFAULT_COMMIT_GRAPH_ENABLE);
+		if (!enableCommitGraph) {
+			return Optional.empty();
+		}
 		for (DfsPackFile pack : db.getPacks()) {
 			CommitGraph cg = pack.getCommitGraph(this);
 			if (cg != null) {
