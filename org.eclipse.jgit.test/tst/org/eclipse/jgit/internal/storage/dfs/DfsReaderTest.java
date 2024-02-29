@@ -348,8 +348,9 @@ public class DfsReaderTest {
 	}
 
 	private void gcWithCommitGraph() throws IOException {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
 		DfsGarbageCollector gc = new DfsGarbageCollector(db);
-		gc.setWriteCommitGraph(true);
 		gc.pack(null);
 	}
 
