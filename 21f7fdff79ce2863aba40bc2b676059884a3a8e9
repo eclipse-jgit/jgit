@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6390a144_daae2b13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-03-04T23:28:22Z",
+      "side": 1,
+      "message": "Our tests look good, without this new option in HA setup with multiple Gerrit primaries sharing the same NFS filesystem when reindexing we see frequent retries are needed since ref updates done by one primary aren\u0027t immediately visible to the other primary. With this option enabled we didn\u0027t observe such retries anymore.",
+      "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
