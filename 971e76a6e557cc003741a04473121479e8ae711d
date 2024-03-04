@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a840938_f505e253",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T23:52:58Z",
+      "side": 1,
+      "message": "Thanks. One nit about placing the class inside the interface.",
+      "revId": "971e76a6e557cc003741a04473121479e8ae711d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d07b71c_d1286171",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheStats.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T23:52:58Z",
+      "side": 1,
+      "message": "Should we put this as an inner class of the DfsBlockCacheTable? It will be instantiated only by subclasses of that interface.",
+      "revId": "971e76a6e557cc003741a04473121479e8ae711d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
