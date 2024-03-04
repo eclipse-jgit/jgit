@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42098174_5ea7ff04",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-03-04T01:56:52Z",
+      "side": 1,
+      "message": "/* readBloomFilter \u003d */ true\nfor posterity",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0428b01e_61a6c22c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-03-04T01:56:52Z",
+      "side": 1,
+      "message": "testExistenceOfBloomFilterAlongWithCommitGraph\nThis doesn\u0027t read bloom filter but instead just asserts that one exists.",
+      "range": {
+        "startLine": 451,
+        "startChar": 13,
+        "endLine": 451,
+        "endChar": 55
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f2a1a1_30f33fe9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-03-04T01:56:52Z",
+      "side": 1,
+      "message": "not sure if read is appropriate here given the only check here is existence.",
+      "range": {
+        "startLine": 264,
+        "startChar": 17,
+        "endLine": 264,
+        "endChar": 21
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f2ec76a_e8a6b40c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-03-04T01:56:52Z",
+      "side": 1,
+      "message": "the default should be DEFAULT_BLOOM_FILTER_READ_ENABLE",
+      "range": {
+        "startLine": 214,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 31
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
