@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1763f71d_f8af5726",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "\"readChangedPaths\"\n\nFor consistency with API and other parts of the code.",
+      "range": {
+        "startLine": 166,
+        "startChar": 23,
+        "endLine": 166,
+        "endChar": 38
+      },
+      "revId": "f55c861f10798cb0fee282e2745923a9b1721be2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

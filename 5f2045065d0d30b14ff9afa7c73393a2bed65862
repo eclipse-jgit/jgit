@@ -3,6 +3,120 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74db081d_53b3b119",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "Nit: More specific title\n\nIf I understood correctly what you are doing here, it could be something like:\n\nCommitGraph: honor repo-level config to write changed paths",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5b78ac_d122d65d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "Why is this capitalized?",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "616bd7d5_1d9bf1c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "The flags could be set in the XDG_CONFIG_CONF/jgit/config and the loader would read them just fine.\n\nI think what you mean here is that using directly SystemReader, the loader is not seeing values set in the repo-level configuration.",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd4ade7c_90279cf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "Why CoreConfig? I don\u0027t know the conf well and why some (and only some) are in that class... but e.g. writeChangedPaths doesn\u0027t seem to be there. Is it really needed?\n\nWhat happens if you don\u0027t add it there and just let callers read the property (as writeChangePaths does IIUC)?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "321ce27d_72bd0c8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "\"Moving the reading logic\" sounds like the parsing of the file was happening somewhere else (which is not the case).\n\nNot sure why Dfs/Non-Dfs have different change here. If CoreConfig is not really needed, then the change is the same on both sides: read the conf and pass to loader on getCommitGraph().",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0362dd2_ecce3140",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "IIUC this was enabled if the conf was on system-level. This change will make jgit honor also the repo level config. That should be mentioned in the first paragraph (the problem) so you don\u0027t need to repeat it here.",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42098174_5ea7ff04",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
         "patchSetId": 6
@@ -37,6 +151,30 @@
       "writtenOn": "2024-03-04T17:52:16Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "42098174_5ea7ff04",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53bd1c98_7b12f1e9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "Probably it should be \"false\" here, to test the same as before.\n\nOptional: You can add a second test that verifies that the flag is true the paths are loaded.",
       "parentUuid": "42098174_5ea7ff04",
       "range": {
         "startLine": 32,
@@ -137,6 +275,46 @@
         "startChar": 17,
         "endLine": 264,
         "endChar": 21
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0788c27_d56d29a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "Everything else in this class is final. Could be make this parameter also final (i.e. coming via constructor?).",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9253f536_8c4a64da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-04T19:02:51Z",
+      "side": 1,
+      "message": "\"readChangedPaths\"\n\nFor consistency with the conf option, API and other parts of the code.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 39
       },
       "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
