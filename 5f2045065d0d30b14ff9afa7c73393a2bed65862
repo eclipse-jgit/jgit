@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7772fd36_ba07f8e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74db081d_53b3b119",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de5b78ac_d122d65d",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-03-04T19:02:51Z",
       "side": 1,
       "message": "Why is this capitalized?",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47f3e97b_d229a4d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "changed to SystemReader",
+      "parentUuid": "de5b78ac_d122d65d",
       "range": {
         "startLine": 10,
         "startChar": 54,
@@ -58,6 +100,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38c7c152_3f4a3560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "616bd7d5_1d9bf1c7",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd4ade7c_90279cf8",
@@ -71,6 +131,30 @@
       "writtenOn": "2024-03-04T19:02:51Z",
       "side": 1,
       "message": "Why CoreConfig? I don\u0027t know the conf well and why some (and only some) are in that class... but e.g. writeChangedPaths doesn\u0027t seem to be there. Is it really needed?\n\nWhat happens if you don\u0027t add it there and just let callers read the property (as writeChangePaths does IIUC)?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8720ce29_8c24ae8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "\u003ewriteChangedPaths doesn\u0027t seem to be there. Is it really needed?\n\nthe write flags such as gc.writeChangedPaths and gc.writeCommitGraph are not under CoreConfig because these are not flags used in serving path. \n\nrelated read flags such as core.commitGraph is stored within the CoreConfig atm. \n\n\u003eWhat happens if you don\u0027t add it there and just let callers read the property\n\nThis could be done too. The reason I chose to go with CoreConfig is to follow the original author\u0027s convention of storing core.commitGraph in CoreConfig, then retrieving it as with a consolidated getter.",
+      "parentUuid": "fd4ade7c_90279cf8",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -98,6 +182,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aeec14a_3a507d95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "\u003eNot sure why Dfs/Non-Dfs have different change here.\n\nthe File System implementation already uses CoreConfig for centralizing many other repo level configs, CoreConfig is at least needed for File System implementation.\n\nFor Dfs implementation does not use CoreConfig afaik; these configs are either directly read from repo-level configs, or stored in dedicated config classes (e.g. PackConfig, DfsBlockCacheConfig, ReftableConfig).",
+      "parentUuid": "321ce27d_72bd0c8e",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0362dd2_ecce3140",
@@ -111,6 +213,24 @@
       "writtenOn": "2024-03-04T19:02:51Z",
       "side": 1,
       "message": "IIUC this was enabled if the conf was on system-level. This change will make jgit honor also the repo level config. That should be mentioned in the first paragraph (the problem) so you don\u0027t need to repeat it here.",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf151b2_b4491052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "moved to problem section.",
+      "parentUuid": "a0362dd2_ecce3140",
       "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -176,6 +296,30 @@
       "side": 1,
       "message": "Probably it should be \"false\" here, to test the same as before.\n\nOptional: You can add a second test that verifies that the flag is true the paths are loaded.",
       "parentUuid": "42098174_5ea7ff04",
+      "range": {
+        "startLine": 32,
+        "startChar": 57,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6d7bc7_e676a25e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoaderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "updated in patchset 7",
+      "parentUuid": "53bd1c98_7b12f1e9",
       "range": {
         "startLine": 32,
         "startChar": 57,
@@ -297,6 +441,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfffdcf4_4cf17417",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "we can\u0027t make it final here because people can adjust commitGraph.readChangedPaths post creating FileCommitGraph object, then call a refresh on the GraphSnapshot which depends on the current state of commitGraph.readChangedPaths. \n\nsee testExistenceOfBloomFilterAlongWithCommitGraph under ObjectDirectoryTest.java",
+      "parentUuid": "b0788c27_d56d29a3",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9253f536_8c4a64da",
@@ -310,6 +472,30 @@
       "writtenOn": "2024-03-04T19:02:51Z",
       "side": 1,
       "message": "\"readChangedPaths\"\n\nFor consistency with the conf option, API and other parts of the code.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 39
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44890632_44f73dc5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9253f536_8c4a64da",
       "range": {
         "startLine": 166,
         "startChar": 0,
