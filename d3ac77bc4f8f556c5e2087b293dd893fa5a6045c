@@ -22,6 +22,30 @@
       },
       "revId": "d3ac77bc4f8f556c5e2087b293dd893fa5a6045c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4347a672_3a0cb79a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T18:49:03Z",
+      "side": 1,
+      "message": "no opinion. the naming is from mirroring the same enable method of GC.java",
+      "parentUuid": "6317bd00_3a788060",
+      "range": {
+        "startLine": 291,
+        "startChar": 9,
+        "endLine": 291,
+        "endChar": 37
+      },
+      "revId": "d3ac77bc4f8f556c5e2087b293dd893fa5a6045c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
