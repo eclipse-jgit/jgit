@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6317bd00_3a788060",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-03-04T01:29:13Z",
+      "side": 1,
+      "message": "nit: shouldWriteCommitGraph is more clearer\n\nWhat valuw does WhenGc adds?",
+      "range": {
+        "startLine": 291,
+        "startChar": 9,
+        "endLine": 291,
+        "endChar": 37
+      },
+      "revId": "d3ac77bc4f8f556c5e2087b293dd893fa5a6045c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
