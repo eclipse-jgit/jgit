@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6c8fea26_2bae13f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T18:40:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c962598_7e94968d",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "f0ac442e4ac23367e610e36d07047d00662743e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "31ac52be_4fce619c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2024-03-01T02:53:32Z",
       "side": 1,
       "message": "DEFAULT_COMMIT_GRAPH_ENABLE is false and the line below short-circuts and return empty. How do the DfsReaderTest pass? Can you write a test with testing both this code path when the enableCommitGraph \u003d true/false?",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 31
+      },
+      "revId": "f0ac442e4ac23367e610e36d07047d00662743e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92c787ad_f6e2311c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-04T18:40:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56bbfb55_78729727",
       "range": {
         "startLine": 148,
         "startChar": 4,
