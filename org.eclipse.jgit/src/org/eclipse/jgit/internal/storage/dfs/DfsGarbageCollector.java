@@ -17,6 +17,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.IN
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureReftable;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
@@ -709,7 +710,8 @@ public class DfsGarbageCollector {
 
 		if (pw.prepareBitmapIndex(pm,
 				objdb.getBitmapIndexBuilderConstructor())) {
-			objdb.writeBitmapIndex(pack, pw);
+			pw.writeBitmapIndex(objdb.getPackBitmapIndexWriter(pack));
+			pack.addFileExt(BITMAP_INDEX);
 		}
 
 		PackStatistics stats = pw.getStatistics();
