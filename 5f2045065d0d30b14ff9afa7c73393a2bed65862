@@ -545,6 +545,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb99af55_bde84ac6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-05T22:39:19Z",
+      "side": 1,
+      "message": "on a second glance, we could pass the config as a final field of FileCommitGraph, then check commitGraph.readChangedPath each time get() is called; this way we get rid of the setter while still allow FileCommitGraph load according to the current state of the commitGraph.readChangedPath.\n\nI am hesitant to set \"readBloomFilter\" at the constructor because the user could create FileCommitGraph, then choose to turn on the flag after; Similar to us checking core.commitGraph outside of fileCommitGraph, to get around this problem.",
+      "parentUuid": "0a98231e_5ed13077",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9253f536_8c4a64da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 6
