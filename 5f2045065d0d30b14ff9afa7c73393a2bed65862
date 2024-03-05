@@ -189,6 +189,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e47f2cc1_023d9a08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-05T21:24:48Z",
+      "side": 1,
+      "message": "moved \"commitGraph.readChangedPaths\" out of CoreConfig and into getCommitGraph() of ObjectDirectory.java",
+      "parentUuid": "76eed065_313d0adc",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "321ce27d_72bd0c8e",
@@ -497,6 +521,24 @@
       "side": 1,
       "message": "Do we need to support that? At the moment I don\u0027t think we do. We can always add it later if needed.",
       "parentUuid": "dfffdcf4_4cf17417",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a98231e_5ed13077",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-05T21:24:48Z",
+      "side": 1,
+      "message": "\u003eDo we need to support that?\n\nim not sure, i guess it depends on whether the File System implementation ever have use case where the FileCommitGraph object is persistent in memory. \n\nbased on me running jgit log locally, making \"readBloomFilter\" final in FileCommitGraph still resulted in jgit choosing whether to load bf chunks correctly based on the \"commitGraph.readChangedPaths\" flag, which suggest to me that each \"jgit log\" must have produced their own FileCommitGraph.\n\nanyway, sgtm, will make this variable final.",
+      "parentUuid": "3f61cee9_0460e158",
       "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
