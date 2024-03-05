@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3bbb735_77e8d820",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037828
+      },
+      "writtenOn": "2024-03-05T02:02:21Z",
+      "side": 1,
+      "message": "Thanks. One minor comment.",
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c02179a_81cab132",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1037828
+      },
+      "writtenOn": "2024-03-05T02:02:21Z",
+      "side": 1,
+      "message": "Use CONFIG_COMMIT_GRAPH_SECTION to be consistent. There might be other occurrences in this commit too.",
+      "range": {
+        "startLine": 509,
+        "startChar": 44,
+        "endLine": 509,
+        "endChar": 63
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
