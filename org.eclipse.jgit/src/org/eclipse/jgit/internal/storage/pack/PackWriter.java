@@ -124,8 +124,8 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}. If the
  * pack is being stored as a file the matching index can be written out after
  * writing the pack by {@link #writeIndex(OutputStream)}. An optional bitmap
- * index can be made by calling {@link #prepareBitmapIndex(ProgressMonitor)}
- * followed by {@link #writeBitmapIndex(OutputStream)}.
+ * index can be made by calling {@link #prepareBitmapIndex} * followed by
+ * {@link #writeBitmapIndex(OutputStream)}.
  * </p>
  * <p>
  * Class provide set of configurable options and
@@ -1206,7 +1206,7 @@ public class PackWriter implements AutoCloseable {
 	/**
 	 * Create a bitmap index file to match the pack file just written.
 	 * <p>
-	 * Called after {@link #prepareBitmapIndex(ProgressMonitor)}.
+	 * Called after {@link #prepareBitmapIndex}.
 	 *
 	 * @param bitmapIndexStream
 	 *            output for the bitmap index data. Caller is responsible for
@@ -2476,11 +2476,16 @@ public class PackWriter implements AutoCloseable {
 	 *
 	 * @param pm
 	 *            progress monitor to report bitmap building work.
+	 * @param bitmapIdxBuilder
+	 *            provides a PackBitmapIndexBuilder when given list of pack
+	 *            objects
 	 * @return whether a bitmap index may be written.
 	 * @throws java.io.IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
-	public boolean prepareBitmapIndex(ProgressMonitor pm) throws IOException {
+	public boolean prepareBitmapIndex(ProgressMonitor pm,
+			PackBitmapIndexFactory bitmapIdxBuilder)
+			throws IOException {
 		if (!canBuildBitmaps || getObjectCount() > Integer.MAX_VALUE
 				|| !cachedPacks.isEmpty())
 			return false;
@@ -2496,7 +2501,8 @@ public class PackWriter implements AutoCloseable {
 		sortedByName = null;
 		objectsLists = null;
 		objectsMap = null;
-		writeBitmaps = new PackBitmapIndexBuilder(byName);
+		writeBitmaps = bitmapIdxBuilder.builderForWriting(byName);
+
 		// Allow byName to be GC'd if JVM GC runs before the end of the method.
 		byName = null;
 
@@ -2846,5 +2852,30 @@ public class PackWriter implements AutoCloseable {
 				return objectId;
 			}
 		}
+	}
+
+	/**
+	 * Gets the bitmaps that have been prepared for writing after calling
+	 * {@link #prepareBitmapIndex}.
+	 *
+	 * @return the {@link PackBitmapIndexBuilder} that was prepared
+	 */
+	public PackBitmapIndexBuilderForWriting getBitmapsToWrite() {
+		return writeBitmaps;
+	}
+
+	/**
+	 * A functional interface that provides a PackBitmapIndexBuilder when given
+	 * a list of pack objects.
+	 */
+	@FunctionalInterface
+	public interface PackBitmapIndexFactory {
+		/**
+		 * @param objects
+		 *            list of objects in the pack
+		 * @return a {@link PackBitmapIndexBuilder} initialized with
+		 *         {@code objects}
+		 */
+		PackBitmapIndexBuilderForWriting builderForWriting(List<ObjectToPack> objects);
 	}
 }

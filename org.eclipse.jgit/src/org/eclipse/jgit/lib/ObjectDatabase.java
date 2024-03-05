@@ -16,6 +16,8 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.internal.storage.pack.PackWriter.PackBitmapIndexFactory;
 
 /**
  * Abstraction of arbitrary object storage.
@@ -202,4 +204,15 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * @since 6.1
 	 */
 	public abstract long getApproximateObjectCount();
+
+	/**
+	 * Get a functional interface that provides a
+	 * PackBitmapIndexBuilderForWriting when given a list of pack objects.
+	 *
+	 * @return a functional interface that provides a
+	 *         {@code PackBitmapIndexBuilderForWriting}
+	 */
+	public PackBitmapIndexFactory getBitmapIndexBuilderConstructor() {
+		return PackBitmapIndexBuilder::new;
+	}
 }

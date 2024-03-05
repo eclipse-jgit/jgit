@@ -708,7 +708,8 @@ public class DfsGarbageCollector {
 			}
 		}
 
-		if (pw.prepareBitmapIndex(pm)) {
+		if (pw.prepareBitmapIndex(pm,
+				objdb.getBitmapIndexBuilderConstructor())) {
 			try (DfsOutputStream out = objdb.writeFile(pack, BITMAP_INDEX)) {
 				CountingOutputStream cnt = new CountingOutputStream(out);
 				pw.writeBitmapIndex(cnt);
