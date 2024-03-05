@@ -1399,7 +1399,9 @@ public class GC {
 						FileChannel idxChannel = fos.getChannel();
 						OutputStream idxStream = Channels
 								.newOutputStream(idxChannel)) {
-					pw.writeBitmapIndex(idxStream);
+					final PackBitmapIndexWriterV1 iw = new PackBitmapIndexWriterV1(
+							idxStream);
+					pw.writeBitmapIndex(iw::write);
 					idxChannel.force(true);
 				}
 			}
