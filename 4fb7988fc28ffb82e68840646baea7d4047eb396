@@ -39,6 +39,30 @@
       },
       "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af465bb2_82cd7877",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-05T17:03:46Z",
+      "side": 1,
+      "message": "there is outstanding cl to deprecate the older one, https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1176051/6\n\nsince both are the same string, im looking to keep the original one from the author.",
+      "parentUuid": "4c02179a_81cab132",
+      "range": {
+        "startLine": 509,
+        "startChar": 44,
+        "endLine": 509,
+        "endChar": 63
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
