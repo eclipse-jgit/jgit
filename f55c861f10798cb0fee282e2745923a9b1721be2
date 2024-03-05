@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86039e43_0c582727",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "One way to split this CL would be to make two methods in the reader:\nCommitGraph read(...); // same API as now, internally reads SystemConfig and calls:\nCommitGraph read(..., readChangedPaths);\n\nThen in another change, you move the DFS stack to pass the config\nThen in another change, you move the non-dfs to pass the config\nAnd either in another change or together with previous, you delete the read(...) method.\n\nThen each CL touches less files and if we need to rollback we reduce the chances of conflict.",
+      "revId": "f55c861f10798cb0fee282e2745923a9b1721be2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1763f71d_f8af5726",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 7

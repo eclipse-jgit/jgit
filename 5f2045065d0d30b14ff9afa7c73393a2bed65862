@@ -167,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76eed065_313d0adc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "There are plenty of other flags in the serving path that are not in CoreConfig.\n\nThe class name hints that it is a space for \"core.\" properties. It seems one from \"pack.\" sneaked in (in 2012), but I guess that is an unfortunate exception.\n\nThe original author added it in CoreConfig probably because it was a \"core.\" section property (I was reviewer on that change https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/197628).  \n\nAll in all, if the configuration is correctly propagated without putting it in CoreConfig, let it as a regular conf option.",
+      "parentUuid": "8720ce29_8c24ae8f",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "321ce27d_72bd0c8e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -455,6 +479,24 @@
       "side": 1,
       "message": "we can\u0027t make it final here because people can adjust commitGraph.readChangedPaths post creating FileCommitGraph object, then call a refresh on the GraphSnapshot which depends on the current state of commitGraph.readChangedPaths. \n\nsee testExistenceOfBloomFilterAlongWithCommitGraph under ObjectDirectoryTest.java",
       "parentUuid": "b0788c27_d56d29a3",
+      "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f61cee9_0460e158",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "Do we need to support that? At the moment I don\u0027t think we do. We can always add it later if needed.",
+      "parentUuid": "dfffdcf4_4cf17417",
       "revId": "5f2045065d0d30b14ff9afa7c73393a2bed65862",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

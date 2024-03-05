@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c8de12_d712ea5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "That config can be set at repo level or system level. There is nothing saying \"this needs to be set at repo level\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c305857_a71eb17d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "What do you mean here? Why is jgit not able to use bf chunks in revwalk? \n\nBased on the lines above, if I set the variable in $XDG_CONFIG_HOME/jgit/config the code should see it just fine.",
+      "range": {
+        "startLine": 13,
+        "startChar": 44,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c3bbb735_77e8d820",
@@ -14,6 +60,23 @@
       "writtenOn": "2024-03-05T02:02:21Z",
       "side": 1,
       "message": "Thanks. One minor comment.",
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ad1eff0_98ef525f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "nit: Too long line?",
       "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -61,6 +124,93 @@
         "endLine": 509,
         "endChar": 63
       },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9baf2f32_16908eba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/197628\n\nIn that change I think we decided to have\nCONFIG_COMMIT_GRAPH for the key (core.commitGraph) and CONFIG_COMMIT_GRAPH_SECTION for the section (commitGraph.x, commitGraph.y). Other sections seem to have their own _SECTION constant.",
+      "parentUuid": "af465bb2_82cd7877",
+      "range": {
+        "startLine": 509,
+        "startChar": 44,
+        "endLine": 509,
+        "endChar": 63
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5858b17_01b23455",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "readChangedPaths to keep a consistent naming. Same in other files.",
+      "range": {
+        "startLine": 55,
+        "startChar": 11,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0d1d3c1_64133c6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "_SECTION",
+      "range": {
+        "startLine": 1291,
+        "startChar": 21,
+        "endLine": 1291,
+        "endChar": 40
+      },
+      "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc0fdf7c_76385a79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileCommitGraph.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-05T18:53:15Z",
+      "side": 1,
+      "message": "Probably don\u0027t do this in this CL. We can always add it later if the reload of the conf becomes an issue for non-DFS servers.",
       "revId": "4fb7988fc28ffb82e68840646baea7d4047eb396",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
