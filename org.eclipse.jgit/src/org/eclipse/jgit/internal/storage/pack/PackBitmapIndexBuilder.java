@@ -161,4 +161,20 @@ public interface PackBitmapIndexBuilder extends PackBitmapIndex {
 			return objectId;
 		}
 	}
+
+
+	/**
+	 * A functional interface that provides a PackBitmapIndexBuilder when given
+	 * a list of pack objects.
+	 */
+	@FunctionalInterface
+	public interface PackBitmapIndexBuilderFactory {
+		/**
+		 * @param objects
+		 *            list of objects in the pack
+		 * @return a {@link PackBitmapIndexBuilder} initialized with
+		 *         {@code objects}
+		 */
+		PackBitmapIndexBuilder builder(List<ObjectToPack> objects);
+	}
 }
