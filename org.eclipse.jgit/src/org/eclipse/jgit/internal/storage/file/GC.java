@@ -1385,7 +1385,8 @@ public class GC {
 				}
 			}
 
-			if (pw.prepareBitmapIndex(pm)) {
+			if (pw.prepareBitmapIndex(pm, repo.getObjectDatabase()
+					.getBitmapIndexBuilderConstructor())) {
 				File tmpBitmapIdx = new File(packdir,
 						tmpBase + BITMAP_INDEX.getTmpExtension());
 				tmpExts.put(BITMAP_INDEX, tmpBitmapIdx);
