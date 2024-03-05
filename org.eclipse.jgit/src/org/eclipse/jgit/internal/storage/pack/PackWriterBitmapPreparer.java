@@ -30,7 +30,6 @@ import org.eclipse.jgit.internal.revwalk.AddUnseenToBitmapFilter;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexRemapper;
-import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
