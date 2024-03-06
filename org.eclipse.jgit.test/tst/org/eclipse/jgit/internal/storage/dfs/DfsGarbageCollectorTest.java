@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
@@ -1176,6 +1179,37 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
 		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	@Test
+	public void bitmapIndexWrittenDuringGc() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		git.update("branch0", commit0);
+		RevCommit commit1 = commitChain(commit0, 1000);
+		git.update("branch1", commit1);
+		RevCommit commit2 = commitChain(commit0, 500);
+		git.update("branch2", commit2);
+
+		gcNoTtl();
+
+		DfsPackFile pack = odb.getPacks()[0];
+		PackBitmapIndex bitmapIndex = pack.getBitmapIndex(odb.newReader());
+		assertTrue("pack file has bitmap index extension",
+				pack.getPackDescription().hasFileExt(PackExt.BITMAP_INDEX));
+		assertEquals("bitmap index has 3 objects", 1502,
+				bitmapIndex.getObjectCount());
+		assertEquals("bitmap index has 2 bitmaps", 207,
+				bitmapIndex.getBitmapCount());
+		assertEquals("bitmap index has 2 xor-compressed bitmaps", 189,
+				bitmapIndex.getXorBitmapCount());
+	}
+
+	private RevCommit commitChain(RevCommit parent, int length)
+			throws Exception {
+		for (int i = 0; i < length; i++) {
+			parent = commit().message("" + i).parent(parent).create();
+		}
+		return parent;
 	}
 
 	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {
