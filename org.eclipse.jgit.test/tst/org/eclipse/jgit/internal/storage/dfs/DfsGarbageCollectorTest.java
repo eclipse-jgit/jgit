@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
@@ -1176,6 +1178,29 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
 		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	@Test
+	public void bitmapIndexWrittenDuringGc() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		assertTrue("commit0 reachable", isReachable(repo, commit0));
+		assertTrue("commit1 reachable", isReachable(repo, commit1));
+
+		gcNoTtl();
+
+		DfsPackFile pack = odb.getPacks()[0];
+		PackBitmapIndex bitmapIndex = pack.getBitmapIndex(odb.newReader());
+		assertTrue("pack file has bitmap index extension",
+				pack.getPackDescription().hasFileExt(PackExt.BITMAP_INDEX));
+		assertEquals("bitmap index has 3 objects", 3,
+				bitmapIndex.getObjectCount());
+		assertEquals("bitmap index has 2 bitmaps", 2,
+				bitmapIndex.getBitmapCount());
+		assertEquals("bitmap index has 2 xor-compressed bitmaps", 0,
+				bitmapIndex.getXorBitmapCount());
 	}
 
 	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {
