@@ -123,6 +123,24 @@
       "parentUuid": "071a5385_8e6ca785",
       "revId": "c194114aaffc54653364e991e818570610b9411c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b1bc46a_e45c6dbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-03-06T20:01:37Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand what Martin said\n\u003e \n\u003e If we consider multiple threads a race is always possible, the cached view of a snapshotted refdirectory can get outdated by another thread any time.\n\n+1",
+      "parentUuid": "fb2c86cf_c2b6a90d",
+      "revId": "c194114aaffc54653364e991e818570610b9411c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
