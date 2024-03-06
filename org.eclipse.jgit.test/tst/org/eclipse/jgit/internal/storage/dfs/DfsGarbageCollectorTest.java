@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
@@ -1176,6 +1179,65 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
 		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	@Test
+	public void bitmapIndexWrittenDuringGc() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		git.update("branch0", commit0);
+		RevCommit branch1 = commitChain(commit0, 100);
+		git.update("branch1", branch1);
+		RevCommit branch2 = commitChain(commit0, 100);
+		git.update("branch2", branch2);
+
+		final int recentCommitsOverallCount = 5;
+
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapContiguousCommitCount(recentCommitsOverallCount);
+		packConfig.setBitmapRecentCommitSpan(10);
+		packConfig.setBitmapRecentCommitCount(55);
+		packConfig.setBitmapDistantCommitSpan(20);
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setPackConfig(packConfig);
+		run(gc);
+
+		DfsPackFile pack = odb.getPacks()[0];
+		PackBitmapIndex bitmapIndex = pack.getBitmapIndex(odb.newReader());
+		assertTrue("pack file has bitmap index extension",
+				pack.getPackDescription().hasFileExt(PackExt.BITMAP_INDEX));
+
+		final int objectCount = 202; // 2 + 2 branches * 100 commits
+
+		// (54th commit [exclusive] - 5th commit) / 10 commits per bitmap
+		final int recentCommitsPerBranch = 4;
+
+		// (99th commit [exclusive] - 55th commit) / 20 commits per bitmap
+		final int distantCommitsPerBranch = 2;
+
+		final int branchBitmapsCount = recentCommitsOverallCount
+				+ 2 /* branches */ * (recentCommitsPerBranch
+						+ distantCommitsPerBranch);
+
+		assertEquals("bitmap index has 202 objects", objectCount,
+				bitmapIndex.getObjectCount());
+		assertEquals("bitmap index has 19 bitmaps", branchBitmapsCount,
+				bitmapIndex.getBitmapCount());
+
+		// The count is just a function of whether any bitmaps happen to
+		// compress efficiently against the others in the index. We expect for
+		// this test that this there will be at least one like this, but the
+		// actual count is situation-specific
+		assertTrue("bitmap index has xor-compressed bitmaps",
+				bitmapIndex.getXorBitmapCount() > 0);
+	}
+
+	private RevCommit commitChain(RevCommit parent, int length)
+			throws Exception {
+		for (int i = 0; i < length; i++) {
+			parent = commit().message("" + i).parent(parent).create();
+		}
+		return parent;
 	}
 
 	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {
