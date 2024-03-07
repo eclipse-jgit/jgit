@@ -165,6 +165,9 @@ public class CommandExecutor {
 		if (fs instanceof FS_POSIX) {
 			commandArray = new String[1];
 			commandArray[0] = commandFile.getCanonicalPath();
+		} else if (fs instanceof FS_Win32_Cygwin) {
+			commandArray = new String[1];
+			commandArray[0] = commandFile.getCanonicalPath().replace("\\", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		} else if (fs instanceof FS_Win32) {
 			if (useMsys2) {
 				commandArray = new String[3];
@@ -176,9 +179,6 @@ public class CommandExecutor {
 				commandArray = new String[1];
 				commandArray[0] = commandFile.getCanonicalPath();
 			}
-		} else if (fs instanceof FS_Win32_Cygwin) {
-			commandArray = new String[1];
-			commandArray[0] = commandFile.getCanonicalPath().replace("\\", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
 			throw new ToolException(
 					"JGit: file system not supported: " + fs.toString()); //$NON-NLS-1$
