@@ -139,11 +139,15 @@ public class TreeRevFilter extends RevFilter {
 						.getPathsBestEffort();
 				if (paths.isPresent()) {
 					changedPathFilterUsed = true;
+					boolean mayContainPath = false;
 					for (byte[] path : paths.get()) {
-						if (!cpf.maybeContains(path)) {
-							mustCalculateChgs = false;
+						if (cpf.maybeContains(path)) {
+							mayContainPath = true;
 							break;
 						}
+					}
+					if (!mayContainPath) {
+						mustCalculateChgs = false;
 					}
 				}
 			}
