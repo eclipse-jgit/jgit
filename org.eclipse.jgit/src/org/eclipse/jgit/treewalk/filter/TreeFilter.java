@@ -210,13 +210,13 @@ public abstract class TreeFilter {
 	public abstract boolean shouldBeRecursive();
 
 	/**
-	 * If this filter checks that a specific set of paths have all been
+	 * If this filter checks that at least one of the paths have all been
 	 * modified, returns that set of paths to be checked against a changed path
 	 * filter. Otherwise, returns empty.
 	 *
 	 * @return a set of paths, or empty
 	 *
-	 * @since 6.7
+	 * @since 6.8
 	 */
 	public Optional<Set<byte[]>> getPathsBestEffort() {
 		return Optional.empty();
