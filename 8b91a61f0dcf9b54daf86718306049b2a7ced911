@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9cbe269_b0b776c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-03-07T22:43:18Z",
+      "side": 1,
+      "message": "CI build https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1133/ was successful, don\u0027t know why it didn\u0027t vote",
+      "revId": "8b91a61f0dcf9b54daf86718306049b2a7ced911",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
