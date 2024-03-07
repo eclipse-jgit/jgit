@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "109cd4c0_0cacd061",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-07T00:09:28Z",
+      "side": 1,
+      "message": "TODO(delmerico): give an explanation for these numbers?\n\nWhat\u0027s a good way to test the bitmap index creation? This is probably not the place to have implementation details (specific numbers of bitmaps). That would belong more in tests for the PackWriterBitmapIndexPreparer.",
+      "revId": "a86250b2fb06d2e5595c7e184e65a7d82ff0cc81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
