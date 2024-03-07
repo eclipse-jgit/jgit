@@ -10,12 +10,15 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -262,6 +265,279 @@ public class PathFilterLogicTest extends RepositoryTestCase {
 		List<String> paths = getMatchingPathsFlat(treeId, AndTreeFilter.create(tf));
 
 		assertEquals(expected, paths);
+	}
+
+	@Test
+	public void testTopOrMultiSubPathGetPathsBestEffort() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a"));
+
+		TreeFilter[] tf = new TreeFilter[] { PathFilter.create("a/b"),
+				PathFilter.create("a") };
+
+		Optional<Set<byte[]>> effectivePaths = OrTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopOrMultiSubPathGetPathsBestEffortToNarrowScope() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a", "b"));
+
+		PathFilter p1 = PathFilter.create("a");
+		PathFilter p2 = PathFilter.create("b");
+
+		PathFilter p3 = PathFilter.create("a/b");
+		PathFilter p4 = PathFilter.create("b/c");
+
+		PathFilter p5 = PathFilter.create("a/b/c");
+		PathFilter p6 = PathFilter.create("b/c/d");
+
+		TreeFilter[] tf = new TreeFilter[] {
+				PathFilterGroup.create(List.of(p1, p2)),
+				PathFilterGroup.create(List.of(p3, p4)),
+				PathFilterGroup.create(List.of(p5, p6)) };
+
+		Optional<Set<byte[]>> effectivePaths = OrTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopOrMultiSubPathGetPathsBestEffortOmitNarrowScope() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a"));
+
+		PathFilter p1 = PathFilter.create("a");
+		PathFilter p2 = PathFilter.create("a/b");
+
+		PathFilter p3 = PathFilter.create("a");
+		PathFilter p4 = PathFilter.create("a/b/c");
+
+		TreeFilter[] tf = new TreeFilter[] {
+				PathFilterGroup.create(List.of(p1, p2)),
+				PathFilterGroup.create(List.of(p3, p4)) };
+
+		Optional<Set<byte[]>> effectivePaths = OrTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopOrMultiSubPathGetPathsBestEffortWithPathOutOfScope() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a", "f"));
+
+		PathFilter p1 = PathFilter.create("a");
+		PathFilter p2 = PathFilter.create("a/b");
+
+		PathFilter p3 = PathFilter.create("a");
+		PathFilter p4 = PathFilter.create("f");
+
+		TreeFilter[] tf = new TreeFilter[] {
+				PathFilterGroup.create(List.of(p1, p2)),
+				PathFilterGroup.create(List.of(p3, p4)) };
+
+		Optional<Set<byte[]>> effectivePaths = OrTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopOrMultiSubPathGetPathsBestEffortWithNonPathFilter() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a"));
+
+		PathFilter p1 = PathFilter.create("a");
+
+		TreeFilter[] tf = new TreeFilter[] { p1, TreeFilter.ANY_DIFF };
+
+		Optional<Set<byte[]>> effectivePaths = OrTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopAndMultiSubPathGetPathsBestEffort() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a/b"));
+
+		TreeFilter[] tf = new TreeFilter[] { PathFilter.create("a/b"),
+				PathFilter.create("a") };
+
+		Optional<Set<byte[]>> effectivePaths = AndTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopAndMultiSubPathGetPathsBestEffortToNarrowScope() {
+		Set<byte[]> expected = PathsCalculator
+				.encodePaths(Set.of("a/b/c", "b/c/d"));
+
+		PathFilter p1 = PathFilter.create("a");
+		PathFilter p2 = PathFilter.create("b");
+
+		PathFilter p3 = PathFilter.create("a/b");
+		PathFilter p4 = PathFilter.create("b/c");
+
+		PathFilter p5 = PathFilter.create("a/b/c");
+		PathFilter p6 = PathFilter.create("b/c/d");
+
+		TreeFilter[] tf = new TreeFilter[] {
+				PathFilterGroup.create(List.of(p1, p2)),
+				PathFilterGroup.create(List.of(p3, p4)),
+				PathFilterGroup.create(List.of(p5, p6)) };
+
+		Optional<Set<byte[]>> effectivePaths = AndTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopAndMultiSubPathGetPathsBestEffortOmitNarrowScope() {
+		Set<byte[]> expected = PathsCalculator.encodePaths(Set.of("a"));
+
+		PathFilter p1 = PathFilter.create("a");
+		PathFilter p2 = PathFilter.create("a/b");
+
+		PathFilter p3 = PathFilter.create("a");
+		PathFilter p4 = PathFilter.create("a/b/c");
+
+		TreeFilter[] tf = new TreeFilter[] {
+				PathFilterGroup.create(List.of(p1, p2)),
+				PathFilterGroup.create(List.of(p3, p4)) };
+
+		Optional<Set<byte[]>> effectivePaths = AndTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isPresent());
+
+		Set<byte[]> actual = effectivePaths.get();
+
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testTopAndMultiSubPathGetPathsBestEffortWithPathOutOfScope() {
+		PathFilter p1 = PathFilter.create("a");
+		PathFilter p2 = PathFilter.create("a/b");
+
+		PathFilter p3 = PathFilter.create("a");
+		PathFilter p4 = PathFilter.create("f");
+
+		TreeFilter[] tf = new TreeFilter[] {
+				PathFilterGroup.create(List.of(p1, p2)),
+				PathFilterGroup.create(List.of(p3, p4)) };
+
+		Optional<Set<byte[]>> effectivePaths = AndTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isEmpty());
+	}
+
+	@Test
+	public void testTopAndMultiSubPathGetPathsBestEffortWithNonPathFilter() {
+		PathFilter p1 = PathFilter.create("a");
+
+		TreeFilter[] tf = new TreeFilter[] { p1, TreeFilter.ANY_DIFF };
+
+		Optional<Set<byte[]>> effectivePaths = AndTreeFilter.create(tf)
+				.getPathsBestEffort();
+		assertTrue(effectivePaths.isEmpty());
 	}
 
 	@Test
