@@ -12,6 +12,8 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
@@ -229,6 +231,15 @@ public class PathFilterGroup {
 		@Override
 		public boolean shouldBeRecursive() {
 			return !prefixes.isEmpty();
+		}
+
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			Set<byte[]> result = fullpaths.toSet();
+			if (result.isEmpty()) {
+				return Optional.empty();
+			}
+			return Optional.of(result);
 		}
 
 		@Override
