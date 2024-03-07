@@ -13,11 +13,15 @@ package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.treewalk.TreeWalk;
+
+import static org.eclipse.jgit.treewalk.filter.PathsCalculator.AND;
 
 /**
  * Includes a tree entry only if all subfilters include the same tree entry.
@@ -122,6 +126,27 @@ public abstract class AndTreeFilter extends TreeFilter {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
 		}
 
+		/**
+		 * Examine the cross sections of the paths within the subFilters. Return
+		 * the paths with narrowest scope. e.g. AND(SET("a", "b/c"), SET("a/b",
+		 * "b")) = SET("a/b", "b/c")
+		 * <p>
+		 * Return empty if pathSetA contains a path outside of the scope of
+		 * pathSetB, or verse visa. e.g. AND(SET("a", "a/b", "f"), SET("a",
+		 * "a/b")) = empty, since "f" is not in the scope of pathSetB.
+		 * <p>
+		 * using composite filters for multiple paths filtering is not
+		 * recommended. Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			TreeFilter[] tf = { a, b };
+			return AND(tf);
+		}
+
 		@Override
 		public TreeFilter clone() {
 			return new Binary(a.clone(), b.clone());
@@ -171,6 +196,26 @@ public abstract class AndTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		/**
+		 * Examine the cross sections of the paths within the subFilters. Return
+		 * the paths with narrowest scope. e.g. AND(SET("a", "b/c"), SET("a/b",
+		 * "b")) = SET("a/b", "b/c")
+		 * <p>
+		 * Return empty if pathSetA contains a path outside of the scope of
+		 * pathSetB, or verse visa. e.g. AND(SET("a", "a/b", "f"), SET("a",
+		 * "a/b")) = empty, since "f" is not in the scope of pathSetB.
+		 * <p>
+		 * using composite filters for multiple paths filtering is not
+		 * recommended. Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			return AND(subfilters);
 		}
 
 		@Override

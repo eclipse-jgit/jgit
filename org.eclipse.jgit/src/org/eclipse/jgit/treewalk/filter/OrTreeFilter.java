@@ -13,11 +13,15 @@ package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.treewalk.TreeWalk;
+
+import static org.eclipse.jgit.treewalk.filter.PathsCalculator.OR;
 
 /**
  * Includes a tree entry if any subfilters include the same tree entry.
@@ -115,6 +119,22 @@ public abstract class OrTreeFilter extends TreeFilter {
 			return 1;
 		}
 
+		/**
+		 * Return the union of all paths within subfilters. Otherwise, returns
+		 * empty.
+		 * <p>
+		 * To OR multiple path filters, it is more efficient to use
+		 * {@code PathFilterGroup}
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			TreeFilter[] tf = { a, b };
+			return OR(tf);
+		}
+
 		@Override
 		public boolean shouldBeRecursive() {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
@@ -169,6 +189,21 @@ public abstract class OrTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		/**
+		 * Return the union of all paths within subfilters. Otherwise, returns
+		 * empty.
+		 * <p>
+		 * To OR multiple path filters, it is more efficient to use
+		 * {@code PathFilterGroup}
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			return OR(subfilters);
 		}
 
 		@Override
