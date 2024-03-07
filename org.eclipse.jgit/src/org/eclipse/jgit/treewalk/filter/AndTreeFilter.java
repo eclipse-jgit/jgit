@@ -13,6 +13,8 @@ package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -122,6 +124,34 @@ public abstract class AndTreeFilter extends TreeFilter {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
 		}
 
+		/**
+		 * Return one sets of paths if and only if one subfilter has paths.
+		 * Otherwise, returns empty.
+		 * <p>
+		 * using composite filters for Multi-Paths filtering is not recommended.
+		 * Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			// using composite filters for Multi-Paths filtering is not
+			// recommended.
+			// use PathFilterGroup for Multi-Paths filtering instead.
+			Optional<Set<byte[]>> pathsFromA = a.getPathsBestEffort();
+			Optional<Set<byte[]>> pathsFromB = b.getPathsBestEffort();
+
+			// only consider AndTreeFilter with a single PathFilter
+			if (pathsFromA.isEmpty() && pathsFromB.isPresent()) {
+				return pathsFromB;
+			}
+			if (pathsFromA.isPresent() && pathsFromB.isEmpty()) {
+				return pathsFromA;
+			}
+			return Optional.empty();
+		}
+
 		@Override
 		public TreeFilter clone() {
 			return new Binary(a.clone(), b.clone());
@@ -171,6 +201,31 @@ public abstract class AndTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		/**
+		 * Return one sets of paths if and only if one subfilter has paths.
+		 * Otherwise, returns empty.
+		 * <p>
+		 * using composite filters for Multi-Paths filtering is not recommended.
+		 * Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			Set<byte[]> result = null;
+			for (TreeFilter f : subfilters) {
+				if (f.getPathsBestEffort().isPresent()) {
+					if (result == null) {
+						result = f.getPathsBestEffort().get();
+					} else {
+						return Optional.empty();
+					}
+				}
+			}
+			return Optional.empty();
 		}
 
 		@Override

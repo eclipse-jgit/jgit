@@ -11,7 +11,11 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
@@ -155,7 +159,10 @@ public class PathFilterGroup {
 
 		private byte[] max;
 
+//		private PathFilter[] pathFilters;
+
 		private Group(PathFilter[] pathFilters) {
+//			this.pathFilters = pathFilters;
 			fullpaths = new ByteArraySet(pathFilters.length);
 			prefixes = new ByteArraySet(pathFilters.length / 5);
 			// 5 is an empirically derived ratio of #paths/#prefixes from:
@@ -229,6 +236,16 @@ public class PathFilterGroup {
 		@Override
 		public boolean shouldBeRecursive() {
 			return !prefixes.isEmpty();
+		}
+
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			Set<byte[]> result = new HashSet<>(
+					Arrays.asList(fullpaths.toArray()));
+			if (result.isEmpty()) {
+				return Optional.empty();
+			}
+			return Optional.of(result);
 		}
 
 		@Override

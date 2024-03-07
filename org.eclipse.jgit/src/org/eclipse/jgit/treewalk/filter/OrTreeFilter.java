@@ -13,6 +13,9 @@ package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -115,6 +118,34 @@ public abstract class OrTreeFilter extends TreeFilter {
 			return 1;
 		}
 
+		/**
+		 * Return all possible paths from subfilters. Otherwise, returns empty.
+		 * <p>
+		 * using composite filters for Multi-Paths filtering is not recommended.
+		 * Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			// using composite filters for Multi-Paths filtering is not
+			// recommended.
+			// use PathFilterGroup for Multi-Paths filtering instead.
+			Optional<Set<byte[]>> pathsFromA = a.getPathsBestEffort();
+			Optional<Set<byte[]>> pathsFromB = b.getPathsBestEffort();
+			if (pathsFromA.isEmpty() && pathsFromB.isEmpty()) {
+				return Optional.empty();
+			}
+
+			// combine paths from all possible filters
+			Set<byte[]> result = new HashSet<>();
+			pathsFromA.ifPresent(result::addAll);
+			pathsFromB.ifPresent(result::addAll);
+
+			return Optional.of(result);
+		}
+
 		@Override
 		public boolean shouldBeRecursive() {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
@@ -169,6 +200,31 @@ public abstract class OrTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		/**
+		 * Return all possible paths from subfilters. Otherwise, returns empty.
+		 * <p>
+		 * using composite filters for Multi-Paths filtering is not recommended.
+		 * Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			// using composite filters for Multi-Paths filtering is not
+			// recommended.
+			// use PathFilterGroup for Multi-Paths filtering instead.
+			Set<byte[]> result = new HashSet<>();
+			// combine paths from all possible filters
+			for (TreeFilter f : subfilters) {
+				f.getPathsBestEffort().ifPresent(result::addAll);
+			}
+			if (result.isEmpty()) {
+				return Optional.empty();
+			}
+			return Optional.of(result);
 		}
 
 		@Override
