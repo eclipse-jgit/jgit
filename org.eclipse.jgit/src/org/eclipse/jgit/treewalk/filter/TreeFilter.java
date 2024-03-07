@@ -210,7 +210,7 @@ public abstract class TreeFilter {
 	public abstract boolean shouldBeRecursive();
 
 	/**
-	 * If this filter checks that a specific set of paths have all been
+	 * If this filter checks that at least one of the paths in a set has been
 	 * modified, returns that set of paths to be checked against a changed path
 	 * filter. Otherwise, returns empty.
 	 *
