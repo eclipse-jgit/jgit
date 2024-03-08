@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234fc179_da490f1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-03-08T20:00:12Z",
+      "side": 1,
+      "message": "Close, but no cigar. :-)\n\n1. I\u0027d not use a bundle activator. It introduces an unwanted dependency to org.osgi.framework because it needs to implement interface BundleActivator. We don\u0027t want that dependency, do we?\n\n2. This implementation runs the cleanups twice in OSGi, once on bundle deactivation and then again on JVM shutdown. The latter attempt will still hit the problem that classes are already unloaded.\n\nMy take on this is https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1177951 .\n\nBTW: Eclipse shows me plug-in dependencies to OSGi annotation bundles. Where do these dependencies come from? Is that some PDE artifact? I don\u0027t see anything in the MANIFEST or in pom.xml that would explain these dependencies.",
+      "revId": "f34a6d1f1dc67fadae988fe5818a6dd1e2d3390d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
