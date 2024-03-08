@@ -72,7 +72,10 @@ public enum ShutdownHook {
 		}
 	}
 
-	private void cleanup() {
+	/**
+	 * Execute registered cleanups
+	 */
+	public void cleanup() {
 		shutdownInProgress = true;
 		ExecutorService runner = Executors.newWorkStealingPool();
 		try {
