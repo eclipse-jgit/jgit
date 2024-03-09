@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdd7347d_6be915cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-03-09T10:56:06Z",
+      "side": 1,
+      "message": "nice, we should do the same in the archive bundle which uses an activator to register/unregister archive formats",
+      "revId": "bf7dd9add2f7115cb988d582da7e8943c3f5fbbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57474796_7a38d0e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-03-09T10:56:06Z",
+      "side": 1,
+      "message": "isn\u0027t this prone to class loading issues if the JGitText class is already unloaded when registered as a JVM shutdown hook in the non-osgi case (bug: jgit-17) ?",
+      "revId": "bf7dd9add2f7115cb988d582da7e8943c3f5fbbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
