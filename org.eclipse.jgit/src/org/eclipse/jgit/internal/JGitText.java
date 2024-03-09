@@ -744,8 +744,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shortReadOfBlock;
 	/***/ public String shortReadOfOptionalDIRCExtensionExpectedAnotherBytes;
 	/***/ public String shortSkipOfBlock;
-	/***/ public String shutdownCleanup;
-	/***/ public String shutdownCleanupListenerFailed;
 	/***/ public String signatureVerificationError;
 	/***/ public String signatureVerificationUnavailable;
 	/***/ public String signedTagMessageNoLf;

@@ -19,7 +19,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.jgit.internal.JGitText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,12 +93,16 @@ public enum ShutdownHook {
 	}
 
 	private void notify(Listener l) {
-		LOG.debug(JGitText.get().shutdownCleanup, l);
+		// message isn't localized since during shutdown there's no
+		// guarantee which classes are still loaded
+		LOG.debug("Cleanup {} during JVM shutdown", l); //$NON-NLS-1$
 		try {
 			l.onShutdown();
 		} catch (RuntimeException e) {
+			// message isn't localized since during shutdown there's no
+			// guarantee which classes are still loaded
 			LOG.error(MessageFormat.format(
-					JGitText.get().shutdownCleanupListenerFailed, l), e);
+					"Cleanup of {0} during JVM shutdown failed", l), e); //$NON-NLS-1$
 		}
 	}
 
@@ -117,6 +120,8 @@ public enum ShutdownHook {
 		if (shutdownInProgress) {
 			return listeners.contains(l);
 		}
+		// message isn't localized since during shutdown there's no
+		// guarantee which classes are still loaded
 		LOG.debug("register {} with shutdown hook", l); //$NON-NLS-1$
 		listeners.add(l);
 		return true;
@@ -136,6 +141,8 @@ public enum ShutdownHook {
 		if (shutdownInProgress) {
 			return !listeners.contains(l);
 		}
+		// message isn't localized since during shutdown there's no
+		// guarantee which classes are still loaded
 		LOG.debug("unregister {} from shutdown hook", l); //$NON-NLS-1$
 		listeners.remove(l);
 		return true;
