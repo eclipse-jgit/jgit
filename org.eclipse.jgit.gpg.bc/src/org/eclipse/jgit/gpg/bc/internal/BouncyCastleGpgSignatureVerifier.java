@@ -16,7 +16,7 @@ import java.security.Security;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import org.bouncycastle.bcpg.sig.IssuerFingerprint;
@@ -121,7 +121,7 @@ public class BouncyCastleGpgSignatureVerifier
 			} else {
 				throw new JGitInternalException(BCText.get().nonSignatureError);
 			}
-		} catch (PGPException e) {
+		} catch (NumberFormatException | PGPException e) {
 			throw new JGitInternalException(BCText.get().signatureParseError,
 					e);
 		}
@@ -134,7 +134,7 @@ public class BouncyCastleGpgSignatureVerifier
 		if (fingerprint != null && keyId != null
 				&& !fingerprint.endsWith(keyId)) {
 			return new VerificationResult(signatureCreatedAt, signer, fingerprint,
-					null, false, false, TrustLevel.UNKNOWN,
+					signer, false, false, TrustLevel.UNKNOWN,
 					MessageFormat.format(BCText.get().signatureInconsistent,
 							keyId, fingerprint));
 		}
@@ -144,18 +144,18 @@ public class BouncyCastleGpgSignatureVerifier
 		// Try to find the public key
 		String keySpec = '<' + signer + '>';
 		Object cached = null;
-		PGPPublicKey publicKey = null;
+		BouncyCastleGpgPublicKey publicKey = null;
 		try {
 			cached = byFingerprint.get(fingerprint);
 			if (cached != null) {
-				if (cached instanceof PGPPublicKey) {
-					publicKey = (PGPPublicKey) cached;
+				if (cached instanceof BouncyCastleGpgPublicKey) {
+					publicKey = (BouncyCastleGpgPublicKey) cached;
 				}
 			} else if (!StringUtils.isEmptyOrNull(signer)) {
 				cached = bySigner.get(signer);
 				if (cached != null) {
-					if (cached instanceof PGPPublicKey) {
-						publicKey = (PGPPublicKey) cached;
+					if (cached instanceof BouncyCastleGpgPublicKey) {
+						publicKey = (BouncyCastleGpgPublicKey) cached;
 					}
 				}
 			}
@@ -176,8 +176,16 @@ public class BouncyCastleGpgSignatureVerifier
 				}
 			}
 			return new VerificationResult(signatureCreatedAt, signer,
-					fingerprint, null, false, false, TrustLevel.UNKNOWN,
+					fingerprint, signer, false, false, TrustLevel.UNKNOWN,
 					BCText.get().signatureNoPublicKey);
+		}
+		if (fingerprint != null && !publicKey.isExactMatch()) {
+			// We did find _some_ signing key for the signer, but it doesn't
+			// match the given fingerprint.
+			return new VerificationResult(signatureCreatedAt, signer,
+					fingerprint, signer, false, false, TrustLevel.UNKNOWN,
+					MessageFormat.format(BCText.get().signatureNoSigningKey,
+							fingerprint));
 		}
 		if (cached == null) {
 			byFingerprint.put(fingerprint, publicKey);
@@ -187,27 +195,28 @@ public class BouncyCastleGpgSignatureVerifier
 			}
 		}
 		String user = null;
-		Iterator<String> userIds = publicKey.getUserIDs();
-		if (!StringUtils.isEmptyOrNull(signer)) {
-			while (userIds.hasNext()) {
-				String userId = userIds.next();
-				if (BouncyCastleGpgKeyLocator.containsSigningKey(userId,
-						keySpec)) {
-					user = userId;
-					break;
+		List<String> userIds = publicKey.getUserIds();
+		if (userIds != null && !userIds.isEmpty()) {
+			if (!StringUtils.isEmptyOrNull(signer)) {
+				for (String userId : publicKey.getUserIds()) {
+					if (BouncyCastleGpgKeyLocator.containsSigningKey(userId,
+							keySpec)) {
+						user = userId;
+						break;
+					}
 				}
 			}
-		}
-		if (user == null) {
-			userIds = publicKey.getUserIDs();
-			if (userIds.hasNext()) {
-				user = userIds.next();
+			if (user == null) {
+				user = userIds.get(0);
 			}
+		} else if (signer != null) {
+			user = signer;
 		}
+		PGPPublicKey pubKey = publicKey.getPublicKey();
 		boolean expired = false;
-		long validFor = publicKey.getValidSeconds();
+		long validFor = pubKey.getValidSeconds();
 		if (validFor > 0 && signatureCreatedAt != null) {
-			Instant expiredAt = publicKey.getCreationTime().toInstant()
+			Instant expiredAt = pubKey.getCreationTime().toInstant()
 					.plusSeconds(validFor);
 			expired = expiredAt.isBefore(signatureCreatedAt.toInstant());
 		}
@@ -215,14 +224,14 @@ public class BouncyCastleGpgSignatureVerifier
 		// specific. We don't use the GPG trustdb but simply the trust packet
 		// on the public key, if present. Even if present, it may or may not
 		// be set.
-		byte[] trustData = publicKey.getTrustData();
+		byte[] trustData = pubKey.getTrustData();
 		TrustLevel trust = parseGpgTrustPacket(trustData);
 		boolean verified = false;
 		try {
 			signature.init(
 					new JcaPGPContentVerifierBuilderProvider()
 							.setProvider(BouncyCastleProvider.PROVIDER_NAME),
-					publicKey);
+					pubKey);
 			signature.update(data);
 			verified = signature.verify();
 		} catch (PGPException e) {
