@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af377de_7a721d67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-03-09T23:18:13Z",
+      "side": 1,
+      "message": "Though in view of the new comments in bug: jgit-36 it appears that plexus classworlds used in maven seem to have a similar problem with ShutdownHook. Maybe the thread context classloader needs to be set additionally. Not using any localized messages, or no messages at all, appears safer. (But in general I do wonder how one could use a shutdown hook reliably if it cannot load classes.)",
+      "revId": "bf7dd9add2f7115cb988d582da7e8943c3f5fbbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57474796_7a38d0e1",
