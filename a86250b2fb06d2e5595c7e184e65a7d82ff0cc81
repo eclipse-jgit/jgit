@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0d0cf65_4c236922",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-09T00:19:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure of the best way to create an interesting testcase for this. @ifrade@google.com or @jackdt@google.com, do you have suggestions?\n\nI chose these numbers because it seemed to allow the bitmap selection heuristic to get into various regimes of spacing. But it\u0027s pretty arbitrary.",
+      "range": {
+        "startLine": 1186,
+        "startChar": 0,
+        "endLine": 1192,
+        "endChar": 0
+      },
+      "revId": "a86250b2fb06d2e5595c7e184e65a7d82ff0cc81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "109cd4c0_0cacd061",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
         "patchSetId": 2
