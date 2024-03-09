@@ -33,6 +33,24 @@
       "message": "isn\u0027t this prone to class loading issues if the JGitText class is already unloaded when registered as a JVM shutdown hook in the non-osgi case (bug: jgit-17) ?",
       "revId": "bf7dd9add2f7115cb988d582da7e8943c3f5fbbf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb5adbda_ed451576",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/ShutdownHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-03-09T23:08:49Z",
+      "side": 1,
+      "message": "I don\u0027t think so. It makes absolutely no sense to unload classes before shutdown hooks run, or to disable a classloader before shutdown hooks run. I have never heard of this, and if that were the case, then how could shutdown hooks ever work or be used in any reliable way? Consider: if I do `Runtime.getRuntime().addShutdownHook(Foo:shutdown)`, the class Foo must still be around at the time the hook runs. If classes could get unloaded before the hook runs, there wouldn\u0027t be any guarantee that class Foo was still around. Foo::shutdown might even load new classes, which wouldn\u0027t work if the classloader was already shut down.\n\nThis just doesn\u0027t happen. If either were the case, I\u0027m certain the javadoc on addShutdownHook() would warn about it.\n\nI think what we were seeing in jgit-17 was again JGit being used in OSGi (tycho!), and the JGit bundle already having been deactivated. In that case, indeed the class containing the hook as well as the bundle classloader are already gone, and we\u0027d see this exception. It\u0027s actually a surprise that ShutdownHook::cleanup itself still gets run.\n\nIf we want to guard against this particular case, I would rather get that particular error message early (when the class is instantiated), so that we can issue the log message without having to load JGitText first. Something like\n```\nprivate static final String HOOK_ERROR \u003d JGitText.get().shutdownCleanupFailed;\n```\nand then later just\n```\n   LOG.error(HOOK_FAILED, e);\n```\nThat way JGitText is known to have been loaded when hooks run.\n\nWhether the logger still works at all inside a shutdown hook is another question, though. Googling for \"java shutdown hook logger\" I find some mentions that at least some logging frameworks install their own shutdown hooks to shut themselves down, which would mean that standard logging cannot be used (or at least not reliably) in a shutdown hook. Perhaps we shouldn\u0027t catch exceptions at all and just let the JVM deal with them. Evidently the JVM has a way to output uncaught exceptions from shutdown hooks.[1]\n\n[1] https://docs.oracle.com/javase/8/docs/technotes/guides/lang/hook-design.html",
+      "parentUuid": "57474796_7a38d0e1",
+      "revId": "bf7dd9add2f7115cb988d582da7e8943c3f5fbbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
