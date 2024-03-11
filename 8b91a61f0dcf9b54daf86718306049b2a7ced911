@@ -16,6 +16,23 @@
       "message": "CI build https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1133/ was successful, don\u0027t know why it didn\u0027t vote",
       "revId": "8b91a61f0dcf9b54daf86718306049b2a7ced911",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b52a1ca_83fbc2cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-03-11T15:31:26Z",
+      "side": 1,
+      "message": "This change addressed all significant performance regressions introduced by trustLooseRefStat\u003dafter_open in internal testing with Gerrit 3.5 (with some backports applied). Some minor regressions still existed.",
+      "revId": "8b91a61f0dcf9b54daf86718306049b2a7ced911",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
