@@ -32,8 +32,8 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * that {@code ObjectId} (include the {@code ObjectId} itself). The meaning of
  * the positions in the bitmaps can be decoded using {@link #getObject(int)} and
  * {@link #ofObjectType(EWAHCompressedBitmap, int)}. Furthermore,
- * {@link #findPosition(AnyObjectId)} can be used to build other bitmaps that a
- * compatible with the encoded bitmaps available from the index.
+ * {@link #findPosition(AnyObjectId)} can be used to build other bitmaps that
+ * are compatible with the encoded bitmaps available from the index.
  */
 public abstract class PackBitmapIndex {
 	/** Flag bit denoting the bitmap should be reused during index creation. */

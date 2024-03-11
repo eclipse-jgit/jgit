@@ -18,7 +18,7 @@ import java.security.DigestOutputStream;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder.StoredEntry;
+import org.eclipse.jgit.internal.storage.file.BasePackBitmapIndexBuilder.StoredEntry;
 import org.eclipse.jgit.lib.Constants;
 
 import com.googlecode.javaewah.EWAHCompressedBitmap;
@@ -60,12 +60,13 @@ public class PackBitmapIndexWriterV1 {
 	 *             an error occurred while writing to the output stream, or this
 	 *             index format cannot store the object data supplied.
 	 */
-	public void write(PackBitmapIndexBuilder bitmaps, byte[] packDataChecksum)
+	public void write(BasePackBitmapIndexBuilder bitmaps,
+			byte[] packDataChecksum)
 			throws IOException {
 		if (bitmaps == null || packDataChecksum.length != 20)
 			throw new IllegalStateException();
 
-		writeHeader(bitmaps.getOptions(), bitmaps.getBitmapCount(),
+		writeHeader(PackBitmapIndexV1.OPT_FULL, bitmaps.getBitmapCount(),
 				packDataChecksum);
 		writeBody(bitmaps);
 		writeFooter();
@@ -83,7 +84,8 @@ public class PackBitmapIndexWriterV1 {
 		out.write(packDataChecksum);
 	}
 
-	private void writeBody(PackBitmapIndexBuilder bitmaps) throws IOException {
+	private void writeBody(BasePackBitmapIndexBuilder bitmaps)
+			throws IOException {
 		writeBitmap(bitmaps.getCommits());
 		writeBitmap(bitmaps.getTrees());
 		writeBitmap(bitmaps.getBlobs());
@@ -95,7 +97,7 @@ public class PackBitmapIndexWriterV1 {
 		bitmap.serialize(dataOutput);
 	}
 
-	private void writeBitmaps(PackBitmapIndexBuilder bitmaps)
+	private void writeBitmaps(BasePackBitmapIndexBuilder bitmaps)
 			throws IOException {
 		int bitmapCount = 0;
 		for (StoredEntry entry : bitmaps.getCompressedBitmaps()) {
