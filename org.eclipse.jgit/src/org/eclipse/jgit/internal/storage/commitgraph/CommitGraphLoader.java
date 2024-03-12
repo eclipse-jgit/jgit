@@ -27,12 +27,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.SilentFileInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +51,10 @@ public class CommitGraphLoader {
 	 *
 	 * @param graphFile
 	 *            existing commit-graph to read.
+	 *
+	 * @param readChangedPathFilters
+	 *            enable reading bloom filter chunks.
+	 *
 	 * @return a copy of the commit-graph file in memory
 	 * @throws FileNotFoundException
 	 *             the file does not exist.
@@ -63,11 +64,12 @@ public class CommitGraphLoader {
 	 *             the file exists but could not be read due to security errors
 	 *             or unexpected data corruption.
 	 */
-	public static CommitGraph open(File graphFile) throws FileNotFoundException,
+	public static CommitGraph open(File graphFile,
+			boolean readChangedPathFilters) throws FileNotFoundException,
 			CommitGraphFormatException, IOException {
 		try (SilentFileInputStream fd = new SilentFileInputStream(graphFile)) {
 			try {
-				return read(fd);
+				return read(fd, readChangedPathFilters);
 			} catch (CommitGraphFormatException fe) {
 				throw fe;
 			} catch (IOException ioe) {
@@ -76,42 +78,6 @@ public class CommitGraphLoader {
 						graphFile.getAbsolutePath()), ioe);
 			}
 		}
-	}
-
-	/**
-	 * Read an existing commit-graph file from a buffered stream.
-	 * <p>
-	 * The format of the file will be automatically detected and a proper access
-	 * implementation for that format will be constructed and returned to the
-	 * caller. The file may or may not be held open by the returned instance.
-	 *
-	 * @param fd
-	 *            stream to read the commit-graph file from. The stream must be
-	 *            buffered as some small IOs are performed against the stream.
-	 *            The caller is responsible for closing the stream.
-	 *
-	 * @return a copy of the commit-graph file in memory
-	 * @throws CommitGraphFormatException
-	 *             the commit-graph file's format is different from we expected.
-	 * @throws java.io.IOException
-	 *             the stream cannot be read.
-	 */
-	public static CommitGraph read(InputStream fd)
-			throws CommitGraphFormatException, IOException {
-
-		boolean readChangedPathFilters;
-		try {
-			readChangedPathFilters = SystemReader.getInstance().getJGitConfig()
-					.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS,
-							false);
-		} catch (ConfigInvalidException e) {
-			// Use the default value if, for some reason, the config couldn't be
-			// read.
-			readChangedPathFilters = false;
-		}
-
-		return read(fd, readChangedPathFilters);
 	}
 
 	/**
