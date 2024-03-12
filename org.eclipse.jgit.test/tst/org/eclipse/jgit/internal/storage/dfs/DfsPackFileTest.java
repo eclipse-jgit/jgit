@@ -10,7 +10,9 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
@@ -31,6 +34,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
@@ -263,6 +267,27 @@ public class DfsPackFileTest {
 		assertEquals(2, tal.blockLoadCount);
 	}
 
+	@Test
+	public void testExistenceOfBloomFilterAlongWithCommitGraph()
+			throws Exception {
+		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
+				db)) {
+			repository.branch("/refs/heads/main").commit().add("blob1", "blob1")
+					.create();
+		}
+		setReadChangedPaths(true);
+		DfsGarbageCollector gc = new DfsGarbageCollector(db);
+		gc.setWriteCommitGraph(true).setWriteBloomFilter(true)
+				.pack(NullProgressMonitor.INSTANCE);
+
+		DfsReader reader = db.getObjectDatabase().newReader();
+		CommitGraph cg = db.getObjectDatabase().getPacks()[0]
+				.getCommitGraph(reader);
+		assertNotNull(cg);
+		assertEquals(1, cg.getCommitCnt());
+		assertNotNull(cg.getChangedPathFilter(0));
+	}
+
 	private ObjectId setupPack(int bs, int ps) throws IOException {
 		DfsBlockCacheConfig cfg = new DfsBlockCacheConfig().setBlockSize(bs)
 				.setBlockLimit(bs * 100).setStreamRatio(bypassCache ? 0F : 1F);
@@ -297,5 +322,10 @@ public class DfsPackFileTest {
 	private void setObjectSizeIndexMinBytes(int threshold) {
 		db.getConfig().setInt(CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, threshold);
+	}
+
+	private void setReadChangedPaths(boolean enable) {
+		db.getConfig().setBoolean(CONFIG_COMMIT_GRAPH_SECTION, null,
+				CONFIG_KEY_READ_CHANGED_PATHS, enable);
 	}
 }
