@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3f682d_e49544a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c93789_4adeb630",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5027858_1efc2607",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-03-08T19:02:22Z",
       "side": 1,
       "message": "s/introduced within/in\n\nThe method is there, we are not talking about when or why it was added.",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd008c1a_266825be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5027858_1efc2607",
       "range": {
         "startLine": 9,
         "startChar": 33,
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0475f02_f55d009d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cb86f2f_9855ff25",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fd24a18_2fe7637d",
@@ -77,6 +143,24 @@
       "writtenOn": "2024-03-08T19:02:22Z",
       "side": 1,
       "message": "The solution is usually in imperative (like giving orders to the code) and again, prefer concrete words. e.g.\n\nOverride getPathsBestEffort in the combinators to propagate subfilter values.",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb3d3c9_9a4540b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fd24a18_2fe7637d",
       "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -98,6 +182,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16d65890_bd77a1b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "added tests into PathFilterLogicTest.java",
+      "parentUuid": "ec735348_faeb488d",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33444690_e61c9ecf",
@@ -111,6 +213,24 @@
       "writtenOn": "2024-03-08T19:02:22Z",
       "side": 1,
       "message": "This is a very weird logic. If I have an AND of \"a/\" and \"a/b\" it returns none?\n\nThis should return the AND of the paths of the child filters (in the example above \"a/b\"). \n\nAlthough javadoc recommends to use PathFilterGroup to filter multiple paths, nothing prevents a caller to use multiple PathFilter, so we need to support that case (i..e we cannot throw if we find paths on both children).\n\nAlso, it is not clear if this method returns the paths as set by the user, or the effective paths. Effective paths look more useful and intuitive. If you AND to non-overlapping paths, the filter should not let pass any tree and that is what the API says.\n\nand(paths(\"a\"), paths(\"c\")) \u003d\u003e none",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f174e758_49a4e0e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "added effective paths calculation.",
+      "parentUuid": "33444690_e61c9ecf",
       "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -132,6 +252,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd9951c4_b7e8e864",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "updated the javadoc.",
+      "parentUuid": "021fd6f4_380f26ad",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f77588c6_0434696f",
@@ -145,6 +283,24 @@
       "writtenOn": "2024-03-08T19:02:22Z",
       "side": 1,
       "message": "What is \"possible\" here?\n\nYou can just say \"Union of all paths checked by subfilters\"",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f01e1660_c96f6031",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77588c6_0434696f",
       "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -195,6 +351,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bec978e_42fc69e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab12799d_5e94a113",
+      "range": {
+        "startLine": 124,
+        "startChar": 33,
+        "endLine": 124,
+        "endChar": 44
+      },
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7704d5a_4b92b882",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9d7ccc_1f0ed3fd",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 10
+      },
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcb3cb67_eefbb638",
@@ -208,6 +412,24 @@
       "writtenOn": "2024-03-08T19:02:22Z",
       "side": 1,
       "message": "This should be just a copy of the other class javadoc.",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bcd715e_65f95173",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb3cb67_eefbb638",
       "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -229,6 +451,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb8f4ea_9a8a7cd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ea18cff_a6500a5e",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e058255a_255e5f8d",
@@ -242,6 +482,24 @@
       "writtenOn": "2024-03-08T19:02:22Z",
       "side": 1,
       "message": "Maybe ByteArraySet could get a new method \"toSet()\" to do this?",
+      "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4882a715_74cc3f2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T20:13:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e058255a_255e5f8d",
       "revId": "38260ca9d5a0b68b775b9e38e7769e4c45dc5442",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
