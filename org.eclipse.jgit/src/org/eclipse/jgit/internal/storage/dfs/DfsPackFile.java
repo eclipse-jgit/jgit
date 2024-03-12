@@ -52,10 +52,12 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.LongList;
 
 /**
@@ -1284,10 +1286,14 @@ public final class DfsPackFile extends BlockBasedFile {
 		ctx.stats.readCommitGraph++;
 		long start = System.nanoTime();
 		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
+			StoredConfig repoConfig = ctx.db.getRepository().getConfig();
+			boolean readChangedPathFilters = repoConfig.getBoolean(
+					ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+					ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
 			long size;
 			CommitGraph cg;
 			try {
-				cg = CommitGraphLoader.read(alignTo8kBlocks(rc));
+				cg = CommitGraphLoader.read(alignTo8kBlocks(rc), readChangedPathFilters);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
