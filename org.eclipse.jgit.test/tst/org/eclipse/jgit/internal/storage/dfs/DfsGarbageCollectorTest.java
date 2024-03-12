@@ -30,6 +30,8 @@ import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -998,20 +1000,21 @@ public class DfsGarbageCollectorTest {
 		DfsPackFile gcPack = odb.getPacks()[0];
 		assertEquals(GC, gcPack.getPackDescription().getPackSource());
 
-		DfsReader reader = odb.newReader();
-		CommitGraph cg = gcPack.getCommitGraph(reader);
-		assertNotNull(cg);
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNotNull(cg);
 
-		assertTrue("Only heads and tags reachable commits in commit graph",
-				cg.getCommitCnt() == 2);
-		// GC packed
-		assertTrue("tag referenced commit is in graph",
-				cg.findGraphPosition(rootCommitTagged) != -1);
-		assertTrue("head referenced commit is in graph",
-				cg.findGraphPosition(headTip) != -1);
-		// GC_REST not in commit graph
-		assertEquals("nonHead referenced commit is NOT in graph",
-				-1, cg.findGraphPosition(nonHeadTip));
+			assertTrue("Only heads and tags reachable commits in commit graph",
+					cg.getCommitCnt() == 2);
+			// GC packed
+			assertTrue("tag referenced commit is in graph",
+					cg.findGraphPosition(rootCommitTagged) != -1);
+			assertTrue("head referenced commit is in graph",
+					cg.findGraphPosition(headTip) != -1);
+			// GC_REST not in commit graph
+			assertEquals("nonHead referenced commit is NOT in graph",
+					-1, cg.findGraphPosition(nonHeadTip));
+		}
 	}
 
 	@Test
@@ -1033,28 +1036,29 @@ public class DfsGarbageCollectorTest {
 		DfsPackFile gcPack = odb.getPacks()[0];
 		assertEquals(GC, gcPack.getPackDescription().getPackSource());
 
-		DfsReader reader = odb.newReader();
-		gcPack.getCommitGraph(reader);
-		// Invoke cache hit
-		CommitGraph cachedCG = gcPack.getCommitGraph(reader);
-		assertNotNull(cachedCG);
-		assertTrue("commit graph have been read from disk once",
-				reader.stats.readCommitGraph == 1);
-		assertTrue("commit graph read contains content",
-				reader.stats.readCommitGraphBytes > 0);
-		assertTrue("commit graph read time is recorded",
-				reader.stats.readCommitGraphMicros > 0);
+		try (DfsReader reader = odb.newReader()) {
+			gcPack.getCommitGraph(reader);
+			// Invoke cache hit
+			CommitGraph cachedCG = gcPack.getCommitGraph(reader);
+			assertNotNull(cachedCG);
+			assertTrue("commit graph have been read from disk once",
+					reader.stats.readCommitGraph == 1);
+			assertTrue("commit graph read contains content",
+					reader.stats.readCommitGraphBytes > 0);
+			assertTrue("commit graph read time is recorded",
+					reader.stats.readCommitGraphMicros > 0);
 
-		assertTrue("Only heads and tags reachable commits in commit graph",
-				cachedCG.getCommitCnt() == 2);
-		// GC packed
-		assertTrue("tag referenced commit is in graph",
-				cachedCG.findGraphPosition(rootCommitTagged) != -1);
-		assertTrue("head referenced commit is in graph",
-				cachedCG.findGraphPosition(headTip) != -1);
-		// GC_REST not in commit graph
-		assertEquals("nonHead referenced commit is not in graph",
-				-1, cachedCG.findGraphPosition(nonHeadTip));
+			assertTrue("Only heads and tags reachable commits in commit graph",
+					cachedCG.getCommitCnt() == 2);
+			// GC packed
+			assertTrue("tag referenced commit is in graph",
+					cachedCG.findGraphPosition(rootCommitTagged) != -1);
+			assertTrue("head referenced commit is in graph",
+					cachedCG.findGraphPosition(headTip) != -1);
+			// GC_REST not in commit graph
+			assertEquals("nonHead referenced commit is not in graph",
+					-1, cachedCG.findGraphPosition(nonHeadTip));
+		}
 	}
 
 	@Test
@@ -1121,6 +1125,41 @@ public class DfsGarbageCollectorTest {
 	}
 
 	@Test
+	public void testReadChangedPathConfigAsFalse() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+	@Test
+	public void testReadChangedPathConfigAsTrue() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNotNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+
+	@Test
 	public void objectSizeIdx_reachableBlob_bigEnough_indexed() throws Exception {
 		String master = "refs/heads/master";
 		RevCommit root = git.branch(master).commit().message("root").noParents()
@@ -1134,10 +1173,11 @@ public class DfsGarbageCollectorTest {
 
 		gcWithObjectSizeIndex(10);
 
-		DfsReader reader = odb.newReader();
-		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
-		assertTrue(gcPack.hasObjectSizeIndex(reader));
-		assertEquals(12, gcPack.getIndexedObjectSize(reader, headsBlob));
+		try (DfsReader reader = odb.newReader()) {
+			DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
+			assertTrue(gcPack.hasObjectSizeIndex(reader));
+			assertEquals(12, gcPack.getIndexedObjectSize(reader, headsBlob));
+		}
 	}
 
 	@Test
@@ -1154,10 +1194,11 @@ public class DfsGarbageCollectorTest {
 
 		gcWithObjectSizeIndex(10);
 
-		DfsReader reader = odb.newReader();
-		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
-		assertTrue(gcPack.hasObjectSizeIndex(reader));
-		assertEquals(-1, gcPack.getIndexedObjectSize(reader, tooSmallBlob));
+		try (DfsReader reader = odb.newReader()) {
+			DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
+			assertTrue(gcPack.hasObjectSizeIndex(reader));
+			assertEquals(-1, gcPack.getIndexedObjectSize(reader, tooSmallBlob));
+		}
 	}
 
 	@Test
@@ -1173,9 +1214,10 @@ public class DfsGarbageCollectorTest {
 		git.update(master, root); // blob is unreachable
 		gcWithObjectSizeIndex(0);
 
-		DfsReader reader = odb.newReader();
-		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
-		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+		try (DfsReader reader = odb.newReader()) {
+			DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
+			assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+		}
 	}
 
 	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {
