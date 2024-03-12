@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b877f0c_b85262bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-12T21:05:31Z",
+      "side": 1,
+      "message": "Why would an inner class of PackWriter be returned by the ObjDatabase? Why not have the PackWriter create it?\n\nThere\u0027s no need for this method to be on this class - the only thing it uses from DfsObjDatabase is writeFile, which is package visible.",
+      "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
