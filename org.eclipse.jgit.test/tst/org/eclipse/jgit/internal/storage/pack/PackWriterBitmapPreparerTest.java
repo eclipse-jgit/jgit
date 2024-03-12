@@ -13,7 +13,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.internal.storage.file.XorCompressedPackBitmapIndexBuilder;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -128,7 +128,7 @@ public class PackWriterBitmapPreparerTest {
 		config.setBitmapRecentCommitCount(recentCount);
 		config.setBitmapRecentCommitSpan(recentSpan);
 		config.setBitmapDistantCommitSpan(distantSpan);
-		PackBitmapIndexBuilder indexBuilder = new PackBitmapIndexBuilder(
+		XorCompressedPackBitmapIndexBuilder indexBuilder = new XorCompressedPackBitmapIndexBuilder(
 				objects);
 		return new PackWriterBitmapPreparer(new StubObjectReader(),
 				indexBuilder, null, wants, config);

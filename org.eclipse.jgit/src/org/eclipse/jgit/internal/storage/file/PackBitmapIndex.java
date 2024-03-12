@@ -35,7 +35,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * {@link #findPosition(AnyObjectId)} can be used to build other bitmaps that a
  * compatible with the encoded bitmaps available from the index.
  */
-public abstract class PackBitmapIndex {
+public interface PackBitmapIndex {
 	/** Flag bit denoting the bitmap should be reused during index creation. */
 	public static final int FLAG_REUSE = 1;
 
@@ -137,7 +137,7 @@ public abstract class PackBitmapIndex {
 	 *
 	 * @return checksum as a byte array
 	 */
-	byte[] getPackChecksum() {
+	default byte[] getPackChecksum() {
 		return null;
 	}
 
