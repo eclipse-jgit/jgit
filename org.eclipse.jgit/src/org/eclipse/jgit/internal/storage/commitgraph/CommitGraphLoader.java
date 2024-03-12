@@ -98,6 +98,33 @@ public class CommitGraphLoader {
 	 */
 	public static CommitGraph read(InputStream fd)
 			throws CommitGraphFormatException, IOException {
+		return read(fd, false);
+	}
+
+	/**
+	 * Read an existing commit-graph file from a buffered stream.
+	 * <p>
+	 * The format of the file will be automatically detected and a proper access
+	 * implementation for that format will be constructed and returned to the
+	 * caller. The file may or may not be held open by the returned instance.
+	 *
+	 * @param fd
+	 *            stream to read the commit-graph file from. The stream must be
+	 *            buffered as some small IOs are performed against the stream.
+	 *            The caller is responsible for closing the stream.
+	 *
+	 * @param readChangedPathFilters
+	 *            enable reading bloom filter chunks.
+	 *
+	 * @return a copy of the commit-graph file in memory
+	 * @throws CommitGraphFormatException
+	 *             the commit-graph file's format is different from we expected.
+	 * @throws java.io.IOException
+	 *             the stream cannot be read.
+	 */
+	public static CommitGraph read(InputStream fd,
+			boolean readChangedPathFilters)
+			throws CommitGraphFormatException, IOException {
 		byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
 
@@ -142,9 +169,8 @@ public class CommitGraphLoader {
 			chunks.add(new ChunkSegment(id, offset));
 		}
 
-		boolean readChangedPathFilters;
 		try {
-			readChangedPathFilters = SystemReader.getInstance()
+			readChangedPathFilters |= SystemReader.getInstance()
 					.getJGitConfig()
 					.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
 						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
