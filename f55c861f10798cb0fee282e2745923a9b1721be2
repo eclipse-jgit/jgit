@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47d33bda_021f9d87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T21:50:39Z",
+      "side": 1,
+      "message": "split into 3 CLs:\n\nhttps://review.gerrithub.io/c/eclipse-jgit/jgit/+/1178197 \nhttps://review.gerrithub.io/c/eclipse-jgit/jgit/+/1178198\nhttps://review.gerrithub.io/c/eclipse-jgit/jgit/+/1178199",
+      "parentUuid": "16fac537_3490fbaa",
+      "revId": "f55c861f10798cb0fee282e2745923a9b1721be2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1763f71d_f8af5726",
