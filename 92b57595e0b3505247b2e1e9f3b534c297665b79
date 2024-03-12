@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ad794ff_ab27ad84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T22:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16588081_1b9ef469",
+      "revId": "92b57595e0b3505247b2e1e9f3b534c297665b79",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2f8628b_864dc240",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-12T21:54:35Z",
       "side": 1,
       "message": "The caller told already if they want the changedPaths of not, there is nothing to \"or\" here.\n\nMove reading this conf to the body of read(InputStream...).",
+      "revId": "92b57595e0b3505247b2e1e9f3b534c297665b79",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3adfcfc5_fa31e433",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-12T22:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2f8628b_864dc240",
       "revId": "92b57595e0b3505247b2e1e9f3b534c297665b79",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
