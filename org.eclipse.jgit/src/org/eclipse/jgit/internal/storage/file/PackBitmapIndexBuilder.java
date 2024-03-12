@@ -37,6 +37,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex
 		implements PackBitmapIndexBuilderForWriting {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
 
+	private final boolean xorCompressEntries;
+
 	private final EWAHCompressedBitmap commits;
 	private final EWAHCompressedBitmap trees;
 	private final EWAHCompressedBitmap blobs;
@@ -59,7 +61,25 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex
 	 *            ObjectId (name); it will be resorted in place.
 	 */
 	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
+		this(objects, /* xorCompressEntries= */ true);
+	}
+
+	/**
+	 * Creates a PackBitmapIndex used for building the contents of an index
+	 * file.
+	 *
+	 * @param objects
+	 *            objects sorted by name. The list must be initially sorted by
+	 *            ObjectId (name); it will be resorted in place.
+	 * @param xorCompressEntries
+	 *            whether to use xor-compression on the bitmap entries stored
+	 *            for writing
+	 */
+	public PackBitmapIndexBuilder(List<ObjectToPack> objects,
+			boolean xorCompressEntries) {
 		super(new ObjectIdOwnerMap<>());
+		this.xorCompressEntries = xorCompressEntries;
+
 		byOffset = new BlockList<>(objects.size());
 		sortByOffsetAndIndex(byOffset, positionEntries, objects);
 
@@ -160,10 +180,14 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex
 		compressed.trim();
 		StoredBitmap newest = new StoredBitmap(c, compressed, null, flags);
 
-		bitmapsToWriteXorBuffer.add(newest);
-		if (bitmapsToWriteXorBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
-			bitmapsToWrite.add(
-					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+		if (xorCompressEntries) {
+			bitmapsToWriteXorBuffer.add(newest);
+			if (bitmapsToWriteXorBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
+				bitmapsToWrite.add(generateXorCompressedStoredEntry(
+						bitmapsToWriteXorBuffer.pollFirst()));
+			}
+		} else {
+			bitmapsToWrite.add(generateStoredEntry(newest));
 		}
 
 		if (c.isAddToIndex()) {
@@ -176,6 +200,20 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex
 
 
 	private StoredEntry generateStoredEntry(StoredBitmap bitmapToWrite) {
+		return generateStoredEntry(bitmapToWrite, bitmapToWrite.getBitmap(), 0);
+	}
+
+	private StoredEntry generateStoredEntry(StoredBitmap bitmapToWrite,
+			EWAHCompressedBitmap bitmap, int xorOffset) {
+		PositionEntry entry = positionEntries.get(bitmapToWrite);
+		if (entry == null) {
+			throw new IllegalStateException();
+		}
+		return new StoredEntry(entry.namePosition, bitmap, xorOffset,
+				bitmapToWrite.getFlags());
+	}
+
+	private StoredEntry generateXorCompressedStoredEntry(StoredBitmap bitmapToWrite) {
 		int bestXorOffset = 0;
 		EWAHCompressedBitmap bestBitmap = bitmapToWrite.getBitmap();
 
@@ -191,15 +229,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex
 
 		}
 
-		PositionEntry entry = positionEntries.get(bitmapToWrite);
-		if (entry == null) {
-			throw new IllegalStateException();
-		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap,
-				bestXorOffset, bitmapToWrite.getFlags());
-
-		return result;
+		return generateStoredEntry(bitmapToWrite, bestBitmap, bestXorOffset);
 	}
 
 	/**
@@ -323,7 +354,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex
 	public List<StoredEntry> getCompressedBitmaps() {
 		while (!bitmapsToWriteXorBuffer.isEmpty()) {
 			bitmapsToWrite.add(
-					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+					generateXorCompressedStoredEntry(
+							bitmapsToWriteXorBuffer.pollFirst()));
 		}
 
 		Collections.reverse(bitmapsToWrite);
