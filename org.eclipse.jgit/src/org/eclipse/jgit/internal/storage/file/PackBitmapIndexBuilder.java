@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BitmapCommit;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackWriter.PackBitmapIndexBuilderForWriting;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.Constants;
@@ -32,7 +33,8 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * Helper for constructing
  * {@link org.eclipse.jgit.internal.storage.file.PackBitmapIndex}es.
  */
-public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
+public class PackBitmapIndexBuilder extends BasePackBitmapIndex
+		implements PackBitmapIndexBuilderForWriting {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
 
 	private final EWAHCompressedBitmap commits;
@@ -46,8 +48,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	private List<StoredEntry> bitmapsToWrite = new ArrayList<>();
 
-	final ObjectIdOwnerMap<PositionEntry>
-			positionEntries = new ObjectIdOwnerMap<>();
+	final ObjectIdOwnerMap<PositionEntry> positionEntries = new ObjectIdOwnerMap<>();
 
 	/**
 	 * Creates a PackBitmapIndex used for building the contents of an index
@@ -111,11 +112,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 	}
 
-	/**
-	 * Get set of objects included in the pack.
-	 *
-	 * @return set of objects included in the pack.
-	 */
+	@Override
 	public ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> getObjectSet() {
 		ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> r = new ObjectIdOwnerMap<>();
 		for (PositionEntry e : byOffset) {
@@ -126,31 +123,15 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return r;
 	}
 
-	/**
-	 * Stores the bitmap for the objectId.
-	 *
-	 * @param objectId
-	 *            the object id key for the bitmap.
-	 * @param bitmap
-	 *            the bitmap
-	 * @param flags
-	 *            the flags to be stored with the bitmap
-	 */
-	public void addBitmap(AnyObjectId objectId, Bitmap bitmap, int flags) {
-		addBitmap(objectId, bitmap.retrieveCompressed(), flags);
+	@Override
+	public void addBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
+			int flags) {
+		bitmap.trim();
+		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
+		getBitmaps().add(result);
 	}
 
-	/**
-	 * Processes a commit and prepares its bitmap to write to the bitmap index
-	 * file.
-	 *
-	 * @param c
-	 *            the commit corresponds to the bitmap.
-	 * @param bitmap
-	 *            the bitmap to be written.
-	 * @param flags
-	 *            the flags of the commit.
-	 */
+	@Override
 	public void processBitmapForWrite(BitmapCommit c, Bitmap bitmap,
 			int flags) {
 		EWAHCompressedBitmap compressed = bitmap.retrieveCompressed();
@@ -167,7 +148,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			// The Bitmap map in the base class is used to make revwalks
 			// efficient, so only add bitmaps that keep it efficient without
 			// bloating memory.
-			addBitmap(c, bitmap, flags);
+			addBitmap(c, bitmap.retrieveCompressed(), flags);
 		}
 	}
 
@@ -195,23 +176,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 				bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
-	}
-
-	/**
-	 * Stores the bitmap for the objectId.
-	 *
-	 * @param objectId
-	 *            the object id key for the bitmap.
-	 * @param bitmap
-	 *            the bitmap
-	 * @param flags
-	 *            the flags to be stored with the bitmap
-	 */
-	public void addBitmap(
-			AnyObjectId objectId, EWAHCompressedBitmap bitmap, int flags) {
-		bitmap.trim();
-		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
-		getBitmaps().add(result);
 	}
 
 	@Override
@@ -246,49 +210,24 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return objectId;
 	}
 
-	/**
-	 * Get the commit object bitmap.
-	 *
-	 * @return the commit object bitmap.
-	 */
+	@Override
 	public EWAHCompressedBitmap getCommits() {
 		return commits;
 	}
 
-	/**
-	 * Get the tree object bitmap.
-	 *
-	 * @return the tree object bitmap.
-	 */
+	@Override
 	public EWAHCompressedBitmap getTrees() {
 		return trees;
 	}
 
-	/**
-	 * Get the blob object bitmap.
-	 *
-	 * @return the blob object bitmap.
-	 */
+	@Override
 	public EWAHCompressedBitmap getBlobs() {
 		return blobs;
 	}
 
-	/**
-	 * Get the tag object bitmap.
-	 *
-	 * @return the tag object bitmap.
-	 */
+	@Override
 	public EWAHCompressedBitmap getTags() {
 		return tags;
-	}
-
-	/**
-	 * Get the index storage options.
-	 *
-	 * @return the index storage options.
-	 */
-	public int getOptions() {
-		return PackBitmapIndexV1.OPT_FULL;
 	}
 
 	@Override
@@ -296,12 +235,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
 	}
 
-	/**
-	 * Remove all the bitmaps entries added.
-	 *
-	 * @param size
-	 *            the expected number of bitmap entries to be written.
-	 */
+	@Override
 	public void resetBitmaps(int size) {
 		getBitmaps().clear();
 		bitmapsToWrite = new ArrayList<>(size);
@@ -312,11 +246,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return byOffset.size();
 	}
 
-	/**
-	 * Get list of xor compressed entries that need to be written.
-	 *
-	 * @return a list of the xor compressed entries.
-	 */
+	@Override
 	public List<StoredEntry> getCompressedBitmaps() {
 		while (!bitmapsToWriteXorBuffer.isEmpty()) {
 			bitmapsToWrite.add(
@@ -325,58 +255,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 		Collections.reverse(bitmapsToWrite);
 		return bitmapsToWrite;
-	}
-
-	/** Data object for the on disk representation of a bitmap entry. */
-	public static final class StoredEntry {
-		private final long objectId;
-		private final EWAHCompressedBitmap bitmap;
-		private final int xorOffset;
-		private final int flags;
-
-		StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
-				int xorOffset, int flags) {
-			this.objectId = objectId;
-			this.bitmap = bitmap;
-			this.xorOffset = xorOffset;
-			this.flags = flags;
-		}
-
-		/**
-		 * Get the bitmap
-		 *
-		 * @return the bitmap
-		 */
-		public EWAHCompressedBitmap getBitmap() {
-			return bitmap;
-		}
-
-		/**
-		 * Get the xorOffset
-		 *
-		 * @return the xorOffset
-		 */
-		public int getXorOffset() {
-			return xorOffset;
-		}
-
-		/**
-		 * Get the flags
-		 *
-		 * @return the flags
-		 */
-		public int getFlags() {
-			return flags;
-		}
-
-		/**
-		 * Get the ObjectId
-		 *
-		 * @return the ObjectId
-		 */
-		public long getObjectId() {
-			return objectId;
-		}
 	}
 
 	private static final class PositionEntry extends ObjectIdOwnerMap.Entry {
