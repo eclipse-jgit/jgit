@@ -20,17 +20,33 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
 public class TreeRevFilterTest extends RevWalkTestCase {
-	private RevFilter treeRevFilter() {
-		return new TreeRevFilter(rw, TreeFilter.ANY_DIFF);
-	}
-
 	@Test
-	public void testStringOfPearls_FilePath1()
+	public void testStringOfPearls_FilePath1_treeRevFilter()
 			throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
-		rw.setRevFilter(treeRevFilter());
+
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
+		markStart(c);
+
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
+		assertCommit(a, rw.next()); // b was skipped
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+	@Test
+	public void testStringOfPearls_FilePath1_noRewriteParents()
+			throws Exception {
+		RevCommit a = commit(tree(file("d/f", blob("a"))));
+		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+
+		rw.setRewriteParents(false);
+		rw.setTreeFilter(TreeFilter.ANY_DIFF);
 		markStart(c);
 
 		assertCommit(c, rw.next());
@@ -43,12 +59,74 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testStringOfPearls_FilePath1_RewriteParents()
+			throws Exception {
+		RevCommit a = commit(tree(file("d/f", blob("a"))));
+		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
+		rw.setTreeFilter(TreeFilter.ANY_DIFF);
+		markStart(c);
+
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(a, c.getParent(0));
+
+		assertCommit(a, rw.next()); // b was skipped
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testStringOfPearls_FilePath2() throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
-		rw.setRevFilter(treeRevFilter());
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
+		markStart(d);
+
+		// d was skipped
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
+		// b was skipped
+		assertCommit(a, rw.next());
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testStringOfPearls_FilePath2_RewriteParents() throws Exception {
+		RevCommit a = commit(tree(file("d/f", blob("a"))));
+		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
+		rw.setTreeFilter(TreeFilter.ANY_DIFF);
+		markStart(d);
+
+		// d was skipped
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(a, c.getParent(0));
+
+		// b was skipped
+		assertCommit(a, rw.next());
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testStringOfPearls_FilePath2_RewriteParents_False() throws Exception {
+		RevCommit a = commit(tree(file("d/f", blob("a"))));
+		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
+		rw.setRewriteParents(false);
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
+		rw.setTreeFilter(TreeFilter.ANY_DIFF);
 		markStart(d);
 
 		// d was skipped
@@ -68,7 +146,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
-		rw.setRevFilter(treeRevFilter());
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
 		markStart(d);
 
 		// d was skipped
@@ -93,7 +171,9 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit g = commit(tree(file("d/f", blob("b"))), f);
 		RevCommit h = commit(tree(file("d/f", blob("b"))), g);
 		RevCommit i = commit(tree(file("d/f", blob("c"))), h);
-		rw.setRevFilter(treeRevFilter());
+
+		// Doesn't rewrite parents since no TreeFilter is set
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
 		markStart(i);
 
 		assertCommit(i, rw.next());
@@ -112,8 +192,39 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testStringOfPearls_FilePath3_RewriteParents() throws Exception {
+		RevCommit a = commit(tree(file("d/f", blob("a"))));
+		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
+		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
+		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
+		RevCommit e = commit(tree(file("d/f", blob("b"))), d);
+		RevCommit f = commit(tree(file("d/f", blob("b"))), e);
+		RevCommit g = commit(tree(file("d/f", blob("b"))), f);
+		RevCommit h = commit(tree(file("d/f", blob("b"))), g);
+		RevCommit i = commit(tree(file("d/f", blob("c"))), h);
+
+		rw.setRevFilter(new TreeRevFilter(rw, TreeFilter.ANY_DIFF));
+		rw.setTreeFilter(TreeFilter.ANY_DIFF);
+		markStart(i);
+
+		assertCommit(i, rw.next());
+		assertEquals(1, i.getParentCount());
+		assertCommit(c, i.getParent(0));
+
+		// h..d was skipped
+		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(a, c.getParent(0));
+
+		// b was skipped
+		assertCommit(a, rw.next());
+		assertEquals(0, a.getParentCount());
+		assertNull(rw.next());
+	}
+
+	@Test
 	public void testPathFilterOrOtherFilter() throws Exception {
-		RevFilter pathFilter = treeRevFilter();
+		RevFilter pathFilter = new TreeRevFilter(rw, TreeFilter.ANY_DIFF);
 		RevFilter skipFilter = SkipRevFilter.create(1);
 		RevFilter orFilter = OrRevFilter.create(skipFilter, pathFilter);
 
@@ -125,6 +236,9 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		rw.setRevFilter(pathFilter);
 		markStart(c);
 		assertCommit(c, rw.next());
+		assertEquals(1, c.getParentCount());
+		assertCommit(b, c.getParent(0));
+
 		assertCommit(a, rw.next());
 
 		// Skip filter matches b, a.
