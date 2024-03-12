@@ -29,8 +29,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.revwalk.AddUnseenToBitmapFilter;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexRemapper;
+import org.eclipse.jgit.internal.storage.pack.PackWriter.PackBitmapIndexBuilderForWriting;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -67,7 +67,8 @@ class PackWriterBitmapPreparer {
 	private final ObjectReader reader;
 	private final ProgressMonitor pm;
 	private final Set<? extends ObjectId> want;
-	private final PackBitmapIndexBuilder writeBitmaps;
+
+	private final PackBitmapIndexBuilderForWriting writeBitmaps;
 	private final BitmapIndexImpl commitBitmapIndex;
 	private final PackBitmapIndexRemapper bitmapRemapper;
 	private final BitmapIndexImpl bitmapIndex;
@@ -81,7 +82,7 @@ class PackWriterBitmapPreparer {
 	private final long inactiveBranchTimestamp;
 
 	PackWriterBitmapPreparer(ObjectReader reader,
-			PackBitmapIndexBuilder writeBitmaps, ProgressMonitor pm,
+			PackBitmapIndexBuilderForWriting writeBitmaps, ProgressMonitor pm,
 			Set<? extends ObjectId> want, PackConfig config)
 					throws IOException {
 		this.reader = reader;
@@ -302,7 +303,7 @@ class PackWriterBitmapPreparer {
 							.setReuseWalker(!longestAncestorChain.isEmpty())
 							.build();
 					longestAncestorChain.add(bc);
-					writeBitmaps.addBitmap(c, bitmap, 0);
+					writeBitmaps.addBitmap(c, bitmap.retrieveCompressed(), 0);
 				}
 
 				for (List<BitmapCommit> chain : chains) {
