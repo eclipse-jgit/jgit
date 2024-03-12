@@ -18,7 +18,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 /**
  * Base implementation of the PackBitmapIndex.
  */
-abstract class BasePackBitmapIndex extends PackBitmapIndex {
+abstract class BasePackBitmapIndex implements PackBitmapIndex {
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
 
 	BasePackBitmapIndex(ObjectIdOwnerMap<StoredBitmap> bitmaps) {

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.GcTestCase;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.internal.storage.file.XorCompressedPackBitmapIndexBuilder;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -388,7 +388,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		for (RevCommit commit : commits) {
 			objects.add(new ObjectToPack(commit, Constants.OBJ_COMMIT));
 		}
-		PackBitmapIndexBuilder builder = new PackBitmapIndexBuilder(objects);
+		XorCompressedPackBitmapIndexBuilder builder = new XorCompressedPackBitmapIndexBuilder(objects);
 		return new PackWriterBitmapPreparer(
 				tr.getRepository().newObjectReader(), builder,
 				NullProgressMonitor.INSTANCE, wants, config);
