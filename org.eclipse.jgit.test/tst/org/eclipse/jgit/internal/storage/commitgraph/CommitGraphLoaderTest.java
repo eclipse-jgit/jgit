@@ -29,7 +29,7 @@ public class CommitGraphLoaderTest {
 	@Test
 	public void readCommitGraphV1() throws Exception {
 		commitGraph = CommitGraphLoader
-				.open(JGitTestUtil.getTestResourceFile("commit-graph.v1"));
+				.open(JGitTestUtil.getTestResourceFile("commit-graph.v1"),  /* readChangedPaths */ false);
 		assertNotNull(commitGraph);
 		assertEquals(10, commitGraph.getCommitCnt());
 		verifyGraphObjectIndex();

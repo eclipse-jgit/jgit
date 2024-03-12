@@ -21,6 +21,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphFormatException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,15 +39,21 @@ public class FileCommitGraph {
 
 	private final AtomicReference<GraphSnapshot> baseGraph;
 
+	private final Config config;
+
 	/**
 	 * Initialize a reference to an on-disk commit-graph.
 	 *
 	 * @param objectsDir
 	 *            the location of the <code>objects</code> directory.
+	 *
+	 * @param config
+	 *            used to determine commit graph related flags.
 	 */
-	FileCommitGraph(File objectsDir) {
+	FileCommitGraph(File objectsDir, Config config) {
 		this.baseGraph = new AtomicReference<>(new GraphSnapshot(
 				new File(objectsDir, Constants.INFO_COMMIT_GRAPH)));
+		this.config = config;
 	}
 
 	/**
@@ -68,7 +76,11 @@ public class FileCommitGraph {
 					//
 					return o.getCommitGraph();
 				}
-				n = o.refresh();
+				boolean readChangedPaths = config.getBoolean(
+						ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS,
+						/* READ_CHANGED_PATHS_DEFAULT */ false);
+				n = o.refresh(readChangedPaths);
 				if (n == o) {
 					return n.getCommitGraph();
 				}
@@ -84,37 +96,41 @@ public class FileCommitGraph {
 
 		private final CommitGraph graph;
 
+		private final boolean hasChangedPaths;
+
 		GraphSnapshot(@NonNull File file) {
-			this(file, null, null);
+			this(file, null, null, false);
 		}
 
 		GraphSnapshot(@NonNull File file, FileSnapshot snapshot,
-				CommitGraph graph) {
+					  CommitGraph graph, boolean readChangedPaths) {
 			this.file = file;
 			this.snapshot = snapshot;
 			this.graph = graph;
+			this.hasChangedPaths = readChangedPaths;
 		}
 
 		CommitGraph getCommitGraph() {
 			return graph;
 		}
 
-		GraphSnapshot refresh() {
+		GraphSnapshot refresh(boolean readChangedPaths) {
 			if (graph == null && !file.exists()) {
 				// commit-graph file didn't exist
 				return this;
 			}
-			if (snapshot != null && !snapshot.isModified(file)) {
+			if (snapshot != null && !snapshot.isModified(file)
+					&& hasChangedPaths == readChangedPaths) {
 				// commit-graph file was not modified
 				return this;
 			}
 			return new GraphSnapshot(file, FileSnapshot.save(file),
-					open(file));
+					open(file, readChangedPaths), readChangedPaths);
 		}
 
-		private static CommitGraph open(File file) {
+		private static CommitGraph open(File file, boolean readChangedPaths) {
 			try {
-				return CommitGraphLoader.open(file);
+				return CommitGraphLoader.open(file, readChangedPaths);
 			} catch (FileNotFoundException noFile) {
 				// ignore if file do not exist
 				return null;
