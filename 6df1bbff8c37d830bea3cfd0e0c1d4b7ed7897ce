@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecf3adc1_aacbbebe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2475,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-12T21:02:03Z",
+      "side": 1,
+      "message": "Constructor has a very specific meaning in Java. Factory is the idiomatic word for this case. And since you\u0027re defining an interface, we don\u0027t need to use the generic apply for the method name.\n\nHow about PackBitmapIndexFactory, and rename the method builder()?",
+      "range": {
+        "startLine": 2475,
+        "startChar": 40,
+        "endLine": 2475,
+        "endChar": 51
+      },
+      "revId": "6df1bbff8c37d830bea3cfd0e0c1d4b7ed7897ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
