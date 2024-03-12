@@ -28,8 +28,8 @@ import com.googlecode.javaewah.IntIterator;
  * implementations this implementation is not thread safe, as it is intended to
  * be used with a PackBitmapIndexBuilder, which is also not thread safe.
  */
-public class PackBitmapIndexRemapper extends PackBitmapIndex
-		implements Iterable<PackBitmapIndexRemapper.Entry> {
+public class PackBitmapIndexRemapper
+		implements PackBitmapIndex, Iterable<PackBitmapIndexRemapper.Entry> {
 
 	private final BasePackBitmapIndex oldPackIndex;
 	final PackBitmapIndex newPackIndex;
@@ -201,5 +201,10 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 	public int getBitmapCount() {
 		// The count is only useful for the end index, not the remapper.
 		return 0;
+	}
+
+	@Override
+	public byte[] getPackChecksum() {
+		return null;
 	}
 }

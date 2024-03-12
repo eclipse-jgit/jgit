@@ -58,6 +58,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
@@ -67,6 +68,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.BitmapIndex.Bitmap;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.BitmapObject;
 import org.eclipse.jgit.lib.Constants;
@@ -97,6 +99,8 @@ import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.WriteAbortedException;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 /**
  * <p>
@@ -280,7 +284,7 @@ public class PackWriter implements AutoCloseable {
 
 	private Collection<? extends ObjectId> unshallowObjects;
 
-	private PackBitmapIndexBuilder writeBitmaps;
+	private PackBitmapIndexBuilderForWriting writeBitmaps;
 
 	private CRC32 crc32;
 
@@ -2688,4 +2692,81 @@ public class PackWriter implements AutoCloseable {
 			this.cachedPackUriProvider = cachedPackUriProvider;
 		}
 	}
+
+	public interface PackBitmapIndexBuilderForWriting extends PackBitmapIndex {
+		void processBitmapForWrite(BitmapCommit c, Bitmap bitmap, int flags);
+
+		void addBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
+				int flags);
+
+		void resetBitmaps(int size);
+
+		ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> getObjectSet();
+
+		EWAHCompressedBitmap getCommits();
+
+		EWAHCompressedBitmap getBlobs();
+
+		EWAHCompressedBitmap getTrees();
+
+		EWAHCompressedBitmap getTags();
+
+		List<StoredEntry> getCompressedBitmaps();
+
+		/** Data object for the on disk representation of a bitmap entry. */
+		public static final class StoredEntry {
+			private final long objectId;
+
+			private final EWAHCompressedBitmap bitmap;
+
+			private final int xorOffset;
+
+			private final int flags;
+
+			public StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
+					int xorOffset, int flags) {
+				this.objectId = objectId;
+				this.bitmap = bitmap;
+				this.xorOffset = xorOffset;
+				this.flags = flags;
+			}
+
+			/**
+			 * Get the bitmap
+			 *
+			 * @return the bitmap
+			 */
+			public EWAHCompressedBitmap getBitmap() {
+				return bitmap;
+			}
+
+			/**
+			 * Get the xorOffset
+			 *
+			 * @return the xorOffset
+			 */
+			public int getXorOffset() {
+				return xorOffset;
+			}
+
+			/**
+			 * Get the flags
+			 *
+			 * @return the flags
+			 */
+			public int getFlags() {
+				return flags;
+			}
+
+			/**
+			 * Get the ObjectId
+			 *
+			 * @return the ObjectId
+			 */
+			public long getObjectId() {
+				return objectId;
+			}
+		}
+	}
+
 }
