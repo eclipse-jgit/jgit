@@ -58,7 +58,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.internal.storage.file.XorCompressedPackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
@@ -2492,7 +2492,7 @@ public class PackWriter implements AutoCloseable {
 		sortedByName = null;
 		objectsLists = null;
 		objectsMap = null;
-		writeBitmaps = new PackBitmapIndexBuilder(byName);
+		writeBitmaps = new XorCompressedPackBitmapIndexBuilder(byName);
 		// Allow byName to be GC'd if JVM GC runs before the end of the method.
 		byName = null;
 
