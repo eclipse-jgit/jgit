@@ -30,6 +30,8 @@ import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -1119,6 +1121,41 @@ public class DfsGarbageCollectorTest {
 		assertNotNull(stats);
 		assertEquals(1, stats.getChangedPathFiltersComputed());
 	}
+
+	@Test
+	public void testReadChangedPathConfigAsFalse() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+	@Test
+	public void testReadChangedPathConfigAsTrue() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNotNull(cg.getChangedPathFilter(0));
+		}
+	}
+
 
 	@Test
 	public void objectSizeIdx_reachableBlob_bigEnough_indexed() throws Exception {
