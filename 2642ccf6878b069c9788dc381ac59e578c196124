@@ -52,6 +52,24 @@
       "parentUuid": "70423e28_f6fa9907",
       "revId": "2642ccf6878b069c9788dc381ac59e578c196124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "667b1f94_d8216d33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-13T21:51:17Z",
+      "side": 1,
+      "message": "making assumption about the code flow based on existing structure is not a good idea imo, since loadCommitGraph() as a method could technically be called without getCommitGraph().\n\nI digress. moved it out of the try block.",
+      "parentUuid": "7cd6f2b0_a0c3befb",
+      "revId": "2642ccf6878b069c9788dc381ac59e578c196124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
