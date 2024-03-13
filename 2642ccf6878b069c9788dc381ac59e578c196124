@@ -16,6 +16,24 @@
       "message": "We like \"try\" scope to be as small as possible.\n\nWe can read the conf just out of the try block, as it doesn\u0027t need the stream.",
       "revId": "2642ccf6878b069c9788dc381ac59e578c196124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70423e28_f6fa9907",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-13T17:30:32Z",
+      "side": 1,
+      "message": "i think it makes more sense to only read the config if we are able to open the COMMIT_GRAPH stream in the first place, no?\n\ni.e. no need to read the config if the stream can\u0027t be opened.",
+      "parentUuid": "eabf98ac_dfc0eec6",
+      "revId": "2642ccf6878b069c9788dc381ac59e578c196124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
