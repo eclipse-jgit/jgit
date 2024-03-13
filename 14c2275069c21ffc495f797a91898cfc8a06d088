@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21b60d88_4747f720",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-13T16:54:13Z",
+      "side": 1,
+      "message": "Be concrete. e.g. \n\nDfsPackFile: get commitGraph.readChangePaths from repo config",
+      "revId": "14c2275069c21ffc495f797a91898cfc8a06d088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df6cd641_7f5b5cf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-13T16:54:13Z",
+      "side": 1,
+      "message": "Update this. Suggestion:\n\nBy default CommitGraphLoader reads the readChangedPaths flag from SystemReader ignoring the values set at repo-level.\n\nRead the value of the property from the repo configuration and pass it to CommitGraphLoader.",
+      "revId": "14c2275069c21ffc495f797a91898cfc8a06d088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6575e71e_da5b6bc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-13T16:54:13Z",
+      "side": 1,
+      "message": "Thanks, this change is much easier to review.",
+      "revId": "14c2275069c21ffc495f797a91898cfc8a06d088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a600b0_8d313027",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-13T16:54:13Z",
+      "side": 1,
+      "message": "I was surprised to see a test in DfsBlockCache (which doesn\u0027t have any commit-graph specific functionality) and no test in DfsPackFileTest (the unit test of the modified class).\n\nMaybe this test belongs to DfsPackFileTest instead of here?",
+      "revId": "14c2275069c21ffc495f797a91898cfc8a06d088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
