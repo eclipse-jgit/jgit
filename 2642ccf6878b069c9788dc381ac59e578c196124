@@ -34,6 +34,24 @@
       "parentUuid": "eabf98ac_dfc0eec6",
       "revId": "2642ccf6878b069c9788dc381ac59e578c196124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cd6f2b0_a0c3befb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-13T21:30:35Z",
+      "side": 1,
+      "message": "We check if the pack has a stream before getting here (~line 269)\n\nIn general the recommendation is to limit the amount of code inside a try block, if this can be done without complicating the flow.",
+      "parentUuid": "70423e28_f6fa9907",
+      "revId": "2642ccf6878b069c9788dc381ac59e578c196124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
