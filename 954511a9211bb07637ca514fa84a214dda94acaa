@@ -51,6 +51,24 @@
       "parentUuid": "975d36de_e8b579ae",
       "revId": "954511a9211bb07637ca514fa84a214dda94acaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "624a618a_876427d7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T16:20:58Z",
+      "side": 1,
+      "message": "*sigh* Fix only the tests you are adding.\n\nIf I get later a merge conflict on this change, I\u0027ll think it is related to the config (worrying), and then discover that it is just extra formatting (annoying).\n\nIt should be easy to take out of the change, so please do so.",
+      "parentUuid": "9feee767_8cae147e",
+      "revId": "954511a9211bb07637ca514fa84a214dda94acaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
