@@ -170,10 +170,10 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 	@Test
 	public void testChangedPathFilter() throws Exception {
-		RevCommit c1 = commitFile("file1", "1", "master");
-		commitFile("file2", "2", "master");
-		RevCommit c3 = commitFile("file1", "3", "master");
-		RevCommit c4 = commitFile("file2", "4", "master");
+		RevCommit c1 = commitFile("file1", "c1", "master");
+		commitFile("file2", "c2", "master");
+		RevCommit c3 = commitFile("file1", "c3", "master");
+		RevCommit c4 = commitFile("file2", "c4", "master");
 
 		enableAndWriteCommitGraph();
 
@@ -184,13 +184,13 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertEquals(c1, rw.next());
 		assertNull(rw.next());
 
-		// 1 commit that has exactly one parent and matches path
-		assertEquals(1, trf.getChangedPathFilterTruePositive());
+		// c1 and c3 match path
+		assertEquals(2, trf.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, trf.getChangedPathFilterFalsePositive());
 
-		// 2 commits that have exactly one parent and don't match path
+		// c2 and c4 don't match path
 		assertEquals(2, trf.getChangedPathFilterNegative());
 	}
 
@@ -212,15 +212,70 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertEquals(c1, rw.next());
 		assertNull(rw.next());
 
-		// c2 and c3 has either file1 or file2, c1 did not use ChangedPathFilter
-		// since it has no parent
-		assertEquals(2, trf.getChangedPathFilterTruePositive());
+		// c1, c2, c3 have either file1 or file2
+		assertEquals(3, trf.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, trf.getChangedPathFilterFalsePositive());
 
 		// c4 does not match either file1 or file2
 		assertEquals(1, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterWithMergeCommits() throws Exception {
+		RevCommit c0 = commit(tree());
+		RevCommit c1 = commit(tree(file("file", blob("contentsA"))), c0);
+		RevCommit c2 = commit(tree(file("file", blob("contentsB"))), c0);
+		RevCommit c3 = commit(tree(file("file", blob("contentsC"))), c0);
+
+		RevCommit m1 = commit(tree(file("file", blob("mergedContentA"))), c2,
+				c1);
+
+		RevCommit m2 = commit(tree(file("file", blob("mergedContentB"))), m1,
+				c3);
+
+		RevCommit tip = commit(tree(file("file", blob("mergedContentB")),
+				file("unrelated", blob("unrelated"))), m2);
+
+		/*
+		 * <pre>
+		 * current graph structure:
+		 *      tip
+		 *       |
+		 *       m2
+		 *     /    \
+		 *    m1    c3
+		 *   /  \    |
+		 *  c1  c2   |
+		 *  |___/___/
+		 *  c0
+		 * </pre>
+		 */
+
+		branch(tip, "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeRevFilter trf = new TreeRevFilter(rw, new FollowFilter(
+				PathFilter.create("file"), db.getConfig().get(DiffConfig.KEY)));
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+		rw.setRevFilter(trf);
+		assertEquals(m2, rw.next());
+		assertEquals(m1, rw.next());
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// c1, c2, c3, m1, m2 modified the file
+		assertEquals(5, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// tip and c0 did not modified the file
+		assertEquals(2, trf.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -259,8 +314,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		// No false positives
 		assertEquals(0, trf.getChangedPathFilterFalsePositive());
 
-		// 2 commits that have exactly one parent and don't match path
-		assertEquals(2, trf.getChangedPathFilterNegative());
+		// 3 commits don't match path
+		assertEquals(3, trf.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -498,6 +553,12 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	Ref branch(RevCommit commit, String name) throws Exception {
 		return Git.wrap(db).branchCreate().setName(name)
 				.setStartPoint(commit.name()).call();
+	}
+
+	RevCommit commitWithPath(String filename, String contents, RevCommit... parents) throws Exception {
+		writeTrashFile(filename, contents);
+		Git.wrap(db).add().addFilepattern(filename).call();
+		return commit(parents);
 	}
 
 	List<RevCommit> travel(TreeFilter treeFilter, RevFilter revFilter,
