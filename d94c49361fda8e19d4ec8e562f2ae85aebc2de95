@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d10c52a_13a0ba17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "Split PathFilterGroup in its own CL, as it is not really related to the other filters. It can have its own unit tests.\n\nReading the PathFilterLogicTest, I realized that this won\u0027t work if filters are negated. Probably we need to override and throw an exception in NotTreeFilter#getPathBestEffort (in a different CL).\n\nThe existing code insists on byte[] (to the extent of having our own ByteArraySet), so this byte[] to string back and forth looks suspicious. I wonder if we should have a ByteArraySet.intersect() and ByteArraySet.union() methods. If this get too complicated, maybe we can consider make the AndTreeFilter throw if both sides have paths and add an implementation when needed.",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1ee037_9f9a7a63",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "These tests don\u0027t seem to fit in this class.\n\nHere you are testing OrTreeFilter.getPathsBestEffort, so put it in OrTreeFilterTest.",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672afeb7_d031de3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "Same with these and following tests: they belong to AndTreeFilterTest.",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58614072_0ebcd982",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "No need to make it public.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fdd120a_7917127c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "A more approachable description was \"Calculate the union of all paths, simplifying overlaps\"",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae804d19_4f506b4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "What are these \"sets\"?. At the end, this is an OR(\"a\", \"b/c\", \"a/b\", \"b\"). If so, write it like that.",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89c6f9f4_9b6c1555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "Why the capital letters? \"or\" works just fine.",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61f5013_4f0fd0c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "TreeFilters are here just for the paths. Could this method just receive the paths? (as byte[]).",
+      "range": {
+        "startLine": 33,
+        "startChar": 40,
+        "endLine": 33,
+        "endChar": 50
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b1c89d_cbdc1a07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "I don\u0027t know why this Optional of Collection was introduced. In other APIs we need to live with it, but not here.\n\nThis could return a Set\u003cbyte[]\u003e but that is also a terrible signature. Maybe byte[][] or our ByteArraySet?",
+      "range": {
+        "startLine": 33,
+        "startChar": 15,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c8fae0_a0151e94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "Existing code goes a great length to use byte[] for performance reasons. Could we use byte arrays instead of translating back and forth to strings?",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30d6c49_111f782f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-14T20:24:06Z",
+      "side": 1,
+      "message": "\"Calculate the intersection between set of paths\"",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
