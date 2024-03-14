@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f824b1_14979d84",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2700,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-14T23:25:08Z",
+      "side": 1,
+      "message": "This is not a good name. It should just be PackBitmapIndexBuilder.\n\nWe can rename the subclass. It\u0027s usually a code smell if the interface has a longer name than the subclass, since the subclass should be more, not less, specific.",
+      "range": {
+        "startLine": 2700,
+        "startChar": 18,
+        "endLine": 2700,
+        "endChar": 50
+      },
+      "revId": "90348137bb131a96f0f0610fd6019a37af074bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
