@@ -34,6 +34,24 @@
       "parentUuid": "9b877f0c_b85262bb",
       "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "801ee404_cafec6f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-14T23:31:10Z",
+      "side": 1,
+      "message": "\u003e The PackWriter is not specific to DfsObjDb\n\nI see, that\u0027s fine then.\n\n\u003e Being an inner class seemed more just an organizational thing than semantic\n\nI just don\u0027t want to see the PackWriter in this class. It just increases the number of possibilities for the reader to understand. I think a top level class is fine.",
+      "parentUuid": "07d29a4c_32729439",
+      "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
