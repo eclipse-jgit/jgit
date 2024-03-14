@@ -16,6 +16,46 @@
       "message": "Woops, still need to add unit tests",
       "revId": "56972afabf89ff2566e449630e359a4308f006b0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65653d61_217ee066",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-14T23:25:36Z",
+      "side": 1,
+      "message": "Why does this need to be in DfsObjDatabase? All it gets is a protected method. We can call that method (on GoogleObjDatabase) by",
+      "revId": "56972afabf89ff2566e449630e359a4308f006b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d130888_ca2f23a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2475,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-14T23:25:36Z",
+      "side": 1,
+      "message": "Constructor has a very specific meaning in Java. PackBitmapIndexBuilderFactory would be the idiomatic name.",
+      "range": {
+        "startLine": 2475,
+        "startChar": 18,
+        "endLine": 2475,
+        "endChar": 51
+      },
+      "revId": "56972afabf89ff2566e449630e359a4308f006b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
