@@ -16,6 +16,24 @@
       "message": "Why would an inner class of PackWriter be returned by the ObjDatabase? Why not have the PackWriter create it?\n\nThere\u0027s no need for this method to be on this class - the only thing it uses from DfsObjDatabase is writeFile, which is package visible.",
       "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07d29a4c_32729439",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-14T23:21:27Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand what would be a better alternative here:\n\n\u003e There\u0027s no need for this method to be on this class - the only thing it uses from DfsObjDatabase is writeFile, which is package visible.\n\nThe PackWriter is not specific to DfsObjDb, so it would not know to call `DfsObjectDatabase.writeFile` (this function is not defined on any superclasses). PackWriter also in a different package so the visibility of the function would have to change anyways.\n\nI think this implementation using `writeFile` does really belong in the `dfs` package.\n\n------------\n\n\u003e Why would an inner class of PackWriter be returned by the ObjDatabase?\n\nBeing an inner class seemed more just an organizational thing than semantic. It could be its own top-level class if that would be more idiomatic.\n\nAnother option is to have the DfsObjDb create the `PackWriter`, similar to [what is done for DfsPackFile](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177280/6/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java#632), and give the `PackBitmapIndexWriter` as a constructor argument. But this seems to just be the same pattern in different words.",
+      "parentUuid": "9b877f0c_b85262bb",
+      "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
