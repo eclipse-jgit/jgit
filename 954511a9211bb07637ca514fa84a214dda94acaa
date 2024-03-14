@@ -69,6 +69,24 @@
       "parentUuid": "9feee767_8cae147e",
       "revId": "954511a9211bb07637ca514fa84a214dda94acaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2309107a_78005513",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-14T16:58:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "624a618a_876427d7",
+      "revId": "954511a9211bb07637ca514fa84a214dda94acaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
