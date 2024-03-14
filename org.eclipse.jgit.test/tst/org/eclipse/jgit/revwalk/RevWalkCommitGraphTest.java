@@ -76,8 +76,10 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertEquals(1, parseInGraph.getGeneration());
 		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
 		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
-		assertEquals(notParseInGraph.getCommitTime(), parseInGraph.getCommitTime());
-		assertArrayEquals(notParseInGraph.getParents(), parseInGraph.getParents());
+		assertEquals(notParseInGraph.getCommitTime(),
+				parseInGraph.getCommitTime());
+		assertArrayEquals(notParseInGraph.getParents(),
+				parseInGraph.getParents());
 
 		reinitializeRevWalk();
 		rw.setRetainBody(false);
@@ -189,13 +191,13 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// 1 commit that has exactly one parent and matches path
-		assertEquals(1, rfs.getChangedPathFilterTruePositive());
+		// 2 commit match fil1
+		assertEquals(2, rfs.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
 
-		// 2 commits that have exactly one parent and don't match path
+		// 2 commits don't match file1
 		assertEquals(2, rfs.getChangedPathFilterNegative());
 	}
 
@@ -218,15 +220,71 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c2 and c3 has either file1 or file2, c1 did not use ChangedPathFilter
-		// since it has no parent
-		assertEquals(2, rfs.getChangedPathFilterTruePositive());
+		// c1, c2, c3 have modified either file1 or file2
+		assertEquals(3, rfs.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
 
-		// c4 does not match either file1 or file2
+		// c4 did not modify either file1 or file2
 		assertEquals(1, rfs.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterWithMergeCommits() throws Exception {
+		RevCommit c0 = commit(tree());
+		RevCommit c1 = commit(tree(file("file", blob("contentsA"))), c0);
+		RevCommit c2 = commit(tree(file("file", blob("contentsB"))), c0);
+		RevCommit c3 = commit(tree(file("file", blob("contentsC"))), c0);
+
+		RevCommit m1 = commit(tree(file("file", blob("mergedContentA"))), c2,
+				c1);
+
+		RevCommit m2 = commit(tree(file("file", blob("mergedContentB"))), m1,
+				c3);
+
+		RevCommit tip = commit(tree(file("file", blob("mergedContentB")),
+				file("unrelated", blob("unrelated"))), m2);
+
+		/*
+		 * <pre>
+		 * current graph structure:
+		 *      tip
+		 *       |
+		 *       m2
+		 *     /    \
+		 *    m1    c3
+		 *   /  \    |
+		 *  c1  c2   |
+		 *  |___/___/
+		 *  c0
+		 * </pre>
+		 */
+
+		branch(tip, "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeRevFilter trf = new TreeRevFilter(rw, new FollowFilter(
+				PathFilter.create("file"), db.getConfig().get(DiffConfig.KEY)));
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+		rw.setRevFilter(trf);
+		assertEquals(m2, rw.next());
+		assertEquals(m1, rw.next());
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+		// c1, c2, c3, m1, m2 modified the file
+		assertEquals(5, rfs.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
+
+		// tip and c0 did not modified the file
+		assertEquals(2, rfs.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -266,8 +324,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
 
-		// 2 commits that have exactly one parent and don't match path
-		assertEquals(2, rfs.getChangedPathFilterNegative());
+		// 3 commits that have exactly one parent and don't match path
+		assertEquals(3, rfs.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -300,9 +358,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c2 and c3 has either file1 or file2, c1 is not counted as
-		// ChangedPathFilter only applies to commits with 1 parent
-		assertEquals(2, rfs.getChangedPathFilterTruePositive());
+		// c1, c2, and c3 has either file1 or file2
+		assertEquals(3, rfs.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
@@ -341,9 +398,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c2 and c3 has either modified file1 or file2 or file3, c1 is not
-		// counted as ChangedPathFilter only applies to commits with 1 parent
-		assertEquals(3, rfs.getChangedPathFilterTruePositive());
+		// c1, c2, c3, c4 have either modified file1 or file2 or file3
+		assertEquals(4, rfs.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
@@ -378,9 +434,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c2 modified file1, c3 defaulted positive due to ANY_DIFF, c1 is not
-		// counted as ChangedPathFilter only applies to commits with 1 parent
-		assertEquals(2, rfs.getChangedPathFilterTruePositive());
+		// c1 and c2 modified file1, c3 defaulted positive due to ANY_DIFF
+		assertEquals(3, rfs.getChangedPathFilterTruePositive());
 
 		// c4 defaulted positive due to ANY_DIFF, but didn't no diff with its
 		// parent c3
@@ -447,8 +502,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c1 is not counted as ChangedPathFilter only applies to commits with 1
-		// parent
+		// No true positives
 		assertEquals(0, rfs.getChangedPathFilterTruePositive());
 
 		// c2 has modified both file 1 and file2,
@@ -456,8 +510,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		// cannot be two paths at once
 		assertEquals(1, rfs.getChangedPathFilterFalsePositive());
 
-		// No negatives
-		assertEquals(0, rfs.getChangedPathFilterNegative());
+		// c1 did not modify file2
+		assertEquals(1, rfs.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -484,16 +538,15 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c1 is not counted as ChangedPathFilter only applies to commits with 1
-		// parent
+		// No true positives
 		assertEquals(0, rfs.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
 
-		// c2 and c3 can not possibly have both file1, file2, and file3 as
+		// c1, c2 and c3 can not possibly have both file1, file2, and file3 as
 		// treeHead at once
-		assertEquals(2, rfs.getChangedPathFilterNegative());
+		assertEquals(3, rfs.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -520,9 +573,8 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		assertNull(rw.next());
 
 		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
-		// c2 modified file1 and c1 is not counted as ChangedPathFilter only
-		// applies to commits with 1 parent
-		assertEquals(1, rfs.getChangedPathFilterTruePositive());
+		// c1 and c2 modified file1
+		assertEquals(2, rfs.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
