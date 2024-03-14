@@ -21,6 +21,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.junit.Ignore;
@@ -578,9 +580,9 @@ public class URIishTest {
 		assertEquals("DOMAIN\\user", u.getUser());
 		assertEquals("pass", u.getPass());
 		assertEquals(33, u.getPort());
-		assertEquals("ssh://DOMAIN\\user:pass@example.com:33/some/p ath",
+		assertEquals("ssh://DOMAIN%5cuser:pass@example.com:33/some/p ath",
 				u.toPrivateString());
-		assertEquals("ssh://DOMAIN\\user:pass@example.com:33/some/p%20ath",
+		assertEquals("ssh://DOMAIN%5cuser:pass@example.com:33/some/p%20ath",
 				u.toPrivateASCIIString());
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u.setPass(null).toPrivateASCIIString(), u.toASCIIString());
@@ -599,10 +601,10 @@ public class URIishTest {
 		assertEquals("DOMAIN\\\u00fcser", u.getUser());
 		assertEquals("pass", u.getPass());
 		assertEquals(33, u.getPort());
-		assertEquals("ssh://DOMAIN\\\u00fcser:pass@example.com:33/some/p ath",
+		assertEquals("ssh://DOMAIN%5c%c3%bcser:pass@example.com:33/some/p ath",
 				u.toPrivateString());
 		assertEquals(
-				"ssh://DOMAIN\\%c3%bcser:pass@example.com:33/some/p%20ath",
+				"ssh://DOMAIN%5c%c3%bcser:pass@example.com:33/some/p%20ath",
 				u.toPrivateASCIIString());
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u.setPass(null).toPrivateASCIIString(), u.toASCIIString());
@@ -723,9 +725,9 @@ public class URIishTest {
 		assertEquals("DOMAIN\\user", u.getUser());
 		assertEquals("pass", u.getPass());
 		assertEquals(33, u.getPort());
-		assertEquals("ssh://DOMAIN\\user:pass@example.com:33/some/p ath ",
+		assertEquals("ssh://DOMAIN%5cuser:pass@example.com:33/some/p ath ",
 				u.toPrivateString());
-		assertEquals("ssh://DOMAIN\\user:pass@example.com:33/some/p%20ath%20",
+		assertEquals("ssh://DOMAIN%5cuser:pass@example.com:33/some/p%20ath%20",
 				u.toPrivateASCIIString());
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u.setPass(null).toPrivateASCIIString(), u.toASCIIString());
@@ -1057,5 +1059,12 @@ public class URIishTest {
 			assertTrue(u.hashCode() == v.hashCode());
 			assertFalse(u.hashCode() == new Object().hashCode());
 		}
+	}
+
+	@Test
+	public void testReservedCharacterInUsername() throws URISyntaxException, MalformedURLException {
+		URIish u = new URIish("https://repo.sample/test.git");
+		u = u.setUser("ex\\test");
+		URI.create(u.toString()).toURL();
 	}
 }
