@@ -280,11 +280,21 @@ public class URIish implements Serializable {
 		return RawParseUtils.decode(os, 0, j);
 	}
 
-	private static final BitSet reservedChars = new BitSet(127);
+	private static final BitSet unreserved = new BitSet(127);
 
 	static {
-		for (byte b : Constants.encodeASCII("!*'();:@&=+$,/?#[]")) //$NON-NLS-1$
-			reservedChars.set(b);
+		for (byte b = 'a'; b <= 'z'; b++) {
+			unreserved.set(b);
+		}
+		for (byte b = 'A'; b <= 'Z'; b++) {
+			unreserved.set(b);
+		}
+		for (byte b = '0'; b <= '9'; b++) {
+			unreserved.set(b);
+		}
+		for (byte b : Constants.encodeASCII("-_.!~*'()")) { //$NON-NLS-1$
+			unreserved.set(b);
+		}
 	}
 
 	/**
@@ -307,7 +317,7 @@ public class URIish implements Serializable {
 		for (byte c : bytes) {
 			int b = c & 0xFF;
 			if (b <= 32 || (encodeNonAscii && b > 127) || b == '%'
-					|| (escapeReservedChars && reservedChars.get(b))) {
+					|| (escapeReservedChars && !unreserved.get(b))) {
 				os.write('%');
 				byte[] tmp = Constants.encodeASCII(String.format("%02x", //$NON-NLS-1$
 						Integer.valueOf(b)));
