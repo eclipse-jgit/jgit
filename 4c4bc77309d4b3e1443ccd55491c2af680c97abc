@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a668d84a_c478b5d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-15T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7da3790_9915198a",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "4c4bc77309d4b3e1443ccd55491c2af680c97abc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "56e41b56_13c4ed3c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11
@@ -37,6 +61,24 @@
       "writtenOn": "2024-03-15T00:33:27Z",
       "side": 1,
       "message": "Ah, thanks for catching this. Not sure how I missed this in d3b40e72a (RevWalk: use changed path filters, 2023-05-02) - probably because I was only thinking of the single-element set case.\n\nAlso please update the documentation in TreeFilter#getPathsBestEffort. It\u0027s not checking if paths have all been modified, but at least one.",
+      "revId": "4c4bc77309d4b3e1443ccd55491c2af680c97abc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18b6a336_d4f222b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-15T18:49:52Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "56e41b56_13c4ed3c",
       "revId": "4c4bc77309d4b3e1443ccd55491c2af680c97abc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
