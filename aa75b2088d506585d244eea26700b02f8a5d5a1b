@@ -52,6 +52,24 @@
       "parentUuid": "07d29a4c_32729439",
       "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e24f5a9a_7dbe1c3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "801ee404_cafec6f9",
+      "revId": "aa75b2088d506585d244eea26700b02f8a5d5a1b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

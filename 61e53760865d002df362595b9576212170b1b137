@@ -16,6 +16,24 @@
       "message": "woops.. still need to add unit tests",
       "revId": "61e53760865d002df362595b9576212170b1b137",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86015180_e4f5dd93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:06:34Z",
+      "side": 1,
+      "message": "Added a test in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177837. I\u0027m not sure what to test in this specific CL since this is just a refactoring.",
+      "parentUuid": "dc93298a_346300ae",
+      "revId": "61e53760865d002df362595b9576212170b1b137",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
