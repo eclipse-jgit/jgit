@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef9ccd2_ae00ab70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexWriterV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:00:29Z",
+      "side": 1,
+      "message": "@reviewers, I removed this function from the PackBitmapIndexBuilder interface since it seemed very specific to the PackBitmapIndexV1 file format (and PackBitmapIndexBuilder should not be coupled to that).\n\nThe `getOptions` function only had one implementation and no overrides, so this seemed like a safe change to make.",
+      "range": {
+        "startLine": 70,
+        "startChar": 14,
+        "endLine": 70,
+        "endChar": 40
+      },
+      "revId": "530d8d43be2e5abdb35d84b8e7ec8dd64bbeec70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5704f552_8ff06a41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:00:29Z",
+      "side": 1,
+      "message": "What kind of license header needs to go here?",
+      "revId": "530d8d43be2e5abdb35d84b8e7ec8dd64bbeec70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
