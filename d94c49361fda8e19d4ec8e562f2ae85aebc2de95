@@ -178,6 +178,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc42957_ac7da893",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-15T19:37:21Z",
+      "side": 1,
+      "message": "it\u0027s easier for the callers to read their code like:\n\ncombinedFilter \u003d OR(filterA, filterB, filterC).",
+      "parentUuid": "89c6f9f4_9b6c1555",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 39
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32c8fae0_a0151e94",
