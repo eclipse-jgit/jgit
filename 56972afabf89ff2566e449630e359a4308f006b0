@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "261951bb_b4dd1641",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:04:52Z",
+      "side": 1,
+      "message": "Added a test in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177837. I\u0027m not sure what to test in this specific CL since this is just a refactoring.",
+      "parentUuid": "4570c5a8_f6d12d23",
+      "revId": "56972afabf89ff2566e449630e359a4308f006b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65653d61_217ee066",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "884f9bd3_aa90e3d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:04:52Z",
+      "side": 1,
+      "message": "I removed this from this CL, but I think we also [discussed this in the subsequent CL](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177722/comment/9b877f0c_b85262bb/).",
+      "parentUuid": "65653d61_217ee066",
+      "revId": "56972afabf89ff2566e449630e359a4308f006b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d130888_ca2f23a1",
@@ -48,6 +84,30 @@
       "writtenOn": "2024-03-14T23:25:36Z",
       "side": 1,
       "message": "Constructor has a very specific meaning in Java. PackBitmapIndexBuilderFactory would be the idiomatic name.",
+      "range": {
+        "startLine": 2475,
+        "startChar": 18,
+        "endLine": 2475,
+        "endChar": 51
+      },
+      "revId": "56972afabf89ff2566e449630e359a4308f006b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baad5fc7_538724ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2475,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-15T18:04:52Z",
+      "side": 1,
+      "message": "Sorry thought this was already in the patchset when I requested a review.",
+      "parentUuid": "7d130888_ca2f23a1",
       "range": {
         "startLine": 2475,
         "startChar": 18,
