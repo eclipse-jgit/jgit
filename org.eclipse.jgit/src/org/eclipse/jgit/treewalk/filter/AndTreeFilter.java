@@ -12,7 +12,11 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -29,6 +33,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * reject a result earlier in the list.
  */
 public abstract class AndTreeFilter extends TreeFilter {
+
+	final Set<Class> ACCEPTED_PATHFILTER_IMPLS = Set.of(PathFilter.class, PathFilterGroup.class);
+
 	/**
 	 * Create a filter with two filters, both of which must match.
 	 *
@@ -122,6 +129,32 @@ public abstract class AndTreeFilter extends TreeFilter {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
 		}
 
+		/**
+		 * Return paths if this filter only contains one PathFilter Impl. Using
+		 * composite tree filters for multiple paths filtering is not
+		 * recommended. Use {@code PathFilterGroup} instead. "
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			java.util.List<TreeFilter> numPathFilter = Arrays
+					.stream(new TreeFilter[] { a, b })
+					.filter(f -> ACCEPTED_PATHFILTER_IMPLS
+							.contains(f.getClass()))
+					.collect(Collectors.toList());
+			if (numPathFilter.size() == 0) {
+				return Optional.empty();
+			}
+
+			if (numPathFilter.size() == 1) {
+				return numPathFilter.get(0).getPathsBestEffort();
+			}
+
+			throw new UnsupportedOperationException("unimplemented");
+		}
+
 		@Override
 		public TreeFilter clone() {
 			return new Binary(a.clone(), b.clone());
@@ -171,6 +204,31 @@ public abstract class AndTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		/**
+		 * Return paths if this filter only contains one PathFilter Impl. Using
+		 * composite tree filters for multiple paths filtering is not
+		 * recommended. Use {@code PathFilterGroup} instead.
+		 *
+		 * @return a set of paths, or empty
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			java.util.List<TreeFilter> numPathFilter = Arrays.stream(subfilters)
+					.filter(f -> ACCEPTED_PATHFILTER_IMPLS
+							.contains(f.getClass()))
+					.collect(Collectors.toList());
+			if (numPathFilter.size() == 0) {
+				return Optional.empty();
+			}
+
+			if (numPathFilter.size() == 1) {
+				return numPathFilter.get(0).getPathsBestEffort();
+			}
+
+			throw new UnsupportedOperationException("unimplemented");
 		}
 
 		@Override
