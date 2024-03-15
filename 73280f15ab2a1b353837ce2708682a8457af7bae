@@ -16,6 +16,24 @@
       "message": "I\u0027m having second thought about the \"unassociated f\" here. \n\nAND(set(\"a\", \"b/c\", \"f\"), set(\"a/b\", \"b\")) \u003d\u003d AND(\"a\" OR \"b/c\" OR \"f\", \"a/b\" OR \"b\") \u003d\u003d AND(\"a/b\" OR \"b/c\")\n\n@ifrade@google.com would you mind checking this assumption?",
       "revId": "73280f15ab2a1b353837ce2708682a8457af7bae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a472e12_c1f9e939",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-15T22:08:02Z",
+      "side": 1,
+      "message": "Any path starting with \"f\" would pass the left set but never the right one, so it won\u0027t ever pass.\n\nThe more I think about this, the less I like the whole \"and\" business. Maybe as a first approach we could throw an exception if both sides have paths in an \"and\"",
+      "parentUuid": "4feac0d4_ddbed550",
+      "revId": "73280f15ab2a1b353837ce2708682a8457af7bae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
