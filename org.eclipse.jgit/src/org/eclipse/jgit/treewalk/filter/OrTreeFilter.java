@@ -12,7 +12,12 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -115,6 +120,27 @@ public abstract class OrTreeFilter extends TreeFilter {
 			return 1;
 		}
 
+		/**
+		 * Return the union of all paths within subFilters if any.
+		 * <p>
+		 * To OR multiple path filters, it is more efficient to use
+		 * {@code PathFilterGroup}.
+		 *
+		 * @return a set of paths, or empty if no subFilters.
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			Set<byte[]> result = Stream.of(a, b)
+					.filter(f -> f.getPathsBestEffort().isPresent())
+					.flatMap(f -> f.getPathsBestEffort().get().stream())
+					.collect(Collectors.toSet());
+			if (result.isEmpty()) {
+				return Optional.empty();
+			}
+			return Optional.of(result);
+		}
+
 		@Override
 		public boolean shouldBeRecursive() {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
@@ -169,6 +195,27 @@ public abstract class OrTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		/**
+		 * Return the union of all paths within subFilters if any.
+		 * <p>
+		 * To OR multiple path filters, it is more efficient to use
+		 * {@code PathFilterGroup}.
+		 *
+		 * @return a set of paths, or empty if no subFilters.
+		 * @since 6.8
+		 */
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			Set<byte[]> result = Arrays.stream(subfilters)
+					.filter(f -> f.getPathsBestEffort().isPresent())
+					.flatMap(f -> f.getPathsBestEffort().get().stream())
+					.collect(Collectors.toSet());
+			if (result.isEmpty()) {
+				return Optional.empty();
+			}
+			return Optional.of(result);
 		}
 
 		@Override
