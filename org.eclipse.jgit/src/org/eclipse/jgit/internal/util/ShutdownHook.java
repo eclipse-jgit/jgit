@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.slf4j.Logger;
@@ -66,25 +66,27 @@ public enum ShutdownHook {
 
 	private final Set<Listener> listeners = ConcurrentHashMap.newKeySet();
 
-	private volatile boolean shutdownInProgress;
+	private final AtomicBoolean shutdownInProgress = new AtomicBoolean();
 
 	private ShutdownHook() {
 		CleanupService.getInstance().register(this::cleanup);
 	}
 
 	private void cleanup() {
-		shutdownInProgress = true;
-		ExecutorService runner = Executors.newWorkStealingPool();
-		try {
-			runner.submit(() -> {
-				this.doCleanup();
-				return null;
-			}).get(30L, TimeUnit.SECONDS);
-		} catch (RejectedExecutionException | InterruptedException
-				| ExecutionException | TimeoutException e) {
-			LOG.error(JGitText.get().shutdownCleanupFailed, e);
+		if (!shutdownInProgress.getAndSet(true)) {
+			ExecutorService runner = Executors.newWorkStealingPool();
+			try {
+				runner.submit(() -> {
+					this.doCleanup();
+					return null;
+				}).get(30L, TimeUnit.SECONDS);
+			} catch (InterruptedException | ExecutionException
+					| TimeoutException e) {
+				throw new RuntimeException(e.getMessage(), e);
+			} finally {
+				runner.shutdownNow();
+			}
 		}
-		runner.shutdownNow();
 	}
 
 	private void doCleanup() {
@@ -112,7 +114,7 @@ public enum ShutdownHook {
 	 * @return {@code true} if this object has been registered
 	 */
 	public boolean register(Listener l) {
-		if (shutdownInProgress) {
+		if (shutdownInProgress.get()) {
 			return listeners.contains(l);
 		}
 		LOG.debug("register {} with shutdown hook", l); //$NON-NLS-1$
@@ -131,7 +133,7 @@ public enum ShutdownHook {
 	 * @return {@code true} if this object is no longer registered
 	 */
 	public boolean unregister(Listener l) {
-		if (shutdownInProgress) {
+		if (shutdownInProgress.get()) {
 			return !listeners.contains(l);
 		}
 		LOG.debug("unregister {} from shutdown hook", l); //$NON-NLS-1$
@@ -145,6 +147,6 @@ public enum ShutdownHook {
 	 * @return {@code true} if a JGit shutdown is in progress
 	 */
 	public boolean isShutdownInProgress() {
-		return shutdownInProgress;
+		return shutdownInProgress.get();
 	}
 }

@@ -9,6 +9,10 @@
  */
 package org.eclipse.jgit.internal.util;
 
+import org.eclipse.jgit.internal.JGitText;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A class that is registered as an OSGi service via the manifest. If JGit runs
  * in OSGi, OSGi will instantiate a singleton as soon as the bundle is activated
@@ -23,11 +27,16 @@ package org.eclipse.jgit.internal.util;
  */
 public final class CleanupService {
 
+	private static final Logger LOG = LoggerFactory
+			.getLogger(CleanupService.class);
+
 	private static final Object LOCK = new Object();
 
 	private static CleanupService INSTANCE;
 
 	private final boolean isOsgi;
+
+	private JGitText jgitText;
 
 	private Runnable cleanup;
 
@@ -74,8 +83,24 @@ public final class CleanupService {
 		if (isOsgi) {
 			cleanup = cleanUp;
 		} else {
+			// Ensure the JGitText class is loaded. Depending on the framework
+			// JGit runs in, it may not be possible anymore to load classes when
+			// the hook runs. For instance when run in a maven plug-in: the
+			// Plexus class world that loaded JGit may already have been
+			// disposed by the time the JVM shutdown hook runs when the whole
+			// maven build terminates.
+			jgitText = JGitText.get();
+			assert jgitText != null;
 			try {
-				Runtime.getRuntime().addShutdownHook(new Thread(cleanUp));
+				Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+					try {
+						cleanUp.run();
+						// Don't catch exceptions; let the JVM do the problem
+						// reporting.
+					} finally {
+						jgitText = null;
+					}
+				}));
 			} catch (IllegalStateException e) {
 				// Ignore -- the JVM is already shutting down.
 			}
@@ -86,7 +111,11 @@ public final class CleanupService {
 		if (isOsgi && cleanup != null) {
 			Runnable r = cleanup;
 			cleanup = null;
-			r.run();
+			try {
+				r.run();
+			} catch (RuntimeException e) {
+				LOG.error(JGitText.get().shutdownCleanupFailed, e);
+			}
 		}
 	}
 }
