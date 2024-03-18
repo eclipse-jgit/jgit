@@ -39,6 +39,76 @@
       },
       "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd7e934f_4076d788",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-18T20:24:32Z",
+      "side": 1,
+      "message": "In particular, the concept of `effectively final` introduced in Java 8 makes final variables mostly moot: https://java8.org/effectively-final-variables.",
+      "parentUuid": "b6022c07_569340a3",
+      "range": {
+        "startLine": 1192,
+        "startChar": 2,
+        "endLine": 1192,
+        "endChar": 7
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e3a527a_5dca2c16",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-18T20:24:32Z",
+      "side": 1,
+      "message": "Can we set these smaller, maybe to 2, 10, and 5? Smaller numbers makes the math a lot easier to do while debugging. Otherwise you have to hold a lot of context in your head while doing 3 digit arithmetic.\n\nAnd then you only need commit chains of, say, 5-20 commits, not 100.",
+      "range": {
+        "startLine": 1196,
+        "startChar": 1,
+        "endLine": 1198,
+        "endChar": 44
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8c0a35b_26f2c99d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-03-18T20:24:32Z",
+      "side": 1,
+      "message": "Instead of comments explaining the derivation, can you just do the arithmetic in code?",
+      "range": {
+        "startLine": 1209,
+        "startChar": 0,
+        "endLine": 1215,
+        "endChar": 40
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
