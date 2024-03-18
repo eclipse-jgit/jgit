@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76094ffe_c3d6b786",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T22:02:51Z",
+      "side": 1,
+      "message": "Logic is discouraged in the tests. In this case, maybe you could do something like:\n\nbyte[] actual \u003d actual.iterator().next();\nArrays.equals(\"a\".toBytes(), actual);",
+      "revId": "8e0ddca61bfcbf49a53e4744dae6fd7206355214",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1f0138d_557bc8f7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T22:02:51Z",
+      "side": 1,
+      "message": "Maybe do here:\nSet\u003cString\u003e actual \u003d otf.getPathsBestEffort().get().stream().map(String::new).collect(toSet());\n\nThen you can do\nassertTrue(actual.contains(\"a\"));\nassertTrue(actual.contains(\"b\"));\n...",
+      "revId": "8e0ddca61bfcbf49a53e4744dae6fd7206355214",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffac8c58_f679b139",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T22:02:51Z",
+      "side": 1,
+      "message": "This is only about two components, you can do the comparisons directly.\n\nif both empty return empty\nif both non empty throw\nif a non empty return a.paths\nelse return b.paths",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "8e0ddca61bfcbf49a53e4744dae6fd7206355214",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ee532e_5a4b06e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T22:02:51Z",
+      "side": 1,
+      "message": "This could be a regular import.",
+      "range": {
+        "startLine": 215,
+        "startChar": 13,
+        "endLine": 215,
+        "endChar": 17
+      },
+      "revId": "8e0ddca61bfcbf49a53e4744dae6fd7206355214",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b45007d_139a137a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T22:02:51Z",
+      "side": 1,
+      "message": "These instanceof beat the purpose of the subclassing. You can just check if getPathsBestEffort is empty or not.",
+      "revId": "8e0ddca61bfcbf49a53e4744dae6fd7206355214",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03975f61_f2543362",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T22:02:51Z",
+      "side": 1,
+      "message": "What is the otherwise of a union? You can just add \"if any\" to the previous sentence, or \"Empty optional if no paths in subfilters\", but you can also mention that in the @return.",
+      "range": {
+        "startLine": 202,
+        "startChar": 54,
+        "endLine": 202,
+        "endChar": 63
+      },
+      "revId": "8e0ddca61bfcbf49a53e4744dae6fd7206355214",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
