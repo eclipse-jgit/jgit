@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1b76a68_f5480da3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-18T18:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58a55f96_cf0627a8",
+      "range": {
+        "startLine": 1186,
+        "startChar": 0,
+        "endLine": 1192,
+        "endChar": 0
+      },
+      "revId": "a86250b2fb06d2e5595c7e184e65a7d82ff0cc81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "109cd4c0_0cacd061",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "PackWriterBitmapPreparer is probably the best place to test the count of objects. But ideally you would want to test PackWriter. Since there is no existing test for that, testing here may be the next best thing.",
       "parentUuid": "109cd4c0_0cacd061",
+      "revId": "a86250b2fb06d2e5595c7e184e65a7d82ff0cc81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e30b9f_61f75668",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-18T18:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07cd145d_2a9246b5",
       "revId": "a86250b2fb06d2e5595c7e184e65a7d82ff0cc81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
