@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3c05a9_535c93c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1037828
+      },
+      "writtenOn": "2024-03-18T16:54:16Z",
+      "side": 1,
+      "message": "s/have all been/in a set has been\n\n(add \"in a set\" because we\u0027re referring to the set later, and delete \"all\" because we only need one path to have been modified)",
+      "range": {
+        "startLine": 213,
+        "startChar": 57,
+        "endLine": 213,
+        "endChar": 70
+      },
+      "revId": "5d3bb24f5b1e01bc490de7e69a2a2e169a7248d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79ffbbc8_555a5f50",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1037828
+      },
+      "writtenOn": "2024-03-18T16:54:16Z",
+      "side": 1,
+      "message": "No need to bump, I think - the API has existed since 6.7, I assume",
+      "range": {
+        "startLine": 219,
+        "startChar": 13,
+        "endLine": 219,
+        "endChar": 14
+      },
+      "revId": "5d3bb24f5b1e01bc490de7e69a2a2e169a7248d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
