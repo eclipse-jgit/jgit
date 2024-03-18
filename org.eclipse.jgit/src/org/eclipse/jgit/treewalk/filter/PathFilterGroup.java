@@ -147,6 +147,11 @@ public class PathFilterGroup {
 		public String toString() {
 			return "FAST_" + path.toString(); //$NON-NLS-1$
 		}
+
+		@Override
+		public Optional<Set<byte[]>> getPathsBestEffort() {
+			return path.getPathsBestEffort();
+		}
 	}
 
 	static class Group extends TreeFilter {

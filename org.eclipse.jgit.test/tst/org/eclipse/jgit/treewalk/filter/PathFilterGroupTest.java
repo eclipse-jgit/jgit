@@ -147,7 +147,30 @@ public class PathFilterGroupTest {
 	}
 
 	@Test
-	public void testGetPathsBestEffort() {
+	public void testGetPathsBestEffortWithSingle() {
+		String[] paths = { "path1" };
+		Set<byte[]> expected = Arrays.stream(paths).map(Constants::encode)
+				.collect(Collectors.toSet());
+		TreeFilter pathFilterGroup = PathFilterGroup.createFromStrings(paths);
+		Optional<Set<byte[]>> bestEffortPaths = pathFilterGroup
+				.getPathsBestEffort();
+		assertTrue(bestEffortPaths.isPresent());
+		Set<byte[]> actual = bestEffortPaths.get();
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+					break;
+				}
+			}
+			assertTrue(findMatch);
+		}
+	}
+
+	@Test
+	public void testGetPathsBestEffortWithGroup() {
 		String[] paths = { "path1", "path2", "path3" };
 		Set<byte[]> expected = Arrays.stream(paths).map(Constants::encode)
 				.collect(Collectors.toSet());
