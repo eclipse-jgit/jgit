@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9b864e_86a91699",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "\u003e Split PathFilterGroup in its own CL\n\ndone\n\n\u003e maybe we can consider make the AndTreeFilter throw if both sides have paths and add an implementation when needed.\n\ni\u0027m beginning to think this is getting too complicated. \n\nFor OrTreeFilter is very easy, just union every path. \n\nBut for AndTreeFilter, it\u0027s too complicated. The default return empty set behavior is very contradictory.\n\nscenarioA: if a valid set of paths AND a valid set of empty paths, the result should be an empty set.\nscenarioB: if a valid set of paths AND a non_PathFilter (e.g. TreeFilter.ALL, TreeFilter.Any_Diff), it would still return an empty set; however this is not what we want. AND with a non_PathFilter, we really just want the left side.\n\nlet\u0027s accept AndTreeFilter with only 1 PathFilter/PathFilterGroup as the way forward. \n\nwith \u003e1 PathFilter/PathFilterGroup, we just throw and recommend to use PathFilterGroup.",
+      "parentUuid": "7d10c52a_13a0ba17",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d1ee037_9f9a7a63",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59ed32de_d20f9d37",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d1ee037_9f9a7a63",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "672afeb7_d031de3f",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-03-14T20:24:06Z",
       "side": 1,
       "message": "Same with these and following tests: they belong to AndTreeFilterTest.",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a9fc2c_73002066",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/PathFilterLogicTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "672afeb7_d031de3f",
       "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -75,6 +129,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1373037_86c162be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "58614072_0ebcd982",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fdd120a_7917127c",
@@ -92,6 +170,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4017632d_04c689bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "1fdd120a_7917127c",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae804d19_4f506b4c",
@@ -105,6 +201,24 @@
       "writtenOn": "2024-03-14T20:24:06Z",
       "side": 1,
       "message": "What are these \"sets\"?. At the end, this is an OR(\"a\", \"b/c\", \"a/b\", \"b\"). If so, write it like that.",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce10088_7c97d77b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "ae804d19_4f506b4c",
       "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -202,6 +316,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d51fa93_23d81d52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "41b1c89d_cbdc1a07",
+      "range": {
+        "startLine": 33,
+        "startChar": 15,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3cca4d1_7a3ac674",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "a61f5013_4f0fd0c8",
+      "range": {
+        "startLine": 33,
+        "startChar": 40,
+        "endLine": 33,
+        "endChar": 50
+      },
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32c8fae0_a0151e94",
@@ -219,6 +381,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ab58c9_cfd6afb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "32c8fae0_a0151e94",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b30d6c49_111f782f",
@@ -232,6 +412,24 @@
       "writtenOn": "2024-03-14T20:24:06Z",
       "side": 1,
       "message": "\"Calculate the intersection between set of paths\"",
+      "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b46d8b40_fcd3a946",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathsCalculator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-18T19:23:38Z",
+      "side": 1,
+      "message": "removed class",
+      "parentUuid": "b30d6c49_111f782f",
       "revId": "d94c49361fda8e19d4ec8e562f2ae85aebc2de95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
