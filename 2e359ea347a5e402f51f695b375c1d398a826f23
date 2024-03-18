@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b864ff57_239a0547",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T19:34:24Z",
+      "side": 1,
+      "message": "A nit about the style, looks good. Thanks!",
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6022c07_569340a3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T19:34:24Z",
+      "side": 1,
+      "message": "We don\u0027t use \"final\" for variables anymore.\n\nWe used to and we only change it if we touch the code for some other reason. That\u0027s why you still see it in some places.",
+      "range": {
+        "startLine": 1192,
+        "startChar": 2,
+        "endLine": 1192,
+        "endChar": 7
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
