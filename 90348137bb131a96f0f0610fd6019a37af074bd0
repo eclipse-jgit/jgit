@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45e01471_f4799fed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-18T19:57:18Z",
+      "side": 1,
+      "message": "Hidding getPackChecksum behind a getter can be done in its own change. It is an easy change we can get out of the way before anything else.",
+      "revId": "90348137bb131a96f0f0610fd6019a37af074bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81f824b1_14979d84",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 5
