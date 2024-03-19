@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca095eb4_66b5d268",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-19T21:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2345a1a5_570e56d5",
+      "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04c8323c_1f1e4510",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-03-19T20:51:31Z",
       "side": 1,
       "message": "All the test cases use an array of two entries, that goes to the Binary class. Can you add cases with 3 entries, to cover the other implementation as well?\n\nThese are new tests, maybe we can use the naming convention:\ngetPathsBestEffort_twoPathFilters_throws\ngetPathsBestEffort_noPathFilters_empty\ngetPathsBestEffort_onePathFilter_paths",
+      "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "620af86a_19fd3afd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-19T21:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04c8323c_1f1e4510",
       "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -69,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "220d05bb_cf846e58",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-19T21:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4a811b3_a8d1aa8e",
+      "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "082d1859_bf3a515f",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-03-19T20:51:31Z",
       "side": 1,
       "message": "Maybe more clear to name the tests \u003cmethod\u003e_\u003cconditions\u003e_\u003cresult\u003e:\n\ngetPathsBestEffort_multiplePathFilters_union\ngetPathsBestEffort_noPathFilter_empty\ngetPathsBestEffort_singlePathFilter_path",
+      "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c02621_a499a935",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-19T21:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "082d1859_bf3a515f",
       "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -103,6 +175,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d3d90ae_bd93f027",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-19T21:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b892d26_a8b3a681",
+      "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5e92cd0_30d4a351",
@@ -116,6 +206,24 @@
       "writtenOn": "2024-03-19T20:51:31Z",
       "side": 1,
       "message": "Same here",
+      "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07c570d1_84c22909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-03-19T21:11:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5e92cd0_30d4a351",
       "revId": "ddfbde8f69f8c92b5662d5005c558956e20736d5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
