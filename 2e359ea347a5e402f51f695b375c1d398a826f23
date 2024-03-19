@@ -65,6 +65,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88486776_f38edb65",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1192,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-19T00:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6022c07_569340a3",
+      "range": {
+        "startLine": 1192,
+        "startChar": 2,
+        "endLine": 1192,
+        "endChar": 7
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e3a527a_5dca2c16",
@@ -90,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "115050e8_f202dda6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-19T00:41:38Z",
+      "side": 1,
+      "message": "I set the spans/counts to smaller numbers like you suggested. Think that\u0027s a good change.\n\nI still ended up having to use a chain of 50 to get the xor-compression to kick in. Lower values like 20 and 30 didn\u0027t use it. (I guess it must not have offered a better compression than the raw bitmap).",
+      "parentUuid": "9e3a527a_5dca2c16",
+      "range": {
+        "startLine": 1196,
+        "startChar": 1,
+        "endLine": 1198,
+        "endChar": 44
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8c0a35b_26f2c99d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
         "patchSetId": 5
@@ -101,6 +149,30 @@
       "writtenOn": "2024-03-18T20:24:32Z",
       "side": 1,
       "message": "Instead of comments explaining the derivation, can you just do the arithmetic in code?",
+      "range": {
+        "startLine": 1209,
+        "startChar": 0,
+        "endLine": 1215,
+        "endChar": 40
+      },
+      "revId": "2e359ea347a5e402f51f695b375c1d398a826f23",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca2a417_a2c092ad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-19T00:41:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8c0a35b_26f2c99d",
       "range": {
         "startLine": 1209,
         "startChar": 0,
