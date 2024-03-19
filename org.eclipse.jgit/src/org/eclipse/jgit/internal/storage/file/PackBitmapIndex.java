@@ -132,8 +132,14 @@ public abstract class PackBitmapIndex {
 				reverseIndexSupplier, loadParallelRevIndex);
 	}
 
-	/** Footer checksum applied on the bottom of the pack file. */
-	byte[] packChecksum;
+	/**
+	 * Footer checksum applied on the bottom of the pack file.
+	 *
+	 * @return checksum as a byte array
+	 */
+	byte[] getPackChecksum() {
+		return null;
+	}
 
 	/**
 	 * Finds the position in the bitmap of the object.
