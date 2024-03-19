@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c5cb1a6_6d552556",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-19T00:22:40Z",
+      "side": 1,
+      "message": "Done https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1184614.",
+      "parentUuid": "45e01471_f4799fed",
+      "revId": "90348137bb131a96f0f0610fd6019a37af074bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81f824b1_14979d84",
