@@ -28,9 +28,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jetty.security.AbstractLoginService;
-import org.eclipse.jetty.security.Authenticator;
-import org.eclipse.jetty.security.ConstraintMapping;
-import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.ee8.security.Authenticator;
+import org.eclipse.jetty.ee8.nested.ServletConstraint;
+import org.eclipse.jetty.ee8.security.ConstraintMapping;
+import org.eclipse.jetty.ee8.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.RolePrincipal;
 import org.eclipse.jetty.security.UserPrincipal;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
@@ -42,8 +43,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.util.security.Constraint;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jgit.transport.URIish;
@@ -303,15 +303,16 @@ public class AppServer {
 
 	private ConstraintMapping createConstraintMapping() {
 		ConstraintMapping cm = new ConstraintMapping();
-		cm.setConstraint(new Constraint());
+		cm.setConstraint(new ServletConstraint());
 		cm.getConstraint().setAuthenticate(true);
-		cm.getConstraint().setDataConstraint(Constraint.DC_NONE);
+		cm.getConstraint().setDataConstraint(ServletConstraint.DC_NONE);
 		cm.getConstraint().setRoles(new String[] { authRole });
 		cm.setPathSpec("/*");
 		return cm;
 	}
 
-	private void auth(ServletContextHandler ctx, Authenticator authType,
+	private void auth(ServletContextHandler ctx,
+			BasicAuthenticator basicAuthenticator,
 			String... methods) {
 		AbstractLoginService users = new TestMappedLoginService(authRole);
 		List<ConstraintMapping> mappings = new ArrayList<>();
@@ -327,14 +328,14 @@ public class AppServer {
 
 		ConstraintSecurityHandler sec = new ConstraintSecurityHandler();
 		sec.setRealmName(realm);
-		sec.setAuthenticator(authType);
+		sec.setAuthenticator((Authenticator) basicAuthenticator);
 		sec.setLoginService(users);
 		sec.setConstraintMappings(
 				mappings.toArray(new ConstraintMapping[0]));
 		sec.setHandler(ctx);
 
-		contexts.removeHandler(ctx);
-		contexts.addHandler(sec);
+		contexts.removeHandler(ctx.getServer().getHandler());
+		contexts.addHandler(sec.getServer().getHandler());
 	}
 
 	/**

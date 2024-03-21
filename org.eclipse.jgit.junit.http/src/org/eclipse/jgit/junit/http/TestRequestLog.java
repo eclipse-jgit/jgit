@@ -10,22 +10,17 @@
 
 package org.eclipse.jgit.junit.http;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
-import org.eclipse.jetty.server.handler.HandlerWrapper;
+import org.eclipse.jetty.server.Handler.Wrapper;
+import org.eclipse.jetty.util.Callback;
 
 /** Logs request made through {@link AppServer}. */
-class TestRequestLog extends HandlerWrapper {
+class TestRequestLog extends Wrapper {
 	private static final int MAX = 16;
 
 	private final List<AccessEvent> events = new ArrayList<>();
@@ -74,27 +69,35 @@ class TestRequestLog extends HandlerWrapper {
 
 	/** {@inheritDoc} */
 	@Override
-	public void handle(String target, Request baseRequest,
-			HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		try {
-			for (;;) {
-				try {
-					active.acquire();
-					break;
-				} catch (InterruptedException e) {
-					continue;
-				}
-			}
-
-			super.handle(target, baseRequest, request, response);
-
-			if (DispatcherType.REQUEST.equals(baseRequest.getDispatcherType()))
-				log((Request) request, (Response) response);
-
-		} finally {
-			active.release();
-		}
+	public boolean handle(Request request, Response response, Callback callback)
+	        throws Exception {
+	    boolean interrupted = false;
+	    while (true) {
+	        try {
+	            active.acquire();
+	            break; // Exit the loop once the semaphore is successfully acquired
+	        } catch (InterruptedException e) {
+	            // If an InterruptedException occurs, remember it and try again
+	            interrupted = true;
+	        }
+	    }
+	    
+	    // Restore the interrupted status after exiting the loop
+	    if (interrupted) {
+	        Thread.currentThread().interrupt();
+	    }
+	    
+	    try {
+	        AccessEvent event = new AccessEvent(request);
+	        synchronized (events) {
+	            events.add(event);
+	        }
+	        
+	        event.setResponse(response);
+	        return super.handle(request, response, callback);
+	    } finally {
+	        active.release();
+	    }
 	}
 
 	private void log(Request request, Response response) {

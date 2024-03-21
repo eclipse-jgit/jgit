@@ -11,10 +11,11 @@
 package org.eclipse.jgit.junit.http;
 
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
 
@@ -24,7 +25,7 @@ import org.eclipse.jetty.server.Response;
 public class AccessEvent {
 	private final String method;
 
-	private final String uri;
+	private final HttpURI uri;
 
 	private final Map<String, String> requestHeaders;
 
@@ -36,9 +37,10 @@ public class AccessEvent {
 
 	AccessEvent(Request req, Response rsp) {
 		method = req.getMethod();
-		uri = req.getRequestURI();
+		uri = req.getHttpURI();
 		requestHeaders = cloneHeaders(req);
-		parameters = clone(req.getParameterMap());
+		parameters = clone(req.asAttributeMap());
+	}
 
 		status = rsp.getStatus();
 		responseHeaders = cloneHeaders(rsp);
@@ -46,11 +48,10 @@ public class AccessEvent {
 
 	private static Map<String, String> cloneHeaders(Request req) {
 		Map<String, String> r = new TreeMap<>();
-		Enumeration hn = req.getHeaderNames();
-		while (hn.hasMoreElements()) {
-			String key = (String) hn.nextElement();
+		Set<String> hn = req.getHeaders().getFieldNamesCollection();
+		for (String key : hn) {
 			if (!r.containsKey(key)) {
-				r.put(key, req.getHeader(key));
+				r.put(key, req.getHeaders().getField(key).toString());
 			}
 		}
 		return Collections.unmodifiableMap(r);
@@ -58,12 +59,10 @@ public class AccessEvent {
 
 	private static Map<String, String> cloneHeaders(Response rsp) {
 		Map<String, String> r = new TreeMap<>();
-		Enumeration<String> hn = rsp.getHttpFields().getFieldNames();
-		while (hn.hasMoreElements()) {
-			String key = hn.nextElement();
+		Set<String> hn = rsp.getHeaders().getFieldNamesCollection();
+		for (String key : hn) {
 			if (!r.containsKey(key)) {
-				Enumeration<String> v = rsp.getHttpFields().getValues(key);
-				r.put(key, v.nextElement());
+				r.put(key, rsp.getHeaders().getField(key).toString());
 			}
 		}
 		return Collections.unmodifiableMap(r);
@@ -88,7 +87,7 @@ public class AccessEvent {
 	 *
 	 * @return path of the file on the server, e.g. {@code /git/HEAD}.
 	 */
-	public String getPath() {
+	public HttpURI getPath() {
 		return uri;
 	}
 
