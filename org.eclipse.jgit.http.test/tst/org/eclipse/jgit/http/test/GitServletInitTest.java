@@ -13,13 +13,10 @@ package org.eclipse.jgit.http.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
 import javax.servlet.ServletException;
 
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.MultiException;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee8.servlet.ServletHolder;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.junit.http.MockServletConfig;
@@ -75,13 +72,7 @@ public class GitServletInitTest {
 			server.setUp();
 		} catch (Exception e) {
 			Throwable why = null;
-			if (e instanceof MultiException) {
-				MultiException multi = (MultiException) e;
-				List<Throwable> reasons = multi.getThrowables();
-				why = reasons.get(0);
-				assertTrue("Expected ServletException",
-						why instanceof ServletException);
-			} else if (e instanceof ServletException)
+			if (e instanceof ServletException)
 				why = e;
 
 			if (why != null) {
