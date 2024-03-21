@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13c01a68_a994f204",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-03-21T12:17:25Z",
+      "side": 1,
+      "message": "The methods setTreeFilter and setRewriteParents in RevWalk already mentions this in their javadocs. It that enought or where else could I add it?",
+      "parentUuid": "54b2a8e8_63a35781",
+      "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1817b10_d091f7df",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2024-03-13T21:21:47Z",
       "side": 1,
       "message": "should we call this \"anyDiffFilter\"?\n\nAlso, the rewriteParents parameter doesn\u0027t make much sense here: the revfilter won\u0027t rewrite parents in any case (IIUC). Set it in its own call, not bundled into this function.",
+      "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5727389e_3a83f44f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-03-21T12:17:25Z",
+      "side": 1,
+      "message": "I removed the function.",
+      "parentUuid": "a1817b10_d091f7df",
       "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -69,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e8296a_04d63eb2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-03-21T12:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fbbb099_fe26a930",
+      "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a104a124_0a3b7785",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-03-13T21:21:47Z",
       "side": 1,
       "message": "Do you really need both filters? Both are doing the same, no?\n\nIf you want to test TreeFilter with no rewrite, you shouldn\u0027t need the revfilter.",
+      "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d55168_e87b1c1b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-03-21T12:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a104a124_0a3b7785",
       "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
