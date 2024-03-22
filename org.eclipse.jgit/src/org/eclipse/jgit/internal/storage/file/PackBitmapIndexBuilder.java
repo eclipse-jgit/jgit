@@ -304,6 +304,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 */
 	public void resetBitmaps(int size) {
 		getBitmaps().clear();
+		bitmapsToWriteXorBuffer.clear();
 		bitmapsToWrite = new ArrayList<>(size);
 	}
 
