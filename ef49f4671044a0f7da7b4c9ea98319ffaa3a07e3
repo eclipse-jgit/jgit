@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63221597_ab56aeab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037850
+      },
+      "writtenOn": "2024-03-24T10:21:01Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com I wonder if you\u0027d have any suggestions of how to make progress on this. Would you be interested in reviewing this patch, or would you suggest someone else? I have reached out to the original author of diff3 support in jgit (Haamed Gheibi) but haven\u0027t heard back yet.",
+      "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
