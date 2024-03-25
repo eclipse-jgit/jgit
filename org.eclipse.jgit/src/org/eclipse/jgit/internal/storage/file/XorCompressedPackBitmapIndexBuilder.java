@@ -32,7 +32,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * Helper for constructing
  * {@link org.eclipse.jgit.internal.storage.file.PackBitmapIndex}es.
  */
-public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
+public class XorCompressedPackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
 
 	private final EWAHCompressedBitmap commits;
@@ -57,7 +57,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            objects sorted by name. The list must be initially sorted by
 	 *            ObjectId (name); it will be resorted in place.
 	 */
-	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
+	public XorCompressedPackBitmapIndexBuilder(List<ObjectToPack> objects) {
 		super(new ObjectIdOwnerMap<>());
 		byOffset = new BlockList<>(objects.size());
 		sortByOffsetAndIndex(byOffset, positionEntries, objects);
