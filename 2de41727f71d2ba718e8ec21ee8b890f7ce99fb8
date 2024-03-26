@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca47eca_b473f59c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T22:14:37Z",
+      "side": 1,
+      "message": "I was wondering, why the PackBitmapIndexWriter is instantiated by the ObjectDatabase?",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4a64b95_b0e0c954",
@@ -71,6 +88,23 @@
       "writtenOn": "2024-03-26T21:58:37Z",
       "side": 1,
       "message": "Same, just say \"a writer to store bitmaps associated with the pack",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "114064ed_215b3c3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T22:14:37Z",
+      "side": 1,
+      "message": "Does this belong to the object database? Looks like callers have all the information for it and can call objectdb#writeFile...",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
