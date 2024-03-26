@@ -26,7 +26,7 @@
       <unit id="org.objenesis.source" version="3.3.0"/>
       <unit id="org.osgi.service.cm" version="1.6.1.202109301733"/>
       <unit id="org.osgi.service.cm.source" version="1.6.1.202109301733"/>
-      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/2023-12"/>
+      <repository location="https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/release/4.31.0"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.eclipse.osgi" version="0.0.0"/>
@@ -105,43 +105,43 @@
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-http</artifactId>
-    		<version>10.0.20</version>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-io</artifactId>
-    		<version>10.0.20</version>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-security</artifactId>
-    		<version>10.0.20</version>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-server</artifactId>
-    		<version>10.0.20</version>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
-    		<groupId>org.eclipse.jetty</groupId>
-    		<artifactId>jetty-servlet</artifactId>
-    		<version>10.0.20</version>
+    		<groupId>org.eclipse.jetty.ee8</groupId>
+    		<artifactId>jetty-ee8-servlet</artifactId>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-util</artifactId>
-    		<version>10.0.20</version>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
     		<groupId>org.eclipse.jetty</groupId>
     		<artifactId>jetty-util-ajax</artifactId>
-    		<version>10.0.20</version>
+    		<version>12.0.6</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
