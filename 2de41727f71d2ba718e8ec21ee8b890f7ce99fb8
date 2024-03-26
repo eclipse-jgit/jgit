@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e99276d2_1a521eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "A bunch of nits. Thanks!",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a64b95_b0e0c954",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "addFileExt can also be invoked by the PackBitmapIndexWriter, no?",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3679907_8c39d0a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "Nit: it returns an instance of the interface.\n\nSuggestion: returns a writer to store the bitmap index in this object database.",
+      "range": {
+        "startLine": 752,
+        "startChar": 12,
+        "endLine": 752,
+        "endChar": 47
+      },
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bdc5895_43dda714",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "Same, just say \"a writer to store bitmaps associated with the pack",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96ecb1d2_3a05033d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1402,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "Nit: no need of final here",
+      "range": {
+        "startLine": 1402,
+        "startChar": 5,
+        "endLine": 1402,
+        "endChar": 10
+      },
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae28428_0f7b93d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "Should we make PackBitmapIndexWriterV1 implement PackBitmapIndexWriter?\n\nThen we could just do:\npw.writeBitmapIndex(new PackBitmapIndexWriter(idxStream));",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7970c1db_2f5756b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "License header",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea57486c_b28c10cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "\"Represents a function that accepts a collection of bitmaps and write them into storage\"\n\n(Inspired by the wording of other functional interfaces: https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html)",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "194ee3f4_c423a22a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "Indentation looks off...",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71fe7702_395101f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-26T21:58:37Z",
+      "side": 1,
+      "message": "It is not a stream anymore, please update the javadoc.",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
