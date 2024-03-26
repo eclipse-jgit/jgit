@@ -41,10 +41,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private final EWAHCompressedBitmap tags;
 	private final BlockList<PositionEntry> byOffset;
 
-	private final LinkedList<StoredBitmap>
-			bitmapsToWriteXorBuffer = new LinkedList<>();
-
-	private List<StoredEntry> bitmapsToWrite = new ArrayList<>();
+	private List<StoredBitmap> bitmapsToWrite = new ArrayList<>();
 
 	final ObjectIdOwnerMap<PositionEntry>
 			positionEntries = new ObjectIdOwnerMap<>();
@@ -157,11 +154,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		compressed.trim();
 		StoredBitmap newest = new StoredBitmap(c, compressed, null, flags);
 
-		bitmapsToWriteXorBuffer.add(newest);
-		if (bitmapsToWriteXorBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
-			bitmapsToWrite.add(
-					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
-		}
+		bitmapsToWrite.add(newest);
 
 		if (c.isAddToIndex()) {
 			// The Bitmap map in the base class is used to make revwalks
@@ -171,12 +164,13 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 	}
 
-	private StoredEntry generateStoredEntry(StoredBitmap bitmapToWrite) {
+	private StoredEntry generateStoredEntry(StoredBitmap bitmapToWrite,
+			List<StoredBitmap> xorBitmapsToWrite) {
 		int bestXorOffset = 0;
 		EWAHCompressedBitmap bestBitmap = bitmapToWrite.getBitmap();
 
 		int offset = 1;
-		for (StoredBitmap curr : bitmapsToWriteXorBuffer) {
+		for (StoredBitmap curr : xorBitmapsToWrite) {
 			EWAHCompressedBitmap bitmap = curr.getBitmap()
 					.xor(bitmapToWrite.getBitmap());
 			if (bitmap.sizeInBytes() < bestBitmap.sizeInBytes()) {
@@ -196,6 +190,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 		return result;
 	}
+
 
 	/**
 	 * Stores the bitmap for the objectId.
@@ -293,7 +288,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	@Override
 	public int getBitmapCount() {
-		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
+		return bitmapsToWrite.size();
 	}
 
 	/**
@@ -318,12 +313,27 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 * @return a list of the xor compressed entries.
 	 */
 	public List<StoredEntry> getCompressedBitmaps() {
-		while (!bitmapsToWriteXorBuffer.isEmpty()) {
-			bitmapsToWrite.add(
-					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+		LinkedList<StoredBitmap> bitmapBuffer = new LinkedList<>();
+		List<StoredEntry> xorCompressedBitmaps = new ArrayList<>();
+		for (int i = 0; i < bitmapsToWrite.size(); i++) {
+			bitmapBuffer.add(bitmapsToWrite.get(i));
+			if (bitmapBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
+				xorCompressedBitmaps.add(generateStoredEntry(
+						bitmapBuffer.pollFirst(), bitmapBuffer));
+			}
 		}
+		while (!bitmapBuffer.isEmpty()) {
+			xorCompressedBitmaps.add(generateStoredEntry(
+					bitmapBuffer.pollFirst(), bitmapBuffer));
+		}
+		Collections.reverse(xorCompressedBitmaps);
+		return xorCompressedBitmaps;
+	}
 
-		Collections.reverse(bitmapsToWrite);
+	/**
+	 * @return a list of the non-xor-compressed entries.
+	 */
+	public List<StoredBitmap> getEwahCompressedBitmaps() {
 		return bitmapsToWrite;
 	}
 
