@@ -323,8 +323,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
 		}
 
-		Collections.reverse(bitmapsToWrite);
-		return bitmapsToWrite;
+		List<StoredEntry> bitmapsToReturn = new ArrayList<>(bitmapsToWrite);
+		Collections.reverse(bitmapsToReturn);
+		return bitmapsToReturn;
 	}
 
 	/** Data object for the on disk representation of a bitmap entry. */
