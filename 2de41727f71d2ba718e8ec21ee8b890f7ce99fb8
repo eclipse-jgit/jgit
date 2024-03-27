@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3640de2_46c69b52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Thanks for the review!",
+      "parentUuid": "e99276d2_1a521eb1",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4a64b95_b0e0c954",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-03-26T21:58:37Z",
       "side": 1,
       "message": "addFileExt can also be invoked by the PackBitmapIndexWriter, no?",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8100ae3a_f211f7ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Yeah I thought it would make sense to put this here instead of requiring all the writers to do this individually. WDYT?",
+      "parentUuid": "c4a64b95_b0e0c954",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -75,6 +111,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e6b8574_2d875818",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3679907_8c39d0a5",
+      "range": {
+        "startLine": 752,
+        "startChar": 12,
+        "endLine": 752,
+        "endChar": 47
+      },
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bdc5895_43dda714",
@@ -92,6 +152,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60260b1f_f63d27d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bdc5895_43dda714",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "114064ed_215b3c3e",
@@ -105,6 +183,24 @@
       "writtenOn": "2024-03-26T22:14:37Z",
       "side": 1,
       "message": "Does this belong to the object database? Looks like callers have all the information for it and can call objectdb#writeFile...",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e925356e_f62a7524",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "This was discussed some in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177722/comment/9b877f0c_b85262bb/\n\nI\u0027m not sure I understand what a better alternative would look like here.\n\nThis method needs to be overridden in later in GoogleObjectDatabase, so AIUI it needs to come from the ObjDatabase at some point.\n\nI could put the function definition into its own class so that there a little more conceptual separation between the DfsObjectDatabase and the writer, but that would be the same thing just without the syntax sugar.\n\nI understand that this seems to stretch the conceptual separation between the ObjectDatabase and the PackWriter, so I\u0027d like to actually find out if there is a better way to do this.",
+      "parentUuid": "114064ed_215b3c3e",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -132,6 +228,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db354c3d_883870ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1402,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96ecb1d2_3a05033d",
+      "range": {
+        "startLine": 1402,
+        "startChar": 5,
+        "endLine": 1402,
+        "endChar": 10
+      },
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ae28428_0f7b93d9",
@@ -145,6 +265,24 @@
       "writtenOn": "2024-03-26T21:58:37Z",
       "side": 1,
       "message": "Should we make PackBitmapIndexWriterV1 implement PackBitmapIndexWriter?\n\nThen we could just do:\npw.writeBitmapIndex(new PackBitmapIndexWriter(idxStream));",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce35dc8c_0258ac74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ae28428_0f7b93d9",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -166,6 +304,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ec7e3f7_dfa1363f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7970c1db_2f5756b8",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea57486c_b28c10cb",
@@ -179,6 +335,24 @@
       "writtenOn": "2024-03-26T21:58:37Z",
       "side": 1,
       "message": "\"Represents a function that accepts a collection of bitmaps and write them into storage\"\n\n(Inspired by the wording of other functional interfaces: https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html)",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5590c93e_999384bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea57486c_b28c10cb",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -200,6 +374,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8663520_d2b4adb4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackBitmapIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194ee3f4_c423a22a",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71fe7702_395101f1",
@@ -213,6 +405,24 @@
       "writtenOn": "2024-03-26T21:58:37Z",
       "side": 1,
       "message": "It is not a stream anymore, please update the javadoc.",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac52d3f_696eb42f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-03-27T13:51:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71fe7702_395101f1",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
