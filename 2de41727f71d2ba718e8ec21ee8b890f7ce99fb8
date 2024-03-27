@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "297b15eb_61e81634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-27T20:33:23Z",
+      "side": 1,
+      "message": "Maybe I misunderstand this field, but I think the writer knows what it is doing with the pack, so it should take care of setting all the fields.",
+      "parentUuid": "8100ae3a_f211f7ed",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3679907_8c39d0a5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
         "patchSetId": 17
@@ -201,6 +219,24 @@
       "side": 1,
       "message": "This was discussed some in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1177722/comment/9b877f0c_b85262bb/\n\nI\u0027m not sure I understand what a better alternative would look like here.\n\nThis method needs to be overridden in later in GoogleObjectDatabase, so AIUI it needs to come from the ObjDatabase at some point.\n\nI could put the function definition into its own class so that there a little more conceptual separation between the DfsObjectDatabase and the writer, but that would be the same thing just without the syntax sugar.\n\nI understand that this seems to stretch the conceptual separation between the ObjectDatabase and the PackWriter, so I\u0027d like to actually find out if there is a better way to do this.",
       "parentUuid": "114064ed_215b3c3e",
+      "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1451f6fd_3f1cd617",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-03-27T20:33:23Z",
+      "side": 1,
+      "message": "The object database API talks mostly about packs (and opening streams to the packs). This method looks out of place here, but I cannot come up with a better idea. \n\nThe object database already decides how to read the bitmaps (when creating the dfspackfiles), so I guess it makes some sense to have the writing also here.\n\nIn the worst case, this is internal API and we can change it later.",
+      "parentUuid": "e925356e_f62a7524",
       "revId": "2de41727f71d2ba718e8ec21ee8b890f7ce99fb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
