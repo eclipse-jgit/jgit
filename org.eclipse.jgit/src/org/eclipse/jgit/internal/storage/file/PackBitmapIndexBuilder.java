@@ -33,7 +33,11 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * {@link org.eclipse.jgit.internal.storage.file.PackBitmapIndex}es.
  */
 public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
-	private static final int MAX_XOR_OFFSET_SEARCH = 10;
+	/**
+	 * Maximum offset from the current bitmap which can be used as an
+	 * xor-compression.
+	 */
+	protected static final int MAX_XOR_OFFSET_SEARCH = 10;
 
 	private final EWAHCompressedBitmap commits;
 	private final EWAHCompressedBitmap trees;
@@ -326,6 +330,33 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		List<StoredEntry> bitmapsToReturn = new ArrayList<>(bitmapsToWrite);
 		Collections.reverse(bitmapsToReturn);
 		return bitmapsToReturn;
+	}
+
+	/**
+	 * Get a list the inflated (NON-xor-compressed) bitmaps that will be
+	 * written.
+	 *
+	 * @param xorCompressedEntries
+	 *            list of xor-compressed entries to inflate
+	 *
+	 * @return a list the inflated (NON-xor-compressed) bitmaps that will be
+	 *         written
+	 */
+	public static List<StoredEntry> getEwahCompressedBitmaps(
+			List<StoredEntry> xorCompressedEntries) {
+		List<StoredEntry> inflatedEntries = new ArrayList<>(
+				xorCompressedEntries.size());
+		for (int i = 0; i < xorCompressedEntries.size(); i++) {
+			StoredEntry bitmapEntry = xorCompressedEntries.get(i);
+			EWAHCompressedBitmap bitmap = bitmapEntry.getBitmap();
+			if (bitmapEntry.getXorOffset() != 0) {
+				EWAHCompressedBitmap xorOffsetBitmap = inflatedEntries.get(i - bitmapEntry.getXorOffset()).getBitmap();
+				bitmap = bitmap.xor(xorOffsetBitmap);
+			}
+			inflatedEntries.add(new StoredEntry(bitmapEntry.getObjectId(),
+					bitmap, 0, bitmapEntry.getFlags()));
+		}
+		return inflatedEntries;
 	}
 
 	/** Data object for the on disk representation of a bitmap entry. */
