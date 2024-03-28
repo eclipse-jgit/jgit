@@ -42,8 +42,8 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
  * by ObjectId.
  * </p>
  */
-public abstract class PackIndex
-		implements Iterable<PackIndex.MutableEntry>, ObjectIdSet {
+public interface PackIndex
+		extends Iterable<PackIndex.MutableEntry>, ObjectIdSet {
 	/**
 	 * Open an existing pack <code>.idx</code> file for reading.
 	 * <p>
@@ -61,7 +61,7 @@ public abstract class PackIndex
 	 *             the file exists but could not be read due to security errors,
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
-	public static PackIndex open(File idxFile) throws IOException {
+	static PackIndex open(File idxFile) throws IOException {
 		try (SilentFileInputStream fd = new SilentFileInputStream(
 				idxFile)) {
 			return read(fd);
@@ -92,7 +92,7 @@ public abstract class PackIndex
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the stream does not contain a valid pack index.
 	 */
-	public static PackIndex read(InputStream fd) throws IOException,
+	static PackIndex read(InputStream fd) throws IOException,
 			CorruptObjectException {
 		final byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
@@ -123,12 +123,12 @@ public abstract class PackIndex
 	 *            the object to look for. Must not be null.
 	 * @return true if the object is listed in this index; false otherwise.
 	 */
-	public boolean hasObject(AnyObjectId id) {
+	default boolean hasObject(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 
 	@Override
-	public boolean contains(AnyObjectId id) {
+	default boolean contains(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 
@@ -144,7 +144,7 @@ public abstract class PackIndex
 	 * </p>
 	 */
 	@Override
-	public abstract Iterator<MutableEntry> iterator();
+	Iterator<MutableEntry> iterator();
 
 	/**
 	 * Obtain the total number of objects described by this index.
@@ -152,7 +152,7 @@ public abstract class PackIndex
 	 * @return number of objects in this index, and likewise in the associated
 	 *         pack that this index was generated from.
 	 */
-	public abstract long getObjectCount();
+	long getObjectCount();
 
 	/**
 	 * Obtain the total number of objects needing 64 bit offsets.
@@ -160,7 +160,7 @@ public abstract class PackIndex
 	 * @return number of objects in this index using a 64 bit offset; that is an
 	 *         object positioned after the 2 GB position within the file.
 	 */
-	public abstract long getOffset64Count();
+	long getOffset64Count();
 
 	/**
 	 * Get ObjectId for the n-th object entry returned by {@link #iterator()}.
@@ -182,7 +182,7 @@ public abstract class PackIndex
 	 *            is 0, the second is 1, etc.
 	 * @return the ObjectId for the corresponding entry.
 	 */
-	public abstract ObjectId getObjectId(long nthPosition);
+	ObjectId getObjectId(long nthPosition);
 
 	/**
 	 * Get ObjectId for the n-th object entry returned by {@link #iterator()}.
@@ -206,7 +206,7 @@ public abstract class PackIndex
 	 *            negative, but still valid.
 	 * @return the ObjectId for the corresponding entry.
 	 */
-	public final ObjectId getObjectId(int nthPosition) {
+	default ObjectId getObjectId(int nthPosition) {
 		if (nthPosition >= 0)
 			return getObjectId((long) nthPosition);
 		final int u31 = nthPosition >>> 1;
@@ -225,7 +225,7 @@ public abstract class PackIndex
 	 *            etc. Positions past 2**31-1 are negative, but still valid.
 	 * @return the offset in a pack for the corresponding entry.
 	 */
-	protected abstract long getOffset(long nthPosition);
+	long getOffset(long nthPosition);
 
 	/**
 	 * Locate the file offset position for the requested object.
@@ -236,7 +236,7 @@ public abstract class PackIndex
 	 *         object does not exist in this index and is thus not stored in the
 	 *         associated pack.
 	 */
-	public abstract long findOffset(AnyObjectId objId);
+	long findOffset(AnyObjectId objId);
 
 	/**
 	 * Locate the position of this id in the list of object-ids in the index
@@ -247,7 +247,7 @@ public abstract class PackIndex
 	 *         of ids stored in this index; -1 if the object does not exist in
 	 *         this index and is thus not stored in the associated pack.
 	 */
-	public abstract int findPosition(AnyObjectId objId);
+	int findPosition(AnyObjectId objId);
 
 	/**
 	 * Retrieve stored CRC32 checksum of the requested object raw-data
@@ -261,7 +261,7 @@ public abstract class PackIndex
 	 * @throws java.lang.UnsupportedOperationException
 	 *             when this index doesn't support CRC32 checksum
 	 */
-	public abstract long findCRC32(AnyObjectId objId)
+	long findCRC32(AnyObjectId objId)
 			throws MissingObjectException, UnsupportedOperationException;
 
 	/**
@@ -269,7 +269,7 @@ public abstract class PackIndex
 	 *
 	 * @return true if CRC32 is stored, false otherwise
 	 */
-	public abstract boolean hasCRC32Support();
+	boolean hasCRC32Support();
 
 	/**
 	 * Find objects matching the prefix abbreviation.
@@ -285,7 +285,7 @@ public abstract class PackIndex
 	 * @throws java.io.IOException
 	 *             the index cannot be read.
 	 */
-	public abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) throws IOException;
 
 	/**
@@ -294,14 +294,14 @@ public abstract class PackIndex
 	 * @return the checksum of the pack; caller must not modify it
 	 * @since 5.5
 	 */
-	public abstract byte[] getChecksum();
+	byte[] getChecksum();
 
 	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
 	 * in pack (both mutable).
 	 *
 	 */
-	public static class MutableEntry {
+	class MutableEntry {
 		final MutableObjectId idBuffer = new MutableObjectId();
 
 		long offset;

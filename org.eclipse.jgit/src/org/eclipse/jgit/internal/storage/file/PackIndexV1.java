@@ -29,7 +29,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
-class PackIndexV1 extends PackIndex {
+class PackIndexV1 implements PackIndex {
 	private static final int IDX_HDR_LEN = 256 * 4;
 
 	private static final int RECORD_SIZE = 4 + Constants.OBJECT_ID_LENGTH;
@@ -120,7 +120,7 @@ class PackIndexV1 extends PackIndex {
 	}
 
 	@Override
-	protected long getOffset(long nthPosition) {
+	public long getOffset(long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
 		final int levelTwo = getLevelTwo(nthPosition, levelOne);
 		final int p = (4 + Constants.OBJECT_ID_LENGTH) * levelTwo;

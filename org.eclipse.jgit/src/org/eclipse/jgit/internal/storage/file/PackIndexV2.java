@@ -28,7 +28,7 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 /** Support for the pack index v2 format. */
-class PackIndexV2 extends PackIndex {
+class PackIndexV2 implements PackIndex {
 	private static final long IS_O64 = 1L << 31;
 
 	private static final int FANOUT = 256;
