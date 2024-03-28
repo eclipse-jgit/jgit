@@ -224,7 +224,7 @@ class PackIndexV2 extends PackIndex {
 
 	@Override
 	public Iterator<MutableEntry> iterator() {
-		return new EntriesIteratorV2();
+		return new EntriesIteratorV2(this);
 	}
 
 	@Override
@@ -293,6 +293,10 @@ class PackIndexV2 extends PackIndex {
 		int levelOne;
 
 		int levelTwo;
+
+		EntriesIteratorV2(PackIndex idx){
+			super(idx);
+		}
 
 		@Override
 		protected MutableEntry initEntry() {
