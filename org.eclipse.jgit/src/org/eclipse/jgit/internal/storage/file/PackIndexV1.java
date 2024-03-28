@@ -35,6 +35,8 @@ class PackIndexV1 extends PackIndex {
 	private static final int RECORD_SIZE = 4 + Constants.OBJECT_ID_LENGTH;
 
 	private final long[] idxHeader;
+	/** Footer checksum applied on the bottom of the pack file. */
+	protected byte[] packChecksum;
 
 	byte[][] idxdata;
 
@@ -236,6 +238,11 @@ class PackIndexV1 extends PackIndex {
 
 	private static int idOffset(int mid) {
 		return (RECORD_SIZE * mid) + 4;
+	}
+
+	@Override
+	public byte[] getChecksum() {
+		return packChecksum;
 	}
 
 	private class IndexV1Iterator extends EntriesIterator {

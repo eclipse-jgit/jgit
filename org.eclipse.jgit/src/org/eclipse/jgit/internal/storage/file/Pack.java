@@ -187,18 +187,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				}
 
 				if (packChecksum == null) {
-					packChecksum = idx.packChecksum;
+					packChecksum = idx.getChecksum();
 					fileSnapshot.setChecksum(
 							ObjectId.fromRaw(packChecksum));
 				} else if (!Arrays.equals(packChecksum,
-						idx.packChecksum)) {
+						idx.getChecksum())) {
 					throw new PackMismatchException(MessageFormat
 							.format(JGitText.get().packChecksumMismatch,
 									packFile.getPath(),
 									PackExt.PACK.getExtension(),
 									Hex.toHexString(packChecksum),
 									PackExt.INDEX.getExtension(),
-									Hex.toHexString(idx.packChecksum)));
+									Hex.toHexString(idx.getChecksum())));
 				}
 				loadedIdx = optionally(idx);
 				return idx;
@@ -791,7 +791,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					MessageFormat.format(JGitText.get().packChecksumMismatch,
 							getPackFile(), PackExt.PACK.getExtension(),
 							Hex.toHexString(buf), PackExt.INDEX.getExtension(),
-							Hex.toHexString(idx.packChecksum)));
+							Hex.toHexString(idx.getChecksum())));
 		}
 	}
 

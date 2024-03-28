@@ -37,6 +37,9 @@ class PackIndexV2 extends PackIndex {
 
 	private static final byte[] NO_BYTES = {};
 
+	/** Footer checksum applied on the bottom of the pack file. */
+	protected byte[] packChecksum;
+
 	private long objectCnt;
 
 	private final long[] fanoutTable;
@@ -279,6 +282,11 @@ class PackIndexV2 extends PackIndex {
 				low = mid + 1;
 		} while (low < high);
 		return -1;
+	}
+
+	@Override
+	public byte[] getChecksum() {
+		return packChecksum;
 	}
 
 	private class EntriesIteratorV2 extends EntriesIterator {
