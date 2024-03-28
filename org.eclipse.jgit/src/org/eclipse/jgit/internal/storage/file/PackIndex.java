@@ -353,8 +353,14 @@ public abstract class PackIndex
 		}
 	}
 
-	abstract class EntriesIterator implements Iterator<MutableEntry> {
+	static abstract class EntriesIterator implements Iterator<MutableEntry> {
 		protected final MutableEntry entry = initEntry();
+
+		private final long objectCount;
+
+		protected EntriesIterator(long objectCount) {
+			this.objectCount = objectCount;
+		}
 
 		protected long returnedNumber = 0;
 
@@ -362,7 +368,7 @@ public abstract class PackIndex
 
 		@Override
 		public boolean hasNext() {
-			return returnedNumber < getObjectCount();
+			return returnedNumber < objectCount;
 		}
 
 		/**
