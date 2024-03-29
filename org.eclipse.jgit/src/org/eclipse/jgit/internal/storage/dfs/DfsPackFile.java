@@ -66,7 +66,6 @@ import org.eclipse.jgit.util.LongList;
  * objects are similar.
  */
 public final class DfsPackFile extends BlockBasedFile {
-	private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
 
 	private static final long REF_POSITION = 0;
 
@@ -90,6 +89,8 @@ public final class DfsPackFile extends BlockBasedFile {
 	private boolean objectSizeIndexLoadAttempted;
 
 	private volatile PackObjectSizeIndex objectSizeIndex;
+
+	private final DfsPackFileIndexLoader indexLoader;
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -128,6 +129,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		length = sz > 0 ? sz : -1;
 
 		this.bitmapLoader = bitmapLoader;
+		this.indexLoader = new DfsPackFile.CachedStreamIndexLoader(cache, desc);
 	}
 
 	/**
@@ -175,36 +177,10 @@ public final class DfsPackFile extends BlockBasedFile {
 			return index;
 		}
 
-		if (invalid) {
-			throw new PackInvalidException(getFileName(), invalidatingCause);
-		}
-
 		Repository.getGlobalListenerList()
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
-		try {
-			DfsStreamKey idxKey = desc.getStreamKey(INDEX);
-			AtomicReference<PackIndex> loadedRef = new AtomicReference<>(null);
-			DfsBlockCache.Ref<PackIndex> cachedRef = cache.getOrLoadRef(idxKey,
-					REF_POSITION, () -> {
-						long size = loadPackIndex(ctx, loadedRef);
-						return new DfsBlockCache.Ref<>(idxKey, REF_POSITION,
-								size, loadedRef.get());
-					});
-			if (loadedRef.get() != null) {
-				// Freshly loaded ref, prefer it to the DFS key because
-				// dfs could have evicted it in the meantime
-				ctx.stats.idxCacheHit++;
-				index = loadedRef.get();
-			} else {
-				index = cachedRef.get();
-			}
-			ctx.emitIndexLoad(desc, INDEX, index);
-			return index;
-		} catch (IOException e) {
-			invalid = true;
-			invalidatingCause = e;
-			throw e;
-		}
+		index = indexLoader.index(ctx);
+		return index;
 	}
 
 	final boolean isGarbage() {
@@ -1203,30 +1179,6 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
-	private long loadPackIndex(DfsReader ctx,
-			AtomicReference<PackIndex> packIndex) throws IOException {
-		try {
-			ctx.stats.readIdx++;
-			long start = System.nanoTime();
-			try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
-				PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
-				packIndex.set(idx);
-				ctx.stats.readIdxBytes += rc.position();
-				return idx.getObjectCount() * REC_SIZE;
-			} finally {
-				ctx.stats.readIdxMicros += elapsedMicros(start);
-			}
-		} catch (EOFException e) {
-			throw new IOException(MessageFormat.format(
-					DfsText.get().shortReadOfIndex,
-					desc.getFileName(INDEX)), e);
-		} catch (IOException e) {
-			throw new IOException(MessageFormat.format(
-					DfsText.get().cannotReadIndex,
-					desc.getFileName(INDEX)), e);
-		}
-	}
-
 	private long loadReverseIdx(
 			DfsReader ctx, PackIndex idx, AtomicReference<PackReverseIndex> ridx) {
 		ctx.stats.readReverseIdx++;
@@ -1418,6 +1370,91 @@ public final class DfsPackFile extends BlockBasedFile {
 				throw new IOException(
 						MessageFormat.format(DfsText.get().cannotReadIndex,
 								desc.getFileName(BITMAP_INDEX)),
+						e);
+			}
+		}
+	}
+
+	/**
+	 * DfsPackFile invokes these methods when it doesn't have a local reference
+	 * to an index.
+	 *
+	 * Instances cannot be reused between packfiles because they can store state
+	 * (e.g. failed loads)
+	 */
+	interface DfsPackFileIndexLoader {
+		PackIndex index(DfsReader ctx) throws IOException;
+	}
+
+	private static class CachedStreamIndexLoader implements DfsPackFileIndexLoader {
+
+		private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
+
+		private final DfsBlockCache cache;
+		private final DfsPackDescription desc;
+		private boolean invalid;
+		private IOException invalidatingCause;
+		CachedStreamIndexLoader(DfsBlockCache cache, DfsPackDescription desc) {
+			this.cache = cache;
+			this.desc = desc;
+		}
+
+		@Override
+		public PackIndex index(DfsReader ctx) throws IOException {
+			if (invalid) {
+				throw new PackInvalidException(desc.getFileName(INDEX),
+						invalidatingCause);
+			}
+
+			try {
+				DfsStreamKey idxKey = desc.getStreamKey(INDEX);
+				AtomicReference<PackIndex> loadedRef = new AtomicReference<>(null);
+				DfsBlockCache.Ref<PackIndex> cachedRef = cache.getOrLoadRef(idxKey,
+						REF_POSITION, () -> {
+							long size = loadPackIndex(ctx, loadedRef);
+							return new DfsBlockCache.Ref<>(idxKey, REF_POSITION,
+									size, loadedRef.get());
+						});
+				PackIndex index;
+				if (loadedRef.get() != null) {
+					// Freshly loaded ref, prefer it to the DFS key because
+					// dfs could have evicted it in the meantime
+					ctx.stats.idxCacheHit++;
+					index = loadedRef.get();
+				} else {
+					index = cachedRef.get();
+				}
+				ctx.emitIndexLoad(desc, INDEX, index);
+				return index;
+			} catch (IOException e) {
+				invalid = true;
+				invalidatingCause = e;
+				throw e;
+			}
+		}
+
+		private long loadPackIndex(DfsReader ctx,
+				AtomicReference<PackIndex> packIndex) throws IOException {
+			try {
+				ctx.stats.readIdx++;
+				long start = System.nanoTime();
+				try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
+					PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
+					packIndex.set(idx);
+					ctx.stats.readIdxBytes += rc.position();
+					return idx.getObjectCount() * REC_SIZE;
+				} finally {
+					ctx.stats.readIdxMicros += elapsedMicros(start);
+				}
+			} catch (EOFException e) {
+				throw new IOException(
+						MessageFormat.format(DfsText.get().shortReadOfIndex,
+								desc.getFileName(INDEX)),
+						e);
+			} catch (IOException e) {
+				throw new IOException(
+						MessageFormat.format(DfsText.get().cannotReadIndex,
+								desc.getFileName(INDEX)),
 						e);
 			}
 		}
