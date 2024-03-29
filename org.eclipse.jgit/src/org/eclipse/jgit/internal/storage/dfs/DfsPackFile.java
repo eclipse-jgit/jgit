@@ -28,7 +28,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.text.MessageFormat;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -193,18 +193,20 @@ public final class DfsPackFile extends BlockBasedFile {
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
 		try {
 			DfsStreamKey idxKey = desc.getStreamKey(INDEX);
-			AtomicBoolean cacheHit = new AtomicBoolean(true);
-			DfsBlockCache.Ref<PackIndex> idxref = cache.getOrLoadRef(idxKey,
+			AtomicReference<PackIndex> loadedRef = new AtomicReference<>(null);
+			DfsBlockCache.Ref<PackIndex> cachedRef = cache.getOrLoadRef(idxKey,
 					REF_POSITION, () -> {
-						cacheHit.set(false);
-						return loadPackIndex(ctx, idxKey);
+						long size = loadPackIndex(ctx, loadedRef);
+						return new DfsBlockCache.Ref<>(idxKey, REF_POSITION,
+								size, loadedRef.get());
 					});
-			if (cacheHit.get()) {
+			if (loadedRef.get() != null) {
+				// Freshly loaded ref, prefer it to the DFS key because
+				// dfs could have evicted it in the meantime
+				index = loadedRef.get();
+			} else {
 				ctx.stats.idxCacheHit++;
-			}
-			PackIndex idx = idxref.get();
-			if (index == null && idx != null) {
-				index = idx;
+				index = cachedRef.get();
 			}
 			ctx.emitIndexLoad(desc, INDEX, index);
 			return index;
@@ -248,18 +250,19 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
-		AtomicBoolean cacheHit = new AtomicBoolean(true);
-		DfsBlockCache.Ref<PackBitmapIndex> idxref = cache
+		AtomicReference<PackBitmapIndex> loadedRef = new AtomicReference<>(
+				null);
+		DfsBlockCache.Ref<PackBitmapIndex> cachedRef = cache
 				.getOrLoadRef(bitmapKey, REF_POSITION, () -> {
-					cacheHit.set(false);
-					return loadBitmapIndex(ctx, bitmapKey);
+					long size = loadBitmapIndex(ctx, loadedRef);
+					return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION,
+							size, loadedRef.get());
 				});
-		if (cacheHit.get()) {
+		if (loadedRef.get() != null) {
+			bitmapIndex = loadedRef.get();
+		} else {
 			ctx.stats.bitmapCacheHit++;
-		}
-		PackBitmapIndex bmidx = idxref.get();
-		if (bitmapIndex == null && bmidx != null) {
-			bitmapIndex = bmidx;
+			bitmapIndex = cachedRef.get();
 		}
 		ctx.emitIndexLoad(desc, BITMAP_INDEX, bitmapIndex);
 		return bitmapIndex;
@@ -286,18 +289,18 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH);
-		AtomicBoolean cacheHit = new AtomicBoolean(true);
-		DfsBlockCache.Ref<CommitGraph> cgref = cache
+		AtomicReference<CommitGraph> loadedRef = new AtomicReference<>(null);
+		DfsBlockCache.Ref<CommitGraph> cachedRef = cache
 				.getOrLoadRef(commitGraphKey, REF_POSITION, () -> {
-					cacheHit.set(false);
-					return loadCommitGraph(ctx, commitGraphKey);
+					long size = loadCommitGraph(ctx, loadedRef);
+					return new DfsBlockCache.Ref<>(commitGraphKey, REF_POSITION,
+							size, loadedRef.get());
 				});
-		if (cacheHit.get()) {
+		if (loadedRef.get() != null) {
+			commitGraph = loadedRef.get();
+		} else {
 			ctx.stats.commitGraphCacheHit++;
-		}
-		CommitGraph cg = cgref.get();
-		if (commitGraph == null && cg != null) {
-			commitGraph = cg;
+			commitGraph = cachedRef.get();
 		}
 		ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
 		return commitGraph;
@@ -320,18 +323,19 @@ public final class DfsPackFile extends BlockBasedFile {
 
 		PackIndex idx = idx(ctx);
 		DfsStreamKey revKey = desc.getStreamKey(REVERSE_INDEX);
-		AtomicBoolean cacheHit = new AtomicBoolean(true);
-		DfsBlockCache.Ref<PackReverseIndex> revref = cache.getOrLoadRef(revKey,
-				REF_POSITION, () -> {
-					cacheHit.set(false);
-					return loadReverseIdx(ctx, revKey, idx);
+		AtomicReference<PackReverseIndex> loadedRef = new AtomicReference<>(
+				null);
+		DfsBlockCache.Ref<PackReverseIndex> cachedRef = cache
+				.getOrLoadRef(revKey, REF_POSITION, () -> {
+					long size = loadReverseIdx(ctx, idx, loadedRef);
+					return new DfsBlockCache.Ref<>(revKey, REF_POSITION, size,
+							loadedRef.get());
 				});
-		if (cacheHit.get()) {
+		if (loadedRef.get() != null) {
+			reverseIndex = loadedRef.get();
+		} else {
 			ctx.stats.ridxCacheHit++;
-		}
-		PackReverseIndex revidx = revref.get();
-		if (reverseIndex == null && revidx != null) {
-			reverseIndex = revidx;
+			reverseIndex = cachedRef.get();
 		}
 		ctx.emitIndexLoad(desc, REVERSE_INDEX, reverseIndex);
 		return reverseIndex;
@@ -350,19 +354,21 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		DfsStreamKey objSizeKey = desc.getStreamKey(OBJECT_SIZE_INDEX);
-		AtomicBoolean cacheHit = new AtomicBoolean(true);
+		AtomicReference<PackObjectSizeIndex> loadedRef = new AtomicReference<>(
+				null);
 		try {
-			DfsBlockCache.Ref<PackObjectSizeIndex> sizeIdxRef = cache
+			DfsBlockCache.Ref<PackObjectSizeIndex> cachedRef = cache
 					.getOrLoadRef(objSizeKey, REF_POSITION, () -> {
-						cacheHit.set(false);
-						return loadObjectSizeIndex(ctx, objSizeKey);
+						long size = loadObjectSizeIndex(ctx, loadedRef);
+						return new DfsBlockCache.Ref<>(objSizeKey, REF_POSITION,
+								size, loadedRef.get());
 					});
-			if (cacheHit.get()) {
+			if (loadedRef.get() != null) {
+				objectSizeIndex = loadedRef.get();
+			} else {
 				ctx.stats.objectSizeIndexCacheHit++;
-			}
-			PackObjectSizeIndex sizeIdx = sizeIdxRef.get();
-			if (objectSizeIndex == null && sizeIdx != null) {
-				objectSizeIndex = sizeIdx;
+				// Object size index is optional, this can also be null
+				objectSizeIndex = cachedRef.get();
 			}
 		} finally {
 			objectSizeIndexLoadAttempted = true;
@@ -1207,20 +1213,16 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
-	private DfsBlockCache.Ref<PackIndex> loadPackIndex(
-			DfsReader ctx, DfsStreamKey idxKey) throws IOException {
+	private long loadPackIndex(DfsReader ctx,
+			AtomicReference<PackIndex> packIndex) throws IOException {
 		try {
 			ctx.stats.readIdx++;
 			long start = System.nanoTime();
 			try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
 				PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
+				packIndex.set(idx);
 				ctx.stats.readIdxBytes += rc.position();
-				index = idx;
-				return new DfsBlockCache.Ref<>(
-						idxKey,
-						REF_POSITION,
-						idx.getObjectCount() * REC_SIZE,
-						idx);
+				return idx.getObjectCount() * REC_SIZE;
 			} finally {
 				ctx.stats.readIdxMicros += elapsedMicros(start);
 			}
@@ -1235,38 +1237,34 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
-	private DfsBlockCache.Ref<PackReverseIndex> loadReverseIdx(
-			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
+	private long loadReverseIdx(
+			DfsReader ctx, PackIndex idx, AtomicReference<PackReverseIndex> ridx) {
 		ctx.stats.readReverseIdx++;
 		long start = System.nanoTime();
 		PackReverseIndex revidx = PackReverseIndexFactory.computeFromIndex(idx);
-		reverseIndex = revidx;
+		ridx.set(revidx);
 		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
-		return new DfsBlockCache.Ref<>(
-				revKey,
-				REF_POSITION,
-				idx.getObjectCount() * 8,
-				revidx);
+		return idx.getObjectCount() * 8;
 	}
 
-	private DfsBlockCache.Ref<PackObjectSizeIndex> loadObjectSizeIndex(
-			DfsReader ctx, DfsStreamKey objectSizeIndexKey) throws IOException {
+	private long loadObjectSizeIndex(DfsReader ctx,
+			AtomicReference<PackObjectSizeIndex> loadedRef) throws IOException {
 		ctx.stats.readObjectSizeIndex++;
 		long start = System.nanoTime();
 		long size = 0;
 		Exception parsingError = null;
 		try (ReadableChannel rc = ctx.db.openFile(desc, OBJECT_SIZE_INDEX)) {
 			try {
-				objectSizeIndex = PackObjectSizeIndexLoader
-						.load(Channels.newInputStream(rc));
+				loadedRef.set(PackObjectSizeIndexLoader
+						.load(Channels.newInputStream(rc)));
 				size = rc.position();
 			} catch (IOException e) {
 				parsingError = e;
 			}
 		} catch (IOException e) {
 			// No object size index in this pack
-			return new DfsBlockCache.Ref<>(objectSizeIndexKey, REF_POSITION, 0,
-					null);
+			// Return 0 and the ref is null
+			return 0;
 		}
 
 		if (parsingError != null) {
@@ -1278,22 +1276,20 @@ public final class DfsPackFile extends BlockBasedFile {
 
 		ctx.stats.readObjectSizeIndexBytes += size;
 		ctx.stats.readObjectSizeIndexMicros += elapsedMicros(start);
-		return new DfsBlockCache.Ref<>(objectSizeIndexKey, REF_POSITION, size,
-				objectSizeIndex);
+		return size;
 	}
 
-	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
-			DfsStreamKey bitmapKey) throws IOException {
+	private long loadBitmapIndex(DfsReader ctx,
+			AtomicReference<PackBitmapIndex> loadedRef) throws IOException {
 		ctx.stats.readBitmap++;
 		PackBitmapIndexLoader.LoadResult result = bitmapLoader
 				.loadPackBitmapIndex(ctx, this);
-		bitmapIndex = result.bitmapIndex;
-		return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION,
-				result.bytesRead, result.bitmapIndex);
+		loadedRef.set(result.bitmapIndex);
+		return result.bytesRead;
 	}
 
-	private DfsBlockCache.Ref<CommitGraph> loadCommitGraph(DfsReader ctx,
-			DfsStreamKey cgkey) throws IOException {
+	private long loadCommitGraph(DfsReader ctx,
+			AtomicReference<CommitGraph> loadedRef) throws IOException {
 		ctx.stats.readCommitGraph++;
 		long start = System.nanoTime();
 		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
@@ -1306,13 +1302,13 @@ public final class DfsPackFile extends BlockBasedFile {
 			try {
 				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
 						readChangedPathFilters);
+				loadedRef.set(cg);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
 				ctx.stats.readCommitGraphMicros += elapsedMicros(start);
 			}
-			commitGraph = cg;
-			return new DfsBlockCache.Ref<>(cgkey, REF_POSITION, size, cg);
+			return size;
 		} catch (IOException e) {
 			throw new IOException(
 					MessageFormat.format(DfsText.get().cannotReadCommitGraph,
