@@ -115,7 +115,8 @@ public final class DfsPackFile extends BlockBasedFile {
 		this(cache, desc, DEFAULT_BITMAP_LOADER);
 	}
 
-	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc, PackBitmapIndexLoader bitmapLoader) {
+	public DfsPackFile(DfsBlockCache cache, DfsPackDescription desc,
+			PackBitmapIndexLoader bitmapLoader) {
 		super(cache, desc, PACK);
 
 		int bs = desc.getBlockSize(PACK);
