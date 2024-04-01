@@ -70,7 +70,10 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private static final long REF_POSITION = 0;
 
-	private static final PackBitmapIndexLoader DEFAULT_BITMAP_LOADER = new StreamPackBitmapIndexLoader();
+	/**
+	 * Loader for the default file-based {@link PackBitmapIndex} implementation.
+	 */
+	public static final PackBitmapIndexLoader DEFAULT_BITMAP_LOADER = new StreamPackBitmapIndexLoader();
 
 	/** Index mapping {@link ObjectId} to position within the pack stream. */
 	private volatile PackIndex index;
@@ -1382,12 +1385,22 @@ public final class DfsPackFile extends BlockBasedFile {
 		 * The bytes can be 0, if the implementation doesn't do any initial
 		 * loading.
 		 */
-		class LoadResult {
-			final PackBitmapIndex bitmapIndex;
+		public class LoadResult {
+			/** The loaded {@link PackBitmapIndex}. */
+			public final PackBitmapIndex bitmapIndex;
 
-			final long bytesRead;
+			/** The bytes read upon initial load (may be 0). */
+			public final long bytesRead;
 
-			LoadResult(PackBitmapIndex packBitmapIndex, long bytesRead) {
+			/**
+			 * Constructs the LoadResult.
+			 *
+			 * @param packBitmapIndex
+			 *            the loaded index.
+			 * @param bytesRead
+			 *            the bytes read upon loading.
+			 */
+			public LoadResult(PackBitmapIndex packBitmapIndex, long bytesRead) {
 				this.bitmapIndex = packBitmapIndex;
 				this.bytesRead = bytesRead;
 			}
