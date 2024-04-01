@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0555b8b_827c9e26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-04-01T23:25:45Z",
+      "side": 1,
+      "message": "This comment suggests that this code would be buggy:\n\nvar ref \u003d cache.getOrLoadRef(key, pos, () -\u003e {...});\nreturn ref.get();\n\nIs my understanding correct? How can the cache work if the refs don\u0027t hold a reference to the java object? Is every cache read suspect?",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d24dfa4_2349abe6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-04-01T23:25:45Z",
+      "side": 1,
+      "message": "Isn\u0027t this a cache miss?",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a3b40d_e50beb28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-04-01T23:25:45Z",
+      "side": 1,
+      "message": "also a cache miss (and 3 more below).",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
