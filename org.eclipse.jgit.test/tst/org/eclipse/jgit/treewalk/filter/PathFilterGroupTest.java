@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -167,6 +169,48 @@ public class PathFilterGroupTest {
 			}
 			assertTrue(findMatch);
 		}
+	}
+
+	@Test
+	public void testApplyPath_Single() {
+		String[] path = { "path1" };
+		Set<ByteBuffer> b = Arrays.stream(path)
+				.map(s -> ByteBuffer.wrap(Constants.encode(s)))
+				.collect(Collectors.toSet());
+		ChangedPathFilter cpfContainModified = ChangedPathFilter.fromPaths(b);
+
+		String[] wrongPath = { "path2" };
+		Set<ByteBuffer> b2 = Arrays.stream(wrongPath)
+				.map(s -> ByteBuffer.wrap(Constants.encode(s)))
+				.collect(Collectors.toSet());
+		ChangedPathFilter cpfWithoutPath = ChangedPathFilter.fromPaths(b2);
+
+		TreeFilter pathFilterGroup = PathFilterGroup.createFromStrings(path);
+		assertEquals(pathFilterGroup.applyPath(cpfContainModified),
+				TreeFilter.ApplyPathResult.TRUE);
+		assertEquals(pathFilterGroup.applyPath(cpfWithoutPath),
+				TreeFilter.ApplyPathResult.FALSE);
+	}
+
+	@Test
+	public void testApplyPath_Group() {
+		String[] path = { "path1", "path2" };
+		Set<ByteBuffer> b = Arrays.stream(path)
+				.map(s -> ByteBuffer.wrap(Constants.encode(s)))
+				.collect(Collectors.toSet());
+		ChangedPathFilter cpfContainModified = ChangedPathFilter.fromPaths(b);
+
+		String[] wrongPath = { "path3", "path4" };
+		Set<ByteBuffer> b2 = Arrays.stream(wrongPath)
+				.map(s -> ByteBuffer.wrap(Constants.encode(s)))
+				.collect(Collectors.toSet());
+		ChangedPathFilter cpfWithoutPath = ChangedPathFilter.fromPaths(b2);
+
+		TreeFilter pathFilterGroup = PathFilterGroup.createFromStrings(path);
+		assertEquals(pathFilterGroup.applyPath(cpfContainModified),
+				TreeFilter.ApplyPathResult.TRUE);
+		assertEquals(pathFilterGroup.applyPath(cpfWithoutPath),
+				TreeFilter.ApplyPathResult.FALSE);
 	}
 
 	@Test
