@@ -33,6 +33,7 @@ import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -309,22 +310,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		PackIndex idx = idx(ctx);
-		DfsStreamKey revKey = desc.getStreamKey(REVERSE_INDEX);
-		AtomicReference<PackReverseIndex> loadedRef = new AtomicReference<>(
-				null);
-		DfsBlockCache.Ref<PackReverseIndex> cachedRef = cache
-				.getOrLoadRef(revKey, REF_POSITION, () -> {
-					long size = loadReverseIdx(ctx, idx, loadedRef);
-					return new DfsBlockCache.Ref<>(revKey, REF_POSITION, size,
-							loadedRef.get());
-				});
-		if (loadedRef.get() != null) {
-			ctx.stats.ridxCacheHit++;
-			reverseIndex = loadedRef.get();
-		} else {
-			reverseIndex = cachedRef.get();
-		}
-		ctx.emitIndexLoad(desc, REVERSE_INDEX, reverseIndex);
+		reverseIndex = indexLoader.reverseIndex(ctx, idx);
 		return reverseIndex;
 	}
 
@@ -1200,16 +1186,6 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
-	private long loadReverseIdx(
-			DfsReader ctx, PackIndex idx, AtomicReference<PackReverseIndex> ridx) {
-		ctx.stats.readReverseIdx++;
-		long start = System.nanoTime();
-		PackReverseIndex revidx = PackReverseIndexFactory.computeFromIndex(idx);
-		ridx.set(revidx);
-		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
-		return idx.getObjectCount() * 8;
-	}
-
 	private long loadObjectSizeIndex(DfsReader ctx,
 			AtomicReference<PackObjectSizeIndex> loadedRef) throws IOException {
 		ctx.stats.readObjectSizeIndex++;
@@ -1405,6 +1381,19 @@ public final class DfsPackFile extends BlockBasedFile {
 	 */
 	interface DfsPackFileIndexLoader {
 		PackIndex index(DfsReader ctx) throws IOException;
+
+		/**
+		 * Return the reverse index for this pack
+		 *
+		 * @param ctx
+		 *            Reader to access the stored bytes of the index
+		 * @param idx
+		 *            Primary index for the pack. Optional. If needed the loader
+		 *            can also use its own {@link #index} method
+		 * @return The pack reverse of the pack
+		 * @throws IOException
+		 */
+		PackReverseIndex reverseIndex(DfsReader ctx, @Nullable PackIndex idx) throws IOException;
 	}
 
 	private static class CachedStreamIndexLoader implements DfsPackFileIndexLoader {
@@ -1465,6 +1454,41 @@ public final class DfsPackFile extends BlockBasedFile {
 								desc.getFileName(INDEX)),
 						e);
 			}
+		}
+
+		public PackReverseIndex reverseIndex(DfsReader ctx,
+				@Nullable PackIndex packIndex) throws IOException {
+			PackIndex idx = packIndex == null ? index(ctx) : packIndex;
+
+			DfsStreamKey revKey = desc.getStreamKey(REVERSE_INDEX);
+			AtomicReference<PackReverseIndex> loadedRef = new AtomicReference<>(
+					null);
+			DfsBlockCache.Ref<PackReverseIndex> cachedRef = cache
+					.getOrLoadRef(revKey, REF_POSITION, () -> {
+						long size = loadReverseIdx(ctx, idx, loadedRef);
+						return new DfsBlockCache.Ref<>(revKey, REF_POSITION,
+								size, loadedRef.get());
+					});
+			PackReverseIndex reverseIndex;
+			if (loadedRef.get() != null) {
+				ctx.stats.ridxCacheHit++;
+				reverseIndex = loadedRef.get();
+			} else {
+				reverseIndex = cachedRef.get();
+			}
+			ctx.emitIndexLoad(desc, REVERSE_INDEX, reverseIndex);
+			return reverseIndex;
+		}
+
+		private long loadReverseIdx(DfsReader ctx, PackIndex idx,
+				AtomicReference<PackReverseIndex> ridx) {
+			ctx.stats.readReverseIdx++;
+			long start = System.nanoTime();
+			PackReverseIndex revidx = PackReverseIndexFactory
+					.computeFromIndex(idx);
+			ridx.set(revidx);
+			ctx.stats.readReverseIdxMicros += elapsedMicros(start);
+			return idx.getObjectCount() * 8;
 		}
 	}
 }
