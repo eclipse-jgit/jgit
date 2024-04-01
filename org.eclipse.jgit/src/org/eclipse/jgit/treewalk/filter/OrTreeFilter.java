@@ -17,7 +17,11 @@ import java.util.Collection;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
+
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ApplyPathResult.NOT_APPLICABLE;
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ApplyPathResult.TRUE;
 
 /**
  * Includes a tree entry if any subfilters include the same tree entry.
@@ -116,6 +120,14 @@ public abstract class OrTreeFilter extends TreeFilter {
 		}
 
 		@Override
+		public ApplyPathResult applyPath(ChangedPathFilter cpf) {
+			ApplyPathResult responseA = a.applyPath(cpf);
+			ApplyPathResult responseB = b.applyPath(cpf);
+
+			return responseA.or(responseB);
+		}
+
+		@Override
 		public boolean shouldBeRecursive() {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
 		}
@@ -169,6 +181,24 @@ public abstract class OrTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		@Override
+		public ApplyPathResult applyPath(ChangedPathFilter cpf) {
+			if (subfilters.length == 0) {
+				return NOT_APPLICABLE;
+			}
+
+			ApplyPathResult result = subfilters[0].applyPath(cpf);
+			for (int i = 1; i < subfilters.length; i++) {
+				ApplyPathResult r = subfilters[i].applyPath(cpf);
+				result = result.or(r);
+				if (result == TRUE) {
+					return result;
+				}
+			}
+
+			return result;
 		}
 
 		@Override
