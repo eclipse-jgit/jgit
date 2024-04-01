@@ -271,9 +271,9 @@ public abstract class TreeFilter {
 	 * filter. Otherwise, returns empty.
 	 *
 	 * @return a set of paths, or empty
-	 *
-	 * @since 6.7
+	 * @deprecated use {@code applyPath} instead.
 	 */
+	@Deprecated(since = "6.9")
 	public Optional<Set<byte[]>> getPathsBestEffort() {
 		return Optional.empty();
 	}

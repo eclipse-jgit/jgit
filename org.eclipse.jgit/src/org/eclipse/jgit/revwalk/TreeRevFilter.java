@@ -12,8 +12,6 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.diff.DiffConfig;
@@ -134,12 +132,13 @@ public class TreeRevFilter extends RevFilter {
 			boolean changedPathFilterUsed = false;
 			boolean mustCalculateChgs = true;
 			ChangedPathFilter cpf = c.getChangedPathFilter(walker);
+			TreeFilter treeFilter = pathFilter.getFilter();
 			if (cpf != null) {
-				Optional<Set<byte[]>> paths = pathFilter.getFilter()
-						.getPathsBestEffort();
-				if (paths.isPresent()) {
+				TreeFilter.ChangedPathFilterMatch response = treeFilter
+						.applyPath(cpf);
+				if (response != TreeFilter.ChangedPathFilterMatch.NOT_APPLICABLE) {
 					changedPathFilterUsed = true;
-					if (paths.get().stream().noneMatch(cpf::maybeContains)) {
+					if (response == TreeFilter.ChangedPathFilterMatch.FALSE) {
 						mustCalculateChgs = false;
 					}
 				}
