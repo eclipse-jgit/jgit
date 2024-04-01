@@ -12,8 +12,6 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.diff.DiffConfig;
@@ -28,6 +26,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ApplyPathResult;
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ApplyPathResult.FALSE;
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ApplyPathResult.TRUE;
 
 /**
  * Filter applying a {@link org.eclipse.jgit.treewalk.filter.TreeFilter} against
@@ -134,14 +136,14 @@ public class TreeRevFilter extends RevFilter {
 			boolean changedPathFilterUsed = false;
 			boolean mustCalculateChgs = true;
 			ChangedPathFilter cpf = c.getChangedPathFilter(walker);
+			TreeFilter treeFilter = pathFilter.getFilter();
 			if (cpf != null) {
-				Optional<Set<byte[]>> paths = pathFilter.getFilter()
-						.getPathsBestEffort();
-				if (paths.isPresent()) {
+				ApplyPathResult r = treeFilter.applyPath(cpf);
+				if (r == TRUE || r == FALSE) {
 					changedPathFilterUsed = true;
-					if (paths.get().stream().noneMatch(cpf::maybeContains)) {
-						mustCalculateChgs = false;
-					}
+				}
+				if (r == FALSE) {
+					mustCalculateChgs = false;
 				}
 			}
 			if (mustCalculateChgs) {
@@ -315,9 +317,8 @@ public class TreeRevFilter extends RevFilter {
 	}
 
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,
-			RevCommit commit)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			CorruptObjectException, IOException {
+			RevCommit commit) throws MissingObjectException,
+			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		TreeWalk tw = pathFilter;
 		FollowFilter oldFilter = (FollowFilter) tw.getFilter();
 		tw.setFilter(TreeFilter.ANY_DIFF);
