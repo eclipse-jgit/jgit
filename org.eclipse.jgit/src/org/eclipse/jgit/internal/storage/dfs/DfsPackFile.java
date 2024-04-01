@@ -1382,12 +1382,22 @@ public final class DfsPackFile extends BlockBasedFile {
 		 * The bytes can be 0, if the implementation doesn't do any initial
 		 * loading.
 		 */
-		class LoadResult {
-			final PackBitmapIndex bitmapIndex;
+		public class LoadResult {
+			/** The loaded {@link PackBitmapIndex}. */
+			public final PackBitmapIndex bitmapIndex;
 
-			final long bytesRead;
+			/** The bytes read upon initial load (may be 0). */
+			public final long bytesRead;
 
-			LoadResult(PackBitmapIndex packBitmapIndex, long bytesRead) {
+			/**
+			 * Constructs the LoadResult.
+			 *
+			 * @param packBitmapIndex
+			 *            the loaded index.
+			 * @param bytesRead
+			 *            the bytes read upon loading.
+			 */
+			public LoadResult(PackBitmapIndex packBitmapIndex, long bytesRead) {
 				this.bitmapIndex = packBitmapIndex;
 				this.bytesRead = bytesRead;
 			}
