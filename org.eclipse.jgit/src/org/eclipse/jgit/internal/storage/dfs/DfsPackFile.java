@@ -276,21 +276,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			return commitGraph;
 		}
 
-		DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH);
-		AtomicReference<CommitGraph> loadedRef = new AtomicReference<>(null);
-		DfsBlockCache.Ref<CommitGraph> cachedRef = cache
-				.getOrLoadRef(commitGraphKey, REF_POSITION, () -> {
-					long size = loadCommitGraph(ctx, loadedRef);
-					return new DfsBlockCache.Ref<>(commitGraphKey, REF_POSITION,
-							size, loadedRef.get());
-				});
-		if (loadedRef.get() != null) {
-			commitGraph = loadedRef.get();
-		} else {
-			ctx.stats.commitGraphCacheHit++;
-			commitGraph = cachedRef.get();
-		}
-		ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
+		commitGraph = indexLoader.commitGraph(ctx);
 		return commitGraph;
 	}
 
@@ -1227,35 +1213,6 @@ public final class DfsPackFile extends BlockBasedFile {
 		return result.bytesRead;
 	}
 
-	private long loadCommitGraph(DfsReader ctx,
-			AtomicReference<CommitGraph> loadedRef) throws IOException {
-		ctx.stats.readCommitGraph++;
-		long start = System.nanoTime();
-		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
-		boolean readChangedPathFilters = repoConfig.getBoolean(
-				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
-		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
-			long size;
-			CommitGraph cg;
-			try {
-				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
-						readChangedPathFilters);
-				loadedRef.set(cg);
-			} finally {
-				size = rc.position();
-				ctx.stats.readCommitGraphBytes += size;
-				ctx.stats.readCommitGraphMicros += elapsedMicros(start);
-			}
-			return size;
-		} catch (IOException e) {
-			throw new IOException(
-					MessageFormat.format(DfsText.get().cannotReadCommitGraph,
-							desc.getFileName(COMMIT_GRAPH)),
-					e);
-		}
-	}
-
 	private static InputStream alignTo8kBlocks(ReadableChannel rc) {
 		// TODO(ifrade): This is not reading from DFS, so the channel should
 		// know better the right blocksize. I don't know why this was done in
@@ -1394,6 +1351,8 @@ public final class DfsPackFile extends BlockBasedFile {
 		 * @throws IOException error loading from storage or parsing content
 		 */
 		PackReverseIndex reverseIndex(DfsReader ctx, @Nullable PackIndex idx) throws IOException;
+
+		CommitGraph commitGraph(DfsReader ctx) throws IOException;
 	}
 
 	private static class CachedStreamIndexLoader implements DfsPackFileIndexLoader {
@@ -1489,6 +1448,54 @@ public final class DfsPackFile extends BlockBasedFile {
 			ridx.set(revidx);
 			ctx.stats.readReverseIdxMicros += elapsedMicros(start);
 			return idx.getObjectCount() * 8;
+		}
+
+		public CommitGraph commitGraph(DfsReader ctx) throws IOException {
+			DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH);
+			AtomicReference<CommitGraph> loadedRef = new AtomicReference<>(null);
+			DfsBlockCache.Ref<CommitGraph> cachedRef = cache
+					.getOrLoadRef(commitGraphKey, REF_POSITION, () -> {
+						long size = loadCommitGraph(ctx, loadedRef);
+						return new DfsBlockCache.Ref<>(commitGraphKey, REF_POSITION,
+								size, loadedRef.get());
+					});
+			CommitGraph commitGraph;
+			if (loadedRef.get() != null) {
+				commitGraph = loadedRef.get();
+			} else {
+				ctx.stats.commitGraphCacheHit++;
+				commitGraph = cachedRef.get();
+			}
+			ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
+			return commitGraph;
+		}
+
+		private long loadCommitGraph(DfsReader ctx,
+				AtomicReference<CommitGraph> loadedRef) throws IOException {
+			ctx.stats.readCommitGraph++;
+			long start = System.nanoTime();
+			StoredConfig repoConfig = ctx.db.getRepository().getConfig();
+			boolean readChangedPathFilters = repoConfig.getBoolean(
+					ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+					ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+			try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
+				long size;
+				CommitGraph cg;
+				try {
+					cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
+							readChangedPathFilters);
+					loadedRef.set(cg);
+				} finally {
+					size = rc.position();
+					ctx.stats.readCommitGraphBytes += size;
+					ctx.stats.readCommitGraphMicros += elapsedMicros(start);
+				}
+				return size;
+			} catch (IOException e) {
+				throw new IOException(MessageFormat.format(
+						DfsText.get().cannotReadCommitGraph,
+						desc.getFileName(COMMIT_GRAPH)), e);
+			}
 		}
 	}
 }
