@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -94,6 +95,11 @@ public class FollowFilter extends TreeFilter {
 	@Override
 	public Optional<Set<byte[]>> getPathsBestEffort() {
 		return path.getPathsBestEffort();
+	}
+
+	@Override
+	public ApplyPathResult applyPath(ChangedPathFilter cpf) {
+		return path.applyPath(cpf);
 	}
 
 	/** {@inheritDoc} */

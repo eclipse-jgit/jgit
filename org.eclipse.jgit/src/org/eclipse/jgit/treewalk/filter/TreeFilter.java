@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
@@ -77,6 +78,49 @@ public abstract class TreeFilter {
 		@Override
 		public String toString() {
 			return "ALL"; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Permissible values for {@code applyPath}.
+	 *
+	 * @since 6.10
+	 */
+	public enum ApplyPathResult {
+		/** This TreeFilter is interested in the paths modified in the entry. */
+		TRUE,
+
+		/**
+		 * This TreeFilter is not interested in the paths modified in the entry.
+		 */
+		FALSE,
+
+		/** This TreeFilter doesn't use any paths. */
+		NOT_APPLICABLE;
+
+		ApplyPathResult and(ApplyPathResult other) {
+			if (this != NOT_APPLICABLE && other != NOT_APPLICABLE) {
+				// Always return False when there are multiple path filters.
+				// Treewalk always return null because a treeHead can not have
+				// multiple paths.
+				return FALSE;
+			}
+
+			if (this == NOT_APPLICABLE) {
+				return other;
+			}
+
+			return this;
+		}
+
+		ApplyPathResult or(ApplyPathResult other) {
+			if (this == other) {
+				return this;
+			}
+
+			// Always return True if at least one Result is TRUE or
+			// NOT_APPLICABLE.
+			return TRUE;
 		}
 	}
 
@@ -210,7 +254,21 @@ public abstract class TreeFilter {
 	public abstract boolean shouldBeRecursive();
 
 	/**
-	 * If this filter checks that at least one of the paths in a set has been
+	 * Apply paths within this TreeFilter to a given
+	 * {@link org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter}.
+	 *
+	 * @param cpf
+	 *            a ChangedPathFilter containing a set of modified paths.
+	 * @return TRUE or FALSE based on the result of ChangedPathFilter,
+	 *         NOT_APPLICABLE when this TreeFilter does not have a path.
+	 * @since 6.10
+	 */
+	public ApplyPathResult applyPath(ChangedPathFilter cpf) {
+		return ApplyPathResult.NOT_APPLICABLE;
+	}
+
+	/**
+	 * If this filter checks that a specific set of paths have all been
 	 * modified, returns that set of paths to be checked against a changed path
 	 * filter. Otherwise, returns empty.
 	 *
