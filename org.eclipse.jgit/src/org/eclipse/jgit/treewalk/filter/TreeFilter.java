@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
@@ -77,6 +78,53 @@ public abstract class TreeFilter {
 		@Override
 		public String toString() {
 			return "ALL"; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Permissible values for {@code maybeMatch}. TRUE when this TreeFilter
+	 * might have a path in the provided ChangedPathFilter. FALSE when this
+	 * TreeFilter certainly do not have a path in the provided
+	 * ChangedPathFilter. NOT_APPLICABLE when this TreeFilter and its subfilters
+	 * do not have any path.
+	 *
+	 * @since 6.8
+	 */
+	public enum ChangedPathFilterMatch {
+		/** This TreeFilter is interested in the paths modified in the entry. */
+		TRUE,
+
+		/**
+		 * This TreeFilter is not interested in the paths modified in the entry.
+		 */
+		FALSE,
+
+		/** This TreeFilter doesn't contain any path. */
+		NOT_APPLICABLE;
+
+		ChangedPathFilterMatch and(ChangedPathFilterMatch other) {
+			if (this != NOT_APPLICABLE && other != NOT_APPLICABLE) {
+				// Always return Negative when there are multiple path filters.
+				// Treewalk always return null because a treeHead can not have
+				// two
+				// paths.
+				return FALSE;
+			}
+
+			// always return the other when one is NOT_APPLICABLE
+			if (this == NOT_APPLICABLE) {
+				return other;
+			}
+
+			return this;
+		}
+
+		ChangedPathFilterMatch or(ChangedPathFilterMatch other) {
+			if (this == other) {
+				return this;
+			}
+
+			return TRUE;
 		}
 	}
 
@@ -210,7 +258,21 @@ public abstract class TreeFilter {
 	public abstract boolean shouldBeRecursive();
 
 	/**
-	 * If this filter checks that at least one of the paths in a set has been
+	 * Evaluate whether TreeFilter has path within a given
+	 * {@link org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter}.
+	 *
+	 * @param cpf
+	 *            checking the paths of this TreeFilter with this input.
+	 * @return TRUE or FALSE based on the result of ChangedPathFilter,
+	 *         NOT_APPLICABLE when this TreeFilter does not have a path.
+	 * @since 6.8
+	 */
+	public ChangedPathFilterMatch maybeMatch(ChangedPathFilter cpf) {
+		return ChangedPathFilterMatch.NOT_APPLICABLE;
+	}
+
+	/**
+	 * If this filter checks that a specific set of paths have all been
 	 * modified, returns that set of paths to be checked against a changed path
 	 * filter. Otherwise, returns empty.
 	 *
