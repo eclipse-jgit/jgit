@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
@@ -94,6 +95,14 @@ public class PathFilter extends TreeFilter {
 	public Optional<Set<byte[]>> getPathsBestEffort() {
 		Set<byte[]> s = Collections.singleton(pathRaw);
 		return Optional.of(s);
+	}
+
+	@Override
+	public ChangedPathFilterResponse checkPath(ChangedPathFilter cpf) {
+		if (cpf.maybeContains(pathRaw)) {
+			return ChangedPathFilterResponse.POSITIVE;
+		}
+		return ChangedPathFilterResponse.NEGATIVE;
 	}
 
 	/** {@inheritDoc} */

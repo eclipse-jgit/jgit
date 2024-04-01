@@ -17,7 +17,11 @@ import java.util.Collection;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
+
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ChangedPathFilterResponse.NEGATIVE;
+import static org.eclipse.jgit.treewalk.filter.TreeFilter.ChangedPathFilterResponse.NO_PATH;
 
 /**
  * Includes a tree entry only if all subfilters include the same tree entry.
@@ -82,6 +86,24 @@ public abstract class AndTreeFilter extends TreeFilter {
 		return new List(subfilters);
 	}
 
+	private static ChangedPathFilterResponse solveResponse(
+			ChangedPathFilterResponse responseA,
+			ChangedPathFilterResponse responseB) {
+		if (responseA != NO_PATH && responseB != NO_PATH) {
+			// Always return Negative when there are multiple path filters.
+			// Treewalk always return null because a treeHead can not have two
+			// paths.
+			return NEGATIVE;
+		}
+
+		// always return the other when one is NO_PATH
+		if (responseA == NO_PATH) {
+			return responseB;
+		}
+
+		return responseA;
+	}
+
 	private static class Binary extends AndTreeFilter {
 		private final TreeFilter a;
 
@@ -120,6 +142,14 @@ public abstract class AndTreeFilter extends TreeFilter {
 		@Override
 		public boolean shouldBeRecursive() {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
+		}
+
+		@Override
+		public ChangedPathFilterResponse checkPath(ChangedPathFilter cpf) {
+			ChangedPathFilterResponse responseA = a.checkPath(cpf);
+			ChangedPathFilterResponse responseB = b.checkPath(cpf);
+
+			return solveResponse(responseA, responseB);
 		}
 
 		@Override
@@ -171,6 +201,21 @@ public abstract class AndTreeFilter extends TreeFilter {
 				if (f.shouldBeRecursive())
 					return true;
 			return false;
+		}
+
+		@Override
+		public ChangedPathFilterResponse checkPath(ChangedPathFilter cpf) {
+			if (subfilters.length == 0) {
+				return NO_PATH;
+			}
+
+			ChangedPathFilterResponse result = subfilters[0].checkPath(cpf);
+			for (int i = 1; i < subfilters.length; i++) {
+				ChangedPathFilterResponse r = subfilters[i].checkPath(cpf);
+				result = solveResponse(result, r);
+			}
+
+			return result;
 		}
 
 		@Override

@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
@@ -78,6 +79,22 @@ public abstract class TreeFilter {
 		public String toString() {
 			return "ALL"; //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * Permissible values for {@code checkPath}.
+	 *
+	 * @since 6.8
+	 */
+	public enum ChangedPathFilterResponse {
+		/** No path exist to match against ChangedPathFilter. */
+		NO_PATH,
+
+		/** ChangedPathFilter does not contain path. */
+		NEGATIVE,
+
+		/** ChangedPathFilter might contain path */
+		POSITIVE;
 	}
 
 	/**
@@ -210,7 +227,21 @@ public abstract class TreeFilter {
 	public abstract boolean shouldBeRecursive();
 
 	/**
-	 * If this filter checks that at least one of the paths in a set has been
+	 * Evaluate whether TreeFilter has path within a given
+	 * {@link org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter}.
+	 *
+	 * @param cpf
+	 *            the ChangedPahFilter used to check against recorded paths.
+	 * @return Positive or Negative based on the result of ChangedPathFilter,
+	 *         NO_PATH if no path available.
+	 * @since 6.8
+	 */
+	public ChangedPathFilterResponse checkPath(ChangedPathFilter cpf) {
+		return ChangedPathFilterResponse.NO_PATH;
+	}
+
+	/**
+	 * If this filter checks that a specific set of paths have all been
 	 * modified, returns that set of paths to be checked against a changed path
 	 * filter. Otherwise, returns empty.
 	 *
