@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.ByteArraySet.Hasher;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -139,6 +140,11 @@ public class PathFilterGroup {
 		}
 
 		@Override
+		public ChangedPathFilterMatch maybeMatch(ChangedPathFilter cpf) {
+			return path.maybeMatch(cpf);
+		}
+
+		@Override
 		public TreeFilter clone() {
 			return this;
 		}
@@ -240,6 +246,14 @@ public class PathFilterGroup {
 				return Optional.empty();
 			}
 			return Optional.of(result);
+		}
+
+		@Override
+		public ChangedPathFilterMatch maybeMatch(ChangedPathFilter cpf) {
+			if (fullpaths.toSet().stream().anyMatch(cpf::maybeContains)) {
+				return ChangedPathFilterMatch.TRUE;
+			}
+			return ChangedPathFilterMatch.FALSE;
 		}
 
 		@Override
