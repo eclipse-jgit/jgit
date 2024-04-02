@@ -20,6 +20,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b90e196_ace9fb6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T17:57:12Z",
+      "side": 1,
+      "message": "I",
+      "parentUuid": "a0555b8b_827c9e26",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8db022be_310673b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T17:57:12Z",
+      "side": 1,
+      "message": "IIUC it is, because the value in the Ref\u003c\u003e can be nulled in the mean time if we are unlucky with the cache load. (https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java#471)",
+      "parentUuid": "a0555b8b_827c9e26",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d24dfa4_2349abe6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 2
@@ -31,6 +67,24 @@
       "writtenOn": "2024-04-01T23:25:45Z",
       "side": 1,
       "message": "Isn\u0027t this a cache miss?",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c811538_a5c96805",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T17:57:12Z",
+      "side": 1,
+      "message": "Yep! fixed in all methods.",
+      "parentUuid": "3d24dfa4_2349abe6",
       "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -48,6 +102,24 @@
       "writtenOn": "2024-04-01T23:25:45Z",
       "side": 1,
       "message": "also a cache miss (and 3 more below).",
+      "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30704140_885c2bf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T17:57:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14a3b40d_e50beb28",
       "revId": "112705e62a59ef8b6a7a78c72a19f0238bbc3861",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
