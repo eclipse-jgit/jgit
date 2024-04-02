@@ -335,7 +335,21 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		private final int xorOffset;
 		private final int flags;
 
-		StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
+		/**
+		 * Create a StoredEntry
+		 *
+		 * @param objectId
+		 *            offset of this object into the pack index
+		 * @param bitmap
+		 *            bitmap associated with this object
+		 * @param xorOffset
+		 *            offset of the bitmap against which this bitmap is
+		 *            xor-compressed. If 0, then this bitmap is not
+		 *            xor-compressed against any other bitmap
+		 * @param flags
+		 *            flags for this bitmap
+		 */
+		public StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
 			this.objectId = objectId;
 			this.bitmap = bitmap;
