@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3f4827e_6a7f1979",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "License header",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c7dc8bf_c30beea7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "Can you simplify the test name so it is clearer what is it covering?\n\n\ne.g. checkPath_binary_onePathFilter_match()\ncheckPath_binary_onePathFilter_noMatch()\ncheckPath_binary_twoPathFilter_noMatch()\ncheckPath_binary_noPathFilters_doesNotApply()\ncheckPath_nFilters_onePathFilter_match()\ncheckPath_nFilters_twoPathFilter_noMatch()\n...",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a299dc_465f843f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "nit: create a helper method so you can do:\n\nChangedPathFilter modified \u003d asChangedPathFilter(\"path1\", \"path2\");\n\nThat will help a lot with the readability of these tests.",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab888da2_25491ac6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "Maybe call this \"modified\", so we know what this changedPathFilter represents.",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 31
+      },
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc3a28d3_a8ade83e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "License header as well",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d632ef5e_9775c77c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "You could implement this as methods in the enum, so the logic is all in one place:\n\nSomething like:\n\n\tstatic enum TriBoolean {\n\t\tTRUE,\n\t\tFALSE,\n\t\tMAYBE;\n\n\t\tTriBoolean and(TriBoolean other) {\n\t\t\t...\n\t\t}\n\n\t\tTriBoolean or(TriBoolean other) {\n\t\t\t...\n\t\t}\n\t}\n\t\nThen these methods become \"return responseA.or(responseB)\"\n\nThat seems also easier to test.",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aacce869_6ba5f5da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "PathFilterMatch {\n   TRUE, // The filter is interested in the paths modified in the entry\n   FALSE, // This filter is not interested in the paths modified in the entry\n   NOT_APPLICABLE, // This filter doesn\u0027t use paths\n}\n\n(format javadoc accordingly)\n\nI think this is easier to understand when it is formulated from the Filter point of view: \"hey filter, do you let pass this tree that modifies these paths?\"",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea97d4d1_4726ea4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "I *guess* that NO_PATH is equivalent to POSITIVE? (as the filter is letting the entry pass). If so, please mention it somewhere.\n\nSomething like \"Acts like POSITIVE but indicates no changed filter was used\" (?)",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bbe8b11_f7062edd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "IIUC this is more\n\"Determine if the filter lets pass the tree based on the modified paths.\"",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93ea4e99_f9362899",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "The paths modified in the current entry",
+      "range": {
+        "startLine": 234,
+        "startChar": 15,
+        "endLine": 234,
+        "endChar": 73
+      },
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a71f8fb_452c0e75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "What is \"no path available\"?\n\nMaybe something like: \"if the current filter lets pass the entry, based on the modified paths. NOT_APPLICABLE if the filter doesn\u0027t care about paths.",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffffb726_4f0b0666",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T22:02:09Z",
+      "side": 1,
+      "message": "matchFilterPath or matchPath (so it mirrors matchFilter)",
+      "range": {
+        "startLine": 239,
+        "startChar": 34,
+        "endLine": 239,
+        "endChar": 43
+      },
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
