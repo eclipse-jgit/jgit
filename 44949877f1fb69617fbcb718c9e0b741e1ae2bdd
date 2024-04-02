@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cf2d562_23d76218",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f4827e_6a7f1979",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c7dc8bf_c30beea7",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "774e7c3c_c9e5bebf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c7dc8bf_c30beea7",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96a299dc_465f843f",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-04-02T22:02:09Z",
       "side": 1,
       "message": "nit: create a helper method so you can do:\n\nChangedPathFilter modified \u003d asChangedPathFilter(\"path1\", \"path2\");\n\nThat will help a lot with the readability of these tests.",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e467051f_18c9df95",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a299dc_465f843f",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -75,6 +129,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec2f022d_e4cc6802",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab888da2_25491ac6",
+      "range": {
+        "startLine": 22,
+        "startChar": 20,
+        "endLine": 22,
+        "endChar": 31
+      },
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc3a28d3_a8ade83e",
@@ -88,6 +166,24 @@
       "writtenOn": "2024-04-02T22:02:09Z",
       "side": 1,
       "message": "License header as well",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38125b94_aca5babf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc3a28d3_a8ade83e",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -109,6 +205,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12d297d6_df13f4a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d632ef5e_9775c77c",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aacce869_6ba5f5da",
@@ -122,6 +236,24 @@
       "writtenOn": "2024-04-02T22:02:09Z",
       "side": 1,
       "message": "PathFilterMatch {\n   TRUE, // The filter is interested in the paths modified in the entry\n   FALSE, // This filter is not interested in the paths modified in the entry\n   NOT_APPLICABLE, // This filter doesn\u0027t use paths\n}\n\n(format javadoc accordingly)\n\nI think this is easier to understand when it is formulated from the Filter point of view: \"hey filter, do you let pass this tree that modifies these paths?\"",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d4a1a6c_041b235c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aacce869_6ba5f5da",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -143,6 +275,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "895a1579_ab39d61a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "let\u0027s not entangle the logic of TreeRevFilter into the TreeFilter class. \n\nHow the caller (in this case, TreeRevFilter) interact with these values should be in its class.",
+      "parentUuid": "ea97d4d1_4726ea4e",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bbe8b11_f7062edd",
@@ -156,6 +306,24 @@
       "writtenOn": "2024-04-02T22:02:09Z",
       "side": 1,
       "message": "IIUC this is more\n\"Determine if the filter lets pass the tree based on the modified paths.\"",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "761cb7ac_9a161b4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "`lets pass the tree` is a TreeRevFilter logic, the TreeFilter in this case doesn\u0027t need to know that. Its job is only to inform the caller whether it has a path in the given ChangedPathFilter.",
+      "parentUuid": "6bbe8b11_f7062edd",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -183,6 +351,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18dd5aec_b988b336",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "not sure if i understand the term \"entry\" here. \n\nin the context of TreeFilter, it just know that it\u0027s been given a ChangedPathFilter and it has to determine whether it has path \"potentially\" in it.",
+      "parentUuid": "93ea4e99_f9362899",
+      "range": {
+        "startLine": 234,
+        "startChar": 15,
+        "endLine": 234,
+        "endChar": 73
+      },
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a71f8fb_452c0e75",
@@ -196,6 +388,24 @@
       "writtenOn": "2024-04-02T22:02:09Z",
       "side": 1,
       "message": "What is \"no path available\"?\n\nMaybe something like: \"if the current filter lets pass the entry, based on the modified paths. NOT_APPLICABLE if the filter doesn\u0027t care about paths.",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c2a563b_9ea2ec06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T23:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a71f8fb_452c0e75",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
