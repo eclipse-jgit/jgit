@@ -221,6 +221,30 @@
       },
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "178c85db_a32dcbca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-02T22:32:32Z",
+      "side": 1,
+      "message": "\"match\" is not a right word here since bloom filter is based on probability, i.e. the bits active for a path doesn\u0027t necessarily mean bloom filter recorded the exact path, other paths could\u0027ve just taken those bits. \n\nimo, the naming should be \"maybeContainPath\".",
+      "parentUuid": "ffffb726_4f0b0666",
+      "range": {
+        "startLine": 239,
+        "startChar": 34,
+        "endLine": 239,
+        "endChar": 43
+      },
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
