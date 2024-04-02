@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25aef727_97bdc4b5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T17:13:32Z",
+      "side": 1,
+      "message": "If this is a helper method that translates StoredEntries (xored) into StoredEntries (non-xored) I would expect a simpler test:\n\nIn rough pseudocode:\n\nbitmapBase \u003d ...\nbitmapOne \u003d ...\nbitmapTwo \u003d ...\n\nentries \u003d List.of(storedEntry(bitmapBase), storedEntry(bitmapOne.xor(base), 0), storedEntry(bitmapTwo.xor(bitmapOne), 1))\nactual \u003d getEwahWcompressedBitmapStream(entries);\n\nassert first actual is bitmapBase\nassert second actual kis bitmapOne\nassert third actual is bitmapTwo",
+      "revId": "fc9b538c81545b13837e6e111f9df44e16e89d03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8cdcdbe_bcbd7b61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-02T17:13:32Z",
+      "side": 1,
+      "message": "IIUC this method is just a helper, it doesn\u0027t use anything of the surrounding class. If so, does it really belong here? Could it be moved, e.g. to wherever the un-XORing is needed?",
+      "revId": "fc9b538c81545b13837e6e111f9df44e16e89d03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
