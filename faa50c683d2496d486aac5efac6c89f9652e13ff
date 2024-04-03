@@ -46,6 +46,30 @@
       },
       "revId": "faa50c683d2496d486aac5efac6c89f9652e13ff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e327483_ee554c1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-04-03T18:04:51Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t this the reason why `trustFolderStat` exists?\n\nNot quite. That config is specific to if you can trust the file attributes to be up to date. I would not expect it to change the behavior for stale file handles.\n\n\u003e When you can\u0027t trust the FS stats, then the `File.exists()` should not be used.\n\nI think I agree with this (and that aligns to the overall intent of this change, which I also agree with). My concern here is specifically the change in behavior for stale file handles.\n\n\u003e Shouldn\u0027t the `trustFolderStat` be always set to `false` on NFS?\n\nAn admin could accept some outdated file attributes on NFS in return for improved performance, for example on Gerrit replica sites. That shouldn\u0027t also subject them to increased failures due to stale file handles.",
+      "parentUuid": "b55c9f54_421e90c1",
+      "range": {
+        "startLine": 170,
+        "startChar": 26,
+        "endLine": 170,
+        "endChar": 40
+      },
+      "revId": "faa50c683d2496d486aac5efac6c89f9652e13ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
