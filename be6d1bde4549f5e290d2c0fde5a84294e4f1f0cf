@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8992e6_de06068b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-03T20:24:20Z",
+      "side": 1,
+      "message": "update it to apply.",
+      "revId": "be6d1bde4549f5e290d2c0fde5a84294e4f1f0cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
