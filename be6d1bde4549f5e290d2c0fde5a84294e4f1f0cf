@@ -16,6 +16,24 @@
       "message": "update it to apply.",
       "revId": "be6d1bde4549f5e290d2c0fde5a84294e4f1f0cf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d19bd6dc_aca69b15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-03T20:52:05Z",
+      "side": 1,
+      "message": "changed to applyPath",
+      "parentUuid": "7e8992e6_de06068b",
+      "revId": "be6d1bde4549f5e290d2c0fde5a84294e4f1f0cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
