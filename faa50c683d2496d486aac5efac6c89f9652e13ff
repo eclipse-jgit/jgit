@@ -22,6 +22,30 @@
       },
       "revId": "faa50c683d2496d486aac5efac6c89f9652e13ff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b55c9f54_421e90c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1021811
+      },
+      "writtenOn": "2024-04-03T17:57:34Z",
+      "side": 1,
+      "message": "Isn\u0027t this the reason why `trustFolderStat` exists? When you can\u0027t trust the FS stats, then the `File.exists()` should not be used. Shouldn\u0027t the `trustFolderStat` be always set to `false` on NFS?",
+      "parentUuid": "d9fd45b5_ee6b14f6",
+      "range": {
+        "startLine": 170,
+        "startChar": 26,
+        "endLine": 170,
+        "endChar": 40
+      },
+      "revId": "faa50c683d2496d486aac5efac6c89f9652e13ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
