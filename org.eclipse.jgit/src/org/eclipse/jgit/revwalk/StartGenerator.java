@@ -98,6 +98,11 @@ class StartGenerator extends Generator {
 		} else {
 			pending = RevWalk.newDateRevQueue(q);
 		}
+
+		if (rf instanceof TreeRevFilter && w.getRewriteParents()) {
+			pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
+		}
+
 		if (tf != TreeFilter.ALL) {
 			if (w.getRewriteParents()) {
 				pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
