@@ -69,7 +69,7 @@ public class TreeRevFilter extends RevFilter {
 	 * @since 3.5
 	 */
 	public TreeRevFilter(RevWalk walker, TreeFilter t) {
-		this(walker, t, 0);
+		this(walker, t, walker.getRewriteParents() ? RevWalk.REWRITE : 0);
 	}
 
 	/**
