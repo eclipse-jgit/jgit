@@ -16,6 +16,217 @@
       "message": "re-trigger license-check",
       "revId": "3abf2bb3273b61937e975cb29289961976726c57",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00058dd9_3588c962",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/AndTreeFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "I think it is LLC nowadays, this is the older header, not sure you need the \"and others.\" when the code is written from scratch.",
+      "range": {
+        "startLine": 2,
+        "startChar": 29,
+        "endLine": 2,
+        "endChar": 32
+      },
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c4ca73_f1bd8cbd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 29,
+        "endLine": 2,
+        "endChar": 32
+      },
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66404055_93d372d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/AndTreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "Shortcut here is the result is FALSE (as it cannot become true)",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc429c8_dc57e2d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "I think you can shortcut here if result is TRUE",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3203d08f_b4bbaf3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "No need to repeat this when you have the javadoc per entry",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e17d3c_4a61be1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "Next release is 6.9",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6232e3_a5355d6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "A treefilter is not a \"path container\". Some filters use paths to decide the entries that pass.\n\nMaybe \"This treeFilter doesn\u0027t use paths\", or \"doesn\u0027t check paths\"",
+      "range": {
+        "startLine": 102,
+        "startChar": 30,
+        "endLine": 102,
+        "endChar": 37
+      },
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45fbd0df_f653a6f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "false, \"Negative\" was the old enum name",
+      "range": {
+        "startLine": 107,
+        "startChar": 21,
+        "endLine": 107,
+        "endChar": 29
+      },
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8025967f_a0bd05ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "Format on this line",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc0f318_102429b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "This comment is the same than the code, please delete.",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91266763_ab0bf778",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "But what is \"this input\"? You could mention \"set of paths modified in the commit\"",
+      "revId": "3abf2bb3273b61937e975cb29289961976726c57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

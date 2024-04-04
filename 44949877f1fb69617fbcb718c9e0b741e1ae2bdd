@@ -260,6 +260,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e077636_ac6fd23f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "If you don\u0027t follow the suggestion, do not mark it as done, leave it open to confirm it is ok.\n\nI still vote for PathMatch, but will leave Minh the last word on the naming.",
+      "parentUuid": "8d4a1a6c_041b235c",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea97d4d1_4726ea4e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
         "patchSetId": 2
@@ -406,6 +424,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "6a71f8fb_452c0e75",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e85ed899_0212d5c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T17:33:11Z",
+      "side": 1,
+      "message": "6.9",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
