@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f664517_f6987ade",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-04T21:30:26Z",
+      "side": 1,
+      "message": "This is not a noop. This can enable history rewriting in unexpected cases. We already had an OMG about it.\n\nIn the current code, setting a TreeRevFilter *never* enables history rewritting. Regardless of what the walk says. History rewriting is only on when setting TreeFilters AND saying so in the revwalk.",
+      "revId": "9a7adc42be7da4a1f67e5dc875c53c43083bb22d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
