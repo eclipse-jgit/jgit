@@ -278,6 +278,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eebb742f_332642ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-04T18:59:18Z",
+      "side": 1,
+      "message": "I think you intended to comment on the API signature not this line? This line is for setting the enum. \n\nWe can not call it \"match\" because the concept of bloom filter does not guarantee \"match\", it only guarantee \"not match\"; aka it can only say \"what is definitely not in this filter.\"\n\nthe term \"apply\" is better because it does not infer the idea of \"a path is definitely in the bloom filter\", unlike the term \"match\".",
+      "parentUuid": "7e077636_ac6fd23f",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea97d4d1_4726ea4e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
         "patchSetId": 2
@@ -441,6 +459,24 @@
       "writtenOn": "2024-04-04T17:33:11Z",
       "side": 1,
       "message": "6.9",
+      "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bdaf594_06ea5f42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-04T18:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e85ed899_0212d5c7",
       "revId": "44949877f1fb69617fbcb718c9e0b741e1ae2bdd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
