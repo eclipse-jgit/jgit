@@ -16,6 +16,24 @@
       "message": "This is not a noop. This can enable history rewriting in unexpected cases. We already had an OMG about it.\n\nIn the current code, setting a TreeRevFilter *never* enables history rewritting. Regardless of what the walk says. History rewriting is only on when setting TreeFilters AND saying so in the revwalk.",
       "revId": "9a7adc42be7da4a1f67e5dc875c53c43083bb22d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad876fd0_ac1ae9d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-04T22:01:57Z",
+      "side": 1,
+      "message": "OMG was caused by allowing any non default RevFilter to turn on RewriteGenerator. This patch does not allow that. It merely allows the TreeRevFilter to get the rewrite value straight from Revwalk, which the startGenerator is already doing by proxy. \n\nLetting the TreeRevFilter to directly depend on Revwalk, we can then just set Revwalk\u0027s rewrite flag without having worry about setting TreeRevFilter\u0027s rewrite flag.",
+      "parentUuid": "9f664517_f6987ade",
+      "revId": "9a7adc42be7da4a1f67e5dc875c53c43083bb22d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
