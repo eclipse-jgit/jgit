@@ -51,6 +51,24 @@
       "parentUuid": "96ab4c32_60dc676b",
       "revId": "5bbe2c9c8ddaa932d0e1a90b6ef254254e9bb367",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cda4f3e4_aa754266",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-05T18:24:51Z",
+      "side": 1,
+      "message": "https://projects.eclipse.org/projects/technology.jgit/governance\n\n6.9 was released on March 13, 2024.\n\nshouldn\u0027t the next version be 6.10?",
+      "parentUuid": "2a338859_e5b5e14a",
+      "revId": "5bbe2c9c8ddaa932d0e1a90b6ef254254e9bb367",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
