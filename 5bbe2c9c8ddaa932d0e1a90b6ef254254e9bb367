@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ee0a4b_c0d0e853",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-05T15:45:48Z",
+      "side": 1,
+      "message": "nit, this looks ready.",
+      "revId": "5bbe2c9c8ddaa932d0e1a90b6ef254254e9bb367",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96ab4c32_60dc676b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-05T15:45:48Z",
+      "side": 1,
+      "message": "6.9",
+      "revId": "5bbe2c9c8ddaa932d0e1a90b6ef254254e9bb367",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
