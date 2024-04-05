@@ -119,7 +119,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @see RewriteGenerator
 	 */
-	static final int REWRITE = 1 << 3;
+	public static final int REWRITE = 1 << 3;
 
 	/**
 	 * Temporary mark for use within generators or filters.
@@ -156,7 +156,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @see TreeRevFilter
 	 * @see RewriteGenerator
 	 */
-	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
+	public static final int TREE_REV_FILTER_APPLIED = 1 << 7;
 
 	/**
 	 * Number of flag bits we keep internal for our own use. See above flags.
@@ -808,7 +808,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		rewriteParents = rewrite;
 	}
 
-	boolean getRewriteParents() {
+	/**
+	 * test
+	 * @return boolean
+	 */
+	public boolean getRewriteParents() {
 		return rewriteParents;
 	}
 

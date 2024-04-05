@@ -25,7 +25,12 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	static final int PARSED = 1;
 
-	int flags;
+	/**
+	 * Get Git object type. See {@link org.eclipse.jgit.lib.Constants}.
+	 *
+	 * object type
+	 */
+	public int flags;
 
 	RevObject(AnyObjectId name) {
 		super(name);

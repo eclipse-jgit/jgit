@@ -189,7 +189,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 	}
 
 	@Test
-	public void testNonTreeRevFilter_WithRewrite_parentsUnchanged()
+	public void testNonTreeRevFilter_WithRewrite_parentsChanged()
 			throws Exception {
 		RevCommit a = commit(tree(file("d/f", blob("a"))));
 		RevCommit a_2 = commit(tree(file("d/f", blob("b"))));
@@ -211,16 +211,12 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 
 		RevCommit firstOutput = rw.next();
 		assertCommit(i, firstOutput);
-		assertEquals(2, firstOutput.getParentCount());
-		assertCommit(h, firstOutput.getParent(0));
-		assertCommit(h_2, firstOutput.getParent(1));
+		assertEquals(1, firstOutput.getParentCount());
+		assertCommit(b, firstOutput.getParent(0));
 
-		// h..c was skipped
 		RevCommit secondOutput = rw.next();
 		assertCommit(b, secondOutput);
-		assertEquals(2, secondOutput.getParentCount());
-		assertCommit(a, secondOutput.getParent(0));
-		assertCommit(a_2, secondOutput.getParent(1));
+		assertEquals(0, secondOutput.getParentCount());
 
 		// a and a_2 were skipped
 		assertNull(rw.next());

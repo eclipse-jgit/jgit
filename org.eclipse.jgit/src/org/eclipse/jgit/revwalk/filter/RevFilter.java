@@ -68,6 +68,8 @@ public abstract class RevFilter {
 	/** Default filter that always returns true (thread safe). */
 	public static final RevFilter ALL = new AllFilter();
 
+	private static final int FILTER_APPLIED = RevWalk.TREE_REV_FILTER_APPLIED;
+
 	private static final class AllFilter extends RevFilter {
 		@Override
 		public boolean include(RevWalk walker, RevCommit c) {
@@ -126,8 +128,13 @@ public abstract class RevFilter {
 	private static final class OnlyMergesFilter extends RevFilter {
 
 		@Override
-		public boolean include(RevWalk walker, RevCommit c) {
-			return c.getParentCount() >= 2;
+		public boolean include(RevWalk walker, RevCommit c) throws IOException {
+			c.flags |= FILTER_APPLIED;
+			if (c.getParentCount() < 2) {
+				c.flags |= walker.getRewriteParents() ? RevWalk.REWRITE : 0;
+				return false;
+			}
+			return true;
 		}
 
 		@Override
