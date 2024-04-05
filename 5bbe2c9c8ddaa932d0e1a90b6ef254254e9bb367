@@ -69,6 +69,24 @@
       "parentUuid": "2a338859_e5b5e14a",
       "revId": "5bbe2c9c8ddaa932d0e1a90b6ef254254e9bb367",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa2c8ea4_e74f75fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-05T21:54:52Z",
+      "side": 1,
+      "message": "Yes, thanks! Please update the @since tags.\n\nI was checking the outdated https://wiki.eclipse.org/JGit/New_and_Noteworthy",
+      "parentUuid": "cda4f3e4_aa754266",
+      "revId": "5bbe2c9c8ddaa932d0e1a90b6ef254254e9bb367",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
