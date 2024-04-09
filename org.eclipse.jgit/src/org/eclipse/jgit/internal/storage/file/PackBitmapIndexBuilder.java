@@ -330,16 +330,20 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
-		private final long objectId;
+		private final long namePositionOffset;
+
 		private final EWAHCompressedBitmap bitmap;
+
 		private final int xorOffset;
+
 		private final int flags;
 
 		/**
 		 * Create a StoredEntry
 		 *
-		 * @param objectId
-		 *            offset of this object into the pack index
+		 * @param namePositionOffset
+		 *            offset of this object that it would have in a list of the
+		 *            ObjectIds in the pack sorted lexicographically.
 		 * @param bitmap
 		 *            bitmap associated with this object
 		 * @param xorOffset
@@ -349,9 +353,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 * @param flags
 		 *            flags for this bitmap
 		 */
-		public StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
+		public StoredEntry(long namePositionOffset, EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
-			this.objectId = objectId;
+			this.namePositionOffset = namePositionOffset;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
 			this.flags = flags;
@@ -385,12 +389,24 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 
 		/**
-		 * Get the ObjectId
+		 * Deprecated. This method is mis-named. It does not return an ObjectId.
 		 *
-		 * @return the ObjectId
+		 * Returns the offset of the object that it would have in a list of the
+		 * ObjectIds in the pack sorted lexicographically.
+		 *
+		 * @return the lexicographic offset of the object
 		 */
+		@Deprecated
 		public long getObjectId() {
-			return objectId;
+			return getNamePositionOffset();
+		}
+
+		/**
+		 * @return the offset of this object into the list of objects in the
+		 *         pack ordered lexicographically by object id
+		 */
+		public long getNamePositionOffset() {
+			return namePositionOffset;
 		}
 	}
 
