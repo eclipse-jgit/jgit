@@ -115,7 +115,7 @@ public class PackBitmapIndexWriterV1 implements PackBitmapIndexWriter {
 
 	private void writeBitmapEntry(StoredEntry entry) throws IOException {
 		// Write object, XOR offset, and bitmap
-		dataOutput.writeInt((int) entry.getObjectId());
+		dataOutput.writeInt((int) entry.getObjectIdOffset());
 		out.write(entry.getXorOffset());
 		out.write(entry.getFlags());
 		writeBitmap(entry.getBitmap());
