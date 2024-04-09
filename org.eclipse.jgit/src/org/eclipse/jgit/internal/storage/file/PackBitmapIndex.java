@@ -154,7 +154,9 @@ public interface PackBitmapIndex {
 	 * Get the object at the bitmap position.
 	 *
 	 * @param position
-	 *            the id for which the object will be found.
+	 *            the offset in the bitmap which corresponds to an object of
+	 *            interest. This position is the same as the order of the object
+	 *            in the {@link PackFile}.
 	 * @return the ObjectId.
 	 * @throws java.lang.IllegalArgumentException
 	 *             when the item is not found.
