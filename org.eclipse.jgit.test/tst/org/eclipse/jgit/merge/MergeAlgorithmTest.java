@@ -162,6 +162,19 @@ public class MergeAlgorithmTest {
 				merge("abz}z}z123q", "Abz}z123Q", "abz}z123q", true));
 	}
 
+	@Test
+	public void testInsertionAfterDeletion() throws IOException {
+		assertEquals(t("a<=bc>d"), merge("abd", "ad", "abcd", false));
+		assertEquals(t("a<|b=bc>d"),
+				merge("abd", "ad", "abcd", true));
+	}
+
+	@Test
+	public void testInsertionBeforeDeletion() throws IOException {
+		assertEquals(t("a<=cb>d"), merge("abd", "ad", "acbd", false));
+		assertEquals(t("a<|b=cb>d"), merge("abd", "ad", "acbd", true));
+	}
+
 	/**
 	 * Test a conflicting region at the very start of the text.
 	 *
