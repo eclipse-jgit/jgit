@@ -29,6 +29,7 @@ import java.nio.channels.Channels;
 import java.text.MessageFormat;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -196,18 +197,23 @@ public final class DfsPackFile extends BlockBasedFile {
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
 		try {
 			DfsStreamKey idxKey = desc.getStreamKey(INDEX);
-			AtomicBoolean cacheHit = new AtomicBoolean(true);
-			DfsBlockCache.Ref<PackIndex> idxref = cache.getOrLoadRef(idxKey,
+			// Save the loaded reference, in case DFS evicts the key
+			// before it is set locally
+			AtomicReference<PackIndex> loadedRef = new AtomicReference<>(null);
+			DfsBlockCache.Ref<PackIndex> cachedRef = cache.getOrLoadRef(idxKey,
 					REF_POSITION, () -> {
-						cacheHit.set(false);
-						return loadPackIndex(ctx, idxKey);
+						RefWithSize<PackIndex> idx = loadPackIndex(ctx);
+						loadedRef.set(idx.ref);
+						return new DfsBlockCache.Ref<>(idxKey, REF_POSITION,
+								idx.size, idx.ref);
 					});
-			if (cacheHit.get()) {
+			if (loadedRef.get() == null) {
 				ctx.stats.idxCacheHit++;
 			}
-			PackIndex idx = idxref.get();
-			if (index == null && idx != null) {
-				index = idx;
+			index = cachedRef.get() != null ? cachedRef.get() : loadedRef.get();
+			if (index == null) {
+				throw new IOException(
+						"Couldn't get a reference to the primary index"); //$NON-NLS-1$
 			}
 			ctx.emitIndexLoad(desc, INDEX, index);
 			return index;
@@ -1210,20 +1216,15 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
-	private DfsBlockCache.Ref<PackIndex> loadPackIndex(
-			DfsReader ctx, DfsStreamKey idxKey) throws IOException {
+	private RefWithSize<PackIndex> loadPackIndex(DfsReader ctx)
+			throws IOException {
 		try {
 			ctx.stats.readIdx++;
 			long start = System.nanoTime();
 			try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
 				PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
 				ctx.stats.readIdxBytes += rc.position();
-				index = idx;
-				return new DfsBlockCache.Ref<>(
-						idxKey,
-						REF_POSITION,
-						idx.getObjectCount() * REC_SIZE,
-						idx);
+				return new RefWithSize<>(idx, idx.getObjectCount() * REC_SIZE);
 			} finally {
 				ctx.stats.readIdxMicros += elapsedMicros(start);
 			}
@@ -1447,6 +1448,15 @@ public final class DfsPackFile extends BlockBasedFile {
 								desc.getFileName(BITMAP_INDEX)),
 						e);
 			}
+		}
+	}
+
+	private static final class RefWithSize<V> {
+		final V ref;
+		final long size;
+		RefWithSize(V ref, long size) {
+			this.ref = ref;
+			this.size = size;
 		}
 	}
 }
