@@ -223,6 +223,18 @@ public abstract class RevFilter {
 	}
 
 	/**
+	 * Whether the filter supports parent rewriting with
+	 * @code{org.eclipse.jgit.revwalk.RewriteGenerator}
+	 *
+	 * @return true if the filter supports parent rewrite
+	 *
+	 * @since 6.10
+	 */
+	public boolean supportParentRewrite() {
+		return false;
+	}
+
+	/**
 	 * Determine if the supplied commit should be included in results.
 	 *
 	 * @param walker
