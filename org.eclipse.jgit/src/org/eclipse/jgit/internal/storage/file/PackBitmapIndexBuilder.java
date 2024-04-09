@@ -239,8 +239,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	}
 
 	@Override
-	public ObjectId getObject(int position) throws IllegalArgumentException {
-		ObjectId objectId = byOffset.get(position);
+	public ObjectId getObject(int packIdxOffset)
+			throws IllegalArgumentException {
+		ObjectId objectId = byOffset.get(packIdxOffset);
 		if (objectId == null)
 			throw new IllegalArgumentException();
 		return objectId;
@@ -330,7 +331,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
-		private final long objectId;
+		private final int packIdxOffset;
 		private final EWAHCompressedBitmap bitmap;
 		private final int xorOffset;
 		private final int flags;
@@ -338,7 +339,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		/**
 		 * Create a StoredEntry
 		 *
-		 * @param objectId
+		 * @param packIdxOffset
 		 *            offset of this object into the pack index
 		 * @param bitmap
 		 *            bitmap associated with this object
@@ -349,9 +350,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 * @param flags
 		 *            flags for this bitmap
 		 */
-		public StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
+		public StoredEntry(int packIdxOffset, EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
-			this.objectId = objectId;
+			this.packIdxOffset = packIdxOffset;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
 			this.flags = flags;
@@ -385,12 +386,10 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 
 		/**
-		 * Get the ObjectId
-		 *
-		 * @return the ObjectId
+		 * @return the offset of this object into the pack index
 		 */
-		public long getObjectId() {
-			return objectId;
+		public long getPackIdxOffset() {
+			return packIdxOffset;
 		}
 	}
 
