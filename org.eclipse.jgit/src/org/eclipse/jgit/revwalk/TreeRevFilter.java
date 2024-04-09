@@ -52,12 +52,6 @@ public class TreeRevFilter extends RevFilter {
 
 	private final TreeWalk pathFilter;
 
-	private long changedPathFilterTruePositive = 0;
-
-	private long changedPathFilterFalsePositive = 0;
-
-	private long changedPathFilterNegative = 0;
-
 	/**
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
 	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
@@ -157,14 +151,17 @@ public class TreeRevFilter extends RevFilter {
 				}
 				if (changedPathFilterUsed) {
 					if (chgs > 0) {
-						changedPathFilterTruePositive++;
+						walker.getRevFilterStats()
+								.incrementChangedPathFilterTruePositive();
 					} else {
-						changedPathFilterFalsePositive++;
+						walker.getRevFilterStats()
+								.incrementChangedPathFilterFalsePositive();
 					}
 				}
 			} else {
 				if (changedPathFilterUsed) {
-					changedPathFilterNegative++;
+					walker.getRevFilterStats()
+							.incrementChangedPathFilterNegative();
 				}
 			}
 
@@ -280,40 +277,6 @@ public class TreeRevFilter extends RevFilter {
 	@Override
 	public boolean requiresCommitBody() {
 		return false;
-	}
-
-	/**
-	 * Return how many times a changed path filter correctly predicted that a
-	 * path was changed in a commit, for statistics gathering purposes.
-	 *
-	 * @return count of true positives
-	 * @since 6.7
-	 */
-	public long getChangedPathFilterTruePositive() {
-		return changedPathFilterTruePositive;
-	}
-
-	/**
-	 * Return how many times a changed path filter wrongly predicted that a path
-	 * was changed in a commit, for statistics gathering purposes.
-	 *
-	 * @return count of false positives
-	 * @since 6.7
-	 */
-	public long getChangedPathFilterFalsePositive() {
-		return changedPathFilterFalsePositive;
-	}
-
-	/**
-	 * Return how many times a changed path filter predicted that a path was not
-	 * changed in a commit (allowing that commit to be skipped), for statistics
-	 * gathering purposes.
-	 *
-	 * @return count of negatives
-	 * @since 6.7
-	 */
-	public long getChangedPathFilterNegative() {
-		return changedPathFilterNegative;
 	}
 
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,
