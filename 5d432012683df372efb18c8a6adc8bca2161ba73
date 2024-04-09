@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf49220d_36a07bdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-04-09T22:18:32Z",
+      "side": 1,
+      "message": "Is atomic needed here if loadedRef is only (optionally) set by a single thread inside getOrLoadRef()?",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 204,
+        "endChar": 29
+      },
+      "revId": "5d432012683df372efb18c8a6adc8bca2161ba73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d5653ca_fff89d37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-04-09T22:18:32Z",
+      "side": 1,
+      "message": "without the lock, index might be assigned twice, that is not harmful right?",
+      "range": {
+        "startLine": 215,
+        "startChar": 3,
+        "endLine": 220,
+        "endChar": 4
+      },
+      "revId": "5d432012683df372efb18c8a6adc8bca2161ba73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64160dcb_e91df541",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-04-09T22:18:32Z",
+      "side": 1,
+      "message": "index can still be null here, if getOrLoadRef() is the cache hit so loadedRef is null and the item is evicted before cachedRef.get() is invoked in line 217.",
+      "range": {
+        "startLine": 222,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 15
+      },
+      "revId": "5d432012683df372efb18c8a6adc8bca2161ba73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bde4ced0_569f9ef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1457,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-04-09T22:18:32Z",
+      "side": 1,
+      "message": "RefWithSize? (Ref is from DfsBlockCache.Ref)\notherwise CacheItemWithSize",
+      "range": {
+        "startLine": 1457,
+        "startChar": 28,
+        "endLine": 1457,
+        "endChar": 36
+      },
+      "revId": "5d432012683df372efb18c8a6adc8bca2161ba73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
