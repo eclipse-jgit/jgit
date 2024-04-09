@@ -201,7 +201,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private boolean firstParent;
 
+	private RevFilterStats revFilterStats;
+
 	boolean shallowCommitsInitialized;
+
 
 	private enum GetMergedIntoStrategy {
 		RETURN_ON_FIRST_FOUND, RETURN_ON_FIRST_NOT_FOUND, EVALUATE_ALL
@@ -243,6 +246,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
 		commitGraph = null;
+		revFilterStats = new RevFilterStats();
 	}
 
 	static AbstractRevQueue newDateRevQueue(boolean firstParent) {
@@ -810,6 +814,15 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	boolean getRewriteParents() {
 		return rewriteParents;
+	}
+
+	/**
+	 * Get stats recorded within the RevFilter used in the RevWalk.
+	 *
+	 * @return {@link RevFilterStats} with stats recorded by RevFilters.
+	 */
+	public RevFilterStats getRevFilterStats() {
+		return revFilterStats;
 	}
 
 	/**
@@ -1594,6 +1607,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		roots.clear();
 		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
+		revFilterStats = new RevFilterStats();
 	}
 
 	/**
@@ -1616,6 +1630,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		revFilterStats = new RevFilterStats();
 	}
 
 	/**
@@ -1804,6 +1819,67 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			} else {
 				lookupCommit(id).parents = RevCommit.NO_PARENTS;
 			}
+		}
+	}
+
+	/**
+	 * Statistics related RevFilter collected during the lifecycle of RevWalk.
+	 */
+	public static class RevFilterStats {
+
+		private long changedPathFilterTruePositive = 0;
+
+		private long changedPathFilterFalsePositive = 0;
+
+		private long changedPathFilterNegative = 0;
+
+		RevFilterStats() {
+		}
+
+		void incrementChangedPathFilterTruePositive() {
+			changedPathFilterTruePositive++;
+		}
+
+		void incrementChangedPathFilterFalsePositive() {
+			changedPathFilterFalsePositive++;
+		}
+
+		void incrementChangedPathFilterNegative() {
+			changedPathFilterNegative++;
+		}
+
+		/**
+		 * Return how many times a changed path filter correctly predicted that
+		 * a path was changed in a commit, for statistics gathering purposes.
+		 *
+		 * @return count of true positives
+		 * @since 6.7
+		 */
+		public long getChangedPathFilterTruePositive() {
+			return changedPathFilterTruePositive;
+		}
+
+		/**
+		 * Return how many times a changed path filter wrongly predicted that a
+		 * path was changed in a commit, for statistics gathering purposes.
+		 *
+		 * @return count of false positives
+		 * @since 6.7
+		 */
+		public long getChangedPathFilterFalsePositive() {
+			return changedPathFilterFalsePositive;
+		}
+
+		/**
+		 * Return how many times a changed path filter predicted that a path was
+		 * not changed in a commit (allowing that commit to be skipped), for
+		 * statistics gathering purposes.
+		 *
+		 * @return count of negatives
+		 * @since 6.7
+		 */
+		public long getChangedPathFilterNegative() {
+			return changedPathFilterNegative;
 		}
 	}
 }
