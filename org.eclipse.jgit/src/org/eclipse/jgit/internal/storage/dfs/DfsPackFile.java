@@ -29,7 +29,6 @@ import java.nio.channels.Channels;
 import java.text.MessageFormat;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -42,6 +41,7 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
+import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndex;
@@ -109,6 +109,8 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private final Object packIndexLock = new Object();
 
+	private final DfsPackFileIndexProvider indexProvider;
+
 	/**
 	 * Construct a reader for an existing, packfile.
 	 *
@@ -118,7 +120,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *            description of the pack within the DFS.
 	 */
 	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc) {
-		this(cache, desc, DEFAULT_BITMAP_LOADER);
+		this(cache, desc, DEFAULT_BITMAP_LOADER, null // TODO);
 	}
 
 	/**
@@ -132,8 +134,10 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *            loader to get the bitmaps of this pack (if any)
 	 */
 	public DfsPackFile(DfsBlockCache cache, DfsPackDescription desc,
-			PackBitmapIndexLoader bitmapLoader) {
+					   PackBitmapIndexLoader bitmapLoader,
+					   DfsPackFile.DfsPackFileIndexProvider indexProvider) {
 		super(cache, desc, PACK);
+		this.indexProvider = indexProvider;
 
 		int bs = desc.getBlockSize(PACK);
 		if (bs > 0) {
@@ -198,24 +202,10 @@ public final class DfsPackFile extends BlockBasedFile {
 		Repository.getGlobalListenerList()
 				.dispatch(new BeforeDfsPackIndexLoadedEvent(this));
 		try {
-			DfsStreamKey idxKey = desc.getStreamKey(INDEX);
-			// Save the loaded reference, in case DFS evicts the key
-			// before it is set locally
-			AtomicReference<PackIndex> loadedRef = new AtomicReference<>(null);
-			DfsBlockCache.Ref<PackIndex> cachedRef = cache.getOrLoadRef(idxKey,
-					REF_POSITION, () -> {
-						IndexRef<PackIndex> idx = loadPackIndex(ctx);
-						loadedRef.set(idx.ref);
-						return new DfsBlockCache.Ref<>(idxKey, REF_POSITION,
-								idx.size, idx.ref);
-					});
-			if (loadedRef.get() == null) {
-				ctx.stats.idxCacheHit++;
-			}
+			PackIndex idx = indexProvider.index(ctx);
 			synchronized (packIndexLock) {
 				if (index == null) {
-					index = cachedRef.get() != null ? cachedRef.get()
-							: loadedRef.get();
+					index = idx;
 				}
 			}
 			ctx.emitIndexLoad(desc, INDEX, index);
@@ -1451,6 +1441,44 @@ public final class DfsPackFile extends BlockBasedFile {
 								desc.getFileName(BITMAP_INDEX)),
 						e);
 			}
+		}
+	}
+
+	/**
+	 * Returns indices in the backend of choice
+	 *
+	 * Implementations decide their caching, callers cannot assume it.
+	 */
+	public interface DfsPackFileIndexProvider {
+		PackIndex index(DfsReader ctx) throws IOException;
+	}
+
+	static class DfsBlockCacheIndexProvider implements DfsPackFileIndexProvider {
+		private final DfsBlockCache cache;
+		private final DfsPackDescription desc;
+
+		DfsBlockCacheIndexProvider(DfsBlockCache cache, DfsPackDescription desc) {
+			this.cache = cache;
+			this.desc = desc;
+		}
+		@Override
+		public PackIndex index(DfsReader ctx) throws IOException {
+			DfsStreamKey idxKey = desc.getStreamKey(INDEX);
+			// Save the loaded reference, in case DFS evicts the key
+			// before it is set locally
+			AtomicReference<PackIndex> loadedRef = new AtomicReference<>(null);
+			DfsBlockCache.Ref<PackIndex> cachedRef = cache.getOrLoadRef(idxKey,
+					REF_POSITION, () -> {
+						IndexRef<PackIndex> idx = loadPackIndex(ctx);
+						loadedRef.set(idx.ref);
+						return new DfsBlockCache.Ref<>(idxKey, REF_POSITION,
+								idx.size, idx.ref);
+					});
+			if (loadedRef.get() == null) {
+				ctx.stats.idxCacheHit++;
+			}
+
+			return cachedRef.get() != null ? cachedRef.get() : loadedRef.get();
 		}
 	}
 
