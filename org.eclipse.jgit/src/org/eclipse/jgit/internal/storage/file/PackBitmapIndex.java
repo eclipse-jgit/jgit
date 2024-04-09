@@ -151,15 +151,15 @@ public interface PackBitmapIndex {
 	public abstract int findPosition(AnyObjectId objectId);
 
 	/**
-	 * Get the object at the bitmap position.
+	 * Get the object at an offset into the pack index.
 	 *
-	 * @param position
-	 *            the id for which the object will be found.
+	 * @param packIdxOffset
+	 *            the offset into the pack index where this object is located
 	 * @return the ObjectId.
 	 * @throws java.lang.IllegalArgumentException
 	 *             when the item is not found.
 	 */
-	public abstract ObjectId getObject(int position)
+	public abstract ObjectId getObject(int packIdxOffset)
 			throws IllegalArgumentException;
 
 	/**
