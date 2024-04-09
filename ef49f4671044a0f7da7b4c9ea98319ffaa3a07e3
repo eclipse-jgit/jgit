@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c920e29e_e1415e6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-09T04:14:12Z",
+      "side": 1,
+      "message": "nit: start the title wiht the class/component modified\n\nIn this case: \"MergeAlgorithm: Fix diff3...\"",
+      "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "63221597_ab56aeab",
@@ -50,6 +67,23 @@
       "side": 1,
       "message": "I am currently swamped at @dayjob, I hope I find time next week to review your change",
       "parentUuid": "0374256b_a403ed60",
+      "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff055c1_0a44ed1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-09T04:14:12Z",
+      "side": 1,
+      "message": "I am not familiar with this code. The change looks small and tested so overall LGTM.\n\nI am wondering why gerrit didn\u0027t bump into this before, as it should be doing many merges. Is it because this change is only about how to present the conflicts, not how to calculate them? or is it both? In any case, could you make this explicit in the commit message?",
       "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
