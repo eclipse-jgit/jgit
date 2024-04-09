@@ -225,8 +225,9 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 	}
 
 	@Override
-	public ObjectId getObject(int position) throws IllegalArgumentException {
-		ObjectId objectId = reverseIndex.findObjectByPosition(position);
+	public ObjectId getObject(int packIdxOffset)
+			throws IllegalArgumentException {
+		ObjectId objectId = reverseIndex.findObjectByPosition(packIdxOffset);
 		if (objectId == null)
 			throw new IllegalArgumentException();
 		return objectId;

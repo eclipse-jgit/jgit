@@ -85,8 +85,9 @@ public class PackBitmapIndexRemapper
 	}
 
 	@Override
-	public ObjectId getObject(int position) throws IllegalArgumentException {
-		return newPackIndex.getObject(position);
+	public ObjectId getObject(int packIdxOffset)
+			throws IllegalArgumentException {
+		return newPackIndex.getObject(packIdxOffset);
 	}
 
 	@Override
