@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "18ddcb7f_555ce976",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037850
+      },
+      "writtenOn": "2024-04-09T08:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c920e29e_e1415e6a",
+      "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "63221597_ab56aeab",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -84,6 +102,24 @@
       "writtenOn": "2024-04-09T04:14:12Z",
       "side": 1,
       "message": "I am not familiar with this code. The change looks small and tested so overall LGTM.\n\nI am wondering why gerrit didn\u0027t bump into this before, as it should be doing many merges. Is it because this change is only about how to present the conflicts, not how to calculate them? or is it both? In any case, could you make this explicit in the commit message?",
+      "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4637a661_17878f99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037850
+      },
+      "writtenOn": "2024-04-09T08:17:29Z",
+      "side": 1,
+      "message": "Indeed, it only affects the presentation of conflicts, so it would only appear if there are conflicts and if diff3 was selected (which is probably not so common given that it\u0027s still a fairly new option?)\n\nMore generally, I am aware of other problems with the diff3 presentation (https://github.com/eclipse-jgit/jgit/issues/39) which I would be interested to follow up on in separate patches.\n\nLet me add that to the commit message.",
+      "parentUuid": "aff055c1_0a44ed1f",
       "revId": "ef49f4671044a0f7da7b4c9ea98319ffaa3a07e3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
