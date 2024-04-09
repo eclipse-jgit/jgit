@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc2773b5_2d45f5f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-09T03:29:15Z",
+      "side": 1,
+      "message": "@mthai: Not sure if this is true, as creating a DfsBlockCache.Ref is not the same as storing in DfsBlockCache",
+      "revId": "d880acc46ff04112c987462446e14feda6a77028",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c052085e_effd6781",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-09T03:29:15Z",
+      "side": 1,
+      "message": "@mthai got errors submitting comments. Adding the comments on his behalf.",
+      "revId": "d880acc46ff04112c987462446e14feda6a77028",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d02bde3_fc74610c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-09T03:29:15Z",
+      "side": 1,
+      "message": "@mthai: This is bad: If 2 threads are loading the same index, they will be using 2 different copies of the index, instead of the one in the cache. Memory used by the index for these 3 threads will be doubled for the duration of these threads.",
+      "revId": "d880acc46ff04112c987462446e14feda6a77028",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45e8198_a54ba63d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-09T03:29:15Z",
+      "side": 1,
+      "message": "@mthai: why can[\u0027t] this function return PackIndex directly? The caller can store it in DfsBlockCache.Ref or AtomicReference as they see fit.",
+      "revId": "d880acc46ff04112c987462446e14feda6a77028",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
