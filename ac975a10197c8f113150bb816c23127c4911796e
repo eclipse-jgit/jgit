@@ -16,6 +16,24 @@
       "message": "This is a breaking change since we made this public.\n\nIt\u0027s probably safe since it\u0027s so new, but I would guess it is against some policy of jgit to break things. @ifrade@google.com is that right?\n\nIn that case, we probably have to mark it nullable/optional and add a new constructor.",
       "revId": "ac975a10197c8f113150bb816c23127c4911796e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd6d2c12_769f4810",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-10T21:28:24Z",
+      "side": 1,
+      "message": "Lol well rip. I uploaded a new patchset with these changes, but could revert to Patchset 3 if we decide it\u0027s not necessary.",
+      "parentUuid": "b4407216_5c7b65d2",
+      "revId": "ac975a10197c8f113150bb816c23127c4911796e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
