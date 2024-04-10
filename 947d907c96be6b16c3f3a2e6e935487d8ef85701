@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b135337_b15e89d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-10T22:59:26Z",
+      "side": 1,
+      "message": "looks good overall",
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d593b3f_3d630768",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-10T22:59:26Z",
+      "side": 1,
+      "message": "can mention `as of now we do not use changePathFilter when it has no parent or if it is a merge commit`",
+      "range": {
+        "startLine": 299,
+        "startChar": 42,
+        "endLine": 300,
+        "endChar": 27
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666138f3_6095c96c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-10T22:59:26Z",
+      "side": 1,
+      "message": "how is it different than above test with pathFilter_or_pathFilter?",
+      "range": {
+        "startLine": 311,
+        "startChar": 35,
+        "endLine": 311,
+        "endChar": 73
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2942cf9_7cde2f45",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-10T22:59:26Z",
+      "side": 1,
+      "message": "useful one would be:\n```\n\t\tRevCommit c1 \u003d commit(tree(file(\"file1\", blob(\"1\"))));\n\t\tRevCommit c2 \u003d commit(\n\t\t\t\ttree(file(\"file1\", blob(\"2\")), file(\"file2\", blob(\"2\"))), c1);\n```\nc2 has file1 updated and file2 created.",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ba8aa1_13a4b3f4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-10T22:59:26Z",
+      "side": 1,
+      "message": "again not sure if we need this?",
+      "range": {
+        "startLine": 454,
+        "startChar": 13,
+        "endLine": 454,
+        "endChar": 75
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "148fc9c8_8c46c0b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-10T22:59:26Z",
+      "side": 1,
+      "message": "this doesn\u0027t need to be nested.\n\nif (r \u003d\u003d TRUE || r \u003d\u003d FALSE) changedPathFilterUsed \u003d true;\nif (r \u003d\u003d FALSE) mustCalculateChgs \u003d false;",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 146,
+        "endChar": 6
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
