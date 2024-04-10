@@ -191,8 +191,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			throw new IllegalStateException();
 		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.idxPosition, bestBitmap,
-				bestXorOffset, bitmapToWrite.getFlags());
+		StoredEntry result = new StoredEntry(entry, entry.idxPosition,
+				bestBitmap, bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
 	}
@@ -330,6 +330,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
+		private final ObjectId objectId;
+
 		private final long idxPosition;
 
 		private final EWAHCompressedBitmap bitmap;
@@ -341,6 +343,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		/**
 		 * Create a StoredEntry
 		 *
+		 * @param objectId
+		 *            objectId of the object associated with the bitmap
 		 * @param idxPosition
 		 *            position of this object into the pack index (i.e. sorted
 		 *            by sha1)
@@ -353,8 +357,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 * @param flags
 		 *            flags for this bitmap
 		 */
-		public StoredEntry(long idxPosition, EWAHCompressedBitmap bitmap,
-				int xorOffset, int flags) {
+		public StoredEntry(ObjectId objectId, long idxPosition,
+				EWAHCompressedBitmap bitmap, int xorOffset, int flags) {
+			this.objectId = objectId;
 			this.idxPosition = idxPosition;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
@@ -394,6 +399,13 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 */
 		public long getIdxPosition() {
 			return idxPosition;
+		}
+
+		/**
+		 * @return the objectId of the object associated with this bitmap
+		 */
+		public ObjectId getObjectId() {
+			return objectId;
 		}
 	}
 
