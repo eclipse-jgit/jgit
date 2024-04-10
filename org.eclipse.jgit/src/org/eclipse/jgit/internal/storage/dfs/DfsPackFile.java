@@ -330,18 +330,27 @@ public final class DfsPackFile extends BlockBasedFile {
 
 		PackIndex idx = idx(ctx);
 		DfsStreamKey revKey = desc.getStreamKey(REVERSE_INDEX);
-		AtomicBoolean cacheHit = new AtomicBoolean(true);
-		DfsBlockCache.Ref<PackReverseIndex> revref = cache.getOrLoadRef(revKey,
-				REF_POSITION, () -> {
-					cacheHit.set(false);
-					return loadReverseIdx(ctx, revKey, idx);
+		// Keep the value parsed in the loader, in case the Ref<> is
+		// nullified in ClockBlockCacheTable#reserveSpace
+		// before we read its value.
+		AtomicReference<PackReverseIndex> loadedRef = new AtomicReference<>(
+				null);
+		DfsBlockCache.Ref<PackReverseIndex> cachedRef = cache
+				.getOrLoadRef(revKey, REF_POSITION, () -> {
+					RefWithSize<PackReverseIndex> ridx = loadReverseIdx(ctx,
+							idx);
+					loadedRef.set(ridx.ref);
+					return new DfsBlockCache.Ref<>(revKey, REF_POSITION,
+							ridx.size, ridx.ref);
 				});
-		if (cacheHit.get()) {
+		if (loadedRef.get() == null) {
 			ctx.stats.ridxCacheHit++;
 		}
-		PackReverseIndex revidx = revref.get();
-		if (reverseIndex == null && revidx != null) {
-			reverseIndex = revidx;
+		reverseIndex = cachedRef.get() != null ? cachedRef.get()
+				: loadedRef.get();
+		if (reverseIndex == null) {
+			throw new IOException(
+					"Couldn't get a reference to the reverse index"); //$NON-NLS-1$
 		}
 		ctx.emitIndexLoad(desc, REVERSE_INDEX, reverseIndex);
 		return reverseIndex;
@@ -1241,18 +1250,13 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 	}
 
-	private DfsBlockCache.Ref<PackReverseIndex> loadReverseIdx(
-			DfsReader ctx, DfsStreamKey revKey, PackIndex idx) {
+	private static RefWithSize<PackReverseIndex> loadReverseIdx(DfsReader ctx,
+			PackIndex idx) {
 		ctx.stats.readReverseIdx++;
 		long start = System.nanoTime();
 		PackReverseIndex revidx = PackReverseIndexFactory.computeFromIndex(idx);
-		reverseIndex = revidx;
 		ctx.stats.readReverseIdxMicros += elapsedMicros(start);
-		return new DfsBlockCache.Ref<>(
-				revKey,
-				REF_POSITION,
-				idx.getObjectCount() * 8,
-				revidx);
+		return new RefWithSize<>(revidx, idx.getObjectCount() * 8);
 	}
 
 	private DfsBlockCache.Ref<PackObjectSizeIndex> loadObjectSizeIndex(
