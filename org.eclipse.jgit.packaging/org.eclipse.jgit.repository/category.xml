@@ -177,28 +177,28 @@
    <bundle id="org.apache.sshd.sftp.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcpg-jdk18on">
+   <bundle id="bcpg">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcpg-jdk18on.source">
+   <bundle id="bcpg.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcpkix-jdk18on">
+   <bundle id="bcpkix">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcpkix-jdk18on.source">
+   <bundle id="bcpkix.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcprov-jdk18on">
+   <bundle id="bcprov">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcprov-jdk18on.source">
+   <bundle id="bcprov.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcutil-jdk18on">
+   <bundle id="bcutil">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="bcutil-jdk18on.source">
+   <bundle id="bcutil.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.kohsuke.args4j">
