@@ -280,6 +280,11 @@ public class TreeRevFilter extends RevFilter {
 		return false;
 	}
 
+	@Override
+	public boolean supportParentRewrite() {
+		return true;
+	}
+
 	/**
 	 * Return how many times a changed path filter correctly predicted that a
 	 * path was changed in a commit, for statistics gathering purposes.

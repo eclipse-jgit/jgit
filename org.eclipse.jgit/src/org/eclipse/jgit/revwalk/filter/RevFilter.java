@@ -85,6 +85,11 @@ public abstract class RevFilter {
 		}
 
 		@Override
+		public boolean supportParentRewrite() {
+			return true;
+		}
+
+		@Override
 		public String toString() {
 			return "ALL"; //$NON-NLS-1$
 		}

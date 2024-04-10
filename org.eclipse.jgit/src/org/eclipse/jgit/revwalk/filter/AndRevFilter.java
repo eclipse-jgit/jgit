@@ -12,6 +12,7 @@
 package org.eclipse.jgit.revwalk.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -110,6 +111,11 @@ public abstract class AndRevFilter extends RevFilter {
 		}
 
 		@Override
+		public boolean supportParentRewrite() {
+			return a.supportParentRewrite() && b.supportParentRewrite();
+		}
+
+		@Override
 		public RevFilter clone() {
 			return new Binary(a.clone(), b.clone());
 		}
@@ -149,6 +155,11 @@ public abstract class AndRevFilter extends RevFilter {
 		@Override
 		public boolean requiresCommitBody() {
 			return requiresCommitBody;
+		}
+
+		@Override
+		public boolean supportParentRewrite() {
+			return Arrays.stream(subfilters).allMatch(RevFilter::supportParentRewrite);
 		}
 
 		@Override
