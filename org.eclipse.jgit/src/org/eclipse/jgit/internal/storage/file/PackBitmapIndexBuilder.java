@@ -106,7 +106,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 				.signum(a.getOffset() - b.getOffset()));
 		for (int i = 0; i < entries.size(); i++) {
 			PositionEntry e = positionEntries.get(entries.get(i));
-			e.offsetPosition = i;
+			e.packIdxOffset = i;
 			byOffset.add(e);
 		}
 	}
@@ -191,7 +191,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			throw new IllegalStateException();
 		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap,
+		StoredEntry result = new StoredEntry(entry, bestBitmap,
 				bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
@@ -235,7 +235,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		PositionEntry entry = positionEntries.get(objectId);
 		if (entry == null)
 			return -1;
-		return entry.offsetPosition;
+		return entry.getPackIdxOffset();
 	}
 
 	@Override
@@ -331,7 +331,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
-		private final int packIdxOffset;
+		private final PositionEntry positionEntry;
 
 		private final EWAHCompressedBitmap bitmap;
 
@@ -342,8 +342,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		/**
 		 * Create a StoredEntry
 		 *
-		 * @param packIdxOffset
-		 *            offset of this object into the pack index
+		 * @param positionEntry
+		 *            contains information about this entry's location in the
+		 *            pack index
 		 * @param bitmap
 		 *            bitmap associated with this object
 		 * @param xorOffset
@@ -353,9 +354,10 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 * @param flags
 		 *            flags for this bitmap
 		 */
-		public StoredEntry(int packIdxOffset, EWAHCompressedBitmap bitmap,
+		public StoredEntry(PositionEntry positionEntry,
+				EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
-			this.packIdxOffset = packIdxOffset;
+			this.positionEntry = positionEntry;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
 			this.flags = flags;
@@ -389,21 +391,40 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		}
 
 		/**
+		 * @return the position entry
+		 */
+		public PositionEntry getPositionEntry() {
+			return positionEntry;
+		}
+	}
+
+	/**
+	 * Stores the offset of the commit associated with this bitmap commit into
+	 * the pack index and the lexicographic offset of that commit in the pack.
+	 */
+	public static final class PositionEntry extends ObjectIdOwnerMap.Entry {
+		private final int lexicographicOffset;
+
+		private int packIdxOffset;
+
+		PositionEntry(AnyObjectId objectId, int lexicographicOffset) {
+			super(objectId);
+			this.lexicographicOffset = lexicographicOffset;
+		}
+
+		/**
 		 * @return the offset of this object into the pack index
 		 */
 		public int getPackIdxOffset() {
 			return packIdxOffset;
 		}
-	}
 
-	private static final class PositionEntry extends ObjectIdOwnerMap.Entry {
-		final int namePosition;
-
-		int offsetPosition;
-
-		PositionEntry(AnyObjectId objectId, int namePosition) {
-			super(objectId);
-			this.namePosition = namePosition;
+		/**
+		 * @return the offset of this object into a list ordered
+		 *         lexicographically by object id
+		 */
+		public int getLexicographicOffset() {
+			return lexicographicOffset;
 		}
 	}
 }
