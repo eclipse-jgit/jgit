@@ -113,7 +113,7 @@ class RewriteGenerator extends Generator {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		for (RevCommit parent : c.getParents()) {
-			while ((parent.flags & RevWalk.TREE_REV_FILTER_APPLIED) == 0) {
+			while ((parent.flags & RevWalk.REV_FILTER_APPLIED) == 0) {
 
 				RevCommit n = source.next();
 

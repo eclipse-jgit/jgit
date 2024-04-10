@@ -25,7 +25,10 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	static final int PARSED = 1;
 
-	int flags;
+	/**
+	 * Flags associated to this RevObject throughout its lifecycle
+	 */
+	public int flags;
 
 	RevObject(AnyObjectId name) {
 		super(name);

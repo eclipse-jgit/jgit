@@ -19,7 +19,7 @@ public class RewriteGeneratorTest extends RevWalkTestCase {
 	public void testRewriteGeneratorDoesNotExhaustPreviousGenerator()
 			throws Exception {
 		RevCommit a = commit();
-		a.flags |= RevWalk.TREE_REV_FILTER_APPLIED;
+		a.flags |= RevWalk.REV_FILTER_APPLIED;
 		RevCommit b = commit(a);
 
 		LIFORevQueue q = new LIFORevQueue();
@@ -43,7 +43,7 @@ public class RewriteGeneratorTest extends RevWalkTestCase {
 	@Test
 	public void testRewriteGeneratorRewritesParent() throws Exception {
 		RevCommit a = commit();
-		a.flags |= RevWalk.TREE_REV_FILTER_APPLIED;
+		a.flags |= RevWalk.REV_FILTER_APPLIED;
 		a.flags |= RevWalk.REWRITE;
 		RevCommit b = commit(a);
 		assertEquals(1, b.getParentCount());
