@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fab439f7_1fe22e39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-10T22:22:20Z",
+      "side": 1,
+      "message": "This method name is written from the perspective of the TreeFilter. \n\nThe idea is \"TreeFilter applying its paths (if available) onto this given bloom filter.",
+      "parentUuid": "f296d3b9_15d493fc",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "e3d937e322251575a0b9262186e0cf8426609081",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "567d6bae_294ff948",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
         "patchSetId": 10
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "adc742b6_8ba871ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-10T22:22:20Z",
+      "side": 1,
+      "message": "in the case of OR, \n\nwe can only return FALSE if both subfilters are FALSE. \n\nIf one of them return either TRUE or NON_APPLICABLE, we have to return TRUE, i.e. always default to TreeWalk.",
+      "parentUuid": "567d6bae_294ff948",
+      "range": {
+        "startLine": 121,
+        "startChar": 10,
+        "endLine": 121,
+        "endChar": 14
+      },
+      "revId": "e3d937e322251575a0b9262186e0cf8426609081",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b73df54_75170ec2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
         "patchSetId": 10
@@ -60,6 +108,30 @@
       "writtenOn": "2024-04-10T21:52:00Z",
       "side": 1,
       "message": "The name applyPath doesn\u0027t tell me what it is supposed to do.\nshould it be something like applyChangedPathFilter or evaluatePathsWithChangePathFilter?",
+      "range": {
+        "startLine": 264,
+        "startChar": 24,
+        "endLine": 264,
+        "endChar": 33
+      },
+      "revId": "e3d937e322251575a0b9262186e0cf8426609081",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af28e252_15bf3603",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-10T22:22:20Z",
+      "side": 1,
+      "message": "see above comment about the enum.",
+      "parentUuid": "2b73df54_75170ec2",
       "range": {
         "startLine": 264,
         "startChar": 24,
