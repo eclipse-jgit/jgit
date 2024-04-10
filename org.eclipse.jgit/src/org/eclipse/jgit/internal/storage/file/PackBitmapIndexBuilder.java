@@ -191,8 +191,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			throw new IllegalStateException();
 		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.objectIdOffset, bestBitmap,
-				bestXorOffset, bitmapToWrite.getFlags());
+		StoredEntry result = new StoredEntry(entry, entry.objectIdOffset,
+				bestBitmap, bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
 	}
@@ -332,6 +332,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	public static final class StoredEntry {
 		private final long objectIdOffset;
 
+		private final ObjectId objectId;
+
 		private final EWAHCompressedBitmap bitmap;
 
 		private final int xorOffset;
@@ -341,6 +343,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		/**
 		 * Create a StoredEntry
 		 *
+		 * @param objectId
+		 *            objectId of the object associated with the bitmap
 		 * @param objectIdOffset
 		 *            offset of this object that it would have in a list of the
 		 *            ObjectIds in the pack sorted lexicographically.
@@ -353,9 +357,10 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 * @param flags
 		 *            flags for this bitmap
 		 */
-		public StoredEntry(long objectIdOffset,
+		public StoredEntry(ObjectId objectId, long objectIdOffset,
 				EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
+			this.objectId = objectId;
 			this.objectIdOffset = objectIdOffset;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
@@ -395,6 +400,13 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 */
 		public long getObjectIdOffset() {
 			return objectIdOffset;
+		}
+
+		/**
+		 * @return the objectId of the object associated with this bitmap
+		 */
+		public ObjectId getObjectId() {
+			return objectId;
 		}
 	}
 
