@@ -16,6 +16,41 @@
       "message": "I think the misleading comment is the javadoc in PackReverseIndex, because this method should be doing what it says in the tin, no?\n\nThe bitmap has basically two methods:\n\"give me the position of this sha1\" (findPosition)\n\"give me the SHA1 in this position\" (getObject)\n\nIn both cases \"position\" is in the bitmap, which is the order of the pack (i.e. by offset), not in pack *index* order (by SHA1).",
       "revId": "1e5291ea443741b60df1f3116591ea22f9886e99",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89268a7b_96403889",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-10T22:32:34Z",
+      "side": 1,
+      "message": "Hmm true. I think that docstring makes more sense in that context. I added a little more information to it in the latest patchset.\n\nMy main gripe is the `getObjectId` method in StoredEntry which definitely doesn\u0027t return an object ID. That\u0027s the thing I care the most about in this CL I suppose.",
+      "parentUuid": "baf6f9ca_342714ed",
+      "revId": "1e5291ea443741b60df1f3116591ea22f9886e99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57021223_37dc40b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-10T22:32:34Z",
+      "side": 1,
+      "message": "I guess if breaking changes are an issue, I can\u0027t change this name here either.\n\nI\u0027ll just add this as another method then.",
+      "revId": "1e5291ea443741b60df1f3116591ea22f9886e99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
