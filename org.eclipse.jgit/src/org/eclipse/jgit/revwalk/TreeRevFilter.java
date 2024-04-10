@@ -44,10 +44,6 @@ public class TreeRevFilter extends RevFilter {
 
 	private static final int UNINTERESTING = RevWalk.UNINTERESTING;
 
-	private static final int FILTER_APPLIED = RevWalk.REV_FILTER_APPLIED;
-
-	private final int rewriteFlag;
-
 	private final TreeWalk pathFilter;
 
 	private long changedPathFilterTruePositive = 0;
@@ -69,36 +65,9 @@ public class TreeRevFilter extends RevFilter {
 	 * @since 3.5
 	 */
 	public TreeRevFilter(RevWalk walker, TreeFilter t) {
-		this(walker, t, 0);
-	}
-
-	/**
-	 * Create a filter for the first phase of a parent-rewriting limited
-	 * revision walk.
-	 * <p>
-	 * This filter is ANDed to evaluate before all other filters and ties the
-	 * configured {@link TreeFilter} into the revision walking process.
-	 * <p>
-	 * If no interesting tree entries are found the commit is colored with
-	 * {@code rewriteFlag}, allowing a later pass implemented by
-	 * {@link RewriteGenerator} to remove those colored commits from the DAG.
-	 *
-	 * @see RewriteGenerator
-	 *
-	 * @param walker
-	 *            walker used for reading trees.
-	 * @param t
-	 *            filter to compare against any changed paths in each commit. If
-	 *            a {@link FollowFilter}, will be replaced with a new filter
-	 *            following new paths after a rename.
-	 * @param rewriteFlag
-	 *            flag to color commits to be removed from the simplified DAT.
-	 */
-	TreeRevFilter(RevWalk walker, TreeFilter t, int rewriteFlag) {
 		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
-		this.rewriteFlag = rewriteFlag;
 	}
 
 	@Override
@@ -107,10 +76,15 @@ public class TreeRevFilter extends RevFilter {
 	}
 
 	@Override
-	public boolean include(RevWalk walker, RevCommit c)
+	public boolean include(RevWalk walker, RevCommit cmit)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		c.flags |= FILTER_APPLIED;
+		return rewriteWrapper(walker, cmit, this::toInclude);
+	}
+
+	private boolean toInclude(RevWalk walker, RevCommit c)
+			throws StopWalkException, MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		// Reset the tree filter to scan this commit and parents.
 		//
 		RevCommit[] pList = c.getParents();
@@ -170,7 +144,6 @@ public class TreeRevFilter extends RevFilter {
 				// No changes, so our tree is effectively the same as
 				// our parent tree. We pass the buck to our parent.
 				//
-				c.flags |= rewriteFlag;
 				return false;
 			}
 
@@ -193,7 +166,6 @@ public class TreeRevFilter extends RevFilter {
 			if (tw.next()) {
 				return true;
 			}
-			c.flags |= rewriteFlag;
 			return false;
 		}
 
@@ -237,7 +209,6 @@ public class TreeRevFilter extends RevFilter {
 					continue;
 				}
 
-				c.flags |= rewriteFlag;
 				c.parents = new RevCommit[] { p };
 				return false;
 			}
@@ -271,7 +242,6 @@ public class TreeRevFilter extends RevFilter {
 		// as they are and allow those parents to flow into pending
 		// for further scanning.
 		//
-		c.flags |= rewriteFlag;
 		return false;
 	}
 
