@@ -65,6 +65,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * </ul>
  */
 public abstract class RevFilter {
+	static final int FILTER_APPLIED = RevWalk.REV_FILTER_APPLIED;
+
 	/** Default filter that always returns true (thread safe). */
 	public static final RevFilter ALL = new AllFilter();
 
@@ -269,6 +271,58 @@ public abstract class RevFilter {
 	public abstract boolean include(RevWalk walker, RevCommit cmit)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException;
+
+	/**
+	 * Abstraction for custom include logic for different RevFilter impl.
+	 */
+	public interface IncludeLogic {
+		/**
+		 * Callback being used within
+		 * {@link org.eclipse.jgit.revwalk.filter.RevFilter#rewriteWrapper}
+		 *
+		 * @param walker
+		 *            the active walker this filter is being invoked from
+		 *            within.
+		 * @param commit
+		 *            the commit currently being tested. The commit has been
+		 *            parsed and its body is available for inspection only if
+		 *            the filter returns true from
+		 *            {@link #requiresCommitBody()}.
+		 * @return the result of the {@code IncludeLogic}.
+		 * @throws java.io.IOException
+		 *             possible Exceptions associated with subclass
+		 *             implementations.
+		 */
+		boolean include(RevWalk walker, RevCommit commit) throws IOException;
+	}
+
+	/**
+	 * Set commit flags when rewrite is needed.
+	 *
+	 * @param walker
+	 *            the active walker this filter is being invoked from within.
+	 * @param cmit
+	 *            the commit currently being tested. The commit has been parsed
+	 *            and its body is available for inspection only if the filter
+	 *            returns true from {@link #requiresCommitBody()}.
+	 * @param includeLogic
+	 *            the logic on how the caller would like to filter the commits.
+	 * @return the result of the {@code IncludeLogic}.
+	 * @throws java.io.IOException
+	 *             possible Exceptions associated with custom
+	 *             {@code IncludeLogic}.
+	 */
+	public boolean rewriteWrapper(RevWalk walker, RevCommit cmit,
+			IncludeLogic includeLogic) throws IOException {
+		boolean toInclude = includeLogic.include(walker, cmit);
+		if (walker.getRewriteParents()) {
+			cmit.flags |= FILTER_APPLIED;
+			if (!toInclude) {
+				cmit.flags |= RevWalk.REWRITE;
+			}
+		}
+		return toInclude;
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -44,7 +44,7 @@ public class TreeRevFilter extends RevFilter {
 
 	private static final int UNINTERESTING = RevWalk.UNINTERESTING;
 
-	private static final int FILTER_APPLIED = RevWalk.TREE_REV_FILTER_APPLIED;
+	private static final int FILTER_APPLIED = RevWalk.REV_FILTER_APPLIED;
 
 	private final int rewriteFlag;
 

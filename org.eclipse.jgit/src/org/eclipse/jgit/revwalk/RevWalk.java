@@ -119,7 +119,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *
 	 * @see RewriteGenerator
 	 */
-	static final int REWRITE = 1 << 3;
+	public static final int REWRITE = 1 << 3;
 
 	/**
 	 * Temporary mark for use within generators or filters.
@@ -148,15 +148,14 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	static final int TOPO_QUEUED = 1 << 6;
 
 	/**
-	 * Set on a RevCommit when a {@link TreeRevFilter} has been applied.
+	 * Set on a RevCommit when a {@link RewriteGenerator} supported RevFilter has been applied.
 	 * <p>
 	 * This flag is processed by the {@link RewriteGenerator} to check if a
-	 * {@link TreeRevFilter} has been applied.
+	 * a supported RevFilter has been applied.
 	 *
-	 * @see TreeRevFilter
 	 * @see RewriteGenerator
 	 */
-	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
+	public static final int REV_FILTER_APPLIED = 1 << 7;
 
 	/**
 	 * Number of flag bits we keep internal for our own use. See above flags.
@@ -808,7 +807,18 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		rewriteParents = rewrite;
 	}
 
-	boolean getRewriteParents() {
+	/**
+	 * Should this RevWalk be rewriting the parents of the outputting commits?
+	 * <p>
+	 * This field and the
+	 * {@link org.eclipse.jgit.revwalk.filter.RevFilter#supportParentRewrite()}
+	 * together, determines whether the
+	 * {@link org.eclipse.jgit.revwalk.RewriteGenerator} should be turned on
+	 * <p>
+	 *
+	 * @return true if the caller would like to rewrite the parents of commits
+	 */
+	public boolean getRewriteParents() {
 		return rewriteParents;
 	}
 
