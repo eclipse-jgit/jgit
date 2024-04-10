@@ -165,8 +165,10 @@ public abstract class RevFilter {
 
 	private static final class NoMergesFilter extends RevFilter {
 		@Override
-		public boolean include(RevWalk walker, RevCommit c) {
-			return c.getParentCount() < 2;
+		public boolean include(RevWalk walker, RevCommit cmit)
+				throws IOException {
+			return rewriteWrapper(walker, cmit,
+					(w, c) -> c.getParentCount() < 2);
 		}
 
 		@Override
@@ -177,6 +179,11 @@ public abstract class RevFilter {
 		@Override
 		public boolean requiresCommitBody() {
 			return false;
+		}
+
+		@Override
+		public boolean supportParentRewrite() {
+			return true;
 		}
 
 		@Override
