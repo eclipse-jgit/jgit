@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BitmapCommit;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -191,8 +192,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			throw new IllegalStateException();
 		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap,
-				bestXorOffset, bitmapToWrite.getFlags());
+		StoredEntry result = new StoredEntry(entry, entry.namePosition,
+				bestBitmap, bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
 	}
@@ -332,6 +333,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	public static final class StoredEntry {
 		private final long namePositionOffset;
 
+		@Nullable
+		private final ObjectId objectId;
+
 		private final EWAHCompressedBitmap bitmap;
 
 		private final int xorOffset;
@@ -355,7 +359,29 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 */
 		public StoredEntry(long namePositionOffset, EWAHCompressedBitmap bitmap,
 				int xorOffset, int flags) {
+			this(null, namePositionOffset, bitmap, xorOffset, flags);
+		}
+
+		/**
+		 * Create a StoredEntry
+		 *
+		 * @param objectId
+		 *            objectId of the object associated with the bitmap
+		 * @param namePositionOffset
+		 *            offset of this object into the pack index
+		 * @param bitmap
+		 *            bitmap associated with this object
+		 * @param xorOffset
+		 *            offset of the bitmap against which this bitmap is
+		 *            xor-compressed. If 0, then this bitmap is not
+		 *            xor-compressed against any other bitmap
+		 * @param flags
+		 *            flags for this bitmap
+		 */
+		public StoredEntry(ObjectId objectId, int namePositionOffset,
+				EWAHCompressedBitmap bitmap, int xorOffset, int flags) {
 			this.namePositionOffset = namePositionOffset;
+			this.objectId = objectId;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
 			this.flags = flags;
@@ -407,6 +433,13 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		 */
 		public long getNamePositionOffset() {
 			return namePositionOffset;
+		}
+
+		/**
+		 * @return the objectId of the object associated with this bitmap
+		 */
+		public @Nullable ObjectId getObjectId() {
+			return objectId;
 		}
 	}
 
