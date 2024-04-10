@@ -108,6 +108,11 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		return false;
 	}
 
+	@Override
+	public boolean supportParentRewrite() {
+		return true;
+	}
+
 	private static class Before extends CommitTimeRevFilter {
 		Before(long ts) {
 			super(ts);
@@ -117,7 +122,8 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		public boolean include(RevWalk walker, RevCommit cmit)
 				throws StopWalkException, MissingObjectException,
 				IncorrectObjectTypeException, IOException {
-			return cmit.getCommitTime() <= when;
+			return rewriteWrapper(walker, cmit,
+					(w, c) -> c.getCommitTime() <= when);
 		}
 
 		@SuppressWarnings("nls")
@@ -136,11 +142,14 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		public boolean include(RevWalk walker, RevCommit cmit)
 				throws StopWalkException, MissingObjectException,
 				IncorrectObjectTypeException, IOException {
+			boolean result = rewriteWrapper(walker, cmit,
+					(w, c) -> cmit.getCommitTime() >= when);
+
 			// Since the walker sorts commits by commit time we can be
 			// reasonably certain there is nothing remaining worth our
 			// scanning if this commit is before the point in question.
 			//
-			if (cmit.getCommitTime() < when)
+			if (!result)
 				throw StopWalkException.INSTANCE;
 			return true;
 		}
@@ -164,7 +173,9 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		public boolean include(RevWalk walker, RevCommit cmit)
 				throws StopWalkException, MissingObjectException,
 				IncorrectObjectTypeException, IOException {
-			return cmit.getCommitTime() <= until && cmit.getCommitTime() >= when;
+			return rewriteWrapper(walker, cmit,
+					(w, c) -> c.getCommitTime() <= until
+							&& c.getCommitTime() >= when);
 		}
 
 		@SuppressWarnings("nls")
