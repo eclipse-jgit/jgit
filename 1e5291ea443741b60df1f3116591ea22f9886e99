@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf6f9ca_342714ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-10T20:33:03Z",
+      "side": 1,
+      "message": "I think the misleading comment is the javadoc in PackReverseIndex, because this method should be doing what it says in the tin, no?\n\nThe bitmap has basically two methods:\n\"give me the position of this sha1\" (findPosition)\n\"give me the SHA1 in this position\" (getObject)\n\nIn both cases \"position\" is in the bitmap, which is the order of the pack (i.e. by offset), not in pack *index* order (by SHA1).",
+      "revId": "1e5291ea443741b60df1f3116591ea22f9886e99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
