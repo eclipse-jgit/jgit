@@ -44,10 +44,6 @@ public class TreeRevFilter extends RevFilter {
 
 	private static final int UNINTERESTING = RevWalk.UNINTERESTING;
 
-	private static final int FILTER_APPLIED = RevWalk.REV_FILTER_APPLIED;
-
-	private final int rewriteFlag;
-
 	private final TreeWalk pathFilter;
 
 	private long changedPathFilterTruePositive = 0;
@@ -98,7 +94,6 @@ public class TreeRevFilter extends RevFilter {
 		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
-		this.rewriteFlag = rewriteFlag;
 	}
 
 	@Override
@@ -107,10 +102,15 @@ public class TreeRevFilter extends RevFilter {
 	}
 
 	@Override
-	public boolean include(RevWalk walker, RevCommit c)
+	public boolean include(RevWalk walker, RevCommit cmit)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		c.flags |= FILTER_APPLIED;
+		return rewriteWrapper(walker, cmit, this::toInclude);
+	}
+
+	private boolean toInclude(RevWalk walker, RevCommit c)
+			throws StopWalkException, MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		// Reset the tree filter to scan this commit and parents.
 		//
 		RevCommit[] pList = c.getParents();
@@ -170,7 +170,6 @@ public class TreeRevFilter extends RevFilter {
 				// No changes, so our tree is effectively the same as
 				// our parent tree. We pass the buck to our parent.
 				//
-				c.flags |= rewriteFlag;
 				return false;
 			}
 
@@ -193,7 +192,6 @@ public class TreeRevFilter extends RevFilter {
 			if (tw.next()) {
 				return true;
 			}
-			c.flags |= rewriteFlag;
 			return false;
 		}
 
@@ -237,7 +235,6 @@ public class TreeRevFilter extends RevFilter {
 					continue;
 				}
 
-				c.flags |= rewriteFlag;
 				c.parents = new RevCommit[] { p };
 				return false;
 			}
@@ -271,7 +268,6 @@ public class TreeRevFilter extends RevFilter {
 		// as they are and allow those parents to flow into pending
 		// for further scanning.
 		//
-		c.flags |= rewriteFlag;
 		return false;
 	}
 

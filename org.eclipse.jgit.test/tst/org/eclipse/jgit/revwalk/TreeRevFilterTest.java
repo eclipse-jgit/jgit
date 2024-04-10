@@ -31,6 +31,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit b = commit(tree(file("d/f", blob("a"))), a);
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		rw.setRevFilter(treeRevFilter());
+		rw.setRewriteParents(false);
 		markStart(c);
 
 		assertCommit(c, rw.next());
@@ -49,6 +50,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
 		rw.setRevFilter(treeRevFilter());
+		rw.setRewriteParents(false);
 		markStart(d);
 
 		// d was skipped
@@ -69,6 +71,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit c = commit(tree(file("d/f", blob("b"))), b);
 		RevCommit d = commit(tree(file("d/f", blob("b"))), c);
 		rw.setRevFilter(treeRevFilter());
+		rw.setRewriteParents(false);
 		markStart(d);
 
 		// d was skipped
@@ -94,6 +97,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 		RevCommit h = commit(tree(file("d/f", blob("b"))), g);
 		RevCommit i = commit(tree(file("d/f", blob("c"))), h);
 		rw.setRevFilter(treeRevFilter());
+		rw.setRewriteParents(false);
 		markStart(i);
 
 		assertCommit(i, rw.next());
@@ -123,6 +127,7 @@ public class TreeRevFilterTest extends RevWalkTestCase {
 
 		// Path filter matches c, a.
 		rw.setRevFilter(pathFilter);
+		rw.setRewriteParents(false);
 		markStart(c);
 		assertCommit(c, rw.next());
 		assertCommit(a, rw.next());
