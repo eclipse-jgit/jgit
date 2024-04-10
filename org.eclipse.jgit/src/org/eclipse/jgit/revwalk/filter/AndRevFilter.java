@@ -99,10 +99,12 @@ public abstract class AndRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(RevWalk walker, RevCommit c)
+		public boolean include(RevWalk walker, RevCommit cmit)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
-			return a.include(walker, c) && b.include(walker, c);
+
+			return rewriteWrapper(walker, cmit,
+					(w, c) -> a.include(w, c) && b.include(w, c));
 		}
 
 		@Override
@@ -142,14 +144,16 @@ public abstract class AndRevFilter extends RevFilter {
 		}
 
 		@Override
-		public boolean include(RevWalk walker, RevCommit c)
+		public boolean include(RevWalk walker, RevCommit cmit)
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
-			for (RevFilter f : subfilters) {
-				if (!f.include(walker, c))
-					return false;
-			}
-			return true;
+			return rewriteWrapper(walker, cmit, (w, c) -> {
+				for (RevFilter f : subfilters) {
+					if (!f.include(w, c))
+						return false;
+				}
+				return true;
+			});
 		}
 
 		@Override

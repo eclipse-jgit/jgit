@@ -72,8 +72,8 @@ public abstract class RevFilter {
 
 	private static final class AllFilter extends RevFilter {
 		@Override
-		public boolean include(RevWalk walker, RevCommit c) {
-			return true;
+		public boolean include(RevWalk walker, RevCommit cmit) throws IOException {
+			return rewriteWrapper(walker, cmit, (w, c) -> true);
 		}
 
 		@Override
