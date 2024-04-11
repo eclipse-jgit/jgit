@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d221eab4_0229bc52",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-11T16:47:21Z",
+      "side": 1,
+      "message": "that is clearer as well.",
+      "parentUuid": "e88f6010_cadfe77d",
+      "range": {
+        "startLine": 299,
+        "startChar": 42,
+        "endLine": 300,
+        "endChar": 27
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "666138f3_6095c96c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 9
@@ -114,6 +138,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2cc1884_cedd50a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-11T16:47:21Z",
+      "side": 1,
+      "message": "Got it. Worth mentioning this as comment or test name as testChangedPathFilter_or_using_binaryOperation, testChangedPathFilter_or_using_listOperation, etc.",
+      "parentUuid": "00e8c7f5_adfe5b34",
+      "range": {
+        "startLine": 311,
+        "startChar": 35,
+        "endLine": 311,
+        "endChar": 73
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f2942cf9_7cde2f45",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 9
@@ -149,6 +197,30 @@
       "side": 1,
       "message": "Can you elaborate on why this suggestion is useful?\n\nc2 here already deletes file1 and adds file2; this is consistent with `c2 has file1 updated and file2 created.`",
       "parentUuid": "f2942cf9_7cde2f45",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6823944a_f5ea28eb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-11T16:47:21Z",
+      "side": 1,
+      "message": "That way revWalk returns c2 and operates on and operator. Otherwise c1 and c2 are identical.",
+      "parentUuid": "66ff302a_72c2dd99",
       "range": {
         "startLine": 425,
         "startChar": 0,
