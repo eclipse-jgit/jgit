@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e88f6010_cadfe77d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T16:38:59Z",
+      "side": 1,
+      "message": "acknowledged, but that might be a bit too verbose. This line is consistent with an existing test above. \n\nmaybe we can change it to `c1 is not counted as ChangedPathFilter only applies to commits with 1 parent` ?",
+      "parentUuid": "4d593b3f_3d630768",
+      "range": {
+        "startLine": 299,
+        "startChar": 42,
+        "endLine": 300,
+        "endChar": 27
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "666138f3_6095c96c",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 9
@@ -54,6 +78,30 @@
       "writtenOn": "2024-04-10T22:59:26Z",
       "side": 1,
       "message": "how is it different than above test with pathFilter_or_pathFilter?",
+      "range": {
+        "startLine": 311,
+        "startChar": 35,
+        "endLine": 311,
+        "endChar": 73
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00e8c7f5_adfe5b34",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T16:38:59Z",
+      "side": 1,
+      "message": "combinator TreeFilter classes have two different implementations, `binary` and `list`. `binary` is for two subfilters only, `list is for \u003e2 subfilters.",
+      "parentUuid": "666138f3_6095c96c",
       "range": {
         "startLine": 311,
         "startChar": 35,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66ff302a_72c2dd99",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T16:38:59Z",
+      "side": 1,
+      "message": "Can you elaborate on why this suggestion is useful?\n\nc2 here already deletes file1 and adds file2; this is consistent with `c2 has file1 updated and file2 created.`",
+      "parentUuid": "f2942cf9_7cde2f45",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78ba8aa1_13a4b3f4",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 9
@@ -100,6 +172,30 @@
       "writtenOn": "2024-04-10T22:59:26Z",
       "side": 1,
       "message": "again not sure if we need this?",
+      "range": {
+        "startLine": 454,
+        "startChar": 13,
+        "endLine": 454,
+        "endChar": 75
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d99032_2fa1cb62",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T16:38:59Z",
+      "side": 1,
+      "message": "see the comment on https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1190811/comment/666138f3_6095c96c/",
+      "parentUuid": "78ba8aa1_13a4b3f4",
       "range": {
         "startLine": 454,
         "startChar": 13,
