@@ -16,6 +16,24 @@
       "message": "these are public APIs, let\u0027s make a new one, and mark the old one as deprecated.",
       "revId": "73a18a92b43dfd15c9a549a6d0d81d54fd5bbf66",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cae7c38f_34cbb6f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-11T19:16:56Z",
+      "side": 1,
+      "message": "Yeah Jackson [also commented on that](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1192941/comment/b4407216_5c7b65d2/). @ifrade@google.com mentioned offline that packages under `.internal` are not part of the public API.\n\nThis was just made public within that last couple weeks, so I\u0027d like to improve the API cleanly if we can since there\u0027s less chance that anyone is using it yet.",
+      "parentUuid": "e8818769_a960c444",
+      "revId": "73a18a92b43dfd15c9a549a6d0d81d54fd5bbf66",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
