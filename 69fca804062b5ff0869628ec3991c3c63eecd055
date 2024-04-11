@@ -53,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd04c135_3f5591bc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-04-11T20:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13c01a68_a994f204",
+      "revId": "69fca804062b5ff0869628ec3991c3c63eecd055",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1817b10_d091f7df",
