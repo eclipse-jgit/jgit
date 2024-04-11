@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8818769_a960c444",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:59:06Z",
+      "side": 1,
+      "message": "these are public APIs, let\u0027s make a new one, and mark the old one as deprecated.",
+      "revId": "73a18a92b43dfd15c9a549a6d0d81d54fd5bbf66",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
