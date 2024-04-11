@@ -34,6 +34,24 @@
       "parentUuid": "e8818769_a960c444",
       "revId": "73a18a92b43dfd15c9a549a6d0d81d54fd5bbf66",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e75e1eb_553caff8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T19:40:52Z",
+      "side": 1,
+      "message": "\u003epackages under .internal are not part of the public API.\n\nah, i was not aware of that. Maybe it\u0027s a recent community guideline?\nback in 2019, https://gerrithub.io/c/eclipse-jgit/jgit/+/145437 (see FileSnapshot.java and LockFile.java) did have some public \".internal\" constructors/methods mark deprecated instead of changing them directly. \n\n\u003eThis was just made public within that last couple weeks\n\nsgtm, though i would yield on the side of caution.",
+      "parentUuid": "cae7c38f_34cbb6f3",
+      "revId": "73a18a92b43dfd15c9a549a6d0d81d54fd5bbf66",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
