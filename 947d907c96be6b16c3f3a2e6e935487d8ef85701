@@ -89,6 +89,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c434376_e6b5092e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d221eab4_0229bc52",
+      "range": {
+        "startLine": 299,
+        "startChar": 42,
+        "endLine": 300,
+        "endChar": 27
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "666138f3_6095c96c",
@@ -150,6 +174,30 @@
       "side": 1,
       "message": "Got it. Worth mentioning this as comment or test name as testChangedPathFilter_or_using_binaryOperation, testChangedPathFilter_or_using_listOperation, etc.",
       "parentUuid": "00e8c7f5_adfe5b34",
+      "range": {
+        "startLine": 311,
+        "startChar": 35,
+        "endLine": 311,
+        "endChar": 73
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c7df58_650bce44",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2cc1884_cedd50a7",
       "range": {
         "startLine": 311,
         "startChar": 35,
@@ -233,6 +281,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae68a3ac_d0707b11",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:23:15Z",
+      "side": 1,
+      "message": "ah, I see 2 confusions here. \n\n1. the currently setup for c2 and your suggestion of c2 are logically the same, from the point of view of TreeWalk; i.e. c2 has already updated c1 (by deleting it) and created c2. \n\n2. So the goal of this test is actually make sure \"no commits will be returned from a AND(\u003e1 path) treeFilter\". \nThe reason is that JGit treeWalk evaluates each TreeHeads of the commit separately; in this case, c2 contains TreeHeads for both file1 and file2, however the TreeFilter (in this case, the AndTreeFilter) filters them separately, so it\u0027s never possible to return anything with `AND(\u003e1 path) treeFilter`.",
+      "parentUuid": "6823944a_f5ea28eb",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78ba8aa1_13a4b3f4",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 9
@@ -291,6 +363,30 @@
       "writtenOn": "2024-04-10T22:59:26Z",
       "side": 1,
       "message": "this doesn\u0027t need to be nested.\n\nif (r \u003d\u003d TRUE || r \u003d\u003d FALSE) changedPathFilterUsed \u003d true;\nif (r \u003d\u003d FALSE) mustCalculateChgs \u003d false;",
+      "range": {
+        "startLine": 144,
+        "startChar": 5,
+        "endLine": 146,
+        "endChar": 6
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af2d882e_7b9e6813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:23:15Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "148fc9c8_8c46c0b6",
       "range": {
         "startLine": 144,
         "startChar": 5,
