@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc5dd77b_ad789627",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:57:04Z",
+      "side": 1,
+      "message": "nit: \"corresponds to a object\".\n\nnit: \"Follows the same object offsets in {@Link org.eclipse.jgit.internal.storage.file.PackFile}",
+      "revId": "9b529d0f9ecd4b9114c3010e0fe1e17b75c7d370",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eab981e_02de53f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T18:57:04Z",
+      "side": 1,
+      "message": "nit: \"objIdOffset\"",
+      "revId": "9b529d0f9ecd4b9114c3010e0fe1e17b75c7d370",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
