@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6e93825_580eed7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T19:34:20Z",
+      "side": 1,
+      "message": "nit: capitalize \"PackIndex\"",
+      "revId": "5d432012683df372efb18c8a6adc8bca2161ba73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf49220d_36a07bdd",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
         "patchSetId": 1
@@ -132,6 +149,30 @@
       "side": 1,
       "message": "I think this was also happening in the previous code. Maybe we should throw an IOException in that case?",
       "parentUuid": "64160dcb_e91df541",
+      "range": {
+        "startLine": 222,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 15
+      },
+      "revId": "5d432012683df372efb18c8a6adc8bca2161ba73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a27e13e_b72b22fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T19:34:20Z",
+      "side": 1,
+      "message": "this problem seems to out of scope for this patch, no?\n\nthe patch is trying to solve the problem of \"intermixing\", not solving the problem of \"the item is evicted before cachedRef.get() is invoked\".\n\nmaybe we can do something like:\nif both refs return null, aka Minh\u0027s case, we do another round of load and cache. This scenario should be rare, no?",
+      "parentUuid": "070cc1a6_263bd567",
       "range": {
         "startLine": 222,
         "startChar": 10,
