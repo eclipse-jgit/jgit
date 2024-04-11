@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff5e4b2_c9b10984",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-11T21:28:57Z",
+      "side": 1,
+      "message": "this approach would not work well, since TreeRevFilter could be embedding into other forms of AndRevFilter, OrRevFilter, NotRevFilter, etc.",
+      "revId": "9a905200355e40126fe55adabdfaf73a8d7fe4f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
