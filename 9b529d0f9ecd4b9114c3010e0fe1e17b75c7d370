@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64d604cb_556fe0aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndex.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-11T19:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc5dd77b_ad789627",
+      "revId": "9b529d0f9ecd4b9114c3010e0fe1e17b75c7d370",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9eab981e_02de53f2",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-11T18:57:04Z",
       "side": 1,
       "message": "nit: \"objIdOffset\"",
+      "revId": "9b529d0f9ecd4b9114c3010e0fe1e17b75c7d370",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a8908f_fb247d0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-11T19:33:27Z",
+      "side": 1,
+      "message": "Done, I didn\u0027t like `namePosition`, but that phrasing was used in `PositionEntry`, and I wanted to make it clear that these values refer to the same thing. \n\nI updated `PositionEntry` to match.",
+      "parentUuid": "9eab981e_02de53f2",
       "revId": "9b529d0f9ecd4b9114c3010e0fe1e17b75c7d370",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
