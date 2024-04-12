@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4f1345b_1093cca0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-12T18:56:27Z",
+      "side": 1,
+      "message": "nit:\n\n\"URIish: ...\"",
+      "revId": "311da8836fb14ef1fdc6328cbd4c378f6cf80a94",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "180f44f6_efc96f76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-12T18:56:27Z",
+      "side": 1,
+      "message": "nit: would be helpful to have the source link here.",
+      "revId": "311da8836fb14ef1fdc6328cbd4c378f6cf80a94",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbb90009_582294d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-12T18:56:27Z",
+      "side": 1,
+      "message": "It would be very helpful to the reviewers if you mind explicitly list out the current list of reserved characters vs the list of newly reserved characters purposed by this patch.",
+      "revId": "311da8836fb14ef1fdc6328cbd4c378f6cf80a94",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
