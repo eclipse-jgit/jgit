@@ -305,6 +305,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f47e7b83_b2bdd9e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-12T21:10:52Z",
+      "side": 1,
+      "message": "\u003e c2 has file1 updated and file2 created.\n\nI see now.. In that case isn\u0027t c2 an interesting commit and be returned by the walk?",
+      "parentUuid": "ae68a3ac_d0707b11",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78ba8aa1_13a4b3f4",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 9
