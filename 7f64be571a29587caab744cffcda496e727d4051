@@ -33,6 +33,24 @@
       "message": "what is the difference between this patch and https://gerrithub.io/c/eclipse-jgit/jgit/+/193329?",
       "revId": "7f64be571a29587caab744cffcda496e727d4051",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99cb64f6_efe7bea2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-12T17:22:40Z",
+      "side": 1,
+      "message": "ah, i was not aware that we maintain old releases as their own branches and people can still request reviews for them. \n\nanyway, seems like the feature is already in master.",
+      "parentUuid": "96e59e62_f7c10a45",
+      "revId": "7f64be571a29587caab744cffcda496e727d4051",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
