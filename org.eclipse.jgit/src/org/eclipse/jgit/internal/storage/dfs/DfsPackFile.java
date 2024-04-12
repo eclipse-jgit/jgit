@@ -71,11 +71,6 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	private static final long REF_POSITION = 0;
 
-	/**
-	 * Loader for the default file-based {@link PackBitmapIndex} implementation.
-	 */
-	public static final PackBitmapIndexLoader DEFAULT_BITMAP_LOADER = new StreamPackBitmapIndexLoader();
-
 	/** Index mapping {@link ObjectId} to position within the pack stream. */
 	private volatile PackIndex index;
 
@@ -87,8 +82,6 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	/** Index of compressed commit graph mapping entire object graph. */
 	private volatile CommitGraph commitGraph;
-
-	private final PackBitmapIndexLoader bitmapLoader;
 
 	/** Index by size */
 	private boolean objectSizeIndexLoadAttempted;
@@ -110,7 +103,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	private final IndexFactory indexFactory;
 
 	/**
-	 * Take care of loading the indices for this pack.
+	 * Take care of loading the indices for packs.
 	 *
 	 * Implementations could cache the loaded indices, but callers shouldn't
 	 * assume that.
@@ -145,6 +138,35 @@ public final class DfsPackFile extends BlockBasedFile {
 		 */
 		PackReverseIndex reverseIndex(DfsReader ctx, DfsPackDescription desc)
 				throws IOException;
+
+		/**
+		 * Check if the pack has bitmap index without loading it
+		 *
+		 * @param ctx
+		 *            reader to find the raw bytes
+		 * @param desc
+		 *            pack description
+		 * @return true if the pack has a bitmap index attached
+		 * @throws IOException
+		 *             a problem accessing storage
+		 */
+		boolean hasBitmapIndex(DfsReader ctx, DfsPackDescription desc)
+				throws IOException;
+
+		/**
+		 * Get the bitmap index associated to this pack
+		 *
+		 * @param ctx
+		 *            reader to find the raw bytes
+		 * @param desc
+		 *            pack description
+		 * @return the index, null if no bitmap in this pack or could not be
+		 *         loaded
+		 * @throws IOException
+		 *             a problem reading from storage or parsing the index
+		 */
+		PackBitmapIndex bitmapIndex(DfsReader ctx,
+				DfsPackDescription desc) throws IOException;
 	}
 
 	/**
@@ -156,7 +178,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *            description of the pack within the DFS.
 	 */
 	DfsPackFile(DfsBlockCache cache, DfsPackDescription desc) {
-		this(cache, desc, DEFAULT_BITMAP_LOADER, new CachedStreamIndexFactory(cache));
+		this(cache, desc, new CachedStreamIndexFactory(cache));
 	}
 
 	/**
@@ -166,13 +188,10 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *            cache that owns the pack data
 	 * @param desc
 	 *            description of the pack within the DFS
-	 * @param bitmapLoader
-	 *            loader to get the bitmaps of this pack (if any)
 	 * @param indexFactory
-	 *            loads the indices for this pack on demand
+	 *            factory to get the indices of this pack
 	 */
 	public DfsPackFile(DfsBlockCache cache, DfsPackDescription desc,
-			PackBitmapIndexLoader bitmapLoader,
 			IndexFactory indexFactory) {
 		super(cache, desc, PACK);
 
@@ -184,7 +203,6 @@ public final class DfsPackFile extends BlockBasedFile {
 		long sz = desc.getFileSize(PACK);
 		length = sz > 0 ? sz : -1;
 
-		this.bitmapLoader = bitmapLoader;
 		this.indexFactory = indexFactory;
 	}
 
@@ -269,7 +287,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	 *             the bitmap index is not available, or is corrupt.
 	 */
 	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
-		if (invalid || isGarbage() || !bitmapLoader.hasBitmaps(desc)) {
+		if (invalid || isGarbage() || !indexFactory.hasBitmapIndex(ctx, desc)) {
 			return null;
 		}
 
@@ -277,28 +295,10 @@ public final class DfsPackFile extends BlockBasedFile {
 			return bitmapIndex;
 		}
 
-		if (!bitmapLoader.keepInDfs(desc)) {
-			PackBitmapIndexLoader.LoadResult result = bitmapLoader
-					.loadPackBitmapIndex(ctx, this);
-			if (bitmapIndex == null && result.bitmapIndex != null) {
-				bitmapIndex = result.bitmapIndex;
-			}
-			return bitmapIndex;
-		}
-
-		DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
-		AtomicBoolean cacheHit = new AtomicBoolean(true);
-		DfsBlockCache.Ref<PackBitmapIndex> idxref = cache
-				.getOrLoadRef(bitmapKey, REF_POSITION, () -> {
-					cacheHit.set(false);
-					return loadBitmapIndex(ctx, bitmapKey);
-				});
-		if (cacheHit.get()) {
-			ctx.stats.bitmapCacheHit++;
-		}
-		PackBitmapIndex bmidx = idxref.get();
-		if (bitmapIndex == null && bmidx != null) {
-			bitmapIndex = bmidx;
+		bitmapIndex = indexFactory.bitmapIndex(ctx, desc);
+		if (bitmapIndex == null) {
+			throw new IOException(
+					"Couldn't get a reference to the bitmap index"); //$NON-NLS-1$
 		}
 		ctx.emitIndexLoad(desc, BITMAP_INDEX, bitmapIndex);
 		return bitmapIndex;
@@ -1270,16 +1270,6 @@ public final class DfsPackFile extends BlockBasedFile {
 				objectSizeIndex);
 	}
 
-	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
-			DfsStreamKey bitmapKey) throws IOException {
-		ctx.stats.readBitmap++;
-		PackBitmapIndexLoader.LoadResult result = bitmapLoader
-				.loadPackBitmapIndex(ctx, this);
-		bitmapIndex = result.bitmapIndex;
-		return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION,
-				result.bytesRead, result.bitmapIndex);
-	}
-
 	private DfsBlockCache.Ref<CommitGraph> loadCommitGraph(DfsReader ctx,
 			DfsStreamKey cgkey) throws IOException {
 		ctx.stats.readCommitGraph++;
@@ -1322,117 +1312,6 @@ public final class DfsPackFile extends BlockBasedFile {
 			bs = wantSize;
 		}
 		return new BufferedInputStream(in, bs);
-	}
-
-	/**
-	 * Loads the PackBitmapIndex associated with this packfile
-	 */
-	public interface PackBitmapIndexLoader {
-		/**
-		 * Does this pack has bitmaps associated?
-		 *
-		 * @param desc
-		 *            the pack
-		 * @return true if the pack has bitmaps
-		 */
-		boolean hasBitmaps(DfsPackDescription desc);
-
-		/**
-		 * If the returned instance must be kept in DFS cache
-		 *
-		 * It should be true when the instance is expensive to load and can be
-		 * reused.
-		 *
-		 * @param desc
-		 *            the pack
-		 * @return true if the returned bitmap index should be kept in DFS
-		 */
-		boolean keepInDfs(DfsPackDescription desc);
-
-		/**
-		 * Returns a PackBitmapIndex for this pack, if the pack has bitmaps
-		 * associated.
-		 *
-		 * @param ctx
-		 *            the reader
-		 * @param pack
-		 *            the pack
-		 * @return the pack bitmap index and bytes size (when applicable)
-		 * @throws IOException
-		 *             error accessing storage
-		 */
-		LoadResult loadPackBitmapIndex(DfsReader ctx, DfsPackFile pack)
-				throws IOException;
-
-		/**
-		 * The instance of the pack bitmap index and the amount of bytes loaded.
-		 *
-		 * The bytes can be 0, if the implementation doesn't do any initial
-		 * loading.
-		 */
-		public class LoadResult {
-			/** The loaded {@link PackBitmapIndex}. */
-			public final PackBitmapIndex bitmapIndex;
-
-			/** The bytes read upon initial load (may be 0). */
-			public final long bytesRead;
-
-			/**
-			 * Constructs the LoadResult.
-			 *
-			 * @param packBitmapIndex
-			 *            the loaded index.
-			 * @param bytesRead
-			 *            the bytes read upon loading.
-			 */
-			public LoadResult(PackBitmapIndex packBitmapIndex, long bytesRead) {
-				this.bitmapIndex = packBitmapIndex;
-				this.bytesRead = bytesRead;
-			}
-		}
-	}
-
-	/**
-	 * Load the packbitmapindex from the BITMAP_INDEX pack extension
-	 */
-	private static final class StreamPackBitmapIndexLoader implements PackBitmapIndexLoader {
-		@Override
-		public boolean hasBitmaps(DfsPackDescription desc) {
-			return desc.hasFileExt(BITMAP_INDEX);
-		}
-
-		@Override
-		public boolean keepInDfs(DfsPackDescription desc) {
-			return true;
-		}
-
-		@Override
-		public LoadResult loadPackBitmapIndex(DfsReader ctx, DfsPackFile pack)
-				throws IOException {
-			DfsPackDescription desc = pack.getPackDescription();
-			try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
-				long size;
-				PackBitmapIndex bmidx;
-				try {
-					bmidx = PackBitmapIndex.read(alignTo8kBlocks(rc),
-							() -> pack.idx(ctx), () -> pack.getReverseIdx(ctx),
-							ctx.getOptions().shouldLoadRevIndexInParallel());
-				} finally {
-					size = rc.position();
-				}
-				return new LoadResult(bmidx, size);
-			} catch (EOFException e) {
-				throw new IOException(
-						MessageFormat.format(DfsText.get().shortReadOfIndex,
-								desc.getFileName(BITMAP_INDEX)),
-						e);
-			} catch (IOException e) {
-				throw new IOException(
-						MessageFormat.format(DfsText.get().cannotReadIndex,
-								desc.getFileName(BITMAP_INDEX)),
-						e);
-			}
-		}
 	}
 
 	/**
@@ -1526,6 +1405,58 @@ public final class DfsPackFile extends BlockBasedFile {
 			PackReverseIndex revidx = PackReverseIndexFactory.computeFromIndex(idx);
 			ctx.stats.readReverseIdxMicros += elapsedMicros(start);
 			return new RefWithSize<>(revidx, idx.getObjectCount() * 8);
+		}
+
+		@Override
+		public boolean hasBitmapIndex(DfsReader ctx, DfsPackDescription desc) {
+			return desc.hasFileExt(BITMAP_INDEX);
+		}
+
+		@Override
+		public PackBitmapIndex bitmapIndex(DfsReader ctx,
+				DfsPackDescription desc) throws IOException {
+			DfsStreamKey bitmapKey = desc.getStreamKey(BITMAP_INDEX);
+			AtomicReference<PackBitmapIndex> loadedRef = new AtomicReference<>(
+					null);
+			DfsBlockCache.Ref<PackBitmapIndex> cachedRef = cache
+					.getOrLoadRef(bitmapKey, REF_POSITION, () -> {
+						RefWithSize<PackBitmapIndex> bmIdx = loadBitmapIndex(
+								ctx, desc);
+						loadedRef.set(bmIdx.ref);
+						return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION,
+								bmIdx.size, bmIdx.ref);
+					});
+			if (loadedRef.get() == null) {
+				ctx.stats.bitmapCacheHit++;
+			}
+			return cachedRef.get() == null ? cachedRef.get() : loadedRef.get();
+		}
+
+		private RefWithSize<PackBitmapIndex> loadBitmapIndex(
+				DfsReader ctx, DfsPackDescription desc) throws IOException {
+			try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
+				long size;
+				PackBitmapIndex bmidx;
+				try {
+					bmidx = PackBitmapIndex.read(alignTo8kBlocks(rc),
+							() -> index(ctx, desc),
+							() -> reverseIndex(ctx, desc),
+							ctx.getOptions().shouldLoadRevIndexInParallel());
+				} finally {
+					size = rc.position();
+				}
+				return new RefWithSize<>(bmidx, size);
+			} catch (EOFException e) {
+				throw new IOException(
+						MessageFormat.format(DfsText.get().shortReadOfIndex,
+								desc.getFileName(BITMAP_INDEX)),
+						e);
+			} catch (IOException e) {
+				throw new IOException(
+						MessageFormat.format(DfsText.get().cannotReadIndex,
+								desc.getFileName(BITMAP_INDEX)),
+						e);
+			}
 		}
 	}
 
