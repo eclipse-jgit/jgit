@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0bb4d75_2896b2ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-12T00:40:54Z",
+      "side": 1,
+      "message": "Thanks for the advice! I think this is much easier for a new dev to understand now.",
+      "revId": "a545dfb14c38e672f4e6060903cde95238f4e801",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

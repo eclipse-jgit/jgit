@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88181194_65512550",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-12T00:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfd88cfd_846cf07f",
+      "range": {
+        "startLine": 333,
+        "startChar": 21,
+        "endLine": 333,
+        "endChar": 35
+      },
+      "revId": "dc2b8f2386c7d1f5d73d711f7046c96ee0f102ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70284aab_773a0fb3",
@@ -41,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b7e185_e08777e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-12T00:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70284aab_773a0fb3",
+      "revId": "dc2b8f2386c7d1f5d73d711f7046c96ee0f102ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24977c70_8e9a8426",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-04-11T23:59:35Z",
       "side": 1,
       "message": "\"The position of the object with this bitmap in the primary index (i.e. ordered by sha1)\"",
+      "range": {
+        "startLine": 393,
+        "startChar": 13,
+        "endLine": 394,
+        "endChar": 56
+      },
+      "revId": "dc2b8f2386c7d1f5d73d711f7046c96ee0f102ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8812a047_5cfa71b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-12T00:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24977c70_8e9a8426",
       "range": {
         "startLine": 393,
         "startChar": 13,
@@ -87,6 +153,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9c4f53d_02ca8b7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-12T00:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca722844_eae86e0c",
+      "range": {
+        "startLine": 396,
+        "startChar": 14,
+        "endLine": 396,
+        "endChar": 31
+      },
+      "revId": "dc2b8f2386c7d1f5d73d711f7046c96ee0f102ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb94afba_12f99403",
@@ -100,6 +190,24 @@
       "writtenOn": "2024-04-11T23:59:35Z",
       "side": 1,
       "message": "Not sue what this positions are.\n\nIs objectIdOffset the idxPosition?\n\nIs packFileOffset is the actual byte in the pack or the position in the reverseIndex? The first could be called \"packOffset\" and the second \"ridxPosition\"",
+      "revId": "dc2b8f2386c7d1f5d73d711f7046c96ee0f102ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5f05c6b_405a749f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-04-12T00:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb94afba_12f99403",
       "revId": "dc2b8f2386c7d1f5d73d711f7046c96ee0f102ff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
