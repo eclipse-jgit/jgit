@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c18c7d0_45f03754",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-12T16:14:08Z",
+      "side": 1,
+      "message": "Readding Xing in CC. I thought I had added him by accident, but it was himself when commenting. Sorry about that.",
+      "revId": "fdf965b61acfcd3fda99e2ae2ac828b668d67671",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
