@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eab97a4_efe8391d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-12T04:51:39Z",
+      "side": 1,
+      "message": "I updated a javadoc, to avoid mixing \"offset\" (which usually means bytes into the pack) and position (place in an ordered list).",
+      "revId": "362a167c7a21f7fc8c2916c386ea9840cd869dba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
