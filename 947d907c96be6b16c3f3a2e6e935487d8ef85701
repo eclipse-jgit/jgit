@@ -327,6 +327,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "726f0a82_073bb5e8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-12T21:48:44Z",
+      "side": 1,
+      "message": "no commits will be returned by the walk, since TreeFilter operates on filtering tree, one by one, a tree can\u0027t be possibly be two different paths at once.",
+      "parentUuid": "f47e7b83_b2bdd9e8",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 60
+      },
+      "revId": "947d907c96be6b16c3f3a2e6e935487d8ef85701",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78ba8aa1_13a4b3f4",
