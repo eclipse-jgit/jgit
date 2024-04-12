@@ -16,6 +16,23 @@
       "message": "@xingkhuang thank you for your review. I updated the commit message based on your comments.",
       "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b897e62_22b41d95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2024-04-12T20:50:31Z",
+      "side": 1,
+      "message": "The only change between the first successful CI run and the second failing CI run was only in the commit message. So I suspect a flaky test setup.\nIs there a way to request another run?",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
