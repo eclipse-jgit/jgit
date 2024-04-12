@@ -39,6 +39,30 @@
       },
       "revId": "37c120f2edd336686f530914681db687e3fff7dd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02e93332_6227b82f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-12T21:50:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c51c5d17_4cb72ead",
+      "range": {
+        "startLine": 266,
+        "startChar": 1,
+        "endLine": 268,
+        "endChar": 2
+      },
+      "revId": "37c120f2edd336686f530914681db687e3fff7dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
