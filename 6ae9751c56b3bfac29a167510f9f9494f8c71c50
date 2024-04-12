@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f90c03e8_4f06426a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-12T22:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b147b2fb_4ea189f0",
+      "revId": "6ae9751c56b3bfac29a167510f9f9494f8c71c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "779a03c3_7d537532",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba5e9063_1cb8cbb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-12T22:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "779a03c3_7d537532",
+      "revId": "6ae9751c56b3bfac29a167510f9f9494f8c71c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51cf2ed9_3c7d36e8",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-04-12T21:00:48Z",
       "side": 1,
       "message": "nit: why is it necessary to store size in this private class? we could just calculate the size at `DfsBlockCache.Ref` construction like before, no?",
+      "revId": "6ae9751c56b3bfac29a167510f9f9494f8c71c50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5295a7bb_2802386c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1456,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-12T22:30:13Z",
+      "side": 1,
+      "message": "Some of the indices take their size from the bytes read from the stream, so it needs to be recorded at loading time.\n\nMaybe this is something that could be clean up later, if we think we need more accurate sizes in DFS (it hasn\u0027t been a concern so far)",
+      "parentUuid": "51cf2ed9_3c7d36e8",
       "revId": "6ae9751c56b3bfac29a167510f9f9494f8c71c50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
