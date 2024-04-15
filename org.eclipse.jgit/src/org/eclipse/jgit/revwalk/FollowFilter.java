@@ -18,7 +18,7 @@ import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathAnyDiffFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -56,15 +56,15 @@ public class FollowFilter extends TreeFilter {
 	 * @since 3.0
 	 */
 	public static FollowFilter create(String path, DiffConfig cfg) {
-		return new FollowFilter(PathFilter.create(path), cfg);
+		return new FollowFilter(PathAnyDiffFilter.create(path), cfg);
 	}
 
-	private final PathFilter path;
+	private final PathAnyDiffFilter path;
 	final DiffConfig cfg;
 
 	private RenameCallback renameCallback;
 
-	FollowFilter(PathFilter path, DiffConfig cfg) {
+	FollowFilter(PathAnyDiffFilter path, DiffConfig cfg) {
 		this.path = path;
 		this.cfg = cfg;
 	}
@@ -76,19 +76,24 @@ public class FollowFilter extends TreeFilter {
 	 * @return the path this filter matches.
 	 */
 	public String getPath() {
-		return path.getPath();
+		return path.getPaths().get(0);
 	}
 
 	@Override
 	public boolean include(TreeWalk walker)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		return path.include(walker) && ANY_DIFF.include(walker);
+		return path.include(walker);
+	}
+
+	@Override
+	public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+		return path.shouldTreeWalk(c, rw);
 	}
 
 	@Override
 	public boolean shouldBeRecursive() {
-		return path.shouldBeRecursive() || ANY_DIFF.shouldBeRecursive();
+		return path.shouldBeRecursive();
 	}
 
 	@Override
@@ -105,9 +110,7 @@ public class FollowFilter extends TreeFilter {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		return "(FOLLOW(" + path.toString() + ")" //
-				+ " AND " //
-				+ ANY_DIFF.toString() + ")";
+		return "(FOLLOW(" + path.toString() + "))";
 	}
 
 	/**
