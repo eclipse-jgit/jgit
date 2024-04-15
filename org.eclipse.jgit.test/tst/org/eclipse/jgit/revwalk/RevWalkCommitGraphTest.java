@@ -37,8 +37,9 @@ import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.OrTreeFilter;
+import org.eclipse.jgit.treewalk.filter.PathAnyDiffFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
@@ -173,57 +174,65 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 	@Test
 	public void testChangedPathFilter() throws Exception {
-		RevCommit c1 = commitFile("file1", "1", "master");
-		commitFile("file2", "2", "master");
-		RevCommit c3 = commitFile("file1", "3", "master");
-		RevCommit c4 = commitFile("file2", "4", "master");
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(tree(file("file2", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file1", blob("3"))), c2);
+		RevCommit c4 = commit(tree(file("file2", blob("4"))), c3);
 
-		enableAndWriteCommitGraph();
-
-		TreeRevFilter trf = new TreeRevFilter(rw, PathFilter.create("file1"));
-		rw.markStart(rw.lookupCommit(c4));
-		rw.setRevFilter(trf);
-		assertEquals(c3, rw.next());
-		assertEquals(c1, rw.next());
-		assertNull(rw.next());
-
-		// 1 commit that has exactly one parent and matches path
-		assertEquals(1, trf.getChangedPathFilterTruePositive());
-
-		// No false positives
-		assertEquals(0, trf.getChangedPathFilterFalsePositive());
-
-		// 2 commits that have exactly one parent and don't match path
-		assertEquals(2, trf.getChangedPathFilterNegative());
-	}
-
-	@Test
-	public void testChangedPathFilterWithMultiPaths() throws Exception {
-		RevCommit c1 = commitFile("file1", "1", "master");
-		RevCommit c2 = commitFile("file1", "2", "master");
-		RevCommit c3 = commitFile("file2", "3", "master");
-		RevCommit c4 = commitFile("file3", "4", "master");
+		branch(c4, "master");
 
 		enableAndWriteCommitGraph();
 
 		TreeRevFilter trf = new TreeRevFilter(rw,
-				PathFilterGroup.createFromStrings(List.of("file1", "file2")));
+				PathAnyDiffFilter.create("file1"));
 		rw.markStart(rw.lookupCommit(c4));
 		rw.setRevFilter(trf);
+		assertEquals(c4, rw.next());
 		assertEquals(c3, rw.next());
 		assertEquals(c2, rw.next());
 		assertEquals(c1, rw.next());
 		assertNull(rw.next());
 
-		// c2 and c3 has either file1 or file2, c1 did not use ChangedPathFilter
-		// since it has no parent
-		assertEquals(2, trf.getChangedPathFilterTruePositive());
+		// all commits modified file1 but c1 did not have a parent
+		assertEquals(3, trf.getChangedPathFilterTruePositive());
 
 		// No false positives
 		assertEquals(0, trf.getChangedPathFilterFalsePositive());
 
-		// c4 does not match either file1 or file2
-		assertEquals(1, trf.getChangedPathFilterNegative());
+		// No negatives because all 4 commits had modified file1
+		assertEquals(0, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterWithMultiPaths() throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(tree(file("file1", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file2", blob("3"))), c2);
+		RevCommit c4 = commit(tree(file("file3", blob("4"))), c3);
+
+		branch(c4, "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeRevFilter trf = new TreeRevFilter(rw,
+				PathAnyDiffFilter.create("file1", "file2"));
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c4, rw.next());
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// all commits have modified either file1 or file2, c1 did not have a
+		// parent
+		assertEquals(3, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// No negative
+		assertEquals(0, trf.getChangedPathFilterNegative());
 	}
 
 	@Test
@@ -246,7 +255,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 				ConfigConstants.CONFIG_KEY_RENAMES, "true");
 
 		TreeRevFilter trf = new TreeRevFilter(rw,
-				new FollowFilter(PathFilter.create("renamed-file"),
+				new FollowFilter(PathAnyDiffFilter.create("renamed-file"),
 						db.getConfig().get(DiffConfig.KEY)));
 		rw.markStart(rw.lookupCommit(c4));
 		rw.setRevFilter(trf);
@@ -264,6 +273,293 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		// 2 commits that have exactly one parent and don't match path
 		assertEquals(2, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_pathFilter_or_pathFilter_binaryOperation()
+			throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(
+				tree(file("file1", blob("1")), file("file2", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file2", blob("2"))), c2);
+		RevCommit c4 = commit(
+				tree(file("file2", blob("2")), file("file3", blob("3"))), c3);
+		RevCommit c5 = commit(
+				tree(file("file2", blob("2")), file("file3", blob("3"))), c4);
+
+		branch(c5, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pf1 = PathAnyDiffFilter.create("file1");
+		PathAnyDiffFilter pf2 = PathAnyDiffFilter.create("file2");
+
+		TreeFilter tf = OrTreeFilter.create(new PathAnyDiffFilter[] { pf1, pf2 });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c5));
+		rw.setRevFilter(trf);
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// c2 and c3 has either file1 or file2, c1 is not counted as
+		// ChangedPathFilter only applies to commits with 1 parent
+		assertEquals(2, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// c4 and c5 did not modify file1 or file2
+		assertEquals(2, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_pathFilter_or_pathFilter_or_pathFilter_listOperation()
+			throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(
+				tree(file("file1", blob("1")), file("file2", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file2", blob("2"))), c2);
+		RevCommit c4 = commit(tree(file("file3", blob("3"))), c3);
+		RevCommit c5 = commit(tree(file("file3", blob("3"))), c4);
+
+		branch(c5, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pf1 = PathAnyDiffFilter.create("file1");
+		PathAnyDiffFilter pf2 = PathAnyDiffFilter.create("file2");
+		PathAnyDiffFilter pf3 = PathAnyDiffFilter.create("file3");
+
+		TreeFilter tf = OrTreeFilter.create(new PathAnyDiffFilter[] { pf1, pf2, pf3 });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c5));
+		rw.setRevFilter(trf);
+		assertEquals(c4, rw.next());
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// c2 and c3 has either modified file1 or file2 or file3, c1 is not
+		// counted as ChangedPathFilter only applies to commits with 1 parent
+		assertEquals(3, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// c5 does not modify either file1 or file2 or file3
+		assertEquals(1, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_pathFilter_or_nonPathFilter_binaryOperation()
+			throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(tree(file("file2", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file2", blob("3"))), c2);
+		RevCommit c4 = commit(tree(file("file2", blob("3"))), c3);
+
+		branch(c4, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pf = PathAnyDiffFilter.create("file1");
+		TreeFilter npf = TreeFilter.ANY_DIFF;
+
+		TreeFilter tf = OrTreeFilter.create(new TreeFilter[] { pf, npf });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// c2 modified file1, c3 defaulted positive due to ANY_DIFF, c1 is not
+		// counted as ChangedPathFilter only applies to commits with 1 parent
+		assertEquals(2, trf.getChangedPathFilterTruePositive());
+
+		// c4 defaulted positive due to ANY_DIFF, but didn't no diff with its
+		// parent c3
+		assertEquals(1, trf.getChangedPathFilterFalsePositive());
+
+		// No negative due to the OrTreeFilter
+		assertEquals(0, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_nonPathFilter_or_nonPathFilter_binaryOperation()
+			throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
+		RevCommit c3 = commitFile("file3", "3", "master");
+		RevCommit c4 = commitFile("file4", "4", "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeFilter npf1 = TreeFilter.ANY_DIFF;
+		TreeFilter npf2 = TreeFilter.ANY_DIFF;
+
+		TreeFilter tf = OrTreeFilter.create(new TreeFilter[] { npf1, npf2 });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c4, rw.next());
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// No true positives since there's no pathFilter
+		assertEquals(0, trf.getChangedPathFilterTruePositive());
+
+		// No false positives since there's no pathFilter
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// No negative since there's no pathFilter
+		assertEquals(0, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_pathFilter_and_pathFilter_binaryOperation()
+			throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(tree(file("file2", blob("2"))), c1);
+
+		branch(c2, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pf1 = PathAnyDiffFilter.create("file1");
+		PathAnyDiffFilter pf2 = PathAnyDiffFilter.create("file2");
+
+		TreeFilter atf = AndTreeFilter.create(new PathAnyDiffFilter[] { pf1, pf2 });
+		TreeRevFilter trf = new TreeRevFilter(rw, atf);
+
+		rw.markStart(rw.lookupCommit(c2));
+		rw.setRevFilter(trf);
+
+		assertNull(rw.next());
+
+		// c1 is not counted as ChangedPathFilter only applies to commits with 1
+		// parent
+		assertEquals(0, trf.getChangedPathFilterTruePositive());
+
+		// c2 has modified both file 1 and file2,
+		// however nothing is returned from TreeWalk since a TreeHead
+		// cannot be two paths at once
+		assertEquals(1, trf.getChangedPathFilterFalsePositive());
+
+		// No negatives
+		assertEquals(0, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_pathFilter_and_pathFilter_and_pathFilter_listOperation()
+			throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(tree(file("file2", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file3", blob("3"))), c2);
+
+		branch(c3, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pf1 = PathAnyDiffFilter.create("file1");
+		PathAnyDiffFilter pf2 = PathAnyDiffFilter.create("file2");
+		PathAnyDiffFilter pf3 = PathAnyDiffFilter.create("file3");
+
+		TreeFilter tf = AndTreeFilter
+				.create(new PathAnyDiffFilter[] { pf1, pf2, pf3 });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c3));
+		rw.setRevFilter(trf);
+		assertNull(rw.next());
+
+		// c1 is not counted as ChangedPathFilter only applies to commits with 1
+		// parent
+		assertEquals(0, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// c2 and c3 can not possibly have both file1, file2, and file3 as
+		// treeHead at once
+		assertEquals(2, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_pathFilter_and_nonPathFilter_binaryOperation()
+			throws Exception {
+		RevCommit c1 = commit(tree(file("file1", blob("1"))));
+		RevCommit c2 = commit(tree(file("file1", blob("2"))), c1);
+		RevCommit c3 = commit(tree(file("file1", blob("2"))), c2);
+
+		branch(c3, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pf = PathAnyDiffFilter.create("file1");
+		TreeFilter npf = TreeFilter.ANY_DIFF;
+
+		TreeFilter tf = AndTreeFilter.create(new TreeFilter[] { pf, npf });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c3));
+		rw.setRevFilter(trf);
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// c2 modified file1 and c1 is not counted as ChangedPathFilter only
+		// applies to commits with 1 parent
+		assertEquals(1, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// c3 did not modify file1
+		assertEquals(1, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilter_nonPathFilter_and_nonPathFilter_binaryOperation()
+			throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		commitFile("file1", "1", "master");
+		RevCommit c3 = commitFile("file3", "3", "master");
+		RevCommit c4 = commitFile("file4", "4", "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeFilter npf1 = TreeFilter.ANY_DIFF;
+		TreeFilter npf2 = TreeFilter.ANY_DIFF;
+
+		TreeFilter tf = AndTreeFilter.create(new TreeFilter[] { npf1, npf2 });
+
+		TreeRevFilter trf = new TreeRevFilter(rw, tf);
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c4, rw.next());
+		assertEquals(c3, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// No true positives since there's no path
+		assertEquals(0, trf.getChangedPathFilterTruePositive());
+
+		// No false positives since there's no path
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// No negative since there's no path
+		assertEquals(0, trf.getChangedPathFilterNegative());
 	}
 
 	@Test
