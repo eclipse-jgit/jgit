@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1fc034c_a4c8f950",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-15T20:34:45Z",
+      "side": 1,
+      "message": "Good question and good point!\n\nI have considered `TEMP_MARK`, but was too hesitant on it due to my unfamiliarity with other generators (and how they might interact with the `TEMP_MARK`).\n\nThere\u0027s are 2 condition(s) I had to verify before using `TEMP_MARK` for our use case here:\n\n1. Ensure the lifecycle of `shouldTreeWalk` setting the flag and `TreeRevFilter` removing the flag can not be intercept by anything in between. I think this is true for us. \n2. The `shouldTreeWalk` can not be called between the window of another component/generator setting the `TEMP_MARK` and removing the `TEMP_MARK`. Since the include logic of TreeRevFilter can only called by PendingGenerator, we just have to make sure no other generator wrapping around Source/PendingGenerator is holding the `TEMP_MARK` bit before calling the Source/PendingGenerator next(), I believe this is true as well. Here are my findings:\n   - RewriteGenerator: only set flag after the Source/PendingGenerator finishes its next().\n   - MergeBasedGenerator: does not use PendingGenerator.\n   - BoundaryGenerator.InitialGenerator: only set flag after the Source/PendingGenerator finishes its next().\n\n\nTL;DR\n\nYou are right that we can use `TEMP_MARK`, I was being very conservative about it 😊",
+      "parentUuid": "da539c58_c030f8f8",
+      "revId": "c8c094e8a225c15bc3bd0bedaefda04da496e2e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86a81d4d_ba062981",
@@ -66,6 +84,30 @@
       "writtenOn": "2024-04-15T19:20:37Z",
       "side": 1,
       "message": "|| to do a logical or",
+      "range": {
+        "startLine": 123,
+        "startChar": 34,
+        "endLine": 123,
+        "endChar": 36
+      },
+      "revId": "c8c094e8a225c15bc3bd0bedaefda04da496e2e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60898e55_5287b756",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-15T20:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20f42bd3_49d2385f",
       "range": {
         "startLine": 123,
         "startChar": 34,
