@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da539c58_c030f8f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-15T19:20:37Z",
+      "side": 1,
+      "message": "Maybe you can just use the TEMP_MARK above?",
+      "revId": "c8c094e8a225c15bc3bd0bedaefda04da496e2e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86a81d4d_ba062981",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
         "patchSetId": 1
@@ -32,6 +49,29 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "86a81d4d_ba062981",
+      "revId": "c8c094e8a225c15bc3bd0bedaefda04da496e2e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f42bd3_49d2385f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-04-15T19:20:37Z",
+      "side": 1,
+      "message": "|| to do a logical or",
+      "range": {
+        "startLine": 123,
+        "startChar": 34,
+        "endLine": 123,
+        "endChar": 36
+      },
       "revId": "c8c094e8a225c15bc3bd0bedaefda04da496e2e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
