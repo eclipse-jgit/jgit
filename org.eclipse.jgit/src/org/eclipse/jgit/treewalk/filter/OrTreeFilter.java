@@ -12,11 +12,14 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -116,6 +119,13 @@ public abstract class OrTreeFilter extends TreeFilter {
 		}
 
 		@Override
+		public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
+				MutableBoolean cpfUsed) {
+			return a.shouldTreeWalk(c, rw, cpfUsed)
+					|| b.shouldTreeWalk(c, rw, cpfUsed);
+		}
+
+		@Override
 		public boolean shouldBeRecursive() {
 			return a.shouldBeRecursive() || b.shouldBeRecursive();
 		}
@@ -161,6 +171,13 @@ public abstract class OrTreeFilter extends TreeFilter {
 				}
 			}
 			return m;
+		}
+
+		@Override
+		public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
+				MutableBoolean cpfUsed) {
+			return Arrays.stream(subfilters)
+					.anyMatch(t -> t.shouldTreeWalk(c, rw, cpfUsed));
 		}
 
 		@Override
