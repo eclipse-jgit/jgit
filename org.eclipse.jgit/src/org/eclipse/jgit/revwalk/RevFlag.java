@@ -46,6 +46,21 @@ public class RevFlag {
 	 */
 	public static final RevFlag SEEN = new StaticRevFlag("SEEN", RevWalk.SEEN); //$NON-NLS-1$
 
+	/**
+	 * Set on RevCommit instances that had their ChangedPathFilter exercised.
+	 * <p>
+	 * We use this flag to determine whether a RevCommit had used its
+	 * ChangedPathFilter in TreeRevFilter.
+	 * This RevFlag is self contained within the TreeRevFilter include logic.
+	 * <p>
+	 * This is a static flag. Its RevWalk is not available.
+	 *
+	 * @since 6.10
+	 */
+	public static final RevFlag CHANGED_PATHS_FILTER_APPLIED = new StaticRevFlag(
+			"CHANGED_PATHS_FILTER_APPLIED",
+			RevWalk.TEMP_MARK); // $NON-NLS-1$
+
 	final RevWalk walker;
 
 	final String name;
