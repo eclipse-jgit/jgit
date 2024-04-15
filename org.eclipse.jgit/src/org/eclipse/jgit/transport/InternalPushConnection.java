@@ -24,6 +24,11 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 class InternalPushConnection<C> extends BasePackPushConnection {
 	private Thread worker;
+	/**
+	 * Flag to synchronize the "JGit-Receive-Pack" thread with the main calling
+	 * thread.
+	 */
+	private final Boolean[] synchronizationPointReached = {false};
 
 	/**
 	 * Constructor for InternalPushConnection.
@@ -77,6 +82,23 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 					// default handler will dump it to stderr.
 					throw new UncheckedIOException(e);
 				} finally {
+					// We need to wait here to not close out_r until the main
+					// calling thread executes the readStatusReport() method.
+					// If out_r is closed before the readStatusReport() method
+					// is executed, then the main calling thread may not receive
+					// the message sent by this thread and the exception
+					// corresponding to this message will not be thrown by
+					// the main calling thread in that case. IOException
+					// "Pipe closed" will be thrown by the main calling thread
+					// instead.
+					synchronized (synchronizationPointReached) {
+						while (!synchronizationPointReached[0])
+							try {
+								synchronizationPointReached.wait();
+							} catch (InterruptedException e) {
+								// Ignore spurious wakeups
+							}
+					}
 					try {
 						out_r.close();
 					} catch (IOException e2) {
@@ -104,6 +126,14 @@ class InternalPushConnection<C> extends BasePackPushConnection {
 		super.close();
 
 		if (worker != null) {
+			synchronizationPointReached[0] = true;
+			synchronized (synchronizationPointReached) {
+				// The "JGit-Receive-Pack" thread could be waiting for this thread
+				// so as not to close out_r until we get here.
+				// Let's wake it up now.
+				synchronizationPointReached.notifyAll();
+			}
+
 			try {
 				worker.join();
 			} catch (InterruptedException ie) {
