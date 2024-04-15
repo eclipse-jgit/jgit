@@ -16,7 +16,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -94,6 +98,16 @@ public class PathFilter extends TreeFilter {
 	public Optional<Set<byte[]>> getPathsBestEffort() {
 		Set<byte[]> s = Collections.singleton(pathRaw);
 		return Optional.of(s);
+	}
+
+	@Override
+	public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+		ChangedPathFilter cpf = c.getChangedPathFilter(rw);
+		if (cpf == null) {
+			return true;
+		}
+		c.add(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		return cpf.maybeContains(pathRaw);
 	}
 
 	/** {@inheritDoc} */
