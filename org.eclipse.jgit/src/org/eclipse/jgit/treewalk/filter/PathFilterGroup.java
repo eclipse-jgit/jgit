@@ -17,6 +17,10 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.ByteArraySet.Hasher;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -139,6 +143,11 @@ public class PathFilterGroup {
 		}
 
 		@Override
+		public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+			return path.shouldTreeWalk(c, rw);
+		}
+
+		@Override
 		public TreeFilter clone() {
 			return this;
 		}
@@ -240,6 +249,18 @@ public class PathFilterGroup {
 				return Optional.empty();
 			}
 			return Optional.of(result);
+		}
+
+		@Override
+		public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+			return fullpaths.toSet().stream().anyMatch(p -> {
+				ChangedPathFilter cpf = c.getChangedPathFilter(rw);
+				if (cpf == null) {
+					return true;
+				}
+				c.add(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+				return cpf.maybeContains(p);
+			});
 		}
 
 		@Override
