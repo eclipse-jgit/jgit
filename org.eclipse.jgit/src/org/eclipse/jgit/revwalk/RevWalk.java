@@ -31,6 +31,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
@@ -159,9 +160,20 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
 
 	/**
+	 * Set on a RevCommit when a {@link ChangedPathFilter} has been exercised.
+	 * <p>
+	 * This flag is processed by the {@link TreeRevFilter} to check if a
+	 * {@link RevCommit} could be skipped without TreeWalking.
+	 *
+	 * @see TreeRevFilter
+	 * @see ChangedPathFilter
+	 */
+	static final int CHANGED_PATHS_FILTER_APPLIED = 1 << 8;
+
+	/**
 	 * Number of flag bits we keep internal for our own use. See above flags.
 	 */
-	static final int RESERVED_FLAGS = 8;
+	static final int RESERVED_FLAGS = 9;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
@@ -1367,8 +1379,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Create a new flag for application use during walking.
 	 * <p>
-	 * Applications are only assured to be able to create 24 unique flags on any
-	 * given revision walker instance. Any flags beyond 24 are offered only if
+	 * Applications are only assured to be able to create 23 unique flags on any
+	 * given revision walker instance. Any flags beyond 23 are offered only if
 	 * the implementation has extra free space within its internal storage.
 	 *
 	 * @param name

@@ -96,6 +96,11 @@ public class FollowFilter extends TreeFilter {
 		return path.getPathsBestEffort();
 	}
 
+	@Override
+	public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+		return path.shouldTreeWalk(c, rw);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
