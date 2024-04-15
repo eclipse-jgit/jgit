@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86a81d4d_ba062981",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-04-15T18:09:10Z",
+      "side": 1,
+      "message": "nit: delete line",
+      "revId": "c8c094e8a225c15bc3bd0bedaefda04da496e2e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
