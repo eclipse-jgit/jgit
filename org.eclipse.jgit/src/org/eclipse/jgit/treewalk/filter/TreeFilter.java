@@ -17,6 +17,8 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
@@ -210,14 +212,48 @@ public abstract class TreeFilter {
 	public abstract boolean shouldBeRecursive();
 
 	/**
-	 * If this filter checks that at least one of the paths in a set has been
+	 * Does this tree filter serves
+	 * {@link org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter}
+	 * <p>
+	 * If this tree filter serves ChangedPathFilter as part of its
+	 * {@code shouldTreeWalk} logic, then we should collect ChangedPathFilter
+	 * related metrics.
+	 *
+	 * @return true if the filter incorporates ChangedPathFilter in
+	 *         {@code shouldTreeWalk}
+	 */
+	public boolean serveChangedPathFilter() {
+		return false;
+	}
+
+	/**
+	 * Does this Commit need TreeWalk to determine its eligibility for output
+	 * inclusion?
+	 * <p>
+	 * If this Commit has ChangedPathFilter and this TreeFilter contains Path
+	 * filtering logic, then this Commit might be excluded from output without
+	 * TreeWalking.
+	 *
+	 * @param c
+	 *            the commit being considered by the TreeFilter.
+	 * @param rw
+	 *            the RevWalk used in retrieving relevant commit data.
+	 * @return True if TreeFilter believes c should be considered for TreeWalk.
+	 * @since 7.3
+	 */
+	public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+		return true;
+	}
+
+	/**
+	 * If this filter checks that a specific set of paths have all been
 	 * modified, returns that set of paths to be checked against a changed path
 	 * filter. Otherwise, returns empty.
 	 *
 	 * @return a set of paths, or empty
-	 *
-	 * @since 6.7
+	 * @deprecated use {@code shouldTreeWalk} instead.
 	 */
+	@Deprecated(since = "7.3")
 	public Optional<Set<byte[]>> getPathsBestEffort() {
 		return Optional.empty();
 	}
