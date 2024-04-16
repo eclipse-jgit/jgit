@@ -86,6 +86,25 @@ public interface GpgSignatureVerifier {
 			throws IOException;
 
 	/**
+	 * Verifies a given signature for given data.
+	 *
+	 * @param data
+	 *            the signature is for
+	 * @param signatureData
+	 *            the ASCII-armored signature
+	 * @return a {@link SignatureVerification} describing the outcome
+	 * @throws IOException
+	 *             if the signature cannot be parsed
+	 * @throws JGitInternalException
+	 *             if signature verification fails
+	 * @deprecated since 6.9, use {@link #verify(GpgConfig, byte[], byte[])}
+	 *             instead
+	 */
+	@Deprecated
+	public SignatureVerification verifyX509(byte[] data, byte[] signatureData)
+			throws Exception;
+
+	/**
 	 * Retrieves the name of this verifier. This should be a short string
 	 * identifying the engine that verified the signature, like "gpg" if GPG is
 	 * used, or "bc" for a BouncyCastle implementation.

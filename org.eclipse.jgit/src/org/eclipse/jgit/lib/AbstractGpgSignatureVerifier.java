@@ -52,7 +52,10 @@ public abstract class AbstractGpgSignatureVerifier
 			byte[] data = new byte[raw.length - (end - start)];
 			System.arraycopy(raw, 0, data, 0, start);
 			System.arraycopy(raw, end, data, start, raw.length - end);
-			return verify(config, data, signatureData);
+			if(config.getKeyFormat() == GpgConfig.GpgFormat.X509)
+				return verifyX509(data, signatureData);
+			else
+				return verify(data, signatureData);
 		} else if (object instanceof RevTag) {
 			RevTag tag = (RevTag) object;
 			byte[] signatureData = tag.getRawGpgSignature();
@@ -64,7 +67,10 @@ public abstract class AbstractGpgSignatureVerifier
 			// is last in the buffer.
 			byte[] data = Arrays.copyOfRange(raw, 0,
 					raw.length - signatureData.length);
-			return verify(config, data, signatureData);
+			if(config.getKeyFormat() == GpgConfig.GpgFormat.X509)
+				return verifyX509(data, signatureData);
+			else
+				return verify(data, signatureData);
 		}
 		return null;
 	}

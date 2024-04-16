@@ -13,6 +13,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Security;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Date;
@@ -73,6 +75,32 @@ public class BouncyCastleGpgSignatureVerifier
 		return "bc"; //$NON-NLS-1$
 	}
 
+
+	static X509Certificate parseCertificate(InputStream in) throws IOException {
+		try {
+			CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+			X509Certificate certificate = (X509Certificate) certFactory.generateCertificate(in);
+			return certificate;
+		} catch (Exception e) {
+			throw new IOException("Failed to parse X.509 certificate", e);
+		}
+	}
+
+	public SignatureVerification verifyX509(byte[] data,
+					  byte[] signatureData) throws Exception {
+		X509Certificate x509Certificate = null;
+		boolean[] issuerId = null;
+		try (InputStream sigIn = new ByteArrayInputStream(signatureData)) {
+			x509Certificate = parseCertificate(sigIn);
+
+			issuerId = x509Certificate.getIssuerUniqueID();
+			if (issuerId == null) {
+				throw new Exception("Invalid Issuer id");
+			}
+		}
+		return new VerificationResult(x509Certificate.getNotBefore(), issuerId, fingerprint, user,
+				verified, x509Certificate.getNotAfter(), trust, null);
+	}
 	static PGPSignature parseSignature(InputStream in)
 			throws IOException, PGPException {
 		try (InputStream sigIn = PGPUtil.getDecoderStream(in)) {
@@ -90,9 +118,10 @@ public class BouncyCastleGpgSignatureVerifier
 	}
 
 	@Override
-	public SignatureVerification verify(@NonNull GpgConfig config, byte[] data,
+	public SignatureVerification verify(byte[] data,
 			byte[] signatureData)
 			throws IOException {
+
 		PGPSignature signature = null;
 		String fingerprint = null;
 		String signer = null;
@@ -240,13 +269,6 @@ public class BouncyCastleGpgSignatureVerifier
 		}
 		return new VerificationResult(signatureCreatedAt, signer, fingerprint, user,
 				verified, expired, trust, null);
-	}
-
-	@Override
-	public SignatureVerification verify(byte[] data, byte[] signatureData)
-			throws IOException {
-		throw new UnsupportedOperationException(
-				"Call verify(GpgConfig, byte[], byte[]) instead."); //$NON-NLS-1$
 	}
 
 	private TrustLevel parseGpgTrustPacket(byte[] packet) {
