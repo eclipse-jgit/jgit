@@ -16,6 +16,24 @@
       "message": "@jonathantanmy@google.com\n\nDo you happen to know why the BF of root commits and merge commits were not used in your implementation? was there a design consideration? or was this an oversight?",
       "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c89c05b_16ad337d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037828
+      },
+      "writtenOn": "2024-04-16T21:39:38Z",
+      "side": 1,
+      "message": "Merge commits: most likely because the Bloom filter is only between a commit and its first parent.\nRoot commits: I\u0027m not sure. This might be an oversight inherited from C Git (search for \"consult Bloom filters for root commits\" in the Git mailing list (https://lore.kernel.org/git/) for more information.",
+      "parentUuid": "875090bb_fef67164",
+      "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
