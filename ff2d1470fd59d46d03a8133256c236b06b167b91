@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "875090bb_fef67164",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-16T21:11:42Z",
+      "side": 1,
+      "message": "@jonathantanmy@google.com\n\nDo you happen to know why the BF of root commits and merge commits were not used in your implementation? was there a design consideration? or was this an oversight?",
+      "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
