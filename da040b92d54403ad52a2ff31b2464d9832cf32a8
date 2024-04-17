@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e2380c9_521dbae7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T17:31:53Z",
+      "side": 1,
+      "message": "Currently not working",
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7426279d_bd425533",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T17:31:53Z",
+      "side": 1,
+      "message": "This needs to be pulled into a new BouncyCastleAbstractGpgSignatureVerifier, so that can be reused also in the BouncyCastleSMIMESignatureVerifier.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 2
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f7e7cbf_849884dd",
@@ -20,6 +60,23 @@
         "endLine": 22,
         "endChar": 28
       },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e38c73e_dacd9017",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T17:31:53Z",
+      "side": 1,
+      "message": "Need to register the `BC` provider in the constructor, with something like:\n\n```\n\tprivate static void registerBouncyCastleProviderIfNecessary() {\n\t\tif (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) \u003d\u003d null) {\n\t\t\tSecurity.addProvider(new BouncyCastleProvider());\n\t\t}\n\t}\n```",
       "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
