@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d12cfaad_667e884d",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7426279d_bd425533",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 2
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f7e7cbf_849884dd",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-04-17T17:13:41Z",
       "side": 1,
       "message": "Wildcard import: replace with explicit classes imports.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49ba81f8_6ada2c35",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f7e7cbf_849884dd",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -110,6 +158,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af4ecbae_87c2c3fd",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096b589f_2a41664c",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e54737_4214d235",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37ced8e0_73884581",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 35
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e38c73e_dacd9017",
@@ -127,6 +223,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "343adc46_74e02ddd",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e38c73e_dacd9017",
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56a89a49_c77b4518",
@@ -140,6 +254,30 @@
       "writtenOn": "2024-04-17T17:15:17Z",
       "side": 1,
       "message": "The `CMSException` is unused. It would also make sense for now to stick with a generic _signature verification failed_ message.\n\n\n```suggestion\n        } catch (Exception e) {\n            throw new IOException(\"SMIME signature verification failed\", e);\n        }\n```",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c346f8_ed2821e7",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56a89a49_c77b4518",
       "range": {
         "startLine": 61,
         "startChar": 0,

@@ -109,6 +109,30 @@
       },
       "revId": "902b34ba3dae589a7a8b17bf1c96145b2db311f6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "813e5007_708f5cd9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:03:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f002455_ff2a561e",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "902b34ba3dae589a7a8b17bf1c96145b2db311f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
