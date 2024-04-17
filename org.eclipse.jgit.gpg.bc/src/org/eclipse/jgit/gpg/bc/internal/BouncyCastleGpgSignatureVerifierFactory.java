@@ -25,4 +25,9 @@ public final class BouncyCastleGpgSignatureVerifierFactory
 		return new BouncyCastleGpgSignatureVerifier();
 	}
 
+	@Override
+	protected byte[] getExpectedSigPrefix() {
+		return "-----BEGIN PGP SIGNATURE".getBytes();
+	}
+
 }
