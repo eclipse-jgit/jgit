@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b85f66bc_290081d6",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T01:21:37Z",
+      "side": 1,
+      "message": "The `signatureData` doesn\u0027t contain the X.509 certificate but it is a SMIME format (aka `CMS-Signed` data). See an example below:\n\n```\nstatic final String BEGIN_DELIMITER_LEN \u003d \"-----BEGIN SIGNED MESSAGE-----\\n\".length();\nstatic final String END_DELIMITER_LEN \u003d \"\\n-----END SIGNED MESSAGE-----\".length();\n\nbyte[] signedContent \u003d new byte[signatureData.length - BEGIN_DELIMITER_LEN - END_DELIMITER_LEN];\nSystem.arraycopy(signatureData, BEGIN_DELIMITER_LEN,\n                 signedContent, 0, signedContent.length);\nCMSSignedData cmsSignedData \u003d new CMSSignedData(Base64.decode(signedContent));\nCollection\u003cSignerInformation\u003e signers \u003d cmsSignedData.getSignerInfos()\n                                                     .getSigners();\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 3
+      },
+      "revId": "902b34ba3dae589a7a8b17bf1c96145b2db311f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17a5d2fe_3905399a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbstractGpgSignatureVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T01:21:37Z",
+      "side": 1,
+      "message": "I would disagree on using this configuration when verifying the commit\u0027s signature: a repository may have a mix of GPG and SMIME signatures and the verification should work for both of them.\n\nI believe a better approach would be:\n- Reading the beginning of signatureData\n- Check if that starts with `-----BEGIN PGP SIGNATURE`. If yes, then process as PGP signature verification\n- Check if that starts with `-----BEGIN SIGNED MESSAGE`. If yes, then process as SMIME signature verification",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "902b34ba3dae589a7a8b17bf1c96145b2db311f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f002455_ff2a561e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T01:21:37Z",
+      "side": 1,
+      "message": "I would create a `SMIMESignatureVerifier` class that implements the `verify` method, rather than adding a `verifyX509()` method here.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "902b34ba3dae589a7a8b17bf1c96145b2db311f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
