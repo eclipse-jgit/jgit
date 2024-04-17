@@ -309,6 +309,30 @@
       },
       "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "124d2ec6_8f60b133",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:04:10Z",
+      "side": 1,
+      "message": "How are you running this? Doesn\u0027t seem to be the case when running from the IDE.",
+      "parentUuid": "e946a3ec_8334e332",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 50
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
