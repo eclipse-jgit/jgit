@@ -9,10 +9,9 @@
  */
 package org.eclipse.jgit.lib;
 
-import java.util.Iterator;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
+import java.util.*;
 
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,15 +27,17 @@ public abstract class GpgSignatureVerifierFactory {
 
 	private static class DefaultFactory {
 
-		private static volatile GpgSignatureVerifierFactory defaultFactory = loadDefault();
+		private static volatile List<GpgSignatureVerifierFactory> defaultFactories = loadDefaults();
 
-		private static GpgSignatureVerifierFactory loadDefault() {
+		private static List<GpgSignatureVerifierFactory> loadDefaults() {
 			try {
 				ServiceLoader<GpgSignatureVerifierFactory> loader = ServiceLoader
 						.load(GpgSignatureVerifierFactory.class);
 				Iterator<GpgSignatureVerifierFactory> iter = loader.iterator();
 				if (iter.hasNext()) {
-					return iter.next();
+					ArrayList<GpgSignatureVerifierFactory> factories = new ArrayList<>();
+					iter.forEachRemaining(factories::add);
+					return factories;
 				}
 			} catch (ServiceConfigurationError e) {
 				LOG.error(e.getMessage(), e);
@@ -49,7 +50,11 @@ public abstract class GpgSignatureVerifierFactory {
 		}
 
 		public static GpgSignatureVerifierFactory getDefault() {
-			return defaultFactory;
+			return defaultFactories == null ? null : defaultFactories.get(0);
+		}
+
+		public static List<GpgSignatureVerifierFactory> getDefaults() {
+			return defaultFactories;
 		}
 
 		/**
@@ -59,7 +64,7 @@ public abstract class GpgSignatureVerifierFactory {
 		 *            the new default factory
 		 */
 		public static void setDefault(GpgSignatureVerifierFactory factory) {
-			defaultFactory = factory;
+			defaultFactories = List.of(factory);
 		}
 	}
 
@@ -89,4 +94,36 @@ public abstract class GpgSignatureVerifierFactory {
 	 */
 	public abstract GpgSignatureVerifier getVerifier();
 
+	/**
+	 * Creates the correct {@link GpgSignatureVerifierFactory} for the type of signature in the commit
+	 *
+	 * @param commit the commit to verify
+	 *
+	 * @return the new {@link GpgSignatureVerifierFactory}
+	 */
+	public static GpgSignatureVerifierFactory getSignatureVerifierFactory(RevCommit commit) {
+
+		for (GpgSignatureVerifierFactory factory: DefaultFactory.getDefaults()) {
+			if(factory.supports(commit)) {
+				return factory;
+			}
+		}
+
+		return null;
+	}
+
+	private boolean supports(RevCommit commit) {
+		byte[] signature = commit.getRawGpgSignature();
+		byte[] expectedSignPrefix = getExpectedSigPrefix();
+		return signature != null &&
+				Arrays.equals(signature, 0, expectedSignPrefix.length, expectedSignPrefix, 0, expectedSignPrefix.length);
+	}
+
+	/**
+	 *
+	 * The signature prefix that identifies what type of signature it is
+	 *
+	 * @return the signature prefix
+	 */
+	protected abstract byte[] getExpectedSigPrefix();
 }
