@@ -1,1 +1,2 @@
 org.eclipse.jgit.gpg.bc.internal.BouncyCastleGpgSignatureVerifierFactory
+org.eclipse.jgit.gpg.bc.internal.BouncyCastleCMSSignatureVerifierFactory
