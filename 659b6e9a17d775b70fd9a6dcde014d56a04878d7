@@ -1,0 +1,278 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "605f2cd0_8cfada96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "Please describe a bit more what is supported by this change and how.\n\nAlso, you should mention any impact on the configuration and update the documentation, if needed.",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae9800c_214ba154",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleAbstractGpgSignatureVerifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n/*\n * Copyright (C) 2024 GerritForge, Inc.\n *\n * This program and the accompanying materials are made available under the\n * terms of the Eclipse Distribution License v. 1.0 which is available at\n * https://www.eclipse.org/org/documents/edl-v10.php.\n *\n * SPDX-License-Identifier: BSD-3-Clause\n */\n\npackage org.eclipse.jgit.gpg.bc.internal;\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd634381_af95b2d9",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleCMSSignatureVerifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n/*\n * Copyright (C) 2024 GerritForge, Inc.\n *\n * This program and the accompanying materials are made available under the\n * terms of the Eclipse Distribution License v. 1.0 which is available at\n * https://www.eclipse.org/org/documents/edl-v10.php.\n *\n * SPDX-License-Identifier: BSD-3-Clause\n */\n\npackage org.eclipse.jgit.gpg.bc.internal;\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c643d410_2efdabd5",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleCMSSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n/*\n * Copyright (C) 2024 GerritForge, Inc.\n *\n * This program and the accompanying materials are made available under the\n * terms of the Eclipse Distribution License v. 1.0 which is available at\n * https://www.eclipse.org/org/documents/edl-v10.php.\n *\n * SPDX-License-Identifier: BSD-3-Clause\n */\n\npackage org.eclipse.jgit.gpg.bc.internal;\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e5bfa6_7ebea9ce",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/VerificationResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "Make this internal to `BouncyCastleCMSSignatureVerifier` similarly to how it is implemented in GPG.",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30c4e2e1_6dae5754",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "With these it won\u0027t compile and work: there must not be any direct dependency with BouncyCastle.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 80
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32e6792_3fbabf03",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "This logic should not be here, otherwise it cannot be reused. It should go into the GpgSignatureVerifierFactory and implemented as a new method.",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 2
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d49fb6ae_3240bf6b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tGpgSignatureVerifierFactory factory \u003d GpgSignatureVerifierFactory\n\t\t\t\t.getSignatureVerifierFactory(c);\n```",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 355,
+        "endChar": 64
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa6f996_e5647154",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "We should have now two services: make this a `List\u003c\u003e`\n\n\n```suggestion\n\t\tprivate static volatile List\u003cGpgSignatureVerifierFactory\u003e defaultFactories \u003d loadDefaults();\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 26,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02f1f39c_d7cc7b05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tprivate static List\u003cGpgSignatureVerifierFactory\u003e loadDefaults() {\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cba86c39_33714862",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\tArrayList\u003cGpgSignatureVerifierFactory\u003e factories \u003d new ArrayList\u003c\u003e();\n\t\t\t\t\titer.forEachRemaining(factories::add);\n\t\t\t\t\treturn factories;\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea706747_5d4cad5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "return defaultFactories \u003d\u003d null ? null : defaultFactories.get(0);",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a375d8ec_33899d04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "We should also return *ALL* defaults loaded with the Service discovery\n\n```suggestion\n\t\tpublic static List\u003cGpgSignatureVerifierFactory\u003e getDefaults() {\n\t\t\treturn defaultFactories;\n\t\t}\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94b59def_da683e57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T20:01:07Z",
+      "side": 1,
+      "message": "We should have now a discovery method for the factory that supports an input signature.\n\n```suggestion\n\tpublic static GpgSignatureVerifierFactory getSignatureVerifierFactory(RevCommit commit) {\n\n\t\tfor (GpgSignatureVerifierFactory factory: DefaultFactory.getDefaults()) {\n\t\t\tif(factory.supports(commit)) {\n\t\t\t\treturn factory;\n\t\t\t}\n\t\t}\n\n\t\treturn null;\n\t}\n\n\tpublic boolean supports(RevCommit commit) {\n\t\t\tbyte[] signature \u003d commit.getRawGpgSignature();\n\t\t\tbyte[] expectedSignPrefix \u003d getExpectedSigPrefix();\n\t\t\treturn signature !\u003d null \u0026\u0026\n\t\t\t\t\tArrays.equals(signature, 0, expectedSignPrefix.length, expectedSignPrefix, 0, expectedSignPrefix.length);\n\t}\n\n\tprotected abstract byte[] getExpectedSigPrefix();\n```",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
