@@ -295,7 +295,7 @@ class Log extends RevWalkTextBuiltin {
 		}
 		if (verifier == null) {
 			GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
-					.getDefault();
+					.getSignatureVerifierFactory(c);
 			if (factory == null) {
 				throw die(CLIText.get().logNoSignatureVerifier, null);
 			}
