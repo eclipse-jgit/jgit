@@ -52,6 +52,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60578535_1e2e03fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2024-04-17T18:33:29Z",
+      "side": 1,
+      "message": "I don\u0027t think it is worth to add a dependency to not store this range. The amount of data is minimal and handling an additional dependency will raise questions about collisions when integrated into larger works and how to handle updates of that dependency.",
+      "parentUuid": "35340e31_cfcfe014",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a80543e8_5292a82c",
@@ -65,6 +83,24 @@
       "writtenOn": "2024-04-12T21:16:34Z",
       "side": 1,
       "message": "why not just keep the old convention of `reserved`? i.e. changing the current line of reserved to match, \n\n```\n  reserved      \u003d \";\" | \"/\" | \"?\" | \":\" | \"@\" | \"\u0026\" | \"\u003d\" | \"+\" |\n                      \"$\" | \",\"\n```\n\n\n\nis there a need to consider all characters outside the ASCII range as reserved as well?",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e44e2d6_c0de45ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2024-04-17T18:33:29Z",
+      "side": 1,
+      "message": "`reserved` and `unreserved` are constructions in the BNF grammer for RFC 2396 URLs used in different contexts.\n\n`reserved` is only used in the `query` and `fragment` parts of hierarchical URLs and opaque URLs.\n\n`unreserved` is referenced in hierarchical URL at various places.\n\n`URIish#escape` will only hit the modified path if it is called with `escapeReservedChars` set to `true`. That is only the case for the `username` and `password` parts.",
+      "parentUuid": "a80543e8_5292a82c",
       "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
