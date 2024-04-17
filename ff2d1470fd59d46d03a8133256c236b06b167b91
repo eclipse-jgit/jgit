@@ -52,6 +52,24 @@
       "parentUuid": "5c89c05b_16ad337d",
       "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d426ea_468fbf4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037828
+      },
+      "writtenOn": "2024-04-17T00:07:35Z",
+      "side": 1,
+      "message": "The biggest reason why we\u0027re not doing it is because we want to have the same format as C Git. Besides that, I guess there is no inherent reason why we can\u0027t do it, but I think that typically, whenever we need to do a path-filtered rev walk, usually we do a first-parent walk (which is why the Bloom filter feature was designed that way).",
+      "parentUuid": "e7d4b93c_f8cccd16",
+      "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
