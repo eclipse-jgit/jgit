@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56a89a49_c77b4518",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T17:15:17Z",
+      "side": 1,
+      "message": "The `CMSException` is unused. It would also make sense for now to stick with a generic _signature verification failed_ message.\n\n\n```suggestion\n        } catch (Exception e) {\n            throw new IOException(\"SMIME signature verification failed\", e);\n        }\n```",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e946a3ec_8334e332",
         "filename": "org.eclipse.jgit.pgm/BUILD",
         "patchSetId": 3
