@@ -14,6 +14,7 @@ package org.eclipse.jgit.pgm;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,8 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.gpg.bc.internal.BouncyCastleCMSSignatureVerifierFactory;
+import org.eclipse.jgit.gpg.bc.internal.BouncyCastleGpgSignatureVerifierFactory;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
@@ -331,12 +334,25 @@ class Show extends TextBuiltin {
 		outw.println();
 	}
 
+	private GpgSignatureVerifierFactory getSignatureVerifier(RevCommit commit){
+		byte[] signatureData = commit.getRawGpgSignature();
+		if (signatureData == null) {
+			return GpgSignatureVerifierFactory
+					.getDefault();
+		}
+		String signatureContent = new String(signatureData, StandardCharsets.UTF_8);
+		if(signatureContent.startsWith("-----BEGIN PGP SIGNATURE")){
+			return new BouncyCastleGpgSignatureVerifierFactory();
+		} else if(signatureContent.startsWith("-----BEGIN SIGNED MESSAGE")) {
+			return new BouncyCastleCMSSignatureVerifierFactory();
+		}
+		else return null;
+	}
 	private void showSignature(RevCommit c) throws IOException {
 		if (c.getRawGpgSignature() == null) {
 			return;
 		}
-		GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
-				.getDefault();
+		GpgSignatureVerifierFactory factory = getSignatureVerifier(c);
 		if (factory == null) {
 			throw die(CLIText.get().logNoSignatureVerifier, null);
 		}
