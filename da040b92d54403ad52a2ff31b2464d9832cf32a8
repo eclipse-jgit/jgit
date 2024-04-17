@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60bed3cc_e52158e7",
+        "filename": "org.eclipse.jgit.gpg.bc/resources/META-INF/services/org.eclipse.jgit.lib.GpgSignatureVerifierFactory",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T18:40:40Z",
+      "side": 1,
+      "message": "Add here the full class name (with package) of the new CMS X.509 signature verifier factory",
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7426279d_bd425533",
         "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
         "patchSetId": 3
@@ -331,6 +348,93 @@
         "endLine": 26,
         "endChar": 50
       },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a99acaab_64526b69",
+        "filename": "org.eclipse.jgit.pgm/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T18:40:40Z",
+      "side": 1,
+      "message": "This isn\u0027t actually needed if the instantiation of the factory happens in `GpgSignatureVerifierFactory` where it should be.\n\nAlso, the binding of the abstract class to the implementations should be done in:\n`org.eclipse.jgit.gpg.bc/resources/META-INF/services/org.eclipse.jgit.lib.GpgSignatureVerifierFactory`",
+      "parentUuid": "e946a3ec_8334e332",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 50
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cfc417e_58e8f2c6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T18:40:40Z",
+      "side": 1,
+      "message": "This won\u0027t work for CMS.\n\n\n```suggestion\n\t\t\t\t\t.getSignatureVerifierFactory(c);\n```",
+      "range": {
+        "startLine": 298,
+        "startChar": 5,
+        "endLine": 298,
+        "endChar": 19
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18941b38_db8110d2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T18:40:40Z",
+      "side": 1,
+      "message": "This logic should not be here, otherwise it cannot be reused. It should go into the `GpgSignatureVerifierFactory` and implemented as a new method.",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 2
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fbf8252_f40c3c70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T18:40:40Z",
+      "side": 1,
+      "message": "Add a new factory method that can instantiate the correct factory depending on the prefix of the signed data.\n\n\n```suggestion\n\t\tpublic static GpgSignatureVerifierFactory getSignatureVerifierFactory(RevCommit commit) {\n\t\t\tbyte[] signatureData \u003d commit.getRawGpgSignature();\n\t\t\tif (signatureData !\u003d null \u0026\u0026 Arrays.equals(signatureData, 0, BEGIN_SIGNED_MESSAGE.length, BEGIN_SIGNED_MESSAGE, 0, BEGIN_SIGNED_MESSAGE.length)) {\n\t\t\t\treturn new SMIMESignatureVerifierFactory();\n\t\t\t}\n\n\t\t\treturn getDefault();\n\t\t}\n```",
       "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
