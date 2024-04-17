@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d128e401_51a16af2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T19:33:01Z",
+      "side": 1,
+      "message": "Missing reference to the JGit bug: jgit-49",
+      "revId": "8a9bce2e3510c7402b09f83742513bfc29aed418",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
