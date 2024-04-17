@@ -66,6 +66,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37ced8e0_73884581",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T17:41:51Z",
+      "side": 1,
+      "message": "```suggestion\npublic class BouncyCastleCMSSignatureVerifier extends AbstractBouncyCastleSignatureVerifier {\n```",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 35
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "096b589f_2a41664c",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-17T17:41:51Z",
+      "side": 1,
+      "message": "This is actually a PKCS7 (CMS) format and not SMIME. Even though the client-side utility is called `smimesign` we do not actually encode any multi-part here.",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 18
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e38c73e_dacd9017",
         "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SMIMESignatureVerifier.java",
         "patchSetId": 3
