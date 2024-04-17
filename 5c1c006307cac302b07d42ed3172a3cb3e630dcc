@@ -16,6 +16,24 @@
       "message": "Also: do _not_ remove the GpgConfig. Leave this logic here as it was. If you add new verification methods or a new signature verifier, then make sure that the GpgConfig is passed in. This is important: other implementations of the verifier interface may need it.",
       "revId": "5c1c006307cac302b07d42ed3172a3cb3e630dcc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee742b5_b4c2f7a3",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-17T18:04:30Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6d17a18b_a295b65e",
+      "revId": "5c1c006307cac302b07d42ed3172a3cb3e630dcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
