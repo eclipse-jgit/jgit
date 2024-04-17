@@ -335,8 +335,7 @@ class Show extends TextBuiltin {
 		if (c.getRawGpgSignature() == null) {
 			return;
 		}
-		GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
-				.getDefault();
+		GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory.getSignatureVerifierFactory(c);
 		if (factory == null) {
 			throw die(CLIText.get().logNoSignatureVerifier, null);
 		}
