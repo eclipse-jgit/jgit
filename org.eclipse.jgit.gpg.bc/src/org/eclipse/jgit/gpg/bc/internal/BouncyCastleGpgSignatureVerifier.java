@@ -12,7 +12,6 @@ package org.eclipse.jgit.gpg.bc.internal;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Security;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Date;
@@ -33,7 +32,6 @@ import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProv
 import org.bouncycastle.util.encoders.Hex;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.AbstractGpgSignatureVerifier;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgSignatureVerifier;
 import org.eclipse.jgit.util.LRUMap;
@@ -43,14 +41,7 @@ import org.eclipse.jgit.util.StringUtils;
  * A {@link GpgSignatureVerifier} to verify GPG signatures using BouncyCastle.
  */
 public class BouncyCastleGpgSignatureVerifier
-		extends AbstractGpgSignatureVerifier {
-
-	private static void registerBouncyCastleProviderIfNecessary() {
-		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-			Security.addProvider(new BouncyCastleProvider());
-		}
-	}
-
+		extends BouncyCastleAbstractGpgSignatureVerifier {
 	/**
 	 * Creates a new instance and registers the BouncyCastle security provider
 	 * if needed.
