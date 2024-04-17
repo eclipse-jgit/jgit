@@ -70,6 +70,24 @@
       "parentUuid": "e7d4b93c_f8cccd16",
       "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69b34cb_05fb8435",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-04-17T16:58:10Z",
+      "side": 1,
+      "message": "I think it\u0027s worth testing the performance of including merge commits into BF, for two reason(s):\n\n1. Merge commits might be even better candidate for BF than commits with single parent. I assume most merge commits don’t have merge conflicts, so vast majority of the times, their BF checks are always negative, omitting the need to load the tree data for them and their parents (especially when they have a lot of parents)\n\n2. Currently, we only serve BF for commits with single parent, which means we still load tree data for the parents of merge commits, effectively making the BF generated for these parents pointless, since we aren’t saving time on them; I.e. we are loading the parents’ data when though we could be skipping them with BF.\n\n\u003ebecause we want to have the same format as C Git\n\nnot sure if I follow this reasoning; there\u0027s nothing explicit to the BF chunk format that distinguishes merge commits from commits with single parent. If we add BF for merge commits into Commit Graph, assuming Cgit does not read BF for merge commits, then Cgit should still be able to operate on the Jgit generated Commit Graph, no?",
+      "parentUuid": "34d426ea_468fbf4b",
+      "revId": "ff2d1470fd59d46d03a8133256c236b06b167b91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
