@@ -51,6 +51,24 @@
       "message": "Avoid wildcard imports.",
       "revId": "82db7c1b31df0b5f2bd1984312a3470d01d2b2c2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebeb7443_efa8af10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T10:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "688ddf2c_87f02c06",
+      "revId": "82db7c1b31df0b5f2bd1984312a3470d01d2b2c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
