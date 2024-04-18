@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0441de83_f1ce14a3",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/VerificationResult.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T09:48:08Z",
+      "side": 1,
+      "message": "Add copyright license.\n\n```suggestion\n/*\n * Copyright (C) 2024 GerritForge, Inc.\n *\n * This program and the accompanying materials are made available under the\n * terms of the Eclipse Distribution License v. 1.0 which is available at\n * https://www.eclipse.org/org/documents/edl-v10.php.\n *\n * SPDX-License-Identifier: BSD-3-Clause\n */\n```",
+      "revId": "82db7c1b31df0b5f2bd1984312a3470d01d2b2c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "688ddf2c_87f02c06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T09:48:08Z",
+      "side": 1,
+      "message": "Avoid wildcard imports.",
+      "revId": "82db7c1b31df0b5f2bd1984312a3470d01d2b2c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

@@ -193,6 +193,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d0298c_4714f890",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/VerificationResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T09:48:08Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c4d64435_f4494dc0",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30c4e2e1_6dae5754",
