@@ -119,7 +119,7 @@ public abstract class GpgSignatureVerifierFactory {
 		return null;
 	}
 
-	private boolean supports(RevObject obj) {
+	public boolean supports(RevObject obj) {
 		byte[] signature = null;
 		if (obj instanceof RevCommit) {
 			signature = ((RevCommit) obj).getRawGpgSignature();
