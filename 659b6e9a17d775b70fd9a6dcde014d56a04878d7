@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c092d7_bc09b05e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T10:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acb86ed8_6fad89be",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "605f2cd0_8cfada96",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-04-17T20:01:07Z",
       "side": 1,
       "message": "Please describe a bit more what is supported by this change and how.\n\nAlso, you should mention any impact on the configuration and update the documentation, if needed.",
+      "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c2bca95_42b4864e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T10:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "605f2cd0_8cfada96",
       "revId": "659b6e9a17d775b70fd9a6dcde014d56a04878d7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
