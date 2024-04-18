@@ -58,6 +58,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7deb35c9_0156b5bd",
+        "filename": "org.eclipse.jgit.gpg.bc/resources/META-INF/services/org.eclipse.jgit.lib.GpgSignatureVerifierFactory",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T09:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "226ae652_ad9c10b1",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 72
+      },
+      "revId": "da040b92d54403ad52a2ff31b2464d9832cf32a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7426279d_bd425533",
