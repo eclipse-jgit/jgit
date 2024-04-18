@@ -133,7 +133,13 @@ public abstract class GpgSignatureVerifierFactory {
 		return null;
 	}
 
-	private boolean supports(RevObject obj) {
+	/**
+	 * Checks if the verification factory supports the decoding of the Git object's signature.
+	 *
+	 * @param obj the Git object that may contain a signature to verify
+	 * @return true if there is a signature assocaited with this Git object and is supported by this factory, false otherwise
+	 */
+	public boolean supports(RevObject obj) {
 		byte[] signature = null;
 		if (obj instanceof RevCommit) {
 			signature = ((RevCommit) obj).getRawGpgSignature();
