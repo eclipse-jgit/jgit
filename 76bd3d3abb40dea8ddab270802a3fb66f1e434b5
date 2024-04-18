@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3f6d38_94b15557",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T17:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f35491b4_7c0e1b42",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 16
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d06f36c_b3f1629f",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-18T14:44:33Z",
       "side": 1,
       "message": "This should be more generically a `RevObject` because also tags can be signed.\n\n\n```suggestion\n\tpublic static GpgSignatureVerifierFactory getSignatureVerifierFactory(RevObject obj) {\n```",
+      "range": {
+        "startLine": 109,
+        "startChar": 71,
+        "endLine": 109,
+        "endChar": 80
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7982f99_0a52651b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T17:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d06f36c_b3f1629f",
       "range": {
         "startLine": 109,
         "startChar": 71,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12a1dbc_5392a220",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T17:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bfa0b5b_86051632",
+      "range": {
+        "startLine": 120,
+        "startChar": 26,
+        "endLine": 120,
+        "endChar": 35
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77245a6b_02e4b083",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-04-18T14:44:33Z",
       "side": 1,
       "message": "```suggestion\n                byte[] signature \u003d null;\n                if (obj instanceOf RevCommit) {\n                  signature \u003d (RevCommit) obj.getRawGpgSignature();\n                } else if (obj instanceOf RevTag) {\n                  signature \u003d (RevTag) obj.getRawGpgSignature();\n                }\n```",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 49
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfc37569_1185a2b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-04-18T17:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77245a6b_02e4b083",
       "range": {
         "startLine": 121,
         "startChar": 0,
