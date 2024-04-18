@@ -22,6 +22,75 @@
       },
       "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d06f36c_b3f1629f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T14:44:33Z",
+      "side": 1,
+      "message": "This should be more generically a `RevObject` because also tags can be signed.\n\n\n```suggestion\n\tpublic static GpgSignatureVerifierFactory getSignatureVerifierFactory(RevObject obj) {\n```",
+      "range": {
+        "startLine": 109,
+        "startChar": 71,
+        "endLine": 109,
+        "endChar": 80
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bfa0b5b_86051632",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T14:44:33Z",
+      "side": 1,
+      "message": "```suggestion\n\tprivate boolean supports(RevObject obj) {\n```",
+      "range": {
+        "startLine": 120,
+        "startChar": 26,
+        "endLine": 120,
+        "endChar": 35
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77245a6b_02e4b083",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GpgSignatureVerifierFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T14:44:33Z",
+      "side": 1,
+      "message": "```suggestion\n                byte[] signature \u003d null;\n                if (obj instanceOf RevCommit) {\n                  signature \u003d (RevCommit) obj.getRawGpgSignature();\n                } else if (obj instanceOf RevTag) {\n                  signature \u003d (RevTag) obj.getRawGpgSignature();\n                }\n```",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 49
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
