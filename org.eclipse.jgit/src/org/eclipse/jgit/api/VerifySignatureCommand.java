@@ -67,6 +67,8 @@ public class VerifySignatureCommand extends GitCommand<Map<String, VerificationR
 
 	private GpgSignatureVerifier verifier;
 
+	private GpgSignatureVerifierFactory verifierFactory;
+
 	private GpgConfig config;
 
 	private boolean ownVerifier;
@@ -207,16 +209,6 @@ public class VerifySignatureCommand extends GitCommand<Map<String, VerificationR
 		checkCallable();
 		setCallable(false);
 		Map<String, VerificationResult> result = new HashMap<>();
-		if (verifier == null) {
-			GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
-					.getDefault();
-			if (factory == null) {
-				throw new ServiceUnavailableException(
-						JGitText.get().signatureVerificationUnavailable);
-			}
-			verifier = factory.getVerifier();
-			ownVerifier = true;
-		}
 		if (config == null) {
 			config = new GpgConfig(repo.getConfig());
 		}
@@ -247,8 +239,23 @@ public class VerifySignatureCommand extends GitCommand<Map<String, VerificationR
 		return result;
 	}
 
+	private void refreshVerifier(RevObject obj) throws ServiceUnavailableException {
+		if (verifier == null ||
+			(verifierFactory != null && !verifierFactory.supports(obj))) {
+			GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
+				.getSignatureVerifierFactory(obj);
+			if (factory == null) {
+				throw new ServiceUnavailableException(
+						JGitText.get().signatureVerificationUnavailable);
+			}
+			verifierFactory = factory;
+			verifier = verifierFactory.getVerifier();
+			ownVerifier = true;
+		}
+	}
+
 	private VerificationResult verifyOne(RevObject object)
-			throws WrongObjectTypeException, IOException {
+		throws WrongObjectTypeException, IOException, ServiceUnavailableException {
 		int type = object.getType();
 		if (VerifyMode.TAGS.equals(mode) && type != Constants.OBJ_TAG) {
 			throw new WrongObjectTypeException(object, Constants.OBJ_TAG);
@@ -258,6 +265,7 @@ public class VerifySignatureCommand extends GitCommand<Map<String, VerificationR
 		}
 		if (type == Constants.OBJ_COMMIT || type == Constants.OBJ_TAG) {
 			try {
+				refreshVerifier(object);
 				GpgSignatureVerifier.SignatureVerification verification = verifier
 						.verifySignature(object, config);
 				if (verification == null) {
