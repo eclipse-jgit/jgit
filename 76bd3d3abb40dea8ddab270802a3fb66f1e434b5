@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f35491b4_7c0e1b42",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T14:34:31Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\t.getSignatureVerifierFactory(c);\n```",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 16
+      },
+      "revId": "76bd3d3abb40dea8ddab270802a3fb66f1e434b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
