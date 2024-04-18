@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aa3f45c_9e595cf0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-04-18T11:18:03Z",
+      "side": 1,
+      "message": "Somehow this doesn\u0027t feel right. I don\u0027t like the fact that we need to extract the signature twice from the commit or tag just to figure out which verifier to use. Also consider that there may be SSH signatures.\n\nDoing this properly may require rethinking the whole setup.",
+      "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
