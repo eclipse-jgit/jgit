@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68779dd5_1c5fb5da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-18T21:14:25Z",
+      "side": 1,
+      "message": "the validation of Git commits with CMS-formatted signatures made though client-side X.509 certificates",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "6a17f3e9688708bd1e68881425a0dc819578e5ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
