@@ -16,6 +16,24 @@
       "message": "@matthias.sohn@sap.com Could you please look at why the build failed?",
       "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4136749_0d27cfba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-19T18:31:55Z",
+      "side": 1,
+      "message": "It failed since it exceeded the timeout of 1 hour. I retriggered the build.\nYou can retrigger builds by posting a comment \"trigger build\" on the change to build.",
+      "parentUuid": "f66d329e_1d3ee1cd",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
