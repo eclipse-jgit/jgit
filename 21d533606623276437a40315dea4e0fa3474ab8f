@@ -34,6 +34,23 @@
       "parentUuid": "f66d329e_1d3ee1cd",
       "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b63903aa_0b7d9d03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-04-19T18:44:17Z",
+      "side": 1,
+      "message": "Is it possible to trigger the build with an increased timeout? The build has already failed four times. And if the timeout is not increased, then I’m sure that it will fail again.",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
