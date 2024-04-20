@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1dfb073_e8d50fd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037850
+      },
+      "writtenOn": "2024-04-20T19:01:30Z",
+      "side": 1,
+      "message": "Thank you! As a new contributor, the main problem I have with a racy test isn\u0027t so much that I don\u0027t understand why it fails, but rather that it stops the build. If I run \"mvn install\" or \"mvn test\" on the master branch, I expect it to just work reliably. Knowing that this failure is expected does not help me much.\n\nFor instance, imagine I make changes to a Maven module that is placed after this module in the reactor order. Before submitting my changes, I want to run the test suite with \"mvn test\". But since there is a failing test earlier in the build, the entire test suite for the module I care about will be skipped entirely by default.\nSure, I could add the `--fail-at-end` option to force going through, but then I\u0027ll have to skim through the entire results and check that all the test failures are indeed expected. That doesn\u0027t feel like a great contribution workflow.\n\nPerhaps tests that are known to be flaky could be put in a special group that would not be enabled by default? If you are confident that they pass reliably in the CI, they could be explicitly enabled there, perhaps? Then, if such a test ever fails legitimately in the CI, the contributor would be able to find its name in the build logs and run it manually on their side.",
+      "revId": "e97623d3ee00f6f0fe3921fbd496364a9eea0a84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
