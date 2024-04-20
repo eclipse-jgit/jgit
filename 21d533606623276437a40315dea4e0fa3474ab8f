@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "959a929c_0022fb4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-04-20T05:11:32Z",
+      "side": 1,
+      "message": "The flaky test pushWithNotSufficientTokens is in the Gerrit project. I run this test in the Gerrit with the following command:\nbazel test --cache_test_results\u003dNO --test_timeout\u003d99999 --test_output\u003dstreamed --test_env\u003dJAVA_TOOL_OPTIONS --test_filter\u003dcom.google.gerrit.acceptance.server.quota.RepositorySizeQuotaIT.pushWithNotSufficientTokens //javatests/com/google/gerrit /acceptance/server/quota:server_quota\nIf you run the test several times, every once in a while it will fail with an error caused by the \"Pipe closed\" exception.\nWhile investigating the flakynes of the test, I discovered that the cause was incorrect functioning of the jgit submodule due to race conditions. I pushed this change from the jgit submodule directory of the Gerrit project.",
+      "parentUuid": "7880f3f3_50d29da3",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f66d329e_1d3ee1cd",
