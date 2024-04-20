@@ -86,6 +86,24 @@
       "message": "Is it possible to trigger the build with an increased timeout? The build has already failed four times. And if the timeout is not increased, then I’m sure that it will fail again.",
       "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd2a5c7_c23adaca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-04-20T05:35:36Z",
+      "side": 1,
+      "message": "The build failed again with a timeout of 1 hour. Is there a way to run the build with an increased timeout?\nBy the way, why does build of some changes take much less, for example for this change the build took only 14 minutes:\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1193110",
+      "parentUuid": "b4136749_0d27cfba",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
