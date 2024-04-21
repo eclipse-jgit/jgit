@@ -104,6 +104,24 @@
       "parentUuid": "b4136749_0d27cfba",
       "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f83a5d_e46cbe07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-21T21:59:06Z",
+      "side": 1,
+      "message": "I tried on my laptop and found that maven builds without your change finish in around 6:30 minutes and never finish with your change. Looks like the synchronization you introduced causes this.\n\nUsually builds on the CI take 12-15 min.",
+      "parentUuid": "cbd2a5c7_c23adaca",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
