@@ -52,6 +52,24 @@
       "parentUuid": "923daf0c_2cd9a419",
       "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1d23fab_bc3a68b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-04-22T08:00:37Z",
+      "side": 1,
+      "message": "\u003e Can you elaborate further?\n\nI think the service is at wrong level. I already factored out extracting the signature from a commit or a tag to an abstract super class. That was probably not correct; it should have been a separate stand-alone class. So code would always call the single verifier. That one would then, after having extracted the signature, examine the \"-----BEGIN...\" line to figure out what kind of signature it is, and then try to find the right service able to verify this raw signature.\n\nThe difficult thing would be to pull off such a refactoring without breaking API.\n\nBasically the service should only have the `verify(GpgConfig, byte[], byte[])` method. And _always_ pass through the `GpgConfig`. It is needed if one wants to provide alternate service implementations. EGit does so: it provides implementations that use the external gpg executable instead of Bouncy Castle. The Bouncy Castle implementation is not always able to find the public keys. For instance when GPG uses the keyboxd daemon (as Gpg4Win does since version 4.2.0), it stores public keys in an sqlite database.\n\nI don\u0027t remember off-hand under what header SSH signatures are stored in commits; if it\u0027s still \"gpgsig\" then we should be fine for commits. For tags the signature is just tacked onto the end of the message, so extracting it there would need to be able to handle different \"-----BEGIN...\" lines. Currently `RevTag` hard-codes \"-----BEGIN PGP SIGNATURE\".",
+      "parentUuid": "ab5ed702_2115f7ab",
+      "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
