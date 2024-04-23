@@ -106,6 +106,24 @@
       "parentUuid": "15fa9b85_c2d4da53",
       "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f04690_3b678d08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-04-23T15:28:31Z",
+      "side": 1,
+      "message": "Yes, that\u0027s the idea. (Just an idea for now. I\u0027m only thinking about this in the abstract; hope it works out well when it\u0027s actually coded.)\n\nThe naming is all a bit unfortunate; it looks like we\u0027re going the same route as C git did, and end up with same naming mess: start with GPG signing/verification, later add other stuff, and be stuck with \"Gpg...\" names for non-Gpg things... even the git configs are still named \"gpg.*\", even for x509 or ssh. And so are our bundle name and package names now.\n\nIf the original contribution of this fragment had been named org.eclipse.jgit.signing.bc it would all be much clearer. But that ship has sailed; changing bundle names is always a hassle to ensure bundle updates in OSGi work as expected and not to be done in a minor release.",
+      "parentUuid": "340bd457_27c83be5",
+      "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
