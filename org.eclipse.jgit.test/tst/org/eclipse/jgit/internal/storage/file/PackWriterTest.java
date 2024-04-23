@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -635,6 +636,54 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testSelectRepresentationShouldScanAllObjectsWhenSelectFirstObjectIsNotSet()
+			throws Exception {
+		FileRepository fileRepository = setUpMultipleRepresentations();
+		PackWriter packWriter = new PackWriter(config, fileRepository.newObjectReader());
+		packWriter.setSelectFirstObjectMatch(false);
+		PackWriter mockedPackWriter = Mockito
+				.spy(packWriter);
+		doNothing().when(mockedPackWriter).select(any(), any());
+
+		try (FileOutputStream packOS = new FileOutputStream(
+				getPackFileToWrite(fileRepository, mockedPackWriter))) {
+			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
+					NullProgressMonitor.INSTANCE, packOS);
+		}
+
+		int allRepresentations = getApproximateObjectCount(fileRepository.getObjectDatabase());
+		verify(mockedPackWriter, times(allRepresentations)).select(any(), any());
+    }
+
+    private static int getApproximateObjectCount(ObjectDirectory objectDirectory) {
+		return Math.toIntExact(objectDirectory.getPacks().stream().map(p -> {
+            try {
+				return p.getObjectCount();
+            } catch (IOException e) {
+				return 0L;
+			}
+		}).mapToLong(Long::longValue).sum());
+	}
+
+	@Test
+	public void testSelectRepresentationShouldStopAtTheFirstMatchWhenSelectFirObjectIsSet()
+			throws Exception {
+		FileRepository fileRepository = setUpMultipleRepresentations();
+		addRepoToClose(fileRepository);
+		PackWriter packWriter = new PackWriter(config, fileRepository.newObjectReader());
+		packWriter.setSelectFirstObjectMatch(true);
+		PackWriter mockedPackWriter = Mockito
+				.spy(packWriter);
+		doNothing().when(mockedPackWriter).select(any(), any());
+
+        writePack(fileRepository, mockedPackWriter);
+
+		int expectedRepresentationSelections = 3; // C1, T1, C2
+		verify(mockedPackWriter, times(expectedRepresentationSelections)).select(any(), any());
+	}
+
+
+	@Test
 	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSet()
 			throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
@@ -643,11 +692,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		doNothing().when(mockedPackWriter).select(any(), any());
 
-		try (FileOutputStream packOS = new FileOutputStream(
-				getPackFileToWrite(fileRepository, mockedPackWriter))) {
-			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
-					NullProgressMonitor.INSTANCE, packOS);
-		}
+        writePack(fileRepository, mockedPackWriter);
 
 		long numberOfPackFiles = new GC(fileRepository)
 				.getStatistics().numberOfPackFiles;
@@ -671,11 +716,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		doNothing().when(mockedPackWriter).select(any(), any());
 
-		try (FileOutputStream packOS = new FileOutputStream(
-				getPackFileToWrite(fileRepository, mockedPackWriter))) {
-			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
-					NullProgressMonitor.INSTANCE, packOS);
-		}
+        writePack(fileRepository, mockedPackWriter);
 
 		long numberOfPackFiles = new GC(fileRepository)
 				.getStatistics().numberOfPackFiles;
@@ -700,11 +741,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		doNothing().when(mockedPackWriter).select(any(), any());
 
-		try (FileOutputStream packOS = new FileOutputStream(
-				getPackFileToWrite(fileRepository, mockedPackWriter))) {
-			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
-					NullProgressMonitor.INSTANCE, packOS);
-		}
+        writePack(fileRepository, mockedPackWriter);
 
 		int expectedSelectCalls = 3; // Objects in packfiles
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
@@ -742,6 +779,31 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		}
 		return fileRepository;
 	}
+
+    private FileRepository setUpMultipleRepresentations() throws IOException, GitAPIException, ParseException {
+        FileRepository fileRepository = createWorkRepository();
+        addRepoToClose(fileRepository);
+
+        try (Git git = new Git(fileRepository)) {
+            // Creates 2 objects (C1 = commit, T1 = tree) and pack them in P1 (containing, C1, T1(
+            git.commit().setMessage("First commit").call();
+            GC gc = new GC(fileRepository);
+            gc.gc();
+
+            // Creates 1 object (C2 commit) and pack it in P2 (containing C1, T1, C2)
+            git.commit().setMessage("Second commit").call();
+            gc.gc();
+        }
+        return fileRepository;
+    }
+
+    private void writePack(FileRepository fileRepository, PackWriter packWriter) throws IOException {
+        try (FileOutputStream packOS = new FileOutputStream(
+                getPackFileToWrite(fileRepository, packWriter))) {
+            packWriter.writePack(NullProgressMonitor.INSTANCE,
+                    NullProgressMonitor.INSTANCE, packOS);
+        }
+    }
 
 	private PackFile getPackFileToWrite(FileRepository fileRepository,
 			PackWriter mockedPackWriter) throws IOException {
