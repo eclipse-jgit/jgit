@@ -70,6 +70,24 @@
       "parentUuid": "ab5ed702_2115f7ab",
       "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fa9b85_c2d4da53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-23T08:49:46Z",
+      "side": 1,
+      "message": "I see, so you would suggest to add the X509 (and all other signatures\u0027 logic) into the same GPG signature verifier, even though they have nothing to do with GPG?",
+      "parentUuid": "a1d23fab_bc3a68b4",
+      "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
