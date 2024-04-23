@@ -88,6 +88,24 @@
       "parentUuid": "a1d23fab_bc3a68b4",
       "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340bd457_27c83be5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-23T13:42:31Z",
+      "side": 1,
+      "message": "I believe I know what you mean: instead of doing the redirection to the service at verification factory level, we should have a single verifier which should have the common role of extracting the payload and signature.\n\nThat single verifier is then responsible for looking for the right _service_ to decode the signature, using a service discovery pattern based on the signature prefix.\n\n@twolf@apache.org Should we then refactor the change in that direction? Or would you suggest to make a different one, or possibly more than one?",
+      "parentUuid": "15fa9b85_c2d4da53",
+      "revId": "8b4202aa3d0cdea0c050096091436fd0da71e0b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
