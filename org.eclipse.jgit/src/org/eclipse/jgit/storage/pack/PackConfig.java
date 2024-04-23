@@ -28,6 +28,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_COMPRESSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DEPTH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_QUICK_MATCH_SEARCH_FOR_REUSE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_DELTAS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT;
@@ -318,6 +319,8 @@ public class PackConfig {
 
 	private boolean singlePack;
 
+	private boolean quickMatchSearchForReuse;
+
 	/**
 	 * Create a default configuration.
 	 */
@@ -386,6 +389,7 @@ public class PackConfig {
 		this.cutDeltaChains = cfg.cutDeltaChains;
 		this.singlePack = cfg.singlePack;
 		this.searchForReuseTimeout = cfg.searchForReuseTimeout;
+		this.quickMatchSearchForReuse = cfg.quickMatchSearchForReuse;
 	}
 
 	/**
@@ -647,6 +651,44 @@ public class PackConfig {
 	 */
 	public void setSinglePack(boolean single) {
 		singlePack = single;
+	}
+
+	/**
+	 * Whether the search for reuse phase should stop at the first object representation.
+	 * <p>
+	 * When enabled, the search prioritizes packfiles with bitmaps and stops scanning upon finding the first
+	 * matching object representation, potentially sacrificing finding the best representation for efficiency.
+	 * </p>
+	 * <p>
+	 * This configuration influences the trade-off between efficiency and the quality
+	 * of object representation chosen during the search for reuse phase.
+	 * </p>
+	 *
+	 * @return {@code true} if the first-match search for reuse is enabled, {@code false} otherwise.
+	 * @since 5.13
+	 */
+	public boolean getQuickMatchSearchForReuse() {
+		return quickMatchSearchForReuse;
+	}
+
+	/**
+	 * Set whether the search for reuse phase should stop at the first object representation.
+	 * <p>
+	 * When enabled, the search prioritizes packfiles with bitmaps and stops scanning upon finding the first
+	 * matching object representation, potentially sacrificing finding the best representation for efficiency.
+	 * </p>
+	 * <p>
+	 * This configuration influences the trade-off between efficiency and the quality
+	 * of object representation chosen during the search for reuse phase.
+	 * </p>
+	 *
+	 * @param quickMatchSearchForReuse
+	 *            true to stop finding the first matching object representation in search for reuse
+	 *
+	 * @since 5.13
+	 */
+	public void setQuickMatchSearchForReuse(boolean quickMatchSearchForReuse) {
+		this.quickMatchSearchForReuse = quickMatchSearchForReuse;
 	}
 
 	/**
@@ -1277,6 +1319,9 @@ public class PackConfig {
 		setSinglePack(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_SINGLE_PACK,
 				getSinglePack()));
+		setQuickMatchSearchForReuse(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_QUICK_MATCH_SEARCH_FOR_REUSE,
+				getQuickMatchSearchForReuse()));
 		boolean buildBitmapsFromConfig = rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BUILD_BITMAPS, isBuildBitmaps());
 		setBuildBitmaps(buildBitmapsFromConfig);
@@ -1355,6 +1400,8 @@ public class PackConfig {
 		b.append(", searchForReuseTimeout") //$NON-NLS-1$
 				.append(getSearchForReuseTimeout());
 		b.append(", singlePack=").append(getSinglePack()); //$NON-NLS-1$
+		b.append(", quickMatchSearchForReuse=")
+				.append(getQuickMatchSearchForReuse()); //$NON-NLS-1$
 		return b.toString();
 	}
 }
