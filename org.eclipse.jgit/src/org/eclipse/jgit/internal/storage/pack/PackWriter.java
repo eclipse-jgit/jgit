@@ -272,6 +272,8 @@ public class PackWriter implements AutoCloseable {
 
 	private long searchForReuseStartTimeEpoc;
 
+	private final boolean quickMatchSearchForReuse;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
@@ -367,6 +369,7 @@ public class PackWriter implements AutoCloseable {
 		deltaBaseAsOffset = config.isDeltaBaseAsOffset();
 		reuseDeltas = config.isReuseDeltas();
 		searchForReuseTimeout = config.getSearchForReuseTimeout();
+		quickMatchSearchForReuse = config.getQuickMatchSearchForReuse();
 		reuseValidate = true; // be paranoid by default
 		stats = statsAccumulator != null ? statsAccumulator
 				: new PackStatistics.Accumulator();
@@ -690,6 +693,16 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setPackfileUriConfig(PackfileUriConfig config) {
 		packfileUriConfig = config;
+	}
+
+	/**
+	 * Whether the search for reuse phase should stop at the first object representation.
+	 *
+	 * @return {@code true} if the first-match search for reuse is enabled, {@code false} otherwise.
+	 * @since 5.13
+	 */
+	public boolean getQuickMatchSearchForReuse() {
+		return quickMatchSearchForReuse;
 	}
 
 	/**
