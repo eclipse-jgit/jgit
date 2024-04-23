@@ -272,6 +272,8 @@ public class PackWriter implements AutoCloseable {
 
 	private long searchForReuseStartTimeEpoc;
 
+	private boolean selectFirstObjectMatch;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
@@ -690,6 +692,34 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setPackfileUriConfig(PackfileUriConfig config) {
 		packfileUriConfig = config;
+	}
+
+	/**
+	 * Whether the search for reuse phase should stop at the first object representation.
+	 *
+	 * @return {@code true} if the first-match search for reuse is enabled, {@code false} otherwise.
+	 * @since 5.13
+	 */
+	public boolean getSelectFirstObjectMatch() {
+		return selectFirstObjectMatch;
+	}
+
+	/**
+	 * Set whether the search for reuse phase should stop at the first object representation.
+	 * <p>
+	 * When enabled, the search prioritizes packfiles with bitmaps and stops scanning upon finding the first
+	 * matching object representation, potentially sacrificing finding the best representation for efficiency.
+	 * </p>
+	 * <p>
+	 * This configuration influences the trade-off between efficiency and the quality
+	 * of object representation chosen during the search for reuse phase.
+	 * </p>
+	 *
+	 * @param selectFirstObjectMatch true to stop finding the first matching object representation in search for reuse
+	 * @since 5.13
+	 */
+	public void setSelectFirstObjectMatch(boolean selectFirstObjectMatch) {
+		this.selectFirstObjectMatch = selectFirstObjectMatch;
 	}
 
 	/**
