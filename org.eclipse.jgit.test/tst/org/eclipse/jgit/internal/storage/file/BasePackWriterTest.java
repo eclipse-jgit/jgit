@@ -29,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +37,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -863,22 +866,22 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSetFalse()
+	public void testSelectRepresentationShouldScanAllObjectsWhenQuickMatchIsNotSet()
 			throws Exception {
 		totalPackFilesScanWhenSearchForReuseTimeoutNotSet(false);
 	}
 
 	@SuppressWarnings("boxing")
 	public void totalPackFilesScanWhenSearchForReuseTimeoutNotSet(boolean doReturn) throws Exception {
-		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		FileRepository fileRepository = setUpMultipleRepresentations();
+		config.setQuickMatchSearchForReuse(false);
 		int numberOfPackFiles = (int) new GC(fileRepository).getStatistics().numberOfPackFiles;
 		int objectsInMultiplePacks = 2;
 		int objectsInOnePacks = 1;
 		int expectedSelectCalls = objectsInMultiplePacks * (doReturn ? numberOfPackFiles : 1)
 				+ objectsInOnePacks;
-
 		PackWriter mockedPackWriter = Mockito
 				.spy(new PackWriter(config, fileRepository.newObjectReader()));
-
 		doReturn(doReturn).when(mockedPackWriter).select(any(), any());
 
 		try (FileOutputStream packOS = new FileOutputStream(
@@ -920,11 +923,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 		doReturn(doReturn).when(mockedPackWriter).select(any(), any());
 
-		try (FileOutputStream packOS = new FileOutputStream(
-				getPackFileToWrite(fileRepository, mockedPackWriter))) {
-			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
-					NullProgressMonitor.INSTANCE, packOS);
-		}
+        writePack(fileRepository, mockedPackWriter);
 
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
 				any());
@@ -953,11 +952,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 		doReturn(doReturn).when(mockedPackWriter).select(any(), any());
 
-		try (FileOutputStream packOS = new FileOutputStream(
-				getPackFileToWrite(fileRepository, mockedPackWriter))) {
-			mockedPackWriter.writePack(NullProgressMonitor.INSTANCE,
-					NullProgressMonitor.INSTANCE, packOS);
-		}
+        writePack(fileRepository, mockedPackWriter);
 
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
 				any());
@@ -995,6 +990,31 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		}
 		return fileRepository;
 	}
+
+    private FileRepository setUpMultipleRepresentations() throws IOException, GitAPIException, ParseException, ExecutionException, InterruptedException {
+        FileRepository fileRepository = createWorkRepository();
+        addRepoToClose(fileRepository);
+
+        try (Git git = new Git(fileRepository)) {
+            // Creates 2 objects (C1 = commit, T1 = tree) and pack them in P1 (containing, C1, T1(
+            git.commit().setMessage("First commit").call();
+            GC gc = new GC(fileRepository);
+            gc.gc().get();
+
+            // Creates 1 object (C2 commit) and pack it in P2 (containing C1, T1, C2)
+            git.commit().setMessage("Second commit").call();
+            gc.gc().get();
+        }
+        return fileRepository;
+    }
+
+    private void writePack(FileRepository fileRepository, PackWriter packWriter) throws IOException {
+        try (FileOutputStream packOS = new FileOutputStream(
+                getPackFileToWrite(fileRepository, packWriter))) {
+            packWriter.writePack(NullProgressMonitor.INSTANCE,
+                    NullProgressMonitor.INSTANCE, packOS);
+        }
+    }
 
 	private PackFile getPackFileToWrite(FileRepository fileRepository,
 			PackWriter mockedPackWriter) throws IOException {

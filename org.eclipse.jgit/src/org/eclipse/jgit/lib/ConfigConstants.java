@@ -897,6 +897,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_SINGLE_PACK = "singlepack";
 
 	/**
+	 * The "pack.quickMatchSearchForReuse" key
+	 * @since 6.9.1
+	 */
+	public static final String CONFIG_KEY_QUICK_MATCH_SEARCH_FOR_REUSE = "quickmatchsearchforreuse";
+
+
+	/**
 	 * The "pack.threads" key
 	 * @since 5.8
 	 */

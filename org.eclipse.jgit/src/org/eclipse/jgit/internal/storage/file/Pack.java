@@ -87,6 +87,17 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	public static final Comparator<Pack> SORT = (a, b) -> b.packLastModified
 			.compareTo(a.packLastModified);
 
+	/**
+	 * Sorts PackFiles to be most recently created to least recently created giving priority to the ones having bitmaps.
+	 */
+	public static final Comparator<Pack> SORT_WITH_BITMAP_FIRST = Comparator.comparing((Pack pack) -> {
+		try {
+			return pack.getBitmapIndex() != null ? 0 : 1;
+		} catch (IOException e) {
+			return 1;
+		}
+	}).thenComparing(Pack.SORT);
+
 	private boolean useStrongRefs;
 
 	private final PackFile packFile;

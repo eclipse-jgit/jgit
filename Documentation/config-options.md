@@ -135,6 +135,7 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.waitPreventRacyPack` | `false` | &#x20DE; | Whether we wait before opening a newly written pack to prevent its lastModified timestamp could be racy. |
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
+| `pack.quickMatchSearchForReuse` | `false` | &#x2705; | Search for reuse stops at the first match for efficiency over optimization. |
 
 ## reftable options
 

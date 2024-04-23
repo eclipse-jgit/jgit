@@ -277,7 +277,8 @@ class PackDirectory {
 		PackList pList = packList.get();
 		int retries = 0;
 		SEARCH: for (;;) {
-			for (Pack p : pList.inReverse()) {
+			Pack[] sortedPacks = packer.getQuickMatchSearchForReuse() ? pList.getPacksSortedByBitmapFirst() : pList.packs;
+			for (Pack p : sortedPacks) {
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
@@ -286,6 +287,9 @@ class PackDirectory {
 							return;
 						}
 						packer.checkSearchForReuseTimeout();
+						if(packer.getQuickMatchSearchForReuse()) {
+							break SEARCH;
+						}
 					}
 				} catch (SearchForReuseTimeout e) {
 					break SEARCH;
@@ -584,17 +588,23 @@ class PackDirectory {
 		/** All known packs, sorted by {@link Pack#SORT}. */
 		final Pack[] packs;
 
+		private Pack[] packsSortedByBitmapFirst;
+
 		PackList(FileSnapshot monitor, Pack[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
 		}
 
-		Iterable<Pack> inReverse() {
-			return Iterators.iterable(reverseIterator());
-		}
-
-		Iterator<Pack> reverseIterator() {
-			return Iterators.reverseIterator(packs);
+		/**
+		 * Get the list of packfiles, sorted by {@link Pack#SORT_WITH_BITMAP_FIRST}.
+		 *
+		 * @return the ordered array of {@link Pack}
+		 */
+		public Pack[] getPacksSortedByBitmapFirst() {
+			if(packsSortedByBitmapFirst == null) {
+				this.packsSortedByBitmapFirst = Arrays.stream(packs).sorted(Pack.SORT_WITH_BITMAP_FIRST).toArray(Pack[]::new);
+			}
+			return this.packsSortedByBitmapFirst;
 		}
 	}
 }
