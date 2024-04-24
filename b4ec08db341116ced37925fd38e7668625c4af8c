@@ -1,0 +1,256 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151a08a4_1c1b3725",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "What are there potential negative consequences of not selecting the best object representation ?",
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0f0a9aa_399924cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "I don\u0027t see this implemented",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79c81790_24bd008c",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "that\u0027s an odd option name, how about changing this to an enum ?\n\nE.g.\nname the option `pack.searchForReuseStrategy` with values\n- `exhaustiveSearch` (default)\n- `preferBitmap`\n\nWould it make sense to auto-tune which strategy to use based on the number of pack files ? Maybe this could be implemented in a generalization of `PackWriter#checkSearchForReuseTimeout`.",
+      "range": {
+        "startLine": 132,
+        "startChar": 3,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c82db502_e985d8b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "move this refactoring into a separate change",
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e0a0a9_2fc72f97",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "squash this to just Exception ?",
+      "range": {
+        "startLine": 841,
+        "startChar": 65,
+        "endLine": 841,
+        "endChar": 151
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43591719_e05ef775",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "how does having a bitmap index relate to being recently created ?",
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c99f6923_332b203d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "that\u0027s an odd name for an array which is sorted sometimes",
+      "range": {
+        "startLine": 283,
+        "startChar": 10,
+        "endLine": 283,
+        "endChar": 21
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a79e8c9f_d8540e53",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "could we sort this list when the packlist is created and avoid a second field ?",
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "654b343e_60b1f342",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "6.10",
+      "range": {
+        "startLine": 711,
+        "startChar": 11,
+        "endLine": 711,
+        "endChar": 16
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14e2a7ae_593af827",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "6.10",
+      "range": {
+        "startLine": 847,
+        "startChar": 11,
+        "endLine": 847,
+        "endChar": 16
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cda765_2e20ca69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "6.10",
+      "range": {
+        "startLine": 708,
+        "startChar": 11,
+        "endLine": 708,
+        "endChar": 16
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc231372_4f546246",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-24T22:24:26Z",
+      "side": 1,
+      "message": "6.10",
+      "range": {
+        "startLine": 728,
+        "startChar": 11,
+        "endLine": 728,
+        "endChar": 16
+      },
+      "revId": "b4ec08db341116ced37925fd38e7668625c4af8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
