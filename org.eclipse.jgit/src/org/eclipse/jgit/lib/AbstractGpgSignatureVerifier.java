@@ -21,6 +21,9 @@ import org.eclipse.jgit.util.RawParseUtils;
  * Provides a base implementation of
  * {@link GpgSignatureVerifier#verifySignature(RevObject, GpgConfig)}.
  *
+ * TODO: AbstractGpgSignatureVerifier comes from the main JGit bundle, and _is_ API and the name cannot be changed.
+ * We can fix the naming only in 7.0, amending it AbstractSignatureVerifier.
+ *
  * @since 6.9
  */
 public abstract class AbstractGpgSignatureVerifier
