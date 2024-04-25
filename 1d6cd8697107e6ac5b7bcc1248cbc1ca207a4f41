@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "052eed4b_5dae6665",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "error code:",
+      "range": {
+        "startLine": 18,
+        "startChar": 88,
+        "endLine": 18,
+        "endChar": 102
+      },
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5d599fd_8f4528a3",
+        "filename": "org.eclipse.jgit.lfs/resources/org/eclipse/jgit/lfs/internal/LfsText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "failed",
+      "range": {
+        "startLine": 18,
+        "startChar": 45,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e681aee_a18bf746",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "don\u0027t use wildcard imports",
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2612a194_9ac0299d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "move this to the documentation of #verifyFile",
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7c2b720_7cef9f2d",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "convert this comment to javadoc",
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d82bcb20_1f2af087",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/LfsPrePushHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "nit: needs to be reformatted, we use a linewidth of 80 characters\n\nmaybe shorten the variable name to `c`",
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13438c4b_243c330f",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "missing @since 6.10 for new API element",
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acef60f9_597102a4",
+        "filename": "org.eclipse.jgit.lfs/src/org/eclipse/jgit/lfs/Protocol.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:37:20Z",
+      "side": 1,
+      "message": "missing @since 6.10",
+      "revId": "1d6cd8697107e6ac5b7bcc1248cbc1ca207a4f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
