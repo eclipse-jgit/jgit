@@ -28,6 +28,7 @@ public final class BCText extends TranslationBundle {
 	}
 
 	// @formatter:off
+	/***/ public String cmdSignatureVerificationFailed;
 	/***/ public String corrupt25519Key;
 	/***/ public String credentialPassphrase;
 	/***/ public String cryptCipherError;
