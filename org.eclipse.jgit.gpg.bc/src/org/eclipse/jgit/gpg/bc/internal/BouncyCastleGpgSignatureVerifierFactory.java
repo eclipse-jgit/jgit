@@ -16,13 +16,10 @@ import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
  * A {@link GpgSignatureVerifierFactory} that creates
  * {@link GpgSignatureVerifier} instances that verify GPG signatures using
  * BouncyCastle and that do cache public keys.
+ *
+ * @deprecated Use {{@link BouncyCastleSignatureVerifierFactory} which exposes the same methods
  */
+@Deprecated(since = "6.9.1", forRemoval = true)
 public final class BouncyCastleGpgSignatureVerifierFactory
-		extends GpgSignatureVerifierFactory {
-
-	@Override
-	public GpgSignatureVerifier getVerifier() {
-		return new BouncyCastleGpgSignatureVerifier();
-	}
-
+		extends BouncyCastleSignatureVerifierFactory {
 }
