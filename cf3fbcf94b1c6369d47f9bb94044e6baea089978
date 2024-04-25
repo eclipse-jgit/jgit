@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6de2982_7a8cc1db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:01:37Z",
+      "side": 1,
+      "message": "mention which test ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "cf3fbcf94b1c6369d47f9bb94044e6baea089978",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83560115_c4d5a96f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:01:37Z",
+      "side": 1,
+      "message": "which issue ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "cf3fbcf94b1c6369d47f9bb94044e6baea089978",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18fadca6_4d263504",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FSTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:01:37Z",
+      "side": 1,
+      "message": "#fsTick should wait until the clock moved by at least one tick\n\nOn which filesystem type was java.io.tmpdir located ?\nWhich Java version did you use ?",
+      "revId": "cf3fbcf94b1c6369d47f9bb94044e6baea089978",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
