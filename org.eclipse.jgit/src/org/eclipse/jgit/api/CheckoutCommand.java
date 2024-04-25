@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2011, 2023 Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2011, 2023, 2024 Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -236,13 +236,15 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			DirCacheCheckout dco;
 			DirCache dc = repo.lockDirCache();
 			try {
-				dco = new DirCacheCheckout(repo, headTree, dc,
-						newCommit.getTree());
-				dco.setFailOnConflict(true);
-				dco.setForce(forced);
 				if (forced) {
-					dco.setFailOnConflict(false);
+					dco = new DirCacheCheckout(repo, dc,
+							newCommit.getTree());
+				} else {
+					dco = new DirCacheCheckout(repo, headTree, dc,
+							newCommit.getTree());
 				}
+				dco.setFailOnConflict(!forced);
+				dco.setForce(forced);
 				dco.setProgressMonitor(monitor);
 				try {
 					dco.checkout();
