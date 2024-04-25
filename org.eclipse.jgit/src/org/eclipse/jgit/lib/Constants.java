@@ -501,6 +501,13 @@ public final class Constants {
 	public static final String GPG_SIGNATURE_PREFIX = "-----BEGIN PGP SIGNATURE-----"; //$NON-NLS-1$
 
 	/**
+	 * Prefix of a CMS signature.
+	 *
+	 * @since 6.1.9
+	 */
+	public static final String CMS_SIGNATURE_PREFIX = "-----BEGIN SIGNED MESSAGE-----"; //$NON-NLS-1$
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.

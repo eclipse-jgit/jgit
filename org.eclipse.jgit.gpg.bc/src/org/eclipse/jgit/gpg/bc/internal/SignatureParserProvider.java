@@ -22,6 +22,7 @@ class SignatureParserProvider {
 
 	static {
 		GpgSignatureParser.register();
+		CmsSignatureParser.register();
 	}
 
 	static void registerSignatureParser(String signaturePrefix, SignatureParser signatureParser) {
