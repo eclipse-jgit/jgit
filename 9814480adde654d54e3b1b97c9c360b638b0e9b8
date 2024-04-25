@@ -22,6 +22,30 @@
       },
       "revId": "9814480adde654d54e3b1b97c9c360b638b0e9b8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d356756d_6d164c0c",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/GpgSignatureParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-25T23:45:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "978dd37e_f844b7ba",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 17
+      },
+      "revId": "9814480adde654d54e3b1b97c9c360b638b0e9b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
