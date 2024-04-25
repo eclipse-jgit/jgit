@@ -19,6 +19,9 @@ import org.slf4j.LoggerFactory;
 /**
  * A {@code GpgSignatureVerifierFactory} creates {@link GpgSignatureVerifier} instances.
  *
+ *  TODO: GpgSignatureVerifierFactory comes from the main JGit bundle, and _is_ API and the name cannot be changed.
+ *  We can fix the naming only in 7.0, amending it SignatureVerifierFactory.
+ *
  * @since 5.11
  */
 public abstract class GpgSignatureVerifierFactory {

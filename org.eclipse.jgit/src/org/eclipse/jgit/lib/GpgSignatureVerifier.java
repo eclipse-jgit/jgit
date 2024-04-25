@@ -21,6 +21,9 @@ import org.eclipse.jgit.revwalk.RevObject;
  * A {@code GpgSignatureVerifier} can verify GPG signatures on git commits and
  * tags.
  *
+ * TODO: GpgSignatureVerifier comes from the main JGit bundle, and _is_ API and the name cannot be changed.
+ * We can fix the naming only in 7.0, amending it SignatureVerifier.
+ *
  * @since 5.11
  */
 public interface GpgSignatureVerifier {
