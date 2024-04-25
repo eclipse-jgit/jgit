@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2024, GerritForge Inc.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -7,17 +7,8 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.gpg.bc.internal;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.Security;
-import java.text.MessageFormat;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+package org.eclipse.jgit.gpg.bc.internal;
 
 import org.bouncycastle.bcpg.sig.IssuerFingerprint;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -31,33 +22,25 @@ import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.jcajce.JcaPGPObjectFactory;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProvider;
 import org.bouncycastle.util.encoders.Hex;
-import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.AbstractGpgSignatureVerifier;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgSignatureVerifier;
 import org.eclipse.jgit.util.LRUMap;
 import org.eclipse.jgit.util.StringUtils;
 
-/**
- * A {@link GpgSignatureVerifier} to verify GPG signatures using BouncyCastle.
- */
-public class BouncyCastleGpgSignatureVerifier
-		extends AbstractGpgSignatureVerifier {
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
-	private static void registerBouncyCastleProviderIfNecessary() {
-		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-			Security.addProvider(new BouncyCastleProvider());
-		}
-	}
+class GpgSignatureParser implements SignatureParser {
 
-	/**
-	 * Creates a new instance and registers the BouncyCastle security provider
-	 * if needed.
-	 */
-	public BouncyCastleGpgSignatureVerifier() {
-		registerBouncyCastleProviderIfNecessary();
-	}
+	private static final GpgSignatureParser SINGLETON = new GpgSignatureParser();
 
 	// To support more efficient signature verification of multiple objects we
 	// cache public keys once found in a LRU cache.
@@ -68,19 +51,18 @@ public class BouncyCastleGpgSignatureVerifier
 
 	private LRUMap<String, Object> bySigner = new LRUMap<>(16, 200);
 
-	@Override
-	public String getName() {
-		return "bc"; //$NON-NLS-1$
+	static void register() {
+		SignatureParserProvider.registerSignatureParser(Constants.GPG_SIGNATURE_PREFIX, SINGLETON);
 	}
 
 	static PGPSignature parseSignature(InputStream in)
-			throws IOException, PGPException {
+		throws IOException, PGPException {
 		try (InputStream sigIn = PGPUtil.getDecoderStream(in)) {
 			JcaPGPObjectFactory pgpFactory = new JcaPGPObjectFactory(sigIn);
 			Object obj = pgpFactory.nextObject();
 			if (obj instanceof PGPCompressedData) {
 				obj = new JcaPGPObjectFactory(
-						((PGPCompressedData) obj).getDataStream()).nextObject();
+					((PGPCompressedData) obj).getDataStream()).nextObject();
 			}
 			if (obj instanceof PGPSignatureList) {
 				return ((PGPSignatureList) obj).get(0);
@@ -90,9 +72,7 @@ public class BouncyCastleGpgSignatureVerifier
 	}
 
 	@Override
-	public SignatureVerification verify(@NonNull GpgConfig config, byte[] data,
-			byte[] signatureData)
-			throws IOException {
+	public GpgSignatureVerifier.SignatureVerification verify(GpgConfig config, byte[] data, byte[] signatureData) throws IOException {
 		PGPSignature signature = null;
 		String fingerprint = null;
 		String signer = null;
@@ -103,13 +83,13 @@ public class BouncyCastleGpgSignatureVerifier
 				// Try to figure out something to find the public key with.
 				if (signature.hasSubpackets()) {
 					PGPSignatureSubpacketVector packets = signature
-							.getHashedSubPackets();
+						.getHashedSubPackets();
 					IssuerFingerprint fingerprintPacket = packets
-							.getIssuerFingerprint();
+						.getIssuerFingerprint();
 					if (fingerprintPacket != null) {
 						fingerprint = Hex
-								.toHexString(fingerprintPacket.getFingerprint())
-								.toLowerCase(Locale.ROOT);
+							.toHexString(fingerprintPacket.getFingerprint())
+							.toLowerCase(Locale.ROOT);
 					}
 					signer = packets.getSignerUserID();
 					if (signer != null) {
@@ -117,26 +97,26 @@ public class BouncyCastleGpgSignatureVerifier
 					}
 				}
 				keyId = Long.toUnsignedString(signature.getKeyID(), 16)
-						.toLowerCase(Locale.ROOT);
+					.toLowerCase(Locale.ROOT);
 			} else {
 				throw new JGitInternalException(BCText.get().nonSignatureError);
 			}
 		} catch (NumberFormatException | PGPException e) {
 			throw new JGitInternalException(BCText.get().signatureParseError,
-					e);
+				e);
 		}
 		Date signatureCreatedAt = signature.getCreationTime();
 		if (fingerprint == null && signer == null && keyId == null) {
 			return new VerificationResult(signatureCreatedAt, null, null, null,
-					false, false, TrustLevel.UNKNOWN,
-					BCText.get().signatureNoKeyInfo);
+				false, false, GpgSignatureVerifier.TrustLevel.UNKNOWN,
+				BCText.get().signatureNoKeyInfo);
 		}
 		if (fingerprint != null && keyId != null
-				&& !fingerprint.endsWith(keyId)) {
+			&& !fingerprint.endsWith(keyId)) {
 			return new VerificationResult(signatureCreatedAt, signer, fingerprint,
-					signer, false, false, TrustLevel.UNKNOWN,
-					MessageFormat.format(BCText.get().signatureInconsistent,
-							keyId, fingerprint));
+				signer, false, false, GpgSignatureVerifier.TrustLevel.UNKNOWN,
+				MessageFormat.format(BCText.get().signatureInconsistent,
+					keyId, fingerprint));
 		}
 		if (fingerprint == null && keyId != null) {
 			fingerprint = keyId;
@@ -161,11 +141,11 @@ public class BouncyCastleGpgSignatureVerifier
 			}
 			if (cached == null) {
 				publicKey = BouncyCastleGpgKeyLocator.findPublicKey(fingerprint,
-						keySpec);
+					keySpec);
 			}
 		} catch (IOException | PGPException e) {
 			throw new JGitInternalException(
-					BCText.get().signatureKeyLookupError, e);
+				BCText.get().signatureKeyLookupError, e);
 		}
 		if (publicKey == null) {
 			if (cached == null) {
@@ -176,16 +156,16 @@ public class BouncyCastleGpgSignatureVerifier
 				}
 			}
 			return new VerificationResult(signatureCreatedAt, signer,
-					fingerprint, signer, false, false, TrustLevel.UNKNOWN,
-					BCText.get().signatureNoPublicKey);
+				fingerprint, signer, false, false, GpgSignatureVerifier.TrustLevel.UNKNOWN,
+				BCText.get().signatureNoPublicKey);
 		}
 		if (fingerprint != null && !publicKey.isExactMatch()) {
 			// We did find _some_ signing key for the signer, but it doesn't
 			// match the given fingerprint.
 			return new VerificationResult(signatureCreatedAt, signer,
-					fingerprint, signer, false, false, TrustLevel.UNKNOWN,
-					MessageFormat.format(BCText.get().signatureNoSigningKey,
-							fingerprint));
+				fingerprint, signer, false, false, GpgSignatureVerifier.TrustLevel.UNKNOWN,
+				MessageFormat.format(BCText.get().signatureNoSigningKey,
+					fingerprint));
 		}
 		if (cached == null) {
 			byFingerprint.put(fingerprint, publicKey);
@@ -200,7 +180,7 @@ public class BouncyCastleGpgSignatureVerifier
 			if (!StringUtils.isEmptyOrNull(signer)) {
 				for (String userId : publicKey.getUserIds()) {
 					if (BouncyCastleGpgKeyLocator.containsSigningKey(userId,
-							keySpec)) {
+						keySpec)) {
 						user = userId;
 						break;
 					}
@@ -217,7 +197,7 @@ public class BouncyCastleGpgSignatureVerifier
 		long validFor = pubKey.getValidSeconds();
 		if (validFor > 0 && signatureCreatedAt != null) {
 			Instant expiredAt = pubKey.getCreationTime().toInstant()
-					.plusSeconds(validFor);
+				.plusSeconds(validFor);
 			expired = expiredAt.isBefore(signatureCreatedAt.toInstant());
 		}
 		// Trust data is not defined in OpenPGP; the format is implementation
@@ -225,55 +205,48 @@ public class BouncyCastleGpgSignatureVerifier
 		// on the public key, if present. Even if present, it may or may not
 		// be set.
 		byte[] trustData = pubKey.getTrustData();
-		TrustLevel trust = parseGpgTrustPacket(trustData);
+		GpgSignatureVerifier.TrustLevel trust = parseGpgTrustPacket(trustData);
 		boolean verified = false;
 		try {
 			signature.init(
-					new JcaPGPContentVerifierBuilderProvider()
-							.setProvider(BouncyCastleProvider.PROVIDER_NAME),
-					pubKey);
+				new JcaPGPContentVerifierBuilderProvider()
+					.setProvider(BouncyCastleProvider.PROVIDER_NAME),
+				pubKey);
 			signature.update(data);
 			verified = signature.verify();
 		} catch (PGPException e) {
 			throw new JGitInternalException(
-					BCText.get().signatureVerificationError, e);
+				BCText.get().signatureVerificationError, e);
 		}
 		return new VerificationResult(signatureCreatedAt, signer, fingerprint, user,
-				verified, expired, trust, null);
+			verified, expired, trust, null);
 	}
 
-	@Override
-	public SignatureVerification verify(byte[] data, byte[] signatureData)
-			throws IOException {
-		throw new UnsupportedOperationException(
-				"Call verify(GpgConfig, byte[], byte[]) instead."); //$NON-NLS-1$
-	}
-
-	private TrustLevel parseGpgTrustPacket(byte[] packet) {
+	private GpgSignatureVerifier.TrustLevel parseGpgTrustPacket(byte[] packet) {
 		if (packet == null || packet.length < 6) {
 			// A GPG trust packet has at least 6 bytes.
-			return TrustLevel.UNKNOWN;
+			return GpgSignatureVerifier.TrustLevel.UNKNOWN;
 		}
 		if (packet[2] != 'g' || packet[3] != 'p' || packet[4] != 'g') {
 			// Not a GPG trust packet
-			return TrustLevel.UNKNOWN;
+			return GpgSignatureVerifier.TrustLevel.UNKNOWN;
 		}
 		int trust = packet[0] & 0x0F;
 		switch (trust) {
-		case 0: // No determined/set
-		case 1: // Trust expired; i.e., calculation outdated or key expired
-		case 2: // Undefined: not enough information to set
-			return TrustLevel.UNKNOWN;
-		case 3:
-			return TrustLevel.NEVER;
-		case 4:
-			return TrustLevel.MARGINAL;
-		case 5:
-			return TrustLevel.FULL;
-		case 6:
-			return TrustLevel.ULTIMATE;
-		default:
-			return TrustLevel.UNKNOWN;
+			case 0: // No determined/set
+			case 1: // Trust expired; i.e., calculation outdated or key expired
+			case 2: // Undefined: not enough information to set
+				return GpgSignatureVerifier.TrustLevel.UNKNOWN;
+			case 3:
+				return GpgSignatureVerifier.TrustLevel.NEVER;
+			case 4:
+				return GpgSignatureVerifier.TrustLevel.MARGINAL;
+			case 5:
+				return GpgSignatureVerifier.TrustLevel.FULL;
+			case 6:
+				return GpgSignatureVerifier.TrustLevel.ULTIMATE;
+			default:
+				return GpgSignatureVerifier.TrustLevel.UNKNOWN;
 		}
 	}
 
@@ -281,77 +254,5 @@ public class BouncyCastleGpgSignatureVerifier
 	public void clear() {
 		byFingerprint.clear();
 		bySigner.clear();
-	}
-
-	private static class VerificationResult implements SignatureVerification {
-
-		private final Date creationDate;
-
-		private final String signer;
-
-		private final String keyUser;
-
-		private final String fingerprint;
-
-		private final boolean verified;
-
-		private final boolean expired;
-
-		private final @NonNull TrustLevel trustLevel;
-
-		private final String message;
-
-		public VerificationResult(Date creationDate, String signer,
-				String fingerprint, String user, boolean verified,
-				boolean expired, @NonNull TrustLevel trust, String message) {
-			this.creationDate = creationDate;
-			this.signer = signer;
-			this.fingerprint = fingerprint;
-			this.keyUser = user;
-			this.verified = verified;
-			this.expired = expired;
-			this.trustLevel = trust;
-			this.message = message;
-		}
-
-		@Override
-		public Date getCreationDate() {
-			return creationDate;
-		}
-
-		@Override
-		public String getSigner() {
-			return signer;
-		}
-
-		@Override
-		public String getKeyUser() {
-			return keyUser;
-		}
-
-		@Override
-		public String getKeyFingerprint() {
-			return fingerprint;
-		}
-
-		@Override
-		public boolean isExpired() {
-			return expired;
-		}
-
-		@Override
-		public TrustLevel getTrustLevel() {
-			return trustLevel;
-		}
-
-		@Override
-		public String getMessage() {
-			return message;
-		}
-
-		@Override
-		public boolean getVerified() {
-			return verified;
-		}
 	}
 }
