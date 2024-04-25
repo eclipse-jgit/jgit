@@ -2,7 +2,7 @@
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
- * Copyright (C) 2012, 2022, Robin Rosenberg and others
+ * Copyright (C) 2012, 2022, 2024, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -1077,6 +1077,32 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (mode == FileMode.SYMLINK.getBits()) {
 			return !new File(readSymlinkTarget(current())).equals(
 					new File(readContentAsNormalizedString(entry, reader)));
+		}
+		if (getCleanFilterCommand() != null && (mode & FileMode.TYPE_MASK) == FileMode.TYPE_FILE) {
+			// Sometimes we enter here after switching branches and because of
+			// DirCacheEntry.mightBeRacilyClean() and DirCacheEntry.smudgeRacilyClean() were
+			// triggered in the case when we have LFS repository and
+			// commit history wasn't migrated (some files weren't converted to Git LFS).
+			// We check if the content in the filesystem is same as entry content, but do it
+			// without using Clean Filter on filesystem.
+			// Basically, we do the same as getEntryObjectId().equals(entry.getObjectId())
+			// as
+			// it's done above, but without Clean Filter.
+			Entry fsEntry = current();
+			try (InputStream is = fsEntry.openInputStream()) {
+				long fsLength = fsEntry.getLength();
+				// Compute hash on the file itself instead of a hash on a result of Clean
+				// Filter.
+				byte[] hash = computeHash(is, fsLength);
+				ObjectId fsEntryObjectId = ObjectId.fromRaw(hash, idOffset());
+				if (fsEntryObjectId.equals(entry.getObjectId())) {
+					// Don't need to invoke Clean Filter on this file.
+					contentId = hash;
+					entry.setLength((int) fsLength);
+
+					return false;
+				}
+			}
 		}
 		// Content differs: that's a real change
 		return true;
