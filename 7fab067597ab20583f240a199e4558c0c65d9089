@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4306cdaa_d8efd89a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:52:05Z",
+      "side": 1,
+      "message": "Please add some test where verification fails",
+      "revId": "7fab067597ab20583f240a199e4558c0c65d9089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f57051a_3a2739f7",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectVerifyListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:52:05Z",
+      "side": 1,
+      "message": "remove `.getName()`",
+      "range": {
+        "startLine": 37,
+        "startChar": 41,
+        "endLine": 37,
+        "endChar": 50
+      },
+      "revId": "7fab067597ab20583f240a199e4558c0c65d9089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efda012c_b37b6806",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectVerifyListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:52:05Z",
+      "side": 1,
+      "message": "we use tabs for indentation",
+      "revId": "7fab067597ab20583f240a199e4558c0c65d9089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "102b55d2_aa5526e9",
+        "filename": "org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectVerifyListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:52:05Z",
+      "side": 1,
+      "message": "Define a constant UNPROCESSABLE_CONTENT, it\u0027s missing in servlet API 4.0, was added in 6.1. We can replace it when we update the servlet API.\n\nhttps://tomcat.apache.org/tomcat-11.0-doc/servletapi/jakarta/servlet/http/HttpServletResponse.html#SC_UNPROCESSABLE_CONTENT",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 27
+      },
+      "revId": "7fab067597ab20583f240a199e4558c0c65d9089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
