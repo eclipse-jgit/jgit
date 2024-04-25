@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3c322c_a3f50d60",
+        "filename": "org.eclipse.jgit.lfs.server.test/tst/org/eclipse/jgit/lfs/server/fs/PushTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-25T22:30:04Z",
+      "side": 1,
+      "message": "nit: lines are too wide",
+      "revId": "e812186b468a8af10308f94055d5241be942feaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
