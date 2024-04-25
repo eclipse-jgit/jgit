@@ -10,11 +10,13 @@
 
 package org.eclipse.jgit.gpg.bc.internal;
 
-/**
- * A {@link BouncyCastleSignatureVerifier} to verify GPG signatures using BouncyCastle.
- *
- * @deprecated Use {{@link BouncyCastleSignatureVerifier} which exposes the same methods
- */
-@Deprecated(since = "6.9.1", forRemoval = true)
-public class BouncyCastleGpgSignatureVerifier extends BouncyCastleSignatureVerifier {
+import org.eclipse.jgit.lib.GpgSignatureVerifier;
+import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
+
+public class BouncyCastleSignatureVerifierFactory extends GpgSignatureVerifierFactory {
+
+	@Override
+	public GpgSignatureVerifier getVerifier() {
+		return new BouncyCastleSignatureVerifier();
+	}
 }
