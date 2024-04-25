@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd6323b_ebb22aa6",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/GpgSignatureFormatHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-25T16:57:41Z",
+      "side": 1,
+      "message": "`Handler` is an amber flag: too generic, what is this really _handling_?",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "acc68912ed5ad22a180f4e3b7167eb99a61acf29",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab44cf59_53780ad4",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureFormatHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-25T16:57:41Z",
+      "side": 1,
+      "message": "This is pretty much an internal intermediate step, which should be part of the external interface.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 2
+      },
+      "revId": "acc68912ed5ad22a180f4e3b7167eb99a61acf29",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
