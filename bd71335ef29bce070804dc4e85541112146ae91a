@@ -41,6 +41,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3053f8c_4e27cac5",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/GpgSignatureFormatHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-25T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7062b230_8706b8e5",
+      "revId": "bd71335ef29bce070804dc4e85541112146ae91a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c410a166_71518442",
@@ -54,6 +72,24 @@
       "writtenOn": "2024-04-25T13:26:14Z",
       "side": 1,
       "message": "Missing copyright",
+      "revId": "bd71335ef29bce070804dc4e85541112146ae91a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed1270e_ca7f0ad2",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureFormatHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-04-25T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c410a166_71518442",
       "revId": "bd71335ef29bce070804dc4e85541112146ae91a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
