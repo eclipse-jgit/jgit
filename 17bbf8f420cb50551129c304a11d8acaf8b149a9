@@ -70,6 +70,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dbd396d_c4b7adeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-26T19:39:04Z",
+      "side": 1,
+      "message": "What\u0027s the motivation for this change ?\n\nLooking at the can of worms between RFC 2396 vs RFC 3986 [1] I am not sure why we should do this.\n\n[1] https://cr.openjdk.org/~dfuchs/writeups/updating-uri/",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a80543e8_5292a82c",
