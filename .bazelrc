@@ -4,24 +4,11 @@ build --experimental_strict_action_env
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 
-# Builds using remote_jdk11, executes using remote_jdk11 or local_jdk
-build --java_language_version=11
-build --java_runtime_version=remotejdk_11
-build --tool_java_language_version=11
-build --tool_java_runtime_version=remotejdk_11
-
-# Builds and executes on RBE using remotejdk_11
-build:remote11 --java_language_version=11
-build:remote11 --java_runtime_version=remotejdk_11
-build:remote11 --tool_java_language_version=11
-build:remote11 --tool_java_runtime_version=remotejdk_11
-build:remote11 --config=remote
-
-# Builds using remote_jdk17, executes using remote_jdk11 or local_jdk
-build:java17 --java_language_version=17
-build:java17 --java_runtime_version=remotejdk_17
-build:java17 --tool_java_language_version=17
-build:java17 --tool_java_runtime_version=remotejdk_17
+# Builds using remote_jdk17, executes using remote_jdk17 or local_jdk
+build --java_language_version=17
+build --java_runtime_version=remotejdk_17
+build --tool_java_language_version=17
+build --tool_java_runtime_version=remotejdk_17
 
 # Builds and executes on RBE using remotejdk_17
 build:remote17 --java_language_version=17
@@ -35,4 +22,3 @@ test --test_output=errors
 test --flaky_test_attempts=3
 
 import %workspace%/tools/remote-bazelrc
-

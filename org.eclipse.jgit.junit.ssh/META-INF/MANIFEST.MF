@@ -7,7 +7,7 @@ Bundle-Version: 7.0.0.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: org.apache.sshd.common;version="[2.12.0,2.13.0)",
  org.apache.sshd.common.config.keys;version="[2.12.0,2.13.0)",
  org.apache.sshd.common.file.virtualfs;version="[2.12.0,2.13.0)",

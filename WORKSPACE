@@ -11,7 +11,7 @@ load(
 )
 
 http_archive(
-    name = "rbe_jdk11",
+    name = "rbe_jdk17",
     sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
     strip_prefix = "rbe_autoconfig-3.1.0",
     urls = [
@@ -19,8 +19,6 @@ http_archive(
         "https://github.com/davido/rbe_autoconfig/archive/v3.1.0.tar.gz",
     ],
 )
-
-register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
