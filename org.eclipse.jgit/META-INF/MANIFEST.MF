@@ -235,7 +235,7 @@ Export-Package: org.eclipse.jgit.annotations;version="7.0.0",
    org.eclipse.jgit.treewalk",
  org.eclipse.jgit.util.sha1;version="7.0.0",
  org.eclipse.jgit.util.time;version="7.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
  javax.crypto,
  javax.management,
