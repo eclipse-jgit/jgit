@@ -87,6 +87,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "817c8e1f_6dcfbf73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2024-04-26T21:02:01Z",
+      "side": 1,
+      "message": "The motiviation is that jgit iself makes use of `java.net.URL` in `org.eclipse.jgit.transport.TransportHttp.toURL(URIish)`. The problem can be reduced to this:\n\n```\npublic class URIIshTest {\n    public static void main(String[] args) throws Exception {\n        URIish uriish \u003d new URIish(\"https://test.demo/hallo.git\");\n        uriish \u003d uriish.setUser(\"dummy\\\\user\");\n        Transport.open(uriish);\n    }\n}\n```\n\nresulting in:\n\n```\nException in thread \"main\" org.eclipse.jgit.errors.NotSupportedException: Invalid URL https://dummy\\user@test.demo/hallo.git\n\tat org.eclipse.jgit.transport.TransportHttp.setURI(TransportHttp.java:322)\n\tat org.eclipse.jgit.transport.TransportHttp.\u003cinit\u003e(TransportHttp.java:336)\n\tat org.eclipse.jgit.transport.TransportHttp$1.open(TransportHttp.java:204)\n\tat org.eclipse.jgit.transport.Transport.open(Transport.java:560)\n\tat URIIshTest.main(URIIshTest.java:40)\nCaused by: java.net.MalformedURLException: Illegal character found in user-info: \u0027\\\u0027\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:806)\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:654)\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:590)\n\tat org.eclipse.jgit.transport.TransportHttp.toURL(TransportHttp.java:304)\n\tat org.eclipse.jgit.transport.TransportHttp.setURI(TransportHttp.java:319)\n\t... 4 more\nCaused by: java.lang.IllegalArgumentException: Illegal character found in user-info: \u0027\\\u0027\n\tat java.base/java.net.URLStreamHandler.setURL(URLStreamHandler.java:527)\n\tat java.base/java.net.URLStreamHandler.parseURL(URLStreamHandler.java:326)\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:801)\n\t... 8 more\n```\n\nThat is observed with 6.9.0.202403050737-r",
+      "parentUuid": "4dbd396d_c4b7adeb",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a80543e8_5292a82c",
