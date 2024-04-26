@@ -503,30 +503,28 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		if (last != null && !skipGarbagePack(last)) {
-			long sz = last.getObjectSize(this, objectId);
-			if (0 <= sz) {
-				return sz;
+		DfsPackFile pack = findPackWithObject(objectId);
+		if (pack == null) {
+			if (typeHint == OBJ_ANY) {
+				throw new MissingObjectException(objectId.copy(),
+						JGitText.get().unknownObjectType2);
 			}
+			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 
-		PackList packList = db.getPackList();
-		long sz = getObjectSizeImpl(packList, objectId);
-		if (0 <= sz) {
+		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+			return pack.getObjectSize(this, objectId);
+		}
+
+		long sz = pack.getIndexedObjectSize(this, objectId);
+		if (sz >= 0) {
+			stats.objectSizeIndexHit += 1;
 			return sz;
 		}
-		if (packList.dirty()) {
-			sz = getObjectSizeImpl(packList, objectId);
-			if (0 <= sz) {
-				return sz;
-			}
-		}
 
-		if (typeHint == OBJ_ANY) {
-			throw new MissingObjectException(objectId.copy(),
-					JGitText.get().unknownObjectType2);
-		}
-		throw new MissingObjectException(objectId.copy(), typeHint);
+		// Object wasn't in the index
+		stats.objectSizeIndexMiss += 1;
+		return pack.getObjectSize(this, objectId);
 	}
 
 
@@ -580,21 +578,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			}
 		}
 		return null;
-	}
-
-	private long getObjectSizeImpl(PackList packList, AnyObjectId objectId)
-			throws IOException {
-		for (DfsPackFile pack : packList.packs) {
-			if (pack == last || skipGarbagePack(pack)) {
-				continue;
-			}
-			long sz = pack.getObjectSize(this, objectId);
-			if (0 <= sz) {
-				last = pack;
-				return sz;
-			}
-		}
-		return -1;
 	}
 
 	@Override

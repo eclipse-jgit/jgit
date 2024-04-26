@@ -60,8 +60,21 @@ public class TreeRevFilter extends RevFilter {
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
 	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
 	 *
-	 * When revWalk's rewrite parent flag is set, it creates a filter for the
-	 * first phase of a parent-rewriting limited revision walk.
+	 * @param walker
+	 *            walker used for reading trees.
+	 * @param t
+	 *            filter to compare against any changed paths in each commit. If
+	 *            a {@link org.eclipse.jgit.revwalk.FollowFilter}, will be
+	 *            replaced with a new filter following new paths after a rename.
+	 * @since 3.5
+	 */
+	public TreeRevFilter(RevWalk walker, TreeFilter t) {
+		this(walker, t, 0);
+	}
+
+	/**
+	 * Create a filter for the first phase of a parent-rewriting limited
+	 * revision walk.
 	 * <p>
 	 * This filter is ANDed to evaluate before all other filters and ties the
 	 * configured {@link TreeFilter} into the revision walking process.
@@ -78,13 +91,14 @@ public class TreeRevFilter extends RevFilter {
 	 *            filter to compare against any changed paths in each commit. If
 	 *            a {@link FollowFilter}, will be replaced with a new filter
 	 *            following new paths after a rename.
-	 * @since 3.5
+	 * @param rewriteFlag
+	 *            flag to color commits to be removed from the simplified DAT.
 	 */
-	public TreeRevFilter(RevWalk walker, TreeFilter t) {
+	TreeRevFilter(RevWalk walker, TreeFilter t, int rewriteFlag) {
 		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
-		this.rewriteFlag = walker.getRewriteParents() ? RevWalk.REWRITE : 0;
+		this.rewriteFlag = rewriteFlag;
 	}
 
 	@Override
@@ -125,11 +139,8 @@ public class TreeRevFilter extends RevFilter {
 						.getPathsBestEffort();
 				if (paths.isPresent()) {
 					changedPathFilterUsed = true;
-					for (byte[] path : paths.get()) {
-						if (!cpf.maybeContains(path)) {
-							mustCalculateChgs = false;
-							break;
-						}
+					if (paths.get().stream().noneMatch(cpf::maybeContains)) {
+						mustCalculateChgs = false;
 					}
 				}
 			}

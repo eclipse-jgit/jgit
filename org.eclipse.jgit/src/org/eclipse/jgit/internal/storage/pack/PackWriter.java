@@ -58,11 +58,10 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -121,7 +120,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * pack is being stored as a file the matching index can be written out after
  * writing the pack by {@link #writeIndex(OutputStream)}. An optional bitmap
  * index can be made by calling {@link #prepareBitmapIndex(ProgressMonitor)}
- * followed by {@link #writeBitmapIndex(OutputStream)}.
+ * followed by {@link #writeBitmapIndex(PackBitmapIndexWriter)}.
  * </p>
  * <p>
  * Class provide set of configurable options and
@@ -1130,7 +1129,7 @@ public class PackWriter implements AutoCloseable {
 	 * Called after
 	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)} that
 	 * populates the list of objects to pack and before
-	 * {@link #writeBitmapIndex(OutputStream)} that destroys it.
+	 * {@link #writeBitmapIndex(PackBitmapIndexWriter)} that destroys it.
 	 * <p>
 	 * Writing this index is only required for local pack storage. Packs sent on
 	 * the network do not need to create an object size index.
@@ -1204,20 +1203,18 @@ public class PackWriter implements AutoCloseable {
 	 * <p>
 	 * Called after {@link #prepareBitmapIndex(ProgressMonitor)}.
 	 *
-	 * @param bitmapIndexStream
-	 *            output for the bitmap index data. Caller is responsible for
-	 *            closing this stream.
+	 * @param bitmapIndexWriter
+	 *            a writer to store the bitmap index in this object database
 	 * @throws java.io.IOException
-	 *             the index data could not be written to the supplied stream.
+	 *             the index data could not be written using the supplied writer
 	 */
-	public void writeBitmapIndex(OutputStream bitmapIndexStream)
+	public void writeBitmapIndex(PackBitmapIndexWriter bitmapIndexWriter)
 			throws IOException {
 		if (writeBitmaps == null)
 			throw new IOException(JGitText.get().bitmapsMustBePrepared);
 
 		long writeStart = System.currentTimeMillis();
-		final PackBitmapIndexWriterV1 iw = new PackBitmapIndexWriterV1(bitmapIndexStream);
-		iw.write(writeBitmaps, packcsum);
+		bitmapIndexWriter.write(writeBitmaps, packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
@@ -2468,7 +2465,8 @@ public class PackWriter implements AutoCloseable {
 	 * <p>
 	 * To reduce memory internal state is cleared during this method, rendering
 	 * the PackWriter instance useless for anything further than a call to write
-	 * out the new bitmaps with {@link #writeBitmapIndex(OutputStream)}.
+	 * out the new bitmaps with
+	 * {@link #writeBitmapIndex(PackBitmapIndexWriter)}.
 	 *
 	 * @param pm
 	 *            progress monitor to report bitmap building work.

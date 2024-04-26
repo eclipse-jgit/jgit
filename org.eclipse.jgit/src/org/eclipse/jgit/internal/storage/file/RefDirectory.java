@@ -37,6 +37,7 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
+import org.eclipse.jgit.lib.CoreConfig.TrustLooseRefStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -181,6 +183,8 @@ public class RefDirectory extends RefDatabase {
 
 	private final TrustPackedRefsStat trustPackedRefsStat;
 
+	private final TrustLooseRefStat trustLooseRefStat;
+
 	RefDirectory(RefDirectory refDb) {
 		parent = refDb.parent;
 		gitDir = refDb.gitDir;
@@ -192,6 +196,7 @@ public class RefDirectory extends RefDatabase {
 		packedRefs.set(refDb.packedRefs.get());
 		trustFolderStat = refDb.trustFolderStat;
 		trustPackedRefsStat = refDb.trustPackedRefsStat;
+		trustLooseRefStat = refDb.trustLooseRefStat;
 		inProcessPackedRefsLock = refDb.inProcessPackedRefsLock;
 	}
 
@@ -213,6 +218,10 @@ public class RefDirectory extends RefDatabase {
 				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
 						TrustPackedRefsStat.UNSET);
+		trustLooseRefStat = db.getConfig()
+				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_TRUST_LOOSE_REF_STAT,
+						TrustLooseRefStat.ALWAYS);
 		inProcessPackedRefsLock = new ReentrantLock(true);
 	}
 
@@ -1136,6 +1145,11 @@ public class RefDirectory extends RefDatabase {
 
 	LooseRef scanRef(LooseRef ref, String name) throws IOException {
 		final File path = fileFor(name);
+
+		if (trustLooseRefStat.equals(TrustLooseRefStat.AFTER_OPEN)) {
+			refreshPathToLooseRef(Paths.get(name));
+		}
+
 		FileSnapshot currentSnapshot = null;
 
 		if (ref != null) {
@@ -1219,6 +1233,29 @@ public class RefDirectory extends RefDatabase {
 					name, content), notRef);
 		}
 		return new LooseUnpeeled(loose.snapshot, name, id);
+	}
+
+	/**
+	 * Workaround for issues caused by NFS caching. Refresh directories starting
+	 * from the repository root to a loose ref by opening an input stream. This
+	 * refreshes file attributes of the loose ref (at least on some NFS
+	 * clients).
+	 *
+	 * @param refPath
+	 *            path of a loose ref relative to the repository root
+	 */
+	void refreshPathToLooseRef(Path refPath) {
+		for (int i = 1; i < refPath.getNameCount(); i++) {
+			File dir = fileFor(refPath.subpath(0, i).toString());
+			// Use Files.newInputStream(Path) as it is consistent with other
+			// code where a refresh is being done (see getPackedRefs()) and also
+			// it performs slightly better than Files.newDirectoryStream(Path)
+			try (InputStream stream = Files.newInputStream(dir.toPath())) {
+				// open the dir to refresh attributes (on some NFS clients)
+			} catch (IOException e) {
+				break; // loose ref may not exist
+			}
+		}
 	}
 
 	private static boolean isSymRef(byte[] buf, int n) {

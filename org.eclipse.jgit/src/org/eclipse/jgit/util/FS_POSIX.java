@@ -250,8 +250,12 @@ public class FS_POSIX extends FS {
 	/** {@inheritDoc} */
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<>(4 + args.length);
+		List<String> argv = new ArrayList<>(5 + args.length);
 		argv.add("sh"); //$NON-NLS-1$
+		if (SystemReader.getInstance().isMacOS()) {
+			// Use a login shell to get the full normal $PATH
+			argv.add("-l"); //$NON-NLS-1$
+		}
 		argv.add("-c"); //$NON-NLS-1$
 		argv.add(cmd + " \"$@\""); //$NON-NLS-1$
 		argv.add(cmd);

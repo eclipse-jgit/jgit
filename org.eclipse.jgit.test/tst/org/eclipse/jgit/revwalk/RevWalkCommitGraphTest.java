@@ -38,6 +38,7 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
@@ -194,6 +195,35 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		// 2 commits that have exactly one parent and don't match path
 		assertEquals(2, trf.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterWithMultiPaths() throws Exception {
+		RevCommit c1 = commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file1", "2", "master");
+		RevCommit c3 = commitFile("file2", "3", "master");
+		RevCommit c4 = commitFile("file3", "4", "master");
+
+		enableAndWriteCommitGraph();
+
+		TreeRevFilter trf = new TreeRevFilter(rw,
+				PathFilterGroup.createFromStrings(List.of("file1", "file2")));
+		rw.markStart(rw.lookupCommit(c4));
+		rw.setRevFilter(trf);
+		assertEquals(c3, rw.next());
+		assertEquals(c2, rw.next());
+		assertEquals(c1, rw.next());
+		assertNull(rw.next());
+
+		// c2 and c3 has either file1 or file2, c1 did not use ChangedPathFilter
+		// since it has no parent
+		assertEquals(2, trf.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, trf.getChangedPathFilterFalsePositive());
+
+		// c4 does not match either file1 or file2
+		assertEquals(1, trf.getChangedPathFilterNegative());
 	}
 
 	@Test

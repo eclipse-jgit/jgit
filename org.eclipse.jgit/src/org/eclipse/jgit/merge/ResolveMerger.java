@@ -1274,10 +1274,15 @@ public class ResolveMerger extends ThreeWayMerger {
 					default:
 						break;
 				}
+				// add the conflicting path to merge result
+				String currentPath = tw.getPathString();
+				MergeResult<RawText> result = new MergeResult<>(
+						Collections.emptyList());
+				result.setContainsConflicts(true);
+				mergeResults.put(currentPath, result);
 				addConflict(base, ours, theirs);
-
 				// attribute merge issues are conflicts but not failures
-				unmergedPaths.add(tw.getPathString());
+				unmergedPaths.add(currentPath);
 				return true;
 			}
 
@@ -1289,38 +1294,48 @@ public class ResolveMerger extends ThreeWayMerger {
 			MergeResult<RawText> result = null;
 			boolean hasSymlink = FileMode.SYMLINK.equals(modeO)
 					|| FileMode.SYMLINK.equals(modeT);
+
+			String currentPath = tw.getPathString();
+			// if the path is not a symlink in ours and theirs
 			if (!hasSymlink) {
 				try {
 					result = contentMerge(base, ours, theirs, attributes,
 							getContentMergeStrategy());
-				} catch (BinaryBlobException e) {
-					// result == null
-				}
-			}
-			if (result == null) {
-				switch (getContentMergeStrategy()) {
-				case OURS:
-					keep(ourDce);
-					return true;
-				case THEIRS:
-					DirCacheEntry e = add(tw.getRawPath(), theirs,
-							DirCacheEntry.STAGE_0, EPOCH, 0);
-					if (e != null) {
-						addToCheckout(tw.getPathString(), e, attributes);
+					if (result.containsConflicts() && !ignoreConflicts) {
+						result.setContainsConflicts(true);
+						unmergedPaths.add(currentPath);
+					} else if (ignoreConflicts) {
+						result.setContainsConflicts(false);
 					}
+					updateIndex(base, ours, theirs, result, attributes[T_OURS]);
+					workTreeUpdater.markAsModified(currentPath);
+					// Entry is null - only add the metadata
+					addToCheckout(currentPath, null, attributes);
 					return true;
-				default:
-					result = new MergeResult<>(Collections.emptyList());
-					result.setContainsConflicts(true);
-					break;
+				} catch (BinaryBlobException e) {
+					// if the file is binary in either OURS, THEIRS or BASE
+					// here, we don't have an option to ignore conflicts
 				}
 			}
-			if (ignoreConflicts) {
-				result.setContainsConflicts(false);
+			switch (getContentMergeStrategy()) {
+			case OURS:
+				keep(ourDce);
+				return true;
+			case THEIRS:
+				DirCacheEntry e = add(tw.getRawPath(), theirs,
+						DirCacheEntry.STAGE_0, EPOCH, 0);
+				if (e != null) {
+					addToCheckout(currentPath, e, attributes);
+				}
+				return true;
+			default:
+				result = new MergeResult<>(Collections.emptyList());
+				result.setContainsConflicts(true);
+				break;
 			}
-			String currentPath = tw.getPathString();
 			if (hasSymlink) {
 				if (ignoreConflicts) {
+					result.setContainsConflicts(false);
 					if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)) {
 						DirCacheEntry e = add(tw.getRawPath(), theirs,
 								DirCacheEntry.STAGE_0, EPOCH, 0);
@@ -1329,9 +1344,9 @@ public class ResolveMerger extends ThreeWayMerger {
 						keep(ourDce);
 					}
 				} else {
-					// Record the conflict
 					DirCacheEntry e = addConflict(base, ours, theirs);
 					mergeResults.put(currentPath, result);
+					unmergedPaths.add(currentPath);
 					// If theirs is a file, check it out. In link/file
 					// conflicts, C git prefers the file.
 					if (((modeT & FileMode.TYPE_MASK) == FileMode.TYPE_FILE)
@@ -1340,14 +1355,12 @@ public class ResolveMerger extends ThreeWayMerger {
 					}
 				}
 			} else {
-				updateIndex(base, ours, theirs, result, attributes[T_OURS]);
-			}
-			if (result.containsConflicts() && !ignoreConflicts) {
+				result.setContainsConflicts(true);
+				addConflict(base, ours, theirs);
 				unmergedPaths.add(currentPath);
+				mergeResults.put(currentPath, result);
 			}
-			workTreeUpdater.markAsModified(currentPath);
-			// Entry is null - only adds the metadata.
-			addToCheckout(currentPath, null, attributes);
+			return true;
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
 			if (((modeO != 0 && !tw.idEqual(T_BASE, T_OURS)) || (modeT != 0 && !tw
