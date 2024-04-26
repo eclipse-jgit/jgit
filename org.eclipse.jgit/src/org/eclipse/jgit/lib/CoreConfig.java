@@ -144,6 +144,21 @@ public class CoreConfig {
 		UNSET
 	}
 
+	/**
+	 * Permissible values for {@code core.trustLooseRefStat}.
+	 *
+	 * @since 6.9
+	 */
+	public enum TrustLooseRefStat {
+
+		/** Trust file attributes of the loose ref. */
+		ALWAYS,
+
+		/** Open and close parent directories of the loose ref file until the
+		 * repository root to refresh its file attributes and then trust it. */
+		AFTER_OPEN,
+	}
+
 	private final int compression;
 
 	private final int packIndexVersion;

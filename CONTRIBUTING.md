@@ -8,7 +8,9 @@ Contributions require that you sign the [Eclipse Contributor Agreement](https://
 For anything other than small changes, it's a good idea to open a bug
 report for it (in case one doesn't already exist). This gives others the
 chance to give input and is useful for tracking. 
-[Create JGit bugs here](https://bugs.eclipse.org/bugs/enter_bug.cgi?product=JGit).
+[Open JGit issues on GitHub](https://github.com/eclipse-jgit/jgit/issues).
+
+Older bugs can be found [in Bugzilla](https://bugs.eclipse.org/bugs/buglist.cgi?bug_status=__open__&component=JGit&list_id=21379030&product=JGit).
 
 ## Submitting changes
 

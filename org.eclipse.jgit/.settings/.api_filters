@@ -1,35 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/api/GarbageCollectCommand.java" type="org.eclipse.jgit.api.GarbageCollectCommand">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.3"/>
-                <message_argument value="setPackKeptObjects(boolean)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/BitmapIndex.java" type="org.eclipse.jgit.lib.BitmapIndex">
-        <filter id="404000815">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.BitmapIndex"/>
-                <message_argument value="addBitmapLookupListener(BitmapIndex.BitmapLookupListener)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/ConfigConstants.java" type="org.eclipse.jgit.lib.ConfigConstants">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.3"/>
-                <message_argument value="CONFIG_KEY_PACK_KEPT_OBJECTS"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="5.13.3"/>
-                <message_argument value="CONFIG_REPACK_SECTION"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/GpgSignatureVerifier.java" type="org.eclipse.jgit.lib.GpgSignatureVerifier">
         <filter id="404000815">
             <message_arguments>

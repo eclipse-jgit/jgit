@@ -97,6 +97,7 @@ public class SecretKeysTest {
 				new TestData("2FB05DBB70FC07CB84C13431F640CA6CEA1DBF8A", false, true),
 				new TestData("66CCECEC2AB46A9735B10FEC54EDF9FD0F77BAF9", true, true),
 				new TestData("F727FAB884DA3BD402B6E0F5472E108D21033124", true, true),
+				new TestData("62D43D7F117F7A5E4998ECB6617EE9942D069C14", true, true),
 				new TestData("faked", false, true) };
 	}
 
@@ -152,7 +153,7 @@ public class SecretKeysTest {
 					assertNotNull(secretKey);
 				} catch (PGPException e) {
 					// Currently we may not be able to load OCB-encrypted keys.
-					assertTrue(e.getMessage().contains("OCB"));
+					assertTrue(e.toString(), e.getMessage().contains("OCB"));
 					assertTrue(data.encrypted);
 					assertFalse(ocbAvailable());
 				}

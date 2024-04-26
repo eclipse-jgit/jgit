@@ -22,9 +22,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -51,6 +54,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -1787,6 +1791,188 @@ public class MergerTest extends RepositoryTestCase {
 		mergeResult = git.merge().include(commitC3S).call();
 		assertEquals(mergeResult.getMergeStatus(), MergeStatus.MERGED);
 
+	}
+
+	/**
+	 * File is binary in ours, theirs and base with different content in each of
+	 * them. Content of the file should not change after the merge conflict as
+	 * no conflict markers are added to the binary files
+	 */
+	@Theory
+	public void oursBinaryTheirsBinaryBaseBinary(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+		String binaryFile = "file";
+
+		writeTrashFile(binaryFile, "\u0000\u0001");
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit parent = git.commit().setMessage("BASE COMMIT").call();
+		String fileHashInBase = getFileHashInWorkTree(git, binaryFile);
+
+		writeTrashFile(binaryFile, "\u0001\u0002");
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit child1 = git.commit().setMessage("THEIRS COMMIT").call();
+		String fileHashInChild1 = getFileHashInWorkTree(git, binaryFile);
+
+		git.checkout().setCreateBranch(true).setStartPoint(parent)
+				.setName("side").call();
+
+		writeTrashFile(binaryFile, "\u0002\u0000");
+		git.add().addFilepattern(binaryFile).call();
+		git.commit().setMessage("OURS COMMIT").call();
+		String fileHashInChild2 = getFileHashInWorkTree(git, binaryFile);
+
+		MergeResult mergeResult = git.merge().setStrategy(strategy)
+				.include(child1).call();
+
+		// check if the merge caused a conflict
+		assertTrue(mergeResult.getConflicts() != null
+				&& !mergeResult.getConflicts().isEmpty());
+		String fileHashInChild2AfterMerge = getFileHashInWorkTree(git,
+				binaryFile);
+
+		// check if the file content changed during a conflicting merge
+		assertEquals(fileHashInChild2AfterMerge, fileHashInChild2);
+
+		Set<String> hashesInIndexFile = new HashSet<>();
+		DirCache indexContent = git.getRepository().readDirCache();
+		for (int i = 0; i < indexContent.getEntryCount(); ++i) {
+			DirCacheEntry indexEntry = indexContent.getEntry(i);
+			if (binaryFile.equals(indexEntry.getPathString())) {
+				hashesInIndexFile.add(indexEntry.getObjectId().name());
+			}
+		}
+
+		// check if all the three stages are added to index file
+		assertTrue(hashesInIndexFile.contains(fileHashInBase));
+		assertTrue(hashesInIndexFile.contains(fileHashInChild1));
+		assertTrue(hashesInIndexFile.contains(fileHashInChild2));
+	}
+
+	/**
+	 * File is text in ours and theirs with different content but binary in
+	 * base. Even in this case, file will be treated as a binary and no conflict
+	 * markers are added to it
+	 */
+	@Theory
+	public void oursAndTheirsDifferentTextBaseBinary(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+		String binaryFile = "file";
+
+		writeTrashFile(binaryFile, "\u0000\u0001");
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit parent = git.commit().setMessage("BASE COMMIT").call();
+		String fileHashInBase = getFileHashInWorkTree(git, binaryFile);
+
+		writeTrashFile(binaryFile, "TEXT1");
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit child1 = git.commit().setMessage("THEIRS COMMIT").call();
+		String fileHashInChild1 = getFileHashInWorkTree(git, binaryFile);
+
+		git.checkout().setCreateBranch(true).setStartPoint(parent)
+				.setName("side").call();
+
+		writeTrashFile(binaryFile, "TEXT2");
+		git.add().addFilepattern(binaryFile).call();
+		git.commit().setMessage("OURS COMMIT").call();
+		String fileHashInChild2 = getFileHashInWorkTree(git, binaryFile);
+
+		MergeResult mergeResult = git.merge().setStrategy(strategy)
+				.include(child1).call();
+
+		assertTrue(mergeResult.getConflicts() != null
+				&& !mergeResult.getConflicts().isEmpty());
+		String fileHashInChild2AfterMerge = getFileHashInWorkTree(git,
+				binaryFile);
+
+		assertEquals(fileHashInChild2AfterMerge, fileHashInChild2);
+
+		Set<String> hashesInIndexFile = new HashSet<>();
+		DirCache indexContent = git.getRepository().readDirCache();
+		for (int i = 0; i < indexContent.getEntryCount(); ++i) {
+			DirCacheEntry indexEntry = indexContent.getEntry(i);
+			if (binaryFile.equals(indexEntry.getPathString())) {
+				hashesInIndexFile.add(indexEntry.getObjectId().name());
+			}
+		}
+
+		assertTrue(hashesInIndexFile.contains(fileHashInBase));
+		assertTrue(hashesInIndexFile.contains(fileHashInChild1));
+		assertTrue(hashesInIndexFile.contains(fileHashInChild2));
+	}
+
+	/**
+	 * Tests the scenario where a file is expected to be treated as binary
+	 * according to Git attributes
+	 */
+	@Theory
+	public void fileInBinaryInAttribute(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+		String binaryFile = "file.bin";
+
+		writeTrashFile(".gitattributes", binaryFile + " binary");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("ADDING GITATTRIBUTES").call();
+
+		writeTrashFile(binaryFile, "\u0000\u0001");
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit parent = git.commit().setMessage("BASE COMMIT").call();
+		String fileHashInBase = getFileHashInWorkTree(git, binaryFile);
+
+		writeTrashFile(binaryFile, "\u0001\u0002");
+		git.add().addFilepattern(binaryFile).call();
+		RevCommit child1 = git.commit().setMessage("THEIRS COMMIT").call();
+		String fileHashInChild1 = getFileHashInWorkTree(git, binaryFile);
+
+		git.checkout().setCreateBranch(true).setStartPoint(parent)
+				.setName("side").call();
+
+		writeTrashFile(binaryFile, "\u0002\u0000");
+		git.add().addFilepattern(binaryFile).call();
+		git.commit().setMessage("OURS COMMIT").call();
+		String fileHashInChild2 = getFileHashInWorkTree(git, binaryFile);
+
+		MergeResult mergeResult = git.merge().setStrategy(strategy)
+				.include(child1).call();
+
+		// check if the merge caused a conflict
+		assertTrue(mergeResult.getConflicts() != null
+				&& !mergeResult.getConflicts().isEmpty());
+		String fileHashInChild2AfterMerge = getFileHashInWorkTree(git,
+				binaryFile);
+
+		// check if the file content changed during a conflicting merge
+		assertEquals(fileHashInChild2AfterMerge, fileHashInChild2);
+
+		Set<String> hashesInIndexFile = new HashSet<>();
+		DirCache indexContent = git.getRepository().readDirCache();
+		for (int i = 0; i < indexContent.getEntryCount(); ++i) {
+			DirCacheEntry indexEntry = indexContent.getEntry(i);
+			if (binaryFile.equals(indexEntry.getPathString())) {
+				hashesInIndexFile.add(indexEntry.getObjectId().name());
+			}
+		}
+
+		// check if all the three stages are added to index file
+		assertTrue(hashesInIndexFile.contains(fileHashInBase));
+		assertTrue(hashesInIndexFile.contains(fileHashInChild1));
+		assertTrue(hashesInIndexFile.contains(fileHashInChild2));
+	}
+
+	private String getFileHashInWorkTree(Git git, String filePath)
+			throws IOException {
+		Repository repository = git.getRepository();
+		ObjectInserter objectInserter = repository.newObjectInserter();
+
+		File conflictingFile = new File(repository.getWorkTree(), filePath);
+		byte[] fileContent = Files.readAllBytes(conflictingFile.toPath());
+		ObjectId blobId = objectInserter.insert(Constants.OBJ_BLOB,
+				fileContent);
+		objectInserter.flush();
+
+		return blobId.name();
 	}
 
 	private void writeSubmodule(String path, ObjectId commit)
