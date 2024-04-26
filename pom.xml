@@ -113,7 +113,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
@@ -479,7 +479,7 @@
           <failOnWarnings>true</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+            <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
           </links>
           <tags>
             <tag>
@@ -753,7 +753,7 @@
           <failOnWarnings>false</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+            <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
           </links>
           <tags>
             <tag>
