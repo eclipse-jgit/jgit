@@ -1154,7 +1154,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
 					getReverseIdx());
 			// At this point, idx() will have set packChecksum.
-			if (Arrays.equals(packChecksum, idx.packChecksum)) {
+			if (Arrays.equals(packChecksum, idx.getPackChecksum())) {
 				bitmapIdx = optionally(idx);
 				return idx;
 			}

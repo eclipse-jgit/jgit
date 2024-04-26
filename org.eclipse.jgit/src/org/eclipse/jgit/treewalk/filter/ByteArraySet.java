@@ -15,6 +15,10 @@ package org.eclipse.jgit.treewalk.filter;
 
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Specialized set for byte arrays, interpreted as strings for use in
  * {@link PathFilterGroup.Group}. Most methods assume the hash is already know
@@ -289,6 +293,10 @@ class ByteArraySet {
 				ret[i++] = entry;
 		}
 		return ret;
+	}
+
+	Set<byte[]> toSet() {
+		return Arrays.stream(toArray()).collect(Collectors.toSet());
 	}
 
 }

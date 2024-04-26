@@ -18,10 +18,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
@@ -30,6 +31,8 @@ import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -1121,6 +1124,40 @@ public class DfsGarbageCollectorTest {
 	}
 
 	@Test
+	public void testReadChangedPathConfigAsFalse() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+	@Test
+	public void testReadChangedPathConfigAsTrue() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNotNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+	@Test
 	public void objectSizeIdx_reachableBlob_bigEnough_indexed() throws Exception {
 		String master = "refs/heads/master";
 		RevCommit root = git.branch(master).commit().message("root").noParents()
@@ -1176,6 +1213,71 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
 		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	@Test
+	public void bitmapIndexWrittenDuringGc() throws Exception {
+		int numBranches = 2;
+		int commitsPerBranch = 50;
+
+		RevCommit commit0 = commit().message("0").create();
+		git.update("branch0", commit0);
+		RevCommit branch1 = commitChain(commit0, commitsPerBranch);
+		git.update("branch1", branch1);
+		RevCommit branch2 = commitChain(commit0, commitsPerBranch);
+		git.update("branch2", branch2);
+
+		int contiguousCommitCount = 5;
+		int recentCommitSpan = 2;
+		int recentCommitCount = 10;
+		int distantCommitSpan = 5;
+
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapContiguousCommitCount(contiguousCommitCount);
+		packConfig.setBitmapRecentCommitSpan(recentCommitSpan);
+		packConfig.setBitmapRecentCommitCount(recentCommitCount);
+		packConfig.setBitmapDistantCommitSpan(distantCommitSpan);
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setPackConfig(packConfig);
+		run(gc);
+
+		DfsPackFile pack = odb.getPacks()[0];
+		PackBitmapIndex bitmapIndex = pack.getBitmapIndex(odb.newReader());
+		assertTrue("pack file has bitmap index extension",
+				pack.getPackDescription().hasFileExt(PackExt.BITMAP_INDEX));
+
+		int recentCommitsPerBranch = (recentCommitCount - contiguousCommitCount
+				- 1) / recentCommitSpan;
+		assertEquals("expected recent commits", 2, recentCommitsPerBranch);
+
+		int distantCommitsPerBranch = (commitsPerBranch - 1 - recentCommitCount)
+				/ distantCommitSpan;
+		assertEquals("expected distant commits", 7, distantCommitsPerBranch);
+
+		int branchBitmapsCount = contiguousCommitCount
+				+ numBranches
+						* (recentCommitsPerBranch
+						+ distantCommitsPerBranch);
+		assertEquals("expected bitmaps count", 23, branchBitmapsCount);
+		assertEquals("bitmap index has expected number of bitmaps",
+				branchBitmapsCount,
+				bitmapIndex.getBitmapCount());
+
+		// The count is just a function of whether any bitmaps happen to
+		// compress efficiently against the others in the index. We expect for
+		// this test that this there will be at least one like this, but the
+		// actual count is situation-specific
+		assertTrue("bitmap index has xor-compressed bitmaps",
+				bitmapIndex.getXorBitmapCount() > 0);
+	}
+
+	private RevCommit commitChain(RevCommit parent, int length)
+			throws Exception {
+		for (int i = 0; i < length; i++) {
+			parent = commit().message("" + i).parent(parent).create();
+		}
+		return parent;
 	}
 
 	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {

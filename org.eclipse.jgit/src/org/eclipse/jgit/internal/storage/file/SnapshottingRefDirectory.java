@@ -16,15 +16,21 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Snapshotting write-through cache of a {@link RefDirectory}.
  * <p>
  * This is intended to be short-term write-through snapshot based cache used in
- * a request scope to avoid re-reading packed-refs on each read. A future
- * improvement could also snapshot loose refs.
+ * a request scope to avoid re-reading packed-refs on each read and to avoid
+ * refreshing paths to a loose ref that has already been refreshed.
  * <p>
  * Only use this class when concurrent writes from other requests (not using the
  * same instance of SnapshottingRefDirectory) generally need not be visible to
@@ -34,6 +40,7 @@ import java.util.List;
  */
 class SnapshottingRefDirectory extends RefDirectory {
 	final RefDirectory refDb;
+	private final Set<File> refreshedLooseRefDirs = ConcurrentHashMap.newKeySet();
 
 	private volatile boolean isValid;
 
@@ -64,6 +71,22 @@ class SnapshottingRefDirectory extends RefDirectory {
 			}
 		}
 		return packedRefs.get();
+	}
+
+	@Override
+	void refreshPathToLooseRef(Path refPath) {
+		for (int i = 1; i < refPath.getNameCount(); i++) {
+			File dir = fileFor(refPath.subpath(0, i).toString());
+			if (!refreshedLooseRefDirs.contains(dir)) {
+				try (InputStream stream = Files.newInputStream(dir.toPath())) {
+					// open the dir to refresh attributes (on some NFS clients)
+				} catch (IOException e) {
+					break; // loose ref may not exist
+				} finally {
+					refreshedLooseRefDirs.add(dir);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -107,6 +130,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 	}
 
 	synchronized void invalidateSnapshot() {
+		refreshedLooseRefDirs.clear();
 		isValid = false;
 	}
 

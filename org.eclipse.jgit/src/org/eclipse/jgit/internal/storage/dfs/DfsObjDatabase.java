@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.stream.Collectors.joining;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,11 +27,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
+import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.util.io.CountingOutputStream;
 
 /**
  * Manages objects stored in
@@ -592,7 +596,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			if (oldPack != null) {
 				newPacks.add(oldPack);
 			} else if (dsc.hasFileExt(PackExt.PACK)) {
-				newPacks.add(new DfsPackFile(cache, dsc));
+				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
 			}
 
@@ -615,6 +619,23 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return new PackListImpl(
 				newPacks.toArray(new DfsPackFile[0]),
 				newReftables.toArray(new DfsReftable[0]));
+	}
+
+	/**
+	 * Create instances of DfsPackFile
+	 *
+	 * Implementors can decide to construct or wrap DfsPackFile in different
+	 * ways.
+	 *
+	 * @param cache
+	 *            block cache
+	 * @param dsc
+	 *            pack description
+	 * @return the dfs packfile
+	 */
+	protected DfsPackFile createDfsPackFile(DfsBlockCache cache,
+			DfsPackDescription dsc) {
+		return new DfsPackFile(cache, dsc);
 	}
 
 	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
@@ -725,5 +746,29 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		public void markDirty() {
 			dirty = true;
 		}
+	}
+
+	/**
+	 * Returns a writer to store the bitmap index in this object database.
+	 *
+	 * @param pack
+	 *            Pack file to which the bitmaps are associated.
+	 * @return a writer to store bitmaps associated with the pack
+	 * @throws IOException
+	 *             when some I/O problem occurs while creating or writing to
+	 *             output stream
+	 */
+	public PackBitmapIndexWriter getPackBitmapIndexWriter(
+			DfsPackDescription pack) throws IOException {
+		return (bitmaps, packDataChecksum) -> {
+			try (DfsOutputStream out = writeFile(pack, BITMAP_INDEX)) {
+				CountingOutputStream cnt = new CountingOutputStream(out);
+				PackBitmapIndexWriterV1 iw = new PackBitmapIndexWriterV1(cnt);
+				iw.write(bitmaps, packDataChecksum);
+				pack.addFileExt(BITMAP_INDEX);
+				pack.setFileSize(BITMAP_INDEX, cnt.getCount());
+				pack.setBlockSize(BITMAP_INDEX, out.blockSize());
+			}
+		};
 	}
 }

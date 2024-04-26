@@ -98,14 +98,14 @@ class StartGenerator extends Generator {
 		} else {
 			pending = RevWalk.newDateRevQueue(q);
 		}
-		if (rf != RevFilter.ALL && w.getRewriteParents()) {
-			pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
-		}
 		if (tf != TreeFilter.ALL) {
+			int rewriteFlag;
 			if (w.getRewriteParents()) {
 				pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
-			}
-			rf = AndRevFilter.create(new TreeRevFilter(w, tf), rf);
+				rewriteFlag = RevWalk.REWRITE;
+			} else
+				rewriteFlag = 0;
+			rf = AndRevFilter.create(new TreeRevFilter(w, tf, rewriteFlag), rf);
 		}
 
 		walker.queue = q;

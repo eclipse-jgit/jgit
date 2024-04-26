@@ -15,17 +15,21 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A hook registered as a JVM shutdown hook managing a set of objects needing
- * cleanup during JVM shutdown. See {@link Runtime#addShutdownHook}.
+ * The singleton {@link ShutdownHook} provides a means to register
+ * {@link Listener}s that are run when JGit is uninstalled, either
+ * <ul>
+ * <li>in an OSGi framework when this bundle is deactivated, or</li>
+ * <li>otherwise, when the JVM as a whole shuts down.</li>
+ * </ul>
  */
 @SuppressWarnings("ImmutableEnumChecker")
 public enum ShutdownHook {
@@ -35,11 +39,11 @@ public enum ShutdownHook {
 	INSTANCE;
 
 	/**
-	 * Object that needs to cleanup on JVM shutdown.
+	 * Object that needs to cleanup on shutdown.
 	 */
 	public interface Listener {
 		/**
-		 * Cleanup resources when JVM shuts down, called from JVM shutdown hook.
+		 * Cleanup resources when JGit is shut down.
 		 * <p>
 		 * Implementations should be coded defensively
 		 * <ul>
@@ -62,31 +66,27 @@ public enum ShutdownHook {
 
 	private final Set<Listener> listeners = ConcurrentHashMap.newKeySet();
 
-	private volatile boolean shutdownInProgress;
+	private final AtomicBoolean shutdownInProgress = new AtomicBoolean();
 
 	private ShutdownHook() {
-		try {
-			Runtime.getRuntime().addShutdownHook(new Thread(this::cleanup));
-		} catch (IllegalStateException e) {
-			// ignore - the VM is already shutting down
-		}
+		CleanupService.getInstance().register(this::cleanup);
 	}
 
 	private void cleanup() {
-		shutdownInProgress = true;
-		ExecutorService runner = Executors.newWorkStealingPool();
-		try {
-			runner.submit(() -> {
-				this.doCleanup();
-				return null;
-			}).get(30L, TimeUnit.SECONDS);
-		} catch (RejectedExecutionException | InterruptedException
-				| ExecutionException | TimeoutException e) {
-			// message isn't localized since during shutdown there's no
-			// guarantee which classes are still loaded
-			LOG.error("Cleanup during JVM shutdown failed", e); //$NON-NLS-1$
+		if (!shutdownInProgress.getAndSet(true)) {
+			ExecutorService runner = Executors.newWorkStealingPool();
+			try {
+				runner.submit(() -> {
+					this.doCleanup();
+					return null;
+				}).get(30L, TimeUnit.SECONDS);
+			} catch (InterruptedException | ExecutionException
+					| TimeoutException e) {
+				throw new RuntimeException(e.getMessage(), e);
+			} finally {
+				runner.shutdownNow();
+			}
 		}
-		runner.shutdownNow();
 	}
 
 	private void doCleanup() {
@@ -104,17 +104,17 @@ public enum ShutdownHook {
 	}
 
 	/**
-	 * Register object that needs cleanup during JVM shutdown if it is not
-	 * already registered. Registration is disabled when JVM shutdown is already
-	 * in progress.
+	 * Register object that needs cleanup during JGit shutdown if it is not
+	 * already registered. Registration is disabled when JGit shutdown is
+	 * already in progress.
 	 *
 	 * @param l
-	 *            the object to call {@link Listener#onShutdown} on when JVM
+	 *            the object to call {@link Listener#onShutdown} on when JGit
 	 *            shuts down
 	 * @return {@code true} if this object has been registered
 	 */
 	public boolean register(Listener l) {
-		if (shutdownInProgress) {
+		if (shutdownInProgress.get()) {
 			return listeners.contains(l);
 		}
 		LOG.debug("register {} with shutdown hook", l); //$NON-NLS-1$
@@ -123,8 +123,8 @@ public enum ShutdownHook {
 	}
 
 	/**
-	 * Unregister object that no longer needs cleanup during JVM shutdown if it
-	 * is still registered. Unregistration is disabled when JVM shutdown is
+	 * Unregister object that no longer needs cleanup during JGit shutdown if it
+	 * is still registered. Unregistration is disabled when JGit shutdown is
 	 * already in progress.
 	 *
 	 * @param l
@@ -133,7 +133,7 @@ public enum ShutdownHook {
 	 * @return {@code true} if this object is no longer registered
 	 */
 	public boolean unregister(Listener l) {
-		if (shutdownInProgress) {
+		if (shutdownInProgress.get()) {
 			return !listeners.contains(l);
 		}
 		LOG.debug("unregister {} from shutdown hook", l); //$NON-NLS-1$
@@ -142,11 +142,11 @@ public enum ShutdownHook {
 	}
 
 	/**
-	 * Whether a JVM shutdown is in progress
+	 * Whether a JGit shutdown is in progress
 	 *
-	 * @return {@code true} if a JVM shutdown is in progress
+	 * @return {@code true} if a JGit shutdown is in progress
 	 */
 	public boolean isShutdownInProgress() {
-		return shutdownInProgress;
+		return shutdownInProgress.get();
 	}
 }
