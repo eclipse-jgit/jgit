@@ -13,6 +13,7 @@
 package org.eclipse.jgit.revwalk;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.GPG_SIGNATURE_PREFIX;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -39,7 +40,7 @@ import org.eclipse.jgit.util.StringUtils;
 public class RevTag extends RevObject {
 
 	private static final byte[] hSignature = Constants
-			.encodeASCII("-----BEGIN PGP SIGNATURE-----"); //$NON-NLS-1$
+			.encodeASCII(GPG_SIGNATURE_PREFIX);
 
 	/**
 	 * Parse an annotated tag from its canonical format.
