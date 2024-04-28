@@ -10,7 +10,6 @@
 
 package org.eclipse.jgit.patch;
 
-import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -35,7 +34,7 @@ public class PatchCcErrorTest {
 			assertSame(FormatError.Severity.ERROR, e.getSeverity());
 			assertEquals(MessageFormat.format(
 					JGitText.get().truncatedHunkLinesMissingForAncestor,
-					valueOf(1), valueOf(1)), e.getMessage());
+					Integer.valueOf(1), Integer.valueOf(1)), e.getMessage());
 			assertEquals(346, e.getOffset());
 			assertTrue(e.getLineText().startsWith(
 					"@@@ -55,12 -163,13 +163,15 @@@ public "));
@@ -45,7 +44,7 @@ public class PatchCcErrorTest {
 			assertSame(FormatError.Severity.ERROR, e.getSeverity());
 			assertEquals(MessageFormat.format(
 					JGitText.get().truncatedHunkLinesMissingForAncestor,
-					valueOf(2), valueOf(2)), e.getMessage());
+					Integer.valueOf(2), Integer.valueOf(2)), e.getMessage());
 			assertEquals(346, e.getOffset());
 			assertTrue(e.getLineText().startsWith(
 					"@@@ -55,12 -163,13 +163,15 @@@ public "));
