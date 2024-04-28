@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.function.Consumer;
 
@@ -97,19 +98,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			checkoutBranch(REFS_HEADS_LEFT);
@@ -139,19 +140,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 				writeTrashFile(".gitattributes", "*.cat -merge");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			// Check that the merge attribute is unset
@@ -184,19 +185,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 				writeTrashFile(".gitattributes", "*.txt -merge");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			// Check that the merge attribute is unset
@@ -228,19 +229,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 				writeTrashFile(".gitattributes", "*.cat merge=binary");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			// Check that the merge attribute is set to binary
