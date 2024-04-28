@@ -74,7 +74,9 @@ public class FileUtilsTest {
 		try {
 			FileUtils.delete(f, FileUtils.SKIP_MISSING);
 		} catch (IOException e) {
-			fail("deletion of non-existing file must not fail with option SKIP_MISSING");
+			throw new AssertionError(
+					"deletion of non-existing file must not fail with option SKIP_MISSING",
+					e);
 		}
 	}
 
@@ -108,7 +110,9 @@ public class FileUtilsTest {
 		try {
 			FileUtils.delete(d, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 		} catch (IOException e) {
-			fail("recursive deletion of non-existing directory must not fail with option SKIP_MISSING");
+			throw new AssertionError(
+					"recursive deletion of non-existing directory must not fail with option SKIP_MISSING",
+					e);
 		}
 	}
 

@@ -107,7 +107,8 @@ public class UploadPackHandleDeletedPackFileTest
 
 						pack.getPackFile().create(packExt).delete();
 					} catch (Exception e) {
-						fail("GC or pack file removal failed");
+						throw new AssertionError(
+								"GC or pack file removal failed", e);
 					}
 
 					return up;

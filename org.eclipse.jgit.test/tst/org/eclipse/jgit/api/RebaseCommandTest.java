@@ -2650,7 +2650,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 			assertEquals("1111111", firstLine.getCommit().name());
 			assertEquals("pick", firstLine.getAction().toToken());
 		} catch (Exception e) {
-			fail("Valid parsable RebaseTodoLine that has been commented out should allow to change the action, but failed");
+			throw new AssertionError(
+					"Valid parsable RebaseTodoLine that has been commented out should allow to change the action, but failed",
+					e);
 		}
 
 		assertEquals("2222222", steps.get(1).getCommit().name());
