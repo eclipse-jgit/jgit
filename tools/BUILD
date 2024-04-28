@@ -407,7 +407,7 @@ java_package_configuration(
         "-Xep:UnusedException:ERROR",
         "-Xep:UnusedMethod:WARN",
         "-Xep:UnusedNestedClass:ERROR",
-        "-Xep:UnusedVariable:WARN",
+        "-Xep:UnusedVariable:ERROR",
         "-Xep:URLEqualsHashCode:ERROR",
         "-Xep:UseBinds:ERROR",
         "-Xep:UseCorrectAssertInTests:WARN",

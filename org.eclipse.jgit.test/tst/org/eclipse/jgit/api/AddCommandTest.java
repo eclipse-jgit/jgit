@@ -13,6 +13,7 @@ package org.eclipse.jgit.api;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.FileUtils.RECURSIVE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
@@ -607,14 +608,14 @@ public class AddCommandTest extends RepositoryTestCase {
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
 
-			dc.getEntry(0).getObjectId();
+			ObjectId oid = dc.getEntry(0).getObjectId();
 
 			try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
 				writer.print("other content");
 			}
 
 			dc = git.add().addFilepattern("a.txt").call();
-
+			assertNotEquals(oid, dc.getEntry(0).getObjectId());
 			assertEquals(
 					"[a.txt, mode:100644, content:other content]",
 					indexState(CONTENT));
@@ -632,7 +633,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
 
-			dc.getEntry(0).getObjectId();
+			ObjectId oid = dc.getEntry(0).getObjectId();
 
 			git.commit().setMessage("commit a.txt").call();
 
@@ -641,7 +642,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			}
 
 			dc = git.add().addFilepattern("a.txt").call();
-
+			assertNotEquals(oid, dc.getEntry(0).getObjectId());
 			assertEquals(
 					"[a.txt, mode:100644, content:other content]",
 					indexState(CONTENT));
@@ -659,12 +660,12 @@ public class AddCommandTest extends RepositoryTestCase {
 		try (Git git = new Git(db)) {
 			DirCache dc = git.add().addFilepattern("a.txt").call();
 
-			dc.getEntry(0).getObjectId();
+			ObjectId oid = dc.getEntry(0).getObjectId();
 			FileUtils.delete(file);
 
 			// is supposed to do nothing
 			dc = git.add().addFilepattern("a.txt").call();
-
+			assertEquals(oid, dc.getEntry(0).getObjectId());
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
 					indexState(CONTENT));
@@ -684,12 +685,12 @@ public class AddCommandTest extends RepositoryTestCase {
 
 			git.commit().setMessage("commit a.txt").call();
 
-			dc.getEntry(0).getObjectId();
+			ObjectId oid = dc.getEntry(0).getObjectId();
 			FileUtils.delete(file);
 
 			// is supposed to do nothing
 			dc = git.add().addFilepattern("a.txt").call();
-
+			assertEquals(oid, dc.getEntry(0).getObjectId());
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
 					indexState(CONTENT));
