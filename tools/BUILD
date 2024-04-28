@@ -158,7 +158,7 @@ java_package_configuration(
         "-Xep:FromTemporalAccessor:ERROR",
         "-Xep:FunctionalInterfaceClash:ERROR",
         "-Xep:FunctionalInterfaceMethodChanged:ERROR",
-        "-Xep:FutureReturnValueIgnored:WARN",
+        "-Xep:FutureReturnValueIgnored:ERROR",
         "-Xep:FuturesGetCheckedIllegalExceptionType:ERROR",
         "-Xep:GetClassOnAnnotation:ERROR",
         "-Xep:GetClassOnClass:ERROR",
