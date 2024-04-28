@@ -66,7 +66,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -763,7 +762,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	void processResponseCookies(HttpConnection conn) {
 		if (cookieFile != null && http.getSaveCookies()) {
-			List<HttpCookie> foundCookies = new LinkedList<>();
+			List<HttpCookie> foundCookies = new ArrayList<>();
 
 			List<String> cookieHeaderValues = conn
 					.getHeaderFields(HDR_SET_COOKIE);
@@ -795,7 +794,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private List<HttpCookie> extractCookies(String headerKey,
 			List<String> headerValues) {
-		List<HttpCookie> foundCookies = new LinkedList<>();
+		List<HttpCookie> foundCookies = new ArrayList<>();
 		for (String headerValue : headerValues) {
 			foundCookies
 					.addAll(HttpCookie.parse(headerKey + ':' + headerValue));

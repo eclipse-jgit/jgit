@@ -16,12 +16,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -112,16 +113,16 @@ class WalkFetchConnection extends BaseFetchConnection {
 	private final DateRevQueue localCommitQueue;
 
 	/** Objects we need to copy from the remote repository. */
-	private LinkedList<ObjectId> workQueue;
+	private Deque<ObjectId> workQueue;
 
 	/** Databases we have not yet obtained the list of packs from. */
-	private final LinkedList<WalkRemoteObjectDatabase> noPacksYet;
+	private final Deque<WalkRemoteObjectDatabase> noPacksYet;
 
 	/** Databases we have not yet obtained the alternates from. */
-	private final LinkedList<WalkRemoteObjectDatabase> noAlternatesYet;
+	private final Deque<WalkRemoteObjectDatabase> noAlternatesYet;
 
 	/** Packs we have discovered, but have not yet fetched locally. */
-	private final LinkedList<RemotePack> unfetchedPacks;
+	private final Deque<RemotePack> unfetchedPacks;
 
 	/**
 	 * Packs whose indexes we have looked at in {@link #unfetchedPacks}.
@@ -163,13 +164,13 @@ class WalkFetchConnection extends BaseFetchConnection {
 		remotes = new ArrayList<>();
 		remotes.add(w);
 
-		unfetchedPacks = new LinkedList<>();
+		unfetchedPacks = new ArrayDeque<>();
 		packsConsidered = new HashSet<>();
 
-		noPacksYet = new LinkedList<>();
+		noPacksYet = new ArrayDeque<>();
 		noPacksYet.add(w);
 
-		noAlternatesYet = new LinkedList<>();
+		noAlternatesYet = new ArrayDeque<>();
 		noAlternatesYet.add(w);
 
 		fetchErrors = new HashMap<>();
@@ -183,7 +184,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN"); //$NON-NLS-1$
 
 		localCommitQueue = new DateRevQueue();
-		workQueue = new LinkedList<>();
+		workQueue = new ArrayDeque<>();
 	}
 
 	@Override
@@ -567,7 +568,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private Iterator<ObjectId> swapFetchQueue() {
 		final Iterator<ObjectId> r = workQueue.iterator();
-		workQueue = new LinkedList<>();
+		workQueue = new ArrayDeque<>();
 		return r;
 	}
 

@@ -11,9 +11,9 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.text.MessageFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -41,8 +41,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private final EWAHCompressedBitmap tags;
 	private final BlockList<PositionEntry> byOffset;
 
-	private final LinkedList<StoredBitmap>
-			bitmapsToWriteXorBuffer = new LinkedList<>();
+	private final ArrayDeque<StoredBitmap> bitmapsToWriteXorBuffer = new ArrayDeque<>();
 
 	private List<StoredEntry> bitmapsToWrite = new ArrayList<>();
 

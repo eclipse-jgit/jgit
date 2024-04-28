@@ -18,9 +18,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,7 +65,7 @@ public class KnownHostEntryReader {
 	 */
 	public static List<KnownHostEntry> readFromFile(Path path)
 			throws IOException {
-		List<KnownHostEntry> result = new LinkedList<>();
+		List<KnownHostEntry> result = new ArrayList<>();
 		try (BufferedReader r = Files.newBufferedReader(path, UTF_8)) {
 			r.lines().forEachOrdered(l -> {
 				if (l == null) {

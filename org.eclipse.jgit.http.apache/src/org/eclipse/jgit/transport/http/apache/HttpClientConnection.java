@@ -25,10 +25,10 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -300,7 +300,7 @@ public class HttpClientConnection implements HttpConnection {
 		for (Header hdr : resp.getAllHeaders()) {
 			List<String> list = ret.get(hdr.getName());
 			if (list == null) {
-				list = new LinkedList<>();
+				list = new ArrayList<>();
 				ret.put(hdr.getName(), list);
 			}
 			for (HeaderElement hdrElem : hdr.getElements()) {

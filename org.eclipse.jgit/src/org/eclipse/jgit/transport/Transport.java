@@ -33,10 +33,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -109,7 +107,7 @@ public abstract class Transport implements AutoCloseable {
 			String name = prefix + Transport.class.getName();
 			return ldr.getResources(name);
 		} catch (IOException err) {
-			return new Vector<URL>().elements();
+			return Collections.emptyEnumeration();
 		}
 	}
 
@@ -595,7 +593,7 @@ public abstract class Transport implements AutoCloseable {
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		if (fetchSpecs == null)
 			fetchSpecs = Collections.emptyList();
-		final List<RemoteRefUpdate> result = new LinkedList<>();
+		final List<RemoteRefUpdate> result = new ArrayList<>();
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
 		for (RefSpec spec : procRefs) {
