@@ -410,7 +410,7 @@ java_package_configuration(
         "-Xep:UnusedVariable:ERROR",
         "-Xep:URLEqualsHashCode:ERROR",
         "-Xep:UseBinds:ERROR",
-        "-Xep:UseCorrectAssertInTests:WARN",
+        "-Xep:UseCorrectAssertInTests:ERROR",
         "-Xep:VariableNameSameAsType:ERROR",
         "-Xep:VarTypeName:ERROR",
         "-Xep:WaitNotInLoop:ERROR",
