@@ -191,7 +191,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		pack.copyRaw(a);
 		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		pack.digest();
@@ -211,7 +211,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_BLOB) << 4 | 0x80 | 1);
+		pack.write(Constants.OBJ_BLOB << 4 | 0x80 | 1);
 		pack.write(1);
 		pack.deflate(data);
 		pack.digest();
@@ -231,9 +231,9 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(2);
-		pack.write((Constants.OBJ_BLOB) << 4 | 10); // offset 12
+		pack.write(Constants.OBJ_BLOB << 4 | 10); // offset 12
 		pack.deflate(data);
-		pack.write((Constants.OBJ_OFS_DELTA) << 4 | 4); // offset 31
+		pack.write(Constants.OBJ_OFS_DELTA << 4 | 4); // offset 31
 		pack.write(19);
 		pack.deflate(new byte[] { 0xA, 0xB, 0x1, 'b' });
 		pack.digest();
@@ -270,7 +270,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		pack.copyRaw(a);
 		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		pack.digest();
@@ -300,7 +300,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_BLOB) << 4 | 10);
+		pack.write(Constants.OBJ_BLOB << 4 | 10);
 		pack.deflate(data);
 		pack.digest();
 
@@ -333,7 +333,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 14);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 14);
 		pack.copyRaw(a);
 		pack.deflate(new byte[] { 1, 11, 11, 'a', '0', '1', '2', '3', '4',
 				'5', '6', '7', '8', '9' });
@@ -366,7 +366,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		pack.copyRaw(a);
 		pack.deflate(new byte[] { 10, 11, 1, 'a' });
 		pack.digest();
@@ -398,7 +398,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		pack.copyRaw(a);
 		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		pack.digest();
@@ -439,7 +439,7 @@ public class PackParserTest extends RepositoryTestCase {
 
 		InMemoryPack pack = new InMemoryPack();
 		pack.header(1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		pack.copyRaw(a);
 		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		pack.digest();
@@ -470,7 +470,7 @@ public class PackParserTest extends RepositoryTestCase {
 		pack.header(objects);
 
 		for (int i = 0; i < objects; i++) {
-			pack.write((Constants.OBJ_BLOB) << 4 | 10);
+			pack.write(Constants.OBJ_BLOB << 4 | 10);
 			pack.deflate(data);
 		}
 		pack.digest();
@@ -508,7 +508,7 @@ public class PackParserTest extends RepositoryTestCase {
 		for (int i = 0; i < offset; i++)
 			sb.append(i);
 		offset = sb.toString().length();
-		int lenByte = (Constants.OBJ_BLOB) << 4 | (offset & 0x0F);
+		int lenByte = Constants.OBJ_BLOB << 4 | (offset & 0x0F);
 		offset >>= 4;
 		if (offset > 0)
 			lenByte |= 1 << 7;
@@ -525,7 +525,7 @@ public class PackParserTest extends RepositoryTestCase {
 		for (int i = 0; i < objects; i++) {
 			// The last pack header written falls across the 8192 byte boundary
 			// between [8189:8210]
-			pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+			pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 			pack.copyRaw(b);
 			pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		}

@@ -1259,7 +1259,7 @@ public class AddCommandTest extends RepositoryTestCase {
 					"[git-link-dir, mode:160000]",
 					indexState(0));
 			Set<String> untrackedFiles = git.status().call().getUntracked();
-			assert (untrackedFiles.isEmpty());
+			assert untrackedFiles.isEmpty();
 		}
 
 	}
@@ -1274,7 +1274,7 @@ public class AddCommandTest extends RepositoryTestCase {
 				ConfigConstants.CONFIG_KEY_DIRNOGITLINKS, true);
 		config.save();
 
-		assert (db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks());
+		assert db.getConfig().get(WorkingTreeOptions.KEY).isDirNoGitLinks();
 
 		try (Git git = new Git(db)) {
 			git.add().addFilepattern("nested-repo").call();

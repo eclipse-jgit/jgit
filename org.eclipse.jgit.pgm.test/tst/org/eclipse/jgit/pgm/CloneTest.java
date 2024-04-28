@@ -183,7 +183,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 
 		File gitDir = db.getDirectory();
 		String sourcePath = gitDir.getAbsolutePath();
-		String targetPath = (new File(sourcePath)).getParentFile()
+		String targetPath = new File(sourcePath).getParentFile()
 				.getParentFile().getAbsolutePath()
 				+ File.separator + "target.git";
 		String cmd = "git clone --bare " + shellQuote(sourcePath) + " "
@@ -207,7 +207,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 
 		File gitDir = db.getDirectory();
 		String sourcePath = gitDir.getAbsolutePath();
-		String targetPath = (new File(sourcePath)).getParentFile()
+		String targetPath = new File(sourcePath).getParentFile()
 				.getParentFile().getAbsolutePath() + File.separator
 				+ "target.git";
 		String cmd = "git clone --mirror " + shellQuote(sourcePath) + " "

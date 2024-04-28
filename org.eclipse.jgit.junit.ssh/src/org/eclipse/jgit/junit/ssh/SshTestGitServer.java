@@ -323,7 +323,7 @@ public class SshTestGitServer {
 		server.setFileSystemFactory(new VirtualFileSystemFactory(repository
 				.getDirectory().getParentFile().getAbsoluteFile().toPath()));
 		return Collections
-				.singletonList((new SftpSubsystemFactory.Builder()).build());
+				.singletonList(new SftpSubsystemFactory.Builder().build());
 	}
 
 	/**

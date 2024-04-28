@@ -396,7 +396,7 @@ java_package_configuration(
         "-Xep:UnnecessaryLambda:ERROR",
         "-Xep:UnnecessaryMethodInvocationMatcher:ERROR",
         "-Xep:UnnecessaryMethodReference:ERROR",
-        "-Xep:UnnecessaryParentheses:WARN",
+        "-Xep:UnnecessaryParentheses:ERROR",
         "-Xep:UnnecessaryTypeArgument:ERROR",
         "-Xep:UnrecognisedJavadocTag:ERROR",
         "-Xep:UnsafeFinalization:ERROR",

@@ -46,10 +46,10 @@ public class DfsPackParserTest {
 				.fromString("2e65efe2a145dda7ee51d1741299f848e5bf752e");
 
 		pack.header(2);
-		pack.write((Constants.OBJ_BLOB) << 4 | 1);
+		pack.write(Constants.OBJ_BLOB << 4 | 1);
 		pack.deflate(new byte[] { 'a' });
 
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
 		pack.copyRaw(blobA);
 		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		pack.digest();
