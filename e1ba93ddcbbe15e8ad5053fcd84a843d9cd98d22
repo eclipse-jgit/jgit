@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fed3c14a_75e144d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-28T17:35:36Z",
+      "side": 1,
+      "message": "split out the errorprone fixes to separate changes, with the current configuration in `tools/BUILD` these don\u0027t fail the build",
+      "revId": "e1ba93ddcbbe15e8ad5053fcd84a843d9cd98d22",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
