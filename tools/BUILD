@@ -76,7 +76,7 @@ java_package_configuration(
         "-Xep:CannotMockFinalClass:ERROR",
         "-Xep:CanonicalDuration:ERROR",
         "-Xep:CatchAndPrintStackTrace:WARN",
-        "-Xep:CatchFail:WARN",
+        "-Xep:CatchFail:ERROR",
         "-Xep:ChainedAssertionLosesContext:ERROR",
         "-Xep:ChainingConstructorIgnoresParameter:ERROR",
         "-Xep:CharacterGetNumericValue:ERROR",
