@@ -251,7 +251,7 @@ java_package_configuration(
         "-Xep:LockOnBoxedPrimitive:ERROR",
         "-Xep:LogicalAssignment:ERROR",
         "-Xep:LongFloatConversion:ERROR",
-        "-Xep:LongLiteralLowerCaseSuffix:WARN",
+        "-Xep:LongLiteralLowerCaseSuffix:ERROR",
         "-Xep:LoopConditionChecker:ERROR",
         "-Xep:LoopOverCharArray:ERROR",
         "-Xep:LossyPrimitiveCompare:ERROR",
