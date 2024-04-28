@@ -102,7 +102,7 @@ public class UploadPackHandleDeletedPackFileTest
 					try {
 						addNewCommit();
 
-						new GC(remote.getRepository()).gc();
+						new GC(remote.getRepository()).gc().get();
 
 						pack.getPackFile().create(packExt).delete();
 					} catch (Exception e) {
@@ -136,7 +136,7 @@ public class UploadPackHandleDeletedPackFileTest
 				.create();
 		remote.update("master", commit0);
 
-		new GC(remote.getRepository()).gc(); // create pack files
+		new GC(remote.getRepository()).gc().get(); // create pack files
 
 		head = remote.commit().message("1").parent(commit0)
 				.add("test1.txt", remote.blob("1"))

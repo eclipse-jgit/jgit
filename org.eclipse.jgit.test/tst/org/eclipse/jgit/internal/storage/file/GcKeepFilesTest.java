@@ -162,7 +162,7 @@ public class GcKeepFilesTest extends GcTestCase {
 	private void testKeptObjectsAreIncluded() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		ObjectId commitObjectInLockedPack = bb.commit().create().toObjectId();
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(COMMIT_AND_TREE_OBJECTS, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
@@ -170,7 +170,7 @@ public class GcKeepFilesTest extends GcTestCase {
 				.createNewFile());
 
 		bb.commit().create();
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(2 * COMMIT_AND_TREE_OBJECTS + 1,
 				stats.numberOfPackedObjects);
@@ -194,7 +194,7 @@ public class GcKeepFilesTest extends GcTestCase {
 	private void testKeptObjectsAreNotIncluded() throws Exception {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		ObjectId commitObjectInLockedPack = bb.commit().create().toObjectId();
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(COMMIT_AND_TREE_OBJECTS, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
@@ -202,7 +202,7 @@ public class GcKeepFilesTest extends GcTestCase {
 				.createNewFile());
 
 		bb.commit().create();
-		gc.gc();
+		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(COMMIT_AND_TREE_OBJECTS + 1, stats.numberOfPackedObjects);
 		assertEquals(2, stats.numberOfPackFiles);
