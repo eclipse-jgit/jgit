@@ -323,7 +323,7 @@ java_package_configuration(
         "-Xep:PreferredInterfaceType:OFF",
         "-Xep:PrimitiveAtomicReference:ERROR",
         "-Xep:PrivateSecurityContractProtoAccess:ERROR",
-        "-Xep:ProtectedMembersInFinalClass:WARN",
+        "-Xep:ProtectedMembersInFinalClass:ERROR",
         "-Xep:ProtoBuilderReturnValueIgnored:ERROR",
         "-Xep:ProtocolBufferOrdinal:ERROR",
         "-Xep:ProtoDurationGetSecondsGetNano:ERROR",
