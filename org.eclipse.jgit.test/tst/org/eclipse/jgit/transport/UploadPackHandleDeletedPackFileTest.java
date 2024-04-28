@@ -9,10 +9,9 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.fail;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -107,7 +106,8 @@ public class UploadPackHandleDeletedPackFileTest
 
 						pack.getPackFile().create(packExt).delete();
 					} catch (Exception e) {
-						fail("GC or pack file removal failed");
+						throw new AssertionError(
+								"GC or pack file removal failed", e);
 					}
 
 					return up;

@@ -88,7 +88,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		try {
 			resolver.open(null, name).close();
 		} catch (ServiceNotEnabledException e) {
-			fail("did not honor export-all flag");
+			throw new AssertionError("did not honor export-all flag", e);
 		}
 
 		FileUtils.createNewFile(export);
@@ -99,7 +99,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		try {
 			resolver.open(null, name).close();
 		} catch (ServiceNotEnabledException e) {
-			fail("did not honor git-daemon-export-ok");
+			throw new AssertionError("did not honor git-daemon-export-ok", e);
 		}
 	}
 
