@@ -11,7 +11,7 @@ package org.eclipse.jgit.revplot;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
@@ -70,7 +70,7 @@ public class AbstractPlotRendererTest extends RepositoryTestCase {
 	private static class TestPlotRenderer extends
 			AbstractPlotRenderer<PlotLane, Object> {
 
-		List<Integer> indentations = new LinkedList<>();
+		List<Integer> indentations = new ArrayList<>();
 
 		@Override
 		protected int drawLabel(int x, int y, Ref ref) {

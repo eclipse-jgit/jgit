@@ -41,11 +41,11 @@ import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -64,8 +64,8 @@ import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
 import org.eclipse.jgit.lib.CoreConfig.TrustLooseRefStat;
+import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -413,7 +413,7 @@ public class RefDirectory extends RefDatabase {
 
 	@Override
 	public List<Ref> getAdditionalRefs() throws IOException {
-		List<Ref> ret = new LinkedList<>();
+		List<Ref> ret = new ArrayList<>();
 		for (String name : additionalRefsNames) {
 			Ref r = exactRef(name);
 			if (r != null)

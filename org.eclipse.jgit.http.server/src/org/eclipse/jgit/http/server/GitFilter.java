@@ -12,7 +12,7 @@ package org.eclipse.jgit.http.server;
 
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -65,9 +65,9 @@ public class GitFilter extends MetaFilter {
 
 	private ReceivePackErrorHandler receivePackErrorHandler;
 
-	private final List<Filter> uploadPackFilters = new LinkedList<>();
+	private final List<Filter> uploadPackFilters = new ArrayList<>();
 
-	private final List<Filter> receivePackFilters = new LinkedList<>();
+	private final List<Filter> receivePackFilters = new ArrayList<>();
 
 	/**
 	 * New servlet that will load its base directory from {@code web.xml}.

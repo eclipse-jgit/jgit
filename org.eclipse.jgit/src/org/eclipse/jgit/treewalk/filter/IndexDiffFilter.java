@@ -10,8 +10,9 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -62,9 +63,9 @@ public class IndexDiffFilter extends TreeFilter {
 
 	private final Set<String> ignoredPaths = new HashSet<>();
 
-	private final LinkedList<String> untrackedParentFolders = new LinkedList<>();
+	private final ArrayDeque<String> untrackedParentFolders = new ArrayDeque<>();
 
-	private final LinkedList<String> untrackedFolders = new LinkedList<>();
+	private final ArrayDeque<String> untrackedFolders = new ArrayDeque<>();
 
 	/**
 	 * Creates a new instance of this filter. Do not use an instance of this
@@ -272,13 +273,13 @@ public class IndexDiffFilter extends TreeFilter {
 	 *         empty list will be returned.
 	 */
 	public List<String> getUntrackedFolders() {
-		LinkedList<String> ret = new LinkedList<>(untrackedFolders);
+		ArrayDeque<String> ret = new ArrayDeque<>(untrackedFolders);
 		if (!untrackedParentFolders.isEmpty()) {
 			String toBeAdded = untrackedParentFolders.getLast();
 			while (!ret.isEmpty() && ret.getLast().startsWith(toBeAdded))
 				ret.removeLast();
 			ret.addLast(toBeAdded);
 		}
-		return ret;
+		return new ArrayList<>(ret);
 	}
 }

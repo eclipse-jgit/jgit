@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -124,16 +123,16 @@ public class ConfigTest {
 	@Test
 	public void test005_PutGetStringList() {
 		Config c = new Config();
-		final LinkedList<String> values = new LinkedList<>();
+		List<String> values = new ArrayList<>();
 		values.add("value1");
 		values.add("value2");
 		c.setStringList("my", null, "somename", values);
 
-		final Object[] expArr = values.toArray();
-		final String[] actArr = c.getStringList("my", null, "somename");
+		Object[] expArr = values.toArray();
+		String[] actArr = c.getStringList("my", null, "somename");
 		assertArrayEquals(expArr, actArr);
 
-		final String expText = "[my]\n\tsomename = value1\n\tsomename = value2\n";
+		String expText = "[my]\n\tsomename = value1\n\tsomename = value2\n";
 		assertEquals(expText, c.toText());
 	}
 

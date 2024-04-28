@@ -31,12 +31,12 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -336,10 +336,10 @@ public class CommitGraphWriter {
 				continue;
 			}
 
-			Stack<RevCommit> commitStack = new Stack<>();
+			ArrayDeque<RevCommit> commitStack = new ArrayDeque<>();
 			commitStack.push(cmit);
 
-			while (!commitStack.empty()) {
+			while (!commitStack.isEmpty()) {
 				int maxGeneration = 0;
 				boolean allParentComputed = true;
 				RevCommit current = commitStack.peek();
