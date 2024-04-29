@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea8fcad2_bea94553",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-04-29T14:03:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "14a7a419_3bf80811",
+      "revId": "53d9ba9427cfcbc58a934bb705253fd9aa0cd842",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adcaeb91_95eed815",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "how about this solution ?",
       "parentUuid": "adcaeb91_95eed815",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 283,
+        "endChar": 30
+      },
+      "revId": "53d9ba9427cfcbc58a934bb705253fd9aa0cd842",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be478f38_7e1ea7c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-04-29T14:03:02Z",
+      "side": 1,
+      "message": "This would mean duplication of the whole list and could be avoided, right?",
+      "parentUuid": "b8d54350_a4f7833b",
       "range": {
         "startLine": 283,
         "startChar": 2,
