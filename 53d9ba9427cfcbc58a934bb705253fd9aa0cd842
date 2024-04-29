@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7842de_3f20d9f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-04-29T05:08:25Z",
+      "side": 1,
+      "message": "Mention that Date replacement with Instant isn\u0027t addressed in this commit?",
+      "revId": "53d9ba9427cfcbc58a934bb705253fd9aa0cd842",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adcaeb91_95eed815",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-04-29T05:08:25Z",
+      "side": 1,
+      "message": "Unfortunately Deque doesn\u0027t implement List interface, so that this duplication is needed, with potential performance implication. The only alternative to this would be to change the return type from List to `Collection` (or alternatively to `Deque`). I tried it and it just works,\nbecause the only place where it\u0027s used is in:\n\n```\norg.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java:824\nnew HashSet\u003c\u003e(indexDiffFilter.getUntrackedFolders()));\n```",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 283,
+        "endChar": 30
+      },
+      "revId": "53d9ba9427cfcbc58a934bb705253fd9aa0cd842",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
