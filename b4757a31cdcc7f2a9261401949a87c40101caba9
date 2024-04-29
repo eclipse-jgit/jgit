@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e993e8_16356d7f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BlockListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-04-29T06:11:27Z",
+      "side": 1,
+      "message": "Optional: Suppression can be avoided by using an assert test.",
+      "range": {
+        "startLine": 295,
+        "startChar": 1,
+        "endLine": 295,
+        "endChar": 40
+      },
+      "revId": "b4757a31cdcc7f2a9261401949a87c40101caba9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8aaa2e5_44b24c4e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/BlockListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-04-29T06:11:27Z",
+      "side": 1,
+      "message": "Add a test, e.g.: `assertEquals(Integer.valueOf(41), list.get(0));`.",
+      "revId": "b4757a31cdcc7f2a9261401949a87c40101caba9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
