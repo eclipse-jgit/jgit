@@ -292,6 +292,7 @@ public class BlockListTest {
 		assertFalse(itr.hasNext());
 	}
 
+	@SuppressWarnings("ModifiedButNotUsed")
 	@Test
 	public void testAddRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
@@ -312,6 +313,7 @@ public class BlockListTest {
 		}
 	}
 
+	@SuppressWarnings("ModifiedButNotUsed")
 	@Test
 	public void testRemoveRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
