@@ -268,6 +268,7 @@ public class RefMapTest {
 		assertFalse(itr.hasNext());
 	}
 
+	@SuppressWarnings("ModifiedButNotUsed")
 	@Test
 	public void testPut_KeyMustMatchName_NoPrefix() {
 		final Ref refA = newRef("refs/heads/A", ID_ONE);
@@ -280,6 +281,7 @@ public class RefMapTest {
 		}
 	}
 
+	@SuppressWarnings("ModifiedButNotUsed")
 	@Test
 	public void testPut_KeyMustMatchName_WithPrefix() {
 		final Ref refA = newRef("refs/heads/A", ID_ONE);
