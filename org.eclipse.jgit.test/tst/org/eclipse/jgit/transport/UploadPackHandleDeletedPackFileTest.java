@@ -90,7 +90,7 @@ public class UploadPackHandleDeletedPackFileTest
 	private void doRemovePackFileDuringUploadPack(PackExt packExt)
 			throws Exception {
 		Object ctx = new Object();
-		TestProtocol testProtocol = new TestProtocol<>(
+		TestProtocol<Object> testProtocol = new TestProtocol<>(
 				(Object req, Repository db) -> {
 					UploadPack up = new UploadPack(db);
 					up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
