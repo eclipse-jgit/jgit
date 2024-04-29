@@ -123,6 +123,30 @@
       },
       "revId": "53d9ba9427cfcbc58a934bb705253fd9aa0cd842",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbdd19f0_a2f0d459",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-04-29T14:12:42Z",
+      "side": 1,
+      "message": "no, PS2 compared to base just replaces LinkedList by ArrayList if I am not mistaken",
+      "parentUuid": "be478f38_7e1ea7c0",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 283,
+        "endChar": 30
+      },
+      "revId": "53d9ba9427cfcbc58a934bb705253fd9aa0cd842",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
