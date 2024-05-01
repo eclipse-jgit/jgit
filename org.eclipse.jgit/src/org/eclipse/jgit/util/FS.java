@@ -31,8 +31,6 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -69,6 +67,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -98,6 +97,9 @@ public abstract class FS {
 	private static final Pattern VERSION = Pattern
 			.compile("\\s(\\d+)\\.(\\d+)\\.(\\d+)"); //$NON-NLS-1$
 
+	private static final Pattern EMPTY_PATH = Pattern
+			.compile("^[\\p{javaWhitespace}" + File.pathSeparator + "]*$"); //$NON-NLS-1$ //$NON-NLS-2$
+
 	private volatile Boolean supportSymlinks;
 
 	/**
@@ -118,6 +120,7 @@ public abstract class FS {
 		 * Detect the file system
 		 *
 		 * @param cygwinUsed
+		 *            whether cygwin is used
 		 * @return FS instance
 		 */
 		public FS detect(Boolean cygwinUsed) {
@@ -149,8 +152,11 @@ public abstract class FS {
 
 		/**
 		 * @param stdout
+		 *            stdout stream
 		 * @param stderr
+		 *            stderr stream
 		 * @param rc
+		 *            return code
 		 */
 		public ExecutionResult(TemporaryBuffer stdout, TemporaryBuffer stderr,
 				int rc) {
@@ -160,6 +166,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get buffered standard output stream
+		 *
 		 * @return buffered standard output stream
 		 */
 		public TemporaryBuffer getStdout() {
@@ -167,6 +175,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get buffered standard error stream
+		 *
 		 * @return buffered standard error stream
 		 */
 		public TemporaryBuffer getStderr() {
@@ -174,6 +184,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the return code of the process
+		 *
 		 * @return the return code of the process
 		 */
 		public int getRc() {
@@ -202,7 +214,7 @@ public abstract class FS {
 		 * </p>
 		 */
 		public static final Duration FALLBACK_TIMESTAMP_RESOLUTION = Duration
-				.ofMillis(2000);
+				.ofSeconds(2);
 
 		/**
 		 * Fallback FileStore attributes used when we can't measure the
@@ -262,8 +274,8 @@ public abstract class FS {
 		 * @see java.util.concurrent.Executors#newCachedThreadPool()
 		 */
 		private static final ExecutorService FUTURE_RUNNER = new ThreadPoolExecutor(
-				0, 5, 30L, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>(),
+				5, 5, 30L, TimeUnit.SECONDS,
+				new LinkedBlockingQueue<>(),
 				runnable -> {
 					Thread t = new Thread(runnable,
 							"JGit-FileStoreAttributeReader-" //$NON-NLS-1$
@@ -287,7 +299,7 @@ public abstract class FS {
 		 */
 		private static final ExecutorService SAVE_RUNNER = new ThreadPoolExecutor(
 				0, 1, 1L, TimeUnit.MILLISECONDS,
-				new LinkedBlockingQueue<Runnable>(),
+				new LinkedBlockingQueue<>(),
 				runnable -> {
 					Thread t = new Thread(runnable,
 							"JGit-FileStoreAttributeWriter-" //$NON-NLS-1$
@@ -299,14 +311,17 @@ public abstract class FS {
 
 		static {
 			// Shut down the SAVE_RUNNER on System.exit()
-			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-				try {
-					SAVE_RUNNER.shutdownNow();
-					SAVE_RUNNER.awaitTermination(100, TimeUnit.MILLISECONDS);
-				} catch (Exception e) {
-					// Ignore; we're shutting down
-				}
-			}));
+			ShutdownHook.INSTANCE
+					.register(FileStoreAttributes::shutdownSafeRunner);
+		}
+
+		private static void shutdownSafeRunner() {
+			try {
+				SAVE_RUNNER.shutdownNow();
+				SAVE_RUNNER.awaitTermination(100, TimeUnit.MILLISECONDS);
+			} catch (Exception e) {
+				// Ignore; we're shutting down
+			}
 		}
 
 		/**
@@ -823,6 +838,8 @@ public abstract class FS {
 		private Duration minimalRacyInterval;
 
 		/**
+		 * Get the minimal racy interval
+		 *
 		 * @return the measured minimal interval after a file has been modified
 		 *         in which we cannot rely on lastModified to detect
 		 *         modifications
@@ -832,6 +849,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the measured filesystem timestamp resolution
+		 *
 		 * @return the measured filesystem timestamp resolution
 		 */
 		@NonNull
@@ -844,6 +863,7 @@ public abstract class FS {
 		 * timestamp resolution
 		 *
 		 * @param fsTimestampResolution
+		 *            resolution of filesystem timestamps
 		 */
 		public FileStoreAttributes(
 				@NonNull Duration fsTimestampResolution) {
@@ -1004,7 +1024,7 @@ public abstract class FS {
 		File tempFile = null;
 		try {
 			tempFile = File.createTempFile("tempsymlinktarget", ""); //$NON-NLS-1$ //$NON-NLS-2$
-			File linkName = new File(tempFile.getParentFile(), "tempsymlink"); //$NON-NLS-1$
+			File linkName = new File(tempFile.getPath() + "-tempsymlink"); //$NON-NLS-1$
 			createSymLink(linkName, tempFile.getPath());
 			supportSymlinks = Boolean.TRUE;
 			linkName.delete();
@@ -1069,6 +1089,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return last modified time of f
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
 	 */
@@ -1115,6 +1136,7 @@ public abstract class FS {
 	 * @param time
 	 *            last modified time
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
 	 */
@@ -1133,6 +1155,7 @@ public abstract class FS {
 	 * @param time
 	 *            last modified time
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.1.9
 	 */
 	public void setLastModified(Path p, Instant time) throws IOException {
@@ -1147,6 +1170,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return length of a file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public long length(File path) throws IOException {
@@ -1159,7 +1183,7 @@ public abstract class FS {
 	 * @param f
 	 *            a {@link java.io.File} object.
 	 * @throws java.io.IOException
-	 *             this may be a Java7 subclass with detailed information
+	 *             if an IO error occurred
 	 * @since 3.3
 	 */
 	public void delete(File f) throws IOException {
@@ -1259,8 +1283,10 @@ public abstract class FS {
 	 * Return all the attributes of a file, without following symbolic links.
 	 *
 	 * @param file
+	 *            the file
 	 * @return {@link BasicFileAttributes} of the file
-	 * @throws IOException in case of any I/O errors accessing the file
+	 * @throws IOException
+	 *             in case of any I/O errors accessing the file
 	 *
 	 * @since 4.5.6
 	 */
@@ -1278,11 +1304,10 @@ public abstract class FS {
 	}
 
 	private File defaultUserHomeImpl() {
-		String home = AccessController.doPrivileged(
-				(PrivilegedAction<String>) () -> System.getProperty("user.home") //$NON-NLS-1$
-		);
-		if (home == null || home.length() == 0)
+		String home = SystemReader.getInstance().getProperty("user.home"); //$NON-NLS-1$
+		if (StringUtils.isEmptyOrNull(home)) {
 			return null;
+		}
 		return new File(home).getAbsoluteFile();
 	}
 
@@ -1298,8 +1323,10 @@ public abstract class FS {
 	 * @return the first match found, or null
 	 * @since 3.0
 	 */
+	@SuppressWarnings("StringSplitter")
 	protected static File searchPath(String path, String... lookFor) {
-		if (path == null) {
+		if (StringUtils.isEmptyOrNull(path)
+				|| EMPTY_PATH.matcher(path).find()) {
 			return null;
 		}
 
@@ -1666,6 +1693,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return target of link or null
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public String readSymLink(File path) throws IOException {
@@ -1679,6 +1707,7 @@ public abstract class FS {
 	 *            a {@link java.io.File} object.
 	 * @return true if the path is a symbolic link (and we support these)
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public boolean isSymLink(File path) throws IOException {
@@ -1733,6 +1762,7 @@ public abstract class FS {
 	 * @return true if path is hidden, either starts with . on unix or has the
 	 *         hidden attribute in windows
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public boolean isHidden(File path) throws IOException {
@@ -1747,6 +1777,7 @@ public abstract class FS {
 	 * @param hidden
 	 *            whether to set the file hidden
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public void setHidden(File path, boolean hidden) throws IOException {
@@ -1761,6 +1792,7 @@ public abstract class FS {
 	 * @param target
 	 *            target path of the symlink
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 3.0
 	 */
 	public void createSymLink(File path, String target) throws IOException {
@@ -1777,6 +1809,7 @@ public abstract class FS {
 	 * @return <code>true</code> if the file was created, <code>false</code> if
 	 *         the file already existed
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @deprecated use {@link #createNewFileAtomic(File)} instead
 	 * @since 4.5
 	 */
@@ -1805,6 +1838,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether the file was created successfully
+		 *
 		 * @return {@code true} if the file was created successfully
 		 */
 		public boolean isCreated() {
@@ -1847,6 +1882,7 @@ public abstract class FS {
 	 * @return LockToken this token must be closed after the created file was
 	 *         deleted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 4.7
 	 */
 	public LockToken createNewFileAtomic(File path) throws IOException {
@@ -2312,7 +2348,9 @@ public abstract class FS {
 	 *            The standard input stream passed to the process
 	 * @return The result of the executed command
 	 * @throws java.lang.InterruptedException
+	 *             if thread was interrupted
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 4.2
 	 */
 	public ExecutionResult execute(ProcessBuilder pb, InputStream in)
@@ -2341,6 +2379,8 @@ public abstract class FS {
 	public static class Attributes {
 
 		/**
+		 * Whether this are attributes of a directory
+		 *
 		 * @return true if this are the attributes of a directory
 		 */
 		public boolean isDirectory() {
@@ -2348,6 +2388,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether this are attributes of an executable file
+		 *
 		 * @return true if this are the attributes of an executable file
 		 */
 		public boolean isExecutable() {
@@ -2355,6 +2397,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether this are the attributes of a symbolic link
+		 *
 		 * @return true if this are the attributes of a symbolic link
 		 */
 		public boolean isSymbolicLink() {
@@ -2362,6 +2406,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Whether this are the attributes of a regular file
+		 *
 		 * @return true if this are the attributes of a regular file
 		 */
 		public boolean isRegularFile() {
@@ -2369,6 +2415,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the file creation time
+		 *
 		 * @return the time when the file was created
 		 */
 		public long getCreationTime() {
@@ -2376,6 +2424,9 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the time when the file was last modified in milliseconds since
+		 * the epoch
+		 *
 		 * @return the time (milliseconds since 1970-01-01) when this object was
 		 *         last modified
 		 * @deprecated use getLastModifiedInstant instead
@@ -2386,6 +2437,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the time when this object was last modified
+		 *
 		 * @return the time when this object was last modified
 		 * @since 5.1.9
 		 */
@@ -2436,14 +2489,18 @@ public abstract class FS {
 		 * Constructor when there are issues with reading. All attributes except
 		 * given will be set to the default values.
 		 *
-		 * @param fs
 		 * @param path
+		 *            file path
+		 * @param fs
+		 *            FS to use
 		 */
 		public Attributes(File path, FS fs) {
 			this(fs, path, false, false, false, false, false, 0L, EPOCH, 0L);
 		}
 
 		/**
+		 * Get the length of this file
+		 *
 		 * @return length of this file object
 		 */
 		public long getLength() {
@@ -2453,6 +2510,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the filename
+		 *
 		 * @return the filename
 		 */
 		public String getName() {
@@ -2460,6 +2519,8 @@ public abstract class FS {
 		}
 
 		/**
+		 * Get the file the attributes apply to
+		 *
 		 * @return the file the attributes apply to
 		 */
 		public File getFile() {

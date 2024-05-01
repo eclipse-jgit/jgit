@@ -57,6 +57,8 @@ public class RebaseTodoLine {
 		}
 
 		/**
+		 * Get full action token name
+		 *
 		 * @return full action token name
 		 */
 		public String toToken() {
@@ -69,7 +71,10 @@ public class RebaseTodoLine {
 		}
 
 		/**
+		 * Parse a token
+		 *
 		 * @param token
+		 *            token to parse
 		 * @return the Action
 		 */
 		public static Action parse(String token) {
@@ -245,7 +250,6 @@ public class RebaseTodoLine {
 		return comment;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

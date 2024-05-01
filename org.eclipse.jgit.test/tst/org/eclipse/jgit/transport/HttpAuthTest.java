@@ -160,7 +160,7 @@ public class HttpAuthTest {
 				String value = header.substring(i + 1).trim();
 
 				if (!headerFields.containsKey(key))
-					headerFields.put(key, new ArrayList<String>());
+					headerFields.put(key, new ArrayList<>());
 
 				List<String> values = headerFields.get(key);
 				values.add(value);

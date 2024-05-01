@@ -174,7 +174,6 @@ public class TrackingRefUpdate {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

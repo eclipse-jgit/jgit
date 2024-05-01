@@ -209,7 +209,8 @@ public class LockFileTest extends RepositoryTestCase {
 			lock.unlock();
 			lock.unlock();
 		} catch (Throwable e) {
-			fail("unlock should be noop if not locked at all.");
+			throw new AssertionError(
+					"unlock should be noop if not locked at all.", e);
 		}
 	}
 }

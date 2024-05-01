@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Google LLC. and others
+ * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -50,15 +50,16 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull List<String> wantedRefs,
 			@NonNull Set<ObjectId> wantIds,
 			@NonNull Set<ObjectId> clientShallowCommits, int deepenSince,
-			@NonNull List<String> deepenNotRefs, int depth,
+			@NonNull List<String> deepenNots, int depth,
 			@NonNull FilterSpec filterSpec,
 			boolean doneReceived, boolean waitForDone,
 			@NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions,
-			boolean sidebandAll, @NonNull List<String> packfileUriProtocols) {
+			boolean sidebandAll, @NonNull List<String> packfileUriProtocols,
+			@Nullable String clientSID) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
 				clientCapabilities, deepenSince,
-				deepenNotRefs, agent);
+				deepenNots, agent, clientSID);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
@@ -69,6 +70,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Get object ids received in the "have" lines
+	 *
 	 * @return object ids received in the "have" lines
 	 */
 	@NonNull
@@ -77,6 +80,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Get list of references received in "want-ref" lines
+	 *
 	 * @return list of references received in "want-ref" lines
 	 *
 	 * @since 5.4
@@ -87,6 +92,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Whether the request had a "done" line
+	 *
 	 * @return true if the request had a "done" line
 	 */
 	boolean wasDoneReceived() {
@@ -94,6 +101,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Whether the request had a "wait-for-done" line
+	 *
 	 * @return true if the request had a "wait-for-done" line
 	 */
 	boolean wasWaitForDoneReceived() {
@@ -101,7 +110,7 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
-	 * Options received in server-option lines. The caller can choose to	 act on
+	 * Options received in server-option lines. The caller can choose to act on
 	 * these in an application-specific way
 	 *
 	 * @return Immutable list of server options received in the request
@@ -114,6 +123,8 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Whether "sideband-all" was received
+	 *
 	 * @return true if "sideband-all" was received
 	 */
 	boolean getSidebandAll() {
@@ -125,7 +136,11 @@ public final class FetchV2Request extends FetchRequest {
 		return packfileUriProtocols;
 	}
 
-	/** @return A builder of {@link FetchV2Request}. */
+	/**
+	 * Get builder
+	 *
+	 * @return A builder of {@link FetchV2Request}.
+	 */
 	static Builder builder() {
 		return new Builder();
 	}
@@ -140,7 +155,7 @@ public final class FetchV2Request extends FetchRequest {
 
 		final Set<ObjectId> clientShallowCommits = new HashSet<>();
 
-		final List<String> deepenNotRefs = new ArrayList<>();
+		final List<String> deepenNots = new ArrayList<>();
 
 		final Set<String> clientCapabilities = new HashSet<>();
 
@@ -157,6 +172,9 @@ public final class FetchV2Request extends FetchRequest {
 		@Nullable
 		String agent;
 
+		@Nullable
+		String clientSID;
+
 		final List<String> serverOptions = new ArrayList<>();
 
 		boolean sidebandAll;
@@ -167,6 +185,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add object the peer has
+		 *
 		 * @param objectId
 		 *            object id received in a "have" line
 		 * @return this builder
@@ -177,7 +197,7 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * Ref received in "want-ref" line and the object-id it refers to
+		 * Add Ref received in "want-ref" line and the object-id it refers to
 		 *
 		 * @param refName
 		 *            reference name
@@ -189,6 +209,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add client capability
+		 *
 		 * @param clientCapability
 		 *            capability line sent by the client
 		 * @return this builder
@@ -199,6 +221,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add object received in "want" line
+		 *
 		 * @param wantId
 		 *            object id received in a "want" line
 		 * @return this builder
@@ -209,6 +233,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Add Object received in a "shallow" line
+		 *
 		 * @param shallowOid
 		 *            object id received in a "shallow" line
 		 * @return this builder
@@ -219,6 +245,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set depth received in "deepen" line
+		 *
 		 * @param d
 		 *            Depth received in a "deepen" line
 		 * @return this builder
@@ -229,6 +257,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Get depth set in request
+		 *
 		 * @return depth set in the request (via a "deepen" line). Defaulting to
 		 *         0 if not set.
 		 */
@@ -237,24 +267,30 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Whether there has been at least one ""deepen not" line
+		 *
 		 * @return true if there has been at least one "deepen not" line in the
 		 *         request so far
 		 */
-		boolean hasDeepenNotRefs() {
-			return !deepenNotRefs.isEmpty();
+		boolean hasDeepenNots() {
+			return !deepenNots.isEmpty();
 		}
 
 		/**
-		 * @param deepenNotRef
+		 * Add reference received in a "deepen not" line
+		 *
+		 * @param deepenNot
 		 *            reference received in a "deepen not" line
 		 * @return this builder
 		 */
-		Builder addDeepenNotRef(String deepenNotRef) {
-			deepenNotRefs.add(deepenNotRef);
+		Builder addDeepenNot(String deepenNot) {
+			deepenNots.add(deepenNot);
 			return this;
 		}
 
 		/**
+		 * Set Unix timestamp received in a "deepen since" line
+		 *
 		 * @param value
 		 *            Unix timestamp received in a "deepen since" line
 		 * @return this builder
@@ -265,6 +301,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Get shallow since value
+		 *
 		 * @return shallow since value, sent before in a "deepen since" line. 0
 		 *         by default.
 		 */
@@ -273,6 +311,8 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set filter spec
+		 *
 		 * @param filter
 		 *            spec set in a "filter" line
 		 * @return this builder
@@ -317,6 +357,19 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Set value of client-supplied session capability
+		 *
+		 * @param clientSIDValue
+		 *            the client-supplied session capability, without the
+		 *            leading "session-id="
+		 * @return this builder
+		 */
+		Builder setClientSID(@Nullable String clientSIDValue) {
+			clientSID = clientSIDValue;
+			return this;
+		}
+
+		/**
 		 * Records an application-specific option supplied in a server-option
 		 * line, for later retrieval with
 		 * {@link FetchV2Request#getServerOptions}.
@@ -332,7 +385,10 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
-		 * @param value true if client sent "sideband-all"
+		 * Set whether client sent "sideband-all
+		 *
+		 * @param value
+		 *            true if client sent "sideband-all"
 		 * @return this builder
 		 */
 		Builder setSidebandAll(boolean value) {
@@ -346,15 +402,18 @@ public final class FetchV2Request extends FetchRequest {
 		}
 
 		/**
+		 * Build initialized fetch request
+		 *
 		 * @return Initialized fetch request
 		 */
 		FetchV2Request build() {
 			return new FetchV2Request(peerHas, wantedRefs, wantIds,
-					clientShallowCommits, deepenSince, deepenNotRefs,
+					clientShallowCommits, deepenSince, deepenNots,
 					depth, filterSpec, doneReceived, waitForDone, clientCapabilities,
 					agent, Collections.unmodifiableList(serverOptions),
 					sidebandAll,
-					Collections.unmodifiableList(packfileUriProtocols));
+					Collections.unmodifiableList(packfileUriProtocols),
+					clientSID);
 		}
 	}
 }

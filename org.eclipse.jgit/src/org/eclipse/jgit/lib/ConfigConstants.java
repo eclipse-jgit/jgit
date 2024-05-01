@@ -60,7 +60,8 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_PROMPT = "prompt";
 
 	/**
-	 * The "trustExitCode" key within "difftool" or "mergetool.<name>." section
+	 * The "trustExitCode" key within "difftool" or "mergetool.&lt;name&gt;."
+	 * section
 	 *
 	 * @since 6.1
 	 */
@@ -103,11 +104,18 @@ public final class ConfigConstants {
 	/** The "gc" section */
 	public static final String CONFIG_GC_SECTION = "gc";
 
+	/**
+	 * The "repack" section
+	 * @since 5.13.3
+	 */
+	public static final String CONFIG_REPACK_SECTION = "repack";
+
 	/** The "pack" section */
 	public static final String CONFIG_PACK_SECTION = "pack";
 
 	/**
 	 * The "fetch" section
+	 *
 	 * @since 3.3
 	 */
 	public static final String CONFIG_FETCH_SECTION = "fetch";
@@ -329,8 +337,18 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_SYMLINKS = "symlinks";
 
-	/** The "streamFileThreshold" key */
-	public static final String CONFIG_KEY_STREAM_FILE_TRESHOLD = "streamFileThreshold";
+	/**
+	 * The "streamFileThreshold" key
+	 *
+	 * @since 6.8
+	 */
+	public static final String CONFIG_KEY_STREAM_FILE_THRESHOLD = "streamFileThreshold";
+
+	/**
+	 * @deprecated typo, use CONFIG_KEY_STREAM_FILE_THRESHOLD instead
+	 */
+	@Deprecated(since = "6.8")
+	public static final String CONFIG_KEY_STREAM_FILE_TRESHOLD = CONFIG_KEY_STREAM_FILE_THRESHOLD;
 
 	/**
 	 * The "packedGitMmap" key
@@ -361,6 +379,12 @@ public final class ConfigConstants {
 	 * @since 5.1.13
 	 */
 	public static final String CONFIG_KEY_PACKED_GIT_USE_STRONGREFS = "packedgitusestrongrefs";
+
+	/**
+	 * The "packedIndexGitUseStrongRefs" key
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS = "packedindexgitusestrongrefs";
 
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
@@ -447,6 +471,12 @@ public final class ConfigConstants {
 
 	/** The "indexversion" key */
 	public static final String CONFIG_KEY_INDEXVERSION = "indexversion";
+
+	/**
+	 * The "skiphash" key
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_SKIPHASH = "skiphash";
 
 	/**
 	 * The "hidedotfiles" key
@@ -536,6 +566,13 @@ public final class ConfigConstants {
 	 * @since 4.5
 	 */
 	public static final String CONFIG_KEY_SUPPORTSATOMICFILECREATION = "supportsatomicfilecreation";
+
+	/**
+	 * The "sha1Implementation" key in the "core" section
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String SHA1_IMPLEMENTATION = "sha1implementation";
 
 	/**
 	 * The "noprefix" key in the "diff" section
@@ -714,6 +751,19 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_COUNT = "bitmapexcessivebranchcount";
 
 	/**
+	 * The "pack.bitmapExcessiveBranchTipCount" key
+	 *
+	 * @since 6.9
+	 */
+	public static final String CONFIG_KEY_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT = "bitmapexcessivebranchtipcount";
+
+	/**
+	 * The "pack.bitmapExcludedRefsPrefixes" key
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES = "bitmapexcludedrefsprefixes";
+
+	/**
 	 * The "pack.bitmapInactiveBranchAgeInDays" key
 	 * @since 5.8
 	 */
@@ -724,6 +774,13 @@ public final class ConfigConstants {
 	 * @since 5.8
 	 */
 	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitspan";
+
+	/**
+	 * The "pack.writeReverseIndex" key
+	 *
+	 * @since 6.6
+	 */
+	public static final String CONFIG_KEY_WRITE_REVERSE_INDEX = "writeReverseIndex";
 
 	/**
 	 * The "pack.buildBitmaps" key
@@ -810,6 +867,20 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_WINDOW_MEMORY = "windowmemory";
 
 	/**
+	 * the "pack.minBytesForObjSizeIndex" key
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX = "minBytesForObjSizeIndex";
+
+	/**
+	 * The "repack.packKeptObjects" key
+	 *
+	 * @since 5.13.3
+	 */
+	public static final String CONFIG_KEY_PACK_KEPT_OBJECTS = "packkeptobjects";
+
+	/**
 	 * The "feature" section
 	 *
 	 * @since 5.9
@@ -879,4 +950,66 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_ABBREV = "abbrev";
 
+	/**
+	 * The "writeCommitGraph" key
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_KEY_WRITE_COMMIT_GRAPH = "writeCommitGraph";
+
+	/**
+	 * The "commitGraph" used by commit-graph feature
+	 *
+	 * @since 6.5
+	 */
+	public static final String CONFIG_COMMIT_GRAPH = "commitGraph";
+
+	/**
+	 * The "trustPackedRefsStat" key
+	 *
+	 * @since 6.1.1
+	 */
+	public static final String CONFIG_KEY_TRUST_PACKED_REFS_STAT = "trustPackedRefsStat";
+
+	/**
+	 * The "trustLooseRefStat" key
+	 *
+	 * @since 6.9
+	 */
+	public static final String CONFIG_KEY_TRUST_LOOSE_REF_STAT = "trustLooseRefStat";
+
+	/**
+	 * The "pack.preserveOldPacks" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRESERVE_OLD_PACKS = "preserveoldpacks";
+
+	/**
+	 * The "pack.prunePreserved" key
+	 *
+	 * @since 5.13.2
+	 */
+	public static final String CONFIG_KEY_PRUNE_PRESERVED = "prunepreserved";
+
+	/**
+	 * The "commitGraph" section
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_COMMIT_GRAPH_SECTION = "commitGraph";
+
+	/**
+	 * The "writeChangedPaths" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_WRITE_CHANGED_PATHS = "writeChangedPaths";
+
+	/**
+	 * The "readChangedPaths" key
+	 *
+	 * @since 6.7
+	 */
+	public static final String CONFIG_KEY_READ_CHANGED_PATHS = "readChangedPaths";
 }

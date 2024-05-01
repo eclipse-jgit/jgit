@@ -68,7 +68,6 @@ class Config extends TextBuiltin {
 	@Option(name = "--file", aliases = { "-f" }, metaVar = "metaVar_file", usage = "usage_configFile")
 	private File configFile;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		if (!list) {

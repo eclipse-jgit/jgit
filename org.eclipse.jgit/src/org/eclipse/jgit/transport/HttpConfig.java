@@ -101,7 +101,7 @@ public class HttpConfig {
 
 	private static final int DEFAULT_MAX_REDIRECTS = 5;
 
-	private static final int MAX_REDIRECTS = (new Supplier<Integer>() {
+	private static final int MAX_REDIRECTS = new Supplier<Integer>() {
 
 		@Override
 		public Integer get() {
@@ -119,7 +119,7 @@ public class HttpConfig {
 			}
 			return value;
 		}
-	}).get().intValue();
+	}.get().intValue();
 
 	private static final String ENV_HTTP_USER_AGENT = "GIT_HTTP_USER_AGENT"; //$NON-NLS-1$
 

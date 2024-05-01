@@ -92,7 +92,6 @@ public class JschConfigSessionFactory extends SshSessionFactory {
 
 	private OpenSshConfig config;
 
-	/** {@inheritDoc} */
 	@Override
 	public synchronized RemoteSession getSession(URIish uri,
 			CredentialsProvider credentialsProvider, FS fs, int tms)
@@ -189,14 +188,22 @@ public class JschConfigSessionFactory extends SshSessionFactory {
 	 * Use for tests only
 	 *
 	 * @param credentialsProvider
+	 *            credentials provide
 	 * @param fs
+	 *            FS object to use
 	 * @param user
+	 *            user
 	 * @param pass
+	 *            password
 	 * @param host
+	 *            host name
 	 * @param port
+	 *            port number
 	 * @param hc
-	 * @return session
+	 *            host config
+	 * @return session the session
 	 * @throws JSchException
+	 *             jsch failed
 	 */
 	public Session createSession(CredentialsProvider credentialsProvider,
 			FS fs, String user, final String pass, String host, int port,

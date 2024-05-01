@@ -35,7 +35,6 @@ class TextFileServlet extends HttpServlet {
 		this.fileName = name;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doGet(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {

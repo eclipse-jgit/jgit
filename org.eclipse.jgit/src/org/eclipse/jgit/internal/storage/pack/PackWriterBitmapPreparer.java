@@ -28,16 +28,16 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.revwalk.AddUnseenToBitmapFilter;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
-import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexRemapper;
+import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -77,6 +77,7 @@ class PackWriterBitmapPreparer {
 	private final int recentCommitSpan;
 	private final int distantCommitSpan;
 	private final int excessiveBranchCount;
+	private final int excessiveBranchTipCount;
 	private final long inactiveBranchTimestamp;
 
 	PackWriterBitmapPreparer(ObjectReader reader,
@@ -96,8 +97,10 @@ class PackWriterBitmapPreparer {
 		this.recentCommitSpan = config.getBitmapRecentCommitSpan();
 		this.distantCommitSpan = config.getBitmapDistantCommitSpan();
 		this.excessiveBranchCount = config.getBitmapExcessiveBranchCount();
+		this.excessiveBranchTipCount = Math.max(excessiveBranchCount,
+				config.getBitmapExcessiveBranchTipCount());
 		long now = SystemReader.getInstance().getCurrentTime();
-		long ageInSeconds = config.getBitmapInactiveBranchAgeInDays()
+		long ageInSeconds = (long) config.getBitmapInactiveBranchAgeInDays()
 				* DAY_IN_SECONDS;
 		this.inactiveBranchTimestamp = (now / 1000) - ageInSeconds;
 	}
@@ -163,11 +166,17 @@ class PackWriterBitmapPreparer {
 			rw2.setRetainBody(false);
 			rw2.setRevFilter(new NotInBitmapFilter(seen));
 
+			int newWantsCount = selectionHelper.newWantsByNewest.size();
+			int maxBranches = Math.min(excessiveBranchTipCount, newWantsCount);
+			Set<RevCommit> excessiveBranches = new HashSet<>(
+					selectionHelper.newWantsByNewest.subList(maxBranches,
+							newWantsCount));
 			// For each branch, do a revwalk to enumerate its commits. Exclude
 			// both reused commits and any commits seen in a previous branch.
 			// Then iterate through all new commits from oldest to newest,
 			// selecting well-spaced commits in this branch.
-			for (RevCommit rc : selectionHelper.newWantsByNewest) {
+			for (RevCommit rc : selectionHelper.newWantsByNewest.subList(0,
+					maxBranches)) {
 				BitmapBuilder tipBitmap = commitBitmapIndex.newBitmapBuilder();
 				rw2.markStart((RevCommit) rw2.peel(rw2.parseAny(rc)));
 				RevCommit rc2;
@@ -223,7 +232,7 @@ class PackWriterBitmapPreparer {
 					pm.update(1);
 
 					// Always pick the items in wants, prefer merge commits.
-					if (selectionHelper.newWants.remove(c)) {
+					if (!excessiveBranches.contains(c) && selectionHelper.newWants.remove(c)) {
 						if (nextIn > 0) {
 							nextFlg = 0;
 						}
@@ -408,6 +417,9 @@ class PackWriterBitmapPreparer {
 		List<RevCommit> newWantsByNewest = new ArrayList<>(want.size());
 		Set<RevCommit> newWants = new HashSet<>(want.size());
 		for (AnyObjectId objectId : want) {
+			if(excludeFromBitmapSelection.contains(objectId)) {
+				continue;
+			}
 			RevObject ro = rw.peel(rw.parseAny(objectId));
 			if (!(ro instanceof RevCommit) || reuse.contains(ro)
 					|| excludeFromBitmapSelection.contains(ro)) {

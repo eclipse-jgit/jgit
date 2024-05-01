@@ -45,7 +45,6 @@ public abstract class DfsRepository extends Repository {
 		this.description = builder.getRepositoryDescription();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract DfsObjDatabase getObjectDatabase();
 
@@ -72,7 +71,6 @@ public abstract class DfsRepository extends Repository {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void create(boolean bare) throws IOException {
 		if (exists())
@@ -85,39 +83,33 @@ public abstract class DfsRepository extends Repository {
 			throw new IOException(result.name());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public StoredConfig getConfig() {
 		return config;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getIdentifier() {
 		return getDescription().getRepositoryName();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void scanForRepoChanges() throws IOException {
 		getRefDatabase().refresh();
 		getObjectDatabase().clearCache();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void notifyIndexChanged(boolean internal) {
 		// Do not send notifications.
 		// There is no index, as there is no working tree.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ReflogReader getReflogReader(String refName) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public AttributesNodeProvider createAttributesNodeProvider() {
 		// TODO Check if the implementation used in FileRepository can be used

@@ -1,4 +1,4 @@
-Bundle-Localization: plugin
+Bundle-Localization: OSGI-INF/l10n/plugin
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name

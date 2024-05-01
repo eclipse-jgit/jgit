@@ -58,7 +58,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * @since 2.0
  */
 public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
-	/** {@inheritDoc} */
 	@Override
 	public void advertiseRefs(UploadPack uploadPack)
 			throws ServiceMayNotContinueException {
@@ -67,7 +66,6 @@ public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
 	}
 
 	/**
-	 * {@inheritDoc}
 	 */
 	@Override
 	public void advertiseRefs(ReceivePack receivePack)

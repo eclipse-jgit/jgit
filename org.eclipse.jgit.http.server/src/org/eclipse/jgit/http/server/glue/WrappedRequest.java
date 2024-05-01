@@ -38,20 +38,17 @@ public class WrappedRequest extends HttpServletRequestWrapper {
 		this.pathInfo = pathInfo;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getPathTranslated() {
 		final String p = getPathInfo();
 		return p != null ? getSession().getServletContext().getRealPath(p) : null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getPathInfo() {
 		return pathInfo;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getServletPath() {
 		return path;

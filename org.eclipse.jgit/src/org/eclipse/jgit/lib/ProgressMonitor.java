@@ -65,4 +65,13 @@ public interface ProgressMonitor {
 	 * @return true if the user asked the process to stop working.
 	 */
 	boolean isCancelled();
+
+	/**
+	 * Set whether the monitor should show elapsed time per task
+	 *
+	 * @param enabled
+	 *            whether to show elapsed time per task
+	 * @since 6.5
+	 */
+	void showDuration(boolean enabled);
 }

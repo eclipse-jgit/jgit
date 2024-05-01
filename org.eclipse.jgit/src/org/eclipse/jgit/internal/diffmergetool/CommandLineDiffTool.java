@@ -205,6 +205,8 @@ public enum CommandLineDiffTool {
 	private final String parameters;
 
 	/**
+	 * Get path
+	 *
 	 * @return path
 	 */
 	public String getPath() {
@@ -212,6 +214,8 @@ public enum CommandLineDiffTool {
 	}
 
 	/**
+	 * Get parameters
+	 *
 	 * @return parameters as one string
 	 */
 	public String getParameters() {

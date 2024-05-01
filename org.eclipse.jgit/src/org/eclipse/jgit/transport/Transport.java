@@ -27,15 +27,14 @@ import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -75,6 +74,7 @@ public abstract class Transport implements AutoCloseable {
 		PUSH;
 	}
 
+	// Use weak references to enable unloading dynamically loaded protocols
 	private static final List<WeakReference<TransportProtocol>> protocols =
 		new CopyOnWriteArrayList<>();
 
@@ -107,7 +107,7 @@ public abstract class Transport implements AutoCloseable {
 			String name = prefix + Transport.class.getName();
 			return ldr.getResources(name);
 		} catch (IOException err) {
-			return new Vector<URL>().elements();
+			return Collections.emptyEnumeration();
 		}
 	}
 
@@ -190,11 +190,13 @@ public abstract class Transport implements AutoCloseable {
 	 * @param proto
 	 *            the exact object previously given to register.
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static void unregister(TransportProtocol proto) {
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol refProto = ref.get();
-			if (refProto == null || refProto == proto)
+			if (refProto == null || refProto == proto) {
 				protocols.remove(ref);
+			}
 		}
 	}
 
@@ -203,15 +205,17 @@ public abstract class Transport implements AutoCloseable {
 	 *
 	 * @return an immutable copy of the currently registered protocols.
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static List<TransportProtocol> getTransportProtocols() {
 		int cnt = protocols.size();
 		List<TransportProtocol> res = new ArrayList<>(cnt);
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
-			if (proto != null)
+			if (proto != null) {
 				res.add(proto);
-			else
+			} else {
 				protocols.remove(ref);
+			}
 		}
 		return Collections.unmodifiableList(res);
 	}
@@ -507,6 +511,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @throws org.eclipse.jgit.errors.TransportException
 	 *             the transport cannot open this URI.
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static Transport open(Repository local, URIish uri, String remoteName)
 			throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {
@@ -518,9 +523,7 @@ public abstract class Transport implements AutoCloseable {
 
 			if (proto.canHandle(uri, local, remoteName)) {
 				Transport tn = proto.open(uri, local, remoteName);
-				tn.prePush = Hooks.prePush(local, tn.hookOutRedirect);
-				tn.prePush.setRemoteLocation(uri.toString());
-				tn.prePush.setRemoteName(remoteName);
+				tn.remoteName = remoteName;
 				return tn;
 			}
 		}
@@ -534,11 +537,15 @@ public abstract class Transport implements AutoCloseable {
 	 * Note that the resulting transport instance can not be used for fetching
 	 * or pushing, but only for reading remote refs.
 	 *
-	 * @param uri a {@link org.eclipse.jgit.transport.URIish} object.
+	 * @param uri
+	 *            a {@link org.eclipse.jgit.transport.URIish} object.
 	 * @return new Transport instance
 	 * @throws org.eclipse.jgit.errors.NotSupportedException
+	 *             case that is not supported by JGit
 	 * @throws org.eclipse.jgit.errors.TransportException
+	 *             if transport failed
 	 */
+	@SuppressWarnings("ModifyCollectionInEnhancedForLoop")
 	public static Transport open(URIish uri) throws NotSupportedException, TransportException {
 		for (WeakReference<TransportProtocol> ref : protocols) {
 			TransportProtocol proto = ref.get();
@@ -547,8 +554,9 @@ public abstract class Transport implements AutoCloseable {
 				continue;
 			}
 
-			if (proto.canHandle(uri, null, null))
+			if (proto.canHandle(uri, null, null)) {
 				return proto.open(uri);
+			}
 		}
 
 		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
@@ -585,7 +593,7 @@ public abstract class Transport implements AutoCloseable {
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		if (fetchSpecs == null)
 			fetchSpecs = Collections.emptyList();
-		final List<RemoteRefUpdate> result = new LinkedList<>();
+		final List<RemoteRefUpdate> result = new ArrayList<>();
 		final Collection<RefSpec> procRefs = expandPushWildcardsFor(db, specs);
 
 		for (RefSpec spec : procRefs) {
@@ -706,6 +714,13 @@ public abstract class Transport implements AutoCloseable {
 	public static final boolean DEFAULT_PUSH_THIN = false;
 
 	/**
+	 * Default setting for {@link #pushUseBitmaps} option.
+	 *
+	 * @since 6.4
+	 */
+	public static final boolean DEFAULT_PUSH_USE_BITMAPS = true;
+
+	/**
 	 * Specification for fetch or push operations, to fetch or push all tags.
 	 * Acts as --tags.
 	 */
@@ -757,6 +772,9 @@ public abstract class Transport implements AutoCloseable {
 	/** Should push be all-or-nothing atomic behavior? */
 	private boolean pushAtomic;
 
+	/** Should push use bitmaps? */
+	private boolean pushUseBitmaps = DEFAULT_PUSH_USE_BITMAPS;
+
 	/** Should push just check for operation result, not really push. */
 	private boolean dryRun;
 
@@ -782,7 +800,15 @@ public abstract class Transport implements AutoCloseable {
 
 	private PrintStream hookOutRedirect;
 
-	private PrePushHook prePush;
+	private PrintStream hookErrRedirect;
+
+	private String remoteName;
+
+	private Integer depth;
+
+	private Instant deepenSince;
+
+	private List<String> deepenNots = new ArrayList<>();
 
 	@Nullable
 	TransferConfig.ProtocolVersion protocol;
@@ -805,7 +831,6 @@ public abstract class Transport implements AutoCloseable {
 		this.protocol = tc.protocolVersion;
 		this.objectChecker = tc.newObjectChecker();
 		this.credentialsProvider = CredentialsProvider.getDefault();
-		prePush = Hooks.prePush(local, hookOutRedirect);
 	}
 
 	/**
@@ -852,6 +877,32 @@ public abstract class Transport implements AutoCloseable {
 			optionUploadPack = where;
 		else
 			optionUploadPack = RemoteConfig.DEFAULT_UPLOAD_PACK;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a {@link PrePushHook} may write its stdout to.
+	 * If not set, {@link System#out} will be used.
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#out} will be used
+	 * @since 6.4
+	 */
+	public void setHookOutputStream(PrintStream redirect) {
+		hookOutRedirect = redirect;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a {@link PrePushHook} may write its stderr to.
+	 * If not set, {@link System#err} will be used.
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#err} will be used
+	 * @since 6.4
+	 */
+	public void setHookErrorStream(PrintStream redirect) {
+		hookErrRedirect = redirect;
 	}
 
 	/**
@@ -1021,6 +1072,28 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
+	 * Default setting is: {@value #DEFAULT_PUSH_USE_BITMAPS}
+	 *
+	 * @return true if push use bitmaps.
+	 * @since 6.4
+	 */
+	public boolean isPushUseBitmaps() {
+		return pushUseBitmaps;
+	}
+
+	/**
+	 * Set whether to use bitmaps for push. Default setting is:
+	 * {@value #DEFAULT_PUSH_USE_BITMAPS}
+	 *
+	 * @param useBitmaps
+	 *            false to disable use of bitmaps for push, true otherwise.
+	 * @since 6.4
+	 */
+	public void setPushUseBitmaps(boolean useBitmaps) {
+		this.pushUseBitmaps = useBitmaps;
+	}
+
+	/**
 	 * Whether destination refs should be removed if they no longer exist at the
 	 * source repository.
 	 *
@@ -1070,6 +1143,8 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
+	 * Get filter spec
+	 *
 	 * @return the last filter spec set with {@link #setFilterSpec(FilterSpec)},
 	 *         or {@link FilterSpec#NO_FILTER} if it was never invoked.
 	 * @since 5.4
@@ -1079,11 +1154,95 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @param filter a new filter to use for this transport
+	 * Set filter spec
+	 *
+	 * @param filter
+	 *            a new filter to use for this transport
 	 * @since 5.4
 	 */
 	public final void setFilterSpec(@NonNull FilterSpec filter) {
 		filterSpec = requireNonNull(filter);
+	}
+
+
+	/**
+	 * Retrieves the depth for a shallow clone.
+	 *
+	 * @return the depth, or {@code null} if none set
+	 * @since 6.3
+	 */
+	public final Integer getDepth() {
+		return depth;
+	}
+
+	/**
+	 * Limits fetching to the specified number of commits from the tip of each
+	 * remote branch history.
+	 *
+	 * @param depth
+	 *            the depth
+	 * @since 6.3
+	 */
+	public final void setDepth(int depth) {
+		if (depth < 1) {
+			throw new IllegalArgumentException(JGitText.get().depthMustBeAt1);
+		}
+		this.depth = Integer.valueOf(depth);
+	}
+
+	/**
+	 * Limits fetching to the specified number of commits from the tip of each
+	 * remote branch history.
+	 *
+	 * @param depth
+	 *            the depth, or {@code null} to unset the depth
+	 * @since 6.3
+	 */
+	public final void setDepth(Integer depth) {
+		if (depth != null && depth.intValue() < 1) {
+			throw new IllegalArgumentException(JGitText.get().depthMustBeAt1);
+		}
+		this.depth = depth;
+	}
+
+	/**
+	 * Get deepen-since
+	 *
+	 * @return the deepen-since for a shallow clone
+	 * @since 6.3
+	 */
+	public final Instant getDeepenSince() {
+		return deepenSince;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to include all reachable commits after a specified time.
+	 *
+	 * @param deepenSince the deepen-since. Must not be {@code null}
+	 * @since 6.3
+	 */
+	public final void setDeepenSince(@NonNull Instant deepenSince) {
+		this.deepenSince = deepenSince;
+	}
+
+	/**
+	 * Get list of deepen-not
+	 *
+	 * @return the list of deepen-not for a shallow clone
+	 * @since 6.3
+	 */
+	public final List<String> getDeepenNots() {
+		return deepenNots;
+	}
+
+	/**
+	 * Deepen or shorten the history of a shallow repository to exclude commits reachable from a specified remote branch or tag.
+	 *
+	 * @param deepenNots the deepen-not. Must not be {@code null}
+	 * @since 6.3
+	 */
+	public final void setDeepenNots(@NonNull List<String> deepenNots) {
+		this.deepenNots = deepenNots;
 	}
 
 	/**
@@ -1230,7 +1389,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. May contains regular and negative 
+	 *            RemoteConfig. May contains regular and negative
 	 *            {@link RefSpec}s. Source for each regular RefSpec can't
 	 *            be null.
 	 * @return information describing the tracking refs updated.
@@ -1266,7 +1425,7 @@ public abstract class Transport implements AutoCloseable {
 	 * @param toFetch
 	 *            specification of refs to fetch locally. May be null or the
 	 *            empty collection to use the specifications from the
-	 *            RemoteConfig. May contains regular and negative 
+	 *            RemoteConfig. May contain regular and negative
 	 *            {@link RefSpec}s. Source for each regular RefSpec can't
 	 *            be null.
 	 * @param branch
@@ -1384,8 +1543,15 @@ public abstract class Transport implements AutoCloseable {
 				throw new TransportException(JGitText.get().nothingToPush);
 		}
 
-		final PushProcess pushProcess = new PushProcess(this, toPush, prePush,
-				out);
+		PrePushHook prePush = null;
+		if (local != null) {
+			// Pushing will always have a local repository. But better safe than
+			// sorry.
+			prePush = Hooks.prePush(local, hookOutRedirect, hookErrRedirect);
+			prePush.setRemoteLocation(uri.toString());
+			prePush.setRemoteName(remoteName);
+		}
+		PushProcess pushProcess = new PushProcess(this, toPush, prePush, out);
 		return pushProcess.execute(monitor);
 	}
 

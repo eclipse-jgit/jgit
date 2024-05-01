@@ -861,4 +861,37 @@ public class ApacheSshTest extends SshTestBase {
 		verifyAuthLog(e.getMessage(), "log in");
 	}
 
+	@Test
+	public void testCipherModificationSingle() throws Exception {
+		cloneWith(
+				"ssh://" + TEST_USER + "@localhost:" + testPort
+						+ "/doesntmatter",
+				defaultCloneDir, null,
+				"IdentityFile " + privateKey1.getAbsolutePath(),
+				"Ciphers aes192-ctr");
+	}
+
+	@Test
+	public void testCipherModificationAdd() throws Exception {
+		cloneWith(
+				"ssh://" + TEST_USER + "@localhost:" + testPort
+						+ "/doesntmatter",
+				defaultCloneDir, null,
+				"IdentityFile " + privateKey1.getAbsolutePath(),
+				"Ciphers +3des-cbc");
+	}
+
+	@Test
+	public void testCipherModificationUnknown() throws Exception {
+		TransportException e = assertThrows(TransportException.class,
+				() -> cloneWith(
+						"ssh://" + TEST_USER + "@localhost:" + testPort
+								+ "/doesntmatter",
+						defaultCloneDir, null,
+						"IdentityFile " + privateKey1.getAbsolutePath(),
+						// The server is not configured to use this deprecated
+						// algorithm
+						"Ciphers 3des-cbc"));
+		assertTrue(e.getLocalizedMessage().contains("3des-cbc"));
+	}
 }

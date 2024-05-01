@@ -28,7 +28,6 @@ class ConvertRefStorage extends TextBuiltin {
 			"-r" }, usage = "usage_convertRefStorageRefLogs")
 	private boolean writeLogs = true;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		((FileRepository) db).convertRefStorage(format, writeLogs, backup);

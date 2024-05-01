@@ -11,6 +11,7 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -21,7 +22,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -30,6 +33,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Sets;
@@ -140,6 +144,29 @@ public class PathFilterGroupTest {
 				.include(fakeWalk("tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java")));
 		assertFalse(longPathFilter.include(fakeWalk("tst/a-other-in-same")));
 		assertFalse(longPathFilter.include(fakeWalk("a-nothing-in-common")));
+	}
+
+	@Test
+	public void testGetPathsBestEffort() {
+		String[] paths = { "path1", "path2", "path3" };
+		Set<byte[]> expected = Arrays.stream(paths).map(Constants::encode)
+				.collect(Collectors.toSet());
+		TreeFilter pathFilterGroup = PathFilterGroup.createFromStrings(paths);
+		Optional<Set<byte[]>> bestEffortPaths = pathFilterGroup
+				.getPathsBestEffort();
+		assertTrue(bestEffortPaths.isPresent());
+		Set<byte[]> actual = bestEffortPaths.get();
+		assertEquals(expected.size(), actual.size());
+		for (byte[] actualPath : actual) {
+			boolean findMatch = false;
+			for (byte[] expectedPath : expected) {
+				if (Arrays.equals(actualPath, expectedPath)) {
+					findMatch = true;
+					break;
+				}
+			}
+			assertTrue(findMatch);
+		}
 	}
 
 	@Test

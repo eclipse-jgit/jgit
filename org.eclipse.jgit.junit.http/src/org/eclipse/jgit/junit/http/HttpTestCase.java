@@ -45,14 +45,12 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	/** In-memory application server; subclass must start. */
 	protected AppServer server;
 
-	/** {@inheritDoc} */
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		server = createServer();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void tearDown() throws Exception {
 		server.tearDown();
@@ -78,6 +76,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 *
 	 * @return the TestRepository
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected TestRepository<Repository> createTestRepository()
 			throws IOException {
@@ -90,8 +89,10 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Convert path to URIish
 	 *
 	 * @param path
+	 *            the path
 	 * @return the URIish
 	 * @throws URISyntaxException
+	 *             if URI is invalid
 	 */
 	protected URIish toURIish(String path) throws URISyntaxException {
 		URI u = server.getURI().resolve(path);
@@ -102,9 +103,12 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Convert a path relative to the app's context path to a URIish
 	 *
 	 * @param app
+	 *            app name
 	 * @param name
+	 *            context path name
 	 * @return the warnings (if any) from the last execution
 	 * @throws URISyntaxException
+	 *             if URI is invalid
 	 */
 	protected URIish toURIish(ServletContextHandler app, String name)
 			throws URISyntaxException {
@@ -128,7 +132,9 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Get requests.
 	 *
 	 * @param base
+	 *            base URI
 	 * @param path
+	 *            the request path relative to {@code base}
 	 *
 	 * @return list of events
 	 */
@@ -140,6 +146,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Get requests.
 	 *
 	 * @param path
+	 *            request path
 	 *
 	 * @return list of events
 	 */
@@ -151,8 +158,11 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Run fsck
 	 *
 	 * @param db
+	 *            the repository
 	 * @param tips
+	 *            tips to start checking from
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	protected static void fsck(Repository db, RevObject... tips)
 			throws Exception {
@@ -166,6 +176,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Mirror refs
 	 *
 	 * @param refs
+	 *            the refs
 	 * @return set of RefSpecs
 	 */
 	protected static Set<RefSpec> mirror(String... refs) {
@@ -183,9 +194,12 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Push a commit
 	 *
 	 * @param from
+	 *            repository from which to push
 	 * @param q
+	 *            commit to push
 	 * @return collection of RefUpdates
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	protected static Collection<RemoteRefUpdate> push(TestRepository from,
 			RevCommit q) throws IOException {
@@ -205,7 +219,9 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Create loose object path
 	 *
 	 * @param base
+	 *            base URI
 	 * @param id
+	 *            objectId
 	 * @return path of the loose object
 	 */
 	public static String loose(URIish base, AnyObjectId id) {
@@ -219,6 +235,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Join a base URIish and a path
 	 *
 	 * @param base
+	 *            base URI
 	 * @param path
 	 *            a relative path
 	 * @return the joined path
@@ -237,8 +254,11 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Rewrite a url
 	 *
 	 * @param url
+	 *            the URL
 	 * @param newProtocol
+	 *            new protocol
 	 * @param newPort
+	 *            new port
 	 * @return the rewritten url
 	 */
 	protected static String rewriteUrl(String url, String newProtocol,
@@ -263,9 +283,12 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * Extend a path
 	 *
 	 * @param uri
+	 *            the URI
 	 * @param pathComponents
+	 *            path components
 	 * @return the extended URIish
 	 * @throws URISyntaxException
+	 *             if URI is invalid
 	 */
 	protected static URIish extendPath(URIish uri, String pathComponents)
 			throws URISyntaxException {

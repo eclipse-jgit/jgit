@@ -77,7 +77,6 @@ public class GitCheckoutTask extends Task {
 		this.force = force;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		CheckoutCommand checkout;

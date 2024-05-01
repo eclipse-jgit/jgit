@@ -11,9 +11,9 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.text.MessageFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -41,8 +41,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private final EWAHCompressedBitmap tags;
 	private final BlockList<PositionEntry> byOffset;
 
-	private final LinkedList<StoredBitmap>
-			bitmapsToWriteXorBuffer = new LinkedList<>();
+	private final ArrayDeque<StoredBitmap> bitmapsToWriteXorBuffer = new ArrayDeque<>();
 
 	private List<StoredEntry> bitmapsToWrite = new ArrayList<>();
 
@@ -58,7 +57,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            ObjectId (name); it will be resorted in place.
 	 */
 	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
-		super(new ObjectIdOwnerMap<StoredBitmap>());
+		super(new ObjectIdOwnerMap<>());
 		byOffset = new BlockList<>(objects.size());
 		sortByOffsetAndIndex(byOffset, positionEntries, objects);
 
@@ -106,7 +105,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 				.signum(a.getOffset() - b.getOffset()));
 		for (int i = 0; i < entries.size(); i++) {
 			PositionEntry e = positionEntries.get(entries.get(i));
-			e.offsetPosition = i;
+			e.ridxPosition = i;
 			byOffset.add(e);
 		}
 	}
@@ -191,8 +190,8 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 			throw new IllegalStateException();
 		}
 		bestBitmap.trim();
-		StoredEntry result = new StoredEntry(entry.namePosition, bestBitmap,
-				bestXorOffset, bitmapToWrite.getFlags());
+		StoredEntry result = new StoredEntry(entry, entry.idxPosition,
+				bestBitmap, bestXorOffset, bitmapToWrite.getFlags());
 
 		return result;
 	}
@@ -214,7 +213,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		getBitmaps().add(result);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
@@ -231,16 +229,14 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		throw new IllegalArgumentException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		PositionEntry entry = positionEntries.get(objectId);
 		if (entry == null)
 			return -1;
-		return entry.offsetPosition;
+		return entry.ridxPosition;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		ObjectId objectId = byOffset.get(position);
@@ -294,7 +290,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		return PackBitmapIndexV1.OPT_FULL;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
@@ -311,7 +306,6 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		bitmapsToWrite = new ArrayList<>(size);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return byOffset.size();
@@ -328,54 +322,100 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
 		}
 
-		Collections.reverse(bitmapsToWrite);
-		return bitmapsToWrite;
+		List<StoredEntry> bitmapsToReturn = new ArrayList<>(bitmapsToWrite);
+		Collections.reverse(bitmapsToReturn);
+		return bitmapsToReturn;
 	}
 
 	/** Data object for the on disk representation of a bitmap entry. */
 	public static final class StoredEntry {
-		private final long objectId;
+		private final ObjectId objectId;
+
+		private final long idxPosition;
+
 		private final EWAHCompressedBitmap bitmap;
+
 		private final int xorOffset;
+
 		private final int flags;
 
-		StoredEntry(long objectId, EWAHCompressedBitmap bitmap,
-				int xorOffset, int flags) {
+		/**
+		 * Create a StoredEntry
+		 *
+		 * @param objectId
+		 *            objectId of the object associated with the bitmap
+		 * @param idxPosition
+		 *            position of this object into the pack index (i.e. sorted
+		 *            by sha1)
+		 * @param bitmap
+		 *            bitmap associated with this object
+		 * @param xorOffset
+		 *            offset of the bitmap against which this bitmap is
+		 *            xor-compressed. If 0, then this bitmap is not
+		 *            xor-compressed against any other bitmap
+		 * @param flags
+		 *            flags for this bitmap
+		 */
+		public StoredEntry(ObjectId objectId, long idxPosition,
+				EWAHCompressedBitmap bitmap, int xorOffset, int flags) {
 			this.objectId = objectId;
+			this.idxPosition = idxPosition;
 			this.bitmap = bitmap;
 			this.xorOffset = xorOffset;
 			this.flags = flags;
 		}
 
-		/** @return the bitmap */
+		/**
+		 * Get the bitmap
+		 *
+		 * @return the bitmap
+		 */
 		public EWAHCompressedBitmap getBitmap() {
 			return bitmap;
 		}
 
-		/** @return the xorOffset */
+		/**
+		 * Get the xorOffset
+		 *
+		 * @return the xorOffset
+		 */
 		public int getXorOffset() {
 			return xorOffset;
 		}
 
-		/** @return the flags */
+		/**
+		 * Get the flags
+		 *
+		 * @return the flags
+		 */
 		public int getFlags() {
 			return flags;
 		}
 
-		/** @return the ObjectId */
-		public long getObjectId() {
+		/**
+		 * @return the position of the object with this bitmap in the primary
+		 *         index (i.e. ordered by sha1)
+		 */
+		public long getIdxPosition() {
+			return idxPosition;
+		}
+
+		/**
+		 * @return the objectId of the object associated with this bitmap
+		 */
+		public ObjectId getObjectId() {
 			return objectId;
 		}
 	}
 
 	private static final class PositionEntry extends ObjectIdOwnerMap.Entry {
-		final int namePosition;
+		final int idxPosition;
 
-		int offsetPosition;
+		int ridxPosition;
 
-		PositionEntry(AnyObjectId objectId, int namePosition) {
+		PositionEntry(AnyObjectId objectId, int idxPosition) {
 			super(objectId);
-			this.namePosition = namePosition;
+			this.idxPosition = idxPosition;
 		}
 	}
 }

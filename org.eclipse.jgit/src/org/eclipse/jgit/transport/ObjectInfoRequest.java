@@ -34,12 +34,20 @@ public final class ObjectInfoRequest {
 		this.objectIDs = objectIDs;
 	}
 
-	/** @return object IDs that the client requested. */
+	/**
+	 * Get object ids requested by the client
+	 *
+	 * @return object IDs that the client requested.
+	 */
 	public List<ObjectId> getObjectIDs() {
 		return this.objectIDs;
 	}
 
-	/** @return A builder of {@link ObjectInfoRequest}. */
+	/**
+	 * Create builder
+	 *
+	 * @return A builder of {@link ObjectInfoRequest}.
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -52,7 +60,10 @@ public final class ObjectInfoRequest {
 		}
 
 		/**
+		 * Set object ids
+		 *
 		 * @param value
+		 *            of objectIds
 		 * @return the Builder
 		 */
 		public Builder setObjectIDs(List<ObjectId> value) {
@@ -60,7 +71,11 @@ public final class ObjectInfoRequest {
 			return this;
 		}
 
-		/** @return ObjectInfoRequest */
+		/**
+		 * Build the request
+		 *
+		 * @return ObjectInfoRequest the request
+		 */
 		public ObjectInfoRequest build() {
 			return new ObjectInfoRequest(
 					Collections.unmodifiableList(objectIDs));

@@ -59,14 +59,12 @@ class ReftableOutputStream extends OutputStream {
 		blockSize = bs;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) {
 		ensureBytesAvailableInBlockBuf(1);
 		blockBuf[cur++] = (byte) b;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int cnt) {
 		ensureBytesAvailableInBlockBuf(cnt);
@@ -86,7 +84,11 @@ class ReftableOutputStream extends OutputStream {
 		return paddingUsed;
 	}
 
-	/** @return bytes flushed; excludes {@link #bytesWrittenInBlock()}. */
+	/**
+	 * Get size
+	 *
+	 * @return bytes flushed; excludes {@link #bytesWrittenInBlock()}.
+	 */
 	long size() {
 		return out.getCount();
 	}

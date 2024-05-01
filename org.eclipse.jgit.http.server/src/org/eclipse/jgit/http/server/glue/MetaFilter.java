@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -97,13 +96,11 @@ public class MetaFilter implements Filter {
 		return register(new RegexPipeline.Binder(pattern));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		servletContext = filterConfig.getServletContext();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void destroy() {
 		if (pipelines != null) {
@@ -115,7 +112,7 @@ public class MetaFilter implements Filter {
 	}
 
 	private static Set<Object> newIdentitySet() {
-		final Map<Object, Object> m = new IdentityHashMap<>();
+		final IdentityHashMap<Object, Object> m = new IdentityHashMap<>();
 		return new AbstractSet<>() {
 
 			@Override
@@ -140,7 +137,6 @@ public class MetaFilter implements Filter {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {

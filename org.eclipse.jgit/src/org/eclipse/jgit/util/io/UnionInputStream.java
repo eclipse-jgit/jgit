@@ -12,8 +12,9 @@ package org.eclipse.jgit.util.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * An InputStream which reads from one or more InputStreams.
@@ -34,7 +35,7 @@ public class UnionInputStream extends InputStream {
 		}
 	};
 
-	private final LinkedList<InputStream> streams = new LinkedList<>();
+	private final Deque<InputStream> streams = new ArrayDeque<>();
 
 	/**
 	 * Create an empty InputStream that is currently at EOF state.
@@ -91,7 +92,6 @@ public class UnionInputStream extends InputStream {
 		return streams.isEmpty();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		for (;;) {
@@ -106,7 +106,6 @@ public class UnionInputStream extends InputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (len == 0)
@@ -123,13 +122,11 @@ public class UnionInputStream extends InputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int available() throws IOException {
 		return head().available();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long skip(long count) throws IOException {
 		long skipped = 0;
@@ -163,7 +160,6 @@ public class UnionInputStream extends InputStream {
 		return skipped;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		IOException err = null;

@@ -71,6 +71,7 @@ public interface FtpChannel {
 	 * @param unit
 	 *            of the {@code timeout}
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void connect(int timeout, TimeUnit unit) throws IOException;
 
@@ -80,6 +81,8 @@ public interface FtpChannel {
 	void disconnect();
 
 	/**
+	 * Whether the FtpChannel is connected
+	 *
 	 * @return whether the {@link FtpChannel} is connected
 	 */
 	boolean isConnected();
@@ -95,8 +98,11 @@ public interface FtpChannel {
 	void cd(String path) throws IOException;
 
 	/**
+	 * Get current remote directory path
+	 *
 	 * @return the current remote directory path
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	String pwd() throws IOException;
 
@@ -118,6 +124,7 @@ public interface FtpChannel {
 	 *            of the directory to list
 	 * @return the directory entries
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	Collection<DirEntry> ls(String path) throws IOException;
 
@@ -128,6 +135,7 @@ public interface FtpChannel {
 	 * @param path
 	 *            to delete
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void rmdir(String path) throws IOException;
 
@@ -137,6 +145,7 @@ public interface FtpChannel {
 	 * @param path
 	 *            to create
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	void mkdir(String path) throws IOException;
 
@@ -148,6 +157,7 @@ public interface FtpChannel {
 	 *
 	 * @return the stream to read from
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	InputStream get(String path) throws IOException;
 
@@ -160,6 +170,7 @@ public interface FtpChannel {
 	 *
 	 * @return the stream to read from
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	OutputStream put(String path) throws IOException;
 
@@ -204,6 +215,7 @@ public interface FtpChannel {
 	 * @param to
 	 *            new name of the file
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @see <a href=
 	 *      "http://pubs.opengroup.org/onlinepubs/9699919799/functions/rename.html">stdio.h:
 	 *      rename()</a>

@@ -49,6 +49,8 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 	}
 
 	/**
+	 * Set "trust exit code" flag
+	 *
 	 * @param trustExitCode
 	 *            the new "trust exit code" flag
 	 */
@@ -57,9 +59,11 @@ public class UserDefinedMergeTool extends UserDefinedDiffTool
 	}
 
 	/**
+	 * Get command
+	 *
 	 * @param withBase
 	 *            not used, because user-defined merge tool can only define one
-	 *            cmd -> it must handle with and without base present (empty)
+	 *            cmd -&gt; it must handle with and without base present (empty)
 	 * @return the tool command
 	 */
 	@Override

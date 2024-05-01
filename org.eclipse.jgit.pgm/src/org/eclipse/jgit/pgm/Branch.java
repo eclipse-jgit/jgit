@@ -148,7 +148,6 @@ class Branch extends TextBuiltin {
 
 	private int maxNameLength;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try {

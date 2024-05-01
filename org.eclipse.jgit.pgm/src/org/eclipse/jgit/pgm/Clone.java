@@ -13,7 +13,10 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
@@ -48,6 +51,15 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 	@Option(name = "--quiet", usage = "usage_quiet")
 	private Boolean quiet;
 
+	@Option(name = "--depth", metaVar = "metaVar_depth", usage = "usage_depth")
+	private Integer depth = null;
+
+	@Option(name = "--shallow-since", metaVar = "metaVar_shallowSince", usage = "usage_shallowSince")
+	private Instant shallowSince = null;
+
+	@Option(name = "--shallow-exclude", metaVar = "metaVar_shallowExclude", usage = "usage_shallowExclude")
+	private List<String> shallowExcludes = new ArrayList<>();
+
 	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
 	private boolean cloneSubmodules;
 
@@ -60,13 +72,11 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 	@Argument(index = 1, metaVar = "metaVar_directory")
 	private String localName;
 
-	/** {@inheritDoc} */
 	@Override
 	protected final boolean requiresRepository() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		if (localName != null && gitdir != null)
@@ -97,6 +107,16 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 				.setMirror(isMirror).setNoCheckout(noCheckout).setBranch(branch)
 				.setCloneSubmodules(cloneSubmodules).setTimeout(timeout);
 
+		if (depth != null) {
+			command.setDepth(depth.intValue());
+		}
+		if (shallowSince != null) {
+			command.setShallowSince(shallowSince);
+		}
+		for (String shallowExclude : shallowExcludes) {
+			command.addShallowExclude(shallowExclude);
+		}
+
 		command.setGitDir(gitdir == null ? null : new File(gitdir));
 		command.setDirectory(localNameF);
 		boolean msgs = quiet == null || !quiet.booleanValue();
@@ -126,7 +146,6 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void initializedSubmodules(Collection<String> submodules) {
 		try {
@@ -140,7 +159,6 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void cloningSubmodule(String path) {
 		try {
@@ -152,7 +170,6 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void checkingOut(AnyObjectId commit, String path) {
 		try {

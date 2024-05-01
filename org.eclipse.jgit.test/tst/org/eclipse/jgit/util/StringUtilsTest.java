@@ -153,4 +153,23 @@ public class StringUtilsTest {
 				() -> StringUtils.parseLongWithSuffix("8000000000000000000G",
 						false));
 	}
+
+	@Test
+	public void testCommonPrefix() {
+		assertEquals("", StringUtils.commonPrefix((String[]) null));
+		assertEquals("", StringUtils.commonPrefix(new String[] {}));
+		assertEquals("", StringUtils.commonPrefix(new String[] { null }));
+		assertEquals("", StringUtils.commonPrefix(null, null));
+		assertEquals("", StringUtils.commonPrefix("", ""));
+		assertEquals("", StringUtils.commonPrefix(null, ""));
+		assertEquals("", StringUtils.commonPrefix("abcd", null, null));
+		assertEquals("", StringUtils.commonPrefix(null, null, "abcd"));
+		assertEquals("", StringUtils.commonPrefix("", "abcd"));
+		assertEquals("", StringUtils.commonPrefix("abcd", "efgh"));
+		assertEquals("abcd", StringUtils.commonPrefix("abcd"));
+		assertEquals("ab", StringUtils.commonPrefix("abcd", "ab"));
+		assertEquals("abcd", StringUtils.commonPrefix("abcd", "abcdefgh"));
+		assertEquals("foo bar ",
+				StringUtils.commonPrefix("foo bar 42", "foo bar 24"));
+	}
 }

@@ -127,7 +127,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return maxUpdateIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor allRefs() throws IOException {
 		if (blockSize == -1) {
@@ -144,7 +143,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return i;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRef(String refName) throws IOException {
 		initRefIndex();
@@ -155,7 +153,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return i;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor seekRefsWithPrefix(String prefix) throws IOException {
 		initRefIndex();
@@ -166,7 +163,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return i;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefCursor byObjectId(AnyObjectId id) throws IOException {
 		initObjIndex();
@@ -179,7 +175,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return i;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public LogCursor allLogs() throws IOException {
 		initLogIndex();
@@ -192,7 +187,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return new EmptyLogCursor();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public LogCursor seekLog(String refName, long updateIndex)
 			throws IOException {
@@ -460,7 +454,6 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		return src.size();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		src.close();

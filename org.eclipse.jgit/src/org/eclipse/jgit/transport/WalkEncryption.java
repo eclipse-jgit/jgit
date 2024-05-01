@@ -130,6 +130,7 @@ abstract class WalkEncryption {
 	 * EncryptionUtil.java</a>
 	 * <p>
 	 * Note: EncryptionUtil is inadequate:
+	 * <ul>
 	 * <li>EncryptionUtil.isCipherAvailableForUse checks encryption only which
 	 * "always works", but in JetS3t both encryption and decryption use non-IV
 	 * aware algorithm parameters for all PBE specs, which breaks in case of AES
@@ -137,6 +138,7 @@ abstract class WalkEncryption {
 	 * JetS3t, such as PBEWithMD5AndDES and PBEWithSHAAndTwofish-CBC
 	 * <li>any AES based algorithms such as "PBE...With...And...AES" will not
 	 * work, since they need proper IV setup
+	 * </ul>
 	 */
 	static class JetS3tV2 extends WalkEncryption {
 
@@ -516,8 +518,10 @@ abstract class WalkEncryption {
 	 * Encryption factory.
 	 *
 	 * @param props
-	 * @return instance
+	 *            configuration properties
+	 * @return instance this object
 	 * @throws GeneralSecurityException
+	 *             if generic security failure occurred
 	 */
 	static WalkEncryption instance(Properties props)
 			throws GeneralSecurityException {

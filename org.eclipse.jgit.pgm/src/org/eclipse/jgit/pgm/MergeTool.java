@@ -41,7 +41,6 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.internal.diffmergetool.ExternalMergeTool;
 import org.eclipse.jgit.internal.diffmergetool.FileElement;
-import org.eclipse.jgit.internal.diffmergetool.FileElement.Type;
 import org.eclipse.jgit.internal.diffmergetool.MergeTools;
 import org.eclipse.jgit.internal.diffmergetool.ToolException;
 import org.eclipse.jgit.lib.Constants;
@@ -218,8 +217,8 @@ class MergeTool extends TextBuiltin {
 			FileElement base = null;
 			FileElement local = null;
 			FileElement remote = null;
-			FileElement merged = new FileElement(mergedFilePath, Type.MERGED,
-					db.getWorkTree());
+			FileElement merged = new FileElement(mergedFilePath,
+					FileElement.Type.MERGED, db.getWorkTree());
 			DirCache cache = db.readDirCache();
 			try (RevWalk revWalk = new RevWalk(db);
 					TreeWalk treeWalk = new TreeWalk(db,
@@ -249,7 +248,8 @@ class MergeTool extends TextBuiltin {
 					ObjectId id = entry.getObjectId();
 					switch (entry.getStage()) {
 					case DirCacheEntry.STAGE_1:
-						base = new FileElement(mergedFilePath, Type.BASE);
+						base = new FileElement(mergedFilePath,
+								FileElement.Type.BASE);
 						DirCacheCheckout.getContent(db, mergedFilePath,
 								checkoutMetadata,
 								baseSource.open(mergedFilePath, id), opt,
@@ -257,7 +257,8 @@ class MergeTool extends TextBuiltin {
 										base.createTempFile(tempFilesParent)));
 						break;
 					case DirCacheEntry.STAGE_2:
-						local = new FileElement(mergedFilePath, Type.LOCAL);
+						local = new FileElement(mergedFilePath,
+								FileElement.Type.LOCAL);
 						DirCacheCheckout.getContent(db, mergedFilePath,
 								checkoutMetadata,
 								localSource.open(mergedFilePath, id), opt,
@@ -265,7 +266,8 @@ class MergeTool extends TextBuiltin {
 										local.createTempFile(tempFilesParent)));
 						break;
 					case DirCacheEntry.STAGE_3:
-						remote = new FileElement(mergedFilePath, Type.REMOTE);
+						remote = new FileElement(mergedFilePath,
+								FileElement.Type.REMOTE);
 						DirCacheCheckout.getContent(db, mergedFilePath,
 								checkoutMetadata,
 								remoteSource.open(mergedFilePath, id), opt,

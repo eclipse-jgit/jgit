@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -399,6 +400,8 @@ public class Config {
 	/**
 	 * Parse an enumeration from the configuration.
 	 *
+	 * @param <T>
+	 *            type of the returned enum
 	 * @param section
 	 *            section the key is grouped within.
 	 * @param subsection
@@ -431,6 +434,8 @@ public class Config {
 	/**
 	 * Parse an enumeration from the configuration.
 	 *
+	 * @param <T>
+	 *            type of the returned enum
 	 * @param all
 	 *            all possible values in the enumeration which should be
 	 *            recognized. Typically {@code EnumType.values()}.
@@ -722,7 +727,7 @@ public class Config {
 	 * responsible for issuing {@link #fireConfigChangedEvent()} calls
 	 * themselves.
 	 *
-	 * @return <code></code>
+	 * @return whether to issue change events for transient changes
 	 */
 	protected boolean notifyUponTransientChanges() {
 		return true;
@@ -735,7 +740,7 @@ public class Config {
 		listeners.dispatch(new ConfigChangedEvent());
 	}
 
-	String getRawString(final String section, final String subsection,
+	private String getRawString(final String section, final String subsection,
 			final String name) {
 		String[] lst = getRawStringList(section, subsection, name);
 		if (lst != null) {
@@ -847,6 +852,8 @@ public class Config {
 	 *         name = value
 	 * </pre>
 	 *
+	 * @param <T>
+	 *            type of the enum to set
 	 * @param section
 	 *            section name, e.g "branch"
 	 * @param subsection
@@ -915,29 +922,52 @@ public class Config {
 	 *            optional subsection value, e.g. a branch name
 	 */
 	public void unsetSection(String section, String subsection) {
-		ConfigSnapshot src, res;
-		do {
-			src = state.get();
-			res = unsetSection(src, section, subsection);
-		} while (!state.compareAndSet(src, res));
+		removeSection(section, subsection);
 	}
 
-	private ConfigSnapshot unsetSection(final ConfigSnapshot srcState,
-			final String section,
-			final String subsection) {
+	/**
+	 * Removes all configuration values under a single section.
+	 *
+	 * @param section
+	 *            section name, e.g "branch"
+	 * @param subsection
+	 *            optional subsection value, e.g. a branch name
+	 * @return {@code true} if a section was present and was removed;
+	 *         {@code false} if the config was not changed (i.e., no such
+	 *         section was present)
+	 * @since 6.8
+	 */
+	public boolean removeSection(String section, String subsection) {
+		ConfigSnapshot src, res;
+		AtomicBoolean changed = new AtomicBoolean();
+		do {
+			src = state.get();
+			changed.set(false);
+			res = unsetSection(src, section, subsection, changed);
+		} while (!state.compareAndSet(src, res));
+		return changed.get();
+	}
+
+	private ConfigSnapshot unsetSection(ConfigSnapshot srcState, String section,
+			String subsection, AtomicBoolean changed) {
 		final int max = srcState.entryList.size();
 		final ArrayList<ConfigLine> r = new ArrayList<>(max);
 
 		boolean lastWasMatch = false;
 		for (ConfigLine e : srcState.entryList) {
-			if (e.includedFrom == null && e.match(section, subsection)) {
-				// Skip this record, it's for the section we are removing.
-				lastWasMatch = true;
+			if (e.includedFrom != null) {
+				r.add(e);
 				continue;
 			}
-
-			if (lastWasMatch && e.section == null && e.subsection == null)
+			if (lastWasMatch && e.section == null && e.subsection == null) {
 				continue; // skip this padding line in the section.
+			}
+			lastWasMatch = e.match(section, subsection);
+			if (lastWasMatch) {
+				// Skip this record, it's for the section we are removing.
+				changed.set(true);
+				continue;
+			}
 			r.add(e);
 		}
 

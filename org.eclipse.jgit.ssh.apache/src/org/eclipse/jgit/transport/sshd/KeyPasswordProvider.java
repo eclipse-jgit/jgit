@@ -77,7 +77,9 @@ public interface KeyPasswordProvider {
 	 *         {@code error} exception; Ignored if the key was loaded
 	 *         successfully, i.e., if {@code error == null}.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws GeneralSecurityException
+	 *             something went wrong
 	 */
 	boolean keyLoaded(URIish uri, int attempt, Exception error)
 			throws IOException, GeneralSecurityException;

@@ -26,13 +26,11 @@ final class NoParameterFilterConfig implements FilterConfig {
 		this.context = context;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getInitParameter(String name) {
 		return null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Enumeration<String> getInitParameterNames() {
 		return new Enumeration<>() {
@@ -49,13 +47,11 @@ final class NoParameterFilterConfig implements FilterConfig {
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ServletContext getServletContext() {
 		return context;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getFilterName() {
 		return filterName;

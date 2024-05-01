@@ -21,7 +21,6 @@ import org.eclipse.jgit.lib.RefComparator;
 
 @Command(usage = "usage_ShowRef")
 class ShowRef extends TextBuiltin {
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try {

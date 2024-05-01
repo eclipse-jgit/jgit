@@ -101,41 +101,8 @@
 
   <licenses>
     <license>
-      <name>Eclipse Distribution License (New BSD License)</name>
-      <comments>
-       All rights reserved.
-
-       Redistribution and use in source and binary forms, with or
-       without modification, are permitted provided that the following
-       conditions are met:
-
-       - Redistributions of source code must retain the above copyright
-         notice, this list of conditions and the following disclaimer.
-
-       - Redistributions in binary form must reproduce the above
-         copyright notice, this list of conditions and the following
-         disclaimer in the documentation and/or other materials provided
-         with the distribution.
-
-       - Neither the name of the Eclipse Foundation, Inc. nor the
-         names of its contributors may be used to endorse or promote
-         products derived from this software without specific prior
-         written permission.
-
-       THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
-       CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-       INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-       OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-       ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-       CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-       SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-       NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-       LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-       CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-       STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-       ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-       ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-      </comments>
+      <name>BSD-3-Clause</name>
+      <url>https://www.eclipse.org/org/documents/edl-v10.php</url>
     </license>
   </licenses>
 
@@ -146,45 +113,51 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <java.version>11</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jgit-last-release-version>6.2.0.202206071550-r</jgit-last-release-version>
-    <ant-version>1.10.12</ant-version>
-    <apache-sshd-version>2.8.0</apache-sshd-version>
+    <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
+
+    <jgit-last-release-version>6.9.0.202403050737-r</jgit-last-release-version>
+    <ant-version>1.10.14</ant-version>
+    <apache-sshd-version>2.12.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.3</jzlib-version>
-    <javaewah-version>1.1.13</javaewah-version>
+    <javaewah-version>1.2.3</javaewah-version>
     <junit-version>4.13.2</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.33</args4j-version>
-    <commons-compress-version>1.21</commons-compress-version>
+    <commons-compress-version>1.26.0</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
-    <servlet-api-version>4.0.0</servlet-api-version>
-    <jetty-version>10.0.6</jetty-version>
-    <japicmp-version>0.15.3</japicmp-version>
-    <httpclient-version>4.5.13</httpclient-version>
-    <httpcore-version>4.4.14</httpcore-version>
-    <slf4j-version>1.7.30</slf4j-version>
-    <maven-javadoc-plugin-version>3.3.1</maven-javadoc-plugin-version>
-    <tycho-extras-version>2.6.0</tycho-extras-version>
-    <gson-version>2.8.9</gson-version>
-    <bouncycastle-version>1.70</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.3.0</spotbugs-maven-plugin-version>
-    <maven-project-info-reports-plugin-version>3.1.2</maven-project-info-reports-plugin-version>
-    <maven-jxr-plugin-version>3.1.1</maven-jxr-plugin-version>
-    <maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
+    <servlet-api-version>4.0.4</servlet-api-version>
+    <jetty-version>10.0.20</jetty-version>
+    <japicmp-version>0.18.5</japicmp-version>
+    <httpclient-version>4.5.14</httpclient-version>
+    <httpcore-version>4.4.16</httpcore-version>
+    <slf4j-version>1.7.36</slf4j-version>
+    <maven-javadoc-plugin-version>3.6.3</maven-javadoc-plugin-version>
+    <gson-version>2.10.1</gson-version>
+    <bouncycastle-version>1.77</bouncycastle-version>
+    <spotbugs-maven-plugin-version>4.8.3.1</spotbugs-maven-plugin-version>
+    <maven-project-info-reports-plugin-version>3.5.1</maven-project-info-reports-plugin-version>
+    <maven-jxr-plugin-version>3.3.2</maven-jxr-plugin-version>
+    <maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
-    <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
-    <plexus-compiler-version>2.9.0</plexus-compiler-version>
+    <maven-compiler-plugin-version>3.12.1</maven-compiler-plugin-version>
+    <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
-    <assertj-version>3.20.2</assertj-version>
+    <assertj-version>3.25.3</assertj-version>
+    <jna-version>5.14.0</jna-version>
+    <byte-buddy-version>1.14.12</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+
+    <!-- license check -->
+    <dash.fail>true</dash.fail>
+    <dash.projectId>technology.jgit</dash.projectId>
   </properties>
 
   <repositories>
@@ -200,16 +173,8 @@
       <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>repo.eclipse.org.cbi-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</url>
-    </pluginRepository>
-    <pluginRepository>
       <id>repo.eclipse.org.dash-releases</id>
       <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>repo.eclipse.org.dash-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -219,7 +184,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -228,6 +193,11 @@
                 <Implementation-Vendor>Eclipse.org - JGit</Implementation-Vendor>
                 <Implementation-Vendor-Id>org.eclipse.jgit</Implementation-Vendor-Id>
                 <Implementation-Vendor-URL>${jgit-url}</Implementation-Vendor-URL>
+                <git-describe>${git.commit.id.describe}</git-describe>
+                <git-commit-id>${git.commit.id}</git-commit-id>
+                <git-commit-time>${git.commit.time}</git-commit-time>
+                <git-tags>${git.tags}</git-tags>
+                <git-remote-origin-url>${git.remote.origin.url}</git-remote-origin-url>
               </manifestEntries>
             </archive>
             <!-- TODO: uncomment this in order to skip empty artifact of test modules as soon as bug 416299 is fixed
@@ -238,31 +208,31 @@
 
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.3.2</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.4</version>
+          <version>3.5.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.6.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.0</version>
         </plugin>
 
         <plugin>
@@ -285,7 +255,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.5.0</version>
         </plugin>
 
         <plugin>
@@ -293,7 +263,6 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${spotbugs-maven-plugin-version}</version>
           <configuration>
-            <findbugsXmlOutput>true</findbugsXmlOutput>
             <failOnError>false</failOnError>
           </configuration>
           <executions>
@@ -308,9 +277,9 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.15.0</version>
+          <version>3.21.2</version>
           <configuration>
-            <sourceEncoding>utf-8</sourceEncoding>
+            <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <minimumTokens>100</minimumTokens>
             <targetJdk>${java.version}</targetJdk>
             <format>xml</format>
@@ -331,22 +300,22 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.3.2</version>
+          <version>1.4.3</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.7</version>
+          <version>0.8.11</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.9.1</version>
+          <version>4.0.0-M13</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-ssh</artifactId>
-              <version>3.5.1</version>
+              <artifactId>wagon-ssh-external</artifactId>
+              <version>3.5.3</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -368,12 +337,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -383,17 +352,36 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>2.5.4</version>
+          <version>2.7.13</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.dash</groupId>
           <artifactId>license-tool-plugin</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
+          <version>1.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.cyclonedx</groupId>
+          <artifactId>cyclonedx-maven-plugin</artifactId>
+          <version>2.7.10</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-artifact-plugin</artifactId>
+          <version>3.5.0</version>
+          <configuration>
+            <ignore>**/*cyclonedx.json</ignore>
+            <reproducible>true</reproducible>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.4.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -402,7 +390,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -435,8 +422,22 @@
               <target if="${translate-qualifier}">
                 <copy file="META-INF/MANIFEST.MF" tofile="${bundle-manifest}" overwrite="true"/>
                 <replace file="${bundle-manifest}">
-                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
+                  <replacefilter token=".qualifier" value=".${commit.time.version}"/>
                 </replace>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>copy-osgi</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <target>
+                <copy todir="${project.build.outputDirectory}" >
+                  <fileset dir="." includes="OSGI-INF/**"/>
+                </copy>
               </target>
             </configuration>
             <goals>
@@ -465,13 +466,38 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalJOption>-Xdoclint:-missing</additionalJOption>
+          <!-- We check javadoc when compiling with ecj (option -Pecj) and configurations
+          set in .settings/org.eclipse.jdt.core.prefs. This allows more fine grained
+          configuration and fails the build on missing javadoc for protected and
+          public but not for private classes, methods and fields. We don't want
+          to check javadoc on tests. We can reconsider to configure this on javadoc
+          when it starts supporting access specifiers so that we can set
+          -Xdoclint:all,-missing/private -->
+          <additionalJOption>-Xdoclint:none</additionalJOption>
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
+          <failOnWarnings>true</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
             <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
           </links>
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>a</placement>
+              <head>API Note:</head>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>a</placement>
+              <head>Implementation Requirements:</head>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>a</placement>
+              <head>Implementation Note:</head>
+            </tag>
+          </tags>
         </configuration>
         <executions>
           <execution>
@@ -556,6 +582,145 @@
       <plugin>
         <groupId>org.eclipse.dash</groupId>
         <artifactId>license-tool-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>license-check</id>
+            <goals>
+              <goal>license-check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <configuration>
+          <projectType>library</projectType>
+          <schemaVersion>1.4</schemaVersion>
+          <includeBomSerialNumber>true</includeBomSerialNumber>
+          <includeCompileScope>true</includeCompileScope>
+          <includeProvidedScope>true</includeProvidedScope>
+          <includeRuntimeScope>true</includeRuntimeScope>
+          <includeSystemScope>true</includeSystemScope>
+          <includeTestScope>false</includeTestScope>
+          <includeLicenseText>false</includeLicenseText>
+          <outputReactorProjects>true</outputReactorProjects>
+          <outputFormat>json</outputFormat>
+          <outputName>cyclonedx</outputName>
+          <outputDirectory>${project.build.directory}</outputDirectory>
+          <verbose>false</verbose>
+          <detectUnusedForOptionalScope>true</detectUnusedForOptionalScope>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>makeAggregateBom</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>7.0.0</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <generateGitPropertiesFile>false</generateGitPropertiesFile>
+          <injectAllReactorProjects>true</injectAllReactorProjects>
+          <dateFormatTimeZone>UTC</dateFormatTimeZone>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <version>3.0.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>4.0.15</version>
+            <scope>runtime</scope>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-ant</artifactId>
+            <version>4.0.15</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>add-dynamic-properties</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <bindAllProjectProperties>true</bindAllProjectProperties>
+              <bindAllSessionUserProperties>true</bindAllSessionUserProperties>
+              <scripts>
+                <script><![CDATA[
+                  @Grapes([
+                    @Grab(group='org.eclipse.jgit', module='org.eclipse.jgit', version='6.7.0.202309050840-r')
+                  ])
+                  import java.time.Instant
+                  import java.time.ZoneId
+                  import java.time.format.DateTimeFormatter
+                  import org.eclipse.jgit.lib.Constants
+                  import org.eclipse.jgit.lib.ObjectId
+                  import org.eclipse.jgit.lib.Repository
+                  import org.eclipse.jgit.lib.RepositoryBuilder
+                  import org.eclipse.jgit.revwalk.RevCommit
+                  import org.eclipse.jgit.revwalk.RevObject
+                  import org.eclipse.jgit.revwalk.RevTag
+                  import org.eclipse.jgit.revwalk.RevWalk
+
+                  try {
+                    RepositoryBuilder rb = new RepositoryBuilder().setGitDir().readEnvironment().findGitDir()
+                    if (rb.getGitDir() == null) {
+                      throw new Exception("Can't find .git directory")
+                    }
+                    Repository repo = rb.build()
+                    ObjectId objectId = repo.resolve(Constants.HEAD)
+                    try (RevWalk rw = new RevWalk(repo)) {
+                      RevObject obj = rw.parseAny(objectId)
+                      while (obj instanceof RevTag) {
+                        obj = ((RevTag) obj).getObject()
+                        rw.parseBody(obj)
+                      }
+
+                      switch (obj.getType()) {
+                      case Constants.OBJ_COMMIT:
+                        RevCommit c = (RevCommit) obj
+                        Instant time = c.getCommitterIdent().getWhenAsInstant()
+                        DateTimeFormatter iso8601Fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZoneId.of("UTC"))
+                        DateTimeFormatter versionFmt = DateTimeFormatter.ofPattern("yyyyMMddHHmm").withZone(ZoneId.of("UTC"))
+                        String isoTime = iso8601Fmt.format(time)
+                        String versionTime = versionFmt.format(time)
+                        project.properties.setProperty("commit.time.iso", isoTime)
+                        project.properties.setProperty("commit.time.version", versionTime)
+                        break
+                      default:
+                        throw new Exception("Didn't expect " + obj.name() + ", " + obj.getType())
+                      }
+                    }
+                  } catch (Exception e) {
+                    e.printStackTrace()
+                  }
+                ]]></script>
+              </scripts>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -581,7 +746,32 @@
           </reportSet>
         </reportSets>
         <configuration>
-          <additionalJOption>-Xdoclint:-missing</additionalJOption>
+          <failOnWarnings>false</failOnWarnings>
+          <additionalJOption>-Xdoclint:none</additionalJOption>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <quiet>true</quiet>
+          <failOnWarnings>false</failOnWarnings>
+          <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
+          <links>
+            <link>https://docs.oracle.com/en/java/javase/11/docs/api</link>
+          </links>
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>a</placement>
+              <head>API Note:</head>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>a</placement>
+              <head>Implementation Requirements:</head>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>a</placement>
+              <head>Implementation Note:</head>
+            </tag>
+          </tags>
         </configuration>
       </plugin>
       <plugin>
@@ -682,8 +872,8 @@
       </dependency>
 
       <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
         <version>${servlet-api-version}</version>
       </dependency>
 
@@ -750,25 +940,25 @@
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcpg-jdk15on</artifactId>
+        <artifactId>bcpg-jdk18on</artifactId>
         <version>${bouncycastle-version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk15on</artifactId>
+        <artifactId>bcprov-jdk18on</artifactId>
         <version>${bouncycastle-version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcutil-jdk15on</artifactId>
+        <artifactId>bcutil-jdk18on</artifactId>
         <version>${bouncycastle-version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcpkix-jdk15on</artifactId>
+        <artifactId>bcpkix-jdk18on</artifactId>
         <version>${bouncycastle-version}</version>
       </dependency>
 
@@ -776,6 +966,38 @@
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>${assertj-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>${jna-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna-platform</artifactId>
+        <version>${jna-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.10.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>${byte-buddy-version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy-agent</artifactId>
+        <version>${byte-buddy-version}</version>
+        <scope>compile</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -870,7 +1092,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.28.0</version>
+                <version>3.36.0</version>
               </dependency>
             </dependencies>
           </plugin>

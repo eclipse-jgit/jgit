@@ -105,6 +105,7 @@ public interface HttpConnection {
 	 * @see HttpURLConnection#getResponseCode()
 	 * @return the HTTP Status-Code, or -1
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	int getResponseCode() throws IOException;
 
@@ -122,6 +123,7 @@ public interface HttpConnection {
 	 * @see HttpURLConnection#getResponseMessage()
 	 * @return the HTTP response message, or <code>null</code>
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	String getResponseMessage() throws IOException;
 
@@ -207,14 +209,14 @@ public interface HttpConnection {
 	 * @exception IOException
 	 *                if an I/O error occurs while creating the input stream.
 	 * @throws java.io.IOException
-	 *             if any.
+	 *             if an IO error occurred
 	 */
 	InputStream getInputStream() throws IOException;
 
 	/**
 	 * Get header field. According to
-	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
-	 * 2616</a>} header field names are case insensitive. Header fields defined
+	 * <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC 2616</a>
+	 * header field names are case insensitive. Header fields defined
 	 * as a comma separated list can have multiple header fields with the same
 	 * field name. This method only returns one of these header fields. If you
 	 * want the union of all values of all multiple header fields with the same
@@ -230,8 +232,8 @@ public interface HttpConnection {
 
 	/**
 	 * Get all values of given header field. According to
-	 * {@link <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC
-	 * 2616</a>} header field names are case insensitive. Header fields defined
+	 * <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC 2616</a>
+	 * header field names are case insensitive. Header fields defined
 	 * as a comma separated list can have multiple header fields with the same
 	 * field name. This method does not validate if the given header field is
 	 * defined as a comma separated list.
@@ -287,6 +289,7 @@ public interface HttpConnection {
 	 * @see HttpURLConnection#getOutputStream()
 	 * @return an output stream that writes to this connection.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	OutputStream getOutputStream() throws IOException;
 
@@ -321,6 +324,7 @@ public interface HttpConnection {
 	 *
 	 * @see HttpURLConnection#connect()
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	void connect() throws IOException;
 
@@ -338,7 +342,9 @@ public interface HttpConnection {
 	 *            the source of randomness for this generator or null. See
 	 *            {@link javax.net.ssl.SSLContext#init(KeyManager[], TrustManager[], SecureRandom)}
 	 * @throws java.security.NoSuchAlgorithmException
+	 *             if algorithm isn't available
 	 * @throws java.security.KeyManagementException
+	 *             if key management failed
 	 */
 	void configure(KeyManager[] km, TrustManager[] tm,
 			SecureRandom random) throws NoSuchAlgorithmException,
@@ -351,7 +357,9 @@ public interface HttpConnection {
 	 * @param hostnameverifier
 	 *            a {@link javax.net.ssl.HostnameVerifier} object.
 	 * @throws java.security.NoSuchAlgorithmException
+	 *             if algorithm isn't available
 	 * @throws java.security.KeyManagementException
+	 *             if key management failed
 	 */
 	void setHostnameVerifier(HostnameVerifier hostnameverifier)
 			throws NoSuchAlgorithmException, KeyManagementException;

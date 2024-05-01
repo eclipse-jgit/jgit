@@ -38,7 +38,6 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 
 	private final Console cons = System.console();
 
-	/** {@inheritDoc} */
 	@Override
 	protected PasswordAuthentication promptPasswordAuthentication() {
 		final String realm = formatRealm();

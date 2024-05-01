@@ -55,7 +55,6 @@ public class RenameBranchCommand extends GitCommand<Ref> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefNotFoundException, InvalidRefNameException,
 			RefAlreadyExistsException, DetachedHeadException {

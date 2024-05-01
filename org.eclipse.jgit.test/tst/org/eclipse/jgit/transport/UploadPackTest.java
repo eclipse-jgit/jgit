@@ -22,9 +22,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -53,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.junit.After;
@@ -63,6 +67,8 @@ import org.junit.Test;
  * Tests for server upload-pack utilities.
  */
 public class UploadPackTest {
+	private static final int MAX_HAVES = 64;
+
 	private URIish uri;
 
 	private TestProtocol<Object> testProtocol;
@@ -87,6 +93,7 @@ public class UploadPackTest {
 
 	@After
 	public void tearDown() {
+		TestProtocol.setFetchConfig(null);
 		Transport.unregister(testProtocol);
 	}
 
@@ -1793,14 +1800,15 @@ public class UploadPackTest {
 		RevBlob blobHighDepth = remote.blob("hi");
 
 		RevTree subtree = remote.tree(remote.file("1", blobHighDepth));
-		RevTree rootTree = (new TreeBuilder() {
+
+		RevTree rootTree = new TreeBuilder() {
 				@Override
 				void addElements(DirCacheBuilder dcBuilder) throws Exception {
 					dcBuilder.add(remote.file("1", blobLowDepth));
 					dcBuilder.addTree(new byte[] {'2'}, DirCacheEntry.STAGE_0,
 							remote.getRevWalk().getObjectReader(), subtree);
 				}
-			}).build();
+		}.build();
 		RevCommit commit = remote.commit(rootTree);
 
 		DeepTreePreparator() throws Exception {}
@@ -1897,21 +1905,23 @@ public class UploadPackTest {
 	class RepeatedSubtreePreparator {
 		RevBlob foo = remote.blob("foo");
 		RevTree subtree3 = remote.tree(remote.file("foo", foo));
-		RevTree subtree2 = (new TreeBuilder() {
+		RevTree subtree2 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree3);
 			}
-		}).build();
-		RevTree subtree1 = (new TreeBuilder() {
+		}.build();
+
+		RevTree subtree1 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree2);
 			}
-		}).build();
-		RevTree rootTree = (new TreeBuilder() {
+		}.build();
+
+		RevTree rootTree = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
@@ -1919,7 +1929,7 @@ public class UploadPackTest {
 				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree2);
 			}
-		}).build();
+		}.build();
 		RevCommit commit = remote.commit(rootTree);
 
 		RepeatedSubtreePreparator() throws Exception {}
@@ -1963,22 +1973,22 @@ public class UploadPackTest {
 		RevTree subtree1 = remote.tree(remote.file("foo", foo));
 
 		/** b/foo */
-		RevTree subtree2 = (new TreeBuilder() {
+		RevTree subtree2 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree1);
 			}
-		}).build();
+		}.build();
 
 		/** x/b/foo */
-		RevTree subtree3 = (new TreeBuilder() {
+		RevTree subtree3 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree2);
 			}
-		}).build();
+		}.build();
 
 		RevBlob baz = remote.blob("baz");
 
@@ -1986,33 +1996,33 @@ public class UploadPackTest {
 		RevTree subtree4 = remote.tree(remote.file("baz", baz));
 
 		/** c/baz */
-		RevTree subtree5 = (new TreeBuilder() {
+		RevTree subtree5 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'c'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree4);
 			}
-		}).build();
+		}.build();
 
 		/** u/c/baz */
-		RevTree subtree6 = (new TreeBuilder() {
+		RevTree subtree6 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'u'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree5);
 			}
-		}).build();
+		}.build();
 
 		/** v/c/baz */
-		RevTree subtree7 = (new TreeBuilder() {
+		RevTree subtree7 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'v'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree5);
 			}
-		}).build();
+		}.build();
 
-		RevTree rootTree = (new TreeBuilder() {
+		RevTree rootTree = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
@@ -2024,7 +2034,7 @@ public class UploadPackTest {
 				dcBuilder.addTree(new byte[] {'z'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree7);
 			}
-		}).build();
+		}.build();
 		RevCommit commit = remote.commit(rootTree);
 
 		RepeatedSubtreeAtSameLevelPreparator() throws Exception {}
@@ -2156,6 +2166,294 @@ public class UploadPackTest {
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(two.toObjectId()));
 		assertFalse(client.getObjectDatabase().has(three.toObjectId()));
+	}
+
+	/**
+	 * <pre>
+	 * remote:
+	 *    foo &lt;- foofoo &lt;-- branchFoo
+	 *    bar &lt;- barbar &lt;-- branchBar
+	 *
+	 * client:
+	 *    foo &lt;-- branchFoo
+	 *    bar &lt;-- branchBar
+	 *
+	 * fetch(branchFoo) should send exactly 1 have (i.e. foo) from branchFoo
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTip() throws Exception {
+		RevCommit fooParent = remote.commit().message("foo").create();
+		RevCommit fooChild = remote.commit().message("foofoo").parent(fooParent)
+				.create();
+		RevCommit barParent = remote.commit().message("bar").create();
+		RevCommit barChild = remote.commit().message("barbar").parent(barParent)
+				.create();
+
+		// Remote has branchFoo at fooChild and branchBar at barChild
+		remote.update("branchFoo", fooChild);
+		remote.update("branchBar", barChild);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+		RevCommit localFooParent = null;
+
+		// Client has lagging branchFoo at fooParent and branchBar at barParent
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			localFooParent = clientRepo.commit().message("foo")
+					.create();
+			RevCommit localBarParent = clientRepo.commit().message("bar")
+					.create();
+
+			clientRepo.update("branchFoo", localFooParent);
+			clientRepo.update("branchBar", localBarParent);
+
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES,
+					/* useNegotiationTip= */true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE, Collections
+						.singletonList(new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		assertTrue(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barChild.toObjectId()));
+
+		assertEquals(1, uploadPack.get().getStatistics().getHaves());
+		assertTrue(countHavesHook.havesSentDuringNegotiation
+				.contains(localFooParent.toObjectId()));
+	}
+
+	/**
+	 * Remote has 2 branches branchFoo and branchBar, each of them have 128 (2 x
+	 * MAX_HAVES) commits each. Local has both the branches with lagging
+	 * commits. Only 64 (1 x MAX_HAVES) from each branch and lagging 64.
+	 * fetch(branchFoo) should send all 64 (MAX_HAVES) commits on branchFoo as
+	 * haves and none from branchBar.
+	 *
+	 * Visual representation of the same:
+	 *
+	 * <pre>
+	 * remote:
+	 *             parent
+	 *             /    \
+	 *  branchFoo-0     branchBar-0
+	 *  branchFoo-1     branchBar-1
+	 *  ...			  ...
+	 *  ... 		  ...
+	 *  branchFoo-128   branchBar-128
+	 *    ^-- branchFoo		^--branchBar
+	 *
+	 *  local:
+	 *             parent
+	 *             /    \
+	 *  branchFoo-0     branchBar-0
+	 *  branchFoo-1     branchBar-1
+	 *  ...			  ...
+	 *  ... 		  ...
+	 *  branchFoo-64     branchBar-64
+	 *      ^-- branchFoo	^--branchBar
+	 *
+	 * fetch(branchFoo) should send all 64 (MAX_HAVES) commits on branchFoo as haves
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTipWithLongerHistoryThanMaxHaves()
+			throws Exception {
+		Set<RevCommit> remoteFooCommits = new HashSet<>();
+		Set<RevCommit> remoteBarCommits = new HashSet<>();
+
+		RevCommit parent = remote.commit().message("branchFoo-0").create();
+		RevCommit parentFoo = parent;
+		remoteFooCommits.add(parentFoo);
+		for (int i = 1; i < 2 * MAX_HAVES; i++) {
+			RevCommit child = remote.commit()
+					.message("branchFoo-" + Integer.toString(i))
+					.parent(parentFoo)
+					.create();
+			parentFoo = child;
+			remoteFooCommits.add(parentFoo);
+
+		}
+		remote.update("branchFoo", parentFoo);
+
+		RevCommit parentBar = parent;
+		remoteBarCommits.add(parentBar);
+		for (int i = 1; i < 2 * MAX_HAVES; i++) {
+			RevCommit child = remote.commit()
+					.message("branchBar-" + Integer.toString(i))
+					.parent(parentBar)
+					.create();
+			parentBar = child;
+			remoteBarCommits.add(parentBar);
+		}
+		remote.update("branchBar", parentBar);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+		Set<ObjectId> localFooCommits = new HashSet<>();
+
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			RevCommit localParent = clientRepo.commit().message("branchBar-0")
+					.create();
+			RevCommit localParentFoo = localParent;
+			localFooCommits.add(localParentFoo);
+			for (int i = 1; i < 1 * MAX_HAVES; i++) {
+				RevCommit child = clientRepo.commit()
+						.message("branchFoo-" + Integer.toString(i))
+						.parent(localParentFoo).create();
+				localParentFoo = child;
+				localFooCommits.add(localParentFoo);
+			}
+			clientRepo.update("branchFoo", localParentFoo);
+
+			RevCommit localParentBar = localParent;
+			for (int i = 1; i < 1 * MAX_HAVES; i++) {
+				RevCommit child = clientRepo.commit()
+						.message("branchBar-" + Integer.toString(i))
+						.parent(localParentBar).create();
+				localParentBar = child;
+			}
+			clientRepo.update("branchBar", localParentBar);
+
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES,
+					/* useNegotiationTip= */true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE, Collections
+						.singletonList(new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		for (RevCommit c : remoteFooCommits) {
+			assertTrue(c.toObjectId() + "",
+					client.getObjectDatabase().has(c.toObjectId()));
+		}
+		remoteBarCommits.remove(parent);
+		for (RevCommit c : remoteBarCommits) {
+			assertFalse(client.getObjectDatabase().has(c.toObjectId()));
+		}
+
+		assertEquals(MAX_HAVES, uploadPack.get().getStatistics().getHaves());
+		// Verify that all the haves that were sent during negotiation are local
+		// commits from branchFoo
+		for (Object id : countHavesHook.havesSentDuringNegotiation) {
+			assertTrue(localFooCommits.contains(id));
+		}
+	}
+
+	/**
+	 * <pre>
+	 * remote:
+	 *    foo &lt;- foofoo &lt;-- branchFoo
+	 *    bar &lt;- barbar &lt;-- branchBar
+	 *
+	 * client:
+	 *    none
+	 *
+	 * fetch(branchFoo) should not send have and should get only branchFoo back
+	 * </pre>
+	 */
+	@Test
+	public void testNegotiationTipDoesNotDoFullClone() throws Exception {
+		RevCommit fooParent = remote.commit().message("foo").create();
+		RevCommit fooChild = remote.commit().message("foofoo").parent(fooParent)
+				.create();
+		RevCommit barParent = remote.commit().message("bar").create();
+		RevCommit barChild = remote.commit().message("barbar").parent(barParent)
+				.create();
+
+		// Remote has branchFoo at fooChild and branchBar at barChild
+		remote.update("branchFoo", fooChild);
+		remote.update("branchBar", barChild);
+
+		AtomicReference<UploadPack> uploadPack = new AtomicReference<>();
+		CountHavesPreUploadHook countHavesHook = new CountHavesPreUploadHook();
+
+		// Client does not have branchFoo & branchBar
+		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
+				client)) {
+			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+				UploadPack up = new UploadPack(db);
+				up.setPreUploadHook(countHavesHook);
+				uploadPack.set(up);
+				return up;
+			}, null);
+
+			uri = testProtocol.register(ctx, server);
+
+			TestProtocol.setFetchConfig(new FetchConfig(true, MAX_HAVES,
+					/* useNegotiationTip= */true));
+			try (Transport tn = testProtocol.open(uri,
+					clientRepo.getRepository(), "server")) {
+
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(
+								new RefSpec("refs/heads/branchFoo")),
+						"branchFoo");
+			}
+		}
+
+		assertTrue(client.getObjectDatabase().has(fooParent.toObjectId()));
+		assertTrue(client.getObjectDatabase().has(fooChild.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barParent.toObjectId()));
+		assertFalse(client.getObjectDatabase().has(barChild.toObjectId()));
+
+		assertEquals(0, uploadPack.get().getStatistics().getHaves());
+		assertTrue(countHavesHook.havesSentDuringNegotiation.isEmpty());
+	}
+
+	private static class CountHavesPreUploadHook implements PreUploadHook {
+		Set<ObjectId> havesSentDuringNegotiation = new HashSet<>();
+
+		@Override
+		public void onSendPack(UploadPack unusedUploadPack,
+				Collection<? extends ObjectId> unusedWants,
+				Collection<? extends ObjectId> haves)
+				throws ServiceMayNotContinueException {
+			// record haves
+			havesSentDuringNegotiation.addAll(haves);
+		}
+
+		@Override
+		public void onEndNegotiateRound(UploadPack unusedUploadPack,
+				Collection<? extends ObjectId> unusedWants, int unusedCntCommon,
+				int unusedCntNotFound, boolean unusedReady)
+				throws ServiceMayNotContinueException {
+			// Do nothing.
+		}
+
+		@Override
+		public void onBeginNegotiateRound(UploadPack unusedUploadPack,
+				Collection<? extends ObjectId> unusedWants,
+				int unusedCntOffered) throws ServiceMayNotContinueException {
+			// Do nothing.
+		}
 	}
 
 	@Test
@@ -2416,16 +2714,38 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		UploadPack up = new UploadPack(server);
-		ByteArrayInputStream send = linesAsInputStream(
-				"want " + one.getName() + " agent=JGit-test/1.2.3\n",
-				PacketLineIn.end(),
-				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n");
+		try (UploadPack up = new UploadPack(server)) {
+			ByteArrayInputStream send = linesAsInputStream(
+					"want " + one.getName() + " agent=JGit-test/1.2.3\n",
+					PacketLineIn.end(),
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n",
+					"done\n");
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
 
-		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.3");
+			assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.3");
+		}
+	}
+
+	@Test
+	public void testGetSessionIDValueProtocolV0() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		try (UploadPack up = new UploadPack(server)) {
+			ByteArrayInputStream send = linesAsInputStream(
+					"want " + one.getName() + " agent=JGit-test/1.2.3"
+							+ " session-id=client-session-id\n",
+					PacketLineIn.end(),
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n",
+					"done\n");
+
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
+
+			assertEquals(up.getClientSID(), "client-session-id");
+		}
 	}
 
 	@Test
@@ -2437,19 +2757,45 @@ public class UploadPackTest {
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
 
-		UploadPack up = new UploadPack(server);
-		up.setExtraParameters(Sets.of("version=2"));
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
 
-		ByteArrayInputStream send = linesAsInputStream(
-				"command=fetch\n", "agent=JGit-test/1.2.4\n",
-				PacketLineIn.delimiter(), "want " + one.getName() + "\n",
-				"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
-				PacketLineIn.end());
+			ByteArrayInputStream send = linesAsInputStream("command=fetch\n",
+					"agent=JGit-test/1.2.4\n", PacketLineIn.delimiter(),
+					"want " + one.getName() + "\n",
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
+					PacketLineIn.end());
 
-		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
 
-		assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.4");
+			assertEquals(up.getPeerUserAgent(), "JGit-test/1.2.4");
+		}
+	}
+
+	@Test
+	public void testGetSessionIDValueProtocolV2() throws Exception {
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
+
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("one", one);
+
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
+
+			ByteArrayInputStream send = linesAsInputStream("command=fetch\n",
+					"agent=JGit-test/1.2.4\n", "session-id=client-session-id\n",
+					PacketLineIn.delimiter(), "want " + one.getName() + "\n",
+					"have 11cedf1b796d44207da702f7d420684022fc0f09\n", "done\n",
+					PacketLineIn.end());
+
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
+
+			assertEquals(up.getClientSID(), "client-session-id");
+		}
 	}
 
 	private static class RejectAllRefFilter implements RefFilter {
@@ -2539,6 +2885,75 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testSingleBranchShallowCloneTagChainWithReflessTag() throws Exception {
+		RevCommit one = remote.commit().message("1").create();
+		remote.update("master", one);
+		RevTag tag1 = remote.tag("t1", one);
+		remote.lightweightTag("t1", tag1);
+		RevTag tag2 = remote.tag("t2", tag1);
+		RevTag tag3 = remote.tag("t3", tag2);
+		remote.lightweightTag("t3", tag3);
+
+		UploadPack uploadPack = new UploadPack(remote.getRepository());
+
+		ByteArrayOutputStream cli = new ByteArrayOutputStream();
+		PacketLineOut clientWant = new PacketLineOut(cli);
+		clientWant.writeString("want " + one.name() + " include-tag");
+		clientWant.writeString("deepen 1\n");
+		clientWant.end();
+		clientWant.writeString("done\n");
+
+		try (ByteArrayOutputStream serverResponse = new ByteArrayOutputStream()) {
+
+			uploadPack.setPreUploadHook(new PreUploadHook() {
+				@Override
+				public void onBeginNegotiateRound(UploadPack up,
+						Collection<? extends ObjectId> wants, int cntOffered)
+						throws ServiceMayNotContinueException {
+					// Do nothing.
+				}
+
+				@Override
+				public void onEndNegotiateRound(UploadPack up,
+						Collection<? extends ObjectId> wants, int cntCommon,
+						int cntNotFound, boolean ready)
+						throws ServiceMayNotContinueException {
+					// Do nothing.
+				}
+
+				@Override
+				public void onSendPack(UploadPack up,
+						Collection<? extends ObjectId> wants,
+						Collection<? extends ObjectId> haves)
+						throws ServiceMayNotContinueException {
+					// collect pack data
+					serverResponse.reset();
+				}
+			});
+			uploadPack.upload(new ByteArrayInputStream(cli.toByteArray()),
+					serverResponse, System.err);
+			ByteArrayInputStream packReceived = new ByteArrayInputStream(
+					serverResponse.toByteArray());
+			PackLock lock = null;
+			try (ObjectInserter ins = client.newObjectInserter()) {
+				PackParser parser = ins.newPackParser(packReceived);
+				parser.setAllowThin(true);
+				parser.setLockMessage("receive-tag-chain");
+				ProgressMonitor mlc = NullProgressMonitor.INSTANCE;
+				lock = parser.parse(mlc, mlc);
+				ins.flush();
+			} finally {
+				if (lock != null) {
+					lock.unlock();
+				}
+			}
+			InMemoryRepository.MemObjDatabase objDb = client
+					.getObjectDatabase();
+			assertTrue(objDb.has(one.toObjectId()));
+		}
+	}
+
+	@Test
 	public void testSafeToClearRefsInFetchV0() throws Exception {
 		server =
 			new RefCallsCountingRepository(
@@ -2588,7 +3003,70 @@ public class UploadPackTest {
 		assertThat(pckIn.readString(), is("packfile"));
 		parsePack(recvStream);
 		assertTrue(client.getObjectDatabase().has(one.toObjectId()));
-		assertEquals(1, ((RefCallsCountingRepository)server).numRefCalls());
+		assertEquals(0, ((RefCallsCountingRepository)server).numRefCalls());
+	}
+
+	/*
+	 * Invokes UploadPack with specified protocol version and sends it the given
+	 * lines, and returns UploadPack statistics (use uploadPackSetup to get the
+	 * output stream)
+	 */
+	private PackStatistics uploadPackV2SetupStats(String... inputLines)
+			throws Exception {
+
+		ByteArrayInputStream send = linesAsInputStream(inputLines);
+		String version = TransferConfig.ProtocolVersion.V2.version();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION, version);
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=".concat(version)));
+
+			ByteArrayOutputStream recv = new ByteArrayOutputStream();
+			up.upload(send, recv, null);
+			return up.getStatistics();
+		}
+	}
+
+	@Test
+	public void testUseWantedRefsAsAdvertisedSetV2_onlyWantedRefs()
+			throws Exception {
+		server = new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+		PackStatistics packStats = uploadPackV2SetupStats("command=fetch\n",
+				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
+				"want-ref refs/heads/two\n", "done\n", PacketLineIn.end());
+		assertEquals("only wanted-refs", 2, packStats.getAdvertised());
+		assertEquals(0, ((RefCallsCountingRepository) server).numRefCalls());
+	}
+
+	@Test
+	public void testUseWantedRefsAsAdvertisedSetV2_withWantId()
+			throws Exception {
+		server = new RefCallsCountingRepository(
+				new DfsRepositoryDescription("server"));
+		remote = new TestRepository<>(server);
+		RevCommit one = remote.commit().message("1").create();
+		RevCommit two = remote.commit().message("2").create();
+		RevCommit three = remote.commit().message("3").create();
+		remote.update("one", one);
+		remote.update("two", two);
+		remote.update("three", three);
+		server.getConfig().setBoolean("uploadpack", null, "allowrefinwant",
+				true);
+		PackStatistics packStats = uploadPackV2SetupStats("command=fetch\n",
+				PacketLineIn.delimiter(), "want-ref refs/heads/one\n",
+				"want " + one.getName() + "\n", "done\n", PacketLineIn.end());
+		assertEquals("all refs", 3, packStats.getAdvertised());
+		assertEquals(1, ((RefCallsCountingRepository) server).numRefCalls());
 	}
 
 	@Test
@@ -2678,6 +3156,50 @@ public class UploadPackTest {
 		assertEquals(1, stats.getNotAdvertisedWants());
 	}
 
+	@Test
+	public void testAllowAnySha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null, "allowanysha1inwant",
+				true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.ANY, uploadPack.getRequestPolicy());
+		}
+	}
+
+	@Test
+	public void testAllowReachableSha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null,
+				"allowreachablesha1inwant", true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.REACHABLE_COMMIT,
+					uploadPack.getRequestPolicy());
+		}
+	}
+
+	@Test
+	public void testAllowTipSha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null, "allowtipsha1inwant",
+				true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.TIP, uploadPack.getRequestPolicy());
+		}
+	}
+
+	@Test
+	public void testAllowReachableTipSha1InWantConfig() {
+		server.getConfig().setBoolean("uploadpack", null,
+				"allowreachablesha1inwant", true);
+		server.getConfig().setBoolean("uploadpack", null, "allowtipsha1inwant",
+				true);
+
+		try (UploadPack uploadPack = new UploadPack(server)) {
+			assertEquals(RequestPolicy.REACHABLE_COMMIT_TIP,
+					uploadPack.getRequestPolicy());
+		}
+	}
+
 	private class RefCallsCountingRepository extends InMemoryRepository {
 		private final InMemoryRepository.MemRefDatabase refdb;
 		private int numRefCalls;
@@ -2718,7 +3240,9 @@ public class UploadPackTest {
 		TestV2Hook hook = new TestV2Hook();
 		ByteArrayInputStream recvStream = uploadPackV2((UploadPack up) -> {
 			up.setProtocolV2Hook(hook);
-		}, "command=object-info\n", "size",
+		}, "command=object-info\n",
+				PacketLineIn.delimiter(),
+				"size",
 				"oid " + ObjectId.toString(blob1.getId()),
 				"oid " + ObjectId.toString(blob2.getId()), PacketLineIn.end());
 		PacketLineIn pckIn = new PacketLineIn(recvStream);

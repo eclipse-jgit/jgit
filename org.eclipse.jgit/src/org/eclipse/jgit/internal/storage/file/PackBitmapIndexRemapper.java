@@ -28,8 +28,8 @@ import com.googlecode.javaewah.IntIterator;
  * implementations this implementation is not thread safe, as it is intended to
  * be used with a PackBitmapIndexBuilder, which is also not thread safe.
  */
-public class PackBitmapIndexRemapper extends PackBitmapIndex
-		implements Iterable<PackBitmapIndexRemapper.Entry> {
+public class PackBitmapIndexRemapper
+		implements PackBitmapIndex, Iterable<PackBitmapIndexRemapper.Entry> {
 
 	private final BasePackBitmapIndex oldPackIndex;
 	final PackBitmapIndex newPackIndex;
@@ -79,32 +79,47 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 					oldPackIndex.getObject(pos));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		return newPackIndex.findPosition(objectId);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
 		return newPackIndex.getObject(position);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getObjectCount() {
 		return newPackIndex.getObjectCount();
 	}
 
-	/** {@inheritDoc} */
+	@Override
+	public int getBaseBitmapCount() {
+		return newPackIndex.getBaseBitmapCount();
+	}
+
+	@Override
+	public long getBaseBitmapSizeInBytes() {
+		return newPackIndex.getBaseBitmapSizeInBytes();
+	}
+
+	@Override
+	public int getXorBitmapCount() {
+		return newPackIndex.getXorBitmapCount();
+	}
+
+	@Override
+	public long getXorBitmapSizeInBytes() {
+		return newPackIndex.getXorBitmapSizeInBytes();
+	}
+
 	@Override
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
 		return newPackIndex.ofObjectType(bitmap, type);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Iterator<Entry> iterator() {
 		if (oldPackIndex == null)
@@ -141,7 +156,6 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 		};
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
 		EWAHCompressedBitmap bitmap = newPackIndex.getBitmap(objectId);
@@ -173,13 +187,16 @@ public class PackBitmapIndexRemapper extends PackBitmapIndex
 			this.flags = flags;
 		}
 
-		/** @return the flags associated with the bitmap. */
+		/**
+		 * Get flags
+		 *
+		 * @return the flags associated with the bitmap.
+		 */
 		public int getFlags() {
 			return flags;
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int getBitmapCount() {
 		// The count is only useful for the end index, not the remapper.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2023 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,8 +10,12 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.eclipse.jgit.transport.SshConstants.NONE;
+import static org.eclipse.jgit.transport.SshConstants.PKCS11_PROVIDER;
+import static org.eclipse.jgit.transport.SshConstants.PKCS11_SLOT_LIST_INDEX;
 import static org.eclipse.jgit.transport.SshConstants.PUBKEY_ACCEPTED_ALGORITHMS;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -25,6 +29,7 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,24 +48,28 @@ import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.FactoryManager;
 import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
-import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.config.keys.u2f.SecurityKeyPublicKey;
 import org.apache.sshd.common.signature.Signature;
 import org.apache.sshd.common.signature.SignatureFactoriesManager;
+import org.apache.sshd.common.util.GenericUtils;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
+import org.eclipse.jgit.internal.transport.sshd.pkcs11.Pkcs11Provider;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Custom {@link UserAuthPublicKey} implementation for handling SSH config
- * PubkeyAcceptedAlgorithms and interaction with the SSH agent.
+ * PubkeyAcceptedAlgorithms and interaction with the SSH agent and PKCS11
+ * providers.
  */
 public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
+
+	private static final String LOG_FORMAT = "{}"; //$NON-NLS-1$
 
 	private SshAgent agent;
 
@@ -102,7 +111,7 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 				super.init(session, service);
 				return;
 			}
-			log.warn(format(SshdText.get().configNoKnownAlgorithms,
+			log.warn(LOG_FORMAT, format(SshdText.get().configNoKnownAlgorithms,
 					PUBKEY_ACCEPTED_ALGORITHMS, pubkeyAlgos));
 		}
 		// TODO: remove this once we're on an sshd version that has SSHD-1272
@@ -131,17 +140,6 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 	@Override
 	protected PublicKeyIdentity resolveAttemptedPublicKeyIdentity(
 			ClientSession session, String service) throws Exception {
-		PublicKeyIdentity result = getNextKey(session, service);
-		// This fixes SSHD-1231. Can be removed once we're using Apache MINA
-		// sshd > 2.8.0.
-		//
-		// See https://issues.apache.org/jira/browse/SSHD-1231
-		currentAlgorithms.clear();
-		return result;
-	}
-
-	private PublicKeyIdentity getNextKey(ClientSession session, String service)
-			throws Exception {
 		PublicKeyIdentity id = super.resolveAttemptedPublicKeyIdentity(session,
 				service);
 		if (addKeysToAgent && id != null && !(id instanceof KeyAgentIdentity)) {
@@ -192,7 +190,7 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 				} catch (IOException e) {
 					// Do not re-throw: we don't want authentication to fail if
 					// we cannot add the key to the agent.
-					log.error(
+					log.error(LOG_FORMAT,
 							format(SshdText.get().pubkeyAuthAddKeyToAgentError,
 									keyType, fingerprint),
 							e);
@@ -314,12 +312,7 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 
 	private class KeyIterator extends UserAuthPublicKeyIterator {
 
-		private Iterable<? extends Map.Entry<PublicKey, String>> agentKeys;
-
-		// If non-null, all the public keys from explicitly given key files. Any
-		// agent key not matching one of these public keys will be ignored in
-		// getIdentities().
-		private Collection<PublicKey> identityFiles;
+		private static final String PUB_KEY_SUFFIX = ".pub"; //$NON-NLS-1$
 
 		public KeyIterator(ClientSession session,
 				SignatureFactoriesManager manager)
@@ -333,54 +326,90 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 				return null;
 			}
 			return explicitFiles.stream().map(s -> {
-				try {
-					Path p = Paths.get(s + ".pub"); //$NON-NLS-1$
-					if (Files.isRegularFile(p, LinkOption.NOFOLLOW_LINKS)) {
-						return AuthorizedKeyEntry.readAuthorizedKeys(p).get(0)
-								.resolvePublicKey(null,
-										PublicKeyEntryResolver.IGNORING);
-					}
-				} catch (InvalidPathException | IOException
-						| GeneralSecurityException e) {
-					log.warn(format(SshdText.get().cannotReadPublicKey, s), e);
+				// assume the explicit key is a public key
+				PublicKey publicKey = readPublicKey(s, false);
+				if (publicKey == null && !s.endsWith(PUB_KEY_SUFFIX)) {
+					// if this is not the case, try to lookup public key with
+					// same filename and extension .pub
+					publicKey = readPublicKey(s + PUB_KEY_SUFFIX, true);
 				}
-				return null;
+				return publicKey;
 			}).filter(Objects::nonNull).collect(Collectors.toList());
+		}
+
+		/**
+		 *
+		 * @param keyFile
+		 *            the path to a public key
+		 * @param isDerived
+		 *            {@code false} in case the given {@code keyFile} is set in
+		 *            the SSH config as is, otherwise {@code false}
+		 * @return the public key read from the key file
+		 */
+		private PublicKey readPublicKey(String keyFile, boolean isDerived) {
+			try {
+				Path p = Paths.get(keyFile);
+				if (Files.isRegularFile(p, LinkOption.NOFOLLOW_LINKS)) {
+					return KeyUtils.loadPublicKey(p);
+				}
+				// only warn about non-existing files in case the key file is
+				// not derived
+				if (!isDerived) {
+					log.warn("{}", //$NON-NLS-1$
+						format(SshdText.get().cannotReadPublicKey, keyFile));
+				}
+			} catch (InvalidPathException | IOException e) {
+				log.warn("{}", //$NON-NLS-1$
+						format(SshdText.get().cannotReadPublicKey, keyFile), e);
+			} catch (GeneralSecurityException e) {
+				// ignore in case this is not a derived key path, as in most
+				// cases this specifies a private key
+				if (isDerived) {
+					log.warn("{}", //$NON-NLS-1$
+							format(SshdText.get().cannotReadPublicKey, keyFile),
+							e);
+				}
+			}
+			return null;
 		}
 
 		@Override
 		protected Iterable<KeyAgentIdentity> initializeAgentIdentities(
 				ClientSession session) throws IOException {
-			if (agent == null) {
+			Iterable<KeyAgentIdentity> allAgentKeys = getAgentIdentities();
+			if (allAgentKeys == null) {
 				return null;
 			}
-			agentKeys = agent.getIdentities();
-			if (hostConfig != null && hostConfig.isIdentitiesOnly()) {
-				identityFiles = getExplicitKeys(hostConfig.getIdentities());
+			Collection<PublicKey> identityFiles = identitiesOnly();
+			if (GenericUtils.isEmpty(identityFiles)) {
+				return allAgentKeys;
 			}
+
+			// Only consider agent or PKCS11 keys that match a known public key
+			// file.
 			return () -> new Iterator<>() {
 
-				private final Iterator<? extends Map.Entry<PublicKey, String>> iter = agentKeys
+				private final Iterator<KeyAgentIdentity> identities = allAgentKeys
 						.iterator();
 
-				private Map.Entry<PublicKey, String> next;
+				private KeyAgentIdentity next;
 
 				@Override
 				public boolean hasNext() {
-					while (next == null && iter.hasNext()) {
-						Map.Entry<PublicKey, String> val = iter.next();
-						PublicKey pk = val.getKey();
+					while (next == null && identities.hasNext()) {
+						KeyAgentIdentity val = identities.next();
+						PublicKey pk = val.getKeyIdentity().getPublic();
 						// This checks against all explicit keys for any agent
 						// key, but since identityFiles.size() is typically 1,
 						// it should be fine.
-						if (identityFiles == null || identityFiles.stream()
+						if (identityFiles.stream()
 								.anyMatch(k -> KeyUtils.compareKeys(k, pk))) {
 							next = val;
 							return true;
 						}
 						if (log.isTraceEnabled()) {
 							log.trace(
-									"Ignoring SSH agent {} key not in explicit IdentityFile in SSH config: {}", //$NON-NLS-1$
+									"Ignoring SSH agent or PKCS11 {} key not in explicit IdentityFile in SSH config: {}", //$NON-NLS-1$
 									KeyUtils.getKeyType(pk),
 									KeyUtils.getFingerPrint(pk));
 						}
@@ -393,12 +422,157 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 					if (!hasNext()) {
 						throw new NoSuchElementException();
 					}
-					KeyAgentIdentity result = new KeyAgentIdentity(agent,
-							next.getKey(), next.getValue());
+					KeyAgentIdentity result = next;
 					next = null;
 					return result;
 				}
 			};
+		}
+
+		private Collection<PublicKey> identitiesOnly() {
+			if (hostConfig != null && hostConfig.isIdentitiesOnly()) {
+				return getExplicitKeys(hostConfig.getIdentities());
+			}
+			return Collections.emptyList();
+		}
+
+		private Iterable<KeyAgentIdentity> getAgentIdentities()
+				throws IOException {
+			Iterable<KeyAgentIdentity> pkcs11Keys = getPkcs11Keys();
+			if (agent == null) {
+				return pkcs11Keys;
+			}
+			Iterable<? extends Map.Entry<PublicKey, String>> agentKeys = agent
+					.getIdentities();
+			if (GenericUtils.isEmpty(agentKeys)) {
+				return pkcs11Keys;
+			}
+			Iterable<KeyAgentIdentity> fromAgent = () -> new Iterator<>() {
+
+				private final Iterator<? extends Map.Entry<PublicKey, String>> iter = agentKeys
+						.iterator();
+
+				@Override
+				public boolean hasNext() {
+					return iter.hasNext();
+				}
+
+				@Override
+				public KeyAgentIdentity next() {
+					Map.Entry<PublicKey, String> next = iter.next();
+					return new KeyAgentIdentity(agent, next.getKey(),
+							next.getValue());
+				}
+			};
+			if (GenericUtils.isEmpty(pkcs11Keys)) {
+				return fromAgent;
+			}
+			return () -> new Iterator<>() {
+
+				private final Iterator<Iterator<KeyAgentIdentity>> keyIter = List
+						.of(pkcs11Keys.iterator(), fromAgent.iterator())
+						.iterator();
+
+				private Iterator<KeyAgentIdentity> currentKeys;
+
+				private Boolean hasElement;
+
+				@Override
+				public boolean hasNext() {
+					if (hasElement != null) {
+						return hasElement.booleanValue();
+					}
+					while (currentKeys == null || !currentKeys.hasNext()) {
+						if (keyIter.hasNext()) {
+							currentKeys = keyIter.next();
+						} else {
+							currentKeys = null;
+							hasElement = Boolean.FALSE;
+							return false;
+						}
+					}
+					hasElement = Boolean.TRUE;
+					return true;
+				}
+
+				@Override
+				public KeyAgentIdentity next() {
+					if ((hasElement == null && !hasNext())
+							|| !hasElement.booleanValue()) {
+						throw new NoSuchElementException();
+					}
+					hasElement = null;
+					KeyAgentIdentity result;
+					try {
+						result = currentKeys.next();
+					} catch (NoSuchElementException e) {
+						result = null;
+					}
+					return result;
+				}
+			};
+		}
+
+		private Iterable<KeyAgentIdentity> getPkcs11Keys() throws IOException {
+			String value = hostConfig.getProperty(PKCS11_PROVIDER);
+			if (StringUtils.isEmptyOrNull(value) || NONE.equals(value)) {
+				return null;
+			}
+			if (value.startsWith("~/") //$NON-NLS-1$
+					|| value.startsWith('~' + File.separator)) {
+				value = new File(FS.DETECTED.userHome(), value.substring(2))
+						.toString();
+			}
+			Path library = Paths.get(value);
+			if (!library.isAbsolute()) {
+				throw new IOException(format(SshdText.get().pkcs11NotAbsolute,
+						hostConfig.getHost(), hostConfig.getHostName(),
+						PKCS11_PROVIDER, value));
+			}
+			if (!Files.isRegularFile(library)) {
+				throw new IOException(format(SshdText.get().pkcs11NonExisting,
+						hostConfig.getHost(), hostConfig.getHostName(),
+						PKCS11_PROVIDER, value));
+			}
+			try {
+				int slotListIndex = OpenSshConfigFile.positive(
+						hostConfig.getProperty(PKCS11_SLOT_LIST_INDEX));
+				Pkcs11Provider provider = Pkcs11Provider.getProvider(library,
+						slotListIndex);
+				if (provider == null) {
+					throw new UnsupportedOperationException();
+				}
+				Iterable<KeyAgentIdentity> pkcs11Identities = provider
+						.getKeys(getSession());
+				if (GenericUtils.isEmpty(pkcs11Identities)) {
+					log.warn(LOG_FORMAT, format(SshdText.get().pkcs11NoKeys,
+							hostConfig.getHost(), hostConfig.getHostName(),
+							PKCS11_PROVIDER, value));
+					return null;
+				}
+				return pkcs11Identities;
+			} catch (UnsupportedOperationException e) {
+				throw new UnsupportedOperationException(format(
+						SshdText.get().pkcs11Unsupported, hostConfig.getHost(),
+						hostConfig.getHostName(), PKCS11_PROVIDER, value), e);
+			} catch (Exception e) {
+				checkCancellation(e);
+				throw new IOException(
+						format(SshdText.get().pkcs11FailedInstantiation,
+								hostConfig.getHost(), hostConfig.getHostName(),
+								PKCS11_PROVIDER, value),
+						e);
+			}
+		}
+
+		private void checkCancellation(Throwable e) {
+			Throwable t = e;
+			while (t != null) {
+				if (t instanceof AuthenticationCanceledException) {
+					throw (AuthenticationCanceledException) t;
+				}
+				t = t.getCause();
+			}
 		}
 	}
 }

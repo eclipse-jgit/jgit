@@ -1,1 +1,14 @@
+* text=auto
+
+*.asc binary
+*.gif binary
+*.gitindex.dat binary
+*.key binary
+*.patch binary
+*.pdf binary
+*.png binary
+org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/** binary
+org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/test/resources/** binary
+org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/util/io/** binary
+
 *.java diff=java

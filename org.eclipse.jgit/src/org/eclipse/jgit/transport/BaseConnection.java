@@ -38,25 +38,21 @@ public abstract class BaseConnection implements Connection {
 
 	private Writer messageWriter;
 
-	/** {@inheritDoc} */
 	@Override
 	public Map<String, Ref> getRefsMap() {
 		return advertisedRefs;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final Collection<Ref> getRefs() {
 		return advertisedRefs.values();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final Ref getRef(String name) {
 		return advertisedRefs.get(name);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getMessages() {
 		return messageWriter != null ? messageWriter.toString() : ""; //$NON-NLS-1$
@@ -84,7 +80,6 @@ public abstract class BaseConnection implements Connection {
 		peerUserAgent = agent;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract void close();
 

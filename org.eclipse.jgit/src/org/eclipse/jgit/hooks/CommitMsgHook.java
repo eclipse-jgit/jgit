@@ -71,7 +71,6 @@ public class CommitMsgHook extends GitHook<String> {
 		super(repo, outputStream, errorStream);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String call() throws IOException, AbortedByHookException {
 		if (commitMessage == null) {
@@ -94,7 +93,6 @@ public class CommitMsgHook extends GitHook<String> {
 		return getCommitEditMessageFilePath() != null && commitMessage != null;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getHookName() {
 		return NAME;

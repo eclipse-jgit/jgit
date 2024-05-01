@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Google LLC. and others
+ * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -15,6 +15,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.transport.ObjectIdMatcher.hasOnlyObjectIds;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -97,6 +98,25 @@ public class ProtocolV0ParserTest {
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
 	}
 
+	@Test
+	public void testRecvWantsWithSessionID()
+			throws PackProtocolException, IOException {
+		PacketLineIn pckIn = formatAsPacketLine(String.join(" ", "want",
+				"4624442d68ee402a94364191085b77137618633e", "thin-pack",
+				"agent=JGit.test/0.0.1", "session-id=client-session-id", "\n"),
+				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
+				PacketLineIn.end());
+		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
+		FetchV0Request request = parser.recvWants(pckIn);
+		assertTrue(request.getClientCapabilities()
+				.contains(GitProtocolConstants.OPTION_THIN_PACK));
+		assertEquals(1, request.getClientCapabilities().size());
+		assertEquals("client-session-id", request.getClientSID());
+		assertThat(request.getWantIds(),
+				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
+						"f900c8326a43303685c46b279b9f70411bff1a4b"));
+	}
+
 	/*
 	 * First round of protocol v0 negotiation. Client send wants, no
 	 * capabilities.
@@ -130,6 +150,42 @@ public class ProtocolV0ParserTest {
 		assertThat(request.getWantIds(),
 				hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
 						"f900c8326a43303685c46b279b9f70411bff1a4b"));
+	}
+
+	@Test
+	public void testRecvWantsDeepenSince()
+			throws PackProtocolException, IOException {
+		PacketLineIn pckIn = formatAsPacketLine(
+				"want 4624442d68ee402a94364191085b77137618633e\n",
+				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
+				"deepen-since 1652773020\n",
+				PacketLineIn.end());
+		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
+		FetchV0Request request = parser.recvWants(pckIn);
+		assertTrue(request.getClientCapabilities().isEmpty());
+		assertEquals(1652773020, request.getDeepenSince());
+		assertThat(request.getWantIds(),
+				   hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
+									"f900c8326a43303685c46b279b9f70411bff1a4b"));
+	}
+
+	@Test
+	public void testRecvWantsDeepenNots()
+			throws PackProtocolException, IOException {
+		PacketLineIn pckIn = formatAsPacketLine(
+				"want 4624442d68ee402a94364191085b77137618633e\n",
+				"want f900c8326a43303685c46b279b9f70411bff1a4b\n",
+				"deepen-not 856d5138d7269a483efe276d4a6b5c25b4fbb1a4\n",
+				"deepen-not heads/refs/test\n",
+				PacketLineIn.end());
+		ProtocolV0Parser parser = new ProtocolV0Parser(defaultConfig());
+		FetchV0Request request = parser.recvWants(pckIn);
+		assertTrue(request.getClientCapabilities().isEmpty());
+		assertThat(request.getDeepenNots(), contains("856d5138d7269a483efe276d4a6b5c25b4fbb1a4",
+													 "heads/refs/test"));
+		assertThat(request.getWantIds(),
+				   hasOnlyObjectIds("4624442d68ee402a94364191085b77137618633e",
+									"f900c8326a43303685c46b279b9f70411bff1a4b"));
 	}
 
 	@Test

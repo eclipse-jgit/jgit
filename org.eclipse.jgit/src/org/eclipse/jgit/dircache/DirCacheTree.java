@@ -534,7 +534,6 @@ public class DirCacheTree {
 		return -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getNameString();

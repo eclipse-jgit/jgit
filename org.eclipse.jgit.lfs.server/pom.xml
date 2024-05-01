@@ -52,8 +52,8 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -91,7 +91,7 @@
               <target>
                 <copy file="META-INF/SOURCE-MANIFEST.MF" tofile="${source-bundle-manifest}" overwrite="true"/>
                 <replace file="${source-bundle-manifest}">
-                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
+                  <replacefilter token=".qualifier" value=".${commit.time.version}"/>
                 </replace>
               </target>
             </configuration>

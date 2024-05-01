@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.Date;
 
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x9.ECNamedCurveTable;
 import org.bouncycastle.bcpg.DSAPublicBCPGKey;
 import org.bouncycastle.bcpg.DSASecretBCPGKey;
@@ -62,9 +63,12 @@ import org.bouncycastle.util.Strings;
  * modified by the JGit team to:
  * <ul>
  * <li>handle unencrypted DSA, EC, and ElGamal keys (upstream only handles
- * unencrypted RSA), and</li>
+ * unencrypted RSA)</li>
  * <li>handle secret keys using AES/OCB as encryption (those don't have a
- * hash).</li>
+ * hash)</li>
+ * <li>fix EC parsing to account for "flags" sub-list present for ed25519 and
+ * curve25519</li>
+ * <li>add support for ed25519 OIDs unknown to BouncyCastle</li>
  * </ul>
  */
 @SuppressWarnings("nls")
@@ -95,7 +99,9 @@ public class SExprParser {
 	 *
 	 * @return a secret key object.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws PGPException
+	 *             if some PGP error occurred
 	 */
 	public PGPSecretKey parseSecretKey(InputStream inputStream,
 			PBEProtectionRemoverFactory keyProtectionRemoverFactory,
@@ -126,6 +132,15 @@ public class SExprParser {
 				SXprUtils.skipOpenParenthesis(inputStream);
 
 				type = SXprUtils.readString(inputStream, inputStream.read());
+				// JGit: c.f. https://github.com/bcgit/bc-java/issues/1590.
+				// There may be a flags sub-list here for ed25519 or curve25519.
+				if (type.equals("flags")) {
+					SXprUtils.readString(inputStream, inputStream.read());
+					SXprUtils.skipCloseParenthesis(inputStream);
+					SXprUtils.skipOpenParenthesis(inputStream);
+					type = SXprUtils.readString(inputStream,
+							inputStream.read());
+				}
 				if (type.equals("q")) {
 					qVal = SXprUtils.readBytes(inputStream, inputStream.read());
 				} else {
@@ -141,12 +156,19 @@ public class SExprParser {
 					curveName = curveName.substring("NIST ".length());
 				}
 
+				// JGit: BC doesn't know Ed25519 curve name.
+				ASN1ObjectIdentifier curveOid = ECNamedCurveTable
+						.getOID(curveName);
+				if (curveOid == null) {
+					curveOid = ObjectIds.getByName(curveName);
+				}
 				ECPublicBCPGKey basePubKey = new ECDSAPublicBCPGKey(
-						ECNamedCurveTable.getOID(curveName),
+						curveOid,
 						new BigInteger(1, qVal));
 				ECPublicBCPGKey assocPubKey = (ECPublicBCPGKey) pubKey
 						.getPublicKeyPacket().getKey();
-				if (!basePubKey.getCurveOID().equals(assocPubKey.getCurveOID())
+				if (!ObjectIds.match(basePubKey.getCurveOID(),
+						assocPubKey.getCurveOID())
 						|| !basePubKey.getEncodedPoint()
 								.equals(assocPubKey.getEncodedPoint())) {
 					throw new PGPException(
@@ -252,7 +274,9 @@ public class SExprParser {
 	 *
 	 * @return a secret key object.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws PGPException
+	 *             if a PGP error occurred
 	 */
 	public PGPSecretKey parseSecretKey(InputStream inputStream,
 			PBEProtectionRemoverFactory keyProtectionRemoverFactory,
@@ -288,6 +312,15 @@ public class SExprParser {
 				SXprUtils.skipOpenParenthesis(inputStream);
 
 				type = SXprUtils.readString(inputStream, inputStream.read());
+				// JGit: c.f. https://github.com/bcgit/bc-java/issues/1590.
+				// There may be a flags sub-list here for ed25519 or curve25519.
+				if (type.equals("flags")) {
+					SXprUtils.readString(inputStream, inputStream.read());
+					SXprUtils.skipCloseParenthesis(inputStream);
+					SXprUtils.skipOpenParenthesis(inputStream);
+					type = SXprUtils.readString(inputStream,
+							inputStream.read());
+				}
 				if (type.equals("q")) {
 					qVal = SXprUtils.readBytes(inputStream, inputStream.read());
 				} else {

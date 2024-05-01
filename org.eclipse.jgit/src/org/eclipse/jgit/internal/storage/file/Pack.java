@@ -14,6 +14,9 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
 
 import java.io.EOFException;
 import java.io.File;
@@ -31,6 +34,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.CRC32;
@@ -50,12 +54,17 @@ import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.errors.UnsupportedPackVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+import org.eclipse.jgit.internal.util.Optionally;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -75,6 +84,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public static final Comparator<Pack> SORT = (a, b) -> b.packLastModified
 			.compareTo(a.packLastModified);
+
+	private boolean useStrongRefs;
 
 	private final PackFile packFile;
 
@@ -108,11 +119,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private byte[] packChecksum;
 
-	private volatile PackIndex loadedIdx;
+	private volatile Optionally<PackIndex> loadedIdx = Optionally.empty();
 
-	private PackReverseIndex reverseIdx;
+	private Optionally<PackReverseIndex> reverseIdx = Optionally.empty();
 
-	private PackBitmapIndex bitmapIdx;
+	private Optionally<PackBitmapIndex> bitmapIdx = Optionally.empty();
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -126,12 +137,16 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	/**
 	 * Construct a reader for an existing, pre-indexed packfile.
 	 *
+	 * @param cfg
+	 *            configuration this directory consults for write settings.
 	 * @param packFile
 	 *            path of the <code>.pack</code> file holding the data.
 	 * @param bitmapIdxFile
 	 *            existing bitmap index file with the same base as the pack
 	 */
-	public Pack(File packFile, @Nullable PackFile bitmapIdxFile) {
+	public Pack(Config cfg, File packFile, @Nullable PackFile bitmapIdxFile) {
+		useStrongRefs = cfg.getBoolean(CONFIG_CORE_SECTION,
+				CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS, WindowCache.getInstance().isPackedIndexGitUseStrongRefs());
 		this.packFile = new PackFile(packFile);
 		this.fileSnapshot = PackFileSnapshot.save(packFile);
 		this.packLastModified = fileSnapshot.lastModifiedInstant();
@@ -145,57 +160,58 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private PackIndex idx() throws IOException {
-		PackIndex idx = loadedIdx;
-		if (idx == null) {
-			synchronized (this) {
-				idx = loadedIdx;
-				if (idx == null) {
-					if (invalid) {
-						throw new PackInvalidException(packFile,
-								invalidatingCause);
-					}
-					try {
-						long start = System.currentTimeMillis();
-						PackFile idxFile = packFile.create(INDEX);
-						idx = PackIndex.open(idxFile);
-						if (LOG.isDebugEnabled()) {
-							LOG.debug(String.format(
-									"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
-									idxFile.getAbsolutePath(),
-									Float.valueOf(idxFile.length()
-											/ (1024f * 1024)),
-									Long.valueOf(System.currentTimeMillis()
-											- start)));
-						}
-
-						if (packChecksum == null) {
-							packChecksum = idx.packChecksum;
-							fileSnapshot.setChecksum(
-									ObjectId.fromRaw(packChecksum));
-						} else if (!Arrays.equals(packChecksum,
-								idx.packChecksum)) {
-							throw new PackMismatchException(MessageFormat
-									.format(JGitText.get().packChecksumMismatch,
-											packFile.getPath(),
-											ObjectId.fromRaw(packChecksum)
-													.name(),
-											ObjectId.fromRaw(idx.packChecksum)
-													.name()));
-						}
-						loadedIdx = idx;
-					} catch (InterruptedIOException e) {
-						// don't invalidate the pack, we are interrupted from
-						// another thread
-						throw e;
-					} catch (IOException e) {
-						invalid = true;
-						invalidatingCause = e;
-						throw e;
-					}
+		Optional<PackIndex> optional = loadedIdx.getOptional();
+		if (optional.isPresent()) {
+			return optional.get();
+		}
+		synchronized (this) {
+			optional = loadedIdx.getOptional();
+			if (optional.isPresent()) {
+				return optional.get();
+			}
+			if (invalid) {
+				throw new PackInvalidException(packFile, invalidatingCause);
+			}
+			try {
+				long start = System.currentTimeMillis();
+				PackFile idxFile = packFile.create(INDEX);
+				PackIndex idx = PackIndex.open(idxFile);
+				if (LOG.isDebugEnabled()) {
+					LOG.debug(String.format(
+							"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+							idxFile.getAbsolutePath(),
+							Float.valueOf(idxFile.length()
+									/ (1024f * 1024)),
+							Long.valueOf(System.currentTimeMillis()
+									- start)));
 				}
+
+				if (packChecksum == null) {
+					packChecksum = idx.packChecksum;
+					fileSnapshot.setChecksum(
+							ObjectId.fromRaw(packChecksum));
+				} else if (!Arrays.equals(packChecksum,
+						idx.packChecksum)) {
+					throw new PackMismatchException(MessageFormat
+							.format(JGitText.get().packChecksumMismatch,
+									packFile.getPath(),
+									PackExt.PACK.getExtension(),
+									Hex.toHexString(packChecksum),
+									PackExt.INDEX.getExtension(),
+									Hex.toHexString(idx.packChecksum)));
+				}
+				loadedIdx = optionally(idx);
+				return idx;
+			} catch (InterruptedIOException e) {
+				// don't invalidate the pack, we are interrupted from
+				// another thread
+				throw e;
+			} catch (IOException e) {
+				invalid = true;
+				invalidatingCause = e;
+				throw e;
 			}
 		}
-		return idx;
 	}
 	/**
 	 * Get the File object which locates this pack on disk.
@@ -211,6 +227,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *
 	 * @return the index for this pack file.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public PackIndex getIndex() throws IOException {
 		return idx();
@@ -284,8 +301,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	public void close() {
 		WindowCache.purge(this);
 		synchronized (this) {
-			loadedIdx = null;
-			reverseIdx = null;
+			loadedIdx.clear();
+			reverseIdx.clear();
+			bitmapIdx.clear();
 		}
 	}
 
@@ -665,7 +683,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			// exceptions signaling permanent problems with a pack
 			openFail(true, pe);
 			throw pe;
-		} catch (IOException | RuntimeException ge) {
+		} catch (IOException ioe) {
+			// mark this packfile as invalid when NFS stale file handle error
+			// occur
+			openFail(FileUtils.isStaleFileHandleInCausalChain(ioe), ioe);
+			throw ioe;
+		} catch (RuntimeException ge) {
 			// generic exceptions could be transient so we should not mark the
 			// pack invalid to avoid false MissingObjectExceptions
 			openFail(false, ge);
@@ -764,11 +787,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		fd.seek(length - 20);
 		fd.readFully(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum)) {
-			throw new PackMismatchException(MessageFormat.format(
-					JGitText.get().packChecksumMismatch,
-					getPackFile(),
-					ObjectId.fromRaw(buf).name(),
-					ObjectId.fromRaw(idx.packChecksum).name()));
+			throw new PackMismatchException(
+					MessageFormat.format(JGitText.get().packChecksumMismatch,
+							getPackFile(), PackExt.PACK.getExtension(),
+							Hex.toHexString(buf), PackExt.INDEX.getExtension(),
+							Hex.toHexString(idx.packChecksum)));
 		}
 	}
 
@@ -1123,33 +1146,60 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (invalid || bitmapIdxFile == null) {
 			return null;
 		}
-		if (bitmapIdx == null) {
-			final PackBitmapIndex idx;
-			try {
-				idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
-						getReverseIdx());
-			} catch (FileNotFoundException e) {
-				// Once upon a time this bitmap file existed. Now it
-				// has been removed. Most likely an external gc  has
-				// removed this packfile and the bitmap
-				bitmapIdxFile = null;
-				return null;
-			}
-
-			// At this point, idx() will have set packChecksum.
-			if (Arrays.equals(packChecksum, idx.packChecksum)) {
-				bitmapIdx = idx;
-			} else {
-				bitmapIdxFile = null;
-			}
+		Optional<PackBitmapIndex> optional = bitmapIdx.getOptional();
+		if (optional.isPresent()) {
+			return optional.get();
 		}
-		return bitmapIdx;
+		try {
+			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
+					getReverseIdx());
+			// At this point, idx() will have set packChecksum.
+			if (Arrays.equals(packChecksum, idx.getPackChecksum())) {
+				bitmapIdx = optionally(idx);
+				return idx;
+			}
+		} catch (FileNotFoundException e) {
+			// Once upon a time the bitmap or index files existed. Now one
+			// of them has been removed. Most likely an external gc has
+			// removed index, packfile or the bitmap
+		} catch (IOException e) {
+			if (!FileUtils.isStaleFileHandleInCausalChain(e)) {
+				throw e;
+			}
+			// Ignore NFS stale handle exception the same way as
+			// FileNotFoundException above.
+		}
+		bitmapIdxFile = null;
+		return null;
+	}
+
+	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
+		this.bitmapIdx = Optionally.empty();
+		this.invalid = false;
+		this.bitmapIdxFile = bitmapIndexFile;
+		try {
+			getBitmapIndex();
+		} catch (IOException e) {
+			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
+			this.bitmapIdx = Optionally.empty();
+			this.bitmapIdxFile = null;
+		}
 	}
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
-		if (reverseIdx == null)
-			reverseIdx = new PackReverseIndex(idx());
-		return reverseIdx;
+		if (invalid) {
+			throw new PackInvalidException(packFile, invalidatingCause);
+		}
+		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
+		if (optional.isPresent()) {
+			return optional.get();
+		}
+		PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
+		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(reverseIndexFile,
+					getObjectCount(), () -> getIndex());
+		revIdx.verifyPackChecksum(getPackFile().getPath());
+		reverseIdx = optionally(revIdx);
+		return revIdx;
 	}
 
 	private boolean isCorrupt(long offset) {
@@ -1183,5 +1233,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return "Pack [packFileName=" + packFile.getName() + ", length="
 				+ packFile.length() + ", packChecksum="
 				+ ObjectId.fromRaw(packChecksum).name() + "]";
+	}
+
+	private <T> Optionally<T> optionally(T element) {
+		return useStrongRefs ? new Optionally.Hard<>(element) : new Optionally.Soft<>(element);
 	}
 }

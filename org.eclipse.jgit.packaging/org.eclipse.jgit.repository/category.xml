@@ -69,10 +69,10 @@
    <bundle id="com.sun.jna.platform.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="javaewah">
+   <bundle id="com.googlecode.javaewah.JavaEWAH">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="javaewah.source">
+   <bundle id="com.googlecode.javaewah.JavaEWAH.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="jakarta.servlet-api">
@@ -135,16 +135,16 @@
    <bundle id="org.apache.ant.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.codec">
+   <bundle id="org.apache.commons.commons-codec">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.codec.source">
+   <bundle id="org.apache.commons.commons-codec.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.compress">
+   <bundle id="org.apache.commons.commons-compress">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.compress.source">
+   <bundle id="org.apache.commons.commons-compress.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.apache.commons.logging">
@@ -177,28 +177,28 @@
    <bundle id="org.apache.sshd.sftp.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcpg">
+   <bundle id="bcpg">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcpg.source">
+   <bundle id="bcpg.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcpkix">
+   <bundle id="bcpkix">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcpkix.source">
+   <bundle id="bcpkix.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcprov">
+   <bundle id="bcprov">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcprov.source">
+   <bundle id="bcprov.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcutil">
+   <bundle id="bcutil">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.bouncycastle.bcutil.source">
+   <bundle id="bcutil.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.kohsuke.args4j">
@@ -207,22 +207,34 @@
    <bundle id="org.kohsuke.args4j.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.api">
+   <bundle id="slf4j.api">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.api.source">
+   <bundle id="slf4j.api.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.binding.simple">
+   <bundle id="slf4j.simple">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.slf4j.binding.simple.source">
+   <bundle id="slf4j.simple.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.tukaani.xz">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.tukaani.xz.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.osgi">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.osgi.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.osgi.service.cm">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.osgi.service.cm.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <category-def name="JGit" label="Java implementation of Git">

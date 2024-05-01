@@ -373,6 +373,8 @@ public class WindowCache {
 	}
 
 	/**
+	 * Get singleton instance
+	 *
 	 * @return the cached instance.
 	 */
 	public static WindowCache getInstance() {
@@ -435,7 +437,9 @@ public class WindowCache {
 
 	private final AtomicBoolean publishMBean = new AtomicBoolean();
 
-	private boolean useStrongRefs;
+	private final boolean useStrongRefs;
+
+	private final boolean useStrongIndexRefs;
 
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
@@ -467,6 +471,7 @@ public class WindowCache {
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 		useStrongRefs = cfg.isPackedGitUseStrongRefs();
+		useStrongIndexRefs = cfg.isPackedIndexGitUseStrongRefs();
 		queue = useStrongRefs ? new StrongCleanupQueue(this)
 				: new SoftCleanupQueue(this);
 
@@ -488,6 +493,8 @@ public class WindowCache {
 	}
 
 	/**
+	 * Get cache statistics
+	 *
 	 * @return cache statistics for the WindowCache
 	 */
 	public WindowCacheStats getStats() {
@@ -751,6 +758,10 @@ public class WindowCache {
 		return n == top.next ? top : new Entry(n, top.ref);
 	}
 
+	boolean isPackedIndexGitUseStrongRefs() {
+		return useStrongIndexRefs;
+	}
+
 	private static class Entry {
 		/** Next entry in the hash table's chain list. */
 		final Entry next;
@@ -841,6 +852,7 @@ public class WindowCache {
 		 * Whether this is a strong reference.
 		 * @return {@code true} if this is a strong reference
 		 */
+		@SuppressWarnings("unused")
 		boolean isStrongRef();
 	}
 

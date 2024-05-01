@@ -16,7 +16,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -109,7 +108,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * parents this commit should have. The current HEAD will be in this list
 	 * and also all commits mentioned in .git/MERGE_HEAD
 	 */
-	private List<ObjectId> parents = new LinkedList<>();
+	private List<ObjectId> parents = new ArrayList<>();
 
 	private String reflogComment;
 
@@ -614,7 +613,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// specified the commit should not be empty. This behaviour differs
 			// from native git but can only be adapted in the next release.
 			// TODO(ch) align the defaults with native git
-			allowEmpty = (only.isEmpty()) ? Boolean.TRUE : Boolean.FALSE;
+			allowEmpty = only.isEmpty() ? Boolean.TRUE : Boolean.FALSE;
 
 		// when doing a merge commit parse MERGE_HEAD and MERGE_MSG files
 		if (state == RepositoryState.MERGING_RESOLVED

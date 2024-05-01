@@ -16,9 +16,12 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import org.eclipse.jgit.api.errors.DetachedHeadException;
@@ -115,7 +118,7 @@ public class PushCommandTest extends RepositoryTestCase {
 				+ "\"\nexit 0");
 
 		try (Git git1 = new Git(db)) {
-			// create some refs via commits and tag
+			// create a commit
 			RevCommit commit = git1.commit().setMessage("initial commit").call();
 
 			RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
@@ -123,6 +126,54 @@ public class PushCommandTest extends RepositoryTestCase {
 			assertEquals("1:test, 2:" + uri + ", 3:\n" + "refs/heads/master "
 					+ commit.getName() + " refs/heads/x "
 					+ ObjectId.zeroId().name() + "\n", read(hookOutput));
+		}
+	}
+
+	@Test
+	public void testPrePushHookRedirects() throws JGitInternalException,
+			IOException, GitAPIException, URISyntaxException {
+
+		// create other repository
+		Repository db2 = createWorkRepository();
+
+		// setup the first repository
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.update(config);
+		config.save();
+
+		writeHookFile(PrePushHook.NAME, "#!/bin/sh\n"
+				+ "echo \"1:$1, 2:$2, 3:$3\"\n" // to stdout
+				+ "cat - 1>&2\n" // to stderr
+				+ "exit 0\n");
+
+		try (Git git1 = new Git(db)) {
+			// create a commit
+			RevCommit commit = git1.commit().setMessage("initial commit")
+					.call();
+
+			RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
+			try (ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
+					ByteArrayOutputStream errBytes = new ByteArrayOutputStream();
+					PrintStream stdout = new PrintStream(outBytes, true,
+							StandardCharsets.UTF_8);
+					PrintStream stderr = new PrintStream(errBytes, true,
+							StandardCharsets.UTF_8)) {
+				git1.push()
+						.setRemote("test")
+						.setRefSpecs(spec)
+						.setHookOutputStream(stdout)
+						.setHookErrorStream(stderr)
+						.call();
+				String out = outBytes.toString(StandardCharsets.UTF_8);
+				String err = errBytes.toString(StandardCharsets.UTF_8);
+				assertEquals("1:test, 2:" + uri + ", 3:\n", out);
+				assertEquals("refs/heads/master " + commit.getName()
+						+ " refs/heads/x " + ObjectId.zeroId().name() + '\n',
+						err);
+			}
 		}
 	}
 
@@ -890,7 +941,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * Check that branch.<name>.pushRemote overrides anything else.
+	 * Check that branch.&lt;name&gt;.pushRemote overrides anything else.
 	 *
 	 * @throws Exception
 	 */
@@ -929,7 +980,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * Check that remote.pushDefault overrides branch.<name>.remote
+	 * Check that remote.pushDefault overrides branch.&lt;name&gt;.remote
 	 *
 	 * @throws Exception
 	 */

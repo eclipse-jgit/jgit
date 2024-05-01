@@ -47,7 +47,6 @@ public class PostReceiveHookChain implements PostReceiveHook {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void onPostReceive(ReceivePack rp,
 			Collection<ReceiveCommand> commands) {

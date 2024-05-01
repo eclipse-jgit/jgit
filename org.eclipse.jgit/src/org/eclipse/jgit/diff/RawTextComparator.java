@@ -227,7 +227,6 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		return hashRegion(seq.content, begin, end);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Edit reduceCommonStartEnd(RawText a, RawText b, Edit e) {
 		// This is a faster exact match based form that tries to improve

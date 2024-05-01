@@ -10,7 +10,6 @@
 
 package org.eclipse.jgit.transport;
 
-import static java.lang.Integer.valueOf;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
@@ -224,7 +223,8 @@ public class SideBandOutputStreamTest {
 		} catch (IllegalArgumentException e) {
 			assertEquals(MessageFormat.format(
 					JGitText.get().packetSizeMustBeAtMost,
-					valueOf(Integer.MAX_VALUE), valueOf(65520)), e.getMessage());
+					Integer.valueOf(Integer.MAX_VALUE), Integer.valueOf(65520)),
+					e.getMessage());
 		}
 	}
 

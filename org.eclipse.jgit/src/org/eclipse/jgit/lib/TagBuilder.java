@@ -223,7 +223,6 @@ public class TagBuilder extends ObjectBuilder {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

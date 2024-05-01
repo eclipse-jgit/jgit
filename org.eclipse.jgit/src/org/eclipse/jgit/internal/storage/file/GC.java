@@ -11,18 +11,27 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -40,10 +49,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -61,10 +70,14 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
+import org.eclipse.jgit.internal.storage.commitgraph.GraphCommits;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -84,8 +97,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.LockToken;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateParser;
+import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,18 +126,18 @@ public class GC {
 	private static final Pattern PATTERN_LOOSE_OBJECT = Pattern
 			.compile("[0-9a-fA-F]{38}"); //$NON-NLS-1$
 
-	private static final String PACK_EXT = "." + PackExt.PACK.getExtension();//$NON-NLS-1$
+	private static final Set<PackExt> PARENT_EXTS = Set.of(PACK, KEEP);
 
-	private static final String BITMAP_EXT = "." //$NON-NLS-1$
-			+ PackExt.BITMAP_INDEX.getExtension();
-
-	private static final String INDEX_EXT = "." + PackExt.INDEX.getExtension(); //$NON-NLS-1$
-
-	private static final String KEEP_EXT = "." + PackExt.KEEP.getExtension(); //$NON-NLS-1$
+	private static final Set<PackExt> CHILD_EXTS = Set.of(BITMAP_INDEX, INDEX,
+			REVERSE_INDEX);
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
 	private static final int DEFAULT_AUTOLIMIT = 6700;
+
+	private static final boolean DEFAULT_WRITE_BLOOM_FILTER = false;
+
+	private static final boolean DEFAULT_WRITE_COMMIT_GRAPH = false;
 
 	private static volatile ExecutorService executor;
 
@@ -147,6 +163,8 @@ public class GC {
 	private long packExpireAgeMillis = -1;
 
 	private Date packExpire;
+
+	private Boolean packKeptObjects;
 
 	private PackConfig pconfig;
 
@@ -208,9 +226,10 @@ public class GC {
 	 * gc.log.
 	 *
 	 * @return the collection of
-	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which
-	 *         are newly created
+	 *         {@link org.eclipse.jgit.internal.storage.file.Pack}'s which are
+	 *         newly created
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
@@ -262,13 +281,21 @@ public class GC {
 		if (automatic && !needGc()) {
 			return Collections.emptyList();
 		}
-		pm.start(6 /* tasks */);
-		packRefs();
-		// TODO: implement reflog_expire(pm, repo);
-		Collection<Pack> newPacks = repack();
-		prune(Collections.emptySet());
-		// TODO: implement rerere_gc(pm);
-		return newPacks;
+		try (PidLock lock = new PidLock()) {
+			if (!lock.lock()) {
+				return Collections.emptyList();
+			}
+			pm.start(6 /* tasks */);
+			packRefs();
+			// TODO: implement reflog_expire(pm, repo);
+			Collection<Pack> newPacks = repack();
+			prune(Collections.emptySet());
+			// TODO: implement rerere_gc(pm);
+			if (shouldWriteCommitGraphWhenGc()) {
+				writeCommitGraph(refsToObjectIds(getAllRefs()));
+			}
+			return newPacks;
+		}
 	}
 
 	/**
@@ -276,10 +303,15 @@ public class GC {
 	 * pack files.
 	 *
 	 * @param inserter
+	 *            used to insert objects
 	 * @param reader
+	 *            used to read objects
 	 * @param pack
+	 *            the pack file to loosen objects for
 	 * @param existing
+	 *            existing objects
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void loosen(ObjectDirectoryInserter inserter, ObjectReader reader, Pack pack, HashSet<ObjectId> existing)
 			throws IOException {
@@ -305,13 +337,17 @@ public class GC {
 	 * directory. If an expirationDate is set then pack files which are younger
 	 * than the expirationDate will not be deleted nor preserved.
 	 * <p>
-	 * If we're not immediately expiring loose objects, loosen any objects
-	 * in the old pack files which aren't in the new pack files.
+	 * If we're not immediately expiring loose objects, loosen any objects in
+	 * the old pack files which aren't in the new pack files.
 	 *
 	 * @param oldPacks
+	 *            old pack files
 	 * @param newPacks
+	 *            new pack files
 	 * @throws ParseException
+	 *             if an error occurred during parsing
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void deleteOldPacks(Collection<Pack> oldPacks,
 			Collection<Pack> newPacks) throws ParseException, IOException {
@@ -329,6 +365,7 @@ public class GC {
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
+		List<PackFile> packFilesToPrune = new ArrayList<>();
 		oldPackLoop: for (Pack oldPack : oldPacks) {
 			checkCancelled();
 			String oldName = oldPack.getPackName();
@@ -346,9 +383,10 @@ public class GC {
 					loosen(inserter, reader, oldPack, ids);
 				}
 				oldPack.close();
-				prunePack(oldPack.getPackFile());
+				packFilesToPrune.add(oldPack.getPackFile());
 			}
 		}
+		packFilesToPrune.forEach(this::prunePack);
 
 		// close the complete object database. That's my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
@@ -356,12 +394,15 @@ public class GC {
 	}
 
 	/**
-	 * Deletes old pack file, unless 'preserve-oldpacks' is set, in which case it
-	 * moves the pack file to the preserved directory
+	 * Deletes old pack file, unless 'preserve-oldpacks' is set, in which case
+	 * it moves the pack file to the preserved directory
 	 *
 	 * @param packFile
+	 *            the packfile to delete
 	 * @param deleteOptions
+	 *            delete option flags
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void removeOldPack(PackFile packFile, int deleteOptions)
 			throws IOException {
@@ -400,6 +441,7 @@ public class GC {
 	 * with a ".pack" file without a ".index" file.
 	 *
 	 * @param packFile
+	 *            the pack file to prune files for
 	 */
 	private void prunePack(PackFile packFile) {
 		try {
@@ -427,6 +469,7 @@ public class GC {
 	 * because the filesystem delete operation fails) this is silently ignored.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void prunePacked() throws IOException {
 		ObjectDirectory objdb = repo.getObjectDatabase();
@@ -485,6 +528,7 @@ public class GC {
 	 * @param objectsToKeep
 	 *            a set of objects which should explicitly not be pruned
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
@@ -692,10 +736,15 @@ public class GC {
 	 * by the given ObjectWalk
 	 *
 	 * @param id2File
+	 *            mapping objectIds to files
 	 * @param w
+	 *            used to walk objects
 	 * @throws MissingObjectException
+	 *             if an object is missing
 	 * @throws IncorrectObjectTypeException
+	 *             if an object has an unexpected tyoe
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private void removeReferenced(Map<ObjectId, File> id2File,
 			ObjectWalk w) throws MissingObjectException,
@@ -736,6 +785,7 @@ public class GC {
 	 * is compacted into a single table.
 	 *
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void packRefs() throws IOException {
 		RefDatabase refDb = repo.getRefDatabase();
@@ -790,9 +840,12 @@ public class GC {
 		Set<ObjectId> allHeads = new HashSet<>();
 		Set<ObjectId> allTags = new HashSet<>();
 		Set<ObjectId> nonHeads = new HashSet<>();
-		Set<ObjectId> txnHeads = new HashSet<>();
 		Set<ObjectId> tagTargets = new HashSet<>();
 		Set<ObjectId> indexObjects = listNonHEADIndexObjects();
+
+		Set<ObjectId> refsToExcludeFromBitmap = repo.getRefDatabase()
+				.getRefsByPrefix(pconfig.getBitmapExcludedRefsPrefixes())
+				.stream().map(Ref::getObjectId).collect(Collectors.toSet());
 
 		for (Ref ref : refsBefore) {
 			checkCancelled();
@@ -812,11 +865,12 @@ public class GC {
 			}
 		}
 
-		List<ObjectIdSet> excluded = new LinkedList<>();
+		List<ObjectIdSet> excluded = new ArrayList<>();
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
-			if (p.shouldBeKept())
+			if (!shouldPackKeptObjects() && p.shouldBeKept()) {
 				excluded.add(p.getIndex());
+			}
 		}
 
 		// Don't exclude tags that are also branch tips
@@ -838,7 +892,7 @@ public class GC {
 		Pack heads = null;
 		if (!allHeadsAndTags.isEmpty()) {
 			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
-					tagTargets, excluded);
+					refsToExcludeFromBitmap, tagTargets, excluded, true);
 			if (heads != null) {
 				ret.add(heads);
 				excluded.add(0, heads.getIndex());
@@ -846,15 +900,9 @@ public class GC {
 		}
 		if (!nonHeads.isEmpty()) {
 			Pack rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
-					tagTargets, excluded);
+					PackWriter.NONE, tagTargets, excluded, false);
 			if (rest != null)
 				ret.add(rest);
-		}
-		if (!txnHeads.isEmpty()) {
-			Pack txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
-					null, excluded);
-			if (txn != null)
-				ret.add(txn);
 		}
 		try {
 			deleteOldPacks(toBeDeleted, ret);
@@ -875,6 +923,119 @@ public class GC {
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
 		return ret;
+	}
+
+	private Set<ObjectId> refsToObjectIds(Collection<Ref> refs)
+			throws IOException {
+		Set<ObjectId> objectIds = new HashSet<>();
+		for (Ref ref : refs) {
+			checkCancelled();
+			if (ref.getPeeledObjectId() != null) {
+				objectIds.add(ref.getPeeledObjectId());
+				continue;
+			}
+
+			if (ref.getObjectId() != null) {
+				objectIds.add(ref.getObjectId());
+			}
+		}
+		return objectIds;
+	}
+
+	/**
+	 * Generate a new commit-graph file when 'core.commitGraph' is true.
+	 *
+	 * @param wants
+	 *            the list of wanted objects, writer walks commits starting at
+	 *            these. Must not be {@code null}.
+	 * @throws IOException
+	 *             if an IO error occurred
+	 */
+	void writeCommitGraph(@NonNull Set<? extends ObjectId> wants)
+			throws IOException {
+		if (!repo.getConfig().get(CoreConfig.KEY).enableCommitGraph()) {
+			return;
+		}
+		if (repo.getObjectDatabase().getShallowCommits().size() > 0) {
+			return;
+		}
+		checkCancelled();
+		if (wants.isEmpty()) {
+			return;
+		}
+		File tmpFile = null;
+		try (RevWalk walk = new RevWalk(repo)) {
+			CommitGraphWriter writer = new CommitGraphWriter(
+					GraphCommits.fromWalk(pm, wants, walk),
+					shouldWriteBloomFilter());
+			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
+					COMMIT_GRAPH.getTmpExtension(),
+					repo.getObjectDatabase().getInfoDirectory());
+			// write the commit-graph file
+			try (FileOutputStream fos = new FileOutputStream(tmpFile);
+					FileChannel channel = fos.getChannel();
+					OutputStream channelStream = Channels
+							.newOutputStream(channel)) {
+				writer.write(pm, channelStream);
+				channel.force(true);
+			}
+
+			// rename the temporary file to real file
+			File realFile = new File(repo.getObjectsDirectory(),
+					Constants.INFO_COMMIT_GRAPH);
+			FileUtils.rename(tmpFile, realFile, StandardCopyOption.ATOMIC_MOVE);
+		} finally {
+			if (tmpFile != null && tmpFile.exists()) {
+				tmpFile.delete();
+			}
+		}
+		deleteTempCommitGraph();
+	}
+
+	private void deleteTempCommitGraph() {
+		Path objectsDir = repo.getObjectDatabase().getInfoDirectory().toPath();
+		Instant threshold = Instant.now().minus(1, ChronoUnit.DAYS);
+		if (!Files.exists(objectsDir)) {
+			return;
+		}
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(objectsDir,
+				"commit_*_tmp")) { //$NON-NLS-1$
+			stream.forEach(t -> {
+				try {
+					Instant lastModified = Files.getLastModifiedTime(t)
+							.toInstant();
+					if (lastModified.isBefore(threshold)) {
+						Files.deleteIfExists(t);
+					}
+				} catch (IOException e) {
+					LOG.error(e.getMessage(), e);
+				}
+			});
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * If {@code true}, will rewrite the commit-graph file when gc is run.
+	 *
+	 * @return true if commit-graph should be written. Default is {@code false}.
+	 */
+	boolean shouldWriteCommitGraphWhenGc() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH,
+				DEFAULT_WRITE_COMMIT_GRAPH);
+	}
+
+	/**
+	 * If {@code true}, generates bloom filter in the commit-graph file.
+	 *
+	 * @return true if bloom filter should be written. Default is {@code false}.
+	 */
+	boolean shouldWriteBloomFilter() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				ConfigConstants.CONFIG_KEY_WRITE_CHANGED_PATHS,
+				DEFAULT_WRITE_BLOOM_FILTER);
 	}
 
 	private static boolean isHead(Ref ref) {
@@ -937,47 +1098,52 @@ public class GC {
 		}
 	}
 
+	private static Optional<PackFile> toPackFileWithValidExt(
+			Path packFilePath) {
+		try {
+			PackFile packFile = new PackFile(packFilePath.toFile());
+			if (packFile.getPackExt() == null) {
+				return Optional.empty();
+			}
+			return Optional.of(packFile);
+		} catch (IllegalArgumentException e) {
+			return Optional.empty();
+		}
+	}
+
 	/**
 	 * Deletes orphans
 	 * <p>
-	 * A file is considered an orphan if it is either a "bitmap" or an index
-	 * file, and its corresponding pack file is missing in the list.
+	 * A file is considered an orphan if it is some type of index file, but
+	 * there is not a corresponding pack or keep file present in the directory.
 	 * </p>
 	 */
 	private void deleteOrphans() {
 		Path packDir = repo.getObjectDatabase().getPackDirectory().toPath();
-		List<String> fileNames = null;
+		List<PackFile> childFiles;
+		Set<String> seenParentIds = new HashSet<>();
 		try (Stream<Path> files = Files.list(packDir)) {
-			fileNames = files.map(path -> path.getFileName().toString())
-					.filter(name -> (name.endsWith(PACK_EXT)
-							|| name.endsWith(BITMAP_EXT)
-							|| name.endsWith(INDEX_EXT)
-							|| name.endsWith(KEEP_EXT)))
-					// sort files with same base name in the order:
-					// .pack, .keep, .index, .bitmap to avoid look ahead
-					.sorted(Collections.reverseOrder())
-					.collect(Collectors.toList());
+			childFiles = files.map(GC::toPackFileWithValidExt)
+					.filter(Optional::isPresent).map(Optional::get)
+					.filter(packFile -> {
+						PackExt ext = packFile.getPackExt();
+						if (PARENT_EXTS.contains(ext)) {
+							seenParentIds.add(packFile.getId());
+							return false;
+						}
+						return CHILD_EXTS.contains(ext);
+					}).collect(Collectors.toList());
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 			return;
 		}
-		if (fileNames == null) {
-			return;
-		}
 
-		String latestId = null;
-		for (String n : fileNames) {
-			PackFile pf = new PackFile(packDir.toFile(), n);
-			PackExt ext = pf.getPackExt();
-			if (ext.equals(PACK) || ext.equals(KEEP)) {
-				latestId = pf.getId();
-			}
-			if (latestId == null || !pf.getId().equals(latestId)) {
-				// no pack or keep for this id
+		for (PackFile child : childFiles) {
+			if (!seenParentIds.contains(child.getId())) {
 				try {
-					FileUtils.delete(pf,
+					FileUtils.delete(child,
 							FileUtils.RETRY | FileUtils.SKIP_MISSING);
-					LOG.warn(JGitText.get().deletedOrphanInPackDir, pf);
+					LOG.warn(JGitText.get().deletedOrphanInPackDir, child);
 				} catch (IOException e) {
 					LOG.error(e.getMessage(), e);
 				}
@@ -1012,15 +1178,14 @@ public class GC {
 	/**
 	 * @param ref
 	 *            the ref which log should be inspected
-	 * @param minTime only reflog entries not older then this time are processed
+	 * @param minTime
+	 *            only reflog entries not older then this time are processed
 	 * @return the {@link ObjectId}s contained in the reflog
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
-		ReflogReader reflogReader = repo.getReflogReader(ref.getName());
-		if (reflogReader == null) {
-			return Collections.emptySet();
-		}
+		ReflogReader reflogReader = repo.getReflogReader(ref);
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
 		if (rlEntries == null || rlEntries.isEmpty())
@@ -1049,6 +1214,7 @@ public class GC {
 	 *
 	 * @return a collection of refs pointing to live objects.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	private Collection<Ref> getAllRefs() throws IOException {
 		RefDatabase refdb = repo.getRefDatabase();
@@ -1075,8 +1241,11 @@ public class GC {
 	 *
 	 * @return a set of ObjectIds of changed objects in the index
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @throws CorruptObjectException
+	 *             if an object is corrupt
 	 * @throws NoWorkTreeException
+	 *             if the repository has no working directory
 	 */
 	private Set<ObjectId> listNonHEADIndexObjects()
 			throws CorruptObjectException, IOException {
@@ -1124,7 +1293,8 @@ public class GC {
 
 	private Pack writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
-			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects)
+			@NonNull Set<ObjectId> excludedRefsTips,
+			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects, boolean createBitmap)
 			throws IOException {
 		checkCancelled();
 		File tmpPack = null;
@@ -1155,7 +1325,9 @@ public class GC {
 			if (excludeObjects != null)
 				for (ObjectIdSet idx : excludeObjects)
 					pw.excludeObjects(idx);
-			pw.preparePack(pm, want, have, PackWriter.NONE, tags);
+			pw.setCreateBitmaps(createBitmap);
+			pw.preparePack(pm, want, have, PackWriter.NONE,
+					union(tags, excludedRefsTips));
 			if (pw.getObjectCount() == 0)
 				return null;
 			checkCancelled();
@@ -1164,10 +1336,11 @@ public class GC {
 			ObjectId id = pw.computeName();
 			File packdir = repo.getObjectDatabase().getPackDirectory();
 			packdir.mkdirs();
-			tmpPack = File.createTempFile("gc_", ".pack_tmp", packdir); //$NON-NLS-1$ //$NON-NLS-2$
-			final String tmpBase = tmpPack.getName()
+			tmpPack = File.createTempFile("gc_", //$NON-NLS-1$
+					PACK.getTmpExtension(), packdir);
+			String tmpBase = tmpPack.getName()
 					.substring(0, tmpPack.getName().lastIndexOf('.'));
-			File tmpIdx = new File(packdir, tmpBase + ".idx_tmp"); //$NON-NLS-1$
+			File tmpIdx = new File(packdir, tmpBase + INDEX.getTmpExtension());
 			tmpExts.put(INDEX, tmpIdx);
 
 			if (!tmpIdx.createNewFile())
@@ -1192,8 +1365,28 @@ public class GC {
 				idxChannel.force(true);
 			}
 
+			if (pw.isReverseIndexEnabled()) {
+				File tmpReverseIndexFile = new File(packdir,
+						tmpBase + REVERSE_INDEX.getTmpExtension());
+				tmpExts.put(REVERSE_INDEX, tmpReverseIndexFile);
+				if (!tmpReverseIndexFile.createNewFile()) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().cannotCreateIndexfile,
+							tmpReverseIndexFile.getPath()));
+				}
+				try (FileOutputStream fos = new FileOutputStream(
+						tmpReverseIndexFile);
+						FileChannel channel = fos.getChannel();
+						OutputStream stream = Channels
+								.newOutputStream(channel)) {
+					pw.writeReverseIndex(stream);
+					channel.force(true);
+				}
+			}
+
 			if (pw.prepareBitmapIndex(pm)) {
-				File tmpBitmapIdx = new File(packdir, tmpBase + ".bitmap_tmp"); //$NON-NLS-1$
+				File tmpBitmapIdx = new File(packdir,
+						tmpBase + BITMAP_INDEX.getTmpExtension());
 				tmpExts.put(BITMAP_INDEX, tmpBitmapIdx);
 
 				if (!tmpBitmapIdx.createNewFile())
@@ -1205,7 +1398,7 @@ public class GC {
 						FileChannel idxChannel = fos.getChannel();
 						OutputStream idxStream = Channels
 								.newOutputStream(idxChannel)) {
-					pw.writeBitmapIndex(idxStream);
+					pw.writeBitmapIndex(new PackBitmapIndexWriterV1(idxStream));
 					idxChannel.force(true);
 				}
 			}
@@ -1268,10 +1461,34 @@ public class GC {
 		}
 	}
 
+	private Set<? extends ObjectId> union(Set<ObjectId> tags,
+			Set<ObjectId> excludedRefsHeadsTips) {
+		HashSet<ObjectId> unionSet = new HashSet<>(
+				tags.size() + excludedRefsHeadsTips.size());
+		unionSet.addAll(tags);
+		unionSet.addAll(excludedRefsHeadsTips);
+		return unionSet;
+	}
+
 	private void checkCancelled() throws CancelledException {
 		if (pm.isCancelled() || Thread.currentThread().isInterrupted()) {
 			throw new CancelledException(JGitText.get().operationCanceled);
 		}
+	}
+
+	/**
+	 * Define whether to include objects in `.keep` files when repacking.
+	 *
+	 * @param packKeptObjects Whether to include objects in `.keep` files when repacking.
+	 */
+	public void setPackKeptObjects(boolean packKeptObjects) {
+		this.packKeptObjects = Boolean.valueOf(packKeptObjects);
+	}
+
+	@SuppressWarnings("boxing")
+	private boolean shouldPackKeptObjects() {
+		return Optional.ofNullable(packKeptObjects)
+				.orElse(pconfig.isPackKeptObjects());
 	}
 
 	/**
@@ -1341,6 +1558,7 @@ public class GC {
 	 *
 	 * @return information about objects and pack files for a FileRepository
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
@@ -1528,6 +1746,8 @@ public class GC {
 	}
 
 	/**
+	 * Whether number of packs exceeds gc.autopacklimit
+	 *
 	 * @return {@code true} if number of packs &gt; gc.autopacklimit (default
 	 *         50)
 	 */
@@ -1583,5 +1803,143 @@ public class GC {
 	private int getLooseObjectLimit() {
 		return repo.getConfig().getInt(ConfigConstants.CONFIG_GC_SECTION,
 				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
+	}
+
+	private class PidLock implements AutoCloseable {
+
+		private static final String GC_PID = "gc.pid"; //$NON-NLS-1$
+
+		private final Path pidFile;
+
+		private LockToken token;
+
+		private FileLock lock;
+
+		private RandomAccessFile f;
+
+		private FileChannel channel;
+
+		private ShutdownHook.Listener shutdownListener = this::close;
+
+		PidLock() {
+			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
+		}
+
+		boolean lock() throws IOException {
+			if (Files.exists(pidFile)) {
+				Instant mtime = FS.DETECTED
+						.lastModifiedInstant(pidFile.toFile());
+				Instant twelveHoursAgo = Instant.now().minus(12,
+						ChronoUnit.HOURS);
+				if (mtime.compareTo(twelveHoursAgo) > 0) {
+					gcAlreadyRunning();
+					return false;
+				}
+				LOG.warn(MessageFormat.format(JGitText.get().stalePidLock,
+						pidFile, mtime));
+			}
+			try {
+				token = FS.DETECTED.createNewFileAtomic(pidFile.toFile());
+				f = new RandomAccessFile(pidFile.toFile(), "rw"); //$NON-NLS-1$
+				channel = f.getChannel();
+				lock = channel.tryLock();
+				if (lock == null || !lock.isValid()) {
+					gcAlreadyRunning();
+					return false;
+				}
+				channel.write(ByteBuffer
+						.wrap(getProcDesc().getBytes(StandardCharsets.UTF_8)));
+				ShutdownHook.INSTANCE.register(shutdownListener);
+			} catch (IOException | OverlappingFileLockException e) {
+				try {
+					failedToLock();
+				} catch (Exception e1) {
+					LOG.error(
+							MessageFormat.format(
+									JGitText.get().closePidLockFailed, pidFile),
+							e1);
+				}
+				throw e;
+			}
+			return true;
+		}
+
+		private void failedToLock() {
+			close();
+			LOG.error(MessageFormat.format(JGitText.get().failedPidLock,
+					pidFile));
+		}
+
+		private void gcAlreadyRunning() {
+			close();
+			Optional<String> s;
+			try (Stream<String> lines = Files.lines(pidFile)) {
+				s = lines.findFirst();
+				String machine = null;
+				String pid = null;
+				if (s.isPresent()) {
+					String[] c = s.get().split("\\s+"); //$NON-NLS-1$
+					pid = c[0];
+					machine = c[1];
+				}
+				if (!StringUtils.isEmptyOrNull(machine)
+						&& !StringUtils.isEmptyOrNull(pid)) {
+					LOG.error(MessageFormat.format(
+							JGitText.get().gcAlreadyRunning, machine, pid));
+					return;
+				}
+			} catch (IOException e) {
+				// ignore
+			}
+			LOG.error(MessageFormat.format(JGitText.get().failedPidLock,
+					pidFile));
+		}
+
+		private String getProcDesc() {
+			StringBuilder s = new StringBuilder(Long.toString(getPID()));
+			s.append(' ');
+			s.append(getHostName());
+			return s.toString();
+		}
+
+		private long getPID() {
+			return ProcessHandle.current().pid();
+		}
+
+		private String getHostName() {
+			try {
+				return InetAddress.getLocalHost().getHostName();
+			} catch (UnknownHostException e) {
+				return ""; //$NON-NLS-1$
+			}
+		}
+
+		@Override
+		public void close() {
+			boolean wasLocked = false;
+			try {
+				ShutdownHook.INSTANCE.unregister(shutdownListener);
+				if (lock != null && lock.isValid()) {
+					lock.release();
+					wasLocked = true;
+				}
+				if (channel != null) {
+					channel.close();
+				}
+				if (f != null) {
+					f.close();
+				}
+				if (token != null) {
+					token.close();
+				}
+				if (wasLocked) {
+					FileUtils.delete(pidFile.toFile(), FileUtils.RETRY | FileUtils.SKIP_MISSING);
+				}
+			} catch (IOException e) {
+				LOG.error(MessageFormat
+						.format(JGitText.get().closePidLockFailed, pidFile), e);
+			}
+		}
+
 	}
 }

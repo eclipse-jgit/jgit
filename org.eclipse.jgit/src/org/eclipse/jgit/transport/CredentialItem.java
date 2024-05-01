@@ -109,14 +109,20 @@ public abstract class CredentialItem {
 			value = null;
 		}
 
-		/** @return the current value */
+		/**
+		 * Get value
+		 *
+		 * @return the current value
+		 */
 		public String getValue() {
 			return value;
 		}
 
 		/**
+		 * Set value
 		 *
 		 * @param newValue
+		 *            the new value
 		 */
 		public void setValue(String newValue) {
 			value = newValue;
@@ -214,7 +220,11 @@ public abstract class CredentialItem {
 			value = false;
 		}
 
-		/** @return the current value */
+		/**
+		 * Get value
+		 *
+		 * @return the current value
+		 */
 		public boolean getValue() {
 			return value;
 		}
@@ -223,6 +233,7 @@ public abstract class CredentialItem {
 		 * Set the new value.
 		 *
 		 * @param newValue
+		 *            the new value
 		 */
 		public void setValue(boolean newValue) {
 			value = newValue;

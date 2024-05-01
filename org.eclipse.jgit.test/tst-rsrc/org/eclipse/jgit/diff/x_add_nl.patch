@@ -1,0 +1,11 @@
+diff --git a/x_add_nl b/x_add_nl
+index 33a3e0e..71ac1b5 100644
+--- a/x_add_nl
++++ b/x_add_nl
+@@ -5,4 +5,4 @@ d
+ e
+ f
+ g
+-h
+\ No newline at end of file
++h

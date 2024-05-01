@@ -22,7 +22,9 @@ import org.eclipse.jgit.transport.Transport;
  * {@link org.eclipse.jgit.api.TransportConfigCallback}.
  *
  * @param <C>
+ *            concrete type of this {@code GitCommand}
  * @param <T>
+ *            the return type of the {@code GitCommand}'s {@code call()} method
  */
 public abstract class TransportCommand<C extends GitCommand, T> extends
 		GitCommand<T> {

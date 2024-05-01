@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
- * Copyright (C) 2011, 2020 Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2011, 2023 Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -17,7 +17,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +27,7 @@ import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.dircache.Checkout;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
@@ -163,10 +163,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 */
 	protected CheckoutCommand(Repository repo) {
 		super(repo);
-		this.paths = new LinkedList<>();
+		this.paths = new ArrayList<>();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException,
@@ -325,6 +324,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set progress monitor
+	 *
 	 * @param monitor
 	 *            a progress monitor
 	 * @return this instance
@@ -406,11 +407,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 *
 	 * @return this instance
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @throws org.eclipse.jgit.api.errors.RefNotFoundException
+	 *             if {@code Ref} couldn't be resolved
 	 */
 	protected CheckoutCommand checkoutPaths() throws IOException,
 			RefNotFoundException {
 		actuallyModifiedPaths = new HashSet<>();
+		Checkout checkout = new Checkout(repo).setRecursiveDeletion(true);
 		DirCache dc = repo.lockDirCache();
 		try (RevWalk revWalk = new RevWalk(repo);
 				TreeWalk treeWalk = new TreeWalk(repo,
@@ -419,10 +423,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			if (!checkoutAllPaths)
 				treeWalk.setFilter(PathFilterGroup.createFromStrings(paths));
 			if (isCheckoutIndex())
-				checkoutPathsFromIndex(treeWalk, dc);
+				checkoutPathsFromIndex(treeWalk, dc, checkout);
 			else {
 				RevCommit commit = revWalk.parseCommit(getStartPointObjectId());
-				checkoutPathsFromCommit(treeWalk, dc, commit);
+				checkoutPathsFromCommit(treeWalk, dc, commit, checkout);
 			}
 		} finally {
 			try {
@@ -439,7 +443,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		return this;
 	}
 
-	private void checkoutPathsFromIndex(TreeWalk treeWalk, DirCache dc)
+	private void checkoutPathsFromIndex(TreeWalk treeWalk, DirCache dc,
+			Checkout checkout)
 			throws IOException {
 		DirCacheIterator dci = new DirCacheIterator(dc);
 		treeWalk.addTree(dci);
@@ -465,8 +470,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					if (stage > DirCacheEntry.STAGE_0) {
 						if (checkoutStage != null) {
 							if (stage == checkoutStage.number) {
-								checkoutPath(ent, r, new CheckoutMetadata(
-										eolStreamType, filterCommand));
+								checkoutPath(ent, r, checkout, path,
+										new CheckoutMetadata(eolStreamType,
+												filterCommand));
 								actuallyModifiedPaths.add(path);
 							}
 						} else {
@@ -475,8 +481,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 							throw new JGitInternalException(e.getMessage(), e);
 						}
 					} else {
-						checkoutPath(ent, r, new CheckoutMetadata(eolStreamType,
-								filterCommand));
+						checkoutPath(ent, r, checkout, path,
+								new CheckoutMetadata(eolStreamType,
+										filterCommand));
 						actuallyModifiedPaths.add(path);
 					}
 				}
@@ -488,7 +495,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private void checkoutPathsFromCommit(TreeWalk treeWalk, DirCache dc,
-			RevCommit commit) throws IOException {
+			RevCommit commit, Checkout checkout) throws IOException {
 		treeWalk.addTree(commit.getTree());
 		final ObjectReader r = treeWalk.getObjectReader();
 		DirCacheEditor editor = dc.editor();
@@ -510,7 +517,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					}
 					ent.setObjectId(blobId);
 					ent.setFileMode(mode);
-					checkoutPath(ent, r,
+					checkoutPath(ent, r, checkout, path,
 							new CheckoutMetadata(eolStreamType, filterCommand));
 					actuallyModifiedPaths.add(path);
 				}
@@ -520,10 +527,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private void checkoutPath(DirCacheEntry entry, ObjectReader reader,
-			CheckoutMetadata checkoutMetadata) {
+			Checkout checkout, String path, CheckoutMetadata checkoutMetadata) {
 		try {
-			DirCacheCheckout.checkoutEntry(repo, entry, reader, true,
-					checkoutMetadata);
+			checkout.checkout(entry, checkoutMetadata, reader, path);
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().checkoutConflictWithFile,

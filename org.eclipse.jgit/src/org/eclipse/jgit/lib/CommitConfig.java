@@ -403,7 +403,7 @@ public class CommitConfig {
 			for (int i = 0; i < len; i++) {
 				char ch = line.charAt(i);
 				if (!Character.isWhitespace(ch)) {
-					if (ch >= 0 && ch < inUse.length) {
+					if (ch < inUse.length) {
 						inUse[ch] = true;
 					}
 					break;

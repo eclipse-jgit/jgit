@@ -35,7 +35,6 @@ public class ListenerHandle {
 		parent.remove(this);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

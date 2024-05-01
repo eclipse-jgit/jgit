@@ -150,7 +150,6 @@ public class PackInserter extends ObjectInserter {
 		return buffer().length;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
@@ -169,7 +168,6 @@ public class PackInserter extends ObjectInserter {
 		return endObject(id, offset);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId insert(int type, long len, InputStream in)
 			throws IOException {
@@ -243,19 +241,16 @@ public class PackInserter extends ObjectInserter {
 		return 12;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PackParser newPackParser(InputStream in) {
 		throw new UnsupportedOperationException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectReader newReader() {
 		return new Reader();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (tmpPack == null) {
@@ -340,7 +335,6 @@ public class PackInserter extends ObjectInserter {
 		return ObjectId.fromRaw(md.digest());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		try {

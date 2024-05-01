@@ -16,6 +16,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Translation bundle for JGit http server
  */
+@SuppressWarnings("MissingSummary")
 public class HttpServerText extends TranslationBundle {
 
 	/**

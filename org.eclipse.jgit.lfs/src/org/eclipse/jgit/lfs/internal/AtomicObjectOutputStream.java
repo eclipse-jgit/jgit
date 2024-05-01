@@ -45,6 +45,7 @@ public class AtomicObjectOutputStream extends OutputStream {
 	 * @param id
 	 *            a {@link org.eclipse.jgit.lfs.lib.AnyLongObjectId} object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public AtomicObjectOutputStream(Path path, AnyLongObjectId id)
 			throws IOException {
@@ -61,6 +62,7 @@ public class AtomicObjectOutputStream extends OutputStream {
 	 * @param path
 	 *            a {@link java.nio.file.Path} object.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public AtomicObjectOutputStream(Path path) throws IOException {
 		this(path, null);
@@ -78,25 +80,21 @@ public class AtomicObjectOutputStream extends OutputStream {
 		return id;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		out.write(b);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b) throws IOException {
 		out.write(b);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		out.write(b, off, len);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		out.close();

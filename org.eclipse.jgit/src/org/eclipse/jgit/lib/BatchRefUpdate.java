@@ -498,17 +498,14 @@ public class BatchRefUpdate {
 				try {
 					if (cmd.getResult() == NOT_ATTEMPTED) {
 						cmd.updateType(walk);
-						RefUpdate ru = newUpdate(cmd);
 						switch (cmd.getType()) {
 							case DELETE:
 								// Performed in the first phase
 								break;
 							case UPDATE:
 							case UPDATE_NONFASTFORWARD:
-								RefUpdate ruu = newUpdate(cmd);
-								cmd.setResult(ruu.update(walk));
-								break;
 							case CREATE:
+								RefUpdate ru = newUpdate(cmd);
 								cmd.setResult(ru.update(walk));
 								break;
 						}
@@ -522,6 +519,16 @@ public class BatchRefUpdate {
 			}
 		}
 		monitor.endTask();
+	}
+
+	/**
+	 * Get the ref database associated with this update.
+	 *
+	 * @return the ref database.
+	 * @since 6.6
+	 */
+	protected RefDatabase getRefDatabase() {
+		return refdb;
 	}
 
 	private static boolean isMissing(RevWalk walk, ObjectId id)
@@ -709,7 +716,6 @@ public class BatchRefUpdate {
 				: isForceRefLog();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();

@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.api.CherryPickCommitMessageProvider.ORIGINAL;
+import static org.eclipse.jgit.api.CherryPickCommitMessageProvider.ORIGINAL_WITH_REFERENCE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -100,41 +102,73 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		}
 	}
 
-    @Test
-    public void testSequentialCherryPick() throws IOException, JGitInternalException,
-            GitAPIException {
-        try (Git git = new Git(db)) {
-	        writeTrashFile("a", "first line\nsec. line\nthird line\n");
-	        git.add().addFilepattern("a").call();
-	        RevCommit firstCommit = git.commit().setMessage("create a").call();
+	@Test
+	public void testSequentialCherryPick()
+			throws IOException, JGitInternalException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "first line\nsec. line\nthird line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit firstCommit = git.commit().setMessage("create a").call();
 
-	        writeTrashFile("a", "first line\nsec. line\nthird line\nfourth line\n");
-	        git.add().addFilepattern("a").call();
-	        RevCommit enlargingA = git.commit().setMessage("enlarged a").call();
+			writeTrashFile("a",
+					"first line\nsec. line\nthird line\nfourth line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit enlargingA = git.commit().setMessage("enlarged a").call();
 
-	        writeTrashFile("a",
-	                "first line\nsecond line\nthird line\nfourth line\n");
-	        git.add().addFilepattern("a").call();
-	        RevCommit fixingA = git.commit().setMessage("fixed a").call();
+			writeTrashFile("a",
+					"first line\nsecond line\nthird line\nfourth line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit fixingA = git.commit().setMessage("fixed a").call();
 
-	        git.branchCreate().setName("side").setStartPoint(firstCommit).call();
-	        checkoutBranch("refs/heads/side");
+			git.branchCreate().setName("side").setStartPoint(firstCommit)
+					.call();
+			checkoutBranch("refs/heads/side");
 
-	        writeTrashFile("b", "nothing to do with a");
-	        git.add().addFilepattern("b").call();
-	        git.commit().setMessage("create b").call();
+			writeTrashFile("b", "nothing to do with a");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("create b").call();
 
-	        CherryPickResult result = git.cherryPick().include(enlargingA).include(fixingA).call();
-	        assertEquals(CherryPickResult.CherryPickStatus.OK, result.getStatus());
+			CherryPickResult result = git.cherryPick().include(enlargingA)
+					.include(fixingA).call();
+			assertEquals(CherryPickResult.CherryPickStatus.OK,
+					result.getStatus());
 
-	        Iterator<RevCommit> history = git.log().call().iterator();
-	        assertEquals("fixed a", history.next().getFullMessage());
-	        assertEquals("enlarged a", history.next().getFullMessage());
-	        assertEquals("create b", history.next().getFullMessage());
-	        assertEquals("create a", history.next().getFullMessage());
-	        assertFalse(history.hasNext());
-        }
-    }
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("fixed a", history.next().getFullMessage());
+			assertEquals("enlarged a", history.next().getFullMessage());
+			assertEquals("create b", history.next().getFullMessage());
+			assertEquals("create a", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
+
+	@Test
+	public void testRootCherryPick()
+			throws IOException, JGitInternalException, GitAPIException {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "a");
+			writeTrashFile("b", "b");
+			git.add().addFilepattern("a").addFilepattern("b").call();
+			RevCommit firstCommit = git.commit().setMessage("Create a and b")
+					.call();
+
+			git.checkout().setOrphan(true).setName("orphan").call();
+			git.rm().addFilepattern("a").addFilepattern("b").call();
+			writeTrashFile("a", "a");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("Orphan a").call();
+
+			CherryPickResult result = git.cherryPick().include(firstCommit)
+					.call();
+			assertEquals(CherryPickResult.CherryPickStatus.OK,
+					result.getStatus());
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("Create a and b", history.next().getFullMessage());
+			assertEquals("Orphan a", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
 
 	@Test
 	public void testCherryPickDirtyIndex() throws Exception {
@@ -557,5 +591,188 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			assertEquals(CherryPickStatus.OK, result2.getStatus());
 			checkFile(new File(db.getWorkTree(), "file"), "a\n2\n3\n");
 		}
+	}
+
+	private void doCherryPickWithCustomProviderBaseTest(Git git,
+			CherryPickCommitMessageProvider commitMessageProvider)
+			throws Exception {
+		writeTrashFile("fileA", "line 1\nline 2\nline 3\n");
+		git.add().addFilepattern("fileA").call();
+		RevCommit commitFirst = git.commit().setMessage("create fileA").call();
+
+		writeTrashFile("fileB", "content from file B\n");
+		git.add().addFilepattern("fileB").call();
+		RevCommit commitCreateFileB = git.commit()
+				.setMessage("create fileB\n\nsome commit details").call();
+
+		writeTrashFile("fileA", "line 1\nline 2\nline 3\nline 4\n");
+		git.add().addFilepattern("fileA").call();
+		RevCommit commitEditFileA1 = git.commit().setMessage("patch fileA 1")
+				.call();
+
+		writeTrashFile("fileA", "line 1\nline 2\nline 3\nline 4\nline 5\n");
+		git.add().addFilepattern("fileA").call();
+		RevCommit commitEditFileA2 = git.commit().setMessage("patch fileA 2")
+				.call();
+
+		git.branchCreate().setName("side").setStartPoint(commitFirst).call();
+		checkoutBranch("refs/heads/side");
+
+		CherryPickResult pickResult = git.cherryPick()
+				.setCherryPickCommitMessageProvider(commitMessageProvider)
+				.include(commitCreateFileB).include(commitEditFileA1)
+				.include(commitEditFileA2).call();
+
+		assertEquals(CherryPickStatus.OK, pickResult.getStatus());
+
+		assertTrue(new File(db.getWorkTree(), "fileA").exists());
+		assertTrue(new File(db.getWorkTree(), "fileB").exists());
+
+		checkFile(new File(db.getWorkTree(), "fileA"),
+				"line 1\nline 2\nline 3\nline 4\nline 5\n");
+		checkFile(new File(db.getWorkTree(), "fileB"), "content from file B\n");
+	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			@SuppressWarnings("boxing")
+			CherryPickCommitMessageProvider messageProvider = srcCommit -> {
+				String message = srcCommit.getFullMessage();
+				return String.format("%s (message length: %d)", message,
+						message.length());
+			};
+			doCherryPickWithCustomProviderBaseTest(git, messageProvider);
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("patch fileA 2 (message length: 13)",
+					history.next().getFullMessage());
+			assertEquals("patch fileA 1 (message length: 13)",
+					history.next().getFullMessage());
+			assertEquals(
+					"create fileB\n\nsome commit details (message length: 33)",
+					history.next().getFullMessage());
+			assertEquals("create fileA", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider_ORIGINAL()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			doCherryPickWithCustomProviderBaseTest(git, ORIGINAL);
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("patch fileA 2", history.next().getFullMessage());
+			assertEquals("patch fileA 1", history.next().getFullMessage());
+			assertEquals("create fileB\n\nsome commit details",
+					history.next().getFullMessage());
+			assertEquals("create fileA", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider_ORIGINAL_WITH_REFERENCE()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			doCherryPickWithCustomProviderBaseTest(git,
+					ORIGINAL_WITH_REFERENCE);
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			assertEquals("patch fileA 2\n\n(cherry picked from commit 1ac121e90b0fb6fb18bbb4307e3e9731ceeba9e1)", history.next().getFullMessage());
+			assertEquals("patch fileA 1\n\n(cherry picked from commit 71475239df59076e18564fa360e3a74280926c2a)", history.next().getFullMessage());
+			assertEquals("create fileB\n\nsome commit details\n\n(cherry picked from commit 29b4501297ccf8de9de9f451e7beb384b51f5378)",
+					history.next().getFullMessage());
+			assertEquals("create fileA", history.next().getFullMessage());
+			assertFalse(history.hasNext());
+		}
+	}
+
+	@Test
+	public void testCherryPickWithCustomCommitMessageProvider_ORIGINAL_WITH_REFERENCE_DonNotAddNewLineAfterFooter()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			CherryPickCommitMessageProvider commitMessageProvider = CherryPickCommitMessageProvider.ORIGINAL_WITH_REFERENCE;
+
+			RevCommit commit1 = addFileAndCommit(git, "file1", "content 1",
+					"commit1: no footer line");
+			RevCommit commit2 = addFileAndCommit(git, "file2", "content 2",
+					"commit2: simple single footer line"
+							+ "\n\nSigned-off-by: Alice <alice@example.com>");
+			RevCommit commit3 = addFileAndCommit(git, "file3", "content 3",
+					"commit3: multiple footer lines\n\n"
+							+ "Signed-off-by: Alice <alice@example.com>\n"
+							+ "Signed-off-by: Bob <bob@example.com>");
+			RevCommit commit4 = addFileAndCommit(git, "file4", "content 4",
+					"commit4: extra commit text before footer line\n\n"
+							+ "Commit message details\n\n"
+							+ "Signed-off-by: Alice <alice@example.com>\n"
+							+ "Signed-off-by: Bob <bob@example.com>");
+			RevCommit commit5 = addFileAndCommit(git, "file5", "content 5",
+					"commit5: extra commit text after footer line\n\n"
+							+ "Signed-off-by: Alice <alice@example.com>\n"
+							+ "Signed-off-by: Bob <bob@example.com>\n\n"
+							+ "some extra description after footer");
+
+			git.branchCreate().setName("side").setStartPoint(commit1).call();
+			checkoutBranch("refs/heads/side");
+
+			CherryPickResult pickResult = git.cherryPick()
+					.setCherryPickCommitMessageProvider(commitMessageProvider)
+					.include(commit2).include(commit3).include(commit4)
+					.include(commit5).call();
+
+			assertEquals(CherryPickStatus.OK, pickResult.getStatus());
+
+			assertTrue(new File(db.getWorkTree(), "file1").exists());
+			assertTrue(new File(db.getWorkTree(), "file2").exists());
+			assertTrue(new File(db.getWorkTree(), "file3").exists());
+			assertTrue(new File(db.getWorkTree(), "file4").exists());
+			assertTrue(new File(db.getWorkTree(), "file5").exists());
+
+			Iterator<RevCommit> history = git.log().call().iterator();
+			RevCommit cpCommit1 = history.next();
+			RevCommit cpCommit2 = history.next();
+			RevCommit cpCommit3 = history.next();
+			RevCommit cpCommit4 = history.next();
+			RevCommit cpCommitInit = history.next();
+			assertFalse(history.hasNext());
+
+			assertEquals("commit5: extra commit text after footer line\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "Signed-off-by: Bob <bob@example.com>\n\n"
+					+ "some extra description after footer\n\n"
+					+ "(cherry picked from commit c3c9959207dc7ae7c83da5d36dc14ef2ca42d572)",
+					cpCommit1.getFullMessage());
+			assertEquals("commit4: extra commit text before footer line\n\n"
+					+ "Commit message details\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "Signed-off-by: Bob <bob@example.com>\n"
+					+ "(cherry picked from commit af3e8106c12cb946a37b403ddb2dd6c11a883698)",
+					cpCommit2.getFullMessage());
+			assertEquals("commit3: multiple footer lines\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "Signed-off-by: Bob <bob@example.com>\n"
+					+ "(cherry picked from commit 6d60f1a70a11a32dff4402c157c4ac328c32ce6c)",
+					cpCommit3.getFullMessage());
+			assertEquals("commit2: simple single footer line\n\n"
+					+ "Signed-off-by: Alice <alice@example.com>\n"
+					+ "(cherry picked from commit 92bf0ec458814ecc73da8e050e60547d2ea6cce5)",
+					cpCommit4.getFullMessage());
+
+			assertEquals("commit1: no footer line",
+					cpCommitInit.getFullMessage());
+		}
+	}
+
+	private RevCommit addFileAndCommit(Git git, String fileName,
+			String fileText, String commitMessage)
+			throws IOException, GitAPIException {
+		writeTrashFile(fileName, fileText);
+		git.add().addFilepattern(fileName).call();
+		return git.commit().setMessage(commitMessage).call();
 	}
 }

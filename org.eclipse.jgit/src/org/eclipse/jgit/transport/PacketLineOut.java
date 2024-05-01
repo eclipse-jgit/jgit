@@ -85,8 +85,10 @@ public class PacketLineOut {
 	}
 
 	/**
+	 * Whether is using sideband
+	 *
 	 * @return whether to add a sideband designator to each non-flush and
-	 *     non-delim packet
+	 *         non-delim packet
 	 * @see #setUsingSideband
 	 * @since 5.5
 	 */
@@ -95,11 +97,14 @@ public class PacketLineOut {
 	}
 
 	/**
-	 * @param value If true, when writing packet lines, add, as the first
-	 *     byte, a sideband designator to each non-flush and non-delim
-	 *     packet. See pack-protocol.txt and protocol-v2.txt from the Git
-	 *     project for more information, specifically the "side-band" and
-	 *     "sideband-all" sections.
+	 * Set whether to use sideband
+	 *
+	 * @param value
+	 *            If true, when writing packet lines, add, as the first byte, a
+	 *            sideband designator to each non-flush and non-delim packet.
+	 *            See pack-protocol.txt and protocol-v2.txt from the Git project
+	 *            for more information, specifically the "side-band" and
+	 *            "sideband-all" sections.
 	 * @since 5.5
 	 */
 	public void setUsingSideband(boolean value) {

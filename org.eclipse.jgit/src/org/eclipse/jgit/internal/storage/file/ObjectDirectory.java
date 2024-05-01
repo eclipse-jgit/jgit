@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc. and others
+ * Copyright (C) 2009, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -27,17 +28,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -84,6 +89,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File alternatesFile;
 
+	private final FileCommitGraph fileCommitGraph;
+
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
@@ -120,9 +127,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 		File packDirectory = new File(objects, "pack"); //$NON-NLS-1$
 		File preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
 		alternatesFile = new File(objects, Constants.INFO_ALTERNATES);
-		loose = new LooseObjects(objects);
+		loose = new LooseObjects(config, objects);
 		packed = new PackDirectory(config, packDirectory);
 		preserved = new PackDirectory(config, preservedDirectory);
+		fileCommitGraph = new FileCommitGraph(objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
 
@@ -137,7 +145,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final File getDirectory() {
 		return loose.getDirectory();
@@ -161,13 +168,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return preserved.getDirectory();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean exists() {
 		return fs.exists(objects);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void create() throws IOException {
 		loose.create();
@@ -175,7 +180,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packed.create();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, config);
@@ -191,7 +195,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new PackInserter(this);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		loose.close();
@@ -206,13 +209,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Collection<Pack> getPacks() {
 		return packed.getPacks();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public long getApproximateObjectCount() {
 		long count = 0;
@@ -226,8 +227,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return count;
 	}
 
+	@Override
+	public Optional<CommitGraph> getCommitGraph() {
+		if (config.get(CoreConfig.KEY).enableCommitGraph()) {
+			return Optional.ofNullable(fileCommitGraph.get());
+		}
+		return Optional.empty();
+	}
+
 	/**
-	 * {@inheritDoc}
 	 * <p>
 	 * Add a single existing pack to the list of available pack files.
 	 */
@@ -251,18 +259,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		PackFile bitmapIdx = pf.create(BITMAP_INDEX);
-		Pack res = new Pack(pack, bitmapIdx.exists() ? bitmapIdx : null);
+		Pack res = new Pack(config, pack, bitmapIdx.exists() ? bitmapIdx : null);
 		packed.insert(res);
 		return res;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "ObjectDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) {
 		return loose.hasCached(objectId)
@@ -364,7 +370,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private ObjectLoader openPackedFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId objectId, Set<AlternateHandle.Id> skips) {
+			AnyObjectId objectId, Set<AlternateHandle.Id> skips)
+			throws PackMismatchException {
 		ObjectLoader ldr = openPackedObject(curs, objectId);
 		if (ldr != null) {
 			return ldr;
@@ -400,7 +407,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return null;
 	}
 
-	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId) {
+	ObjectLoader openPackedObject(WindowCursor curs, AnyObjectId objectId)
+			throws PackMismatchException {
 		return packed.open(curs, objectId);
 	}
 
@@ -435,7 +443,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	private long getPackedSizeFromSelfOrAlternate(WindowCursor curs,
-			AnyObjectId id, Set<AlternateHandle.Id> skips) {
+			AnyObjectId id, Set<AlternateHandle.Id> skips)
+			throws PackMismatchException {
 		long len = packed.getSize(curs, id);
 		if (0 <= len) {
 			return len;
@@ -539,11 +548,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// If the object is already in the repository, remove temporary file.
 		//
 		if (loose.hasCached(id)) {
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		if (!createDuplicate && has(id)) {
-			FileUtils.delete(tmp, FileUtils.RETRY);
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}
 		return loose.insert(tmp, id);
@@ -560,31 +569,82 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	Set<ObjectId> getShallowCommits() throws IOException {
+	public Set<ObjectId> getShallowCommits() throws IOException {
 		if (shallowFile == null || !shallowFile.isFile())
 			return Collections.emptySet();
 
 		if (shallowFileSnapshot == null
 				|| shallowFileSnapshot.isModified(shallowFile)) {
-			shallowCommitsIds = new HashSet<>();
+			try {
+				shallowCommitsIds = FileUtils.readWithRetries(shallowFile,
+						f -> {
+							FileSnapshot newSnapshot = FileSnapshot.save(f);
+							HashSet<ObjectId> result = new HashSet<>();
+							try (BufferedReader reader = open(f)) {
+								String line;
+								while ((line = reader.readLine()) != null) {
+									if (!ObjectId.isId(line)) {
+										throw new IOException(
+												MessageFormat.format(JGitText
+														.get().badShallowLine,
+														f.getAbsolutePath(),
+														line));
 
-			try (BufferedReader reader = open(shallowFile)) {
-				String line;
-				while ((line = reader.readLine()) != null) {
-					try {
-						shallowCommitsIds.add(ObjectId.fromString(line));
-					} catch (IllegalArgumentException ex) {
-						throw new IOException(MessageFormat
-								.format(JGitText.get().badShallowLine, line),
-								ex);
-					}
-				}
+									}
+									result.add(ObjectId.fromString(line));
+								}
+							}
+							shallowFileSnapshot = newSnapshot;
+							return result;
+						});
+			} catch (IOException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new IOException(
+						MessageFormat.format(JGitText.get().readShallowFailed,
+								shallowFile.getAbsolutePath()),
+						e);
 			}
-
-			shallowFileSnapshot = FileSnapshot.save(shallowFile);
 		}
 
 		return shallowCommitsIds;
+	}
+
+	@Override
+	public void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException {
+		this.shallowCommitsIds = shallowCommits;
+		LockFile lock = new LockFile(shallowFile);
+		if (!lock.lock()) {
+			throw new IOException(MessageFormat.format(JGitText.get().lockError,
+					shallowFile.getAbsolutePath()));
+		}
+
+		try {
+			if (shallowCommits.isEmpty()) {
+				if (shallowFile.isFile()) {
+					shallowFile.delete();
+				}
+			} else {
+				try (OutputStream out = lock.getOutputStream()) {
+					for (ObjectId shallowCommit : shallowCommits) {
+						byte[] buf = new byte[Constants.OBJECT_ID_STRING_LENGTH + 1];
+						shallowCommit.copyTo(buf, 0);
+						buf[Constants.OBJECT_ID_STRING_LENGTH] = '\n';
+						out.write(buf);
+					}
+				} finally {
+					lock.commit();
+				}
+			}
+		} finally {
+			lock.unlock();
+		}
+
+		if (shallowCommits.isEmpty()) {
+			shallowFileSnapshot = FileSnapshot.DIRTY;
+		} else {
+			shallowFileSnapshot = FileSnapshot.save(shallowFile);
+		}
 	}
 
 	void closeAllPackHandles(File packFile) {
@@ -672,14 +732,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	static class AlternateHandle {
 		static class Id {
-			String alternateId;
+			private final String alternateId;
 
 			public Id(File object) {
+				String id = null;
 				try {
-					this.alternateId = object.getCanonicalPath();
-				} catch (Exception e) {
-					alternateId = null;
+					// resolve symbolic links to their final target:
+					id = object.toPath().toRealPath().normalize().toString();
+				} catch (Exception ignored) {
+					// id == null
 				}
+				this.alternateId = id;
 			}
 
 			@Override
@@ -705,6 +768,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 		final ObjectDirectory db;
 
+		private AlternateHandle.Id id;
+
 		AlternateHandle(ObjectDirectory db) {
 			this.db = db;
 		}
@@ -713,8 +778,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 			db.close();
 		}
 
-		public Id getId(){
-			return db.getAlternateId();
+		public synchronized Id getId() {
+			if (id == null) {
+				id = new AlternateHandle.Id(db.objects);
+			}
+			return id;
 		}
 	}
 
@@ -732,7 +800,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDatabase newCachedDatabase() {
 		return newCachedFileObjectDatabase();
@@ -743,6 +810,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	AlternateHandle.Id getAlternateId() {
-		return new AlternateHandle.Id(objects);
+		return handle.getId();
+	}
+
+	File getInfoDirectory() {
+		return infoDirectory;
 	}
 }

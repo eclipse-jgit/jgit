@@ -78,6 +78,8 @@ public interface Ref {
 		}
 
 		/**
+		 * Whether this storage has a loose file
+		 *
 		 * @return true if this storage has a loose file.
 		 */
 		public boolean isLoose() {
@@ -85,6 +87,8 @@ public interface Ref {
 		}
 
 		/**
+		 * Whether this storage is inside the packed file
+		 *
 		 * @return true if this storage is inside the packed file.
 		 */
 		public boolean isPacked() {

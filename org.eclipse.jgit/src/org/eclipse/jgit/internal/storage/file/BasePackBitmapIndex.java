@@ -18,14 +18,13 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 /**
  * Base implementation of the PackBitmapIndex.
  */
-abstract class BasePackBitmapIndex extends PackBitmapIndex {
+abstract class BasePackBitmapIndex implements PackBitmapIndex {
 	private final ObjectIdOwnerMap<StoredBitmap> bitmaps;
 
 	BasePackBitmapIndex(ObjectIdOwnerMap<StoredBitmap> bitmaps) {
 		this.bitmaps = bitmaps;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public EWAHCompressedBitmap getBitmap(AnyObjectId objectId) {
 		StoredBitmap sb = bitmaps.get(objectId);
@@ -34,6 +33,50 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 
 	ObjectIdOwnerMap<StoredBitmap> getBitmaps() {
 		return bitmaps;
+	}
+
+	@Override
+	public int getBaseBitmapCount() {
+		int bases = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			if (sb.isBase()) {
+				bases += 1;
+			}
+		}
+		return bases;
+	}
+
+	@Override
+	public long getBaseBitmapSizeInBytes() {
+		long baseSize = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			if (sb.isBase()) {
+				baseSize += sb.getCurrentSizeInBytes();
+			}
+		}
+		return baseSize;
+	}
+
+	@Override
+	public int getXorBitmapCount() {
+		int xored = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			if (!sb.isBase()) {
+				xored += 1;
+			}
+		}
+		return xored;
+	}
+
+	@Override
+	public long getXorBitmapSizeInBytes() {
+		long xorSize = 0;
+		for (StoredBitmap sb : getBitmaps()) {
+			if (!sb.isBase()) {
+				xorSize += sb.getCurrentSizeInBytes();
+			}
+		}
+		return xorSize;
 	}
 
 	/**
@@ -75,8 +118,9 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 		EWAHCompressedBitmap getBitmapWithoutCaching() {
 			// Fast path to immediately return the expanded result.
 			Object r = bitmapContainer;
-			if (r instanceof EWAHCompressedBitmap)
+			if (r instanceof EWAHCompressedBitmap) {
 				return (EWAHCompressedBitmap) r;
+			}
 
 			// Expand the bitmap but not cache the result.
 			XorCompressedBitmap xb = (XorCompressedBitmap) r;
@@ -93,14 +137,46 @@ abstract class BasePackBitmapIndex extends PackBitmapIndex {
 			}
 		}
 
-		/** @return the flags associated with the bitmap */
+		/**
+		 * Get flags
+		 *
+		 * @return the flags associated with the bitmap
+		 */
 		int getFlags() {
 			return flags;
+		}
+
+		/**
+		 * This bitmap is (currently) a base or a XOR mask
+		 *
+		 * @return true if this bitmap is a base (a ready map).
+		 */
+		boolean isBase() {
+			return bitmapContainer instanceof EWAHCompressedBitmap;
+		}
+
+		/**
+		 * Size in bytes of this bitmap in its current representation
+		 *
+		 * If this is a XOR'ed bitmap, size is different before/after
+		 * {@link #getBitmap()}. Before is the byte size of the xor mask,
+		 * afterwards is the size of the "ready" bitmap
+		 *
+		 * @return size in bytes of the bitmap in its current representation
+		 */
+		long getCurrentSizeInBytes() {
+			Object r = bitmapContainer;
+			if (r instanceof EWAHCompressedBitmap) {
+				return ((EWAHCompressedBitmap) r).sizeInBytes();
+			}
+			XorCompressedBitmap xor = ((XorCompressedBitmap) r);
+			return xor.bitmap.sizeInBytes();
 		}
 	}
 
 	private static final class XorCompressedBitmap {
 		final EWAHCompressedBitmap bitmap;
+
 		final StoredBitmap xorBitmap;
 
 		XorCompressedBitmap(EWAHCompressedBitmap b, StoredBitmap xb) {

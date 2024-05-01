@@ -48,7 +48,6 @@ class PackFileSnapshot extends FileSnapshot {
 		this.checksum = checksum;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isModified(File packFile) {
 		if (!super.isModified(packFile)) {

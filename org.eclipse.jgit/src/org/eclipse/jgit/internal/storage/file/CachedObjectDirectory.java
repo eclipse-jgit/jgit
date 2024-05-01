@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Constantine Plotnikov <constantine.plotnikov@gmail.com>
- * Copyright (C) 2010, JetBrains s.r.o. and others
+ * Copyright (C) 2010, 2022 JetBrains s.r.o. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory.AlternateHandle;
@@ -22,6 +23,7 @@ import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -84,13 +86,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		return m;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Don't close anything.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDatabase newCachedDatabase() {
 		return this;
@@ -117,9 +117,14 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	Set<ObjectId> getShallowCommits() throws IOException {
+	public Set<ObjectId> getShallowCommits() throws IOException {
 		return wrapped.getShallowCommits();
 	}
+
+    @Override
+    public void setShallowCommits(Set<ObjectId> shallowCommits) throws IOException {
+        wrapped.setShallowCommits(shallowCommits);
+    }
 
 	private CachedObjectDirectory[] myAlternates() {
 		if (alts == null) {
@@ -146,7 +151,6 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		wrapped.resolve(matches, id);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
 		return has(objectId, null);
@@ -252,6 +256,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	Collection<Pack> getPacks() {
 		return wrapped.getPacks();
+	}
+
+	@Override
+	public Optional<CommitGraph> getCommitGraph() {
+		return wrapped.getCommitGraph();
 	}
 
 	private static class UnpackedObjectId extends ObjectIdOwnerMap.Entry {

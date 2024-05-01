@@ -17,7 +17,9 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.util.FS;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -27,7 +29,7 @@ import org.junit.rules.TemporaryFolder;
  * test using bazel which doesn't allow tests to create files in the home
  * directory
  */
-public class CommitTemplateConfigTest {
+public class CommitTemplateConfigTest extends LocalDiskRepositoryTestCase {
 
 	@Rule
 	public TemporaryFolder tmp = new TemporaryFolder();
@@ -42,9 +44,11 @@ public class CommitTemplateConfigTest {
 		String templateContent = "content of the template";
 		JGitTestUtil.write(tempFile, templateContent);
 		// proper evaluation of the ~/ directory
-		String homeDir = System.getProperty("user.home");
+		File homeDir = FS.DETECTED.userHome();
 		File tempFileInHomeDirectory = File.createTempFile("fileInHomeFolder",
-				".tmp", new File(homeDir));
+				".tmp", homeDir);
+		// The home directory should be a mocked temporary directory, but
+		// still...
 		tempFileInHomeDirectory.deleteOnExit();
 		JGitTestUtil.write(tempFileInHomeDirectory, templateContent);
 		String expectedTemplatePath = "~/" + tempFileInHomeDirectory.getName();

@@ -43,6 +43,8 @@ public class LfsFactory {
 	}
 
 	/**
+	 * Get the LFS factory instance
+	 *
 	 * @return the current LFS implementation
 	 */
 	public static LfsFactory getInstance() {
@@ -50,6 +52,8 @@ public class LfsFactory {
 	}
 
 	/**
+	 * Set the LFS factory instance
+	 *
 	 * @param instance
 	 *            register a {@link LfsFactory} instance as the
 	 *            {@link LfsFactory} implementation to use.
@@ -59,6 +63,8 @@ public class LfsFactory {
 	}
 
 	/**
+	 * Whether LFS support is available
+	 *
 	 * @return whether LFS support is available
 	 */
 	public boolean isAvailable() {
@@ -105,6 +111,7 @@ public class LfsFactory {
 	 * @return a loader for the actual data of a blob, or the original loader in
 	 *         case LFS is not applicable.
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public ObjectLoader applySmudgeFilter(Repository db,
 			ObjectLoader loader, Attribute attribute) throws IOException {
@@ -117,6 +124,7 @@ public class LfsFactory {
 	 * @param repo
 	 *            the {@link Repository} the hook is applied to.
 	 * @param outputStream
+	 *            output stream
 	 * @return a {@link PrePushHook} implementation or <code>null</code>
 	 */
 	@Nullable
@@ -131,7 +139,9 @@ public class LfsFactory {
 	 * @param repo
 	 *            the {@link Repository} the hook is applied to.
 	 * @param outputStream
+	 *            output stream
 	 * @param errorStream
+	 *            error stream
 	 * @return a {@link PrePushHook} implementation or <code>null</code>
 	 * @since 5.6
 	 */
@@ -153,6 +163,8 @@ public class LfsFactory {
 	}
 
 	/**
+	 * Whether LFS is enabled
+	 *
 	 * @param db
 	 *            the repository to check
 	 * @return whether LFS is enabled for the given repository locally or
@@ -163,6 +175,8 @@ public class LfsFactory {
 	}
 
 	/**
+	 * Get git attributes for given path
+	 *
 	 * @param db
 	 *            the repository
 	 * @param path
@@ -285,6 +299,8 @@ public class LfsFactory {
 		}
 
 		/**
+		 * Get stream length
+		 *
 		 * @return the length of the stream
 		 */
 		public long getLength() {
@@ -298,6 +314,8 @@ public class LfsFactory {
 	 */
 	public interface LfsInstallCommand extends Callable<Void> {
 		/**
+		 * Set the repository to enable LFS for
+		 *
 		 * @param repo
 		 *            the repository to enable support for.
 		 * @return The {@link LfsInstallCommand} for chaining.

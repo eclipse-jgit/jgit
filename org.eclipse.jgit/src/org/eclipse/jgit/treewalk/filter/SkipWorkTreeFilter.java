@@ -36,7 +36,6 @@ public class SkipWorkTreeFilter extends TreeFilter {
 		this.treeIdx = treeIdx;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk walker) {
 		DirCacheIterator i = walker.getTree(treeIdx, DirCacheIterator.class);
@@ -47,19 +46,16 @@ public class SkipWorkTreeFilter extends TreeFilter {
 		return e == null || !e.isSkipWorkTree();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

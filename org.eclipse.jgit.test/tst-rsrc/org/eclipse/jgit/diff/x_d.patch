@@ -1,0 +1,13 @@
+diff --git a/x_d b/x_d
+index 33a3e0e..9d2bc43 100644
+--- a/x_d
++++ b/x_d
+@@ -1,7 +1,7 @@
+ a
+ b
+ c
+-d
++D
+ e
+ f
+ g

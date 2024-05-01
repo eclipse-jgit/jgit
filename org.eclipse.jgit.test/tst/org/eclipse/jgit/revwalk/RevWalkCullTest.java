@@ -75,6 +75,6 @@ public class RevWalkCullTest extends RevWalkTestCase {
 		// We should have aborted before we got back so far that "a"
 		// would be parsed. Thus, its parents shouldn't be allocated.
 		//
-		assertNull(a2.parents);
+		assertNull(a2.getParents());
 	}
 }

@@ -75,7 +75,6 @@ public class GitAddTask extends Task {
 		return path;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		if (src == null) {

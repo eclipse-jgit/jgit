@@ -170,7 +170,6 @@ public class GitServlet extends MetaServlet {
 		gitFilter.addReceivePackFilter(filter);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		gitFilter.init(new FilterConfig() {

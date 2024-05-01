@@ -39,7 +39,7 @@ public class NoRemoteRepositoryException extends TransportException {
 	 *            message
 	 * @param cause
 	 *            root cause exception
-	 * @since 5.13
+	 * @since 5.13.1
 	 */
 	public NoRemoteRepositoryException(URIish uri, String s, Throwable cause) {
 		super(uri, s, cause);

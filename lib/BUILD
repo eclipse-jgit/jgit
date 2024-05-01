@@ -20,7 +20,21 @@ java_library(
 )
 
 java_library(
+    name = "commons-io",
+    visibility = [
+        "//org.eclipse.jgit.archive:__pkg__",
+        "//org.eclipse.jgit.pgm.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@commons-io//jar"],
+)
+
+java_library(
     name = "commons-codec",
+    visibility = [
+        "//org.eclipse.jgit:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
     exports = ["@commons-codec//jar"],
 )
 

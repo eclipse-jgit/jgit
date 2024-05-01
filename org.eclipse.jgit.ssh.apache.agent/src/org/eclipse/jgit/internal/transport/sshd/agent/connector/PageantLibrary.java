@@ -137,7 +137,7 @@ public final class PageantLibrary {
 		}
 
 		private Pointer init(CopyStruct c) {
-			c.cbData = name.length + 1;
+			c.cbData = name.length + 1L;
 			c.lpData = new Memory(c.cbData);
 			c.lpData.write(0, name, 0, name.length);
 			c.lpData.setByte(name.length, (byte) 0);

@@ -44,7 +44,6 @@ public class ShowNoteCommand extends GitCommand<Note> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Note call() throws GitAPIException {
 		checkCallable();

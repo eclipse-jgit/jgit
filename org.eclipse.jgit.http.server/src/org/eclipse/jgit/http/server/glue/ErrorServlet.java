@@ -35,7 +35,6 @@ public class ErrorServlet extends HttpServlet {
 		this.status = status;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
 			throws ServletException, IOException {

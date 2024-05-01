@@ -15,6 +15,7 @@ import org.eclipse.jgit.nls.TranslationBundle;
 /**
  * Externalized text messages for localization.
  */
+@SuppressWarnings("MissingSummary")
 public final class BCText extends TranslationBundle {
 
 	/**
@@ -58,6 +59,7 @@ public final class BCText extends TranslationBundle {
 	/***/ public String signatureKeyLookupError;
 	/***/ public String signatureNoKeyInfo;
 	/***/ public String signatureNoPublicKey;
+	/***/ public String signatureNoSigningKey;
 	/***/ public String signatureParseError;
 	/***/ public String signatureVerificationError;
 	/***/ public String unableToSignCommitNoSecretKey;

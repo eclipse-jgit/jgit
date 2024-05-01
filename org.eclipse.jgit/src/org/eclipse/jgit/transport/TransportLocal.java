@@ -151,7 +151,6 @@ class TransportLocal extends Transport implements PackTransport {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		return openFetch(Collections.emptyList());
@@ -170,7 +169,6 @@ class TransportLocal extends Transport implements PackTransport {
 		return new InternalFetchConnection<>(this, upf, null, openRepo());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public PushConnection openPush() throws TransportException {
 		final String rp = getOptionReceivePack();
@@ -183,7 +181,6 @@ class TransportLocal extends Transport implements PackTransport {
 		return new InternalPushConnection<>(this, rpf, null, openRepo());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() {
 		// Resources must be established per-connection.

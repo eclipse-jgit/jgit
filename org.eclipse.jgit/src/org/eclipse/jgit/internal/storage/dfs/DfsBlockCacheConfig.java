@@ -338,6 +338,8 @@ public class DfsBlockCacheConfig {
 		}
 
 		/**
+		 * Whether evicted events should be reported
+		 *
 		 * @return true if reporting evicted events is enabled.
 		 */
 		default boolean shouldReportEvictedEvent() {

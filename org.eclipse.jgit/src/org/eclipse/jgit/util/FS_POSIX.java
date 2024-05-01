@@ -250,8 +250,12 @@ public class FS_POSIX extends FS {
 	/** {@inheritDoc} */
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
-		List<String> argv = new ArrayList<>(4 + args.length);
+		List<String> argv = new ArrayList<>(5 + args.length);
 		argv.add("sh"); //$NON-NLS-1$
+		if (SystemReader.getInstance().isMacOS()) {
+			// Use a login shell to get the full normal $PATH
+			argv.add("-l"); //$NON-NLS-1$
+		}
 		argv.add("-c"); //$NON-NLS-1$
 		argv.add(cmd + " \"$@\""); //$NON-NLS-1$
 		argv.add(cmd);
@@ -374,8 +378,8 @@ public class FS_POSIX extends FS {
 			link = Files.createLink(
 					Paths.get(lock.getAbsolutePath() + ".lnk"), //$NON-NLS-1$
 					lockPath);
-			Integer nlink = (Integer) (Files.getAttribute(lockPath,
-					"unix:nlink")); //$NON-NLS-1$
+			Integer nlink = (Integer) Files.getAttribute(lockPath,
+					"unix:nlink"); //$NON-NLS-1$
 			if (nlink > 2) {
 				LOG.warn(MessageFormat.format(
 						JGitText.get().failedAtomicFileCreation, lockPath,
@@ -418,6 +422,7 @@ public class FS_POSIX extends FS {
 	 * @return LockToken this lock token must be held until the file is no
 	 *         longer needed
 	 * @throws IOException
+	 *             if an IO error occurred
 	 * @since 5.0
 	 */
 	@Override
@@ -446,8 +451,7 @@ public class FS_POSIX extends FS {
 				return token(true, null);
 			}
 			link = Files.createLink(Paths.get(uniqueLinkPath(file)), path);
-			Integer nlink = (Integer) (Files.getAttribute(path,
-					"unix:nlink")); //$NON-NLS-1$
+			Integer nlink = (Integer) Files.getAttribute(path, "unix:nlink"); //$NON-NLS-1$
 			if (nlink.intValue() > 2) {
 				LOG.warn(MessageFormat.format(
 						JGitText.get().failedAtomicFileCreation, path, nlink));

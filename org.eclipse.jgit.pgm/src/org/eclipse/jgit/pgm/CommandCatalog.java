@@ -19,10 +19,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * List of all commands known by jgit's command line tools.
@@ -104,7 +104,7 @@ public class CommandCatalog {
 			final String pfx = "META-INF/services/"; //$NON-NLS-1$
 			return ldr.getResources(pfx + TextBuiltin.class.getName());
 		} catch (IOException err) {
-			return new Vector<URL>().elements();
+			return Collections.emptyEnumeration();
 		}
 	}
 

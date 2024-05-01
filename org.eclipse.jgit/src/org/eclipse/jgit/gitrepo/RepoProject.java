@@ -93,6 +93,7 @@ public class RepoProject implements Comparable<RepoProject> {
 		 * Do the copy file action.
 		 *
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		public void copy() throws IOException {
 			File srcFile = new File(repo.getWorkTree(),
@@ -180,7 +181,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 */
 	public RepoProject(String name, String path, String revision,
 			String remote, String groupsParam) {
-		this(name, path, revision, remote, new HashSet<String>(), null);
+		this(name, path, revision, remote, new HashSet<>(), null);
 		if (groupsParam != null && groupsParam.length() > 0)
 			this.setGroups(groupsParam);
 	}
@@ -418,7 +419,6 @@ public class RepoProject implements Comparable<RepoProject> {
 		return thatPath.startsWith(getPathWithSlash());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof RepoProject) {
@@ -428,13 +428,11 @@ public class RepoProject implements Comparable<RepoProject> {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return this.getPathWithSlash().hashCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int compareTo(RepoProject that) {
 		return this.getPathWithSlash().compareTo(that.getPathWithSlash());

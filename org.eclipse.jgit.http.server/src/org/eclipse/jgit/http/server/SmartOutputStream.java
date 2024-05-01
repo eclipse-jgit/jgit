@@ -50,7 +50,6 @@ class SmartOutputStream extends TemporaryBuffer {
 		this.compressStream = compressStream;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected OutputStream overflow() throws IOException {
 		startedOutput = true;
@@ -63,7 +62,6 @@ class SmartOutputStream extends TemporaryBuffer {
 		return out;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		super.close();

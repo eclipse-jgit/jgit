@@ -22,7 +22,6 @@ final class LastHead implements Head {
 		// defined because of javadoc and visibility modifier.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Head> getNextHeads(char c) {
 		return FileNameMatcher.EMPTY_HEAD_LIST;

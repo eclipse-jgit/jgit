@@ -222,13 +222,11 @@ public class PushCertificate {
 		return sb;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return signature.hashCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof PushCertificate)) {
@@ -259,7 +257,6 @@ public class PushCertificate {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + '['

@@ -12,6 +12,8 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraph.EMPTY;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -30,6 +33,7 @@ import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -154,7 +158,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
 
-	/** Number of flag bits we keep internal for our own use. See above flags. */
+	/**
+	 * Number of flag bits we keep internal for our own use. See above flags.
+	 */
 	static final int RESERVED_FLAGS = 8;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
@@ -187,6 +193,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private TreeFilter treeFilter;
 
+	private CommitGraph commitGraph;
+
 	private boolean retainBody = true;
 
 	private boolean rewriteParents = true;
@@ -196,9 +204,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	boolean shallowCommitsInitialized;
 
 	private enum GetMergedIntoStrategy {
-		RETURN_ON_FIRST_FOUND,
-		RETURN_ON_FIRST_NOT_FOUND,
-		EVALUATE_ALL
+		RETURN_ON_FIRST_FOUND, RETURN_ON_FIRST_NOT_FOUND, EVALUATE_ALL
 	}
 
 	/**
@@ -215,12 +221,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	/**
 	 * Create a new revision walker for a given repository.
-	 * <p>
 	 *
 	 * @param or
 	 *            the reader the walker will obtain data from. The reader is not
-	 *            closed when the walker is closed (but is closed by {@link
-	 *            #dispose()}.
+	 *            closed when the walker is closed (but is closed by
+	 *            {@link #dispose()}.
 	 */
 	public RevWalk(ObjectReader or) {
 		this(or, false);
@@ -231,12 +236,37 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdOwnerMap<>();
 		roots = new ArrayList<>();
-		queue = new DateRevQueue(false);
+		queue = newDateRevQueue(false);
 		pending = new StartGenerator(this);
 		sorting = EnumSet.of(RevSort.NONE);
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
+		commitGraph = null;
+	}
+
+	static AbstractRevQueue newDateRevQueue(boolean firstParent) {
+		if(usePriorityQueue()) {
+			return new DateRevPriorityQueue(firstParent);
+		}
+
+		return new DateRevQueue(firstParent);
+	}
+
+	static DateRevQueue newDateRevQueue(Generator g) throws IOException {
+		if(usePriorityQueue()) {
+			return new DateRevPriorityQueue(g);
+		}
+
+		return new DateRevQueue(g);
+	}
+
+	@SuppressWarnings("boxing")
+	private static boolean usePriorityQueue() {
+		return Optional
+				.ofNullable(System.getProperty("REVWALK_USE_PRIORITY_QUEUE")) //$NON-NLS-1$
+							.map(Boolean::parseBoolean)
+							.orElse(false);
 	}
 
 	/**
@@ -381,9 +411,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public void markUninteresting(RevCommit c)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException {
+	public void markUninteresting(RevCommit c) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		c.flags |= UNINTERESTING;
 		carryFlagsImpl(c);
 		markStart(c);
@@ -392,8 +421,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	/**
 	 * Determine if a commit is reachable from another commit.
 	 * <p>
-	 * A commit <code>base</code> is an ancestor of <code>tip</code> if we
-	 * can find a path of commits that leads from <code>tip</code> and ends at
+	 * A commit <code>base</code> is an ancestor of <code>tip</code> if we can
+	 * find a path of commits that leads from <code>tip</code> and ends at
 	 * <code>base</code>.
 	 * <p>
 	 * This utility function resets the walker, inserts the two supplied
@@ -449,7 +478,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * A commit is merged into a ref if we can find a path of commits that leads
 	 * from that specific ref and ends at <code>commit</code>.
-	 * <p>
 	 *
 	 * @param commit
 	 *            commit the caller thinks is reachable from <code>refs</code>.
@@ -462,7 +490,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @since 5.12
 	 */
 	public List<Ref> getMergedInto(RevCommit commit, Collection<Ref> refs)
-			throws IOException{
+			throws IOException {
 		return getMergedInto(commit, refs, NullProgressMonitor.INSTANCE);
 	}
 
@@ -471,7 +499,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * <p>
 	 * A commit is merged into a ref if we can find a path of commits that leads
 	 * from that specific ref and ends at <code>commit</code>.
-	 * <p>
 	 *
 	 * @param commit
 	 *            commit the caller thinks is reachable from <code>refs</code>.
@@ -486,9 +513,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @since 5.12
 	 */
 	public List<Ref> getMergedInto(RevCommit commit, Collection<Ref> refs,
-					ProgressMonitor monitor) throws IOException{
-		return getMergedInto(commit, refs,
-				GetMergedIntoStrategy.EVALUATE_ALL,
+			ProgressMonitor monitor) throws IOException {
+		return getMergedInto(commit, refs, GetMergedIntoStrategy.EVALUATE_ALL,
 				monitor);
 	}
 
@@ -531,12 +557,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			throws IOException {
 		return getMergedInto(commit, refs,
 				GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND,
-				NullProgressMonitor.INSTANCE).size()
-				== refs.size();
+				NullProgressMonitor.INSTANCE).size() == refs.size();
 	}
 
 	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
-				Enum returnStrategy, ProgressMonitor monitor) throws IOException {
+			Enum returnStrategy, ProgressMonitor monitor) throws IOException {
 		List<Ref> result = new ArrayList<>();
 		List<RevCommit> uninteresting = new ArrayList<>();
 		List<RevCommit> marked = new ArrayList<>();
@@ -547,7 +572,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			reset(~freeFlags & APP_FLAGS);
 			filter = RevFilter.ALL;
 			treeFilter = TreeFilter.ALL;
-			for (Ref r: haystacks) {
+
+			// Make sure commit is parsed from commit-graph
+			if ((needle.flags & PARSED) == 0) {
+				needle.parseHeaders(this);
+			}
+			int cutoff = needle.getGeneration();
+			for (Ref r : haystacks) {
 				if (monitor.isCancelled()) {
 					return result;
 				}
@@ -562,6 +593,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				boolean commitFound = false;
 				RevCommit next;
 				while ((next = next()) != null) {
+					if (next.getGeneration() < cutoff) {
+						markUninteresting(next);
+						uninteresting.add(next);
+					}
 					if (References.isSameObject(next, needle)
 							|| (next.flags & TEMP_MARK) != 0) {
 						result.add(r);
@@ -574,7 +609,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 						break;
 					}
 				}
-				if(!commitFound){
+				if (!commitFound) {
 					markUninteresting(c);
 					uninteresting.add(c);
 					if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND) {
@@ -811,6 +846,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Whether only first-parent links should be followed when walking
+	 *
 	 * @return whether only first-parent links should be followed when walking.
 	 *
 	 * @since 5.5
@@ -835,7 +872,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		assertNotStarted();
 		assertNoCommitsMarkedStart();
 		firstParent = enable;
-		queue = new DateRevQueue(firstParent);
+		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 	}
 
@@ -897,6 +934,29 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		RevCommit c = (RevCommit) objects.get(id);
 		if (c == null) {
 			c = createCommit(id);
+			objects.add(c);
+		}
+		return c;
+	}
+
+	/**
+	 * This method is intended to be invoked only by {@link RevCommitCG}, in
+	 * order to give commit the correct graphPosition before accessing the
+	 * commit-graph. In this way, the headers of the commit can be obtained in
+	 * constant time.
+	 *
+	 * @param id
+	 *            name of the commit object.
+	 * @param graphPos
+	 *            the position in the commit-graph of the object.
+	 * @return reference to the commit object. Never null.
+	 * @since 6.5
+	 */
+	@NonNull
+	protected RevCommit lookupCommit(AnyObjectId id, int graphPos) {
+		RevCommit c = (RevCommit) objects.get(id);
+		if (c == null) {
+			c = createCommit(id, graphPos);
 			objects.add(c);
 		}
 		return c;
@@ -990,9 +1050,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 */
 	@NonNull
-	public RevCommit parseCommit(AnyObjectId id)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException {
+	public RevCommit parseCommit(AnyObjectId id) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		RevObject c = peel(parseAny(id));
 		if (!(c instanceof RevCommit))
 			throw new IncorrectObjectTypeException(id.toObjectId(),
@@ -1018,9 +1077,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *             a pack file or loose object could not be read.
 	 */
 	@NonNull
-	public RevTree parseTree(AnyObjectId id)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException {
+	public RevTree parseTree(AnyObjectId id) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 		RevObject c = peel(parseAny(id));
 
 		final RevTree t;
@@ -1141,8 +1199,30 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Get the commit-graph.
+	 *
+	 * @return the commit-graph. Never null.
+	 * @since 6.5
+	 */
+	@NonNull
+	CommitGraph commitGraph() {
+		if (commitGraph == null) {
+			try {
+				commitGraph = reader != null
+						? reader.getCommitGraph().orElse(EMPTY)
+						: EMPTY;
+			} catch (IOException e) {
+				commitGraph = EMPTY;
+			}
+		}
+		return commitGraph;
+	}
+
+	/**
 	 * Asynchronous object parsing.
 	 *
+	 * @param <T>
+	 *            Type of returned {@code ObjectId}
 	 * @param objectIds
 	 *            objects to open from the object store. The supplied collection
 	 *            must not be modified until the queue has finished.
@@ -1274,8 +1354,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @throws java.io.IOException
 	 *             a pack file or loose object could not be read.
 	 */
-	public RevObject peel(RevObject obj) throws MissingObjectException,
-			IOException {
+	public RevObject peel(RevObject obj)
+			throws MissingObjectException, IOException {
 		while (obj instanceof RevTag) {
 			parseHeaders(obj);
 			obj = ((RevTag) obj).getObject();
@@ -1304,9 +1384,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	int allocFlag() {
 		if (freeFlags == 0)
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().flagsAlreadyCreated,
-					Integer.valueOf(32 - RESERVED_FLAGS)));
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().flagsAlreadyCreated,
+							Integer.valueOf(32 - RESERVED_FLAGS)));
 		final int m = Integer.lowestOneBit(freeFlags);
 		freeFlags &= ~m;
 		return m;
@@ -1323,9 +1403,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public void carry(RevFlag flag) {
 		if ((freeFlags & flag.mask) != 0)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagIsDisposed, flag.name));
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().flagIsDisposed, flag.name));
 		if (flag.walker != this)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagNotFromThis, flag.name));
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().flagNotFromThis, flag.name));
 		carryFlags |= flag.mask;
 	}
 
@@ -1359,9 +1441,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public final void retainOnReset(RevFlag flag) {
 		if ((freeFlags & flag.mask) != 0)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagIsDisposed, flag.name));
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().flagIsDisposed, flag.name));
 		if (flag.walker != this)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagNotFromThis, flag.name));
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().flagNotFromThis, flag.name));
 		retainOnReset |= flag.mask;
 	}
 
@@ -1496,9 +1580,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			final RevCommit c = q.next();
 			if (c == null)
 				break;
-			if (c.parents == null)
+			if (c.getParents() == null)
 				continue;
-			for (RevCommit p : c.parents) {
+			for (RevCommit p : c.getParents()) {
 				if ((p.flags & clearFlags) == 0)
 					continue;
 				p.flags &= retainFlags;
@@ -1508,7 +1592,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		}
 
 		roots.clear();
-		queue = new DateRevQueue(firstParent);
+		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 	}
 
@@ -1529,7 +1613,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		firstParent = false;
 		objects.clear();
 		roots.clear();
-		queue = new DateRevQueue(firstParent);
+		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
 	}
@@ -1538,7 +1622,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * Like {@link #next()}, but if a checked exception is thrown during the
 	 * walk it is rethrown as a {@link RevWalkException}.
 	 *
-	 * @throws RevWalkException if an {@link IOException} was thrown.
+	 * @throws RevWalkException
+	 *             if an {@link IOException} was thrown.
 	 * @return next most recent commit; null if traversal is over.
 	 */
 	@Nullable
@@ -1598,7 +1683,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	protected void assertNotStarted() {
 		if (isNotStarted())
 			return;
-		throw new IllegalStateException(JGitText.get().outputHasAlreadyBeenStarted);
+		throw new IllegalStateException(
+				JGitText.get().outputHasAlreadyBeenStarted);
 	}
 
 	/**
@@ -1649,6 +1735,13 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @return a new unparsed reference for the object.
 	 */
 	protected RevCommit createCommit(AnyObjectId id) {
+		return createCommit(id, commitGraph().findGraphPosition(id));
+	}
+
+	private RevCommit createCommit(AnyObjectId id, int graphPos) {
+		if (graphPos >= 0) {
+			return new RevCommitCG(id, graphPos);
+		}
 		return new RevCommit(id);
 	}
 
