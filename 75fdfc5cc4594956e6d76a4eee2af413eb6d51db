@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "390070ad_a92fa73a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-05-01T14:34:19Z",
+      "side": 1,
+      "message": "These changes were not merged yet.",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 67
+      },
+      "revId": "75fdfc5cc4594956e6d76a4eee2af413eb6d51db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
