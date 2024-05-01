@@ -95,7 +95,6 @@ public class CleanFilter extends FilterCommand {
 		this.aOut = new AtomicObjectOutputStream(tmpFile.toAbsolutePath());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int run() throws IOException {
 		try {

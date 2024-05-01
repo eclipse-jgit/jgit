@@ -42,19 +42,19 @@
     <!-- Optional security provider for encryption tests. -->
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
+      <artifactId>bcprov-jdk18on</artifactId>
       <scope>test</scope>
      </dependency>
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpg-jdk15on</artifactId>
+      <artifactId>bcpg-jdk18on</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
+      <artifactId>bcpkix-jdk18on</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -73,7 +73,6 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>2.23.0</version>
     </dependency>
 
     <dependency>

@@ -54,6 +54,8 @@ public class CommandExecutor {
 	}
 
 	/**
+	 * Run command
+	 *
 	 * @param command
 	 *            the command string
 	 * @param workingDir
@@ -62,8 +64,11 @@ public class CommandExecutor {
 	 *            the environment
 	 * @return the execution result
 	 * @throws ToolException
+	 *             if a tool raised an error
 	 * @throws InterruptedException
+	 *             if thread was interrupted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public ExecutionResult run(String command, File workingDir,
 			Map<String, String> env)
@@ -101,6 +106,8 @@ public class CommandExecutor {
 	}
 
 	/**
+	 * Check whether executable file is available
+	 *
 	 * @param path
 	 *            the executable path
 	 * @param workingDir
@@ -109,8 +116,11 @@ public class CommandExecutor {
 	 *            the environment
 	 * @return the execution result
 	 * @throws ToolException
+	 *             if a tool raised an error
 	 * @throws InterruptedException
+	 *             if thread was interrupted
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	public boolean checkExecutable(String path, File workingDir,
 			Map<String, String> env)
@@ -155,6 +165,9 @@ public class CommandExecutor {
 		if (fs instanceof FS_POSIX) {
 			commandArray = new String[1];
 			commandArray[0] = commandFile.getCanonicalPath();
+		} else if (fs instanceof FS_Win32_Cygwin) {
+			commandArray = new String[1];
+			commandArray[0] = commandFile.getCanonicalPath().replace("\\", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		} else if (fs instanceof FS_Win32) {
 			if (useMsys2) {
 				commandArray = new String[3];
@@ -166,9 +179,6 @@ public class CommandExecutor {
 				commandArray = new String[1];
 				commandArray[0] = commandFile.getCanonicalPath();
 			}
-		} else if (fs instanceof FS_Win32_Cygwin) {
-			commandArray = new String[1];
-			commandArray[0] = commandFile.getCanonicalPath().replace("\\", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		} else {
 			throw new ToolException(
 					"JGit: file system not supported: " + fs.toString()); //$NON-NLS-1$

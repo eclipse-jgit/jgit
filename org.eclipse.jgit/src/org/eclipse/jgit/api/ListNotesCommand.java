@@ -44,7 +44,6 @@ public class ListNotesCommand extends GitCommand<List<Note>> {
 		super(repo);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Note> call() throws GitAPIException {
 		checkCallable();

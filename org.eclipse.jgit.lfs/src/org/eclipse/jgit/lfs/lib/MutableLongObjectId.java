@@ -221,7 +221,6 @@ public class MutableLongObjectId extends AnyLongObjectId {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public LongObjectId toObjectId() {
 		return new LongObjectId(this);

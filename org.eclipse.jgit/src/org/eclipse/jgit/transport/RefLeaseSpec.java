@@ -58,7 +58,6 @@ public class RefLeaseSpec implements Serializable {
 		return expected;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		final StringBuilder r = new StringBuilder();

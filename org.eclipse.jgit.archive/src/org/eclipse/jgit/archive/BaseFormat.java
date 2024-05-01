@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.archive.internal.ArchiveText;
 import org.eclipse.jgit.util.StringUtils;
@@ -40,8 +41,10 @@ public class BaseFormat {
 	 *            options map
 	 * @return stream with option applied
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
-	protected ArchiveOutputStream applyFormatOptions(ArchiveOutputStream s,
+	protected ArchiveOutputStream<? extends ArchiveEntry> applyFormatOptions(
+			ArchiveOutputStream<? extends ArchiveEntry> s,
 			Map<String, Object> o) throws IOException {
 		for (Map.Entry<String, Object> p : o.entrySet()) {
 			try {

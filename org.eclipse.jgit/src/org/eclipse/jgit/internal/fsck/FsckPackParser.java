@@ -66,7 +66,6 @@ public class FsckPackParser extends PackParser {
 		this.blockSize = channel.blockSize() > 0 ? channel.blockSize() : 65536;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onPackHeader(long objCnt) throws IOException {
 		if (expectedObjectCount >= 0) {
@@ -78,48 +77,41 @@ public class FsckPackParser extends PackParser {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onBeginWholeObject(long streamPosition, int type,
 			long inflatedSize) throws IOException {
 		crc.reset();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onObjectHeader(Source src, byte[] raw, int pos, int len)
 			throws IOException {
 		crc.update(raw, pos, len);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onObjectData(Source src, byte[] raw, int pos, int len)
 			throws IOException {
 		crc.update(raw, pos, len);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onEndWholeObject(PackedObjectInfo info) throws IOException {
 		info.setCRC((int) crc.getValue());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onBeginOfsDelta(long deltaStreamPosition,
 			long baseStreamPosition, long inflatedSize) throws IOException {
 		crc.reset();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onBeginRefDelta(long deltaStreamPosition, AnyObjectId baseId,
 			long inflatedSize) throws IOException {
 		crc.reset();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected UnresolvedDelta onEndDelta() throws IOException {
 		UnresolvedDelta delta = new UnresolvedDelta();
@@ -127,14 +119,12 @@ public class FsckPackParser extends PackParser {
 		return delta;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onInflatedObjectData(PackedObjectInfo obj, int typeCode,
 			byte[] data) throws IOException {
 		// FsckPackParser ignores this event.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void verifySafeObject(final AnyObjectId id, final int type,
 			final byte[] data) {
@@ -146,13 +136,11 @@ public class FsckPackParser extends PackParser {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onPackFooter(byte[] hash) throws IOException {
 		// Do nothing.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean onAppendBase(int typeCode, byte[] data,
 			PackedObjectInfo info) throws IOException {
@@ -160,13 +148,11 @@ public class FsckPackParser extends PackParser {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onEndThinPack() throws IOException {
 		// Do nothing.
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected ObjectTypeAndSize seekDatabase(PackedObjectInfo obj,
 			ObjectTypeAndSize info) throws IOException {
@@ -175,7 +161,6 @@ public class FsckPackParser extends PackParser {
 		return readObjectHeader(info);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected ObjectTypeAndSize seekDatabase(UnresolvedDelta delta,
 			ObjectTypeAndSize info) throws IOException {
@@ -184,7 +169,6 @@ public class FsckPackParser extends PackParser {
 		return readObjectHeader(info);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected int readDatabase(byte[] dst, int pos, int cnt)
 			throws IOException {
@@ -229,13 +213,11 @@ public class FsckPackParser extends PackParser {
 		return buf.array();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected boolean checkCRC(int oldCRC) {
 		return oldCRC == (int) crc.getValue();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected void onStoreStream(byte[] raw, int pos, int len)
 			throws IOException {

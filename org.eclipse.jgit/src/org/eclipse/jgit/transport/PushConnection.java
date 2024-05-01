@@ -43,17 +43,14 @@ public interface PushConnection extends Connection {
 	 * and sending objects that remote repository need to have a consistent
 	 * objects graph from new refs.
 	 * <p>
-	 * <p>
 	 * Only one call per connection is allowed. Subsequent calls will result in
 	 * {@link org.eclipse.jgit.errors.TransportException}.
-	 * </p>
 	 * <p>
 	 * Implementation may use local repository to send a minimum set of objects
 	 * needed by remote repository in efficient way.
 	 * {@link org.eclipse.jgit.transport.Transport#isPushThin()} should be
 	 * honored if applicable. refUpdates should be filled with information about
 	 * status of each update.
-	 * </p>
 	 *
 	 * @param monitor
 	 *            progress monitor to update the end-user about the amount of
@@ -90,17 +87,14 @@ public interface PushConnection extends Connection {
 	 * and sending objects that remote repository need to have a consistent
 	 * objects graph from new refs.
 	 * <p>
-	 * <p>
 	 * Only one call per connection is allowed. Subsequent calls will result in
 	 * {@link org.eclipse.jgit.errors.TransportException}.
-	 * </p>
 	 * <p>
 	 * Implementation may use local repository to send a minimum set of objects
 	 * needed by remote repository in efficient way.
 	 * {@link org.eclipse.jgit.transport.Transport#isPushThin()} should be
 	 * honored if applicable. refUpdates should be filled with information about
 	 * status of each update.
-	 * </p>
 	 *
 	 * @param monitor
 	 *            progress monitor to update the end-user about the amount of

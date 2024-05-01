@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Google LLC. and others
+ * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -152,7 +152,7 @@ public class ProtocolV2ParserTest {
 		assertThat(request.getClientShallowCommits(),
 				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
-		assertTrue(request.getDeepenNotRefs().isEmpty());
+		assertTrue(request.getDeepenNots().isEmpty());
 		assertEquals(15, request.getDepth());
 		assertTrue(request.getClientCapabilities()
 				.contains(GitProtocolConstants.OPTION_DEEPEN_RELATIVE));
@@ -171,7 +171,7 @@ public class ProtocolV2ParserTest {
 		assertThat(request.getClientShallowCommits(),
 				hasOnlyObjectIds("28274d02c489f4c7e68153056e9061a46f62d7a0",
 						"145e683b229dcab9d0e2ccb01b386f9ecc17d29d"));
-		assertThat(request.getDeepenNotRefs(),
+		assertThat(request.getDeepenNots(),
 				hasItems("a08595f76159b09d57553e37a5123f1091bb13e7"));
 	}
 
@@ -360,5 +360,29 @@ public class ProtocolV2ParserTest {
 		assertFalse(req.getSymrefs());
 		assertEquals(2, req.getRefPrefixes().size());
 		assertThat(req.getRefPrefixes(), hasItems("refs/for", "refs/heads"));
+	}
+
+	@Test
+	public void testFetchWithSessionID() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine("session-id=the.client.sid",
+				PacketLineIn.end());
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.start().allowFilter().done());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
+
+		assertEquals("the.client.sid", request.getClientSID());
+	}
+
+	@Test
+	public void testLsRefsWithSessionID() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine("session-id=the.client.sid",
+				PacketLineIn.delimiter(), PacketLineIn.end());
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
+
+		assertEquals("the.client.sid", req.getClientSID());
 	}
 }

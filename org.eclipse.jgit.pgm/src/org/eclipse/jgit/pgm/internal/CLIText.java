@@ -21,6 +21,7 @@ import org.kohsuke.args4j.Localizable;
 /**
  * Translation bundle for JGit command line interface
  */
+@SuppressWarnings("MissingSummary")
 public class CLIText extends TranslationBundle {
 	/**
 	 * Formats text strings using {@code Localizable}.
@@ -119,6 +120,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String cannotResolve;
 	/***/ public String cannotSetupConsole;
 	/***/ public String cannotUseObjectsWithGlog;
+	/***/ public String cannotUseNameStatusOnlyAndNameOnly;
 	/***/ public String cantFindGitDirectory;
 	/***/ public String cantWrite;
 	/***/ public String changesNotStagedForCommit;
@@ -213,6 +215,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_filepattern;
 	/***/ public String metaVar_gitDir;
 	/***/ public String metaVar_hostName;
+	/***/ public String metaVar_instant;
 	/***/ public String metaVar_lfsStorage;
 	/***/ public String metaVar_linesOfContext;
 	/***/ public String metaVar_message;

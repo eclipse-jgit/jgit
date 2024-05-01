@@ -15,10 +15,14 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
@@ -27,6 +31,8 @@ import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -976,8 +982,331 @@ public class DfsGarbageCollectorTest {
 		assertNull(refdb.exactRef(NEXT));
 	}
 
+	@Test
+	public void produceCommitGraphOnlyHeadsAndTags() throws Exception {
+		String tag = "refs/tags/tag1";
+		String head = "refs/heads/head1";
+		String nonHead = "refs/something/nonHead";
+
+		RevCommit rootCommitTagged = git.branch(tag).commit().message("0")
+				.noParents().create();
+		RevCommit headTip = git.branch(head).commit().message("1")
+				.parent(rootCommitTagged).create();
+		RevCommit nonHeadTip = git.branch(nonHead).commit().message("2")
+				.parent(rootCommitTagged).create();
+
+		gcWithCommitGraph();
+
+		assertEquals(2, odb.getPacks().length);
+		DfsPackFile gcPack = odb.getPacks()[0];
+		assertEquals(GC, gcPack.getPackDescription().getPackSource());
+
+		DfsReader reader = odb.newReader();
+		CommitGraph cg = gcPack.getCommitGraph(reader);
+		assertNotNull(cg);
+
+		assertTrue("Only heads and tags reachable commits in commit graph",
+				cg.getCommitCnt() == 2);
+		// GC packed
+		assertTrue("tag referenced commit is in graph",
+				cg.findGraphPosition(rootCommitTagged) != -1);
+		assertTrue("head referenced commit is in graph",
+				cg.findGraphPosition(headTip) != -1);
+		// GC_REST not in commit graph
+		assertEquals("nonHead referenced commit is NOT in graph",
+				-1, cg.findGraphPosition(nonHeadTip));
+	}
+
+	@Test
+	public void produceCommitGraphOnlyHeadsAndTagsIncludedFromCache() throws Exception {
+		String tag = "refs/tags/tag1";
+		String head = "refs/heads/head1";
+		String nonHead = "refs/something/nonHead";
+
+		RevCommit rootCommitTagged = git.branch(tag).commit().message("0")
+				.noParents().create();
+		RevCommit headTip = git.branch(head).commit().message("1")
+				.parent(rootCommitTagged).create();
+		RevCommit nonHeadTip = git.branch(nonHead).commit().message("2")
+				.parent(rootCommitTagged).create();
+
+		gcWithCommitGraph();
+
+		assertEquals(2, odb.getPacks().length);
+		DfsPackFile gcPack = odb.getPacks()[0];
+		assertEquals(GC, gcPack.getPackDescription().getPackSource());
+
+		DfsReader reader = odb.newReader();
+		gcPack.getCommitGraph(reader);
+		// Invoke cache hit
+		CommitGraph cachedCG = gcPack.getCommitGraph(reader);
+		assertNotNull(cachedCG);
+		assertTrue("commit graph have been read from disk once",
+				reader.stats.readCommitGraph == 1);
+		assertTrue("commit graph read contains content",
+				reader.stats.readCommitGraphBytes > 0);
+		assertTrue("commit graph read time is recorded",
+				reader.stats.readCommitGraphMicros > 0);
+
+		assertTrue("Only heads and tags reachable commits in commit graph",
+				cachedCG.getCommitCnt() == 2);
+		// GC packed
+		assertTrue("tag referenced commit is in graph",
+				cachedCG.findGraphPosition(rootCommitTagged) != -1);
+		assertTrue("head referenced commit is in graph",
+				cachedCG.findGraphPosition(headTip) != -1);
+		// GC_REST not in commit graph
+		assertEquals("nonHead referenced commit is not in graph",
+				-1, cachedCG.findGraphPosition(nonHeadTip));
+	}
+
+	@Test
+	public void noCommitGraphWithoutGcPack() throws Exception {
+		String nonHead = "refs/something/nonHead";
+		RevCommit nonHeadCommit = git.branch(nonHead).commit()
+				.message("nonhead").noParents().create();
+		commit().message("unreachable").parent(nonHeadCommit).create();
+
+		gcWithCommitGraph();
+
+		assertEquals(2, odb.getPacks().length);
+		for (DfsPackFile pack : odb.getPacks()) {
+			assertNull(pack.getCommitGraph(odb.newReader()));
+		}
+	}
+
+	@Test
+	public void commitGraphWithoutGCrestPack() throws Exception {
+		String head = "refs/heads/head1";
+		RevCommit headCommit = git.branch(head).commit().message("head")
+				.noParents().create();
+		RevCommit unreachableCommit = commit().message("unreachable")
+				.parent(headCommit).create();
+
+		gcWithCommitGraph();
+
+		assertEquals(2, odb.getPacks().length);
+		for (DfsPackFile pack : odb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getPackSource() == GC) {
+				CommitGraph cg = pack.getCommitGraph(odb.newReader());
+				assertNotNull(cg);
+				assertTrue("commit graph only contains 1 commit",
+						cg.getCommitCnt() == 1);
+				assertTrue("head exists in commit graph",
+						cg.findGraphPosition(headCommit) != -1);
+				assertTrue("unreachable commit does not exist in commit graph",
+						cg.findGraphPosition(unreachableCommit) == -1);
+			} else if (d.getPackSource() == UNREACHABLE_GARBAGE) {
+				CommitGraph cg = pack.getCommitGraph(odb.newReader());
+				assertNull(cg);
+			} else {
+				fail("unexpected " + d.getPackSource());
+				break;
+			}
+		}
+	}
+
+	@Test
+	public void produceCommitGraphAndBloomFilter() throws Exception {
+		String head = "refs/heads/head1";
+
+		git.branch(head).commit().message("0").noParents().create();
+
+		gcWithCommitGraphAndBloomFilter();
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		DfsPackDescription desc = pack.getPackDescription();
+		CommitGraphWriter.Stats stats = desc.getCommitGraphStats();
+		assertNotNull(stats);
+		assertEquals(1, stats.getChangedPathFiltersComputed());
+	}
+
+	@Test
+	public void testReadChangedPathConfigAsFalse() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+	@Test
+	public void testReadChangedPathConfigAsTrue() throws Exception {
+		String head = "refs/heads/head1";
+		git.branch(head).commit().message("0").noParents().create();
+		gcWithCommitGraphAndBloomFilter();
+
+		Config repoConfig = odb.getRepository().getConfig();
+		repoConfig.setBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, true);
+
+		DfsPackFile gcPack = odb.getPacks()[0];
+		try (DfsReader reader = odb.newReader()) {
+			CommitGraph cg = gcPack.getCommitGraph(reader);
+			assertNotNull(cg.getChangedPathFilter(0));
+		}
+	}
+
+	@Test
+	public void objectSizeIdx_reachableBlob_bigEnough_indexed() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevBlob headsBlob = git.blob("twelve bytes");
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("file.txt", headsBlob)
+				.parent(root)
+				.create();
+
+		gcWithObjectSizeIndex(10);
+
+		DfsReader reader = odb.newReader();
+		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
+		assertTrue(gcPack.hasObjectSizeIndex(reader));
+		assertEquals(12, gcPack.getIndexedObjectSize(reader, headsBlob));
+	}
+
+	@Test
+	public void objectSizeIdx_reachableBlob_tooSmall_notIndexed() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevBlob tooSmallBlob = git.blob("small");
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("small.txt", tooSmallBlob)
+				.parent(root)
+				.create();
+
+		gcWithObjectSizeIndex(10);
+
+		DfsReader reader = odb.newReader();
+		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
+		assertTrue(gcPack.hasObjectSizeIndex(reader));
+		assertEquals(-1, gcPack.getIndexedObjectSize(reader, tooSmallBlob));
+	}
+
+	@Test
+	public void objectSizeIndex_unreachableGarbage_noIdx() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("file.txt", git.blob("a blob"))
+				.parent(root)
+				.create();
+		git.update(master, root); // blob is unreachable
+		gcWithObjectSizeIndex(0);
+
+		DfsReader reader = odb.newReader();
+		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
+		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	@Test
+	public void bitmapIndexWrittenDuringGc() throws Exception {
+		int numBranches = 2;
+		int commitsPerBranch = 50;
+
+		RevCommit commit0 = commit().message("0").create();
+		git.update("branch0", commit0);
+		RevCommit branch1 = commitChain(commit0, commitsPerBranch);
+		git.update("branch1", branch1);
+		RevCommit branch2 = commitChain(commit0, commitsPerBranch);
+		git.update("branch2", branch2);
+
+		int contiguousCommitCount = 5;
+		int recentCommitSpan = 2;
+		int recentCommitCount = 10;
+		int distantCommitSpan = 5;
+
+		PackConfig packConfig = new PackConfig();
+		packConfig.setBitmapContiguousCommitCount(contiguousCommitCount);
+		packConfig.setBitmapRecentCommitSpan(recentCommitSpan);
+		packConfig.setBitmapRecentCommitCount(recentCommitCount);
+		packConfig.setBitmapDistantCommitSpan(distantCommitSpan);
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setPackConfig(packConfig);
+		run(gc);
+
+		DfsPackFile pack = odb.getPacks()[0];
+		PackBitmapIndex bitmapIndex = pack.getBitmapIndex(odb.newReader());
+		assertTrue("pack file has bitmap index extension",
+				pack.getPackDescription().hasFileExt(PackExt.BITMAP_INDEX));
+
+		int recentCommitsPerBranch = (recentCommitCount - contiguousCommitCount
+				- 1) / recentCommitSpan;
+		assertEquals("expected recent commits", 2, recentCommitsPerBranch);
+
+		int distantCommitsPerBranch = (commitsPerBranch - 1 - recentCommitCount)
+				/ distantCommitSpan;
+		assertEquals("expected distant commits", 7, distantCommitsPerBranch);
+
+		int branchBitmapsCount = contiguousCommitCount
+				+ numBranches
+						* (recentCommitsPerBranch
+						+ distantCommitsPerBranch);
+		assertEquals("expected bitmaps count", 23, branchBitmapsCount);
+		assertEquals("bitmap index has expected number of bitmaps",
+				branchBitmapsCount,
+				bitmapIndex.getBitmapCount());
+
+		// The count is just a function of whether any bitmaps happen to
+		// compress efficiently against the others in the index. We expect for
+		// this test that this there will be at least one like this, but the
+		// actual count is situation-specific
+		assertTrue("bitmap index has xor-compressed bitmaps",
+				bitmapIndex.getXorBitmapCount() > 0);
+	}
+
+	private RevCommit commitChain(RevCommit parent, int length)
+			throws Exception {
+		for (int i = 0; i < length; i++) {
+			parent = commit().message("" + i).parent(parent).create();
+		}
+		return parent;
+	}
+
+	private static DfsPackFile findFirstBySource(DfsPackFile[] packs, PackSource source) {
+		return Arrays.stream(packs)
+				.filter(p -> p.getPackDescription().getPackSource() == source)
+				.findFirst().get();
+	}
+
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
 		return git.commit();
+	}
+
+	private void gcWithCommitGraph() throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setWriteCommitGraph(true);
+		run(gc);
+	}
+
+	private void gcWithCommitGraphAndBloomFilter() throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setWriteCommitGraph(true);
+		gc.setWriteBloomFilter(true);
+		run(gc);
+	}
+
+	private void gcWithObjectSizeIndex(int threshold) throws IOException {
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.getPackConfig().setMinBytesForObjSizeIndex(threshold);
+		run(gc);
 	}
 
 	private void gcNoTtl() throws IOException {

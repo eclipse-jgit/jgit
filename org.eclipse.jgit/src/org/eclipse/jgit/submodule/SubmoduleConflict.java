@@ -55,9 +55,11 @@ public class SubmoduleConflict extends Sequence {
     private final ObjectId objectId;
 
     /**
-     * Create a SubmoduleConflict for the given submodule object id
-     * @param objectId
-     */
+	 * Create a SubmoduleConflict for the given submodule object id
+	 *
+	 * @param objectId
+	 *            the id of the object to create a submodule conflict for
+	 */
     public SubmoduleConflict(ObjectId objectId) {
         super();
         this.objectId = objectId;
@@ -69,8 +71,10 @@ public class SubmoduleConflict extends Sequence {
     }
 
     /**
-     * @return the object id for the conflicting submodule
-     */
+	 * Get objectId for the conflicting submodule
+	 *
+	 * @return the object id for the conflicting submodule
+	 */
     public ObjectId getObjectId() {
         return objectId;
     }

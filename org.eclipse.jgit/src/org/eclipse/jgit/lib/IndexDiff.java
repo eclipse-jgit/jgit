@@ -122,6 +122,8 @@ public class IndexDiff {
 		}
 
 		/**
+		 * Whether there is a "base" stage entry
+		 *
 		 * @return whether there is a "base" stage entry
 		 */
 		public boolean hasBase() {
@@ -129,6 +131,8 @@ public class IndexDiff {
 		}
 
 		/**
+		 * Whether there is an "ours" stage entry
+		 *
 		 * @return whether there is an "ours" stage entry
 		 */
 		public boolean hasOurs() {
@@ -136,6 +140,8 @@ public class IndexDiff {
 		}
 
 		/**
+		 * Whether there is a "theirs" stage entry
+		 *
 		 * @return whether there is a "theirs" stage entry
 		 */
 		public boolean hasTheirs() {
@@ -265,6 +271,7 @@ public class IndexDiff {
 	 * @param workingTreeIterator
 	 *            iterator for working directory
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public IndexDiff(Repository repository, String revstr,
 			WorkingTreeIterator workingTreeIterator) throws IOException {
@@ -281,6 +288,7 @@ public class IndexDiff {
 	 * @param workingTreeIterator
 	 *            iterator for working directory
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public IndexDiff(Repository repository, ObjectId objectId,
 			WorkingTreeIterator workingTreeIterator) throws IOException {
@@ -312,6 +320,8 @@ public class IndexDiff {
 	 */
 	public interface WorkingTreeIteratorFactory {
 		/**
+		 * Get working tree iterator
+		 *
 		 * @param repo
 		 *            the repository
 		 * @return working tree iterator
@@ -325,6 +335,7 @@ public class IndexDiff {
 	 * Allows higher layers to set the factory for WorkingTreeIterators.
 	 *
 	 * @param wTreeIt
+	 *            working tree iterator factory
 	 * @since 3.6
 	 */
 	public void setWorkingTreeItFactory(WorkingTreeIteratorFactory wTreeIt) {
@@ -349,6 +360,7 @@ public class IndexDiff {
 	 *
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public boolean diff() throws IOException {
 		return diff(null);
@@ -372,6 +384,7 @@ public class IndexDiff {
 	 *            {@link RepositoryBuilder}.
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.6
 	 */
 	public boolean diff(RepositoryBuilderFactory factory)
@@ -395,9 +408,11 @@ public class IndexDiff {
 	 *            number or estimated files in the working tree
 	 * @param estIndexSize
 	 *            number of estimated entries in the cache
-	 * @param title a {@link java.lang.String} object.
+	 * @param title
+	 *            a {@link java.lang.String} object.
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public boolean diff(final ProgressMonitor monitor, int estWorkTreeSize,
 			int estIndexSize, final String title)
@@ -436,6 +451,7 @@ public class IndexDiff {
 	 *            {@link RepositoryBuilder}.
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 * @since 5.6
 	 */
 	public boolean diff(ProgressMonitor monitor, int estWorkTreeSize,

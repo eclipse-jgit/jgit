@@ -119,7 +119,6 @@ public class BitmappedReachabilityChecker implements ReachabilityChecker {
 			this.reached = repoBitmaps.newBitmapBuilder();
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public final boolean include(RevWalk walker, RevCommit cmit) {
 			Bitmap commitBitmap;
@@ -149,13 +148,11 @@ public class BitmappedReachabilityChecker implements ReachabilityChecker {
 			}
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public final RevFilter clone() {
 			throw new UnsupportedOperationException();
 		}
 
-		/** {@inheritDoc} */
 		@Override
 		public final boolean requiresCommitBody() {
 			return false;

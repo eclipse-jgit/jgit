@@ -128,8 +128,6 @@ public class FileMoveBenchmark {
 		Options opt = new OptionsBuilder()
 				.include(FileMoveBenchmark.class
 						.getSimpleName())
-				// .addProfiler(StackProfiler.class)
-				// .addProfiler(GCProfiler.class)
 				.forks(1).jvmArgs("-ea").build();
 		new Runner(opt).run();
 	}

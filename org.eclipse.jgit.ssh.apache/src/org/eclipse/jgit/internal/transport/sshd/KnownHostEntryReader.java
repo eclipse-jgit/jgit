@@ -18,9 +18,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +34,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Apache MINA sshd 2.0.0 KnownHostEntry cannot read a host entry line like
- * "host:port ssh-rsa <key>"; it complains about an illegal character in the
- * host name (correct would be "[host]:port"). The default known_hosts reader
- * also aborts reading on the first error.
+ * "host:port ssh-rsa &lt;key&gt;"; it complains about an illegal character in
+ * the host name (correct would be "[host]:port"). The default known_hosts
+ * reader also aborts reading on the first error.
  * <p>
  * This reader is a bit more robust and tries to handle this case if there is
  * only one colon (otherwise it might be an IPv6 address (without port)), and it
@@ -65,7 +65,7 @@ public class KnownHostEntryReader {
 	 */
 	public static List<KnownHostEntry> readFromFile(Path path)
 			throws IOException {
-		List<KnownHostEntry> result = new LinkedList<>();
+		List<KnownHostEntry> result = new ArrayList<>();
 		try (BufferedReader r = Files.newBufferedReader(path, UTF_8)) {
 			r.lines().forEachOrdered(l -> {
 				if (l == null) {

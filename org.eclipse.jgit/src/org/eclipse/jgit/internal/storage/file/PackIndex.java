@@ -64,7 +64,9 @@ public abstract class PackIndex
 	public static PackIndex open(File idxFile) throws IOException {
 		try (SilentFileInputStream fd = new SilentFileInputStream(
 				idxFile)) {
-				return read(fd);
+			return read(fd);
+		} catch (FileNotFoundException e) {
+			throw e;
 		} catch (IOException ioe) {
 			throw new IOException(
 					MessageFormat.format(JGitText.get().unreadablePackIndex,
@@ -128,7 +130,6 @@ public abstract class PackIndex
 		return findOffset(id) != -1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean contains(AnyObjectId id) {
 		return findOffset(id) != -1;
@@ -241,6 +242,17 @@ public abstract class PackIndex
 	public abstract long findOffset(AnyObjectId objId);
 
 	/**
+	 * Locate the position of this id in the list of object-ids in the index
+	 *
+	 * @param objId
+	 *            name of the object to locate within the index
+	 * @return position of the object-id in the lexicographically ordered list
+	 *         of ids stored in this index; -1 if the object does not exist in
+	 *         this index and is thus not stored in the associated pack.
+	 */
+	public abstract int findPosition(AnyObjectId objId);
+
+	/**
 	 * Retrieve stored CRC32 checksum of the requested object raw-data
 	 * (including header).
 	 *
@@ -280,6 +292,8 @@ public abstract class PackIndex
 			int matchLimit) throws IOException;
 
 	/**
+	 * Get pack checksum
+	 *
 	 * @return the checksum of the pack; caller must not modify it
 	 * @since 5.5
 	 */
@@ -306,19 +320,31 @@ public abstract class PackIndex
 			return offset;
 		}
 
-		/** @return hex string describing the object id of this entry. */
+		/**
+		 * Get hex string representation of the entry's object id
+		 *
+		 * @return hex string describing the object id of this entry.
+		 */
 		public String name() {
 			ensureId();
 			return idBuffer.name();
 		}
 
-		/** @return a copy of the object id. */
+		/**
+		 * Create a copy of the object id
+		 *
+		 * @return a copy of the object id.
+		 */
 		public ObjectId toObjectId() {
 			ensureId();
 			return idBuffer.toObjectId();
 		}
 
-		/** @return a complete copy of this entry, that won't modify */
+		/**
+		 * Clone the entry
+		 *
+		 * @return a complete copy of this entry, that won't modify
+		 */
 		public MutableEntry cloneEntry() {
 			final MutableEntry r = new MutableEntry();
 			ensureId();

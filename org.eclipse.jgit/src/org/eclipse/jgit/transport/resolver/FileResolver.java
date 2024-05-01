@@ -60,7 +60,6 @@ public class FileResolver<C> implements RepositoryResolver<C> {
 		setExportAll(exportAll);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Repository open(C req, String name)
 			throws RepositoryNotFoundException, ServiceNotEnabledException {

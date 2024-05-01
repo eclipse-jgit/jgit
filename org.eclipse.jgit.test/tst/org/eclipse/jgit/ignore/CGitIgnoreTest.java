@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -353,5 +355,85 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		writeTrashFile(".gitignore", "/*\n!/src/");
 		writeTrashFile("src/.gitignore", "*\n!*.java\n!*/");
 		assertSameAsCGit();
+	}
+
+	@Test
+	public void testMultipleEntriesIgnored() throws Exception {
+		createFiles("dir/a");
+		writeTrashFile(".gitignore", "!dir/a\ndir/a");
+		assertSameAsCGit();
+	}
+
+	@Test
+	public void testMultipleEntriesNotIgnored() throws Exception {
+		createFiles("dir/a");
+		writeTrashFile(".gitignore", "dir/a\n!dir/a");
+		assertSameAsCGit("dir/a");
+	}
+
+	@Test
+	public void testInfoExcludes() throws Exception {
+		createFiles("dir/a", "dir/b");
+		File gitDir = db.getDirectory();
+		File info = new File(gitDir, "info");
+		assertTrue(info.mkdirs());
+		File infoExclude = new File(info, "exclude");
+		Files.writeString(infoExclude.toPath(), "dir/a");
+		assertSameAsCGit("dir/b");
+	}
+
+	@Test
+	public void testInfoExcludesPrecedence() throws Exception {
+		createFiles("dir/a", "dir/b");
+		writeTrashFile(".gitignore", "!dir/a");
+		File gitDir = db.getDirectory();
+		File info = new File(gitDir, "info");
+		assertTrue(info.mkdirs());
+		File infoExclude = new File(info, "exclude");
+		Files.writeString(infoExclude.toPath(), "dir/a");
+		assertSameAsCGit("dir/a", "dir/b");
+	}
+
+	@Test
+	public void testCoreExcludes() throws Exception {
+		createFiles("dir/a", "dir/b");
+		writeTrashFile(".fake_git_ignore", "dir/a");
+		assertSameAsCGit("dir/b");
+	}
+
+	@Test
+	public void testInfoCoreExcludes() throws Exception {
+		createFiles("dir/a", "dir/b");
+		File gitDir = db.getDirectory();
+		File info = new File(gitDir, "info");
+		assertTrue(info.mkdirs());
+		File infoExclude = new File(info, "exclude");
+		Files.writeString(infoExclude.toPath(), "!a");
+		writeTrashFile(".fake_git_ignore", "dir/a");
+		assertSameAsCGit("dir/b");
+	}
+
+	@Test
+	public void testInfoCoreExcludesPrecedence() throws Exception {
+		createFiles("dir/a", "dir/b");
+		File gitDir = db.getDirectory();
+		File info = new File(gitDir, "info");
+		assertTrue(info.mkdirs());
+		File infoExclude = new File(info, "exclude");
+		Files.writeString(infoExclude.toPath(), "!dir/a");
+		writeTrashFile(".fake_git_ignore", "dir/a");
+		assertSameAsCGit("dir/a", "dir/b");
+	}
+
+	@Test
+	public void testInfoCoreExcludesPrecedence2() throws Exception {
+		createFiles("dir/a", "dir/b");
+		File gitDir = db.getDirectory();
+		File info = new File(gitDir, "info");
+		assertTrue(info.mkdirs());
+		File infoExclude = new File(info, "exclude");
+		Files.writeString(infoExclude.toPath(), "dir/a");
+		writeTrashFile(".fake_git_ignore", "!dir/a");
+		assertSameAsCGit("dir/b");
 	}
 }

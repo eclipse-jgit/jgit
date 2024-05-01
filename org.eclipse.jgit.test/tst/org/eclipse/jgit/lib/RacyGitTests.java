@@ -30,6 +30,22 @@ import org.junit.Test;
 
 public class RacyGitTests extends RepositoryTestCase {
 
+	/**
+	 * This test is inherently flaky in nature since using clocks in a computer
+	 * to determine file modifications in a filesystem from Java is difficult
+	 * and depends on many factors and we can't test all combinations
+	 *
+	 * If this test fails on your computer, don't worry but let us know if you
+	 * are willing to provide details which may help to further improve handling
+	 * of the racy git problem in JGit.
+	 *
+	 * Despite not being completely reproducible this test is still useful to
+	 * detect regressions when running this test repeatedly on the same
+	 * OS/filesystem/Java version (which we do on the CI used to build JGit).
+	 *
+	 * @see "https://git-scm.com/docs/racy-git"
+	 * @see "https://www.youtube.com/watch?v=m44cAozuLNI"
+	 */
 	@Test
 	public void testRacyGitDetection() throws Exception {
 		// Reset to force creation of index file

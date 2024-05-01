@@ -25,6 +25,8 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Construct a subsequence around the A region/base sequence.
 	 *
+	 * @param <S>
+	 *            type of returned Sequence
 	 * @param a
 	 *            the A sequence.
 	 * @param region
@@ -38,6 +40,8 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Construct a subsequence around the B region/base sequence.
 	 *
+	 * @param <S>
+	 *            type of returned Sequence
 	 * @param b
 	 *            the B sequence.
 	 * @param region
@@ -51,6 +55,8 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Adjust the Edit to reflect positions in the base sequence.
 	 *
+	 * @param <S>
+	 *            type of returned Sequence
 	 * @param e
 	 *            edit to adjust in-place. Prior to invocation the indexes are
 	 *            in terms of the two subsequences; after invocation the indexes
@@ -72,6 +78,8 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 	/**
 	 * Adjust the Edits to reflect positions in the base sequence.
 	 *
+	 * @param <S>
+	 *            type of returned Sequence
 	 * @param edits
 	 *            edits to adjust in-place. Prior to invocation the indexes are
 	 *            in terms of the two subsequences; after invocation the indexes
@@ -116,7 +124,6 @@ public final class Subsequence<S extends Sequence> extends Sequence {
 		this.size = end - begin;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int size() {
 		return size;

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
@@ -144,6 +145,7 @@ public class DfsPackDescription {
 
 	private PackStatistics packStats;
 	private ReftableWriter.Stats refStats;
+	private CommitGraphWriter.Stats commitGraphStats;
 	private int extensions;
 	private int indexVersion;
 	private long estimatedPackSize;
@@ -481,6 +483,19 @@ public class DfsPackDescription {
 	}
 
 	/**
+	 * Get stats from the sibling commit graph, if created.
+	 *
+	 * @return stats from the sibling commit graph, if created.
+	 */
+	public CommitGraphWriter.Stats getCommitGraphStats() {
+		return commitGraphStats;
+	}
+
+	void setCommitGraphStats(CommitGraphWriter.Stats stats) {
+		this.commitGraphStats = stats;
+	}
+
+	/**
 	 * Discard the pack statistics, if it was populated.
 	 *
 	 * @return {@code this}
@@ -512,13 +527,11 @@ public class DfsPackDescription {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return packName.hashCode();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object b) {
 		if (b instanceof DfsPackDescription) {
@@ -539,7 +552,6 @@ public class DfsPackDescription {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return getFileName(PackExt.PACK);

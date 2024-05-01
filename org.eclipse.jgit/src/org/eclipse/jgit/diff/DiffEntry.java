@@ -379,6 +379,8 @@ public class DiffEntry {
 	}
 
 	/**
+	 * Get diff attribute
+	 *
 	 * @return the {@link Attribute} determining filters to be applied.
 	 * @since 4.11
 	 */
@@ -457,7 +459,6 @@ public class DiffEntry {
 	/**
 	 * Whether the mark tree filter with the specified index matched during scan
 	 * or not, see {@link #scan(TreeWalk, boolean, TreeFilter...)}. Example:
-	 * <p>
 	 *
 	 * <pre>
 	 * TreeFilter filterA = ...;
@@ -506,7 +507,6 @@ public class DiffEntry {
 		return side == Side.OLD ? getOldId() : getNewId();
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

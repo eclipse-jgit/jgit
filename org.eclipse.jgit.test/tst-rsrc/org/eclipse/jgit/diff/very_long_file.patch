@@ -1,0 +1,6 @@
+diff --git a/very_long_file b/very_long_file
+index 379a33cf2..72ef58f79 100644
+--- a/very_long_file
++++ b/very_long_file
+@@ -0,0 +999991,1 @@
++An added line towards the end of the file

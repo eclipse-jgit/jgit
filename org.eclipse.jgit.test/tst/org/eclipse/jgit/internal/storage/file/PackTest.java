@@ -261,7 +261,7 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 				new PackIndexWriterV1(f).write(list, footer);
 			}
 
-			Pack pack = new Pack(packName, null);
+			Pack pack = new Pack(repo.getConfig(), packName, null);
 			try {
 				pack.get(wc, b);
 				fail("expected LargeObjectException.ExceedsByteArrayLimit");

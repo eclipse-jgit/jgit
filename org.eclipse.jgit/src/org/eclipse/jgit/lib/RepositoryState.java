@@ -355,27 +355,37 @@ public enum RepositoryState {
 	public abstract boolean canCheckout();
 
 	/**
+	 * Whether we can commit
+	 *
 	 * @return true if we can commit
 	 */
 	public abstract boolean canCommit();
 
 	/**
+	 * Whether reset to another HEAD is considered SAFE
+	 *
 	 * @return true if reset to another HEAD is considered SAFE
 	 */
 	public abstract boolean canResetHead();
 
 	/**
+	 * Whether amending is considered SAFE
+	 *
 	 * @return true if amending is considered SAFE
 	 */
 	public abstract boolean canAmend();
 
 	/**
+	 * Whether a rebase is in progress
+	 *
 	 * @return true if the repository is currently in a rebase
 	 * @since 3.0
 	 */
 	public abstract boolean isRebasing();
 
 	/**
+	 * Get a human readable description of the state
+	 *
 	 * @return a human readable description of the state.
 	 */
 	public abstract String getDescription();

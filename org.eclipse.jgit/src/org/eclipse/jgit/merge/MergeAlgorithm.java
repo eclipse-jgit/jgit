@@ -90,10 +90,16 @@ public final class MergeAlgorithm {
 	/**
 	 * Does the three way merge between a common base and two sequences.
 	 *
-	 * @param cmp comparison method for this execution.
-	 * @param base the common base sequence
-	 * @param ours the first sequence to be merged
-	 * @param theirs the second sequence to be merged
+	 * @param <S>
+	 *            type of the sequences
+	 * @param cmp
+	 *            comparison method for this execution.
+	 * @param base
+	 *            the common base sequence
+	 * @param ours
+	 *            the first sequence to be merged
+	 * @param theirs
+	 *            the second sequence to be merged
 	 * @return the resulting content
 	 */
 	public <S extends Sequence> MergeResult<S> merge(
@@ -121,6 +127,8 @@ public final class MergeAlgorithm {
 						// Let their complete content conflict with empty text
 						result.add(1, 0, 0,
 								ConflictState.FIRST_CONFLICTING_RANGE);
+						result.add(0, 0, base.size(),
+								ConflictState.BASE_CONFLICTING_RANGE);
 						result.add(2, 0, theirs.size(),
 								ConflictState.NEXT_CONFLICTING_RANGE);
 						break;
@@ -149,6 +157,8 @@ public final class MergeAlgorithm {
 					// Let our complete content conflict with empty text
 					result.add(1, 0, ours.size(),
 							ConflictState.FIRST_CONFLICTING_RANGE);
+					result.add(0, 0, base.size(),
+						ConflictState.BASE_CONFLICTING_RANGE);
 					result.add(2, 0, 0, ConflictState.NEXT_CONFLICTING_RANGE);
 					break;
 				}
@@ -208,13 +218,18 @@ public final class MergeAlgorithm {
 
 				// set some initial values for the ranges in A and B which we
 				// want to handle
+				int oursBeginA = oursEdit.getBeginA();
+				int theirsBeginA = theirsEdit.getBeginA();
 				int oursBeginB = oursEdit.getBeginB();
 				int theirsBeginB = theirsEdit.getBeginB();
 				// harmonize the start of the ranges in A and B
 				if (oursEdit.getBeginA() < theirsEdit.getBeginA()) {
+					theirsBeginA -= theirsEdit.getBeginA()
+							- oursEdit.getBeginA();
 					theirsBeginB -= theirsEdit.getBeginA()
 							- oursEdit.getBeginA();
 				} else {
+					oursBeginA -= oursEdit.getBeginA() - theirsEdit.getBeginA();
 					oursBeginB -= oursEdit.getBeginA() - theirsEdit.getBeginA();
 				}
 
@@ -260,11 +275,15 @@ public final class MergeAlgorithm {
 				}
 
 				// harmonize the end of the ranges in A and B
+				int oursEndA = oursEdit.getEndA();
+				int theirsEndA = theirsEdit.getEndA();
 				int oursEndB = oursEdit.getEndB();
 				int theirsEndB = theirsEdit.getEndB();
 				if (oursEdit.getEndA() < theirsEdit.getEndA()) {
+					oursEndA += theirsEdit.getEndA() - oursEdit.getEndA();
 					oursEndB += theirsEdit.getEndA() - oursEdit.getEndA();
 				} else {
+					theirsEndA += oursEdit.getEndA() - theirsEdit.getEndA();
 					theirsEndB += oursEdit.getEndA() - theirsEdit.getEndA();
 				}
 
@@ -318,6 +337,14 @@ public final class MergeAlgorithm {
 						result.add(1, oursBeginB + commonPrefix,
 								oursEndB - commonSuffix,
 								ConflictState.FIRST_CONFLICTING_RANGE);
+
+						int baseBegin = Math.min(oursBeginA, theirsBeginA)
+								+ commonPrefix;
+						int baseEnd = Math.min(base.size(),
+								Math.max(oursEndA, theirsEndA)) - commonSuffix;
+						result.add(0, baseBegin, baseEnd,
+								ConflictState.BASE_CONFLICTING_RANGE);
+
 						result.add(2, theirsBeginB + commonPrefix,
 								theirsEndB - commonSuffix,
 								ConflictState.NEXT_CONFLICTING_RANGE);

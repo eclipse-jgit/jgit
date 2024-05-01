@@ -50,9 +50,6 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void advertiseRefs(ReceivePack rp)
 			throws IOException {
@@ -60,7 +57,6 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 			hooks[i].advertiseRefs(rp);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void advertiseRefs(UploadPack rp)
 			throws ServiceMayNotContinueException {

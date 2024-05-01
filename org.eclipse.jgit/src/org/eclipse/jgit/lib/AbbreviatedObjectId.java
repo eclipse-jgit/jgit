@@ -321,13 +321,11 @@ public final class AbbreviatedObjectId implements Serializable {
 		return mask(nibbles, word, v);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return w1;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof AbbreviatedObjectId) {
@@ -366,7 +364,6 @@ public final class AbbreviatedObjectId implements Serializable {
 		return new String(b, 0, nibbles);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

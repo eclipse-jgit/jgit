@@ -24,8 +24,8 @@ import static org.eclipse.jgit.lib.Constants.GIT_WORK_TREE_KEY;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -205,8 +205,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public B addAlternateObjectDirectory(File other) {
 		if (other != null) {
-			if (alternateObjectDirectories == null)
-				alternateObjectDirectories = new LinkedList<>();
+			if (alternateObjectDirectories == null) {
+				alternateObjectDirectories = new ArrayList<>();
+			}
 			alternateObjectDirectories.add(other);
 		}
 		return self();
@@ -473,8 +474,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public B addCeilingDirectory(File root) {
 		if (root != null) {
-			if (ceilingDirectories == null)
-				ceilingDirectories = new LinkedList<>();
+			if (ceilingDirectories == null) {
+				ceilingDirectories = new ArrayList<>();
+			}
 			ceilingDirectories.add(root);
 		}
 		return self();

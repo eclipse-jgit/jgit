@@ -56,17 +56,14 @@ public abstract class DfsStreamKey {
 		this.packExtPos = ext == null ? 0 : ext.getPosition();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		return hash;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public abstract boolean equals(Object o);
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("boxing")
 	@Override
 	public String toString() {
@@ -93,21 +90,6 @@ public abstract class DfsStreamKey {
 						&& Arrays.equals(name, k.name);
 			}
 			return false;
-		}
-	}
-
-	static final class ForReverseIndex extends DfsStreamKey {
-		private final DfsStreamKey idxKey;
-
-		ForReverseIndex(DfsStreamKey idxKey) {
-			super(idxKey.hash + 1, null);
-			this.idxKey = idxKey;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			return o instanceof ForReverseIndex
-					&& idxKey.equals(((ForReverseIndex) o).idxKey);
 		}
 	}
 }

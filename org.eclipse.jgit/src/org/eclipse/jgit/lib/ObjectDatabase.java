@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc. and others
+ * Copyright (C) 2009, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -11,6 +11,8 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -22,6 +24,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * {@link org.eclipse.jgit.lib.ObjectId}.
  */
 public abstract class ObjectDatabase implements AutoCloseable {
+
+	private static final Set<ObjectId> shallowCommits = Collections.emptySet();
+
 	/**
 	 * Initialize a new database instance for access.
 	 */
@@ -70,6 +75,38 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * @return reader the caller can use to load objects from this database.
 	 */
 	public abstract ObjectReader newReader();
+
+	/**
+	 * Get the shallow commits of the current repository
+	 *
+	 * @return the shallow commits of the current repository
+	 *
+	 * @throws IOException
+	 *             the database could not be read
+	 *
+	 * @since 6.3
+	 */
+	public Set<ObjectId> getShallowCommits() throws IOException {
+		return shallowCommits;
+	}
+
+
+	/**
+	 * Update the shallow commits of the current repository
+	 *
+	 * @param shallowCommits the new shallow commits
+	 *
+	 * @throws IOException the database could not be updated
+	 *
+	 * @since 6.3
+	 */
+	public void setShallowCommits(Set<ObjectId> shallowCommits)
+			throws IOException {
+		if (!shallowCommits.isEmpty()) {
+			throw new UnsupportedOperationException(
+					"Shallow commits expected to be empty."); //$NON-NLS-1$
+		}
+	}
 
 	/**
 	 * Close any resources held by this database.

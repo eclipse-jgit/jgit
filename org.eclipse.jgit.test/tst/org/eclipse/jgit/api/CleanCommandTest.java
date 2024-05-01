@@ -301,4 +301,25 @@ public class CleanCommandTest extends RepositoryTestCase {
 		writeTrashFile("this_is/not_ok/more/subdirs/file.txt", "2");
 		git.clean().setCleanDirectories(true).setIgnore(false).call();
 	}
+
+	@Test
+	public void testPrefix() throws Exception {
+		File a = writeTrashFile("a.txt", "a");
+		File b = writeTrashFile("a/a.txt", "sub a");
+		File dir = b.getParentFile();
+		git.clean().call();
+		assertFalse(a.exists());
+		assertTrue(dir.exists());
+		assertTrue(b.exists());
+	}
+
+	@Test
+	public void testPrefixWithDir() throws Exception {
+		File a = writeTrashFile("a.txt", "a");
+		File b = writeTrashFile("a/a.txt", "sub a");
+		File dir = b.getParentFile();
+		git.clean().setCleanDirectories(true).call();
+		assertFalse(a.exists());
+		assertFalse(dir.exists());
+	}
 }

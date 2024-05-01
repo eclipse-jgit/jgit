@@ -208,7 +208,6 @@ public class FastIgnoreRule {
 		return matcher == NO_MATCH;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -221,7 +220,6 @@ public class FastIgnoreRule {
 
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -232,7 +230,6 @@ public class FastIgnoreRule {
 		return result;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

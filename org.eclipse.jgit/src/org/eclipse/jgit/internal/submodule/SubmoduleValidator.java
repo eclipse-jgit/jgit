@@ -45,8 +45,8 @@ public class SubmoduleValidator {
 		 * @param message
 		 *            Description of the problem
 		 * @param fsckMessageId
-		 *            Error identifier, following the git fsck fsck.<msg-id>
-		 *            format
+		 *            Error identifier, following the git fsck
+		 *            fsck.&lt;msg-id&gt; format
 		 */
 		SubmoduleValidationException(String message,
 				ObjectChecker.ErrorType fsckMessageId) {
@@ -56,6 +56,8 @@ public class SubmoduleValidator {
 
 
 		/**
+		 * Get the error identifier
+		 *
 		 * @return the error identifier
 		 */
 		public ObjectChecker.ErrorType getFsckMessageId() {

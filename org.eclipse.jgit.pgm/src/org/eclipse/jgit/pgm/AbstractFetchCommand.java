@@ -14,8 +14,6 @@
 
 package org.eclipse.jgit.pgm;
 
-import static java.lang.Character.valueOf;
-
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -59,8 +57,8 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 					shownURI = true;
 				}
 
-				outw.format(" %c %-17s %-10s -> %s", valueOf(type), longType, //$NON-NLS-1$
-						src, dst);
+				outw.format(" %c %-17s %-10s -> %s", Character.valueOf(type), //$NON-NLS-1$
+						longType, src, dst);
 				outw.println();
 			}
 		}

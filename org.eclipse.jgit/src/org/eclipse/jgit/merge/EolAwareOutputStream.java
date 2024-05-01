@@ -74,19 +74,21 @@ class EolAwareOutputStream extends OutputStream {
 			write('\n');
 	}
 
-	/** @return true if a new line has just begun. */
+	/**
+	 * Whether a new line has just begun
+	 *
+	 * @return true if a new line has just begun.
+	 */
 	boolean isBeginln() {
 		return bol;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int val) throws IOException {
 		out.write(val);
 		bol = (val == '\n');
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] buf, int pos, int cnt) throws IOException {
 		if (cnt > 0) {

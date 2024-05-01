@@ -48,7 +48,7 @@ public interface HttpConnectionFactory2 extends HttpConnectionFactory {
 		 *            {@link HttpConnectionFactory} instance
 		 * @param sslVerify
 		 *            whether SSL is to be verified
-		 * @return the configured {@connection}
+		 * @return the configured {@code connection}
 		 * @throws IOException
 		 *             if the connection cannot be configured
 		 * @throws GeneralSecurityException

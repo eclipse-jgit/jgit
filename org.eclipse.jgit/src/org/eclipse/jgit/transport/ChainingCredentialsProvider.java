@@ -39,7 +39,6 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 				Arrays.asList(providers));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isInteractive() {
 		for (CredentialsProvider p : credentialProviders)
@@ -48,7 +47,6 @@ public class ChainingCredentialsProvider extends CredentialsProvider {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialsProvider p : credentialProviders)

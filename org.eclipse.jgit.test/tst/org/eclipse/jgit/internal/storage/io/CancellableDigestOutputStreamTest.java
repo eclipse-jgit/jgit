@@ -54,6 +54,11 @@ public class CancellableDigestOutputStreamTest {
 		public boolean isCancelled() {
 			return cancelled;
 		}
+
+		@Override
+		public void showDuration(boolean enabled) {
+			// not implemented
+		}
 	}
 
 	@Test

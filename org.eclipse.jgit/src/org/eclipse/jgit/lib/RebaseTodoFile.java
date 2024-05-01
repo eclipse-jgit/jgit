@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.lib.RebaseTodoLine.Action;
@@ -55,13 +55,14 @@ public class RebaseTodoFile {
 	 *            <code>true</code> if also comments should be reported
 	 * @return the list of steps
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public List<RebaseTodoLine> readRebaseTodo(String path,
 			boolean includeComments) throws IOException {
 		byte[] buf = IO.readFully(new File(repo.getDirectory(), path));
 		int ptr = 0;
 		int tokenBegin = 0;
-		List<RebaseTodoLine> r = new LinkedList<>();
+		List<RebaseTodoLine> r = new ArrayList<>();
 		while (ptr < buf.length) {
 			tokenBegin = ptr;
 			ptr = RawParseUtils.nextLF(buf, ptr);
@@ -126,8 +127,11 @@ public class RebaseTodoFile {
 	 * Skip leading space, tab, CR and LF characters
 	 *
 	 * @param buf
+	 *            byte buffer
 	 * @param tokenBegin
+	 *            index of token begin
 	 * @param lineEnd
+	 *            index of line end
 	 * @return the token within the range of the given {@code buf} that doesn't
 	 *         need to be skipped, {@code -1} if no such token found within the
 	 *         range (i.e. empty line)
@@ -193,6 +197,7 @@ public class RebaseTodoFile {
 	 * @param append
 	 *            whether to append to an existing file or to write a new file
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	public void writeRebaseTodoFile(String path, List<RebaseTodoLine> steps,
 			boolean append) throws IOException {

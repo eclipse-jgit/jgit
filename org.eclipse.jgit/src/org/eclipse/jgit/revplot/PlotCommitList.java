@@ -49,7 +49,6 @@ public class PlotCommitList<L extends PlotLane> extends
 	private final HashMap<PlotLane, Integer> laneLength = new HashMap<>(
 			32);
 
-	/** {@inheritDoc} */
 	@Override
 	public void clear() {
 		super.clear();
@@ -59,7 +58,6 @@ public class PlotCommitList<L extends PlotLane> extends
 		laneLength.clear();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void source(RevWalk w) {
 		if (!(w instanceof PlotWalk))
@@ -91,7 +89,6 @@ public class PlotCommitList<L extends PlotLane> extends
 			result.add((L) p);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("ReferenceEquality")
 	@Override
 	protected void enter(int index, PlotCommit<L> currCommit) {
@@ -184,6 +181,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	 * @param index
 	 *            the index of <code>currCommit</code> in the list
 	 * @param currCommit
+	 *            the current commit
 	 * @param childOnLane
 	 *            the direct child on the same lane as <code>currCommit</code>,
 	 *            may be null if <code>currCommit</code> is the first commit on
@@ -287,8 +285,11 @@ public class PlotCommitList<L extends PlotLane> extends
 	 * All blockades on the lane must be resolved before calling this method.
 	 *
 	 * @param commitIndex
+	 *            commit index
 	 * @param child
+	 *            child to connect
 	 * @param laneToContinue
+	 *            lane to continue
 	 */
 	@SuppressWarnings("ReferenceEquality")
 	private void drawLaneToChild(final int commitIndex, PlotCommit child,

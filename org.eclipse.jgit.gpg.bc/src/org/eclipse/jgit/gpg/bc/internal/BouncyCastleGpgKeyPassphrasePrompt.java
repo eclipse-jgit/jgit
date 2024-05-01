@@ -69,10 +69,13 @@ class BouncyCastleGpgKeyPassphrasePrompt implements AutoCloseable {
 	 *            the location the key was loaded from
 	 * @return the passphrase (maybe <code>null</code>)
 	 * @throws PGPException
+	 *             if a PGP problem occurred
 	 * @throws CanceledException
 	 *             in case passphrase was not entered by user
 	 * @throws URISyntaxException
+	 *             if the URI isn't parseable
 	 * @throws UnsupportedCredentialItem
+	 *             if a credential item isn't supported
 	 */
 	public char[] getPassphrase(byte[] keyFingerprint, Path keyLocation)
 			throws PGPException, CanceledException, UnsupportedCredentialItem,

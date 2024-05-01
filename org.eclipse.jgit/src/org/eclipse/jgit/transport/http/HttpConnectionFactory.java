@@ -28,6 +28,7 @@ public interface HttpConnectionFactory {
 	 *            a {@link java.net.URL} object.
 	 * @return a {@link org.eclipse.jgit.transport.http.HttpConnection}
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	HttpConnection create(URL url) throws IOException;
 
@@ -41,6 +42,7 @@ public interface HttpConnectionFactory {
 	 *            the proxy to be used
 	 * @return a {@link org.eclipse.jgit.transport.http.HttpConnection}
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	HttpConnection create(URL url, Proxy proxy)
 			throws IOException;

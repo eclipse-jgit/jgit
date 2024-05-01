@@ -91,6 +91,7 @@ public class PathMatcher extends AbstractMatcher {
 	 *            a boolean.
 	 * @return never null
 	 * @throws org.eclipse.jgit.errors.InvalidPatternException
+	 *             if pattern is invalid
 	 */
 	public static IMatcher createPathMatcher(String pattern,
 			Character pathSeparator, boolean dirOnly)
@@ -149,7 +150,6 @@ public class PathMatcher extends AbstractMatcher {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String path, boolean assumeDirectory,
 			boolean pathMatch) {
@@ -192,7 +192,6 @@ public class PathMatcher extends AbstractMatcher {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean matches(String segment, int startIncl, int endExcl) {
 		throw new UnsupportedOperationException(

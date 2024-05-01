@@ -60,6 +60,7 @@ public interface LargeFileRepository {
 	 * @return length of the object content in bytes, -1 if the object doesn't
 	 *         exist
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	long getSize(AnyLongObjectId id) throws IOException;
 }

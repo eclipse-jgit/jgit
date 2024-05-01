@@ -25,21 +25,21 @@ public class CherryPickResult {
 	 * The cherry-pick status
 	 */
 	public enum CherryPickStatus {
-		/** */
+		/** Cherry-pick succeeded */
 		OK {
 			@Override
 			public String toString() {
 				return "Ok"; //$NON-NLS-1$
 			}
 		},
-		/** */
+		/** Cherry-pick failed */
 		FAILED {
 			@Override
 			public String toString() {
 				return "Failed"; //$NON-NLS-1$
 			}
 		},
-		/** */
+		/** Cherry-pick found conflicts to be resolved */
 		CONFLICTING {
 			@Override
 			public String toString() {

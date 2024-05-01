@@ -94,7 +94,6 @@ public class SideBandInputStream extends InputStream {
 		out = outputStream;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read() throws IOException {
 		needDataPacket();
@@ -104,7 +103,6 @@ public class SideBandInputStream extends InputStream {
 		return rawIn.read();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		int r = 0;

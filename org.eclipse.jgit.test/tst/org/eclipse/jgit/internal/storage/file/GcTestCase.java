@@ -61,6 +61,7 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	 *            the depth of the commit chain.
 	 * @return the commit that is the tip of the commit chain
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	protected RevCommit commitChain(int depth) throws Exception {
 		if (depth <= 0)
@@ -93,6 +94,7 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 	 *            number of files added per commit
 	 * @return the commit that is the tip of the commit chain
 	 * @throws Exception
+	 *             if an error occurred
 	 */
 	protected RevCommit commitChain(int depth, int width) throws Exception {
 		if (depth <= 0) {

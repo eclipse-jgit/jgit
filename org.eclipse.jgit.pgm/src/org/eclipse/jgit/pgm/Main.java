@@ -97,6 +97,7 @@ public class Main {
 	 * @param argv
 	 *            arguments.
 	 * @throws java.lang.Exception
+	 *             if an error occurred
 	 */
 	public static void main(String[] argv) throws Exception {
 		// make sure built-in filters are registered
@@ -121,6 +122,7 @@ public class Main {
 	 * @param argv
 	 *            arguments.
 	 * @throws java.lang.Exception
+	 *             if an error occurred
 	 */
 	protected void run(String[] argv) throws Exception {
 		writer = createErrorWriter();
@@ -263,9 +265,11 @@ public class Main {
 
 	/**
 	 * @param status
+	 *            exit status code, nonzero value indicates an error
 	 * @param t
 	 *            can be {@code null}
 	 * @throws Exception
+	 *             if an IO error occurred
 	 */
 	void exit(int status, Exception t) throws Exception {
 		writer.flush();
@@ -351,8 +355,7 @@ public class Main {
 				continue;
 			}
 
-			final URL u = new URL(
-					(!s.contains("://")) ? protocol + "://" + s : s); //$NON-NLS-1$ //$NON-NLS-2$
+			URL u = new URL(!s.contains("://") ? protocol + "://" + s : s); //$NON-NLS-1$ //$NON-NLS-2$
 			if (!u.getProtocol().startsWith("http")) //$NON-NLS-1$
 				throw new MalformedURLException(MessageFormat.format(
 						CLIText.get().invalidHttpProxyOnlyHttpSupported, s));

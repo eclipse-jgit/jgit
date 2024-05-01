@@ -88,7 +88,6 @@ public abstract class ThreeWayMerger extends Merger {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean merge(AnyObjectId... tips) throws IOException {
 		if (tips.length != 2)
@@ -96,7 +95,6 @@ public abstract class ThreeWayMerger extends Merger {
 		return super.merge(tips);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectId getBaseCommitId() {
 		return baseCommitId;
@@ -108,6 +106,7 @@ public abstract class ThreeWayMerger extends Merger {
 	 * @return an iterator over the caller-specified merge base, or the natural
 	 *         merge base of the two input commits.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected AbstractTreeIterator mergeBase() throws IOException {
 		if (baseTree != null) {

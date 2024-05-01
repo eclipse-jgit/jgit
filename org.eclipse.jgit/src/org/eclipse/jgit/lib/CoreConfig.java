@@ -116,6 +116,49 @@ public class CoreConfig {
 		ALWAYS
 	}
 
+	/**
+	 * Default value of commit graph enable option: {@value}
+	 *
+	 * @since 6.5
+	 */
+	public static final boolean DEFAULT_COMMIT_GRAPH_ENABLE = false;
+
+	/**
+	 * Permissible values for {@code core.trustPackedRefsStat}.
+	 *
+	 * @since 6.1.1
+	 */
+	public enum TrustPackedRefsStat {
+		/** Do not trust file attributes of the packed-refs file. */
+		NEVER,
+
+		/** Trust file attributes of the packed-refs file. */
+		ALWAYS,
+
+		/** Open and close the packed-refs file to refresh its file attributes
+		 * and then trust it. */
+		AFTER_OPEN,
+
+		/** {@code core.trustPackedRefsStat} defaults to this when it is
+		 * not set */
+		UNSET
+	}
+
+	/**
+	 * Permissible values for {@code core.trustLooseRefStat}.
+	 *
+	 * @since 6.9
+	 */
+	public enum TrustLooseRefStat {
+
+		/** Trust file attributes of the loose ref. */
+		ALWAYS,
+
+		/** Open and close parent directories of the loose ref file until the
+		 * repository root to refresh its file attributes and then trust it. */
+		AFTER_OPEN,
+	}
+
 	private final int compression;
 
 	private final int packIndexVersion;
@@ -125,6 +168,8 @@ public class CoreConfig {
 	private final String excludesfile;
 
 	private final String attributesfile;
+
+	private final boolean commitGraph;
 
 	/**
 	 * Options for symlink handling
@@ -167,6 +212,9 @@ public class CoreConfig {
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,
 				null, ConfigConstants.CONFIG_KEY_ATTRIBUTESFILE);
+		commitGraph = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_COMMIT_GRAPH,
+				DEFAULT_COMMIT_GRAPH_ENABLE);
 	}
 
 	/**
@@ -218,5 +266,17 @@ public class CoreConfig {
 	 */
 	public String getAttributesFile() {
 		return attributesfile;
+	}
+
+	/**
+	 * Whether to read the commit-graph file (if it exists) to parse the graph
+	 * structure of commits. Default to
+	 * {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_COMMIT_GRAPH_ENABLE}.
+	 *
+	 * @return whether to read the commit-graph file
+	 * @since 6.5
+	 */
+	public boolean enableCommitGraph() {
+		return commitGraph;
 	}
 }

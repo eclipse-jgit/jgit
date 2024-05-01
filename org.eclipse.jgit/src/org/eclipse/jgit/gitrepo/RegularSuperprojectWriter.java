@@ -64,8 +64,8 @@ class RegularSuperprojectWriter {
 	private void addSubmodule(String name, String url, String path,
 			String revision, List<CopyFile> copyfiles, List<LinkFile> linkfiles,
 			Git git) throws GitAPIException, IOException {
-		assert (!repo.isBare());
-		assert (git != null);
+		assert !repo.isBare();
+		assert git != null;
 		if (!linkfiles.isEmpty()) {
 			throw new UnsupportedOperationException(
 					JGitText.get().nonBareLinkFilesNotSupported);

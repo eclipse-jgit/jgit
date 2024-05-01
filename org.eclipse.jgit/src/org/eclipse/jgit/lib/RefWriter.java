@@ -138,8 +138,7 @@ public abstract class RefWriter {
 		final StringWriter w = new StringWriter();
 		if (peeled) {
 			w.write(RefDirectory.PACKED_REFS_HEADER);
-			if (peeled)
-				w.write(RefDirectory.PACKED_REFS_PEELED);
+			w.write(RefDirectory.PACKED_REFS_PEELED);
 			w.write('\n');
 		}
 
@@ -178,6 +177,7 @@ public abstract class RefWriter {
 	 * @param content
 	 *            byte content of file to be written.
 	 * @throws java.io.IOException
+	 *             if an IO error occurred
 	 */
 	protected abstract void writeFile(String file, byte[] content)
 			throws IOException;

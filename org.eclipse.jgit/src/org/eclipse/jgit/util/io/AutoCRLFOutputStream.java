@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.util.io;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -58,18 +59,18 @@ public class AutoCRLFOutputStream extends OutputStream {
 	 * @since 4.3
 	 */
 	public AutoCRLFOutputStream(OutputStream out, boolean detectBinary) {
-		this.out = out;
+		// avoid to write single lines directly to FileOutputStream:
+		this.out = out instanceof BufferedOutputStream ? out
+				: new BufferedOutputStream(out);
 		this.detectBinary = detectBinary;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		onebytebuf[0] = (byte) b;
 		write(onebytebuf, 0, 1);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b) throws IOException {
 		int overflow = buffer(b, 0, b.length);
@@ -77,7 +78,6 @@ public class AutoCRLFOutputStream extends OutputStream {
 			write(b, b.length - overflow, overflow);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int startOff, int startLen)
 			throws IOException {
@@ -148,7 +148,6 @@ public class AutoCRLFOutputStream extends OutputStream {
 		write(binbuf, 0, cachedLen);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (binbufcnt <= binbuf.length) {
@@ -158,7 +157,6 @@ public class AutoCRLFOutputStream extends OutputStream {
 		out.flush();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		flush();

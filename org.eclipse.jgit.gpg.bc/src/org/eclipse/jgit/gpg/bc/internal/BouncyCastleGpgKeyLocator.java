@@ -27,10 +27,14 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.bouncycastle.gpg.keybox.BlobType;
 import org.bouncycastle.gpg.keybox.KeyBlob;
@@ -268,9 +272,11 @@ public class BouncyCastleGpgKeyLocator {
 		return keyId;
 	}
 
-	static PGPPublicKey findPublicKey(String fingerprint, String keySpec)
+	static BouncyCastleGpgPublicKey findPublicKey(String fingerprint,
+			String keySpec)
 			throws IOException, PGPException {
-		PGPPublicKey result = findPublicKeyInPubring(USER_PGP_PUBRING_FILE,
+		BouncyCastleGpgPublicKey result = findPublicKeyInPubring(
+				USER_PGP_PUBRING_FILE,
 				fingerprint, keySpec);
 		if (result == null && exists(USER_KEYBOX_PATH)) {
 			try {
@@ -324,11 +330,14 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws IOException
 	 *             in case of problems reading the file
 	 * @throws NoSuchAlgorithmException
+	 *             if an algorithm isn't available
 	 * @throws NoSuchProviderException
+	 *             if a provider isn't available
 	 * @throws NoOpenPgpKeyException
 	 *             if the file does not contain any OpenPGP key
 	 */
-	private static PGPPublicKey findPublicKeyInKeyBox(Path keyboxFile,
+	private static BouncyCastleGpgPublicKey findPublicKeyInKeyBox(
+			Path keyboxFile,
 			String keyId, String keySpec)
 			throws IOException, NoSuchAlgorithmException,
 			NoSuchProviderException, NoOpenPgpKeyException {
@@ -341,11 +350,16 @@ public class BouncyCastleGpgKeyLocator {
 				hasOpenPgpKey = true;
 				PGPPublicKey key = findPublicKeyByKeyId(keyBlob, id);
 				if (key != null) {
-					return key;
+					if (!isSigningKey(key)) {
+						return null;
+					}
+					return new BouncyCastleGpgPublicKey(key, true,
+							toStrings(keyBlob.getUserIds()));
 				}
 				key = findPublicKeyByUserId(keyBlob, keySpec);
 				if (key != null) {
-					return key;
+					return new BouncyCastleGpgPublicKey(key, true,
+							toStrings(keyBlob.getUserIds()));
 				}
 			}
 		}
@@ -353,6 +367,14 @@ public class BouncyCastleGpgKeyLocator {
 			throw new NoOpenPgpKeyException();
 		}
 		return null;
+	}
+
+	private static List<String> toStrings(List<UserID> userIds) {
+		if (userIds == null) {
+			return Collections.emptyList();
+		}
+		return userIds.stream().map(UserID::getUserIDAsString)
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -368,19 +390,24 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws IOException
 	 *             in case of issues reading key files
 	 * @throws NoSuchAlgorithmException
+	 *             algorithm is not available
 	 * @throws NoSuchProviderException
+	 *             provider is not available
 	 * @throws PGPException
 	 *             in case of issues finding a key, including no key found
 	 * @throws CanceledException
+	 *             operation was cancelled
 	 * @throws URISyntaxException
+	 *             URI is invalid
 	 * @throws UnsupportedCredentialItem
+	 *             credential item is not supported
 	 */
 	@NonNull
 	public BouncyCastleGpgKey findSecretKey() throws IOException,
 			NoSuchAlgorithmException, NoSuchProviderException, PGPException,
 			CanceledException, UnsupportedCredentialItem, URISyntaxException {
 		BouncyCastleGpgKey key;
-		PGPPublicKey publicKey = null;
+		BouncyCastleGpgPublicKey publicKey = null;
 		if (hasKeyFiles(USER_SECRET_KEY_DIR)) {
 			// Use pubring.kbx or pubring.gpg to find the public key, then try
 			// the key files in the directory. If the public key was found in
@@ -390,14 +417,15 @@ public class BouncyCastleGpgKeyLocator {
 					publicKey = findPublicKeyInKeyBox(USER_KEYBOX_PATH, null,
 							signingKey);
 					if (publicKey != null) {
-						key = findSecretKeyForKeyBoxPublicKey(publicKey,
-								USER_KEYBOX_PATH);
+						key = findSecretKeyForKeyBoxPublicKey(
+								publicKey.getPublicKey(), USER_KEYBOX_PATH);
 						if (key != null) {
 							return key;
 						}
 						throw new PGPException(MessageFormat.format(
 								BCText.get().gpgNoSecretKeyForPublicKey,
-								Long.toHexString(publicKey.getKeyID())));
+								Long.toHexString(
+										publicKey.getPublicKey().getKeyID())));
 					}
 					throw new PGPException(MessageFormat.format(
 							BCText.get().gpgNoPublicKeyFound, signingKey));
@@ -420,7 +448,8 @@ public class BouncyCastleGpgKeyLocator {
 					// secring.gpg at all, even if it exists. Which means for us
 					// we have to try both since we don't know which GPG version
 					// the user has.
-					key = findSecretKeyForKeyBoxPublicKey(publicKey,
+					key = findSecretKeyForKeyBoxPublicKey(
+							publicKey.getPublicKey(),
 							USER_PGP_PUBRING_FILE);
 					if (key != null) {
 						return key;
@@ -445,7 +474,7 @@ public class BouncyCastleGpgKeyLocator {
 		if (publicKey != null) {
 			throw new PGPException(MessageFormat.format(
 					BCText.get().gpgNoSecretKeyForPublicKey,
-					Long.toHexString(publicKey.getKeyID())));
+					Long.toHexString(publicKey.getPublicKey().getKeyID())));
 		} else if (hasSecring) {
 			// publicKey == null: user has _only_ pubring.gpg/secring.gpg.
 			throw new PGPException(MessageFormat.format(
@@ -543,10 +572,11 @@ public class BouncyCastleGpgKeyLocator {
 	/**
 	 * Return the first suitable key for signing in the key ring collection. For
 	 * this case we only expect there to be one key available for signing.
-	 * </p>
 	 *
-	 * @param signingkey
+	 * @param signingKeyName
+	 *            the signing key
 	 * @param secringFile
+	 *            the secring file
 	 *
 	 * @return the first suitable PGP secret key found for signing
 	 * @throws IOException
@@ -554,7 +584,7 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws PGPException
 	 *             on BouncyCastle errors
 	 */
-	private PGPSecretKey findSecretKeyInLegacySecring(String signingkey,
+	private PGPSecretKey findSecretKeyInLegacySecring(String signingKeyName,
 			Path secringFile) throws IOException, PGPException {
 
 		try (InputStream in = newInputStream(secringFile)) {
@@ -562,7 +592,7 @@ public class BouncyCastleGpgKeyLocator {
 					PGPUtil.getDecoderStream(new BufferedInputStream(in)),
 					new JcaKeyFingerprintCalculator());
 
-			String keyId = toFingerprint(signingkey).toLowerCase(Locale.ROOT);
+			String keyId = toFingerprint(signingKeyName).toLowerCase(Locale.ROOT);
 			Iterator<PGPSecretKeyRing> keyrings = pgpSec.getKeyRings();
 			while (keyrings.hasNext()) {
 				PGPSecretKeyRing keyRing = keyrings.next();
@@ -606,40 +636,88 @@ public class BouncyCastleGpgKeyLocator {
 	 * @throws PGPException
 	 *             on BouncyCastle errors
 	 */
-	private static PGPPublicKey findPublicKeyInPubring(Path pubringFile,
+	private static BouncyCastleGpgPublicKey findPublicKeyInPubring(
+			Path pubringFile,
 			String keyId, String keySpec)
 			throws IOException, PGPException {
 		try (InputStream in = newInputStream(pubringFile)) {
 			PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
 					new BufferedInputStream(in),
 					new JcaKeyFingerprintCalculator());
-
 			String id = keyId != null ? keyId
 					: toFingerprint(keySpec).toLowerCase(Locale.ROOT);
 			Iterator<PGPPublicKeyRing> keyrings = pgpPub.getKeyRings();
+			BouncyCastleGpgPublicKey candidate = null;
 			while (keyrings.hasNext()) {
 				PGPPublicKeyRing keyRing = keyrings.next();
-				Iterator<PGPPublicKey> keys = keyRing.getPublicKeys();
-				while (keys.hasNext()) {
-					PGPPublicKey key = keys.next();
-					// try key id
-					String fingerprint = Hex.toHexString(key.getFingerprint())
-							.toLowerCase(Locale.ROOT);
-					if (fingerprint.endsWith(id)) {
-						return key;
-					}
-					// try user id
-					Iterator<String> userIDs = key.getUserIDs();
-					while (userIDs.hasNext()) {
-						String userId = userIDs.next();
-						if (containsSigningKey(userId, keySpec)) {
-							return key;
-						}
+				BouncyCastleGpgPublicKey newCandidate = findPublicKeyInPubring(
+						keyRing, id, keySpec);
+				if (newCandidate != null) {
+					if (newCandidate.isExactMatch()) {
+						return newCandidate;
+					} else if (candidate == null) {
+						candidate = newCandidate;
 					}
 				}
 			}
+			return candidate;
 		} catch (FileNotFoundException | NoSuchFileException e) {
-			// Ignore and return null
+			return null;
+		}
+	}
+
+	private static BouncyCastleGpgPublicKey findPublicKeyInPubring(
+			PGPPublicKeyRing keyRing, String keyId, String keySpec) {
+		Iterator<PGPPublicKey> keys = keyRing.getPublicKeys();
+		if (!keys.hasNext()) {
+			return null;
+		}
+		PGPPublicKey masterKey = keys.next();
+		String fingerprint = Hex.toHexString(masterKey.getFingerprint())
+				.toLowerCase(Locale.ROOT);
+		boolean masterFingerprintMatch = false;
+		boolean userIdMatch = false;
+		List<String> userIds = new ArrayList<>();
+		masterKey.getUserIDs().forEachRemaining(userIds::add);
+		if (fingerprint.endsWith(keyId)) {
+			masterFingerprintMatch = true;
+		} else {
+			// Check the user IDs
+			for (String userId : userIds) {
+				if (containsSigningKey(userId, keySpec)) {
+					userIdMatch = true;
+					break;
+				}
+			}
+		}
+		if (masterFingerprintMatch) {
+			if (isSigningKey(masterKey)) {
+				return new BouncyCastleGpgPublicKey(masterKey, true, userIds);
+			}
+		}
+		// Check subkeys -- they have no user ids, so only check for a
+		// fingerprint match (unless the master key matched).
+		PGPPublicKey candidate = null;
+		while (keys.hasNext()) {
+			PGPPublicKey subKey = keys.next();
+			if (!isSigningKey(subKey)) {
+				continue;
+			}
+			if (masterFingerprintMatch) {
+				candidate = subKey;
+				break;
+			}
+			fingerprint = Hex.toHexString(subKey.getFingerprint())
+					.toLowerCase(Locale.ROOT);
+			if (fingerprint.endsWith(keyId)) {
+				return new BouncyCastleGpgPublicKey(subKey, true, userIds);
+			}
+			if (candidate == null) {
+				candidate = subKey;
+			}
+		}
+		if (candidate != null && (masterFingerprintMatch || userIdMatch)) {
+			return new BouncyCastleGpgPublicKey(candidate, false, userIds);
 		}
 		return null;
 	}

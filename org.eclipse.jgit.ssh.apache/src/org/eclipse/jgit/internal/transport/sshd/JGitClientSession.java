@@ -20,6 +20,7 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -27,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.apache.sshd.client.ClientBuilder;
 import org.apache.sshd.client.ClientFactoryManager;
@@ -35,8 +38,12 @@ import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSessionImpl;
 import org.apache.sshd.common.AttributeRepository;
 import org.apache.sshd.common.FactoryManager;
+import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.PropertyResolver;
+import org.apache.sshd.common.cipher.BuiltinCiphers;
+import org.apache.sshd.common.cipher.Cipher;
+import org.apache.sshd.common.cipher.CipherFactory;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.IoWriteFuture;
@@ -55,6 +62,7 @@ import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.internal.transport.sshd.proxy.StatefulProxyConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
+import org.eclipse.jgit.transport.sshd.KeyPasswordProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -69,6 +77,12 @@ import org.eclipse.jgit.util.StringUtils;
 public class JGitClientSession extends ClientSessionImpl {
 
 	/**
+	 * Attribute set by {@link JGitSshClient} to make the
+	 * {@link KeyPasswordProvider} factory accessible via the session.
+	 */
+	public static final AttributeKey<Supplier<KeyPasswordProvider>> KEY_PASSWORD_PROVIDER_FACTORY = new AttributeKey<>();
+
+	/**
 	 * Default setting for the maximum number of bytes to read in the initial
 	 * protocol version exchange. 64kb is what OpenSSH &lt; 8.0 read; OpenSSH
 	 * 8.0 changed it to 8Mb, but that seems excessive for the purpose stated in
@@ -78,18 +92,30 @@ public class JGitClientSession extends ClientSessionImpl {
 	 */
 	private static final int DEFAULT_MAX_IDENTIFICATION_SIZE = 64 * 1024;
 
-	private static final AttributeKey<Boolean> INITIAL_KEX_DONE = new AttributeKey<>();
+	/**
+	 * Cipher implementations that we never ever want to use, even if Apache
+	 * MINA SSHD has implementations for them.
+	 */
+	private static final Set<? extends CipherFactory> FORBIDDEN_CIPHERS = EnumSet
+			.of(BuiltinCiphers.none);
 
 	private HostConfigEntry hostConfig;
 
 	private CredentialsProvider credentialsProvider;
 
+	private boolean isInitialKex = true;
+
+	private List<NamedFactory<Cipher>> ciphers;
+
 	private volatile StatefulProxyConnector proxyHandler;
 
 	/**
 	 * @param manager
+	 *            client factory manager
 	 * @param session
+	 *            the session
 	 * @throws Exception
+	 *             an error occurred
 	 */
 	public JGitClientSession(ClientFactoryManager manager, IoSession session)
 			throws Exception {
@@ -338,8 +364,7 @@ public class JGitClientSession extends ClientSessionImpl {
 	protected String resolveSessionKexProposal(String hostKeyTypes)
 			throws IOException {
 		String kexMethods = String.join(",", determineKexProposal()); //$NON-NLS-1$
-		Boolean isRekey = getAttribute(INITIAL_KEX_DONE);
-		if (isRekey == null || !isRekey.booleanValue()) {
+		if (isInitialKex) {
 			// First time
 			KexExtensionHandler extHandler = getKexExtensionHandler();
 			if (extHandler != null && extHandler.isKexExtensionsAvailable(this,
@@ -350,12 +375,52 @@ public class JGitClientSession extends ClientSessionImpl {
 					kexMethods += ',' + KexExtensions.CLIENT_KEX_EXTENSION;
 				}
 			}
-			setAttribute(INITIAL_KEX_DONE, Boolean.TRUE);
+			isInitialKex = false;
 		}
 		if (log.isDebugEnabled()) {
 			log.debug(SshConstants.KEX_ALGORITHMS + ' ' + kexMethods);
 		}
 		return kexMethods;
+	}
+
+	@Override
+	public List<NamedFactory<Cipher>> getCipherFactories() {
+		if (ciphers == null) {
+			List<NamedFactory<Cipher>> defaultCiphers = super.getCipherFactories();
+			HostConfigEntry config = resolveAttribute(
+					JGitSshClient.HOST_CONFIG_ENTRY);
+			String algorithms = config.getProperty(SshConstants.CIPHERS);
+			if (!StringUtils.isEmptyOrNull(algorithms)) {
+				List<String> defaultCipherNames = defaultCiphers
+						.stream().map(NamedFactory::getName)
+						.collect(Collectors.toCollection(ArrayList::new));
+				Set<String> allKnownCiphers = new HashSet<>();
+				BuiltinCiphers.VALUES.stream()
+						.filter(c -> !FORBIDDEN_CIPHERS.contains(c))
+						.filter(CipherFactory::isSupported)
+						.forEach(c -> allKnownCiphers.add(c.getName()));
+				BuiltinCiphers.getRegisteredExtensions().stream()
+						.filter(CipherFactory::isSupported)
+						.forEach(c -> allKnownCiphers.add(c.getName()));
+				List<String> sessionCipherNames = modifyAlgorithmList(
+						defaultCipherNames, allKnownCiphers, algorithms,
+						SshConstants.CIPHERS);
+				if (sessionCipherNames.isEmpty()) {
+					log.warn(format(SshdText.get().configNoKnownAlgorithms,
+							SshConstants.CIPHERS, algorithms));
+					ciphers = defaultCiphers;
+				} else {
+					List<NamedFactory<Cipher>> sessionCiphers = new ArrayList<>(
+							sessionCipherNames.size());
+					sessionCipherNames.forEach(name -> sessionCiphers
+							.add(BuiltinCiphers.resolveFactory(name)));
+					ciphers = sessionCiphers;
+				}
+			} else {
+				ciphers = defaultCiphers;
+			}
+		}
+		return ciphers;
 	}
 
 	/**

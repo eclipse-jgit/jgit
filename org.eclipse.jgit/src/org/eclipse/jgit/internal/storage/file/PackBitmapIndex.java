@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.function.Supplier;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -34,7 +35,7 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
  * {@link #findPosition(AnyObjectId)} can be used to build other bitmaps that a
  * compatible with the encoded bitmaps available from the index.
  */
-public abstract class PackBitmapIndex {
+public interface PackBitmapIndex {
 	/** Flag bit denoting the bitmap should be reused during index creation. */
 	public static final int FLAG_REUSE = 1;
 
@@ -131,8 +132,14 @@ public abstract class PackBitmapIndex {
 				reverseIndexSupplier, loadParallelRevIndex);
 	}
 
-	/** Footer checksum applied on the bottom of the pack file. */
-	byte[] packChecksum;
+	/**
+	 * Footer checksum applied on the bottom of the pack file.
+	 *
+	 * @return checksum as a byte array
+	 */
+	default byte[] getPackChecksum() {
+		return null;
+	}
 
 	/**
 	 * Finds the position in the bitmap of the object.
@@ -147,7 +154,9 @@ public abstract class PackBitmapIndex {
 	 * Get the object at the bitmap position.
 	 *
 	 * @param position
-	 *            the id for which the object will be found.
+	 *            the offset in the bitmap which corresponds to an object of
+	 *            interest. This position is the same as the order of the object
+	 *            in the {@link PackFile}.
 	 * @return the ObjectId.
 	 * @throws java.lang.IllegalArgumentException
 	 *             when the item is not found.
@@ -195,6 +204,41 @@ public abstract class PackBitmapIndex {
 	public abstract int getBitmapCount();
 
 	/**
+	 * Returns the number of bitmaps in this bitmap index ready to use, not
+	 * XOR'ed against other entries.
+	 *
+	 * @return the number of bitmaps in this bitmap index ready to use.
+	 */
+	public abstract int getBaseBitmapCount();
+
+	/**
+	 * Current size in bytes of all base bitmaps in the index.
+	 *
+	 * Resolving xors for bitmaps can affect this size.
+	 *
+	 * @return Current size (in bytes) of all base bitmaps in this index.
+	 */
+	public abstract long getBaseBitmapSizeInBytes();
+
+	/**
+	 * Returns the number of bitmaps in this bitmap index XOR'ed against other
+	 * entries.
+	 *
+	 * @return the number of bitmaps in this bitmap index represented as XOR
+	 *         masks.
+	 */
+	public abstract int getXorBitmapCount();
+
+	/**
+	 * Current size in bytes of all XOR'ed bitmaps in the index.
+	 *
+	 * Resolving xors for bitmaps can affect this size.
+	 *
+	 * @return Current size (in bytes) of all xor bitmaps in this index.
+	 */
+	public abstract long getXorBitmapSizeInBytes();
+
+	/**
 	 * Supplier that propagates IOException.
 	 *
 	 * @param <T>
@@ -203,8 +247,13 @@ public abstract class PackBitmapIndex {
 	@FunctionalInterface
 	public interface SupplierWithIOException<T> {
 		/**
+		 * Get result.
+		 *
+		 * @see Supplier#get()
+		 *
 		 * @return result
 		 * @throws IOException
+		 *             if an IO error occurred
 		 */
 		T get() throws IOException;
 	}

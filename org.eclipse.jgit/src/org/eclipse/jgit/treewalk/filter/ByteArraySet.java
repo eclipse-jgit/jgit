@@ -15,6 +15,10 @@ package org.eclipse.jgit.treewalk.filter;
 
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Specialized set for byte arrays, interpreted as strings for use in
  * {@link PathFilterGroup.Group}. Most methods assume the hash is already know
@@ -39,6 +43,7 @@ class ByteArraySet {
 	 * Create an empty set.
 	 *
 	 * @param capacity
+	 *            initial capacity of the set
 	 */
 	ByteArraySet(int capacity) {
 		initTable(1 << Integer.highestOneBit((capacity * 2) - 1));
@@ -180,7 +185,6 @@ class ByteArraySet {
 		table = new byte[sz][];
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -289,6 +293,10 @@ class ByteArraySet {
 				ret[i++] = entry;
 		}
 		return ret;
+	}
+
+	Set<byte[]> toSet() {
+		return Arrays.stream(toArray()).collect(Collectors.toSet());
 	}
 
 }

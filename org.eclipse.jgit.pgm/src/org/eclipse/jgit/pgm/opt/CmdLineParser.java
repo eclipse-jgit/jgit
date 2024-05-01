@@ -13,6 +13,7 @@ package org.eclipse.jgit.pgm.opt;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +56,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		registry.registerHandler(RevCommit.class, RevCommitHandler.class);
 		registry.registerHandler(RevTree.class, RevTreeHandler.class);
 		registry.registerHandler(List.class, OptionWithValuesListHandler.class);
+		registry.registerHandler(Instant.class, InstantHandler.class);
 	}
 
 	private final Repository db;
@@ -108,7 +110,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		this.db = repo;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void parseArgument(String... args) throws CmdLineException {
 		final ArrayList<String> tmp = new ArrayList<>(args.length);
@@ -263,7 +264,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
 		if (o instanceof NamedOptionDef) {
@@ -273,7 +273,6 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
 		List<OptionHandler> options = getOptions();

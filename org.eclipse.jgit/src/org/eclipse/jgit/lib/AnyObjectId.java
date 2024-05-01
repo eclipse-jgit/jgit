@@ -248,7 +248,6 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		return abbr.prefixCompare(this) == 0;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final int hashCode() {
 		return w2;
@@ -266,7 +265,6 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		return other != null ? isEqual(this, other) : false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final boolean equals(Object o) {
 		if (o instanceof AnyObjectId) {
@@ -477,7 +475,6 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 			dst[o--] = '0';
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Google LLC. and others
+ * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,6 +10,11 @@
 package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_FILTER;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_NOT;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_SINCE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -46,7 +51,9 @@ final class ProtocolV0Parser {
 	 *            incoming lines. This method will read until an END line.
 	 * @return a FetchV0Request with the data received in the wire.
 	 * @throws PackProtocolException
+	 *             if a protocol occurred
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	FetchV0Request recvWants(PacketLineIn pckIn)
 			throws PackProtocolException, IOException {
@@ -70,20 +77,56 @@ final class ProtocolV0Parser {
 				break;
 			}
 
-			if (line.startsWith("deepen ")) { //$NON-NLS-1$
-				int depth = Integer.parseInt(line.substring(7));
+			if (line.startsWith(PACKET_DEEPEN)) {
+				int depth = Integer
+						.parseInt(line.substring(PACKET_DEEPEN.length()));
 				if (depth <= 0) {
 					throw new PackProtocolException(
 							MessageFormat.format(JGitText.get().invalidDepth,
 									Integer.valueOf(depth)));
 				}
+				if (reqBuilder.getDeepenSince() != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenSinceWithDeepen);
+				}
+				if (reqBuilder.hasDeepenNots()) {
+					throw new PackProtocolException(
+							JGitText.get().deepenNotWithDeepen);
+				}
 				reqBuilder.setDepth(depth);
 				continue;
 			}
 
-			if (line.startsWith("shallow ")) { //$NON-NLS-1$
+			if (line.startsWith(PACKET_DEEPEN_NOT)) {
+				reqBuilder.addDeepenNot(
+						line.substring(PACKET_DEEPEN_NOT.length()));
+				if (reqBuilder.getDepth() != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenNotWithDeepen);
+				}
+				continue;
+			}
+
+			if (line.startsWith(PACKET_DEEPEN_SINCE)) {
+				// TODO: timestamps should be long
+				int ts = Integer
+						.parseInt(line.substring(PACKET_DEEPEN_SINCE.length()));
+				if (ts <= 0) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidTimestamp, line));
+				}
+				if (reqBuilder.getDepth() != 0) {
+					throw new PackProtocolException(
+							JGitText.get().deepenSinceWithDeepen);
+				}
+				reqBuilder.setDeepenSince(ts);
+				continue;
+			}
+
+			if (line.startsWith(PACKET_SHALLOW)) {
 				reqBuilder.addClientShallowCommit(
-						ObjectId.fromString(line.substring(8)));
+						ObjectId.fromString(
+								line.substring(PACKET_SHALLOW.length())));
 				continue;
 			}
 
@@ -101,7 +144,7 @@ final class ProtocolV0Parser {
 				continue;
 			}
 
-			if (!line.startsWith("want ") || line.length() < 45) { //$NON-NLS-1$
+			if (!line.startsWith(PACKET_WANT) || line.length() < 45) {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().expectedGot, "want", line)); //$NON-NLS-1$
 			}
@@ -111,11 +154,13 @@ final class ProtocolV0Parser {
 					FirstWant firstLine = FirstWant.fromLine(line);
 					reqBuilder.addClientCapabilities(firstLine.getCapabilities());
 					reqBuilder.setAgent(firstLine.getAgent());
+					reqBuilder.setClientSID(firstLine.getClientSID());
 					line = firstLine.getLine();
 				}
 			}
 
-			reqBuilder.addWantId(ObjectId.fromString(line.substring(5)));
+			reqBuilder.addWantId(
+					ObjectId.fromString(line.substring(PACKET_WANT.length())));
 			isFirst = false;
 		}
 

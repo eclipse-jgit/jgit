@@ -33,7 +33,6 @@ public class NotIgnoredFilter extends TreeFilter {
 		this.index = workdirTreeIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk tw) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -41,20 +40,17 @@ public class NotIgnoredFilter extends TreeFilter {
 		return i == null || !i.isEntryIgnored();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		// immutable
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {

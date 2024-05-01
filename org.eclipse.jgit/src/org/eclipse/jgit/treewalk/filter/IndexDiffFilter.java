@@ -10,8 +10,9 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -62,9 +63,9 @@ public class IndexDiffFilter extends TreeFilter {
 
 	private final Set<String> ignoredPaths = new HashSet<>();
 
-	private final LinkedList<String> untrackedParentFolders = new LinkedList<>();
+	private final ArrayDeque<String> untrackedParentFolders = new ArrayDeque<>();
 
-	private final LinkedList<String> untrackedFolders = new LinkedList<>();
+	private final ArrayDeque<String> untrackedFolders = new ArrayDeque<>();
 
 	/**
 	 * Creates a new instance of this filter. Do not use an instance of this
@@ -106,7 +107,6 @@ public class IndexDiffFilter extends TreeFilter {
 		this.honorIgnores = honorIgnores;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean include(TreeWalk tw) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
@@ -234,7 +234,6 @@ public class IndexDiffFilter extends TreeFilter {
 		return tw.getTree(workingTree, WorkingTreeIterator.class);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean shouldBeRecursive() {
 		// We cannot compare subtrees in the working tree, so encourage
@@ -242,13 +241,11 @@ public class IndexDiffFilter extends TreeFilter {
 		return true;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public TreeFilter clone() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "INDEX_DIFF_FILTER"; //$NON-NLS-1$
@@ -276,12 +273,14 @@ public class IndexDiffFilter extends TreeFilter {
 	 *         empty list will be returned.
 	 */
 	public List<String> getUntrackedFolders() {
-		LinkedList<String> ret = new LinkedList<>(untrackedFolders);
+		ArrayList<String> ret = new ArrayList<>(untrackedFolders);
 		if (!untrackedParentFolders.isEmpty()) {
 			String toBeAdded = untrackedParentFolders.getLast();
-			while (!ret.isEmpty() && ret.getLast().startsWith(toBeAdded))
-				ret.removeLast();
-			ret.addLast(toBeAdded);
+			while (!ret.isEmpty()
+					&& ret.get(ret.size() - 1).startsWith(toBeAdded)) {
+				ret.remove(ret.size() - 1);
+			}
+			ret.add(toBeAdded);
 		}
 		return ret;
 	}

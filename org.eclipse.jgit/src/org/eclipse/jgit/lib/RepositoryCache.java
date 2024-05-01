@@ -382,6 +382,8 @@ public class RepositoryCache {
 		private final FS fs;
 
 		/**
+		 * Create a pointer to a location on disk.
+		 *
 		 * @param directory
 		 *            exact location of the repository.
 		 * @param fs
@@ -401,7 +403,11 @@ public class RepositoryCache {
 			}
 		}
 
-		/** @return location supplied to the constructor. */
+		/**
+		 * Get directory containing the repository database
+		 *
+		 * @return directory containing the repository database.
+		 */
 		public final File getFile() {
 			return path;
 		}

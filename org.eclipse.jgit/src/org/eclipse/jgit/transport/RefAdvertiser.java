@@ -161,9 +161,11 @@ public abstract class RefAdvertiser {
 	}
 
 	/**
+	 * Set whether this advertiser should use protocol v2
+	 *
 	 * @param b
-	 *              true if this advertiser should advertise using the protocol
-	 *              v2 format, false otherwise
+	 *            true if this advertiser should advertise using the protocol v2
+	 *            format, false otherwise
 	 * @since 5.0
 	 */
 	public void setUseProtocolV2(boolean b) {
@@ -173,7 +175,7 @@ public abstract class RefAdvertiser {
 	/**
 	 * Toggle tag peeling.
 	 * <p>
-	 * <p>
+	 *
 	 * This method must be invoked prior to any of the following:
 	 * <ul>
 	 * <li>{@link #send(Map)}</li>

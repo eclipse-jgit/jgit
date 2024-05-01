@@ -34,7 +34,6 @@ import org.eclipse.jgit.util.io.UnionInputStream;
  */
 public class DefaultNoteMerger implements NoteMerger {
 
-	/** {@inheritDoc} */
 	@Override
 	public Note merge(Note base, Note ours, Note theirs, ObjectReader reader,
 			ObjectInserter inserter) throws IOException {

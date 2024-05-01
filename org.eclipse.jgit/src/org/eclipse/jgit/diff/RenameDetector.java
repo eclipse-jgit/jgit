@@ -713,15 +713,16 @@ public class RenameDetector {
 
 	/**
 	 * Find the best match by file path for a given DiffEntry from a list of
-	 * DiffEntrys. The returned DiffEntry will be of the same type as <src>. If
-	 * no DiffEntry can be found that has the same type, this method will return
-	 * null.
+	 * DiffEntrys. The returned DiffEntry will be of the same type as
+	 * &lt;src&gt;. If no DiffEntry can be found that has the same type, this
+	 * method will return null.
 	 *
 	 * @param src
 	 *            the DiffEntry to try to find a match for
 	 * @param list
 	 *            a list of DiffEntrys to search through
-	 * @return the DiffEntry from <list> who's file path best matches <src>
+	 * @return the DiffEntry from &lt;list&gt; who's file path best matches
+	 *         &lt;src&gt;
 	 */
 	private static DiffEntry bestPathMatch(DiffEntry src, List<DiffEntry> list) {
 		DiffEntry best = null;

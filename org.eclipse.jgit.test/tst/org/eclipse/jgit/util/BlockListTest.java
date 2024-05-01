@@ -296,6 +296,7 @@ public class BlockListTest {
 	public void testAddRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
+		assertEquals(Integer.valueOf(41), list.get(0));
 
 		try {
 			list.add(-1, Integer.valueOf(42));
@@ -316,6 +317,7 @@ public class BlockListTest {
 	public void testRemoveRejectsBadIndexes() {
 		BlockList<Integer> list = new BlockList<>(4);
 		list.add(Integer.valueOf(41));
+		assertEquals(Integer.valueOf(41), list.get(0));
 
 		try {
 			list.remove(-1);

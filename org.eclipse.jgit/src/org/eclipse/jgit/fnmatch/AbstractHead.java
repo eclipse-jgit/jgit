@@ -45,7 +45,6 @@ abstract class AbstractHead implements Head {
 		this.newHeads = newHeads;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<Head> getNextHeads(char c) {
 		if (matches(c)) {

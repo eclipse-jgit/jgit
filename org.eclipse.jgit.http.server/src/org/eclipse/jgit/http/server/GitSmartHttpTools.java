@@ -226,7 +226,8 @@ public class GitSmartHttpTools {
 			// So, cheat and read the first line.
 			String line = new PacketLineIn(req.getInputStream()).readString();
 			FirstCommand parsed = FirstCommand.fromLine(line);
-			return parsed.getCapabilities().contains(CAPABILITY_SIDE_BAND_64K);
+			return parsed.getCapabilities()
+					.containsKey(CAPABILITY_SIDE_BAND_64K);
 		} catch (IOException e) {
 			// Probably the connection is closed and a subsequent write will fail, but
 			// try it just in case.

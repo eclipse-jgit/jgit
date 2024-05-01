@@ -10,7 +10,7 @@
 package org.eclipse.jgit.util.http;
 
 import java.net.HttpCookie;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hamcrest.Description;
@@ -26,7 +26,7 @@ public final class HttpCookiesMatcher {
 
 	public static Matcher<Iterable<? extends HttpCookie>> containsInOrder(
 			Iterable<HttpCookie> expectedCookies, int allowedMaxAgeDelta) {
-		final List<Matcher<? super HttpCookie>> cookieMatchers = new LinkedList<>();
+		final List<Matcher<? super HttpCookie>> cookieMatchers = new ArrayList<>();
 		for (HttpCookie cookie : expectedCookies) {
 			cookieMatchers
 					.add(new HttpCookieMatcher(cookie, allowedMaxAgeDelta));
@@ -92,7 +92,7 @@ public final class HttpCookiesMatcher {
 		}
 
 		@SuppressWarnings("boxing")
-		protected static void describeCookie(Description description,
+		private static void describeCookie(Description description,
 				HttpCookie cookie) {
 			description.appendText("HttpCookie[");
 			description.appendText("name: ").appendValue(cookie.getName())

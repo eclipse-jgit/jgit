@@ -36,23 +36,12 @@ import org.eclipse.jgit.util.sha1.SHA1;
  * Utilities to compute the <em>keygrip</em> of a key. A keygrip is a SHA1 hash
  * over the public key parameters and is used internally by the gpg-agent to
  * find the secret key belonging to a public key: the secret key is stored in a
- * file under ~/.gnupg/private-keys-v1.d/ with a name "&lt;keygrip>.key". While
- * this storage organization is an implementation detail of GPG, the way
+ * file under ~/.gnupg/private-keys-v1.d/ with a name "&lt;keygrip&gt;.key".
+ * While this storage organization is an implementation detail of GPG, the way
  * keygrips are computed is not; they are computed by libgcrypt and their
  * definition is stable.
  */
 public final class KeyGrip {
-
-	// Some OIDs apparently unknown to BouncyCastle.
-
-	private static String OID_OPENPGP_ED25519 = "1.3.6.1.4.1.11591.15.1"; //$NON-NLS-1$
-
-	private static String OID_RFC8410_CURVE25519 = "1.3.101.110"; //$NON-NLS-1$
-
-	private static String OID_RFC8410_ED25519 = "1.3.101.112"; //$NON-NLS-1$
-
-	private static ASN1ObjectIdentifier CURVE25519 = ECNamedCurveTable
-			.getOID("curve25519"); //$NON-NLS-1$
 
 	private KeyGrip() {
 		// No instantiation
@@ -99,20 +88,15 @@ public final class KeyGrip {
 			break;
 		case PublicKeyAlgorithmTags.ECDH:
 		case PublicKeyAlgorithmTags.ECDSA:
-		case PublicKeyAlgorithmTags.EDDSA:
+		case PublicKeyAlgorithmTags.EDDSA_LEGACY:
+		case PublicKeyAlgorithmTags.Ed25519:
 			ECPublicBCPGKey ec = (ECPublicBCPGKey) publicKey
 					.getPublicKeyPacket().getKey();
 			ASN1ObjectIdentifier curveOID = ec.getCurveOID();
 			// BC doesn't know these OIDs.
-			if (OID_OPENPGP_ED25519.equals(curveOID.getId())
-					|| OID_RFC8410_ED25519.equals(curveOID.getId())) {
+			if (ObjectIds.isEd25519(curveOID)) {
 				return hashEd25519(grip, ec.getEncodedPoint());
-			} else if (CURVE25519.equals(curveOID)
-					|| OID_RFC8410_CURVE25519.equals(curveOID.getId())) {
-				// curvey25519 actually is the OpenPGP OID for Curve25519 and is
-				// known to BC, but the parameters are for the short Weierstrass
-				// form. See https://github.com/bcgit/bc-java/issues/399 .
-				// libgcrypt uses Montgomery form.
+			} else if (ObjectIds.isCurve25519(curveOID)) {
 				return hashCurve25519(grip, ec.getEncodedPoint());
 			}
 			X9ECParameters params = getX9Parameters(curveOID);
@@ -141,7 +125,9 @@ public final class KeyGrip {
 			hash(grip, b.toByteArray(), 'b', false);
 			hash(grip, g, 'g', false);
 			hash(grip, n.toByteArray(), 'n', false);
-			if (publicKey.getAlgorithm() == PublicKeyAlgorithmTags.EDDSA) {
+			int algorithm = publicKey.getAlgorithm();
+			if (algorithm == PublicKeyAlgorithmTags.EDDSA_LEGACY
+					|| algorithm == PublicKeyAlgorithmTags.Ed25519) {
 				hashQ25519(grip, q);
 			} else {
 				hash(grip, q.toByteArray(), 'q', false);

@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -40,7 +42,7 @@ import org.eclipse.jgit.util.HttpSupport;
  *      "https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">AWS
  *      Signature Version 4</a>
  *
- * @since 5.13
+ * @since 5.13.1
  */
 public final class AwsRequestSignerV4 {
 
@@ -145,7 +147,7 @@ public final class AwsRequestSignerV4 {
 						canonicalRequest.getBytes(StandardCharsets.UTF_8)));
 
 		// compute the signing key
-		byte[] secretKey = (SCHEME + new String(awsSecretKey)).getBytes();
+		byte[] secretKey = (SCHEME + new String(awsSecretKey)).getBytes(UTF_8);
 		byte[] dateKey = signStringWithKey(scopeDate, secretKey);
 		byte[] regionKey = signStringWithKey(regionName, dateKey);
 		byte[] serviceKey = signStringWithKey(serviceName, regionKey);

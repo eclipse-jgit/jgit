@@ -8,6 +8,7 @@ java_library(
     visibility = ["//visibility:public"],
     runtime_deps = [
         ":services",
+        "//lib:javaewah",
         "//org.eclipse.jgit.gpg.bc:gpg-bc",
     ],
     deps = [

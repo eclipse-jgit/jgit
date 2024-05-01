@@ -302,6 +302,8 @@ public abstract class ObjectLoader {
 	 */
 	public abstract static class Filter extends ObjectLoader {
 		/**
+		 * Get delegate ObjectLoader to handle all processing.
+		 *
 		 * @return delegate ObjectLoader to handle all processing.
 		 * @since 4.10
 		 */

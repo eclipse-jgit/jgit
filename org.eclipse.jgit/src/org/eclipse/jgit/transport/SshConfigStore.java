@@ -43,6 +43,7 @@ public interface SshConfigStore {
 	 * {@link SshConstants#CONNECTION_ATTEMPTS}, fill those values with defaults
 	 * from the arguments:
 	 * <table>
+	 * <caption>Description of arguments</caption>
 	 * <tr>
 	 * <th>ssh config key</th>
 	 * <th>value from argument</th>

@@ -658,7 +658,8 @@ public abstract class PackParser {
 			}
 
 			byte[] delta = inflateAndReturn(Source.DATABASE, info.size);
-			checkIfTooLarge(type, BinaryDelta.getResultSize(delta));
+			long finalSz = BinaryDelta.getResultSize(delta);
+			checkIfTooLarge(type, finalSz);
 
 			visit.data = BinaryDelta.apply(visit.parent.data, delta);
 			delta = null;
@@ -684,6 +685,7 @@ public abstract class PackParser {
 
 			PackedObjectInfo oe;
 			oe = newInfo(tempObjectId, visit.delta, visit.parent.id);
+			oe.setFullSize(finalSz);
 			oe.setOffset(visit.delta.position);
 			oe.setType(type);
 			onInflatedObjectData(oe, type, visit.data);
@@ -861,6 +863,7 @@ public abstract class PackParser {
 			final int typeCode = ldr.getType();
 			final PackedObjectInfo oe = newInfo(baseId, null, null);
 			oe.setType(typeCode);
+			oe.setFullSize(ldr.getSize());
 			if (onAppendBase(typeCode, visit.data, oe))
 				entries[entryCount++] = oe;
 			visit.nextChild = firstChildOf(oe);
@@ -1078,6 +1081,7 @@ public abstract class PackParser {
 		obj.setOffset(pos);
 		obj.setType(type);
 		obj.setSize(sizeBeforeInflating);
+		obj.setFullSize(sz);
 		onEndWholeObject(obj);
 		if (data != null)
 			onInflatedObjectData(obj, type, data);
@@ -1098,6 +1102,7 @@ public abstract class PackParser {
 	 * @param data
 	 *            raw content of the object.
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
+	 *             if a corrupt object was found
 	 * @since 4.9
 	 */
 	protected void verifySafeObject(final AnyObjectId id, final int type,
@@ -1561,7 +1566,7 @@ public abstract class PackParser {
 	 * @param baseStreamPosition
 	 *            position of the base object in the incoming stream. The base
 	 *            must be before the delta, therefore {@code baseStreamPosition
-	 *            &lt; deltaStreamPosition}. This is <b>not</b> the position
+	 *            < deltaStreamPosition}. This is <b>not</b> the position
 	 *            returned by a prior end object event.
 	 * @param inflatedSize
 	 *            size of the delta when fully inflated. The size stored within
@@ -1663,17 +1668,27 @@ public abstract class PackParser {
 
 		long sizeBeforeInflating;
 
-		/** @return offset within the input stream. */
+		/**
+		 * Get offset within the input stream
+		 *
+		 * @return offset within the input stream.
+		 */
 		public long getOffset() {
 			return position;
 		}
 
-		/** @return the CRC-32 checksum of the stored delta data. */
+		/**
+		 * Get the CRC-32 checksum of the stored delta data
+		 *
+		 * @return the CRC-32 checksum of the stored delta data.
+		 */
 		public int getCRC() {
 			return crc;
 		}
 
 		/**
+		 * Set the CRC-32 checksum of the stored delta data
+		 *
 		 * @param crc32
 		 *            the CRC-32 checksum of the stored delta data.
 		 */

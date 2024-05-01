@@ -10,7 +10,6 @@
 package org.eclipse.jgit.attributes.merge;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -20,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.function.Consumer;
 
@@ -42,7 +42,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MergeGitAttributeTest extends RepositoryTestCase {
@@ -99,19 +98,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			checkoutBranch(REFS_HEADS_LEFT);
@@ -141,19 +140,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 				writeTrashFile(".gitattributes", "*.cat -merge");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			// Check that the merge attribute is unset
@@ -186,19 +185,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 				writeTrashFile(".gitattributes", "*.txt -merge");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			// Check that the merge attribute is unset
@@ -230,19 +229,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 				writeTrashFile(".gitattributes", "*.cat merge=binary");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		}, g -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new UncheckedIOException(e);
 			}
 		})) {
 			// Check that the merge attribute is set to binary
@@ -268,12 +267,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 		}
 	}
 
-	/*
-	 * This test is commented because JGit add conflict markers in binary files.
-	 * cf. https://www.eclipse.org/forums/index.php/t/1086511/
-	 */
 	@Test
-	@Ignore
 	public void mergeBinaryFile_NoAttr_Conflict() throws IllegalStateException,
 			IOException, NoHeadException, ConcurrentRefUpdateException,
 			CheckoutConflictException, InvalidMergeHeadsException,
@@ -433,7 +427,7 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 			try (FileInputStream mergeResultFile = new FileInputStream(
 					db.getWorkTree().toPath().resolve(ENABLED_CHECKED_GIF)
 							.toFile())) {
-				assertFalse(contentEquals(
+				assertTrue(contentEquals(
 						getClass().getResourceAsStream(ENABLED_CHECKED_GIF),
 						mergeResultFile));
 			}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2013 Chris Aniszczyk <caniszczyk@gmail.com> and others
+ * Copyright (C) 2011, 2022 Chris Aniszczyk <caniszczyk@gmail.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,8 +9,10 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -19,10 +21,14 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -40,6 +46,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.eclipse.jgit.submodule.SubmoduleStatusType;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -116,9 +123,32 @@ public class CloneCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCloneRepository_refLogForLocalRefs()
+	public void testCloneRepositoryNoCheckout()
 			throws IOException, JGitInternalException, GitAPIException {
-		File directory = createTempDirectory("testCloneRepository");
+		File directory = createTempDirectory("testCloneRepositoryNoCheckout");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setNoCheckout(true);
+		try (Git git2 = command.call()) {
+			Repository clonedRepo = git2.getRepository();
+			Ref main = clonedRepo.exactRef(Constants.R_HEADS + "test");
+			assertNotNull(main);
+			ObjectId id = main.getObjectId();
+			assertNotNull(id);
+			assertNotEquals(id, ObjectId.zeroId());
+			ObjectId headId = clonedRepo.resolve(Constants.HEAD);
+			assertEquals(id, headId);
+			assertArrayEquals(new String[] { Constants.DOT_GIT },
+					directory.list());
+		}
+	}
+
+	@Test
+	public void testCloneRepositoryRefLogForLocalRefs()
+			throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory(
+				"testCloneRepositoryRefLogForLocalRefs");
 		CloneCommand command = Git.cloneRepository();
 		command.setDirectory(directory);
 		command.setURI(fileUri());
@@ -326,7 +356,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 				allRefNames(git2.branchList().setListMode(ListMode.ALL).call()));
 
 		// Same thing, but now without checkout
-		directory = createTempDirectory("testCloneRepositoryWithBranch_bare");
+		directory = createTempDirectory(
+				"testCloneRepositoryWithBranch_noCheckout");
 		command = Git.cloneRepository();
 		command.setBranch("refs/heads/master");
 		command.setDirectory(directory);
@@ -336,7 +367,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 
 		assertEquals(git2.getRepository().getFullBranch(), "refs/heads/master");
-		assertEquals("refs/remotes/origin/master, refs/remotes/origin/test",
+		assertEquals(
+				"refs/heads/master, refs/remotes/origin/master, refs/remotes/origin/test",
 				allRefNames(git2.branchList().setListMode(ListMode.ALL).call()));
 
 		// Same thing, but now test with bare repo
@@ -893,6 +925,234 @@ public class CloneCommandTest extends RepositoryTestCase {
 		Git git2 = command.call();
 		addRepoToClose(git2.getRepository());
 		assertEquals("refs/heads/test-copy", git2.getRepository().getFullBranch());
+	}
+
+    @Test
+    public void testCloneRepositoryWithDepth() throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testCloneRepositoryWithDepth");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+        command.setDepth(1);
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(1, log.size());
+		RevCommit commit = log.get(0);
+		assertEquals(Set.of(commit.getId()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals("Second commit", commit.getFullMessage());
+		assertEquals(0, commit.getParentCount());
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepthAndAllBranches() throws IOException, JGitInternalException, GitAPIException {
+		File directory = createTempDirectory("testCloneRepositoryWithDepthAndAllBranches");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setDepth(1);
+		command.setCloneAllBranches(true);
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(log.stream().map(RevCommit::getId).collect(Collectors.toSet()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(List.of("Second commit", "Initial commit"),
+				log.stream().map(RevCommit::getFullMessage).collect(Collectors.toList()));
+		for (RevCommit commit : log) {
+			assertEquals(0, commit.getParentCount());
+		}
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepth2() throws Exception {
+		RevCommit parent = tr.git().log().call().iterator().next();
+		RevCommit commit = tr.commit()
+				.parent(parent)
+				.message("Third commit")
+				.add("test.txt", "Hello world")
+				.create();
+		tr.update("refs/heads/test", commit);
+
+		File directory = createTempDirectory("testCloneRepositoryWithDepth2");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setDepth(2);
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(Set.of(parent.getId()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(List.of("Third commit", "Second commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+		assertEquals(List.of(Integer.valueOf(1), Integer.valueOf(0)),
+				log.stream().map(RevCommit::getParentCount)
+						.collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepthAndFetch() throws Exception {
+		File directory = createTempDirectory("testCloneRepositoryWithDepthAndFetch");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setDepth(1);
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		RevCommit parent = tr.git().log().call().iterator().next();
+		RevCommit commit = tr.commit()
+				.parent(parent)
+				.message("Third commit")
+				.add("test.txt", "Hello world")
+				.create();
+		tr.update("refs/heads/test", commit);
+
+		git2.fetch().call();
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(Set.of(parent.getId()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(List.of("Third commit", "Second commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+		assertEquals(List.of(Integer.valueOf(1), Integer.valueOf(0)),
+				log.stream().map(RevCommit::getParentCount)
+						.collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepthAndFetchWithDepth() throws Exception {
+		File directory = createTempDirectory("testCloneRepositoryWithDepthAndFetchWithDepth");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setDepth(1);
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		RevCommit parent = tr.git().log().call().iterator().next();
+		RevCommit commit = tr.commit()
+				.parent(parent)
+				.message("Third commit")
+				.add("test.txt", "Hello world")
+				.create();
+		tr.update("refs/heads/test", commit);
+
+		git2.fetch().setDepth(1).call();
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(
+				log.stream().map(RevObject::getId).collect(Collectors.toSet()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(List.of("Third commit", "Second commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+		assertEquals(List.of(Integer.valueOf(0), Integer.valueOf(0)),
+				log.stream().map(RevCommit::getParentCount)
+						.collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testCloneRepositoryWithDepthAndFetchUnshallow() throws Exception {
+		File directory = createTempDirectory("testCloneRepositoryWithDepthAndFetchUnshallow");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.setDepth(1);
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		git2.fetch().setUnshallow(true).call();
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(2, log.size());
+		assertEquals(Set.of(),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals(List.of("Second commit", "Initial commit"), log.stream()
+				.map(RevCommit::getFullMessage).collect(Collectors.toList()));
+		assertEquals(List.of(Integer.valueOf(1), Integer.valueOf(0)),
+				log.stream().map(RevCommit::getParentCount)
+						.collect(Collectors.toList()));
+	}
+
+    @Test
+	public void testCloneRepositoryWithShallowSince() throws Exception {
+		RevCommit commit = tr.commit()
+				.parent(tr.git().log().call().iterator().next())
+				.message("Third commit").add("test.txt", "Hello world")
+				.create();
+		tr.update("refs/heads/test", commit);
+
+        File directory = createTempDirectory("testCloneRepositoryWithShallowSince");
+        CloneCommand command = Git.cloneRepository();
+        command.setDirectory(directory);
+        command.setURI(fileUri());
+        command.setShallowSince(Instant.ofEpochSecond(commit.getCommitTime()));
+        command.setBranchesToClone(Set.of("refs/heads/test"));
+        Git git2 = command.call();
+        addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(1, log.size());
+		assertEquals(Set.of(commit.getId()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals("Third commit", log.get(0).getFullMessage());
+		assertEquals(0, log.get(0).getParentCount());
+    }
+
+	@Test
+	public void testCloneRepositoryWithShallowExclude() throws Exception {
+		RevCommit parent = tr.git().log().call().iterator().next();
+		tr.update("refs/heads/test",
+				tr.commit()
+					.parent(parent)
+					.message("Third commit")
+					.add("test.txt", "Hello world")
+					.create());
+
+		File directory = createTempDirectory("testCloneRepositoryWithShallowExclude");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI(fileUri());
+		command.addShallowExclude(parent.getId());
+		command.setBranchesToClone(Set.of("refs/heads/test"));
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+
+		List<RevCommit> log = StreamSupport
+				.stream(git2.log().all().call().spliterator(), false)
+				.collect(Collectors.toList());
+		assertEquals(1, log.size());
+		RevCommit commit = log.get(0);
+		assertEquals(Set.of(commit.getId()),
+				git2.getRepository().getObjectDatabase().getShallowCommits());
+		assertEquals("Third commit", commit.getFullMessage());
+		assertEquals(0, commit.getParentCount());
 	}
 
 	private void assertTagOption(Repository repo, TagOpt expectedTagOption)

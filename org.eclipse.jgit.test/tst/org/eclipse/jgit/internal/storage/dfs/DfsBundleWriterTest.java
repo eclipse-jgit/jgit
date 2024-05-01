@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
+import org.eclipse.jgit.api.GarbageCollectCommand;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -44,7 +46,7 @@ public class DfsBundleWriterTest {
 	}
 
 	@Test
-	public void testRepo() throws Exception {
+	public void makeBundle_containsUnreferencedObject() throws Exception {
 		RevCommit commit0 = git.commit().message("0").create();
 		RevCommit commit1 = git.commit().message("1").parent(commit0).create();
 		git.update("master", commit1);
@@ -60,6 +62,31 @@ public class DfsBundleWriterTest {
 			assertEquals(commit1.toObjectId(), ref.getObjectId());
 
 			// Unreferenced objects are included as well.
+			assertTrue(newRepo.getObjectDatabase().has(commit2));
+		}
+	}
+
+	@Test
+	public void makeBundle_containsObjectInGcRestPack() throws Exception {
+		RevCommit commit0 = git.commit().message("0").create();
+		RevCommit commit1 = git.commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		RevCommit commit2 = git.commit().message("0").create();
+
+		// This moves unreachable commit2 to GC_REST pack.
+		GarbageCollectCommand gc = Git.wrap(repo).gc();
+		gc.call();
+
+		byte[] bundle = makeBundle();
+		try (Repository newRepo = new InMemoryRepository(
+				new DfsRepositoryDescription("copy"))) {
+			fetchFromBundle(newRepo, bundle);
+			Ref ref = newRepo.exactRef("refs/heads/master");
+			assertNotNull(ref);
+			assertEquals(commit1.toObjectId(), ref.getObjectId());
+
+			// Unreferenced objects in GC_REST pack are included as well.
 			assertTrue(newRepo.getObjectDatabase().has(commit2));
 		}
 	}

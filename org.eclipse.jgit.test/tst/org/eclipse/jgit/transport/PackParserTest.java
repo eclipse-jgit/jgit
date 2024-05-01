@@ -22,9 +22,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 import java.text.MessageFormat;
-import java.util.zip.Deflater;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.internal.JGitText;
@@ -39,8 +40,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
-import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.UnionInputStream;
 import org.junit.After;
 import org.junit.Test;
@@ -76,6 +75,49 @@ public class PackParserTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testParsePack1ReadsObjectSizes() throws IOException {
+		File packFile = JGitTestUtil.getTestResourceFile(
+				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f.pack");
+
+		// Sizes from git cat-file -s after unpacking in a local repo
+		Map<String, Long> expected = new HashMap<>();
+		// Commits
+		expected.put("540a36d136cf413e4b064c2b0e0a4db60f77feab",
+				Long.valueOf(191));
+		expected.put("c59759f143fb1fe21c197981df75a7ee00290799",
+				Long.valueOf(240));
+		expected.put("82c6b885ff600be425b4ea96dee75dca255b69e7",
+				Long.valueOf(245));
+
+		// Trees
+		expected.put("4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+				Long.valueOf(0)); // empty
+		expected.put("902d5476fa249b7abc9d84c611577a81381f0327",
+				Long.valueOf(35));
+		expected.put("aabf2ffaec9b497f0950352b3e582d73035c2035",
+				Long.valueOf(35));
+
+		// Blobs
+		expected.put("6ff87c4664981e4397625791c8ea3bbb5f2279a3",
+				Long.valueOf(18787));
+
+		// Deltas
+		expected.put("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259",
+				Long.valueOf(18009)); // delta-oid blob
+
+
+		try (InputStream is = new FileInputStream(packFile)) {
+			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
+			p.parse(NullProgressMonitor.INSTANCE);
+			List<PackedObjectInfo> parsedObjects = p.getSortedObjectList(null);
+			for (PackedObjectInfo objInfo: parsedObjects) {
+				assertEquals(objInfo.getName(), objInfo.getFullSize(),
+						expected.get(objInfo.getName()).longValue());
+			}
+		}
+	}
+
 	/**
 	 * This is just another pack. It so happens that we have two convenient pack to
 	 * test with in the repository.
@@ -107,6 +149,39 @@ public class PackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testParsePack2ReadsObjectSizes() throws IOException {
+		File packFile = JGitTestUtil.getTestResourceFile(
+				"pack-df2982f284bbabb6bdb59ee3fcc6eb0983e20371.pack");
+		Map<String, Long> expected = new HashMap<>();
+		// Deltified commit
+		expected.put("d0114ab8ac326bab30e3a657a0397578c5a1af88",
+				Long.valueOf(222));
+		// Delta of delta of commit
+		expected.put("f73b95671f326616d66b2afb3bdfcdbbce110b44",
+				Long.valueOf(221));
+		// Deltified tree
+		expected.put("be9b45333b66013bde1c7314efc50fabd9b39c6d",
+				Long.valueOf(94));
+
+		try (InputStream is = new FileInputStream(packFile)) {
+			ObjectDirectoryPackParser p = (ObjectDirectoryPackParser) index(is);
+			p.parse(NullProgressMonitor.INSTANCE);
+			List<PackedObjectInfo> parsedObjects = p.getSortedObjectList(null);
+			// Check only the interesting objects
+			int assertedObjs = 0;
+			for (PackedObjectInfo objInfo : parsedObjects) {
+				if (!expected.containsKey(objInfo.getName())) {
+					continue;
+				}
+				assertEquals(objInfo.getName(), objInfo.getFullSize(),
+						expected.get(objInfo.getName()).longValue());
+				assertedObjs += 1;
+			}
+			assertEquals(assertedObjs, expected.size());
+		}
+	}
+
+	@Test
 	public void testTinyThinPack() throws Exception {
 		RevBlob a;
 		try (TestRepository d = new TestRepository<Repository>(db)) {
@@ -114,17 +189,14 @@ public class PackParserTest extends RepositoryTestCase {
 			a = d.blob("a");
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
+		pack.copyRaw(a);
+		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
+		pack.digest();
 
-		packHeader(pack, 1);
-
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
-		a.copyRawTo(pack);
-		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
-
-		digest(pack);
-
-		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
+		PackParser p = index(pack.toInputStream());
 		p.setAllowThin(true);
 		p.parse(NullProgressMonitor.INSTANCE);
 	}
@@ -137,16 +209,55 @@ public class PackParserTest extends RepositoryTestCase {
 			assertTrue(db.getObjectDatabase().has(d.blob(data)));
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_BLOB) << 4 | 0x80 | 1);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_BLOB << 4 | 0x80 | 1);
 		pack.write(1);
-		deflate(pack, data);
-		digest(pack);
+		pack.deflate(data);
+		pack.digest();
 
-		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
+		PackParser p = index(pack.toInputStream());
 		p.setAllowThin(false);
 		p.parse(NullProgressMonitor.INSTANCE);
+	}
+
+	@Test
+	public void testParseOfsDeltaFullSize() throws Exception {
+		final byte[] data = Constants.encode("0123456789");
+		try (TestRepository<Repository> d = new TestRepository<>(db)) {
+			db.incrementOpen();
+			assertTrue(db.getObjectDatabase().has(d.blob(data)));
+		}
+
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(2);
+		pack.write(Constants.OBJ_BLOB << 4 | 10); // offset 12
+		pack.deflate(data);
+		pack.write(Constants.OBJ_OFS_DELTA << 4 | 4); // offset 31
+		pack.write(19);
+		pack.deflate(new byte[] { 0xA, 0xB, 0x1, 'b' });
+		pack.digest();
+
+		PackParser p = index(pack.toInputStream());
+		p.parse(NullProgressMonitor.INSTANCE);
+
+		List<PackedObjectInfo> sortedObjectList = p.getSortedObjectList(null);
+		assertEquals(sortedObjectList.size(), 2);
+
+		// Deltified comes first because they are sorted by SHA1
+		PackedObjectInfo deltifiedObj = sortedObjectList.get(0);
+		assertEquals(deltifiedObj.getName(),
+				"16646543f87fb53e30b032eec7dfc88f2e717966");
+		assertEquals(deltifiedObj.getOffset(), 31);
+		assertEquals(deltifiedObj.getType(), Constants.OBJ_BLOB);
+		assertEquals(deltifiedObj.getFullSize(), 11);
+
+		PackedObjectInfo baseObj = sortedObjectList.get(1);
+		assertEquals(baseObj.getName(),
+				"ad471007bd7f5983d273b9584e5629230150fd54");
+		assertEquals(baseObj.getOffset(), 12);
+		assertEquals(baseObj.getType(), Constants.OBJ_BLOB);
+		assertEquals(baseObj.getFullSize(), 10);
 	}
 
 	@Test
@@ -157,15 +268,15 @@ public class PackParserTest extends RepositoryTestCase {
 			a = d.blob("a");
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
-		a.copyRawTo(pack);
-		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
-		digest(pack);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
+		pack.copyRaw(a);
+		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
+		pack.digest();
 
 		PackParser p = index(new UnionInputStream(
-				new ByteArrayInputStream(pack.toByteArray()),
+				pack.toInputStream(),
 				new ByteArrayInputStream(new byte[] { 0x7e })));
 		p.setAllowThin(true);
 		p.setCheckEofAfterPackFooter(true);
@@ -187,22 +298,21 @@ public class PackParserTest extends RepositoryTestCase {
 			d.blob(data);
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_BLOB << 4 | 10);
+		pack.deflate(data);
+		pack.digest();
 
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_BLOB) << 4 | 10);
-		deflate(pack, data);
-		digest(pack);
-
-		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
+		PackParser p = index(pack.toInputStream());
 		p.setMaxObjectSizeLimit(11);
 		p.parse(NullProgressMonitor.INSTANCE);
 
-		p = index(new ByteArrayInputStream(pack.toByteArray()));
+		p = index(pack.toInputStream());
 		p.setMaxObjectSizeLimit(10);
 		p.parse(NullProgressMonitor.INSTANCE);
 
-		p = index(new ByteArrayInputStream(pack.toByteArray()));
+		p = index(pack.toInputStream());
 		p.setMaxObjectSizeLimit(9);
 		try {
 			p.parse(NullProgressMonitor.INSTANCE);
@@ -221,21 +331,20 @@ public class PackParserTest extends RepositoryTestCase {
 			a = d.blob("a");
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
-
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 14);
-		a.copyRawTo(pack);
-		deflate(pack, new byte[] { 1, 11, 11, 'a', '0', '1', '2', '3', '4',
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 14);
+		pack.copyRaw(a);
+		pack.deflate(new byte[] { 1, 11, 11, 'a', '0', '1', '2', '3', '4',
 				'5', '6', '7', '8', '9' });
-		digest(pack);
+		pack.digest();
 
-		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
+		PackParser p = index(pack.toInputStream());
 		p.setAllowThin(true);
 		p.setMaxObjectSizeLimit(14);
 		p.parse(NullProgressMonitor.INSTANCE);
 
-		p = index(new ByteArrayInputStream(pack.toByteArray()));
+		p = index(pack.toInputStream());
 		p.setAllowThin(true);
 		p.setMaxObjectSizeLimit(13);
 		try {
@@ -255,20 +364,19 @@ public class PackParserTest extends RepositoryTestCase {
 			a = d.blob("0123456789");
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
+		pack.copyRaw(a);
+		pack.deflate(new byte[] { 10, 11, 1, 'a' });
+		pack.digest();
 
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
-		a.copyRawTo(pack);
-		deflate(pack, new byte[] { 10, 11, 1, 'a' });
-		digest(pack);
-
-		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
+		PackParser p = index(pack.toInputStream());
 		p.setAllowThin(true);
 		p.setMaxObjectSizeLimit(11);
 		p.parse(NullProgressMonitor.INSTANCE);
 
-		p = index(new ByteArrayInputStream(pack.toByteArray()));
+		p = index(pack.toInputStream());
 		p.setAllowThin(true);
 		p.setMaxObjectSizeLimit(10);
 		try {
@@ -288,12 +396,12 @@ public class PackParserTest extends RepositoryTestCase {
 			a = d.blob("a");
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
-		a.copyRawTo(pack);
-		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
-		digest(pack);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
+		pack.copyRaw(a);
+		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
+		pack.digest();
 
 		InputStream in = new ByteArrayInputStream(pack.toByteArray()) {
 			@Override
@@ -329,12 +437,12 @@ public class PackParserTest extends RepositoryTestCase {
 			a = d.blob("a");
 		}
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(32*1024);
-		packHeader(pack, 1);
-		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
-		a.copyRawTo(pack);
-		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
-		digest(pack);
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
+		pack.copyRaw(a);
+		pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
+		pack.digest();
 
 		byte packData[] = pack.toByteArray();
 		byte streamData[] = new byte[packData.length + 1];
@@ -358,14 +466,14 @@ public class PackParserTest extends RepositoryTestCase {
 
 		// Build a pack ~17k
 		int objects = 900;
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(32 * 1024);
-		packHeader(pack, objects);
+		InMemoryPack pack = new InMemoryPack(32 * 1024);
+		pack.header(objects);
 
 		for (int i = 0; i < objects; i++) {
-			pack.write((Constants.OBJ_BLOB) << 4 | 10);
-			deflate(pack, data);
+			pack.write(Constants.OBJ_BLOB << 4 | 10);
+			pack.deflate(data);
 		}
-		digest(pack);
+		pack.digest();
 
 		byte packData[] = pack.toByteArray();
 		byte streamData[] = new byte[packData.length + 1];
@@ -392,14 +500,15 @@ public class PackParserTest extends RepositoryTestCase {
 		}
 
 		int objects = 248;
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(32 * 1024);
-		packHeader(pack, objects + 1);
+		InMemoryPack pack = new InMemoryPack(32 * 1024);
+		pack.header(objects + 1);
+
 		int offset = 13;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < offset; i++)
 			sb.append(i);
 		offset = sb.toString().length();
-		int lenByte = (Constants.OBJ_BLOB) << 4 | (offset & 0x0F);
+		int lenByte = Constants.OBJ_BLOB << 4 | (offset & 0x0F);
 		offset >>= 4;
 		if (offset > 0)
 			lenByte |= 1 << 7;
@@ -411,16 +520,16 @@ public class PackParserTest extends RepositoryTestCase {
 				lenByte |= 1 << 7;
 			pack.write(lenByte);
 		}
-		deflate(pack, Constants.encode(sb.toString()));
+		pack.deflate(Constants.encode(sb.toString()));
 
 		for (int i = 0; i < objects; i++) {
 			// The last pack header written falls across the 8192 byte boundary
 			// between [8189:8210]
-			pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
-			b.copyRawTo(pack);
-			deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
+			pack.write(Constants.OBJ_REF_DELTA << 4 | 4);
+			pack.copyRaw(b);
+			pack.deflate(new byte[] { 0x1, 0x1, 0x1, 'b' });
 		}
-		digest(pack);
+		pack.digest();
 
 		byte packData[] = pack.toByteArray();
 		byte streamData[] = new byte[packData.length + 1];
@@ -435,36 +544,6 @@ public class PackParserTest extends RepositoryTestCase {
 		p.parse(NullProgressMonitor.INSTANCE);
 
 		assertEquals(0x7e, in.read());
-	}
-
-	private static void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
-			throws IOException {
-		final byte[] hdr = new byte[8];
-		NB.encodeInt32(hdr, 0, 2);
-		NB.encodeInt32(hdr, 4, cnt);
-
-		tinyPack.write(Constants.PACK_SIGNATURE);
-		tinyPack.write(hdr, 0, 8);
-	}
-
-	private static void deflate(TemporaryBuffer.Heap tinyPack,
-			final byte[] content)
-			throws IOException {
-		final Deflater deflater = new Deflater();
-		final byte[] buf = new byte[128];
-		deflater.setInput(content, 0, content.length);
-		deflater.finish();
-		do {
-			final int n = deflater.deflate(buf, 0, buf.length);
-			if (n > 0)
-				tinyPack.write(buf, 0, n);
-		} while (!deflater.finished());
-	}
-
-	private static void digest(TemporaryBuffer.Heap buf) throws IOException {
-		MessageDigest md = Constants.newMessageDigest();
-		md.update(buf.toByteArray());
-		buf.write(md.digest());
 	}
 
 	private ObjectInserter inserter;

@@ -35,7 +35,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.apache.sshd.agent.SshAgentFactory;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.future.ConnectFuture;
@@ -60,6 +59,7 @@ import org.eclipse.jgit.internal.transport.sshd.proxy.Socks5ClientConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.transport.sshd.KeyCache;
+import org.eclipse.jgit.transport.sshd.KeyPasswordProvider;
 import org.eclipse.jgit.transport.sshd.ProxyData;
 import org.eclipse.jgit.transport.sshd.ProxyDataFactory;
 import org.eclipse.jgit.util.StringUtils;
@@ -105,9 +105,9 @@ public class JGitSshClient extends SshClient {
 
 	private CredentialsProvider credentialsProvider;
 
-	private ProxyDataFactory proxyDatabase;
+	private Supplier<KeyPasswordProvider> keyPasswordProviderFactory;
 
-	private Supplier<SshAgentFactory> agentFactorySupplier = () -> null;
+	private ProxyDataFactory proxyDatabase;
 
 	@Override
 	protected SessionFactory createSessionFactory() {
@@ -281,6 +281,8 @@ public class JGitSshClient extends SshClient {
 		}
 		int numberOfPasswordPrompts = getNumberOfPasswordPrompts(hostConfig);
 		PASSWORD_PROMPTS.set(session, Integer.valueOf(numberOfPasswordPrompts));
+		session.setAttribute(JGitClientSession.KEY_PASSWORD_PROVIDER_FACTORY,
+				getKeyPasswordProviderFactory());
 		List<Path> identities = hostConfig.getIdentities().stream()
 				.map(s -> {
 					try {
@@ -377,20 +379,24 @@ public class JGitSshClient extends SshClient {
 		return credentialsProvider;
 	}
 
-	@Override
-	public SshAgentFactory getAgentFactory() {
-		return agentFactorySupplier.get();
+	/**
+	 * Sets a supplier for a {@link KeyPasswordProvider} for this client.
+	 *
+	 * @param factory
+	 *            to set
+	 */
+	public void setKeyPasswordProviderFactory(
+			Supplier<KeyPasswordProvider> factory) {
+		keyPasswordProviderFactory = factory;
 	}
 
-	@Override
-	protected void checkConfig() {
-		// The super class requires channel factories for agent forwarding if a
-		// factory for an SSH agent is set. We haven't implemented this yet, and
-		// we don't do SSH agent forwarding for now. Unfortunately, there is no
-		// way to bypass this check in the super class except making
-		// getAgentFactory() return null until after the check.
-		super.checkConfig();
-		agentFactorySupplier = super::getAgentFactory;
+	/**
+	 * Retrieves the {@link KeyPasswordProvider} factory of this client.
+	 *
+	 * @return a factory to create {@link KeyPasswordProvider}s
+	 */
+	public Supplier<KeyPasswordProvider> getKeyPasswordProviderFactory() {
+		return keyPasswordProviderFactory;
 	}
 
 	/**

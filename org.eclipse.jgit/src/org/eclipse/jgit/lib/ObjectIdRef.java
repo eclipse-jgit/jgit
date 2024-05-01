@@ -204,41 +204,35 @@ public abstract class ObjectIdRef implements Ref {
 		this.updateIndex = updateIndex;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public String getName() {
 		return name;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public boolean isSymbolic() {
 		return false;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Ref getLeaf() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Ref getTarget() {
 		return this;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public ObjectId getObjectId() {
 		return objectId;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@NonNull
 	public Storage getStorage() {
@@ -257,7 +251,6 @@ public abstract class ObjectIdRef implements Ref {
 		return updateIndex;
 	}
 
-	/** {@inheritDoc} */
 	@NonNull
 	@Override
 	public String toString() {

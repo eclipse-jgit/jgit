@@ -11,6 +11,7 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -73,6 +74,11 @@ public class PushCommand extends
 	private boolean atomic;
 	private boolean force;
 	private boolean thin = Transport.DEFAULT_PUSH_THIN;
+	private boolean useBitmaps = Transport.DEFAULT_PUSH_USE_BITMAPS;
+
+	private PrintStream hookOutRedirect;
+
+	private PrintStream hookErrRedirect;
 
 	private OutputStream out;
 
@@ -140,6 +146,9 @@ public class PushCommand extends
 					transport.setOptionReceivePack(receivePack);
 				transport.setDryRun(dryRun);
 				transport.setPushOptions(pushOptions);
+				transport.setPushUseBitmaps(useBitmaps);
+				transport.setHookOutputStream(hookOutRedirect);
+				transport.setHookErrorStream(hookErrRedirect);
 				configure(transport);
 
 				final Collection<RemoteRefUpdate> toPush = transport
@@ -302,6 +311,46 @@ public class PushCommand extends
 	 */
 	public String getRemote() {
 		return remote;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a "pre-push" hook may write its stdout to. If
+	 * not set, {@link System#out} will be used.
+	 * <p>
+	 * When pushing to several remote repositories the stream is shared for all
+	 * pushes.
+	 * </p>
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#out} will be used
+	 * @return {@code this}
+	 * @since 6.4
+	 */
+	public PushCommand setHookOutputStream(PrintStream redirect) {
+		checkCallable();
+		hookOutRedirect = redirect;
+		return this;
+	}
+
+	/**
+	 * Sets a {@link PrintStream} a "pre-push" hook may write its stderr to. If
+	 * not set, {@link System#err} will be used.
+	 * <p>
+	 * When pushing to several remote repositories the stream is shared for all
+	 * pushes.
+	 * </p>
+	 *
+	 * @param redirect
+	 *            {@link PrintStream} to use; if {@code null},
+	 *            {@link System#err} will be used
+	 * @return {@code this}
+	 * @since 6.4
+	 */
+	public PushCommand setHookErrorStream(PrintStream redirect) {
+		checkCallable();
+		hookErrRedirect = redirect;
+		return this;
 	}
 
 	/**
@@ -565,13 +614,39 @@ public class PushCommand extends
 	 *
 	 * Default setting is Transport.DEFAULT_PUSH_THIN
 	 *
-	 * @param thin
+	 * @param thinPack
 	 *            the thin-pack preference value
 	 * @return {@code this}
 	 */
-	public PushCommand setThin(boolean thin) {
+	public PushCommand setThin(boolean thinPack) {
 		checkCallable();
-		this.thin = thin;
+		this.thin = thinPack;
+		return this;
+	}
+
+	/**
+	 * Whether to use bitmaps for push.
+	 *
+	 * @return true if push use bitmaps.
+	 * @since 6.4
+	 */
+	public boolean isUseBitmaps() {
+		return useBitmaps;
+	}
+
+	/**
+	 * Set whether to use bitmaps for push.
+	 *
+	 * Default setting is {@value Transport#DEFAULT_PUSH_USE_BITMAPS}
+	 *
+	 * @param useBitmaps
+	 *            false to disable use of bitmaps for push, true otherwise.
+	 * @return {@code this}
+	 * @since 6.4
+	 */
+	public PushCommand setUseBitmaps(boolean useBitmaps) {
+		checkCallable();
+		this.useBitmaps = useBitmaps;
 		return this;
 	}
 

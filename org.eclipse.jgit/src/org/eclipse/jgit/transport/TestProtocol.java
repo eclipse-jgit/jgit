@@ -81,19 +81,16 @@ public class TestProtocol<C> extends TransportProtocol {
 		this.handles = new HashMap<>();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getName() {
 		return JGitText.get().transportProtoTest;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Set<String> getSchemes() {
 		return Collections.singleton(SCHEME);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Transport open(URIish uri, Repository local, String remoteName)
 			throws NotSupportedException, TransportException {
@@ -105,13 +102,11 @@ public class TestProtocol<C> extends TransportProtocol {
 		return new TransportInternal(local, uri, h);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Set<URIishField> getRequiredFields() {
 		return EnumSet.of(URIishField.HOST, URIishField.PATH);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public Set<URIishField> getOptionalFields() {
 		return Collections.emptySet();

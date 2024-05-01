@@ -39,7 +39,6 @@ class ShowPackDelta extends TextBuiltin {
 	@Argument(index = 0)
 	private ObjectId objectId;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() throws Exception {
 		ObjectReader reader = db.newObjectReader();

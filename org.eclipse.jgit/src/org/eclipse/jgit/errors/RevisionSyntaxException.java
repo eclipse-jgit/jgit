@@ -44,9 +44,13 @@ public class RevisionSyntaxException extends IllegalArgumentException {
 		this.revstr = revstr;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public String toString() {
-		return super.toString() + ":" + revstr; //$NON-NLS-1$
+	/**
+	 * Get the problematic revision string
+	 *
+	 * @return the problematic revision string
+	 * @since 6.8
+	 */
+	public String getRevstr() {
+		return revstr;
 	}
 }

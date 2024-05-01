@@ -48,7 +48,6 @@ public class GitInitTask extends Task {
 		this.bare = bare;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void execute() throws BuildException {
 		if (bare) {

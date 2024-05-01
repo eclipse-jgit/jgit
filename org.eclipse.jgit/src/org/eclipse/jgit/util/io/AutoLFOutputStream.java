@@ -69,14 +69,12 @@ public class AutoLFOutputStream extends OutputStream {
 		this.detectBinary = detectBinary;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
 		onebytebuf[0] = (byte) b;
 		write(onebytebuf, 0, 1);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b) throws IOException {
 		int overflow = buffer(b, 0, b.length);
@@ -85,7 +83,6 @@ public class AutoLFOutputStream extends OutputStream {
 		}
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int startOff, int startLen)
 			throws IOException {
@@ -164,7 +161,6 @@ public class AutoLFOutputStream extends OutputStream {
 		write(binbuf, 0, cachedLen);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void flush() throws IOException {
 		if (binbufcnt <= binbuf.length) {
@@ -173,7 +169,6 @@ public class AutoLFOutputStream extends OutputStream {
 		out.flush();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
 		flush();

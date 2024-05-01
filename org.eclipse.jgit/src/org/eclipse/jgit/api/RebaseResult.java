@@ -146,6 +146,8 @@ public class RebaseResult {
 		};
 
 		/**
+		 * Whether the rebase was successful
+		 *
 		 * @return whether the status indicates a successful result
 		 */
 		public abstract boolean isSuccessful();
@@ -194,6 +196,7 @@ public class RebaseResult {
 	 * Create <code>RebaseResult</code>
 	 *
 	 * @param status
+	 *            the overall rebase status
 	 * @param commit
 	 *            current commit
 	 * @return the RebaseResult

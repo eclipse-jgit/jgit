@@ -84,7 +84,6 @@ public class LargeObjectException extends RuntimeException {
 			objectId = id.copy();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getMessage() {
 		return MessageFormat.format(JGitText.get().largeObjectException,

@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -320,19 +321,16 @@ public class FileRepository extends Repository {
 		return objectDatabase.getDirectory();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ObjectDirectory getObjectDatabase() {
 		return objectDatabase;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public RefDatabase getRefDatabase() {
 		return refs;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String getIdentifier() {
 		File directory = getDirectory();
@@ -342,7 +340,6 @@ public class FileRepository extends Repository {
 		throw new IllegalStateException();
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public FileBasedConfig getConfig() {
 		try {
@@ -356,7 +353,6 @@ public class FileRepository extends Repository {
 		return repoConfig;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	@Nullable
 	public String getGitwebDescription() throws IOException {
@@ -375,7 +371,6 @@ public class FileRepository extends Repository {
 		return d;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void setGitwebDescription(@Nullable String description)
 			throws IOException {
@@ -422,6 +417,7 @@ public class FileRepository extends Repository {
 	 * client trying to push changes avoid pushing more than it needs to.
 	 *
 	 * @throws IOException
+	 *             if an IO error occurred
 	 */
 	@Override
 	public Set<ObjectId> getAdditionalHaves() throws IOException {
@@ -477,7 +473,6 @@ public class FileRepository extends Repository {
 		objectDatabase.openPack(pack);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void scanForRepoChanges() throws IOException {
 		getRefDatabase().getRefs(); // This will look for changes to refs
@@ -503,7 +498,6 @@ public class FileRepository extends Repository {
 		notifyIndexChanged(false);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void notifyIndexChanged(boolean internal) {
 		synchronized (snapshotLock) {
@@ -512,7 +506,6 @@ public class FileRepository extends Repository {
 		fireEvent(new IndexChangedEvent(internal));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public ReflogReader getReflogReader(String refName) throws IOException {
 		if (refs instanceof FileReftableDatabase) {
@@ -530,7 +523,12 @@ public class FileRepository extends Repository {
 		return new ReflogReaderImpl(this, ref.getName());
 	}
 
-	/** {@inheritDoc} */
+	@Override
+	public @NonNull ReflogReader getReflogReader(@NonNull Ref ref)
+			throws IOException {
+		return new ReflogReaderImpl(this, ref.getName());
+	}
+
 	@Override
 	public AttributesNodeProvider createAttributesNodeProvider() {
 		return new AttributesNodeProviderImpl(this);
@@ -593,7 +591,6 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_KEY_AUTODETACH, true);
 	}
 
-	/** {@inheritDoc} */
 	@SuppressWarnings("FutureReturnValueIgnored")
 	@Override
 	public void autoGC(ProgressMonitor monitor) {

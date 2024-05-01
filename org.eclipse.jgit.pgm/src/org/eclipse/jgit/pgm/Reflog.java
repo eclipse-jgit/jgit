@@ -28,7 +28,6 @@ class Reflog extends TextBuiltin {
 	@Argument(metaVar = "metaVar_ref")
 	private String ref;
 
-	/** {@inheritDoc} */
 	@Override
 	protected void run() {
 		try (Git git = new Git(db)) {

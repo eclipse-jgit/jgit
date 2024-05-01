@@ -53,8 +53,8 @@ public class PathSuffixFilterTest extends RepositoryTestCase {
 	@Test
 	public void testEdgeCases() throws IOException {
 		ObjectId treeId = createTree("abc", "abcd", "bcd", "c");
-		assertEquals(new ArrayList<String>(), getMatchingPaths("xbcd", treeId));
-		assertEquals(new ArrayList<String>(), getMatchingPaths("abcx", treeId));
+		assertEquals(new ArrayList<>(), getMatchingPaths("xbcd", treeId));
+		assertEquals(new ArrayList<>(), getMatchingPaths("abcx", treeId));
 		assertEquals(Arrays.asList("abcd"), getMatchingPaths("abcd", treeId));
 		assertEquals(Arrays.asList("abcd", "bcd"), getMatchingPaths("bcd", treeId));
 		assertEquals(Arrays.asList("abc", "c"), getMatchingPaths("c", treeId));

@@ -27,22 +27,38 @@ final class DeltaWindowEntry {
 		this.buffer = null;
 	}
 
-	/** @return current delta chain depth of this object. */
+	/**
+	 * Get delta chain depth
+	 *
+	 * @return current delta chain depth of this object.
+	 */
 	final int depth() {
 		return object.getDeltaDepth();
 	}
 
-	/** @return type of the object in this window entry. */
+	/**
+	 * Get object type in this window entry
+	 *
+	 * @return type of the object in this window entry.
+	 */
 	final int type() {
 		return object.getType();
 	}
 
-	/** @return estimated unpacked size of the object, in bytes . */
+	/**
+	 * Get estimated unpacked object size
+	 *
+	 * @return estimated unpacked size of the object, in bytes .
+	 */
 	final int size() {
 		return object.getWeight();
 	}
 
-	/** @return true if there is no object stored in this entry. */
+	/**
+	 * Whether the entry is empty
+	 *
+	 * @return true if there is no object stored in this entry.
+	 */
 	final boolean empty() {
 		return object == null;
 	}

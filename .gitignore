@@ -1,5 +1,6 @@
 /.project
-/target
+/org.eclipse.jgit.benchmarks/dependency-reduced-pom.xml
+target/
 infer-out
 bazel-*
 

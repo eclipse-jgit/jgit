@@ -49,7 +49,6 @@ public class EditList extends ArrayList<Edit> {
 		super(capacity);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public String toString() {
 		return "EditList" + super.toString(); //$NON-NLS-1$

@@ -149,7 +149,6 @@ public class RevTag extends RevObject {
 		flags |= PARSED;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public final int getType() {
 		return Constants.OBJ_TAG;

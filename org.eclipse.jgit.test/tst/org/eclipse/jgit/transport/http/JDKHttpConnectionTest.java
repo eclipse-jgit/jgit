@@ -16,9 +16,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -74,7 +74,7 @@ public class JDKHttpConnectionTest {
 	}
 
 	private void assertValues(String key, String... values) {
-		List<String> l = new LinkedList<>();
+		List<String> l = new ArrayList<>();
 		List<String> hf = c.getHeaderFields(key);
 		if (hf != null) {
 			l.addAll(hf);

@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
- * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com> and others
+ * Copyright (C) 2022, Google LLC and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -8,95 +7,94 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.junit.RepositoryTestCase;
-import org.junit.Before;
 import org.junit.Test;
 
-public class PackReverseIndexTest extends RepositoryTestCase {
+public class PackReverseIndexTest {
 
-	private PackIndex idx;
-
-	private PackReverseIndex reverseIdx;
-
-	/**
-	 * Set up tested class instance, test constructor by the way.
-	 */
-	@Override
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		// index with both small (< 2^31) and big offsets
-		idx = PackIndex.open(JGitTestUtil.getTestResourceFile(
-				"pack-huge.idx"));
-		reverseIdx = new PackReverseIndex(idx);
-	}
-
-	/**
-	 * Test findObject() for all index entries.
-	 */
 	@Test
-	public void testFindObject() {
-		for (MutableEntry me : idx)
-			assertEquals(me.toObjectId(), reverseIdx.findObject(me.getOffset()));
+	public void open_fallbackToComputed() throws IOException {
+		String noRevFilePrefix = "pack-3280af9c07ee18a87705ef50b0cc4cd20266cf12.";
+		PackReverseIndex computed = PackReverseIndexFactory.openOrCompute(
+				getResourceFileFor(noRevFilePrefix, PackExt.REVERSE_INDEX), 7,
+				() -> PackIndex.open(
+						getResourceFileFor(noRevFilePrefix, PackExt.INDEX)));
+
+		assertTrue(computed instanceof PackReverseIndexComputed);
 	}
 
-	/**
-	 * Test findObject() with illegal argument.
-	 */
 	@Test
-	public void testFindObjectWrongOffset() {
-		assertNull(reverseIdx.findObject(0));
+	public void open_readGoodFile() throws IOException {
+		String hasRevFilePrefix = "pack-cbdeda40019ae0e6e789088ea0f51f164f489d14.";
+		PackReverseIndex version1 = PackReverseIndexFactory.openOrCompute(
+				getResourceFileFor(hasRevFilePrefix, PackExt.REVERSE_INDEX), 6,
+				() -> PackIndex.open(
+						getResourceFileFor(hasRevFilePrefix, PackExt.INDEX)));
+
+		assertTrue(version1 instanceof PackReverseIndexV1);
 	}
 
-	/**
-	 * Test findNextOffset() for all index entries.
-	 *
-	 * @throws CorruptObjectException
-	 */
 	@Test
-	public void testFindNextOffset() throws CorruptObjectException {
-		long offset = findFirstOffset();
-		assertTrue(offset > 0);
-		for (int i = 0; i < idx.getObjectCount(); i++) {
-			long newOffset = reverseIdx.findNextOffset(offset, Long.MAX_VALUE);
-			assertTrue(newOffset > offset);
-			if (i == idx.getObjectCount() - 1)
-				assertEquals(newOffset, Long.MAX_VALUE);
-			else
-				assertEquals(newOffset, idx.findOffset(reverseIdx
-						.findObject(newOffset)));
-			offset = newOffset;
-		}
+	public void open_readCorruptFile() {
+		String hasRevFilePrefix = "pack-cbdeda40019ae0e6e789088ea0f51f164f489d14.";
+
+		assertThrows(IOException.class,
+				() -> PackReverseIndexFactory.openOrCompute(
+						getResourceFileFor(hasRevFilePrefix + "corrupt.",
+								PackExt.REVERSE_INDEX),
+						6, () -> PackIndex.open(getResourceFileFor(
+								hasRevFilePrefix, PackExt.INDEX))));
 	}
 
-	/**
-	 * Test findNextOffset() with wrong illegal argument as offset.
-	 */
 	@Test
-	public void testFindNextOffsetWrongOffset() {
-		try {
-			reverseIdx.findNextOffset(0, Long.MAX_VALUE);
-			fail("findNextOffset() should throw exception");
-		} catch (CorruptObjectException x) {
-			// expected
-		}
+	public void read_badMagic() {
+		byte[] badMagic = new byte[] { 'R', 'B', 'A', 'D', // magic
+				0x00, 0x00, 0x00, 0x01, // file version
+				0x00, 0x00, 0x00, 0x01, // oid version
+				// pack checksum
+				'P', 'A', 'C', 'K', 'C', 'H', 'E', 'C', 'K', 'S', 'U', 'M', '3',
+				'4', '5', '6', '7', '8', '9', '0',
+				// checksum
+				0x66, 0x01, (byte) 0xbc, (byte) 0xe8, 0x51, 0x4b, 0x2f,
+				(byte) 0xa1, (byte) 0xa9, (byte) 0xcd, (byte) 0xbe, (byte) 0xd6,
+				0x4f, (byte) 0xa8, 0x7d, (byte) 0xab, 0x50, (byte) 0xa3,
+				(byte) 0xf7, (byte) 0xcc, };
+		ByteArrayInputStream in = new ByteArrayInputStream(badMagic);
+
+		assertThrows(IOException.class,
+				() -> PackReverseIndexFactory.readFromFile(in, 0, () -> null));
 	}
 
-	private long findFirstOffset() {
-		long min = Long.MAX_VALUE;
-		for (MutableEntry me : idx)
-			min = Math.min(min, me.getOffset());
-		return min;
+	@Test
+	public void read_unsupportedVersion2() {
+		byte[] version2 = new byte[] { 'R', 'I', 'D', 'X', // magic
+				0x00, 0x00, 0x00, 0x02, // file version
+				0x00, 0x00, 0x00, 0x01, // oid version
+				// pack checksum
+				'P', 'A', 'C', 'K', 'C', 'H', 'E', 'C', 'K', 'S', 'U', 'M', '3',
+				'4', '5', '6', '7', '8', '9', '0',
+				// checksum
+				0x70, 0x17, 0x10, 0x51, (byte) 0xfe, (byte) 0xab, (byte) 0x9b,
+				0x68, (byte) 0xed, 0x3a, 0x3f, 0x27, 0x1d, (byte) 0xce,
+				(byte) 0xff, 0x38, 0x09, (byte) 0x9b, 0x29, 0x58, };
+		ByteArrayInputStream in = new ByteArrayInputStream(version2);
+
+		assertThrows(IOException.class,
+				() -> PackReverseIndexFactory.readFromFile(in, 0, () -> null));
+	}
+
+	private File getResourceFileFor(String packFilePrefix, PackExt ext) {
+		return JGitTestUtil
+				.getTestResourceFile(packFilePrefix + ext.getExtension());
 	}
 }

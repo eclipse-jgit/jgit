@@ -10,9 +10,7 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK;
@@ -23,6 +21,7 @@ import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+import static org.eclipse.jgit.http.server.UploadPackErrorHandler.statusCodeForThrowable;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 
 import java.io.IOException;
@@ -49,7 +48,6 @@ import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UploadPackInternalServerErrorException;
-import org.eclipse.jgit.transport.WantNotValidException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -153,16 +151,6 @@ class UploadPackServlet extends HttpServlet {
 		}
 	}
 
-	private static int statusCodeForThrowable(Throwable error) {
-		if (error instanceof ServiceNotEnabledException) {
-			return SC_FORBIDDEN;
-		}
-		if (error instanceof WantNotValidException) {
-			return SC_BAD_REQUEST;
-		}
-		return SC_INTERNAL_SERVER_ERROR;
-	}
-
 	private final UploadPackErrorHandler handler;
 
 	UploadPackServlet(@Nullable UploadPackErrorHandler handler) {
@@ -170,7 +158,6 @@ class UploadPackServlet extends HttpServlet {
 				: this::defaultUploadPackHandler;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse rsp)
 			throws IOException {
@@ -180,40 +167,41 @@ class UploadPackServlet extends HttpServlet {
 		}
 
 		UploadPackRunnable r = () -> {
-			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
-			// to be explicitly closed by caller
-			@SuppressWarnings("resource")
-			SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
-				@Override
-				public void flush() throws IOException {
-					doFlush();
-				}
-			};
-
-			up.setBiDirectionalPipe(false);
-			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
-
-			try {
-				up.uploadWithExceptionPropagation(getInputStream(req), out,
-						null);
-				out.close();
-			} catch (ServiceMayNotContinueException e) {
-				if (e.isOutput()) {
-					consumeRequestBody(req);
-					out.close();
-				}
-				throw e;
-			} catch (UploadPackInternalServerErrorException e) {
-				// Special case exception, error message was sent to client.
-				log(up.getRepository(), e.getCause());
-				consumeRequestBody(req);
-				out.close();
-			} finally {
-				up.close();
-			}
+			upload(req, rsp);
 		};
 
 		handler.upload(req, rsp, r);
+	}
+
+	private void upload(HttpServletRequest req, HttpServletResponse rsp)
+			throws IOException, ServiceMayNotContinueException {
+		// to be explicitly closed by caller
+		@SuppressWarnings("resource")
+		SmartOutputStream out = new SmartOutputStream(req, rsp, false) {
+			@Override
+			public void flush() throws IOException {
+				doFlush();
+			}
+		};
+		Repository repo = null;
+		try (UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER)) {
+			up.setBiDirectionalPipe(false);
+			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
+			repo = up.getRepository();
+			up.uploadWithExceptionPropagation(getInputStream(req), out, null);
+			out.close();
+		} catch (ServiceMayNotContinueException e) {
+			if (e.isOutput()) {
+				consumeRequestBody(req);
+				out.close();
+			}
+			throw e;
+		} catch (UploadPackInternalServerErrorException e) {
+			// Special case exception, error message was sent to client.
+			log(repo, e.getCause());
+			consumeRequestBody(req);
+			out.close();
+		}
 	}
 
 	private void defaultUploadPackHandler(HttpServletRequest req,
