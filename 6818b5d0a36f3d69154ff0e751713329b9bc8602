@@ -16,6 +16,24 @@
       "message": "Why was this line has removed?",
       "revId": "6818b5d0a36f3d69154ff0e751713329b9bc8602",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "492be100_c74253e6",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.ssh.apache.feature/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-05-01T16:25:02Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "90f87aa2_28a384aa",
+      "revId": "6818b5d0a36f3d69154ff0e751713329b9bc8602",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
