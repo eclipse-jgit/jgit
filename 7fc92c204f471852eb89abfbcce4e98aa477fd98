@@ -33,6 +33,24 @@
       "message": "I\u0027m still seeing two test failures with JDK21 (on both local build and RBE build):\n\n```\n  $\u003e bazel test --config\u003djava21 \\\n   //org.eclipse.jgit.test:org_eclipse_jgit_util_GitDateFormatterTest\n[...]\n1) LOCALE(org.eclipse.jgit.util.GitDateFormatterTest)\njava.lang.AssertionError\n\tat org.junit.Assert.fail(Assert.java:87)\n\tat org.junit.Assert.assertTrue(Assert.java:42)\n\tat org.junit.Assert.assertTrue(Assert.java:53)\n\tat org.eclipse.jgit.util.GitDateFormatterTest.LOCALE(GitDateFormatterTest.java:92)\n2) LOCALELOCAL(org.eclipse.jgit.util.GitDateFormatterTest)\njava.lang.AssertionError\n\tat org.junit.Assert.fail(Assert.java:87)\n\tat org.junit.Assert.assertTrue(Assert.java:42)\n\tat org.junit.Assert.assertTrue(Assert.java:53)\n\tat org.eclipse.jgit.util.GitDateFormatterTest.LOCALELOCAL(GitDateFormatterTest.java:100)\n\nFAILURES!!!\nTests run: 9,  Failures: 2\n```\n\nand\n\n```\n  $\u003e bazel test --config\u003djava21 \\\n   //org.eclipse.jgit.test:org_eclipse_jgit_util_HttpSupportTest\n[...]\n1) testMalformedUri(org.eclipse.jgit.util.HttpSupportTest)\njava.net.MalformedURLException: Illegal character found in user-info: \u0027\\\u0027\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:806)\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:654)\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:590)\n\tat org.eclipse.jgit.util.HttpSupportTest.testMalformedUri(HttpSupportTest.java:55)\n\t... 32 trimmed\nCaused by: java.lang.IllegalArgumentException: Illegal character found in user-info: \u0027\\\u0027\n\tat java.base/java.net.URLStreamHandler.setURL(URLStreamHandler.java:527)\n\tat java.base/java.net.URLStreamHandler.parseURL(URLStreamHandler.java:326)\n\tat java.base/java.net.URL.\u003cinit\u003e(URL.java:801)\n\t... 36 more\n\nFAILURES!!!\nTests run: 2,  Failures: 1\n```\n\nShould I create a new issue for those failures?",
       "revId": "7fc92c204f471852eb89abfbcce4e98aa477fd98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dd6e9fd_c368d372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-01T08:58:45Z",
+      "side": 1,
+      "message": "looks like these tests are victims to some fixes and updates in Java 20:\n\nGitDateFormatterTest fails due to evolution of unicode, see https://bugs.openjdk.org/browse/JDK-8304925\n\nLooks like the failures in HttpSupportTest are caused by some fixes and behavior changes in `URL`, see https://inside.java/2022/11/22/heads-up/",
+      "parentUuid": "d603a24c_5158e44c",
+      "revId": "7fc92c204f471852eb89abfbcce4e98aa477fd98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
