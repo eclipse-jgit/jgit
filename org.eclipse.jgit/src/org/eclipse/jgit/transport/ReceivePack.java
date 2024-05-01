@@ -1580,9 +1580,10 @@ public class ReceivePack {
 	}
 
 	private boolean needCheckConnectivity() {
-		return isCheckReceivedObjects()
-				|| isCheckReferencedObjectsAreReachable()
-				|| !getClientShallowCommits().isEmpty();
+//		return isCheckReceivedObjects()
+//				|| isCheckReferencedObjectsAreReachable()
+//				|| !getClientShallowCommits().isEmpty();
+		return false;
 	}
 
 	private void checkSubmodules() throws IOException, LargeObjectException,

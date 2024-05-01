@@ -26,7 +26,9 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -218,31 +220,48 @@ class PackDirectory {
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
-		PackList pList;
-		do {
-			int retries = 0;
-			SEARCH: for (;;) {
-				pList = packList.get();
-				for (Pack p : pList.packs) {
-					try {
-						ObjectLoader ldr = p.get(curs, objectId);
-						p.resetTransientErrorCount();
-						if (ldr != null)
-							return ldr;
-					} catch (PackMismatchException e) {
-						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList)) {
-							retries = checkRescanPackThreshold(retries, e);
-							continue SEARCH;
-						}
-					} catch (IOException e) {
-						handlePackError(e, p);
-					}
-				}
-				break SEARCH;
+		Pack p = packList.get().get(objectId);
+		if (p == null) {
+			searchPacksAgain(packList.get());
+			p = packList.get().get(objectId);
+		}
+		try {
+			if (p == null) {
+				return null;
 			}
-		} while (searchPacksAgain(pList));
+			ObjectLoader ldr = p.get(curs, objectId);
+			p.resetTransientErrorCount();
+			if (ldr != null)
+				return ldr;
+		} catch(IOException e) {
+			handlePackError(e, p);
+		}
 		return null;
+//		PackList pList;
+//		do {
+//			int retries = 0;
+//			SEARCH: for (;;) {
+//				pList = packList.get();
+//				for (Pack p : pList.packs) {
+//					try {
+//						ObjectLoader ldr = p.get(curs, objectId);
+//						p.resetTransientErrorCount();
+//						if (ldr != null)
+//							return ldr;
+//					} catch (PackMismatchException e) {
+//						// Pack was modified; refresh the entire pack list.
+//						if (searchPacksAgain(pList)) {
+//							retries = checkRescanPackThreshold(retries, e);
+//							continue SEARCH;
+//						}
+//					} catch (IOException e) {
+//						handlePackError(e, p);
+//					}
+//				}
+//				break SEARCH;
+//			}
+//		} while (searchPacksAgain(pList));
+//		return null;
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)
@@ -568,9 +587,28 @@ class PackDirectory {
 		/** All known packs, sorted by {@link Pack#SORT}. */
 		final Pack[] packs;
 
+		static final ConcurrentHashMap<AnyObjectId, Optional<Pack>> allPacksIdx = new ConcurrentHashMap<>();
+
 		PackList(FileSnapshot monitor, Pack[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
+		}
+
+		Pack get(AnyObjectId objectId) {
+			return allPacksIdx.computeIfAbsent(objectId, objectId1 -> {
+				try {
+					for (Pack pack : packs) {
+						if (pack.getIndex().contains(objectId)) {
+							LOG.info("Looking for object {} in packs: {}", objectId1, pack);
+							return Optional.of(pack);
+						}
+					}
+				} catch (IOException e) {
+					LOG.error("Unable to check for object {}", objectId1);
+				}
+				LOG.info("Looking for object {} in packs: NOT FOUND", objectId1);
+				return Optional.empty();
+			}).orElse(null);
 		}
 	}
 }
