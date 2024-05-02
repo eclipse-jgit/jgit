@@ -13,9 +13,9 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	private ContentMergeStrategy contentStrategy;
 
-	private List<Ref> commits = new LinkedList<>();
+	private List<Ref> commits = new ArrayList<>();
 
 	private Boolean squash;
 

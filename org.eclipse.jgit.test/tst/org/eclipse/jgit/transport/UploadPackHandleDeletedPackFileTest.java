@@ -9,10 +9,9 @@
  */
 package org.eclipse.jgit.transport;
 
-import static org.junit.Assert.fail;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -91,7 +90,7 @@ public class UploadPackHandleDeletedPackFileTest
 	private void doRemovePackFileDuringUploadPack(PackExt packExt)
 			throws Exception {
 		Object ctx = new Object();
-		TestProtocol testProtocol = new TestProtocol<>(
+		TestProtocol<Object> testProtocol = new TestProtocol<>(
 				(Object req, Repository db) -> {
 					UploadPack up = new UploadPack(db);
 					up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
@@ -103,11 +102,12 @@ public class UploadPackHandleDeletedPackFileTest
 					try {
 						addNewCommit();
 
-						new GC(remote.getRepository()).gc();
+						new GC(remote.getRepository()).gc().get();
 
 						pack.getPackFile().create(packExt).delete();
 					} catch (Exception e) {
-						fail("GC or pack file removal failed");
+						throw new AssertionError(
+								"GC or pack file removal failed", e);
 					}
 
 					return up;
@@ -136,7 +136,7 @@ public class UploadPackHandleDeletedPackFileTest
 				.create();
 		remote.update("master", commit0);
 
-		new GC(remote.getRepository()).gc(); // create pack files
+		new GC(remote.getRepository()).gc().get(); // create pack files
 
 		head = remote.commit().message("1").parent(commit0)
 				.add("test1.txt", remote.blob("1"))

@@ -125,7 +125,7 @@ public class ThreadSafeProgressMonitorTest {
 		try {
 			assertTrue("latch released", cdl.await(1000, TimeUnit.MILLISECONDS));
 		} catch (InterruptedException ie) {
-			fail("Did not expect to be interrupted");
+			throw new AssertionError("Did not expect to be interrupted", ie);
 		}
 	}
 

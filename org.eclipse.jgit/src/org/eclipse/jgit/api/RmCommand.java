@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -71,7 +70,7 @@ public class RmCommand extends GitCommand<DirCache> {
 	 */
 	public RmCommand(Repository repo) {
 		super(repo);
-		filepatterns = new LinkedList<>();
+		filepatterns = new ArrayList<>();
 	}
 
 	/**

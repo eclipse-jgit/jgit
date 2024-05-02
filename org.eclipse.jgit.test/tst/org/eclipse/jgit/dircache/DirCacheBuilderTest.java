@@ -218,7 +218,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		try {
 			b.commit();
 		} catch (ReceivedEventMarkerException e) {
-			fail("unexpected IndexChangedEvent");
+			throw new AssertionError("unexpected IndexChangedEvent", e);
 		}
 	}
 

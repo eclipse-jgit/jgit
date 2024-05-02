@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -263,7 +262,7 @@ public class SshdSession implements RemoteSession2 {
 	private List<URIish> parseProxyJump(String proxyJump)
 			throws URISyntaxException {
 		String[] hops = proxyJump.split(","); //$NON-NLS-1$
-		List<URIish> result = new LinkedList<>();
+		List<URIish> result = new ArrayList<>();
 		for (String hop : hops) {
 			// There shouldn't be any whitespace, but let's be lenient
 			hop = hop.trim();

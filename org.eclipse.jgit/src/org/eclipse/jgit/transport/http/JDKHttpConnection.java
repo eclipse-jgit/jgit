@@ -20,7 +20,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -152,7 +152,7 @@ public class JDKHttpConnection implements HttpConnection {
 
 	private static List<String> mapValuesToListIgnoreCase(String keyName,
 			Map<String, List<String>> m) {
-		List<String> fields = new LinkedList<>();
+		List<String> fields = new ArrayList<>();
 		m.entrySet().stream().filter(e -> keyName.equalsIgnoreCase(e.getKey()))
 				.filter(e -> e.getValue() != null)
 				.forEach(e -> fields.addAll(e.getValue()));

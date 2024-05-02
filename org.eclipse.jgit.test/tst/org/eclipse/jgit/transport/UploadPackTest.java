@@ -1800,14 +1800,15 @@ public class UploadPackTest {
 		RevBlob blobHighDepth = remote.blob("hi");
 
 		RevTree subtree = remote.tree(remote.file("1", blobHighDepth));
-		RevTree rootTree = (new TreeBuilder() {
+
+		RevTree rootTree = new TreeBuilder() {
 				@Override
 				void addElements(DirCacheBuilder dcBuilder) throws Exception {
 					dcBuilder.add(remote.file("1", blobLowDepth));
 					dcBuilder.addTree(new byte[] {'2'}, DirCacheEntry.STAGE_0,
 							remote.getRevWalk().getObjectReader(), subtree);
 				}
-			}).build();
+		}.build();
 		RevCommit commit = remote.commit(rootTree);
 
 		DeepTreePreparator() throws Exception {}
@@ -1904,21 +1905,23 @@ public class UploadPackTest {
 	class RepeatedSubtreePreparator {
 		RevBlob foo = remote.blob("foo");
 		RevTree subtree3 = remote.tree(remote.file("foo", foo));
-		RevTree subtree2 = (new TreeBuilder() {
+		RevTree subtree2 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree3);
 			}
-		}).build();
-		RevTree subtree1 = (new TreeBuilder() {
+		}.build();
+
+		RevTree subtree1 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree2);
 			}
-		}).build();
-		RevTree rootTree = (new TreeBuilder() {
+		}.build();
+
+		RevTree rootTree = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
@@ -1926,7 +1929,7 @@ public class UploadPackTest {
 				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree2);
 			}
-		}).build();
+		}.build();
 		RevCommit commit = remote.commit(rootTree);
 
 		RepeatedSubtreePreparator() throws Exception {}
@@ -1970,22 +1973,22 @@ public class UploadPackTest {
 		RevTree subtree1 = remote.tree(remote.file("foo", foo));
 
 		/** b/foo */
-		RevTree subtree2 = (new TreeBuilder() {
+		RevTree subtree2 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'b'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree1);
 			}
-		}).build();
+		}.build();
 
 		/** x/b/foo */
-		RevTree subtree3 = (new TreeBuilder() {
+		RevTree subtree3 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'x'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree2);
 			}
-		}).build();
+		}.build();
 
 		RevBlob baz = remote.blob("baz");
 
@@ -1993,33 +1996,33 @@ public class UploadPackTest {
 		RevTree subtree4 = remote.tree(remote.file("baz", baz));
 
 		/** c/baz */
-		RevTree subtree5 = (new TreeBuilder() {
+		RevTree subtree5 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'c'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree4);
 			}
-		}).build();
+		}.build();
 
 		/** u/c/baz */
-		RevTree subtree6 = (new TreeBuilder() {
+		RevTree subtree6 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'u'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree5);
 			}
-		}).build();
+		}.build();
 
 		/** v/c/baz */
-		RevTree subtree7 = (new TreeBuilder() {
+		RevTree subtree7 = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'v'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree5);
 			}
-		}).build();
+		}.build();
 
-		RevTree rootTree = (new TreeBuilder() {
+		RevTree rootTree = new TreeBuilder() {
 			@Override
 			void addElements(DirCacheBuilder dcBuilder) throws Exception {
 				dcBuilder.addTree(new byte[] {'a'}, DirCacheEntry.STAGE_0,
@@ -2031,7 +2034,7 @@ public class UploadPackTest {
 				dcBuilder.addTree(new byte[] {'z'}, DirCacheEntry.STAGE_0,
 						remote.getRevWalk().getObjectReader(), subtree7);
 			}
-		}).build();
+		}.build();
 		RevCommit commit = remote.commit(rootTree);
 
 		RepeatedSubtreeAtSameLevelPreparator() throws Exception {}

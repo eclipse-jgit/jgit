@@ -10,7 +10,6 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
-import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -73,7 +72,7 @@ public class GcConcurrentTest extends GcTestCase {
 				try {
 					gc.setProgressMonitor(this);
 					gc.repack();
-					return valueOf(0);
+					return Integer.valueOf(0);
 				} catch (IOException e) {
 					// leave the syncPoint in broken state so any awaiting
 					// threads and any threads that call await in the future get
@@ -84,7 +83,7 @@ public class GcConcurrentTest extends GcTestCase {
 					} catch (InterruptedException ignored) {
 						//
 					}
-					return valueOf(1);
+					return Integer.valueOf(1);
 				}
 			}
 		}

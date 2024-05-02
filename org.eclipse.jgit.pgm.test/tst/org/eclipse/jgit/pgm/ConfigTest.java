@@ -45,10 +45,9 @@ public class ConfigTest extends CLIRepositoryTestCase {
 		Map<String, String> options = parseOptions(output);
 
 		assertEquals(!isWindows, Boolean.valueOf(options.get("core.filemode")));
-		assertTrue((Boolean.valueOf(options.get("core.logallrefupdates"))));
+		assertTrue(Boolean.valueOf(options.get("core.logallrefupdates")));
 		if (isMac) {
-			assertTrue(
-					(Boolean.valueOf(options.get("core.precomposeunicode"))));
+			assertTrue(Boolean.valueOf(options.get("core.precomposeunicode")));
 		}
 		assertEquals(Integer.valueOf(0),
 				Integer.valueOf(options.get("core.repositoryformatversion")));
