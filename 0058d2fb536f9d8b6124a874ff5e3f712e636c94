@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9569853c_8f1e15a8",
+        "filename": "org.eclipse.jgit.test/tests.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-02T08:15:05Z",
+      "side": 1,
+      "message": "I wouldn\u0027t use that since it will cause another issue when JDK 8 compatibility mode is removed somewhen in the future. Instead I\u0027d adapt the test case to also accept a narrow no-break space (code point U+202F) instead of a blank between timestamp and AM/PM.",
+      "revId": "0058d2fb536f9d8b6124a874ff5e3f712e636c94",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
