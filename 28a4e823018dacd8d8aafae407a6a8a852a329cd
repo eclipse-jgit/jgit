@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c5f23f_58c8d907",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-02T18:21:21Z",
+      "side": 1,
+      "message": "- target platforms need to be updated\n- MANIFEST.MFs need to be updated",
+      "revId": "28a4e823018dacd8d8aafae407a6a8a852a329cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
