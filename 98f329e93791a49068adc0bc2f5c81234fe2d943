@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be32cd97_df08b24e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-05-02T13:13:45Z",
+      "side": 1,
+      "message": "Rebase and resolve conflicts.",
+      "revId": "98f329e93791a49068adc0bc2f5c81234fe2d943",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
