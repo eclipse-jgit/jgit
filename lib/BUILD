@@ -131,6 +131,13 @@ java_library(
 )
 
 java_library(
+    name = "jetty-ee9-nested",
+    # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
+    visibility = ["//visibility:public"],
+    exports = ["@jetty-ee9-nested//jar"],
+)
+
+java_library(
     name = "jetty-http",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
@@ -149,7 +156,10 @@ java_library(
     name = "jetty-security",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-security//jar"],
+    exports = [
+        "@jetty-ee9-security//jar",
+        "@jetty-security//jar",
+    ],
 )
 
 java_library(

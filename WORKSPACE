@@ -240,55 +240,69 @@ maven_jar(
     sha1 = "b3add478d4382b78ea20b1671390a858002feb6c",
 )
 
-JETTY_VER = "11.0.20"
+JETTY_VER = "12.0.8"
 
 maven_jar(
-    name = "jetty-servlet",
-    artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VER,
-    sha1 = "a1d845eb6cec5d4667daffd0028a642fb3a9103c",
-    src_sha1 = "61ff906fa41d8fe313148c32ed7af4750bfed989",
+    name = "jetty-ee9-nested",
+    artifact = "org.eclipse.jetty.ee9:jetty-ee9-nested:" + JETTY_VER,
+    sha1 = "70484bf234cabbcea95efbc4a40fd77d8559065d",
+    src_sha1 = "3a7a0f922d59f60e253b341e8866e111454f3a29",
+)
+
+maven_jar(
+    name = "jetty-ee9-security",
+    artifact = "org.eclipse.jetty.ee9:jetty-ee9-security:" + JETTY_VER,
+    sha1 = "16b9d087b261618aa1fdcf90d223dd4b95ce32e9",
+    src_sha1 = "d4de5dff281d8cdaee819b21a38d9bd19f9aa236",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
-    sha1 = "610df128b530f3edde46f784b42aa60bd46375c5",
-    src_sha1 = "21c82fbce2ddc9cf0e5bdd2de31e99312079b44c",
+    sha1 = "ca42c56a5c10cf9ef70603618a795f78936bd6ae",
+    src_sha1 = "23c1a7ab224b969942ab442cc52ba24e4e6c8e43",
+)
+
+maven_jar(
+    name = "jetty-servlet",
+    artifact = "org.eclipse.jetty.ee9:jetty-ee9-servlet:" + JETTY_VER,
+    sha1 = "57d875c3ac7fa508791343639056f7dd796d6a3d",
+    src_sha1 = "7946526a2fdc07e83c57632dfdbd0dc75c6755c1",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
-    sha1 = "4b42686cc172c2dc68014ae62800ba49cef1fc68",
-    src_sha1 = "9df80a893fa573e0b1d4d186bf73db6966f26f64",
+    sha1 = "16485823faac6be6c902201d443c352e7573e597",
+    src_sha1 = "f479db6bddda171d6dd59fdadecc40af4649e4d8",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VER,
-    sha1 = "1673815598a7932110813edbcd9b5be6f354937b",
-    src_sha1 = "d75c02dedd8bc91cc8ab5a175c7b4157d86d3996",
+    sha1 = "9d443ddae45089204f1c0b070ebb5c136e137edf",
+    src_sha1 = "3792df9ae689ea74a17cb2d1646e01332fcd8704",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VER,
-    sha1 = "2095d70a6089a6af5ad22d3c8ea0887e3d56f776",
-    src_sha1 = "cfd54d4686deb71272af25f01f150f035cf7e206",
+    sha1 = "2f5a89aceba5498022fc792c7d9e6dac0d3d0b9f",
+    src_sha1 = "a4f28ac71f71a7efcd01b229d292fd9ce92d9d88",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VER,
-    sha1 = "6b72e01745c0fa15037d034ae699b059180862d9",
-    src_sha1 = "7dfc8ca46ba4f92a14a74d20f7c5842122da797f",
+    sha1 = "a946a99ffef577d4112835d32eb2ed81a68df88c",
+    src_sha1 = "178c6183a869df9e113b56a3986b23c88b939053",
 )
 
 maven_jar(
     name = "jetty-util-ajax",
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VER,
-    sha1 = "2ca8b1f9ecf1f3c0d7456d6a7535df2c91f319ec",
-    src_sha1 = "b6166377c13014b299e69aa57af741d1fd4aaaa0",
+    sha1 = "911ad551b7cb45d825a00574352255e4ae567439",
+    src_sha1 = "4d8557f5e2be41d1b710206662ef5b6cc3f31479",
 )
 
 BOUNCYCASTLE_VER = "1.77"

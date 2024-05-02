@@ -27,10 +27,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.eclipse.jetty.ee9.nested.ServletConstraint;
+import org.eclipse.jetty.ee9.security.Authenticator;
+import org.eclipse.jetty.ee9.security.ConstraintMapping;
+import org.eclipse.jetty.ee9.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.ee9.servlet.ServletContextHandler;
 import org.eclipse.jetty.security.AbstractLoginService;
-import org.eclipse.jetty.security.Authenticator;
-import org.eclipse.jetty.security.ConstraintMapping;
-import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.RolePrincipal;
 import org.eclipse.jetty.security.UserPrincipal;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
@@ -42,8 +44,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jgit.transport.URIish;
@@ -243,13 +243,17 @@ public class AppServer {
 	 *            path of the context; use "/" for the root context if binding
 	 *            to the root is desired.
 	 * @return the context to add servlets into.
+	 * @since 7.0
 	 */
 	public ServletContextHandler addContext(String path) {
 		assertNotYetSetUp();
-		if ("".equals(path))
+		if ("".equals(path)) {
 			path = "/";
+		}
 
-		ServletContextHandler ctx = new ServletContextHandler();
+		ServletContextHandler ctx = new ServletContextHandler(
+				ServletContextHandler.SESSIONS
+						| ServletContextHandler.SECURITY);
 		ctx.setContextPath(path);
 		contexts.addHandler(ctx);
 
@@ -264,6 +268,7 @@ public class AppServer {
 	 * @param methods
 	 *            the methods
 	 * @return servlet context handler
+	 * @since 7.0
 	 */
 	public ServletContextHandler authBasic(ServletContextHandler ctx,
 			String... methods) {
@@ -305,9 +310,9 @@ public class AppServer {
 
 	private ConstraintMapping createConstraintMapping() {
 		ConstraintMapping cm = new ConstraintMapping();
-		cm.setConstraint(new Constraint());
+		cm.setConstraint(new ServletConstraint());
 		cm.getConstraint().setAuthenticate(true);
-		cm.getConstraint().setDataConstraint(Constraint.DC_NONE);
+		cm.getConstraint().setDataConstraint(ServletConstraint.DC_NONE);
 		cm.getConstraint().setRoles(new String[] { authRole });
 		cm.setPathSpec("/*");
 		return cm;
@@ -335,8 +340,8 @@ public class AppServer {
 				mappings.toArray(new ConstraintMapping[0]));
 		sec.setHandler(ctx);
 
-		contexts.removeHandler(ctx);
-		contexts.addHandler(sec);
+		contexts.removeHandler(ctx.get());
+		contexts.addHandler(sec.getServer());
 	}
 
 	/**

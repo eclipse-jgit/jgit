@@ -16,6 +16,7 @@ java_library(
         "//lib:commons-logging",
         "//lib:httpclient",
         "//lib:httpcore",
+        "//lib:jetty-ee9-nested",
         "//lib:jetty-http",
         "//lib:jetty-io",
         "//lib:jetty-security",

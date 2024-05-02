@@ -9,6 +9,7 @@ java_library(
     resources = glob(["resources/**"]),
     # TODO(davido): we want here provided deps
     deps = [
+        "//lib:jetty-ee9-nested",
         "//lib:jetty-http",
         "//lib:jetty-security",
         "//lib:jetty-server",
