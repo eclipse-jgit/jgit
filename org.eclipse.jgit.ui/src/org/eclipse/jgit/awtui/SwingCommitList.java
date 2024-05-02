@@ -11,16 +11,17 @@
 package org.eclipse.jgit.awtui;
 
 import java.awt.Color;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotLane;
 
 class SwingCommitList extends PlotCommitList<SwingCommitList.SwingLane> {
-	final LinkedList<Color> colors;
+	final Deque<Color> colors;
 
 	SwingCommitList() {
-		colors = new LinkedList<>();
+		colors = new ArrayDeque<>();
 		repackColors();
 	}
 

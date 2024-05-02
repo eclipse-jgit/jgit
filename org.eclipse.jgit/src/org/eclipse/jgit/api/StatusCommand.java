@@ -10,7 +10,7 @@
 package org.eclipse.jgit.api;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -83,7 +83,7 @@ public class StatusCommand extends GitCommand<Status> {
 	 */
 	public StatusCommand addPath(String path) {
 		if (paths == null)
-			paths = new LinkedList<>();
+			paths = new ArrayList<>();
 		paths.add(path);
 		return this;
 	}

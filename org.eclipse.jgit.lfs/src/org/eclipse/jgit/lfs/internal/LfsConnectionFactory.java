@@ -9,11 +9,11 @@
  */
 package org.eclipse.jgit.lfs.internal;
 
+import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
-import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 
 import java.io.IOException;
 import java.net.ProxySelector;
@@ -22,7 +22,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -266,7 +266,7 @@ public class LfsConnectionFactory {
 		Protocol.Request req = new Protocol.Request();
 		req.operation = operation;
 		if (resources != null) {
-			req.objects = new LinkedList<>();
+			req.objects = new ArrayList<>();
 			for (LfsPointer res : resources) {
 				Protocol.ObjectSpec o = new Protocol.ObjectSpec();
 				o.oid = res.getOid().getName();

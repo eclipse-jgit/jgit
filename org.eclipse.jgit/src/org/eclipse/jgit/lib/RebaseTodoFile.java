@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.lib.RebaseTodoLine.Action;
@@ -62,7 +62,7 @@ public class RebaseTodoFile {
 		byte[] buf = IO.readFully(new File(repo.getDirectory(), path));
 		int ptr = 0;
 		int tokenBegin = 0;
-		List<RebaseTodoLine> r = new LinkedList<>();
+		List<RebaseTodoLine> r = new ArrayList<>();
 		while (ptr < buf.length) {
 			tokenBegin = ptr;
 			ptr = RawParseUtils.nextLF(buf, ptr);

@@ -14,7 +14,7 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +63,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private String reflogPrefix = "cherry-pick:"; //$NON-NLS-1$
 
-	private List<Ref> commits = new LinkedList<>();
+	private List<Ref> commits = new ArrayList<>();
 
 	private String ourCommitName = null;
 
@@ -102,7 +102,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 			UnmergedPathsException, ConcurrentRefUpdateException,
 			WrongRepositoryStateException, NoHeadException {
 		RevCommit newHead = null;
-		List<Ref> cherryPickedRefs = new LinkedList<>();
+		List<Ref> cherryPickedRefs = new ArrayList<>();
 		checkCallable();
 
 		try (RevWalk revWalk = new RevWalk(repo)) {

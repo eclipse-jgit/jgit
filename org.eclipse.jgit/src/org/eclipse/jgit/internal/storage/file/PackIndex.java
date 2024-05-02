@@ -228,7 +228,7 @@ public abstract class PackIndex
 	 *            etc. Positions past 2**31-1 are negative, but still valid.
 	 * @return the offset in a pack for the corresponding entry.
 	 */
-	abstract long getOffset(long nthPosition);
+	protected abstract long getOffset(long nthPosition);
 
 	/**
 	 * Locate the file offset position for the requested object.

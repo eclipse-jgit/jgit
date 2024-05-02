@@ -49,7 +49,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -866,7 +865,7 @@ public class GC {
 			}
 		}
 
-		List<ObjectIdSet> excluded = new LinkedList<>();
+		List<ObjectIdSet> excluded = new ArrayList<>();
 		for (Pack p : repo.getObjectDatabase().getPacks()) {
 			checkCancelled();
 			if (!shouldPackKeptObjects() && p.shouldBeKept()) {
@@ -1897,7 +1896,7 @@ public class GC {
 		}
 
 		private String getProcDesc() {
-			StringBuffer s = new StringBuffer(Long.toString(getPID()));
+			StringBuilder s = new StringBuilder(Long.toString(getPID()));
 			s.append(' ');
 			s.append(getHostName());
 			return s.toString();

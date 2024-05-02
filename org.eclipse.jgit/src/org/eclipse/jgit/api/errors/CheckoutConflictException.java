@@ -37,7 +37,7 @@
  */
 package org.eclipse.jgit.api.errors;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,7 +99,7 @@ public class CheckoutConflictException extends GitAPIException {
 	 */
 	CheckoutConflictException addConflictingPath(String conflictingPath) {
 		if (conflictingPaths == null)
-			conflictingPaths = new LinkedList<>();
+			conflictingPaths = new ArrayList<>();
 		conflictingPaths.add(conflictingPath);
 		return this;
 	}

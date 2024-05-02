@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -106,9 +105,9 @@ public class ResolveMerger extends ThreeWayMerger {
 		 */
 		public static class Result {
 
-			private final List<String> modifiedFiles = new LinkedList<>();
+			private final List<String> modifiedFiles = new ArrayList<>();
 
-			private final List<String> failedToDelete = new LinkedList<>();
+			private final List<String> failedToDelete = new ArrayList<>();
 
 			private ObjectId treeId = null;
 

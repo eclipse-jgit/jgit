@@ -11,18 +11,38 @@ load(
 )
 
 http_archive(
-    name = "rbe_jdk11",
-    sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
-    strip_prefix = "rbe_autoconfig-3.1.0",
+    name = "rules_java",
+    sha256 = "4da3761f6855ad916568e2bfe86213ba6d2637f56b8360538a7fb6125abf6518",
     urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.1.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/archive/v3.1.0.tar.gz",
+        "https://github.com/bazelbuild/rules_java/releases/download/7.5.0/rules_java-7.5.0.tar.gz",
+    ],
+)
+
+load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+
+rules_java_dependencies()
+
+http_archive(
+    name = "ubuntu2204_jdk17",
+    sha256 = "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
+    strip_prefix = "rbe_autoconfig-5.1.0",
+    urls = [
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.1.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
     ],
 )
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
+
+# Order of registering toolchains matters. rules_java toolchains take precedence
+# over the custom toolchains, so the default jdk21 toolchain gets picked
+# (one without custom package_config). That's why the `rules_java_toolchains()`
+# must be called after the `register_toolchain()` invocation.
+rules_java_toolchains()
 
 JMH_VERS = "1.37"
 

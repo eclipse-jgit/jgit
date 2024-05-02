@@ -73,7 +73,7 @@ public class PushCertificateIdentTest {
 	@Test
 	public void fuzzyCasesMatchPersonIdent() throws Exception {
 		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_fuzzyCases()
-		Date when = new Date(1234567890000l);
+		Date when = new Date(1234567890000L);
 		TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertMatchesPersonIdent(
@@ -89,7 +89,7 @@ public class PushCertificateIdentTest {
 	@Test
 	public void incompleteCasesMatchPersonIdent() throws Exception {
 		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_incompleteCases()
-		Date when = new Date(1234567890000l);
+		Date when = new Date(1234567890000L);
 		TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertMatchesPersonIdent(

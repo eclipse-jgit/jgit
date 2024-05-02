@@ -791,7 +791,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 		for (Attribute a : attributes) {
 			ret.add(a);
 		}
-		return (ret);
+		return ret;
 	}
 
 	private File writeAttributesFile(String name, String... rules)
