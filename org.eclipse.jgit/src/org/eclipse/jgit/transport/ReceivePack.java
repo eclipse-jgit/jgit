@@ -88,6 +88,9 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack {
+	private static final boolean skipConnectivityCheck =
+			Boolean.getBoolean("ghs.jgit.receive-pack.skip-connectivity-check");
+
 	/**
 	 * Data in the first line of a request, the line itself plus capabilities.
 	 *
@@ -1580,9 +1583,10 @@ public class ReceivePack {
 	}
 
 	private boolean needCheckConnectivity() {
-		return isCheckReceivedObjects()
+		return !skipConnectivityCheck && (
+				isCheckReceivedObjects()
 				|| isCheckReferencedObjectsAreReachable()
-				|| !getClientShallowCommits().isEmpty();
+				|| !getClientShallowCommits().isEmpty());
 	}
 
 	private void checkSubmodules() throws IOException, LargeObjectException,
