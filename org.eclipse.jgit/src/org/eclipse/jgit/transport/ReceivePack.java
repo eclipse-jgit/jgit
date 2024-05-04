@@ -88,6 +88,55 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack {
+	private static final boolean skipConnectivityCheck =
+			Boolean.getBoolean("ghs.jgit.receive-pack.skip-connectivity-check");
+
+	/**
+	 * Data in the first line of a request, the line itself plus capabilities.
+	 *
+	 * @deprecated Use {@link FirstCommand} instead.
+	 * @since 5.6
+	 */
+	@Deprecated
+	public static class FirstLine {
+		private final FirstCommand command;
+
+		/**
+		 * Parse the first line of a receive-pack request.
+		 *
+		 * @param line
+		 *            line from the client.
+		 */
+		public FirstLine(String line) {
+			command = FirstCommand.fromLine(line);
+		}
+
+		/**
+		 * Get non-capabilities part of the line
+		 *
+		 * @return non-capabilities part of the line.
+		 */
+		public String getLine() {
+			return command.getLine();
+		}
+
+		/**
+		 * Get capabilities parsed from the line
+		 *
+		 * @return capabilities parsed from the line.
+		 */
+		public Set<String> getCapabilities() {
+			Set<String> reconstructedCapabilites = new HashSet<>();
+			for (Map.Entry<String, String> e : command.getCapabilities()
+					.entrySet()) {
+				String cap = e.getValue() == null ? e.getKey()
+						: e.getKey() + "=" + e.getValue(); //$NON-NLS-1$
+				reconstructedCapabilites.add(cap);
+			}
+
+			return reconstructedCapabilites;
+		}
+	}
 
 	/** Database we write the stored objects into. */
 	private final Repository db;
@@ -1534,9 +1583,10 @@ public class ReceivePack {
 	}
 
 	private boolean needCheckConnectivity() {
-		return isCheckReceivedObjects()
+		return !skipConnectivityCheck && (
+				isCheckReceivedObjects()
 				|| isCheckReferencedObjectsAreReachable()
-				|| !getClientShallowCommits().isEmpty();
+				|| !getClientShallowCommits().isEmpty());
 	}
 
 	private void checkSubmodules() throws IOException, LargeObjectException,
