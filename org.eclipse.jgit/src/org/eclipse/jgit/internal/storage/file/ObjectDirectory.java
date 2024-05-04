@@ -128,8 +128,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 		File preservedDirectory = new File(packDirectory, "preserved"); //$NON-NLS-1$
 		alternatesFile = new File(objects, Constants.INFO_ALTERNATES);
 		loose = new LooseObjects(config, objects);
-		packed = new PackDirectory(config, packDirectory);
-		preserved = new PackDirectory(config, preservedDirectory);
+		packed = PackDirectory.DEFAULT_FACTORY.create(config, packDirectory);
+		preserved = PackDirectory.DEFAULT_FACTORY.create(config, preservedDirectory);
 		fileCommitGraph = new FileCommitGraph(objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;

@@ -56,7 +56,7 @@ import org.slf4j.LoggerFactory;
  * compressed containers known as
  * {@link org.eclipse.jgit.internal.storage.file.Pack}s.
  */
-class PackDirectory {
+public class PackDirectory {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(PackDirectory.class);
 
@@ -72,6 +72,23 @@ class PackDirectory {
 	private final AtomicReference<PackList> packList;
 
 	private final boolean trustFolderStat;
+
+	/**
+	 * Interface for creating a new PackDirectory.
+	 */
+	public interface Factory {
+		PackDirectory create(Config config, File directory);
+	}
+
+	/**
+	 * Default factory that creates a new PackDirectory.
+	 */
+	public static final PackDirectory.Factory DEFAULT_FACTORY = new Factory() {
+		@Override
+		public PackDirectory create(Config config, File directory) {
+			return new PackDirectory(config, directory);
+		}
+	};
 
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
