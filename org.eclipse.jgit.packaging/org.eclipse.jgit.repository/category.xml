@@ -105,10 +105,10 @@
    <bundle id="org.eclipse.jetty.server.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.eclipse.jetty.servlet">
+   <bundle id="org.eclipse.jetty.ee10.servlet">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.eclipse.jetty.servlet.source">
+   <bundle id="org.eclipse.jetty.ee10.servlet.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.eclipse.jetty.util">
