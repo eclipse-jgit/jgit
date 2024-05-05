@@ -15,8 +15,8 @@ import static org.junit.Assert.assertEquals;
 import java.net.HttpURLConnection;
 import java.net.URI;
 
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.junit.After;
