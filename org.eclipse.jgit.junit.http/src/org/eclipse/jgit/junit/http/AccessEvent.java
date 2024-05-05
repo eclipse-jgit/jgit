@@ -11,12 +11,14 @@
 package org.eclipse.jgit.junit.http;
 
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.jetty.http.HttpField;
+import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
+import org.eclipse.jetty.util.Fields;
 
 /**
  * A single request made through {@link org.eclipse.jgit.junit.http.AppServer}.
@@ -24,7 +26,7 @@ import org.eclipse.jetty.server.Response;
 public class AccessEvent {
 	private final String method;
 
-	private final String uri;
+	private final HttpURI uri;
 
 	private final Map<String, String> requestHeaders;
 
@@ -36,9 +38,9 @@ public class AccessEvent {
 
 	AccessEvent(Request req) {
 		method = req.getMethod();
-		uri = req.getRequestURI();
+		uri = req.getHttpURI();
 		requestHeaders = cloneHeaders(req);
-		parameters = clone(req.getParameterMap());
+		parameters = cloneParameters(req);
 	}
 
 	void setResponse(Response rsp) {
@@ -48,11 +50,10 @@ public class AccessEvent {
 
 	private static Map<String, String> cloneHeaders(Request req) {
 		Map<String, String> r = new TreeMap<>();
-		Enumeration hn = req.getHeaderNames();
-		while (hn.hasMoreElements()) {
-			String key = (String) hn.nextElement();
+		for (HttpField f : req.getHeaders()) {
+			String key = f.getName();
 			if (!r.containsKey(key)) {
-				r.put(key, req.getHeader(key));
+				r.put(key, f.getValue());
 			}
 		}
 		return Collections.unmodifiableMap(r);
@@ -60,20 +61,29 @@ public class AccessEvent {
 
 	private static Map<String, String> cloneHeaders(Response rsp) {
 		Map<String, String> r = new TreeMap<>();
-		Enumeration<String> hn = rsp.getHttpFields().getFieldNames();
-		while (hn.hasMoreElements()) {
-			String key = hn.nextElement();
+		for (HttpField f : rsp.getHeaders()) {
+			String key = f.getName();
 			if (!r.containsKey(key)) {
-				Enumeration<String> v = rsp.getHttpFields().getValues(key);
-				r.put(key, v.nextElement());
+				r.put(key, f.getValue());
 			}
 		}
 		return Collections.unmodifiableMap(r);
 	}
 
-	@SuppressWarnings("unchecked")
-	private static Map<String, String[]> clone(Map parameterMap) {
-		return new TreeMap<>(parameterMap);
+	private static Map<String, String[]> cloneParameters(Request req) {
+		Map<String, String[]> r = new TreeMap<>();
+
+		Fields fields;
+		try {
+			fields = Request.getParameters(req);
+			for (String n : fields.getNames()) {
+				r.put(n, fields.getValues(n).toArray(new String[0]));
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to extract request parameters",
+					e);
+		}
+		return r;
 	}
 
 	/**
@@ -91,7 +101,7 @@ public class AccessEvent {
 	 * @return path of the file on the server, e.g. {@code /git/HEAD}.
 	 */
 	public String getPath() {
-		return uri;
+		return uri.getPath();
 	}
 
 	/**
@@ -151,7 +161,7 @@ public class AccessEvent {
 		StringBuilder b = new StringBuilder();
 		b.append(method);
 		b.append(' ');
-		b.append(uri);
+		b.append(uri.getPath());
 		if (!parameters.isEmpty()) {
 			b.append('?');
 			boolean first = true;
