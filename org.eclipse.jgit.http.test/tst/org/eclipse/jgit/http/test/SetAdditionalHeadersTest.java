@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.lib.Repository;
@@ -58,7 +58,7 @@ public class SetAdditionalHeadersTest extends AllFactoriesHttpTestCase {
 		final URI base = srcGit.getParentFile().toURI();
 
 		ServletContextHandler app = server.addContext("/git");
-		app.setResourceBase(base.toString());
+		app.setBaseResourceAsString(base.toString());
 		ServletHolder holder = app.addServlet(DefaultServlet.class, "/");
 		// The tmp directory is symlinked on OS X
 		holder.setInitParameter("aliases", "true");

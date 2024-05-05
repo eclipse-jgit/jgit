@@ -10,25 +10,22 @@
 
 package org.eclipse.jgit.junit.http;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+import org.eclipse.jetty.server.Handler.Wrapper;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
-import org.eclipse.jetty.server.handler.HandlerWrapper;
+import org.eclipse.jetty.util.Callback;
 
 /** Logs request made through {@link AppServer}. */
-class TestRequestLog extends HandlerWrapper {
+class TestRequestLog extends Wrapper {
 	private static final int MAX = 16;
 
-	private final List<AccessEvent> events = new ArrayList<>();
+	private final List<AccessEvent> events = Collections
+			.synchronizedList(new ArrayList<>());
 
 	private final Semaphore active = new Semaphore(MAX, true);
 
@@ -43,10 +40,7 @@ class TestRequestLog extends HandlerWrapper {
 					continue;
 				}
 			}
-
-			synchronized (events) {
-				events.clear();
-			}
+			events.clear();
 		} finally {
 			active.release(MAX);
 		}
@@ -63,19 +57,15 @@ class TestRequestLog extends HandlerWrapper {
 					continue;
 				}
 			}
-
-			synchronized (events) {
-				return events;
-			}
+			return Collections.unmodifiableList(new ArrayList<>(events));
 		} finally {
 			active.release(MAX);
 		}
 	}
 
 	@Override
-	public void handle(String target, Request baseRequest,
-			HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+	public boolean handle(Request request, Response response, Callback callback)
+			throws Exception {
 		try {
 			for (;;) {
 				try {
@@ -86,21 +76,13 @@ class TestRequestLog extends HandlerWrapper {
 				}
 			}
 
-			AccessEvent event = null;
-			if (DispatcherType.REQUEST
-					.equals(baseRequest.getDispatcherType())) {
-				event = new AccessEvent((Request) request);
-				synchronized (events) {
-					events.add(event);
-				}
-			}
+			AccessEvent event = new AccessEvent(request);
+			events.add(event);
 
-			super.handle(target, baseRequest, request, response);
+			boolean result = super.handle(request, response, callback);
 
-			if (event != null) {
-				event.setResponse((Response) response);
-			}
-
+			event.setResponse(response);
+			return result;
 		} finally {
 			active.release();
 		}

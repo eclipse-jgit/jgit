@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
@@ -109,6 +109,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 	 * @return the warnings (if any) from the last execution
 	 * @throws URISyntaxException
 	 *             if URI is invalid
+	 * @since 7.0
 	 */
 	protected URIish toURIish(ServletContextHandler app, String name)
 			throws URISyntaxException {
