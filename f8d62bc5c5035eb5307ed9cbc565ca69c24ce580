@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1933eb2c_da5c5042",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-05-06T04:50:14Z",
+      "side": 1,
+      "message": "I\u0027ve tried a similar upgrade, but also bumped the Servlet API version to 6.0 in JGit: [1] and Gerrit: [2].\n\n[1]: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1194291\n[2]: https://gerrit-review.googlesource.com/c/gerrit/+/424580",
+      "revId": "f8d62bc5c5035eb5307ed9cbc565ca69c24ce580",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5ef1e38_50f38361",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-05-06T04:50:14Z",
+      "side": 1,
+      "message": "I\u0027ve also tried a similar upgrade",
+      "revId": "f8d62bc5c5035eb5307ed9cbc565ca69c24ce580",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
