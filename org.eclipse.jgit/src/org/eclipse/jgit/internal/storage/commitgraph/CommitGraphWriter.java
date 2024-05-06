@@ -377,6 +377,9 @@ public class CommitGraphWriter {
 	private static Optional<HashSet<ByteBuffer>> computeBloomFilterPaths(
 			ObjectReader or, RevCommit cmit) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
+		if (cmit.getParentCount() != 1) {
+			return Optional.empty();
+		}
 		HashSet<ByteBuffer> paths = new HashSet<>();
 		try (TreeWalk walk = new TreeWalk(null, or)) {
 			walk.setRecursive(true);

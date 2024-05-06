@@ -264,9 +264,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
-		assertThat(changedPaths, containsInAnyOrder(
-				"109,-33,2,60,20,79,-11,116,",
-				"119,69,63,-8,0,"));
+		assertThat(changedPaths,
+				containsInAnyOrder("109,-33,2,60,20,79,-11,116,", "-1,"));
 	}
 
 	/**
@@ -306,8 +305,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
-		assertThat(changedPaths, containsInAnyOrder("61,30,23,-24,1,",
-				"-58,-51,-46,60,29,-121,113,90,"));
+		assertThat(changedPaths,
+				containsInAnyOrder("-1,", "-58,-51,-46,60,29,-121,113,90,"));
 	}
 
 	/**
@@ -340,7 +339,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
-		assertThat(changedPaths, containsInAnyOrder("16,16,"));
+		assertThat(changedPaths, containsInAnyOrder("-1,"));
 	}
 
 	@Test
@@ -354,7 +353,7 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		writer.write(m, os);
 
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
-		assertThat(changedPaths, containsInAnyOrder("0,"));
+		assertThat(changedPaths, containsInAnyOrder("-1,"));
 	}
 
 	@Test
@@ -408,9 +407,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		// Expected strings are the same as in
 		// #testChangedPathFilterRootAndNested
 		HashSet<String> changedPaths = changedPathStrings(os.toByteArray());
-		assertThat(changedPaths, containsInAnyOrder(
-				"109,-33,2,60,20,79,-11,116,",
-				"119,69,63,-8,0,"));
+		assertThat(changedPaths,
+				containsInAnyOrder("109,-33,2,60,20,79,-11,116,", "-1,"));
 	}
 
 	RevCommit commit(RevCommit... parents) throws Exception {
