@@ -67,6 +67,7 @@ import org.eclipse.jgit.util.sha1.SHA1;
 public abstract class PackParser {
 	/** Size of the internal stream buffer. */
 	private static final int BUFFER_SIZE = 8192;
+	private boolean skipCollisionCheck = Boolean.getBoolean("ghs.jgit.pack-parser.skip-collision-check");
 
 	/** Location data is being obtained from. */
 	public enum Source {
@@ -542,7 +543,7 @@ public abstract class PackParser {
 				receiving.endTask();
 			}
 
-			if (!collisionCheckObjs.isEmpty()) {
+			if (!collisionCheckObjs.isEmpty() && !skipCollisionCheck) {
 				checkObjectCollision();
 			}
 
