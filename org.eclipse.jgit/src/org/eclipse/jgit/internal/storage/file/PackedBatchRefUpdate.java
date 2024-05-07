@@ -89,6 +89,8 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 	private boolean shouldLockLooseRefs;
 	private static boolean skipCheckConflictingNames = Boolean.getBoolean("ghs.jgit.ref-update.skip-check-conflicting-names");
 
+	private static boolean skipLockingLooseRefs = Boolean.getBoolean("ghs.jgit.ref-update.skip-locking-loose-refs");
+
 	PackedBatchRefUpdate(RefDirectory refdb) {
 		this(refdb, true);
 	}
@@ -96,7 +98,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 	PackedBatchRefUpdate(RefDirectory refdb, boolean shouldLockLooseRefs) {
 	  super(refdb);
 	  this.refdb = refdb;
-	  this.shouldLockLooseRefs = shouldLockLooseRefs;
+	  this.shouldLockLooseRefs = shouldLockLooseRefs && !skipLockingLooseRefs;
 	}
 
 	@Override
