@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8fe3da_d0411fbb",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleCMSSignatureVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-05-07T08:53:16Z",
+      "side": 1,
+      "message": "static variables should go before constructor",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 83
+      },
+      "revId": "31608738ed0c9d6469ed6f7faf5fa96fc5453aff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
