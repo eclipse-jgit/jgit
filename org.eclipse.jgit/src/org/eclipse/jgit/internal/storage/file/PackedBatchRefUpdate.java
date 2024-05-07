@@ -87,6 +87,7 @@ import org.eclipse.jgit.util.RefList;
 class PackedBatchRefUpdate extends BatchRefUpdate {
 	private RefDirectory refdb;
 	private boolean shouldLockLooseRefs;
+	private static boolean skipCheckConflictingNames = Boolean.getBoolean("ghs.jgit.ref-update.skip-check-conflicting-names");
 
 	PackedBatchRefUpdate(RefDirectory refdb) {
 		this(refdb, true);
@@ -134,7 +135,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 		// Check for conflicting names before attempting to acquire locks, since
 		// lockfile creation may fail on file/directory conflicts.
-		if (!checkConflictingNames(pending)) {
+		if (!skipCheckConflictingNames && !checkConflictingNames(pending)) {
 			return;
 		}
 
