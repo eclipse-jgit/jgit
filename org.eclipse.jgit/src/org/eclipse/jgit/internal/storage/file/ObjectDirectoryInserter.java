@@ -43,6 +43,8 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	private final WriteConfig config;
 
 	private Deflater deflate;
+	private static boolean allowDuplicatesOnObjectInserter = Boolean.getBoolean("ghs.jgit.object-inserter.allow-duplicates");
+
 
 	ObjectDirectoryInserter(FileObjectDatabase dest, Config cfg) {
 		db = dest;
@@ -52,7 +54,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 	@Override
 	public ObjectId insert(int type, byte[] data, int off, int len)
 			throws IOException {
-		return insert(type, data, off, len, false);
+		return insert(type, data, off, len, allowDuplicatesOnObjectInserter);
 	}
 
 	/**
