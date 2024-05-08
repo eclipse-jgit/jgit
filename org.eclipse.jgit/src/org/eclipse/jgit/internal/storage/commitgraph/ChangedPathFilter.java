@@ -11,10 +11,12 @@
 package org.eclipse.jgit.internal.storage.commitgraph;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.MurmurHash3;
+import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
 
 /**
  * A changed path filter for a commit.
@@ -160,5 +162,26 @@ public class ChangedPathFilter {
 	 */
 	public void writeTo(ByteArrayOutputStream s) {
 		s.write(data, offset, length);
+	}
+
+	/**
+	 * Writes this filter to the given stream.
+	 *
+	 * @param s
+	 *            stream to write to
+	 * @throws IOException
+	 *             if an IO error occurred
+	 */
+	public void writeTo(CancellableDigestOutputStream s) throws IOException {
+		s.write(data, offset, length);
+	}
+
+	/**
+	 * Return the size of the filter data.
+	 *
+	 * @return length the size of the data
+	 */
+	public int getLength() {
+		return length;
 	}
 }
