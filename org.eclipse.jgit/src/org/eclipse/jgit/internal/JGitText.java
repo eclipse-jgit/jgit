@@ -108,6 +108,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String buildingBitmaps;
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cachedPacksPreventsListingObjects;
+	/***/ public String calculatingPathBloomFilterDataSize;
 	/***/ public String cannotAccessLastModifiedForSafeDeletion;
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
@@ -199,7 +200,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String commitsHaveAlreadyBeenMarkedAsStart;
 	/***/ public String compressingObjects;
 	/***/ public String computingCommitGeneration;
-	/***/ public String computingPathBloomFilters;
+	/***/ public String computingPathBloomFilterData;
+	/***/ public String computingPathBloomFilterIndex;
 	/***/ public String configSubsectionContainsNewline;
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;

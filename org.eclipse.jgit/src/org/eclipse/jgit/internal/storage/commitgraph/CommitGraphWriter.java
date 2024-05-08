@@ -26,7 +26,6 @@ import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_NOT_COMPUTED;
 import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
@@ -39,7 +38,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -70,6 +68,10 @@ public class CommitGraphWriter {
 	private static final int GENERATION_NUMBER_MAX = 0x3FFFFFFF;
 
 	private static final int MAX_CHANGED_PATHS = 512;
+
+	private static final long NUM_BYTES_PER_BF_LOOKUP = 4;
+
+	private static final long MAX_SUPPORTED_BDAT_SIZE_BY_BIDX = 0xFFFFFFFFL;
 
 	private final int hashsz;
 
@@ -117,16 +119,16 @@ public class CommitGraphWriter {
 	 */
 	public Stats write(@NonNull ProgressMonitor monitor,
 			@NonNull OutputStream commitGraphStream) throws IOException {
+		Stats stats = new Stats();
 		if (graphCommits.size() == 0) {
-			return Stats.EMPTY;
+			return stats;
 		}
 
-		BloomFilterChunks bloomFilterChunks = generateChangedPathFilters
-				? computeBloomFilterChunks(monitor)
-				: null;
 		List<ChunkHeader> chunks = new ArrayList<>();
 		chunks.addAll(createCoreChunks(hashsz, graphCommits));
-		chunks.addAll(createBloomFilterChunkHeaders(bloomFilterChunks));
+		if (generateChangedPathFilters) {
+			chunks.addAll(createBloomFilterChunks(graphCommits, monitor));
+		}
 		chunks = Collections.unmodifiableList(chunks);
 
 		long expectedSize = calculateExpectedSize(chunks);
@@ -134,19 +136,19 @@ public class CommitGraphWriter {
 				monitor, commitGraphStream)) {
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
-			writeChunks(out, chunks);
+			writeChunks(out, chunks, stats);
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
-				throw new IllegalStateException(String.format(
-						JGitText.get().commitGraphUnexpectedSize,
-						Long.valueOf(expectedSize),
-						Long.valueOf(out.length())));
+				throw new IllegalStateException(
+						String.format(JGitText.get().commitGraphUnexpectedSize,
+								Long.valueOf(expectedSize),
+								Long.valueOf(out.length())));
 			}
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().commitGraphWritingCancelled,
 					e);
 		}
-		return Stats.from(bloomFilterChunks);
+		return stats;
 	}
 
 	private static List<ChunkHeader> createCoreChunks(int hashsz,
@@ -164,16 +166,90 @@ public class CommitGraphWriter {
 		return Collections.unmodifiableList(chunks);
 	}
 
-	private static List<ChunkHeader> createBloomFilterChunkHeaders(
-			@Nullable BloomFilterChunks bloomFilterChunks) {
+	private static List<ChunkHeader> createBloomFilterChunks(
+			GraphCommits graphCommits, ProgressMonitor monitor)
+			throws IOException {
 		List<ChunkHeader> chunks = new ArrayList<>();
-		if (bloomFilterChunks != null) {
-			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
-					bloomFilterChunks.index));
-			chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
-					bloomFilterChunks.data));
+		long expectedBloomFilterIndexSize = NUM_BYTES_PER_BF_LOOKUP
+				* graphCommits.size();
+		long expectedBloomFilterDataSize = calculateBloomFilterDataSize(
+				graphCommits, monitor);
+		if (expectedBloomFilterDataSize > MAX_SUPPORTED_BDAT_SIZE_BY_BIDX) {
+			// BDAT size is greater than BIDX support limit
+			return Collections.emptyList();
 		}
+		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_INDEX,
+				expectedBloomFilterIndexSize));
+		chunks.add(new ChunkHeader(CHUNK_ID_BLOOM_FILTER_DATA,
+				expectedBloomFilterDataSize));
 		return Collections.unmodifiableList(chunks);
+	}
+
+	private static long calculateBloomFilterDataSize(GraphCommits graphCommits,
+			ProgressMonitor monitor) throws IOException {
+		ObjectReader or = graphCommits.getObjectReader();
+		// Bloom Filter data chunk header consisting of three unsigned 32-bit
+		// integers
+		long totalByteRequired = 12;
+		monitor.beginTask(JGitText.get().calculatingPathBloomFilterDataSize,
+				graphCommits.size());
+		for (RevCommit c : graphCommits) {
+			if (c.getParentCount() != 1) {
+				// root commit or merge commit
+				// always give FULL bloom filter
+				totalByteRequired++;
+			}
+			if (c.getParentCount() == 1) {
+				HashSet<ByteBuffer> paths = new HashSet<>();
+				boolean tooManyPath = false;
+				try (TreeWalk walk = new TreeWalk(null, or)) {
+					walk.setRecursive(true);
+					walk.addTree(c.getParent(0).getTree());
+					walk.addTree(c.getTree());
+					while (walk.next()) {
+						if (walk.idEqual(0, 1)) {
+							continue;
+						}
+						byte[] rawPath = walk.getRawPath();
+						paths.add(ByteBuffer.wrap(rawPath));
+						if (paths.size() > MAX_CHANGED_PATHS) {
+							tooManyPath = true;
+						}
+						if (!tooManyPath) {
+							for (int i = 0; i < rawPath.length; i++) {
+								if (rawPath[i] == '/') {
+									// Accounting directories
+									paths.add(ByteBuffer.wrap(rawPath, 0, i));
+									if (paths.size() > MAX_CHANGED_PATHS) {
+										tooManyPath = true;
+										break;
+									}
+								}
+							}
+						}
+						if (tooManyPath) {
+							break;
+						}
+					}
+				}
+				if (paths.isEmpty()) {
+					// no difference from parent
+					// meant for EMPTY bloom filter
+					totalByteRequired++;
+				} else if (tooManyPath) {
+					// too different from the parent
+					// meant for FULL bloom filter
+					totalByteRequired++;
+				} else {
+					totalByteRequired += -Math.floorDiv(
+							-paths.size() * ChangedPathFilter.BITS_PER_ENTRY,
+							8);
+				}
+			}
+			monitor.update(1);
+		}
+		monitor.endTask();
+		return totalByteRequired;
 	}
 
 	private static long calculateExpectedSize(List<ChunkHeader> chunks) {
@@ -210,9 +286,10 @@ public class CommitGraphWriter {
 	}
 
 	private void writeChunks(CancellableDigestOutputStream out,
-			List<ChunkHeader> chunks) throws IOException {
+			List<ChunkHeader> chunks, Stats stats) throws IOException {
 		for (ChunkHeader chunk : chunks) {
 			int chunkId = chunk.id;
+			long chunkSize = chunk.size;
 
 			switch (chunkId) {
 			case CHUNK_ID_OID_FANOUT:
@@ -228,12 +305,10 @@ public class CommitGraphWriter {
 				writeExtraEdges(out);
 				break;
 			case CHUNK_ID_BLOOM_FILTER_INDEX:
+				writeBloomFilterIndex(out, chunkSize);
+				break;
 			case CHUNK_ID_BLOOM_FILTER_DATA:
-				if (!chunk.data.isPresent()) {
-					throw new IllegalStateException(
-							"data for this chunk must be precomputed"); //$NON-NLS-1$
-				}
-				chunk.data.get().writeTo(out);
+				writeBloomFilterData(out, chunkSize, stats);
 				break;
 			default:
 				throw new IllegalStateException(
@@ -395,65 +470,20 @@ public class CommitGraphWriter {
 				}
 				byte[] rawPath = walk.getRawPath();
 				paths.add(ByteBuffer.wrap(rawPath));
+				if (paths.size() > MAX_CHANGED_PATHS) {
+					return Optional.empty();
+				}
 				for (int i = 0; i < rawPath.length; i++) {
 					if (rawPath[i] == '/') {
 						paths.add(ByteBuffer.wrap(rawPath, 0, i));
-					}
-					if (paths.size() > MAX_CHANGED_PATHS) {
-						return Optional.empty();
+						if (paths.size() > MAX_CHANGED_PATHS) {
+							return Optional.empty();
+						}
 					}
 				}
 			}
 		}
 		return Optional.of(paths);
-	}
-
-	private BloomFilterChunks computeBloomFilterChunks(ProgressMonitor monitor)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			CorruptObjectException, IOException {
-
-		ByteArrayOutputStream index = new ByteArrayOutputStream();
-		ByteArrayOutputStream data = new ByteArrayOutputStream();
-		long filtersReused = 0;
-		long filtersComputed =0;
-
-		// Allocate scratch buffer for converting integers into
-		// big-endian bytes.
-		byte[] scratch = new byte[4];
-
-		NB.encodeInt32(scratch, 0, 1); // version 1
-		data.write(scratch);
-		NB.encodeInt32(scratch, 0, ChangedPathFilter.PATH_HASH_COUNT);
-		data.write(scratch);
-		NB.encodeInt32(scratch, 0, ChangedPathFilter.BITS_PER_ENTRY);
-		data.write(scratch);
-		int dataHeaderSize = data.size();
-
-		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
-			monitor.beginTask(JGitText.get().computingPathBloomFilters,
-					graphCommits.size());
-			for (RevCommit cmit : graphCommits) {
-				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
-				if (cpf != null) {
-					filtersReused++;
-				} else {
-					filtersComputed++;
-					Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
-							graphCommits.getObjectReader(), cmit);
-					if (paths.isEmpty()) {
-						cpf = ChangedPathFilter.FULL;
-					} else {
-						cpf = ChangedPathFilter.fromPaths(paths.get());
-					}
-				}
-				cpf.writeTo(data);
-				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);
-				index.write(scratch);
-				monitor.update(1);
-			}
-			monitor.endTask();
-			return new BloomFilterChunks(index, data, filtersReused, filtersComputed);
-		}
 	}
 
 	private void writeExtraEdges(CancellableDigestOutputStream out)
@@ -476,43 +506,84 @@ public class CommitGraphWriter {
 		}
 	}
 
+	private void writeBloomFilterIndex(CancellableDigestOutputStream out,
+			long chunkSize) throws IOException {
+		ProgressMonitor monitor = out.getWriteMonitor();
+		int dataHeaderSize = 12;
+		int dataSize = dataHeaderSize;
+		byte[] scratch = new byte[4];
+		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
+			monitor.beginTask(JGitText.get().computingPathBloomFilterIndex,
+					(int) chunkSize);
+			for (RevCommit cmit : graphCommits) {
+				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
+				if (cpf == null) {
+					Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
+							graphCommits.getObjectReader(), cmit);
+					if (paths.isEmpty()) {
+						cpf = ChangedPathFilter.FULL;
+					} else {
+						cpf = ChangedPathFilter.fromPaths(paths.get());
+					}
+				}
+				dataSize += cpf.getLength();
+				NB.encodeInt32(scratch, 0, dataSize - dataHeaderSize);
+				out.write(scratch);
+				monitor.update(scratch.length);
+			}
+			monitor.endTask();
+		}
+	}
+
+	private void writeBloomFilterData(CancellableDigestOutputStream out,
+			long chunkSize, Stats stats) throws IOException {
+		ProgressMonitor monitor = out.getWriteMonitor();
+		monitor.beginTask(JGitText.get().computingPathBloomFilterData,
+				(int) chunkSize);
+
+		// Allocate scratch buffer for converting integers into
+		// big-endian bytes.
+		byte[] scratch = new byte[4];
+		NB.encodeInt32(scratch, 0, 1); // version 1
+		out.write(scratch);
+		monitor.update(scratch.length);
+		NB.encodeInt32(scratch, 0, ChangedPathFilter.PATH_HASH_COUNT);
+		out.write(scratch);
+		monitor.update(scratch.length);
+		NB.encodeInt32(scratch, 0, ChangedPathFilter.BITS_PER_ENTRY);
+		out.write(scratch);
+		monitor.update(scratch.length);
+
+		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
+			for (RevCommit cmit : graphCommits) {
+				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
+				if (cpf != null) {
+					stats.changedPathFiltersReused++;
+				} else {
+					stats.changedPathFiltersComputed++;
+					Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
+							graphCommits.getObjectReader(), cmit);
+					if (paths.isEmpty()) {
+						cpf = ChangedPathFilter.FULL;
+					} else {
+						cpf = ChangedPathFilter.fromPaths(paths.get());
+					}
+				}
+				cpf.writeTo(out);
+				monitor.update(cpf.getLength());
+			}
+		}
+		monitor.endTask();
+	}
+
 	private static class ChunkHeader {
 		final int id;
 
 		final long size;
 
-		final Optional<ByteArrayOutputStream> data;
-
 		public ChunkHeader(int id, long size) {
 			this.id = id;
 			this.size = size;
-			this.data = Optional.empty();
-		}
-
-		ChunkHeader(int id, ByteArrayOutputStream data) {
-			this.id = id;
-			this.size = data.size();
-			this.data = Optional.of(data);
-		}
-	}
-
-	private static class BloomFilterChunks {
-		final ByteArrayOutputStream index;
-
-		final ByteArrayOutputStream data;
-
-		final long filtersReused;
-
-		final long filtersComputed;
-
-		BloomFilterChunks(ByteArrayOutputStream index,
-				ByteArrayOutputStream data,
-				long filtersReused,
-				long filtersComputed) {
-			this.index = index;
-			this.data = data;
-			this.filtersReused = filtersReused;
-			this.filtersComputed = filtersComputed;
 		}
 	}
 
@@ -521,18 +592,8 @@ public class CommitGraphWriter {
 	 */
 	public static class Stats {
 
-		static final Stats EMPTY = new Stats();
-
-		static final Stats from(@Nullable BloomFilterChunks bloomFilterChunks) {
-			Stats stats = new Stats();
-			if (bloomFilterChunks != null) {
-				stats.changedPathFiltersComputed = bloomFilterChunks.filtersComputed;
-				stats.changedPathFiltersReused = bloomFilterChunks.filtersReused;
-			}
-			return stats;
+		private Stats() {
 		}
-
-		private Stats() {}
 
 		private long changedPathFiltersReused = 0;
 
