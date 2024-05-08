@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -216,19 +217,32 @@ class PackDirectory {
 		return true;
 	}
 
+	static Map<String, Pack> rapidPackIndex = new ConcurrentHashMap<>();
+
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
 		PackList pList;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
+				Pack rapidPackAccess = rapidPackIndex.get(objectId.getName());
+				if (rapidPackAccess != null) {
+					try {
+						return rapidPackAccess.get(curs, objectId);
+					} catch (IOException e) {
+						handlePackError(e, rapidPackAccess);
+						return null;
+					}
+				}
 				pList = packList.get();
 				for (Pack p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
-						if (ldr != null)
+						if (ldr != null) {
+							rapidPackIndex.put(objectId.getName(), p);
 							return ldr;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
