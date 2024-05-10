@@ -27,7 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -216,19 +219,36 @@ class PackDirectory {
 		return true;
 	}
 
+	static Map<String, Pack> rapidPackIndex = new ConcurrentHashMap<>();
+
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
 		PackList pList;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
+				if (rapidPackIndex.isEmpty()) {
+					preloadRapidPackIndex();
+					System.out.println("Loaded " + rapidPackIndex.size() + " objects");
+				}
+				Pack rapidPackAccess = rapidPackIndex.get(objectId.getName());
+				if (rapidPackAccess != null) {
+					try {
+						return rapidPackAccess.get(curs, objectId);
+					} catch (IOException e) {
+						rapidPackIndex.remove(objectId.getName());
+						handlePackError(e, rapidPackAccess);
+					}
+				}
 				pList = packList.get();
 				for (Pack p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
-						if (ldr != null)
+						if (ldr != null) {
+							rapidPackIndex.put(objectId.getName(), p);
 							return ldr;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
@@ -243,6 +263,21 @@ class PackDirectory {
 			}
 		} while (searchPacksAgain(pList));
 		return null;
+	}
+
+	void preloadRapidPackIndex() {
+		PackList pList = packList.get();
+		for (Pack p : pList.packs) {
+			try {
+				Stream <PackIndex.MutableEntry> targetStream = StreamSupport.stream(p.getIndex().spliterator(), true);
+				targetStream.map(PackIndex.MutableEntry::name).forEach(oId -> rapidPackIndex.put(oId, p));
+//				System.out.println("Loading pack " + p.getPackName());
+				LOG.warn("Loading pack " + p.getPackName());
+			} catch (IOException | ArrayIndexOutOfBoundsException ioe ) {
+				System.out.println("Cannot load index for pack " + p.getPackName() + " - " + Arrays.toString(ioe.getStackTrace()));
+				LOG.warn("Cannot load index for pack " + p.getPackName(), ioe);
+			}
+		}
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)
