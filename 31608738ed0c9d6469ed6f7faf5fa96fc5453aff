@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b3cd7b0_4dbbed3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T20:03:19Z",
+      "side": 1,
+      "message": "Also: RevTag needs to be updated to be able to extract CMS signatures, too.\n\nChange 1193865 provides an IMO better refactoring to add the new verifier.\n\nNeither change builds in Eclipse (OSGi build) because of missing package imports in MANIFEST.MF.",
+      "revId": "31608738ed0c9d6469ed6f7faf5fa96fc5453aff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1664002_a128790d",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleCMSSignatureVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T20:03:19Z",
+      "side": 1,
+      "message": "Formatting.",
+      "revId": "31608738ed0c9d6469ed6f7faf5fa96fc5453aff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e8fe3da_d0411fbb",
@@ -20,6 +54,23 @@
         "endLine": 42,
         "endChar": 83
       },
+      "revId": "31608738ed0c9d6469ed6f7faf5fa96fc5453aff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec2ecdcc_6e734f8f",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleCMSSignatureVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T20:03:19Z",
+      "side": 1,
+      "message": "See comments at https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1193865/11/org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java ; they also apply here.",
       "revId": "31608738ed0c9d6469ed6f7faf5fa96fc5453aff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
