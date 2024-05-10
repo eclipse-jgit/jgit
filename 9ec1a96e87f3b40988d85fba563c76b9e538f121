@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d658ec85_a6a0093f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbstractGpgSignatureVerifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "I realize this is an old comment, but still: why not?",
+      "parentUuid": "58329e37_437bf043",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 53
+      },
+      "revId": "9ec1a96e87f3b40988d85fba563c76b9e538f121",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "087f88a1_37b93a30",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbstractGpgSignatureVerifier.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-26T00:11:50Z",
       "side": 1,
       "message": "This won\u0027t work with CMS signatures",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 50
+      },
+      "revId": "9ec1a96e87f3b40988d85fba563c76b9e538f121",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48d036ee_dd838581",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbstractGpgSignatureVerifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "(Old comment etc...) RevTag needs to handle the new signature prefix, too. Once it does, it should work.",
+      "parentUuid": "087f88a1_37b93a30",
       "range": {
         "startLine": 58,
         "startChar": 30,

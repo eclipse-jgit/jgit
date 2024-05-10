@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afef81c8_4e8cf83c",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "MANIFEST.MF is missing the package imports.",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed813087_be2b8cac",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "Is this necessary, or can we just let this work with whatever security providers are registered?",
+      "range": {
+        "startLine": 54,
+        "startChar": 80,
+        "endLine": 54,
+        "endChar": 98
+      },
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6496920a_cf17a187",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "1. Do we need collision avoidance/detection? Probably not.\n2. It\u0027s used as a \"fingerprint\" to identify a key/certificate. What does gpgsm print when it verifies such a signature? Certificates have serial numbers; might that be a more useful identifier? How does gpgsm identify the certificate in its output?",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63128db8_3b5d5b43",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "This gets deprecated in Java 16. Use getIssuerX500Principal() instead.",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 20
+      },
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c3aa08_bf74c885",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "This gets deprecated in Java 16. Use getSubjectX500Principal() instead.",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 21
+      },
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f1c66f_713752ca",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "Why not import classes CMSAttributes and Time, too?",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf6f48cc_b088bf9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "Wrong `@since`",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c71c1f_8dc5e033",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:45:30Z",
+      "side": 1,
+      "message": "RevTag should use these new constants, and RevTag.getSignatureStart should consider them all.",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
