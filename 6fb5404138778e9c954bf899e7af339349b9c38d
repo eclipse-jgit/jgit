@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17d5298_b08efcaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T20:15:05Z",
+      "side": 1,
+      "message": "Looks OK. It\u0027s probably as far as we can go now without breaking API. But note that `BouncyCastleSignatureVerifier` is actually not Bouncy Castle specific. (Except for registering the provider, which it should probably not do anyway. See https://github.com/eclipse-jgit/jgit/issues/33 . I\u0027m still undecided on that one, but probably the reporter is right, and provider registration should not be done inside the library.) So in 7.0, we might refactor more and move it to main JGit.",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
