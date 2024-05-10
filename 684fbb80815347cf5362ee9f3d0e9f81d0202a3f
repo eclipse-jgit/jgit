@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01701af9_0c359b82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-10T19:48:39Z",
+      "side": 1,
+      "message": "Use it in RevTag.",
+      "revId": "684fbb80815347cf5362ee9f3d0e9f81d0202a3f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
