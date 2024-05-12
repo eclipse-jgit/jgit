@@ -38,7 +38,7 @@ maven args4j
 	dependency {
 		groupId = "args4j"
 		artifactId = "args4j"
-		version = "2.33"
+		version = "2.37"
 	}
 }
 
