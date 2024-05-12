@@ -126,7 +126,7 @@
     <javaewah-version>1.2.3</javaewah-version>
     <junit-version>4.13.2</junit-version>
     <test-fork-count>1C</test-fork-count>
-    <args4j-version>2.33</args4j-version>
+    <args4j-version>2.37</args4j-version>
     <commons-compress-version>1.26.0</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
