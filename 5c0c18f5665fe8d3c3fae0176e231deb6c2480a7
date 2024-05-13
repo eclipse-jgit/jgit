@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea303c17_96f96cd5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 0,
+      "message": "please avoid unrelated formatting changes",
+      "revId": "5c0c18f5665fe8d3c3fae0176e231deb6c2480a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

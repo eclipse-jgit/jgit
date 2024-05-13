@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e14e71c4_33361c39",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "Eclipse raises this error:\n\nThe declared exception PatchApplyException is not actually thrown by the method applyPatchAllowConflicts() from type PatchApplierTest.Base",
+      "range": {
+        "startLine": 134,
+        "startChar": 11,
+        "endLine": 134,
+        "endChar": 30
+      },
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdfe93f5_14bfd0de",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "this method needs reformatting, we use the Eclipse IDE formatter with a line length of 80 characters",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07355226_18cb5af5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "nit: the Eclipse IDE formatter doesn\u0027t indent case blocks in switch statements",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41a194d_7de43c06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "- missing @since tag for new API method\n- missing javadoc tag for return value",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b74e9ac_4a81c8ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "avoid unrelated formatting changes",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80c8a4c0_d0ed4a1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1fcf25_47f0a3b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "nit: don\u0027t indent case blocks in switch statements",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4da69ed_e4887ba1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "when do you plan to fix this todo ?",
+      "range": {
+        "startLine": 946,
+        "startChar": 34,
+        "endLine": 946,
+        "endChar": 48
+      },
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964321a7_4d769cac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "don\u0027t indent case blocks",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0d8bf96_fd57ba0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-13T22:33:09Z",
+      "side": 1,
+      "message": "we separate methods by an empty line",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
