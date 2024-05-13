@@ -1,0 +1,9 @@
+Code-Review+2: David Ostrovsky <david.ostrovsky@gmail.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Mon, 13 May 2024 22:05:46 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1194291
+Comments-Total: 5
+Project: eclipse-jgit/jgit
+Branch: refs/heads/next
