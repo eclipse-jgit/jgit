@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fc60ff6_bf83b4d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-14T12:27:27Z",
+      "side": 1,
+      "message": "this is unused and should be removed to avoid compilatin failures:\n\n```\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.12.1:compile (default-compile) on project org.eclipse.jgit: Compilation failure\n[ERROR] /Users/syntonyze/dev/source/gerritforge-health-service/components/actions-executor/modules/jgit/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java:[162,18] The value of the local variable bitmapToWrite is not used\n```",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 31
+      },
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d287f1e_24b5f187",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-14T12:27:27Z",
+      "side": 1,
+      "message": "this is unused and it should be removed to avoid compilation errors:\n\n```\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.12.1:compile (default-compile) on project org.eclipse.jgit: Compilation failure: Compilation failure:\n[ERROR] /Users/syntonyze/dev/source/gerritforge-health-service/components/actions-executor/modules/jgit/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java:[162,18] The value of the local variable bitmapToWrite is not used\n[ERROR] /Users/syntonyze/dev/source/gerritforge-health-service/components/actions-executor/modules/jgit/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java:[47,8] The import java.util.stream.Collectors is never used\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
