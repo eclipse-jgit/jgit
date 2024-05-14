@@ -26,8 +26,12 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -73,6 +77,8 @@ class PackDirectory {
 
 	private final boolean trustFolderStat;
 
+	private final Map<String, Optional<Pack>> rapidPackIndex;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -93,6 +99,8 @@ class PackDirectory {
 		// can be in this folder if these attributes have not changed.
 		trustFolderStat = config.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+
+		rapidPackIndex = new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -222,13 +230,29 @@ class PackDirectory {
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
+				if (rapidPackIndex.isEmpty()) {
+					preloadRapidPackIndex();
+				}
+				Optional<Pack> rapidPackAccess = rapidPackIndex.get(objectId.getName());
+				if (rapidPackAccess != null) {
+					try {
+						if(rapidPackAccess.isPresent()) {
+							return rapidPackAccess.get().get(curs, objectId);
+						}
+					} catch (IOException e) {
+						rapidPackIndex.remove(objectId.getName());
+						handlePackError(e, rapidPackAccess.get());
+					}
+				}
 				pList = packList.get();
 				for (Pack p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
-						if (ldr != null)
+						if (ldr != null) {
+							rapidPackIndex.put(objectId.getName(), Optional.of(p));
 							return ldr;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
@@ -242,7 +266,34 @@ class PackDirectory {
 				break SEARCH;
 			}
 		} while (searchPacksAgain(pList));
+		rapidPackIndex.put(objectId.getName(), Optional.empty());
 		return null;
+	}
+
+	void preloadRapidPackIndex() {
+		PackList pList = packList.get();
+		Arrays.stream(pList.packs).parallel().forEach(this::preloadPackFromIndex);
+	}
+
+	private void preloadPackFromIndex(Pack p) {
+		try {
+			Stream<PackIndex.MutableEntry> targetStream = StreamSupport.stream(p.getIndex().spliterator(), false);
+			targetStream
+					.forEach(mutableEntry -> {
+						try {
+							String name = mutableEntry.name();
+							if (rapidPackIndex.get(name) != null && rapidPackIndex.get(name).isPresent()) {
+								return;
+							}
+							rapidPackIndex.put(name, Optional.of(p));
+						} catch (Exception ioe) {
+							LOG.error("*** >> Cannot get name for entry {} in pack {}",
+									mutableEntry, p.getPackName(), ioe);
+						}
+					});
+		} catch (IOException ioe) {
+			LOG.error("*** Cannot load index for pack {}", p.getPackName(), ioe);
+		}
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)
