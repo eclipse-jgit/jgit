@@ -16,6 +16,24 @@
       "message": "please avoid unrelated formatting changes",
       "revId": "5c0c18f5665fe8d3c3fae0176e231deb6c2480a7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a88f41_d51446e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1008808
+      },
+      "writtenOn": "2024-05-14T07:46:22Z",
+      "side": 0,
+      "message": "running the eclipse formatter with the provided `tools/eclipse-JGit-Format.xml` gives me these unrelated edits. if they aren\u0027t wrong, I\u0027d rather just leave them than split the change in a cleanup and actual since it\u0027s really just formatting.",
+      "parentUuid": "ea303c17_96f96cd5",
+      "revId": "5c0c18f5665fe8d3c3fae0176e231deb6c2480a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6010b83b_06c0ef39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008808
+      },
+      "writtenOn": "2024-05-14T07:46:22Z",
+      "side": 1,
+      "message": "How do I trigger CI on this change these days?",
+      "revId": "615527947ba478278a130746b50080f3d849e744",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
