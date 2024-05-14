@@ -34,6 +34,24 @@
       "parentUuid": "6010b83b_06c0ef39",
       "revId": "615527947ba478278a130746b50080f3d849e744",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "045e31ce_b6e982a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-14T12:21:30Z",
+      "side": 1,
+      "message": "this time it worked, posting the comment triggered this build\nhttps://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1658/console\n\nit seems the CI user lost the ability to post comments and vote, I\u0027ll check with webmaster",
+      "parentUuid": "fb67a423_3ec3edf9",
+      "revId": "615527947ba478278a130746b50080f3d849e744",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
