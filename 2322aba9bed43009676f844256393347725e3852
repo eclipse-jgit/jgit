@@ -135,6 +135,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa25c165_e62f4b79",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1008808
+      },
+      "writtenOn": "2024-05-14T08:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e41a194d_7de43c06",
+      "revId": "2322aba9bed43009676f844256393347725e3852",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b74e9ac_4a81c8ac",

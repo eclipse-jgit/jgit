@@ -126,6 +126,24 @@
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "771fe2dd_569577da",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/diff/Conflict_PostImage",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008808
+      },
+      "writtenOn": "2024-05-14T08:02:06Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "33cca366_2ab1cb19",
+      "revId": "23060ee398ad466f76e0feccaef00eb0f0dcd6d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9df1af98_31ec9ced",
