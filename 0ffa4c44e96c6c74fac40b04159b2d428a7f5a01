@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b5ba2af_0ad1906f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-14T13:20:06Z",
+      "side": 1,
+      "message": "I have tested this against `ghs-gym`.\n\nIt blows up during the building of the bitmap in the parallel bitmap update:\n\n```\n\t\tsliceCommits(selectedCommits, Runtime.getRuntime().availableProcessors() * 2)\n\t\t\t.parallel()\n\t\t\t.map(commitsSlice -\u003e getBitmapWithCommitSliceStream(commitsSlice, pm))\n\t\t\t.forEach(this::updateBitmap);\n```\n\nThis is the stack trace\n\n```\n➜  actions-executor git:(9ebd53b) ✗ time java -jar target/actions-executor-1.0-SNAPSHOT-jar-with-dependencies.jar BitmapGenerationAction ~/ghs/ghs-gym.git\nSLF4J: Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".\nSLF4J: Defaulting to no-operation (NOP) logger implementation\nSLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.\nCounting objects:       497195\nFinding sources:        100% (497195/497195)\nGetting sizes:          100% (185991/185991)\nCompressing objects:    100% (4409288/4409288)\nWriting objects:        100% (497195/497195)\nSelecting commits:      153459\nSelecting commits:      100% (153459/153459)\nBuilding bitmaps:         2% (  451/30029)May 14, 2024 2:30:27 PM com.gerritforge.ghs.actions.Main main\nSEVERE: Exception during the action execution. Action class: com.gerritforge.ghs.actions.BitmapGenerationAction\njava.lang.RuntimeException: java.lang.RuntimeException: org.eclipse.jgit.errors.CorruptObjectException: Object aaa83764261a794c19046b52b8ab4886a29ed0bf is corrupt: bad stream\n        at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n        at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)\n        at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\n        at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)\n        at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)\n        at java.base/java.util.concurrent.ForkJoinTask.getThrowableException(ForkJoinTask.java:562)\n        at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:591)\n        at java.base/java.util.concurrent.ForkJoinTask.invoke(ForkJoinTask.java:689)\n        at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateParallel(ForEachOps.java:159)\n        at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateParallel(ForEachOps.java:173)\n        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:233)\n        at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)\n        at org.eclipse.jgit.internal.storage.pack.PackWriter.prepareBitmapIndex(PackWriter.java:2520)\n        at com.gerritforge.ghs.actions.BitmapGenerator.writePack(BitmapGenerator.java:401)\n        at com.gerritforge.ghs.actions.BitmapGenerator.repackAndGenerateBitmap(BitmapGenerator.java:171)\n        at com.gerritforge.ghs.actions.BitmapGenerationAction.prepareBitmap(BitmapGenerationAction.java:28)\n        at com.gerritforge.ghs.actions.BitmapGenerationAction.apply(BitmapGenerationAction.java:40)\n        at com.gerritforge.ghs.actions.BitmapGenerationAction.apply(BitmapGenerationAction.java:23)\n        at com.gerritforge.ghs.actions.Main.main(Main.java:44)\n        ```",
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fc60ff6_bf83b4d7",
