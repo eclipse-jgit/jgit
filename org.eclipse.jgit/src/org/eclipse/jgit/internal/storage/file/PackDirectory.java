@@ -13,6 +13,8 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_USE_RAPID_OBJECT_PACK_LOOKUP;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,8 +31,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -77,6 +83,10 @@ class PackDirectory {
 
 	private final TrustStat trustPackStat;
 
+	private final Map<String, Optional<Pack>> rapidPackIndex;
+
+	private final boolean useRapidObjectPackLookup;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -90,6 +100,11 @@ class PackDirectory {
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
 		trustPackStat = config.get(CoreConfig.KEY).getTrustPackStat();
+
+		useRapidObjectPackLookup = config.getBoolean(CONFIG_CORE_SECTION,
+				CONFIG_KEY_USE_RAPID_OBJECT_PACK_LOOKUP, false);
+
+		rapidPackIndex = new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -99,6 +114,15 @@ class PackDirectory {
 	 */
 	File getDirectory() {
 		return directory;
+	}
+
+	/**
+	 * Getter for the field {@code rapidPackIndex}.
+	 *
+	 * @return the in memory objectId-Pack mapping.
+	 */
+	Map<String, Optional<Pack>> getRapidPackIndex() {
+		return rapidPackIndex;
 	}
 
 	void create() throws IOException {
@@ -217,13 +241,31 @@ class PackDirectory {
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
+				if (useRapidObjectPackLookup) {
+					if (rapidPackIndex.isEmpty()) {
+						preloadRapidPackIndex();
+					}
+					Optional<Pack> rapidPackAccess = rapidPackIndex.get(objectId.getName());
+					if (rapidPackAccess != null) {
+						try {
+							if (rapidPackAccess.isPresent()) {
+								return rapidPackAccess.get().get(curs, objectId);
+							}
+						} catch (IOException e) {
+							rapidPackIndex.remove(objectId.getName());
+							handlePackError(e, rapidPackAccess.get());
+						}
+					}
+				}
 				pList = packList.get();
 				for (Pack p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
-						if (ldr != null)
+						if (ldr != null) {
+							addToRapidPackIndex(objectId.getName(), Optional.of(p));
 							return ldr;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
@@ -237,7 +279,39 @@ class PackDirectory {
 				break SEARCH;
 			}
 		} while (searchPacksAgain(pList));
+		addToRapidPackIndex(objectId.getName(),Optional.empty());
 		return null;
+	}
+
+	private void addToRapidPackIndex(String objectId, Optional<Pack> p) {
+		if (useRapidObjectPackLookup) {
+			rapidPackIndex.put(objectId, p);
+		}
+	}
+
+	void preloadRapidPackIndex() {
+		PackList pList = packList.get();
+		Arrays.stream(pList.packs).parallel().forEach(this::preloadPackFromIndex);
+	}
+
+	private void preloadPackFromIndex(Pack p) {
+		try {
+			Stream<PackIndex.MutableEntry> targetStream = StreamSupport.stream(p.getIndex().spliterator(), false);
+			targetStream
+					.forEach(mutableEntry -> {
+						try {
+							String name = mutableEntry.name();
+							if (rapidPackIndex.get(name) != null && rapidPackIndex.get(name).isPresent()) {
+								return;
+							}
+							rapidPackIndex.put(name, Optional.of(p));
+						} catch (Exception ioe) {
+							LOG.error(MessageFormat.format(JGitText.get().objectNotFoundIn, mutableEntry, p.getPackName()), ioe);
+						}
+					});
+		} catch (IOException ioe) {
+			LOG.error(MessageFormat.format(JGitText.get().unreadablePackIndex, p.getPackName()), ioe);
+		}
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)
