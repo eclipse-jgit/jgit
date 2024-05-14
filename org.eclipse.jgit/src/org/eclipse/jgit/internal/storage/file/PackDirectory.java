@@ -30,8 +30,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -49,6 +53,7 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Iterators;
 import org.slf4j.Logger;
@@ -68,14 +73,15 @@ class PackDirectory {
 
 	private static final int MAX_PACKLIST_RESCAN_ATTEMPTS = 5;
 
-	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY,
-			new Pack[0]);
+	private static final PackList NO_PACKS = new PackList(FileSnapshot.DIRTY, new Pack[0], false);
 
 	private final Config config;
 
 	private final File directory;
 
 	private final AtomicReference<PackList> packList;
+
+	private final boolean rapidObjectPackLookup;
 
 	private final TrustStat trustPackStat;
 
@@ -92,6 +98,9 @@ class PackDirectory {
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
 		trustPackStat = config.get(CoreConfig.KEY).getTrustPackStat();
+
+		PackConfig packConfig = new PackConfig(config);
+		rapidObjectPackLookup = packConfig.isRapidObjectPackLookup();
 	}
 
 	/**
@@ -101,6 +110,10 @@ class PackDirectory {
 	 */
 	File getDirectory() {
 		return directory;
+	}
+
+	AtomicReference<PackList> getPackList() {
+		return packList;
 	}
 
 	void create() throws IOException {
@@ -220,12 +233,33 @@ class PackDirectory {
 			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
+				if (rapidObjectPackLookup) {
+					pList.preloadRapidPackIndex();
+
+					Optional<Pack> rapidPackAccess = pList.rapidPackIndex.get(objectId.getName());
+					if (rapidPackAccess != null) {
+						try {
+							if (rapidPackAccess.isPresent()) {
+								return rapidPackAccess.get().get(curs, objectId);
+							}
+						} catch (IOException e) {
+							Pack faultyPack = rapidPackAccess.get();
+							pList.removeObjects(objectId.getName(), faultyPack);
+							handlePackError(e, faultyPack);
+						}
+					}
+				}
+
 				for (Pack p : pList.packs) {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
-						if (ldr != null)
+						if (ldr != null) {
+							if (rapidObjectPackLookup) {
+								pList.rapidPackIndex.put(objectId.getName(), Optional.of(p));
+							}
 							return ldr;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
@@ -239,6 +273,9 @@ class PackDirectory {
 				break SEARCH;
 			}
 		} while (searchPacksAgain(pList));
+		if (rapidObjectPackLookup) {
+			pList.rapidPackIndex.put(objectId.getName(), Optional.empty());
+		}
 		return null;
 	}
 
@@ -411,7 +448,7 @@ class PackDirectory {
 			final Pack[] newList = new Pack[1 + oldList.length];
 			newList[0] = pack;
 			System.arraycopy(oldList, 0, newList, 1, oldList.length);
-			n = new PackList(o.snapshot, newList);
+			n = new PackList(o.snapshot, newList, rapidObjectPackLookup);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -429,7 +466,7 @@ class PackDirectory {
 			final Pack[] newList = new Pack[oldList.length - 1];
 			System.arraycopy(oldList, 0, newList, 0, j);
 			System.arraycopy(oldList, j + 1, newList, j, newList.length - j);
-			n = new PackList(o.snapshot, newList);
+			n = new PackList(o.snapshot, newList, rapidObjectPackLookup);
 		} while (!packList.compareAndSet(o, n));
 		deadPack.close();
 	}
@@ -452,12 +489,14 @@ class PackDirectory {
 					// Another thread did the scan for us, while we
 					// were blocked on the monitor above.
 					//
+					o.refreshRapidPackIndex(original);
 					return o;
 				}
 				n = scanPacksImpl(o);
 				if (n == o) {
 					return n;
 				}
+				n.refreshRapidPackIndex(o);
 			} while (!packList.compareAndSet(o, n));
 			return n;
 		}
@@ -509,12 +548,12 @@ class PackDirectory {
 		Pack.close(new HashSet<>(forReuse.values()));
 
 		if (list.isEmpty()) {
-			return new PackList(snapshot, NO_PACKS.packs);
+			return new PackList(snapshot, NO_PACKS.packs, rapidObjectPackLookup);
 		}
 
 		final Pack[] r = list.toArray(new Pack[0]);
 		Arrays.sort(r, Pack.SORT);
-		return new PackList(snapshot, r);
+		return new PackList(snapshot, r, rapidObjectPackLookup);
 	}
 
 	private static Map<String, Pack> reuseMap(PackList old) {
@@ -590,9 +629,86 @@ class PackDirectory {
 
 		private Pack[] packsSortedByBitmapFirst;
 
-		PackList(FileSnapshot monitor, Pack[] packs) {
+		final boolean useRapidPackIndex;
+
+		private Map<String, Optional<Pack>> rapidPackIndex;
+
+		/**
+		 * Getter for the field {@code rapidPackIndex}.
+		 *
+		 * @return the in memory objectId-Pack mapping.
+		 */
+		Map<String, Optional<Pack>> getRapidPackIndex() {
+			return rapidPackIndex;
+		}
+
+		PackList(FileSnapshot monitor, Pack[] packs, boolean useRapidPackIndex) {
 			this.snapshot = monitor;
 			this.packs = packs;
+			this.useRapidPackIndex = useRapidPackIndex;
+			this.rapidPackIndex = new ConcurrentHashMap<>();
+		}
+
+		private void removeObjects(String objectId, Pack faultyPack) {
+			rapidPackIndex.remove(objectId);
+			for (Map.Entry<String, Optional<Pack>> entry : rapidPackIndex.entrySet()) {
+				Optional<Pack> p = entry.getValue();
+				if (p.isPresent()) {
+					if(p.get() == faultyPack) {
+						rapidPackIndex.remove(entry.getKey());
+					}
+				}
+			}
+		}
+
+		private void refreshRapidPackIndex(PackList newPList) {
+			if (useRapidPackIndex) {
+				Set<Pack> before = new HashSet<>(Arrays.asList(packs));
+				Set<Pack> after = new HashSet<>(Arrays.asList(newPList.packs));
+
+				Set<Pack> removed = new HashSet<>(before);
+				removed.removeAll(after);
+
+				for (Map.Entry<String, Optional<Pack>> entry : rapidPackIndex.entrySet()) {
+					Optional<Pack> p = entry.getValue();
+
+					if (p.isPresent()) {
+						if (removed.contains(p.get())) {
+							rapidPackIndex.remove(entry.getKey());
+						}
+					}
+				}
+
+				Set<Pack> added = new HashSet<>(after);
+				added.removeAll(before);
+				added.stream().parallel().forEach(this::preloadPackFromIndex);
+			}
+		}
+
+		private void preloadPackFromIndex(Pack p) {
+			try {
+				Stream<PackIndex.MutableEntry> targetStream = StreamSupport.stream(p.getIndex().spliterator(), false);
+				targetStream
+						.forEach(mutableEntry -> {
+							try {
+								String name = mutableEntry.name();
+								if (rapidPackIndex.get(name) != null && rapidPackIndex.get(name).isPresent()) {
+									return;
+								}
+								rapidPackIndex.put(name, Optional.of(p));
+							} catch (Exception ioe) {
+								LOG.error(MessageFormat.format(JGitText.get().objectNotFoundIn, mutableEntry, p.getPackName()), ioe);
+							}
+						});
+			} catch (IOException ioe) {
+				LOG.error(MessageFormat.format(JGitText.get().unreadablePackIndex, p.getPackName()), ioe);
+			}
+		}
+
+		void preloadRapidPackIndex() {
+			if (rapidPackIndex.isEmpty()) {
+				Arrays.stream(packs).parallel().forEach(this::preloadPackFromIndex);
+			}
 		}
 
 		/**

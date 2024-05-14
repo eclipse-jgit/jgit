@@ -39,6 +39,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_REUSE_OBJECTS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEARCH_FOR_REUSE_TIMEOUT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SINGLE_PACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_THREADS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_RAPID_OBJECT_PACK_LOOKUP;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WAIT_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WINDOW_MEMORY;
@@ -91,6 +92,13 @@ public class PackConfig {
 	 * @since 4.7
 	 */
 	public static final boolean DEFAULT_PRUNE_PRESERVED = false;
+
+	/**
+	 * Default value of use rapid object pack lookup: {@value}
+	 * @see #setRapidObjectPackLookup(boolean)
+	 * @since 7.4
+	 */
+	public static final boolean DEFAULT_RAPID_OBJECT_PACK_LOOKUP = false;
 
 	/**
 	 * Default value of delta compress option: {@value}
@@ -301,6 +309,8 @@ public class PackConfig {
 
 	private boolean prunePreserved = DEFAULT_PRUNE_PRESERVED;
 
+	private boolean rapidObjectPackLookup = DEFAULT_RAPID_OBJECT_PACK_LOOKUP;
+
 	private boolean deltaBaseAsOffset = DEFAULT_DELTA_BASE_AS_OFFSET;
 
 	private boolean deltaCompress = DEFAULT_DELTA_COMPRESS;
@@ -430,6 +440,7 @@ public class PackConfig {
 		this.searchForReuseTimeout = cfg.searchForReuseTimeout;
 		this.minBytesForObjSizeIndex = cfg.minBytesForObjSizeIndex;
 		this.quickMatchSearchForReuse = cfg.quickMatchSearchForReuse;
+		this.rapidObjectPackLookup = cfg.rapidObjectPackLookup;
 	}
 
 	/**
@@ -534,6 +545,18 @@ public class PackConfig {
 	}
 
 	/**
+	 * Checks whether to use rapid object pack lookup.
+	 *
+	 * Default setting: {@value #DEFAULT_RAPID_OBJECT_PACK_LOOKUP}
+	 *
+	 * @return true if using rapid object pack lookup mapping.
+	 * @since 7.4
+	 */
+	public boolean isRapidObjectPackLookup() {
+		return rapidObjectPackLookup;
+	}
+
+	/**
 	 * Set prune preserved configuration option for repacking.
 	 *
 	 * If enabled, preserved pack files are removed from a preserved subdirectory
@@ -546,6 +569,27 @@ public class PackConfig {
 	 */
 	public void setPrunePreserved(boolean prunePreserved) {
 		this.prunePreserved = prunePreserved;
+	}
+
+	/**
+	 * Set prune rapid object pack lookup.
+	 *
+	 * If enabled, preloads the mapping between object IDs and packfiles into memory to accelerate the scanning
+	 * of packfiles when opening the pack directory.
+	 * This option is especially beneficial for repositories containing a large number of packfiles, where scanning
+	 * can otherwise become a performance bottleneck.
+	 * Enabling this option improves performance by avoiding repeated filesystem accesses during object resolution.
+	 * However, it increases memory usage and may add system load during the initial preload phase.
+	 * The impact on memory footprint should be evaluated before enabling this flag
+	 *
+	 * Default setting: {@value #DEFAULT_RAPID_OBJECT_PACK_LOOKUP}
+	 *
+	 * @param rapidObjectPackLookup
+	 *            boolean indicating whether or not using rapid object pack lookup
+	 * @since 7.2
+	 */
+	public void setRapidObjectPackLookup(boolean rapidObjectPackLookup) {
+		this.rapidObjectPackLookup = rapidObjectPackLookup;
 	}
 
 	/**
@@ -1530,6 +1574,9 @@ public class PackConfig {
 				CONFIG_KEY_PRESERVE_OLD_PACKS, DEFAULT_PRESERVE_OLD_PACKS));
 		setPrunePreserved(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_PRUNE_PRESERVED, DEFAULT_PRUNE_PRESERVED));
+		setRapidObjectPackLookup(rc.getBoolean(CONFIG_PACK_SECTION,
+				CONFIG_KEY_RAPID_OBJECT_PACK_LOOKUP, DEFAULT_RAPID_OBJECT_PACK_LOOKUP));
+
 	}
 
 	@Override
