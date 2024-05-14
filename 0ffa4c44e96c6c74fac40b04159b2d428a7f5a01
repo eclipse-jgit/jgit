@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ef4d58b_4986a4b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-14T21:29:57Z",
+      "side": 1,
+      "message": "It was a concurrency issue on sharing the same ObjectReader across threads. Fixed.",
+      "parentUuid": "dab85a58_9c376023",
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fc60ff6_bf83b4d7",
@@ -49,6 +67,30 @@
       "writtenOn": "2024-05-14T12:27:27Z",
       "side": 1,
       "message": "this is unused and should be removed to avoid compilatin failures:\n\n```\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.12.1:compile (default-compile) on project org.eclipse.jgit: Compilation failure\n[ERROR] /Users/syntonyze/dev/source/gerritforge-health-service/components/actions-executor/modules/jgit/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java:[162,18] The value of the local variable bitmapToWrite is not used\n```",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 31
+      },
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f945b4d_8b841e85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-14T21:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fc60ff6_bf83b4d7",
       "range": {
         "startLine": 162,
         "startChar": 0,
@@ -95,6 +137,30 @@
       "writtenOn": "2024-05-14T20:17:38Z",
       "side": 1,
       "message": "the `reader` cannot be shared across different thread, in order to do that, we should use `reader.newReader()` so that each slice gets a new instance of a `reader`.",
+      "range": {
+        "startLine": 2529,
+        "startChar": 4,
+        "endLine": 2529,
+        "endChar": 10
+      },
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c4bfebc_22a400ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2529,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-14T21:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7807e97a_7341a455",
       "range": {
         "startLine": 2529,
         "startChar": 4,
