@@ -423,6 +423,12 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS = "packedindexgitusestrongrefs";
 
+	/**
+	 * The "useRapidObjectPackLookup" key
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_USE_RAPID_OBJECT_PACK_LOOKUP = "useRapidObjectPackLookup";
+
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
 
