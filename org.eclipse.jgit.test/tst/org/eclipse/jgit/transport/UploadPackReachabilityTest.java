@@ -27,9 +27,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -264,15 +261,10 @@ public class UploadPackReachabilityTest {
 	}
 
 	private static TestProtocol<Object> generateReachableCommitUploadPackProtocol() {
-		return new TestProtocol<>(new UploadPackFactory<Object>() {
-			@Override
-			public UploadPack create(Object req, Repository db)
-					throws ServiceNotEnabledException,
-					ServiceNotAuthorizedException {
-				UploadPack up = new UploadPack(db);
-				up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
-				return up;
-			}
+		return new TestProtocol<>((req, db) -> {
+			UploadPack up = new UploadPack(db);
+			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
+			return up;
 		}, null);
 	}
 }

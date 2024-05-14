@@ -25,10 +25,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,16 +42,8 @@ public class AtomicPushTest {
 	public void setUp() throws Exception {
 		server = newRepo("server");
 		client = newRepo("client");
-		testProtocol = new TestProtocol<>(
-				null,
-				new ReceivePackFactory<Object>() {
-					@Override
-					public ReceivePack create(Object req, Repository db)
-							throws ServiceNotEnabledException,
-							ServiceNotAuthorizedException {
-						return new ReceivePack(db);
-					}
-				});
+		testProtocol = new TestProtocol<>(null,
+				(req, db) -> new ReceivePack(db));
 		uri = testProtocol.register(ctx, server);
 
 		try (TestRepository<?> clientRepo = new TestRepository<>(client)) {
