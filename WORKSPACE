@@ -232,8 +232,8 @@ maven_jar(
 
 maven_jar(
     name = "objenesis",
-    artifact = "org.objenesis:objenesis:3.3",
-    sha1 = "1049c09f1de4331e8193e579448d0916d75b7631",
+    artifact = "org.objenesis:objenesis:3.4",
+    sha1 = "675cbe121a68019235d27f6c34b4f0ac30e07418",
 )
 
 maven_jar(
