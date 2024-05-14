@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2707418d_46a923fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008808
+      },
+      "writtenOn": "2024-05-14T16:54:19Z",
+      "side": 1,
+      "message": "Thank you, both for undoing the formatting and for proposing to move away from Eclipse IDE formatter. Strong +1 on that :-)",
+      "parentUuid": "e347c8f9_a6b002f6",
+      "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "045ddb75_2b8c2d2b",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-14T12:15:37Z",
       "side": 1,
       "message": "can we avoid calling the deprecated #applyPatch(InputStream) by using #applyPatch(Patch) similar like it is done in #applyPatch() ?",
+      "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc02ac42_dd35aa13",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1008808
+      },
+      "writtenOn": "2024-05-14T16:54:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "045ddb75_2b8c2d2b",
       "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
