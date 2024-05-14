@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e347c8f9_a6b002f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-14T12:15:37Z",
+      "side": 1,
+      "message": "Reverted most of the unrelated formatting changes to reduce size of this patch.\n\nI am tired discussing formatting hence I will propose on the jgit list that we switch from using Eclipse IDE formatter to use google-java-format. I think we can do this after the next release in June when we have merged the next branch to avoid unnecessary conflicts.",
+      "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "045ddb75_2b8c2d2b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/patch/PatchApplierTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-14T12:15:37Z",
+      "side": 1,
+      "message": "can we avoid calling the deprecated #applyPatch(InputStream) by using #applyPatch(Patch) similar like it is done in #applyPatch() ?",
+      "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f95c07a_84d7da20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-14T12:15:37Z",
+      "side": 1,
+      "message": "fixed version",
+      "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49fd6b30_743def99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-14T12:15:37Z",
+      "side": 1,
+      "message": "suppress warning for non-translatable string literals",
+      "revId": "d849191941aa52db23c93236d6fd0a238360ff16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
