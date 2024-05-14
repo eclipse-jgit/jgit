@@ -120,8 +120,11 @@ public class RefDirectory extends RefDatabase {
 	public static final String PACKED_REFS_PEELED = " peeled"; //$NON-NLS-1$
 
 	@SuppressWarnings("boxing")
-	private static final List<Integer> RETRY_SLEEP_MS =
-			Collections.unmodifiableList(Arrays.asList(0, 100, 200, 400, 800, 1600));
+	private static final List<Integer> RETRY_SLEEP_MS = Stream.of(
+			System.getProperty("ghs.jgit.ref-directory.sleep-ms", "0,100,200,400,800,1600")
+				.split(","))
+		.map(Integer::parseInt)
+		.toList();
 
 	private final FileRepository parent;
 
