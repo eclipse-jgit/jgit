@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88121776_e672f9bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-15T21:03:53Z",
+      "side": 1,
+      "message": "This causes the generation of an invalid bitmap, which in turns prevents cloning:\n\n```\nremote: Enumerating objects: 343283, done.\nremote: Counting objects: 100% (924/924), done.\nremote: Compressing objects: 100% (174/174), done.\nremote: Total 343283 (delta 798), reused 750 (delta 750), pack-reused 342359\nReceiving objects: 100% (343283/343283), 211.25 MiB | 101.56 MiB/s, done.\nResolving deltas: 100% (84611/84611), done.\nfatal: did not receive expected object 0300a07e21cb6cdb7df84d5d1f97f64346522b98\nfatal: fetch-pack: invalid index-pack output\ngit clone --no-checkout --no-local /Users/syntonyze/ghs/ghs-gym.git   4.67s user 1.89s system 150% cpu 4.356 total\n```\n\nLooks like the generated bitmap cannot be used, causing git to count the objects and only finding 924.\nRemoving the generated bitmap allows the clone to complete successfully:\n\n```\nremote: Enumerating objects: 497195, done.\nremote: Counting objects: 100% (458101/458101), done.\nremote: Compressing objects: 100% (322219/322219), done.\nremote: Total 497195 (delta 135718), reused 458083 (delta 135701), pack-reused 39094\nReceiving objects: 100% (497195/497195), 342.04 MiB | 115.40 MiB/s, done.\nResolving deltas: 100% (155140/155140), done.\ngit clone --no-checkout --no-local /Users/syntonyze/ghs/ghs-gym.git   10.63s user 2.86s system 118% cpu 11.333 total\n```\n\nThis occurs even when the number of slices used by Compute bitmaps in parallel slices is 1, so it seems a problem with the algorithm, not a concurrency problem.",
+      "revId": "7e7d046387012a5e62e35187a9f76d33185a5124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
