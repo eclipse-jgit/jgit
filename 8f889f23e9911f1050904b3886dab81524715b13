@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce43fd65_274c867a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-15T22:45:57Z",
+      "side": 1,
+      "message": "Couple nits",
+      "revId": "8f889f23e9911f1050904b3886dab81524715b13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94492799_25c1efa5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-15T22:45:57Z",
+      "side": 1,
+      "message": "This looks like a weird ordering of the imports, can you rerun the formatter?",
+      "revId": "8f889f23e9911f1050904b3886dab81524715b13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb6937d5_e1608ef1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-15T22:45:57Z",
+      "side": 1,
+      "message": "Can we keep this (and the parameter of findAllImpl) as \"Collection\"? It is usually prefered to use the more generic type as parameter.",
+      "range": {
+        "startLine": 310,
+        "startChar": 2,
+        "endLine": 310,
+        "endChar": 9
+      },
+      "revId": "8f889f23e9911f1050904b3886dab81524715b13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
