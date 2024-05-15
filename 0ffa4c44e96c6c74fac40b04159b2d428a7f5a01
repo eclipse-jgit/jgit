@@ -150,6 +150,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c20548aa_06f60831",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-15T07:44:25Z",
+      "side": 1,
+      "message": "Reopening, this has not been removed yet.",
+      "parentUuid": "82865329_c837ec41",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "0ffa4c44e96c6c74fac40b04159b2d428a7f5a01",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7807e97a_7341a455",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 3
