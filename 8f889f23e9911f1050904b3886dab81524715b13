@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bca6ff52_38ae5e6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-05-15T22:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94492799_25c1efa5",
+      "revId": "8f889f23e9911f1050904b3886dab81524715b13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb6937d5_e1608ef1",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-05-15T22:45:57Z",
       "side": 1,
       "message": "Can we keep this (and the parameter of findAllImpl) as \"Collection\"? It is usually prefered to use the more generic type as parameter.",
+      "range": {
+        "startLine": 310,
+        "startChar": 2,
+        "endLine": 310,
+        "endChar": 9
+      },
+      "revId": "8f889f23e9911f1050904b3886dab81524715b13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b5acfa_cefefa98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-05-15T22:50:41Z",
+      "side": 1,
+      "message": "I wanted to use a Set in the type signature because the performance implications of the remove() method are very important to this method.",
+      "parentUuid": "fb6937d5_e1608ef1",
       "range": {
         "startLine": 310,
         "startChar": 2,
