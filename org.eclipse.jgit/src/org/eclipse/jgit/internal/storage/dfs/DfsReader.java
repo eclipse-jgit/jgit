@@ -307,7 +307,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private <T extends ObjectId> Iterable<FoundObject<T>> findAll(
 			Iterable<T> objectIds) throws IOException {
-		Collection<T> pending = new ArrayList<>();
+		HashSet<T> pending = new HashSet<>();
 		for (T id : objectIds) {
 			pending.add(id);
 		}
@@ -327,22 +327,21 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	private <T extends ObjectId> void findAllImpl(PackList packList,
-			Collection<T> pending, List<FoundObject<T>> r) {
+			HashSet<T> pending, List<FoundObject<T>> r) {
 		DfsPackFile[] packs = packList.packs;
 		if (packs.length == 0) {
 			return;
 		}
 		int lastIdx = 0;
 		DfsPackFile lastPack = packs[lastIdx];
-
-		OBJECT_SCAN: for (Iterator<T> it = pending.iterator(); it.hasNext();) {
-			T t = it.next();
+		HashSet<T> toRemove = new HashSet<>();
+		OBJECT_SCAN: for (T t : pending) {
 			if (!skipGarbagePack(lastPack)) {
 				try {
 					long p = lastPack.findOffset(this, t);
 					if (0 < p) {
 						r.add(new FoundObject<>(t, lastIdx, lastPack, p));
-						it.remove();
+						toRemove.add(t);
 						continue;
 					}
 				} catch (IOException e) {
@@ -360,7 +359,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 					long p = pack.findOffset(this, t);
 					if (0 < p) {
 						r.add(new FoundObject<>(t, i, pack, p));
-						it.remove();
+						toRemove.add(t);
 						lastIdx = i;
 						lastPack = pack;
 						continue OBJECT_SCAN;
@@ -370,6 +369,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 				}
 			}
 		}
+		pending.removeAll(toRemove);
 
 		last = lastPack;
 	}
