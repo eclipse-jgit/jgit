@@ -26,6 +26,7 @@ import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -126,6 +127,8 @@ public class RefDirectory extends RefDatabase {
 	private final FileRepository parent;
 
 	private final File gitDir;
+
+	private static final boolean skipPackedRefsSha1 = Boolean.getBoolean("ghs.jgit.packed-ref.skip-sha1");
 
 	final File refsDir;
 
@@ -975,7 +978,7 @@ public class RefDirectory extends RefDatabase {
 
 	private PackedRefList refreshPackedRefs(PackedRefList curList)
 			throws IOException {
-		final PackedRefList newList = readPackedRefs();
+		final PackedRefList newList = readPackedRefs(curList);
 		if (packedRefs.compareAndSet(curList, newList) && !curList.id.equals(
 				newList.id)) {
 			modCnt.incrementAndGet();
@@ -983,20 +986,39 @@ public class RefDirectory extends RefDatabase {
 		return newList;
 	}
 
-	private PackedRefList readPackedRefs() throws IOException {
+	private PackedRefList readPackedRefs(PackedRefList oldPackedRefs) throws IOException {
 		try {
 			PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
 					f -> {
 						FileSnapshot snapshot = FileSnapshot.save(f);
 						MessageDigest digest = Constants.newMessageDigest();
-						try (BufferedReader br = new BufferedReader(
+
+						if (skipPackedRefsSha1) {
+							byte[] packedRefsContent = Files
+								.readAllBytes(f.toPath());
+							if (oldPackedRefs.hasTheSamePackedRefsBytes(packedRefsContent)) {
+								return oldPackedRefs;
+							}
+
+							try (BufferedReader br = new BufferedReader(
 								new InputStreamReader(
-										new DigestInputStream(
-												new FileInputStream(f), digest),
-										UTF_8))) {
-							return new PackedRefList(parsePackedRefs(br),
+									new ByteArrayInputStream(packedRefsContent),
+									UTF_8))) {
+								return new PackedRefList(parsePackedRefs(br), snapshot,
+									ObjectId.fromRaw(digest.digest(packedRefsContent)),
+									packedRefsContent);
+							}
+						} else {
+							try (BufferedReader br = new BufferedReader(
+								new InputStreamReader(
+									new DigestInputStream(
+										new FileInputStream(f), digest),
+									UTF_8))) {
+								return new PackedRefList(parsePackedRefs(br),
 									snapshot,
-									ObjectId.fromRaw(digest.digest()));
+									ObjectId.fromRaw(digest.digest()),
+									null);
+							}
 						}
 					});
 			return result != null ? result : NO_PACKED_REFS;
@@ -1101,7 +1123,7 @@ public class RefDirectory extends RefDatabase {
 
 				byte[] digest = Constants.newMessageDigest().digest(content);
 				PackedRefList newPackedList = new PackedRefList(
-						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
+						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest), content);
 				packedRefs.compareAndSet(oldPackedList, newPackedList);
 				if (changed) {
 					modCnt.incrementAndGet();
@@ -1454,16 +1476,24 @@ public class RefDirectory extends RefDatabase {
 
 		private final ObjectId id;
 
-		private PackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId i) {
+		private final byte[] packedRefsBytes;
+
+		private PackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId i, byte[] packedRefsBytes) {
 			super(src);
 			snapshot = s;
 			id = i;
+			this.packedRefsBytes = packedRefsBytes;
+		}
+
+		private boolean hasTheSamePackedRefsBytes(byte[] cmpPackedRefsBytes) {
+			return packedRefsBytes != null && cmpPackedRefsBytes != null &&
+				Arrays.equals(packedRefsBytes, cmpPackedRefsBytes);
 		}
 	}
 
 	private static final PackedRefList NO_PACKED_REFS = new PackedRefList(
 			RefList.emptyList(), FileSnapshot.MISSING_FILE,
-			ObjectId.zeroId());
+			ObjectId.zeroId(), null);
 
 	private static LooseSymbolicRef newSymbolicRef(FileSnapshot snapshot,
 			String name, String target) {
