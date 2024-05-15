@@ -51,13 +51,13 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BitmapIndex;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.util.BlockList;
 
 /**
@@ -307,7 +307,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private <T extends ObjectId> Iterable<FoundObject<T>> findAll(
 			Iterable<T> objectIds) throws IOException {
-		Collection<T> pending = new ArrayList<>();
+		HashSet<T> pending = new HashSet<>();
 		for (T id : objectIds) {
 			pending.add(id);
 		}
@@ -327,48 +327,52 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	private <T extends ObjectId> void findAllImpl(PackList packList,
-			Collection<T> pending, List<FoundObject<T>> r) {
+			HashSet<T> pending, List<FoundObject<T>> r) {
 		DfsPackFile[] packs = packList.packs;
 		if (packs.length == 0) {
 			return;
 		}
 		int lastIdx = 0;
 		DfsPackFile lastPack = packs[lastIdx];
+		HashSet<T> toRemove = new HashSet<>();
+		try {
+			OBJECT_SCAN:
+			for (T t : pending) {
+				if (!skipGarbagePack(lastPack)) {
+					try {
+						long p = lastPack.findOffset(this, t);
+						if (0 < p) {
+							r.add(new FoundObject<>(t, lastIdx, lastPack, p));
+							toRemove.add(t);
+							continue;
+						}
+					} catch (IOException e) {
+						// Fall though and try to examine other packs.
+					}
+				}
 
-		OBJECT_SCAN: for (Iterator<T> it = pending.iterator(); it.hasNext();) {
-			T t = it.next();
-			if (!skipGarbagePack(lastPack)) {
-				try {
-					long p = lastPack.findOffset(this, t);
-					if (0 < p) {
-						r.add(new FoundObject<>(t, lastIdx, lastPack, p));
-						it.remove();
+				for (int i = 0; i < packs.length; i++) {
+					if (i == lastIdx)
 						continue;
+					DfsPackFile pack = packs[i];
+					if (skipGarbagePack(pack))
+						continue;
+					try {
+						long p = pack.findOffset(this, t);
+						if (0 < p) {
+							r.add(new FoundObject<>(t, i, pack, p));
+							toRemove.add(t);
+							lastIdx = i;
+							lastPack = pack;
+							continue OBJECT_SCAN;
+						}
+					} catch (IOException e) {
+						// Examine other packs.
 					}
-				} catch (IOException e) {
-					// Fall though and try to examine other packs.
 				}
 			}
-
-			for (int i = 0; i < packs.length; i++) {
-				if (i == lastIdx)
-					continue;
-				DfsPackFile pack = packs[i];
-				if (skipGarbagePack(pack))
-					continue;
-				try {
-					long p = pack.findOffset(this, t);
-					if (0 < p) {
-						r.add(new FoundObject<>(t, i, pack, p));
-						it.remove();
-						lastIdx = i;
-						lastPack = pack;
-						continue OBJECT_SCAN;
-					}
-				} catch (IOException e) {
-					// Examine other packs.
-				}
-			}
+		} finally {
+			pending.removeAll(toRemove);
 		}
 
 		last = lastPack;
