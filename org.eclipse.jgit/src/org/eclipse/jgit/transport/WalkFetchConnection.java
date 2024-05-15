@@ -22,8 +22,10 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.CompoundException;
@@ -122,7 +124,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	private final Deque<WalkRemoteObjectDatabase> noAlternatesYet;
 
 	/** Packs we have discovered, but have not yet fetched locally. */
-	private final Deque<RemotePack> unfetchedPacks;
+	private final Map<String, RemotePack> unfetchedPacks;
 
 	/**
 	 * Packs whose indexes we have looked at in {@link #unfetchedPacks}.
@@ -164,7 +166,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		remotes = new ArrayList<>();
 		remotes.add(w);
 
-		unfetchedPacks = new ArrayDeque<>();
+		unfetchedPacks = new LinkedHashMap<>();
 		packsConsidered = new HashSet<>();
 
 		noPacksYet = new ArrayDeque<>();
@@ -227,7 +229,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	public void close() {
 		inserter.close();
 		reader.close();
-		for (RemotePack p : unfetchedPacks) {
+		for (RemotePack p : unfetchedPacks.values()) {
 			if (p.tmpIdx != null)
 				p.tmpIdx.delete();
 		}
@@ -423,7 +425,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 					continue;
 				for (String packName : packNameList) {
 					if (packsConsidered.add(packName))
-						unfetchedPacks.add(new RemotePack(wrr, packName));
+						unfetchedPacks.put(packName, new RemotePack(wrr, packName));
 				}
 				if (downloadPackedObject(pm, id))
 					return;
@@ -472,9 +474,12 @@ class WalkFetchConnection extends BaseFetchConnection {
 		// Search for the object in a remote pack whose index we have,
 		// but whose pack we do not yet have.
 		//
-		final Iterator<RemotePack> packItr = unfetchedPacks.iterator();
-		while (packItr.hasNext() && !monitor.isCancelled()) {
-			final RemotePack pack = packItr.next();
+		Set<String> toRemove = new HashSet<>();
+		for (Entry<String, RemotePack> entry : unfetchedPacks.entrySet()) {
+			if (monitor.isCancelled()) {
+				break;
+			}
+			final RemotePack pack = entry.getValue();
 			try {
 				pack.openIndex(monitor);
 			} catch (IOException err) {
@@ -484,7 +489,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// another source, so don't consider it a failure.
 				//
 				recordError(id, err);
-				packItr.remove();
+				toRemove.add(entry.getKey());
 				continue;
 			}
 
@@ -535,7 +540,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 					}
 					throw new TransportException(e.getMessage(), e);
 				}
-				packItr.remove();
+				toRemove.add(entry.getKey());
 			}
 
 			if (!alreadyHave(id)) {
@@ -550,11 +555,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 			// Complete any other objects that we can.
 			//
-			final Iterator<ObjectId> pending = swapFetchQueue();
-			while (pending.hasNext()) {
-				final ObjectId p = pending.next();
+			final Deque<ObjectId> pending = swapFetchQueue();
+			for (ObjectId p : pending) {
 				if (pack.index.hasObject(p)) {
-					pending.remove();
 					process(p);
 				} else {
 					workQueue.add(p);
@@ -563,11 +566,12 @@ class WalkFetchConnection extends BaseFetchConnection {
 			return true;
 
 		}
+		toRemove.forEach(unfetchedPacks::remove);
 		return false;
 	}
 
-	private Iterator<ObjectId> swapFetchQueue() {
-		final Iterator<ObjectId> r = workQueue.iterator();
+	private Deque<ObjectId> swapFetchQueue() {
+		final Deque<ObjectId> r = workQueue;
 		workQueue = new ArrayDeque<>();
 		return r;
 	}
