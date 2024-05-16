@@ -424,8 +424,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 				if (packNameList == null || packNameList.isEmpty())
 					continue;
 				for (String packName : packNameList) {
-					if (packsConsidered.add(packName))
+					if (packsConsidered.add(packName)) {
 						unfetchedPacks.put(packName, new RemotePack(wrr, packName));
+					}
 				}
 				if (downloadPackedObject(pm, id))
 					return;
@@ -498,6 +499,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// the open may have aborted. We can't search an
 				// unopen index.
 				//
+				toRemove.forEach(unfetchedPacks::remove);
 				return false;
 			}
 
@@ -563,6 +565,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 					workQueue.add(p);
 				}
 			}
+			toRemove.forEach(unfetchedPacks::remove);
 			return true;
 
 		}
