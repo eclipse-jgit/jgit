@@ -284,22 +284,35 @@ public final class DfsPackFile extends BlockBasedFile {
 			return null;
 		}
 
+		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
+		boolean readChangedPathFilters = repoConfig.getBoolean(
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
+		boolean cpfFlagMismatch = false;
 		if (commitGraph != null) {
-			return commitGraph;
+			boolean containCpf = commitGraph.getChangedPathFilter(0) != null;
+			if (containCpf == readChangedPathFilters) {
+				return commitGraph;
+			}
+			cpfFlagMismatch = true;
 		}
 
-		DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH);
+		String bloomFilterSubKey = readChangedPathFilters ? "withBf" : "noBf";
+		DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH,
+				bloomFilterSubKey);
 		AtomicBoolean cacheHit = new AtomicBoolean(true);
 		DfsBlockCache.Ref<CommitGraph> cgref = cache
 				.getOrLoadRef(commitGraphKey, REF_POSITION, () -> {
 					cacheHit.set(false);
-					return loadCommitGraph(ctx, commitGraphKey);
+					return loadCommitGraph(ctx, commitGraphKey,
+							readChangedPathFilters);
 				});
 		if (cacheHit.get()) {
 			ctx.stats.commitGraphCacheHit++;
 		}
 		CommitGraph cg = cgref.get();
-		if (commitGraph == null && cg != null) {
+		if ((commitGraph == null && cg != null) || cpfFlagMismatch) {
 			commitGraph = cg;
 		}
 		ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
@@ -1296,13 +1309,10 @@ public final class DfsPackFile extends BlockBasedFile {
 	}
 
 	private DfsBlockCache.Ref<CommitGraph> loadCommitGraph(DfsReader ctx,
-			DfsStreamKey cgkey) throws IOException {
+			DfsStreamKey cgkey, boolean readChangedPathFilters)
+			throws IOException {
 		ctx.stats.readCommitGraph++;
 		long start = System.nanoTime();
-		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
-		boolean readChangedPathFilters = repoConfig.getBoolean(
-				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
 		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
 			long size;
 			CommitGraph cg;
