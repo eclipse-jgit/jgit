@@ -100,6 +100,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe272507_afca79fb",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-16T19:04:49Z",
+      "side": 1,
+      "message": "Matthias: the signing-related stuff is in git config all in the \"gpg\" section for historical reasons. It covers pgp signatures, S/MIME signatures, and SSH signatures. This \"GpgConfig\" name reflects that.\n\nWe do ourselves a big favour if we read \"gpg\" here (and in the bundle name!) as \"gpg git config section\", not as \"GPG or PGP-related things\".",
+      "parentUuid": "25b7687a_c4c2686c",
+      "range": {
+        "startLine": 48,
+        "startChar": 45,
+        "endLine": 48,
+        "endChar": 55
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ef4da8d_f3ec4422",
         "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifierFactory.java",
         "patchSetId": 11
@@ -145,6 +169,30 @@
       "writtenOn": "2024-05-16T14:38:27Z",
       "side": 1,
       "message": "I think we should also rename the interface GpgSignatureVerifier to SignatureVerifier since SignatureParser is a generic interface. Also the GPGConfig it\u0027s using needs to be generalized.",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b138208_7624c0b7",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-16T19:04:49Z",
+      "side": 1,
+      "message": "GpgSignatureVerifier comes from the main JGit bundle, and _is_ API. We can fix the naming only in 7.0.",
+      "parentUuid": "1ad9af89_e905897b",
       "range": {
         "startLine": 22,
         "startChar": 1,
