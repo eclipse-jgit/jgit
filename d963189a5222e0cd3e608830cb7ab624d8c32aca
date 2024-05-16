@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11fd2c42_b8649412",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-05-16T19:57:32Z",
+      "side": 1,
+      "message": "unrelated?",
+      "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ca77370_b9042bc6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
         "patchSetId": 1
@@ -14,6 +31,24 @@
       "writtenOn": "2024-05-16T19:54:05Z",
       "side": 1,
       "message": "Instead of repeating this call at each return statement, how about we wrap the entire method, and use a finally{} block in the wrapper to remove the entries?",
+      "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac4bdca8_b382dc01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-05-16T19:57:32Z",
+      "side": 1,
+      "message": "+1, that seems like the better future proofing",
+      "parentUuid": "4ca77370_b9042bc6",
       "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
