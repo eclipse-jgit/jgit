@@ -39,7 +39,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class PushConnectionTest {
@@ -155,7 +154,6 @@ public class PushConnectionTest {
 	}
 
 	@Test
-	@Ignore
 	public void limitCommandBytes() throws IOException {
 		Map<String, RemoteRefUpdate> updates = new HashMap<>();
 		for (int i = 0; i < 4; i++) {
@@ -181,7 +179,6 @@ public class PushConnectionTest {
 	}
 
 	@Test
-	@Ignore
 	public void limitPackSize() throws IOException {
 		// this maxPackSize leads to an unPackError
 		maxPackSize = 1;
