@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "333b3857_19c34185",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T22:36:27Z",
+      "side": 1,
+      "message": "on master `remove()` isn\u0027t called anymore, that\u0027s not necessary as the `Deque pending` is iterated completely exactly once and then replaced by a new `Deque` in the next iteration of the outer for loop.",
+      "parentUuid": "9380440d_5c47bcff",
+      "revId": "964498e0a5059fc62417f4d09074b56b42b148be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5ca9695_6b2dab5a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/UnionInputStream.java",
         "patchSetId": 2
@@ -118,6 +136,24 @@
       "writtenOn": "2024-05-16T20:45:49Z",
       "side": 1,
       "message": "I think this became O(n) now based on the text at the top of https://docs.oracle.com/en/java/javase/17/docs//api/java.base/java/util/ArrayDeque.html\n\n\u003e Most ArrayDeque operations run in amortized constant time. Exceptions include remove, removeFirstOccurrence, removeLastOccurrence, contains, `iterator.remove()`, and the bulk operations, all of which run in linear time.",
+      "revId": "964498e0a5059fc62417f4d09074b56b42b148be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0037591a_b8ee6e01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/UnionInputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T22:36:27Z",
+      "side": 1,
+      "message": "on master `Iterator.remove()` isn\u0027t called anymore, instead `streams.clear()` is called after the loop finished",
+      "parentUuid": "f5ca9695_6b2dab5a",
       "revId": "964498e0a5059fc62417f4d09074b56b42b148be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
