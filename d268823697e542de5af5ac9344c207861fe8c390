@@ -16,6 +16,42 @@
       "message": "`skipCollisionCheck` should be used here also.\n\n```suggestion\n\t\treturn checkObjectCollisions \u0026\u0026 !skipCollisionCheck;\n```",
       "revId": "d268823697e542de5af5ac9344c207861fe8c390",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc427657_d2af5647",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-16T12:53:23Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9f4cc3f7_b3e3ce22",
+      "revId": "d268823697e542de5af5ac9344c207861fe8c390",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08143e05_fb851e0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-16T12:53:23Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9f4cc3f7_b3e3ce22",
+      "revId": "d268823697e542de5af5ac9344c207861fe8c390",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
