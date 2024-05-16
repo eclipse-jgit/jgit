@@ -40,6 +40,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
@@ -327,8 +328,15 @@ public final class DfsPackFile extends BlockBasedFile {
 			return null;
 		}
 
+		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
+
+		boolean readChangedPathFilters = repoConfig.getBoolean(
+				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+
 		if (commitGraph != null) {
-			return commitGraph;
+			return new ServeCpfCommitGraph(commitGraph,
+					readChangedPathFilters);
 		}
 
 		DfsStreamKey commitGraphKey = desc.getStreamKey(COMMIT_GRAPH);
@@ -346,7 +354,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			commitGraph = cg;
 		}
 		ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
-		return commitGraph;
+		return new ServeCpfCommitGraph(commitGraph, readChangedPathFilters);
 	}
 
 	/**
@@ -1294,16 +1302,12 @@ public final class DfsPackFile extends BlockBasedFile {
 			DfsStreamKey cgkey) throws IOException {
 		ctx.stats.readCommitGraph++;
 		long start = System.nanoTime();
-		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
-		boolean readChangedPathFilters = repoConfig.getBoolean(
-				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
 		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
 			long size;
 			CommitGraph cg;
 			try {
 				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
-						readChangedPathFilters);
+						true);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
@@ -1579,6 +1583,38 @@ public final class DfsPackFile extends BlockBasedFile {
 		RefWithSize(V ref, long size) {
 			this.ref = ref;
 			this.size = size;
+		}
+	}
+
+	private record ServeCpfCommitGraph(CommitGraph delegate,
+			boolean serveChangedPathFilters) implements CommitGraph {
+
+		@Override
+		public int findGraphPosition(AnyObjectId commit) {
+			return delegate.findGraphPosition(commit);
+		}
+
+		@Override
+		public CommitData getCommitData(int graphPos) {
+			return delegate.getCommitData(graphPos);
+		}
+
+		@Override
+		public ObjectId getObjectId(int graphPos) {
+			return delegate.getObjectId(graphPos);
+		}
+
+		@Override
+		public ChangedPathFilter getChangedPathFilter(int graphPos) {
+			if (serveChangedPathFilters) {
+				return delegate.getChangedPathFilter(graphPos);
+			}
+			return null;
+		}
+
+		@Override
+		public long getCommitCnt() {
+			return delegate.getCommitCnt();
 		}
 	}
 }
