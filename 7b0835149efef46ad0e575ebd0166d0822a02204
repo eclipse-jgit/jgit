@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3c5fd7_7527d140",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2523,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-16T15:35:13Z",
+      "side": 0,
+      "message": "This check disappeared on the assumption that the reuse walker was always false, as per your findings.\n\nThis however is not true and the `RevCommit` is actually set to reuse the bitmap walker by the bitmap preparer, here [1].\n\nBecause of the removal, amd also L2537-2538, the bitmap generated is invalid.\nIt contains _all_ objects but their encoding is somehow different from the one stored by a valid bitmap (genreated for example via the vanilla jgit gc).\n\nThe assumption that a new bitmap walker can be used (to allow parallelism) does not hold true.\n\n[1] https://github.com/eclipse-jgit/jgit/blob/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriterBitmapPreparer.java#L302",
+      "range": {
+        "startLine": 2521,
+        "startChar": 0,
+        "endLine": 2523,
+        "endChar": 4
+      },
+      "revId": "7b0835149efef46ad0e575ebd0166d0822a02204",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bcf0ab6_3ce09358",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-05-16T15:35:13Z",
+      "side": 1,
+      "message": "I found a way to replicate this failure with two commits only. for some reason it does not fail with a programmatic test (perhaps I am missing something), but I can reproduce it easily by:\n\n\n```\n# Create new repo\n\nmkdir foobar.git\ncd foobar.git\ngit init --bare\ncd /tmp\n\n# Add commit 1\ngit clone --no-local /\u003cpath\u003e/foobar.git\nFOO\u003d$RANDOM; echo $FOO \u003e file-$FOO \u0026\u0026 git add . \u0026\u0026 git commit -a -m\"Add $FOO\" \u0026\u0026 git push origin HEAD:refs/heads/main\n\n# Bitmap action\ntime java -jar target/actions-executor-1.0-SNAPSHOT-jar-with-dependencies.jar BitmapGenerationAction \u003cpath\u003e/foobar.git\n\n# Add commit 2\nFOO\u003d$RANDOM; echo $FOO \u003e file-$FOO \u0026\u0026 git add . \u0026\u0026 git commit -a -m\"Add $FOO\" \u0026\u0026 git push origin HEAD:refs/heads/main\n\n# Bitmap action\ntime java -jar target/actions-executor-1.0-SNAPSHOT-jar-with-dependencies.jar BitmapGenerationAction \u003cpath\u003e/foobar.git\n\ngit clone --no-local \u003cpath\u003e/foobar.git $RANDOM\n```\n\nthis fails with\n\n```\nCloning into \u00272353\u0027...\nremote: Enumerating objects: 5, done.\nremote: Total 5 (delta 0), reused 0 (delta 0), pack-reused 5\nReceiving objects: 100% (5/5), done.\nfatal: did not receive expected object 408f421864c618722e07897071a324e61b4e1ca6\nfatal: fetch-pack: invalid index-pack output\n```",
+      "revId": "7e7d046387012a5e62e35187a9f76d33185a5124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa7b2005_faedfd66",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 6
