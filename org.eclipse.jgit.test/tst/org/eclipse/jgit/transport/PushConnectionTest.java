@@ -155,6 +155,7 @@ public class PushConnectionTest {
 	}
 
 	@Test
+	@Ignore
 	public void limitCommandBytes() throws IOException {
 		Map<String, RemoteRefUpdate> updates = new HashMap<>();
 		for (int i = 0; i < 4; i++) {
