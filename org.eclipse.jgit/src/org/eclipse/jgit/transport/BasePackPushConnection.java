@@ -172,6 +172,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 *             if any exception occurs.
 	 * @since 3.0
 	 */
+	@SuppressWarnings("Finally")
 	protected void doPush(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates,
 			OutputStream outputStream) throws TransportException {
@@ -182,28 +183,34 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 				transmitOptions();
 			if (writePack)
 				writePack(refUpdates, monitor);
-			if (sentCommand) {
-				if (capableReport)
-					readStatusReport(refUpdates);
-				if (capableSideBand) {
-					// Ensure the data channel is at EOF, so we know we have
-					// read all side-band data from all channels and have a
-					// complete copy of the messages (if any) buffered from
-					// the other data channels.
-					//
-					int b = in.read();
-					if (0 <= b) {
-						throw new TransportException(uri, MessageFormat.format(
-								JGitText.get().expectedEOFReceived,
-								Character.valueOf((char) b)));
-					}
-				}
-			}
 		} catch (TransportException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new TransportException(uri, e.getMessage(), e);
 		} finally {
+			try {
+				if (sentCommand) {
+					if (capableReport)
+						readStatusReport(refUpdates);
+					if (capableSideBand) {
+						// Ensure the data channel is at EOF, so we know we have
+						// read all side-band data from all channels and have a
+						// complete copy of the messages (if any) buffered from
+						// the other data channels.
+						//
+						int b = in.read();
+						if (0 <= b) {
+							throw new TransportException(uri, MessageFormat.format(
+									JGitText.get().expectedEOFReceived,
+									Character.valueOf((char) b)));
+						}
+					}
+				}
+			} catch (TransportException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new TransportException(uri, e.getMessage(), e);
+			}
 			if (in instanceof SideBandInputStream) {
 				((SideBandInputStream) in).drainMessages();
 			}
