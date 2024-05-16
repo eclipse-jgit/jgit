@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ffba4ac_875b2909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-16T20:05:32Z",
+      "side": 1,
+      "message": "As we modify the line, we can take the chance to update the coding style.\n\nOptional really, if you insist I can take it out.",
+      "parentUuid": "11fd2c42_b8649412",
+      "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ca77370_b9042bc6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
         "patchSetId": 1
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "+1, that seems like the better future proofing",
       "parentUuid": "4ca77370_b9042bc6",
+      "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88994d38_01c8884d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-16T20:05:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac4bdca8_b382dc01",
       "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
