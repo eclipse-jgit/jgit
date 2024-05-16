@@ -16,6 +16,143 @@
       "message": "Looks OK. It\u0027s probably as far as we can go now without breaking API. But note that `BouncyCastleSignatureVerifier` is actually not Bouncy Castle specific. (Except for registering the provider, which it should probably not do anyway. See https://github.com/eclipse-jgit/jgit/issues/33 . I\u0027m still undecided on that one, but probably the reporter is right, and provider registration should not be done inside the library.) So in 7.0, we might refactor more and move it to main JGit.",
       "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b5b5d7b_c9eca663",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "We don\u0027t need to keep this class since classes in internal packages (package name contains segment \"internal\", here org.eclipse.jgit.gpg.bc.internal) are not public API. So clients which use API of internal packages do this on their own risk and may face breaking changes also in minor releases.",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "270dc0fd_d041e3d1",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifierFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "we allow breaking changes in minor releases for classes in internal packages since they are not considered public API",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a30dba1_33c3ddb3",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "looks odd that a class dressed to look like a class not related to GPG extends a class which is bound to the GPG implementation",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25b7687a_c4c2686c",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "If this class is not supposed to be GPG specific it should not use a GPG specific config class",
+      "range": {
+        "startLine": 48,
+        "startChar": 45,
+        "endLine": 48,
+        "endChar": 55
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ef4da8d_f3ec4422",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifierFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "it seems this class with a generic name should not extend a GPG specific class",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a8a23e_f0bd962d",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "We may consider to rename the enclosing bundle org.eclipse.jgit.gpg.bc to org.eclipse.jgit.bc in the next major release as you are now adding other signing methods than GPG",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ad9af89_e905897b",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:38:27Z",
+      "side": 1,
+      "message": "I think we should also rename the interface GpgSignatureVerifier to SignatureVerifier since SignatureParser is a generic interface. Also the GPGConfig it\u0027s using needs to be generalized.",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
