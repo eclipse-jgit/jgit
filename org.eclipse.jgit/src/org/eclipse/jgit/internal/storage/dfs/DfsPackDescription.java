@@ -228,8 +228,21 @@ public class DfsPackDescription {
 	 * @return cache key for use by the block cache.
 	 */
 	public DfsStreamKey getStreamKey(PackExt ext) {
-		return DfsStreamKey.of(getRepositoryDescription(), getFileName(ext),
-				ext);
+		return getStreamKey(ext, "");
+	}
+
+	/**
+	 * Get cache key for use by the block cache.
+	 *
+	 * @param ext
+	 *            the file extension.
+	 * @param subKey
+	 *            literal string extension to the streamKey name.
+	 * @return cache key for use by the block cache.
+	 */
+	public DfsStreamKey getStreamKey(PackExt ext, String subKey) {
+		return DfsStreamKey.of(getRepositoryDescription(),
+				getFileName(ext).concat(subKey), ext);
 	}
 
 	/**
