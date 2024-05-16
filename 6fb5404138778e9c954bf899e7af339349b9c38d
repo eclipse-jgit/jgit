@@ -122,6 +122,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e940e8b6_5391658b",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T22:51:09Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "fe272507_afca79fb",
+      "range": {
+        "startLine": 48,
+        "startChar": 45,
+        "endLine": 48,
+        "endChar": 55
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ef4da8d_f3ec4422",
@@ -193,6 +217,30 @@
       "side": 1,
       "message": "GpgSignatureVerifier comes from the main JGit bundle, and _is_ API. We can fix the naming only in 7.0.",
       "parentUuid": "1ad9af89_e905897b",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d76f9b4b_c0b1a262",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T22:51:09Z",
+      "side": 1,
+      "message": "You are right, I missed this. Then I\u0027d add a TODO reminder or already prepare this rename on the next branch",
+      "parentUuid": "6b138208_7624c0b7",
       "range": {
         "startLine": 22,
         "startChar": 1,
