@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1759e9c_bb76c2ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkFetchConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-16T20:35:09Z",
+      "side": 1,
+      "message": "Sorry about that. In my mind this was an amendment to the previous commit, so I talk about the content like all one change.\n\nThanks for taking a look!",
+      "parentUuid": "97b19a63_38703db5",
+      "revId": "d963189a5222e0cd3e608830cb7ab624d8c32aca",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ca77370_b9042bc6",
