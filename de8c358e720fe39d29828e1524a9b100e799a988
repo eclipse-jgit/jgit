@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd7f4022_b43cc857",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-05-16T19:10:14Z",
+      "side": 1,
+      "message": "\"Execution license-check of goal org.eclipse.dash:license-tool-plugin:1.1.0:license-check failed: Received an error response from ClearlyDefined.\"\n\n\nlooks like a network problem, i\u0027m also unable to get a success response running this on my local machine",
+      "revId": "de8c358e720fe39d29828e1524a9b100e799a988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
