@@ -424,8 +424,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 				if (packNameList == null || packNameList.isEmpty())
 					continue;
 				for (String packName : packNameList) {
-					if (packsConsidered.add(packName))
+					if (packsConsidered.add(packName)) {
 						unfetchedPacks.put(packName, new RemotePack(wrr, packName));
+					}
 				}
 				if (downloadPackedObject(pm, id))
 					return;
@@ -468,13 +469,22 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	private boolean downloadPackedObject(ProgressMonitor monitor,
+			AnyObjectId id) throws TransportException {
+		Set<String> brokenPacks = new HashSet<>();
+		try {
+			return downloadPackedObject(monitor, id, brokenPacks);
+		} finally {
+			brokenPacks.forEach(unfetchedPacks::remove);
+		}
+	}
+
 	@SuppressWarnings("Finally")
 	private boolean downloadPackedObject(final ProgressMonitor monitor,
-			final AnyObjectId id) throws TransportException {
+			final AnyObjectId id, Set<String> brokenPacks) throws TransportException {
 		// Search for the object in a remote pack whose index we have,
 		// but whose pack we do not yet have.
 		//
-		Set<String> toRemove = new HashSet<>();
 		for (Entry<String, RemotePack> entry : unfetchedPacks.entrySet()) {
 			if (monitor.isCancelled()) {
 				break;
@@ -489,7 +499,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// another source, so don't consider it a failure.
 				//
 				recordError(id, err);
-				toRemove.add(entry.getKey());
+				brokenPacks.add(entry.getKey());
 				continue;
 			}
 
@@ -540,7 +550,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 					}
 					throw new TransportException(e.getMessage(), e);
 				}
-				toRemove.add(entry.getKey());
+				brokenPacks.add(entry.getKey());
 			}
 
 			if (!alreadyHave(id)) {
@@ -566,7 +576,6 @@ class WalkFetchConnection extends BaseFetchConnection {
 			return true;
 
 		}
-		toRemove.forEach(unfetchedPacks::remove);
 		return false;
 	}
 
