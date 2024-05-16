@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "683116cf_b5469ccf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T23:32:31Z",
+      "side": 1,
+      "message": "thanks for this contribution :-)\nsorry for the long wait\n\n- rebased the change\n- updated @since tag\n- use static import instead of copying constant\n- reduce visibility of fields to private\n- some formatting improvements\n- remove some blank lines",
+      "revId": "2b3b549b36563b915a16f14f6f9a01d54df39081",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
