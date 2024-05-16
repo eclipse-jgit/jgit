@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdddf374_f18976a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:42:05Z",
+      "side": 1,
+      "message": "introduce this in the change where it\u0027s first used ?",
+      "revId": "684fbb80815347cf5362ee9f3d0e9f81d0202a3f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb4a83fc_b1d64f15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-16T14:42:05Z",
+      "side": 1,
+      "message": "6.10",
+      "range": {
+        "startLine": 499,
+        "startChar": 11,
+        "endLine": 499,
+        "endChar": 16
+      },
+      "revId": "684fbb80815347cf5362ee9f3d0e9f81d0202a3f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01701af9_0c359b82",
