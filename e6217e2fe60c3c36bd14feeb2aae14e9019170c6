@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "093c545c_422fd244",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-16T16:23:55Z",
+      "side": 1,
+      "message": "Tests are failing in a license checker, but nothing here affects the license. Probably flaky. Tests pass locally.",
+      "revId": "e6217e2fe60c3c36bd14feeb2aae14e9019170c6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
