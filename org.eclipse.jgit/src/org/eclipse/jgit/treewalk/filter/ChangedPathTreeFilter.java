@@ -64,28 +64,7 @@ public class ChangedPathTreeFilter extends TreeFilter {
 	}
 
 	private ChangedPathTreeFilter(String... paths) {
-		List<String> filtered = Arrays.stream(paths)
-				.map(s -> StringUtils.trim(s, '/'))
-				.collect(Collectors.toList());
-
-		if (filtered.size() == 0)
-			throw new IllegalArgumentException(
-					JGitText.get().atLeastOnePathIsRequired);
-
-		if (filtered.stream().anyMatch(s -> s.isEmpty() || s.isBlank())) {
-			throw new IllegalArgumentException(
-					JGitText.get().emptyPathNotPermitted);
-		}
-
-		this.paths = filtered;
-		this.rawPaths = this.paths.stream().map(Constants::encode)
-				.collect(Collectors.toList());
-		if (filtered.size() == 1) {
-			this.pathFilter = PathFilter.create(paths[0]);
-		} else {
-			this.pathFilter = OrTreeFilter.create(Arrays.stream(paths)
-					.map(PathFilter::create).collect(Collectors.toList()));
-		}
+		setPaths(paths);
 	}
 
 	@Override
@@ -145,6 +124,37 @@ public class ChangedPathTreeFilter extends TreeFilter {
 	 */
 	public List<String> getPaths() {
 		return paths;
+	}
+
+	/**
+	 * Reset the paths this filter matches to a new array of paths.
+	 *
+	 * @param paths
+	 *            new paths that this filter matches with.
+	 */
+	public void setPaths(String... paths) {
+		List<String> filtered = Arrays.stream(paths)
+				.map(s -> StringUtils.trim(s, '/'))
+				.collect(Collectors.toList());
+
+		if (filtered.size() == 0)
+			throw new IllegalArgumentException(
+					JGitText.get().atLeastOnePathIsRequired);
+
+		if (filtered.stream().anyMatch(s -> s.isEmpty() || s.isBlank())) {
+			throw new IllegalArgumentException(
+					JGitText.get().emptyPathNotPermitted);
+		}
+
+		this.paths = filtered;
+		this.rawPaths = this.paths.stream().map(Constants::encode)
+				.collect(Collectors.toList());
+		if (filtered.size() == 1) {
+			this.pathFilter = PathFilter.create(paths[0]);
+		} else {
+			this.pathFilter = OrTreeFilter.create(Arrays.stream(paths)
+					.map(PathFilter::create).collect(Collectors.toList()));
+		}
 	}
 
 	@SuppressWarnings("nls")
