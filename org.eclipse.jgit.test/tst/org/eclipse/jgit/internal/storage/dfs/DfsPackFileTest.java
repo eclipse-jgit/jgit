@@ -192,8 +192,8 @@ public class DfsPackFileTest {
 		}
 
 		@Override
-		public void onBlockLoad(String packName, PackSource src, PackExt ext, long position,
-				DfsBlockData dfsBlockData) {
+		public void onBlockLoad(String packName, PackSource src, PackExt ext,
+				long position, DfsBlockData dfsBlockData) {
 			blockLoadCount += 1;
 		}
 	}
@@ -286,6 +286,35 @@ public class DfsPackFileTest {
 		assertNotNull(cg);
 		assertEquals(1, cg.getCommitCnt());
 		assertNotNull(cg.getChangedPathFilter(0));
+	}
+
+	@Test
+	public void testCommitGraphInBlockCacheMatchReadChangedPathsFlagState()
+			throws Exception {
+		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
+				db)) {
+			repository.branch("/refs/heads/main").commit().add("blob1", "blob1")
+					.create();
+		}
+		setReadChangedPaths(true);
+		DfsGarbageCollector gc = new DfsGarbageCollector(db);
+		gc.setWriteCommitGraph(true).setWriteBloomFilter(true)
+				.pack(NullProgressMonitor.INSTANCE);
+		DfsReader reader = db.getObjectDatabase().newReader();
+
+		CommitGraph cgWithCpf = db.getObjectDatabase().getPacks()[0]
+				.getCommitGraph(reader);
+		assertNotNull(cgWithCpf.getChangedPathFilter(0));
+
+		setReadChangedPaths(false);
+		CommitGraph cgNoCpf = db.getObjectDatabase().getPacks()[0]
+				.getCommitGraph(reader);
+		assertNull(cgNoCpf.getChangedPathFilter(0));
+
+		setReadChangedPaths(true);
+		CommitGraph cgWithCpfAgain = db.getObjectDatabase().getPacks()[0]
+				.getCommitGraph(reader);
+		assertNotNull(cgWithCpfAgain.getChangedPathFilter(0));
 	}
 
 	private ObjectId setupPack(int bs, int ps) throws IOException {
