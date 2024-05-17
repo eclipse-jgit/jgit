@@ -450,10 +450,20 @@ public class RepositoryCache {
 		 *         Git directory.
 		 */
 		public static boolean isGitRepository(File dir, FS fs) {
-			return fs.resolve(dir, Constants.OBJECTS).exists()
-					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
-					&& (fs.resolve(dir, Constants.REFTABLE).exists()
-							|| isValidHead(new File(dir, Constants.HEAD)));
+			// check if common-dir available or fallback to git-dir
+			File commonDir;
+			try {
+				commonDir = fs.getCommonDir(dir);
+			} catch (IOException e) {
+				commonDir = null;
+			}
+			if (commonDir == null) {
+				commonDir = dir;
+			}
+			return fs.resolve(commonDir, Constants.OBJECTS).exists()
+					&& fs.resolve(commonDir, "refs").exists() //$NON-NLS-1$
+					&& (fs.resolve(commonDir, Constants.REFTABLE).exists()
+							|| isValidHead(new File(commonDir, Constants.HEAD)));
 		}
 
 		private static boolean isValidHead(File head) {
@@ -496,15 +506,30 @@ public class RepositoryCache {
 		 *         null if there is no suitable match.
 		 */
 		public static File resolve(File directory, FS fs) {
-			if (isGitRepository(directory, fs))
+			// the folder itself
+			if (isGitRepository(directory, fs)) {
 				return directory;
-			if (isGitRepository(new File(directory, Constants.DOT_GIT), fs))
-				return new File(directory, Constants.DOT_GIT);
-
-			final String name = directory.getName();
-			final File parent = directory.getParentFile();
-			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT), fs))
-				return new File(parent, name + Constants.DOT_GIT_EXT);
+			}
+			// the .git subfolder or file (reference)
+			final File dotDir = new File(directory, Constants.DOT_GIT);
+			if (dotDir.isFile()) {
+				try {
+					File refDir = BaseRepositoryBuilder.getSymRef(directory, dotDir, fs);
+					if (refDir != null && isGitRepository(refDir, fs)) {
+						return refDir;
+					}
+				} catch (IOException ignored) {
+					// Continue searching if gitdir ref isn't found
+				}
+			} else if (isGitRepository(dotDir, fs)) {
+				return dotDir;
+			}
+			// the folder extended with .git (bare)
+			final File bareDir = new File(directory.getParentFile(),
+					directory.getName() + Constants.DOT_GIT_EXT);
+			if (isGitRepository(bareDir, fs)) {
+				return bareDir;
+			}
 			return null;
 		}
 	}
