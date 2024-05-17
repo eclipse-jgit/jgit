@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18b7bbcd_dd412e89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-17T18:36:05Z",
+      "side": 1,
+      "message": "nit: So this creates an empty chunk to be filled in with bloom filter content later? By the name it isn\u0027t clear. Header sounded more appropriate.\n\nalso nice to have: to add some comment on why it is computing the way it is being done.",
+      "range": {
+        "startLine": 169,
+        "startChar": 34,
+        "endLine": 169,
+        "endChar": 57
+      },
+      "revId": "057abc13d8c9cc019ea1e5d037cb38c84a5138f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "969fafbc_1759baac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-17T18:36:05Z",
+      "side": 1,
+      "message": "nit: How about defining this as BLOOM_FILTER_DATA_CHUNK_HEADER_SIZE?",
+      "range": {
+        "startLine": 193,
+        "startChar": 27,
+        "endLine": 193,
+        "endChar": 29
+      },
+      "revId": "057abc13d8c9cc019ea1e5d037cb38c84a5138f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a5c65d_8a3117a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-17T18:36:05Z",
+      "side": 1,
+      "message": "nit: totalBytesRequired or simply bytesRequired",
+      "range": {
+        "startLine": 193,
+        "startChar": 7,
+        "endLine": 193,
+        "endChar": 24
+      },
+      "revId": "057abc13d8c9cc019ea1e5d037cb38c84a5138f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38206064_58a4d99a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-17T18:36:05Z",
+      "side": 1,
+      "message": "totalByteRequired +\u003d -Math.floorDiv(-paths.size() * ChangedPathFilter.BITS_PER_ENTRY, 8);\n\nsnd how is it different than:\n\ntotalByteRequired +\u003d Math.floorDiv(paths.size() * ChangedPathFilter.BITS_PER_ENTRY, 8);\n\n?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 10
+      },
+      "revId": "057abc13d8c9cc019ea1e5d037cb38c84a5138f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04689d9a_29c05156",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-17T18:36:05Z",
+      "side": 1,
+      "message": "is this necessary. Generally avoiding nested if it is not necessary increased readability. \nAlso this piece of code can go outside the for loop once all paths are added?",
+      "range": {
+        "startLine": 479,
+        "startChar": 6,
+        "endLine": 481,
+        "endChar": 7
+      },
+      "revId": "057abc13d8c9cc019ea1e5d037cb38c84a5138f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
