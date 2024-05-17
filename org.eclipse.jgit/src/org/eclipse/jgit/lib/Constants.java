@@ -273,6 +273,20 @@ public final class Constants {
 	public static final String INFO_REFS = "info/refs";
 
 	/**
+	 * Name of heads folder or file in refs.
+	 *
+	 * @since 6.10
+	 */
+	public static final String HEADS = "heads";
+
+	/**
+	 * Prefix for any log.
+	 *
+	 * @since 6.10
+	 */
+	public static final String L_LOGS = LOGS + "/";
+
+	/**
 	 * Info alternates file (goes under OBJECTS)
 	 * @since 5.5
 	 */
@@ -356,6 +370,12 @@ public final class Constants {
 	 * directory
 	 */
 	public static final String GIT_DIR_KEY = "GIT_DIR";
+
+	/**
+	 * The environment variable that tells us which directory is the common
+	 * ".git" directory.
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
 
 	/**
 	 * The environment variable that tells us which directory is the working
@@ -457,6 +477,34 @@ public final class Constants {
 	 * @since 3.6
 	 */
 	public static final String GITDIR = "gitdir: ";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to worktree's .git
+	 * file (opposite link).
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/gitdir
+	 *
+	 * A text file containing the absolute path back to the .git file that
+	 * points to here. This is used to check if the linked repository has been
+	 * manually removed and there is no need to keep this directory any more.
+	 * The mtime of this file should be updated every time the linked repository
+	 * is accessed.
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to $GIT_COMMON_DIR.
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/commondir
+	 *
+	 * If this file exists, $GIT_COMMON_DIR will be set to the path specified in
+	 * this file if it is not explicitly set. If the specified path is relative,
+	 * it is relative to $GIT_DIR. The repository with commondir is incomplete
+	 * without the repository pointed by "commondir".
+	 *
+	 * @since 6.10
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
 
 	/**
 	 * Name of the folder (inside gitDir) where submodules are stored

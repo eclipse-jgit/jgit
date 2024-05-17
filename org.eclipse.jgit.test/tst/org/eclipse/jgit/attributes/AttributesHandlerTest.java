@@ -584,7 +584,7 @@ public class AttributesHandlerTest extends RepositoryTestCase {
 
 		}
 		if (infoAttributesContent != null) {
-			File f = new File(db.getDirectory(), Constants.INFO_ATTRIBUTES);
+			File f = new File(db.getCommonDirectory(), Constants.INFO_ATTRIBUTES);
 			write(f, infoAttributesContent);
 		}
 		config.save();
