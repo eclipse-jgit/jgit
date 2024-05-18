@@ -30,6 +30,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -135,6 +137,10 @@ class PackDirectory {
 		} while (searchPacksAgain(list));
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
+	}
+
+	Stream<Pack> getMatchingPacks(Predicate<Pack> matchingFilter) {
+		return Arrays.stream(getPacks().toArray(new Pack[0])).filter(matchingFilter);
 	}
 
 	@Override
