@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -770,5 +771,10 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				pack.setBlockSize(BITMAP_INDEX, out.blockSize());
 			}
 		};
+	}
+
+	public PackBitmapIndex getLatestBitmapIndex() throws IOException
+	{
+		return null;
 	}
 }
