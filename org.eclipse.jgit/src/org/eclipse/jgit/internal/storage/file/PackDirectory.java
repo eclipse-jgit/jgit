@@ -499,22 +499,37 @@ class PackDirectory {
 	}
 
 	private PackList scanPacks(PackList original) {
-		synchronized (packList) {
-			PackList o, n;
-			do {
-				o = packList.get();
-				if (o != original) {
-					// Another thread did the scan for us, while we
-					// were blocked on the monitor above.
-					//
-					return o;
-				}
-				n = scanPacksImpl(o);
-				if (n == o) {
-					return n;
-				}
-			} while (!packList.compareAndSet(o, n));
-			return n;
+		boolean isDebugEnabled = LOG.isDebugEnabled();
+		boolean unneededScan = false;
+		long startTime = isDebugEnabled ? System.nanoTime() : 0L;
+		try {
+			synchronized (packList) {
+				PackList o, n;
+				do {
+					o = packList.get();
+					if (o != original) {
+						// Another thread did the scan for us, while we
+						// were blocked on the monitor above.
+						//
+						return o;
+					}
+					n = scanPacksImpl(o);
+					if (o.packs.length == n.packs.length) {
+						unneededScan = true;
+					}
+					if (n == o) {
+						return n;
+					}
+				} while (!packList.compareAndSet(o, n));
+				return n;
+			}
+		} finally {
+			if (isDebugEnabled) {
+				LOG.info("scanPacks({}) finished in {} micro-secs {}",
+					getDirectory(),
+					(System.nanoTime() - startTime) / 1000,
+					unneededScan ? "**UNNEEDED**" : "");
+			}
 		}
 	}
 
