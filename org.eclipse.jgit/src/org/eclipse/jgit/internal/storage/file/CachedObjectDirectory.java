@@ -285,4 +285,9 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		}
 		return count;
 	}
+
+	@Override
+	public PackBitmapIndex getLatestBitmapIndex() throws IOException {
+		return wrapped.getLatestBitmapIndex();
+	}
 }
