@@ -30,6 +30,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -137,6 +139,10 @@ class PackDirectory {
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
 
+	Stream<Pack> getMatchingPacks(Predicate<Pack> matchingFilter) {
+		return Arrays.stream(packList.get().packs).filter(matchingFilter);
+	}
+
 	@Override
 	public String toString() {
 		return "PackDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -227,6 +233,7 @@ class PackDirectory {
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
 		PackList pList;
+		boolean found = false;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
@@ -251,6 +258,7 @@ class PackDirectory {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
 						if (ldr != null) {
+							found = true;
 							rapidPackIndex.put(objectId.getName(), Optional.of(p));
 							return ldr;
 						}
@@ -266,7 +274,7 @@ class PackDirectory {
 				}
 				break SEARCH;
 			}
-		} while (searchPacksAgain(pList));
+		} while (!found && searchPacksAgain(pList));
 		rapidPackIndex.put(objectId.getName(), Optional.empty());
 		return null;
 	}

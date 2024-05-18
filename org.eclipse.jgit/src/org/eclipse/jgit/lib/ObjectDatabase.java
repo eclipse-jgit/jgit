@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 
 /**
  * Abstraction of arbitrary object storage.
@@ -202,4 +203,11 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * @since 6.1
 	 */
 	public abstract long getApproximateObjectCount();
+
+	/**
+	 * Get the bitmap index with the newest creation date.
+	 *
+	 * @return the latest PackBitMapIndex or null if no bitmaps are found
+	 */
+	public abstract PackBitmapIndex getLatestBitmapIndex() throws IOException;
 }
