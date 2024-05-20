@@ -230,10 +230,7 @@ class PackDirectory {
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
-				if (rapidPackIndex.isEmpty()) {
-					preloadRapidPackIndex();
-				}
-				Optional<Pack> rapidPackAccess = rapidPackIndex.get(objectId.getName());
+				Optional<Pack> rapidPackAccess = getFromRapidIndex(objectId);
 				if (rapidPackAccess != null) {
 					try {
 						if(rapidPackAccess.isPresent()) {
@@ -270,6 +267,13 @@ class PackDirectory {
 		return null;
 	}
 
+  private Optional<Pack> getFromRapidIndex(AnyObjectId objectId) {
+    if (rapidPackIndex.isEmpty()) {
+      preloadRapidPackIndex();
+    }
+    return rapidPackIndex.get(objectId.getName());
+  }
+
 	void preloadRapidPackIndex() {
 		PackList pList = packList.get();
 		Arrays.stream(pList.packs).parallel().forEach(this::preloadPackFromIndex);
@@ -300,6 +304,15 @@ class PackDirectory {
 			throws PackMismatchException {
 		PackList pList;
 		do {
+			Optional<Pack> rapidPackAccess = getFromRapidIndex(id);
+			if (rapidPackAccess != null && rapidPackAccess.isPresent()) {
+				try {
+					return rapidPackAccess.get().getObjectSize(curs, id);
+				} catch (IOException e) {
+					rapidPackIndex.remove(id.getName());
+					handlePackError(e, rapidPackAccess.get());
+				}
+			}
 			int retries = 0;
 			SEARCH: for (;;) {
 				pList = packList.get();
