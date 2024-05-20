@@ -156,10 +156,12 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		compressed.trim();
 		StoredBitmap newest = new StoredBitmap(c, compressed, null, flags);
 
-		bitmapsToWriteXorBuffer.add(newest);
-		if (bitmapsToWriteXorBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
-			bitmapsToWrite.add(
-					generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+		synchronized (bitmapsToWriteXorBuffer) {
+			bitmapsToWriteXorBuffer.add(newest);
+			if (bitmapsToWriteXorBuffer.size() > MAX_XOR_OFFSET_SEARCH) {
+					bitmapsToWrite.add(
+						generateStoredEntry(bitmapsToWriteXorBuffer.pollFirst()));
+			}
 		}
 
 		if (c.isAddToIndex()) {
@@ -175,14 +177,16 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		EWAHCompressedBitmap bestBitmap = bitmapToWrite.getBitmap();
 
 		int offset = 1;
-		for (StoredBitmap curr : bitmapsToWriteXorBuffer) {
-			EWAHCompressedBitmap bitmap = curr.getBitmap()
+		synchronized (bitmapsToWriteXorBuffer) {
+			for (StoredBitmap curr : bitmapsToWriteXorBuffer) {
+				EWAHCompressedBitmap bitmap = curr.getBitmap()
 					.xor(bitmapToWrite.getBitmap());
-			if (bitmap.sizeInBytes() < bestBitmap.sizeInBytes()) {
-				bestBitmap = bitmap;
-				bestXorOffset = offset;
+				if (bitmap.sizeInBytes() < bestBitmap.sizeInBytes()) {
+					bestBitmap = bitmap;
+					bestXorOffset = offset;
+				}
+				offset++;
 			}
-			offset++;
 		}
 
 		PositionEntry entry = positionEntries.get(bitmapToWrite);
@@ -206,7 +210,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 * @param flags
 	 *            the flags to be stored with the bitmap
 	 */
-	public void addBitmap(
+	public synchronized void addBitmap(
 			AnyObjectId objectId, EWAHCompressedBitmap bitmap, int flags) {
 		bitmap.trim();
 		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
