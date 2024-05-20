@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8337dfeb_febf0872",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-05-20T08:05:33Z",
+      "side": 1,
+      "message": "I realised that I forget to change/fix all these \"since\" versions.",
+      "revId": "7e1040dfc2b8a6e76e1c8e51f48034fc500b620e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
