@@ -20,7 +20,7 @@ maven apache
 	dependency {
 		groupId = "commons-io"
 		artifactId = "commons-io"
-		version = "2.15.1"
+		version = "2.16.1"
 	}
 	dependency {
 		groupId = "commons-logging"
