@@ -150,9 +150,6 @@
    <bundle id="org.apache.commons.logging">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.logging.source">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
    <bundle id="org.apache.httpcomponents.httpclient">
       <category name="JGit-dependency-bundles"/>
    </bundle>

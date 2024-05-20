@@ -146,8 +146,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-logging",
-    artifact = "commons-logging:commons-logging:1.2",
-    sha1 = "4bfc12adfe4842bf07b657f0369c4cb522955686",
+    artifact = "commons-logging:commons-logging:1.3.2",
+    sha1 = "3dc966156ef19d23c839715165435e582fafa753",
 )
 
 maven_jar(
