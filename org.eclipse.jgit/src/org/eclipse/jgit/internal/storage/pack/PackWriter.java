@@ -44,6 +44,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
@@ -2521,19 +2523,18 @@ public class PackWriter implements AutoCloseable {
 	 * out the new bitmaps with
 	 * {@link #writeBitmapIndex(PackBitmapIndexWriter)}.
 	 *
-	 * @param pm
+	 * @param pmParam
 	 *            progress monitor to report bitmap building work.
 	 * @return whether a bitmap index may be written.
 	 * @throws java.io.IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
-	public boolean prepareBitmapIndex(ProgressMonitor pm) throws IOException {
+	public boolean prepareBitmapIndex(ProgressMonitor pmParam) throws IOException {
 		if (!canBuildBitmaps || getObjectCount() > Integer.MAX_VALUE
 				|| !cachedPacks.isEmpty())
 			return false;
 
-		if (pm == null)
-			pm = NullProgressMonitor.INSTANCE;
+		ProgressMonitor pm = pmParam == null ? NullProgressMonitor.INSTANCE : pmParam;
 
 		int numCommits = objectsLists[OBJ_COMMIT].size();
 		List<ObjectToPack> byName = sortByName();
@@ -2552,36 +2553,65 @@ public class PackWriter implements AutoCloseable {
 
 		Collection<BitmapCommit> selectedCommits = bitmapPreparer
 				.selectCommits(numCommits, excludeFromBitmapSelection);
-
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
-		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
-		AnyObjectId last = null;
-		for (BitmapCommit cmit : selectedCommits) {
-			if (!cmit.isReuseWalker()) {
-				walker = bitmapPreparer.newBitmapWalker();
-			}
-			BitmapBuilder bitmap = walker.findObjects(
-					Collections.singleton(cmit), null, false);
-
-			if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
-				throw new IllegalStateException(MessageFormat.format(
-						JGitText.get().bitmapMissingObject, cmit.name(),
-						last.name()));
-			last = BitmapCommit.copyFrom(cmit).build();
-			writeBitmaps.processBitmapForWrite(cmit, bitmap.build(),
-					cmit.getFlags());
-
-			// The bitmap walker should stop when the walk hits the previous
-			// commit, which saves time.
-			walker.setPrevCommit(last);
-			walker.setPrevBitmap(bitmap);
-
-			pm.update(1);
-		}
-
+		long start = System.currentTimeMillis();
+		sliceCommits(selectedCommits, Runtime.getRuntime().availableProcessors() * 2)
+			.parallel()
+			.forEach(commitsSlice -> {
+				try {
+					writeBitmapForSlice(commitsSlice, pm);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
+		long tot = System.currentTimeMillis() - start;
+		System.out.println();
+		System.out.println("Writing bitmap took " + tot + " ms");
+		System.out.println();
 		endPhase(pm);
 		return true;
+	}
+
+	private void writeBitmapForSlice(Collection<BitmapCommit> sliceCmits, ProgressMonitor pm) throws IOException {
+        PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
+			reader.newReader(), writeBitmaps, pm, stats.interestingObjects, config);
+        BitmapWalker walker = bitmapPreparer.newBitmapWalker();
+        AnyObjectId last = null;
+        for (BitmapCommit cmit : sliceCmits) {
+            if (!cmit.isReuseWalker()) {
+                walker = bitmapPreparer.newBitmapWalker();
+            }
+            BitmapBuilder bitmap = walker.findObjects(
+                    Collections.singleton(cmit), null, false);
+
+            if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
+                throw new IllegalStateException(MessageFormat.format(
+                        JGitText.get().bitmapMissingObject, cmit.name(),
+                        last.name()));
+            last = BitmapCommit.copyFrom(cmit).build();
+            writeBitmaps.processBitmapForWrite(cmit, bitmap.build(),
+                    cmit.getFlags());
+
+            // The bitmap walker should stop when the walk hits the previous
+            // commit, which saves time.
+            walker.setPrevCommit(last);
+            walker.setPrevBitmap(bitmap);
+
+			synchronized (pm) {
+				pm.update(1);
+			}
+        }
+	}
+
+	private Stream<Collection<BitmapCommit>> sliceCommits(Collection<BitmapCommit> selectedCommits, int slices) {
+		int totalCommits = selectedCommits.size();
+		if(totalCommits <= (slices * 2)) {
+			return Stream.of(selectedCommits);
+		}
+
+		IntStream intStream = IntStream.range(0, slices);
+		return intStream.mapToObj(sliceIdx -> new ArrayList<>(selectedCommits).subList((totalCommits * sliceIdx) / slices, (totalCommits * (sliceIdx + 1)) / slices));
 	}
 
 	private boolean reuseDeltaFor(ObjectToPack otp) {
