@@ -323,24 +323,41 @@ class PackDirectory {
 		return -1;
 	}
 
+	@Nullable
+	private static LocalObjectRepresentation selectFromPack(PackWriter packer, ObjectToPack otp,
+								WindowCursor curs, Pack p) throws IOException {
+		LocalObjectRepresentation rep = p.representation(curs, otp);
+		p.resetTransientErrorCount();
+		if (rep != null) {
+			packer.select(otp, rep);
+			packer.checkSearchForReuseTimeout();
+		}
+		return rep;
+	}
+
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws PackMismatchException {
 		PackList pList = packList.get();
 		int retries = 0;
+		Optional<Pack> cachedPack = pList.rapidPackIndex.get(otp.getName());
+
+		// Find the best representation in the cached pack, if any
+		if(cachedPack != null && cachedPack.isPresent() && packer.getQuickMatchSearchForReuse()) {
+			try {
+				LocalObjectRepresentation rep = selectFromPack(packer, otp, curs, cachedPack.get());
+				if (rep != null) return;
+			} catch (IOException e) {
+				// ignore, fallback to standard search
+			}
+		}
+
 		SEARCH: for (;;) {
 			Pack[] sortedPacks = packer.getQuickMatchSearchForReuse() ? pList.getPacksSortedByBitmapFirst() : pList.packs;
 			for (Pack p : sortedPacks) {
 				try {
-					LocalObjectRepresentation rep = p.representation(curs, otp);
-					p.resetTransientErrorCount();
-					if (rep != null) {
-						if (!packer.select(otp, rep)) {
-							return;
-						}
-						packer.checkSearchForReuseTimeout();
-						if(packer.getQuickMatchSearchForReuse()) {
-							break SEARCH;
-						}
+					LocalObjectRepresentation rep = selectFromPack(packer, otp, curs, p);
+					if (rep != null && packer.getQuickMatchSearchForReuse()) {
+						break SEARCH;
 					}
 				} catch (SearchForReuseTimeout e) {
 					break SEARCH;
