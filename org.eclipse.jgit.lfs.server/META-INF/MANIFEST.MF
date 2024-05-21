@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.lfs.server
 Bundle-SymbolicName: org.eclipse.jgit.lfs.server
-Bundle-Version: 6.10.0.202405212237-m3
+Bundle-Version: 6.10.0.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.jgit.lfs.server;version="6.10.0";
