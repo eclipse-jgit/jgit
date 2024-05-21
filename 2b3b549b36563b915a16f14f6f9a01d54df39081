@@ -16,6 +16,23 @@
       "message": "thanks for this contribution :-)\nsorry for the long wait\n\n- rebased the change\n- updated @since tag\n- use static import instead of copying constant\n- reduce visibility of fields to private\n- some formatting improvements\n- remove some blank lines",
       "revId": "2b3b549b36563b915a16f14f6f9a01d54df39081",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea537f70_937f2b05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037549
+      },
+      "writtenOn": "2024-05-21T09:19:32Z",
+      "side": 1,
+      "message": "Thank you for the review and the rebase :) \n\nCan you please add a reviewer who would be willing to give a \"+2 review\"?",
+      "revId": "2b3b549b36563b915a16f14f6f9a01d54df39081",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
