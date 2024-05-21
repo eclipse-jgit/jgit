@@ -35,6 +35,7 @@ import org.apache.sshd.client.auth.UserAuthFactory;
 import org.apache.sshd.client.auth.keyboard.UserAuthKeyboardInteractiveFactory;
 import org.apache.sshd.client.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.client.config.hosts.HostConfigEntryResolver;
+import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.config.keys.FilePasswordProvider;
@@ -206,6 +207,13 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 				if (sshDir == null) {
 					sshDir = new File(home, SshConstants.SSH_DIR);
 				}
+
+				ServerKeyVerifier serverKeyVerifier = getServerKeyVerifier();
+				if(serverKeyVerifier == null) {
+					serverKeyVerifier = new JGitServerKeyVerifier(
+							getServerKeyDatabase(home, sshDir));
+				}
+
 				HostConfigEntryResolver configFile = getHostConfigEntryResolver(
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
@@ -217,8 +225,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						.filePasswordProvider(createFilePasswordProvider(
 								keyPasswordProvider))
 						.hostConfigEntryResolver(configFile)
-						.serverKeyVerifier(new JGitServerKeyVerifier(
-								getServerKeyDatabase(home, sshDir)))
+						.serverKeyVerifier(serverKeyVerifier)
 						.signatureFactories(getSignatureFactories())
 						.compressionFactories(
 								new ArrayList<>(BuiltinCompressions.VALUES))
@@ -626,6 +633,15 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 *         none
 	 */
 	protected String getDefaultPreferredAuthentications() {
+		return null;
+	}
+
+
+	/**
+	 *
+	 * @return ServerKeyVerifier instance to use, or {@code null} then defautl will be used
+	 */
+	protected ServerKeyVerifier getServerKeyVerifier() {
 		return null;
 	}
 

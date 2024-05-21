@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import org.apache.sshd.client.keyverifier.ServerKeyVerifier;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConfigStore;
@@ -269,6 +270,17 @@ public final class SshdSessionFactoryBuilder {
 	}
 
 	/**
+	 * Sets an explicit {@link ServerKeyVerifier}
+	 * @param serverKeyVerifier {@link ServerKeyVerifier} to use
+	 * @return this {@link SshdSessionFactoryBuilder}
+	 * @since 6.10.0
+	 */
+	public SshdSessionFactoryBuilder withServerKeyVerifier(ServerKeyVerifier serverKeyVerifier) {
+		this.state.serverKeyVerifier = serverKeyVerifier;
+		return this;
+	}
+
+	/**
 	 * Builds a {@link SshdSessionFactory} as configured, using the given
 	 * {@link KeyCache} for caching keys.
 	 * <p>
@@ -317,6 +329,8 @@ public final class SshdSessionFactoryBuilder {
 
 		boolean connectorFactorySet;
 
+		ServerKeyVerifier serverKeyVerifier;
+
 		State copy() {
 			State c = new State();
 			c.proxyDataFactory = proxyDataFactory;
@@ -332,6 +346,7 @@ public final class SshdSessionFactoryBuilder {
 			c.serverKeyDatabaseCreator = serverKeyDatabaseCreator;
 			c.connectorFactory = connectorFactory;
 			c.connectorFactorySet = connectorFactorySet;
+			c.serverKeyVerifier = serverKeyVerifier;
 			return c;
 		}
 
@@ -438,6 +453,14 @@ public final class SshdSessionFactoryBuilder {
 				}
 				// Use default via ServiceLoader
 				return super.getConnectorFactory();
+			}
+
+			@Override
+			protected ServerKeyVerifier getServerKeyVerifier() {
+				if(serverKeyVerifier != null) {
+					return serverKeyVerifier;
+				}
+				return super.getServerKeyVerifier();
 			}
 		}
 	}
