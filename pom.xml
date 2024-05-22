@@ -131,7 +131,7 @@
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
     <jetty-version>10.0.21</jetty-version>
-    <japicmp-version>0.18.5</japicmp-version>
+    <japicmp-version>0.21.2</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>1.7.36</slf4j-version>
