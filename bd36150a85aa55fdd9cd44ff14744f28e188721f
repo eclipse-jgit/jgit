@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c5b1b4d_74f3f9f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038043
+      },
+      "writtenOn": "2024-05-22T06:48:46Z",
+      "side": 1,
+      "message": "The same concern as expressed here:\n\nhttps://review.gerrithub.io/c/eclipse-egit/egit/+/1195031/comments/7869f86f_2f72c011\n\nI.e., why does not generating produce only spaces while the committed versions have tabs for the maven dependencies?",
+      "revId": "bd36150a85aa55fdd9cd44ff14744f28e188721f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
