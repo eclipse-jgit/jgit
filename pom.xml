@@ -138,7 +138,7 @@
     <maven-javadoc-plugin-version>3.6.3</maven-javadoc-plugin-version>
     <gson-version>2.11.0</gson-version>
     <bouncycastle-version>1.78.1</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.8.3.1</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>4.8.5.0</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.5.1</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.3.2</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
