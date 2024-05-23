@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18ac9a2_4e42de47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:09:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb4a83fc_b1d64f15",
+      "range": {
+        "startLine": 499,
+        "startChar": 11,
+        "endLine": 499,
+        "endChar": 16
+      },
+      "revId": "684fbb80815347cf5362ee9f3d0e9f81d0202a3f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01701af9_0c359b82",
@@ -54,6 +78,24 @@
       "writtenOn": "2024-05-10T19:48:39Z",
       "side": 1,
       "message": "Use it in RevTag.",
+      "revId": "684fbb80815347cf5362ee9f3d0e9f81d0202a3f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "368c3568_00070be2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:09:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01701af9_0c359b82",
       "revId": "684fbb80815347cf5362ee9f3d0e9f81d0202a3f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
