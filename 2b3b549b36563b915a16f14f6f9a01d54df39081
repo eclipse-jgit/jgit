@@ -33,6 +33,23 @@
       "message": "Thank you for the review and the rebase :) \n\nCan you please add a reviewer who would be willing to give a \"+2 review\"?",
       "revId": "2b3b549b36563b915a16f14f6f9a01d54df39081",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e5b482d_9ad911f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-23T21:27:05Z",
+      "side": 1,
+      "message": "I tried running jgit gc on a fresh clone of the jgit repo with this patch.\nThe first run (without having a commit-graph) succeeds. The second run with commit-graph present fails with an NPE:\n\n```\n$ GIT_TRACE_PERFORMANCE\u003dtrue jgit gc\nPack refs:              100% (319/319) [0.006s]\nCounting objects:       185564 [0.371s]\nFinding sources:        100% (185564/185564) [0.525s]\nGetting sizes:          100% (58686/58686) [0.058s]\nCompressing objects:    100% (44848/44848) [0.015s]\nWriting objects:        100% (185564/185564) [0.872s]\nSelecting commits:      100% (9975/9975) [0.027s]\nBuilding bitmaps:       100% (192/192) [0.132s]\njava.lang.NullPointerException: Cannot read field \"flags\" because \"tree\" is null\n\tat org.eclipse.jgit.revwalk.ObjectWalk.markTreeUninteresting(ObjectWalk.java:796)\n\tat org.eclipse.jgit.revwalk.ObjectWalk.next(ObjectWalk.java:369)\n\tat org.eclipse.jgit.internal.storage.pack.PackWriter.findObjectsToPack(PackWriter.java:2137)\n\tat org.eclipse.jgit.internal.storage.pack.PackWriter.preparePack(PackWriter.java:1034)\n\tat org.eclipse.jgit.internal.storage.pack.PackWriter.preparePack(PackWriter.java:950)\n\tat org.eclipse.jgit.internal.storage.file.GC.writePack(GC.java:1329)\n\tat org.eclipse.jgit.internal.storage.file.GC.repack(GC.java:902)\n\tat org.eclipse.jgit.internal.storage.file.GC.doGc(GC.java:291)\n\tat org.eclipse.jgit.internal.storage.file.GC.gc(GC.java:240)\n\tat org.eclipse.jgit.api.GarbageCollectCommand.call(GarbageCollectCommand.java:196)\n\tat org.eclipse.jgit.pgm.Gc.run(Gc.java:49)\n\tat org.eclipse.jgit.pgm.TextBuiltin.execute(TextBuiltin.java:239)\n\tat org.eclipse.jgit.pgm.Main.execute(Main.java:247)\n\tat org.eclipse.jgit.pgm.Main.run(Main.java:135)\n\tat org.eclipse.jgit.pgm.Main.main(Main.java:106)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:568)\n\tat org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)\n\tat org.springframework.boot.loader.Launcher.launch(Launcher.java:108)\n\tat org.springframework.boot.loader.Launcher.launch(Launcher.java:58)\n\tat org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:65)\n```\n\nwithout this change jgit gc doesn\u0027t fail",
+      "revId": "2b3b549b36563b915a16f14f6f9a01d54df39081",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
