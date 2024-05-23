@@ -30,7 +30,7 @@
 
   <properties>
     <java.version>11</java.version>
-    <tycho-version>4.0.6</tycho-version>
+    <tycho-version>4.0.7</tycho-version>
     <target-platform>jgit-4.17</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
@@ -184,7 +184,7 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>3.6.3</version>
+                  <version>3.9.0</version>
                 </requireMavenVersion>
               </rules>
             </configuration>
