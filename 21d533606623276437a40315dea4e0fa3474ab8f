@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2b33fdeb_9cc3a349",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-05-23T09:34:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "959a929c_0022fb4b",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f66d329e_1d3ee1cd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "I tried on my laptop and found that maven builds without your change finish in around 6:30 minutes and never finish with your change. Looks like the synchronization you introduced causes this.\n\nUsually builds on the CI take 12-15 min.",
       "parentUuid": "cbd2a5c7_c23adaca",
+      "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddae6fd2_86c598d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-05-23T09:34:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0f83a5d_e46cbe07",
       "revId": "21d533606623276437a40315dea4e0fa3474ab8f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
