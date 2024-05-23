@@ -241,6 +241,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a010ce45_94ed2918",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifierFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:35:39Z",
+      "side": 1,
+      "message": "Will add a _TODO_ now and renaming can happen on 7.0.",
+      "parentUuid": "1ef4da8d_f3ec4422",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5a8a23e_f0bd962d",
@@ -254,6 +272,24 @@
       "writtenOn": "2024-05-16T14:38:27Z",
       "side": 1,
       "message": "We may consider to rename the enclosing bundle org.eclipse.jgit.gpg.bc to org.eclipse.jgit.bc in the next major release as you are now adding other signing methods than GPG",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd9189a_65204193",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:35:39Z",
+      "side": 1,
+      "message": "Sure, that will happen on 7.0.",
+      "parentUuid": "c5a8a23e_f0bd962d",
       "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
