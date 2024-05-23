@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a371aab_67c45add",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T18:48:04Z",
+      "side": 1,
+      "message": "This should also be conditioned by `skipPackedRefsSha1`",
+      "range": {
+        "startLine": 1124,
+        "startChar": 4,
+        "endLine": 1124,
+        "endChar": 65
+      },
+      "revId": "713c9207333dfb1903706504043afea94302d152",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
