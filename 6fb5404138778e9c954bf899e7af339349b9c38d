@@ -129,6 +129,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec346929_e7a0c548",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:32:59Z",
+      "side": 1,
+      "message": "I know, the same ambiguity is in C-Git, where you configure the X.509 signature (based on CMS/PKIX standards, nothing to do with PGP/GnuPG) is configured as GPG format, very inconsistent.\n\nThe same applies also to the JGit code-base, where the `AbstractGpgSignatureVerifier` implements the `GpgSignatureVerifier` where the methods are quite generic and the only thing that is related to PGP is the `GpgConfig`.\n\nI believe it would make sense to add a _TODO_ to both `AbstractGpgSignatureVerifier` and `GpgSignatureVerifier` to be renamed as `AbstractSignatureVerifier` and `SignatureVerifier` in 7.0",
+      "parentUuid": "1a30dba1_33c3ddb3",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 42
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25b7687a_c4c2686c",
