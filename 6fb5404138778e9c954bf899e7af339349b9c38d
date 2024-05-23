@@ -53,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88581bb8_756edd72",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:26:41Z",
+      "side": 1,
+      "message": "Make sense, done.",
+      "parentUuid": "8b5b5d7b_c9eca663",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "270dc0fd_d041e3d1",
@@ -66,6 +84,24 @@
       "writtenOn": "2024-05-16T14:38:27Z",
       "side": 1,
       "message": "we allow breaking changes in minor releases for classes in internal packages since they are not considered public API",
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd2b1fd_92a34d53",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifierFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:26:41Z",
+      "side": 1,
+      "message": "Makes sense, done.",
+      "parentUuid": "270dc0fd_d041e3d1",
       "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -259,6 +295,30 @@
       "side": 1,
       "message": "You are right, I missed this. Then I\u0027d add a TODO reminder or already prepare this rename on the next branch",
       "parentUuid": "6b138208_7624c0b7",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "6fb5404138778e9c954bf899e7af339349b9c38d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6011ad_34990f68",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/SignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-23T12:26:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76f9b4b_c0b1a262",
       "range": {
         "startLine": 22,
         "startChar": 1,
