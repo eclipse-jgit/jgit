@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.30" sequenceNumber="1716397979">
+<target name="jgit-4.30" sequenceNumber="1716672769">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -257,7 +257,13 @@
     	<dependency>
     		<groupId>org.apache.commons</groupId>
     		<artifactId>commons-compress</artifactId>
-    		<version>1.26.1</version>
+    		<version>1.26.2</version>
+    		<type>jar</type>
+    	</dependency>
+    	<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-lang3</artifactId>
+    		<version>3.14.0</version>
     		<type>jar</type>
     	</dependency>
     	<dependency>
