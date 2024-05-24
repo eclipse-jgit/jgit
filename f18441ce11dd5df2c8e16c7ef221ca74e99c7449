@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9cb175e_05ab0ed7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-05-24T15:58:39Z",
+      "side": 1,
+      "message": "why this is hardcoded to true? Testing leftover?",
+      "range": {
+        "startLine": 134,
+        "startChar": 1,
+        "endLine": 134,
+        "endChar": 121
+      },
+      "revId": "f18441ce11dd5df2c8e16c7ef221ca74e99c7449",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
