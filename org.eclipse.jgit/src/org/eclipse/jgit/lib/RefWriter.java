@@ -15,6 +15,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
@@ -128,6 +129,25 @@ public abstract class RefWriter {
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
 	public void writePackedRefs() throws IOException {
+		final StringWriter w = new StringWriter();
+		writePackedRefs(w);
+		writeFile(Constants.PACKED_REFS, w.toString().getBytes(StandardCharsets.UTF_8));
+	}
+
+	/**
+	 * Rebuild the {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file.
+	 * <p>
+	 * This method rebuilds the contents of the
+	 * {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file to match the
+	 * passed list of references, including only those refs that have a storage
+	 * type of {@link org.eclipse.jgit.lib.Ref.Storage#PACKED}.
+	 *
+	 * @param w writer used to store data
+	 * @throws java.io.IOException
+	 *             writing is not supported, or attempting to write the file
+	 *             failed, possibly due to permissions or remote disk full, etc.
+	 */
+	public void writePackedRefs(Writer w) throws IOException {
 		boolean peeled = false;
 		for (Ref r : refs) {
 			if (r.getStorage().isPacked() && r.isPeeled()) {
@@ -135,15 +155,14 @@ public abstract class RefWriter {
 				break;
 			}
 		}
+		int sizeOfASingleRow = (2*Constants.OBJECT_ID_STRING_LENGTH) + 50;
 
-		final StringWriter w = new StringWriter();
+		final StringBuilder sb = new StringBuilder(2* sizeOfASingleRow);
+
 		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_HEADER);
-			w.write(RefDirectory.PACKED_REFS_PEELED);
-			w.write('\n');
+			w.append(RefDirectory.PACKED_REFS_HEADER + RefDirectory.PACKED_REFS_PEELED+'\n');
 		}
 
-		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		for (Ref r : refs) {
 			if (r.getStorage() != Ref.Storage.PACKED)
 				continue;
@@ -154,20 +173,18 @@ public abstract class RefWriter {
 				// to an unborn branch.
 				throw new NullPointerException();
 			}
-			objectId.copyTo(tmp, w);
-			w.write(' ');
-			w.write(r.getName());
-			w.write('\n');
+			sb.append(objectId.name()).append(' ').append(r.getName()).append('\n');
 
 			ObjectId peeledObjectId = r.getPeeledObjectId();
 			if (peeledObjectId != null) {
-				w.write('^');
-				peeledObjectId.copyTo(tmp, w);
-				w.write('\n');
+				sb.append('^').append(peeledObjectId.name()).append('\n');
 			}
+			w.append(sb);
+			sb.setLength(0);
 		}
-		writeFile(Constants.PACKED_REFS, w.toString().getBytes(StandardCharsets.UTF_8));
 	}
+
+
 
 	/**
 	 * Handles actual writing of ref files to the git repository, which may

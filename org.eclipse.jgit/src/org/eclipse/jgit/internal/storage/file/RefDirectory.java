@@ -26,10 +26,12 @@ import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -123,7 +125,7 @@ public class RefDirectory extends RefDatabase {
 			System.getProperty("ghs.jgit.ref-directory.sleep-ms", "0,100,200,400,800,1600")
 				.split(","))
 		.map(Integer::parseInt)
-		.toList();
+		.collect(Collectors.toList());
 
 	private final FileRepository parent;
 
@@ -132,6 +134,8 @@ public class RefDirectory extends RefDatabase {
 	private static final boolean skipPackedRefsSha1 = Boolean.getBoolean("ghs.jgit.packed-ref.skip-sha1");
 
 	private static final boolean readPackedRefsFromCache = Boolean.getBoolean("ghs.jgit.packed-ref.read-from-cache");
+
+	private static final boolean streamPackedRefs = Boolean.getBoolean("ghs.jgit.packed-ref.stream-packed-refs");
 
 	private static final Map<String, byte[]> packedRefsCache = new ConcurrentHashMap<>();
 
@@ -1117,41 +1121,50 @@ public class RefDirectory extends RefDatabase {
 	void commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
 			final PackedRefList oldPackedList, boolean changed)
 			throws IOException {
-		new RefWriter(refs) {
+		RefWriter refWriter = new RefWriter(refs) {
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
-				lck.setFSync(true);
+				lck.setFSync(false);
 				lck.setNeedSnapshot(true);
 				try {
 					lck.write(content);
 				} catch (IOException ioe) {
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name), ioe);
 				}
+
 				try {
 					lck.waitForStatChange();
 				} catch (InterruptedException e) {
 					lck.unlock();
 					throw new ObjectWritingException(
-							MessageFormat.format(
-									JGitText.get().interruptedWriting, name),
-							e);
+						MessageFormat.format(
+							JGitText.get().interruptedWriting, name),
+						e);
 				}
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
 
-				ObjectId packedListSha1 =  skipPackedRefsSha1 ? null :
+				ObjectId packedListSha1 = skipPackedRefsSha1 ? null :
 					ObjectId.fromRaw(Constants.newMessageDigest().digest(content));
 				PackedRefList newPackedList = new PackedRefList(
-						refs, lck.getCommitSnapshot(), packedListSha1, content);
-				if(packedRefs.compareAndSet(oldPackedList, newPackedList) && readPackedRefsFromCache) {
+					refs, lck.getCommitSnapshot(), packedListSha1, content);
+				if (packedRefs.compareAndSet(oldPackedList, newPackedList) && readPackedRefsFromCache) {
 					packedRefsCache.put(packedRefsFile.getAbsolutePath(), content);
 				}
 				if (changed) {
 					modCnt.incrementAndGet();
 				}
 			}
-		}.writePackedRefs();
+		};
+
+		if (streamPackedRefs) {
+			try (BufferedWriter out = new BufferedWriter(new FileWriter(packedRefsFile))) {
+				refWriter.writePackedRefs(out);
+			}
+		} else {
+			refWriter.writePackedRefs();
+		}
 	}
 
 	private Ref readRef(String name, RefList<Ref> packed) throws IOException {
