@@ -16,6 +16,23 @@
       "message": "I changed my approach to solving the problem. Instead of synchronizing the two threads, I decided to fix it at the point where the error occurs.  I discovered that a special change was made to read fatal error messages from the server. However, this change does not work as expected, which manifests itself, for example, in the instability of the pushWithNotSufficientTokens test in Gerrit.  That change doesn\u0027t actually check for an error message, so I reverted it.  Checking for an error message from the server occurs in the readStatusReport() method. However, if an error occurs, for example because the \"JGit-Receive-Pack\" thread has written an error message to the out_r stream and has already closed that stream, then the error message reading code in the main thread is not executed since the \"Pipe closed\" exception is thrown, and code execution immediately goes into the catch block. So I moved this block of code into the finally block so that checking for error messages from the server will always happen, regardless of whether the writePack function succeeds or not.",
       "revId": "57b4e0353b1f819761b41f94fd367bc11d3c84be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32f3aec9_ce51379d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-05-24T11:42:22Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com Could you please take a look at this",
+      "revId": "57b4e0353b1f819761b41f94fd367bc11d3c84be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
