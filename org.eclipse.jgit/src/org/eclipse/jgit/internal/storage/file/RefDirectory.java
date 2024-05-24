@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -129,6 +130,10 @@ public class RefDirectory extends RefDatabase {
 	private final File gitDir;
 
 	private static final boolean skipPackedRefsSha1 = Boolean.getBoolean("ghs.jgit.packed-ref.skip-sha1");
+
+	private static final boolean readPackedRefsFromCache = true;//Boolean.getBoolean("ghs.jgit.packed-ref.read-from-cache");
+
+	private static Map<String, byte[]> packedRefsCache = new ConcurrentHashMap<>();
 
 	final File refsDir;
 
@@ -993,8 +998,7 @@ public class RefDirectory extends RefDatabase {
 						FileSnapshot snapshot = FileSnapshot.save(f);
 
 						if (skipPackedRefsSha1) {
-							byte[] packedRefsContent = Files
-								.readAllBytes(f.toPath());
+							byte[] packedRefsContent = readPackedRefsBytes(f);
 							if (oldPackedRefs.hasTheSamePackedRefsBytes(packedRefsContent)) {
 								return oldPackedRefs;
 							}
@@ -1029,6 +1033,20 @@ public class RefDirectory extends RefDatabase {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().cannotReadFile, packedRefsFile), e);
 		}
+	}
+
+	private static byte[] readPackedRefsBytes(File f) throws IOException {
+		String packedRefsName = f.getAbsolutePath();
+		if (readPackedRefsFromCache) {
+			return packedRefsCache.computeIfAbsent(packedRefsName, (fn) -> {
+				try {
+					return Files.readAllBytes(f.toPath());
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
+		return Files.readAllBytes(f.toPath());
 	}
 
 	void compareAndSetPackedRefs(PackedRefList curList, PackedRefList newList) {
@@ -1126,7 +1144,9 @@ public class RefDirectory extends RefDatabase {
 					ObjectId.fromRaw(Constants.newMessageDigest().digest(content));
 				PackedRefList newPackedList = new PackedRefList(
 						refs, lck.getCommitSnapshot(), packedListSha1, content);
-				packedRefs.compareAndSet(oldPackedList, newPackedList);
+				if(packedRefs.compareAndSet(oldPackedList, newPackedList) && readPackedRefsFromCache) {
+					packedRefsCache.put(packedRefsFile.getAbsolutePath(), content);
+				}
 				if (changed) {
 					modCnt.incrementAndGet();
 				}
