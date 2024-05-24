@@ -28,6 +28,7 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -51,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -135,6 +137,10 @@ public class RefDirectory extends RefDatabase {
 	private final File gitDir;
 
 	private final File gitCommonDir;
+
+	private static final boolean readPackedRefsFromCache = Boolean.getBoolean("ghs.jgit.packed-ref.read-from-cache");
+
+	private static final Map<String, PackedRefList> packedRefsListCache = new ConcurrentHashMap<>();
 
 	final File refsDir;
 
@@ -1063,15 +1069,35 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private PackedRefList readPackedRefs() throws IOException {
+		return readPackedRefsFromCache ? readPackedRefsFromCache() : readPackedRefsFromDisk();
+	}
+
+	private PackedRefList readPackedRefsFromCache() throws IOException {
+		try {
+			return packedRefsListCache.computeIfAbsent(packedRefsFile.getAbsolutePath(),
+				(fn) -> {
+					try {
+						return readPackedRefsFromDisk();
+					} catch (IOException e) {
+						throw new IllegalStateException(e);
+					}
+				});
+		} catch (IllegalStateException e) {
+			throw (IOException) (e.getCause());
+		}
+	}
+
+	private PackedRefList readPackedRefsFromDisk() throws IOException {
 		try {
 			PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
 					f -> {
 						FileSnapshot snapshot = FileSnapshot.save(f);
+						byte[] packedRefsContent = readPackedRefsBytes(f);
 						MessageDigest digest = Constants.newMessageDigest();
 						try (BufferedReader br = new BufferedReader(
 								new InputStreamReader(
 										new DigestInputStream(
-												new FileInputStream(f), digest),
+												new ByteArrayInputStream(packedRefsContent), digest),
 										UTF_8))) {
 							return new NonEmptyPackedRefList(parsePackedRefs(br),
 									snapshot,
@@ -1085,6 +1111,11 @@ public class RefDirectory extends RefDatabase {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().cannotReadFile, packedRefsFile), e);
 		}
+	}
+
+	private static byte[] readPackedRefsBytes(File f) throws IOException {
+		String packedRefsName = f.getAbsolutePath();
+		return Files.readAllBytes(f.toPath());
 	}
 
 	void compareAndSetPackedRefs(PackedRefList curList, PackedRefList newList) {
@@ -1181,7 +1212,10 @@ public class RefDirectory extends RefDatabase {
 				byte[] digest = Constants.newMessageDigest().digest(content);
 				PackedRefList newPackedList = new NonEmptyPackedRefList(
 						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
-				packedRefs.compareAndSet(oldPackedList, newPackedList);
+				if(packedRefs.compareAndSet(oldPackedList, newPackedList) && readPackedRefsFromCache) {
+					String packedRefsFilePath = packedRefsFile.getAbsolutePath();
+					packedRefsListCache.put(packedRefsFilePath, newPackedList);
+				}
 				if (changed) {
 					modCnt.incrementAndGet();
 				}
