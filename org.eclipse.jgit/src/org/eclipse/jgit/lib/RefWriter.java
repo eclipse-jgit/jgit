@@ -15,6 +15,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
@@ -128,6 +129,12 @@ public abstract class RefWriter {
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
 	public void writePackedRefs() throws IOException {
+		final StringWriter w = new StringWriter();
+		writePackedRefs(w);
+		writeFile(Constants.PACKED_REFS, w.toString().getBytes(StandardCharsets.UTF_8));
+	}
+
+	public void writePackedRefs(Writer w) throws IOException {
 		boolean peeled = false;
 		for (Ref r : refs) {
 			if (r.getStorage().isPacked() && r.isPeeled()) {
@@ -136,7 +143,6 @@ public abstract class RefWriter {
 			}
 		}
 
-		final StringWriter w = new StringWriter();
 		if (peeled) {
 			w.write(RefDirectory.PACKED_REFS_HEADER);
 			w.write(RefDirectory.PACKED_REFS_PEELED);
@@ -166,8 +172,9 @@ public abstract class RefWriter {
 				w.write('\n');
 			}
 		}
-		writeFile(Constants.PACKED_REFS, w.toString().getBytes(StandardCharsets.UTF_8));
 	}
+
+
 
 	/**
 	 * Handles actual writing of ref files to the git repository, which may

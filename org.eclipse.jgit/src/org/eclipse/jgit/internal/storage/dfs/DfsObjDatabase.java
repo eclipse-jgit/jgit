@@ -773,6 +773,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		};
 	}
 
+	@Override
 	public PackBitmapIndex getLatestBitmapIndex() throws IOException
 	{
 		return null;
