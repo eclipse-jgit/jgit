@@ -15,6 +15,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
 
@@ -165,7 +166,7 @@ public abstract class RefWriter {
 				w.write('\n');
 			}
 		}
-		writeFile(Constants.PACKED_REFS, Constants.encode(w.toString()));
+		writeFile(Constants.PACKED_REFS, w.toString().getBytes(StandardCharsets.UTF_8));
 	}
 
 	/**
