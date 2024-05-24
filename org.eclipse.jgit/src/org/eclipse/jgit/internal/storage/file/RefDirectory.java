@@ -133,6 +133,8 @@ public class RefDirectory extends RefDatabase {
 
 	private static final boolean readPackedRefsFromCache = Boolean.getBoolean("ghs.jgit.packed-ref.read-from-cache");
 
+	private static final boolean skipFsyncPackedRefsWrite = Boolean.getBoolean("ghs.jgit.packed-ref.skip-fsync");
+
 	private static final Map<String, byte[]> packedRefsCache = new ConcurrentHashMap<>();
 
 	final File refsDir;
@@ -1121,7 +1123,7 @@ public class RefDirectory extends RefDatabase {
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
-				lck.setFSync(true);
+				lck.setFSync(!skipFsyncPackedRefsWrite);
 				lck.setNeedSnapshot(true);
 				try {
 					lck.write(content);
