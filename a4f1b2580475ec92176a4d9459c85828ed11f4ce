@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1282a19c_111cbd40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-05-25T16:16:36Z",
+      "side": 1,
+      "message": "Also update commons-compress-version in the top-level POM, and the commons-compress entry in the WORKSPACE file for the bazel build.",
+      "revId": "a4f1b2580475ec92176a4d9459c85828ed11f4ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
