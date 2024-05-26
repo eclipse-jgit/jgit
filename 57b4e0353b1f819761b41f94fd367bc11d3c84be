@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5ffe4146_f9bce113",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-05-26T20:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ccf6801_502ff57f",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "57b4e0353b1f819761b41f94fd367bc11d3c84be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "20ff5da6_0380ed0e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -71,6 +95,24 @@
       "writtenOn": "2024-05-25T21:14:36Z",
       "side": 1,
       "message": "Throwing exceptions from a finally block may lead to lost exceptions, use Throwable.addSuppressed to fix this.\nSee https://errorprone.info/bugpattern/Finally",
+      "revId": "57b4e0353b1f819761b41f94fd367bc11d3c84be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f437e40_987a477e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-05-26T20:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36207a95_cfbf3b23",
       "revId": "57b4e0353b1f819761b41f94fd367bc11d3c84be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

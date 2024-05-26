@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4673e540_460cc00e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-05-26T20:01:03Z",
+      "side": 1,
+      "message": "I thought we didn\u0027t need suppressed exceptions. But indeed we may need them in order to later analyze what really happened.",
+      "revId": "dc683d909cef7711bf72694d616b55aebf561492",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
