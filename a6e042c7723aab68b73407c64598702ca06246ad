@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b71b424_67893f41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-27T16:15:49Z",
+      "side": 1,
+      "message": "I think this should be final",
+      "revId": "a6e042c7723aab68b73407c64598702ca06246ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c35a213_4790bc3b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-27T16:15:49Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "a6e042c7723aab68b73407c64598702ca06246ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
