@@ -177,12 +177,12 @@ public class PatchApplier {
 		// TODO(ms): rename this class in next major release
 		@SuppressWarnings("JavaLangClash")
 		public static class Error {
-			String msg;
+			final String msg;
 
-			String oldFileName;
+			final String oldFileName;
 
 			@Nullable
-			HunkHeader hh;
+			final HunkHeader hh;
 
 			final boolean isGitConflict;
 
