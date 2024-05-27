@@ -396,6 +396,16 @@ public class PatchApplierTest {
 		}
 
 		@Test
+		public void testConflictMarkersFileDeleted() throws Exception {
+			init("allowconflict_file_deleted", false, false);
+
+			Result result = applyPatchAllowConflicts();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
+		}
+
+		@Test
 		public void testShiftUp() throws Exception {
 			init("ShiftUp");
 
