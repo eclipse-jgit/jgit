@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb08c4a5_123c175f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038043
+      },
+      "writtenOn": "2024-05-27T15:50:28Z",
+      "side": 1,
+      "message": "I expect this is the last update for this release cycle. It\u0027s just used in tests.  The Platform has already updated to this.",
+      "revId": "d5029f2f0dc338a4f3d204710d02b4acc5e43663",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
