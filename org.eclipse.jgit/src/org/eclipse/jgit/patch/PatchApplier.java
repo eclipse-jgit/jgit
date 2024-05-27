@@ -184,10 +184,21 @@ public class PatchApplier {
 			@Nullable
 			HunkHeader hh;
 
-			Error(String msg, String oldFileName, @Nullable HunkHeader hh) {
+			boolean isGitConflict;
+
+			Error(String msg, String oldFileName, @Nullable HunkHeader hh, boolean isGitConflict) {
 				this.msg = msg;
 				this.oldFileName = oldFileName;
 				this.hh = hh;
+				this.isGitConflict = isGitConflict;
+			}
+
+			/**
+			 * Returns true if as part of encountering this error, conflict markers were added to
+			 * the file.
+			 * */
+			public boolean isGitConflict() {
+				return isGitConflict;
 			}
 
 			@Override
@@ -213,12 +224,13 @@ public class PatchApplier {
 				Error error = (Error) o;
 				return Objects.equals(msg, error.msg)
 						&& Objects.equals(oldFileName, error.oldFileName)
-						&& Objects.equals(hh, error.hh);
+						&& Objects.equals(hh, error.hh)
+						&& isGitConflict == error.isGitConflict;
 			}
 
 			@Override
 			public int hashCode() {
-				return Objects.hash(msg, oldFileName, hh);
+				return Objects.hash(msg, oldFileName, hh, isGitConflict);
 			}
 		}
 
@@ -258,7 +270,11 @@ public class PatchApplier {
 		}
 
 		private void addError(String msg,String oldFileName, @Nullable HunkHeader hh) {
-			errors.add(new Error(msg, oldFileName, hh));
+			errors.add(new Error(msg, oldFileName, hh, false));
+		}
+
+		private void addErrorWithGitConflict(String msg,String oldFileName, @Nullable HunkHeader hh) {
+			errors.add(new Error(msg, oldFileName, hh, true));
 		}
 	}
 
@@ -1020,7 +1036,7 @@ public class PatchApplier {
 				// only works if the pre-image SHA is contained in the repo.
 				// If that was the case, cherry-picking the original commit
 				// should be preferred to apply a patch.
-				result.addError("cannot apply hunk", fh.getOldPath(), hh); //$NON-NLS-1$
+				result.addErrorWithGitConflict("cannot apply hunk", fh.getOldPath(), hh); //$NON-NLS-1$
 				newLines.add(Math.min(applyAt++, newLines.size()),
 						asBytes("<<<<<<< HEAD")); //$NON-NLS-1$
 				applyAt += hh.getOldImage().lineCount;
