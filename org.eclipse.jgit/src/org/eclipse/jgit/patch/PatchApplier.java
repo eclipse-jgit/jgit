@@ -177,16 +177,17 @@ public class PatchApplier {
 		// TODO(ms): rename this class in next major release
 		@SuppressWarnings("JavaLangClash")
 		public static class Error {
-			String msg;
+			final String msg;
 
-			String oldFileName;
+			final String oldFileName;
 
 			@Nullable
-			HunkHeader hh;
+			final HunkHeader hh;
 
 			final boolean isGitConflict;
 
-			Error(String msg, String oldFileName, @Nullable HunkHeader hh, boolean isGitConflict) {
+			Error(String msg, String oldFileName, @Nullable HunkHeader hh,
+					boolean isGitConflict) {
 				this.msg = msg;
 				this.oldFileName = oldFileName;
 				this.hh = hh;
@@ -194,13 +195,14 @@ public class PatchApplier {
 			}
 
 			/**
-			 * Signals if as part of encountering this error, conflict markers were added to
-			 * the file.
+			 * Signals if as part of encountering this error, conflict markers
+			 * were added to the file.
 			 *
-			 * @return {@code true} if conflict markers were added for this error.
+			 * @return {@code true} if conflict markers were added for this
+			 *         error.
 			 *
 			 * @since 6.10
-			 * */
+			 */
 			public boolean isGitConflict() {
 				return isGitConflict;
 			}
