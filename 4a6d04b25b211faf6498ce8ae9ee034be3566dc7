@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1673c81b_f17a2a49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038043
+      },
+      "writtenOn": "2024-05-27T15:01:39Z",
+      "side": 1,
+      "message": "Yes, we ran into problems with WildWebDeveloper also with no-optional dependencies on lang3.  😞",
+      "revId": "4a6d04b25b211faf6498ce8ae9ee034be3566dc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
