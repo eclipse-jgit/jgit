@@ -373,10 +373,9 @@ public class PatchApplierTest {
 
 			assertEquals(result.getErrors().size(), 1);
 			PatchApplier.Result.Error error = result.getErrors().get(0);
-			error.hh = null; // We don't assert the hunk header as it is a
-								// complex object with lots of internal state.
-			assertEquals(error, new PatchApplier.Result.Error(
-					"cannot apply hunk", "allowconflict", null));
+			assertEquals("cannot apply hunk", error.msg);
+			assertEquals("allowconflict", error.oldFileName);
+			assertTrue(error.isGitConflict());
 			verifyChange(result, "allowconflict", true, 1);
 		}
 
@@ -388,11 +387,20 @@ public class PatchApplierTest {
 
 			assertEquals(result.getErrors().size(), 1);
 			PatchApplier.Result.Error error = result.getErrors().get(0);
-			error.hh = null; // We don't assert the hunk header as it is a
-								// complex object with lots of internal state.
-			assertEquals(error, new PatchApplier.Result.Error(
-					"cannot apply hunk", "ConflictOutOfBounds", null));
+			assertEquals("cannot apply hunk", error.msg);
+			assertEquals("ConflictOutOfBounds", error.oldFileName);
+			assertTrue(error.isGitConflict());
 			verifyChange(result, "ConflictOutOfBounds", true, 1);
+		}
+
+		@Test
+		public void testConflictMarkersFileDeleted() throws Exception {
+			init("allowconflict_file_deleted", false, false);
+
+			Result result = applyPatchAllowConflicts();
+
+			assertEquals(1, result.getErrors().size());
+			assertEquals(0, result.getPaths().size());
 		}
 
 		@Test

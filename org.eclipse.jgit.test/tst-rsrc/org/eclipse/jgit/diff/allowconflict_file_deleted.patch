@@ -1,0 +1,10 @@
+diff --git a/allowconflict_file_deleted b/allowconflict_file_deleted
+index 0000000..de98044
+--- a/allowconflict_file_deleted
++++ b/allowconflict_file_deleted
+@@ -3,4 +3,4 @@
+ line3
+-lineA
++lineB
+ line5
+ line6

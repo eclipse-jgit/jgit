@@ -170,8 +170,14 @@ maven_jar(
 
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.26.1",
-    sha1 = "44331c1130c370e726a2e1a3e6fba6d2558ef04a",
+    artifact = "org.apache.commons:commons-compress:1.26.2",
+    sha1 = "eb1f823447af685208e684fce84783b43517960c",
+)
+
+maven_jar(
+    name = "commons-lang3",
+    artifact = "org.apache.commons:commons-lang3:3.14.0",
+    sha1 = "1ed471194b02f2c6cb734a0cd6f6f107c673afae",
 )
 
 maven_jar(
@@ -212,22 +218,22 @@ maven_jar(
 
 maven_jar(
     name = "assertj-core",
-    artifact = "org.assertj:assertj-core:3.25.3",
-    sha1 = "792b270e73aa1cfc28fa135be0b95e69ea451432",
+    artifact = "org.assertj:assertj-core:3.26.0",
+    sha1 = "fc4a3d051da838946f9dffe725efbd06cd7d1eec",
 )
 
-BYTE_BUDDY_VERSION = "1.14.15"
+BYTE_BUDDY_VERSION = "1.14.16"
 
 maven_jar(
     name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "11c9440bc7f9468761e5a82778a05205169d49a9",
+    sha1 = "e1b9a06e131b7d5b183c8ccc7c29b9e5a8dba077",
 )
 
 maven_jar(
     name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "0b4cc9d88d5de562bf75b3a54ab436ad01b3f72d",
+    sha1 = "4a451ee6484abac3a498df0f3b33ed00a6fced4d",
 )
 
 maven_jar(
@@ -238,8 +244,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.10.1",
-    sha1 = "b3add478d4382b78ea20b1671390a858002feb6c",
+    artifact = "com.google.code.gson:gson:2.11.0",
+    sha1 = "527175ca6d81050b53bdd4c457a6d6e017626b0e",
 )
 
 JETTY_VER = "10.0.21"
