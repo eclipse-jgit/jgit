@@ -147,6 +147,12 @@
    <bundle id="org.apache.commons.commons-compress.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="org.apache.commons.lang3">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.commons.lang3.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <bundle id="org.apache.commons.logging">
       <category name="JGit-dependency-bundles"/>
    </bundle>

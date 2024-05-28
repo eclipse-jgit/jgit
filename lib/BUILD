@@ -20,6 +20,16 @@ java_library(
 )
 
 java_library(
+    name = "commons-lang3",
+    visibility = [
+        "//org.eclipse.jgit.archive:__pkg__",
+        "//org.eclipse.jgit.pgm.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@commons-lang3//jar"],
+)
+
+java_library(
     name = "commons-io",
     visibility = [
         "//org.eclipse.jgit.archive:__pkg__",

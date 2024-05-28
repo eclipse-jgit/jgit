@@ -127,28 +127,28 @@
     <junit-version>4.13.2</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.37</args4j-version>
-    <commons-compress-version>1.26.1</commons-compress-version>
+    <commons-compress-version>1.26.2</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
     <jetty-version>10.0.21</jetty-version>
-    <japicmp-version>0.18.5</japicmp-version>
+    <japicmp-version>0.21.2</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>1.7.36</slf4j-version>
     <maven-javadoc-plugin-version>3.6.3</maven-javadoc-plugin-version>
-    <gson-version>2.10.1</gson-version>
+    <gson-version>2.11.0</gson-version>
     <bouncycastle-version>1.78.1</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.8.3.1</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>4.8.5.0</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.5.1</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.3.2</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
-    <maven-compiler-plugin-version>3.12.1</maven-compiler-plugin-version>
+    <maven-compiler-plugin-version>3.13.0</maven-compiler-plugin-version>
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
-    <assertj-version>3.25.3</assertj-version>
+    <assertj-version>3.26.0</assertj-version>
     <jna-version>5.14.0</jna-version>
-    <byte-buddy-version>1.14.15</byte-buddy-version>
+    <byte-buddy-version>1.14.16</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -184,7 +184,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.1</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -214,7 +214,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.5.3</version>
         </plugin>
 
         <plugin>
@@ -232,7 +232,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.3.1</version>
         </plugin>
 
         <plugin>
@@ -255,7 +255,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.0</version>
         </plugin>
 
         <plugin>
@@ -277,7 +277,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.21.2</version>
+          <version>3.22.0</version>
           <configuration>
             <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <minimumTokens>100</minimumTokens>
@@ -305,12 +305,12 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.11</version>
+          <version>0.8.12</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M13</version>
+          <version>4.0.0-M14</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
@@ -337,12 +337,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -357,7 +357,7 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>2.7.13</version>
+          <version>2.7.18</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.dash</groupId>
@@ -367,12 +367,12 @@
         <plugin>
           <groupId>org.cyclonedx</groupId>
           <artifactId>cyclonedx-maven-plugin</artifactId>
-          <version>2.7.10</version>
+          <version>2.8.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-artifact-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.5.1</version>
           <configuration>
             <ignore>**/*cyclonedx.json</ignore>
             <reproducible>true</reproducible>
@@ -623,7 +623,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>7.0.0</version>
+        <version>8.0.2</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>
