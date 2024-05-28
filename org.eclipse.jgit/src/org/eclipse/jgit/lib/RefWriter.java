@@ -148,20 +148,11 @@ public abstract class RefWriter {
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
 	public void writePackedRefs(Writer w) throws IOException {
-		boolean peeled = false;
-		for (Ref r : refs) {
-			if (r.getStorage().isPacked() && r.isPeeled()) {
-				peeled = true;
-				break;
-			}
-		}
+
+		w.append(RefDirectory.PACKED_REFS_HEADER + RefDirectory.PACKED_REFS_PEELED+'\n');
+
 		int sizeOfASingleRow = (2*Constants.OBJECT_ID_STRING_LENGTH) + 50;
-
 		final StringBuilder sb = new StringBuilder(2* sizeOfASingleRow);
-
-		if (peeled) {
-			w.append(RefDirectory.PACKED_REFS_HEADER + RefDirectory.PACKED_REFS_PEELED+'\n');
-		}
 
 		for (Ref r : refs) {
 			if (r.getStorage() != Ref.Storage.PACKED)
