@@ -135,6 +135,8 @@ public class RefDirectory extends RefDatabase {
 	private static final boolean readPackedRefsFromCache = Boolean.getBoolean("ghs.jgit.packed-ref.read-from-cache");
 	private static final boolean batchPackedRefsWrite = Boolean.getBoolean("ghs.jgit.packed-ref.batch-write");
 
+	public static final int batchSizePackedRefsWrite = Integer.getInteger("ghs.jgit.packed-ref.batch-size", 20);
+
 	private static final Map<String, byte[]> packedRefsCache = new ConcurrentHashMap<>();
 
 	final File refsDir;
@@ -1150,7 +1152,7 @@ public class RefDirectory extends RefDatabase {
 
 				if(batchPackedRefsWrite) {
 				  Instant currentTime = Instant.now();
-				  if (refsPackingCnt.incrementAndGet() % 20 != 0
+				  if (refsPackingCnt.incrementAndGet() % batchSizePackedRefsWrite != 0
 							&& !isDifferenceMoreThanOneSecond(lastPackRefsWrite.getAndSet(currentTime), currentTime)) {
 						return;
 					}
