@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "384c58be_f106d359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-29T14:37:30Z",
+      "side": 1,
+      "message": "This is simply and experiment and would keep the cached version across threads. Assumes that the packed-refs isn\u0027t changed externally.",
+      "parentUuid": "81bebca0_597b109d",
+      "revId": "0587a318d9b08d5fff1c374c6dbb480e5b720894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e3e6f39_4e991ac1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-24T16:42:08Z",
       "side": 1,
       "message": "Why do any work in this method if you\u0027re reading from the cache? Could you override this entire method in a subclass and always return your in-memory PackedRefList?",
+      "revId": "0587a318d9b08d5fff1c374c6dbb480e5b720894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "350c9dbb_df3c29fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-29T14:37:30Z",
+      "side": 1,
+      "message": "True.",
+      "parentUuid": "0e3e6f39_4e991ac1",
       "revId": "0587a318d9b08d5fff1c374c6dbb480e5b720894",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
