@@ -43,6 +43,8 @@ import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -134,8 +136,8 @@ public class RefDirectory extends RefDatabase {
 
 	private final File gitCommonDir;
 	private static final boolean skipPackedRefsSha1 = Boolean.getBoolean("ghs.jgit.packed-ref.skip-sha1");
-
 	private static final boolean readPackedRefsFromCache = Boolean.getBoolean("ghs.jgit.packed-ref.read-from-cache");
+	private static final boolean batchPackedRefsWrite = Boolean.getBoolean("ghs.jgit.packed-ref.batch-write");
 
 	private static final Map<String, byte[]> packedRefsCache = new ConcurrentHashMap<>();
 
@@ -183,6 +185,8 @@ public class RefDirectory extends RefDatabase {
 	 * filesystem during a read operation.
 	 */
 	private final AtomicInteger modCnt = new AtomicInteger();
+	private static final Map<String, AtomicInteger> refsPackingCnt = new ConcurrentHashMap<>();
+	private static Map<String, Instant> lastPackRefsWrite = new ConcurrentHashMap<>();
 
 	/**
 	 * Last {@link #modCnt} that we sent to listeners.
@@ -829,7 +833,7 @@ public class RefDirectory extends RefDatabase {
 				}
 
 				// The new content for packed-refs is collected. Persist it.
-				commitPackedRefs(lck, newPacked, oldPacked,false);
+				commitPackedRefs(lck, newPacked, oldPacked, false);
 
 				// Now delete the loose refs which are now packed
 				for (String refName : refs) {
@@ -886,6 +890,12 @@ public class RefDirectory extends RefDatabase {
 		} finally {
 			inProcessPackedRefsLock.unlock();
 		}
+	}
+
+
+	private boolean isDifferenceMoreThanOneSecond(Instant instant1, Instant instant2) {
+		Duration duration = Duration.between(instant1, instant2);
+		return duration.getSeconds() > 1;
 	}
 
 	@Nullable
@@ -978,6 +988,9 @@ public class RefDirectory extends RefDatabase {
 	PackedRefList getPackedRefs() throws IOException {
 		final PackedRefList curList = packedRefs.get();
 
+		if(batchPackedRefsWrite && readPackedRefsFromCache) {
+				return readPackedRefs(curList);
+		}
 		switch (coreConfig.getTrustPackedRefsStat()) {
 		case NEVER:
 			break;
@@ -1026,7 +1039,6 @@ public class RefDirectory extends RefDatabase {
 							if (oldPackedRefs.hasTheSamePackedRefsBytes(packedRefsContent)) {
 								return oldPackedRefs;
 							}
-
 							try (BufferedReader br = new BufferedReader(
 								new InputStreamReader(
 									new ByteArrayInputStream(packedRefsContent),
@@ -1145,6 +1157,29 @@ public class RefDirectory extends RefDatabase {
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
+
+				ObjectId packedListSha1 =  skipPackedRefsSha1 ? null :
+					ObjectId.fromRaw(Constants.newMessageDigest().digest(content));
+				PackedRefList newPackedList = new PackedRefList(
+					refs, lck.getCommitSnapshot(), packedListSha1, content);
+				if(packedRefs.compareAndSet(oldPackedList, newPackedList) && readPackedRefsFromCache) {
+				  packedRefsCache.put(packedRefsFile.getAbsolutePath(), content);
+				}
+				if (changed) {
+				  modCnt.incrementAndGet();
+				}
+
+				if(batchPackedRefsWrite) {
+				  Instant currentTime = Instant.now();
+				  String packedRefFilePath = packedRefsFile.getAbsolutePath();
+				  if (refsPackingCnt.computeIfAbsent(packedRefFilePath, (key) -> new AtomicInteger())
+						.incrementAndGet() % 20 != 0
+							&& !isDifferenceMoreThanOneSecond(lastPackRefsWrite
+								.computeIfAbsent(packedRefFilePath, (key) -> currentTime), currentTime)) {
+						return;
+					}
+					lastPackRefsWrite.put(packedRefFilePath,currentTime);
+				}
 				lck.setFSync(true);
 				lck.setNeedSnapshot(true);
 				try {
@@ -1163,17 +1198,6 @@ public class RefDirectory extends RefDatabase {
 				}
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
-
-				ObjectId packedListSha1 =  skipPackedRefsSha1 ? null :
-					ObjectId.fromRaw(Constants.newMessageDigest().digest(content));
-				PackedRefList newPackedList = new PackedRefList(
-						refs, lck.getCommitSnapshot(), packedListSha1, content);
-				if(packedRefs.compareAndSet(oldPackedList, newPackedList) && readPackedRefsFromCache) {
-					packedRefsCache.put(packedRefsFile.getAbsolutePath(), content);
-				}
-				if (changed) {
-					modCnt.incrementAndGet();
-				}
 			}
 		}.writePackedRefs();
 	}
