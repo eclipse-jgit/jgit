@@ -185,12 +185,14 @@ public class RecursiveMerger extends ResolveMerger {
 				if (mergeTrees(bcTree, currentBase.getTree(),
 						nextBase.getTree(), true))
 					currentBase = createCommitForTree(resultTree, parents);
-				else
+				else {
+					String failingPaths = String.join(failingPaths, "\n");
 					throw new NoMergeBaseException(
 							NoMergeBaseException.MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION,
 							MessageFormat.format(
 									JGitText.get().mergeRecursiveConflictsWhenMergingCommonAncestors,
-									currentBase.getName(), nextBase.getName()));
+									currentBase.getName(), nextBase.getName(), failingPaths));
+				}
 			}
 		} finally {
 			inCore = oldIncore;
