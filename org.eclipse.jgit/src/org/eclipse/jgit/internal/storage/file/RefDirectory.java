@@ -976,13 +976,13 @@ public class RefDirectory extends RefDatabase {
 			}
 			//$FALL-THROUGH$
 		case ALWAYS:
-			if (!curList.snapshot.isModified(packedRefsFile)) {
+			if (curList.snapshot == null || !curList.snapshot.isModified(packedRefsFile)) {
 				return curList;
 			}
 			break;
 		case UNSET:
 			if (trustFolderStat
-					&& !curList.snapshot.isModified(packedRefsFile)) {
+					&& (curList.snapshot == null || !curList.snapshot.isModified(packedRefsFile))) {
 				return curList;
 			}
 			break;
