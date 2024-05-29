@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LockFile {
 	private static final Logger LOG = LoggerFactory.getLogger(LockFile.class);
+	private static final boolean skipSync = Boolean.getBoolean("ghs.jgit.lock-file.skip-sync");
 
 	/**
 	 * Unlock the given file.
@@ -294,7 +295,7 @@ public class LockFile {
 				throw new IOException(MessageFormat
 						.format(JGitText.get().lockStreamClosed, ref));
 			}
-			if (fsync) {
+			if (fsync && !skipSync) {
 				FileChannel fc = out.getChannel();
 				ByteBuffer buf = ByteBuffer.wrap(content);
 				while (0 < buf.remaining()) {
