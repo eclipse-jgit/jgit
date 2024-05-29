@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.agent;singleton:=true
-Bundle-Version: 6.10.0.202405282244-rc1
+Bundle-Version: 6.10.0.202405290030-rc1
 Bundle-Localization: OSGI-INF/l10n/agent
 Bundle-Vendor: %Bundle-Vendor
 Fragment-Host: org.eclipse.jgit.ssh.apache;bundle-version="[6.10.0,6.11.0)"

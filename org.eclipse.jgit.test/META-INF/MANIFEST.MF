@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.test
 Bundle-SymbolicName: org.eclipse.jgit.test
-Bundle-Version: 6.10.0.202405282244-rc1
+Bundle-Version: 6.10.0.202405290030-rc1
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-11
