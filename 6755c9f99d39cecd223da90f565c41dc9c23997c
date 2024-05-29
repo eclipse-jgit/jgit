@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1470e6_874b40ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-05-29T19:18:52Z",
+      "side": 1,
+      "message": "It\u0027s similar to the cache. We need to share between repo instances. Issue was that it must be a map because we can have different packed-ref files",
+      "parentUuid": "8b7d17df_f6db7a8f",
+      "range": {
+        "startLine": 184,
+        "startChar": 9,
+        "endLine": 184,
+        "endChar": 15
+      },
+      "revId": "6755c9f99d39cecd223da90f565c41dc9c23997c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93cc782f_73921c6f",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f1f136_092530f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-05-29T19:18:52Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "93cc782f_73921c6f",
+      "range": {
+        "startLine": 185,
+        "startChar": 9,
+        "endLine": 185,
+        "endChar": 15
+      },
+      "revId": "6755c9f99d39cecd223da90f565c41dc9c23997c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f583d408_30f62f40",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-05-29T18:03:55Z",
       "side": 1,
       "message": "Nit: add empty space.\n\n\n```suggestion\n\t}\n\n```",
+      "revId": "6755c9f99d39cecd223da90f565c41dc9c23997c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf9398d_f236b899",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1005270
+      },
+      "writtenOn": "2024-05-29T19:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f583d408_30f62f40",
       "revId": "6755c9f99d39cecd223da90f565c41dc9c23997c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
