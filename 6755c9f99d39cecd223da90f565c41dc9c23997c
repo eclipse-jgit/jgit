@@ -62,6 +62,29 @@
       "message": "Nit: add empty space.\n\n\n```suggestion\n\t}\n\n```",
       "revId": "6755c9f99d39cecd223da90f565c41dc9c23997c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e8b07ed_8a47768a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-29T19:02:06Z",
+      "side": 1,
+      "message": "Can you read this from a Java System property? Even a batch of 20 refs could bee too little, as we are aiming to generate thousands of ref-updates per minute.",
+      "range": {
+        "startLine": 1148,
+        "startChar": 49,
+        "endLine": 1148,
+        "endChar": 51
+      },
+      "revId": "6755c9f99d39cecd223da90f565c41dc9c23997c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
