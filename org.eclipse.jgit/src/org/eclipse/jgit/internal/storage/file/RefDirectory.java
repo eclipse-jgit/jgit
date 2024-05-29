@@ -185,8 +185,8 @@ public class RefDirectory extends RefDatabase {
 	 * filesystem during a read operation.
 	 */
 	private final AtomicInteger modCnt = new AtomicInteger();
-	private static final Map<String, AtomicInteger> refsPackingCnt = new ConcurrentHashMap<>();
-	private static Map<String, Instant> lastPackRefsWrite = new ConcurrentHashMap<>();
+	private final AtomicInteger refsPackingCnt = new AtomicInteger();
+	private final AtomicReference<Instant> lastPackRefsWrite = new AtomicReference<>();
 
 	/**
 	 * Last {@link #modCnt} that we sent to listeners.
@@ -894,6 +894,10 @@ public class RefDirectory extends RefDatabase {
 
 
 	private boolean isDifferenceMoreThanOneSecond(Instant instant1, Instant instant2) {
+		if(instant1 == null || instant2 == null) {
+			return true;
+		}
+
 		Duration duration = Duration.between(instant1, instant2);
 		return duration.getSeconds() > 1;
 	}
@@ -1171,14 +1175,11 @@ public class RefDirectory extends RefDatabase {
 
 				if(batchPackedRefsWrite) {
 				  Instant currentTime = Instant.now();
-				  String packedRefFilePath = packedRefsFile.getAbsolutePath();
-				  if (refsPackingCnt.computeIfAbsent(packedRefFilePath, (key) -> new AtomicInteger())
-						.incrementAndGet() % 20 != 0
-							&& !isDifferenceMoreThanOneSecond(lastPackRefsWrite
-								.computeIfAbsent(packedRefFilePath, (key) -> currentTime), currentTime)) {
+				  if (refsPackingCnt.incrementAndGet() % 20 != 0
+							&& !isDifferenceMoreThanOneSecond(lastPackRefsWrite.getAndSet(currentTime), currentTime)) {
 						return;
 					}
-					lastPackRefsWrite.put(packedRefFilePath,currentTime);
+					lastPackRefsWrite.set(currentTime);
 				}
 				lck.setFSync(true);
 				lck.setNeedSnapshot(true);
