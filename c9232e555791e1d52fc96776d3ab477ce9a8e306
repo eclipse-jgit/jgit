@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3127fc5_554876b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-05-29T01:48:37Z",
+      "side": 1,
+      "message": "it seems 4.0.8 caused strange build errors\n- https://ci.eclipse.org/jgit/job/stable/job/jgit.stable-pipeline.java11/313/console\n- https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/1835/console",
+      "revId": "c9232e555791e1d52fc96776d3ab477ce9a8e306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
