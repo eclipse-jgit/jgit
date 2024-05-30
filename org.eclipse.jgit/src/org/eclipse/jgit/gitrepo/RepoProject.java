@@ -38,6 +38,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	private final Set<String> groups;
 	private final List<CopyFile> copyfiles;
 	private final List<LinkFile> linkfiles;
+	private String upstream;
 	private String recommendShallow;
 	private String url;
 	private String defaultRevision;
@@ -387,6 +388,29 @@ public class RepoProject implements Comparable<RepoProject> {
 	 */
 	public void clearLinkFiles() {
 		this.linkfiles.clear();
+	}
+
+	/**
+	 * Return the upstream attribute of the project
+	 *
+	 * @return the upstream value if present, null otherwise.
+	 *
+	 * @since 6.10
+	 */
+	public String getUpstream() {
+		return this.upstream;
+	}
+
+	/**
+	 * Set the upstream attribute of the project
+	 *
+	 * Name of the git ref in which a sha1 can be found, when the revision is a
+	 * sha1.
+	 *
+	 * @since 6.10
+	 */
+	void setUpstream(String upstream) {
+		this.upstream = upstream;
 	}
 
 	private String getPathWithSlash() {
