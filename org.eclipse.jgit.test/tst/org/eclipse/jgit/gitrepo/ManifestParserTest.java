@@ -11,6 +11,7 @@ package org.eclipse.jgit.gitrepo;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -18,7 +19,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -136,6 +139,42 @@ public class ManifestParserTest {
 		assertEquals(Stream.of("bar", "baz").collect(Collectors.toSet()),
 				parser.getProjects().stream().map(RepoProject::getName)
 						.collect(Collectors.toSet()));
+	}
+
+	@Test
+	public void testPinProjectWithUpstream() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"pin-with-upstream\"")
+				.append("  revision=\"9b2fe85c0279f4d5ac69f07ddcd48566c3555405\"")
+				.append("  upstream=\"branchX\"/>")
+				.append("<project path=\"bar\" name=\"pin-without-upstream\"")
+				.append("  revision=\"76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0\" />")
+				.append("</manifest>");
+
+		ManifestParser parser = new ManifestParser(null, null, "master",
+				"https://git.google.com/", null, null);
+		parser.read(new ByteArrayInputStream(
+				xmlContent.toString().getBytes(UTF_8)));
+
+		Map<String, RepoProject> repos = parser.getProjects().stream().collect(
+				Collectors.toMap(RepoProject::getName, Function.identity()));
+		assertEquals(2, repos.size());
+
+		RepoProject foo = repos.get("pin-with-upstream");
+		assertEquals("pin-with-upstream", foo.getName());
+		assertEquals("9b2fe85c0279f4d5ac69f07ddcd48566c3555405",
+				foo.getRevision());
+		assertEquals("branchX", foo.getUpstream());
+
+		RepoProject bar = repos.get("pin-without-upstream");
+		assertEquals("pin-without-upstream", bar.getName());
+		assertEquals("76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0",
+				bar.getRevision());
+		assertNull(bar.getUpstream());
 	}
 
 	void testNormalize(String in, String want) {
