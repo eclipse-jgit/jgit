@@ -156,6 +156,9 @@ class BareSuperprojectWriter {
 			ObjectId objectId;
 			if (ObjectId.isId(proj.getRevision())) {
 				objectId = ObjectId.fromString(proj.getRevision());
+				if (config.recordRemoteBranch && proj.getUpstream() != null) {
+					cfg.setString("submodule", name, "ref", proj.getUpstream());
+				}
 			} else {
 				objectId = callback.sha1(url, proj.getRevision());
 				if (objectId == null && !config.ignoreRemoteFailures) {
