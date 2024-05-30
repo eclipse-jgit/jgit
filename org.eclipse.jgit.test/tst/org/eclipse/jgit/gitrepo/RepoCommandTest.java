@@ -1171,6 +1171,94 @@ public class RepoCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testRecordRemoteBranch_pinned() throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"pin-noupstream\"")
+				.append("  name=\"pin-noupstream\"")
+				.append("  revision=\"76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0\" />")
+				.append("<project path=\"pin-upstream\"")
+				.append("  name=\"pin-upstream\"")
+				.append("  upstream=\"branchX\"")
+				.append("  revision=\"76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0\" />")
+				.append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(
+				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri).setRecordRemoteBranch(true).call();
+		// Clone it
+		File directory = createTempDirectory("testBareRepo");
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
+				.setURI(remoteDb.getDirectory().toURI().toString()).call()
+				.getRepository();) {
+			// The .gitmodules file should exist
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist",
+					gitmodules.exists());
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			c.load();
+			assertEquals("Pinned submodule with upstream records the ref",
+					"branchX", c.getString("submodule", "pin-upstream", "ref"));
+			assertNull("Pinned submodule without upstream don't have ref",
+					c.getString("submodule", "pin-noupstream", "ref"));
+		}
+	}
+
+	@Test
+	public void testRecordRemoteBranch_pinned_nameConflict() throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"pin-upstream\"")
+				.append("  name=\"pin-upstream\"")
+				.append("  upstream=\"branchX\"")
+				.append("  revision=\"76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0\" />")
+				.append("<project path=\"pin-upstream-name-conflict\"")
+				.append("  name=\"pin-upstream\"")
+				.append("  upstream=\"branchX\"")
+				.append("  revision=\"76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0\" />")
+				.append("</manifest>");
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				xmlContent.toString());
+
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(
+				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI(rootUri).setRecordRemoteBranch(true).call();
+		// Clone it
+		File directory = createTempDirectory("testBareRepo");
+		try (Repository localDb = Git.cloneRepository().setDirectory(directory)
+				.setURI(remoteDb.getDirectory().toURI().toString()).call()
+				.getRepository();) {
+			// The .gitmodules file should exist
+			File gitmodules = new File(localDb.getWorkTree(), ".gitmodules");
+			assertTrue("The .gitmodules file should exist",
+					gitmodules.exists());
+			FileBasedConfig c = new FileBasedConfig(gitmodules, FS.DETECTED);
+			c.load();
+			assertEquals("Upstream is preserved in name conflict", "branchX",
+					c.getString("submodule", "pin-upstream/pin-upstream",
+							"ref"));
+			assertEquals("Upstream is preserved in name conflict (other side)",
+					"branchX", c.getString("submodule",
+							"pin-upstream/pin-upstream-name-conflict", "ref"));
+		}
+	}
 
 	@Test
 	public void testRecordSubmoduleLabels() throws Exception {
