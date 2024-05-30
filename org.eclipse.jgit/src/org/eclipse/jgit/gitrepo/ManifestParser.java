@@ -176,6 +176,8 @@ public class ManifestParser extends DefaultHandler {
 					attributes.getValue("groups"));
 			currentProject
 					.setRecommendShallow(attributes.getValue("clone-depth"));
+			currentProject
+					.setUpstream(attributes.getValue("upstream"));
 			break;
 		case "remote":
 			String alias = attributes.getValue("alias");
