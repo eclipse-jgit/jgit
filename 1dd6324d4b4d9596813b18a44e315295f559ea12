@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c6caac_1a357c84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-05-30T21:28:55Z",
+      "side": 1,
+      "message": "Reading upstream in case of pinned commit sgtm.",
+      "revId": "1dd6324d4b4d9596813b18a44e315295f559ea12",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
