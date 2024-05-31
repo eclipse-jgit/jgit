@@ -374,37 +374,6 @@ public class CommitGraphWriter {
 		return generations;
 	}
 
-	private static Optional<HashSet<ByteBuffer>> computeBloomFilterPaths(
-			ObjectReader or, RevCommit cmit) throws MissingObjectException,
-			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		HashSet<ByteBuffer> paths = new HashSet<>();
-		try (TreeWalk walk = new TreeWalk(null, or)) {
-			walk.setRecursive(true);
-			if (cmit.getParentCount() == 0) {
-				walk.addTree(new EmptyTreeIterator());
-			} else {
-				walk.addTree(cmit.getParent(0).getTree());
-			}
-			walk.addTree(cmit.getTree());
-			while (walk.next()) {
-				if (walk.idEqual(0, 1)) {
-					continue;
-				}
-				byte[] rawPath = walk.getRawPath();
-				paths.add(ByteBuffer.wrap(rawPath));
-				for (int i = 0; i < rawPath.length; i++) {
-					if (rawPath[i] == '/') {
-						paths.add(ByteBuffer.wrap(rawPath, 0, i));
-					}
-					if (paths.size() > MAX_CHANGED_PATHS) {
-						return Optional.empty();
-					}
-				}
-			}
-		}
-		return Optional.of(paths);
-	}
-
 	private BloomFilterChunks computeBloomFilterChunks(ProgressMonitor monitor)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
@@ -426,6 +395,7 @@ public class CommitGraphWriter {
 		data.write(scratch);
 		int dataHeaderSize = data.size();
 
+		PathDiffCalculator pathDiffCalc = new PathDiffCalculator();
 		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
 			monitor.beginTask(JGitText.get().computingPathBloomFilters,
 					graphCommits.size());
@@ -435,7 +405,7 @@ public class CommitGraphWriter {
 					filtersReused++;
 				} else {
 					filtersComputed++;
-					Optional<HashSet<ByteBuffer>> paths = computeBloomFilterPaths(
+					Optional<HashSet<ByteBuffer>> paths = pathDiffCalc.changedPaths(
 							graphCommits.getObjectReader(), cmit);
 					if (paths.isEmpty()) {
 						cpf = ChangedPathFilter.FULL;
@@ -470,6 +440,40 @@ public class CommitGraphWriter {
 					out.write(tmp);
 				}
 			}
+		}
+	}
+
+	// Visible for testing
+	static class PathDiffCalculator {
+		Optional<HashSet<ByteBuffer>> changedPaths(
+				ObjectReader or, RevCommit cmit) throws MissingObjectException,
+				IncorrectObjectTypeException, CorruptObjectException, IOException {
+			HashSet<ByteBuffer> paths = new HashSet<>();
+			try (TreeWalk walk = new TreeWalk(null, or)) {
+				walk.setRecursive(true);
+				if (cmit.getParentCount() == 0) {
+					walk.addTree(new EmptyTreeIterator());
+				} else {
+					walk.addTree(cmit.getParent(0).getTree());
+				}
+				walk.addTree(cmit.getTree());
+				while (walk.next()) {
+					if (walk.idEqual(0, 1)) {
+						continue;
+					}
+					byte[] rawPath = walk.getRawPath();
+					paths.add(ByteBuffer.wrap(rawPath));
+					for (int i = 0; i < rawPath.length; i++) {
+						if (rawPath[i] == '/') {
+							paths.add(ByteBuffer.wrap(rawPath, 0, i));
+						}
+						if (paths.size() > MAX_CHANGED_PATHS) {
+							return Optional.empty();
+						}
+					}
+				}
+			}
+			return Optional.of(paths);
 		}
 	}
 
