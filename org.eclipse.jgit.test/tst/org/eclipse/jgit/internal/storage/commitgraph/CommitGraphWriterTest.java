@@ -435,6 +435,8 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 				.map(b -> StandardCharsets.UTF_8.decode(b).toString())
 				.collect(toList());
 		assertThat(asString, containsInAnyOrder("d", "d/sd2", "d/sd2/f2"));
+		// We don't walk into d/sd1/f1
+		assertEquals(1, c.stepCounter);
 	}
 
 	RevCommit commit(RevCommit... parents) throws Exception {
