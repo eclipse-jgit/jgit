@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb23f8d_00d9efad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-05-31T20:33:43Z",
+      "side": 1,
+      "message": "_skipUnchangedSubtree\n?",
+      "range": {
+        "startLine": 422,
+        "startChar": 35,
+        "endLine": 422,
+        "endChar": 43
+      },
+      "revId": "67bd4799c7873fd46f8b55b20beb5c02b8f62834",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
