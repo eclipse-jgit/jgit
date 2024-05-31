@@ -52,6 +52,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -445,12 +446,14 @@ public class CommitGraphWriter {
 
 	// Visible for testing
 	static class PathDiffCalculator {
+		int stepCounter;
 		Optional<HashSet<ByteBuffer>> changedPaths(
 				ObjectReader or, RevCommit cmit) throws MissingObjectException,
 				IncorrectObjectTypeException, CorruptObjectException, IOException {
 			HashSet<ByteBuffer> paths = new HashSet<>();
 			try (TreeWalk walk = new TreeWalk(null, or)) {
 				walk.setRecursive(true);
+				walk.setFilter(TreeFilter.ANY_DIFF);
 				if (cmit.getParentCount() == 0) {
 					walk.addTree(new EmptyTreeIterator());
 				} else {
@@ -458,9 +461,7 @@ public class CommitGraphWriter {
 				}
 				walk.addTree(cmit.getTree());
 				while (walk.next()) {
-					if (walk.idEqual(0, 1)) {
-						continue;
-					}
+					stepCounter += 1;
 					byte[] rawPath = walk.getRawPath();
 					paths.add(ByteBuffer.wrap(rawPath));
 					for (int i = 0; i < rawPath.length; i++) {
