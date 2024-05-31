@@ -22,6 +22,30 @@
       },
       "revId": "bb2970973b5113613408b28197de2576ab6f7819",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb55e6e9_ebccb180",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-05-31T20:13:59Z",
+      "side": 1,
+      "message": "For that I would need to modify this code to count steps. This way this is just a block move of code with no modifications.\n\nI don\u0027t see much value on asserting the wrong behavior. The follow up fixes it and adds a test that pass with fix/fails without.",
+      "parentUuid": "a2713f51_15552208",
+      "range": {
+        "startLine": 422,
+        "startChar": 13,
+        "endLine": 422,
+        "endChar": 43
+      },
+      "revId": "bb2970973b5113613408b28197de2576ab6f7819",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
