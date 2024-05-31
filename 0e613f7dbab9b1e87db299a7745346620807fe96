@@ -50,6 +50,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d622af14_96d73f14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-05-31T20:32:23Z",
+      "side": 1,
+      "message": "return Optional.empty();\n\nFor root commit, no bloom filter is needed, since every path is changed, right?",
+      "range": {
+        "startLine": 458,
+        "startChar": 5,
+        "endLine": 458,
+        "endChar": 43
+      },
+      "revId": "0e613f7dbab9b1e87db299a7745346620807fe96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53e26dc5_0feeb4bc",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
         "patchSetId": 1

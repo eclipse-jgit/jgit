@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96ec0a42_2456fd92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-05-31T20:32:23Z",
+      "side": 1,
+      "message": "One comment on the root commits, otherwise LGTM.",
+      "revId": "b9553ee7d429c7e194a269298de7df3f12cf5d69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
