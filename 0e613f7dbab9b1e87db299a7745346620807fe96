@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc2e748_7e0ecb31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-31T19:33:00Z",
+      "side": 1,
+      "message": "@VisibleforTesting ?",
+      "range": {
+        "startLine": 449,
+        "startChar": 2,
+        "endLine": 449,
+        "endChar": 18
+      },
+      "revId": "0e613f7dbab9b1e87db299a7745346620807fe96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e26dc5_0feeb4bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-05-31T19:33:00Z",
+      "side": 1,
+      "message": "we should be resetting changedPaths\u003d0 the first thing here otherwise its going to aggregate and probably overflow.",
+      "range": {
+        "startLine": 464,
+        "startChar": 5,
+        "endLine": 464,
+        "endChar": 16
+      },
+      "revId": "0e613f7dbab9b1e87db299a7745346620807fe96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
