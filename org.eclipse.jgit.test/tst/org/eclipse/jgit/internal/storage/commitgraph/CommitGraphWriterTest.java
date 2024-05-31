@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.commitgraph;
 
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertArrayEquals;
@@ -19,8 +20,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -411,6 +416,25 @@ public class CommitGraphWriterTest extends RepositoryTestCase {
 		assertThat(changedPaths, containsInAnyOrder(
 				"109,-33,2,60,20,79,-11,116,",
 				"119,69,63,-8,0,"));
+	}
+
+	@Test
+	public void testPathDiffCalculator_skipUnchangedTree() throws Exception {
+		RevCommit root = tr.commit(tr.tree(
+				tr.file("d/sd1/f1", tr.blob("f1")),
+				tr.file("d/sd2/f2", tr.blob("f2"))));
+		RevCommit tip = tr.commit(tr.tree(
+				tr.file("d/sd1/f1", tr.blob("f1")),
+				tr.file("d/sd2/f2", tr.blob("f2B"))), root);
+		CommitGraphWriter.PathDiffCalculator c = new CommitGraphWriter.PathDiffCalculator();
+
+		Optional<HashSet<ByteBuffer>> byteBuffers = c.changedPaths(walk.getObjectReader(), tip);
+
+		assertTrue(byteBuffers.isPresent());
+		List<String> asString = byteBuffers.get().stream()
+				.map(b -> StandardCharsets.UTF_8.decode(b).toString())
+				.collect(toList());
+		assertThat(asString, containsInAnyOrder("d", "d/sd2", "d/sd2/f2"));
 	}
 
 	RevCommit commit(RevCommit... parents) throws Exception {
