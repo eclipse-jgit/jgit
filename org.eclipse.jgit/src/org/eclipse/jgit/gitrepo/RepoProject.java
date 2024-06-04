@@ -395,7 +395,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 *
 	 * @return the upstream value if present, null otherwise.
 	 *
-	 * @since 6.10
+	 * @since 7.0
 	 */
 	public String getUpstream() {
 		return this.upstream;
@@ -407,9 +407,10 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * Name of the git ref in which a sha1 can be found, when the revision is a
 	 * sha1.
 	 *
-	 * @param upstream value of the attribute in the manifest
+	 * @param upstream
+	 *            value of the attribute in the manifest
 	 *
-	 * @since 6.10
+	 * @since 7.0
 	 */
 	void setUpstream(String upstream) {
 		this.upstream = upstream;
