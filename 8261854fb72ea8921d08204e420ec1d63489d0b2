@@ -34,6 +34,24 @@
       "parentUuid": "700e384a_1c8ebb83",
       "revId": "8261854fb72ea8921d08204e420ec1d63489d0b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d51cd638_b4d8b0d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-04T22:26:15Z",
+      "side": 1,
+      "message": "I posted an update about this on Gerrit discord here\nhttps://discord.com/channels/775374026587373568/1019942141725790248/1247677456773681232",
+      "parentUuid": "ee5bd155_7b9c290a",
+      "revId": "8261854fb72ea8921d08204e420ec1d63489d0b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
