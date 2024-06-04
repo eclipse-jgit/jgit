@@ -163,6 +163,13 @@ java_library(
 )
 
 java_library(
+    name = "jetty-session",
+    # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
+    visibility = ["//visibility:public"],
+    exports = ["@jetty-session//jar"],
+)
+
+java_library(
     name = "jetty-server",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],

@@ -28,11 +28,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -105,7 +105,7 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		final URI base = srcGit.getParentFile().toURI();
 
 		ServletContextHandler ctx = server.addContext(path);
-		ctx.setResourceBase(base.toString());
+		ctx.setBaseResourceAsString(base.toString());
 		ServletHolder holder = ctx.addServlet(DefaultServlet.class, "/");
 		// The tmp directory is symlinked on OS X
 		holder.setInitParameter("aliases", "true");
