@@ -16,6 +16,24 @@
       "message": "Would this mean that the master branch wouldn\u0027t be compatible any more with gerrit?\n\n@luca.milanesio@gmail.com Can you clarify with ESC what is the status with upgrade to Jakarta EE in Gerrit?",
       "revId": "8261854fb72ea8921d08204e420ec1d63489d0b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee5bd155_7b9c290a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-04T22:12:46Z",
+      "side": 1,
+      "message": "No, it\u0027s the opposite, this merge commit is a breaking change and current gerrit master is not compatible with jgit master anymore. That\u0027s one of the reasons why we bumped the jgit version to the next major version 7.0.\n\nThis was discussed on the jgit-dev list [1] and I posted a link to this discussion on the jgit channel in gerrit discord on Apr 22 and the only reaction there was a thumbs up from you :-)\n\nI think there is no point in further postponing the update to jakarta api which was released upstream 3 years ago.\n\n[1] https://www.eclipse.org/lists/jgit-dev/msg04235.html",
+      "parentUuid": "700e384a_1c8ebb83",
+      "revId": "8261854fb72ea8921d08204e420ec1d63489d0b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
