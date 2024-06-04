@@ -16,6 +16,24 @@
       "message": "Can you provide evidence that this change doesn\u0027t work, e.g. as a unit test ?",
       "revId": "ba9ba0ccbe683dac29fa54fa07e81b9457ca5459",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0017cc85_0f505d71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-06-04T09:01:11Z",
+      "side": 1,
+      "message": "I was thinking about how to make a test to make it obvious that this change is not working correctly. However, I couldn\u0027t figure out how to craft such a test. However, the existing pushWithNotSufficientTokens test in Gerrit makes it evident that this change does not work correctly. The pushWithNotSufficientTokens test is unstable. However, if you add a small change (Thread.sleep(500);), this test becomes 100% unsuccessful:\n```\n\tprivate void writeObjects(PackOutputStream out) throws IOException {\n\t\twriteObjects(out, objectsLists[OBJ_COMMIT]);\n\t\ttry {\n\t\t\tThread.sleep(500);\n\t\t} catch (InterruptedException e) {\n\t\t\t//throw new RuntimeException(e);\n\t\t}\n\t\twriteObjects(out, objectsLists[OBJ_TAG]);\n\t\twriteObjects(out, objectsLists[OBJ_TREE]);\n\t\twriteObjects(out, objectsLists[OBJ_BLOB]);\n\t}```\nLet`s name this change \"force failure\".\nI will go into detail why this change does not work as expected and why this test is unstable and why this test becomes 100% failing after adding this small \"force failure\" change. \nThe main thread writes OBJ_COMMIT. Next, the \"force failure\" change slows down the main thread a little. That allows the \"JGit-Receive-Pack\" thread to be guaranteed to have time to process the first object, based on the analysis of the object to conclude that a fatal error has occurred, to write a fatal server errors message into the out_r stream and to have time to close the out_r and in_w streams before the main thread starts writing the next object to the already closed pipe. See the InternalPushConnection.\n\nBased on the analysis of the OBJ_COMMIT object, the \"JGit-Receive-Pack\" thread concludes that a fatal error has occurred, writes a fatal server error message about this into the out_r stream, closes the out_r and in_w streams and exits. \n\nAfter this, the main thread tries to write another object and a “Pipe closed” exception occurs.\n\nThe pushWithNotSufficientTokens test succeeds only if the main thread managed to write the remaining objects to the in_r stream before \"JGit-Receive-Pack\" thread had time to close the in_w stream. In this case, the “Pipe closed” exception does not occur. The readStatusReport method is executed that reads the fatal server error message and throws the correct exception corresponding to the fatal server errors message written to the pipe on the server side.\n\nIf the \"JGit-Receive-Pack\" thread managed to close the \"in_r - in_w\" pipe before the main thread wrote the next objects, then when the main thread tries to write the next objects, a “Pipe closed” exception occurs. This exception does not allow the readStatusReport method to be executed and the correct exception corresponding to the fatal server error message is not thrown.\n\nThe \"Pipe Closed\" exception was supposed to be handled correctly by the CheckingSideBandOutputStream class in its checkError method, but this is not the case. The checkError method does not read fatal server error messages from the pipe.\n\nThere is simply no code in this class that reads fatal server error messages from the pipe. The code that reads fatal server error messages from the pipe is only present in the readStatusReport method, and this method is never called from the checkError method. The checkError method simply executes the read method of the InputStream object. Note that this is an InputStream, not a specific inherited from InputStream class that implements some specific interface that requires implementation of checking for fatal server error messages.",
+      "parentUuid": "8a9cdcb3_69823022",
+      "revId": "ba9ba0ccbe683dac29fa54fa07e81b9457ca5459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
