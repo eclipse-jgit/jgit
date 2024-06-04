@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "700e384a_1c8ebb83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2024-06-04T16:18:52Z",
+      "side": 1,
+      "message": "Would this mean that the master branch wouldn\u0027t be compatible any more with gerrit?\n\n@luca.milanesio@gmail.com Can you clarify with ESC what is the status with upgrade to Jakarta EE in Gerrit?",
+      "revId": "8261854fb72ea8921d08204e420ec1d63489d0b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
