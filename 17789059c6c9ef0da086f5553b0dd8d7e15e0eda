@@ -16,6 +16,41 @@
       "message": "Looking forward to the upcoming release! I don\u0027t know if you can squeeze this in…",
       "revId": "17789059c6c9ef0da086f5553b0dd8d7e15e0eda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d78cca90_1580af90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-05T08:27:49Z",
+      "side": 1,
+      "message": "the 6.10 ship has already sailed, the final release has been already created and was contributed to the simultaneous release",
+      "parentUuid": "6fdf5e5e_a3fa5657",
+      "revId": "17789059c6c9ef0da086f5553b0dd8d7e15e0eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0480b687_add7c1f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-05T08:27:49Z",
+      "side": 1,
+      "message": "thanks for this fix",
+      "revId": "17789059c6c9ef0da086f5553b0dd8d7e15e0eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
