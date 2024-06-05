@@ -51,5 +51,7 @@ test --build_tests_only
 test --test_output=errors
 test --flaky_test_attempts=3
 
+coverage --instrumentation_filter="org.eclipse.jgit,-org.eclipse.jgit.test"
+
 import %workspace%/tools/remote-bazelrc
 
