@@ -33,8 +33,8 @@
   </description>
 
   <scm>
-    <url>https://git.eclipse.org/r/plugins/gitiles/jgit/jgit</url>
-    <connection>scm:git:https://git.eclipse.org/r/jgit/jgit</connection>
+    <url>https://eclipse.gerrithub.io/plugins/gitiles/eclipse-jgit/jgit</url>
+    <connection>scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit</connection>
   </scm>
 
   <ciManagement>
@@ -95,8 +95,8 @@
   </mailingLists>
 
   <issueManagement>
-    <url>https://bugs.eclipse.org/bugs/buglist.cgi?query_format=advanced;component=JGit;product=JGit;classification=Technology</url>
-    <system>Bugzilla</system>
+    <url>https://github.com/eclipse-jgit/jgit/issues</url>
+    <system>GitHub Issues</system>
   </issueManagement>
 
   <licenses>
