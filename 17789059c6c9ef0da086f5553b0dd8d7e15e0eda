@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fdf5e5e_a3fa5657",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037850
+      },
+      "writtenOn": "2024-06-05T08:20:52Z",
+      "side": 1,
+      "message": "Looking forward to the upcoming release! I don\u0027t know if you can squeeze this in…",
+      "revId": "17789059c6c9ef0da086f5553b0dd8d7e15e0eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
