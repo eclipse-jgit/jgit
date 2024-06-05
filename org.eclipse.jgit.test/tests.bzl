@@ -75,7 +75,7 @@ def tests(tests):
                 "//lib:junit",
                 "//lib:slf4j-api",
                 "//lib:slf4j-simple",
-                "//org.eclipse.jgit:jgit",
+                "//org.eclipse.jgit:jgit_non_stamped",
                 "//org.eclipse.jgit.junit:junit",
                 "//org.eclipse.jgit.lfs:jgit-lfs",
             ],
