@@ -255,7 +255,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	@SuppressWarnings("serial")
 	static class ManifestErrorException extends GitAPIException {
 		ManifestErrorException(Throwable cause) {
-			super(RepoText.get().invalidManifest, cause);
+			super(RepoText.get().invalidManifest + " " + cause.getMessage(), cause);
 		}
 	}
 
