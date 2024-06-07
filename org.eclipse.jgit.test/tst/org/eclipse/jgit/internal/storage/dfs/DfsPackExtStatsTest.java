@@ -27,4 +27,17 @@ public class DfsPackExtStatsTest {
 
 		assertArrayEquals(extStats.getValues(), otherValues);
 	}
+
+	@Test
+	public void addOtherDfsPackExtStats() {
+		long[] otherValues = new long[PackExt.values().length];
+		for (int i = 0; i < PackExt.values().length; i++) {
+			otherValues[i] = i;
+		}
+		DfsPackExtStats extStats = new DfsPackExtStats();
+		DfsPackExtStats otherExtStats = new DfsPackExtStats(otherValues);
+		extStats.add(otherExtStats);
+
+		assertArrayEquals(extStats.getValues(), otherValues);
+	}
 }

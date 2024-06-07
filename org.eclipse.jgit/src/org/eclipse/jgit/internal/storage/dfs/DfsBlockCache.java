@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
@@ -70,6 +72,9 @@ public final class DfsBlockCache {
 
 	private final DfsBlockCacheTable dfsBlockCacheTable;
 
+	@Nullable
+	private final DfsPackExtBlockCacheTables packExtBlockCacheTables;
+
 	/** Maximum number of bytes the cache should hold. */
 	private final long maxBytes;
 
@@ -99,6 +104,14 @@ public final class DfsBlockCache {
 
 		dfsBlockCacheTable = new ClockBlockCacheTable(cfg);
 
+		if (cfg.getPackExtCacheConfigurations() != null) {
+			packExtBlockCacheTables = DfsPackExtBlockCacheTables
+					.fromPackExtCacheConfigs(
+							cfg.getPackExtCacheConfigurations());
+		} else {
+			packExtBlockCacheTables = null;
+		}
+
 		for (int i = 0; i < PackExt.values().length; ++i) {
 			Integer limit = cfg.getCacheHotMap().get(PackExt.values()[i]);
 			if (limit != null && limit.intValue() > 0) {
@@ -119,7 +132,15 @@ public final class DfsBlockCache {
 	 * @return total number of bytes in the cache, per pack file extension.
 	 */
 	public long[] getCurrentSize() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getCurrentSize();
+		DfsPackExtStats packExtStats = new DfsPackExtStats(
+				dfsBlockCacheTable.getDfsBlockCacheStats().getCurrentSize());
+		if (packExtBlockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+					.getBlockCacheTableListStats()) {
+				packExtStats.add(extCacheStats.getCurrentSize());
+			}
+		}
+		return packExtStats.getValues();
 	}
 
 	/**
@@ -138,7 +159,15 @@ public final class DfsBlockCache {
 	 *         extension.
 	 */
 	public long[] getHitCount() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getHitCount();
+		DfsPackExtStats packExtStats = new DfsPackExtStats(
+				dfsBlockCacheTable.getDfsBlockCacheStats().getHitCount());
+		if (packExtBlockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+					.getBlockCacheTableListStats()) {
+				packExtStats.add(extCacheStats.getHitCount());
+			}
+		}
+		return packExtStats.getValues();
 	}
 
 	/**
@@ -149,7 +178,15 @@ public final class DfsBlockCache {
 	 *         extension.
 	 */
 	public long[] getMissCount() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getMissCount();
+		DfsPackExtStats packExtStats = new DfsPackExtStats(
+				dfsBlockCacheTable.getDfsBlockCacheStats().getMissCount());
+		if (packExtBlockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+					.getBlockCacheTableListStats()) {
+				packExtStats.add(extCacheStats.getMissCount());
+			}
+		}
+		return packExtStats.getValues();
 	}
 
 	/**
@@ -158,8 +195,15 @@ public final class DfsBlockCache {
 	 * @return total number of requests (hit + miss), per pack file extension.
 	 */
 	public long[] getTotalRequestCount() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats()
-				.getTotalRequestCount();
+		DfsPackExtStats packExtStats = new DfsPackExtStats(dfsBlockCacheTable
+				.getDfsBlockCacheStats().getTotalRequestCount());
+		if (packExtBlockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+					.getBlockCacheTableListStats()) {
+				packExtStats.add(extCacheStats.getTotalRequestCount());
+			}
+		}
+		return packExtStats.getValues();
 	}
 
 	/**
@@ -168,7 +212,15 @@ public final class DfsBlockCache {
 	 * @return hit ratios
 	 */
 	public long[] getHitRatio() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getHitRatio();
+		DfsPackExtStats packExtStats = new DfsPackExtStats(
+				dfsBlockCacheTable.getDfsBlockCacheStats().getHitRatio());
+		if (packExtBlockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+					.getBlockCacheTableListStats()) {
+				packExtStats.add(extCacheStats.getHitRatio());
+			}
+		}
+		return packExtStats.getValues();
 	}
 
 	/**
@@ -179,7 +231,15 @@ public final class DfsBlockCache {
 	 *         file extension.
 	 */
 	public long[] getEvictions() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getEvictions();
+		DfsPackExtStats packExtStats = new DfsPackExtStats(
+				dfsBlockCacheTable.getDfsBlockCacheStats().getEvictions());
+		if (packExtBlockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+					.getBlockCacheTableListStats()) {
+				packExtStats.add(extCacheStats.getEvictions());
+			}
+		}
+		return packExtStats.getValues();
 	}
 
 	/**
@@ -194,6 +254,11 @@ public final class DfsBlockCache {
 	 * @return true if block 0 (the first block) is in the cache.
 	 */
 	public boolean hasBlock0(DfsStreamKey key) {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable extTable = packExtBlockCacheTables.getTable(key);
+			if (extTable != null && extTable.hasBlock0(key))
+				return true;
+		}
 		return dfsBlockCacheTable.hasBlock0(key);
 	}
 
@@ -218,10 +283,24 @@ public final class DfsBlockCache {
 	 */
 	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader ctx,
 			ReadableChannelSupplier fileChannel) throws IOException {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables
+					.getTable(file.ext);
+			if (table != null) {
+				return table.getOrLoad(file, position, ctx, fileChannel);
+			}
+		}
 		return dfsBlockCacheTable.getOrLoad(file, position, ctx, fileChannel);
 	}
 
 	void put(DfsBlock v) {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables
+					.getTable(v.stream);
+			if (table != null) {
+				table.put(v);
+			}
+		}
 		dfsBlockCacheTable.put(v);
 	}
 
@@ -240,22 +319,52 @@ public final class DfsBlockCache {
 	 */
 	<T> Ref<T> getOrLoadRef(DfsStreamKey key, long position,
 			RefLoader<T> loader) throws IOException {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+			if (table != null) {
+				return table.getOrLoadRef(key, position, loader);
+			}
+		}
 		return dfsBlockCacheTable.getOrLoadRef(key, position, loader);
 	}
 
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+			if (table != null) {
+				return table.putRef(key, size, v);
+			}
+		}
 		return dfsBlockCacheTable.putRef(key, size, v);
 	}
 
 	<T> Ref<T> put(DfsStreamKey key, long pos, long size, T v) {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+			if (table != null) {
+				return table.put(key, pos, size, v);
+			}
+		}
 		return dfsBlockCacheTable.put(key, pos, size, v);
 	}
 
 	boolean contains(DfsStreamKey key, long position) {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+			if (table != null) {
+				return table.contains(key, position);
+			}
+		}
 		return dfsBlockCacheTable.contains(key, position);
 	}
 
 	<T> T get(DfsStreamKey key, long position) {
+		if (packExtBlockCacheTables != null) {
+			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+			if (table != null) {
+				return table.get(key, position);
+			}
+		}
 		return dfsBlockCacheTable.get(key, position);
 	}
 
