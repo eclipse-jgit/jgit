@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertArrayEquals;
@@ -18,15 +19,48 @@ import static org.junit.Assert.assertArrayEquals;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.ReadableChannelSupplier;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.Ref;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.RefLoader;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
 
 public class DfsPackExtBlockCacheTablesTest {
+	@Test
+	public void fromPackExtCacheConfigs() {
+		List<DfsBlockCachePackExtConfig> configs = List
+				.of(new DfsBlockCachePackExtConfig(Set.of(PackExt.PACK),
+						new DfsBlockCacheConfig()));
+
+		DfsPackExtBlockCacheTables tables = DfsPackExtBlockCacheTables
+				.fromPackExtCacheConfigs(configs);
+
+		assertThat(tables.getTable(PackExt.PACK),
+				instanceOf(ClockBlockCacheTable.class));
+	}
+
+	@Test
+	public void fromPackExtCacheConfigsExtensionsFromSingleConfigShareCacheInstance() {
+		List<DfsBlockCachePackExtConfig> configs = List
+				.of(new DfsBlockCachePackExtConfig(
+						Set.of(PackExt.INDEX, PackExt.REVERSE_INDEX),
+						new DfsBlockCacheConfig()));
+
+		DfsPackExtBlockCacheTables tables = DfsPackExtBlockCacheTables
+				.fromPackExtCacheConfigs(configs);
+
+		assertThat(tables.getTable(PackExt.INDEX),
+				instanceOf(ClockBlockCacheTable.class));
+		assertThat(tables.getTable(PackExt.REVERSE_INDEX),
+				instanceOf(ClockBlockCacheTable.class));
+		assertThat(tables.getTable(PackExt.REVERSE_INDEX),
+				is(tables.getTable(PackExt.INDEX)));
+	}
+
 	@Test
 	public void getTableWithDfsStreamKeyExt() {
 		DfsStreamKey packStreamKey = new TestKey(PackExt.PACK);

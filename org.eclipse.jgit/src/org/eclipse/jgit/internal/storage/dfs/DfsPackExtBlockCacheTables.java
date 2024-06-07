@@ -10,11 +10,14 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -37,13 +40,40 @@ class DfsPackExtBlockCacheTables {
 	}
 
 	/**
+	 * Builds the DfsPackExtBlockCacheTables from a list of
+	 * {@link DfsBlockCachePackExtConfig}s.
+	 *
+	 * @param packExtCacheConfigs
+	 *            list of {@link DfsBlockCachePackExtConfig}s used to configure
+	 *            an instance of DfsPackExtBlockCacheTables.
+	 * @return the DfsPackExtBlockCacheTables built from the given configs.
+	 */
+	static DfsPackExtBlockCacheTables fromPackExtCacheConfigs(
+			List<DfsBlockCachePackExtConfig> packExtCacheConfigs) {
+		Map<PackExt, DfsBlockCacheTable> extBlockCacheTables = new HashMap<>(
+				PackExt.values().length);
+		List<DfsBlockCacheTable> blockCacheTableList = new ArrayList<>(
+				PackExt.values().length);
+		for (DfsBlockCachePackExtConfig packExtCacheConfig : packExtCacheConfigs) {
+			DfsBlockCacheTable table = new ClockBlockCacheTable(
+					packExtCacheConfig.getPackExtCacheConfiguration());
+			for (PackExt packExt : packExtCacheConfig.getPackExts()) {
+				extBlockCacheTables.put(packExt, table);
+			}
+			blockCacheTableList.add(table);
+		}
+		return new DfsPackExtBlockCacheTables(blockCacheTableList,
+				extBlockCacheTables);
+	}
+
+	/**
 	 * Returns the {@link DfsBlockCacheTable} for the {@link PackExt} if it is
 	 * being handled by this DfsPackExtBlockCacheTables instance, or
 	 * {@code null} otherwise.
 	 *
 	 * @param packExt
-	 *            the {@link PackExt} for which a {@link DfsBlockCacheTable}
-	 *            will be returned if found.
+	 *            {@link PackExt} for which a {@link DfsBlockCacheTable} will be
+	 *            returned if found.
 	 * @return the {@link DfsBlockCacheTable} returned for the {@link PackExt}
 	 *         if found, {@code null} otherwise.
 	 */
@@ -58,8 +88,8 @@ class DfsPackExtBlockCacheTables {
 	 * {@code null} otherwise.
 	 *
 	 * @param key
-	 *            the {@link DfsStreamKey} for which a
-	 *            {@link DfsBlockCacheTable} will be returned if found.
+	 *            {@link DfsStreamKey} for which a {@link DfsBlockCacheTable}
+	 *            will be returned if found.
 	 * @return the {@link DfsBlockCacheTable} returned for the
 	 *         {@link DfsStreamKey}'s {@link PackExt} if found, {@code null}
 	 *         otherwise.
