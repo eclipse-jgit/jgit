@@ -11,18 +11,27 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_CACHE_PREFIX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BLOCK_LIMIT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BLOCK_SIZE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
 import java.text.MessageFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.Config;
@@ -42,14 +51,21 @@ public class DfsBlockCacheConfig {
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
 
 	private long blockLimit;
+
 	private int blockSize;
+
 	private double streamRatio;
+
 	private int concurrencyLevel;
 
 	private Consumer<Long> refLock;
+
 	private Map<PackExt, Integer> cacheHotMap;
 
 	private IndexEventConsumer indexEventConsumer;
+
+	@Nullable
+	private List<DfsBlockCachePackExtConfig> packExtCacheConfigurations = null;
 
 	/**
 	 * Create a default configuration.
@@ -77,10 +93,10 @@ public class DfsBlockCacheConfig {
 	 * Set maximum number bytes of heap memory to dedicate to caching pack file
 	 * data.
 	 * <p>
-	 * It is strongly recommended to set the block limit to be an integer multiple
-	 * of the block size. This constraint is not enforced by this method (since
-	 * it may be called before {@link #setBlockSize(int)}), but it is enforced by
-	 * {@link #fromConfig(Config)}.
+	 * It is strongly recommended to set the block limit to be an integer
+	 * multiple of the block size. This constraint is not enforced by this
+	 * method (since it may be called before {@link #setBlockSize(int)}), but it
+	 * is enforced by {@link #fromConfig(Config)}.
 	 *
 	 * @param newLimit
 	 *            maximum number bytes of heap memory to dedicate to caching
@@ -89,9 +105,9 @@ public class DfsBlockCacheConfig {
 	 */
 	public DfsBlockCacheConfig setBlockLimit(long newLimit) {
 		if (newLimit <= 0) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().blockLimitNotPositive,
-					Long.valueOf(newLimit)));
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().blockLimitNotPositive,
+							Long.valueOf(newLimit)));
 		}
 		blockLimit = newLimit;
 		return this;
@@ -239,62 +255,87 @@ public class DfsBlockCacheConfig {
 		return this;
 	}
 
+	@Nullable
+	List<DfsBlockCachePackExtConfig> getPackExtCacheConfigurations() {
+		return packExtCacheConfigurations;
+	}
+
 	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
 	 * unmodified.
 	 * <p>
-	 * Enforces certain constraints on the combination of settings in the config,
-	 * for example that the block limit is a multiple of the block size.
+	 * Enforces certain constraints on the combination of settings in the
+	 * config, for example that the block limit is a multiple of the block size.
 	 *
 	 * @param rc
 	 *            configuration to read properties from.
 	 * @return {@code this}
 	 */
 	public DfsBlockCacheConfig fromConfig(Config rc) {
-		long cfgBlockLimit = rc.getLong(
-				CONFIG_CORE_SECTION,
-				CONFIG_DFS_SECTION,
-				CONFIG_KEY_BLOCK_LIMIT,
-				getBlockLimit());
-		int cfgBlockSize = rc.getInt(
-				CONFIG_CORE_SECTION,
-				CONFIG_DFS_SECTION,
-				CONFIG_KEY_BLOCK_SIZE,
+		fromConfig(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION, rc);
+		if (hasPackExtConfigs(rc)) {
+			setPackExtConfigs(rc);
+		}
+		return this;
+	}
+
+	private void fromConfig(String section, String subSection, Config rc) {
+		long cfgBlockLimit = rc.getLong(section, subSection,
+				CONFIG_KEY_BLOCK_LIMIT, getBlockLimit());
+		int cfgBlockSize = rc.getInt(section, subSection, CONFIG_KEY_BLOCK_SIZE,
 				getBlockSize());
 		if (cfgBlockLimit % cfgBlockSize != 0) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().blockLimitNotMultipleOfBlockSize,
-					Long.valueOf(cfgBlockLimit),
-					Long.valueOf(cfgBlockSize)));
+					Long.valueOf(cfgBlockLimit), Long.valueOf(cfgBlockSize)));
 		}
 
 		setBlockLimit(cfgBlockLimit);
 		setBlockSize(cfgBlockSize);
 
-		setConcurrencyLevel(rc.getInt(
-				CONFIG_CORE_SECTION,
-				CONFIG_DFS_SECTION,
-				CONFIG_KEY_CONCURRENCY_LEVEL,
-				getConcurrencyLevel()));
+		setConcurrencyLevel(rc.getInt(section, subSection,
+				CONFIG_KEY_CONCURRENCY_LEVEL, getConcurrencyLevel()));
 
-		String v = rc.getString(
-				CONFIG_CORE_SECTION,
-				CONFIG_DFS_SECTION,
-				CONFIG_KEY_STREAM_RATIO);
+		String v = rc.getString(section, subSection, CONFIG_KEY_STREAM_RATIO);
 		if (v != null) {
 			try {
 				setStreamRatio(Double.parseDouble(v));
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException(MessageFormat.format(
-						JGitText.get().enumValueNotSupported3,
-						CONFIG_CORE_SECTION,
-						CONFIG_DFS_SECTION,
-						CONFIG_KEY_STREAM_RATIO, v), e);
+						JGitText.get().enumValueNotSupported3, section,
+						subSection, CONFIG_KEY_STREAM_RATIO, v), e);
 			}
 		}
-		return this;
+	}
+
+	private boolean hasPackExtConfigs(Config config) {
+		return config.getSubsections(CONFIG_CORE_SECTION).stream().anyMatch(
+				section -> section.startsWith(CONFIG_DFS_CACHE_PREFIX));
+	}
+
+	private void setPackExtConfigs(Config config) {
+		List<String> subSections = config.getSubsections(CONFIG_CORE_SECTION)
+				.stream()
+				.filter(section -> section.startsWith(CONFIG_DFS_CACHE_PREFIX))
+				.collect(Collectors.toList());
+		packExtCacheConfigurations = new ArrayList<>();
+		Set<PackExt> extensionsSeen = new HashSet<>();
+		for (String subSection : subSections) {
+			var cacheConfig = DfsBlockCachePackExtConfig.fromConfig(config,
+					CONFIG_CORE_SECTION, subSection);
+			for (PackExt packExt : cacheConfig.packExts) {
+				if (extensionsSeen.contains(packExt)) {
+					throw new IllegalArgumentException(MessageFormat.format(
+							JGitText.get().duplicatePackExtensionsSet,
+							CONFIG_CORE_SECTION, subSection,
+							CONFIG_KEY_PACK_EXTENSIONS, packExt));
+				}
+				extensionsSeen.add(packExt);
+			}
+			packExtCacheConfigurations.add(cacheConfig);
+		}
 	}
 
 	/** Consumer of DfsBlockCache loading and eviction events for indexes. */
@@ -345,5 +386,78 @@ public class DfsBlockCacheConfig {
 		default boolean shouldReportEvictedEvent() {
 			return false;
 		}
+	}
+
+	/**
+	 * A configuration for a single cache table storing 1 or more Pack
+	 * extensions.
+	 * <p>
+	 * The current pack ext cache tables implementation supports the same
+	 * parameters the ClockBlockCacheTable (current default implementation).
+	 * <p>
+	 * Configuration falls back to the defaults coded values defined in the
+	 * {@link DfsBlockCacheConfig} when not set on each cache table
+	 * configuration and NOT the values of the basic dfs section.
+	 * <p>
+	 * <code>
+	 *
+	 * Format:
+	 * [core "dfs.packCache"]
+	 *   packExtensions = "PACK"
+	 *   blockSize = 512
+	 *   blockLimit = 100
+	 *   concurrencyLevel = 5
+	 *
+	 * [core "dfs.multipleExtensionCache"]
+	 *   packExtensions = "INDEX REFTABLE BITMAP_INDEX"
+	 *   blockSize = 512
+	 *   blockLimit = 100
+	 *   concurrencyLevel = 5
+	 * </code>
+	 */
+	static class DfsBlockCachePackExtConfig {
+		// Set of pack extensions that will map to the cache instance.
+		private final EnumSet<PackExt> packExts;
+
+		// Configuration for the cache instance.
+		private final DfsBlockCacheConfig packExtCacheConfiguration;
+
+		DfsBlockCachePackExtConfig(EnumSet<PackExt> packExts,
+				DfsBlockCacheConfig packExtCacheConfiguration) {
+			this.packExts = packExts;
+			this.packExtCacheConfiguration = packExtCacheConfiguration;
+		}
+
+		Set<PackExt> getPackExts() {
+			return packExts;
+		}
+
+		DfsBlockCacheConfig getPackExtCacheConfiguration() {
+			return packExtCacheConfiguration;
+		}
+
+		private static DfsBlockCachePackExtConfig fromConfig(Config config,
+				String section, String subSection) {
+			String[] extensions = config
+					.getString(section, subSection, CONFIG_KEY_PACK_EXTENSIONS)
+					.split(" ");
+			Set<PackExt> packExts = new HashSet<>(extensions.length);
+			for (String extension : extensions) {
+				try {
+					packExts.add(PackExt.valueOf(extension));
+				} catch (IllegalArgumentException e) {
+					throw new IllegalArgumentException(MessageFormat.format(
+							JGitText.get().unknownPackExtension, section,
+							subSection, CONFIG_KEY_PACK_EXTENSIONS, extension),
+							e);
+				}
+			}
+
+			DfsBlockCacheConfig dfsBlockCacheConfig = new DfsBlockCacheConfig();
+			dfsBlockCacheConfig.fromConfig(section, subSection, config);
+			return new DfsBlockCachePackExtConfig(EnumSet.copyOf(packExts),
+					dfsBlockCacheConfig);
+		}
+
 	}
 }
