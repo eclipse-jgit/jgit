@@ -264,6 +264,21 @@ public class DfsBlockCacheConfig {
 	}
 
 	/**
+	 * Set the list of pack ext cache configs.
+	 *
+	 * Made visible for testing.
+	 *
+	 * @param packExtCacheConfigurations
+	 *            the list of pack ext cache configs to set.
+	 * @return {@code this}
+	 */
+	DfsBlockCacheConfig setPackExtCacheConfigurations(
+			List<DfsBlockCachePackExtConfig> packExtCacheConfigurations) {
+		this.packExtCacheConfigurations = packExtCacheConfigurations;
+		return this;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
@@ -435,7 +450,15 @@ public class DfsBlockCacheConfig {
 		// Configuration for the cache instance.
 		private final DfsBlockCacheConfig packExtCacheConfiguration;
 
-		private DfsBlockCachePackExtConfig(EnumSet<PackExt> packExts,
+		/**
+		 * Made visible for testing.
+		 *
+		 * @param packExts
+		 *            Set of {@link PackExt}s associated to this cache config.
+		 * @param packExtCacheConfiguration
+		 *            {@link DfsBlockCacheConfig} for this cache config.
+		 */
+		DfsBlockCachePackExtConfig(EnumSet<PackExt> packExts,
 				DfsBlockCacheConfig packExtCacheConfiguration) {
 			this.packExts = packExts;
 			this.packExtCacheConfiguration = packExtCacheConfiguration;
@@ -475,6 +498,5 @@ public class DfsBlockCacheConfig {
 			return new DfsBlockCachePackExtConfig(EnumSet.copyOf(packExts),
 					dfsBlockCacheConfig);
 		}
-
 	}
 }
