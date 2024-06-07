@@ -10,11 +10,14 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -34,6 +37,33 @@ class DfsPackExtBlockCacheTables {
 			Map<PackExt, DfsBlockCacheTable> extBlockCacheTables) {
 		this.blockCacheTableList = blockCacheTableList;
 		this.extBlockCacheTables = extBlockCacheTables;
+	}
+
+	/**
+	 * Builds the DfsPackExtBlockCacheTables from a list of
+	 * {@link DfsBlockCachePackExtConfig}s.
+	 *
+	 * @param packExtCacheConfigs
+	 *            list of {@link DfsBlockCachePackExtConfig}s used to configure
+	 *            an instance of DfsPackExtBlockCacheTables.
+	 * @return the DfsPackExtBlockCacheTables built from the given configs.
+	 */
+	static DfsPackExtBlockCacheTables fromPackExtCacheConfigs(
+			List<DfsBlockCachePackExtConfig> packExtCacheConfigs) {
+		Map<PackExt, DfsBlockCacheTable> extBlockCacheTables = new HashMap<>(
+				PackExt.values().length);
+		List<DfsBlockCacheTable> blockCacheTableList = new ArrayList<>(
+				PackExt.values().length);
+		for (DfsBlockCachePackExtConfig packExtCacheConfig : packExtCacheConfigs) {
+			DfsBlockCacheTable table = new ClockBlockCacheTable(
+					packExtCacheConfig.getPackExtCacheConfiguration());
+			for (PackExt packExt : packExtCacheConfig.getPackExts()) {
+				extBlockCacheTables.put(packExt, table);
+			}
+			blockCacheTableList.add(table);
+		}
+		return new DfsPackExtBlockCacheTables(blockCacheTableList,
+				extBlockCacheTables);
 	}
 
 	/**
