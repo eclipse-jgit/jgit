@@ -135,7 +135,7 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 	}
 
 	@Override
-	public DfsBlockCacheStats getDfsBlockCacheStats() {
+	public BlockCacheStats getBlockCacheStats() {
 		return dfsBlockCacheStats;
 	}
 
