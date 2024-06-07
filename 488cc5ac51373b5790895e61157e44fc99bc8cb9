@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9972160_69c883cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-07T22:36:29Z",
+      "side": 1,
+      "message": "update @since tag, 6.10 has sailed, we are now heading for 7.0",
+      "revId": "488cc5ac51373b5790895e61157e44fc99bc8cb9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
