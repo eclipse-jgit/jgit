@@ -129,18 +129,72 @@ public interface DfsBlockCacheTable {
 	<T> T get(DfsStreamKey key, long position);
 
 	/**
-	 * Get the DfsBlockCacheStats object for this block cache table's
+	 * Get the {@link BlockCacheStats} object for this block cache table's
 	 * statistics.
 	 *
-	 * @return the DfsBlockCacheStats tracking this block cache table's
+	 * @return the {@link BlockCacheStats} tracking this block cache table's
 	 *         statistics.
 	 */
-	DfsBlockCacheStats getDfsBlockCacheStats();
+	BlockCacheStats getBlockCacheStats();
+
+	/**
+	 * Provides methods used with Block Cache statistics.
+	 */
+	interface BlockCacheStats {
+		/**
+		 * Get total number of bytes in the cache, per pack file extension.
+		 *
+		 * @return total number of bytes in the cache, per pack file extension.
+		 */
+		long[] getCurrentSize();
+
+		/**
+		 * Get number of requests for items in the cache, per pack file
+		 * extension.
+		 *
+		 * @return the number of requests for items in the cache, per pack file
+		 *         extension.
+		 */
+		long[] getHitCount();
+
+		/**
+		 * Get number of requests for items not in the cache, per pack file
+		 * extension.
+		 *
+		 * @return the number of requests for items not in the cache, per pack
+		 *         file extension.
+		 */
+		long[] getMissCount();
+
+		/**
+		 * Get total number of requests (hit + miss), per pack file extension.
+		 *
+		 * @return total number of requests (hit + miss), per pack file
+		 *         extension.
+		 */
+		long[] getTotalRequestCount();
+
+		/**
+		 * Get hit ratios.
+		 *
+		 * @return hit ratios.
+		 */
+		long[] getHitRatio();
+
+		/**
+		 * Get number of evictions performed due to cache being full, per pack
+		 * file extension.
+		 *
+		 * @return the number of evictions performed due to cache being full,
+		 *         per pack file extension.
+		 */
+		long[] getEvictions();
+	}
 
 	/**
 	 * Keeps track of stats for a Block Cache table.
 	 */
-	class DfsBlockCacheStats {
+	class DfsBlockCacheStats implements BlockCacheStats {
 		/**
 		 * Number of times a block was found in the cache, per pack file
 		 * extension.
@@ -214,44 +268,23 @@ public interface DfsBlockCacheTable {
 			getStat(liveBytes, key).addAndGet(size);
 		}
 
-		/**
-		 * Get total number of bytes in the cache, per pack file extension.
-		 *
-		 * @return total number of bytes in the cache, per pack file extension.
-		 */
-		long[] getCurrentSize() {
+		@Override
+		public long[] getCurrentSize() {
 			return getStatVals(liveBytes);
 		}
 
-		/**
-		 * Get number of requests for items in the cache, per pack file
-		 * extension.
-		 *
-		 * @return the number of requests for items in the cache, per pack file
-		 *         extension.
-		 */
-		long[] getHitCount() {
+		@Override
+		public long[] getHitCount() {
 			return getStatVals(statHit);
 		}
 
-		/**
-		 * Get number of requests for items not in the cache, per pack file
-		 * extension.
-		 *
-		 * @return the number of requests for items not in the cache, per pack
-		 *         file extension.
-		 */
-		long[] getMissCount() {
+		@Override
+		public long[] getMissCount() {
 			return getStatVals(statMiss);
 		}
 
-		/**
-		 * Get total number of requests (hit + miss), per pack file extension.
-		 *
-		 * @return total number of requests (hit + miss), per pack file
-		 *         extension.
-		 */
-		long[] getTotalRequestCount() {
+		@Override
+		public long[] getTotalRequestCount() {
 			AtomicLong[] hit = statHit.get();
 			AtomicLong[] miss = statMiss.get();
 			long[] cnt = new long[Math.max(hit.length, miss.length)];
@@ -264,12 +297,8 @@ public interface DfsBlockCacheTable {
 			return cnt;
 		}
 
-		/**
-		 * Get hit ratios.
-		 *
-		 * @return hit ratios.
-		 */
-		long[] getHitRatio() {
+		@Override
+		public long[] getHitRatio() {
 			AtomicLong[] hit = statHit.get();
 			AtomicLong[] miss = statMiss.get();
 			long[] ratio = new long[Math.max(hit.length, miss.length)];
@@ -288,14 +317,8 @@ public interface DfsBlockCacheTable {
 			return ratio;
 		}
 
-		/**
-		 * Get number of evictions performed due to cache being full, per pack
-		 * file extension.
-		 *
-		 * @return the number of evictions performed due to cache being full,
-		 *         per pack file extension.
-		 */
-		long[] getEvictions() {
+		@Override
+		public long[] getEvictions() {
 			return getStatVals(statEvict);
 		}
 
