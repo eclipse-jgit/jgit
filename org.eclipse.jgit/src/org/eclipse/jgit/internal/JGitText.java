@@ -315,6 +315,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String downloadCancelled;
 	/***/ public String downloadCancelledDuringIndexing;
 	/***/ public String duplicateAdvertisementsOf;
+	/***/ public String duplicatePackExtensionsSet;
 	/***/ public String duplicateRef;
 	/***/ public String duplicateRefAttribute;
 	/***/ public String duplicateRemoteRefUpdateIsIllegal;
@@ -858,6 +859,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownObjectInIndex;
 	/***/ public String unknownObjectType;
 	/***/ public String unknownObjectType2;
+	/***/ public String unknownPackExtension;
 	/***/ public String unknownPositionEncoding;
 	/***/ public String unknownRefStorageFormat;
 	/***/ public String unknownRepositoryFormat;
