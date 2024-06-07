@@ -119,7 +119,7 @@ public final class DfsBlockCache {
 	 * @return total number of bytes in the cache, per pack file extension.
 	 */
 	public long[] getCurrentSize() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getCurrentSize();
+		return dfsBlockCacheTable.getBlockCacheStats().getCurrentSize();
 	}
 
 	/**
@@ -138,7 +138,7 @@ public final class DfsBlockCache {
 	 *         extension.
 	 */
 	public long[] getHitCount() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getHitCount();
+		return dfsBlockCacheTable.getBlockCacheStats().getHitCount();
 	}
 
 	/**
@@ -149,7 +149,7 @@ public final class DfsBlockCache {
 	 *         extension.
 	 */
 	public long[] getMissCount() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getMissCount();
+		return dfsBlockCacheTable.getBlockCacheStats().getMissCount();
 	}
 
 	/**
@@ -158,7 +158,7 @@ public final class DfsBlockCache {
 	 * @return total number of requests (hit + miss), per pack file extension.
 	 */
 	public long[] getTotalRequestCount() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats()
+		return dfsBlockCacheTable.getBlockCacheStats()
 				.getTotalRequestCount();
 	}
 
@@ -168,7 +168,7 @@ public final class DfsBlockCache {
 	 * @return hit ratios
 	 */
 	public long[] getHitRatio() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getHitRatio();
+		return dfsBlockCacheTable.getBlockCacheStats().getHitRatio();
 	}
 
 	/**
@@ -179,7 +179,7 @@ public final class DfsBlockCache {
 	 *         file extension.
 	 */
 	public long[] getEvictions() {
-		return dfsBlockCacheTable.getDfsBlockCacheStats().getEvictions();
+		return dfsBlockCacheTable.getBlockCacheStats().getEvictions();
 	}
 
 	/**
