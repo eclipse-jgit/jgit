@@ -18,7 +18,15 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * arrays of the same {@code long[PackExt.values().length]} format.
  */
 class DfsPackExtStats {
-	private final long[] values = emptyPackStats();
+	private final long[] values;
+
+	DfsPackExtStats() {
+		values = emptyPackStats();
+	}
+
+	DfsPackExtStats(long[] values) {
+		this.values = values;
+	}
 
 	long[] getValues() {
 		return values;
@@ -27,6 +35,12 @@ class DfsPackExtStats {
 	void add(long[] otherValues) {
 		for (int i = 0; i < PackExt.values().length; i++) {
 			values[i] += otherValues[i];
+		}
+	}
+
+	void add(DfsPackExtStats otherValues) {
+		for (int i = 0; i < PackExt.values().length; i++) {
+			values[i] += otherValues.values[i];
 		}
 	}
 
