@@ -23,6 +23,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.ReadableChannelSupplier;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.Ref;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.RefLoader;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
@@ -51,6 +52,38 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 		this.defaultBlockCacheTable = defaultBlockCacheTable;
 		this.blockCacheTableList = blockCacheTableList;
 		this.extBlockCacheTables = extBlockCacheTables;
+	}
+
+	/**
+	 * Builds the PackExtBlockCacheTable from a list of
+	 * {@link DfsBlockCachePackExtConfig}s.
+	 *
+	 * @param cacheConfig
+	 *            {@link DfsBlockCacheConfig} containing
+	 *            {@link DfsBlockCachePackExtConfig}s used to configure
+	 *            PackExtBlockCacheTable.
+	 * @return the PackExtBlockCacheTable built from the given configs.
+	 * @throws IllegalArgumentException
+	 *             when no {@link DfsBlockCachePackExtConfig} exists in the
+	 *             {@link DfsBlockCacheConfig}.
+	 */
+	static PackExtBlockCacheTable fromBlockCacheConfigs(
+			DfsBlockCacheConfig cacheConfig) {
+		DfsBlockCacheTable defaultTable = new ClockBlockCacheTable(cacheConfig);
+		List<PackExtsCacheTablePair> blockCacheTableList = new ArrayList<>();
+		List<DfsBlockCachePackExtConfig> packExtConfigs = cacheConfig
+				.getPackExtCacheConfigurations();
+		if (packExtConfigs == null || packExtConfigs.size() == 0) {
+			throw new IllegalArgumentException(
+					JGitText.get().noPackExtConfigurationGiven);
+		}
+		for (DfsBlockCachePackExtConfig packExtCacheConfig : packExtConfigs) {
+			blockCacheTableList.add(
+					new PackExtsCacheTablePair(packExtCacheConfig.getPackExts(),
+							new ClockBlockCacheTable(packExtCacheConfig
+									.getPackExtCacheConfiguration())));
+		}
+		return fromCacheTables(defaultTable, blockCacheTableList);
 	}
 
 	/**

@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.Ref;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.RefLoader;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.dfs.PackExtBlockCacheTable.PackExtsCacheTablePair;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -34,6 +35,30 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class PackExtBlockCacheTableTest {
+	@Test
+	public void fromBlockCacheConfigsCreatesDfsPackExtBlockCacheTables() {
+		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig();
+		cacheConfig.setPackExtCacheConfigurations(
+				List.of(new DfsBlockCachePackExtConfig(Set.of(PackExt.PACK),
+						new DfsBlockCacheConfig())));
+		PackExtBlockCacheTable.fromBlockCacheConfigs(cacheConfig);
+	}
+
+	@Test
+	public void fromBlockCacheConfigsFailsNoPackExtConfigurationGivenWhenPackExtCacheConfigurationsIsNull() {
+		assertThrows(IllegalArgumentException.class,
+				() -> PackExtBlockCacheTable
+						.fromBlockCacheConfigs(new DfsBlockCacheConfig()));
+	}
+
+	@Test
+	public void fromBlockCacheConfigsFailsNoPackExtConfigurationGivenWhenPackExtCacheConfigurationsIsEmpty() {
+		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
+		config.setPackExtCacheConfigurations(List.of());
+		assertThrows(IllegalArgumentException.class,
+				() -> PackExtBlockCacheTable.fromBlockCacheConfigs(config));
+	}
+
 	@Test
 	public void fromCacheTablesFailsWithDuplicatePackExts() {
 		assertThrows(IllegalArgumentException.class,
