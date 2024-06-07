@@ -135,12 +135,26 @@ public interface DfsBlockCacheTable {
 	 * @return the DfsBlockCacheStats tracking this block cache table's
 	 *         statistics.
 	 */
-	DfsBlockCacheStats getDfsBlockCacheStats();
+	BlockCacheStats getBlockCacheStats();
+
+	interface BlockCacheStats {
+		long[] getCurrentSize();
+
+		long[] getHitCount();
+
+		long[] getMissCount();
+
+		long[] getTotalRequestCount();
+
+		long[] getHitRatio();
+
+		long[] getEvictions();
+	}
 
 	/**
 	 * Keeps track of stats for a Block Cache table.
 	 */
-	class DfsBlockCacheStats {
+	class DfsBlockCacheStats implements BlockCacheStats {
 		/**
 		 * Number of times a block was found in the cache, per pack file
 		 * extension.
@@ -219,7 +233,8 @@ public interface DfsBlockCacheTable {
 		 *
 		 * @return total number of bytes in the cache, per pack file extension.
 		 */
-		long[] getCurrentSize() {
+		@Override
+		public long[] getCurrentSize() {
 			return getStatVals(liveBytes);
 		}
 
@@ -230,7 +245,8 @@ public interface DfsBlockCacheTable {
 		 * @return the number of requests for items in the cache, per pack file
 		 *         extension.
 		 */
-		long[] getHitCount() {
+		@Override
+		public long[] getHitCount() {
 			return getStatVals(statHit);
 		}
 
@@ -241,7 +257,8 @@ public interface DfsBlockCacheTable {
 		 * @return the number of requests for items not in the cache, per pack
 		 *         file extension.
 		 */
-		long[] getMissCount() {
+		@Override
+		public long[] getMissCount() {
 			return getStatVals(statMiss);
 		}
 
@@ -251,7 +268,8 @@ public interface DfsBlockCacheTable {
 		 * @return total number of requests (hit + miss), per pack file
 		 *         extension.
 		 */
-		long[] getTotalRequestCount() {
+		@Override
+		public long[] getTotalRequestCount() {
 			AtomicLong[] hit = statHit.get();
 			AtomicLong[] miss = statMiss.get();
 			long[] cnt = new long[Math.max(hit.length, miss.length)];
@@ -269,7 +287,8 @@ public interface DfsBlockCacheTable {
 		 *
 		 * @return hit ratios.
 		 */
-		long[] getHitRatio() {
+		@Override
+		public long[] getHitRatio() {
 			AtomicLong[] hit = statHit.get();
 			AtomicLong[] miss = statMiss.get();
 			long[] ratio = new long[Math.max(hit.length, miss.length)];
@@ -295,7 +314,8 @@ public interface DfsBlockCacheTable {
 		 * @return the number of evictions performed due to cache being full,
 		 *         per pack file extension.
 		 */
-		long[] getEvictions() {
+		@Override
+		public long[] getEvictions() {
 			return getStatVals(statEvict);
 		}
 
