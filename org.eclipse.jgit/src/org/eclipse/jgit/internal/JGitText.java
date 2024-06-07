@@ -315,6 +315,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String downloadCancelled;
 	/***/ public String downloadCancelledDuringIndexing;
 	/***/ public String duplicateAdvertisementsOf;
+	/***/ public String duplicateCacheTablesGiven;
+	/***/ public String duplicatePackExtensionsForCacheTables;
 	/***/ public String duplicatePackExtensionsSet;
 	/***/ public String duplicateRef;
 	/***/ public String duplicateRefAttribute;
