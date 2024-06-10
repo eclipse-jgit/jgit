@@ -25,7 +25,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * Holds and makes available {@link DfsBlockCacheTable}s for {@link PackExt}
  * types.
  */
-class DfsPackExtBlockCacheTables {
+class DfsPackExtBlockCacheTables implements DfsBlockCacheTables {
 	// Holds the unique tables backing the extBlockCacheTables values.
 	private final List<DfsBlockCacheTable> blockCacheTableList;
 
@@ -66,47 +66,20 @@ class DfsPackExtBlockCacheTables {
 				extBlockCacheTables);
 	}
 
-	/**
-	 * Returns the {@link DfsBlockCacheTable} for the {@link PackExt} if it is
-	 * being handled by this DfsPackExtBlockCacheTables instance, or
-	 * {@code null} otherwise.
-	 *
-	 * @param packExt
-	 *            the {@link PackExt} for which a {@link DfsBlockCacheTable}
-	 *            will be returned if found.
-	 * @return the {@link DfsBlockCacheTable} returned for the {@link PackExt}
-	 *         if found, {@code null} otherwise.
-	 */
+	@Override
 	@Nullable
-	DfsBlockCacheTable getTable(PackExt packExt) {
+	public DfsBlockCacheTable getTable(PackExt packExt) {
 		return extBlockCacheTables.getOrDefault(packExt, null);
 	}
 
-	/**
-	 * Returns the {@link DfsBlockCacheTable} for the {@link DfsStreamKey} if it
-	 * is being handled by this DfsPackExtBlockCacheTables instance, or
-	 * {@code null} otherwise.
-	 *
-	 * @param key
-	 *            the {@link DfsStreamKey} for which a
-	 *            {@link DfsBlockCacheTable} will be returned if found.
-	 * @return the {@link DfsBlockCacheTable} returned for the
-	 *         {@link DfsStreamKey}'s {@link PackExt} if found, {@code null}
-	 *         otherwise.
-	 */
+	@Override
 	@Nullable
-	DfsBlockCacheTable getTable(DfsStreamKey key) {
+	public DfsBlockCacheTable getTable(DfsStreamKey key) {
 		return extBlockCacheTables.getOrDefault(getPackExt(key), null);
 	}
 
-	/**
-	 * Returns the list of {@link DfsBlockCacheStats} for the list of
-	 * {@link DfsBlockCacheTable}s.
-	 *
-	 * @return the list of {@link DfsBlockCacheStats} for the list of
-	 *         {@link DfsBlockCacheTable}s.
-	 */
-	List<DfsBlockCacheStats> getBlockCacheTableListStats() {
+	@Override
+	public List<DfsBlockCacheStats> getBlockCacheTableListStats() {
 		return blockCacheTableList.stream()
 				.map(DfsBlockCacheTable::getDfsBlockCacheStats)
 				.collect(Collectors.toList());

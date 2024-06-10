@@ -12,8 +12,11 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
@@ -32,6 +35,8 @@ import java.util.stream.LongStream;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.IndexEventConsumer;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTables.DfsBlockCacheTablesFactory;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
@@ -59,14 +64,17 @@ public class DfsBlockCacheTest {
 
 	private ExecutorService pool;
 
+	private TestBlockCacheTableFactory testBlockCacheTableFactory = new TestBlockCacheTableFactory();
+
 	private enum CacheType {
-		SINGLE_TABLE_CLOCK_BLOCK_CACHE, EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE
+		SINGLE_TABLE_CLOCK_BLOCK_CACHE, EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE, EXT_SPLIT_TABLE_CACHE_WITH_CUSTOM_FACTORY
 	}
 
 	@Parameters(name = "cache type: {0}")
 	public static Iterable<? extends Object> data() {
 		return Arrays.asList(CacheType.SINGLE_TABLE_CLOCK_BLOCK_CACHE,
-				CacheType.EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE);
+				CacheType.EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE,
+				CacheType.EXT_SPLIT_TABLE_CACHE_WITH_CUSTOM_FACTORY);
 	}
 
 	@Parameter
@@ -107,6 +115,32 @@ public class DfsBlockCacheTest {
 		assertTrue("hitCount " + LongStream.of(cache.getHitCount()),
 				hitCount > 0);
 		assertEquals(oldSize, LongStream.of(cache.getCurrentSize()).sum());
+	}
+
+	@SuppressWarnings("resource")
+	@Test
+	public void customFactoryUsed() throws Exception {
+		DfsRepositoryDescription repo = new DfsRepositoryDescription("test");
+		InMemoryRepository r1 = new InMemoryRepository(repo);
+		byte[] content = rng.nextBytes(424242);
+		try (ObjectInserter ins = r1.newObjectInserter()) {
+			ins.insert(OBJ_BLOB, content);
+			ins.flush();
+		}
+
+		assertTrue(LongStream.of(cache.getCurrentSize()).sum() > 2000);
+		assertEquals(0, LongStream.of(cache.getHitCount()).sum());
+
+		switch (cacheType) {
+		case SINGLE_TABLE_CLOCK_BLOCK_CACHE:
+		case EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE:
+			assertNull(testBlockCacheTableFactory.testBlockCacheTables);
+			break;
+		case EXT_SPLIT_TABLE_CACHE_WITH_CUSTOM_FACTORY:
+			assertNotNull(testBlockCacheTableFactory.testBlockCacheTables);
+			assertThat(testBlockCacheTableFactory.testBlockCacheTables.called,
+					greaterThan(0));
+		}
 	}
 
 	@SuppressWarnings("resource")
@@ -484,6 +518,7 @@ public class DfsBlockCacheTest {
 					.setBlockLimit(1 << 20);
 			break;
 		case EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE:
+		case EXT_SPLIT_TABLE_CACHE_WITH_CUSTOM_FACTORY:
 			List<DfsBlockCachePackExtConfig> packExtCacheConfigs = new ArrayList<>();
 			for (PackExt packExt : PackExt.values()) {
 				DfsBlockCacheConfig extCacheConfig = new DfsBlockCacheConfig()
@@ -500,7 +535,11 @@ public class DfsBlockCacheTest {
 			break;
 		}
 		assertNotNull(cacheConfig);
-		DfsBlockCache.reconfigure(cacheConfig);
+		if (cacheType == CacheType.EXT_SPLIT_TABLE_CACHE_WITH_CUSTOM_FACTORY) {
+			DfsBlockCache.reconfigure(cacheConfig, testBlockCacheTableFactory);
+		} else {
+			DfsBlockCache.reconfigure(cacheConfig);
+		}
 		cache = DfsBlockCache.getInstance();
 	}
 
@@ -535,5 +574,48 @@ public class DfsBlockCacheTest {
 		pool.awaitTermination(500, MILLISECONDS);
 		assertTrue("Threads did not complete, likely due to a deadlock.",
 				pool.isTerminated());
+	}
+
+	private static class TestBlockCacheTables implements DfsBlockCacheTables {
+		private final DfsPackExtBlockCacheTables dfsPackExtBlockCacheTables;
+
+		private int called = 0;
+
+		TestBlockCacheTables(
+				DfsPackExtBlockCacheTables dfsPackExtBlockCacheTables) {
+			this.dfsPackExtBlockCacheTables = dfsPackExtBlockCacheTables;
+		}
+
+		@Override
+		public DfsBlockCacheTable getTable(PackExt packExt) {
+			called += 1;
+			return dfsPackExtBlockCacheTables.getTable(packExt);
+		}
+
+		@Override
+		public DfsBlockCacheTable getTable(DfsStreamKey key) {
+			called += 1;
+			return dfsPackExtBlockCacheTables.getTable(key);
+		}
+
+		@Override
+		public List<DfsBlockCacheStats> getBlockCacheTableListStats() {
+			called += 1;
+			return dfsPackExtBlockCacheTables.getBlockCacheTableListStats();
+		}
+	}
+
+	private static class TestBlockCacheTableFactory
+			implements DfsBlockCacheTablesFactory {
+		TestBlockCacheTables testBlockCacheTables = null;
+
+		@Override
+		public DfsBlockCacheTables fromPackExtCacheConfigs(
+				List<DfsBlockCachePackExtConfig> packExtCacheConfigs) {
+			testBlockCacheTables = new TestBlockCacheTables(
+					DfsPackExtBlockCacheTables
+							.fromPackExtCacheConfigs(packExtCacheConfigs));
+			return testBlockCacheTables;
+		}
 	}
 }
