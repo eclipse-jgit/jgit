@@ -97,7 +97,12 @@ public final class DfsBlockCache {
 		double streamRatio = cfg.getStreamRatio();
 		maxStreamThroughCache = (long) (maxBytes * streamRatio);
 
-		dfsBlockCacheTable = new ClockBlockCacheTable(cfg);
+		if (!cfg.getPackExtCacheConfigurations().isEmpty()) {
+			dfsBlockCacheTable = PackExtBlockCacheTable
+					.fromBlockCacheConfigs(cfg);
+		} else {
+			dfsBlockCacheTable = new ClockBlockCacheTable(cfg);
+		}
 
 		for (int i = 0; i < PackExt.values().length; ++i) {
 			Integer limit = cfg.getCacheHotMap().get(PackExt.values()[i]);
@@ -158,8 +163,7 @@ public final class DfsBlockCache {
 	 * @return total number of requests (hit + miss), per pack file extension.
 	 */
 	public long[] getTotalRequestCount() {
-		return dfsBlockCacheTable.getBlockCacheStats()
-				.getTotalRequestCount();
+		return dfsBlockCacheTable.getBlockCacheStats().getTotalRequestCount();
 	}
 
 	/**
