@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTables.DfsBlockCacheTablesFactory;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
@@ -61,6 +62,26 @@ public final class DfsBlockCache {
 	}
 
 	/**
+	 * Modify the configuration of the cache.
+	 * <p>
+	 * The new configuration is applied immediately, and the existing cache is
+	 * cleared.
+	 * <p>
+	 * Allows custom {@link DfsBlockCacheTablesFactory}s to be used to
+	 * allow callers to provide additional block cache implementations.
+	 *
+	 * @param cfg
+	 *            the new window cache configuration.
+	 * @throws java.lang.IllegalArgumentException
+	 *             the cache configuration contains one or more invalid
+	 *             settings, usually too low of a limit.
+	 */
+	public static void reconfigure(DfsBlockCacheConfig cfg,
+			DfsBlockCacheTablesFactory blockCacheTablesFactory) {
+		cache = new DfsBlockCache(cfg, blockCacheTablesFactory);
+	}
+
+	/**
 	 * Get the currently active DfsBlockCache.
 	 *
 	 * @return the currently active DfsBlockCache.
@@ -71,7 +92,7 @@ public final class DfsBlockCache {
 
 	private final DfsBlockCacheTable dfsBlockCacheTable;
 
-	private final DfsPackExtBlockCacheTables packExtBlockCacheTables;
+	private final DfsBlockCacheTables blockCacheTables;
 
 	/** Maximum number of bytes the cache should hold. */
 	private final long maxBytes;
@@ -95,6 +116,11 @@ public final class DfsBlockCache {
 	private final int[] cacheHotLimits = new int[PackExt.values().length];
 
 	private DfsBlockCache(DfsBlockCacheConfig cfg) {
+		this(cfg, new DfsPackExtBlockCacheTablesFactory());
+	}
+
+	private DfsBlockCache(DfsBlockCacheConfig cfg,
+			DfsBlockCacheTablesFactory blockCacheTablesFactory) {
 		maxBytes = cfg.getBlockLimit();
 		blockSize = cfg.getBlockSize();
 		double streamRatio = cfg.getStreamRatio();
@@ -103,11 +129,10 @@ public final class DfsBlockCache {
 		dfsBlockCacheTable = new ClockBlockCacheTable(cfg);
 
 		if (cfg.getPackExtCacheConfigurations() != null) {
-			packExtBlockCacheTables = DfsPackExtBlockCacheTables
-					.fromPackExtCacheConfigs(
-							cfg.getPackExtCacheConfigurations());
+			blockCacheTables = blockCacheTablesFactory.fromPackExtCacheConfigs(
+					cfg.getPackExtCacheConfigurations());
 		} else {
-			packExtBlockCacheTables = null;
+			blockCacheTables = null;
 		}
 
 		for (int i = 0; i < PackExt.values().length; ++i) {
@@ -132,8 +157,8 @@ public final class DfsBlockCache {
 	public long[] getCurrentSize() {
 		DfsPackExtStats packExtStats = new DfsPackExtStats(
 				dfsBlockCacheTable.getDfsBlockCacheStats().getCurrentSize());
-		if (packExtBlockCacheTables != null) {
-			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+		if (blockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : blockCacheTables
 					.getBlockCacheTableListStats()) {
 				packExtStats.add(extCacheStats.getCurrentSize());
 			}
@@ -159,8 +184,8 @@ public final class DfsBlockCache {
 	public long[] getHitCount() {
 		DfsPackExtStats packExtStats = new DfsPackExtStats(
 				dfsBlockCacheTable.getDfsBlockCacheStats().getHitCount());
-		if (packExtBlockCacheTables != null) {
-			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+		if (blockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : blockCacheTables
 					.getBlockCacheTableListStats()) {
 				packExtStats.add(extCacheStats.getHitCount());
 			}
@@ -178,8 +203,8 @@ public final class DfsBlockCache {
 	public long[] getMissCount() {
 		DfsPackExtStats packExtStats = new DfsPackExtStats(
 				dfsBlockCacheTable.getDfsBlockCacheStats().getMissCount());
-		if (packExtBlockCacheTables != null) {
-			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+		if (blockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : blockCacheTables
 					.getBlockCacheTableListStats()) {
 				packExtStats.add(extCacheStats.getMissCount());
 			}
@@ -195,8 +220,8 @@ public final class DfsBlockCache {
 	public long[] getTotalRequestCount() {
 		DfsPackExtStats packExtStats = new DfsPackExtStats(dfsBlockCacheTable
 				.getDfsBlockCacheStats().getTotalRequestCount());
-		if (packExtBlockCacheTables != null) {
-			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+		if (blockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : blockCacheTables
 					.getBlockCacheTableListStats()) {
 				packExtStats.add(extCacheStats.getTotalRequestCount());
 			}
@@ -212,8 +237,8 @@ public final class DfsBlockCache {
 	public long[] getHitRatio() {
 		DfsPackExtStats packExtStats = new DfsPackExtStats(
 				dfsBlockCacheTable.getDfsBlockCacheStats().getHitRatio());
-		if (packExtBlockCacheTables != null) {
-			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+		if (blockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : blockCacheTables
 					.getBlockCacheTableListStats()) {
 				packExtStats.add(extCacheStats.getHitRatio());
 			}
@@ -231,8 +256,8 @@ public final class DfsBlockCache {
 	public long[] getEvictions() {
 		DfsPackExtStats packExtStats = new DfsPackExtStats(
 				dfsBlockCacheTable.getDfsBlockCacheStats().getEvictions());
-		if (packExtBlockCacheTables != null) {
-			for (DfsBlockCacheStats extCacheStats : packExtBlockCacheTables
+		if (blockCacheTables != null) {
+			for (DfsBlockCacheStats extCacheStats : blockCacheTables
 					.getBlockCacheTableListStats()) {
 				packExtStats.add(extCacheStats.getEvictions());
 			}
@@ -252,8 +277,8 @@ public final class DfsBlockCache {
 	 * @return true if block 0 (the first block) is in the cache.
 	 */
 	public boolean hasBlock0(DfsStreamKey key) {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable extTable = packExtBlockCacheTables.getTable(key);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable extTable = blockCacheTables.getTable(key);
 			if (extTable != null && extTable.hasBlock0(key))
 				return true;
 		}
@@ -281,9 +306,8 @@ public final class DfsBlockCache {
 	 */
 	DfsBlock getOrLoad(BlockBasedFile file, long position, DfsReader ctx,
 			ReadableChannelSupplier fileChannel) throws IOException {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables
-					.getTable(file.ext);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(file.ext);
 			if (table != null) {
 				return table.getOrLoad(file, position, ctx, fileChannel);
 			}
@@ -292,9 +316,8 @@ public final class DfsBlockCache {
 	}
 
 	void put(DfsBlock v) {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables
-					.getTable(v.stream);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(v.stream);
 			if (table != null) {
 				table.put(v);
 				return;
@@ -318,8 +341,8 @@ public final class DfsBlockCache {
 	 */
 	<T> Ref<T> getOrLoadRef(DfsStreamKey key, long position,
 			RefLoader<T> loader) throws IOException {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(key);
 			if (table != null) {
 				return table.getOrLoadRef(key, position, loader);
 			}
@@ -328,8 +351,8 @@ public final class DfsBlockCache {
 	}
 
 	<T> Ref<T> putRef(DfsStreamKey key, long size, T v) {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(key);
 			if (table != null) {
 				return table.putRef(key, size, v);
 			}
@@ -338,8 +361,8 @@ public final class DfsBlockCache {
 	}
 
 	<T> Ref<T> put(DfsStreamKey key, long pos, long size, T v) {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(key);
 			if (table != null) {
 				return table.put(key, pos, size, v);
 			}
@@ -348,8 +371,8 @@ public final class DfsBlockCache {
 	}
 
 	boolean contains(DfsStreamKey key, long position) {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(key);
 			if (table != null) {
 				return table.contains(key, position);
 			}
@@ -358,8 +381,8 @@ public final class DfsBlockCache {
 	}
 
 	<T> T get(DfsStreamKey key, long position) {
-		if (packExtBlockCacheTables != null) {
-			DfsBlockCacheTable table = packExtBlockCacheTables.getTable(key);
+		if (blockCacheTables != null) {
+			DfsBlockCacheTable table = blockCacheTables.getTable(key);
 			if (table != null) {
 				return table.get(key, position);
 			}
