@@ -49,11 +49,7 @@ public class TreeRevFilter extends RevFilter {
 
 	private final MutableBoolean changedPathFilterUsed = new MutableBoolean();
 
-	private long changedPathFilterTruePositive = 0;
-
-	private long changedPathFilterFalsePositive = 0;
-
-	private long changedPathFilterNegative = 0;
+	private final RevWalk.RevFilterStats stats;
 
 	/**
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
@@ -98,6 +94,7 @@ public class TreeRevFilter extends RevFilter {
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
 		this.rewriteFlag = rewriteFlag;
+		stats = walker.getRevFilterStats();
 	}
 
 	@Override
@@ -109,6 +106,7 @@ public class TreeRevFilter extends RevFilter {
 	public boolean include(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		stats.incrementCommitsThroughTreeRevFilter();
 		c.flags |= FILTER_APPLIED;
 		// Reset the tree filter to scan this commit and parents.
 		//
@@ -125,6 +123,7 @@ public class TreeRevFilter extends RevFilter {
 		}
 		trees[nParents] = c.getTree();
 		tw.reset(trees);
+		stats.incrementNumTreesParsedInTreeRevFilter(trees.length);
 		changedPathFilterUsed.reset();
 
 		if (nParents == 1) {
@@ -146,14 +145,14 @@ public class TreeRevFilter extends RevFilter {
 				}
 				if (changedPathFilterUsed.get()) {
 					if (chgs > 0) {
-						changedPathFilterTruePositive++;
+						stats.incrementChangedPathFilterTruePositive();
 					} else {
-						changedPathFilterFalsePositive++;
+						stats.incrementChangedPathFilterFalsePositive();
 					}
 				}
 			} else {
 				if (changedPathFilterUsed.get()) {
-					changedPathFilterNegative++;
+					stats.incrementChangedPathFilterNegative();
 				}
 			}
 
@@ -278,9 +277,11 @@ public class TreeRevFilter extends RevFilter {
 	 *
 	 * @return count of true positives
 	 * @since 6.7
+	 * @deprecated See {@link RevWalk#getRevFilterStats()}
 	 */
+	@Deprecated(since = "7.8")
 	public long getChangedPathFilterTruePositive() {
-		return changedPathFilterTruePositive;
+		return stats.getChangedPathFilterTruePositive();
 	}
 
 	/**
@@ -289,9 +290,11 @@ public class TreeRevFilter extends RevFilter {
 	 *
 	 * @return count of false positives
 	 * @since 6.7
+	 * @deprecated See {@link RevWalk#getRevFilterStats()}
 	 */
+	@Deprecated(since = "7.8")
 	public long getChangedPathFilterFalsePositive() {
-		return changedPathFilterFalsePositive;
+		return stats.getChangedPathFilterFalsePositive();
 	}
 
 	/**
@@ -301,9 +304,11 @@ public class TreeRevFilter extends RevFilter {
 	 *
 	 * @return count of negatives
 	 * @since 6.7
+	 * @deprecated See {@link RevWalk#getRevFilterStats()}
 	 */
+	@Deprecated(since = "7.8")
 	public long getChangedPathFilterNegative() {
-		return changedPathFilterNegative;
+		return stats.getChangedPathFilterNegative();
 	}
 
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,
