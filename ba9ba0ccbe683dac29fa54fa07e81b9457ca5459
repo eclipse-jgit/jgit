@@ -34,6 +34,23 @@
       "parentUuid": "8a9cdcb3_69823022",
       "revId": "ba9ba0ccbe683dac29fa54fa07e81b9457ca5459",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ea3f57_a5ea239f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-06-11T08:59:17Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com What do you think? Is my description clear enough to show that the change is not working as expected?",
+      "revId": "ba9ba0ccbe683dac29fa54fa07e81b9457ca5459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
