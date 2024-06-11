@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e8b33e_5a635ad2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-11T00:19:31Z",
+      "side": 1,
+      "message": "I don\u0027t see any reason for the tests to depend on the stamped version.\n\nI\u0027ll give a couple days before submit for others to comment.",
+      "revId": "fdca5867df1981e0d63533ddb20ad6ef460f4d7a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
