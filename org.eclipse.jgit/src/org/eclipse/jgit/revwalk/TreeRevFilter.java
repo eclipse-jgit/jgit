@@ -109,6 +109,7 @@ public class TreeRevFilter extends RevFilter {
 	public boolean include(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		walker.getRevFilterStats().incrementCommitsThroughTreeRevFilter();
 		c.flags |= FILTER_APPLIED;
 		// Reset the tree filter to scan this commit and parents.
 		//
@@ -125,6 +126,8 @@ public class TreeRevFilter extends RevFilter {
 		}
 		trees[nParents] = c.getTree();
 		tw.reset(trees);
+		walker.getRevFilterStats()
+				.incrementNumTreesParsedInTreeRevFilter(trees.length);
 		changedPathFilterUsed.reset();
 
 		if (nParents == 1) {
@@ -146,13 +149,19 @@ public class TreeRevFilter extends RevFilter {
 				if (changedPathFilterUsed.get()) {
 					if (chgs > 0) {
 						changedPathFilterTruePositive++;
+						walker.getRevFilterStats()
+								.incrementChangedPathFilterTruePositive();
 					} else {
 						changedPathFilterFalsePositive++;
+						walker.getRevFilterStats()
+								.incrementChangedPathFilterFalsePositive();
 					}
 				}
 			} else {
 				if (changedPathFilterUsed.get()) {
 					changedPathFilterNegative++;
+					walker.getRevFilterStats()
+							.incrementChangedPathFilterNegative();
 				}
 			}
 
@@ -275,8 +284,8 @@ public class TreeRevFilter extends RevFilter {
 	 * path was changed in a commit, for statistics gathering purposes.
 	 *
 	 * @return count of true positives
-	 * @since 6.7
 	 */
+	@Deprecated(since = "7.3")
 	public long getChangedPathFilterTruePositive() {
 		return changedPathFilterTruePositive;
 	}
@@ -286,8 +295,8 @@ public class TreeRevFilter extends RevFilter {
 	 * was changed in a commit, for statistics gathering purposes.
 	 *
 	 * @return count of false positives
-	 * @since 6.7
 	 */
+	@Deprecated(since = "7.3")
 	public long getChangedPathFilterFalsePositive() {
 		return changedPathFilterFalsePositive;
 	}
@@ -298,8 +307,8 @@ public class TreeRevFilter extends RevFilter {
 	 * gathering purposes.
 	 *
 	 * @return count of negatives
-	 * @since 6.7
 	 */
+	@Deprecated(since = "7.3")
 	public long getChangedPathFilterNegative() {
 		return changedPathFilterNegative;
 	}
