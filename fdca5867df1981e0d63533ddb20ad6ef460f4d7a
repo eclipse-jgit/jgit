@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a217f599_8b4301a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-11T21:06:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "983ebf18_dc4ec7d0",
+      "revId": "fdca5867df1981e0d63533ddb20ad6ef460f4d7a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60f66b0c_2e28ba17",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-06-11T07:03:23Z",
       "side": 1,
       "message": "Can you explain why bazel coverage doesn\u0027t work with stamped jgit java_library ?",
+      "revId": "fdca5867df1981e0d63533ddb20ad6ef460f4d7a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90457e19_a1f118a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-11T21:06:59Z",
+      "side": 1,
+      "message": "I don\u0027t know exactly how it happens within the build system but the effects I see are:\n\nthe java_library target, when run with bazel coverage, generates the file\n`libjgit_non_stamped-class-paths-for-coverage.txt` (maybe other things too but that\u0027s an immediately visible difference).\n\nIt (the `libjgit_non_stamped(...).txt` file) is generated when calling the jgit genrule too, but no `git-class-paths-for-coverage.txt` (or anything else like it) gets generated.\n\nI\u0027m not sure how it could be added to the genrule, or even move adding the version info to the java_library output rather than how it\u0027s done now in the genrule.",
+      "parentUuid": "60f66b0c_2e28ba17",
       "revId": "fdca5867df1981e0d63533ddb20ad6ef460f4d7a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
