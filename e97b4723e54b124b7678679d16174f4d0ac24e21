@@ -16,6 +16,23 @@
       "message": "re-trigger rebuild",
       "revId": "e97b4723e54b124b7678679d16174f4d0ac24e21",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e25654_f9c2085a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-06-12T22:16:13Z",
+      "side": 1,
+      "message": "nit: delete empty line",
+      "revId": "e97b4723e54b124b7678679d16174f4d0ac24e21",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
