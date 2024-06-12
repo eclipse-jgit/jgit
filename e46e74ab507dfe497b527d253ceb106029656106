@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a3a93c0_4b95d3bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2024-06-12T21:41:48Z",
+      "side": 1,
+      "message": "`commitGraph !\u003d cg` ? instead of relying on flag states",
+      "range": {
+        "startLine": 315,
+        "startChar": 45,
+        "endLine": 315,
+        "endChar": 60
+      },
+      "revId": "e46e74ab507dfe497b527d253ceb106029656106",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
