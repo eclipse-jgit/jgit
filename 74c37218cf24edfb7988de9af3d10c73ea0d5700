@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59c9056_4724185f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-12T18:15:58Z",
+      "side": 1,
+      "message": "Thanks! I think it would be easier to review/see how it works reordering the changes:\n\n1. Introduce the conf definition and objects (because we need it in #2)\n2. Introduce the DfsBlockCacheTableComposite, build from the conf\n3. Update DfsBlockCache to use the Composite",
+      "revId": "74c37218cf24edfb7988de9af3d10c73ea0d5700",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
