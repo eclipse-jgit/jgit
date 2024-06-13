@@ -1,0 +1,399 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9874c8d_ff60b252",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LinkedWorktreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "use Constants.HEAD",
+      "range": {
+        "startLine": 59,
+        "startChar": 42,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5893b8b_0953c892",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LinkedWorktreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "use constants defined in Constants",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800b81ac_3a9ebd87",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LinkedWorktreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "compared to a worktree created using git the following is missing:\n- git index\n- reflog for HEAD\n\nI think it\u0027s easier to setup the worktree used here using git, we have some tests using git to test compatibility between jgit and git, e.g. CGitAttributesTest or DirCacheCGitCompatabilityTest. This way we also have compatibility tests which are still useful when we later add write support for worktrees.",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0e2de3a_3f44481e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "good catch, though this fix should be moved to a separate change",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2302e8a_7d58247e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1338,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "use Constants.HEAD",
+      "range": {
+        "startLine": 1338,
+        "startChar": 18,
+        "endLine": 1338,
+        "endChar": 24
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82fb7a62_0ca9601d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogReaderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "use Constants.HEAD",
+      "range": {
+        "startLine": 40,
+        "startChar": 35,
+        "endLine": 40,
+        "endChar": 41
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc2d3a0_d1127678",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "missing @since 7.0",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42b5c6a1_1948c362",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "6.10 was released, update to 7.0",
+      "range": {
+        "startLine": 199,
+        "startChar": 11,
+        "endLine": 199,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29279abe_9dc8560e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 211,
+        "startChar": 10,
+        "endLine": 211,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a5ee40a_7013d337",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "missing @since 7.0 for new API",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ece24f_d8738cce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 278,
+        "startChar": 11,
+        "endLine": 278,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0904ee6_5ef7a5a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 285,
+        "startChar": 11,
+        "endLine": 285,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f249e4c2_18478608",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "@since 7.0",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7f9ec86_32929636",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "@since 7.0",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30863dfc_caef84d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 505,
+        "startChar": 11,
+        "endLine": 505,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c886b14_65f0f125",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 230,
+        "startChar": 11,
+        "endLine": 230,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a03493_14c630bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "we don\u0027t use final for local variables, see https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#use-of-the-final-modifier",
+      "range": {
+        "startLine": 514,
+        "startChar": 3,
+        "endLine": 514,
+        "endChar": 8
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913fad46_abe3615d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "remove final",
+      "range": {
+        "startLine": 528,
+        "startChar": 3,
+        "endLine": 528,
+        "endChar": 8
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97e6ecb1_020e22d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2590,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:45:30Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 2590,
+        "startChar": 11,
+        "endLine": 2590,
+        "endChar": 15
+      },
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
