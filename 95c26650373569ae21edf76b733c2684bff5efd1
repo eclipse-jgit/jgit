@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5bc6afa_b95ad6d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-13T17:56:59Z",
+      "side": 1,
+      "message": "I\u0027ve updated the wording here on how it can be useful.",
+      "parentUuid": "e3d91b82_a25821b9",
+      "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c33486b_8cc2f6c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2024-06-12T18:15:58Z",
       "side": 1,
       "message": "We could implement this as  table that hides N-tables, like a Composite (https://en.wikipedia.org/wiki/Composite_pattern).\n\nThen we don\u0027t need to care e.g. about \"null\" for non-sharded tables or modify all methods to account for the sharding.\n\nThe DfsBlockCache just needs to instantiate a DfsBlockCacheTableComposite instead of the current ClockTable, and forward calls.\n\nWe could have a \nclass DfsBlockCacheTableComposite implements DfsBlockCacheTable {\n\n    DfsBlockCacheTableComposite(List\u003cxyzConfig\u003e definitions) {\n       // Build an internal map of tables, including a default one\n    }\n    \n    // in the implemented methods, choose table and delegate the call\n}",
+      "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbb6fa00_8e03d264",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-13T17:56:59Z",
+      "side": 1,
+      "message": "I changed it up a bit. Not quite in the way you\u0027re talking about here but I\u0027ve moved the logic of selecting between a mapped table vs using the default to a single place (getTable)",
+      "parentUuid": "0c33486b_8cc2f6c4",
       "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

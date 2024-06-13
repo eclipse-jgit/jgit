@@ -16,6 +16,24 @@
       "message": "Thanks! I think it would be easier to review/see how it works reordering the changes:\n\n1. Introduce the conf definition and objects (because we need it in #2)\n2. Introduce the DfsBlockCacheTableComposite, build from the conf\n3. Update DfsBlockCache to use the Composite",
       "revId": "74c37218cf24edfb7988de9af3d10c73ea0d5700",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7cdf5cd_a0875fc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-13T17:56:59Z",
+      "side": 1,
+      "message": "The way it\u0027s set up here makes no current assumption of how this is configured.\nI feel having a default configuration method (through the git config) can easily follow what it\u0027s configuring, but the reverse is a little more confusing.\n\nI\u0027ll move it around if you feel strongly about it though.",
+      "parentUuid": "d59c9056_4724185f",
+      "revId": "74c37218cf24edfb7988de9af3d10c73ea0d5700",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
