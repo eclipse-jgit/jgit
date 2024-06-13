@@ -34,6 +34,24 @@
       "parentUuid": "8337dfeb_febf0872",
       "revId": "7e1040dfc2b8a6e76e1c8e51f48034fc500b620e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "545b0740_cafb1d73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T20:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93a8b819_901bb535",
+      "revId": "7e1040dfc2b8a6e76e1c8e51f48034fc500b620e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
