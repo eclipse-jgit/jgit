@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d977a67_87b615dd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-06-13T15:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17c3c502_1dd7bf68",
+      "range": {
+        "startLine": 296,
+        "startChar": 55,
+        "endLine": 296,
+        "endChar": 60
+      },
+      "revId": "ff8f2c6405daf2b07cac42c6e0cfa3da53200c04",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41cce8a0_39eb6ce1",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-06-12T22:20:36Z",
       "side": 1,
       "message": "move this line to L304 just before CommitGraph cgWithCpf is created",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 28
+      },
+      "revId": "ff8f2c6405daf2b07cac42c6e0cfa3da53200c04",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "571421a7_2192ac27",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsPackFileTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-06-13T15:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41cce8a0_39eb6ce1",
       "range": {
         "startLine": 299,
         "startChar": 0,

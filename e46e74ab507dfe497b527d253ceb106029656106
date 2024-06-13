@@ -22,6 +22,30 @@
       },
       "revId": "e46e74ab507dfe497b527d253ceb106029656106",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49453739_3d48aab1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-06-13T15:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a3a93c0_4b95d3bc",
+      "range": {
+        "startLine": 315,
+        "startChar": 45,
+        "endLine": 315,
+        "endChar": 60
+      },
+      "revId": "e46e74ab507dfe497b527d253ceb106029656106",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
