@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "795f0d25_cf6ffb3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LinkedWorktreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "we should also add tests verifying we use the git index and ref logs of the worktree",
+      "parentUuid": "800b81ac_3a9ebd87",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0e2de3a_3f44481e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
         "patchSetId": 2

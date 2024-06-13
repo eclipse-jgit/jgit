@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "223c4e0c_f27aff79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "focuses on",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f71bbc68_6e9143c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "the repository",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e8f8ca_c11e55e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "when",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d706cc45_ca981edf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "constants",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a21af249_2f227ff5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "reftable recently landed in cgit 2.45, see https://github.com/git/git/blob/master/Documentation/RelNotes/2.45.0.txt#L8\n\nwe can add worktree support for reftable in a later change",
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace66f8c_08ecf2ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "references the",
+      "range": {
+        "startLine": 484,
+        "startChar": 42,
+        "endLine": 484,
+        "endChar": 55
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a02c971_5066c635",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 490,
+        "startChar": 11,
+        "endLine": 490,
+        "endChar": 18
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c512edcd_a07d6050",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "file is used to verify",
+      "range": {
+        "startLine": 490,
+        "startChar": 25,
+        "endLine": 490,
+        "endChar": 41
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63637275_ea67b4c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "in which case this directory is no longer needed.",
+      "range": {
+        "startLine": 491,
+        "startChar": 21,
+        "endLine": 491,
+        "endChar": 74
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fde9149_7d0e7ff7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "modification time (mtime)",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 492,
+        "endChar": 13
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cc2f16b_4f47710e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "each",
+      "range": {
+        "startLine": 492,
+        "startChar": 45,
+        "endLine": 492,
+        "endChar": 50
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1054862f_c534256b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "references the",
+      "range": {
+        "startLine": 500,
+        "startChar": 42,
+        "endLine": 500,
+        "endChar": 58
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0b5568_30070d64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-06-13T23:20:13Z",
+      "side": 1,
+      "message": "unless it is",
+      "range": {
+        "startLine": 505,
+        "startChar": 14,
+        "endLine": 505,
+        "endChar": 26
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
