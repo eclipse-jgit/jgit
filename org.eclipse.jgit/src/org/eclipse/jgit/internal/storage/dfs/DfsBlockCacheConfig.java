@@ -49,6 +49,8 @@ public class DfsBlockCacheConfig {
 	/** Default number of max cache hits. */
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
 
+	private String label;
+
 	private long blockLimit;
 
 	private int blockSize;
@@ -69,12 +71,38 @@ public class DfsBlockCacheConfig {
 	 * Create a default configuration.
 	 */
 	public DfsBlockCacheConfig() {
+		label = "";
 		setBlockLimit(32 * MB);
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
 		packExtCacheConfigurations = Collections.emptyList();
+	}
+
+	/**
+	 * Get the label for the block cache configured by this cache config, or
+	 * return the defaultValue if no label is set.
+	 *
+	 * @param defaultValue
+	 *            the value to return if the label is not set.
+	 * @return the label for the block cache configured by this cache config, or
+	 *         the defaultValue if no label is set.
+	 */
+	public String getLabel(String defaultValue) {
+		if (label.isEmpty()) {
+			return defaultValue;
+		}
+		return label;
+	}
+
+	/**
+	 * Get the label for the block cache configured by this cache config.
+	 *
+	 * @return the label for the block cache configured by this cache config.
+	 */
+	public String getLabel() {
+		return label;
 	}
 
 	/**
@@ -298,6 +326,7 @@ public class DfsBlockCacheConfig {
 	}
 
 	private void fromConfig(String section, String subSection, Config rc) {
+		String label = subSection.replaceFirst(CONFIG_DFS_CACHE_PREFIX, "");
 		long cfgBlockLimit = rc.getLong(section, subSection,
 				CONFIG_KEY_BLOCK_LIMIT, getBlockLimit());
 		int cfgBlockSize = rc.getInt(section, subSection, CONFIG_KEY_BLOCK_SIZE,
@@ -308,6 +337,7 @@ public class DfsBlockCacheConfig {
 					Long.valueOf(cfgBlockLimit), Long.valueOf(cfgBlockSize)));
 		}
 
+		this.label = label;
 		setBlockLimit(cfgBlockLimit);
 		setBlockSize(cfgBlockSize);
 
