@@ -31,6 +31,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * types.
  */
 class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
+	private final String label;
+
 	private final DfsBlockCacheTable defaultBlockCacheTable;
 
 	// Holds the unique tables backing the extBlockCacheTables values.
@@ -40,10 +42,11 @@ class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
 	// accessible by multiple PackExt keys.
 	private final Map<PackExt, DfsBlockCacheTable> extBlockCacheTables;
 
-	private DfsPackExtBlockCacheTables(
+	private DfsPackExtBlockCacheTables(String label,
 			DfsBlockCacheTable defaultBlockCacheTable,
 			List<DfsBlockCacheTable> blockCacheTableList,
 			Map<PackExt, DfsBlockCacheTable> extBlockCacheTables) {
+		this.label = label;
 		this.defaultBlockCacheTable = defaultBlockCacheTable;
 		this.blockCacheTableList = blockCacheTableList;
 		this.extBlockCacheTables = extBlockCacheTables;
@@ -78,7 +81,8 @@ class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
 							new ClockBlockCacheTable(packExtCacheConfig
 									.getPackExtCacheConfiguration())));
 		}
-		return fromCacheTables(defaultTable, blockCacheTableList);
+		return fromCacheTables(cacheConfig.getLabel(), defaultTable,
+				blockCacheTableList);
 	}
 
 	/**
@@ -101,7 +105,15 @@ class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
 	 *             when a {@link PackExt} is defined for multiple
 	 *             {@link DfsBlockCacheTable}s.
 	 */
+
 	static DfsPackExtBlockCacheTables fromCacheTables(
+			DfsBlockCacheTable defaultBlockCacheTable,
+			List<PackExtsCacheTablePair> packExtsCacheTablePairs) {
+		return fromCacheTables("", defaultBlockCacheTable,
+				packExtsCacheTablePairs);
+	}
+
+	private static DfsPackExtBlockCacheTables fromCacheTables(String maybeLabel,
 			DfsBlockCacheTable defaultBlockCacheTable,
 			List<PackExtsCacheTablePair> packExtsCacheTablePairs) {
 		List<DfsBlockCacheTable> blockCacheTables = new ArrayList<>();
@@ -121,8 +133,18 @@ class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
 						tablePair.getBlockCacheTable());
 			}
 		}
-		return new DfsPackExtBlockCacheTables(defaultBlockCacheTable,
+		String label = maybeLabel.isEmpty()
+				? generateLabel(packExtDfsBlockCacheTableMap.keySet())
+				: maybeLabel;
+		return new DfsPackExtBlockCacheTables(label, defaultBlockCacheTable,
 				blockCacheTables, packExtDfsBlockCacheTableMap);
+	}
+
+	private static String generateLabel(Set<PackExt> packExts) {
+		return String.format("%s-%s",
+				packExts.stream().sorted().map(PackExt::name)
+						.collect(Collectors.joining("-")),
+				DfsPackExtBlockCacheTables.class.getSimpleName());
 	}
 
 	@Override
@@ -171,9 +193,17 @@ class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
 
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
-		return new CacheStats(blockCacheTableList.stream()
-				.map(DfsBlockCacheTable::getBlockCacheStats)
-				.collect(Collectors.toList()));
+		return new CacheStats(label,
+				blockCacheTableList.stream()
+						.map(DfsBlockCacheTable::getBlockCacheStats)
+						.collect(Collectors.toList()));
+	}
+
+	@Override
+	public List<BlockCacheStats> getAllCachesBlockCacheStats() {
+		return blockCacheTableList.stream().flatMap(
+				cacheTable -> cacheTable.getAllCachesBlockCacheStats().stream())
+				.collect(Collectors.toList());
 	}
 
 	private DfsBlockCacheTable getTable(PackExt packExt) {
@@ -191,10 +221,19 @@ class DfsPackExtBlockCacheTables implements DfsBlockCacheTable {
 	}
 
 	private static class CacheStats implements BlockCacheStats {
+		private final String label;
+
 		private final List<BlockCacheStats> blockCacheStats;
 
-		private CacheStats(List<BlockCacheStats> blockCacheStats) {
+		private CacheStats(String label,
+				List<BlockCacheStats> blockCacheStats) {
+			this.label = label;
 			this.blockCacheStats = blockCacheStats;
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
 		}
 
 		@Override

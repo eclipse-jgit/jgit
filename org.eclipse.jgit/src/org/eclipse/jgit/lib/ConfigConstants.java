@@ -80,6 +80,9 @@ public final class ConfigConstants {
 	/** The dfs cache subsection prefix */
 	public static final String CONFIG_DFS_CACHE_PREFIX = "dfs.";
 
+	/** The "dsf cache label" key */
+	public static final String CONFIG_KEY_DFS_CACHE_LABEL = "cacheLabel";
+
 	/**
 	 * The "receive" section
 	 * 

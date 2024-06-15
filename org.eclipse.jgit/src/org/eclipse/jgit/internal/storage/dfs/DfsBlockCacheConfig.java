@@ -16,6 +16,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BLOCK_LIMIT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BLOCK_SIZE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DFS_CACHE_LABEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
@@ -34,6 +35,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * Configuration parameters for
@@ -48,6 +50,8 @@ public class DfsBlockCacheConfig {
 
 	/** Default number of max cache hits. */
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
+
+	private String label;
 
 	private long blockLimit;
 
@@ -70,11 +74,23 @@ public class DfsBlockCacheConfig {
 	 * Create a default configuration.
 	 */
 	public DfsBlockCacheConfig() {
+		label = "";
 		setBlockLimit(32 * MB);
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
+	}
+
+	public String getLabel(String defaultValue) {
+		if (label.isEmpty()) {
+			return defaultValue;
+		}
+		return label;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 
 	/**
@@ -292,6 +308,9 @@ public class DfsBlockCacheConfig {
 
 	private DfsBlockCacheConfig fromConfig(String section, String subSection,
 			Config rc) {
+		String label = rc.getString(section, subSection,
+				CONFIG_KEY_DFS_CACHE_LABEL);
+		this.label = !StringUtils.isEmptyOrNull(label) ? label : "";
 		long cfgBlockLimit = rc.getLong(section, subSection,
 				CONFIG_KEY_BLOCK_LIMIT, getBlockLimit());
 		int cfgBlockSize = rc.getInt(section, subSection, CONFIG_KEY_BLOCK_SIZE,
