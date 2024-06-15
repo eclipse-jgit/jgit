@@ -38,6 +38,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * type.
  */
 class PackExtBlockCacheTable implements DfsBlockCacheTable {
+	private static final String LABEL = "PackExtBlockCacheTable";
+
 	private final DfsBlockCacheTable defaultBlockCacheTable;
 
 	// Holds the unique tables backing the extBlockCacheTables values.
@@ -204,9 +206,17 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
-		return new CacheStats(blockCacheTableList.stream()
-				.map(DfsBlockCacheTable::getBlockCacheStats)
-				.collect(Collectors.toList()));
+		return new CacheStats(LABEL,
+				blockCacheTableList.stream()
+						.map(DfsBlockCacheTable::getBlockCacheStats)
+						.collect(Collectors.toList()));
+	}
+
+	@Override
+	public List<BlockCacheStats> getAllCachesBlockCacheStats() {
+		return blockCacheTableList.stream().flatMap(
+				cacheTable -> cacheTable.getAllCachesBlockCacheStats().stream())
+				.collect(Collectors.toList());
 	}
 
 	private DfsBlockCacheTable getTable(PackExt packExt) {
@@ -224,10 +234,19 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 	}
 
 	private static class CacheStats implements BlockCacheStats {
+		private final String label;
+
 		private final List<BlockCacheStats> blockCacheStats;
 
-		private CacheStats(List<BlockCacheStats> blockCacheStats) {
+		private CacheStats(String label,
+				List<BlockCacheStats> blockCacheStats) {
+			this.label = label;
 			this.blockCacheStats = blockCacheStats;
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
 		}
 
 		@Override

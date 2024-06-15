@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -129,7 +130,8 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 				-1, 0, null);
 		clockHand.next = clockHand;
 
-		this.dfsBlockCacheStats = new DfsBlockCacheStats();
+		this.dfsBlockCacheStats = new DfsBlockCacheStats(
+				cfg.getLabel(ClockBlockCacheTable.class.getSimpleName()));
 		this.refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 		this.indexEventConsumer = cfg.getIndexEventConsumer();
 	}
@@ -137,6 +139,11 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
 		return dfsBlockCacheStats;
+	}
+
+	@Override
+	public List<BlockCacheStats> getAllCachesBlockCacheStats() {
+		return List.of(dfsBlockCacheStats);
 	}
 
 	@Override

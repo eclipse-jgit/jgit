@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -138,9 +139,20 @@ public interface DfsBlockCacheTable {
 	BlockCacheStats getBlockCacheStats();
 
 	/**
+	 * Get the list of {@link BlockCacheStats} held by this cache.
+	 * <p>
+	 * Useful in monitoring caches by labelled {@link BlockCacheStats}.
+	 *
+	 * @return the list of {@link BlockCacheStats} held by this cache.
+	 */
+	List<BlockCacheStats> getAllCachesBlockCacheStats();
+
+	/**
 	 * Provides methods used with Block Cache statistics.
 	 */
 	interface BlockCacheStats {
+		String getLabel();
+
 		/**
 		 * Get total number of bytes in the cache, per pack file extension.
 		 *
@@ -195,6 +207,8 @@ public interface DfsBlockCacheTable {
 	 * Keeps track of stats for a Block Cache table.
 	 */
 	class DfsBlockCacheStats implements BlockCacheStats {
+		private final String label;
+
 		/**
 		 * Number of times a block was found in the cache, per pack file
 		 * extension.
@@ -220,10 +234,20 @@ public interface DfsBlockCacheTable {
 		private final AtomicReference<AtomicLong[]> liveBytes;
 
 		DfsBlockCacheStats() {
+			this("");
+		}
+
+		DfsBlockCacheStats(String label) {
+			this.label = label;
 			statHit = new AtomicReference<>(newCounters());
 			statMiss = new AtomicReference<>(newCounters());
 			statEvict = new AtomicReference<>(newCounters());
 			liveBytes = new AtomicReference<>(newCounters());
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
 		}
 
 		/**
