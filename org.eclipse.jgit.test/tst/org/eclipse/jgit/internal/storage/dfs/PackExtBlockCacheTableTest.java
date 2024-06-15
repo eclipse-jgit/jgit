@@ -11,8 +11,10 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -26,10 +28,12 @@ import static org.mockito.Mockito.when;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.Ref;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.RefLoader;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.BlockCacheStats;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.dfs.PackExtBlockCacheTable.PackExtsCacheTablePair;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -429,6 +433,38 @@ public class PackExtBlockCacheTableTest {
 	}
 
 	@Test
+	public void getAllBlockCacheStats() {
+		DfsBlockCacheTable defaultTable = cacheTableWithStats(
+				cacheStatsWithLabel("default table"));
+		DfsBlockCacheTable indexTable = cacheTableWithStats(
+				cacheStatsWithLabel("index table"));
+		DfsBlockCacheTable bitmapTable = cacheTableWithStats(
+				cacheStatsWithLabel("bitmap table"));
+		PackExtBlockCacheTable tables = PackExtBlockCacheTable.fromCacheTables(
+				defaultTable,
+				List.of(new PackExtBlockCacheTable.PackExtsCacheTablePair(
+						Set.of(PackExt.INDEX), indexTable),
+						new PackExtBlockCacheTable.PackExtsCacheTablePair(
+								Set.of(PackExt.BITMAP_INDEX), bitmapTable)));
+
+		assertThat(tables.getAllCachesBlockCacheStats().stream()
+				.map(BlockCacheStats::getLabel).collect(Collectors.toList()),
+				hasItems("default table", "index table", "bitmap table"));
+	}
+
+	@Test
+	public void getBlockCacheStats_hasPackExtBlockCacheTableLabel() {
+		PackExtBlockCacheTable tables = PackExtBlockCacheTable.fromCacheTables(
+				mock(DfsBlockCacheTable.class),
+				List.of(new PackExtBlockCacheTable.PackExtsCacheTablePair(
+						Set.of(PackExt.INDEX),
+						mock(DfsBlockCacheTable.class))));
+
+		assertEquals("PackExtBlockCacheTable",
+				tables.getBlockCacheStats().getLabel());
+	}
+
+	@Test
 	public void getBlockCacheStats_getCurrentSize_consolidatesAllTableCurrentSizes() {
 		long[] currentSizes = createEmptyStatsArray();
 
@@ -633,10 +669,18 @@ public class PackExtBlockCacheTableTest {
 		return new long[PackExt.values().length];
 	}
 
+	private static BlockCacheStats cacheStatsWithLabel(String label) {
+		BlockCacheStats stats = mock(BlockCacheStats.class);
+		when(stats.getLabel()).thenReturn(label);
+		return stats;
+	}
+
 	private static DfsBlockCacheTable cacheTableWithStats(
-			DfsBlockCacheStats dfsBlockCacheStats) {
+			BlockCacheStats dfsBlockCacheStats) {
 		DfsBlockCacheTable cacheTable = mock(DfsBlockCacheTable.class);
 		when(cacheTable.getBlockCacheStats()).thenReturn(dfsBlockCacheStats);
+		when(cacheTable.getAllCachesBlockCacheStats())
+				.thenReturn(List.of(dfsBlockCacheStats));
 		return cacheTable;
 	}
 

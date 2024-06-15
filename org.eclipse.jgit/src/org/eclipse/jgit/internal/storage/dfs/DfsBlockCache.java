@@ -12,9 +12,11 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.BlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
@@ -173,6 +175,17 @@ public final class DfsBlockCache {
 	 */
 	public long[] getHitRatio() {
 		return dfsBlockCacheTable.getBlockCacheStats().getHitRatio();
+	}
+
+	/**
+	 * Get the list of {@link BlockCacheStats} for all underlying caches.
+	 * <p>
+	 * Useful in monitoring caches with breakdown.
+	 *
+	 * @return the list of {@link BlockCacheStats} for all underlying caches.
+	 */
+	public List<BlockCacheStats> getAllCacheStats() {
+		return dfsBlockCacheTable.getAllCachesBlockCacheStats();
 	}
 
 	/**

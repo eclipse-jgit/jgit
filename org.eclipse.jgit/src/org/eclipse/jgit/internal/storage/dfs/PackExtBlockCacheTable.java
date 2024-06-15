@@ -38,6 +38,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * type.
  */
 class PackExtBlockCacheTable implements DfsBlockCacheTable {
+	private static final String LABEL = "PackExtBlockCacheTable";
+
 	private final DfsBlockCacheTable defaultBlockCacheTable;
 
 	// Holds the unique tables backing the extBlockCacheTables values.
@@ -49,7 +51,8 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 	// blockCacheTableList.size() <= extBlockCacheTables.size()
 	private final Map<PackExt, DfsBlockCacheTable> extBlockCacheTables;
 
-	private PackExtBlockCacheTable(DfsBlockCacheTable defaultBlockCacheTable,
+	private PackExtBlockCacheTable(
+			DfsBlockCacheTable defaultBlockCacheTable,
 			List<DfsBlockCacheTable> blockCacheTableList,
 			Map<PackExt, DfsBlockCacheTable> extBlockCacheTables) {
 		this.defaultBlockCacheTable = defaultBlockCacheTable;
@@ -147,6 +150,12 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 		return new PackExtBlockCacheTable(defaultBlockCacheTable,
 				blockCacheTables, packExtDfsBlockCacheTableMap);
 	}
+	private static String generateLabel(Set<PackExt> packExts) {
+		return String.format("%s-%s",
+				packExts.stream().sorted().map(PackExt::name)
+						.collect(Collectors.joining("-")),
+				PackExtBlockCacheTable.class.getSimpleName());
+	}
 
 	private static <T> Set<T> intersection(Set<T> first, Set<T> second) {
 		Set<T> ret = new HashSet<>();
@@ -204,9 +213,17 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
-		return new CacheStats(blockCacheTableList.stream()
-				.map(DfsBlockCacheTable::getBlockCacheStats)
-				.collect(Collectors.toList()));
+		return new CacheStats(LABEL,
+				blockCacheTableList.stream()
+						.map(DfsBlockCacheTable::getBlockCacheStats)
+						.collect(Collectors.toList()));
+	}
+
+	@Override
+	public List<BlockCacheStats> getAllCachesBlockCacheStats() {
+		return blockCacheTableList.stream().flatMap(
+				cacheTable -> cacheTable.getAllCachesBlockCacheStats().stream())
+				.collect(Collectors.toList());
 	}
 
 	private DfsBlockCacheTable getTable(PackExt packExt) {
@@ -224,10 +241,19 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 	}
 
 	private static class CacheStats implements BlockCacheStats {
+		private final String label;
+
 		private final List<BlockCacheStats> blockCacheStats;
 
-		private CacheStats(List<BlockCacheStats> blockCacheStats) {
+		private CacheStats(String label,
+				List<BlockCacheStats> blockCacheStats) {
+			this.label = label;
 			this.blockCacheStats = blockCacheStats;
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
 		}
 
 		@Override
