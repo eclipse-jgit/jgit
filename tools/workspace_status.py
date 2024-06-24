@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2020, David Ostrovsky <david@ostrovsky.org> and others
 #
 # This program and the accompanying materials are made available under the

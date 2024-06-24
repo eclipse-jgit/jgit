@@ -2,7 +2,7 @@
 # https://issues.gerritcodereview.com/issues/303819949
 common --noenable_bzlmod
 
-build --workspace_status_command="python ./tools/workspace_status.py"
+build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --incompatible_strict_action_env
 build --action_env=PATH
