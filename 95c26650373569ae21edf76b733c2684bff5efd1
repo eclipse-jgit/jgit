@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33124b77_a2ac28af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "My suggestion, feel free to correct me:\n\nPackExtBlockCacheTable: spread extensions over multiple dfs tables\n\nDfsBlockCache uses a unique table for all extensions (idx, ridx, ...). The table works well when the items are of similar size: if some are much bigger, they cause churn of the smaller.\n\nIntroduce an implementation of the table interface that can keep extensions in different tables. The grouping is configurable.",
+      "parentUuid": "a5bc6afa_b95ad6d1",
+      "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c33486b_8cc2f6c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 2
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I changed it up a bit. Not quite in the way you\u0027re talking about here but I\u0027ve moved the logic of selecting between a mapped table vs using the default to a single place (getTable)",
       "parentUuid": "0c33486b_8cc2f6c4",
+      "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93fef2e0_be517183",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "Thanks! The composite part is there, we can close this comment.",
+      "parentUuid": "bbb6fa00_8e03d264",
       "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

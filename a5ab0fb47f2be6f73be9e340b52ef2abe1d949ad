@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2f9086e_4ad1043f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "This description would almost fit the \"regular\" table.\n\nMaybe something like:\n\"A table that internally keeps some extensions in different tables.\"\n\nand explain here the why, e.g. (if I got it right):\n\"A single cache table works well when the stored items have similar size. A too big item can create churn in the smaller entries.\n\nWe know that some extensions tend to store much bigger entries than other. This implementation allows to put extensions in different tables to keep a more consistent entry size and/or fine-tune the cache setup for them.\"",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d424e9_90abf383",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "For symmetry, could we call this \"PackExtBlockCacheTable\" or \"CompositeBlockCacheTable\"?\n\nThen we have DfsBlockCache holding a DfsBlockCacheTable (interface). and DfsBlockCacheTable has 2 implementations \"ClockXXX\" and \"PackExtXXX\" (or \"CompositeXXX\").",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fed6521_c3549aa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "This could be better encapsulated if this constructor receives the desired configuration and it decides by itself what data structures to use to represent it.\n\nThere is no need for an external entity to decide e.g. how this class represents the \"default\" table.",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf2ac11_d9f16994",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "Insted of keeping a reference to the list of stats, could this just calculate the stats in the constructor and become an immutable object?",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c50263e_9be0a9f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-25T18:04:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t all these arrays have the same length? (the number of packExt values).",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
