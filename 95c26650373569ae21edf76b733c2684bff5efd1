@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e340d78b_1635f336",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-25T22:32:31Z",
+      "side": 1,
+      "message": "I\u0027ve reworded it a bit, including some of your wording.",
+      "parentUuid": "33124b77_a2ac28af",
+      "revId": "95c26650373569ae21edf76b733c2684bff5efd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c33486b_8cc2f6c4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 2

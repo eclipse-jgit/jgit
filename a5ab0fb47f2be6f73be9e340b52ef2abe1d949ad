@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19cd31ef_ab64ee6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-25T22:32:31Z",
+      "side": 1,
+      "message": "I\u0027ve reworded this a bit, using your wording here.",
+      "parentUuid": "c2f9086e_4ad1043f",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1d424e9_90abf383",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 10
@@ -31,6 +49,30 @@
       "writtenOn": "2024-06-25T18:04:33Z",
       "side": 1,
       "message": "For symmetry, could we call this \"PackExtBlockCacheTable\" or \"CompositeBlockCacheTable\"?\n\nThen we have DfsBlockCache holding a DfsBlockCacheTable (interface). and DfsBlockCacheTable has 2 implementations \"ClockXXX\" and \"PackExtXXX\" (or \"CompositeXXX\").",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45106be6_e098e97d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-25T22:32:31Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "e1d424e9_90abf383",
       "range": {
         "startLine": 32,
         "startChar": 6,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9535f059_63ad324a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-25T22:32:31Z",
+      "side": 1,
+      "message": "At this point this is used for testing and allowing somewhat customizable setups.\n\nA method of converting configs to this structure will be added with the configuration changes.",
+      "parentUuid": "7fed6521_c3549aa0",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ddf2ac11_d9f16994",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 10
@@ -77,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1074a31a_2b407458",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-25T22:32:31Z",
+      "side": 1,
+      "message": "This was done in this way to not have a call to every getHitCount, getEvictions, (...) method in the internal stats every time a request to any single get* method occurs.\n\nWith how DfsBlockCache is structured callers are getting a single stat per call, not the BlockCacheStats itself. \nWe could assume that callers call them all together, but the code does not guarantee this.",
+      "parentUuid": "ddf2ac11_d9f16994",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c50263e_9be0a9f9",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 10
@@ -88,6 +166,24 @@
       "writtenOn": "2024-06-25T18:04:33Z",
       "side": 1,
       "message": "Shouldn\u0027t all these arrays have the same length? (the number of packExt values).",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "129412a1_0fccd869",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-06-25T22:32:31Z",
+      "side": 1,
+      "message": "They should, but the code doesn\u0027t actually impose that limit. BlockCacheStats#BlockCacheStats is another pre-existing example of this.\n\nIdeally we\u0027d be passing an object that imposes that limit, but as it is the long[]s don\u0027t guarantee it.",
+      "parentUuid": "1c50263e_9be0a9f9",
       "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
