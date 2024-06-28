@@ -39,6 +39,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	private final List<CopyFile> copyfiles;
 	private final List<LinkFile> linkfiles;
 	private String upstream;
+	private String destBranch;
 	private String recommendShallow;
 	private String url;
 	private String defaultRevision;
@@ -402,6 +403,17 @@ public class RepoProject implements Comparable<RepoProject> {
 	}
 
 	/**
+	 * Return the dest-branch attribute of the project
+	 *
+	 * @return the dest-branch value if present, null otherwise.
+	 *
+	 * @since 7.0
+	 */
+	public String getDestBranch() {
+		return this.destBranch;
+	}
+
+	/**
 	 * Set the upstream attribute of the project
 	 *
 	 * Name of the git ref in which a sha1 can be found, when the revision is a
@@ -413,6 +425,20 @@ public class RepoProject implements Comparable<RepoProject> {
 	 */
 	public void setUpstream(String upstream) {
 		this.upstream = upstream;
+	}
+
+	/**
+	 * Set the dest-branch attribute of the project
+	 *
+	 * Name of a Git branch.
+	 *
+	 * @param destBranch
+	 *            value of the attribute in the manifest
+	 *
+	 * @since 7.0
+	 */
+	public void setDestBranch(String destBranch) {
+		this.destBranch = destBranch;
 	}
 
 	private String getPathWithSlash() {
