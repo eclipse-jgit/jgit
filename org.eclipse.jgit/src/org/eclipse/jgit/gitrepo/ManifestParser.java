@@ -178,6 +178,8 @@ public class ManifestParser extends DefaultHandler {
 					.setRecommendShallow(attributes.getValue("clone-depth"));
 			currentProject
 					.setUpstream(attributes.getValue("upstream"));
+			currentProject
+					.setDestBranch(attributes.getValue("dest-branch"));
 			break;
 		case "remote":
 			String alias = attributes.getValue("alias");

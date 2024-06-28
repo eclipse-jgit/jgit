@@ -177,6 +177,36 @@ public class ManifestParserTest {
 		assertNull(bar.getUpstream());
 	}
 
+	@Test
+	public void testWithDestBranch() throws Exception {
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"foo\"")
+				.append("  dest-branch=\"branchX\"/>")
+				.append("<project path=\"bar\" name=\"bar\"/>")
+				.append("</manifest>");
+
+		ManifestParser parser = new ManifestParser(null, null, "master",
+				"https://git.google.com/", null, null);
+		parser.read(new ByteArrayInputStream(
+				xmlContent.toString().getBytes(UTF_8)));
+
+		Map<String, RepoProject> repos = parser.getProjects().stream().collect(
+				Collectors.toMap(RepoProject::getName, Function.identity()));
+		assertEquals(2, repos.size());
+
+		RepoProject foo = repos.get("foo");
+		assertEquals("foo", foo.getName());
+		assertEquals("branchX", foo.getDestBranch());
+
+		RepoProject bar = repos.get("bar");
+		assertEquals("bar", bar.getName());
+		assertNull(bar.getDestBranch());
+	}
+
 	void testNormalize(String in, String want) {
 		URI got = ManifestParser.normalizeEmptyPath(URI.create(in));
 		if (!got.toString().equals(want)) {
