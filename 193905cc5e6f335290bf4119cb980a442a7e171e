@@ -16,6 +16,24 @@
       "message": "Can you also show where this can happen (ClockBlockCacheTable#reserveSpace)?\n\nAs it is now it\u0027s hard to understand that the value returned can change between the loader and setting the value below.",
       "revId": "193905cc5e6f335290bf4119cb980a442a7e171e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37b5bdeb_17aac668",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-06-28T21:12:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f81bd8d_fbd776e0",
+      "revId": "193905cc5e6f335290bf4119cb980a442a7e171e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
