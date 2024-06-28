@@ -412,7 +412,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 *
 	 * @since 7.0
 	 */
-	void setUpstream(String upstream) {
+	public void setUpstream(String upstream) {
 		this.upstream = upstream;
 	}
 
