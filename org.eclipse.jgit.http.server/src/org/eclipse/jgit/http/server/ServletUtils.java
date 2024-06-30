@@ -27,9 +27,9 @@ import java.text.MessageFormat;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,6 +56,7 @@ public final class ServletUtils {
 	 *             being invoked incorrectly and the programmer should ensure
 	 *             the filter runs before the servlet.
 	 * @see #ATTRIBUTE_REPOSITORY
+	 * @since 7.0
 	 */
 	public static Repository getRepository(ServletRequest req) {
 		Repository db = (Repository) req.getAttribute(ATTRIBUTE_REPOSITORY);
@@ -76,6 +77,7 @@ public final class ServletUtils {
 	 * @return an input stream to read the raw, uncompressed request body.
 	 * @throws IOException
 	 *             if an input or output exception occurred.
+	 * @since 7.0
 	 */
 	public static InputStream getInputStream(HttpServletRequest req)
 			throws IOException {
@@ -94,6 +96,7 @@ public final class ServletUtils {
 	 *
 	 * @param req
 	 *            the request whose body must be consumed.
+	 * @since 7.0
 	 */
 	public static void consumeRequestBody(HttpServletRequest req) {
 		if (0 < req.getContentLength() || isChunked(req)) {
@@ -154,6 +157,7 @@ public final class ServletUtils {
 	 *            the outgoing response.
 	 * @throws IOException
 	 *             the servlet API rejected sending the body.
+	 * @since 7.0
 	 */
 	public static void sendPlainText(final String content,
 			final HttpServletRequest req, final HttpServletResponse rsp)
@@ -183,6 +187,7 @@ public final class ServletUtils {
 	 *            the outgoing response.
 	 * @throws IOException
 	 *             the servlet API rejected sending the body.
+	 * @since 7.0
 	 */
 	public static void send(byte[] content, final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {

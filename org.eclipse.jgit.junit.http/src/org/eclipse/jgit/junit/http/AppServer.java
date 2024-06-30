@@ -27,10 +27,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.security.ConstraintMapping;
+import org.eclipse.jetty.ee10.servlet.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.Authenticator;
-import org.eclipse.jetty.security.ConstraintMapping;
-import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.Constraint;
 import org.eclipse.jetty.security.RolePrincipal;
 import org.eclipse.jetty.security.UserPrincipal;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
@@ -42,8 +44,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jgit.transport.URIish;
@@ -243,6 +243,7 @@ public class AppServer {
 	 *            path of the context; use "/" for the root context if binding
 	 *            to the root is desired.
 	 * @return the context to add servlets into.
+	 * @since 7.0
 	 */
 	public ServletContextHandler addContext(String path) {
 		assertNotYetSetUp();
@@ -264,6 +265,7 @@ public class AppServer {
 	 * @param methods
 	 *            the methods
 	 * @return servlet context handler
+	 * @since 7.0
 	 */
 	public ServletContextHandler authBasic(ServletContextHandler ctx,
 			String... methods) {
@@ -305,10 +307,10 @@ public class AppServer {
 
 	private ConstraintMapping createConstraintMapping() {
 		ConstraintMapping cm = new ConstraintMapping();
-		cm.setConstraint(new Constraint());
-		cm.getConstraint().setAuthenticate(true);
-		cm.getConstraint().setDataConstraint(Constraint.DC_NONE);
-		cm.getConstraint().setRoles(new String[] { authRole });
+		Constraint constraint = new Constraint.Builder()
+				.authorization(Constraint.Authorization.SPECIFIC_ROLE)
+				.roles(new String[] { authRole }).build();
+		cm.setConstraint(constraint);
 		cm.setPathSpec("/*");
 		return cm;
 	}

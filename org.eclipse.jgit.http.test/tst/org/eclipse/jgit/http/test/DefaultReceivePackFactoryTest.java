@@ -17,10 +17,6 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -32,6 +28,10 @@ import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
@@ -173,7 +173,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		private final String host;
 
 		R(String user, String host) {
-			super(new Request(null, null) /* can't pass null, sigh */);
+			super(Mockito.mock(HttpServletRequest.class));
 			this.user = user;
 			this.host = host;
 		}

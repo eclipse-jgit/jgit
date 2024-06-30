@@ -12,12 +12,12 @@ package org.eclipse.jgit.http.server;
 
 import java.util.Enumeration;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.http.server.glue.MetaServlet;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
@@ -130,6 +130,7 @@ public class GitServlet extends MetaServlet {
 	 *            filter to apply before any of the UploadPack operations. The
 	 *            UploadPack instance is available in the request attribute
 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+	 * @since 7.0
 	 */
 	public void addUploadPackFilter(Filter filter) {
 		gitFilter.addUploadPackFilter(filter);
@@ -165,6 +166,7 @@ public class GitServlet extends MetaServlet {
 	 *            filter to apply before any of the ReceivePack operations. The
 	 *            ReceivePack instance is available in the request attribute
 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+	 * @since 7.0
 	 */
 	public void addReceivePackFilter(Filter filter) {
 		gitFilter.addReceivePackFilter(filter);

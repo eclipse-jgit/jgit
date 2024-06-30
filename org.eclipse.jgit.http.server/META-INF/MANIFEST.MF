@@ -8,16 +8,17 @@ Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Export-Package: org.eclipse.jgit.http.server;version="7.0.0",
  org.eclipse.jgit.http.server.glue;version="7.0.0";
-  uses:="javax.servlet,javax.servlet.http",
+  uses:="jakarta.servlet,
+  	jakarta.servlet.http",
  org.eclipse.jgit.http.server.resolver;version="7.0.0";
-  uses:="org.eclipse.jgit.transport.resolver,
+  uses:="jakarta.servlet.http
+   org.eclipse.jgit.transport.resolver,
    org.eclipse.jgit.lib,
    org.eclipse.jgit.transport,
-   javax.servlet.http"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: javax.servlet;version="[2.5.0,5.0.0)",
- javax.servlet.http;version="[2.5.0,5.0.0)",
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Import-Package: jakarta.servlet;version="[6.0.0,7.0.0)",
+ jakarta.servlet.http;version="[6.0.0,7.0.0)",
  org.eclipse.jgit.annotations;version="[7.0.0,7.1.0)",
  org.eclipse.jgit.errors;version="[7.0.0,7.1.0)",
  org.eclipse.jgit.internal.storage.dfs;version="[7.0.0,7.1.0)",

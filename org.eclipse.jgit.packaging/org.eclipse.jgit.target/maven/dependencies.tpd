@@ -152,44 +152,49 @@ maven jetty
 	includeSources
 {
 	dependency {
+		groupId = "org.eclipse.jetty.ee10"
+		artifactId = "jetty-ee10-servlet"
+		version = "12.0.9"
+	}
+	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-http"
-		version = "10.0.21"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-io"
-		version = "10.0.21"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-security"
-		version = "10.0.21"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-server"
-		version = "10.0.21"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
-		artifactId = "jetty-servlet"
-		version = "10.0.21"
+		artifactId = "jetty-session"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util"
-		version = "10.0.21"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util-ajax"
-		version = "10.0.21"
+		version = "12.0.9"
 	}
 	dependency {
 		groupId = "jakarta.servlet"
 		artifactId = "jakarta.servlet-api"
-		version = "4.0.4"
+		version = "6.0.0"
 	}
 }
 

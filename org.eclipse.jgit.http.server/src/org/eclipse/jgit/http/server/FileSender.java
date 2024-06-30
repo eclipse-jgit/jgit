@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.server;
 
-import static javax.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT;
-import static javax.servlet.http.HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE;
+import static jakarta.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT;
+import static jakarta.servlet.http.HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_RANGES;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_LENGTH;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_RANGE;
@@ -28,8 +28,8 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS;

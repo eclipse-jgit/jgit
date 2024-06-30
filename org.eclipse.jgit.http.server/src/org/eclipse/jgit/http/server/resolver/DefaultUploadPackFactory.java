@@ -12,7 +12,7 @@ package org.eclipse.jgit.http.server.resolver;
 
 import java.util.Arrays;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -38,6 +38,9 @@ public class DefaultUploadPackFactory implements
 		}
 	}
 
+	/**
+	 * @since 7.0
+	 */
 	@Override
 	public UploadPack create(HttpServletRequest req, Repository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
