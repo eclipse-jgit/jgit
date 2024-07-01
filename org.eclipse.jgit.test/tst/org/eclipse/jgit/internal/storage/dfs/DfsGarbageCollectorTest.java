@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -63,6 +64,7 @@ public class DfsGarbageCollectorTest {
 		odb = repo.getObjectDatabase();
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
+		odb.getReaderOptions().setUseObjectSizeIndex(true);
 	}
 
 	@After

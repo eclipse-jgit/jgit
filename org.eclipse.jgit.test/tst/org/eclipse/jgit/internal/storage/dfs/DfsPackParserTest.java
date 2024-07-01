@@ -35,6 +35,7 @@ public class DfsPackParserTest {
 		repo = new InMemoryRepository(desc);
 		repo.getConfig().setInt(CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, 0);
+		repo.getObjectDatabase().getReaderOptions().setUseObjectSizeIndex(true);
 	}
 
 	@Test
