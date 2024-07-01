@@ -15,6 +15,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_BASE_CACHE_LIMIT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_BUFFER;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_THRESHOLD;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -35,6 +36,8 @@ public class DfsReaderOptions {
 	private int streamPackBufferSize;
 
 	private boolean loadRevIndexInParallel;
+
+	private boolean useObjectSizeIndex;
 
 	/**
 	 * Create a default reader configuration.
@@ -137,6 +140,28 @@ public class DfsReaderOptions {
 	}
 
 	/**
+	 * Use the object size index if available.
+	 *
+	 * @return true if the reader should try to use the object size index. if
+	 *         false, the reader ignores that index.
+	 */
+	public boolean shouldUseObjectSizeIndex() {
+		return useObjectSizeIndex;
+	}
+
+	/**
+	 * Set if the reader should try to use the object size index
+	 *
+	 * @param useObjectSizeIndex true to use it, false to ignore the object size index
+	 *
+	 * @return {@code this}
+	 */
+	public DfsReaderOptions setUseObjectSizeIndex(boolean useObjectSizeIndex) {
+		this.useObjectSizeIndex = useObjectSizeIndex;
+		return this;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
@@ -168,6 +193,10 @@ public class DfsReaderOptions {
 				CONFIG_DFS_SECTION,
 				CONFIG_KEY_STREAM_BUFFER,
 				getStreamPackBufferSize()));
+
+		setUseObjectSizeIndex(rc.getBoolean(CONFIG_CORE_SECTION,
+				CONFIG_DFS_SECTION, CONFIG_KEY_USE_OBJECT_SIZE_INDEX,
+				false));
 		return this;
 	}
 }
