@@ -511,7 +511,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 
-		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+		if (typeHint != Constants.OBJ_BLOB
+				|| !pack.hasObjectSizeIndex(this)) {
 			return pack.getObjectSize(this, objectId);
 		}
 
@@ -541,7 +542,9 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 
 		stats.isNotLargerThanCallCount += 1;
-		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+		if (typeHint != Constants.OBJ_BLOB
+				|| !getOptions().shouldUseObjectSizeIndex()
+				|| !pack.hasObjectSizeIndex(this)) {
 			return pack.getObjectSize(this, objectId) <= limit;
 		}
 

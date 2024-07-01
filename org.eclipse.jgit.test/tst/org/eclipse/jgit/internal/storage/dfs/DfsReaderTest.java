@@ -37,6 +37,7 @@ public class DfsReaderTest {
 	@Before
 	public void setUp() {
 		db = new InMemoryRepository(new DfsRepositoryDescription("test"));
+		db.getObjectDatabase().getReaderOptions().setUseObjectSizeIndex(true);
 	}
 
 	@Test
