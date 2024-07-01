@@ -1012,4 +1012,11 @@ public final class ConfigConstants {
 	 * @since 6.7
 	 */
 	public static final String CONFIG_KEY_READ_CHANGED_PATHS = "readChangedPaths";
+
+	/**
+	 * The "useObjectSizeIndex" key
+	 *
+	 * @since 7.0
+	 */
+	public static final String CONFIG_KEY_USE_OBJECT_SIZE_INDEX = "useObjectSizeIndex";
 }
