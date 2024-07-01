@@ -126,6 +126,7 @@ public class DfsPackFileTest {
 		setObjectSizeIndexMinBytes(0);
 		ObjectId blobId = setupPack(512, 800);
 
+		db.getObjectDatabase().getReaderOptions().setUseObjectSizeIndex(true);
 		DfsReader reader = db.getObjectDatabase().newReader();
 		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
 		assertTrue(pack.hasObjectSizeIndex(reader));
