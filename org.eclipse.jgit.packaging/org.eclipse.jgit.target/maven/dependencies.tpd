@@ -97,12 +97,12 @@ maven bytebuddy
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy"
-		version = "1.14.16"
+		version = "1.14.17"
 	}
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy-agent"
-		version = "1.14.16"
+		version = "1.14.17"
 	}
 }
 
