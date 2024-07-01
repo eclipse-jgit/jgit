@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -1171,6 +1172,7 @@ public class DfsGarbageCollectorTest {
 
 		gcWithObjectSizeIndex(10);
 
+		odb.getReaderOptions().setUseObjectSizeIndex(true);
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
 		assertTrue(gcPack.hasObjectSizeIndex(reader));
@@ -1191,6 +1193,7 @@ public class DfsGarbageCollectorTest {
 
 		gcWithObjectSizeIndex(10);
 
+		odb.getReaderOptions().setUseObjectSizeIndex(true);
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
 		assertTrue(gcPack.hasObjectSizeIndex(reader));

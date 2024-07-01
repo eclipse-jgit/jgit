@@ -354,6 +354,7 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		if (objectSizeIndexLoadAttempted
+				|| !ctx.getOptions().shouldUseObjectSizeIndex()
 				|| !desc.hasFileExt(OBJECT_SIZE_INDEX)) {
 			// Pack doesn't have object size index
 			return null;
