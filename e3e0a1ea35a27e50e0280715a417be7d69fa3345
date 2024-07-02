@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80936a09_93b7491f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-07-02T16:07:33Z",
+      "side": 1,
+      "message": "This is consistent with other setters in this class.",
+      "revId": "e3e0a1ea35a27e50e0280715a417be7d69fa3345",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
