@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0160f3a4_562349a2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:07Z",
+      "side": 1,
+      "message": "The DfsBlockCacheTest you add in the following change (https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1196166/7/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTest.java) is a much better test. If this needs to behave like a single table, lets test a single table and then try with different split configurations.\n\nThis test introduces a constructor that exposes the implementation of the class, all to test a switch of confs. We can just rely (or complete) DfsBlockCacheTest.",
+      "revId": "02fbfc26931a77d5973a0442207adf88ab67d9f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f75bab36_1ec03fa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:07Z",
+      "side": 1,
+      "message": "If we build this from the conf, there is no need of this extra class to hold (Set\u003cPackExt\u003e, table) pairs.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "02fbfc26931a77d5973a0442207adf88ab67d9f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82af947a_4c4cdc47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:07Z",
+      "side": 1,
+      "message": "I still think it would be better to define the conf first, and then pass it here to build the table. It removes a constructor that exposes the implementation and an intermediary class.\n\nI commented in the test that probably DfsBlockCacheTest (parameterized) is the right test to use. This is just a switch between tables that should be transparent to the caller.",
+      "parentUuid": "9535f059_63ad324a",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03e75b37_e3535534",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 10
@@ -200,6 +218,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddcc2c0c_cf5bd70c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1074a31a_2b407458",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c50263e_9be0a9f9",
@@ -231,6 +267,24 @@
       "side": 1,
       "message": "They should, but the code doesn\u0027t actually impose that limit. BlockCacheStats#BlockCacheStats is another pre-existing example of this.\n\nIdeally we\u0027d be passing an object that imposes that limit, but as it is the long[]s don\u0027t guarantee it.",
       "parentUuid": "1c50263e_9be0a9f9",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc75da1_d70afaf6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:07Z",
+      "side": 1,
+      "message": "\u003e the code doesn\u0027t actually impose that limit.\n\nI wonder why not, but e.g. DfsBlockCacheTable#getStat explicitely check if the position is beyond the limits of the array (?!). If we want to clean this complexity, it needs to be in a different change.",
+      "parentUuid": "129412a1_0fccd869",
       "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
