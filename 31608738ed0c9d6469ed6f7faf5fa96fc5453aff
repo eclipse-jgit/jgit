@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25caeeb1_50b5db73",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleCMSSignatureVerifier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-07-02T23:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1664002_a128790d",
+      "revId": "31608738ed0c9d6469ed6f7faf5fa96fc5453aff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e8fe3da_d0411fbb",
