@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "525b61fe_dd29c5f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:43Z",
+      "side": 1,
+      "message": "Please remove these and other \"just format\" edits in the file. They create noise to review the actual change.",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ce4733e_d2263a87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:43Z",
+      "side": 1,
+      "message": "What is the conf hierarchy? We have the code defaults, then the values set in core.dfs and then core.dfs.xxx ... if a value in the core.dfs.xxx is not set does it default to code.dfs or to the coded values?",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b44c0ab_53f54f49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:43Z",
+      "side": 1,
+      "message": "This is an uncommon constructor and the code looks complex. Could you try to make a constructor for a single configuration entry?\n\nSomething like \"fromConfig(section, subsection, config, defaultConfig)\" (if it needs to default to core.dfs) or \"fromConfig(section, subsection, config)\" (if it doesnt\u0027?)",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

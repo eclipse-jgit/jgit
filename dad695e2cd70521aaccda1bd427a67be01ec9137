@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "154fe91f_d555a224",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T19:00:43Z",
+      "side": 1,
+      "message": "Previously, this loaded the configuration in the same instance, but now it returns a different config. Some callers may not be prepared for that.",
+      "revId": "dad695e2cd70521aaccda1bd427a67be01ec9137",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
