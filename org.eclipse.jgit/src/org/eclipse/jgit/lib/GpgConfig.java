@@ -24,7 +24,9 @@ public class GpgConfig {
 		/** Value for openpgp */
 		OPENPGP("openpgp"), //$NON-NLS-1$
 		/** Value for x509 */
-		X509("x509"); //$NON-NLS-1$
+		X509("x509"), //$NON-NLS-1$
+		/** Value for ssh */
+		SSH("ssh"); //$NON-NLS-1$
 
 		private final String configValue;
 
