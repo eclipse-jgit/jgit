@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf140ac7_75193981",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-07-02T23:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afef81c8_4e8cf83c",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed813087_be2b8cac",
@@ -117,6 +135,24 @@
       "writtenOn": "2024-05-10T20:04:21Z",
       "side": 1,
       "message": "Externalize for localization.",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e6c74b_ae59a907",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-07-02T23:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "235435d9_e8d5bc2d",
       "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
