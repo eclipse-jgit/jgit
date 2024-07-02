@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fe29231_b396814f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T16:49:48Z",
+      "side": 1,
+      "message": "Thanks! Just a nit in the javadoc and it is ready to submit.",
+      "revId": "53ebda9d9a56ba9f0e834527daf19166102d9857",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b5dde4_13004a91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-02T16:49:48Z",
+      "side": 1,
+      "message": "nit: dest-branch to keep both javadoc (getter and setter) consistent",
+      "range": {
+        "startLine": 432,
+        "startChar": 12,
+        "endLine": 432,
+        "endChar": 22
+      },
+      "revId": "53ebda9d9a56ba9f0e834527daf19166102d9857",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
