@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d96cef34_bdbac64f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-03T18:59:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "525b61fe_dd29c5f3",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ce4733e_d2263a87",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed6105e6_33b3e5f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-03T18:59:45Z",
+      "side": 1,
+      "message": "I\u0027ve added additional info on how this falls to the defaults defined in DfsBlockCacheConfig.",
+      "parentUuid": "6ce4733e_d2263a87",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b44c0ab_53f54f49",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 7
@@ -48,6 +84,24 @@
       "writtenOn": "2024-07-02T19:00:43Z",
       "side": 1,
       "message": "This is an uncommon constructor and the code looks complex. Could you try to make a constructor for a single configuration entry?\n\nSomething like \"fromConfig(section, subsection, config, defaultConfig)\" (if it needs to default to core.dfs) or \"fromConfig(section, subsection, config)\" (if it doesnt\u0027?)",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f71901_5122a5f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-03T18:59:45Z",
+      "side": 1,
+      "message": "I\u0027ve tried to clean it up a bit.\n\nThe space taken by error handling makes it look more complicated than it needed to.",
+      "parentUuid": "6b44c0ab_53f54f49",
       "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
