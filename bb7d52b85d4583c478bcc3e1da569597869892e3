@@ -22,6 +22,30 @@
       },
       "revId": "bb7d52b85d4583c478bcc3e1da569597869892e3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ee4d5c7_f99aa64c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-03T21:58:13Z",
+      "side": 1,
+      "message": "Indeed, that is a much better place. I didn\u0027t realize that the packfile can read the config from the reader. Thanks!",
+      "parentUuid": "401f412e_59180185",
+      "range": {
+        "startLine": 515,
+        "startChar": 8,
+        "endLine": 515,
+        "endChar": 46
+      },
+      "revId": "bb7d52b85d4583c478bcc3e1da569597869892e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
