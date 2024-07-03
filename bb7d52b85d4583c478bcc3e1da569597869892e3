@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "401f412e_59180185",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-03T21:00:47Z",
+      "side": 1,
+      "message": "Would this be better placed in `DfsPackFile#getObjectSizeIndex(DfsReader)`?\n\nSince `DfsPackFile#hasObjectSizeIndex(DfsReader)` seems to also load the index, and any caller could call the `DfsPackFile` public methods that trigger a size index load, that location should cover unforeseen loads when `ReaderOptions#shouldUseObjectSizeIndex()` is false.\n\nUnless the intent is to gate usage specifically in `DfsReader#getObjectSize(...)` and `DfsReader#isNotLargerThan(...)`.",
+      "range": {
+        "startLine": 515,
+        "startChar": 8,
+        "endLine": 515,
+        "endChar": 46
+      },
+      "revId": "bb7d52b85d4583c478bcc3e1da569597869892e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
