@@ -47,6 +47,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c010ee49_9a6d0536",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f71bbc68_6e9143c1",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e25fd327_bacbc3d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "223c4e0c_f27aff79",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85e8f8ca_c11e55e9",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-06-13T23:20:13Z",
       "side": 1,
       "message": "when",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43bac391_953b258a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85e8f8ca_c11e55e9",
       "range": {
         "startLine": 12,
         "startChar": 6,
@@ -93,6 +165,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2281673_7e5f7981",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d706cc45_ca981edf",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a21af249_2f227ff5",
@@ -110,6 +206,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "693e3dc2_3231f8ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a21af249_2f227ff5",
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ace66f8c_08ecf2ac",
@@ -123,6 +237,30 @@
       "writtenOn": "2024-06-13T23:20:13Z",
       "side": 1,
       "message": "references the",
+      "range": {
+        "startLine": 484,
+        "startChar": 42,
+        "endLine": 484,
+        "endChar": 55
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d027041e_e2ef4e2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ace66f8c_08ecf2ac",
       "range": {
         "startLine": 484,
         "startChar": 42,
@@ -179,6 +317,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79dc4886_9aa99ce1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c512edcd_a07d6050",
+      "range": {
+        "startLine": 490,
+        "startChar": 25,
+        "endLine": 490,
+        "endChar": 41
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f422eda8_d6f75f56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a02c971_5066c635",
+      "range": {
+        "startLine": 490,
+        "startChar": 11,
+        "endLine": 490,
+        "endChar": 18
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63637275_ea67b4c7",
@@ -192,6 +378,30 @@
       "writtenOn": "2024-06-13T23:20:13Z",
       "side": 1,
       "message": "in which case this directory is no longer needed.",
+      "range": {
+        "startLine": 491,
+        "startChar": 21,
+        "endLine": 491,
+        "endChar": 74
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7de48bf_ad411a4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63637275_ea67b4c7",
       "range": {
         "startLine": 491,
         "startChar": 21,
@@ -248,6 +458,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e947d30c_83d5b555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cc2f16b_4f47710e",
+      "range": {
+        "startLine": 492,
+        "startChar": 45,
+        "endLine": 492,
+        "endChar": 50
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8bfdbf_8c0b52c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fde9149_7d0e7ff7",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 492,
+        "endChar": 13
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1054862f_c534256b",
@@ -271,6 +529,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1a92bb_7e0313f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1054862f_c534256b",
+      "range": {
+        "startLine": 500,
+        "startChar": 42,
+        "endLine": 500,
+        "endChar": 58
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee0b5568_30070d64",
@@ -284,6 +566,30 @@
       "writtenOn": "2024-06-13T23:20:13Z",
       "side": 1,
       "message": "unless it is",
+      "range": {
+        "startLine": 505,
+        "startChar": 14,
+        "endLine": 505,
+        "endChar": 26
+      },
+      "revId": "eee63465f2ee3906730b4805532ee7c076ded848",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14985bf_4b2d66b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0b5568_30070d64",
       "range": {
         "startLine": 505,
         "startChar": 14,

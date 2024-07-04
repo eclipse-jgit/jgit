@@ -118,6 +118,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1391c810_9256a728",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/LinkedWorktreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Rewrote tests, hopefully looking better.",
+      "parentUuid": "795f0d25_cf6ffb3f",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0e2de3a_3f44481e",
@@ -131,6 +149,24 @@
       "writtenOn": "2024-06-13T20:45:30Z",
       "side": 1,
       "message": "good catch, though this fix should be moved to a separate change",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6889c3ba_35ebaa73",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkShallowTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-04T06:50:38Z",
+      "side": 1,
+      "message": "Removed this.",
+      "parentUuid": "c0e2de3a_3f44481e",
       "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
