@@ -30,7 +30,7 @@ public class GcReflogTest extends GcTestCase {
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();
-		new File(repo.getDirectory(), Constants.LOGS + "/refs/heads/master")
+		new File(repo.getCommonDirectory(), Constants.LOGS + "/refs/heads/master")
 				.delete();
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
