@@ -407,7 +407,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 *
 	 * @return the dest-branch value if present, null otherwise.
 	 *
-	 * @since 7.0
+	 * @since 6.10
 	 */
 	public String getDestBranch() {
 		return this.destBranch;
@@ -435,7 +435,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	 * @param destBranch
 	 *            value of the attribute in the manifest
 	 *
-	 * @since 7.0
+	 * @since 6.10
 	 */
 	public void setDestBranch(String destBranch) {
 		this.destBranch = destBranch;
