@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6ec91d_67bf13fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-07-08T20:12:26Z",
+      "side": 1,
+      "message": "I think we don\u0027t need this since I suppressed the API errors in I8ad83b0fec59d2b0967864e4de4fefde4ab971ff. There is no clean solution since these methods weren\u0027t added in 6.10.0 and Eclipse API tooling doesn\u0027t allow to introduce new API in service releases (here 6.10.1) hence if we would use @since 6.10.1 we would again have to suppress API errors.",
+      "revId": "c1c8c3cee81e9effecc25c4149dfb7413bffe3f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
