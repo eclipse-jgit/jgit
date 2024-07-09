@@ -267,6 +267,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa041d9c_65426836",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogReaderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1038175
+      },
+      "writtenOn": "2024-07-09T10:29:59Z",
+      "side": 1,
+      "message": "HEAD isn\u0027t the only ref that needs to resolve locally in the /worktree folder I think\n\nSee https://git-scm.com/docs/git-worktree#_refs, which seems to suggest that\nrefs/bisect, refs/worktree and refs/rewritten aren\u0027t shared, nor are other pseudo refs like CHERRY_PICK_HEAD and MERGE_HEAD",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccc2d3a0_d1127678",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 2

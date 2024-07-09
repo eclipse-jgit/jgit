@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec46471d_7136f7e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038175
+      },
+      "writtenOn": "2024-07-09T10:29:59Z",
+      "side": 1,
+      "message": "Happy to see this hopefully making is into jgit\n\nI\u0027ve locally had these changes as well, to prototype egit support for worktrees and besides so extra methods to get more into about all the linked worktrees for a repo (which I don\u0027t think need to be part of this change), the only other main difference between my local work and this changeset was also trying to take into account the other non-shared refs",
+      "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
