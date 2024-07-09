@@ -16,6 +16,23 @@
       "message": "Happy to see this hopefully making is into jgit\n\nI\u0027ve locally had these changes as well, to prototype egit support for worktrees and besides so extra methods to get more into about all the linked worktrees for a repo (which I don\u0027t think need to be part of this change), the only other main difference between my local work and this changeset was also trying to take into account the other non-shared refs",
       "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657b4763_6382f8c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 1038175
+      },
+      "writtenOn": "2024-07-09T16:01:58Z",
+      "side": 1,
+      "message": "This no longer holds true now that jgit can read linked worktrees\n\nThe `workTree \u003d\u003d null` check used to work as an approximation for determining whether a repo was bare, but that no longer holds true with linked worktrees. A bare repo can have many linked worktrees and when a jgit Repository is instantiated with the path of a linked worktree, the `worktree field will be set to the path of the linked worktree, but that doesn\u0027t make the repo a non-bare repo`",
+      "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
