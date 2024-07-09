@@ -43,14 +43,18 @@ public class Stats {
 	}
 
 	/**
-	 * @return number of the added values
+	 * Returns the number of added values
+	 *
+	 * @return  the number of added values
 	 */
 	public int count() {
 		return n;
 	}
 
 	/**
-	 * @return minimum of the added values
+	 * Returns the smallest value added
+	 *
+	 * @return the smallest value added
 	 */
 	public double min() {
 		if (n < 1) {
@@ -60,7 +64,7 @@ public class Stats {
 	}
 
 	/**
-	 * @return maximum of the added values
+	 * Returns the biggest value added
 	 */
 	public double max() {
 		if (n < 1) {
@@ -70,9 +74,8 @@ public class Stats {
 	}
 
 	/**
-	 * @return average of the added values
+	 * Returns the average of the added values
 	 */
-
 	public double avg() {
 		if (n < 1) {
 			return Double.NaN;
@@ -80,9 +83,7 @@ public class Stats {
 		return avg;
 	}
 
-	/**
-	 * @return variance of the added values
-	 */
+	/** Returns the variance of the added values */
 	public double var() {
 		if (n < 2) {
 			return Double.NaN;
@@ -90,9 +91,7 @@ public class Stats {
 		return sum / (n - 1);
 	}
 
-	/**
-	 * @return standard deviation of the added values
-	 */
+	/** Returns the standard deviation of the added values */
 	public double stddev() {
 		return Math.sqrt(this.var());
 	}
