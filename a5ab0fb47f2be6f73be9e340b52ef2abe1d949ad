@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a58ead6a_aa02190f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-09T22:59:03Z",
+      "side": 1,
+      "message": "Done on the conf part -- the change can be seen here https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1196165.\n\nRe removing `fromCacheTables(*)`: exposing this allows users to pass in custom `DfsBlockCacheTable` implementations. I\u0027ve updated both the comment and commit message to make that more obvious.",
+      "parentUuid": "82af947a_4c4cdc47",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03e75b37_e3535534",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
         "patchSetId": 10

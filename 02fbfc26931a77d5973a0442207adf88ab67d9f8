@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5600ec6_80740de2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-09T22:59:03Z",
+      "side": 1,
+      "message": "While I agree that the DfsBlockCacheTest is a better test for the usage of the cache (ie the request-response interaction of the cache), this one tests for the output on the cache storage side: does an entry get routed properly.",
+      "parentUuid": "0160f3a4_562349a2",
+      "revId": "02fbfc26931a77d5973a0442207adf88ab67d9f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f75bab36_1ec03fa8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
         "patchSetId": 11
@@ -31,6 +49,30 @@
       "writtenOn": "2024-07-02T19:00:07Z",
       "side": 1,
       "message": "If we build this from the conf, there is no need of this extra class to hold (Set\u003cPackExt\u003e, table) pairs.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "02fbfc26931a77d5973a0442207adf88ab67d9f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a10255_026f394a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-09T22:59:03Z",
+      "side": 1,
+      "message": "Acknowledged.\n\nResponse from the other comment:\n\nRe removing fromCacheTables(*): exposing this allows users to pass in custom DfsBlockCacheTable implementations. I\u0027ve updated both the comment and commit message to make that more obvious.",
+      "parentUuid": "f75bab36_1ec03fa8",
       "range": {
         "startLine": 77,
         "startChar": 8,
