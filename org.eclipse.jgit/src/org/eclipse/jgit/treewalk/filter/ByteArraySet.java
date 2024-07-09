@@ -13,11 +13,11 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
-import org.eclipse.jgit.util.RawParseUtils;
-
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Specialized set for byte arrays, interpreted as strings for use in
@@ -141,13 +141,13 @@ class ByteArraySet {
 	}
 
 	/**
-	 * @return number of arrays in the set
+	 * Returns number of arrays in the set
 	 */
 	int size() {
 		return size;
 	}
 
-	/** @return true if {@link #size()} is 0. */
+	/** Returs true if {@link #size()} is 0. */
 	boolean isEmpty() {
 		return size == 0;
 	}
