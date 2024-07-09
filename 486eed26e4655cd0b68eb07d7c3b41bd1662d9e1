@@ -284,6 +284,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ba6c681_3735583a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogReaderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-09T17:43:35Z",
+      "side": 1,
+      "message": "I\u0027ve always thought HEAD is only pseudo-ref which can have reflog. \"git reflog MERGE_HEAD\" throws error while \"git status MERGE_HEAD\" doesn\u0027t.",
+      "parentUuid": "fa041d9c_65426836",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccc2d3a0_d1127678",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 2
