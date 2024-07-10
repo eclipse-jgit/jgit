@@ -46,6 +46,30 @@
       },
       "revId": "40c3dc34aa99e85658809bae81c97967a9ddecc0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0804c94_03c485ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T17:13:21Z",
+      "side": 1,
+      "message": "Since this is a change of default value, can you add to the commit message what the impact of this is and how safe this change is?",
+      "parentUuid": "b9f9f6bb_a8c14dfc",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "40c3dc34aa99e85658809bae81c97967a9ddecc0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
