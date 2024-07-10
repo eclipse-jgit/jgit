@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3cac498_6dbcdba2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T23:43:22Z",
+      "side": 1,
+      "message": "Oh fair; I had missread it.\n\nit\u0027ll effectively save 1 level (the current for loop) so might as well.\n\nThe other reason what the message returned, but instead it\u0027ll return all the duplicate values that iteration.\n\nI\u0027ve added an intersection function to help find the duplicates, and then use that set for the error message",
+      "parentUuid": "b9a3a821_2e855919",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "796fd3c4_2d7f6ad6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 13
