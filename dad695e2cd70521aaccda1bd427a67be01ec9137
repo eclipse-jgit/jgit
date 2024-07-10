@@ -52,6 +52,24 @@
       "parentUuid": "2a197525_b047c6b0",
       "revId": "dad695e2cd70521aaccda1bd427a67be01ec9137",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2cb4bce_d94cb403",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2c0851_79633b36",
+      "revId": "dad695e2cd70521aaccda1bd427a67be01ec9137",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

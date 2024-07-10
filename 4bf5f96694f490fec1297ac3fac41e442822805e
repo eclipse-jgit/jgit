@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fdd073b_8705cfbf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "sure, done",
+      "parentUuid": "a9edafb2_8eb480e6",
+      "range": {
+        "startLine": 125,
+        "startChar": 13,
+        "endLine": 125,
+        "endChar": 81
+      },
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b892d94b_b65c407a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-10T00:27:52Z",
       "side": 1,
       "message": "Use a helper function to make this test more readable. One to create the entries:\n\n`addConfigEntry(config, PackExt.PACK, /* blockLimit\u003d */ 20*512, /* blockSize\u003d */ 512);`\n\nAnd another to test the expected values (commented below)",
+      "range": {
+        "startLine": 149,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 39
+      },
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9bc136e_7861074c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "sure, done",
+      "parentUuid": "b892d94b_b65c407a",
       "range": {
         "startLine": 149,
         "startChar": 1,
@@ -64,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf1b3bd_f662e4a7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "Sure, done",
+      "parentUuid": "27f86669_2bcb7493",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbf76da7_4f902805",
@@ -77,6 +143,24 @@
       "writtenOn": "2024-07-10T00:27:52Z",
       "side": 1,
       "message": "This description should make clear if all the extensions in the same packExtension \u003d x y z go to the same table or each gets a table with the same conf.\n\nMaybe:\n\"\nA configuration for a table that will store only specific Pack extensions\n\u003cp\u003e\nThe current pack ext cache tables implementation supports the same\nparameters the ClockBlockCacheTable (current default implementation).\n\u003cp\u003e\nUndefined properties default to the coded values (NOT the basic dfs section of the conf)\n\"",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26579d48_2feada1a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "I\u0027ve reworded it",
+      "parentUuid": "fbf76da7_4f902805",
       "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -98,6 +182,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca13084f_fbd41eda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "I\u0027d rather keep it as is; the mapping of packext to cache table is the important part, not that it\u0027s a \"different\" cache table type.",
+      "parentUuid": "ebfd3ce0_cab3cd0e",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f0d5862_f023df07",
@@ -115,6 +217,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4833c4e_85297f6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0d5862_f023df07",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20ffdb9a_f555d9d8",
@@ -128,6 +248,24 @@
       "writtenOn": "2024-07-10T00:27:52Z",
       "side": 1,
       "message": "@since 7.0",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30320d36_b2f3d21c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T19:30:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20ffdb9a_f555d9d8",
       "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
