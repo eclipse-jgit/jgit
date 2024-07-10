@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9edafb2_8eb480e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "nit: shorter name. It doesn\u0027t need to specify the specific exception\n\n(I think there is no guideline in jgit about test naming, older tests are like this, I tend to use methodname_condition_expectation in new tests)\n\ne.g. fromConfig_blockLimitNotMultipleOfSize_throw",
+      "range": {
+        "startLine": 125,
+        "startChar": 13,
+        "endLine": 125,
+        "endChar": 81
+      },
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b892d94b_b65c407a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "Use a helper function to make this test more readable. One to create the entries:\n\n`addConfigEntry(config, PackExt.PACK, /* blockLimit\u003d */ 20*512, /* blockSize\u003d */ 512);`\n\nAnd another to test the expected values (commented below)",
+      "range": {
+        "startLine": 149,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 39
+      },
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27f86669_2bcb7493",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "```\nvar x \u003d getConfigForExt(cacheConfig.getPackExtCacheConfigurations(), PackExt.PACK);\nassertThat(x.getBlockLimit(), is(20*512));`\n\nvar y \u003d getConfigForExt(...., PackExt.BITMAP);\nassertThat(y.getBlockLimit(), ....)\n```\n\ngetConfigForExt can iterate the configurations and find the first that has the packExt. The set won\u0027t be big.",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf76da7_4f902805",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "This description should make clear if all the extensions in the same packExtension \u003d x y z go to the same table or each gets a table with the same conf.\n\nMaybe:\n\"\nA configuration for a table that will store only specific Pack extensions\n\u003cp\u003e\nThe current pack ext cache tables implementation supports the same\nparameters the ClockBlockCacheTable (current default implementation).\n\u003cp\u003e\nUndefined properties default to the coded values (NOT the basic dfs section of the conf)\n\"",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebfd3ce0_cab3cd0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "Optional: This could be a DfsBlockCacheConfig subclass (it is a DfsBlockCacheConfig with an extra field).\n\nOn the other hand, composition is more flexible than inheritance. So as you see fit. No strong opinion.",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20ffdb9a_f555d9d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "@since 7.0",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

@@ -104,6 +104,24 @@
       "parentUuid": "6b44c0ab_53f54f49",
       "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "607bc620_ed635590",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "See comment above, iterating in the superclass, we don\u0027t need this method, just the other fromConfig.",
+      "parentUuid": "b9f71901_5122a5f8",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

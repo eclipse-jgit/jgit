@@ -34,6 +34,24 @@
       "parentUuid": "154fe91f_d555a224",
       "revId": "dad695e2cd70521aaccda1bd427a67be01ec9137",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2c0851_79633b36",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T00:27:52Z",
+      "side": 1,
+      "message": "Yes, please. \n\nIIUC the final result will be a DfsConfig object with a List\u003cDfsExtConfig\u003e nested for specific extensions.\n\nIn that case, this method could be clearer written like:\n\n```\n// this, configuration for the default table\nfromConfig(CORE, DFS, rc);\n\nfor each subsection starting with \"dfs.\" {\n   DfsBlockCacheExtConfig extConfig \u003d DfsBlockCacheExtConfig.fromConfig(CORE, subsection, rc);\n   extCacheConfigs.add(extConfig);\n}\n```\n\nDfsBlockCacheExtConfig.fromConfig reads the extra property (the extensions) and uses DfsBlockCacheConfig.fromConfig(CORE, subsection, rc) to load the rest.",
+      "parentUuid": "2a197525_b047c6b0",
+      "revId": "dad695e2cd70521aaccda1bd427a67be01ec9137",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
