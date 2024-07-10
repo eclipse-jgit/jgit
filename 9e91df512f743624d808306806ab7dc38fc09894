@@ -88,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df6d2a8c_787aee33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T22:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "411972cc_58fc16a3",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9889d437_d7cb2c85",
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "This was done to specifically not add to extensionsSeen and mutate it in a function call.",
       "parentUuid": "9889d437_d7cb2c85",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9a3a821_2e855919",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T22:15:20Z",
+      "side": 1,
+      "message": "The \"hasCommonEntries\" above doesn\u0027t mutate extensionsSeen inside the function, if that is what you mean.",
+      "parentUuid": "17d17230_a2dd8503",
       "revId": "9e91df512f743624d808306806ab7dc38fc09894",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

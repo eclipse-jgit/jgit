@@ -71,6 +71,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c3687e_aa115084",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T22:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6105e6_33b3e5f7",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b44c0ab_53f54f49",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "I\u0027ve moved this to the DfsBlockCacheConfig#fromConfig",
       "parentUuid": "607bc620_ed635590",
+      "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acbe35af_58777b2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T22:15:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa78cd66_200fa914",
       "revId": "cfb91bd2720996415b409373824ee0b493fa9ec9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
