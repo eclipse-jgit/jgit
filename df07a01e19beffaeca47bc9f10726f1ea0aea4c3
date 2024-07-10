@@ -33,6 +33,24 @@
       "message": "This no longer holds true now that jgit can read linked worktrees\n\nThe `workTree \u003d\u003d null` check used to work as an approximation for determining whether a repo was bare, but that no longer holds true with linked worktrees. A bare repo can have many linked worktrees and when a jgit Repository is instantiated with the path of a linked worktree, the `worktree field will be set to the path of the linked worktree, but that doesn\u0027t make the repo a non-bare repo`",
       "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "557c125f_a686ff05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 1037935
+      },
+      "writtenOn": "2024-07-10T06:16:27Z",
+      "side": 1,
+      "message": "afaik this still works just fine. If I point FileRepository to gitDir of any combination(bare, non-bar, wt from bare, wt from non-bare) isBare() behave ok.",
+      "parentUuid": "657b4763_6382f8c3",
+      "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
