@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9be7c824_7f8e1340",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-07-10T08:33:24Z",
+      "side": 1,
+      "message": "Are you suggesting looping over all registered providers and picking the first one that succeeds?",
+      "parentUuid": "ed813087_be2b8cac",
+      "range": {
+        "startLine": 54,
+        "startChar": 80,
+        "endLine": 54,
+        "endChar": 98
+      },
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6496920a_cf17a187",
         "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
         "patchSetId": 11
@@ -204,6 +228,24 @@
       "writtenOn": "2024-05-10T19:45:30Z",
       "side": 1,
       "message": "RevTag should use these new constants, and RevTag.getSignatureStart should consider them all.",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57727723_f0ce0f91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2024-07-10T08:33:24Z",
+      "side": 1,
+      "message": "Currently it looks like only GPG_SIGNATURE_PREFIX is needed in RevTag, were would you use CMS_SIGNATURE_PREFIX?",
+      "parentUuid": "40c71c1f_8dc5e033",
       "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
