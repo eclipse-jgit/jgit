@@ -100,6 +100,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f0d5862_f023df07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T17:46:01Z",
+      "side": 1,
+      "message": "This could be an EnumSet (with the additional benefit of being immutable)",
+      "revId": "4bf5f96694f490fec1297ac3fac41e442822805e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20ffdb9a_f555d9d8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 10
