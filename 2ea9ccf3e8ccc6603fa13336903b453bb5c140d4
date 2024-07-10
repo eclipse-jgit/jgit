@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e51d9797_bfeaee96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-10T21:48:03Z",
+      "side": 1,
+      "message": "I just updated the @since to 7.0 in the javadoc, so previous verified should still apply.",
+      "revId": "2ea9ccf3e8ccc6603fa13336903b453bb5c140d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
