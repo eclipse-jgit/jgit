@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acdee6a_47435f81",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T22:08:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80d7f2a4_05519916",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b05143e3_a7773a58",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-07-10T21:32:43Z",
       "side": 1,
       "message": "Can we do this setter private? If so, maybe we could even get rid of it all together? there is no reason to set all confs in one shot, they can be added as parsed in `fromConfig()`",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "411972cc_58fc16a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T22:08:03Z",
+      "side": 1,
+      "message": "\u003e could even get rid of it all together? \n\nKeeping the @Nullable on the field conflicts with using it in `fromConfig`.\nEither way, setting it as an \"all or nothing\" here isn\u0027t really different and follows more of a \"builder\" (though not really) style than adding to the field ie the field is set at the end and does not hold intermediate entries.\n\nI did move this body to setPackExtConfigs though.",
+      "parentUuid": "b05143e3_a7773a58",
       "revId": "9e91df512f743624d808306806ab7dc38fc09894",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -71,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17d17230_a2dd8503",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T22:08:03Z",
+      "side": 1,
+      "message": "This was done to specifically not add to extensionsSeen and mutate it in a function call.",
+      "parentUuid": "9889d437_d7cb2c85",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "796fd3c4_2d7f6ad6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 13
@@ -82,6 +136,30 @@
       "writtenOn": "2024-07-10T21:32:43Z",
       "side": 1,
       "message": "private?",
+      "range": {
+        "startLine": 432,
+        "startChar": 2,
+        "endLine": 432,
+        "endChar": 28
+      },
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258baf41_89195534",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T22:08:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "796fd3c4_2d7f6ad6",
       "range": {
         "startLine": 432,
         "startChar": 2,
@@ -115,6 +193,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12e619a5_f14463e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T22:08:03Z",
+      "side": 1,
+      "message": "Done. Though when I had looked at that it didn\u0027t seem relevant to this; it would fail either way for the types of bad input given",
+      "parentUuid": "e6fa589a_3cd5b48c",
+      "range": {
+        "startLine": 450,
+        "startChar": 5,
+        "endLine": 450,
+        "endChar": 16
+      },
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30fa3df7_9b7f7979",
@@ -128,6 +230,24 @@
       "writtenOn": "2024-07-10T21:32:43Z",
       "side": 1,
       "message": "Do we need to check for empty pack extensions? (a conf like \"packExtensions \u003d \"?)",
+      "revId": "9e91df512f743624d808306806ab7dc38fc09894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79ed2a1_eb1dca06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-10T22:08:03Z",
+      "side": 1,
+      "message": "Done; added a better exception than what would be default here.",
+      "parentUuid": "30fa3df7_9b7f7979",
       "revId": "9e91df512f743624d808306806ab7dc38fc09894",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
