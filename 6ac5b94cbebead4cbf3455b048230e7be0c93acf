@@ -3,6 +3,131 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f39dfafa_ea68dcc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "DfsBlockCacheConfig: support config for dfs table per extensions",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2994cf9_9b19cd2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "Add a first paragraph/line explaining the problem with the current code. e.g.\n\n\"Current DFS table implementation works well when the items have an homogeneous size, but usually some extensions have more data than other. We can solve this putting extensions in different tables.\"",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b44b7525_2c8a3c0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "The name of the class is really irrelevant in the commit message.\n\n\"Parse configurations for tables containing a set of extensions, defined in [core \"dfs.*\"] sections. The current [core \"dfs\"] is the default to any extension not listed in any other table. \n\nAll confs (default and extension-specific) support the same parameters. Unset values default to the values in the code\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33550271_bb4c05fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "Example of configuration: this defines a table for the primary index, reftable and bitmap index, and the default table for everything else (e.g. pack)",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6870c375_2fac4dd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "Remove this entry to make the example easier. We can mention above that \"PACK\" goes to the default.",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a85370c_3bc73a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "This entry is repeated",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7302143f_ab16e9cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:55:43Z",
+      "side": 1,
+      "message": "Code is almost there, minimal nits. Revisiting the commit message.",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab12bac6_403f73e5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 16
