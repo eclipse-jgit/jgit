@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab12bac6_403f73e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:40:49Z",
+      "side": 1,
+      "message": "Should we just initialize a list and use the empty list as a signal of \"no confs\"?\n\nIn other cases \"null\" can mean something different than emtpy (e.g. \"we haven\u0027t load it yet\"), but here that is not the case (?).",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2713fb22_afca0d97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:40:49Z",
+      "side": 1,
+      "message": "nit: a javadoc explaining what this is\n\ne.g. \"Configurations of tables that contain only certain pack extensions\"",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d85c7a4_7b39eb1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:40:49Z",
+      "side": 1,
+      "message": "loadPackExtConfigs",
+      "range": {
+        "startLine": 318,
+        "startChar": 14,
+        "endLine": 318,
+        "endChar": 31
+      },
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "968f61a9_23587b41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-11T17:40:49Z",
+      "side": 1,
+      "message": "return here if \"subSections\" are empty and then we don\u0027t need hasPackExtConfigs",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
