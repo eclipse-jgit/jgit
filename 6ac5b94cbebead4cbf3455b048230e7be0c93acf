@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3138ef6_805562d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f39dfafa_ea68dcc3",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2994cf9_9b19cd2d",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-11T17:55:43Z",
       "side": 1,
       "message": "Add a first paragraph/line explaining the problem with the current code. e.g.\n\n\"Current DFS table implementation works well when the items have an homogeneous size, but usually some extensions have more data than other. We can solve this putting extensions in different tables.\"",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e70c8385_5e9810c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b2994cf9_9b19cd2d",
       "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -58,6 +94,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb7d469_7d552c7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b44b7525_2c8a3c0c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33550271_bb4c05fb",
@@ -71,6 +131,24 @@
       "writtenOn": "2024-07-11T17:55:43Z",
       "side": 1,
       "message": "Example of configuration: this defines a table for the primary index, reftable and bitmap index, and the default table for everything else (e.g. pack)",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b53fe269_a04ae81a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "33550271_bb4c05fb",
       "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -92,6 +170,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de77548a_7bf77b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6870c375_2fac4dd3",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a85370c_3bc73a2f",
@@ -105,6 +201,24 @@
       "writtenOn": "2024-07-11T17:55:43Z",
       "side": 1,
       "message": "This entry is repeated",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "991342a9_a8190426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a85370c_3bc73a2f",
       "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -160,6 +274,42 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "754a7983_c5e3b3e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Acknowledged; though the field itself is a private list of configurations which doesn\u0027t really need repeating.",
+      "parentUuid": "2713fb22_afca0d97",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07151f7d_78dad068",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "The null value here is specifically a signifier that it isn\u0027t being used, not that there are \"no confs\".\nThough they are equivalent for these purposes as a 0-length list isn\u0027t useful, setting the default as null means it\u0027s not being configured for at all.\n\n(so it means \"feature not used\" rather than \"empty configuration list\")",
+      "parentUuid": "ab12bac6_403f73e5",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d85c7a4_7b39eb1d",
@@ -183,6 +333,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4335eda0_2c194394",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d85c7a4_7b39eb1d",
+      "range": {
+        "startLine": 318,
+        "startChar": 14,
+        "endLine": 318,
+        "endChar": 31
+      },
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "968f61a9_23587b41",
@@ -196,6 +370,24 @@
       "writtenOn": "2024-07-11T17:40:49Z",
       "side": 1,
       "message": "return here if \"subSections\" are empty and then we don\u0027t need hasPackExtConfigs",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b78d68d6_1f1c017b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-11T21:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "968f61a9_23587b41",
       "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
