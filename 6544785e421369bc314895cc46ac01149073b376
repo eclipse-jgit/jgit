@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3282964_7d0a0e2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-12T18:12:26Z",
+      "side": 1,
+      "message": "I think only the null/empty thing remaining. Thanks!",
+      "revId": "6544785e421369bc314895cc46ac01149073b376",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

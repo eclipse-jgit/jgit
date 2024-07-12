@@ -312,6 +312,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a9c8c81_f7245b47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-12T18:12:26Z",
+      "side": 1,
+      "message": "I still don\u0027t see the difference. Adding confs is the way to use the feature. Feature not used means that there were 0-confs.\n\nempty list prevents the callers accidentally bumping into a null pointer exception.",
+      "parentUuid": "07151f7d_78dad068",
+      "revId": "6ac5b94cbebead4cbf3455b048230e7be0c93acf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d85c7a4_7b39eb1d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 16
