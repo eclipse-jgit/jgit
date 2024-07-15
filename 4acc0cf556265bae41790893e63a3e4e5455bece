@@ -16,6 +16,24 @@
       "message": "Many lines in this patch are about extracting the stats interface. \n\nCan we do that in its own CL? It is almost a mechanical change and easy to verify on its own, we can get it out of the way and focus on the real split.",
       "revId": "4acc0cf556265bae41790893e63a3e4e5455bece",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5df5642_7b9af7e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-15T18:47:24Z",
+      "side": 1,
+      "message": "Sure. See https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1197857",
+      "parentUuid": "6e9d88ed_467212ac",
+      "revId": "4acc0cf556265bae41790893e63a3e4e5455bece",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
