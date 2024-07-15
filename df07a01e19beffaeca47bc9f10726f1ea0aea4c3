@@ -51,6 +51,24 @@
       "parentUuid": "657b4763_6382f8c3",
       "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "275a6376_07a82c8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-07-15T20:43:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "557c125f_a686ff05",
+      "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
