@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -358,5 +359,38 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 		public DfsBlockCacheTable getBlockCacheTable() {
 			return blockCacheTable;
 		}
+	}
+
+	@Override
+	public void writeConfiguration(String linePrefix, String pad,
+			PrintWriter writer) {
+		writer.println(
+				linePrefix + PackExtBlockCacheTable.class.getSimpleName());
+		String currentPrefixLevel = linePrefix + pad;
+		writer.println(currentPrefixLevel + "DefaultTable");
+		defaultBlockCacheTable.writeConfiguration(currentPrefixLevel, pad,
+				writer);
+
+		var tableToPackExts = mapTableToPackExts(extBlockCacheTables);
+		currentPrefixLevel = currentPrefixLevel + pad;
+		int i = 0;
+		for (var entry : tableToPackExts.entrySet()) {
+			writer.println(currentPrefixLevel + "Table" + i);
+			writer.println(currentPrefixLevel + entry.getValue().toString());
+			entry.getKey().writeConfiguration(currentPrefixLevel, pad, writer);
+			i++;
+		}
+	}
+
+	private static Map<DfsBlockCacheTable, List<PackExt>> mapTableToPackExts(
+			Map<PackExt, DfsBlockCacheTable> cacheTables) {
+		Map<DfsBlockCacheTable, List<PackExt>> tableToPackExts = new HashMap<>();
+		for (var entry : cacheTables.entrySet()) {
+			if (!tableToPackExts.containsKey(entry.getValue())) {
+				tableToPackExts.put(entry.getValue(), new ArrayList<>());
+			}
+			tableToPackExts.get(entry.getValue()).add(entry.getKey());
+		}
+		return tableToPackExts;
 	}
 }

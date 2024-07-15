@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -146,6 +147,19 @@ public interface DfsBlockCacheTable {
 	 * @return the list of {@link BlockCacheStats} held by this cache.
 	 */
 	List<BlockCacheStats> getAllCachesBlockCacheStats();
+
+	/**
+	 * Print the current cache configuration to the {@link PrintWriter}.
+	 *
+	 * @param linePrefix
+	 *            prefix to prepend all writen lines with. Ex a string of 0 or
+	 *            more "- " entries.
+	 * @param pad
+	 *            filler used to extend linePrefix. Ex "- ".
+	 * @param writer
+	 *            {@link PrintWriter} to write the cache's configuration to.
+	 */
+	void writeConfiguration(String linePrefix, String pad, PrintWriter writer);
 
 	/**
 	 * Provides methods used with Block Cache statistics.

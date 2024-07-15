@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -78,6 +79,23 @@ public class DfsBlockCacheConfig {
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
 		packExtCacheConfigurations = Collections.emptyList();
+	}
+
+	public void writeConfiguration(String linePrefix, String pad,
+			PrintWriter writer) {
+		writer.println(linePrefix + "Label: " + label);
+		String currentPrefixLevel = linePrefix + pad;
+		writer.println(currentPrefixLevel + "BlockLimit: " + blockLimit);
+		writer.println(currentPrefixLevel + "BlockSize:" + blockSize);
+		writer.println(currentPrefixLevel + "StreamRatio: " + streamRatio);
+		writer.println(
+				currentPrefixLevel + "ConcurrencyLevel: " + concurrencyLevel);
+		for (Map.Entry<PackExt, Integer> entry : cacheHotMap.entrySet()) {
+			writer.println(currentPrefixLevel + "CacheHotMapEntry: " + entry);
+		}
+		for (DfsBlockCachePackExtConfig extConfig : packExtCacheConfigurations) {
+			extConfig.writeConfiguration(currentPrefixLevel, pad, writer);
+		}
 	}
 
 	/**
@@ -527,6 +545,13 @@ public class DfsBlockCacheConfig {
 			dfsBlockCacheConfig.fromConfig(section, subSection, config);
 			return new DfsBlockCachePackExtConfig(EnumSet.copyOf(packExts),
 					dfsBlockCacheConfig);
+		}
+
+		void writeConfiguration(String linePrefix, String pad,
+				PrintWriter writer) {
+			packExtCacheConfiguration.writeConfiguration(linePrefix, pad,
+					writer);
+			writer.println(linePrefix + "PackExts: " + packExts);
 		}
 	}
 }
