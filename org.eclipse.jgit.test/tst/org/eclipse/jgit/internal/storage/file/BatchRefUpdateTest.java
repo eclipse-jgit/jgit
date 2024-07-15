@@ -171,7 +171,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			assertEquals(c2.getResult(), ReceiveCommand.Result.OK);
 		}
 
-		File packed = new File(diskRepo.getDirectory(), "packed-refs");
+		File packed = new File(diskRepo.getCommonDirectory(), "packed-refs");
 		String packedStr = new String(Files.readAllBytes(packed.toPath()),
 				UTF_8);
 
