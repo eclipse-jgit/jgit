@@ -320,6 +320,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9879aa9f_b86136f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogReaderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1038175
+      },
+      "writtenOn": "2024-07-16T06:27:27Z",
+      "side": 1,
+      "message": "Based on https://git-scm.com/docs/gitglossary.html#Documentation/gitglossary.txt-aiddefpseudorefapseudoref and https://git-scm.com/docs/gitglossary.html#Documentation/gitglossary.txt-aiddefperworktreerefaper-worktreeref, it seems HEAD is not considered a pseudo-ref at all, cause it can contain a symbolic ref\n\nAnd the only real refs that are to be resolved on the worktree level are refs/bisect/*\n\nAnd examples of other pseudo-refs are MERGE_HEAD and CHERRY_PICK_HEAD, but the way to identify pseudo-refs from non-pseudo-refs remains a bit unclear to me: an all-caps name? Not prefixed with \u0027refs/\u0027?",
+      "parentUuid": "5ba6c681_3735583a",
+      "revId": "486eed26e4655cd0b68eb07d7c3b41bd1662d9e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccc2d3a0_d1127678",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BaseRepositoryBuilder.java",
         "patchSetId": 2
