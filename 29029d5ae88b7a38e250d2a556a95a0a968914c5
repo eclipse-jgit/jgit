@@ -22,6 +22,30 @@
       },
       "revId": "29029d5ae88b7a38e250d2a556a95a0a968914c5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49cc20e6_f2180bae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-16T23:27:26Z",
+      "side": 1,
+      "message": "Good catch. Calling onIndexLoad when the index is not loaded sounds wrong.\n\nI move it after the null check. It is also what we do in all the other index loads.",
+      "parentUuid": "8aa78d41_175dda86",
+      "range": {
+        "startLine": 351,
+        "startChar": 41,
+        "endLine": 351,
+        "endChar": 53
+      },
+      "revId": "29029d5ae88b7a38e250d2a556a95a0a968914c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
