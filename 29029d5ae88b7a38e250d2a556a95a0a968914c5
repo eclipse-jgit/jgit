@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aa78d41_175dda86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-16T23:03:43Z",
+      "side": 1,
+      "message": "Is it save to emit this here if it\u0027s null?\n\n`PackLoadListener.onIndexLoad` doesn\u0027t say anything about it.",
+      "range": {
+        "startLine": 351,
+        "startChar": 41,
+        "endLine": 351,
+        "endChar": 53
+      },
+      "revId": "29029d5ae88b7a38e250d2a556a95a0a968914c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
