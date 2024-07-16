@@ -16,6 +16,24 @@
       "message": "Same as https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1192802/comment/8f81bd8d_fbd776e0/ \n\ncan you add a comment explaining why this needs to exist?",
       "revId": "aaf13c3e36bc713ae859c9e7034b8b79712020e3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38af1dcc_1f8845db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-16T22:40:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d1a64ca_e20c8f0d",
+      "revId": "aaf13c3e36bc713ae859c9e7034b8b79712020e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
