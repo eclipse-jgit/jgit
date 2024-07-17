@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "438c4894_eef56016",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-17T00:35:16Z",
+      "side": 1,
+      "message": "\u003e DfsPackFiles can load their indexes only from DFS pack streams\n\nto\n \n\u003e DfsPackFiles can currently load their indexes only from DFS pack streams\n?\n\n-- \n\n\u003e We want to try other storage/formats\n\nCan you expand on this (if there are concrete ideas) or maybe rephrase?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fde925e2_d3688b15",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-17T00:35:16Z",
+      "side": 1,
+      "message": "\u003e IndexFactory\n\nIndexLoader?\n\nBoth names are kind of similar but this reads more like something more specific, kind of like \"Reader\".\n\nEspecially with how integrated the params `DfsReader ctx, DfsPackDescription desc` seem to be with the implementation.\n\nIs part of the idea here that the implementations will do things like (for example): \nOne implementation caches using DFSBlockCache,\nOne implementation doesn\u0027t cache,\nOne implementation \"caches\" in another arbitrary way\netc\n\nand that reading using DfsReader will always be part of it? Or rather are they wrapping DfsReader for index reads?",
+      "range": {
+        "startLine": 118,
+        "startChar": 18,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
