@@ -69,6 +69,24 @@
       "parentUuid": "557c125f_a686ff05",
       "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "399bb7b8_9fab1d3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 1038175
+      },
+      "writtenOn": "2024-07-18T05:52:34Z",
+      "side": 1,
+      "message": "Managed to rebase my local work on top of the latest jgit master, after worktree read support got merged and indeed it works as it should...\n\nNot sure what I think I was seeing before...",
+      "parentUuid": "275a6376_07a82c8e",
+      "revId": "df07a01e19beffaeca47bc9f10726f1ea0aea4c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
