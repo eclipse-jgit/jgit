@@ -12,7 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
+import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.NB;
@@ -35,7 +35,7 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 
 	private final UInt24Array positions24;
 
-	private final int[] positions32;
+	private final IntArray positions32;
 
 	/**
 	 * Parallel array to concat(positions24, positions32) with the size of the
@@ -45,35 +45,34 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 	 * doesn't fit in an int and |value|-1 is the position for the size in the
 	 * size64 array e.g. a value of -1 is sizes64[0], -2 = sizes64[1], ...
 	 */
-	private final int[] sizes32;
+	private final IntArray sizes32;
 
-	private final long[] sizes64;
+	private final LongArray sizes64;
 
 	static PackObjectSizeIndex parse(InputStream in) throws IOException {
 		/** Header and version already out of the input */
-		IndexInputStreamReader stream = new IndexInputStreamReader(in);
-		int threshold = stream.readInt(); // minSize
-		int objCount = stream.readInt();
+		int threshold = readInt(in); // minSize
+		int objCount = readInt(in);
 		if (objCount == 0) {
 			return new EmptyPackObjectSizeIndex(threshold);
 		}
-		return new PackObjectSizeIndexV1(stream, threshold, objCount);
+		return new PackObjectSizeIndexV1(in, threshold, objCount);
 	}
 
-	private PackObjectSizeIndexV1(IndexInputStreamReader stream, int threshold,
+	private PackObjectSizeIndexV1(InputStream stream, int threshold,
 			int objCount) throws IOException {
 		this.threshold = threshold;
 		UInt24Array pos24 = null;
-		int[] pos32 = null;
+		IntArray pos32 = null;
 
 		byte positionEncoding;
-		while ((positionEncoding = stream.readByte()) != 0) {
+		while ((positionEncoding = readByte(stream)) != 0) {
 			if (Byte.compareUnsigned(positionEncoding, BITS_24) == 0) {
-				int sz = stream.readInt();
+				int sz = readInt(stream);
 				pos24 = new UInt24Array(stream.readNBytes(sz * 3));
 			} else if (Byte.compareUnsigned(positionEncoding, BITS_32) == 0) {
-				int sz = stream.readInt();
-				pos32 = stream.readIntArray(sz);
+				int sz = readInt(stream);
+				pos32 = IntArray.from(stream, sz);
 			} else {
 				throw new UnsupportedEncodingException(
 						String.format(JGitText.get().unknownPositionEncoding,
@@ -81,16 +80,16 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 			}
 		}
 		positions24 = pos24 != null ? pos24 : UInt24Array.EMPTY;
-		positions32 = pos32 != null ? pos32 : new int[0];
+		positions32 = pos32 != null ? pos32 : IntArray.EMPTY;
 
-		sizes32 = stream.readIntArray(objCount);
-		int c64sizes = stream.readInt();
+		sizes32 = IntArray.from(stream, objCount);
+		int c64sizes = readInt(stream);
 		if (c64sizes == 0) {
-			sizes64 = new long[0];
+			sizes64 = LongArray.EMPTY;
 			return;
 		}
-		sizes64 = stream.readLongArray(c64sizes);
-		int c128sizes = stream.readInt();
+		sizes64 = LongArray.from(stream, c64sizes);
+		int c128sizes = readInt(stream);
 		if (c128sizes != 0) {
 			// this MUST be 0 (we don't support 128 bits sizes yet)
 			throw new IOException(JGitText.get().unsupportedSizesObjSizeIndex);
@@ -102,8 +101,8 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 		int pos = -1;
 		if (!positions24.isEmpty() && idxOffset <= positions24.getLastValue()) {
 			pos = positions24.binarySearch(idxOffset);
-		} else if (positions32.length > 0 && idxOffset >= positions32[0]) {
-			int pos32 = Arrays.binarySearch(positions32, idxOffset);
+		} else if (!positions32.empty() && idxOffset >= positions32.get(0)) {
+			int pos32 = positions32.binarySearch(idxOffset);
 			if (pos32 >= 0) {
 				pos = pos32 + positions24.size();
 			}
@@ -112,17 +111,17 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 			return -1;
 		}
 
-		int objSize = sizes32[pos];
+		int objSize = sizes32.get(pos);
 		if (objSize < 0) {
 			int secondPos = Math.abs(objSize) - 1;
-			return sizes64[secondPos];
+			return sizes64.get(secondPos);
 		}
 		return objSize;
 	}
 
 	@Override
 	public long getObjectCount() {
-		return (long) positions24.size() + positions32.length;
+		return (long) positions24.size() + positions32.size();
 	}
 
 	@Override
@@ -131,69 +130,122 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 	}
 
 	/**
-	 * Wrapper to read parsed content from the byte stream
+	 * A byte[] that should be interpreted as an int[]
 	 */
-	private static class IndexInputStreamReader {
+	private static class IntArray {
+		private static final IntArray EMPTY = new IntArray(new byte[0]);
 
-		private final byte[] buffer = new byte[8];
+		private static final int INT_SIZE = 4;
 
-		private final InputStream in;
+		final byte[] data;
 
-		IndexInputStreamReader(InputStream in) {
-			this.in = in;
+		final int size;
+
+		static IntArray from(InputStream in, int ints) throws IOException {
+			int expectedBytes = ints * INT_SIZE;
+			byte[] data = in.readNBytes(expectedBytes);
+			if (data.length < expectedBytes) {
+				throw new IOException(MessageFormat
+						.format(JGitText.get().unableToReadFullArray, ints));
+			}
+			return new IntArray(data);
 		}
 
-		int readInt() throws IOException {
-			int n = in.readNBytes(buffer, 0, 4);
-			if (n < 4) {
-				throw new IOException(JGitText.get().unableToReadFullInt);
-			}
-			return NB.decodeInt32(buffer, 0);
+		private IntArray(byte[] data) {
+			this.data = data;
+			size = data.length / INT_SIZE;
 		}
 
-		int[] readIntArray(int intsCount) throws IOException {
-			if (intsCount == 0) {
-				return new int[0];
+		/**
+		 * Returns position of element in array, -1 if not there
+		 *
+		 * @param needle
+		 *            element to look for
+		 * @return position of the element in the array or -1 if not found
+		 */
+		int binarySearch(int needle) {
+			if (size == 0) {
+				return -1;
 			}
-
-			int[] dest = new int[intsCount];
-			for (int i = 0; i < intsCount; i++) {
-				dest[i] = readInt();
-			}
-			return dest;
+			int high = size;
+			int low = 0;
+			do {
+				int mid = (low + high) >>> 1;
+				int cmp;
+				cmp = Integer.compare(needle, get(mid));
+				if (cmp < 0)
+					high = mid;
+				else if (cmp == 0) {
+					return mid;
+				} else
+					low = mid + 1;
+			} while (low < high);
+			return -1;
 		}
 
-		long readLong() throws IOException {
-			int n = in.readNBytes(buffer, 0, 8);
-			if (n < 8) {
-				throw new IOException(JGitText.get().unableToReadFullInt);
+		int get(int position) {
+			if (position < 0 || position >= size) {
+				throw new IndexOutOfBoundsException(position);
 			}
-			return NB.decodeInt64(buffer, 0);
+			return NB.decodeInt32(data, position * INT_SIZE);
 		}
 
-		long[] readLongArray(int longsCount) throws IOException {
-			if (longsCount == 0) {
-				return new long[0];
-			}
-
-			long[] dest = new long[longsCount];
-			for (int i = 0; i < longsCount; i++) {
-				dest[i] = readLong();
-			}
-			return dest;
+		boolean empty() {
+			return size == 0;
 		}
 
-		byte readByte() throws IOException {
-			int n = in.readNBytes(buffer, 0, 1);
-			if (n != 1) {
-				throw new IOException(JGitText.get().cannotReadByte);
+		int size() {
+			return size;
+		}
+	}
+
+	/**
+	 * A byte[] that should be interpreted as an long[]
+	 */
+	private static class LongArray {
+		private static final LongArray EMPTY = new LongArray(new byte[0]);
+		private static final int LONG_SIZE = 8; // bytes
+		final byte[] data;
+		final int size;
+
+		static LongArray from(InputStream in, int longs) throws IOException {
+			byte[] data = in.readNBytes(longs * LONG_SIZE);
+			if (data.length < longs * LONG_SIZE) {
+				throw new IOException(MessageFormat
+						.format(JGitText.get().unableToReadFullArray, longs));
 			}
-			return buffer[0];
+			return new LongArray(data);
 		}
 
-		byte[] readNBytes(int sz) throws IOException {
-			return in.readNBytes(sz);
+		private LongArray(byte[] data) {
+			this.data = data;
+			size = data.length / LONG_SIZE;
 		}
+
+		long get(int position) {
+			if (position < 0 || position >= size) {
+				throw new IndexOutOfBoundsException(position);
+			}
+			return NB.decodeInt64(data, position * LONG_SIZE);
+		}
+	}
+
+	private static final byte[] buffer = new byte[8];
+
+	private static int readInt(InputStream in) throws IOException {
+		int n = in.readNBytes(buffer, 0, 4);
+		if (n < 4) {
+			throw new IOException(JGitText.get().unableToReadFullInt);
+		}
+		return NB.decodeInt32(buffer, 0);
+	}
+
+	private static byte readByte(InputStream in) throws IOException {
+		int n = in.readNBytes(buffer, 0, 1);
+		if (n != 1) {
+			throw new IOException(JGitText.get().cannotReadByte);
+		}
+		return buffer[0];
 	}
 
 	private static class EmptyPackObjectSizeIndex
