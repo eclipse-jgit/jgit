@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -156,19 +157,17 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 				return new int[0];
 			}
 
+			byte[] rawBytes = readNBytes(intsCount * 4);
+			if (rawBytes.length < intsCount * 4) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().unableToReadFullArray, intsCount * 4));
+			}
+
 			int[] dest = new int[intsCount];
 			for (int i = 0; i < intsCount; i++) {
-				dest[i] = readInt();
+				dest[i] = NB.decodeInt32(rawBytes, i * 4);
 			}
 			return dest;
-		}
-
-		long readLong() throws IOException {
-			int n = in.readNBytes(buffer, 0, 8);
-			if (n < 8) {
-				throw new IOException(JGitText.get().unableToReadFullInt);
-			}
-			return NB.decodeInt64(buffer, 0);
 		}
 
 		long[] readLongArray(int longsCount) throws IOException {
@@ -176,9 +175,14 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 				return new long[0];
 			}
 
+			byte[] rawBytes = readNBytes(longsCount * 8);
+			if (rawBytes.length < longsCount * 8) {
+				throw new IOException(JGitText.get().unableToReadFullArray);
+			}
+
 			long[] dest = new long[longsCount];
 			for (int i = 0; i < longsCount; i++) {
-				dest[i] = readLong();
+				dest[i] = NB.decodeInt64(rawBytes, i * 8);
 			}
 			return dest;
 		}
