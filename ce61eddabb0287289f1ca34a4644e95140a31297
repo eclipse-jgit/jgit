@@ -93,6 +93,30 @@
       },
       "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "965cef2a_8da7caa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-20T00:55:36Z",
+      "side": 1,
+      "message": "Re expected size: if we\u0027re talking about changing the implementation from reading 1-by-1 to reading all (or even reading in chunks) it would be nice to know what order size this array could be (ie what\u0027s it\u0027s relation to other structures).\n\n\nre config: yea the idea is to have a safe rollout option to explicitly set the method used. And it would also be useful in the future if batching does happen.\nHaving the option of setting it 1-by-1, chunks, or all at once without requiring additional code changes would be useful, including to revert to the slower 1-by-1 setup here that is slow.",
+      "parentUuid": "2a1bfd5b_2ee191e9",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 47
+      },
+      "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
