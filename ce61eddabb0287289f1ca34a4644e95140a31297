@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf17bcf_ee6c8201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-20T00:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1633cf8_66046b3b",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "183bf3a3_f4d399b9",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-19T23:20:45Z",
       "side": 1,
       "message": "Since this is different than the current implementation can this be gated behind a config?\n\nAlso, what\u0027s the expected size of the array here? I get that this makes it a small multiple of the current implementation, but it\u0027ll still be useful to somewhat know the expected size.",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 47
+      },
+      "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a1bfd5b_2ee191e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-20T00:18:49Z",
+      "side": 1,
+      "message": "This is not really customizable. Instead of reading bytes 4 by 4, now we read the whole thing. If we do chunking later, the chunk size could be a config option.\n\nIf it is about safe rollout... current implementation is broken already.\n\nThe array we read from the stream has \"intsCount\" integers serialized as 4 bytes each. So rawBytes has intsCount * 4 bytes. I made this explicit adding a variable \"expectedSize\"",
+      "parentUuid": "183bf3a3_f4d399b9",
       "range": {
         "startLine": 160,
         "startChar": 3,
