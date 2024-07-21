@@ -43,7 +43,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * Tree and blob objects reachable from interesting commits are automatically
  * scheduled for inclusion in the results of {@link #nextObject()}, returning
  * each object exactly once. Objects are sorted and returned according to the
- * the commits that reference them and the order they appear within a tree.
+ * commits that reference them and the order they appear within a tree.
  * Ordering can be affected by changing the
  * {@link org.eclipse.jgit.revwalk.RevSort} used to order the commits that are
  * returned first.
