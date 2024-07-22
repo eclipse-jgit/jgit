@@ -141,6 +141,30 @@
       },
       "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d40dd464_9d565e94",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-22T07:56:45Z",
+      "side": 1,
+      "message": "Actually reading the byte[] in one shot and using it directly (instead of preprocessing it into int[] and long[]) wasn\u0027t that hard. This way we get the best of both worlds: reading in one shot and not using extra memory.",
+      "parentUuid": "d56801a7_ff62db59",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 47
+      },
+      "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
