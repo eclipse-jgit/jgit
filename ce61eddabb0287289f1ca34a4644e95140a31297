@@ -117,6 +117,30 @@
       },
       "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d56801a7_ff62db59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-22T05:50:52Z",
+      "side": 1,
+      "message": "In an example repository (apache/arrow-size)  with a 78MB primary index, the object size index for *all* blobs is 10MB. I\u0027ll put this example in the commit message.\n\nThe safe rollout is guarded by the useObjectSizeIndex option.\n\nI realize now that other indexes (e.g primary or the commit graph), do not read in chunks: they just load the full contents into memory and do a minimal processing.  I still think it is worthy to submit this to verify we are solving the right problem before reworking the reader.",
+      "parentUuid": "965cef2a_8da7caa6",
+      "range": {
+        "startLine": 160,
+        "startChar": 3,
+        "endLine": 160,
+        "endChar": 47
+      },
+      "revId": "ce61eddabb0287289f1ca34a4644e95140a31297",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
