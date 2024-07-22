@@ -14,6 +14,7 @@ import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_REPOR
 import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_SIDE_BAND_64K;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -49,6 +51,7 @@ public class PushConnectionTest {
 	private ObjectId obj2;
 	private ObjectId obj3;
 	private String refName = "refs/tags/blob";
+	private long maxPackSize = 0; // the maximum pack file size used by the server
 
 	@Before
 	public void setUp() throws Exception {
@@ -57,6 +60,8 @@ public class PushConnectionTest {
 		processedRefs = new ArrayList<>();
 		testProtocol = new TestProtocol<>(null, (Object req, Repository db) -> {
 			ReceivePack rp = new ReceivePack(db);
+			if (maxPackSize > 0)
+				rp.setMaxPackSizeLimit(maxPackSize);
 			rp.setPreReceiveHook((ReceivePack receivePack,
 					Collection<ReceiveCommand> cmds) -> {
 				for (ReceiveCommand cmd : cmds) {
@@ -165,6 +170,46 @@ public class PushConnectionTest {
 				assertEquals(
 						"remote: Commands size exceeds limit defined in receive.maxCommandBytes",
 						msg);
+			}
+		}
+	}
+
+	@Test
+	public void limitPackSize() throws IOException {
+		// this maxPackSize leads to an unPackError
+		maxPackSize = 1;
+
+		try (ObjectInserter ins = client.newObjectInserter()) {
+			// 1024 * 5 means five times the server side buffer size. We need data several
+			// times bigger the server side buffer size. This is necessary in order to cause
+			// the server buffer overflow when the client transmits data. This is necessary
+			// in order to enable the "JGit-Receive-Pack" thread to receive and begin
+			// processing data before the client is able to transfer all the data. When
+			// processing the first bytes of data, the server will detect that an error has
+			// occurred, write an error message and close the pipe. Then the client, when
+			// trying to write the remaining bytes, will receive a “Pipe closed” exception,
+			// which is what we need. The client must then check the error message from the
+			// server and throw an appropriate exception corresponding to that error message
+			// from the server.
+			byte[] arr = new byte[1024 * 5];
+			new java.util.Random(1).nextBytes(arr);
+			obj2 = ins.insert(Constants.OBJ_BLOB, arr);
+			ins.flush();
+		}
+
+		Map<String, RemoteRefUpdate> updates = new HashMap<>();
+		RemoteRefUpdate rru = new RemoteRefUpdate(
+				null, null, obj2, "refs/test/limitPackSize",
+				false, null, ObjectId.zeroId());
+		updates.put(rru.getRemoteName(), rru);
+
+		try (Transport tn = testProtocol.open(uri, client, "server");
+				 PushConnection connection = tn.openPush()) {
+			try {
+				connection.push(NullProgressMonitor.INSTANCE, updates);
+				fail("server did not abort");
+			} catch (Exception e) {
+				assertTrue(e instanceof TooLargePackException);
 			}
 		}
 	}
