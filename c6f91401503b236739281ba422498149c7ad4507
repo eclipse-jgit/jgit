@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f4051b_b5b2e2d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-23T15:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "438c4894_eef56016",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fde925e2_d3688b15",
@@ -37,6 +61,64 @@
       "writtenOn": "2024-07-17T00:35:16Z",
       "side": 1,
       "message": "\u003e IndexFactory\n\nIndexLoader?\n\nBoth names are kind of similar but this reads more like something more specific, kind of like \"Reader\".\n\nEspecially with how integrated the params `DfsReader ctx, DfsPackDescription desc` seem to be with the implementation.\n\nIs part of the idea here that the implementations will do things like (for example): \nOne implementation caches using DFSBlockCache,\nOne implementation doesn\u0027t cache,\nOne implementation \"caches\" in another arbitrary way\netc\n\nand that reading using DfsReader will always be part of it? Or rather are they wrapping DfsReader for index reads?",
+      "range": {
+        "startLine": 118,
+        "startChar": 18,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b7dc56c_b03308a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-23T15:26:37Z",
+      "side": 1,
+      "message": "\u003e Is part of the idea here that the implementations will do things like (for example):\n\u003e One implementation caches using DFSBlockCache,\n\u003e One implementation doesn\u0027t cache,\n\u003e One implementation \"caches\" in another arbitrary way\n\u003e etc\n\nMore like \"one implementation loads from file\", \"one implementation reads on-demand from a key-value\" or \"one implementation combines both\".",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb321d5_d02a3c38",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-23T15:26:37Z",
+      "side": 1,
+      "message": "\u003e reading using DfsReader will always be part of it? \n\nNo, I think that not all implementation will need the reader.\n\nDo you mean that we could make this factory more generic moving reader and packDescription down to the implementations?\n\nFor the pack description it makes sense (all calls to the factory from a dfspackfile need to use the same pack description). I do that.\n\nFor the reader: current DfsPackFile doesn\u0027t keep the reader, it receives it in every call. I don\u0027t know why so a. I don\u0027t dare to change it and b. the reader is already a parameter in the API. It would be error prone to do pack#getIndex(reader), but then internally use a factory that has its own reader.",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dafce78_32600599",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-23T15:26:37Z",
+      "side": 1,
+      "message": "I considered IndexLoader, but in the current code \"loaders\" are the functions parsing the actual raw bytes.\n\nI find the Factory more accurate, as for the caller it just returns an instance of the index, internally taking care of creating or reusing it.\n\n(I answer about the design in a different comment, so we can resolve the naming independently)",
+      "parentUuid": "fde925e2_d3688b15",
       "range": {
         "startLine": 118,
         "startChar": 18,
