@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07cf209d_77b48c5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackExtBlockCacheTables.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-23T14:04:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "19cd31ef_ab64ee6c",
+      "revId": "a5ab0fb47f2be6f73be9e340b52ef2abe1d949ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1d424e9_90abf383",

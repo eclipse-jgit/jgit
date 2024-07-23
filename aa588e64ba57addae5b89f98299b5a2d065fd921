@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff2378f_d374b947",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-23T14:04:27Z",
+      "side": 1,
+      "message": "This class seems to exist only for testing (the regular constructor from the config can do perfectly well without it). If so, it could be a smell.\n\nIIUC we need this class and a special constructor because in the tests we want to know the specific table instances to verify we are calling the right table.\n\nIf so, maybe we could have a constructor like: \n```\nfromBlockCacheConfigs(DfsBlockCacheConfig cacheConfig, \n                      Function\u003cDfsZYZConfig, DfsBlockCacheTable\u003e tableFactory);\n```                      \n(We can define a @functionalInterface instead of the raw function signature);\n\nRegular code would invoke it:\n`fromBlockCacheConfigs(config, cfg -\u003e new ClockBlockCacheTable(cfg));`\n\nTests would map of config to table and then use that in the factory:\n```\nMap\u003cString, DfsBlockCacheTable\u003e tables;\ntable.put(\"dfs.bla\", aSetUpMock);\nfromBlockCacheConfigs(config, cfg -\u003e tables.get(cfg.getName));\n```",
+      "revId": "aa588e64ba57addae5b89f98299b5a2d065fd921",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
