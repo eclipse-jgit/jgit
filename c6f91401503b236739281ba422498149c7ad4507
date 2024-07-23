@@ -127,6 +127,66 @@
       },
       "revId": "c6f91401503b236739281ba422498149c7ad4507",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e58611d_593592fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-23T23:01:54Z",
+      "side": 1,
+      "message": "(Picking up from the other comment)\n\nThis now reads to me like this is at a lower level than \"does it use the block cache or not\", so this is more like \"where does it read from\"? Or even \"where does it read from and does it store the data read in block cache or not\"?\n\nRe: \"where does it read from\":\nIn that case, would the implementation we want to move behind an interface be `loadPackIndex` (and `loadReverseIdx`)?\n\nRe: where does it read from and does it store the data read in block cache or not\"\nOr is there still more interaction with caching?\nAnd if there is, it\u0027s sounding like it would be 2 different types of interfaces:\none for the type of logic in `index` (and `reverseIndex`), and what I\u0027m reading as the main part of this change, for the type of logic in `loadPackIndex` (and `loadReverseIdx`) that the `index` (and `reverseIndex`) uses without caring which implementation it is?",
+      "parentUuid": "8b7dc56c_b03308a4",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6396425_33df53d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-23T23:01:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4dafce78_32600599",
+      "range": {
+        "startLine": 118,
+        "startChar": 18,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef2fcd2_f6d59da1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-23T23:01:54Z",
+      "side": 1,
+      "message": "From the other comment above:\n\n\u003e More like \"one implementation loads from file\", \"one implementation reads on-demand from a key-value\" or \"one implementation combines both\".\n\nI\u0027m reading this as \"we\u0027re looking to read from a different reader\" which would make this:\n\n\u003e  It would be error prone to do pack#getIndex(reader), but then internally use a factory that has its own reader.\n\nwhich reads like it\u0027s going to pass one reader, then read from somewhere else.\n\nBut I do get the rest here: \n\n\u003e current DfsPackFile doesn\u0027t keep the reader, it receives it in every call. I don\u0027t know why so a. I don\u0027t dare to change it \n\nis a pretty big motivator.\n\nThe remaining response is going on the other comment as it\u0027ll be targeted to that conversation.",
+      "parentUuid": "9fb321d5_d02a3c38",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
