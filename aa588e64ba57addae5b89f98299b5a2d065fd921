@@ -16,6 +16,24 @@
       "message": "This class seems to exist only for testing (the regular constructor from the config can do perfectly well without it). If so, it could be a smell.\n\nIIUC we need this class and a special constructor because in the tests we want to know the specific table instances to verify we are calling the right table.\n\nIf so, maybe we could have a constructor like: \n```\nfromBlockCacheConfigs(DfsBlockCacheConfig cacheConfig, \n                      Function\u003cDfsZYZConfig, DfsBlockCacheTable\u003e tableFactory);\n```                      \n(We can define a @functionalInterface instead of the raw function signature);\n\nRegular code would invoke it:\n`fromBlockCacheConfigs(config, cfg -\u003e new ClockBlockCacheTable(cfg));`\n\nTests would map of config to table and then use that in the factory:\n```\nMap\u003cString, DfsBlockCacheTable\u003e tables;\ntable.put(\"dfs.bla\", aSetUpMock);\nfromBlockCacheConfigs(config, cfg -\u003e tables.get(cfg.getName));\n```",
       "revId": "aa588e64ba57addae5b89f98299b5a2d065fd921",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a13a09_45ee2398",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-23T17:56:06Z",
+      "side": 1,
+      "message": "What this really represents is an entry in a map of `CacheTable -\u003e Set\u003cPackExt\u003e` to then distribute into `PackExt -\u003e CacheTable` so I\u0027ve updated it to that (and removed the *Pair class defining an entry in a many-to-one relationship).\n\nFor the function listed: while I do like the though of it, knowing the structure of cache configs as they are now makes that a little harder to follow, but would be a good future steps. I\u0027d prefer to keep the `fromCacheTables(DfsBlockCacheTable, Map\u003cPackExt, DfsBlockCacheTable\u003e` as a way of setting caches tables without needing configs.",
+      "parentUuid": "fff2378f_d374b947",
+      "revId": "aa588e64ba57addae5b89f98299b5a2d065fd921",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
