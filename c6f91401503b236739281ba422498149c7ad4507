@@ -187,6 +187,42 @@
       "parentUuid": "9fb321d5_d02a3c38",
       "revId": "c6f91401503b236739281ba422498149c7ad4507",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a3c468c_e39267ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T10:59:20Z",
+      "side": 1,
+      "message": "\u003e Or is there still more interaction with caching?\n\nThere is because the cache decision is tied to \"where does it read from\". If the \"read\" is just \"open a db connection\", there is no need to cache.\n\nAlso, loading and caching are interleaved: to create the reverse index we need the primary index, which we would like to get via cache if possible.\n\nOn top of that, the cache acts as a lock for the loading.\n\nAll together, it looks rather hard/convoluted to split both concerns (loading and caching). Even if we do, I don\u0027t see any near term reuse for those independently.\n\nSo we are putting both things under one interface. The implementation knows how the index is loaded/open and if it needs to cache it or not.\n\n\u003e And if there is, it\u0027s sounding like it would be 2 different types of interfaces\n\nNote that we did something like this in the BitmapLoader interface: it does only the loading leaving the cache out (the \"bitmap()\" method is the caching part). We are not happy with that interface, as in runtime is hard to see where the things are coming from. Eventually we will move bitmaps to this IndexFactory interface.",
+      "parentUuid": "7e58611d_593592fb",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bf89113_7bbf3aa6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T10:59:20Z",
+      "side": 1,
+      "message": "I meant: if we need a reader we use the one received as parameter. If we don\u0027t, we ignore it. \n\nThis fits better with the current flow of not keeping the reader ref in the pack.",
+      "parentUuid": "4ef2fcd2_f6d59da1",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
