@@ -64,6 +64,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8f20e61_04cd771e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40d1f799_559782ed",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92927cbe_ff14563a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "Thanks; I must have copied from a test and not noticed it was old (rather than the new info in the actual implementation). Done.",
+      "parentUuid": "c18cb864_eb349fa6",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a4f4a59_7a85d725",
@@ -77,6 +125,24 @@
       "writtenOn": "2024-07-24T07:04:48Z",
       "side": 1,
       "message": "This shouldn\u0027t be called at all, right? If so, do not setup this when(). I think the mock will throw an exception if invoked, which is what we want.\n\nSame in following tests, if we can remove unnecessary when() setups tests are easier to read.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c1fc7e5_1f761464",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "It doesn\u0027t throw when called; usually it returns some default value (and iirc from objects it returns a mock).\nThough I just tested it out and it returns `false`.\nI went and removed them all; I had set them because I wanted to be explicit but it\u0027s not actually necessary.",
+      "parentUuid": "9a4f4a59_7a85d725",
       "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -98,6 +164,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e9196af_fae2a969",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCacheTableFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "I just removed it.",
+      "parentUuid": "13fc315f_1a778c34",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbdccce0_2ca87a0e",
@@ -111,6 +195,24 @@
       "writtenOn": "2024-07-24T07:04:48Z",
       "side": 1,
       "message": "nit: Move the constructor after the static constructors.\n\nI don\u0027t think there is a strict order defined, but static constructors tend to go first.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52d99660_4ca1a143",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "I generally prefer to keep the constructor near the defined fields that it fills in, but done",
+      "parentUuid": "fbdccce0_2ca87a0e",
       "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -138,6 +240,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43aaf112_f68914ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "While this is setting up to be generic enough to useful in the future, I\u0027ll remove it and it can be left as a \"useful future update\" that probably needs more changes to properly support.\n\n(I\u0027ll remove it for now)",
+      "parentUuid": "16118096_fc1a8d01",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ead36a49_f1f354ae",
@@ -151,6 +277,24 @@
       "writtenOn": "2024-07-24T07:04:48Z",
       "side": 1,
       "message": "Can we make it \"default visibility\" and add a minimal javadoc as \"visible for testing\"? to make it very clear this is not the expected constructor to use.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad4163ac_caa615f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-24T20:37:52Z",
+      "side": 1,
+      "message": "Done; this is an expected use but that can be updated later.",
+      "parentUuid": "ead36a49_f1f354ae",
       "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
