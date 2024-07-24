@@ -10,8 +10,6 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.util.List;
@@ -20,14 +18,6 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
 
 public class AggregatedBlockCacheStatsTest {
-	@Test
-	public void getName() {
-		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("name", List.of());
-
-		assertThat(aggregatedBlockCacheStats.getName(), equalTo("name"));
-	}
-
 	@Test
 	public void getCurrentSize_aggregatesCurrentSizes() {
 		long[] currentSizes = createEmptyStatsArray();
@@ -45,8 +35,7 @@ public class AggregatedBlockCacheStatsTest {
 		currentSizes[PackExt.INDEX.getPosition()] = 7;
 
 		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("name",
-						List.of(packStats, bitmapStats, indexStats));
+				.fromStatsList(List.of(packStats, bitmapStats, indexStats));
 
 		assertArrayEquals(aggregatedBlockCacheStats.getCurrentSize(),
 				currentSizes);
@@ -72,8 +61,7 @@ public class AggregatedBlockCacheStatsTest {
 		hitCounts[PackExt.INDEX.getPosition()] = 7;
 
 		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("name",
-						List.of(packStats, bitmapStats, indexStats));
+				.fromStatsList(List.of(packStats, bitmapStats, indexStats));
 
 		assertArrayEquals(aggregatedBlockCacheStats.getHitCount(), hitCounts);
 	}
@@ -98,8 +86,7 @@ public class AggregatedBlockCacheStatsTest {
 		missCounts[PackExt.INDEX.getPosition()] = 7;
 
 		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("name",
-						List.of(packStats, bitmapStats, indexStats));
+				.fromStatsList(List.of(packStats, bitmapStats, indexStats));
 
 		assertArrayEquals(aggregatedBlockCacheStats.getMissCount(), missCounts);
 	}
@@ -130,8 +117,7 @@ public class AggregatedBlockCacheStatsTest {
 		totalRequestCounts[PackExt.INDEX.getPosition()] = 14;
 
 		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("name",
-						List.of(packStats, bitmapStats, indexStats));
+				.fromStatsList(List.of(packStats, bitmapStats, indexStats));
 
 		assertArrayEquals(aggregatedBlockCacheStats.getTotalRequestCount(),
 				totalRequestCounts);
@@ -159,8 +145,7 @@ public class AggregatedBlockCacheStatsTest {
 		hitRatios[PackExt.INDEX.getPosition()] = 0;
 
 		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("Name",
-						List.of(packStats, bitmapStats, indexStats));
+				.fromStatsList(List.of(packStats, bitmapStats, indexStats));
 
 		assertArrayEquals(aggregatedBlockCacheStats.getHitRatio(), hitRatios);
 	}
@@ -185,8 +170,7 @@ public class AggregatedBlockCacheStatsTest {
 		evictions[PackExt.INDEX.getPosition()] = 7;
 
 		BlockCacheStats aggregatedBlockCacheStats = AggregatedBlockCacheStats
-				.fromStatsList("Name",
-						List.of(packStats, bitmapStats, indexStats));
+				.fromStatsList(List.of(packStats, bitmapStats, indexStats));
 
 		assertArrayEquals(aggregatedBlockCacheStats.getEvictions(), evictions);
 	}

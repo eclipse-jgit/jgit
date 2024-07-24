@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Block cache table.
@@ -125,13 +126,13 @@ public interface DfsBlockCacheTable {
 	<T> T get(DfsStreamKey key, long position);
 
 	/**
-	 * Get the {@link BlockCacheStats} object for this block cache table's
-	 * statistics.
+	 * Get the list of {@link BlockCacheStats} held by this cache.
+	 * <p>
+	 * Useful in monitoring caches by labelled {@link BlockCacheStats}.
 	 *
-	 * @return the {@link BlockCacheStats} tracking this block cache table's
-	 *         statistics.
+	 * @return the list of {@link BlockCacheStats} held by this cache.
 	 */
-	BlockCacheStats getBlockCacheStats();
+	List<BlockCacheStats> getBlockCacheStats();
 
 	/**
 	 * Get the name of the table.
