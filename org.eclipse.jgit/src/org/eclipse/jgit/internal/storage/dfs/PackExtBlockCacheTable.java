@@ -188,11 +188,14 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 	}
 
 	@Override
-	public BlockCacheStats getBlockCacheStats() {
-		return new AggregatedBlockCacheStats(name,
-				blockCacheTableList.stream()
-						.map(DfsBlockCacheTable::getBlockCacheStats)
-						.collect(Collectors.toList()));
+	public List<BlockCacheStats> getBlockCacheStats() {
+		// return AggregatedBlockCacheStats.aggregate(name,
+		// blockCacheTableList.stream()
+		// .map(DfsBlockCacheTable::getBlockCacheStats)
+		// .collect(Collectors.toList()));
+		return blockCacheTableList.stream()
+				.flatMap(cacheTable -> cacheTable.getBlockCacheStats().stream())
+				.collect(Collectors.toList());
 	}
 
 	@Override

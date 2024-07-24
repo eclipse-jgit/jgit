@@ -2,7 +2,12 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DEFAULT_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.isA;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -30,7 +35,8 @@ public class ClockBlockCacheTableTest {
 		ClockBlockCacheTable cacheTable = new ClockBlockCacheTable(
 				createBlockCacheConfig());
 
-		assertThat(cacheTable.getBlockCacheStats().getName(),
+		assertThat(cacheTable.getBlockCacheStats(), hasSize(1));
+		assertThat(cacheTable.getBlockCacheStats().get(0).getName(),
 				equalTo(DEFAULT_NAME));
 	}
 
@@ -39,7 +45,18 @@ public class ClockBlockCacheTableTest {
 		ClockBlockCacheTable cacheTable = new ClockBlockCacheTable(
 				createBlockCacheConfig().setName(NAME));
 
-		assertThat(cacheTable.getBlockCacheStats().getName(), equalTo(NAME));
+		assertThat(cacheTable.getBlockCacheStats(), hasSize(1));
+		assertThat(cacheTable.getBlockCacheStats().get(0).getName(),
+				equalTo(NAME));
+	}
+
+	@Test
+	public void getAllBlockCacheStats() {
+		ClockBlockCacheTable cacheTable = new ClockBlockCacheTable(
+				createBlockCacheConfig());
+
+		List<BlockCacheStats> blockCacheStats = cacheTable.getBlockCacheStats();
+		assertThat(blockCacheStats, contains(isA(BlockCacheStats.class)));
 	}
 
 	private static DfsBlockCacheConfig createBlockCacheConfig() {

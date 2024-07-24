@@ -18,19 +18,15 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * Aggregates values for all given {@link BlockCacheStats}.
  */
 class AggregatedBlockCacheStats implements BlockCacheStats {
-	private final String name;
-
 	private final List<BlockCacheStats> blockCacheStats;
 
-	AggregatedBlockCacheStats(String name,
-			List<BlockCacheStats> blockCacheStats) {
-		this.name = name;
+	AggregatedBlockCacheStats(List<BlockCacheStats> blockCacheStats) {
 		this.blockCacheStats = blockCacheStats;
 	}
 
 	@Override
 	public String getName() {
-		return name;
+		return AggregatedBlockCacheStats.class.getName();
 	}
 
 	@Override
