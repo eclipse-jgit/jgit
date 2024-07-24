@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -148,6 +149,11 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public List<BlockCacheStats> getAllCachesBlockCacheStats() {
+		return List.of(dfsBlockCacheStats);
 	}
 
 	@Override
