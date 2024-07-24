@@ -49,6 +49,10 @@ public class DfsBlockCacheConfig {
 	/** Default number of max cache hits. */
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
 
+	static final String DEFAULT_NAME = "<default>";
+
+	private String name;
+
 	private long blockLimit;
 
 	private int blockSize;
@@ -69,12 +73,36 @@ public class DfsBlockCacheConfig {
 	 * Create a default configuration.
 	 */
 	public DfsBlockCacheConfig() {
+		name = DEFAULT_NAME;
 		setBlockLimit(32 * MB);
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
 		packExtCacheConfigurations = Collections.emptyList();
+	}
+
+	/**
+	 * Get the name for the block cache configured by this cache config.
+	 *
+	 * @return the name for the block cache configured by this cache config.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Set the name for the block cache configured by this cache config.
+	 * <p>
+	 * Made visible for testing.
+	 *
+	 * @param name
+	 *            the name for the block cache configured by this cache config.
+	 * @return {@code this}
+	 */
+	DfsBlockCacheConfig setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	/**
@@ -308,6 +336,11 @@ public class DfsBlockCacheConfig {
 					Long.valueOf(cfgBlockLimit), Long.valueOf(cfgBlockSize)));
 		}
 
+		// Set name only if `core dfs` is configured, otherwise fall back to the
+		// default.
+		if (rc.getSubsections(section).contains(subSection)) {
+			this.name = subSection;
+		}
 		setBlockLimit(cfgBlockLimit);
 		setBlockSize(cfgBlockSize);
 
