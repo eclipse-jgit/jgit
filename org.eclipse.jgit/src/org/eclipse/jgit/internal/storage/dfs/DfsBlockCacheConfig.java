@@ -49,6 +49,8 @@ public class DfsBlockCacheConfig {
 	/** Default number of max cache hits. */
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
 
+	private String label;
+
 	private long blockLimit;
 
 	private int blockSize;
@@ -69,12 +71,35 @@ public class DfsBlockCacheConfig {
 	 * Create a default configuration.
 	 */
 	public DfsBlockCacheConfig() {
+		label = "";
 		setBlockLimit(32 * MB);
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
 		packExtCacheConfigurations = Collections.emptyList();
+	}
+
+	/**
+	 * Get the label for the block cache configured by this cache config.
+	 *
+	 * @return the label for the block cache configured by this cache config.
+	 */
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * Set the label for the block cache configured by this cache config.
+	 * <p>
+	 * Made visible for testing.
+	 *
+	 * @param label
+	 *            the label for the block cache configured by this cache config.
+	 */
+	DfsBlockCacheConfig setLabel(String label) {
+		this.label = label;
+		return this;
 	}
 
 	/**
@@ -292,12 +317,14 @@ public class DfsBlockCacheConfig {
 	 * @return {@code this}
 	 */
 	public DfsBlockCacheConfig fromConfig(Config rc) {
-		fromConfig(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION, rc);
+		fromConfig(label, CONFIG_CORE_SECTION, CONFIG_DFS_SECTION, rc);
 		loadPackExtConfigs(rc);
 		return this;
 	}
 
-	private void fromConfig(String section, String subSection, Config rc) {
+	private void fromConfig(String label, String section, String subSection,
+			Config rc) {
+		this.label = label;
 		long cfgBlockLimit = rc.getLong(section, subSection,
 				CONFIG_KEY_BLOCK_LIMIT, getBlockLimit());
 		int cfgBlockSize = rc.getInt(section, subSection, CONFIG_KEY_BLOCK_SIZE,
@@ -308,6 +335,7 @@ public class DfsBlockCacheConfig {
 					Long.valueOf(cfgBlockLimit), Long.valueOf(cfgBlockSize)));
 		}
 
+		this.label = label;
 		setBlockLimit(cfgBlockLimit);
 		setBlockSize(cfgBlockSize);
 
@@ -474,6 +502,7 @@ public class DfsBlockCacheConfig {
 
 		private static DfsBlockCachePackExtConfig fromConfig(Config config,
 				String section, String subSection) {
+			String label = subSection.replaceFirst(CONFIG_DFS_CACHE_PREFIX, "");
 			String packExtensions = config.getString(section, subSection,
 					CONFIG_KEY_PACK_EXTENSIONS);
 			if (packExtensions == null) {
@@ -494,7 +523,7 @@ public class DfsBlockCacheConfig {
 			}
 
 			DfsBlockCacheConfig dfsBlockCacheConfig = new DfsBlockCacheConfig();
-			dfsBlockCacheConfig.fromConfig(section, subSection, config);
+			dfsBlockCacheConfig.fromConfig(label, section, subSection, config);
 			return new DfsBlockCachePackExtConfig(EnumSet.copyOf(packExts),
 					dfsBlockCacheConfig);
 		}
