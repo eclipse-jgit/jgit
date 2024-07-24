@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -136,6 +137,15 @@ public interface DfsBlockCacheTable {
 	 *         statistics.
 	 */
 	BlockCacheStats getBlockCacheStats();
+
+	/**
+	 * Get the list of {@link BlockCacheStats} held by this cache.
+	 * <p>
+	 * Useful in monitoring caches by labelled {@link BlockCacheStats}.
+	 *
+	 * @return the list of {@link BlockCacheStats} held by this cache.
+	 */
+	List<BlockCacheStats> getAllCachesBlockCacheStats();
 
 	/**
 	 * Provides methods used with Block Cache statistics.
