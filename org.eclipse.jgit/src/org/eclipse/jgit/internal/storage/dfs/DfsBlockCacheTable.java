@@ -141,6 +141,8 @@ public interface DfsBlockCacheTable {
 	 * Provides methods used with Block Cache statistics.
 	 */
 	interface BlockCacheStats {
+		String getLabel();
+
 		/**
 		 * Get total number of bytes in the cache, per pack file extension.
 		 *
@@ -195,6 +197,8 @@ public interface DfsBlockCacheTable {
 	 * Keeps track of stats for a Block Cache table.
 	 */
 	class DfsBlockCacheStats implements BlockCacheStats {
+		private final String label;
+
 		/**
 		 * Number of times a block was found in the cache, per pack file
 		 * extension.
@@ -220,10 +224,20 @@ public interface DfsBlockCacheTable {
 		private final AtomicReference<AtomicLong[]> liveBytes;
 
 		DfsBlockCacheStats() {
+			this("");
+		}
+
+		DfsBlockCacheStats(String label) {
+			this.label = label;
 			statHit = new AtomicReference<>(newCounters());
 			statMiss = new AtomicReference<>(newCounters());
 			statEvict = new AtomicReference<>(newCounters());
 			liveBytes = new AtomicReference<>(newCounters());
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
 		}
 
 		/**
