@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
@@ -379,6 +380,16 @@ public class PackExtBlockCacheTableTest {
 				Map.of(PackExt.BITMAP_INDEX, bitmapIndexCacheTable));
 
 		assertThat(tables.get(dfsStreamKey, 0), sameInstance(ref));
+	}
+
+	@Test
+	public void getBlockCacheStats_getLabel_returnsPackExtCacheTableLabel() {
+		DfsBlockCacheStats packStats = new DfsBlockCacheStats();
+		PackExtBlockCacheTable tables = PackExtBlockCacheTable
+				.fromCacheTables(cacheTableWithStats(packStats), Map.of());
+
+		assertThat(tables.getBlockCacheStats().getLabel(),
+				equalTo(PackExtBlockCacheTable.class.getSimpleName()));
 	}
 
 	@Test
