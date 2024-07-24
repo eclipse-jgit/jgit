@@ -20,8 +20,6 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * Keeps a copy of aggregated stats for a Block Cache table.
  */
 class AggregatedBlockCacheStats implements BlockCacheStats {
-	private final String name;
-
 	private final long[] currentSize;
 
 	private final long[] hitCount;
@@ -37,14 +35,11 @@ class AggregatedBlockCacheStats implements BlockCacheStats {
 	/**
 	 * Aggregate the stats of multiple {@link BlockCacheStats}s.
 	 *
-	 * @param name
-	 *            given name for this instance of cache stats
 	 * @param blockCacheStats
 	 *            list of cache stats to be aggregated
 	 * @return stats aggregated from the given list of cache stats
 	 */
-	static BlockCacheStats aggregate(String name,
-			List<BlockCacheStats> blockCacheStats) {
+	static BlockCacheStats aggregate(List<BlockCacheStats> blockCacheStats) {
 		long[] currentSize = aggregateValues(blockCacheStats,
 				BlockCacheStats::getCurrentSize);
 		long[] hitCount = aggregateValues(blockCacheStats,
@@ -56,8 +51,8 @@ class AggregatedBlockCacheStats implements BlockCacheStats {
 		long[] hitRatio = aggregateHitRatio(hitCount, missCount);
 		long[] evictions = aggregateValues(blockCacheStats,
 				BlockCacheStats::getEvictions);
-		return new AggregatedBlockCacheStats(name, currentSize, hitCount,
-				missCount, totalRequestCount, hitRatio, evictions);
+		return new AggregatedBlockCacheStats(currentSize, hitCount, missCount,
+				totalRequestCount, hitRatio, evictions);
 	}
 
 	private static long[] aggregateValues(List<BlockCacheStats> blockCacheStats,
@@ -103,10 +98,9 @@ class AggregatedBlockCacheStats implements BlockCacheStats {
 		return sums;
 	}
 
-	private AggregatedBlockCacheStats(String name, long[] currentSize,
-			long[] hitCount, long[] missCount, long[] totalRequestCount,
-			long[] hitRatio, long[] evictions) {
-		this.name = name;
+	private AggregatedBlockCacheStats(long[] currentSize, long[] hitCount,
+			long[] missCount, long[] totalRequestCount, long[] hitRatio,
+			long[] evictions) {
 		this.currentSize = currentSize;
 		this.hitCount = hitCount;
 		this.missCount = missCount;
@@ -117,7 +111,7 @@ class AggregatedBlockCacheStats implements BlockCacheStats {
 
 	@Override
 	public String getName() {
-		return name;
+		return AggregatedBlockCacheStats.class.getName();
 	}
 
 	@Override
