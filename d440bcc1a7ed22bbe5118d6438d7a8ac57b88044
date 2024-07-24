@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edab7cc2_1f550ced",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:32:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "945697ee_dfe0cc02",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 17
+      },
+      "revId": "d440bcc1a7ed22bbe5118d6438d7a8ac57b88044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6d8e6c5_6c680b85",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b77eceab_be6f5b6b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:32:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6d8e6c5_6c680b85",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 25
+      },
+      "revId": "d440bcc1a7ed22bbe5118d6438d7a8ac57b88044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eda85df_ccd32587",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-07-24T01:35:24Z",
       "side": 1,
       "message": "I\u0027d recommend keeping these in a class similar to `IndexInputStreamReader` to keep one `byte[] buffer` per instantiation rather than having one static one",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 2
+      },
+      "revId": "d440bcc1a7ed22bbe5118d6438d7a8ac57b88044",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cdcee61_421a5902",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexV1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:32:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eda85df_ccd32587",
       "range": {
         "startLine": 232,
         "startChar": 0,
