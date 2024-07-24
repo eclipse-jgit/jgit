@@ -37,6 +37,11 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * type.
  */
 class PackExtBlockCacheTable implements DfsBlockCacheTable {
+	/**
+	 * Table name.
+	 */
+	private final String name;
+
 	private final DfsBlockCacheTable defaultBlockCacheTable;
 
 	// Holds the unique tables backing the extBlockCacheTables values.
@@ -120,13 +125,19 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 		Set<DfsBlockCacheTable> blockCacheTables = new HashSet<>();
 		blockCacheTables.add(defaultBlockCacheTable);
 		blockCacheTables.addAll(packExtBlockCacheTables.values());
-		return new PackExtBlockCacheTable(defaultBlockCacheTable,
+		String name = defaultBlockCacheTable.getName() + ","
+				+ packExtBlockCacheTables.values().stream()
+						.map(DfsBlockCacheTable::getName).sorted()
+						.collect(Collectors.joining(","));
+		return new PackExtBlockCacheTable(name, defaultBlockCacheTable,
 				List.copyOf(blockCacheTables), packExtBlockCacheTables);
 	}
 
-	private PackExtBlockCacheTable(DfsBlockCacheTable defaultBlockCacheTable,
+	private PackExtBlockCacheTable(String name,
+			DfsBlockCacheTable defaultBlockCacheTable,
 			List<DfsBlockCacheTable> blockCacheTableList,
 			Map<PackExt, DfsBlockCacheTable> extBlockCacheTables) {
+		this.name = name;
 		this.defaultBlockCacheTable = defaultBlockCacheTable;
 		this.blockCacheTableList = blockCacheTableList;
 		this.extBlockCacheTables = extBlockCacheTables;
@@ -178,9 +189,15 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
-		return new CacheStats(blockCacheTableList.stream()
-				.map(DfsBlockCacheTable::getBlockCacheStats)
-				.collect(Collectors.toList()));
+		return new CacheStats(name,
+				blockCacheTableList.stream()
+						.map(DfsBlockCacheTable::getBlockCacheStats)
+						.collect(Collectors.toList()));
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	private DfsBlockCacheTable getTable(PackExt packExt) {
@@ -198,10 +215,18 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 	}
 
 	private static class CacheStats implements BlockCacheStats {
+		private final String name;
+
 		private final List<BlockCacheStats> blockCacheStats;
 
-		private CacheStats(List<BlockCacheStats> blockCacheStats) {
+		private CacheStats(String name, List<BlockCacheStats> blockCacheStats) {
+			this.name = name;
 			this.blockCacheStats = blockCacheStats;
+		}
+
+		@Override
+		public String getName() {
+			return name;
 		}
 
 		@Override

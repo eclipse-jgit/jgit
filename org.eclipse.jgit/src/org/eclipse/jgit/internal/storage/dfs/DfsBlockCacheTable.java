@@ -138,9 +138,18 @@ public interface DfsBlockCacheTable {
 	BlockCacheStats getBlockCacheStats();
 
 	/**
+	 * Get the name of the table.
+	 *
+	 * @return this table's name.
+	 */
+	String getName();
+
+	/**
 	 * Provides methods used with Block Cache statistics.
 	 */
 	interface BlockCacheStats {
+		String getName();
+
 		/**
 		 * Get total number of bytes in the cache, per pack file extension.
 		 *
@@ -195,6 +204,8 @@ public interface DfsBlockCacheTable {
 	 * Keeps track of stats for a Block Cache table.
 	 */
 	class DfsBlockCacheStats implements BlockCacheStats {
+		private final String name;
+
 		/**
 		 * Number of times a block was found in the cache, per pack file
 		 * extension.
@@ -220,10 +231,20 @@ public interface DfsBlockCacheTable {
 		private final AtomicReference<AtomicLong[]> liveBytes;
 
 		DfsBlockCacheStats() {
+			this("");
+		}
+
+		DfsBlockCacheStats(String name) {
+			this.name = name;
 			statHit = new AtomicReference<>(newCounters());
 			statMiss = new AtomicReference<>(newCounters());
 			statEvict = new AtomicReference<>(newCounters());
 			liveBytes = new AtomicReference<>(newCounters());
+		}
+
+		@Override
+		public String getName() {
+			return name;
 		}
 
 		/**
