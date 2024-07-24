@@ -34,6 +34,24 @@
       "parentUuid": "fff2378f_d374b947",
       "revId": "aa588e64ba57addae5b89f98299b5a2d065fd921",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b573df68_1e3bdb3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "I see it now. The setup of the test with conf + factory + mock table is more complicated than the current \"just mock tables\".\n\nThen lets leave the constructor with tables.",
+      "parentUuid": "b7a13a09_45ee2398",
+      "revId": "aa588e64ba57addae5b89f98299b5a2d065fd921",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

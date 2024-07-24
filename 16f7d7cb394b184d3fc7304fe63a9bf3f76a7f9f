@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "673b6c4e_7d63b3e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "Almost there. I think only few nits on the code are left. Thanks!",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40d1f799_559782ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c18cb864_eb349fa6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "2024",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4f4a59_7a85d725",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTableTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be called at all, right? If so, do not setup this when(). I think the mock will throw an exception if invoked, which is what we want.\n\nSame in following tests, if we can remove unnecessary when() setups tests are easier to read.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13fc315f_1a778c34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsCacheTableFactory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "If PackExtCacheTable is the only user of this interface, we should move it there.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbdccce0_2ca87a0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "nit: Move the constructor after the static constructors.\n\nI don\u0027t think there is a strict order defined, but static constructors tend to go first.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16118096_fc1a8d01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "The factory was supposed to help defining the tests, but we won\u0027t use it for that and end up with only one implementation (...Table::new). Should we keep still keep it?",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ead36a49_f1f354ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-24T07:04:48Z",
+      "side": 1,
+      "message": "Can we make it \"default visibility\" and add a minimal javadoc as \"visible for testing\"? to make it very clear this is not the expected constructor to use.",
+      "revId": "16f7d7cb394b184d3fc7304fe63a9bf3f76a7f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
