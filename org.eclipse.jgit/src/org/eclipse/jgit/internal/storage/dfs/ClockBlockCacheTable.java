@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DEFAULT_NAME;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
@@ -47,6 +49,11 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * invocations is also fixed in size.
  */
 final class ClockBlockCacheTable implements DfsBlockCacheTable {
+	/**
+	 * Table name.
+	 */
+	private final String name;
+
 	/** Number of entries in {@link #table}. */
 	private final int tableSize;
 
@@ -129,7 +136,12 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 				-1, 0, null);
 		clockHand.next = clockHand;
 
-		this.dfsBlockCacheStats = new DfsBlockCacheStats();
+		String name = cfg.getName();
+		if (name.isEmpty() || name.equals(DEFAULT_NAME)) {
+			name = ClockBlockCacheTable.class.getSimpleName();
+		}
+		this.name = name;
+		this.dfsBlockCacheStats = new DfsBlockCacheStats(this.name);
 		this.refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 		this.indexEventConsumer = cfg.getIndexEventConsumer();
 	}
@@ -137,6 +149,11 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
 		return dfsBlockCacheStats;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override

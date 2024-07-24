@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,6 +37,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class PackExtBlockCacheTableTest {
+	private static final String CACHE_NAME = "CacheName";
+
 	@Test
 	public void fromBlockCacheConfigs_createsDfsPackExtBlockCacheTables() {
 		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig();
@@ -382,6 +385,18 @@ public class PackExtBlockCacheTableTest {
 	}
 
 	@Test
+	public void getBlockCacheStats_getName_returnsPackExtCacheTableName() {
+		DfsBlockCacheStats packStats = new DfsBlockCacheStats();
+		PackExtBlockCacheTable tables = PackExtBlockCacheTable.fromCacheTables(
+				cacheTableWithStats(/* name= */ "defaultName", packStats),
+				Map.of(PackExt.PACK, cacheTableWithStats(/* name= */ "packName",
+						packStats)));
+
+		assertThat(tables.getBlockCacheStats().getName(),
+				equalTo("defaultName,packName"));
+	}
+
+	@Test
 	public void getBlockCacheStats_getCurrentSize_consolidatesAllTableCurrentSizes() {
 		long[] currentSizes = createEmptyStatsArray();
 
@@ -570,7 +585,13 @@ public class PackExtBlockCacheTableTest {
 
 	private static DfsBlockCacheTable cacheTableWithStats(
 			DfsBlockCacheStats dfsBlockCacheStats) {
+		return cacheTableWithStats(CACHE_NAME, dfsBlockCacheStats);
+	}
+
+	private static DfsBlockCacheTable cacheTableWithStats(String name,
+			DfsBlockCacheStats dfsBlockCacheStats) {
 		DfsBlockCacheTable cacheTable = mock(DfsBlockCacheTable.class);
+		when(cacheTable.getName()).thenReturn(name);
 		when(cacheTable.getBlockCacheStats()).thenReturn(dfsBlockCacheStats);
 		return cacheTable;
 	}
