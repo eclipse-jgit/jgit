@@ -12,6 +12,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 
@@ -184,6 +185,17 @@ public final class DfsBlockCache {
 	 */
 	public long[] getEvictions() {
 		return dfsBlockCacheTable.getBlockCacheStats().getEvictions();
+	}
+
+	/**
+	 * Get the list of {@link BlockCacheStats} for all underlying caches.
+	 * <p>
+	 * Useful in monitoring caches with breakdown.
+	 *
+	 * @return the list of {@link BlockCacheStats} for all underlying caches.
+	 */
+	public List<BlockCacheStats> getAllBlockCacheStats() {
+		return dfsBlockCacheTable.getAllBlockCacheStats();
 	}
 
 	/**
