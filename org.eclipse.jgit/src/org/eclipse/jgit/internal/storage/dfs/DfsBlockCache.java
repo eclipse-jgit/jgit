@@ -12,6 +12,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 
@@ -124,7 +125,7 @@ public final class DfsBlockCache {
 	 * @return total number of bytes in the cache, per pack file extension.
 	 */
 	public long[] getCurrentSize() {
-		return dfsBlockCacheTable.getBlockCacheStats().getCurrentSize();
+		return getBlockCacheStats(dfsBlockCacheTable).getCurrentSize();
 	}
 
 	/**
@@ -143,7 +144,7 @@ public final class DfsBlockCache {
 	 *         extension.
 	 */
 	public long[] getHitCount() {
-		return dfsBlockCacheTable.getBlockCacheStats().getHitCount();
+		return getBlockCacheStats(dfsBlockCacheTable).getHitCount();
 	}
 
 	/**
@@ -154,7 +155,7 @@ public final class DfsBlockCache {
 	 *         extension.
 	 */
 	public long[] getMissCount() {
-		return dfsBlockCacheTable.getBlockCacheStats().getMissCount();
+		return getBlockCacheStats(dfsBlockCacheTable).getMissCount();
 	}
 
 	/**
@@ -163,7 +164,7 @@ public final class DfsBlockCache {
 	 * @return total number of requests (hit + miss), per pack file extension.
 	 */
 	public long[] getTotalRequestCount() {
-		return dfsBlockCacheTable.getBlockCacheStats().getTotalRequestCount();
+		return getBlockCacheStats(dfsBlockCacheTable).getTotalRequestCount();
 	}
 
 	/**
@@ -172,7 +173,7 @@ public final class DfsBlockCache {
 	 * @return hit ratios
 	 */
 	public long[] getHitRatio() {
-		return dfsBlockCacheTable.getBlockCacheStats().getHitRatio();
+		return getBlockCacheStats(dfsBlockCacheTable).getHitRatio();
 	}
 
 	/**
@@ -183,7 +184,18 @@ public final class DfsBlockCache {
 	 *         file extension.
 	 */
 	public long[] getEvictions() {
-		return dfsBlockCacheTable.getBlockCacheStats().getEvictions();
+		return getBlockCacheStats(dfsBlockCacheTable).getEvictions();
+	}
+
+	/**
+	 * Get the list of {@link BlockCacheStats} for all underlying caches.
+	 * <p>
+	 * Useful in monitoring caches with breakdown.
+	 *
+	 * @return the list of {@link BlockCacheStats} for all underlying caches.
+	 */
+	public List<BlockCacheStats> getAllBlockCacheStats() {
+		return dfsBlockCacheTable.getBlockCacheStats();
 	}
 
 	/**
@@ -262,6 +274,11 @@ public final class DfsBlockCache {
 	<T> T get(DfsStreamKey key, long position) {
 		return dfsBlockCacheTable.get(key, position);
 	}
+
+	private static BlockCacheStats getBlockCacheStats(DfsBlockCacheTable dfsBlockCacheTable) {
+		return AggregatedBlockCacheStats.aggregate(dfsBlockCacheTable.getBlockCacheStats());
+	}
+
 
 	static final class Ref<T> {
 		final DfsStreamKey key;
