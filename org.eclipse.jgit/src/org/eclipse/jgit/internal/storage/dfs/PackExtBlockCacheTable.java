@@ -178,9 +178,10 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
-		return new CacheStats(blockCacheTableList.stream()
-				.map(DfsBlockCacheTable::getBlockCacheStats)
-				.collect(Collectors.toList()));
+		return new CacheStats(PackExtBlockCacheTable.class.getSimpleName(),
+				blockCacheTableList.stream()
+						.map(DfsBlockCacheTable::getBlockCacheStats)
+						.collect(Collectors.toList()));
 	}
 
 	private DfsBlockCacheTable getTable(PackExt packExt) {
@@ -198,10 +199,19 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 	}
 
 	private static class CacheStats implements BlockCacheStats {
+		private final String label;
+
 		private final List<BlockCacheStats> blockCacheStats;
 
-		private CacheStats(List<BlockCacheStats> blockCacheStats) {
+		private CacheStats(String label,
+				List<BlockCacheStats> blockCacheStats) {
+			this.label = label;
 			this.blockCacheStats = blockCacheStats;
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
 		}
 
 		@Override
