@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,6 +32,7 @@ import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.Ref;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.RefLoader;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.BlockCacheStats;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
@@ -411,6 +413,54 @@ public class PackExtBlockCacheTableTest {
 	}
 
 	@Test
+	public void getAllBlockCacheStats() {
+		String defaultTableName = "default table";
+		DfsBlockCacheStats defaultStats = new DfsBlockCacheStats(
+				defaultTableName);
+		incrementCounter(4,
+				() -> defaultStats.incrementHit(new TestKey(PackExt.REFTABLE)));
+
+		String packTableName = "pack table";
+		DfsBlockCacheStats packStats = new DfsBlockCacheStats(packTableName);
+		incrementCounter(5,
+				() -> packStats.incrementHit(new TestKey(PackExt.PACK)));
+
+		String bitmapTableName = "bitmap table";
+		DfsBlockCacheStats bitmapStats = new DfsBlockCacheStats(
+				bitmapTableName);
+		incrementCounter(6, () -> bitmapStats
+				.incrementHit(new TestKey(PackExt.BITMAP_INDEX)));
+
+		DfsBlockCacheTable defaultTable = cacheTableWithStats(defaultStats);
+		DfsBlockCacheTable packTable = cacheTableWithStats(packStats);
+		DfsBlockCacheTable bitmapTable = cacheTableWithStats(bitmapStats);
+		PackExtBlockCacheTable tables = PackExtBlockCacheTable
+				.fromCacheTables(defaultTable, Map.of(PackExt.PACK, packTable,
+						PackExt.BITMAP_INDEX, bitmapTable));
+
+		List<BlockCacheStats> statsList = tables.getAllCachesBlockCacheStats();
+		assertThat(statsList, hasSize(3));
+
+		long[] defaultTableHitCounts = createEmptyStatsArray();
+		defaultTableHitCounts[PackExt.REFTABLE.getPosition()] = 4;
+		assertArrayEquals(
+				getCacheStatsByName(statsList, defaultTableName).getHitCount(),
+				defaultTableHitCounts);
+
+		long[] packTableHitCounts = createEmptyStatsArray();
+		packTableHitCounts[PackExt.PACK.getPosition()] = 5;
+		assertArrayEquals(
+				getCacheStatsByName(statsList, packTableName).getHitCount(),
+				packTableHitCounts);
+
+		long[] bitmapHitCounts = createEmptyStatsArray();
+		bitmapHitCounts[PackExt.BITMAP_INDEX.getPosition()] = 6;
+		assertArrayEquals(
+				getCacheStatsByName(statsList, bitmapTableName).getHitCount(),
+				bitmapHitCounts);
+	}
+
+	@Test
 	public void getBlockCacheStats_getCurrentSize_consolidatesAllTableCurrentSizes() {
 		long[] currentSizes = createEmptyStatsArray();
 
@@ -587,6 +637,16 @@ public class PackExtBlockCacheTableTest {
 				evictions);
 	}
 
+	private BlockCacheStats getCacheStatsByName(
+			List<BlockCacheStats> blockCacheStats, String name) {
+		for (BlockCacheStats entry : blockCacheStats) {
+			if (entry.getName().equals(name)) {
+				return entry;
+			}
+		}
+		return null;
+	}
+
 	private static void incrementCounter(int amount, Runnable fn) {
 		for (int i = 0; i < amount; i++) {
 			fn.run();
@@ -598,15 +658,17 @@ public class PackExtBlockCacheTableTest {
 	}
 
 	private static DfsBlockCacheTable cacheTableWithStats(
-			DfsBlockCacheStats dfsBlockCacheStats) {
+			BlockCacheStats dfsBlockCacheStats) {
 		return cacheTableWithStats(CACHE_NAME, dfsBlockCacheStats);
 	}
 
 	private static DfsBlockCacheTable cacheTableWithStats(String name,
-			DfsBlockCacheStats dfsBlockCacheStats) {
+			BlockCacheStats dfsBlockCacheStats) {
 		DfsBlockCacheTable cacheTable = mock(DfsBlockCacheTable.class);
 		when(cacheTable.getName()).thenReturn(name);
 		when(cacheTable.getBlockCacheStats()).thenReturn(dfsBlockCacheStats);
+		when(cacheTable.getAllCachesBlockCacheStats())
+				.thenReturn(List.of(dfsBlockCacheStats));
 		return cacheTable;
 	}
 
