@@ -48,6 +48,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
@@ -172,6 +173,27 @@ public class DfsBlockCacheConfigTest {
 				is(indexConfig));
 		assertThat(getConfigForExt(configs, PackExt.REVERSE_INDEX),
 				is(indexConfig));
+	}
+
+	@Test
+	public void fromConfigs_namesSetFromConfigDfsCachePrefixSubSections() {
+		Config config = new Config();
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_CACHE_PREFIX + "name1",
+				CONFIG_KEY_PACK_EXTENSIONS, PackExt.PACK.name());
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_CACHE_PREFIX + "name2",
+				CONFIG_KEY_PACK_EXTENSIONS, PackExt.BITMAP_INDEX.name());
+
+		DfsBlockCacheConfig blockCacheConfig = new DfsBlockCacheConfig()
+				.fromConfig(config);
+		assertThat(blockCacheConfig.getName(), equalTo("dfs"));
+		assertThat(
+				blockCacheConfig.getPackExtCacheConfigurations().get(0)
+						.getPackExtCacheConfiguration().getName(),
+				equalTo("dfs.name1"));
+		assertThat(
+				blockCacheConfig.getPackExtCacheConfigurations().get(1)
+						.getPackExtCacheConfiguration().getName(),
+				equalTo("dfs.name2"));
 	}
 
 	@Test
