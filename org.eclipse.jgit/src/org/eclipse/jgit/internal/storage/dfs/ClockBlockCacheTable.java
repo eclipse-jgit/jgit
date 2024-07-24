@@ -129,7 +129,11 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 				-1, 0, null);
 		clockHand.next = clockHand;
 
-		this.dfsBlockCacheStats = new DfsBlockCacheStats();
+		String label = cfg.getLabel();
+		if (label.isEmpty()) {
+			label = ClockBlockCacheTable.class.getSimpleName();
+		}
+		this.dfsBlockCacheStats = new DfsBlockCacheStats(label);
 		this.refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 		this.indexEventConsumer = cfg.getIndexEventConsumer();
 	}
