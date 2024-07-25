@@ -223,6 +223,24 @@
       "parentUuid": "4ef2fcd2_f6d59da1",
       "revId": "c6f91401503b236739281ba422498149c7ad4507",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd1412ad_810f1a7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-25T16:40:41Z",
+      "side": 1,
+      "message": "Maybe we got lost in the details. At the end this new interface is very simple it is just a \"give me my index\".\n\nWhere the index is stored (file, db) and if it is cached are implementation details of the interface. The only recommendation is for the caller to keep the reference instead of invoking the factory every time they need it.",
+      "parentUuid": "6a3c468c_e39267ca",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
