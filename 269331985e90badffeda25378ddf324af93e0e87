@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef4c1994_caeff305",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037677
+      },
+      "writtenOn": "2024-07-28T08:03:44Z",
+      "side": 1,
+      "message": "Hi Matthias,\nThis is the test to show the change introduced by commit b57d060408bcc58b2afbce671b2e68a07e90d7d9 doesn\u0027t work.",
+      "revId": "269331985e90badffeda25378ddf324af93e0e87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
