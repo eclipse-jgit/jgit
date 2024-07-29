@@ -48,12 +48,18 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -173,6 +179,51 @@ public class DfsBlockCacheConfigTest {
 				is(indexConfig));
 		assertThat(getConfigForExt(configs, PackExt.REVERSE_INDEX),
 				is(indexConfig));
+	}
+
+	@Test
+	public void writeConfigurationDebug_writesConfigsToWriter()
+			throws Exception {
+		Config config = new Config();
+		config.setLong(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_BLOCK_LIMIT, 50 * 1024);
+		config.setInt(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_BLOCK_SIZE, 1024);
+		config.setInt(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_CONCURRENCY_LEVEL, 3);
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_STREAM_RATIO, "0.5");
+		addPackExtConfigEntry(config, "pack", List.of(PackExt.PACK),
+				/* blockLimit= */ 20 * 512, /* blockSize= */ 512);
+
+		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig()
+				.fromConfig(config);
+		Map<PackExt, Integer> hotmap = Map.of(PackExt.PACK, 10);
+		cacheConfig.setCacheHotMap(hotmap);
+
+		String pad = "  ";
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		cacheConfig.writeConfigurationDebug("", pad, new PrintWriter(
+				byteArrayOutputStream, true, StandardCharsets.UTF_8));
+
+		String writenConfig = byteArrayOutputStream
+				.toString(StandardCharsets.UTF_8);
+
+		assertThat(writenConfig, containsString("BlockLimit: " + (50 * 1024)));
+		assertThat(writenConfig, containsString("BlockSize: 1024"));
+		assertThat(writenConfig, containsString("StreamRatio: 0.5"));
+		assertThat(writenConfig, containsString("CacheHotMapEntry: "));
+		assertThat(writenConfig, containsString("ConcurrencyLevel"));
+		for (Map.Entry<PackExt, Integer> hotmapEntry : hotmap.entrySet()) {
+			assertThat(writenConfig,
+					containsString("CacheHotMapEntry: " + hotmapEntry));
+		}
+		assertThat(writenConfig,
+				containsString(pad + "PackExts: " + Set.of(PackExt.PACK)));
+		assertThat(writenConfig, containsString(pad + "Label: pack"));
+		assertThat(writenConfig,
+				containsString(pad + "BlockLimit: " + 20 * 512));
+		assertThat(writenConfig, containsString("BlockSize: 512"));
 	}
 
 	@Test
