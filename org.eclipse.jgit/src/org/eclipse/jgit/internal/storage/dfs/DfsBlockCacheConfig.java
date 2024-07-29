@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import org.eclipse.jgit.lib.Config;
  * Configuration parameters for
  * {@link org.eclipse.jgit.internal.storage.dfs.DfsBlockCache}.
  */
-public class DfsBlockCacheConfig {
+public class DfsBlockCacheConfig implements DebugConfigurationWriter {
 	/** 1024 (number of bytes in one kibibyte/kilobyte) */
 	public static final int KB = 1024;
 
@@ -78,6 +79,32 @@ public class DfsBlockCacheConfig {
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
 		packExtCacheConfigurations = Collections.emptyList();
+	}
+
+	@Override
+	public void writeConfigurationDebug(String linePrefix, String pad,
+			PrintWriter writer) {
+		String currentPrefixLevel = linePrefix;
+		if (!label.isEmpty() || !packExtCacheConfigurations.isEmpty()) {
+			String label = this.label;
+			if (label.isEmpty()) {
+				label = "<Default>";
+			}
+			writer.println(linePrefix + "Label: " + label);
+			currentPrefixLevel += pad;
+		}
+		writer.println(currentPrefixLevel + "BlockLimit: " + blockLimit);
+		writer.println(currentPrefixLevel + "BlockSize: " + blockSize);
+		writer.println(currentPrefixLevel + "StreamRatio: " + streamRatio);
+		writer.println(
+				currentPrefixLevel + "ConcurrencyLevel: " + concurrencyLevel);
+		for (Map.Entry<PackExt, Integer> entry : cacheHotMap.entrySet()) {
+			writer.println(currentPrefixLevel + "CacheHotMapEntry: "
+					+ entry.getKey() + " : " + entry.getValue());
+		}
+		for (DfsBlockCachePackExtConfig extConfig : packExtCacheConfigurations) {
+			extConfig.writeConfigurationDebug(currentPrefixLevel, pad, writer);
+		}
 	}
 
 	/**
@@ -526,6 +553,14 @@ public class DfsBlockCacheConfig {
 			dfsBlockCacheConfig.fromConfig(label, section, subSection, config);
 			return new DfsBlockCachePackExtConfig(EnumSet.copyOf(packExts),
 					dfsBlockCacheConfig);
+		}
+
+		void writeConfigurationDebug(String linePrefix, String pad,
+				PrintWriter writer) {
+			packExtCacheConfiguration.writeConfigurationDebug(linePrefix, pad,
+					writer);
+			writer.println(linePrefix + pad + "PackExts: "
+					+ packExts.stream().sorted().toList());
 		}
 	}
 }
