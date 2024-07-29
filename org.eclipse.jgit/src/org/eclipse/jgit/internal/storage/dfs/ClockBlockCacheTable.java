@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +138,20 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 		this.dfsBlockCacheStats = new DfsBlockCacheStats(label);
 		this.refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 		this.indexEventConsumer = cfg.getIndexEventConsumer();
+	}
+
+	@Override
+	public void writeConfigurationDebug(String linePrefix, String pad,
+			PrintWriter writer) {
+		writer.println(linePrefix + ClockBlockCacheTable.class.getSimpleName());
+		String currentPrefixLevel = linePrefix + pad;
+		writer.println(
+				currentPrefixLevel + "Label: " + dfsBlockCacheStats.getLabel());
+		writer.println(currentPrefixLevel + "TableSize: " + tableSize);
+		writer.println(
+				currentPrefixLevel + "ConcurrencyLevel: " + loadLocks.length);
+		writer.println(currentPrefixLevel + "MaxBytes: " + maxBytes);
+		writer.println(currentPrefixLevel + "BlockSize: " + blockSize);
 	}
 
 	@Override
