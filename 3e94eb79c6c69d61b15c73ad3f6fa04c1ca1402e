@@ -46,6 +46,30 @@
       },
       "revId": "3e94eb79c6c69d61b15c73ad3f6fa04c1ca1402e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95cdf4cf_59f91379",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-30T15:15:35Z",
+      "side": 1,
+      "message": "With the new interfaces, it is easy to wrap this class for that purpose.\n\nDeclaring it final.",
+      "parentUuid": "34c56070_89880bc5",
+      "range": {
+        "startLine": 1437,
+        "startChar": 1,
+        "endLine": 1437,
+        "endChar": 20
+      },
+      "revId": "3e94eb79c6c69d61b15c73ad3f6fa04c1ca1402e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
