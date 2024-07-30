@@ -11,7 +11,9 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +38,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * Separating these tables enables the fine-tuning of cache tables per extension
  * type.
  */
-class PackExtBlockCacheTable implements DfsBlockCacheTable {
+class PackExtBlockCacheTable
+		implements DfsBlockCacheTable, DebugConfigurationWriter {
 	/**
 	 * Table name.
 	 */
@@ -310,5 +313,45 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 			}
 			return sums;
 		}
+	}
+
+	@Override
+	public DebugConfigurationWriter getDebugConfigurationWriter() {
+		return this;
+	}
+
+	@Override
+	public void writeConfigurationDebug(String linePrefix, String pad,
+			PrintWriter writer) {
+		writer.println(
+				linePrefix + PackExtBlockCacheTable.class.getSimpleName());
+		String currentPrefixLevel = linePrefix + pad;
+		writer.println(currentPrefixLevel + "DefaultTable");
+		defaultBlockCacheTable.getDebugConfigurationWriter()
+				.writeConfigurationDebug(currentPrefixLevel + pad, pad, writer);
+
+		var tableToPackExts = mapTableToPackExts(extBlockCacheTables);
+		int i = 0;
+		for (var entry : tableToPackExts.entrySet()) {
+			writer.println(currentPrefixLevel + "Table" + i);
+			writer.println(
+					currentPrefixLevel + pad + "PackExts: " + entry.getValue());
+			entry.getKey().getDebugConfigurationWriter()
+					.writeConfigurationDebug(currentPrefixLevel + pad, pad,
+							writer);
+			i++;
+		}
+	}
+
+	private static Map<DfsBlockCacheTable, List<PackExt>> mapTableToPackExts(
+			Map<PackExt, DfsBlockCacheTable> cacheTables) {
+		Map<DfsBlockCacheTable, List<PackExt>> tableToPackExts = new HashMap<>();
+		for (var entry : cacheTables.entrySet()) {
+			if (!tableToPackExts.containsKey(entry.getValue())) {
+				tableToPackExts.put(entry.getValue(), new ArrayList<>());
+			}
+			tableToPackExts.get(entry.getValue()).add(entry.getKey());
+		}
+		return tableToPackExts;
 	}
 }
