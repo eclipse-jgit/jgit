@@ -138,6 +138,14 @@ public interface DfsBlockCacheTable {
 	BlockCacheStats getBlockCacheStats();
 
 	/**
+	 * Get the {@link DebugConfigurationWriter} for this cache.
+	 *
+	 * @return the {@link DebugConfigurationWriter} used to write out the cache
+	 *         table configuration.
+	 */
+	DebugConfigurationWriter getDebugConfigurationWriter();
+
+	/**
 	 * Provides methods used with Block Cache statistics.
 	 */
 	interface BlockCacheStats {
