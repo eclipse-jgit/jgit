@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,10 +21,16 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +64,63 @@ public class PackExtBlockCacheTableTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> PackExtBlockCacheTable
 						.fromBlockCacheConfigs(cacheConfig));
+	}
+
+	@Test
+	public void getDebugConfigurationWriter() {
+		PackExtBlockCacheTable cacheTable = PackExtBlockCacheTable
+				.fromCacheTables(mock(DfsBlockCacheTable.class), Map.of());
+
+		assertThat(cacheTable.getDebugConfigurationWriter(), is(cacheTable));
+	}
+
+	@Test
+	public void writeConfigurationDebug() {
+		DfsBlockCacheTable defaultBlockCacheTable = mock(
+				DfsBlockCacheTable.class);
+		DebugConfigurationWriter defaultTableDebugConfigurationWriter = mock(
+				DebugConfigurationWriter.class);
+		doAnswer(invocation -> {
+			String prefix = invocation.getArgument(0);
+			PrintWriter printWriter = invocation.getArgument(2);
+			printWriter.println(prefix + "DefaultConfigWriter");
+			return null;
+		}).when(defaultTableDebugConfigurationWriter)
+				.writeConfigurationDebug(anyString(), anyString(), any());
+		when(defaultBlockCacheTable.getDebugConfigurationWriter())
+				.thenReturn(defaultTableDebugConfigurationWriter);
+
+		DfsBlockCacheTable bitmapIndexCacheTable = mock(
+				DfsBlockCacheTable.class);
+		DebugConfigurationWriter bitmapTableDebugConfigurationWriter = mock(
+				DebugConfigurationWriter.class);
+		doAnswer(invocation -> {
+			String prefix = invocation.getArgument(0);
+			PrintWriter printWriter = invocation.getArgument(2);
+			printWriter.println(prefix + "BitmapConfigWriter");
+			return null;
+		}).when(bitmapTableDebugConfigurationWriter)
+				.writeConfigurationDebug(anyString(), anyString(), any());
+		when(bitmapIndexCacheTable.getDebugConfigurationWriter())
+				.thenReturn(bitmapTableDebugConfigurationWriter);
+
+		PackExtBlockCacheTable tables = PackExtBlockCacheTable.fromCacheTables(
+				defaultBlockCacheTable,
+				Map.of(PackExt.BITMAP_INDEX, bitmapIndexCacheTable));
+
+		String pad = "  ";
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		tables.writeConfigurationDebug("", pad, new PrintWriter(
+				byteArrayOutputStream, true, StandardCharsets.UTF_8));
+		String writenConfig = byteArrayOutputStream
+				.toString(StandardCharsets.UTF_8);
+
+		List<String> writenLines = Arrays.asList(writenConfig.split("\n"));
+		assertThat(writenLines,
+				equalTo(List.of("PackExtBlockCacheTable", "  DefaultTable",
+						"    DefaultConfigWriter", "  Table0",
+						"    PackExts: " + List.of(PackExt.BITMAP_INDEX),
+						"    BitmapConfigWriter")));
 	}
 
 	@Test
