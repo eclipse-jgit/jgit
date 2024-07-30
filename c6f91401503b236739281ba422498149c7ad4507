@@ -259,6 +259,24 @@
       "parentUuid": "6a3c468c_e39267ca",
       "revId": "c6f91401503b236739281ba422498149c7ad4507",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42dbb9a5_93ea42b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-07-30T15:14:26Z",
+      "side": 1,
+      "message": "Ok, after some offline conversations, we clarified that this interface is about loading indexes that can be in different backends, and not all in the same backend.\n\nSo we define an interface per index (aprox) and put them together in one \"super index\". Implementations of that superindex decide the combination of storages to use.",
+      "parentUuid": "bd1412ad_810f1a7b",
+      "revId": "c6f91401503b236739281ba422498149c7ad4507",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
