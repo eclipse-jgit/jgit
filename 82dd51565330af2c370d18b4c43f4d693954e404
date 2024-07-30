@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a42861da_a15b55ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-07-30T17:19:29Z",
+      "side": 1,
+      "message": "`PackIndexes`? Indexes seems too generic for this being about `PackIndex` and `PackReverseIndex`.\n\nI\u0027m going off the assumption that a new interface will be created per index type like the upcoming change for bitmap index.\nIf that\u0027s the case then the comment also applies to `CachedStreamIndexes` below",
+      "range": {
+        "startLine": 125,
+        "startChar": 12,
+        "endLine": 125,
+        "endChar": 19
+      },
+      "revId": "82dd51565330af2c370d18b4c43f4d693954e404",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
