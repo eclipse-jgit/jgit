@@ -12,6 +12,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.LongStream;
 
@@ -36,7 +37,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * callers. It is more efficient to avoid the allocation, as we can't be 100%
  * sure that a JIT would be able to stack-allocate a key tuple.
  */
-public final class DfsBlockCache {
+public final class DfsBlockCache implements DebugConfigurationWriter {
 	private static volatile DfsBlockCache cache;
 
 	static {
@@ -199,6 +200,13 @@ public final class DfsBlockCache {
 	 */
 	public boolean hasBlock0(DfsStreamKey key) {
 		return dfsBlockCacheTable.hasBlock0(key);
+	}
+
+	@Override
+	public void writeConfigurationDebug(String linePrefix, String pad,
+			PrintWriter writer) {
+		dfsBlockCacheTable.getDebugConfigurationWriter()
+				.writeConfigurationDebug(linePrefix, pad, writer);
 	}
 
 	int getBlockSize() {
