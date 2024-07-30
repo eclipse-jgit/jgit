@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * size at cache creation time. The internal lock table used to gate load
  * invocations is also fixed in size.
  */
-final class ClockBlockCacheTable implements DfsBlockCacheTable {
+final class ClockBlockCacheTable
+		implements DfsBlockCacheTable, DebugConfigurationWriter {
 	/**
 	 * Table name.
 	 */
@@ -139,6 +141,25 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 		this.dfsBlockCacheStats = new DfsBlockCacheStats(this.name);
 		this.refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 		this.indexEventConsumer = cfg.getIndexEventConsumer();
+	}
+
+	@Override
+	public DebugConfigurationWriter getDebugConfigurationWriter() {
+		return this;
+	}
+
+	@Override
+	public void writeConfigurationDebug(String linePrefix, String pad,
+			PrintWriter writer) {
+		writer.println(linePrefix + ClockBlockCacheTable.class.getSimpleName());
+		String currentPrefixLevel = linePrefix + pad;
+		writer.println(
+				currentPrefixLevel + "Name: " + dfsBlockCacheStats.getName());
+		writer.println(currentPrefixLevel + "TableSize: " + tableSize);
+		writer.println(
+				currentPrefixLevel + "ConcurrencyLevel: " + loadLocks.length);
+		writer.println(currentPrefixLevel + "MaxBytes: " + maxBytes);
+		writer.println(currentPrefixLevel + "BlockSize: " + blockSize);
 	}
 
 	@Override

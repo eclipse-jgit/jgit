@@ -11,7 +11,9 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +38,8 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * Separating these tables enables the fine-tuning of cache tables per extension
  * type.
  */
-class PackExtBlockCacheTable implements DfsBlockCacheTable {
+class PackExtBlockCacheTable
+		implements DfsBlockCacheTable, DebugConfigurationWriter {
 	/**
 	 * Table name.
 	 */
@@ -211,5 +214,143 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	private static PackExt getPackExt(DfsStreamKey key) {
 		return PackExt.values()[key.packExtPos];
+	}
+
+	private static class CacheStats implements BlockCacheStats {
+		private final String name;
+
+		private final List<BlockCacheStats> blockCacheStats;
+
+		private CacheStats(String name, List<BlockCacheStats> blockCacheStats) {
+			this.name = name;
+			this.blockCacheStats = blockCacheStats;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public long[] getCurrentSize() {
+			long[] sums = emptyPackStats();
+			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
+				sums = add(sums, blockCacheStatsEntry.getCurrentSize());
+			}
+			return sums;
+		}
+
+		@Override
+		public long[] getHitCount() {
+			long[] sums = emptyPackStats();
+			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
+				sums = add(sums, blockCacheStatsEntry.getHitCount());
+			}
+			return sums;
+		}
+
+		@Override
+		public long[] getMissCount() {
+			long[] sums = emptyPackStats();
+			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
+				sums = add(sums, blockCacheStatsEntry.getMissCount());
+			}
+			return sums;
+		}
+
+		@Override
+		public long[] getTotalRequestCount() {
+			long[] sums = emptyPackStats();
+			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
+				sums = add(sums, blockCacheStatsEntry.getTotalRequestCount());
+			}
+			return sums;
+		}
+
+		@Override
+		public long[] getHitRatio() {
+			long[] hit = getHitCount();
+			long[] miss = getMissCount();
+			long[] ratio = new long[Math.max(hit.length, miss.length)];
+			for (int i = 0; i < ratio.length; i++) {
+				if (i >= hit.length) {
+					ratio[i] = 0;
+				} else if (i >= miss.length) {
+					ratio[i] = 100;
+				} else {
+					long total = hit[i] + miss[i];
+					ratio[i] = total == 0 ? 0 : hit[i] * 100 / total;
+				}
+			}
+			return ratio;
+		}
+
+		@Override
+		public long[] getEvictions() {
+			long[] sums = emptyPackStats();
+			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
+				sums = add(sums, blockCacheStatsEntry.getEvictions());
+			}
+			return sums;
+		}
+
+		private static long[] emptyPackStats() {
+			return new long[PackExt.values().length];
+		}
+
+		private static long[] add(long[] first, long[] second) {
+			long[] sums = new long[Integer.max(first.length, second.length)];
+			int i;
+			for (i = 0; i < Integer.min(first.length, second.length); i++) {
+				sums[i] = first[i] + second[i];
+			}
+			for (int j = i; j < first.length; j++) {
+				sums[j] = first[i];
+			}
+			for (int j = i; j < second.length; j++) {
+				sums[j] = second[i];
+			}
+			return sums;
+		}
+	}
+
+	@Override
+	public DebugConfigurationWriter getDebugConfigurationWriter() {
+		return this;
+	}
+
+	@Override
+	public void writeConfigurationDebug(String linePrefix, String pad,
+			PrintWriter writer) {
+		writer.println(
+				linePrefix + PackExtBlockCacheTable.class.getSimpleName());
+		String currentPrefixLevel = linePrefix + pad;
+		writer.println(currentPrefixLevel + "DefaultTable");
+		defaultBlockCacheTable.getDebugConfigurationWriter()
+				.writeConfigurationDebug(currentPrefixLevel + pad, pad, writer);
+
+		var tableToPackExts = mapTableToPackExts(extBlockCacheTables);
+		int i = 0;
+		for (var entry : tableToPackExts.entrySet()) {
+			writer.println(currentPrefixLevel + "Table" + i);
+			writer.println(
+					currentPrefixLevel + pad + "PackExts: " + entry.getValue());
+			entry.getKey().getDebugConfigurationWriter()
+					.writeConfigurationDebug(currentPrefixLevel + pad, pad,
+							writer);
+			i++;
+		}
+	}
+
+	private static Map<DfsBlockCacheTable, List<PackExt>> mapTableToPackExts(
+			Map<PackExt, DfsBlockCacheTable> cacheTables) {
+		Map<DfsBlockCacheTable, List<PackExt>> tableToPackExts = new HashMap<>();
+		for (var entry : cacheTables.entrySet()) {
+			if (!tableToPackExts.containsKey(entry.getValue())) {
+				tableToPackExts.put(entry.getValue(), new ArrayList<>());
+			}
+			tableToPackExts.get(entry.getValue()).add(entry.getKey());
+		}
+		return tableToPackExts;
 	}
 }
