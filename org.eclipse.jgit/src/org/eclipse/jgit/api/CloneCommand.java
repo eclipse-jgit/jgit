@@ -67,6 +67,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private boolean bare;
 
+	private boolean relativePaths;
+
 	private FS fs;
 
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
@@ -264,6 +266,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	private Repository init() throws GitAPIException {
 		InitCommand command = Git.init();
 		command.setBare(bare);
+		command.setRelativeDirs(relativePaths);
 		if (fs != null) {
 			command.setFs(fs);
 		}
@@ -551,6 +554,20 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	public CloneCommand setBare(boolean bare) throws IllegalStateException {
 		validateDirs(directory, gitDir, bare);
 		this.bare = bare;
+		return this;
+	}
+
+	/**
+	 * Set whether the cloned repository shall use relative paths for GIT_DIR
+	 * and GIT_WORK_TREE
+	 *
+	 * @param relativePaths
+	 *            if true, use relative paths for GIT_DIR and GIT_WORK_TREE
+	 * @return this instance
+	 * @since 7.1
+	 */
+	public CloneCommand setRelativePaths(boolean relativePaths) {
+		this.relativePaths = relativePaths;
 		return this;
 	}
 

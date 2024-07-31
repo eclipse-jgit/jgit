@@ -215,6 +215,18 @@ public class FileRepository extends Repository {
 		}
 	}
 
+	private String getRelativeDir(File base, File other) {
+		File relPath;
+		 try {
+			    relPath = base.toPath().relativize(other.toPath()).toFile();
+			  } catch (IllegalArgumentException e) {
+					// other is not a path or cannot be made relative to base
+				relPath = other;
+			}
+		return FileUtils.pathToString(relPath);
+	}
+
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -223,6 +235,23 @@ public class FileRepository extends Repository {
 	 */
 	@Override
 	public void create(boolean bare) throws IOException {
+		create(bare, false);
+
+	}
+
+	/**
+	 * Create a new Git repository initializing the necessary files and
+	 * directories.
+	 *
+	 * @param bare
+	 *            if true, a bare repository (a repository without a working
+	 *            directory) is created.
+	 * @param relativePaths
+	 *            if true, relative paths are used for GIT_DIR and GIT_WORK_TREE
+	 * @throws IOException
+	 *             in case of IO problem
+	 */
+	public void create(boolean bare, boolean relativePaths) throws IOException {
 		final FileBasedConfig cfg = getConfig();
 		if (cfg.getFile().exists()) {
 			throw new IllegalStateException(MessageFormat.format(
@@ -293,15 +322,30 @@ public class FileRepository extends Repository {
 		if (!bare) {
 			File workTree = getWorkTree();
 			if (!getDirectory().getParentFile().equals(workTree)) {
+				String workTreePath;
+				String gitDirPath;
+				if (relativePaths) {
+					workTreePath = getWorkTree().getCanonicalPath();
+					gitDirPath = getDirectory().getCanonicalPath();
+					workTreePath = getRelativeDir(
+							getDirectory().getAbsoluteFile(),
+							getWorkTree().getAbsoluteFile());
+					gitDirPath = getRelativeDir(
+							getWorkTree().getAbsoluteFile(),
+							getDirectory().getAbsoluteFile());
+				}
+				else {
+					workTreePath = getWorkTree().getAbsolutePath();
+					gitDirPath = getDirectory().getAbsolutePath();
+				}
 				cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
-								.getAbsolutePath());
+						ConfigConstants.CONFIG_KEY_WORKTREE, workTreePath);
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
 						Constants.DOT_GIT));
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
-								+ getDirectory().getAbsolutePath()));
+								+ gitDirPath));
 						dotGitLockFile.commit();
 					}
 				} finally {
@@ -825,4 +869,5 @@ public class FileRepository extends Repository {
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
 	}
+
 }
