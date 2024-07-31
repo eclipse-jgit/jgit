@@ -273,6 +273,20 @@ public final class Constants {
 	public static final String INFO_REFS = "info/refs";
 
 	/**
+	 * Name of heads folder or file in refs.
+	 *
+	 * @since 7.0
+	 */
+	public static final String HEADS = "heads";
+
+	/**
+	 * Prefix for any log.
+	 *
+	 * @since 7.0
+	 */
+	public static final String L_LOGS = LOGS + "/";
+
+	/**
 	 * Info alternates file (goes under OBJECTS)
 	 * @since 5.5
 	 */
@@ -356,6 +370,14 @@ public final class Constants {
 	 * directory
 	 */
 	public static final String GIT_DIR_KEY = "GIT_DIR";
+
+	/**
+	 * The environment variable that tells us which directory is the common
+	 * ".git" directory.
+	 *
+	 * @since 7.0
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
 
 	/**
 	 * The environment variable that tells us which directory is the working
@@ -457,6 +479,36 @@ public final class Constants {
 	 * @since 3.6
 	 */
 	public static final String GITDIR = "gitdir: ";
+
+	/**
+	 * Name of the file (inside gitDir) that references the worktree's .git
+	 * file (opposite link).
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/gitdir
+	 *
+	 * A text file containing the absolute path back to the .git file that
+	 * points here. This file is used to verify if the linked repository has been
+	 * manually removed in which case this directory is no longer needed.
+	 * The modification time (mtime) of this file should be updated each time
+	 * the linked repository is accessed.
+	 *
+	 * @since 7.0
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to $GIT_COMMON_DIR.
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/commondir
+	 *
+	 * If this file exists, $GIT_COMMON_DIR will be set to the path specified in
+	 * this file unless it is explicitly set. If the specified path is relative,
+	 * it is relative to $GIT_DIR. The repository with commondir is incomplete
+	 * without the repository pointed by "commondir".
+	 *
+	 * @since 7.0
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
 
 	/**
 	 * Name of the folder (inside gitDir) where submodules are stored

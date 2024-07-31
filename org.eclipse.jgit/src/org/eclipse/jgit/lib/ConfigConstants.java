@@ -77,6 +77,9 @@ public final class ConfigConstants {
 	/** The "dfs" section */
 	public static final String CONFIG_DFS_SECTION = "dfs";
 
+	/** The dfs cache subsection prefix */
+	public static final String CONFIG_DFS_CACHE_PREFIX = "dfs.";
+
 	/**
 	 * The "receive" section
 	 * @since 4.6
@@ -330,6 +333,13 @@ public final class ConfigConstants {
 
 	/** The "deltaBaseCacheLimit" key */
 	public static final String CONFIG_KEY_DELTA_BASE_CACHE_LIMIT = "deltaBaseCacheLimit";
+
+	/**
+	 * The "packExtensions" key
+	 *
+	 * @since 7.0
+	 **/
+	public static final String CONFIG_KEY_PACK_EXTENSIONS = "packExtensions";
 
 	/**
 	 * The "symlinks" key
@@ -1012,4 +1022,11 @@ public final class ConfigConstants {
 	 * @since 6.7
 	 */
 	public static final String CONFIG_KEY_READ_CHANGED_PATHS = "readChangedPaths";
+
+	/**
+	 * The "useObjectSizeIndex" key
+	 *
+	 * @since 7.0
+	 */
+	public static final String CONFIG_KEY_USE_OBJECT_SIZE_INDEX = "useObjectSizeIndex";
 }

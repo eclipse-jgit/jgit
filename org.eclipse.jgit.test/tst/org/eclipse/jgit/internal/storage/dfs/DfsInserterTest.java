@@ -295,6 +295,7 @@ public class DfsInserterTest {
 	public void testObjectSizeIndexOnInsert() throws IOException {
 		db.getConfig().setInt(CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, 0);
+		db.getObjectDatabase().getReaderOptions().setUseObjectSizeIndex(true);
 
 		byte[] contents = Constants.encode("foo");
 		ObjectId fooId;

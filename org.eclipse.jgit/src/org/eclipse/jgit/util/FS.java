@@ -2042,6 +2042,8 @@ public abstract class FS {
 		environment.put(Constants.GIT_DIR_KEY,
 				repository.getDirectory().getAbsolutePath());
 		if (!repository.isBare()) {
+			environment.put(Constants.GIT_COMMON_DIR_KEY,
+					repository.getCommonDirectory().getAbsolutePath());
 			environment.put(Constants.GIT_WORK_TREE_KEY,
 					repository.getWorkTree().getAbsolutePath());
 		}
@@ -2137,7 +2139,7 @@ public abstract class FS {
 		case "post-receive": //$NON-NLS-1$
 		case "post-update": //$NON-NLS-1$
 		case "push-to-checkout": //$NON-NLS-1$
-			return repository.getDirectory();
+			return repository.getCommonDirectory();
 		default:
 			return repository.getWorkTree();
 		}
@@ -2150,7 +2152,7 @@ public abstract class FS {
 		if (hooksDir != null) {
 			return new File(hooksDir);
 		}
-		File dir = repository.getDirectory();
+		File dir = repository.getCommonDirectory();
 		return dir == null ? null : new File(dir, Constants.HOOKS);
 	}
 
@@ -2575,6 +2577,33 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	/**
+	 * Get common dir path.
+	 *
+	 * @param dir
+	 *            the .git folder
+	 * @return common dir path
+	 * @throws IOException
+	 *             if commondir file can't be read
+	 *
+	 * @since 7.0
+	 */
+	public File getCommonDir(File dir) throws IOException {
+		// first the GIT_COMMON_DIR is same as GIT_DIR
+		File commonDir = dir;
+		// now check if commondir file exists (e.g. worktree repository)
+		File commonDirFile = new File(dir, Constants.COMMONDIR_FILE);
+		if (commonDirFile.isFile()) {
+			String commonDirPath = new String(IO.readFully(commonDirFile))
+					.trim();
+			commonDir = new File(commonDirPath);
+			if (!commonDir.isAbsolute()) {
+				commonDir = new File(dir, commonDirPath).getCanonicalFile();
+			}
+		}
+		return commonDir;
 	}
 
 	/**
