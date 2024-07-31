@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.submodule.SubmoduleClone;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -176,13 +177,14 @@ public class SubmoduleAddCommand extends
 		CloneCommand clone = Git.cloneRepository();
 		configure(clone);
 		clone.setDirectory(moduleDirectory);
-		clone.setGitDir(new File(new File(repo.getCommonDirectory(),
-				Constants.MODULES), path));
+		File gitDir = new File(new File(repo.getCommonDirectory(),
+				Constants.MODULES), path);
+		clone.setGitDir(gitDir);
 		clone.setURI(resolvedUri);
 		if (monitor != null)
 			clone.setProgressMonitor(monitor);
 		Repository subRepo = null;
-		try (Git git = clone.call()) {
+		try (Git git = SubmoduleClone.clone(clone, moduleDirectory, gitDir)) {
 			subRepo = git.getRepository();
 			subRepo.incrementOpen();
 		}

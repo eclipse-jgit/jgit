@@ -37,6 +37,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.submodule.SubmoduleClone;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
@@ -123,17 +124,21 @@ public class SubmoduleUpdateCommand extends
 			if (callback != null) {
 				callback.cloningSubmodule(generator.getPath());
 			}
-			CloneCommand clone = Git.cloneRepository();
+			CloneCommand clone =  Git.cloneRepository();
 			configure(clone);
 			clone.setURI(url);
 			clone.setDirectory(generator.getDirectory());
-			clone.setGitDir(
-					new File(new File(repo.getCommonDirectory(), Constants.MODULES),
-							generator.getPath()));
+			File gitDir = new File(
+					new File(repo.getCommonDirectory(), Constants.MODULES),
+					generator.getPath());
+			clone.setGitDir(gitDir);
 			if (monitor != null) {
 				clone.setProgressMonitor(monitor);
 			}
-			repository = clone.call().getRepository();
+
+			repository = SubmoduleClone
+					.clone(clone, generator.getDirectory(), gitDir)
+					.getRepository();
 		} else if (this.fetch) {
 			if (fetchCallback != null) {
 				fetchCallback.fetchingSubmodule(generator.getPath());
