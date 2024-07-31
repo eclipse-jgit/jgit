@@ -176,8 +176,9 @@ public class SubmoduleAddCommand extends
 		CloneCommand clone = Git.cloneRepository();
 		configure(clone);
 		clone.setDirectory(moduleDirectory);
-		clone.setGitDir(new File(new File(repo.getCommonDirectory(),
-				Constants.MODULES), path));
+		clone.setGitDir(new File(
+				new File(repo.getCommonDirectory(), Constants.MODULES), path));
+		clone.setRelativePaths(true);
 		clone.setURI(resolvedUri);
 		if (monitor != null)
 			clone.setProgressMonitor(monitor);
