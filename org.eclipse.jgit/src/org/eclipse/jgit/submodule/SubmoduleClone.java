@@ -30,6 +30,9 @@ import org.eclipse.jgit.util.FileUtils;
  * <li>a relative path is used for the worktree configuration entry (like
  * cgit)</li>
  * <li>a relative path is used for the GIT_DIR attribute (like cgit)</li>
+ * <li>if the submodule is present in the GIT_DIR but has it's .git file
+ * deleted, recreate the .git file instead of doing a full clone (like
+ * cgit)</li>
  * </ul>
  *
  * @since 7.0
@@ -69,9 +72,24 @@ public class SubmoduleClone {
 		}
 	}
 
+	private static boolean checkSubmoduleExists(File gitDir) {
+		if (gitDir != null && gitDir.exists()) {
+			File[] files = gitDir.listFiles();
+			return files != null && files.length != 0;
+		}
+		return false;
+	}
+
+	private static void restoreSubmodule(File gitDir, File repoDir)
+			throws IOException {
+		updateDotGitFile(gitDir.getAbsolutePath(), repoDir);
+	}
+
 	/**
-	 * Use {@code cloneCmd} to either clone the submodule and replace the
-	 * absolute worktree and gitdir paths with relative ones.
+	 * Use {@code cloneCmd} to either clone the submodule or if it still exists
+	 * in {@code gitDir} only create a .git file in {@code worktreeDir} linking
+	 * to {@code gitDir}.<br>
+	 * Replace the absolute worktree and gitdir paths with relative ones.
 	 * <p>
 	 * The Git instance returned by this command needs to be closed by the
 	 * caller to free resources held by the underlying {@link Repository}
@@ -90,9 +108,22 @@ public class SubmoduleClone {
 	 *             if unable to clone the repository
 	 */
 	public static Git clone(CloneCommand cloneCmd, File worktreeDir,
-			File gitDir) throws GitAPIException {
-		Git git = cloneCmd.call();
+			File gitDir)
+			throws GitAPIException {
+		if (false == checkSubmoduleExists(gitDir)) {
+			@SuppressWarnings("resource")
+			Git git = cloneCmd.call();
+			git.close();
+		} else {
+			try {
+				restoreSubmodule(gitDir, worktreeDir);
+			} catch (IOException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			}
+		}
+		Git git;
 		try {
+			git = Git.open(worktreeDir);
 			Repository repo = git.getRepository();
 			if (repo != null) {
 				String relGitDir = getRelativeGitDir(gitDir, worktreeDir);
