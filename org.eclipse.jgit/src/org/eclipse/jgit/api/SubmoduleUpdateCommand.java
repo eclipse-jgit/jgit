@@ -123,13 +123,14 @@ public class SubmoduleUpdateCommand extends
 			if (callback != null) {
 				callback.cloningSubmodule(generator.getPath());
 			}
-			CloneCommand clone = Git.cloneRepository();
+			CloneCommand clone =  Git.cloneRepository();
 			configure(clone);
 			clone.setURI(url);
 			clone.setDirectory(generator.getDirectory());
-			clone.setGitDir(
-					new File(new File(repo.getCommonDirectory(), Constants.MODULES),
-							generator.getPath()));
+			clone.setGitDir(new File(
+					new File(repo.getCommonDirectory(), Constants.MODULES),
+					generator.getPath()));
+			clone.setRelativePaths(true);
 			if (monitor != null) {
 				clone.setProgressMonitor(monitor);
 			}
