@@ -2,7 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2006-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006-2024, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -215,6 +215,16 @@ public class FileRepository extends Repository {
 		}
 	}
 
+	private String getRelativeDir(File base, File other) {
+		File relPath;
+		try {
+			relPath = base.toPath().relativize(other.toPath()).toFile();
+		} catch (IllegalArgumentException e) {
+			relPath = other;
+		}
+		return FileUtils.pathToString(relPath);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -223,6 +233,22 @@ public class FileRepository extends Repository {
 	 */
 	@Override
 	public void create(boolean bare) throws IOException {
+		create(bare, false);
+	}
+
+	/**
+	 * Create a new Git repository initializing the necessary files and
+	 * directories.
+	 *
+	 * @param bare
+	 *            if true, a bare repository (a repository without a working
+	 *            directory) is created.
+	 * @param relativePaths
+	 *            if true, relative paths are used for GIT_DIR and GIT_WORK_TREE
+	 * @throws IOException
+	 *             in case of IO problem
+	 */
+	public void create(boolean bare, boolean relativePaths) throws IOException {
 		final FileBasedConfig cfg = getConfig();
 		if (cfg.getFile().exists()) {
 			throw new IllegalStateException(MessageFormat.format(
@@ -293,15 +319,25 @@ public class FileRepository extends Repository {
 		if (!bare) {
 			File workTree = getWorkTree();
 			if (!getDirectory().getParentFile().equals(workTree)) {
+				String workTreePath;
+				String gitDirPath;
+				if (relativePaths) {
+					File canonGitDir = getDirectory().getCanonicalFile();
+					File canonWorkTree = getWorkTree().getCanonicalFile();
+					workTreePath = getRelativeDir(canonGitDir, canonWorkTree);
+					gitDirPath = getRelativeDir(canonWorkTree, canonGitDir);
+				} else {
+					workTreePath = getWorkTree().getAbsolutePath();
+					gitDirPath = getDirectory().getAbsolutePath();
+				}
 				cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
-								.getAbsolutePath());
+						ConfigConstants.CONFIG_KEY_WORKTREE, workTreePath);
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
 						Constants.DOT_GIT));
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
-								+ getDirectory().getAbsolutePath()));
+								+ gitDirPath));
 						dotGitLockFile.commit();
 					}
 				} finally {
