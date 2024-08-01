@@ -16,6 +16,23 @@
       "message": "The label should be a property of the table (that takes it from the conf). Then the stats receive the label from their table (concat if multiple).\n\nThe default name can be just the section (that would work also for plain \"dfs\" and would never be empty).\n\nFWIW, I would do this before enabling the support for confs. Otherwise we don\u0027t know what we are enabling and if something goes wrong there is no debug information.",
       "revId": "b68892b915e2e103380f3ceae2d391fc517983f6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9864a89b_7f9ef20e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-08-01T11:56:12Z",
+      "side": 1,
+      "message": "Cover the case of the basic \"dfs\" section",
+      "revId": "b68892b915e2e103380f3ceae2d391fc517983f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
