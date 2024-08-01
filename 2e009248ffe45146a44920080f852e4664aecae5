@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6930b5ed_cedd9ceb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-08-01T10:48:56Z",
+      "side": 1,
+      "message": "Name? Labels is just a string tag and usually you can have many of them. This is a unique identifier of the table.",
+      "range": {
+        "startLine": 52,
+        "startChar": 16,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84a8512f_d6d3d9f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-08-01T10:48:56Z",
+      "side": 1,
+      "message": "Probably \"\u003ccode\u003e\" or \"\u003cdefault\u003e\"? so when using it to print confs, we know this is the very basic vanilla conf.",
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f27c3718_bdefef03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-08-01T10:48:56Z",
+      "side": 1,
+      "message": "This can take it from the subSection and there is no need for the extra param?\n\nIt would also make clearer where the label comes from.",
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10a68900_1bf66fba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-08-01T10:48:56Z",
+      "side": 1,
+      "message": "Also, maybe we can skip even the splitting, \"dfs.x\" is as good as \"x\" and handles well the basic case \"dfs\".",
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193a40d4_7334f3d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-08-01T10:48:56Z",
+      "side": 1,
+      "message": "The table should have its name, and this should be the concatenation of all the table names.\n\nIf we have a config like\n```\n[core \"dfs.a\"]\n...\n[core \"dfs.b\"]\n...\n```\n\nThe label in the stats should be \"a,b\" (or something like that)",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 69
+      },
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
