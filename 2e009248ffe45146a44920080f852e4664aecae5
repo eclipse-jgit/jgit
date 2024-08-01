@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b7a2c8_83ce9975",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:11:32Z",
+      "side": 1,
+      "message": "You\u0027re assigning a strict mean to label that isn\u0027t really there, though I have no issue with the actual naming so I\u0027ll got with \"name\" since it also fits well enough",
+      "parentUuid": "6930b5ed_cedd9ceb",
+      "range": {
+        "startLine": 52,
+        "startChar": 16,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84a8512f_d6d3d9f8",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-08-01T10:48:56Z",
       "side": 1,
       "message": "Probably \"\u003ccode\u003e\" or \"\u003cdefault\u003e\"? so when using it to print confs, we know this is the very basic vanilla conf.",
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55afe48e_0bfee9cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:11:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "84a8512f_d6d3d9f8",
       "revId": "2e009248ffe45146a44920080f852e4664aecae5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -58,6 +100,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95634eb4_aca97192",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:11:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f27c3718_bdefef03",
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10a68900_1bf66fba",
@@ -75,6 +135,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "561deacb_a323b95e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:11:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a68900_1bf66fba",
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "193a40d4_7334f3d9",
@@ -88,6 +166,30 @@
       "writtenOn": "2024-08-01T10:48:56Z",
       "side": 1,
       "message": "The table should have its name, and this should be the concatenation of all the table names.\n\nIf we have a config like\n```\n[core \"dfs.a\"]\n...\n[core \"dfs.b\"]\n...\n```\n\nThe label in the stats should be \"a,b\" (or something like that)",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 69
+      },
+      "revId": "2e009248ffe45146a44920080f852e4664aecae5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8946469_5ea4e04e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackExtBlockCacheTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:11:32Z",
+      "side": 1,
+      "message": "sure, done",
+      "parentUuid": "193a40d4_7334f3d9",
       "range": {
         "startLine": 181,
         "startChar": 23,

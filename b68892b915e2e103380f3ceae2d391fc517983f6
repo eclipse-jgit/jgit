@@ -33,6 +33,24 @@
       "message": "Cover the case of the basic \"dfs\" section",
       "revId": "b68892b915e2e103380f3ceae2d391fc517983f6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c91ec6_ee52136d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:11:32Z",
+      "side": 1,
+      "message": "This already does the basic \"dfs\", or am I misunderstanding your comment?",
+      "parentUuid": "9864a89b_7f9ef20e",
+      "revId": "b68892b915e2e103380f3ceae2d391fc517983f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
