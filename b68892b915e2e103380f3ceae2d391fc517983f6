@@ -51,6 +51,24 @@
       "parentUuid": "9864a89b_7f9ef20e",
       "revId": "b68892b915e2e103380f3ceae2d391fc517983f6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27069622_d7c4002c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-08-01T22:44:13Z",
+      "side": 1,
+      "message": "I added another test to do the default config()",
+      "parentUuid": "e7c91ec6_ee52136d",
+      "revId": "b68892b915e2e103380f3ceae2d391fc517983f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
