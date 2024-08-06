@@ -32,11 +32,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.time.Instant;
@@ -119,6 +115,8 @@ public class GC {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(GC.class);
 
+	private static final String REPACK_TRACKER = "repack_tracker.lock";
+	private static final String PRUNE_TRACKER = "prune_tracker.lock";
 	private static final String PRUNE_EXPIRE_DEFAULT = "2.weeks.ago"; //$NON-NLS-1$
 
 	private static final String PRUNE_PACK_EXPIRE_DEFAULT = "1.hour.ago"; //$NON-NLS-1$
@@ -816,6 +814,26 @@ public class GC {
 		}
 	}
 
+	private void startOperation(String trackerFile) throws IOException {
+		Path trackerFilePath = repo.getDirectory().toPath().resolve(trackerFile);
+		if (Files.exists(trackerFilePath)) {
+			LOG.warn("{} already exists", trackerFile);
+		} else {
+			Files.createFile(trackerFilePath);
+			LOG.warn("{} created", trackerFile);
+		}
+	}
+
+	private void endOperation(String trackerFile) throws IOException {
+		Path trackerFilePath = repo.getDirectory().toPath().resolve(trackerFile);
+		if (Files.exists(trackerFilePath)) {
+			Files.delete(trackerFilePath);
+			LOG.warn("{} deleted", trackerFile);
+		} else {
+			LOG.warn("{} tracker file not found", trackerFile);
+		}
+	}
+
 	/**
 	 * Packs all objects which reachable from any of the heads into one pack
 	 * file. Additionally all objects which are not reachable from any head but
@@ -831,6 +849,8 @@ public class GC {
 	 *             {@link java.io.IOException} occurs
 	 */
 	public Collection<Pack> repack() throws IOException {
+
+		this.startOperation(REPACK_TRACKER);
 		Collection<Pack> toBeDeleted = repo.getObjectDatabase().getPacks();
 
 		long time = System.currentTimeMillis();
@@ -905,7 +925,9 @@ public class GC {
 				ret.add(rest);
 		}
 		try {
+			this.startOperation(PRUNE_TRACKER);
 			deleteOldPacks(toBeDeleted, ret);
+			this.endOperation(PRUNE_TRACKER);
 		} catch (ParseException e) {
 			// TODO: the exception has to be wrapped into an IOException because
 			// throwing the ParseException directly would break the API, instead
@@ -922,6 +944,7 @@ public class GC {
 
 		lastPackedRefs = refsBefore;
 		lastRepackTime = time;
+		this.endOperation(REPACK_TRACKER);
 		return ret;
 	}
 
