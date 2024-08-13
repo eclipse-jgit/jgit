@@ -56,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.filter.PathAnyDiffFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.IO;
@@ -129,7 +130,12 @@ public class BlameGenerator implements AutoCloseable {
 
 	/** Blame is currently assigned to this source. */
 	private Candidate outCandidate;
+
 	private Region outRegion;
+
+	private BlameGeneratorStats blameGeneratorStats;
+
+	private boolean useCommitGraphOptimizations;
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -144,6 +150,7 @@ public class BlameGenerator implements AutoCloseable {
 	public BlameGenerator(Repository repository, String path) {
 		this.repository = repository;
 		this.resultPath = PathFilter.create(path);
+		this.blameGeneratorStats = new BlameGeneratorStats();
 
 		idBuf = new MutableObjectId();
 		setFollowFileRenames(true);
@@ -229,6 +236,23 @@ public class BlameGenerator implements AutoCloseable {
 			renameDetector = new RenameDetector(getRepository());
 		else
 			renameDetector = null;
+		return this;
+	}
+
+	/**
+	 * Enable Commit Graph related optimizations.
+	 * <p>
+	 * If true, all commits will be parsed from Commit Graph if Commit Graph is
+	 * available. Use ChangedPathFilter if available.
+	 *
+	 * @param useCommitGraph
+	 *            set useCommitGraphOptimizations.
+	 * @return {@code this}
+	 */
+	public BlameGenerator setUseCommitGraphOptimizations(
+			boolean useCommitGraph) {
+		useCommitGraphOptimizations = useCommitGraph;
+		revPool.setRetainBody(!useCommitGraph);
 		return this;
 	}
 
@@ -421,6 +445,7 @@ public class BlameGenerator implements AutoCloseable {
 					resultPath);
 			c.sourceBlob = id.toObjectId();
 			c.sourceText = new RawText(ldr.getCachedBytes(Integer.MAX_VALUE));
+			blameGeneratorStats.incrementNumBlobsParsedInBlameGenerator();
 			c.regionList = new Region(0, 0, c.sourceText.size());
 			remaining = c.sourceText.size();
 			push(c);
@@ -434,6 +459,7 @@ public class BlameGenerator implements AutoCloseable {
 		Candidate c = new Candidate(getRepository(), commit, resultPath);
 		c.sourceBlob = idBuf.toObjectId();
 		c.loadText(reader);
+		blameGeneratorStats.incrementNumBlobsParsedInBlameGenerator();
 		c.regionList = new Region(0, 0, c.sourceText.size());
 		remaining = c.sourceText.size();
 		push(c);
@@ -519,6 +545,7 @@ public class BlameGenerator implements AutoCloseable {
 				resultPath);
 		c.sourceBlob = idBuf.toObjectId();
 		c.loadText(reader);
+		blameGeneratorStats.incrementNumBlobsParsedInBlameGenerator();
 		c.regionList = new Region(0, 0, c.sourceText.size());
 		remaining = c.sourceText.size();
 		push(c);
@@ -591,7 +618,7 @@ public class BlameGenerator implements AutoCloseable {
 			Candidate n = pop();
 			if (n == null)
 				return done();
-
+			blameGeneratorStats.incrementNumCandidatesThroughBlameGenerator();
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
 				if (processOne(n))
@@ -605,7 +632,7 @@ public class BlameGenerator implements AutoCloseable {
 				// Do not generate a tip of a reverse. The region
 				// survives and should not appear to be deleted.
 
-			} else /* if (pCnt == 0) */{
+			} else /* if (pCnt == 0) */ {
 				// Root commit, with at least one surviving region.
 				// Assign the remaining blame here.
 				return result(n);
@@ -701,20 +728,61 @@ public class BlameGenerator implements AutoCloseable {
 			return split(n.getNextCandidate(0), n);
 		revPool.parseHeaders(parent);
 
-		if (find(parent, n.sourcePath)) {
-			if (idBuf.equals(n.sourceBlob))
+		boolean changedPathFilterUsed = false;
+		if (useCommitGraphOptimizations) {
+			RevCommit c = n.sourceCommit;
+			String path = n.sourcePath.getPath();
+			PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter
+					.create(path);
+			boolean mightHaveChangedFile = pathAnyDiffFilter.shouldTreeWalk(c,
+					revPool);
+			changedPathFilterUsed = c.has(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+			if (changedPathFilterUsed) {
+				c.remove(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+			}
+			if (!mightHaveChangedFile) {
+				// commit didn't change the file or renamed the file.
+				blameGeneratorStats.incrementChangedPathFilterNegative();
 				return blameEntireRegionOnParent(n, parent);
+			}
+		}
+
+		// parent has access to the same file
+		if (find(parent, n.sourcePath)) {
+			if (idBuf.equals(n.sourceBlob)) {
+				// no change made by the commit
+				if (changedPathFilterUsed) {
+					blameGeneratorStats
+							.incrementChangedPathFilterFalsePositive();
+				}
+				return blameEntireRegionOnParent(n, parent);
+			}
+			// some change made to the file by the commit
+			if (changedPathFilterUsed) {
+				blameGeneratorStats.incrementChangedPathFilterTruePositive();
+			}
 			return splitBlameWithParent(n, parent);
 		}
 
+		// candidate isn't a commit
 		if (n.sourceCommit == null)
 			return result(n);
 
+		// parent does not have access to the file
 		DiffEntry r = findRename(parent, n.sourceCommit, n.sourcePath);
-		if (r == null)
+		if (r == null) {
+			// commit did not rename the file, so commit created this file
+			if (changedPathFilterUsed) {
+				blameGeneratorStats.incrementChangedPathFilterTruePositive();
+			}
 			return result(n);
+		}
 
 		if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
+			// commit renamed the file but no content change
+			if (changedPathFilterUsed) {
+				blameGeneratorStats.incrementChangedPathFilterTruePositive();
+			}
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
 			n.sourceCommit = parent;
@@ -723,11 +791,16 @@ public class BlameGenerator implements AutoCloseable {
 			return false;
 		}
 
+		// commit renamed the file and made content change
+		if (changedPathFilterUsed) {
+			blameGeneratorStats.incrementChangedPathFilterTruePositive();
+		}
 		Candidate next = n.create(getRepository(), parent,
 				PathFilter.create(r.getOldPath()));
 		next.sourceBlob = r.getOldId().toObjectId();
 		next.renameScore = r.getScore();
 		next.loadText(reader);
+		blameGeneratorStats.incrementNumBlobsParsedInBlameGenerator();
 		return split(next, n);
 	}
 
@@ -743,6 +816,7 @@ public class BlameGenerator implements AutoCloseable {
 		Candidate next = n.create(getRepository(), parent, n.sourcePath);
 		next.sourceBlob = idBuf.toObjectId();
 		next.loadText(reader);
+		blameGeneratorStats.incrementNumBlobsParsedInBlameGenerator();
 		return split(next, n);
 	}
 
@@ -846,8 +920,9 @@ public class BlameGenerator implements AutoCloseable {
 				editList = new EditList(0);
 			} else {
 				p.loadText(reader);
-				editList = diffAlgorithm.diff(textComparator,
-						p.sourceText, n.sourceText);
+				blameGeneratorStats.incrementNumBlobsParsedInBlameGenerator();
+				editList = diffAlgorithm.diff(textComparator, p.sourceText,
+						n.sourceText);
 			}
 
 			if (editList.isEmpty()) {
@@ -1075,6 +1150,16 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Get stats recorded within the BlameGenerator.
+	 *
+	 * @return {@link BlameGeneratorStats} with stats recorded by
+	 *         BlameGenerator.
+	 */
+	public BlameGeneratorStats getBlameGeneratorStats() {
+		return blameGeneratorStats;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Release the current blame session.
@@ -1092,6 +1177,7 @@ public class BlameGenerator implements AutoCloseable {
 	private boolean find(RevCommit commit, PathFilter path) throws IOException {
 		treeWalk.setFilter(path);
 		treeWalk.reset(commit.getTree());
+		blameGeneratorStats.incrementNumTreesParsedInBlameGenerator(1);
 		if (treeWalk.next() && isFile(treeWalk.getRawMode(0))) {
 			treeWalk.getObjectId(idBuf, 0);
 			return true;
@@ -1110,6 +1196,7 @@ public class BlameGenerator implements AutoCloseable {
 
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
 		treeWalk.reset(parent.getTree(), commit.getTree());
+		blameGeneratorStats.incrementNumTreesParsedInBlameGenerator(2);
 		List<DiffEntry> diffs = DiffEntry.scan(treeWalk);
 		FilteredRenameDetector filteredRenameDetector = new FilteredRenameDetector(
 				renameDetector);
@@ -1123,5 +1210,146 @@ public class BlameGenerator implements AutoCloseable {
 	private static boolean isRename(DiffEntry ent) {
 		return ent.getChangeType() == ChangeType.RENAME
 				|| ent.getChangeType() == ChangeType.COPY;
+	}
+
+	/**
+	 * Statistics collected during the lifecycle of BlameGenerator.
+	 */
+	public static class BlameGeneratorStats {
+
+		private long changedPathFilterTruePositive = 0;
+
+		private long changedPathFilterFalsePositive = 0;
+
+		private long changedPathFilterNegative = 0;
+
+		private long numCandidatesThroughBlameGenerator = 0;
+
+		private long numTreesParsedInBlameGenerator = 0;
+
+		private long numBlobsParsedInBlameGenerator = 0;
+
+		private BlameGeneratorStats() {
+		}
+
+		/**
+		 * Increment the changedPathFilterTruePositive count
+		 *
+		 * @since 7.0
+		 */
+		public void incrementChangedPathFilterTruePositive() {
+			changedPathFilterTruePositive++;
+		}
+
+		/**
+		 * Increment the changedPathFilterFalsePositive count
+		 *
+		 * @since 7.0
+		 */
+		public void incrementChangedPathFilterFalsePositive() {
+			changedPathFilterFalsePositive++;
+		}
+
+		/**
+		 * Increment the changedPathFilterNegative count
+		 *
+		 * @since 7.0
+		 */
+		public void incrementChangedPathFilterNegative() {
+			changedPathFilterNegative++;
+		}
+
+		/**
+		 * Increment the numCandidatesThroughBlameGenerator count
+		 *
+		 * @since 7.0
+		 */
+		public void incrementNumCandidatesThroughBlameGenerator() {
+			numCandidatesThroughBlameGenerator++;
+		}
+
+		/**
+		 * Increment the numTreesParsedInBlameGenerator count
+		 *
+		 * @param numTrees
+		 *            number of trees parsed
+		 * @since 7.0
+		 */
+		public void incrementNumTreesParsedInBlameGenerator(int numTrees) {
+			numTreesParsedInBlameGenerator += numTrees;
+		}
+
+		/**
+		 * Increment the numBlobsParsedInBlameGenerator count
+		 *
+		 * @since 7.0
+		 */
+		public void incrementNumBlobsParsedInBlameGenerator() {
+			numBlobsParsedInBlameGenerator++;
+		}
+
+		/**
+		 * Return how many times a changed path filter correctly predicted that
+		 * a path was changed in a commit, for statistics gathering purposes.
+		 *
+		 * @return count of true positives
+		 * @since 7.0
+		 */
+		public long getChangedPathFilterTruePositive() {
+			return changedPathFilterTruePositive;
+		}
+
+		/**
+		 * Return how many times a changed path filter wrongly predicted that a
+		 * path was changed in a commit, for statistics gathering purposes.
+		 *
+		 * @return count of false positives
+		 * @since 7.0
+		 */
+		public long getChangedPathFilterFalsePositive() {
+			return changedPathFilterFalsePositive;
+		}
+
+		/**
+		 * Return how many times a changed path filter predicted that a path was
+		 * not changed in a commit (allowing that commit to be skipped), for
+		 * statistics gathering purposes.
+		 *
+		 * @return count of negatives
+		 * @since 7.0
+		 */
+		public long getChangedPathFilterNegative() {
+			return changedPathFilterNegative;
+		}
+
+		/**
+		 * Return how many candidates were evaluated by blameGenerator
+		 *
+		 * @return count of blameGenerator traversed candidates
+		 * @since 7.0
+		 */
+		public long getNumCandidatesThroughBlameGenerator() {
+			return numCandidatesThroughBlameGenerator;
+		}
+
+		/**
+		 * Return how many times a tree was parsed within BlameGenerator
+		 *
+		 * @return count of trees parsed within BlameGenerator
+		 * @since 7.0
+		 */
+		public long getNumTreesParsedInBlameGenerator() {
+			return numTreesParsedInBlameGenerator;
+		}
+
+		/**
+		 * Return how many times a blob was parsed within BlameGenerator
+		 *
+		 * @return count of blobs parsed within BlameGenerator
+		 * @since 7.0
+		 */
+		public long getNumBlobsParsedInBlameGenerator() {
+			return numBlobsParsedInBlameGenerator;
+		}
 	}
 }
