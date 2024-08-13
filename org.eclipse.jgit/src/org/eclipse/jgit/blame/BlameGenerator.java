@@ -56,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.filter.PathAnyDiffFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.IO;
@@ -166,6 +167,7 @@ public class BlameGenerator implements AutoCloseable {
 
 		SEEN = revPool.newFlag("SEEN"); //$NON-NLS-1$
 		reader = revPool.getObjectReader();
+		revPool.setRetainBody(false);
 		treeWalk = new TreeWalk(reader);
 		treeWalk.setRecursive(true);
 	}
@@ -701,19 +703,33 @@ public class BlameGenerator implements AutoCloseable {
 			return split(n.getNextCandidate(0), n);
 		revPool.parseHeaders(parent);
 
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create(n.sourcePath.getPath());
+		boolean mightHaveChangedFile = pathAnyDiffFilter.shouldTreeWalk(n.sourceCommit,
+				revPool);
+		if (!mightHaveChangedFile) {
+			// commit didn't change the file or renamed the file.
+			return blameEntireRegionOnParent(n, parent);
+		}
+
+		// parent has access to the same file
 		if (find(parent, n.sourcePath)) {
 			if (idBuf.equals(n.sourceBlob))
+				// no change made
 				return blameEntireRegionOnParent(n, parent);
+			// change made to the file
 			return splitBlameWithParent(n, parent);
 		}
 
 		if (n.sourceCommit == null)
 			return result(n);
 
+		// parent does not have access to the file, maybe commit renamed the file?
 		DiffEntry r = findRename(parent, n.sourceCommit, n.sourcePath);
 		if (r == null)
+			// no rename
 			return result(n);
 
+		// renamed, no content change
 		if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
@@ -723,6 +739,7 @@ public class BlameGenerator implements AutoCloseable {
 			return false;
 		}
 
+		// renamed, commit did content change
 		Candidate next = n.create(getRepository(), parent,
 				PathFilter.create(r.getOldPath()));
 		next.sourceBlob = r.getOldId().toObjectId();
