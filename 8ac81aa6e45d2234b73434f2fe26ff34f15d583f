@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf5eabd_97e1f5b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037536
+      },
+      "writtenOn": "2024-08-13T20:11:19Z",
+      "side": 1,
+      "message": "Thanks!\n\nMakes sense. It would be nice to add a test, but that can happen in a separate commit.",
+      "revId": "8ac81aa6e45d2234b73434f2fe26ff34f15d583f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
