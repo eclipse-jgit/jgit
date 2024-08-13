@@ -156,6 +156,7 @@ class Blame extends TextBuiltin {
 			} else {
 				generator.prepareHead();
 			}
+			generator.setUseCommitGraphOptimizations(true);
 
 			blame = BlameResult.create(generator);
 			if (blame == null) {
