@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "714efec4_e911038d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037536
+      },
+      "writtenOn": "2024-08-13T20:12:22Z",
+      "side": 1,
+      "message": "nit: could you say what issues you mean? For example, does it throw an exception?\n\nIf someone were tempted to roll back this change, what should they look at to make sure the problem is still fixed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "8ac81aa6e45d2234b73434f2fe26ff34f15d583f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3cf5eabd_97e1f5b3",
