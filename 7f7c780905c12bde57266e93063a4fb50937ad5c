@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f3be06_b872024e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-08-14T09:18:37Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t have context on this cl anymore. It just adds some regression tests.",
+      "parentUuid": "12405bf2_e556908b",
+      "revId": "7f7c780905c12bde57266e93063a4fb50937ad5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0eb41616_88910a9a",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-04-11T21:21:40Z",
       "side": 1,
       "message": "is this any different from the `testStringOfPearls_FilePath1_treeRevFilter()`?",
+      "revId": "7f7c780905c12bde57266e93063a4fb50937ad5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf6ae87c_65db6e0c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-08-14T09:18:37Z",
+      "side": 1,
+      "message": "Yes, this here uses rw.setTreeFilter(TreeFilter.ANY_DIFF); whereas testStringOfPearls_FilePath1_treeRevFilter() doesn\u0027t.",
+      "parentUuid": "0eb41616_88910a9a",
       "revId": "7f7c780905c12bde57266e93063a4fb50937ad5c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -69,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c62007fd_bec04d3e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-08-14T09:18:37Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t have context on this cl anymore. It just adds some regression tests.",
+      "parentUuid": "0ce52791_8c34f320",
+      "revId": "7f7c780905c12bde57266e93063a4fb50937ad5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6908f685_fe22f7a3",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-04-11T21:21:40Z",
       "side": 1,
       "message": "what\u0027s the need for line L92-L94, L97. \n\nThis file is meant to test the output of TreeRevFilter, why are assert the commits from the setup?",
+      "revId": "7f7c780905c12bde57266e93063a4fb50937ad5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fd6e599_b6ae1972",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TreeRevFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1037784
+      },
+      "writtenOn": "2024-08-14T09:18:37Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t have context on this cl anymore. It just adds some regression tests.",
+      "parentUuid": "6908f685_fe22f7a3",
       "revId": "7f7c780905c12bde57266e93063a4fb50937ad5c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
