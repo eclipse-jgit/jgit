@@ -530,7 +530,7 @@ public abstract class PackParser {
 			receiving.beginTask(JGitText.get().receivingObjects,
 					(int) expectedObjectCount);
 			try {
-				for (int done = 0; done < expectedObjectCount; done++) {
+				for (long done = 0; done < expectedObjectCount; done++) {
 					indexOneObject();
 					receiving.update(1);
 					if (receiving.isCancelled())
