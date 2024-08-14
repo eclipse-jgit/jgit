@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee270ab_3a932e10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-08-14T15:52:12Z",
+      "side": 1,
+      "message": "Should you keep the value from stable-6.10? `@since 6.10`?\n```suggestion\n\t * @since 6.10\n```",
+      "range": {
+        "startLine": 399,
+        "startChar": 4,
+        "endLine": 399,
+        "endChar": 14
+      },
+      "revId": "57ca74649e4ed0ee2dc269654ee7afd5a0576f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa27a0f6_aabe7c2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-08-14T15:52:12Z",
+      "side": 1,
+      "message": "Should you keep the value from stable-6.10? `@since 6.10`?\n```suggestion\n\t * @since 6.10\n```",
+      "range": {
+        "startLine": 425,
+        "startChar": 4,
+        "endLine": 425,
+        "endChar": 14
+      },
+      "revId": "57ca74649e4ed0ee2dc269654ee7afd5a0576f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
