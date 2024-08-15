@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed388ecd_e8d87478",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-15T11:42:16Z",
+      "side": 1,
+      "message": "this needs to wait for https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/15951 to be approved\n\nnot sure why this didn\u0027t fail the license check in newer jgit versions",
+      "revId": "92c190d3ef33ffb412ed122d119f27dedb1cffd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
