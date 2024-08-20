@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a270c5f_5cf520e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-20T12:52:55Z",
+      "side": 1,
+      "message": "verified locally with dash license check disabled, dash plugin is updated in the merge commit on top of this change which fixes the problem regarding license checks",
+      "revId": "cc353f97be313ecc531ee44111caa910daffdfd7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
