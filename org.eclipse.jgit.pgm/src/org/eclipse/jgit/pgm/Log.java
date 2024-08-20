@@ -32,13 +32,12 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GpgConfig;
-import org.eclipse.jgit.lib.GpgSignatureVerifier;
-import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
-import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
+import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SignatureVerifiers;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.VerificationUtils;
@@ -174,8 +173,6 @@ class Log extends RevWalkTextBuiltin {
 	// END -- Options shared with Diff
 
 
-	private GpgSignatureVerifier verifier;
-
 	private GpgConfig config;
 
 	Log() {
@@ -227,9 +224,6 @@ class Log extends RevWalkTextBuiltin {
 			throw die(e.getMessage(), e);
 		} finally {
 			diffFmt.close();
-			if (verifier != null) {
-				verifier.clear();
-			}
 		}
 	}
 
@@ -293,21 +287,13 @@ class Log extends RevWalkTextBuiltin {
 		if (c.getRawGpgSignature() == null) {
 			return;
 		}
-		if (verifier == null) {
-			GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
-					.getDefault();
-			if (factory == null) {
-				throw die(CLIText.get().logNoSignatureVerifier, null);
-			}
-			verifier = factory.getVerifier();
-		}
-		SignatureVerification verification = verifier.verifySignature(c,
-				config);
+		SignatureVerification verification = SignatureVerifiers.verify(db,
+				config, c);
 		if (verification == null) {
 			return;
 		}
 		VerificationUtils.writeVerification(outw, verification,
-				verifier.getName(), c.getCommitterIdent());
+				verification.getVerifierName(), c.getCommitterIdent());
 	}
 
 	/**

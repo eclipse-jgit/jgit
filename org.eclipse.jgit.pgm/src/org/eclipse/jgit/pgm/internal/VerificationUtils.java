@@ -11,7 +11,7 @@ package org.eclipse.jgit.pgm.internal;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
+import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.SignatureUtils;

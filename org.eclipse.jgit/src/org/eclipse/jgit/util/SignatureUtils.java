@@ -13,8 +13,8 @@ import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
-import org.eclipse.jgit.lib.GpgSignatureVerifier.TrustLevel;
+import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
+import org.eclipse.jgit.lib.SignatureVerifier.TrustLevel;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -39,6 +39,8 @@ public final class SignatureUtils {
 	 *            to use for dates
 	 * @return a textual representation of the {@link SignatureVerification},
 	 *         using LF as line separator
+	 * 
+	 * @since 7.0
 	 */
 	public static String toString(SignatureVerification verification,
 			PersonIdent creator, GitDateFormatter formatter) {
