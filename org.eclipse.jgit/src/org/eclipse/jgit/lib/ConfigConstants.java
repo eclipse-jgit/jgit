@@ -77,7 +77,11 @@ public final class ConfigConstants {
 	/** The "dfs" section */
 	public static final String CONFIG_DFS_SECTION = "dfs";
 
-	/** The dfs cache subsection prefix */
+	/**
+	 * The dfs cache subsection prefix.
+	 *
+	 * @since 7.0
+	 */
 	public static final String CONFIG_DFS_CACHE_PREFIX = "dfs.";
 
 	/**
