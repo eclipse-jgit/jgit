@@ -24,6 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
 import java.text.MessageFormat;
@@ -141,9 +142,8 @@ public class LockFile {
 			throw new IllegalStateException(
 					MessageFormat.format(JGitText.get().lockAlreadyHeld, ref));
 		}
-		FileUtils.mkdirs(lck.getParentFile(), true);
 		try {
-			token = FS.DETECTED.createNewFileAtomic(lck);
+			token = createLockFileWithRetry();
 		} catch (IOException e) {
 			LOG.error(JGitText.get().failedCreateLockFile, lck, e);
 			throw e;
@@ -158,6 +158,19 @@ public class LockFile {
 			closeToken();
 		}
 		return obtainedLock;
+	}
+
+	private FS.LockToken createLockFileWithRetry() throws IOException {
+		try {
+			return createLockFile();
+		} catch (NoSuchFileException e) {
+			return createLockFile();
+		}
+	}
+
+	private FS.LockToken createLockFile() throws IOException {
+		FileUtils.mkdirs(lck.getParentFile(), true);
+		return FS.DETECTED.createNewFileAtomic(lck);
 	}
 
 	/**
