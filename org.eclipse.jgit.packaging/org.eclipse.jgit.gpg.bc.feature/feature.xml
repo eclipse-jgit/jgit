@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit.gpg.bc"
       label="%featureName"
-      version="7.0.0.202409201410-m3"
+      version="7.0.0.2024082011542-m3"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">

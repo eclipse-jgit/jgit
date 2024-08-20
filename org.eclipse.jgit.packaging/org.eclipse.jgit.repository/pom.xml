@@ -17,7 +17,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>jgit.tycho.parent</artifactId>
-    <version>7.0.0.202409201410-m3</version>
+    <version>7.0.0.2024082011542-m3</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.repository</artifactId>

@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.http.server - Sources
 Bundle-SymbolicName: org.eclipse.jgit.http.server.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 7.0.0.202409201410-m3
-Eclipse-SourceBundle: org.eclipse.jgit.http.server;version="7.0.0.202409201410-m3";roots="."
+Bundle-Version: 7.0.0.2024082011542-m3
+Eclipse-SourceBundle: org.eclipse.jgit.http.server;version="7.0.0.2024082011542-m3";roots="."
