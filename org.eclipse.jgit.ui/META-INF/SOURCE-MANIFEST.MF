@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.ui - Sources
 Bundle-SymbolicName: org.eclipse.jgit.ui.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 7.0.0.202408201547-m3
-Eclipse-SourceBundle: org.eclipse.jgit.ui;version="7.0.0.202408201547-m3";roots="."
+Bundle-Version: 7.0.0.202408202050-m3
+Eclipse-SourceBundle: org.eclipse.jgit.ui;version="7.0.0.202408202050-m3";roots="."
