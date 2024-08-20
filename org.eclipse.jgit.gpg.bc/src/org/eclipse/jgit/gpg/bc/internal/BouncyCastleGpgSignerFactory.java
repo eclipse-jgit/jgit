@@ -10,16 +10,14 @@
 package org.eclipse.jgit.gpg.bc.internal;
 
 import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
-import org.eclipse.jgit.lib.SignatureVerifier;
-import org.eclipse.jgit.lib.SignatureVerifierFactory;
+import org.eclipse.jgit.lib.Signer;
+import org.eclipse.jgit.lib.SignerFactory;
 
 /**
- * A {@link SignatureVerifierFactory} that creates {@link SignatureVerifier}
- * instances that verify GPG signatures using BouncyCastle and that do cache
- * public keys.
+ * Factory for creating a {@link Signer} for OPENPGP signatures based on Bouncy
+ * Castle.
  */
-public final class BouncyCastleGpgSignatureVerifierFactory
-		implements SignatureVerifierFactory {
+public final class BouncyCastleGpgSignerFactory implements SignerFactory {
 
 	@Override
 	public GpgFormat getType() {
@@ -27,9 +25,7 @@ public final class BouncyCastleGpgSignatureVerifierFactory
 	}
 
 	@Override
-	public SignatureVerifier create() {
-		return new BouncyCastleGpgSignatureVerifier();
+	public Signer create() {
+		return new BouncyCastleGpgSigner();
 	}
-
-
 }

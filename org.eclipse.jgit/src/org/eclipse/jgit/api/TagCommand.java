@@ -18,14 +18,11 @@ import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
-import org.eclipse.jgit.api.errors.ServiceUnavailableException;
 import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
-import org.eclipse.jgit.lib.GpgObjectSigner;
-import org.eclipse.jgit.lib.GpgSigner;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -33,6 +30,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Signer;
+import org.eclipse.jgit.lib.Signers;
 import org.eclipse.jgit.lib.TagBuilder;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -79,7 +78,7 @@ public class TagCommand extends GitCommand<Ref> {
 
 	private GpgConfig gpgConfig;
 
-	private GpgObjectSigner gpgSigner;
+	private Signer signer;
 
 	private CredentialsProvider credentialsProvider;
 
@@ -133,9 +132,9 @@ public class TagCommand extends GitCommand<Ref> {
 			newTag.setTagger(tagger);
 			newTag.setObjectId(id);
 
-			if (gpgSigner != null) {
-				gpgSigner.signObject(newTag, signingKey, tagger,
-						credentialsProvider, gpgConfig);
+			if (signer != null) {
+				signer.signObject(repo, gpgConfig, newTag, tagger, signingKey,
+						credentialsProvider);
 			}
 
 			// write the tag object
@@ -196,15 +195,12 @@ public class TagCommand extends GitCommand<Ref> {
 	 *
 	 * @throws InvalidTagNameException
 	 *             if the tag name is null or invalid
-	 * @throws ServiceUnavailableException
-	 *             if the tag should be signed but no signer can be found
 	 * @throws UnsupportedSigningFormatException
 	 *             if the tag should be signed but {@code gpg.format} is not
 	 *             {@link GpgFormat#OPENPGP}
 	 */
 	private void processOptions()
-			throws InvalidTagNameException, ServiceUnavailableException,
-			UnsupportedSigningFormatException {
+			throws InvalidTagNameException, UnsupportedSigningFormatException {
 		if (name == null
 				|| !Repository.isValidRefName(Constants.R_TAGS + name)) {
 			throw new InvalidTagNameException(
@@ -230,16 +226,15 @@ public class TagCommand extends GitCommand<Ref> {
 					doSign = gpgConfig.isSignAnnotated();
 				}
 				if (doSign) {
-					if (signingKey == null) {
-						signingKey = gpgConfig.getSigningKey();
-					}
-					if (gpgSigner == null) {
-						GpgSigner signer = GpgSigner.getDefault();
-						if (!(signer instanceof GpgObjectSigner)) {
-							throw new ServiceUnavailableException(
-									JGitText.get().signingServiceUnavailable);
+					if (signer == null) {
+						signer = Signers.get(gpgConfig.getKeyFormat());
+						if (signer == null) {
+							throw new UnsupportedSigningFormatException(
+									MessageFormat.format(
+											JGitText.get().signatureTypeUnknown,
+											gpgConfig.getKeyFormat()
+													.toConfigValue()));
 						}
-						gpgSigner = (GpgObjectSigner) signer;
 					}
 					// The message of a signed tag must end in a newline because
 					// the signature will be appended.
@@ -326,22 +321,22 @@ public class TagCommand extends GitCommand<Ref> {
 	}
 
 	/**
-	 * Sets the {@link GpgSigner} to use if the commit is to be signed.
+	 * Sets the {@link Signer} to use if the commit is to be signed.
 	 *
 	 * @param signer
 	 *            to use; if {@code null}, the default signer will be used
 	 * @return {@code this}
-	 * @since 5.11
+	 * @since 7.0
 	 */
-	public TagCommand setGpgSigner(GpgObjectSigner signer) {
+	public TagCommand setSigner(Signer signer) {
 		checkCallable();
-		this.gpgSigner = signer;
+		this.signer = signer;
 		return this;
 	}
 
 	/**
 	 * Sets an external {@link GpgConfig} to use. Whether it will be used is at
-	 * the discretion of the {@link #setGpgSigner(GpgObjectSigner)}.
+	 * the discretion of the {@link #setSigner(Signer)}.
 	 *
 	 * @param config
 	 *            to set; if {@code null}, the config will be loaded from the

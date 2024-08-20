@@ -30,12 +30,11 @@ import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
-import org.eclipse.jgit.lib.GpgSignatureVerifier;
-import org.eclipse.jgit.lib.GpgSignatureVerifierFactory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
+import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
+import org.eclipse.jgit.lib.SignatureVerifiers;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.VerificationUtils;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
@@ -335,23 +334,13 @@ class Show extends TextBuiltin {
 		if (c.getRawGpgSignature() == null) {
 			return;
 		}
-		GpgSignatureVerifierFactory factory = GpgSignatureVerifierFactory
-				.getDefault();
-		if (factory == null) {
+		GpgConfig config = new GpgConfig(db.getConfig());
+		SignatureVerification verification = SignatureVerifiers.verify(db,
+				config, c);
+		if (verification == null) {
 			throw die(CLIText.get().logNoSignatureVerifier, null);
 		}
-		GpgSignatureVerifier verifier = factory.getVerifier();
-		GpgConfig config = new GpgConfig(db.getConfig());
-		try {
-			SignatureVerification verification = verifier.verifySignature(c,
-					config);
-			if (verification == null) {
-				return;
-			}
-			VerificationUtils.writeVerification(outw, verification,
-					verifier.getName(), c.getCommitterIdent());
-		} finally {
-			verifier.clear();
-		}
+		VerificationUtils.writeVerification(outw, verification,
+				verification.verifierName(), c.getCommitterIdent());
 	}
 }
