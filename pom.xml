@@ -393,7 +393,7 @@
         <plugin>
           <groupId>org.eclipse.dash</groupId>
           <artifactId>license-tool-plugin</artifactId>
-          <version>1.0.2</version>
+          <version>1.1.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
