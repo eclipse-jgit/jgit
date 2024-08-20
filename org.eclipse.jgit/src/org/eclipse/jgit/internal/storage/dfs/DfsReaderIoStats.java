@@ -177,6 +177,24 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of bytes read from object size index.
+	 *
+	 * @return total number of bytes read from object size index.
+	 */
+	public long getReadObjectSizeIndexBytes() {
+		return stats.readObjectSizeIndexBytes;
+	}
+
+	/**
+	 * Get total microseconds spent reading object size index.
+	 *
+	 * @return total microseconds spent reading object size index.
+	 */
+	public long getReadObjectSizeIndexMicros() {
+		return stats.readObjectSizeIndexMicros;
+	}
+
+	/**
 	 * Get total number of complete pack indexes read into memory.
 	 *
 	 * @return total number of complete pack indexes read into memory.
