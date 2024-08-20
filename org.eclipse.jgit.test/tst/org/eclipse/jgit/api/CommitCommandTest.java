@@ -27,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.EmptyCommitException;
+import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCache;
@@ -34,19 +35,23 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.time.TimeUtil;
-import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.GpgSigner;
+import org.eclipse.jgit.lib.GpgConfig;
+import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
+import org.eclipse.jgit.lib.GpgSignature;
+import org.eclipse.jgit.lib.ObjectBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Signer;
+import org.eclipse.jgit.lib.Signers;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -839,21 +844,39 @@ public class CommitCommandTest extends RepositoryTestCase {
 			String[] signingKey = new String[1];
 			PersonIdent[] signingCommitters = new PersonIdent[1];
 			AtomicInteger callCount = new AtomicInteger();
-			GpgSigner.setDefault(new GpgSigner() {
+			// Since GpgFormat defaults to OpenPGP just set a new signer for
+			// that.
+			Signers.set(GpgFormat.OPENPGP, new Signer() {
+
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey,
-						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {
-					signingKey[0] = gpgSigningKey;
+				public void signObject(Repository repo, GpgConfig config,
+						ObjectBuilder builder, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
+					signingKey[0] = signingKeySpec;
 					signingCommitters[0] = signingCommitter;
 					callCount.incrementAndGet();
 				}
 
 				@Override
-				public boolean canLocateSigningKey(String gpgSigningKey,
-						PersonIdent signingCommitter,
+				public GpgSignature sign(Repository repo, GpgConfig config,
+						byte[] data, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
+					throw new CanceledException("Unexpected call");
+				}
+
+				@Override
+				public boolean canLocateSigningKey(Repository repo,
+						GpgConfig config, PersonIdent signingCommitter,
+						String signingKeySpec,
 						CredentialsProvider credentialsProvider)
 						throws CanceledException {
-					return false;
+					throw new CanceledException("Unexpected call");
 				}
 			});
 
@@ -904,19 +927,37 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file1").call();
 
 			AtomicInteger callCount = new AtomicInteger();
-			GpgSigner.setDefault(new GpgSigner() {
+			// Since GpgFormat defaults to OpenPGP just set a new signer for
+			// that.
+			Signers.set(GpgFormat.OPENPGP, new Signer() {
+
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey,
-						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {
+				public void signObject(Repository repo, GpgConfig config,
+						ObjectBuilder builder, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
 					callCount.incrementAndGet();
 				}
 
 				@Override
-				public boolean canLocateSigningKey(String gpgSigningKey,
-						PersonIdent signingCommitter,
+				public GpgSignature sign(Repository repo, GpgConfig config,
+						byte[] data, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
+					throw new CanceledException("Unexpected call");
+				}
+
+				@Override
+				public boolean canLocateSigningKey(Repository repo,
+						GpgConfig config, PersonIdent signingCommitter,
+						String signingKeySpec,
 						CredentialsProvider credentialsProvider)
 						throws CanceledException {
-					return false;
+					throw new CanceledException("Unexpected call");
 				}
 			});
 

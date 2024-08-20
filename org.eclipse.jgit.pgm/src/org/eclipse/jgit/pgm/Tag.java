@@ -27,10 +27,10 @@ import org.eclipse.jgit.api.VerifySignatureCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.GpgSignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.VerificationUtils;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -106,7 +106,9 @@ class Tag extends TextBuiltin {
 						if (error != null) {
 							throw die(error.getMessage(), error);
 						}
-						writeVerification(verifySig.getVerifier().getName(),
+						writeVerification(
+								verification.getVerification()
+										.getVerifierName(),
 								(RevTag) verification.getObject(),
 								verification.getVerification());
 					}

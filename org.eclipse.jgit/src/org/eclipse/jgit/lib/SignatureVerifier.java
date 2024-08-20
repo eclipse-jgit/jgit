@@ -13,39 +13,20 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.eclipse.jgit.annotations.NonNull;
-import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.revwalk.RevObject;
 
 /**
- * A {@code GpgSignatureVerifier} can verify GPG signatures on git commits and
- * tags.
+ * A {@code SignatureVerifier} can verify signatures on git commits and tags.
  *
- * @since 5.11
+ * @since 7.0
  */
-public interface GpgSignatureVerifier {
-
-	/**
-	 * Verifies the signature on a signed commit or tag.
-	 *
-	 * @param object
-	 *            to verify
-	 * @param config
-	 *            the {@link GpgConfig} to use
-	 * @return a {@link SignatureVerification} describing the outcome of the
-	 *         verification, or {@code null} if the object was not signed
-	 * @throws IOException
-	 *             if an error occurs getting a public key
-	 * @throws org.eclipse.jgit.api.errors.JGitInternalException
-	 *             if signature verification fails
-	 */
-	@Nullable
-	SignatureVerification verifySignature(@NonNull RevObject object,
-			@NonNull GpgConfig config) throws IOException;
+public interface SignatureVerifier {
 
 	/**
 	 * Verifies a given signature for given data.
 	 *
+	 * @param repository
+	 *            the {@link Repository} the data comes from.
 	 * @param config
 	 *            the {@link GpgConfig}
 	 * @param data
@@ -57,32 +38,9 @@ public interface GpgSignatureVerifier {
 	 *             if the signature cannot be parsed
 	 * @throws JGitInternalException
 	 *             if signature verification fails
-	 * @since 6.9
 	 */
-	default SignatureVerification verify(@NonNull GpgConfig config, byte[] data,
-			byte[] signatureData) throws IOException {
-		// Default implementation for backwards compatibility; override as
-		// appropriate
-		return verify(data, signatureData);
-	}
-
-	/**
-	 * Verifies a given signature for given data.
-	 *
-	 * @param data
-	 *            the signature is for
-	 * @param signatureData
-	 *            the ASCII-armored signature
-	 * @return a {@link SignatureVerification} describing the outcome
-	 * @throws IOException
-	 *             if the signature cannot be parsed
-	 * @throws JGitInternalException
-	 *             if signature verification fails
-	 * @deprecated since 6.9, use {@link #verify(GpgConfig, byte[], byte[])}
-	 *             instead
-	 */
-	@Deprecated
-	public SignatureVerification verify(byte[] data, byte[] signatureData)
+	SignatureVerification verify(@NonNull Repository repository,
+			@NonNull GpgConfig config, byte[] data, byte[] signatureData)
 			throws IOException;
 
 	/**
@@ -96,7 +54,7 @@ public interface GpgSignatureVerifier {
 	String getName();
 
 	/**
-	 * A {@link GpgSignatureVerifier} may cache public keys to speed up
+	 * A {@link SignatureVerifier} may cache public keys to speed up
 	 * verifying signatures on multiple objects. This clears this cache, if any.
 	 */
 	void clear();
@@ -106,6 +64,15 @@ public interface GpgSignatureVerifier {
 	 * negatively) verified signature.
 	 */
 	interface SignatureVerification {
+
+		/**
+		 * Obtains the name of the verifier that created this verification
+		 * result.
+		 *
+		 * @return the verifier's name
+		 * @see SignatureVerifier#getName()
+		 */
+		String getVerifierName();
 
 		// Data about the signature.
 
@@ -122,8 +89,7 @@ public interface GpgSignatureVerifier {
 		String getSigner();
 
 		/**
-		 * Obtains the short or long fingerprint of the public key as stored in
-		 * the signature, if known.
+		 * Obtains a fingerprint of the public key, if known.
 		 *
 		 * @return the fingerprint, or {@code null} if unknown
 		 */

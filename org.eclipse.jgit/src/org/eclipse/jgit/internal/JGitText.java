@@ -606,7 +606,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String oldIdMustNotBeNull;
 	/***/ public String onlyOneFetchSupported;
 	/***/ public String onlyOneOperationCallPerConnectionIsSupported;
-	/***/ public String onlyOpenPgpSupportedForSigning;
 	/***/ public String openFilesMustBeAtLeast1;
 	/***/ public String openingConnection;
 	/***/ public String operationCanceled;
@@ -752,6 +751,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String shutdownCleanup;
 	/***/ public String shutdownCleanupFailed;
 	/***/ public String shutdownCleanupListenerFailed;
+	/***/ public String signatureServiceConflict;
+	/***/ public String signatureTypeUnknown;
 	/***/ public String signatureVerificationError;
 	/***/ public String signatureVerificationUnavailable;
 	/***/ public String signedTagMessageNoLf;
