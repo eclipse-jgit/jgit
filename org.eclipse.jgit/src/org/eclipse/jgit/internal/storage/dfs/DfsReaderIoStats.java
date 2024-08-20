@@ -249,6 +249,15 @@ public class DfsReaderIoStats {
 	}
 
 	/**
+	 * Get total number of bytes read from object size indexes.
+	 *
+	 * @return total number of bytes read from object size indexes.
+	 */
+	public long getObjectSizeIndexBytes() {
+		return stats.readObjectSizeIndexBytes;
+	}
+
+	/**
 	 * Get total microseconds spent reading pack indexes.
 	 *
 	 * @return total microseconds spent reading pack indexes.
@@ -282,6 +291,15 @@ public class DfsReaderIoStats {
 	 */
 	public long getReadCommitGraphMicros() {
 		return stats.readCommitGraphMicros;
+	}
+
+	/**
+	 * Get total microseconds spent reading object size indexes.
+	 *
+	 * @return total microseconds spent reading object size indexes.
+	 */
+	public long getReadObjectSizeIndexMicros() {
+		return stats.readObjectSizeIndexMicros;
 	}
 
 	/**
