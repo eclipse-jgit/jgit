@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6084e9fc_6b2bed14",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "No. I\u0027m suggesting to remove `.setProvider(\"BC\")`. Then it\u0027ll use any of the registered security providers as appropriate.",
+      "parentUuid": "9be7c824_7f8e1340",
+      "range": {
+        "startLine": 54,
+        "startChar": 80,
+        "endLine": 54,
+        "endChar": 98
+      },
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6496920a_cf17a187",
         "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
         "patchSetId": 11
@@ -96,6 +120,24 @@
       "writtenOn": "2024-05-10T19:45:30Z",
       "side": 1,
       "message": "1. Do we need collision avoidance/detection? Probably not.\n2. It\u0027s used as a \"fingerprint\" to identify a key/certificate. What does gpgsm print when it verifies such a signature? Certificates have serial numbers; might that be a more useful identifier? How does gpgsm identify the certificate in its output?",
+      "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27e62486_c159be4a",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "OK, forget about point (1) unless you want to use MessageDigest directly. But (2) is still interesting.",
+      "parentUuid": "6496920a_cf17a187",
       "revId": "913bf8b3512225b82cf273512892a62ff6e635e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

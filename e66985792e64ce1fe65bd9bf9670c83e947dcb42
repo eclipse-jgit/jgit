@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c5b330_30bdaa5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "This would need tests. Should be possible: pre-create signatures with gpgsm for known data, then verify using this code.\n\nBut I suggest thisbe re-done anyway on top of https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1199821 . I don\u0027t like the fact that we now have yet another \"registry\" inside the gpg.bc bundle that would be difficult for e.g. EGit to override.",
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e9efa54_0cda84e9",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "`signedContent` is a very misleading name. The signed content actually is the `data`. This  is supposed to be the raw signature, minus the ----BEGIN line, and presumably also minus the -----END line; i.e., the raw base64-encoded signature.",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 22
+      },
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6edc337f_f75127e2",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "`signedContent` still contains the end line here. Probably that should not be passed to CMSSignedData.",
+      "range": {
+        "startLine": 48,
+        "startChar": 100,
+        "endLine": 48,
+        "endChar": 113
+      },
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff951ec0_49eb0a29",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "These lines are all too long. Re-format to a line width of at most 80 characters.",
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d21a17_935cde24",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "This needs a @SuppressWarnings(\"unchecked\") plus a comment explaining what\u0027s going on.\n\nBasically it appears to be a bug in BC; they have `class SignedId implements Selector`, but that should probably be `implements Selector\u003cX509CertificateHolder\u003e`.",
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54c3958e_0d978c7f",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "`verify` can throw a `CMSVerifierCertificateNotValidException`, which must _not_ be propagated but which must result in `verified \u003d\u003d false`.",
+      "range": {
+        "startLine": 54,
+        "startChar": 33,
+        "endLine": 54,
+        "endChar": 39
+      },
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beeb315e_d68c591a",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/CmsSignatureParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:30:36Z",
+      "side": 1,
+      "message": "Empty block needs comment.",
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
