@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "096943d4_66cb342b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-08-21T20:02:45Z",
+      "side": 1,
+      "message": "@quic_kaushikl@quicinc.com this code looks good, but can you move this to `stable-6.10` so that non-tip Gerrit versions can use it too?",
+      "revId": "0ccea3f6ad3425682967e52f6adcc3c5dfc5a00c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
