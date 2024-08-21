@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc43c6db_edf7ee01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:44:13Z",
+      "side": 1,
+      "message": "Why do we need this strange SubmoduleClone? Can\u0027t we deal with it in FileRepository, lines 296 to 304, directly?",
+      "revId": "52232a1e1fc2311d8a3630d0651cfef84bb819f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
