@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21284e81_ec1ff4ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-08-21T16:25:46Z",
+      "side": 1,
+      "message": "Probably easier to read if you don\u0027t make includeLogic its own function. Moving includeByTreeWalk out is good thought...",
+      "range": {
+        "startLine": 110,
+        "startChar": 17,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "b3c757d479ce3c1bdb6b5cb8bf290bcf722f2494",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa656c8a_5e8573cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2024-08-21T16:25:46Z",
+      "side": 1,
+      "message": "maybe don\u0027t change this? Flipping the boolean is hard to review and can be errorprone.",
+      "range": {
+        "startLine": 157,
+        "startChar": 18,
+        "endLine": 157,
+        "endChar": 19
+      },
+      "revId": "b3c757d479ce3c1bdb6b5cb8bf290bcf722f2494",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
