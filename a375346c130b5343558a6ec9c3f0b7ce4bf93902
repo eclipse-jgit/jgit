@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0120e4f_fb3794d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:38:03Z",
+      "side": 1,
+      "message": "* removes the \"Gpg\" prefix from the signing interfaces\n* makes them future-proof (should not need changes when CMS or SSH signatures are implemented)\n* uses the same ServiceLoader mechanism for both signers and verifiers\n\nA new signer or verifier would mean\n* writing the new Signer of SignatureVerifier\n* writing a new factory\n* publishing the factory via the ServiceLoader\u0027s service mechanism\n\nI did not rename the gpg.bc bundle; bundle renaming is always a hassle ith getting updates right. I also did not rename class GpgSignature because it would touch further interfaces, like ObjectBuilder. We could do so... I do wonder about the reason for this GpgSignature class, though; a plain byte[] would work just as well.\n\nI\u0027ve adapted EGit to these interfaces, and everything still works, and in places looks neater.",
+      "revId": "a375346c130b5343558a6ec9c3f0b7ce4bf93902",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
