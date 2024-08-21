@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76658dc_abf5fb30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-21T14:52:52Z",
+      "side": 1,
+      "message": "repo.eclipse.org was down and there are still CI issues caused by that, see https://gitlab.eclipse.org/eclipsefdn/helpdesk/-/issues/4914",
+      "revId": "1c2d79e9fff176e696b7fbb652bfcfb8e6b39618",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
