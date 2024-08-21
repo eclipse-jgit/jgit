@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea7e93fc_8c5cf4d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-21T15:29:11Z",
+      "side": 1,
+      "message": "We are currently putting together JGit 7.0, so we should do the interface clean-up now.\n\nI have pushed a clean-up and refactoring of these interfaces as https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1199821 .\n\nI don\u0027t like that this change introduces an internal registry. This will be hard to override by clients of the library, for instance EGit.\n\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1199821 doesn\u0027t have this problem; it uses the same ServiceLoader mechanisms for Signers and SignatureVerifiers, which is easy to override for instance in EGit.",
+      "revId": "dd1696c950d505648c10053f7ab07c0b381e4150",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
