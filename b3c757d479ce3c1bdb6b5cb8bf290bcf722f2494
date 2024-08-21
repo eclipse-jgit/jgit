@@ -72,6 +72,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7521974c_6e9ddf7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-08-21T19:20:40Z",
+      "side": 1,
+      "message": "I would strongly prefer that we isolate the flag handling logic away from the include logic for two reasons:\n\n1. since flag handling logic is not dependent on any of the filtering context; we can treat the include logic as a black box, and always set the `rewriteFlag` as long the include logic returns false. \n\n2. putting them into one method could confuse future contributors who don\u0027t understand how these flags should applied; the scenario im trying to prevent is people adding additional filtering logic in the future but forget or don\u0027t know about setting the flag correctly.",
+      "parentUuid": "5718439d_cf78c707",
+      "range": {
+        "startLine": 110,
+        "startChar": 17,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "b3c757d479ce3c1bdb6b5cb8bf290bcf722f2494",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa656c8a_5e8573cb",
