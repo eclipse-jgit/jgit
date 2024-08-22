@@ -57,6 +57,24 @@
       "parentUuid": "3cf5eabd_97e1f5b3",
       "revId": "8ac81aa6e45d2234b73434f2fe26ff34f15d583f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd6aa96_fffb006d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-22T08:08:22Z",
+      "side": 1,
+      "message": "Can you mention in more detail which issues you were facing without this patch ?",
+      "parentUuid": "e95f3f3a_114debab",
+      "revId": "8ac81aa6e45d2234b73434f2fe26ff34f15d583f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
