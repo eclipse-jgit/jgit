@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2128672b_03501767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-22T08:15:33Z",
+      "side": 1,
+      "message": "One thing that is unclear to me about this X509 verification here: what exactly does it verify?\n\nAs I understand the code, it checks whether the first certificate for the first signer matches the signature. It does not verify that the public key of that certificate is known to belong to the signer (do we have the key in the local GPG keystore? is it available via some key server?). Also, is the key enabled for signing? What if there is a certificate chain: we don\u0027t know the signers key, but the chain has some certificate that we do know and trust?\n\nCurrently the trust level is always set to UNKNOWN, so perhaps that\u0027s fine for now. Are there any plans to improve this by actually looking for the key in the local database, and if found, use the trust level from that key?",
+      "revId": "e66985792e64ce1fe65bd9bf9670c83e947dcb42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e9efa54_0cda84e9",
