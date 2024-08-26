@@ -27,8 +27,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
@@ -211,6 +213,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	public Collection<Pack> getPacks() {
 		return packed.getPacks();
+	}
+
+	@Override
+	public PackBitmapIndex getLatestBitmapIndex() throws IOException {
+		Stream<Pack> packWithBitmapStream = packed.getMatchingPacks(Pack::hasBitmapIndex);
+		Optional<Pack> packWithBitmap = packWithBitmapStream.sorted((p1, p2) -> (int) - (p1.packLastModified.getEpochSecond() - p2.packLastModified.getEpochSecond()))
+			.findFirst();
+		if(packWithBitmap.isPresent()) {
+			return packWithBitmap.get().getBitmapIndex();
+		}
+		return null;
 	}
 
 	/**
