@@ -263,4 +263,9 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	private AlternateHandle.Id getAlternateId() {
 		return wrapped.getAlternateId();
 	}
+
+	@Override
+	public PackBitmapIndex getLatestBitmapIndex() throws IOException {
+		return wrapped.getLatestBitmapIndex();
+	}
 }

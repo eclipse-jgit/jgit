@@ -1121,6 +1121,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return getReverseIdx().findNextOffset(startOffset, maxOffset);
 	}
 
+	synchronized boolean hasBitmapIndex() {
+		try {
+			return getBitmapIndex() != null;
+		} catch (IOException e) {
+			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
+			return false;
+		}
+	}
+
 	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
 		if (invalid || bitmapIdxFile == null) {
 			return null;
