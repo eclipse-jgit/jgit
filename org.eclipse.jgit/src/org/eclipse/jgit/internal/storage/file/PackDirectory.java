@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -117,6 +119,10 @@ class PackDirectory {
 		} while (searchPacksAgain(list));
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
+	}
+
+	Stream<Pack> getMatchingPacks(Predicate<Pack> matchingFilter) {
+		return Arrays.stream(packList.get().packs).filter(matchingFilter);
 	}
 
 	/** {@inheritDoc} */
