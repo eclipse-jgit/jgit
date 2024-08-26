@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61201673_0c4c8a2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-08-26T08:43:26Z",
+      "side": 1,
+      "message": "Is it ok to set the Pack as valid here?\nIt seems like the logic to determine if the pack is valid is concentrated in `doOpen` and `openFail` [1], with the exception of one occurrence in `idx()` [2].\n\nIf the pack was previously marked as invalid we are overriding its status.\n\n[1]: https://gerrit.googlesource.com/jgit/+/81067f18e6ee9ac36602926ac0e47945a18e8e3c/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java#657\n[2]: https://gerrit.googlesource.com/jgit/+/81067f18e6ee9ac36602926ac0e47945a18e8e3c/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java#210",
+      "range": {
+        "startLine": 1153,
+        "startChar": 7,
+        "endLine": 1153,
+        "endChar": 14
+      },
+      "revId": "d0eb770d9390c4945cde1204b9524e2350f4aceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
