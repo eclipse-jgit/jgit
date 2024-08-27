@@ -46,6 +46,30 @@
       },
       "revId": "cd1f899d6f5544892df57f23669198d800d2fa32",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec6c838f_fca4a77b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-27T22:23:25Z",
+      "side": 1,
+      "message": "Yes, that makes sense and thanks for finding this out !",
+      "parentUuid": "d27253de_5d51cb12",
+      "range": {
+        "startLine": 1126,
+        "startChar": 0,
+        "endLine": 1126,
+        "endChar": 35
+      },
+      "revId": "cd1f899d6f5544892df57f23669198d800d2fa32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
