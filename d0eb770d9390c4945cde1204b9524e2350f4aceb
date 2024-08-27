@@ -22,6 +22,30 @@
       },
       "revId": "d0eb770d9390c4945cde1204b9524e2350f4aceb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfc3d11_c3550ed8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-08-27T08:51:56Z",
+      "side": 1,
+      "message": "This approach should be fine, since the initial state of a Pack object implies `invalid` to be `false`.\nThe `refreshBitmapIndex` simply set the flat to its initial, default value, which is expected.\n\nResolving this.",
+      "parentUuid": "61201673_0c4c8a2f",
+      "range": {
+        "startLine": 1153,
+        "startChar": 7,
+        "endLine": 1153,
+        "endChar": 14
+      },
+      "revId": "d0eb770d9390c4945cde1204b9524e2350f4aceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
