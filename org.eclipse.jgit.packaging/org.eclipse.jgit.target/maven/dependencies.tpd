@@ -30,7 +30,7 @@ maven apache
 	dependency {
 		groupId = "commons-logging"
 		artifactId = "commons-logging"
-		version = "1.3.2"
+		version = "1.3.4"
 	}
 }
 
