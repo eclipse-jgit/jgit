@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdf207ce_50b10476",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-08-27T09:10:16Z",
+      "side": 1,
+      "message": "This is arguably one of the most interesting lines for this fix, so it\u0027s worth spending a few words since this method is called for every git-upload-pack, for every packfile existing in the repository.\n\nWhen the packfile evaluated has no bitmap associated (i.e. `bitmapIdx` and `bitmapIdxFile` are `false`), which is the case for the vast majority of packfiles, this method returns quickly, without accessing the filesystem in the attempt to read the bitmap file.\n\nHowever, suppose the bitmap comes into existence later on (i.e. rsync or fs resolution raciness). In that case, it won\u0027t be included in memory until the next `scanPack` is executed (i.e. when a new packfile is created due to a push, for example).\n\nIn this sense, this *does not* fulfil the issue presented in [1], because the  \"delayed\" bitmap won\u0027t be considered until the list of packfiles is refreshed (GC, receive-pack, etc).\n\nTo be able to acknowledge the \"delayed\" bitmap immediately, for the _current git-upload-pack_, one would need to call `refreshBitmapIndex()` instead.\n\nThis would fulfil the issue presented in [1], however, it will be much more expensive, since it would require file system access for each existing packfile, during the git-upload-pack.\n\nThe solution presented by this change seems to be a good compromise between performance and functionality, but perhaps it should be mentioned more explicitly?\n\nThoughts @luca.milanesio@gmail.com?\n\n[1] https://github.com/eclipse-jgit/jgit/issues/15",
+      "range": {
+        "startLine": 1126,
+        "startChar": 0,
+        "endLine": 1126,
+        "endChar": 35
+      },
+      "revId": "cd1f899d6f5544892df57f23669198d800d2fa32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
