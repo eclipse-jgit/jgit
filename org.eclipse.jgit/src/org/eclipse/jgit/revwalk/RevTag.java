@@ -13,7 +13,6 @@
 package org.eclipse.jgit.revwalk;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.eclipse.jgit.lib.Constants.GPG_SIGNATURE_PREFIX;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -39,8 +38,17 @@ import org.eclipse.jgit.util.StringUtils;
  */
 public class RevTag extends RevObject {
 
-	private static final byte[] hSignature = Constants
-			.encodeASCII(GPG_SIGNATURE_PREFIX);
+	private static final byte[] SIGNATURE_START = Constants
+			.encodeASCII("-----BEGIN"); //$NON-NLS-1$
+
+	private static final byte[] GPG_SIGNATURE_START = Constants
+			.encodeASCII(Constants.GPG_SIGNATURE_PREFIX);
+
+	private static final byte[] CMS_SIGNATURE_START = Constants
+			.encodeASCII(Constants.CMS_SIGNATURE_PREFIX);
+
+	private static final byte[] SSH_SIGNATURE_START = Constants
+			.encodeASCII(Constants.SSH_SIGNATURE_PREFIX);
 
 	/**
 	 * Parse an annotated tag from its canonical format.
@@ -209,20 +217,27 @@ public class RevTag extends RevObject {
 			return msgB;
 		}
 		// Find the last signature start and return the rest
-		int start = nextStart(hSignature, raw, msgB);
+		int start = nextStart(SIGNATURE_START, raw, msgB);
 		if (start < 0) {
 			return start;
 		}
 		int next = RawParseUtils.nextLF(raw, start);
 		while (next < raw.length) {
-			int newStart = nextStart(hSignature, raw, next);
+			int newStart = nextStart(SIGNATURE_START, raw, next);
 			if (newStart < 0) {
 				break;
 			}
 			start = newStart;
 			next = RawParseUtils.nextLF(raw, start);
 		}
-		return start;
+		// SIGNATURE_START is just a prefix. Check that it is one of the known
+		// full signature start tags.
+		if (RawParseUtils.match(raw, start, GPG_SIGNATURE_START) > 0
+				|| RawParseUtils.match(raw, start, CMS_SIGNATURE_START) > 0
+				|| RawParseUtils.match(raw, start, SSH_SIGNATURE_START) > 0) {
+			return start;
+		}
+		return -1;
 	}
 
 	/**
