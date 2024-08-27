@@ -22,6 +22,30 @@
       },
       "revId": "cd1f899d6f5544892df57f23669198d800d2fa32",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d27253de_5d51cb12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-08-27T15:27:22Z",
+      "side": 1,
+      "message": "This was a regression exclusively caused by this change.\nThe parent change [1] allows the bitmap to be discovered even without refreshing the list of packfiles.\n\nThe reason for this difference was that `getLatestBitmapIndex` was working on a stale version of pack list, rather than a new fresh one. [2]\n\nWe fix this by explicitly calling `getPacks()` before checking for the latest bitmap.\n\n@luca.milanesio@gmail.com, WDYT?\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1184934/1\n\n[2] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1199780/1/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+      "parentUuid": "fdf207ce_50b10476",
+      "range": {
+        "startLine": 1126,
+        "startChar": 0,
+        "endLine": 1126,
+        "endChar": 35
+      },
+      "revId": "cd1f899d6f5544892df57f23669198d800d2fa32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
