@@ -1280,9 +1280,12 @@ public final class DfsPackFile extends BlockBasedFile {
 	private DfsBlockCache.Ref<PackBitmapIndex> loadBitmapIndex(DfsReader ctx,
 			DfsStreamKey bitmapKey) throws IOException {
 		ctx.stats.readBitmap++;
+		long start = System.nanoTime();
 		PackBitmapIndexLoader.LoadResult result = bitmapLoader
 				.loadPackBitmapIndex(ctx, this);
 		bitmapIndex = result.bitmapIndex;
+		ctx.stats.readBitmapIdxBytes += result.bytesRead;
+		ctx.stats.readBitmapIdxMicros += elapsedMicros(start);
 		return new DfsBlockCache.Ref<>(bitmapKey, REF_POSITION,
 				result.bytesRead, result.bitmapIndex);
 	}
