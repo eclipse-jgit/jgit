@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "003f6ed9_f02b0b88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-27T07:16:22Z",
+      "side": 1,
+      "message": "Eric Steele tested this and confirmed it works, see https://github.com/eclipse-jgit/jgit/issues/87#issuecomment-2311368316:\n\nericsteele commented 6 hours ago via email \nLooks good to me. Tested on my local and it works. Thanks!\n…\n@tomaswolf\nMember\ntomaswolf commented 14 minutes ago\nWe also had https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/197494/3/org.eclipse.jgit/src/org/eclipse/jgit/transport/AmazonS3.java which somehow fell through the cracks.\n\nEither of these is fine.",
+      "revId": "c7c9fb7d6ba53169bd439351d5690d6ae9aee9e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
