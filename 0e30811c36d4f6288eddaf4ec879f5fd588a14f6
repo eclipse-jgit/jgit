@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0c93ce0_28bc01ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-27T08:50:21Z",
+      "side": 1,
+      "message": "Note that the final build for 7.0 will happen Monday or Tuesday next week due to the schedule of the Eclipse simultaneous release",
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908c9c25_5ba8c1c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevFlag.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-27T08:50:21Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef715990_de9fc3fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-27T08:50:21Z",
+      "side": 1,
+      "message": "missing @since 7.0 annotation for new API class",
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b45aa9b_96791c92",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-27T08:50:21Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 227,
+        "startChar": 11,
+        "endLine": 227,
+        "endChar": 15
+      },
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5620d7a_f737dbb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-27T08:50:21Z",
+      "side": 1,
+      "message": "7.0",
+      "range": {
+        "startLine": 241,
+        "startChar": 22,
+        "endLine": 241,
+        "endChar": 26
+      },
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
