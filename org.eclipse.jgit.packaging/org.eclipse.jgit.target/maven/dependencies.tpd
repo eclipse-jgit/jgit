@@ -159,37 +159,37 @@ maven jetty
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-http"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-io"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-security"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-server"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-session"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util-ajax"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "jakarta.servlet"
