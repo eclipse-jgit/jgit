@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28acf8b6_6c014263",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-28T18:26:24Z",
+      "side": 1,
+      "message": "Looks OK to me. I only wonder if tukaani.xz really should be optional? jgit.archive does propose the txz format; if tukaani.xz isn\u0027t present, there may be failures later on.",
+      "revId": "8a83f6314087e250567935d1ee0b28969f4b47a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
