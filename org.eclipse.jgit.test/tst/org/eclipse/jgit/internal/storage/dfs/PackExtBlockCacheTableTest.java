@@ -35,7 +35,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-@SuppressWarnings("boxing")
+@SuppressWarnings({ "boxing", "unchecked" })
 public class PackExtBlockCacheTableTest {
 	@Test
 	public void fromBlockCacheConfigs_createsDfsPackExtBlockCacheTables() {
