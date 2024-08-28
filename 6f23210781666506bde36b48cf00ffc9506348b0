@@ -22,6 +22,30 @@
       },
       "revId": "6f23210781666506bde36b48cf00ffc9506348b0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6fde040_cf6fdb4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-28T22:42:54Z",
+      "side": 1,
+      "message": "What is even worse is the way retry is performed: sleep on the current thread.\n\nWhen using JGit with Gerrit, the sleeps would block the thread in the pool causing the saturation during heavy workload. It is way better to fail to acquire the lock and leave Gerrit doing the async retry rather than a simple for/loop at JGit level.",
+      "parentUuid": "ed471052_f41943a6",
+      "range": {
+        "startLine": 144,
+        "startChar": 46,
+        "endLine": 144,
+        "endChar": 73
+      },
+      "revId": "6f23210781666506bde36b48cf00ffc9506348b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
