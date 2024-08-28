@@ -243,17 +243,18 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH, true);
 
-		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
-		assertTrue(curs.getCommitGraph().isEmpty());
-		commitFile("file.txt", "content", "master");
-		GC gc = new GC(db);
-		gc.gc().get();
-		assertTrue(curs.getCommitGraph().isPresent());
+		try (WindowCursor curs = new WindowCursor(db.getObjectDatabase())) {
+			assertTrue(curs.getCommitGraph().isEmpty());
+			commitFile("file.txt", "content", "master");
+			GC gc = new GC(db);
+			gc.gc().get();
+			assertTrue(curs.getCommitGraph().isPresent());
 
-		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
+			db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_COMMIT_GRAPH, false);
 
-		assertTrue(curs.getCommitGraph().isEmpty());
+			assertTrue(curs.getCommitGraph().isEmpty());
+		}
 	}
 
 	@Test
