@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed471052_f41943a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-28T22:41:25Z",
+      "side": 1,
+      "message": "@jrn@google.com I am wondering if anyone remembers why those high values waiting for a lock to be released.\n\nA ref-update (or batch ref-update) could complete in a matter of micros (depending on the filesystem resolution) and therefore it is a waste to wait for 100ms for retries.\n\nWith these hardcoded values I could not perform more than 10 ref-updates per second with parallel load, even though the parallel users were updating different refs.\n\nI tried to make these sleeps configurable (see Ic50f320c31) and I could easily achieve up to hundreds of ref updates per second.",
+      "range": {
+        "startLine": 144,
+        "startChar": 46,
+        "endLine": 144,
+        "endChar": 73
+      },
+      "revId": "6f23210781666506bde36b48cf00ffc9506348b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
