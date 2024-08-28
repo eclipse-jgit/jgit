@@ -95,6 +95,7 @@ public class PackExtBlockCacheTableTest {
 			throws Exception {
 		BlockBasedFile blockBasedFile = new BlockBasedFile(null,
 				mock(DfsPackDescription.class), PackExt.BITMAP_INDEX) {
+			// empty
 		};
 		DfsBlock dfsBlock = mock(DfsBlock.class);
 		DfsBlockCacheTable defaultBlockCacheTable = mock(
@@ -125,6 +126,7 @@ public class PackExtBlockCacheTableTest {
 			throws Exception {
 		BlockBasedFile blockBasedFile = new BlockBasedFile(null,
 				mock(DfsPackDescription.class), PackExt.PACK) {
+			// empty
 		};
 		DfsBlock dfsBlock = mock(DfsBlock.class);
 		DfsBlockCacheTable defaultBlockCacheTable = mock(
