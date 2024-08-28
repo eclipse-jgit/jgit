@@ -194,7 +194,7 @@ maven jetty
 	dependency {
 		groupId = "jakarta.servlet"
 		artifactId = "jakarta.servlet-api"
-		version = "6.0.0"
+		version = "6.1.0"
 	}
 }
 
