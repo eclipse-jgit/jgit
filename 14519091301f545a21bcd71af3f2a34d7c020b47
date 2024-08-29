@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72fd1e2_ef032a01",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-29T15:16:17Z",
+      "side": 0,
+      "message": "looks like this removal fixed https://github.com/eclipse-jgit/jgit/issues/33, am I right ?",
+      "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
