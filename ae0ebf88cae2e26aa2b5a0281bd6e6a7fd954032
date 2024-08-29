@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da184800_9974345c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T17:23:02Z",
+      "side": 1,
+      "message": "I am surprised this is verified: there is an @Override annotation missing.",
+      "revId": "ae0ebf88cae2e26aa2b5a0281bd6e6a7fd954032",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35b3f1e7_059f1188",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T17:23:02Z",
+      "side": 1,
+      "message": "Missing `@Override`",
+      "range": {
+        "startLine": 730,
+        "startChar": 1,
+        "endLine": 730,
+        "endChar": 7
+      },
+      "revId": "ae0ebf88cae2e26aa2b5a0281bd6e6a7fd954032",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
