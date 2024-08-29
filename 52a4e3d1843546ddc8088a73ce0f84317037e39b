@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ba217f_e4a9e036",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "The name should be more representative of what it does.\n\n\n```suggestion\n\tpublic Pack repackHeadsWithBitmap() throws IOException {\n```",
+      "range": {
+        "startLine": 806,
+        "startChar": 13,
+        "endLine": 806,
+        "endChar": 36
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d53f0006_76d501c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "Never reused anywhere: `getAllRefs()` can be ignored at L818",
+      "range": {
+        "startLine": 807,
+        "startChar": 18,
+        "endLine": 807,
+        "endChar": 28
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e02223_496f747b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "Objects?\n\n\n```suggestion\n\t\tSet\u003cObjectId\u003e objsToExcludeFromBitmap \u003d repo.getRefDatabase()\n```",
+      "range": {
+        "startLine": 814,
+        "startChar": 16,
+        "endLine": 814,
+        "endChar": 20
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "394ae25c_18f2080b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "Should this be an input parameter to the API?\nThe decision to use the *first* object representation or the *best* object representation for the packfile generation should be a conscious decision IMHO.\n\nThe GC has already a `setPackConfig()` and the caller could already use something like:\n```java\npconfig.setQuickMatchSearchForReuse(true);\ngc.setPackConfig(pconfig);\nnewPack \u003d gc.repackHeadsWithBitmap();\n```",
+      "range": {
+        "startLine": 854,
+        "startChar": 39,
+        "endLine": 854,
+        "endChar": 43
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b62bfbe0_a1202700",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "Just return directly.\n\n\n```suggestion\n\t\t\treturn writePack(allHeadsAndTags, PackWriter.NONE, allTags,\n```",
+      "range": {
+        "startLine": 855,
+        "startChar": 3,
+        "endLine": 855,
+        "endChar": 12
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c92a73b_a8f1f1b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "Can be run in a `finally {}` block",
+      "range": {
+        "startLine": 860,
+        "startChar": 2,
+        "endLine": 860,
+        "endChar": 20
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779935e4_1c31c090",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T18:04:59Z",
+      "side": 1,
+      "message": "This is flagged as a warning as we return a mutable variable.\n\n\n```suggestion\n\t\treturn null;\n```",
+      "range": {
+        "startLine": 862,
+        "startChar": 2,
+        "endLine": 862,
+        "endChar": 19
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
