@@ -34,6 +34,24 @@
       "parentUuid": "c72fd1e2_ef032a01",
       "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c715caa0_5bd66a84",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-29T21:55:56Z",
+      "side": 0,
+      "message": "I\u0027d prefer this fix on stable-7.0, will bump version to SNAPSHOT-7.1 on master soon",
+      "parentUuid": "a38d8c23_90b818a4",
+      "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
