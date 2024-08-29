@@ -31,9 +31,9 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
-import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -276,23 +276,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public ObjectReader getObjectReader() {
 		return reader;
-	}
-
-	/**
-	 * Get a reachability checker for commits over this revwalk.
-	 *
-	 * @return the most efficient reachability checker for this repository.
-	 * @throws IOException
-	 *             if it cannot open any of the underlying indices.
-	 *
-	 * @since 5.4
-	 * @deprecated use {@code ObjectReader#createReachabilityChecker(RevWalk)}
-	 *             instead.
-	 */
-	@Deprecated
-	public final ReachabilityChecker createReachabilityChecker()
-			throws IOException {
-		return reader.createReachabilityChecker(this);
 	}
 
 	/**
