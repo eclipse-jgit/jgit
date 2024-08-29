@@ -111,32 +111,6 @@ public class RepoCommand extends GitCommand<RevCommit> {
 		public ObjectId sha1(String uri, String ref) throws GitAPIException;
 
 		/**
-		 * Read a file from a remote repository.
-		 *
-		 * @param uri
-		 *            The URI of the remote repository
-		 * @param ref
-		 *            The ref (branch/tag/etc.) to read
-		 * @param path
-		 *            The relative path (inside the repo) to the file to read
-		 * @return the file content.
-		 * @throws GitAPIException
-		 *             If the ref have an invalid or ambiguous name, or it does
-		 *             not exist in the repository,
-		 * @throws IOException
-		 *             If the object does not exist or is too large
-		 * @since 3.5
-		 *
-		 * @deprecated Use {@link #readFileWithMode(String, String, String)}
-		 *             instead
-		 */
-		@Deprecated
-		public default byte[] readFile(String uri, String ref, String path)
-				throws GitAPIException, IOException {
-			return readFileWithMode(uri, ref, path).getContents();
-		}
-
-		/**
 		 * Read contents and mode (i.e. permissions) of the file from a remote
 		 * repository.
 		 *
