@@ -61,6 +61,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -787,6 +788,80 @@ public class GC {
 			pm.endTask();
 		}
 	}
+
+
+	/**
+	 * Packs all objects which are reachable from any of the heads into one pack
+	 * file, always generating the associated bitmap.
+	 * Differently from the {@link #repack()} method, this method does not
+	 * repack non-heads refs and does not perform pruning.
+	 * Note that the repacking is always executed with the `quickMatchSearchForReuse` enabled, to minimize execution time.
+	 *
+	 * @return The newly created pack file, or null when no pack file was created
+	 * @throws java.io.IOException when during reading of refs, index, packfiles, objects,
+	 *                             reflog-entries or during writing to the packfile
+	 *                             {@link java.io.IOException} occurs
+	 */
+	@Nullable
+	public Pack repackAndGenerateBitmap() throws IOException {
+		Collection<Ref> refsBefore = getAllRefs();
+
+		Set<ObjectId> allHeadsAndTags = new HashSet<>();
+		Set<ObjectId> allHeads = new HashSet<>();
+		Set<ObjectId> allTags = new HashSet<>();
+		Set<ObjectId> tagTargets = new HashSet<>();
+
+		Set<ObjectId> refsToExcludeFromBitmap = repo.getRefDatabase()
+				.getRefsByPrefix(pconfig.getBitmapExcludedRefsPrefixes())
+				.stream().map(Ref::getObjectId).collect(Collectors.toSet());
+
+		for (Ref ref : refsBefore) {
+			checkCancelled();
+			if (ref.isSymbolic() || ref.getObjectId() == null) {
+				continue;
+			}
+			if (isHead(ref)) {
+				allHeads.add(ref.getObjectId());
+			} else if (isTag(ref)) {
+				allTags.add(ref.getObjectId());
+			}
+
+			if (ref.getPeeledObjectId() != null) {
+				tagTargets.add(ref.getPeeledObjectId());
+			}
+		}
+
+		List<ObjectIdSet> excluded = new LinkedList<>();
+		for (Pack p : repo.getObjectDatabase().getPacks()) {
+			checkCancelled();
+			if (!shouldPackKeptObjects() && p.shouldBeKept()) {
+				excluded.add(p.getIndex());
+			}
+		}
+
+		// Don't exclude tags that are also branch tips
+		allTags.removeAll(allHeads);
+		allHeadsAndTags.addAll(allHeads);
+		allHeadsAndTags.addAll(allTags);
+
+		// Hoist all branch tips and tags earlier in the pack file
+		tagTargets.addAll(allHeadsAndTags);
+
+		Pack headsPack = null;
+		if (!allHeadsAndTags.isEmpty()) {
+			//  stops scanning upon finding the first matching object representation, making search for
+			// reuse faster.
+			pconfig.setQuickMatchSearchForReuse(true);
+			headsPack = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
+					refsToExcludeFromBitmap, tagTargets, excluded, true);
+
+		}
+
+		deleteTempPacksIdx();
+
+		return headsPack;
+	}
+
 
 	/**
 	 * Packs all objects which reachable from any of the heads into one pack
