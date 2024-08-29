@@ -61,6 +61,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -788,6 +789,75 @@ public class GC {
 		}
 	}
 
+
+	/**
+	 * Packs all objects which are reachable from any of the heads into one pack
+	 * file, always generating the associated bitmap.
+	 * Differently from the {@link #repack()} method, this method does not
+	 * repack non-heads refs and does not perform pruning.
+	 *
+	 * @param selectFirstObjectMatch whether to stop at the first object representation during search for reuse.
+	 * @return The newly created pack file, or null when no pack file was created
+	 * @throws java.io.IOException when during reading of refs, index, packfiles, objects,
+	 *                             reflog-entries or during writing to the packfile
+	 *                             {@link java.io.IOException} occurs
+	 */
+	@Nullable
+	public Pack repackHeadsWithBitmap(boolean selectFirstObjectMatch) throws IOException {
+		Set<ObjectId> allHeadsAndTags = new HashSet<>();
+		Set<ObjectId> allHeads = new HashSet<>();
+		Set<ObjectId> allTags = new HashSet<>();
+		Set<ObjectId> tagTargets = new HashSet<>();
+
+		Set<ObjectId> objsToExcludeFromBitmap = repo.getRefDatabase()
+				.getRefsByPrefix(pconfig.getBitmapExcludedRefsPrefixes())
+				.stream().map(Ref::getObjectId).collect(Collectors.toSet());
+
+		for (Ref ref : getAllRefs()) {
+			checkCancelled();
+			if (ref.isSymbolic() || ref.getObjectId() == null) {
+				continue;
+			}
+			if (isHead(ref)) {
+				allHeads.add(ref.getObjectId());
+			} else if (isTag(ref)) {
+				allTags.add(ref.getObjectId());
+			}
+
+			if (ref.getPeeledObjectId() != null) {
+				tagTargets.add(ref.getPeeledObjectId());
+			}
+		}
+
+		List<ObjectIdSet> excluded = new LinkedList<>();
+		for (Pack p : repo.getObjectDatabase().getPacks()) {
+			checkCancelled();
+			if (!shouldPackKeptObjects() && p.shouldBeKept()) {
+				excluded.add(p.getIndex());
+			}
+		}
+
+		// Don't exclude tags that are also branch tips
+		allTags.removeAll(allHeads);
+		allHeadsAndTags.addAll(allHeads);
+		allHeadsAndTags.addAll(allTags);
+
+		// Hoist all branch tips and tags earlier in the pack file
+		tagTargets.addAll(allHeadsAndTags);
+
+		try {
+			if (!allHeadsAndTags.isEmpty()) {
+				return writePack(allHeadsAndTags, PackWriter.NONE, allTags,
+						objsToExcludeFromBitmap, tagTargets, excluded, true, selectFirstObjectMatch);
+			}
+		} finally {
+			deleteTempPacksIdx();
+		}
+
+		return null;
+	}
+
+
 	/**
 	 * Packs all objects which reachable from any of the heads into one pack
 	 * file. Additionally all objects which are not reachable from any head but
@@ -863,9 +933,10 @@ public class GC {
 
 		List<Pack> ret = new ArrayList<>(2);
 		Pack heads = null;
+		final boolean selectFirstObjectMatch = false;
 		if (!allHeadsAndTags.isEmpty()) {
 			heads = writePack(allHeadsAndTags, PackWriter.NONE, allTags,
-					refsToExcludeFromBitmap, tagTargets, excluded, true);
+					refsToExcludeFromBitmap, tagTargets, excluded, true, selectFirstObjectMatch);
 			if (heads != null) {
 				ret.add(heads);
 				excluded.add(0, heads.getIndex());
@@ -873,13 +944,13 @@ public class GC {
 		}
 		if (!nonHeads.isEmpty()) {
 			Pack rest = writePack(nonHeads, allHeadsAndTags, PackWriter.NONE,
-					PackWriter.NONE, tagTargets, excluded, false);
+					PackWriter.NONE, tagTargets, excluded, false, selectFirstObjectMatch);
 			if (rest != null)
 				ret.add(rest);
 		}
 		if (!txnHeads.isEmpty()) {
 			Pack txn = writePack(txnHeads, PackWriter.NONE, PackWriter.NONE,
-					PackWriter.NONE, null, excluded, false);
+					PackWriter.NONE, null, excluded, false, selectFirstObjectMatch);
 			if (txn != null)
 				ret.add(txn);
 		}
@@ -1149,7 +1220,7 @@ public class GC {
 	private Pack writePack(@NonNull Set<? extends ObjectId> want,
 			@NonNull Set<? extends ObjectId> have, @NonNull Set<ObjectId> tags,
 			@NonNull Set<ObjectId> excludedRefsTips,
-			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects, boolean createBitmap)
+			Set<ObjectId> tagTargets, List<ObjectIdSet> excludeObjects, boolean createBitmap, boolean selectFirstObjectMatch)
 			throws IOException {
 		checkCancelled();
 		File tmpPack = null;
@@ -1172,6 +1243,7 @@ public class GC {
 				pconfig,
 				repo.newObjectReader())) {
 			// prepare the PackWriter
+			pw.setSelectFirstObjectMatch(selectFirstObjectMatch);
 			pw.setDeltaBaseAsOffset(true);
 			pw.setReuseDeltaCommits(false);
 			if (tagTargets != null) {
