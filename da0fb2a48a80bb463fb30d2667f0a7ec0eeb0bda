@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bbf90d6_9fa4bc21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T20:25:16Z",
+      "side": 1,
+      "message": "I believe this ordering is always better isn\u0027t it? Can we just use it unconditionally?",
+      "range": {
+        "startLine": 280,
+        "startChar": 63,
+        "endLine": 280,
+        "endChar": 98
+      },
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f2d865_e3e847c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T20:25:16Z",
+      "side": 1,
+      "message": "This is a different optimisation that would make sense anyway, would that make sense as a separate change?",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 3
+      },
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a23c54_425637fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T20:25:16Z",
+      "side": 1,
+      "message": "The `quick` wording is misleading: here want to say that we select the `first` match during repacking.\n\nWhat about `selectFirstObjectMatch`?\n\n\n```suggestion\n\tprivate final boolean selectFirstObjectMatch;\n```",
+      "range": {
+        "startLine": 275,
+        "startChar": 23,
+        "endLine": 275,
+        "endChar": 47
+      },
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fb4e48_7619ed3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-08-29T20:25:16Z",
+      "side": 1,
+      "message": "I believe this should not end up in the `PackConfig` because of two reasons:\n- It is not a Git configuration and not intended to be read from any pack config file\n- It is relevant to the `PackWriter` only and not used anywhere else\n\nWe should just keep the flag in `PackWriter` and leave `PackConfig` untouched.",
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
