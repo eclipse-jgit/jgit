@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "017dc939_cddc2efa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-29T15:06:59Z",
+      "side": 1,
+      "message": "link to bug jgit-12 by adding this commit message trailer\n\nBug: jgit-12",
+      "revId": "2eb6200c6e76718dbf5dde1e2fbc90c4d2475fd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "aa530887_c0e1f167",
