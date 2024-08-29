@@ -16,6 +16,24 @@
       "message": "looks like this removal fixed https://github.com/eclipse-jgit/jgit/issues/33, am I right ?",
       "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a38d8c23_90b818a4",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-29T17:44:10Z",
+      "side": 0,
+      "message": "I think so. Though honestly: I had completely forgotten that I had removed this, too.\n\nI\u0027ll need to do this in EGit now. Otherwise we may not have AES/OCB available, which is needed for some passphrase-protected GPG keys.\n\nWhere would you want that EGit change? Still on master, or on stable-7.0?",
+      "parentUuid": "c72fd1e2_ef032a01",
+      "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
