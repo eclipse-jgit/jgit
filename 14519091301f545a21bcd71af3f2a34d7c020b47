@@ -52,6 +52,24 @@
       "parentUuid": "a38d8c23_90b818a4",
       "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ebe37dc_7aab18e5",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/BouncyCastleGpgSignatureVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-08-29T22:48:20Z",
+      "side": 0,
+      "message": "Done in https://eclipse.gerrithub.io/c/eclipse-egit/egit/+/1200302",
+      "parentUuid": "c715caa0_5bd66a84",
+      "revId": "14519091301f545a21bcd71af3f2a34d7c020b47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
