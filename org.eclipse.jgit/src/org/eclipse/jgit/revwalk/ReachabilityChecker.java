@@ -26,40 +26,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * @since 5.4
  */
 public interface ReachabilityChecker {
-
-	/**
-	 * Check if all targets are reachable from the {@code starters} commits.
-	 * <p>
-	 * Caller should parse the objectIds (preferably with
-	 * {@code walk.parseCommit()} and handle missing/incorrect type objects
-	 * before calling this method.
-	 *
-	 * @param targets
-	 *            commits to reach.
-	 * @param starters
-	 *            known starting points.
-	 * @return An unreachable target if at least one of the targets is
-	 *         unreachable. An empty optional if all targets are reachable from
-	 *         the starters.
-	 *
-	 * @throws MissingObjectException
-	 *             if any of the incoming objects doesn't exist in the
-	 *             repository.
-	 * @throws IncorrectObjectTypeException
-	 *             if any of the incoming objects is not a commit or a tag.
-	 * @throws IOException
-	 *             if any of the underlying indexes or readers can not be
-	 *             opened.
-	 *
-	 * @deprecated see {{@link #areAllReachable(Collection, Stream)}
-	 */
-	@Deprecated
-	default Optional<RevCommit> areAllReachable(Collection<RevCommit> targets,
-                       Collection<RevCommit> starters) throws MissingObjectException,
-			IncorrectObjectTypeException, IOException {
-		return areAllReachable(targets, starters.stream());
-	}
-
 	/**
 	 * Check if all targets are reachable from the {@code starters} commits.
 	 * <p>

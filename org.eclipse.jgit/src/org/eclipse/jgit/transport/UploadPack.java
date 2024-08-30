@@ -30,11 +30,11 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_D
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ACK;
@@ -80,7 +80,6 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
-import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -170,52 +169,6 @@ public class UploadPack implements Closeable {
 		 */
 		void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException;
-	}
-
-	/**
-	 * Data in the first line of a want-list, the line itself plus options.
-	 *
-	 * @deprecated Use {@link FirstWant} instead
-	 */
-	@Deprecated
-	public static class FirstLine {
-
-		private final FirstWant firstWant;
-
-		/**
-		 * @param line
-		 *            line from the client.
-		 */
-		public FirstLine(String line) {
-			try {
-				firstWant = FirstWant.fromLine(line);
-			} catch (PackProtocolException e) {
-				throw new UncheckedIOException(e);
-			}
-		}
-
-		/**
-		 * Get non-capabilities part of the line
-		 *
-		 * @return non-capabilities part of the line.
-		 */
-		public String getLine() {
-			return firstWant.getLine();
-		}
-
-		/**
-		 * Get capabilities parsed from the line
-		 *
-		 * @return capabilities parsed from the line.
-		 */
-		public Set<String> getOptions() {
-			if (firstWant.getAgent() != null) {
-				Set<String> caps = new HashSet<>(firstWant.getCapabilities());
-				caps.add(OPTION_AGENT + '=' + firstWant.getAgent());
-				return caps;
-			}
-			return firstWant.getCapabilities();
-		}
 	}
 
 	/*
@@ -1690,18 +1643,6 @@ public class UploadPack implements Closeable {
 		if (currentRequest == null)
 			throw new RequestNotYetReadException();
 		return currentRequest.getDepth();
-	}
-
-	/**
-	 * Deprecated synonym for {@code getFilterSpec().getBlobLimit()}.
-	 *
-	 * @return filter blob limit requested by the client, or -1 if no limit
-	 * @since 5.3
-	 * @deprecated Use {@link #getFilterSpec()} instead
-	 */
-	@Deprecated
-	public final long getFilterBlobLimit() {
-		return getFilterSpec().getBlobLimit();
 	}
 
 	/**
