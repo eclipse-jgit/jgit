@@ -25,8 +25,9 @@ import java.time.Instant;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.dircache.Checkout;
 import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -303,11 +305,12 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
 		dce.setFileMode(FileMode.SYMLINK);
 		try (ObjectReader objectReader = db.newObjectReader()) {
+			Checkout checkout = new Checkout(db).setRecursiveDeletion(false);
+			checkout.checkout(dce,
+					new CheckoutMetadata(EolStreamType.DIRECT, null),
+					objectReader, null);
 			WorkingTreeOptions options = db.getConfig()
 					.get(WorkingTreeOptions.KEY);
-			DirCacheCheckout.checkoutEntry(db, dce, objectReader, false, null,
-					options);
-
 			FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
 					options);
 			while (!fti.getEntryPathString().equals("symlink")) {
