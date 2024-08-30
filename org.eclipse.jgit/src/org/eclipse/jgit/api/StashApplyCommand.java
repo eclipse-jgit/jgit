@@ -307,19 +307,6 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	/**
 	 * Whether the command should restore untracked files
 	 *
-	 * @param applyUntracked
-	 *            true (default) if the command should restore untracked files
-	 * @since 3.4
-	 * @deprecated use {@link #setRestoreUntracked} instead
-	 */
-	@Deprecated
-	public void setApplyUntracked(boolean applyUntracked) {
-		this.restoreUntracked = applyUntracked;
-	}
-
-	/**
-	 * Whether the command should restore untracked files
-	 *
 	 * @param restoreUntracked
 	 *            true (default) if the command should restore untracked files
 	 * @return {@code this}
