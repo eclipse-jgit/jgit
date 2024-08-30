@@ -622,18 +622,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/**
 	 * Get the last modified time of this entry.
 	 *
-	 * @return last modified time of this file, in milliseconds since the epoch
-	 *         (Jan 1, 1970 UTC).
-	 * @deprecated use {@link #getEntryLastModifiedInstant()} instead
-	 */
-	@Deprecated
-	public long getEntryLastModified() {
-		return current().getLastModified();
-	}
-
-	/**
-	 * Get the last modified time of this entry.
-	 *
 	 * @return last modified time of this file
 	 * @since 5.1.9
 	 */
@@ -1221,21 +1209,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		 * @return size of this file, in bytes.
 		 */
 		public abstract long getLength();
-
-		/**
-		 * Get the last modified time of this entry.
-		 * <p>
-		 * <b>Note: Efficient implementation required.</b>
-		 * <p>
-		 * The implementation of this method must be efficient. If a subclass
-		 * needs to compute the value they should cache the reference within an
-		 * instance member instead.
-		 *
-		 * @return time since the epoch (in ms) of the last change.
-		 * @deprecated use {@link #getLastModifiedInstant()} instead
-		 */
-		@Deprecated
-		public abstract long getLastModified();
 
 		/**
 		 * Get the last modified time of this entry.
