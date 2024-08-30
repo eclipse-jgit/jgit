@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7df465ba_eb0d7595",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-08-30T19:48:40Z",
+      "side": 1,
+      "message": "could you help reviewing this series, chance to cleanup deprecated code in 7.0",
+      "revId": "aae4016f5ded43783a5ae80cdb9d576635bc28d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
