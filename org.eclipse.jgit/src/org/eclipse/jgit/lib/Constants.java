@@ -15,7 +15,6 @@ package org.eclipse.jgit.lib;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
@@ -202,24 +201,6 @@ public final class Constants {
 	 * <b>This constant is fixed and is defined by the Git packfile format.</b>
 	 */
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
-
-	/**
-	 * Native character encoding for commit messages, file names...
-	 *
-	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
-	 *             instead.
-	 */
-	@Deprecated
-	public static final Charset CHARSET;
-
-	/**
-	 * Native character encoding for commit messages, file names...
-	 *
-	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
-	 *             instead.
-	 */
-	@Deprecated
-	public static final String CHARACTER_ENCODING;
 
 	/** Default main branch name */
 	public static final String MASTER = "master";
@@ -745,13 +726,12 @@ public final class Constants {
 	}
 
 	/**
-	 * Convert a string to a byte array in the standard character encoding.
+	 * Convert a string to a byte array in the standard character encoding UTF8.
 	 *
 	 * @param str
 	 *            the string to convert. May contain any Unicode characters.
 	 * @return a byte array representing the requested string, encoded using the
 	 *         default character encoding (UTF-8).
-	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(String str) {
 		final ByteBuffer bb = UTF_8.encode(str);
@@ -770,8 +750,6 @@ public final class Constants {
 	static {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError(JGitText.get().incorrectOBJECT_ID_LENGTH);
-		CHARSET = UTF_8;
-		CHARACTER_ENCODING = UTF_8.name();
 	}
 
 	/** name of the file containing the commit msg for a merge commit */
