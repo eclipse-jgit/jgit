@@ -238,23 +238,6 @@ public abstract class RefDatabase {
 	}
 
 	/**
-	 * Compatibility synonym for {@link #findRef(String)}.
-	 *
-	 * @param name
-	 *            the name of the reference. May be a short name which must be
-	 *            searched for using the standard {@link #SEARCH_PATH}.
-	 * @return the reference (if it exists); else {@code null}.
-	 * @throws IOException
-	 *             the reference space cannot be accessed.
-	 * @deprecated Use {@link #findRef(String)} instead.
-	 */
-	@Deprecated
-	@Nullable
-	public final Ref getRef(String name) throws IOException {
-		return findRef(name);
-	}
-
-	/**
 	 * Read a single reference.
 	 * <p>
 	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be
