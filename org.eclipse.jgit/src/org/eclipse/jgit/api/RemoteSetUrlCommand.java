@@ -109,23 +109,6 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	/**
 	 * Whether to change the push URL of the remote instead of the fetch URL.
 	 *
-	 * @param push
-	 *            <code>true</code> to set the push url, <code>false</code> to
-	 *            set the fetch url
-	 * @deprecated use {@link #setUriType} instead
-	 */
-	@Deprecated
-	public void setPush(boolean push) {
-		if (push) {
-			setUriType(UriType.PUSH);
-		} else {
-			setUriType(UriType.FETCH);
-		}
-	}
-
-	/**
-	 * Whether to change the push URL of the remote instead of the fetch URL.
-	 *
 	 * @param type
 	 *            the <code>UriType</code> value to set
 	 * @return {@code this}
