@@ -71,18 +71,6 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	/**
 	 * The name of the remote to change the URL for.
 	 *
-	 * @param name
-	 *            a remote name
-	 * @deprecated use {@link #setRemoteName} instead
-	 */
-	@Deprecated
-	public void setName(String name) {
-		this.remoteName = name;
-	}
-
-	/**
-	 * The name of the remote to change the URL for.
-	 *
 	 * @param remoteName
 	 *            a remote remoteName
 	 * @return {@code this}
