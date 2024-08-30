@@ -898,21 +898,6 @@ public abstract class FS {
 	}
 
 	/**
-	 * Whether FileStore attributes should be determined asynchronously
-	 *
-	 * @param asynch
-	 *            whether FileStore attributes should be determined
-	 *            asynchronously. If false access to cached attributes may block
-	 *            for some seconds for the first call per FileStore
-	 * @since 5.1.9
-	 * @deprecated Use {@link FileStoreAttributes#setBackground} instead
-	 */
-	@Deprecated
-	public static void setAsyncFileStoreAttributes(boolean asynch) {
-		FileStoreAttributes.setBackground(asynch);
-	}
-
-	/**
 	 * Auto-detect the appropriate file system abstraction, taking into account
 	 * the presence of a Cygwin installation on the system. Using jgit in
 	 * combination with Cygwin requires a more elaborate (and possibly slower)
