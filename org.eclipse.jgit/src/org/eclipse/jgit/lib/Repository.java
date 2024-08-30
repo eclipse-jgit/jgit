@@ -1164,11 +1164,9 @@ public abstract class Repository implements AutoCloseable {
 	 *         new Ref object representing the same data as Ref, but isPeeled()
 	 *         will be true and getPeeledObjectId will contain the peeled object
 	 *         (or null).
-	 * @deprecated use {@code getRefDatabase().peel(ref)} instead.
 	 */
-	@Deprecated
 	@NonNull
-	public Ref peel(Ref ref) {
+	private Ref peel(Ref ref) {
 		try {
 			return getRefDatabase().peel(ref);
 		} catch (IOException e) {
