@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51993356_95a85717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-08-30T15:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81629b01_97ab2428",
+      "range": {
+        "startLine": 219,
+        "startChar": 24,
+        "endLine": 219,
+        "endChar": 33
+      },
+      "revId": "c146bea4973c3a5048bdff539353a065a1ec9281",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd2047e0_95f4e1e4",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca112743_1f6099ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-08-30T15:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd2047e0_95f4e1e4",
+      "range": {
+        "startLine": 220,
+        "startChar": 15,
+        "endLine": 220,
+        "endChar": 35
+      },
+      "revId": "c146bea4973c3a5048bdff539353a065a1ec9281",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e008dc14_e03d5954",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-08-29T18:30:36Z",
       "side": 1,
       "message": "It is a bit difficult to read. What about making explicit that we want to max of the packfiles with bitmap sorted by time?\n\n\n```suggestion\n\t\tOptional\u003cPack\u003e packWithBitmap \u003d packWithBitmapStream.max((p1, p2) -\u003e (int) (p1.packLastModified.getEpochSecond() - p2.packLastModified.getEpochSecond()));\n```",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 222,
+        "endChar": 16
+      },
+      "revId": "c146bea4973c3a5048bdff539353a065a1ec9281",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54f749f7_7ac7811a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-08-30T15:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e008dc14_e03d5954",
       "range": {
         "startLine": 221,
         "startChar": 0,
