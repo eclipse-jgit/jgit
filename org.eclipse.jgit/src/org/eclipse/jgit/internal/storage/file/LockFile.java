@@ -528,17 +528,6 @@ public class LockFile {
 	 * Get the modification time of the output file when it was committed.
 	 *
 	 * @return modification time of the lock file right before we committed it.
-	 * @deprecated use {@link #getCommitLastModifiedInstant()} instead
-	 */
-	@Deprecated
-	public long getCommitLastModified() {
-		return commitSnapshot.lastModified();
-	}
-
-	/**
-	 * Get the modification time of the output file when it was committed.
-	 *
-	 * @return modification time of the lock file right before we committed it.
 	 */
 	public Instant getCommitLastModifiedInstant() {
 		return commitSnapshot.lastModifiedInstant();

@@ -282,17 +282,6 @@ public class FileSnapshot {
 	 * Get time of last snapshot update
 	 *
 	 * @return time of last snapshot update
-	 * @deprecated use {@link #lastModifiedInstant()} instead
-	 */
-	@Deprecated
-	public long lastModified() {
-		return lastModified.toEpochMilli();
-	}
-
-	/**
-	 * Get time of last snapshot update
-	 *
-	 * @return time of last snapshot update
 	 */
 	public Instant lastModifiedInstant() {
 		return lastModified;
