@@ -1763,25 +1763,6 @@ public abstract class FS {
 	}
 
 	/**
-	 * Create a new file. See {@link java.io.File#createNewFile()}. Subclasses
-	 * of this class may take care to provide a safe implementation for this
-	 * even if {@link #supportsAtomicCreateNewFile()} is <code>false</code>
-	 *
-	 * @param path
-	 *            the file to be created
-	 * @return <code>true</code> if the file was created, <code>false</code> if
-	 *         the file already existed
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @deprecated use {@link #createNewFileAtomic(File)} instead
-	 * @since 4.5
-	 */
-	@Deprecated
-	public boolean createNewFile(File path) throws IOException {
-		return path.createNewFile();
-	}
-
-	/**
 	 * A token representing a file created by
 	 * {@link #createNewFileAtomic(File)}. The token must be retained until the
 	 * file has been deleted in order to guarantee that the unique file was
