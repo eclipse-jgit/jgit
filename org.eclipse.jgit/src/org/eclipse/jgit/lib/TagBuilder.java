@@ -206,23 +206,6 @@ public class TagBuilder extends ObjectBuilder {
 		return os.toByteArray();
 	}
 
-	/**
-	 * Format this builder's state as an annotated tag object.
-	 *
-	 * @return this object in the canonical annotated tag format, suitable for
-	 *         storage in a repository, or {@code null} if the tag cannot be
-	 *         encoded
-	 * @deprecated since 5.11; use {@link #build()} instead
-	 */
-	@Deprecated
-	public byte[] toByteArray() {
-		try {
-			return build();
-		} catch (UnsupportedEncodingException e) {
-			return null;
-		}
-	}
-
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
