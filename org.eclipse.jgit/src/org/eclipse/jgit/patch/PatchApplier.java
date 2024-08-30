@@ -41,7 +41,6 @@ import java.util.zip.InflaterInputStream;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.FilterFailedException;
-import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.FilterCommand;
@@ -285,32 +284,6 @@ public class PatchApplier {
 				@Nullable HunkHeader hh) {
 			errors.add(new Error(msg, oldFileName, hh, true));
 		}
-	}
-
-	/**
-	 * Applies the given patch
-	 *
-	 * @param patchInput
-	 *            the patch to apply.
-	 * @return the result of the patch
-	 * @throws PatchFormatException
-	 *             if the patch cannot be parsed
-	 * @throws IOException
-	 *             if the patch read fails
-	 * @deprecated use {@link #applyPatch(Patch)} instead
-	 */
-	@Deprecated
-	public Result applyPatch(InputStream patchInput)
-			throws PatchFormatException, IOException {
-		Patch p = new Patch();
-		try (InputStream inStream = patchInput) {
-			p.parse(inStream);
-
-			if (!p.getErrors().isEmpty()) {
-				throw new PatchFormatException(p.getErrors());
-			}
-		}
-		return applyPatch(p);
 	}
 
 	/**
