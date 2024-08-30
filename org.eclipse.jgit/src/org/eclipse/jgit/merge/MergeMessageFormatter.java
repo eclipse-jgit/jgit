@@ -92,24 +92,6 @@ public class MergeMessageFormatter {
 	}
 
 	/**
-	 * Add section with conflicting paths to merge message. Lines are prefixed
-	 * with a hash.
-	 *
-	 * @param message
-	 *            the original merge message
-	 * @param conflictingPaths
-	 *            the paths with conflicts
-	 * @return merge message with conflicting paths added
-	 * @deprecated since 6.1; use
-	 *             {@link #formatWithConflicts(String, Iterable, char)} instead
-	 */
-	@Deprecated
-	public String formatWithConflicts(String message,
-			List<String> conflictingPaths) {
-		return formatWithConflicts(message, conflictingPaths, '#');
-	}
-
-	/**
 	 * Add section with conflicting paths to merge message.
 	 *
 	 * @param message
