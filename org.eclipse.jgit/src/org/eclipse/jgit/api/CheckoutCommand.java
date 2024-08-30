@@ -644,24 +644,6 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	/**
 	 * Specify to force the ref update in case of a branch switch.
 	 *
-	 * @param force
-	 *            if <code>true</code> and the branch with the given name
-	 *            already exists, the start-point of an existing branch will be
-	 *            set to a new start-point; if false, the existing branch will
-	 *            not be changed
-	 * @return this instance
-	 * @deprecated this method was badly named comparing its semantics to native
-	 *             git's checkout --force option, use
-	 *             {@link #setForceRefUpdate(boolean)} instead
-	 */
-	@Deprecated
-	public CheckoutCommand setForce(boolean force) {
-		return setForceRefUpdate(force);
-	}
-
-	/**
-	 * Specify to force the ref update in case of a branch switch.
-	 *
 	 * In releases prior to 5.2 this method was called setForce() but this name
 	 * was misunderstood to implement native git's --force option, which is not
 	 * true.
