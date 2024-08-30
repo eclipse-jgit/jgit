@@ -22,27 +22,6 @@ import org.eclipse.jgit.internal.storage.file.WindowCache;
  */
 @MXBean
 public interface WindowCacheStats {
-	/**
-	 * Get number of open files
-	 *
-	 * @return the number of open files.
-	 * @deprecated use {@link #getOpenFileCount()} instead
-	 */
-	@Deprecated
-	public static int getOpenFiles() {
-		return (int) WindowCache.getInstance().getStats().getOpenFileCount();
-	}
-
-	/**
-	 * Get number of open bytes
-	 *
-	 * @return the number of open bytes.
-	 * @deprecated use {@link #getOpenByteCount()} instead
-	 */
-	@Deprecated
-	public static long getOpenBytes() {
-		return WindowCache.getInstance().getStats().getOpenByteCount();
-	}
 
 	/**
 	 * Get cache statistics
