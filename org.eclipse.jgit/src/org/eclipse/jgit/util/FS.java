@@ -1085,24 +1085,6 @@ public abstract class FS {
 	 * symbolic links, the modification time of the link is returned, rather
 	 * than that of the link target.
 	 *
-	 * @param f
-	 *            a {@link java.io.File} object.
-	 * @return last modified time of f
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @since 3.0
-	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
-	 */
-	@Deprecated
-	public long lastModified(File f) throws IOException {
-		return FileUtils.lastModified(f);
-	}
-
-	/**
-	 * Get the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the modification time of the link is returned, rather
-	 * than that of the link target.
-	 *
 	 * @param p
 	 *            a {@link Path} object.
 	 * @return last modified time of p
@@ -1124,25 +1106,6 @@ public abstract class FS {
 	 */
 	public Instant lastModifiedInstant(File f) {
 		return FileUtils.lastModifiedInstant(f.toPath());
-	}
-
-	/**
-	 * Set the last modified time of a file system object.
-	 * <p>
-	 * For symlinks it sets the modified time of the link target.
-	 *
-	 * @param f
-	 *            a {@link java.io.File} object.
-	 * @param time
-	 *            last modified time
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @since 3.0
-	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
-	 */
-	@Deprecated
-	public void setLastModified(File f, long time) throws IOException {
-		FileUtils.setLastModified(f, time);
 	}
 
 	/**
@@ -2423,19 +2386,6 @@ public abstract class FS {
 		 */
 		public long getCreationTime() {
 			return creationTime;
-		}
-
-		/**
-		 * Get the time when the file was last modified in milliseconds since
-		 * the epoch
-		 *
-		 * @return the time (milliseconds since 1970-01-01) when this object was
-		 *         last modified
-		 * @deprecated use getLastModifiedInstant instead
-		 */
-		@Deprecated
-		public long getLastModifiedTime() {
-			return lastModifiedInstant.toEpochMilli();
 		}
 
 		/**
