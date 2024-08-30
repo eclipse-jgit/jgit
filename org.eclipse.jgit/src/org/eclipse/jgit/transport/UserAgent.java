@@ -10,10 +10,6 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_AGENT;
-
-import java.util.Set;
-
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -91,43 +87,6 @@ public class UserAgent {
 		userAgent = StringUtils.isEmptyOrNull(agent) ? null : clean(agent);
 	}
 
-	/**
-	 *
-	 * @param options
-	 *            options
-	 * @param transportAgent
-	 *            name of transport agent
-	 * @return The transport agent.
-	 * @deprecated Capabilities with &lt;key&gt;=&lt;value&gt; shape are now
-	 *             parsed alongside other capabilities in the ReceivePack flow.
-	 */
-	@Deprecated
-	static String getAgent(Set<String> options, String transportAgent) {
-		if (options == null || options.isEmpty()) {
-			return transportAgent;
-		}
-		for (String o : options) {
-			if (o.startsWith(OPTION_AGENT)
-					&& o.length() > OPTION_AGENT.length()
-					&& o.charAt(OPTION_AGENT.length()) == '=') {
-				return o.substring(OPTION_AGENT.length() + 1);
-			}
-		}
-		return transportAgent;
-	}
-
-	/**
-	 *
-	 * @param options
-	 *            options
-	 * @return True if the transport agent is set. False otherwise.
-	 * @deprecated Capabilities with &lt;key&gt;=&lt;value&gt; shape are now
-	 *             parsed alongside other capabilities in the ReceivePack flow.
-	 */
-	@Deprecated
-	static boolean hasAgent(Set<String> options) {
-		return getAgent(options, null) != null;
-	}
 
 	private UserAgent() {
 	}
