@@ -2103,22 +2103,6 @@ public class ReceivePack {
 	}
 
 	/**
-	 * Set whether this class will report command failures as warning messages
-	 * before sending the command results.
-	 *
-	 * @param echo
-	 *            if true this class will report command failures as warning
-	 *            messages before sending the command results. This is usually
-	 *            not necessary, but may help buggy Git clients that discard the
-	 *            errors when all branches fail.
-	 * @deprecated no widely used Git versions need this any more
-	 */
-	@Deprecated
-	public void setEchoCommandFailures(boolean echo) {
-		// No-op.
-	}
-
-	/**
 	 * Get the client session-id
 	 *
 	 * @return The client session-id.
