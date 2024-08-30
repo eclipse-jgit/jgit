@@ -263,18 +263,6 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	/**
 	 * Whether to restore the index state
 	 *
-	 * @param applyIndex
-	 *            true (default) if the command should restore the index state
-	 * @deprecated use {@link #setRestoreIndex} instead
-	 */
-	@Deprecated
-	public void setApplyIndex(boolean applyIndex) {
-		this.restoreIndex = applyIndex;
-	}
-
-	/**
-	 * Whether to restore the index state
-	 *
 	 * @param restoreIndex
 	 *            true (default) if the command should restore the index state
 	 * @return {@code this}
