@@ -43,24 +43,13 @@ public class PacketLineIn {
 
 	/**
 	 * Magic return from {@link #readString()} when a flush packet is found.
-	 *
-	 * @deprecated Callers should use {@link #isEnd(String)} to check if a
-	 *             string is the end marker, or
-	 *             {@link PacketLineIn#readStrings()} to iterate over all
-	 *             strings in the input stream until the marker is reached.
 	 */
-	@Deprecated
-	public static final String END = new String(); /* must not string pool */
+	private static final String END = new String(); /* must not string pool */
 
 	/**
 	 * Magic return from {@link #readString()} when a delim packet is found.
-	 *
-	 * @since 5.0
-	 * @deprecated Callers should use {@link #isDelimiter(String)} to check if a
-	 *             string is the delimiter.
 	 */
-	@Deprecated
-	public static final String DELIM = new String(); /* must not string pool */
+	private static final String DELIM = new String(); /* must not string pool */
 
 	enum AckNackResult {
 		/** NAK */
