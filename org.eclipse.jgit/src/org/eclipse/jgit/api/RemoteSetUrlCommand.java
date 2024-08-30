@@ -84,18 +84,6 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	/**
 	 * The new URL for the remote.
 	 *
-	 * @param uri
-	 *            an URL for the remote
-	 * @deprecated use {@link #setRemoteUri} instead
-	 */
-	@Deprecated
-	public void setUri(URIish uri) {
-		this.remoteUri = uri;
-	}
-
-	/**
-	 * The new URL for the remote.
-	 *
 	 * @param remoteUri
 	 *            an URL for the remote
 	 * @return {@code this}
