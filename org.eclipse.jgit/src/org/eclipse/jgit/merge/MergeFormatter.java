@@ -22,37 +22,6 @@ import org.eclipse.jgit.diff.RawText;
  * A class to convert merge results into a Git conformant textual presentation
  */
 public class MergeFormatter {
-	/**
-	 * Formats the results of a merge of {@link org.eclipse.jgit.diff.RawText}
-	 * objects in a Git conformant way. This method also assumes that the
-	 * {@link org.eclipse.jgit.diff.RawText} objects being merged are line
-	 * oriented files which use LF as delimiter. This method will also use LF to
-	 * separate chunks and conflict metadata, therefore it fits only to texts
-	 * that are LF-separated lines.
-	 *
-	 * @param out
-	 *            the output stream where to write the textual presentation
-	 * @param res
-	 *            the merge result which should be presented
-	 * @param seqName
-	 *            When a conflict is reported each conflicting range will get a
-	 *            name. This name is following the "&lt;&lt;&lt;&lt;&lt;&lt;&lt;
-	 *            " or "&gt;&gt;&gt;&gt;&gt;&gt;&gt; " conflict markers. The
-	 *            names for the sequences are given in this list
-	 * @param charsetName
-	 *            the name of the character set used when writing conflict
-	 *            metadata
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @deprecated Use
-	 *             {@link #formatMerge(OutputStream, MergeResult, List, Charset)}
-	 *             instead.
-	 */
-	@Deprecated
-	public void formatMerge(OutputStream out, MergeResult<RawText> res,
-			List<String> seqName, String charsetName) throws IOException {
-		formatMerge(out, res, seqName, Charset.forName(charsetName));
-	}
 
 	/**
 	 * Formats the results of a merge of {@link org.eclipse.jgit.diff.RawText}
