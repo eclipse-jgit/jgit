@@ -359,12 +359,6 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_STREAM_FILE_THRESHOLD = "streamFileThreshold";
 
 	/**
-	 * @deprecated typo, use CONFIG_KEY_STREAM_FILE_THRESHOLD instead
-	 */
-	@Deprecated(since = "6.8")
-	public static final String CONFIG_KEY_STREAM_FILE_TRESHOLD = CONFIG_KEY_STREAM_FILE_THRESHOLD;
-
-	/**
 	 * The "packedGitMmap" key
 	 * @since 5.1.13
 	 */
