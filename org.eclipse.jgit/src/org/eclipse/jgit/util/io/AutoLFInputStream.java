@@ -147,44 +147,6 @@ public class AutoLFInputStream extends InputStream {
 				&& flags.contains(StreamFlag.FOR_CHECKOUT);
 	}
 
-	/**
-	 * Creates a new InputStream, wrapping the specified stream.
-	 *
-	 * @param in
-	 *            raw input stream
-	 * @param detectBinary
-	 *            whether binaries should be detected
-	 * @since 2.0
-	 * @deprecated since 5.9, use {@link #create(InputStream, StreamFlag...)}
-	 *             instead
-	 */
-	@Deprecated
-	public AutoLFInputStream(InputStream in, boolean detectBinary) {
-		this(in, detectBinary, false);
-	}
-
-	/**
-	 * Creates a new InputStream, wrapping the specified stream.
-	 *
-	 * @param in
-	 *            raw input stream
-	 * @param detectBinary
-	 *            whether binaries should be detected
-	 * @param abortIfBinary
-	 *            throw an IOException if the file is binary
-	 * @since 3.3
-	 * @deprecated since 5.9, use {@link #create(InputStream, StreamFlag...)}
-	 *             instead
-	 */
-	@Deprecated
-	public AutoLFInputStream(InputStream in, boolean detectBinary,
-			boolean abortIfBinary) {
-		this.in = in;
-		this.detectBinary = detectBinary;
-		this.abortIfBinary = abortIfBinary;
-		this.forCheckout = false;
-	}
-
 	@Override
 	public int read() throws IOException {
 		final int read = read(single, 0, 1);
