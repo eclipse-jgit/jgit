@@ -159,8 +159,8 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	@Test
 	public void testRepositoryUsageCountWithRegisteredRepository()
 			throws IOException {
-		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
-		Repository repo = createRepository(false, false);
+		@SuppressWarnings("resource") // We are testing the close() method
+		Repository repo = createRepository(false);
 		assertEquals(1, repo.useCnt.get());
 		RepositoryCache.register(repo);
 		assertEquals(1, repo.useCnt.get());
@@ -207,10 +207,8 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testRepositoryUnregisteringWhenExpired() throws Exception {
-		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
-		Repository repoA = createRepository(true, false);
-		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
-		Repository repoB = createRepository(true, false);
+		Repository repoA = createRepository(true);
+		Repository repoB = createRepository(true);
 		Repository repoC = createBareRepository();
 		RepositoryCache.register(repoA);
 		RepositoryCache.register(repoB);
@@ -243,8 +241,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	@Test
 	public void testReconfigure() throws InterruptedException, IOException {
-		@SuppressWarnings({"resource", "deprecation"}) // We are testing the close() method
-		Repository repo = createRepository(false, false);
+		Repository repo = createRepository(false);
 		RepositoryCache.register(repo);
 		assertTrue(RepositoryCache.isCached(repo));
 		repo.close();
