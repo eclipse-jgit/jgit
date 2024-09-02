@@ -175,6 +175,24 @@
       "parentUuid": "01fb4e48_7619ed3e",
       "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "281a5c0b_28888275",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T07:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6ddb4a2_a48d5730",
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
