@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a15868a_ec801cbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38ba217f_e4a9e036",
+      "range": {
+        "startLine": 806,
+        "startChar": 13,
+        "endLine": 806,
+        "endChar": 36
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d53f0006_76d501c6",
@@ -71,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01224e40_f106442a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "509aa27f_2d6b6a9f",
+      "range": {
+        "startLine": 807,
+        "startChar": 18,
+        "endLine": 807,
+        "endChar": 28
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e02223_496f747b",
@@ -84,6 +132,30 @@
       "writtenOn": "2024-08-29T18:04:59Z",
       "side": 1,
       "message": "Objects?\n\n\n```suggestion\n\t\tSet\u003cObjectId\u003e objsToExcludeFromBitmap \u003d repo.getRefDatabase()\n```",
+      "range": {
+        "startLine": 814,
+        "startChar": 16,
+        "endLine": 814,
+        "endChar": 20
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "339cf696_73e6ce42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35e02223_496f747b",
       "range": {
         "startLine": 814,
         "startChar": 16,
@@ -119,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39d9a695_a5b5dcae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Yep, it makes sense.\nOne slight complication however is that we removed the `quickMatchSearchForReuse` (now renamed to `selectFirstObjectMatch`) from the `PackConfig` in [1], so reading it from `PackConfig` is no longer an option.\n\nI will pass it as an input argument (note this would require adding an additional argument to the private `writePack` method).\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1200236",
+      "parentUuid": "394ae25c_18f2080b",
+      "range": {
+        "startLine": 854,
+        "startChar": 39,
+        "endLine": 854,
+        "endChar": 43
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b62bfbe0_a1202700",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 6
@@ -130,6 +226,30 @@
       "writtenOn": "2024-08-29T18:04:59Z",
       "side": 1,
       "message": "Just return directly.\n\n\n```suggestion\n\t\t\treturn writePack(allHeadsAndTags, PackWriter.NONE, allTags,\n```",
+      "range": {
+        "startLine": 855,
+        "startChar": 3,
+        "endLine": 855,
+        "endChar": 12
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f7f4f02_05bac7a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b62bfbe0_a1202700",
       "range": {
         "startLine": 855,
         "startChar": 3,
@@ -163,6 +283,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80df659_2fa690a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c92a73b_a8f1f1b2",
+      "range": {
+        "startLine": 860,
+        "startChar": 2,
+        "endLine": 860,
+        "endChar": 20
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "779935e4_1c31c090",
@@ -176,6 +320,30 @@
       "writtenOn": "2024-08-29T18:04:59Z",
       "side": 1,
       "message": "This is flagged as a warning as we return a mutable variable.\n\n\n```suggestion\n\t\treturn null;\n```",
+      "range": {
+        "startLine": 862,
+        "startChar": 2,
+        "endLine": 862,
+        "endChar": 19
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5c5ddf7_df25314a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "779935e4_1c31c090",
       "range": {
         "startLine": 862,
         "startChar": 2,
