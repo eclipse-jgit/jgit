@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bf1d90_9f6d1e5d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T07:48:04Z",
+      "side": 1,
+      "message": "Please refert to my response at [1].\nI would rather not change the current behaviour, to be honest.\nI think it\u0027s risky, especially on a EOL release.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1200236/comment/b0f2d865_e3e847c4/",
+      "parentUuid": "6bbf90d6_9fa4bc21",
+      "range": {
+        "startLine": 280,
+        "startChar": 63,
+        "endLine": 280,
+        "endChar": 98
+      },
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0f2d865_e3e847c4",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-29T20:25:16Z",
       "side": 1,
       "message": "This is a different optimisation that would make sense anyway, would that make sense as a separate change?",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 3
+      },
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6791800a_22e7a31e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T07:48:04Z",
+      "side": 1,
+      "message": "Yep, whilst I think we shouldn\u0027t change this behaviour on 5.13 EOL, I agree it would make sense in a master branch, I suggest to tackle this issue there.",
+      "parentUuid": "b0f2d865_e3e847c4",
       "range": {
         "startLine": 581,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60980fba_40d97717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T07:48:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82a23c54_425637fa",
+      "range": {
+        "startLine": 275,
+        "startChar": 23,
+        "endLine": 275,
+        "endChar": 47
+      },
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01fb4e48_7619ed3e",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-08-29T20:25:16Z",
       "side": 1,
       "message": "I believe this should not end up in the `PackConfig` because of two reasons:\n- It is not a Git configuration and not intended to be read from any pack config file\n- It is relevant to the `PackWriter` only and not used anywhere else\n\nWe should just keep the flag in `PackWriter` and leave `PackConfig` untouched.",
+      "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ddb4a2_a48d5730",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T07:48:04Z",
+      "side": 1,
+      "message": "Good shout, let me address this.",
+      "parentUuid": "01fb4e48_7619ed3e",
       "revId": "da0fb2a48a80bb463fb30d2667f0a7ec0eeb0bda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
