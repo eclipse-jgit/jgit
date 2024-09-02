@@ -213,6 +213,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be47797e_6a25a73d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-09-02T08:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39d9a695_a5b5dcae",
+      "range": {
+        "startLine": 854,
+        "startChar": 39,
+        "endLine": 854,
+        "endChar": 43
+      },
+      "revId": "52a4e3d1843546ddc8088a73ce0f84317037e39b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b62bfbe0_a1202700",
