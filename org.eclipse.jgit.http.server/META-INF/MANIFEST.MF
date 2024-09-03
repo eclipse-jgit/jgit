@@ -3,14 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.http.server
 Bundle-SymbolicName: org.eclipse.jgit.http.server
-Bundle-Version: 7.0.0.202409031743-r
+Bundle-Version: 7.0.1.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
-Export-Package: org.eclipse.jgit.http.server;version="7.0.0",
- org.eclipse.jgit.http.server.glue;version="7.0.0";
+Export-Package: org.eclipse.jgit.http.server;version="7.0.1",
+ org.eclipse.jgit.http.server.glue;version="7.0.1";
   uses:="jakarta.servlet,
   	jakarta.servlet.http",
- org.eclipse.jgit.http.server.resolver;version="7.0.0";
+ org.eclipse.jgit.http.server.resolver;version="7.0.1";
   uses:="jakarta.servlet.http
    org.eclipse.jgit.transport.resolver,
    org.eclipse.jgit.lib,
@@ -19,14 +19,14 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: jakarta.servlet;version="[6.0.0,7.0.0)",
  jakarta.servlet.http;version="[6.0.0,7.0.0)",
- org.eclipse.jgit.annotations;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.errors;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.internal.storage.dfs;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.internal.storage.file;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.internal.transport.parser;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.lib;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.nls;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.revwalk;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.transport;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.transport.resolver;version="[7.0.0,7.1.0)",
- org.eclipse.jgit.util;version="[7.0.0,7.1.0)"
+ org.eclipse.jgit.annotations;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.errors;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.internal.storage.dfs;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.internal.storage.file;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.internal.transport.parser;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.lib;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.nls;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.revwalk;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.transport;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.transport.resolver;version="[7.0.1,7.1.0)",
+ org.eclipse.jgit.util;version="[7.0.1,7.1.0)"
