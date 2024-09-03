@@ -422,11 +422,32 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	protected FileRepository createRepository(boolean bare)
 			throws IOException {
+		return createRepository(bare, false /* auto close */);
+	}
+
+	/**
+	 * Creates a new empty repository.
+	 *
+	 * @param bare
+	 *            true to create a bare repository; false to make a repository
+	 *            within its working directory
+	 * @param autoClose
+	 *            auto close the repository in {@link #tearDown()}
+	 * @return the newly created repository, opened for access
+	 * @throws IOException
+	 *             the repository could not be created in the temporary area
+	 * @deprecated use {@link #createRepository(boolean)} instead
+	 */
+	@Deprecated
+	public FileRepository createRepository(boolean bare, boolean autoClose)
+			throws IOException {
 		File gitdir = createUniqueTestGitDir(bare);
 		FileRepository db = new FileRepository(gitdir);
 		assertFalse(gitdir.exists());
 		db.create(bare);
-		addRepoToClose(db);
+		if (autoClose) {
+			addRepoToClose(db);
+		}
 		return db;
 	}
 
