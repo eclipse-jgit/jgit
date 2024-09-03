@@ -71,18 +71,6 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	/**
 	 * The name of the remote to change the URL for.
 	 *
-	 * @param name
-	 *            a remote name
-	 * @deprecated use {@link #setRemoteName} instead
-	 */
-	@Deprecated
-	public void setName(String name) {
-		this.remoteName = name;
-	}
-
-	/**
-	 * The name of the remote to change the URL for.
-	 *
 	 * @param remoteName
 	 *            a remote remoteName
 	 * @return {@code this}
@@ -96,18 +84,6 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	/**
 	 * The new URL for the remote.
 	 *
-	 * @param uri
-	 *            an URL for the remote
-	 * @deprecated use {@link #setRemoteUri} instead
-	 */
-	@Deprecated
-	public void setUri(URIish uri) {
-		this.remoteUri = uri;
-	}
-
-	/**
-	 * The new URL for the remote.
-	 *
 	 * @param remoteUri
 	 *            an URL for the remote
 	 * @return {@code this}
@@ -116,23 +92,6 @@ public class RemoteSetUrlCommand extends GitCommand<RemoteConfig> {
 	public RemoteSetUrlCommand setRemoteUri(URIish remoteUri) {
 		this.remoteUri = remoteUri;
 		return this;
-	}
-
-	/**
-	 * Whether to change the push URL of the remote instead of the fetch URL.
-	 *
-	 * @param push
-	 *            <code>true</code> to set the push url, <code>false</code> to
-	 *            set the fetch url
-	 * @deprecated use {@link #setUriType} instead
-	 */
-	@Deprecated
-	public void setPush(boolean push) {
-		if (push) {
-			setUriType(UriType.PUSH);
-		} else {
-			setUriType(UriType.FETCH);
-		}
 	}
 
 	/**

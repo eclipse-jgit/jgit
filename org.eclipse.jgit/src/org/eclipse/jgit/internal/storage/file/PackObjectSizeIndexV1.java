@@ -149,7 +149,8 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 			byte[] data = in.readNBytes(expectedBytes);
 			if (data.length < expectedBytes) {
 				throw new IOException(MessageFormat
-						.format(JGitText.get().unableToReadFullArray, ints));
+						.format(JGitText.get().unableToReadFullArray,
+								Integer.valueOf(ints)));
 			}
 			return new IntArray(data);
 		}
@@ -217,7 +218,8 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 			byte[] data = in.readNBytes(longs * LONG_SIZE);
 			if (data.length < longs * LONG_SIZE) {
 				throw new IOException(MessageFormat
-						.format(JGitText.get().unableToReadFullArray, longs));
+						.format(JGitText.get().unableToReadFullArray,
+								Integer.valueOf(longs)));
 			}
 			return new LongArray(data);
 		}

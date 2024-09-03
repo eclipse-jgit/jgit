@@ -1121,28 +1121,6 @@ public abstract class Transport implements AutoCloseable {
 	}
 
 	/**
-	 * @return the blob limit value set with {@link #setFilterBlobLimit} or
-	 *         {@link #setFilterSpec(FilterSpec)}, or -1 if no blob limit value
-	 *         was set
-	 * @since 5.0
-	 * @deprecated Use {@link #getFilterSpec()} instead
-	 */
-	@Deprecated
-	public final long getFilterBlobLimit() {
-		return filterSpec.getBlobLimit();
-	}
-
-	/**
-	 * @param bytes exclude blobs of size greater than this
-	 * @since 5.0
-	 * @deprecated Use {@link #setFilterSpec(FilterSpec)} instead
-	 */
-	@Deprecated
-	public final void setFilterBlobLimit(long bytes) {
-		setFilterSpec(FilterSpec.withBlobLimit(bytes));
-	}
-
-	/**
 	 * Get filter spec
 	 *
 	 * @return the last filter spec set with {@link #setFilterSpec(FilterSpec)},

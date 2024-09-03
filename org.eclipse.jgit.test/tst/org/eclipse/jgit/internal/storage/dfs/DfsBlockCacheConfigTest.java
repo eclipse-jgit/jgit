@@ -61,6 +61,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
+@SuppressWarnings("boxing")
 public class DfsBlockCacheConfigTest {
 
 	@Test
@@ -71,7 +72,6 @@ public class DfsBlockCacheConfigTest {
 	}
 
 	@Test
-	@SuppressWarnings("boxing")
 	public void negativeBlockSizeIsConvertedToDefault() {
 		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
 		config.setBlockSize(-1);
@@ -80,7 +80,6 @@ public class DfsBlockCacheConfigTest {
 	}
 
 	@Test
-	@SuppressWarnings("boxing")
 	public void tooSmallBlockSizeIsConvertedToDefault() {
 		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
 		config.setBlockSize(10);
@@ -89,7 +88,6 @@ public class DfsBlockCacheConfigTest {
 	}
 
 	@Test
-	@SuppressWarnings("boxing")
 	public void validBlockSize() {
 		DfsBlockCacheConfig config = new DfsBlockCacheConfig();
 		config.setBlockSize(65536);

@@ -139,29 +139,6 @@ public class FileSnapshot {
 	 * @param modified
 	 *            the last modification time of the file
 	 * @return the snapshot.
-	 * @deprecated use {@link #save(Instant)} instead.
-	 */
-	@Deprecated
-	public static FileSnapshot save(long modified) {
-		final Instant read = Instant.now();
-		return new FileSnapshot(read, Instant.ofEpochMilli(modified),
-				UNKNOWN_SIZE, FALLBACK_TIMESTAMP_RESOLUTION, MISSING_FILEKEY);
-	}
-
-	/**
-	 * Record a snapshot for a file for which the last modification time is
-	 * already known.
-	 * <p>
-	 * This method should be invoked before the file is accessed.
-	 * <p>
-	 * Note that this method cannot rely on measuring file timestamp resolution
-	 * to avoid racy git issues caused by finite file timestamp resolution since
-	 * it's unknown in which filesystem the file is located. Hence the worst
-	 * case fallback for timestamp resolution is used.
-	 *
-	 * @param modified
-	 *            the last modification time of the file
-	 * @return the snapshot.
 	 */
 	public static FileSnapshot save(Instant modified) {
 		final Instant read = Instant.now();
@@ -276,17 +253,6 @@ public class FileSnapshot {
 				fsTimestampResolution);
 		this.size = size;
 		this.fileKey = fileKey;
-	}
-
-	/**
-	 * Get time of last snapshot update
-	 *
-	 * @return time of last snapshot update
-	 * @deprecated use {@link #lastModifiedInstant()} instead
-	 */
-	@Deprecated
-	public long lastModified() {
-		return lastModified.toEpochMilli();
 	}
 
 	/**

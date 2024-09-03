@@ -10,17 +10,17 @@ maven apache
 	dependency {
 		groupId = "commons-codec"
 		artifactId = "commons-codec"
-		version = "1.17.0"
+		version = "1.17.1"
 	}
 	dependency {
 		groupId = "org.apache.commons"
 		artifactId = "commons-compress"
-		version = "1.26.2"
+		version = "1.27.1"
 	}
 	dependency {
 		groupId = "org.apache.commons"
 		artifactId = "commons-lang3"
-		version = "3.14.0"
+		version = "3.16.0"
 	}
 	dependency {
 		groupId = "commons-io"
@@ -30,7 +30,7 @@ maven apache
 	dependency {
 		groupId = "commons-logging"
 		artifactId = "commons-logging"
-		version = "1.3.2"
+		version = "1.3.4"
 	}
 }
 
@@ -56,7 +56,7 @@ maven assertj
 	dependency {
 		groupId = "org.assertj"
 		artifactId = "assertj-core"
-		version = "3.26.0"
+		version = "3.26.3"
 	}
 }
 
@@ -97,12 +97,12 @@ maven bytebuddy
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy"
-		version = "1.14.17"
+		version = "1.15.0"
 	}
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy-agent"
-		version = "1.14.17"
+		version = "1.15.0"
 	}
 }
 
@@ -159,42 +159,42 @@ maven jetty
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-http"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-io"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-security"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-server"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-session"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util-ajax"
-		version = "12.0.10"
+		version = "12.0.12"
 	}
 	dependency {
 		groupId = "jakarta.servlet"
 		artifactId = "jakarta.servlet-api"
-		version = "6.0.0"
+		version = "6.1.0"
 	}
 }
 
@@ -274,6 +274,6 @@ maven xz
 	dependency {
 		groupId = "org.tukaani"
 		artifactId = "xz"
-		version = "1.9"
+		version = "1.10"
 	}
 }

@@ -307,25 +307,6 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
-	 * Whether the specified object is stored in this repo or any of the known
-	 * shared repositories.
-	 *
-	 * @param objectId
-	 *            a {@link org.eclipse.jgit.lib.AnyObjectId} object.
-	 * @return true if the specified object is stored in this repo or any of the
-	 *         known shared repositories.
-	 * @deprecated use {@code getObjectDatabase().has(objectId)}
-	 */
-	@Deprecated
-	public boolean hasObject(AnyObjectId objectId) {
-		try {
-			return getObjectDatabase().has(objectId);
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-
-	/**
 	 * Open an object from this repository.
 	 * <p>
 	 * This is a one-shot call interface which may be faster than allocating a
@@ -1164,11 +1145,9 @@ public abstract class Repository implements AutoCloseable {
 	 *         new Ref object representing the same data as Ref, but isPeeled()
 	 *         will be true and getPeeledObjectId will contain the peeled object
 	 *         (or null).
-	 * @deprecated use {@code getRefDatabase().peel(ref)} instead.
 	 */
-	@Deprecated
 	@NonNull
-	public Ref peel(Ref ref) {
+	private Ref peel(Ref ref) {
 		try {
 			return getRefDatabase().peel(ref);
 		} catch (IOException e) {

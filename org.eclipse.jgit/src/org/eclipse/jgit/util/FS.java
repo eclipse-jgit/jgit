@@ -898,21 +898,6 @@ public abstract class FS {
 	}
 
 	/**
-	 * Whether FileStore attributes should be determined asynchronously
-	 *
-	 * @param asynch
-	 *            whether FileStore attributes should be determined
-	 *            asynchronously. If false access to cached attributes may block
-	 *            for some seconds for the first call per FileStore
-	 * @since 5.1.9
-	 * @deprecated Use {@link FileStoreAttributes#setBackground} instead
-	 */
-	@Deprecated
-	public static void setAsyncFileStoreAttributes(boolean asynch) {
-		FileStoreAttributes.setBackground(asynch);
-	}
-
-	/**
 	 * Auto-detect the appropriate file system abstraction, taking into account
 	 * the presence of a Cygwin installation on the system. Using jgit in
 	 * combination with Cygwin requires a more elaborate (and possibly slower)
@@ -1085,24 +1070,6 @@ public abstract class FS {
 	 * symbolic links, the modification time of the link is returned, rather
 	 * than that of the link target.
 	 *
-	 * @param f
-	 *            a {@link java.io.File} object.
-	 * @return last modified time of f
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @since 3.0
-	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
-	 */
-	@Deprecated
-	public long lastModified(File f) throws IOException {
-		return FileUtils.lastModified(f);
-	}
-
-	/**
-	 * Get the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the modification time of the link is returned, rather
-	 * than that of the link target.
-	 *
 	 * @param p
 	 *            a {@link Path} object.
 	 * @return last modified time of p
@@ -1124,25 +1091,6 @@ public abstract class FS {
 	 */
 	public Instant lastModifiedInstant(File f) {
 		return FileUtils.lastModifiedInstant(f.toPath());
-	}
-
-	/**
-	 * Set the last modified time of a file system object.
-	 * <p>
-	 * For symlinks it sets the modified time of the link target.
-	 *
-	 * @param f
-	 *            a {@link java.io.File} object.
-	 * @param time
-	 *            last modified time
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @since 3.0
-	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
-	 */
-	@Deprecated
-	public void setLastModified(File f, long time) throws IOException {
-		FileUtils.setLastModified(f, time);
 	}
 
 	/**
@@ -1800,25 +1748,6 @@ public abstract class FS {
 	}
 
 	/**
-	 * Create a new file. See {@link java.io.File#createNewFile()}. Subclasses
-	 * of this class may take care to provide a safe implementation for this
-	 * even if {@link #supportsAtomicCreateNewFile()} is <code>false</code>
-	 *
-	 * @param path
-	 *            the file to be created
-	 * @return <code>true</code> if the file was created, <code>false</code> if
-	 *         the file already existed
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @deprecated use {@link #createNewFileAtomic(File)} instead
-	 * @since 4.5
-	 */
-	@Deprecated
-	public boolean createNewFile(File path) throws IOException {
-		return path.createNewFile();
-	}
-
-	/**
 	 * A token representing a file created by
 	 * {@link #createNewFileAtomic(File)}. The token must be retained until the
 	 * file has been deleted in order to guarantee that the unique file was
@@ -2423,19 +2352,6 @@ public abstract class FS {
 		 */
 		public long getCreationTime() {
 			return creationTime;
-		}
-
-		/**
-		 * Get the time when the file was last modified in milliseconds since
-		 * the epoch
-		 *
-		 * @return the time (milliseconds since 1970-01-01) when this object was
-		 *         last modified
-		 * @deprecated use getLastModifiedInstant instead
-		 */
-		@Deprecated
-		public long getLastModifiedTime() {
-			return lastModifiedInstant.toEpochMilli();
 		}
 
 		/**

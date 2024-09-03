@@ -163,8 +163,6 @@ public class CoreConfig {
 
 	private final int packIndexVersion;
 
-	private final LogRefUpdates logAllRefUpdates;
-
 	private final String excludesfile;
 
 	private final String attributesfile;
@@ -205,9 +203,6 @@ public class CoreConfig {
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_INDEXVERSION, 2);
-		logAllRefUpdates = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
-				LogRefUpdates.TRUE);
 		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 		attributesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION,
@@ -233,20 +228,6 @@ public class CoreConfig {
 	 */
 	public int getPackIndexVersion() {
 		return packIndexVersion;
-	}
-
-	/**
-	 * Whether to log all refUpdates
-	 *
-	 * @return whether to log all refUpdates
-	 * @deprecated since 5.6; default value depends on whether the repository is
-	 *             bare. Use
-	 *             {@link Config#getEnum(String, String, String, Enum)}
-	 *             directly.
-	 */
-	@Deprecated
-	public boolean isLogAllRefUpdates() {
-		return !LogRefUpdates.FALSE.equals(logAllRefUpdates);
 	}
 
 	/**

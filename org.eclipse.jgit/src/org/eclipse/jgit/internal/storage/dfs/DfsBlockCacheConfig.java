@@ -344,7 +344,7 @@ public class DfsBlockCacheConfig {
 			if (packExtsDuplicates.size() > 0) {
 				String duplicatePackExts = packExtsDuplicates.stream()
 						.map(PackExt::toString)
-						.collect(Collectors.joining(","));
+						.collect(Collectors.joining(",")); //$NON-NLS-1$
 				throw new IllegalArgumentException(MessageFormat.format(
 						JGitText.get().duplicatePackExtensionsSet,
 						CONFIG_CORE_SECTION, subSection,
@@ -480,7 +480,7 @@ public class DfsBlockCacheConfig {
 				throw new IllegalArgumentException(
 						JGitText.get().noPackExtGivenForConfiguration);
 			}
-			String[] extensions = packExtensions.split(" ", -1);
+			String[] extensions = packExtensions.split(" ", -1); //$NON-NLS-1$
 			Set<PackExt> packExts = new HashSet<>(extensions.length);
 			for (String extension : extensions) {
 				try {

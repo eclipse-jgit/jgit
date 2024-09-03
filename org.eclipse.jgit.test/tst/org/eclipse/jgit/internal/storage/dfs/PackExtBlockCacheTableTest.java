@@ -35,6 +35,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+@SuppressWarnings({ "boxing", "unchecked" })
 public class PackExtBlockCacheTableTest {
 	@Test
 	public void fromBlockCacheConfigs_createsDfsPackExtBlockCacheTables() {
@@ -94,6 +95,7 @@ public class PackExtBlockCacheTableTest {
 			throws Exception {
 		BlockBasedFile blockBasedFile = new BlockBasedFile(null,
 				mock(DfsPackDescription.class), PackExt.BITMAP_INDEX) {
+			// empty
 		};
 		DfsBlock dfsBlock = mock(DfsBlock.class);
 		DfsBlockCacheTable defaultBlockCacheTable = mock(
@@ -124,6 +126,7 @@ public class PackExtBlockCacheTableTest {
 			throws Exception {
 		BlockBasedFile blockBasedFile = new BlockBasedFile(null,
 				mock(DfsPackDescription.class), PackExt.PACK) {
+			// empty
 		};
 		DfsBlock dfsBlock = mock(DfsBlock.class);
 		DfsBlockCacheTable defaultBlockCacheTable = mock(
