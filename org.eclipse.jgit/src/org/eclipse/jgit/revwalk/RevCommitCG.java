@@ -56,11 +56,10 @@ class RevCommitCG extends RevCommit {
 	@Override
 	void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		if (walk.isRetainBody()) {
-			super.parseBody(walk); // This parses header and body
-			return;
-		}
 		parseInGraph(walk);
+		if (walk.getRevFilter().requiresCommitBody()) {
+			walk.parseBody(this);
+		}
 	}
 
 	private void parseInGraph(RevWalk walk) throws IOException {
