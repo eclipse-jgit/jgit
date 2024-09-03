@@ -71,7 +71,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		parseInGraph.parseHeaders(rw);
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
-		assertNotNull(parseInGraph.getRawBuffer());
+		assertNull(parseInGraph.getRawBuffer());
 		assertEquals(1, parseInGraph.getGeneration());
 		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
 		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
@@ -140,7 +140,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		parseInGraph.parseHeaders(rw);
 
 		assertTrue(parseInGraph instanceof RevCommitCG);
-		assertNotNull(parseInGraph.getRawBuffer());
+		assertNull(parseInGraph.getRawBuffer());
 		assertEquals(2, parseInGraph.getGeneration());
 		assertEquals(0, parseInGraph.getParentCount());
 	}
