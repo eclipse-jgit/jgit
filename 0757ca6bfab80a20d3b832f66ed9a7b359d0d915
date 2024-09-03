@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0deb9cfc_d696e6d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-03T12:53:48Z",
+      "side": 1,
+      "message": "amended from https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1200411 which has a duplicate change with the same Change-ID, try with identical change with a new Change-Id to workaround the problem faced with the duplicate change, see Gerrit issue https://issues.gerritcodereview.com/issues/363985592",
+      "revId": "0757ca6bfab80a20d3b832f66ed9a7b359d0d915",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
