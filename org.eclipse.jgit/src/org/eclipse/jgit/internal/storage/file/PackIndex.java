@@ -62,8 +62,7 @@ public interface PackIndex
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
 	static PackIndex open(File idxFile) throws IOException {
-		try (SilentFileInputStream fd = new SilentFileInputStream(
-				idxFile)) {
+		try (SilentFileInputStream fd = new SilentFileInputStream(idxFile)) {
 			return read(fd);
 		} catch (FileNotFoundException e) {
 			throw e;
@@ -92,8 +91,8 @@ public interface PackIndex
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the stream does not contain a valid pack index.
 	 */
-	static PackIndex read(InputStream fd) throws IOException,
-			CorruptObjectException {
+	static PackIndex read(InputStream fd)
+			throws IOException, CorruptObjectException {
 		final byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
 		if (isTOC(hdr)) {
@@ -285,8 +284,8 @@ public interface PackIndex
 	 * @throws java.io.IOException
 	 *             the index cannot be read.
 	 */
-	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
-			int matchLimit) throws IOException;
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit)
+			throws IOException;
 
 	/**
 	 * Get pack checksum
@@ -301,7 +300,7 @@ public interface PackIndex
 	 * in pack (both mutable).
 	 *
 	 */
-	class MutableEntry {
+	abstract class MutableEntry {
 		final MutableObjectId idBuffer = new MutableObjectId();
 
 		long offset;
@@ -313,6 +312,10 @@ public interface PackIndex
 		 */
 		public long getOffset() {
 			return offset;
+		}
+
+		protected void setOffset(long offset) {
+			this.offset = offset;
 		}
 
 		/**
@@ -341,15 +344,28 @@ public interface PackIndex
 		 * @return a complete copy of this entry, that won't modify
 		 */
 		public MutableEntry cloneEntry() {
-			final MutableEntry r = new MutableEntry();
+			final MutableEntry r = new MutableEntry() {
+				@Override
+				protected void ensureId() {
+				}
+			};
 			ensureId();
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
 
-		void ensureId() {
-			// Override in implementations.
+		protected abstract void ensureId();
+
+		public static MutableEntry of(AnyObjectId id, long offset) {
+			MutableEntry entry = new MutableEntry() {
+				@Override
+				protected void ensureId() {
+					this.idBuffer.fromObjectId(id);
+				}
+			};
+			entry.offset = offset;
+			return entry;
 		}
 	}
 
