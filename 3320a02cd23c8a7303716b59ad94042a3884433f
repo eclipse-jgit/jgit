@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b41ab5d_9a16129a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-04T17:34:25Z",
+      "side": 1,
+      "message": "I could be wrong, but I understand that:\n\nThe generator knows if the filters are going to need the body and, if so, loads it right away ( https://gerrithub.io/plugins/gitiles/eclipse-jgit/jgit/+/b544da795bc242d76572384b46a8ae1141d040e0/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java).\n\nThe caller of the RevWalk knows if they are going to need the body and says so with \"retainBody\". With retainBody on, commit-graph is not all that useful, because the walk still needs to load all the bytes from disk. That, and keeping the RevWalk API, was the reasoning behind the current implementation.\n\nYou are saying that, even with retainBody, the bytes are only needed for returned commits. I guess that makes a difference if the filters do not need body AND the proportion of returned/browsed commits is small. This could be the case when filtering by path (?).\n\nIn that case, the caller could set retainBody to false, and invoke #parseBody() in the returned commits, no? That uses the commit-graph when possible and pays the IO access only when needed.",
+      "revId": "3320a02cd23c8a7303716b59ad94042a3884433f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
