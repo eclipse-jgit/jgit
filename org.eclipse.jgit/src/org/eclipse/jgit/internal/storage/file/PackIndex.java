@@ -301,10 +301,10 @@ public interface PackIndex
 	 * in pack (both mutable).
 	 *
 	 */
-	class MutableEntry {
-		final MutableObjectId idBuffer = new MutableObjectId();
+	abstract class MutableEntry {
+		protected final MutableObjectId idBuffer = new MutableObjectId();
 
-		long offset;
+		protected long offset;
 
 		/**
 		 * Returns offset for this index object entry
@@ -341,27 +341,33 @@ public interface PackIndex
 		 * @return a complete copy of this entry, that won't modify
 		 */
 		public MutableEntry cloneEntry() {
-			final MutableEntry r = new MutableEntry();
+			final MutableEntry r = new MutableEntry() {
+				@Override
+				protected void ensureId() {}
+
+				@Override
+				protected void next() {}
+			};
 			ensureId();
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
 
-		void ensureId() {
-			// Override in implementations.
-		}
+		protected abstract void ensureId();
+
+		protected abstract void next();
 	}
 
 	/**
 	 * Base implementation of the iterator over index entries.
 	 */
-	abstract class EntriesIterator implements Iterator<MutableEntry> {
+	public abstract class EntriesIterator implements Iterator<MutableEntry> {
 		protected final MutableEntry entry = initEntry();
 
 		private final long objectCount;
 
-		protected EntriesIterator(long objectCount) {
+		public EntriesIterator(long objectCount) {
 			this.objectCount = objectCount;
 		}
 
@@ -379,7 +385,10 @@ public interface PackIndex
 		 * element.
 		 */
 		@Override
-		public abstract MutableEntry next();
+		public MutableEntry next() {
+			entry.next();
+			return entry;
+		}
 
 		@Override
 		public void remove() {
