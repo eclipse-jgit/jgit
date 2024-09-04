@@ -224,7 +224,7 @@ class PackIndexV2 implements PackIndex {
 
 	@Override
 	public Iterator<MutableEntry> iterator() {
-		return new EntriesIteratorV2(objectCnt);
+		return new EntriesIteratorV2(this);
 	}
 
 	@Override
@@ -289,41 +289,34 @@ class PackIndexV2 implements PackIndex {
 		return packChecksum;
 	}
 
-	private class EntriesIteratorV2 extends EntriesIterator {
-		int levelOne;
+	private static class EntriesIteratorV2 extends EntriesIterator {
+		private int levelOne = 0;
 
-		int levelTwo;
+		private int levelTwo = 0;
 
-		EntriesIteratorV2(long objectCount){
-			super(objectCount);
+		private final PackIndexV2 packIndex;
+
+		private EntriesIteratorV2(PackIndexV2 packIndex) {
+			super(packIndex.objectCnt);
+			this.packIndex = packIndex;
 		}
 
 		@Override
-		protected MutableEntry initEntry() {
-			return new MutableEntry() {
-				@Override
-				protected void ensureId() {
-					idBuffer.fromRaw(names[levelOne], levelTwo
-							- Constants.OBJECT_ID_LENGTH / 4);
-				}
-			};
-		}
-
-		@Override
-		public MutableEntry next() {
-			for (; levelOne < names.length; levelOne++) {
-				if (levelTwo < names[levelOne].length) {
+		protected void readNext(MutableEntry entry) {
+			for (; levelOne < packIndex.names.length; levelOne++) {
+				if (levelTwo < packIndex.names[levelOne].length) {
 					int idx = levelTwo / (Constants.OBJECT_ID_LENGTH / 4) * 4;
-					long offset = NB.decodeUInt32(offset32[levelOne], idx);
+					long offset = NB.decodeUInt32(packIndex.offset32[levelOne],
+							idx);
 					if ((offset & IS_O64) != 0) {
 						idx = (8 * (int) (offset & ~IS_O64));
-						offset = NB.decodeUInt64(offset64, idx);
+						offset = NB.decodeUInt64(packIndex.offset64, idx);
 					}
 					entry.offset = offset;
-
-					levelTwo += Constants.OBJECT_ID_LENGTH / 4;
-					returnedNumber++;
-					return entry;
+					this.levelTwo += Constants.OBJECT_ID_LENGTH / 4;
+					entry.idBuffer.fromRaw(packIndex.names[levelOne],
+							levelTwo - Constants.OBJECT_ID_LENGTH / 4);
+					return;
 				}
 				levelTwo = 0;
 			}
