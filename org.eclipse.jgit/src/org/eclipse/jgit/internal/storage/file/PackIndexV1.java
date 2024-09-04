@@ -203,7 +203,12 @@ class PackIndexV1 implements PackIndex {
 
 	@Override
 	public Iterator<MutableEntry> iterator() {
-		return new IndexV1Iterator(objectCnt);
+		return new EntriesIterator(this.objectCnt) {
+			@Override
+			protected MutableEntry initEntry() {
+				return new MutableEntryV1(PackIndexV1.this);
+			}
+		};
 	}
 
 	@Override
@@ -246,40 +251,37 @@ class PackIndexV1 implements PackIndex {
 		return packChecksum;
 	}
 
-	private class IndexV1Iterator extends EntriesIterator {
-		int levelOne;
+	private static class MutableEntryV1 extends MutableEntry {
+		private int levelOne;
 
-		int levelTwo;
+		private int levelTwo;
 
-		IndexV1Iterator(long objectCount) {
-			super(objectCount);
+		private final PackIndexV1 packIndex;
+
+		private MutableEntryV1(PackIndexV1 packIndex) {
+			this.packIndex = packIndex;
 		}
 
 		@Override
-		protected MutableEntry initEntry() {
-			return new MutableEntry() {
-				@Override
-				protected void ensureId() {
-					idBuffer.fromRaw(idxdata[levelOne], levelTwo
-							- Constants.OBJECT_ID_LENGTH);
-				}
-			};
-		}
-
-		@Override
-		public MutableEntry next() {
-			for (; levelOne < idxdata.length; levelOne++) {
-				if (idxdata[levelOne] == null)
+		protected void next() {
+			for (; levelOne < packIndex.idxdata.length; levelOne++) {
+				if (packIndex.idxdata[levelOne] == null)
 					continue;
-				if (levelTwo < idxdata[levelOne].length) {
-					entry.offset = NB.decodeUInt32(idxdata[levelOne], levelTwo);
+				if (levelTwo < packIndex.idxdata[levelOne].length) {
+					this.offset = NB.decodeUInt32(packIndex.idxdata[levelOne], levelTwo);
 					levelTwo += Constants.OBJECT_ID_LENGTH + 4;
-					returnedNumber++;
-					return entry;
+					return;
 				}
 				levelTwo = 0;
 			}
 			throw new NoSuchElementException();
 		}
+
+		@Override
+		protected void ensureId() {
+			idBuffer.fromRaw(packIndex.idxdata[levelOne],
+					levelTwo - Constants.OBJECT_ID_LENGTH);
+		}
+
 	}
 }
