@@ -302,8 +302,9 @@ public interface PackIndex
 	 *
 	 */
 	class MutableEntry {
+		/** Buffer of the ObjectId visited by the EntriesIterator. */
 		final MutableObjectId idBuffer = new MutableObjectId();
-
+		/** Offset into the packfile of the current object. */
 		long offset;
 
 		/**
@@ -321,7 +322,6 @@ public interface PackIndex
 		 * @return hex string describing the object id of this entry.
 		 */
 		public String name() {
-			ensureId();
 			return idBuffer.name();
 		}
 
@@ -331,7 +331,6 @@ public interface PackIndex
 		 * @return a copy of the object id.
 		 */
 		public ObjectId toObjectId() {
-			ensureId();
 			return idBuffer.toObjectId();
 		}
 
@@ -342,14 +341,9 @@ public interface PackIndex
 		 */
 		public MutableEntry cloneEntry() {
 			final MutableEntry r = new MutableEntry();
-			ensureId();
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
-		}
-
-		void ensureId() {
-			// Override in implementations.
 		}
 	}
 
@@ -357,17 +351,22 @@ public interface PackIndex
 	 * Base implementation of the iterator over index entries.
 	 */
 	abstract class EntriesIterator implements Iterator<MutableEntry> {
-		protected final MutableEntry entry = initEntry();
-
 		private final long objectCount;
 
+		private final MutableEntry entry = new MutableEntry();
+
+		/** Counts number of entries accessed so far. */
+		private long returnedNumber = 0;
+
+		/**
+		* Default constructor.
+		*
+		* @param objectCount the number of objects in the PackFile.
+		*/
 		protected EntriesIterator(long objectCount) {
 			this.objectCount = objectCount;
 		}
 
-		protected long returnedNumber = 0;
-
-		protected abstract MutableEntry initEntry();
 
 		@Override
 		public boolean hasNext() {
@@ -379,7 +378,18 @@ public interface PackIndex
 		 * element.
 		 */
 		@Override
-		public abstract MutableEntry next();
+		public MutableEntry next() {
+			readNext(entry);
+			returnedNumber++;
+			return entry;
+		}
+
+		/**
+		 * Used by subclasses to load the next entry into the MutableEntry.
+		 *
+		 * @param entry the container of the next Iterator entry.
+ 		 */
+		protected abstract void readNext(MutableEntry entry);
 
 		@Override
 		public void remove() {
