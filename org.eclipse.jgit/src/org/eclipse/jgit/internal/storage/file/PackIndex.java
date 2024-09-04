@@ -348,7 +348,7 @@ public interface PackIndex
 			return r;
 		}
 
-		void ensureId() {
+		public void ensureId() {
 			// Override in implementations.
 		}
 	}
