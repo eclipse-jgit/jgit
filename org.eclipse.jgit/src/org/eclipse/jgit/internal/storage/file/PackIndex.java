@@ -351,6 +351,18 @@ public interface PackIndex
 		void ensureId() {
 			// Override in implementations.
 		}
+
+	  public static MutableEntry of(AnyObjectId id, long offset) {
+			MutableEntry entry = new MutableEntry() {
+
+				@Override
+				void ensureId() {
+					this.idBuffer.fromObjectId(id);
+				}
+			};
+			entry.offset = offset;
+			return entry;
+		}
 	}
 
 	/**
