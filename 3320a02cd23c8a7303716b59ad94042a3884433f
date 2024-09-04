@@ -16,6 +16,24 @@
       "message": "I could be wrong, but I understand that:\n\nThe generator knows if the filters are going to need the body and, if so, loads it right away ( https://gerrithub.io/plugins/gitiles/eclipse-jgit/jgit/+/b544da795bc242d76572384b46a8ae1141d040e0/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java).\n\nThe caller of the RevWalk knows if they are going to need the body and says so with \"retainBody\". With retainBody on, commit-graph is not all that useful, because the walk still needs to load all the bytes from disk. That, and keeping the RevWalk API, was the reasoning behind the current implementation.\n\nYou are saying that, even with retainBody, the bytes are only needed for returned commits. I guess that makes a difference if the filters do not need body AND the proportion of returned/browsed commits is small. This could be the case when filtering by path (?).\n\nIn that case, the caller could set retainBody to false, and invoke #parseBody() in the returned commits, no? That uses the commit-graph when possible and pays the IO access only when needed.",
       "revId": "3320a02cd23c8a7303716b59ad94042a3884433f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d53d00_ce8cd180",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-09-04T19:34:23Z",
+      "side": 1,
+      "message": "i\u0027m unable to open the link. I assume the link you shared is on the `if (filter.requiresCommitBody())` L106 of the `PendingGenerator.java`? \n\nThe users should treat RevWalk as a black box, expecting them to know whether their RevWalk setup would need body data, thus setting the retainBody flag is an unnecessary expectation; RevWalk already know whether the body data is needed in the RevWalk traversal by the `requiresCommitBody` flag of RevFilter. None of the generators use body data, only a subset of RevFilters need body data; if RevWalk knows it has a RevFilter that uses body data, we will revert back to the loading them without the involvement of the user.  \n\nThe question we have here also boils down to `should the user know the usage of Commit Graph is tied to retainBody`? \n\nYes, it\u0027s true that the user could get around this problem by setting retainBody to false, then manually parseBody on the returning commits, but this has to be done on a case by case basis. \n\nAtm, the users of RevWalk don\u0027t know on top of the git config flags, they also need to turn off retainBody to get the benefit of Commit Graph traversal. As you know, Commit Graph is an internal optimization, the users should be able to benefit from it as long they have the config setup correctly without knowing anything about RevWalk internal. The use case of RevWalk or the topology of the repo should be irrelevant here.",
+      "parentUuid": "8b41ab5d_9a16129a",
+      "revId": "3320a02cd23c8a7303716b59ad94042a3884433f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

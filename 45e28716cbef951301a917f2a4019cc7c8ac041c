@@ -16,6 +16,24 @@
       "message": "This was written like this because this code was working before commit-graph\n\n```\n// RevWalk with retain body \u003d true\nRevCommit rw \u003d walk.next();\nrw.getShortMessage(); // This access the body and it works\n```\n\nand commit-graph (which is invisible to the caller) cannot break it.",
       "revId": "45e28716cbef951301a917f2a4019cc7c8ac041c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4770cb6_1e5da9aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommitCG.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-09-04T19:34:23Z",
+      "side": 0,
+      "message": "The code proposed under this CL will not break that use case. We will parse the body of the returning commits if retainBody is on.",
+      "parentUuid": "826a6851_a9586297",
+      "revId": "45e28716cbef951301a917f2a4019cc7c8ac041c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
