@@ -301,10 +301,11 @@ public interface PackIndex
 	 * in pack (both mutable).
 	 *
 	 */
-	class MutableEntry {
-		final MutableObjectId idBuffer = new MutableObjectId();
-
-		long offset;
+	abstract class MutableEntry {
+		/** Buffer of the ObjectId visited by the EntriesIterator. */
+		protected final MutableObjectId idBuffer = new MutableObjectId();
+		/** Offset into the packfile of the current object. */
+		protected long offset;
 
 		/**
 		 * Returns offset for this index object entry
@@ -321,7 +322,6 @@ public interface PackIndex
 		 * @return hex string describing the object id of this entry.
 		 */
 		public String name() {
-			ensureId();
 			return idBuffer.name();
 		}
 
@@ -331,7 +331,6 @@ public interface PackIndex
 		 * @return a copy of the object id.
 		 */
 		public ObjectId toObjectId() {
-			ensureId();
 			return idBuffer.toObjectId();
 		}
 
@@ -341,33 +340,41 @@ public interface PackIndex
 		 * @return a complete copy of this entry, that won't modify
 		 */
 		public MutableEntry cloneEntry() {
-			final MutableEntry r = new MutableEntry();
-			ensureId();
+			final MutableEntry r = new MutableEntry() {
+				@Override
+				protected void readNext() {}
+			};
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
 
-		void ensureId() {
-			// Override in implementations.
-		}
+		/**
+		 * Advances the internal iterator to the next object.
+		 */
+		protected abstract void readNext();
 	}
 
 	/**
 	 * Base implementation of the iterator over index entries.
 	 */
-	abstract class EntriesIterator implements Iterator<MutableEntry> {
-		protected final MutableEntry entry = initEntry();
+	class EntriesIterator implements Iterator<MutableEntry> {
+		private final MutableEntry entry;
 
 		private final long objectCount;
 
-		protected EntriesIterator(long objectCount) {
+                /**
+                 * Default constructor.
+                 *
+                 * @param objectCount the number of objects in the PackFile.
+                 */
+		protected EntriesIterator(long objectCount, MutableEntry entry) {
 			this.objectCount = objectCount;
+		  this.entry = entry;
 		}
 
+                /** Counts number of entries accessed so far. */
 		protected long returnedNumber = 0;
-
-		protected abstract MutableEntry initEntry();
 
 		@Override
 		public boolean hasNext() {
@@ -379,7 +386,11 @@ public interface PackIndex
 		 * element.
 		 */
 		@Override
-		public abstract MutableEntry next();
+		public MutableEntry next() {
+			entry.readNext();
+			returnedNumber++;
+			return entry;
+		}
 
 		@Override
 		public void remove() {
