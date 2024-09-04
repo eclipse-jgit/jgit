@@ -301,10 +301,10 @@ public interface PackIndex
 	 * in pack (both mutable).
 	 *
 	 */
-	class MutableEntry {
-		final MutableObjectId idBuffer = new MutableObjectId();
+	abstract class MutableEntry {
+		protected final MutableObjectId idBuffer = new MutableObjectId();
 
-		long offset;
+		private long offset;
 
 		/**
 		 * Returns offset for this index object entry
@@ -313,6 +313,10 @@ public interface PackIndex
 		 */
 		public long getOffset() {
 			return offset;
+		}
+
+		protected void setOffset(long offset) {
+			this.offset = offset;
 		}
 
 		/**
@@ -341,15 +345,28 @@ public interface PackIndex
 		 * @return a complete copy of this entry, that won't modify
 		 */
 		public MutableEntry cloneEntry() {
-			final MutableEntry r = new MutableEntry();
+			final MutableEntry r = new MutableEntry() {
+				@Override
+				protected void ensureId() {
+				}
+			};
 			ensureId();
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
 
-		void ensureId() {
-			// Override in implementations.
+		protected abstract void ensureId();
+
+		public static MutableEntry of(AnyObjectId id, long offset) {
+			MutableEntry entry = new MutableEntry() {
+				@Override
+				protected void ensureId() {
+					this.idBuffer.fromObjectId(id);
+				}
+			};
+			entry.offset = offset;
+			return entry;
 		}
 	}
 
