@@ -34,6 +34,24 @@
       "parentUuid": "8b41ab5d_9a16129a",
       "revId": "3320a02cd23c8a7303716b59ad94042a3884433f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8033b40d_79df3c61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2024-09-04T19:36:07Z",
+      "side": 1,
+      "message": "also, this change only affects \"parseHeaders\", not \"parseBody\" which PendingGenerator uses if the filter needs data body.",
+      "parentUuid": "90d53d00_ce8cd180",
+      "revId": "3320a02cd23c8a7303716b59ad94042a3884433f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
