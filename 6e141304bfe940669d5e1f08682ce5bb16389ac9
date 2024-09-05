@@ -16,6 +16,24 @@
       "message": "Verified locally with:\n\n```\ngit clone --filter\u003dblob:none \"ssh://admin@localhost:29418/gerrit\"\n```\n\nBefore this change:\n\n```\n➜  tmp git clone --filter\u003dblob:none \"ssh://admin@localhost:29418/gerrit\" /tmp/gerrit-$RANDOM\nCloning into \u0027/tmp/gerrit-2790\u0027...\nremote: Counting objects: 789061, done\nremote: Finding sources: 100% (622117/622117)\nReceiving objects: 100% (622117/622117), 100.60 MiB | 54.30 MiB/s, done.\nremote: Total 622117 (delta 297676), reused 622115 (delta 297676)\nResolving deltas: 100% (297676/297676), done.\nfatal: remote error: want 5176145941a241a3921ce6a9b66073e0cbce2476 not valid\nfatal: internal server error\nfatal: could not fetch aac80afea498e602439f2197cc8c9233eff7bdac from promisor remote\nwarning: Clone succeeded, but checkout failed.\nYou can inspect what was checked out with \u0027git status\u0027\nand retry with \u0027git restore --source\u003dHEAD :/\u0027\n```\n\nAfter this change and ensuring\n\n```\n[uploadpack]\n        allowfilter \u003d true\n        allowanysha1inwant \u003d true\n```\n\nThe git clone is successful:\n\n```\n➜  tmp git clone --filter\u003dblob:none \"ssh://admin@localhost:29418/gerrit\" /tmp/gerrit-$RANDOM\nCloning into \u0027/tmp/gerrit-3426\u0027...\nremote: Counting objects: 789061, done\nremote: Finding sources: 100% (622117/622117)\nremote: Total 622117 (delta 297676), reused 622115 (delta 297676)\nReceiving objects: 100% (622117/622117), 100.60 MiB | 54.30 MiB/s, done.\nResolving deltas: 100% (297676/297676), done.\nremote: Counting objects: 5495, done\nremote: Finding sources: 100% (5495/5495)\nremote: Total 5495 (delta 794), reused 2323 (delta 794)\nReceiving objects: 100% (5495/5495), 18.11 MiB | 27.43 MiB/s, done.\nResolving deltas: 100% (794/794), done.\nUpdating files: 100% (5521/5521), done.\n```",
       "revId": "6e141304bfe940669d5e1f08682ce5bb16389ac9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97818ea7_1f25df92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-05T07:54:39Z",
+      "side": 1,
+      "message": "👍 cool stuff",
+      "parentUuid": "6bcb3843_7e663f4d",
+      "revId": "6e141304bfe940669d5e1f08682ce5bb16389ac9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
