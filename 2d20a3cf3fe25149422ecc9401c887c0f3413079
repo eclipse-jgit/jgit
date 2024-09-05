@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae5cc30_8935e767",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-05T07:58:49Z",
+      "side": 1,
+      "message": "I would also add a reference to the drawbacks: the generated packfile that will be served at clone time *may be* larger than the one generated doing a full search for reuse phase.",
+      "revId": "2d20a3cf3fe25149422ecc9401c887c0f3413079",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7ce1bf_c68de3cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-05T07:58:49Z",
+      "side": 1,
+      "message": "Just one nit on the commit messages, otherwise is 👍",
+      "revId": "2d20a3cf3fe25149422ecc9401c887c0f3413079",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
