@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9ca0972_4da81772",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-05T16:52:28Z",
+      "side": 1,
+      "message": "PackIndex is a public interface and that makes MutableEntry public as well, so you can just subclass and implement #ensureId() out of tree.",
+      "revId": "03c3ca3aba995c9db35b76c385208301c58d2619",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2316ad23_c368f3aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-05T16:52:28Z",
+      "side": 1,
+      "message": "I think the intention is to have subclasses implementing ensureId (that is how is used in pack index v1, v2). I wonder why it wasn\u0027t made abstract in the first place.",
+      "revId": "03c3ca3aba995c9db35b76c385208301c58d2619",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
