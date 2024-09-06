@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf5080a_a0610c10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-06T10:31:27Z",
+      "side": 1,
+      "message": "Kudos for finding this improvement :-)\n\nI think this should not only be used in RefWriter but generally\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1200642\n\nI think the custom implementation was done since String#encode(Charset) was only introduced in Java 1.6. Back at the time JGit used Java 1.5.",
+      "revId": "a9a2dc7d69f6cfdaaa1678a527275ba058307fb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
