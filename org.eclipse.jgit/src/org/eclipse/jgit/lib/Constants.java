@@ -14,7 +14,6 @@ package org.eclipse.jgit.lib;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -688,17 +687,7 @@ public final class Constants {
 	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(String str) {
-		final ByteBuffer bb = UTF_8.encode(str);
-		final int len = bb.limit();
-		if (bb.hasArray() && bb.arrayOffset() == 0) {
-			final byte[] arr = bb.array();
-			if (arr.length == len)
-				return arr;
-		}
-
-		final byte[] arr = new byte[len];
-		bb.get(arr);
-		return arr;
+		return str.getBytes(UTF_8);
 	}
 
 	static {
