@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b534d63f_170cf339",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-06T13:59:19Z",
+      "side": 1,
+      "message": "A very nice outcome of the GerritMeets presentation yesterday, kudos to @maczech@gmail.com indeed for finding this out as part of the GHS project.\n\nThanks @matthias.sohn@sap.com for extending it to all the other encoding operations.",
+      "revId": "e5d2898997462e0f2409c09497ab62c6cda2dbaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
