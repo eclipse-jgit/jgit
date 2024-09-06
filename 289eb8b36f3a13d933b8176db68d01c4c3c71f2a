@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e8268f2_f73cae3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-06T21:23:58Z",
+      "side": 1,
+      "message": "The MutableEntry needs to stay separate because that\u0027s the object returned by the iterator. If we want to avoid allocating objects (which is a questionable goal), then we need a method on MutableEntry that advances its internal state. And we can\u0027t have a method like \"setValue(objId, offset)\" since then we need to allocate said objId.\n\nSo the method ends up telling MutableEntry to read from the PackIndex - a name like advance(), next(), or readNext() is what it has to be.",
+      "parentUuid": "de17e920_7faf0539",
+      "revId": "289eb8b36f3a13d933b8176db68d01c4c3c71f2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "adda6ece_5eedb044",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
         "patchSetId": 14
@@ -31,6 +49,30 @@
       "writtenOn": "2024-09-06T18:40:09Z",
       "side": 1,
       "message": "This is public by default.",
+      "range": {
+        "startLine": 365,
+        "startChar": 1,
+        "endLine": 365,
+        "endChar": 7
+      },
+      "revId": "289eb8b36f3a13d933b8176db68d01c4c3c71f2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a6a5eb_529ecde1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-06T21:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adda6ece_5eedb044",
       "range": {
         "startLine": 365,
         "startChar": 1,
@@ -54,6 +96,30 @@
       "writtenOn": "2024-09-06T18:40:09Z",
       "side": 1,
       "message": "Protected? Nobody but subclasses have a use for it anyway...",
+      "range": {
+        "startLine": 370,
+        "startChar": 2,
+        "endLine": 370,
+        "endChar": 8
+      },
+      "revId": "289eb8b36f3a13d933b8176db68d01c4c3c71f2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bab5d5e_64e42823",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-06T21:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "789f1ab7_3d5d81cb",
       "range": {
         "startLine": 370,
         "startChar": 2,
