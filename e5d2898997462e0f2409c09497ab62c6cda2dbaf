@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a80e0e51_5c8a595d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-06T20:39:54Z",
+      "side": 1,
+      "message": "The method `String#getBytes(Charset)` is annotated with `@since 1.6`. In Java 1.5 I can only find `String#getBytes(String charsetName)`.",
+      "parentUuid": "6b7f16a3_47e592b0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "e5d2898997462e0f2409c09497ab62c6cda2dbaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b534d63f_170cf339",
