@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7f16a3_47e592b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-09-06T19:31:07Z",
+      "side": 1,
+      "message": "Wasn\u0027t `String#getBytes(Charset)` already available in Java 1.5? I was checking the documentation here [1] and I can see it.\n\nAm I looking at the wrong method?\n\n[1]: https://docs.oracle.com/javase/1.5.0/docs/api/java/lang/String.html#getBytes()",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "e5d2898997462e0f2409c09497ab62c6cda2dbaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b534d63f_170cf339",
