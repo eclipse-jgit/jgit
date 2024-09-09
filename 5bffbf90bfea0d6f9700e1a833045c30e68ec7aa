@@ -22,6 +22,30 @@
       },
       "revId": "5bffbf90bfea0d6f9700e1a833045c30e68ec7aa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b3f3b77_10b0f930",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackReverseIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-09T21:19:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9f68a988_8751bd59",
+      "range": {
+        "startLine": 78,
+        "startChar": 29,
+        "endLine": 78,
+        "endChar": 36
+      },
+      "revId": "5bffbf90bfea0d6f9700e1a833045c30e68ec7aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
