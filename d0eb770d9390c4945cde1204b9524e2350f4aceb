@@ -46,6 +46,30 @@
       },
       "revId": "d0eb770d9390c4945cde1204b9524e2350f4aceb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d819f511_35a90b24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-09T08:04:38Z",
+      "side": 1,
+      "message": "This is exactly as in 3e624306dea4de6f7a78a7bcf34a57882f731a2d therefore it is correct.",
+      "parentUuid": "8cfc3d11_c3550ed8",
+      "range": {
+        "startLine": 1153,
+        "startChar": 7,
+        "endLine": 1153,
+        "endChar": 14
+      },
+      "revId": "d0eb770d9390c4945cde1204b9524e2350f4aceb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
