@@ -85,10 +85,10 @@ public interface PackReverseIndex {
 	int findPosition(long offset);
 
 	/**
-	 * Find the object that is in the given position in the primary index.
+	 * Find the object that is in the given position in the reverse index.
 	 *
 	 * @param nthPosition
-	 *            the position of the object in the primary index
+	 *            the position of the object in the reverse index
 	 * @return the object in that position
 	 */
 	ObjectId findObjectByPosition(int nthPosition);
