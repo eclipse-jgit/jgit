@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45837bc9_e33c49e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-10T23:34:43Z",
+      "side": 1,
+      "message": "- I think we should not add new APIs on maintenance branches\n- I consider stable-5.13 EOL, let\u0027s do new stuff on master and do only fixes on old branches",
+      "revId": "157c9edb77734308e5ad298ea3635b4bfbd2e1b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
