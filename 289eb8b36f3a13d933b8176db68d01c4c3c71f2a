@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5cbf20_3013f1be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-12T23:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52e03075_1f400697",
+      "revId": "289eb8b36f3a13d933b8176db68d01c4c3c71f2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adda6ece_5eedb044",
