@@ -322,7 +322,6 @@ public interface PackIndex
 		 * @return hex string describing the object id of this entry.
 		 */
 		public String name() {
-			ensureId();
 			return idBuffer.name();
 		}
 
@@ -332,7 +331,6 @@ public interface PackIndex
 		 * @return a copy of the object id.
 		 */
 		public ObjectId toObjectId() {
-			ensureId();
 			return idBuffer.toObjectId();
 		}
 
@@ -344,26 +342,17 @@ public interface PackIndex
 		public MutableEntry cloneEntry() {
 			final MutableEntry r = new MutableEntry() {
 				@Override
-				protected void ensureId() {}
-
-				@Override
-				protected void next() {}
+				protected void readNext() {}
 			};
-			ensureId();
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
 
-		/** Reads the next ObjectId from the buffer, if necessary. */
-		protected abstract void ensureId();
-
 		/**
 		 * Advances the internal iterator to the next object.
-		 *
-		 * Does not update the MutableObjectId buffer.
 		 */
-		protected abstract void next();
+		protected abstract void readNext();
 	}
 
 	/**
@@ -406,7 +395,7 @@ public interface PackIndex
 		 */
 		@Override
 		public MutableEntry next() {
-			entry.next();
+			entry.readNext();
 			returnedNumber++;
 			return entry;
 		}

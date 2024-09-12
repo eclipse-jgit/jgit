@@ -306,7 +306,7 @@ class PackIndexV2 implements PackIndex {
 		}
 
 		@Override
-		protected void next() {
+		protected void readNext() {
 			for (; levelOne < packIndex.names.length; levelOne++) {
 				if (levelTwo < packIndex.names[levelOne].length) {
 					int idx = levelTwo / (Constants.OBJECT_ID_LENGTH / 4) * 4;
@@ -317,19 +317,14 @@ class PackIndexV2 implements PackIndex {
 						offset = NB.decodeUInt64(packIndex.offset64, idx);
 					}
 					this.offset = offset;
-
-					levelTwo += Constants.OBJECT_ID_LENGTH / 4;
+					this.levelTwo += Constants.OBJECT_ID_LENGTH / 4;
+					this.idBuffer.fromRaw(packIndex.names[levelOne],
+							levelTwo - Constants.OBJECT_ID_LENGTH / 4);
 					return;
 				}
 				levelTwo = 0;
 			}
 			throw new NoSuchElementException();
-		}
-
-		@Override
-		protected void ensureId() {
-			idBuffer.fromRaw(packIndex.names[levelOne],
-					levelTwo - Constants.OBJECT_ID_LENGTH / 4);
 		}
 	}
 }

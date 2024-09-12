@@ -263,25 +263,20 @@ class PackIndexV1 implements PackIndex {
 		}
 
 		@Override
-		protected void next() {
+		protected void readNext() {
 			for (; levelOne < packIndex.idxdata.length; levelOne++) {
 				if (packIndex.idxdata[levelOne] == null)
 					continue;
 				if (levelTwo < packIndex.idxdata[levelOne].length) {
 					this.offset = NB.decodeUInt32(packIndex.idxdata[levelOne], levelTwo);
-					levelTwo += Constants.OBJECT_ID_LENGTH + 4;
+					this.levelTwo += Constants.OBJECT_ID_LENGTH + 4;
+					this.idBuffer.fromRaw(packIndex.idxdata[levelOne],
+							levelTwo - Constants.OBJECT_ID_LENGTH);
 					return;
 				}
 				levelTwo = 0;
 			}
 			throw new NoSuchElementException();
 		}
-
-		@Override
-		protected void ensureId() {
-			idBuffer.fromRaw(packIndex.idxdata[levelOne],
-					levelTwo - Constants.OBJECT_ID_LENGTH);
-		}
-
 	}
 }
