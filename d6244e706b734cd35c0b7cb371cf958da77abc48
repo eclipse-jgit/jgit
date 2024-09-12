@@ -16,6 +16,24 @@
       "message": "The commit message needs some rework to follow the code. Thanks!",
       "revId": "d6244e706b734cd35c0b7cb371cf958da77abc48",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9e16303_c2f1e4a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-12T23:46:42Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "97978fd7_54cc2c62",
+      "revId": "d6244e706b734cd35c0b7cb371cf958da77abc48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
