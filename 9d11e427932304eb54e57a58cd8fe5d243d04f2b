@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3821e4a_9c713d89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-12T17:49:19Z",
+      "side": 1,
+      "message": "nit: \"Populates the entry from the current position of the iterator\"",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c265f67f_c8a83d80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-12T17:49:19Z",
+      "side": 1,
+      "message": "This is only implementing #hasNext(). The extra abstraction is not needed for such a small detail. \n\nWe can move this to implementations of Iterator\u003cMutableEntry\u003e in each index.",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dd845a2_b6fc0fda",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-12T17:49:19Z",
+      "side": 1,
+      "message": "Before this was reading the data lazily, only when accessed. Now the instance is populated before hand.\n\nI don\u0027t know why. I don\u0027t see any use of the iterator without accessing the fields. I guess we can go change it and revert to lazy if we see a performance regression.",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eae8d4bd_89050b77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndexV1.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-12T17:49:19Z",
+      "side": 1,
+      "message": "If we move the \"hasNext()\" logic here, this is a:\n\n`private static class IndexV1Iterator implements Iterator\u003cMutableEntry\u003e`\n\nIn the constructor it can do:\n this.mutableEntry \u003d MutableEntry();\n\nand in next():\n\n mutableEntry.idBuffer...\n mutableEntry.offset \u003d \n return mutableEntry;\n \nSame for PackIndexV2",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
