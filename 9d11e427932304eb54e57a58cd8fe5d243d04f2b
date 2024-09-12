@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbc9913a_a8422026",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-12T23:11:20Z",
+      "side": 1,
+      "message": "There\u0027s different javadoc on the new method.",
+      "parentUuid": "e3821e4a_9c713d89",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c265f67f_c8a83d80",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8d3f53_a55b3747",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-12T23:11:20Z",
+      "side": 1,
+      "message": "I have changed MutableEntry to be a concrete class. Now there is only 1 Iterator abstraction, and each index implementation overrides its 1 abstract method which is used to copy data from the index into the MutableEntry.",
+      "parentUuid": "c265f67f_c8a83d80",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dd845a2_b6fc0fda",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-09-12T17:49:19Z",
       "side": 1,
       "message": "Before this was reading the data lazily, only when accessed. Now the instance is populated before hand.\n\nI don\u0027t know why. I don\u0027t see any use of the iterator without accessing the fields. I guess we can go change it and revert to lazy if we see a performance regression.",
+      "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a7013fe_53cd4591",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-12T23:11:20Z",
+      "side": 1,
+      "message": "It\u0027s copying 20 bytes from a buffer, I\u0027m sure it\u0027s fine on performance.",
+      "parentUuid": "4dd845a2_b6fc0fda",
       "revId": "9d11e427932304eb54e57a58cd8fe5d243d04f2b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
