@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52e03075_1f400697",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-12T17:18:32Z",
+      "side": 1,
+      "message": "From offline discussion, I changed the method name to readNext to distinguish it from Iterator.next(). I also further simplified EntriesIterator to not be abstract, and removed the ensureId method from MutableEntry.",
+      "parentUuid": "7e8268f2_f73cae3d",
+      "revId": "289eb8b36f3a13d933b8176db68d01c4c3c71f2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "adda6ece_5eedb044",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
         "patchSetId": 14
