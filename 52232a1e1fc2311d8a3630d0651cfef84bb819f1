@@ -16,6 +16,24 @@
       "message": "Why do we need this strange SubmoduleClone? Can\u0027t we deal with it in FileRepository, lines 296 to 304, directly?",
       "revId": "52232a1e1fc2311d8a3630d0651cfef84bb819f1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51524d51_b94d0e71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-09-15T10:13:37Z",
+      "side": 1,
+      "message": "Modifiying FileRepository directly was my first approach also. But combined with the fix  proposed in [1] I thought it best to combine both in a new class which takes care about the \"special handling\" in one common place.\n\nPossible alternative approaches(w/o introducing the new class): \na) Add a new public method \"create(boolean bare, boolean relDir)\" to FileRepository which allows the use of a relative path depending on \"relDir\". The current \"create\" method (line 225) can then be redirected to it.\nBenefit: backward compatible, the possibility to use a relative dir is independent of the submodule use case\n\nb) Add a switch to existing code in lines 296 to 304 evaluating the repository path. If the path contains \"modules\"(to identify the submodule usecase) create a relative dir otherwise a absolute one.\nBenefit: changes as less code as possible \nDrawback compared to a): relative paths work for submodulds only.\n\nImplementing either alternative approach implies a rework of [1] as the new class is mssing.\n\n\n [1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1198662/",
+      "parentUuid": "fc43c6db_edf7ee01",
+      "revId": "52232a1e1fc2311d8a3630d0651cfef84bb819f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
