@@ -10,6 +10,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.eclipse.jgit.api;version="[6.10.1,6.11.0)",
  org.eclipse.jgit.attributes;version="[6.10.1,6.11.0)",
  org.eclipse.jgit.internal.storage.dfs;version="[6.10.1,6.11.0)",
+ org.eclipse.jgit.internal.storage.file;version="[6.10.1,6.11.0)",
  org.eclipse.jgit.junit;version="[6.10.1,6.11.0)",
  org.eclipse.jgit.lfs;version="[6.10.1,6.11.0)",
  org.eclipse.jgit.lfs.errors;version="[6.10.1,6.11.0)",
