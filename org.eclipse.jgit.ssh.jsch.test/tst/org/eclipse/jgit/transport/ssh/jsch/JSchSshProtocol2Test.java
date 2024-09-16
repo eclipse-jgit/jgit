@@ -22,7 +22,6 @@ import java.util.Arrays;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.junit.ssh.SshBasicTestBase;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RemoteSession;
@@ -89,7 +88,8 @@ public class JSchSshProtocol2Test extends SshBasicTestBase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		StoredConfig config = ((Repository) db).getConfig();
+		@SuppressWarnings("restriction")
+		StoredConfig config = db.getConfig();
 		config.setInt("protocol", null, "version", 2);
 		config.save();
 	}
