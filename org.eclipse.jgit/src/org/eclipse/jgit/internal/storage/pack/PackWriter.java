@@ -303,19 +303,6 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
-	 * Create a writer to load objects from the specified reader.
-	 * <p>
-	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
-	 *
-	 * @param reader
-	 *            reader to read from the repository with.
-	 */
-	public PackWriter(ObjectReader reader) {
-		this(new PackConfig(), reader);
-	}
-
-	/**
 	 * Create writer for specified repository.
 	 * <p>
 	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
