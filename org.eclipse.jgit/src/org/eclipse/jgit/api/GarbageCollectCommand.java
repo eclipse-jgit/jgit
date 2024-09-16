@@ -64,6 +64,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private Boolean packKeptObjects;
 
+	private boolean repackHeadsWithBitmapOnly;
+
+	private boolean selectFirstObjectMatch;
+
 	/**
 	 * Constructor for GarbageCollectCommand.
 	 *
@@ -177,6 +181,28 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Whether to pack all refs or only the heads with the bitmap.
+	 *
+	 * @param repackHeadsWithBitmapOnly - whether to pack all refs or only the heads.
+	 * @return this instance
+	 */
+	public GarbageCollectCommand setRepackHeadsWithBitmapOnly(boolean repackHeadsWithBitmapOnly) {
+		this.repackHeadsWithBitmapOnly = true;
+		return this;
+	}
+
+	/**
+	 * Whether to perform a full packfiles list scanning or just stop at the first object hit.
+	 *
+	 * @param selectFirstObjectMatch - whether to stop the search for reuse at the first hit.
+	 * @return this instance
+	 */
+	public GarbageCollectCommand setSelectFirstObjectMatch(boolean selectFirstObjectMatch) {
+		this.selectFirstObjectMatch = selectFirstObjectMatch;
+		return this;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public Properties call() throws GitAPIException {
@@ -193,7 +219,11 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 					gc.setPackKeptObjects(packKeptObjects.booleanValue());
 				}
 				try {
-					gc.gc();
+					if(repackHeadsWithBitmapOnly) {
+						gc.repackHeadsWithBitmap(selectFirstObjectMatch);
+					} else {
+						gc.gc();
+					}
 					return toProperties(gc.getStatistics());
 				} catch (ParseException e) {
 					throw new JGitInternalException(JGitText.get().gcFailed, e);
