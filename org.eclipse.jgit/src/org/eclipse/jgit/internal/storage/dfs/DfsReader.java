@@ -511,18 +511,15 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 
-		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
 			return pack.getObjectSize(this, objectId);
 		}
 
-		long sz = pack.getIndexedObjectSize(this, objectId);
+		Optional<Long> maybeSz = safeGetIndexedObjectSize(pack, objectId);
+		long sz = maybeSz.orElse(-1L);
 		if (sz >= 0) {
-			stats.objectSizeIndexHit += 1;
 			return sz;
 		}
-
-		// Object wasn't in the index
-		stats.objectSizeIndexMiss += 1;
 		return pack.getObjectSize(this, objectId);
 	}
 
@@ -541,23 +538,61 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 
 		stats.isNotLargerThanCallCount += 1;
-		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
 			return pack.getObjectSize(this, objectId) <= limit;
 		}
 
-		long sz = pack.getIndexedObjectSize(this, objectId);
+		Optional<Long> maybeSz = safeGetIndexedObjectSize(pack, objectId);
+		if (maybeSz.isEmpty()) {
+			// Exception in object size index
+			return pack.getObjectSize(this, objectId) <= limit;
+		}
+
+		long sz = maybeSz.get();
+		if (sz >= 0) {
+			return sz <= limit;
+		}
+
+		if (isLimitInsideIndexThreshold(pack, limit)) {
+			// With threshold T, not-found means object < T
+			// If limit L > T, then object < T < L
+			return true;
+		}
+
+		return pack.getObjectSize(this, objectId) <= limit;
+	}
+
+	private boolean safeHasObjectSizeIndex(DfsPackFile pack) {
+		try {
+			return pack.hasObjectSizeIndex(this);
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+	private Optional<Long> safeGetIndexedObjectSize(DfsPackFile pack,
+			AnyObjectId objectId) {
+		long sz;
+		try {
+			sz = pack.getIndexedObjectSize(this, objectId);
+		} catch (IOException e) {
+			// Do not count the exception as an index miss
+			return Optional.empty();
+		}
 		if (sz < 0) {
 			stats.objectSizeIndexMiss += 1;
 		} else {
 			stats.objectSizeIndexHit += 1;
 		}
+		return Optional.of(sz);
+	}
 
-		// Got size from index or we didn't but we are sure it should be there.
-		if (sz >= 0 || pack.getObjectSizeIndexThreshold(this) <= limit) {
-			return sz <= limit;
+	private boolean isLimitInsideIndexThreshold(DfsPackFile pack, long limit) {
+		try {
+			return pack.getObjectSizeIndexThreshold(this) <= limit;
+		} catch (IOException e) {
+			return false;
 		}
-
-		return pack.getObjectSize(this, objectId) <= limit;
 	}
 
 	private DfsPackFile findPackWithObject(AnyObjectId objectId)
