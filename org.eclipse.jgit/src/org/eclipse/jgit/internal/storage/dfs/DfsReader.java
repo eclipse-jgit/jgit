@@ -511,11 +511,17 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 
-		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
 			return pack.getObjectSize(this, objectId);
 		}
 
-		long sz = pack.getIndexedObjectSize(this, objectId);
+		long sz;
+		try {
+			sz = pack.getIndexedObjectSize(this, objectId);
+		} catch (IOException e) {
+			return pack.getObjectSize(this, objectId);
+		}
+
 		if (sz >= 0) {
 			stats.objectSizeIndexHit += 1;
 			return sz;
@@ -541,11 +547,16 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 
 		stats.isNotLargerThanCallCount += 1;
-		if (typeHint != Constants.OBJ_BLOB || !pack.hasObjectSizeIndex(this)) {
+		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
 			return pack.getObjectSize(this, objectId) <= limit;
 		}
 
-		long sz = pack.getIndexedObjectSize(this, objectId);
+		long sz;
+		try {
+			sz = pack.getIndexedObjectSize(this, objectId);
+		} catch (IOException e) {
+			return pack.getObjectSize(this,objectId) <= limit;
+		}
 		if (sz < 0) {
 			stats.objectSizeIndexMiss += 1;
 		} else {
@@ -553,11 +564,27 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 
 		// Got size from index or we didn't but we are sure it should be there.
-		if (sz >= 0 || pack.getObjectSizeIndexThreshold(this) <= limit) {
+		if (sz >= 0 || isLimitInsideIndexThreshold(pack, limit)) {
 			return sz <= limit;
 		}
 
 		return pack.getObjectSize(this, objectId) <= limit;
+	}
+
+	private boolean safeHasObjectSizeIndex(DfsPackFile pack) {
+		try {
+			return pack.hasObjectSizeIndex(this);
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
+	private boolean isLimitInsideIndexThreshold(DfsPackFile pack, long limit) {
+		try {
+			return pack.getObjectSizeIndexThreshold(this) <= limit;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	private DfsPackFile findPackWithObject(AnyObjectId objectId)
