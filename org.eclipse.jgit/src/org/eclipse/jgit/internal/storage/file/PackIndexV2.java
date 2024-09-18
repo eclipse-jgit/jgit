@@ -314,7 +314,7 @@ class PackIndexV2 implements PackIndex {
 					}
 					entry.offset = offset;
 					this.levelTwo += Constants.OBJECT_ID_LENGTH / 4;
-					entry.idBuffer.fromRaw(packIndex.names[levelOne],
+					entry.getIdBuffer().fromRaw(packIndex.names[levelOne],
 							levelTwo - Constants.OBJECT_ID_LENGTH / 4);
 					return;
 				}
