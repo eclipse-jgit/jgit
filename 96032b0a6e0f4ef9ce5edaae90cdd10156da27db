@@ -16,6 +16,24 @@
       "message": "Should we log the exception, or some warning?",
       "revId": "96032b0a6e0f4ef9ce5edaae90cdd10156da27db",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "459044f9_3f296ceb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-18T22:25:29Z",
+      "side": 1,
+      "message": "In the JGit core there is no logger setup, AFAIK.",
+      "parentUuid": "e221c33a_be05a5a8",
+      "revId": "96032b0a6e0f4ef9ce5edaae90cdd10156da27db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
