@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e221c33a_be05a5a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-18T20:42:47Z",
+      "side": 1,
+      "message": "Should we log the exception, or some warning?",
+      "revId": "96032b0a6e0f4ef9ce5edaae90cdd10156da27db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

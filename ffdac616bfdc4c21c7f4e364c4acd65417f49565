@@ -34,6 +34,24 @@
       "parentUuid": "94b225c0_474842c0",
       "revId": "ffdac616bfdc4c21c7f4e364c4acd65417f49565",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd1d011d_416554a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-18T20:42:47Z",
+      "side": 1,
+      "message": "Can the hit/miss logic go in the method as well? Right now the logic is repeated, but structured differently which makes it pretty confusing.",
+      "parentUuid": "585e01eb_bfb7312c",
+      "revId": "ffdac616bfdc4c21c7f4e364c4acd65417f49565",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
