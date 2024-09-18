@@ -312,9 +312,9 @@ class PackIndexV2 implements PackIndex {
 						idx = (8 * (int) (offset & ~IS_O64));
 						offset = NB.decodeUInt64(packIndex.offset64, idx);
 					}
-					entry.offset = offset;
+					entry.setOffset(offset);
 					this.levelTwo += Constants.OBJECT_ID_LENGTH / 4;
-					entry.idBuffer.fromRaw(packIndex.names[levelOne],
+					entry.getIdBuffer().fromRaw(packIndex.names[levelOne],
 							levelTwo - Constants.OBJECT_ID_LENGTH / 4);
 					return;
 				}
