@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94b225c0_474842c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-18T20:26:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this set the sz variable instead of returning?\n\nI think you can wrap this try/catch, and the similar one at line 519, in a \"safeGetObjectSize\" method.",
+      "revId": "ffdac616bfdc4c21c7f4e364c4acd65417f49565",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
