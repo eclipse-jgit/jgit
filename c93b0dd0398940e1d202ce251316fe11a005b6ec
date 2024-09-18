@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5063b62d_6cc7c40c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-18T07:59:39Z",
+      "side": 1,
+      "message": "Best to call this `enableRepackHeadsWithBitmapOnly()` as calling it with a `false` parameter would be a no-op.",
+      "range": {
+        "startLine": 190,
+        "startChar": 30,
+        "endLine": 190,
+        "endChar": 58
+      },
+      "revId": "c93b0dd0398940e1d202ce251316fe11a005b6ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2822483f_960e52a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-18T07:59:39Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tthis.selectFirstObjectMatch \u003d selectFirstObjectMatch;\n```",
+      "range": {
+        "startLine": 202,
+        "startChar": 32,
+        "endLine": 202,
+        "endChar": 36
+      },
+      "revId": "c93b0dd0398940e1d202ce251316fe11a005b6ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
