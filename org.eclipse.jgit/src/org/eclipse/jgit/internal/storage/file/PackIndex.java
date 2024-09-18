@@ -301,11 +301,11 @@ public interface PackIndex
 	 * in pack (both mutable).
 	 *
 	 */
-	class MutableEntry {
+	final class MutableEntry {
 		/** Buffer of the ObjectId visited by the EntriesIterator. */
-		final MutableObjectId idBuffer = new MutableObjectId();
+		private final MutableObjectId idBuffer = new MutableObjectId();
 		/** Offset into the packfile of the current object. */
-		long offset;
+		private long offset;
 
 		/**
 		 * Returns offset for this index object entry
@@ -344,6 +344,25 @@ public interface PackIndex
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
+		}
+
+		/**
+		 * Get a reference to the mutable object id for implementations to set
+		 * the value.
+		 *
+		 * @return a reference to the mutable object id.
+		 */
+		public MutableObjectId getIdBuffer() {
+			return idBuffer;
+		}
+
+		/**
+		 * Set the offset value
+		 *
+		 * @param offset the offset
+		 */
+		public void setOffset(long offset) {
+			this.offset = offset;
 		}
 	}
 
