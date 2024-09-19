@@ -379,17 +379,46 @@ public interface PackIndex
 		 */
 		@Override
 		public MutableEntry next() {
-			readNext(entry);
+			readNext();
 			returnedNumber++;
 			return entry;
 		}
 
 		/**
-		 * Used by subclasses to load the next entry into the MutableEntry.
-		 *
-		 * @param entry the container of the next Iterator entry.
+		 * Used by subclasses to load the next entry into the MutableEntry. Subclasses are expected to
+		 * call {@link #setIdBuffer} and {@link #setOffset}.
  		 */
-		protected abstract void readNext(MutableEntry entry);
+		protected abstract void readNext();
+
+
+		/**
+		 * Reads the next {@link ObjectId} from an int buffer.
+		 *
+ 		 * @param raw the raw data
+		 * @param idx the index into {@code raw}
+		 */
+		protected void setIdBuffer(int[] raw, int idx) {
+			entry.idBuffer.fromRaw(raw, idx);
+		}
+
+		/**
+		 * Reads the next {@link ObjectId} from a byte buffer.
+		 *
+		 * @param raw the raw data
+		 * @param idx the index into {@code raw}
+		 */
+		protected void setIdBuffer(byte[] raw, int idx) {
+			entry.idBuffer.fromRaw(raw, idx);
+		}
+
+		/**
+		 * Sets the pack offset of the next object.
+		 *
+		 * @param offset the offset in the pack file
+		 */
+		protected void setOffset(long offset) {
+			entry.offset = offset;
+		}
 
 		@Override
 		public void remove() {
