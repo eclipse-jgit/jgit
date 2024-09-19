@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fecceaf_697c319a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-09-19T20:07:59Z",
+      "side": 1,
+      "message": "Why not return pack.getObjectSize if the optional is empty?",
+      "range": {
+        "startLine": 545,
+        "startChar": 27,
+        "endLine": 545,
+        "endChar": 51
+      },
+      "revId": "1af7aa891910131a6a6012ef156510609417bd5e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
