@@ -22,6 +22,30 @@
       },
       "revId": "1af7aa891910131a6a6012ef156510609417bd5e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c8135ae_a395dbbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-19T20:54:54Z",
+      "side": 1,
+      "message": "We need to know the *indexed* size for the optimization few lines below, the \"isLimitInsideIndexThreshold(pack, limit)\".\n\nThis index gives most of its value helping to discard things that are not indexed.",
+      "parentUuid": "7fecceaf_697c319a",
+      "range": {
+        "startLine": 545,
+        "startChar": 27,
+        "endLine": 545,
+        "endChar": 51
+      },
+      "revId": "1af7aa891910131a6a6012ef156510609417bd5e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
