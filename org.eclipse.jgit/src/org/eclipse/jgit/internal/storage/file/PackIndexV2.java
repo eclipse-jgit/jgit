@@ -302,7 +302,7 @@ class PackIndexV2 implements PackIndex {
 		}
 
 		@Override
-		protected void readNext(MutableEntry entry) {
+		protected void readNext() {
 			for (; levelOne < packIndex.names.length; levelOne++) {
 				if (levelTwo < packIndex.names[levelOne].length) {
 					int idx = levelTwo / (Constants.OBJECT_ID_LENGTH / 4) * 4;
@@ -312,9 +312,9 @@ class PackIndexV2 implements PackIndex {
 						idx = (8 * (int) (offset & ~IS_O64));
 						offset = NB.decodeUInt64(packIndex.offset64, idx);
 					}
-					entry.offset = offset;
+					super.setOffset(offset);
 					this.levelTwo += Constants.OBJECT_ID_LENGTH / 4;
-					entry.idBuffer.fromRaw(packIndex.names[levelOne],
+					super.setIdBuffer(packIndex.names[levelOne],
 							levelTwo - Constants.OBJECT_ID_LENGTH / 4);
 					return;
 				}
