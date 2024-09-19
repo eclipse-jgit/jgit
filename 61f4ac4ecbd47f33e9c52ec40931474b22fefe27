@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b0b15ec_890aa698",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-19T22:32:14Z",
+      "side": 1,
+      "message": "I updated javadoc and commit message.",
+      "revId": "61f4ac4ecbd47f33e9c52ec40931474b22fefe27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
