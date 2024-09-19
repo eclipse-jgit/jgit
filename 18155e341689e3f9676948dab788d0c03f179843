@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d868bf_cbe3e1cd",
+        "filename": "org.eclipse.jgit.ssh.apache.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-09-19T07:42:43Z",
+      "side": 1,
+      "message": "Why is this not 7.2.0?",
+      "range": {
+        "startLine": 27,
+        "startChar": 56,
+        "endLine": 27,
+        "endChar": 61
+      },
+      "revId": "18155e341689e3f9676948dab788d0c03f179843",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
