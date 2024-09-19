@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0a6e7c0_6458cd65",
+        "filename": "org.eclipse.jgit.lfs.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-09-19T07:45:42Z",
+      "side": 1,
+      "message": "7.2.0?",
+      "range": {
+        "startLine": 13,
+        "startChar": 56,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "90bc2a6be382f19a6b61cbc2090a64bafad8e5db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
