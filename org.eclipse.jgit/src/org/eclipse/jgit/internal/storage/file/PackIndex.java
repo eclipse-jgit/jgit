@@ -359,10 +359,11 @@ public interface PackIndex
 		private long returnedNumber = 0;
 
 		/**
-		* Default constructor.
-		*
-		* @param objectCount the number of objects in the PackFile.
-		*/
+		 * Construct an iterator that can move objectCount times forward.
+		 *
+		 * @param objectCount
+		 *            the number of objects in the PackFile.
+		 */
 		protected EntriesIterator(long objectCount) {
 			this.objectCount = objectCount;
 		}
@@ -379,17 +380,54 @@ public interface PackIndex
 		 */
 		@Override
 		public MutableEntry next() {
-			readNext(entry);
+			readNext();
 			returnedNumber++;
 			return entry;
 		}
 
 		/**
 		 * Used by subclasses to load the next entry into the MutableEntry.
+		 * <p>
+		 * Subclasses are expected to populate the entry with
+		 * {@link #setIdBuffer} and {@link #setOffset}.
+		 */
+		protected abstract void readNext();
+
+
+		/**
+		 * Copies to the entry an {@link ObjectId} from the int buffer and
+		 * position idx
 		 *
-		 * @param entry the container of the next Iterator entry.
- 		 */
-		protected abstract void readNext(MutableEntry entry);
+		 * @param raw
+		 *            the raw data
+		 * @param idx
+		 *            the index into {@code raw}
+		 */
+		protected void setIdBuffer(int[] raw, int idx) {
+			entry.idBuffer.fromRaw(raw, idx);
+		}
+
+		/**
+		 * Copies to the entry an {@link ObjectId} from the byte array at
+		 * position idx.
+		 *
+		 * @param raw
+		 *            the raw data
+		 * @param idx
+		 *            the index into {@code raw}
+		 */
+		protected void setIdBuffer(byte[] raw, int idx) {
+			entry.idBuffer.fromRaw(raw, idx);
+		}
+
+		/**
+		 * Sets the {@code offset} to the entry
+		 *
+		 * @param offset the offset in the pack file
+		 */
+		protected void setOffset(long offset) {
+			entry.offset = offset;
+		}
 
 		@Override
 		public void remove() {
