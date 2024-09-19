@@ -34,6 +34,24 @@
       "parentUuid": "fc43c6db_edf7ee01",
       "revId": "52232a1e1fc2311d8a3630d0651cfef84bb819f1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da5c3a76_857f27f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-09-19T08:57:19Z",
+      "side": 1,
+      "message": "So we want to do this only for submodules.\n\nI don\u0027t quite like the fact that the current code writes the two paths first \"wrongly\" (with absolute paths) and then later corrects that. There\u0027s a window during which other code might read the \"wrong\" path, and the file is locked twice.\n\nWhy not add a separate flag and setter for this on FileRepository? If the flag is true, use relative paths, otherwise absolute paths. Then set the flag in the CloneCommand invocation in SubmoduleUpdateCommand. And if somebody wants to use a relative path for a normal clone that\u0027s then also possible.\n\nThe other change for jgit-79 (\"re-init\") could be done directly inside SubmoduleUpdateCommand.",
+      "parentUuid": "51524d51_b94d0e71",
+      "revId": "52232a1e1fc2311d8a3630d0651cfef84bb819f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
