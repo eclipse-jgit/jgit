@@ -46,6 +46,30 @@
       },
       "revId": "acd62dfabcad6376fdc00dff88345f51a106b7cd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de2f2983_662fa19d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-19T22:10:21Z",
+      "side": 1,
+      "message": "wops, sorry, I missed the different signature. I was wonder how it could build.",
+      "parentUuid": "46c19460_2882b7c0",
+      "range": {
+        "startLine": 410,
+        "startChar": 17,
+        "endLine": 410,
+        "endChar": 28
+      },
+      "revId": "acd62dfabcad6376fdc00dff88345f51a106b7cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
