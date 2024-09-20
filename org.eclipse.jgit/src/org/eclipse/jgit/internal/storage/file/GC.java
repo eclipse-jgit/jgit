@@ -1509,6 +1509,12 @@ public class GC {
 		public long numberOfPackFiles;
 
 		/**
+		 * The number of pack files that were created after the last bitmap
+		 * generation.
+		 */
+		public long numberOfPackFilesAfterBitmap;
+
+		/**
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
@@ -1543,6 +1549,8 @@ public class GC {
 			final StringBuilder b = new StringBuilder();
 			b.append("numberOfPackedObjects=").append(numberOfPackedObjects); //$NON-NLS-1$
 			b.append(", numberOfPackFiles=").append(numberOfPackFiles); //$NON-NLS-1$
+			b.append(", numberOfPackFilesAfterBitmap=") //$NON-NLS-1$
+					.append(numberOfPackFilesAfterBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1567,8 +1575,11 @@ public class GC {
 			ret.numberOfPackedObjects += p.getIndex().getObjectCount();
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
-			if (p.getBitmapIndex() != null)
+			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
+			} else {
+				ret.numberOfPackFilesAfterBitmap++;
+			}
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();
