@@ -1509,6 +1509,12 @@ public class GC {
 		public long numberOfPackFiles;
 
 		/**
+		 * The number of pack files that were created after the last bitmap
+		 * generation.
+		 */
+		public long numberOfPackFilesAfterBitmap;
+
+		/**
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
@@ -1543,6 +1549,8 @@ public class GC {
 			final StringBuilder b = new StringBuilder();
 			b.append("numberOfPackedObjects=").append(numberOfPackedObjects); //$NON-NLS-1$
 			b.append(", numberOfPackFiles=").append(numberOfPackFiles); //$NON-NLS-1$
+			b.append(", numberOfPackFilesAfterBitmap=") //$NON-NLS-1$
+					.append(numberOfPackFilesAfterBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1563,12 +1571,16 @@ public class GC {
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
 		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		long newestBitmapTime = getNewestBitmapTime(packs);
 		for (Pack p : packs) {
 			ret.numberOfPackedObjects += p.getIndex().getObjectCount();
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
 			if (p.getBitmapIndex() != null)
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
+			else if (p.getFileSnapshot().lastModifiedInstant()
+					.toEpochMilli() > newestBitmapTime)
+				ret.numberOfPackFilesAfterBitmap += 1L;
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();
@@ -1942,4 +1954,30 @@ public class GC {
 		}
 
 	}
+
+	/**
+	 * Determines the newest bitmap time
+	 *
+	 * @param packs
+	 *            repository packs
+	 * @return the newest bitmap time, 0L means that no bitmap was generated for
+	 *         the repository in question
+	 * @throws IOException
+	 *             if an IO error occurred
+	 */
+	private static long getNewestBitmapTime(Collection<Pack> packs)
+			throws IOException {
+		long newestBitmapTime = 0L;
+		for (Pack p : packs) {
+			if (p.getBitmapIndex() != null) {
+				long currentBitmapTime = p.getFileSnapshot().lastModifiedInstant().toEpochMilli();
+				if (currentBitmapTime > newestBitmapTime) {
+					newestBitmapTime = currentBitmapTime;
+				}
+			}
+		}
+
+		return newestBitmapTime;
+	}
+
 }
