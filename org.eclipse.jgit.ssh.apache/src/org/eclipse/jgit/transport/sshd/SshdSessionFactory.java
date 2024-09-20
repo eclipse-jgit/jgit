@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2024 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -210,7 +210,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 						home, sshDir);
 				KeyIdentityProvider defaultKeysProvider = toKeyIdentityProvider(
 						getDefaultKeys(sshDir));
-				Supplier<KeyPasswordProvider> keyPasswordProvider = () -> createKeyPasswordProvider(
+				Supplier<KeyPasswordProvider> keyPasswordProvider = newKeyPasswordProvider(
 						credentialsProvider);
 				SshClient client = ClientBuilder.builder()
 						.factory(JGitSshClient::new)
@@ -574,12 +574,24 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 * @param provider
 	 *            the {@link CredentialsProvider} to delegate to for user
 	 *            interactions
-	 * @return a new {@link KeyPasswordProvider}
+	 * @return a new {@link KeyPasswordProvider}, or {@code null} to use the
+	 *         global {@link KeyPasswordProviderFactory}
 	 */
-	@NonNull
 	protected KeyPasswordProvider createKeyPasswordProvider(
 			CredentialsProvider provider) {
-		return new IdentityPasswordProvider(provider);
+		return null;
+	}
+
+	private Supplier<KeyPasswordProvider> newKeyPasswordProvider(
+			CredentialsProvider credentials) {
+		return () -> {
+			KeyPasswordProvider provider = createKeyPasswordProvider(
+					credentials);
+			if (provider != null) {
+				return provider;
+			}
+			return KeyPasswordProviderFactory.getInstance().apply(credentials);
+		};
 	}
 
 	/**
