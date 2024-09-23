@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -185,12 +186,15 @@ public class RecursiveMerger extends ResolveMerger {
 				if (mergeTrees(bcTree, currentBase.getTree(),
 						nextBase.getTree(), true))
 					currentBase = createCommitForTree(resultTree, parents);
-				else
+				else {
+					String failedPaths = failingPathsMessage();
 					throw new NoMergeBaseException(
 							NoMergeBaseException.MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION,
 							MessageFormat.format(
 									JGitText.get().mergeRecursiveConflictsWhenMergingCommonAncestors,
-									currentBase.getName(), nextBase.getName()));
+									currentBase.getName(), nextBase.getName(),
+									failedPaths));
+				}
 			}
 		} finally {
 			inCore = oldIncore;
@@ -235,5 +239,18 @@ public class RecursiveMerger extends ResolveMerger {
 				name, name + "@JGit", //$NON-NLS-1$
 				new Date((time + 1) * 1000L),
 				TimeZone.getTimeZone("GMT+0000")); //$NON-NLS-1$
+	}
+
+	private String failingPathsMessage() {
+		int max = 25;
+		String failedPaths = failingPaths.entrySet().stream().limit(max)
+				.map(entry -> entry.getKey() + ":" + entry.getValue())
+				.collect(Collectors.joining("\n"));
+
+		if (failingPaths.size() > max) {
+			failedPaths = String.format("%s\n... (%s failing paths omitted)",
+					failedPaths, failingPaths.size() - max);
+		}
+		return failedPaths;
 	}
 }
