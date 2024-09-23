@@ -360,18 +360,22 @@ public class RawText extends Sequence {
 			length = maxLength;
 			isComplete = false;
 		}
-		byte last = 'x'; // Just something inconspicuous.
-		for (int ptr = 0; ptr < length; ptr++) {
-			byte curr = raw[ptr];
-			if (isBinary(curr, last)) {
+
+		int ptr = -1;
+		byte current;
+		while (ptr < length - 2) {
+			current = raw[++ptr];
+			if ('\0' == current || '\r' == current && raw[++ptr] != '\n') {
 				return true;
 			}
-			last = curr;
 		}
-		if (isComplete) {
-			// Buffer contains everything...
-			return last == '\r'; // ... so this must be a lone CR
+
+		if (ptr == length - 2) {
+			// if '\r' be last, then if isComplete then return binary
+			current = raw[++ptr];
+            return '\0' == current || '\r' == current && isComplete;
 		}
+
 		return false;
 	}
 
@@ -467,26 +471,24 @@ public class RawText extends Sequence {
 	 */
 	public static boolean isCrLfText(byte[] raw, int length, boolean complete) {
 		boolean has_crlf = false;
-		byte last = 'x'; // Just something inconspicuous
-		for (int ptr = 0; ptr < length; ptr++) {
-			byte curr = raw[ptr];
-			if (isBinary(curr, last)) {
+
+		int ptr = -1;
+		byte current;
+		while (ptr < length - 2) {
+			current = raw[++ptr];
+			if ('\0' == current || '\r' == current && (raw[++ptr] != '\n' || !(has_crlf = true))) {
 				return false;
 			}
-			if (curr == '\n' && last == '\r') {
-				has_crlf = true;
-			}
-			last = curr;
 		}
-		if (last == '\r') {
-			if (complete) {
-				// Lone CR: it's binary after all.
+
+		if (ptr == length - 2) {
+			// if '\r' be last, then if isComplete then return binary
+			current = raw[++ptr];
+			if('\0' == current || '\r' == current && complete){
 				return false;
 			}
-			// Tough call. If the next byte, which we don't have, would be a
-			// '\n', it'd be a CR-LF text, otherwise it'd be binary. Just decide
-			// based on what we already scanned; it wasn't binary until now.
 		}
+
 		return has_crlf;
 	}
 
@@ -578,4 +580,5 @@ public class RawText extends Sequence {
 			return new RawText(data, RawParseUtils.lineMapOrBinary(data, 0, (int) sz));
 		}
 	}
+
 }
