@@ -1968,10 +1968,9 @@ public class UploadPack implements Closeable {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-			if (!up.isBiDirectionalPipe())
+			if (!up.isBiDirectionalPipe() || !wants.isEmpty()) {
 				new ReachableCommitRequestValidator().checkWants(up, wants);
-			else if (!wants.isEmpty())
-				throw new WantNotValidException(wants.iterator().next());
+			}
 		}
 	}
 
