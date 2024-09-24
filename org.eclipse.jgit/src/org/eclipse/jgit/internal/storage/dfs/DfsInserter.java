@@ -93,7 +93,7 @@ public class DfsInserter extends ObjectInserter {
 	 */
 	protected DfsInserter(DfsObjDatabase db) {
 		this.db = db;
-		PackConfig pc = new PackConfig(db.getRepository().getConfig());
+		PackConfig pc = new PackConfig(db.getRepository());
 		this.minBytesForObjectSizeIndex = pc.getMinBytesForObjSizeIndex();
 	}
 
