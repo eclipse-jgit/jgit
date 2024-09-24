@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31edf558_e12dd304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1018954
+      },
+      "writtenOn": "2024-09-24T11:41:50Z",
+      "side": 1,
+      "message": "Why would we validate wants at all in the case of a clone operation?",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43d19000_89744037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1018954
+      },
+      "writtenOn": "2024-09-24T11:41:50Z",
+      "side": 1,
+      "message": "Can you provide a reference to that place in the source code?",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
