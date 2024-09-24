@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09d802f6_ddc4c82b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1018954
+      },
+      "writtenOn": "2024-09-24T13:22:23Z",
+      "side": 1,
+      "message": "OK, I agree with the second argument.\nFor the clone case, somewhere up in the call chain we know that it is clone, right? If we don\u0027t loose that info here then we could skip the validations for that case here. Probably not in the context of this change.",
+      "parentUuid": "a67cc13f_e2f5ec8f",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43d19000_89744037",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
