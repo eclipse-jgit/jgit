@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a67cc13f_e2f5ec8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-24T12:40:47Z",
+      "side": 1,
+      "message": "The mirror clone I used to reproduce the problem is only one case where it can occur. I am sure you can hit the same race by using a set of fetch refspecs.",
+      "parentUuid": "31edf558_e12dd304",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43d19000_89744037",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,42 @@
       "writtenOn": "2024-09-24T11:41:50Z",
       "side": 1,
       "message": "Can you provide a reference to that place in the source code?",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6ecd1e_1cda6948",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-24T12:40:47Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "43d19000_89744037",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b3275e_4522915f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-24T12:40:47Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "43d19000_89744037",
       "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
