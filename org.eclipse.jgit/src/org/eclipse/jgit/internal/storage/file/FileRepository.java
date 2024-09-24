@@ -595,7 +595,6 @@ public class FileRepository extends Repository {
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);
-		gc.setPackConfig(new PackConfig(this));
 		gc.setProgressMonitor(monitor);
 		gc.setAuto(true);
 		gc.setBackground(shouldAutoDetach());
