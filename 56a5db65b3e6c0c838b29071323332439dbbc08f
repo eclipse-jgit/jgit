@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "999e938c_3db89ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-27T18:18:10Z",
+      "side": 1,
+      "message": "Shouldn\u0027t each thread has its own UploadPack? \n\nUploadPack has a lot of request state and doesn\u0027t seem to be designed to be used from multiple threads.",
+      "revId": "56a5db65b3e6c0c838b29071323332439dbbc08f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }

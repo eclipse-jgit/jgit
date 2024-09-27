@@ -72,6 +72,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dcf9369_1fd70b41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-09-27T18:18:10Z",
+      "side": 1,
+      "message": "Protocol-wise clone is a fetch of refs/heads/* and refs/tags/* with no \"haves\".\n\nrefs/heads/* can be different per user because of per branch permissions, so we still need to verity that the fetch is asking for things the user can see.",
+      "parentUuid": "72a87be9_ab378963",
+      "revId": "53568620fcfffbbb817f7c535d70d78b7b11637f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43d19000_89744037",
