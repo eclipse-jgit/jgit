@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t each thread has its own UploadPack? \n\nUploadPack has a lot of request state and doesn\u0027t seem to be designed to be used from multiple threads.",
       "revId": "56a5db65b3e6c0c838b29071323332439dbbc08f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ffaa53f_c548ec89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-27T23:34:04Z",
+      "side": 1,
+      "message": "This is not about two threads using the same UploadPack instance (which, as you said, shouldn\u0027t be done since it\u0027s not thread-safe) but about a ReceivePack updating a ref immediately after UploadPack.fetchV2() read wanted refs.",
+      "parentUuid": "999e938c_3db89ad9",
+      "revId": "56a5db65b3e6c0c838b29071323332439dbbc08f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
