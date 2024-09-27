@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05404a8b_30fc7841",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-09-27T11:06:35Z",
+      "side": 1,
+      "message": "this import is now unused and needs to be removed since this fails the build",
+      "revId": "406073fd6281248d1e1e57636176284aee583d22",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
