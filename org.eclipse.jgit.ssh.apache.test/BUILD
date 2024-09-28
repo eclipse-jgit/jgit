@@ -10,6 +10,7 @@ load(
 DEPS = [
     "//lib:eddsa",
     "//lib:junit",
+    "//lib:slf4j-api",
     "//lib:sshd-osgi",
     "//lib:sshd-sftp",
     "//org.eclipse.jgit:jgit",
