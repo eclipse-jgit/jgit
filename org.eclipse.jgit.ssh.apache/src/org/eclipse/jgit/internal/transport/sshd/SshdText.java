@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2024 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -147,17 +147,59 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String sshCommandTimeout;
 	/***/ public String sshProcessStillRunning;
 	/***/ public String sshProxySessionCloseFailed;
+	/***/ public String signAllowedSignersCertAuthorityError;
+	/***/ public String signAllowedSignersEmptyIdentity;
+	/***/ public String signAllowedSignersEmptyNamespaces;
+	/***/ public String signAllowedSignersFormatError;
+	/***/ public String signAllowedSignersInvalidDate;
+	/***/ public String signAllowedSignersLineFormat;
+	/***/ public String signAllowedSignersMultiple;
+	/***/ public String signAllowedSignersNoIdentities;
+	/***/ public String signAllowedSignersPublicKeyParsing;
+	/***/ public String signAllowedSignersUnterminatedQuote;
 	/***/ public String signCertAlgorithmMismatch;
 	/***/ public String signCertAlgorithmUnknown;
 	/***/ public String signCertificateExpired;
 	/***/ public String signCertificateInvalid;
+	/***/ public String signCertificateNotForName;
+	/***/ public String signCertificateRevoked;
 	/***/ public String signCertificateTooEarly;
+	/***/ public String signCertificateWithoutPrincipals;
 	/***/ public String signDefaultKeyEmpty;
 	/***/ public String signDefaultKeyFailed;
 	/***/ public String signDefaultKeyInterrupted;
+	/***/ public String signGarbageAtEnd;
+	/***/ public String signInvalidAlgorithm;
 	/***/ public String signInvalidKeyDSA;
+	/***/ public String signInvalidMagic;
+	/***/ public String signInvalidNamespace;
+	/***/ public String signInvalidSignature;
+	/***/ public String signInvalidVersion;
+	/***/ public String signKeyExpired;
+	/***/ public String signKeyRevoked;
+	/***/ public String signKeyTooEarly;
+	/***/ public String signKrlBlobLeftover;
+	/***/ public String signKrlBlobLengthInvalid;
+	/***/ public String signKrlBlobLengthInvalidExpected;
+	/***/ public String signKrlCaKeyLengthInvalid;
+	/***/ public String signKrlCertificateLeftover;
+	/***/ public String signKrlCertificateSubsectionLeftover;
+	/***/ public String signKrlCertificateSubsectionLength;
+	/***/ public String signKrlEmptyRange;
+	/***/ public String signKrlInvalidBitSetLength;
+	/***/ public String signKrlInvalidKeyIdLength;
+	/***/ public String signKrlInvalidMagic;
+	/***/ public String signKrlInvalidReservedLength;
+	/***/ public String signKrlInvalidVersion;
+	/***/ public String signKrlNoCertificateSubsection;
+	/***/ public String signKrlSerialZero;
+	/***/ public String signKrlShortRange;
+	/***/ public String signKrlUnknownSection;
+	/***/ public String signKrlUnknownSubsection;
 	/***/ public String signLogFailure;
+	/***/ public String signMismatchedSignatureAlgorithm;
 	/***/ public String signNoAgent;
+	/***/ public String signNoPrincipalMatched;
 	/***/ public String signNoPublicKey;
 	/***/ public String signNoSigningKey;
 	/***/ public String signNotUserCertificate;
@@ -169,6 +211,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String signTooManyPublicKeys;
 	/***/ public String signUnknownHashAlgorithm;
 	/***/ public String signUnknownSignatureAlgorithm;
+	/***/ public String signWrongNamespace;
 	/***/ public String unknownProxyProtocol;
 
 }

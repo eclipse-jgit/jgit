@@ -50,6 +50,7 @@ public abstract class AbstractSshSignatureTest extends RepositoryTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		copyResource("allowed_signers", keys.getRoot());
 		copyResource("other_key", keys.getRoot());
 		copyResource("other_key.pub", keys.getRoot());
 		copyResource("other_key-cert.pub", keys.getRoot());
@@ -65,6 +66,9 @@ public abstract class AbstractSshSignatureTest extends RepositoryTestCase {
 		Repository repo = db;
 		StoredConfig config = repo.getConfig();
 		config.setString("gpg", null, "format", "ssh");
+		config.setString("gpg", "ssh", "allowedSignersFile",
+				keys.getRoot().toPath().resolve("allowed_signers").toString()
+						.replace('\\', '/'));
 		config.save();
 		// Run all tests with commit times on 2024-10-02T12:00:00Z. The test
 		// certificates are valid from 2024-09-01 to 2024-10-31, except the

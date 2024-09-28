@@ -1,0 +1,19 @@
+serial: 1-4
+serial: 10
+serial: 15
+serial: 30
+serial: 50
+serial: 90
+serial: 999
+# The following sum to 500-799
+serial: 500
+serial: 501
+serial: 502
+serial: 503-600
+serial: 700-797
+serial: 798
+serial: 799
+serial: 599-701
+# Some multiple consecutive serial number ranges
+serial: 10000-20000
+serial: 30000-40000
