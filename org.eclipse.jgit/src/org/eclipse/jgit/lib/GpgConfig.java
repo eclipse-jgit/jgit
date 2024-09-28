@@ -61,6 +61,12 @@ public class GpgConfig {
 
 	private final boolean forceAnnotated;
 
+	private final String sshDefaultKeyCommand;
+
+	private final String sshAllowedSignersFile;
+
+	private final String sshRevocationFile;
+
 	/**
 	 * Create a new GPG config that reads the configuration from config.
 	 *
@@ -88,6 +94,17 @@ public class GpgConfig {
 				ConfigConstants.CONFIG_KEY_GPGSIGN, false);
 		forceAnnotated = config.getBoolean(ConfigConstants.CONFIG_TAG_SECTION,
 				ConfigConstants.CONFIG_KEY_FORCE_SIGN_ANNOTATED, false);
+		sshDefaultKeyCommand = config.getString(
+				ConfigConstants.CONFIG_GPG_SECTION,
+				ConfigConstants.CONFIG_SSH_SUBSECTION,
+				ConfigConstants.CONFIG_KEY_SSH_DEFAULT_KEY_COMMAND);
+		sshAllowedSignersFile = config.getString(
+				ConfigConstants.CONFIG_GPG_SECTION,
+				ConfigConstants.CONFIG_SSH_SUBSECTION,
+				ConfigConstants.CONFIG_KEY_SSH_ALLOWED_SIGNERS_FILE);
+		sshRevocationFile = config.getString(ConfigConstants.CONFIG_GPG_SECTION,
+				ConfigConstants.CONFIG_SSH_SUBSECTION,
+				ConfigConstants.CONFIG_KEY_SSH_REVOCATION_FILE);
 	}
 
 	/**
@@ -150,5 +167,38 @@ public class GpgConfig {
 	 */
 	public boolean isSignAnnotated() {
 		return forceAnnotated;
+	}
+
+	/**
+	 * Retrieves the value of git config {@code gpg.ssh.defaultKeyCommand}.
+	 *
+	 * @return the value of {@code gpg.ssh.defaultKeyCommand}
+	 *
+	 * @since 7.1
+	 */
+	public String getSshDefaultKeyCommand() {
+		return sshDefaultKeyCommand;
+	}
+
+	/**
+	 * Retrieves the value of git config {@code gpg.ssh.allowedSignersFile}.
+	 *
+	 * @return the value of {@code gpg.ssh.allowedSignersFile}
+	 *
+	 * @since 7.1
+	 */
+	public String getSshAllowedSignersFile() {
+		return sshAllowedSignersFile;
+	}
+
+	/**
+	 * Retrieves the value of git config {@code gpg.ssh.revocationFile}.
+	 *
+	 * @return the value of {@code gpg.ssh.revocationFile}
+	 *
+	 * @since 7.1
+	 */
+	public String getSshRevocationFile() {
+		return sshRevocationFile;
 	}
 }
