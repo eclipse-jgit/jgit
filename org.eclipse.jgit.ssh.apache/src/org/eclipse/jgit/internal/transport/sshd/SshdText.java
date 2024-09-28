@@ -147,6 +147,28 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String sshCommandTimeout;
 	/***/ public String sshProcessStillRunning;
 	/***/ public String sshProxySessionCloseFailed;
+	/***/ public String signCertAlgorithmMismatch;
+	/***/ public String signCertAlgorithmUnknown;
+	/***/ public String signCertificateExpired;
+	/***/ public String signCertificateInvalid;
+	/***/ public String signCertificateTooEarly;
+	/***/ public String signDefaultKeyEmpty;
+	/***/ public String signDefaultKeyFailed;
+	/***/ public String signDefaultKeyInterrupted;
+	/***/ public String signInvalidKeyDSA;
+	/***/ public String signLogFailure;
+	/***/ public String signNoAgent;
+	/***/ public String signNoPublicKey;
+	/***/ public String signNoSigningKey;
+	/***/ public String signNotUserCertificate;
+	/***/ public String signPublicKeyError;
+	/***/ public String signSeeLog;
+	/***/ public String signSignatureError;
+	/***/ public String signStderr;
+	/***/ public String signTooManyPrivateKeys;
+	/***/ public String signTooManyPublicKeys;
+	/***/ public String signUnknownHashAlgorithm;
+	/***/ public String signUnknownSignatureAlgorithm;
 	/***/ public String unknownProxyProtocol;
 
 }
