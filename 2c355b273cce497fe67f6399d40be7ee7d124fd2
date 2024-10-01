@@ -22,6 +22,30 @@
       },
       "revId": "2c355b273cce497fe67f6399d40be7ee7d124fd2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2270a21c_3097aaa3",
+        "filename": "org.eclipse.jgit.ssh.jsch.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-01T19:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3a7d8d_b3949e00",
+      "range": {
+        "startLine": 13,
+        "startChar": 56,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "2c355b273cce497fe67f6399d40be7ee7d124fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
