@@ -180,8 +180,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-io",
-    artifact = "commons-io:commons-io:2.16.1",
-    sha1 = "377d592e740dc77124e0901291dbfaa6810a200e",
+    artifact = "commons-io:commons-io:2.17.0",
+    sha1 = "ddcc8433eb019fb48fe25207c0278143f3e1d7e2",
 )
 
 maven_jar(
