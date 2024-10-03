@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a39c7eb_61d6d49c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-03T17:14:10Z",
+      "side": 1,
+      "message": "no opinion here, I will let the others speak which version is better - thanks for suggestion though 😄",
+      "parentUuid": "ef3564fc_f0b6b1dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bb17b39_f4833f6a",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11129cd9_4d2c9cbe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-03T17:14:10Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say it is a bug as the existing implementation serves its purpose in multiple places the thing is that we need a slightly different version as GC has its own side effects once performed. Not sure if there is a need to add another flavour to common implementation. I would say let\u0027s do that when there is more than one cases that its needed... WDYT?",
+      "parentUuid": "6bb17b39_f4833f6a",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e347361_8abe6992",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2024-10-03T16:03:05Z",
       "side": 1,
       "message": "What about using the stream API?\n\n```\npacks.parallelStream()\n   .filter(p -\u003e p.getBitmapIndex() !\u003d null)\n   .mapToLong(p -\u003e p.getFileSnapshot().lastModifiedInstant().toEpochMilli())\n   .max()\n   .orElse(0L);\n```",
+      "range": {
+        "startLine": 1970,
+        "startChar": 2,
+        "endLine": 1980,
+        "endChar": 26
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f18ba431_559850c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-03T17:14:10Z",
+      "side": 1,
+      "message": "yeah I would love to do that but `get*` operations throw `IOException` and thats get simply messy in the Streams land 😞 only if it was Scala...",
+      "parentUuid": "8e347361_8abe6992",
       "range": {
         "startLine": 1970,
         "startChar": 2,
