@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef3564fc_f0b6b1dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-03T16:03:05Z",
+      "side": 1,
+      "message": "What about `numberOfPackFilesSinceLastBitmap` ? Too long?",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb17b39_f4833f6a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-03T16:03:05Z",
+      "side": 1,
+      "message": "Is it a bug of the current `packAndPrune` or just a different behaviour we need?\nIn either case do you think it would make sense to parametrize the `packAndPrune` we currently have or add a method with different behaviour in `TestRepository`?",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e347361_8abe6992",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-03T16:03:05Z",
+      "side": 1,
+      "message": "What about using the stream API?\n\n```\npacks.parallelStream()\n   .filter(p -\u003e p.getBitmapIndex() !\u003d null)\n   .mapToLong(p -\u003e p.getFileSnapshot().lastModifiedInstant().toEpochMilli())\n   .max()\n   .orElse(0L);\n```",
+      "range": {
+        "startLine": 1970,
+        "startChar": 2,
+        "endLine": 1980,
+        "endChar": 26
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
