@@ -16,6 +16,24 @@
       "message": "nit: !cfg.getPack...().isEmpty()\n\n(analyzers tend to remind me this :))",
       "revId": "9925105a4af7edfeb4ac1a4f618c9a359da106e4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b4f182_dcdabb73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-04T23:54:42Z",
+      "side": 1,
+      "message": "Yea same. It wasn\u0027t here to remind me this time. Done.",
+      "parentUuid": "f4350de0_0b0c764d",
+      "revId": "9925105a4af7edfeb4ac1a4f618c9a359da106e4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
