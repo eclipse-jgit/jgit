@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4675cdb_65cbdbd8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-04T21:47:48Z",
+      "side": 1,
+      "message": "This method is actually looping through the packs again, which doubles the cost of this method.\n\nWhy not just ask the object database to have the packs sorted by a criteria?\nThat would allow to get the latest packs first and therefore allowing to simply count the number of packfiles until we find one that has a bitmap associated.",
+      "range": {
+        "startLine": 1574,
+        "startChar": 26,
+        "endLine": 1574,
+        "endChar": 53
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac8ae4c_3d523340",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-04T21:47:48Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tlong lastBitmapTime \u003d getNewestBitmapTime(packs);\n```",
+      "range": {
+        "startLine": 1574,
+        "startChar": 7,
+        "endLine": 1574,
+        "endChar": 23
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71e1ffbc_a5c441e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-04T21:47:48Z",
+      "side": 1,
+      "message": "```suggestion\n\tprivate static long getLastBitmapTime(Collection\u003cPack\u003e packs)\n```",
+      "range": {
+        "startLine": 1968,
+        "startChar": 21,
+        "endLine": 1968,
+        "endChar": 40
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
