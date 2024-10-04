@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0476987b_25d6e9b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-04T20:37:35Z",
+      "side": 1,
+      "message": "Just a minor detail.",
+      "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d4139a_8455e4ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-04T20:37:35Z",
+      "side": 1,
+      "message": "When would this subsection do NOT exist? IIUC this should be called with:\ncore dfs \ndfs xxx (for some packExts)    \ndfs yyy (for some other packExts)\n\nIt so, looks like \"subsection\" could be always used as name.",
+      "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
