@@ -33,6 +33,24 @@
       "message": "When would this subsection do NOT exist? IIUC this should be called with:\ncore dfs \ndfs xxx (for some packExts)    \ndfs yyy (for some other packExts)\n\nIt so, looks like \"subsection\" could be always used as name.",
       "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4be2096_dc9874fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-04T23:53:51Z",
+      "side": 1,
+      "message": "This check exists in case there is no `core dfs` set at all and fromConfig(...) is still called.\nAt this point in the code it\u0027ll set the values based on the defaults set in this file.",
+      "parentUuid": "b0d4139a_8455e4ad",
+      "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
