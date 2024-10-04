@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4350de0_0b0c764d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-04T20:29:33Z",
+      "side": 1,
+      "message": "nit: !cfg.getPack...().isEmpty()\n\n(analyzers tend to remind me this :))",
+      "revId": "9925105a4af7edfeb4ac1a4f618c9a359da106e4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
