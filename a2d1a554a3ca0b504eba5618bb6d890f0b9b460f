@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc8da95_c6402416",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-04T07:01:59Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "11129cd9_4d2c9cbe",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e347361_8abe6992",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "yeah I would love to do that but `get*` operations throw `IOException` and thats get simply messy in the Streams land 😞 only if it was Scala...",
       "parentUuid": "8e347361_8abe6992",
+      "range": {
+        "startLine": 1970,
+        "startChar": 2,
+        "endLine": 1980,
+        "endChar": 26
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0da87b_e8d0b396",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-04T07:01:59Z",
+      "side": 1,
+      "message": "\u003e get* operations throw IOException\n\nI see `getBitmapIndex` throws `IOException`, but we are not handling it in the non stream version either.\n\nMaybe I misunderstood what you meant? 🤔",
+      "parentUuid": "f18ba431_559850c7",
       "range": {
         "startLine": 1970,
         "startChar": 2,
