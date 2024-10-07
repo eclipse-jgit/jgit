@@ -489,7 +489,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		// Validate that an index written by PackWriter is the same.
 		final File idx2File = new File(indexFile.getAbsolutePath() + ".2");
 		try (FileOutputStream is = new FileOutputStream(idx2File)) {
-			writer.writeIndex(is);
+			writer.writeIndex(BasePackIndexWriter.createVersion(is,
+					writer.getIndexVersion()));
 		}
 		final PackIndex idx2 = PackIndex.open(idx2File);
 		assertTrue(idx2 instanceof PackIndexV2);
@@ -521,7 +522,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 		PackIndex idx;
 		try (ByteArrayOutputStream is = new ByteArrayOutputStream()) {
-			writer.writeIndex(is);
+			writer.writeIndex(BasePackIndexWriter.createVersion(is,
+					writer.getIndexVersion()));
 			idx = PackIndex.read(new ByteArrayInputStream(is.toByteArray()));
 		}
 
@@ -894,7 +896,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 			}
 			PackFile idxFile = packFile.create(PackExt.INDEX);
 			try (FileOutputStream idxOS = new FileOutputStream(idxFile)) {
-				pw.writeIndex(idxOS);
+				pw.writeIndex(BasePackIndexWriter.createVersion(idxOS,
+						pw.getIndexVersion()));
 			}
 			return PackIndex.open(idxFile);
 		}

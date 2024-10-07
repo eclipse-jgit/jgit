@@ -41,6 +41,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
@@ -988,7 +989,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				idx = pack.create(PackExt.INDEX);
 				try (OutputStream out =
 						new BufferedOutputStream(new FileOutputStream(idx))) {
-					pw.writeIndex(out);
+					pw.writeIndex(BasePackIndexWriter.createVersion(out,
+							pw.getIndexVersion()));
 				}
 				idx.setReadOnly();
 			}

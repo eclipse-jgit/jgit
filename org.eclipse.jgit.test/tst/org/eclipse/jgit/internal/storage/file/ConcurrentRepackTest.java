@@ -217,7 +217,8 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 		try (OutputStream out = new BufferedOutputStream(
 				new FileOutputStream(files[1]))) {
-			pw.writeIndex(out);
+			pw.writeIndex(BasePackIndexWriter.createVersion(out,
+					pw.getIndexVersion()));
 		}
 
 		touch(begin, files[0].getParentFile());
