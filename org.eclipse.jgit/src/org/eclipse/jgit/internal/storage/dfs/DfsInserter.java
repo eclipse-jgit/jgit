@@ -42,7 +42,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
-import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -333,7 +333,7 @@ public class DfsInserter extends ObjectInserter {
 
 	private static void index(OutputStream out, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
-		PackIndexWriter.createVersion(out, INDEX_VERSION).write(list, packHash);
+		BasePackIndexWriter.createVersion(out, INDEX_VERSION).write(list, packHash);
 	}
 
 	void writeObjectSizeIndex(DfsPackDescription pack,
