@@ -1361,7 +1361,9 @@ public class GC {
 					FileChannel idxChannel = fos.getChannel();
 					OutputStream idxStream = Channels
 							.newOutputStream(idxChannel)) {
-				pw.writeIndex(idxStream);
+				pw.writeIndex(
+						BasePackIndexWriter.createVersion(idxStream,
+								pw.getIndexVersion()));
 				idxChannel.force(true);
 			}
 
