@@ -31,7 +31,7 @@ import org.eclipse.jgit.util.NB;
  * random access to any object in the pack by associating an ObjectId to the
  * byte offset within the pack where the object's data can be read.
  */
-public abstract class PackIndexWriter {
+public abstract class BasePackIndexWriter {
 	/** Magic constant indicating post-version 1 format. */
 	protected static final byte[] TOC = { -1, 't', 'O', 'c' };
 
@@ -62,7 +62,7 @@ public abstract class PackIndexWriter {
 	 *             objects. This is likely a bug in the implementation.
 	 * @see #oldestPossibleFormat(List)
 	 */
-	public static PackIndexWriter createOldestPossible(final OutputStream dst,
+	public static BasePackIndexWriter createOldestPossible(final OutputStream dst,
 			final List<? extends PackedObjectInfo> objs) {
 		return createVersion(dst, oldestPossibleFormat(objs));
 	}
@@ -114,7 +114,7 @@ public abstract class PackIndexWriter {
 	 *             the version requested is not supported by this
 	 *             implementation.
 	 */
-	public static PackIndexWriter createVersion(final OutputStream dst,
+	public static BasePackIndexWriter createVersion(final OutputStream dst,
 			final int version) {
 		switch (version) {
 		case 1:
@@ -147,7 +147,7 @@ public abstract class PackIndexWriter {
 	 *            the stream this instance outputs to. If not already buffered
 	 *            it will be automatically wrapped in a buffered stream.
 	 */
-	protected PackIndexWriter(OutputStream dst) {
+	protected BasePackIndexWriter(OutputStream dst) {
 		out = new DigestOutputStream(dst instanceof BufferedOutputStream ? dst
 				: new BufferedOutputStream(dst),
 				Constants.newMessageDigest());

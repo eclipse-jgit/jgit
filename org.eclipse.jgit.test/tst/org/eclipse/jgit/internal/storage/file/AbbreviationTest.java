@@ -151,7 +151,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		FileUtils.mkdir(packDir, true);
 		try (OutputStream dst = new BufferedOutputStream(
 				new FileOutputStream(idxFile))) {
-			PackIndexWriter writer = new PackIndexWriterV2(dst);
+			BasePackIndexWriter writer = new PackIndexWriterV2(dst);
 			writer.write(objects, new byte[OBJECT_ID_LENGTH]);
 		}
 

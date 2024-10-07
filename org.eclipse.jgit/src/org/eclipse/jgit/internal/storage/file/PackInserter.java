@@ -320,7 +320,7 @@ public class PackInserter extends ObjectInserter {
 	private static void writePackIndex(File idx, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
 		try (OutputStream os = new FileOutputStream(idx)) {
-			PackIndexWriter w = PackIndexWriter.createVersion(os, INDEX_VERSION);
+			BasePackIndexWriter w = BasePackIndexWriter.createVersion(os, INDEX_VERSION);
 			w.write(list, packHash);
 		}
 	}
