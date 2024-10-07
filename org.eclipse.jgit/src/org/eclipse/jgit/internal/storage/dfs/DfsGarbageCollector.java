@@ -18,7 +18,6 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RE
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureReftable;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -687,14 +686,7 @@ public class DfsGarbageCollector {
 			pack.setBlockSize(PACK, out.blockSize());
 		}
 
-		try (DfsOutputStream out = objdb.writeFile(pack, INDEX)) {
-			CountingOutputStream cnt = new CountingOutputStream(out);
-			pw.writeIndex(cnt);
-			pack.addFileExt(INDEX);
-			pack.setFileSize(INDEX, cnt.getCount());
-			pack.setBlockSize(INDEX, out.blockSize());
-			pack.setIndexVersion(pw.getIndexVersion());
-		}
+		pw.writeIndex(objdb.getPackIndexWriter(pack));
 
 		if (source != UNREACHABLE_GARBAGE && packConfig.getMinBytesForObjSizeIndex() >= 0) {
 			try (DfsOutputStream out = objdb.writeFile(pack,
