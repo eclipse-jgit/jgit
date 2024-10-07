@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
@@ -31,7 +32,7 @@ import org.eclipse.jgit.util.NB;
  * random access to any object in the pack by associating an ObjectId to the
  * byte offset within the pack where the object's data can be read.
  */
-public abstract class PackIndexWriter {
+public abstract class BasePackIndexWriter implements PackIndexWriter {
 	/** Magic constant indicating post-version 1 format. */
 	protected static final byte[] TOC = { -1, 't', 'O', 'c' };
 
@@ -147,7 +148,7 @@ public abstract class PackIndexWriter {
 	 *            the stream this instance outputs to. If not already buffered
 	 *            it will be automatically wrapped in a buffered stream.
 	 */
-	protected PackIndexWriter(OutputStream dst) {
+	protected BasePackIndexWriter(OutputStream dst) {
 		out = new DigestOutputStream(dst instanceof BufferedOutputStream ? dst
 				: new BufferedOutputStream(dst),
 				Constants.newMessageDigest());
@@ -172,6 +173,7 @@ public abstract class PackIndexWriter {
 	 *             an error occurred while writing to the output stream, or this
 	 *             index format cannot store the object data supplied.
 	 */
+	@Override
 	public void write(final List<? extends PackedObjectInfo> toStore,
 			final byte[] packDataChecksum) throws IOException {
 		entries = toStore;

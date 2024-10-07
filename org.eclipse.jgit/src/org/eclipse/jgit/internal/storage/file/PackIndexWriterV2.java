@@ -19,10 +19,10 @@ import org.eclipse.jgit.util.NB;
 /**
  * Creates the version 2 pack table of contents files.
  *
- * @see PackIndexWriter
+ * @see BasePackIndexWriter
  * @see PackIndexV2
  */
-class PackIndexWriterV2 extends PackIndexWriter {
+class PackIndexWriterV2 extends BasePackIndexWriter {
 	private static final int MAX_OFFSET_32 = 0x7fffffff;
 	private static final int IS_OFFSET_64 = 0x80000000;
 
