@@ -109,7 +109,7 @@ public interface PackIndex
 	}
 
 	private static boolean isTOC(byte[] h) {
-		final byte[] toc = PackIndexWriter.TOC;
+		final byte[] toc = BasePackIndexWriter.TOC;
 		for (int i = 0; i < toc.length; i++)
 			if (h[i] != toc[i])
 				return false;

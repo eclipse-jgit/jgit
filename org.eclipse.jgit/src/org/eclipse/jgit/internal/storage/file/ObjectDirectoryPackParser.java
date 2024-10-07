@@ -110,7 +110,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 	 * @param version
 	 *            the version to write. The special version 0 designates the
 	 *            oldest (most compatible) format available for the objects.
-	 * @see PackIndexWriter
+	 * @see BasePackIndexWriter
 	 */
 	public void setIndexVersion(int version) {
 		indexVersion = version;
@@ -384,11 +384,11 @@ public class ObjectDirectoryPackParser extends PackParser {
 	private void writeIdx() throws IOException {
 		List<PackedObjectInfo> list = getSortedObjectList(null /* by ObjectId */);
 		try (FileOutputStream os = new FileOutputStream(tmpIdx)) {
-			final PackIndexWriter iw;
+			final BasePackIndexWriter iw;
 			if (indexVersion <= 0)
-				iw = PackIndexWriter.createOldestPossible(os, list);
+				iw = BasePackIndexWriter.createOldestPossible(os, list);
 			else
-				iw = PackIndexWriter.createVersion(os, indexVersion);
+				iw = BasePackIndexWriter.createVersion(os, indexVersion);
 			iw.write(list, packHash);
 			os.getChannel().force(true);
 		}
