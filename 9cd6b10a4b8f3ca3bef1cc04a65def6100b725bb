@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee9d5d03_3ddb51ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-07T20:50:15Z",
+      "side": 1,
+      "message": "Give some context in the subject line about where this change is. For instance `RawText: improve performance of isCrLfText and isBinary`.\n\nThe commit would also merit a short commit description. For instance, you could explain what you did to improve the performance. Here I guess the performance gain comes from effectively inlining the calls to `isBinary(byte, byte)`.",
+      "revId": "9cd6b10a4b8f3ca3bef1cc04a65def6100b725bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "766c847e_32640a61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-07T20:50:15Z",
+      "side": 1,
+      "message": "Nice performance gain.",
+      "revId": "9cd6b10a4b8f3ca3bef1cc04a65def6100b725bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b662e4f8_33f6d3ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-07T20:50:15Z",
+      "side": 1,
+      "message": "Please use TABs for indentation.",
+      "revId": "9cd6b10a4b8f3ca3bef1cc04a65def6100b725bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d920fd_cc102d44",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-07T20:50:15Z",
+      "side": 1,
+      "message": "Scuse me, but this assignment deep inside a non-trivial boolean expression is bad code style.\n\nI guess this can be written without any loss of performance as\n```\nif (current \u003d\u003d 0) {\n  return false;\n}\nif (current \u003d\u003d \u0027\\r\u0027) {\n  if (raw[++ptr] !\u003d \u0027\\n\u0027) {\n    return false;\n  }\n  has_crlf \u003d true;\n}\n```",
+      "range": {
+        "startLine": 479,
+        "startChar": 70,
+        "endLine": 479,
+        "endChar": 86
+      },
+      "revId": "9cd6b10a4b8f3ca3bef1cc04a65def6100b725bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
