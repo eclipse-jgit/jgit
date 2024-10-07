@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -460,7 +461,8 @@ public class DfsPackCompactor {
 			PackWriter pw) throws IOException {
 		try (DfsOutputStream out = objdb.writeFile(pack, INDEX)) {
 			CountingOutputStream cnt = new CountingOutputStream(out);
-			pw.writeIndex(cnt);
+			pw.writeIndex(BasePackIndexWriter.createVersion(cnt,
+					pw.getIndexVersion()));
 			pack.addFileExt(INDEX);
 			pack.setFileSize(INDEX, cnt.getCount());
 			pack.setBlockSize(INDEX, out.blockSize());
