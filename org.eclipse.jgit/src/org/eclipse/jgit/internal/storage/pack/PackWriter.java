@@ -58,7 +58,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
@@ -1078,7 +1078,7 @@ public class PackWriter implements AutoCloseable {
 		if (indexVersion <= 0) {
 			for (BlockList<ObjectToPack> objs : objectsLists)
 				indexVersion = Math.max(indexVersion,
-						PackIndexWriter.oldestPossibleFormat(objs));
+						BasePackIndexWriter.oldestPossibleFormat(objs));
 		}
 		return indexVersion;
 	}
@@ -1103,7 +1103,7 @@ public class PackWriter implements AutoCloseable {
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
 
 		long writeStart = System.currentTimeMillis();
-		final PackIndexWriter iw = PackIndexWriter.createVersion(
+		final BasePackIndexWriter iw = BasePackIndexWriter.createVersion(
 				indexStream, getIndexVersion());
 		iw.write(sortByName(), packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
