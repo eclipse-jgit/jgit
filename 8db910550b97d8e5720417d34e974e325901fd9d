@@ -51,6 +51,24 @@
       "parentUuid": "b0d4139a_8455e4ad",
       "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ef5d21_3b9751aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-07T15:19:09Z",
+      "side": 1,
+      "message": "ah, right! Can you use this as comment of the condition? Something like\n`// fromConfig can be called for core.dfs when that section is not defined`\n\nIn that case, should we put some mark on the name? like \"-dfs\", \"!dfs\" or \"undefined-dfs\"?",
+      "parentUuid": "b4be2096_dc9874fe",
+      "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
