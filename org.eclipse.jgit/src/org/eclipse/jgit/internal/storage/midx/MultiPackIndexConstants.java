@@ -50,6 +50,9 @@ class MultiPackIndexConstants {
 	/** "RIDX" chunk */
 	static final int MIDX_CHUNKID_REVINDEX = 0x52494458;
 
+	/** "BTMP" chunk */
+	static final int MIDX_CHUNKID_BITMAPPEDPACKS = 0x42544D50;
+
 	private MultiPackIndexConstants() {
 	}
 }
