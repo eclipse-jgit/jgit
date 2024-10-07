@@ -69,6 +69,24 @@
       "parentUuid": "b4be2096_dc9874fe",
       "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5d4b8f_8539e04d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-07T18:15:01Z",
+      "side": 1,
+      "message": "I\u0027ve updated the comment.\n\nWhen it\u0027s called without a `core dfs` section it uses all the default values in the file, so I don\u0027t think using a name that implies it\u0027s undefined or anything like that makes sense.\nThe dfs is defined, but it\u0027s just not configured more than the default values.",
+      "parentUuid": "90ef5d21_3b9751aa",
+      "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
