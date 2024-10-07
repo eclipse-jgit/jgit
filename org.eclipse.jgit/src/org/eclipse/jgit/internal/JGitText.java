@@ -537,6 +537,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeToolNotGivenError;
 	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
+	/***/ public String midxChunkUnknown;
 	/***/ public String minutesAgo;
 	/***/ public String mismatchOffset;
 	/***/ public String mismatchCRC;
@@ -552,6 +553,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String missingRequiredParameter;
 	/***/ public String missingSecretkey;
 	/***/ public String mixedStagesNotAllowed;
+	/***/ public String multiPackFileIsTooLargeForJgit;
 	/***/ public String mkDirFailed;
 	/***/ public String mkDirsFailed;
 	/***/ public String month;
@@ -583,6 +585,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notACommitGraph;
 	/***/ public String notADIRCFile;
 	/***/ public String notAGitDirectory;
+	/***/ public String notAMIDX;
 	/***/ public String notAPACKFile;
 	/***/ public String notARef;
 	/***/ public String notASCIIString;
@@ -890,6 +893,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedEncryptionVersion;
 	/***/ public String unsupportedGC;
 	/***/ public String unsupportedMark;
+	/***/ public String unsupportedMIDXVersion;
 	/***/ public String unsupportedObjectIdVersion;
 	/***/ public String unsupportedObjectSizeIndexVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;
