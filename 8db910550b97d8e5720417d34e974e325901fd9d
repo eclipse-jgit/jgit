@@ -87,6 +87,24 @@
       "parentUuid": "90ef5d21_3b9751aa",
       "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "593f57c9_e9f10844",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-07T19:24:16Z",
+      "side": 1,
+      "message": "I see, this could only happen with core.dfs, because is is the only \"predefined\" conf (we should never get a \"core.dfs,\u003cdefaults\u003e,dfs.meh\" description).\n\nThanks!",
+      "parentUuid": "6a5d4b8f_8539e04d",
+      "revId": "8db910550b97d8e5720417d34e974e325901fd9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
