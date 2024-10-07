@@ -27,6 +27,7 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -243,7 +244,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			try (OutputStream os = new BufferedOutputStream(
 					dest.writeFile(sanitizedPath(idx), monitor,
 							wt + "." + idx.getPackExt().getExtension()))) { //$NON-NLS-1$
-				writer.writeIndex(os);
+				writer.writeIndex(BasePackIndexWriter.createVersion(os,
+						writer.getIndexVersion()));
 			}
 
 			// Record the pack at the start of the pack info list. This
