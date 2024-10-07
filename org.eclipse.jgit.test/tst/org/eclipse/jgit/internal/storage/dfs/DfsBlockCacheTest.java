@@ -13,20 +13,24 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.LongStream;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.LongStream;
 
+import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.IndexEventConsumer;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.TestRepository;
@@ -39,13 +43,34 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
+@RunWith(Parameterized.class)
 public class DfsBlockCacheTest {
 	@Rule
 	public TestName testName = new TestName();
+
 	private TestRng rng;
+
 	private DfsBlockCache cache;
+
 	private ExecutorService pool;
+
+	private enum CacheType {
+		SINGLE_TABLE_CLOCK_BLOCK_CACHE, EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE
+	}
+
+	@Parameters(name = "cache type: {0}")
+	public static Iterable<? extends Object> data() {
+		return Arrays.asList(CacheType.SINGLE_TABLE_CLOCK_BLOCK_CACHE,
+				CacheType.EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE);
+	}
+
+	@Parameter
+	public CacheType cacheType;
 
 	@Before
 	public void setUp() {
@@ -448,8 +473,28 @@ public class DfsBlockCacheTest {
 	}
 
 	private void resetCache(int concurrencyLevel) {
-		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
-				.setConcurrencyLevel(concurrencyLevel).setBlockLimit(1 << 20));
+		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig()
+				.setBlockSize(512).setConcurrencyLevel(concurrencyLevel)
+				.setBlockLimit(1 << 20);
+		switch (cacheType) {
+		case SINGLE_TABLE_CLOCK_BLOCK_CACHE:
+			// SINGLE_TABLE_CLOCK_BLOCK_CACHE doesn't modify the config.
+			break;
+		case EXT_SPLIT_TABLE_CLOCK_BLOCK_CACHE:
+			List<DfsBlockCachePackExtConfig> packExtCacheConfigs = new ArrayList<>();
+			for (PackExt packExt : PackExt.values()) {
+				DfsBlockCacheConfig extCacheConfig = new DfsBlockCacheConfig()
+						.setBlockSize(512).setConcurrencyLevel(concurrencyLevel)
+						.setBlockLimit(1 << 20)
+						.setPackExtCacheConfigurations(packExtCacheConfigs);
+				packExtCacheConfigs.add(new DfsBlockCachePackExtConfig(
+						EnumSet.of(packExt), extCacheConfig));
+			}
+			cacheConfig.setPackExtCacheConfigurations(packExtCacheConfigs);
+			break;
+		}
+		assertNotNull(cacheConfig);
+		DfsBlockCache.reconfigure(cacheConfig);
 		cache = DfsBlockCache.getInstance();
 	}
 
