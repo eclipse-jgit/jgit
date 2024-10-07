@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,6 +29,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
+import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.pack.IPackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -771,4 +774,34 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			}
 		};
 	}
+
+	/**
+	 * Returns a writer to store the bitmap index in this object database.
+	 *
+	 * @param pack
+	 *            Pack file to which the bitmaps are associated.
+	 * @param indexVersion
+	 *            which version of the index to write
+	 * @return a writer to store bitmaps associated with the pack
+	 * @throws IOException
+	 *             when some I/O problem occurs while creating or writing to
+	 *             output stream
+	 */
+	public IPackIndexWriter getPackIndexWriter(
+			DfsPackDescription pack, int indexVersion)
+			throws IOException {
+		return (objectsToStore, packDataChecksum) -> {
+			try (DfsOutputStream out = writeFile(pack, INDEX)) {
+				CountingOutputStream cnt = new CountingOutputStream(out);
+				final PackIndexWriter iw = PackIndexWriter.createVersion(cnt,
+						indexVersion);
+				iw.write(objectsToStore, packDataChecksum);
+				pack.addFileExt(INDEX);
+				pack.setFileSize(INDEX, cnt.getCount());
+				pack.setBlockSize(INDEX, out.blockSize());
+				pack.setIndexVersion(indexVersion);
+			}
+		};
+	}
+
 }
