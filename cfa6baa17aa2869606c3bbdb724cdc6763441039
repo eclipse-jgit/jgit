@@ -49,6 +49,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bb18b4d_c51686a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-08T06:28:19Z",
+      "side": 1,
+      "message": "That is actually a good point 👍 The good news is that AFAIU `repo.getObjectDatabase().getPacks()` uses `PackDirectory.scanPacks(PackList)` that boils down to call to `PackDirectory.scanPacksImpl(PackList)` which is [sorting packs](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java#L496) prior returning them:\n```\nArrays.sort(r, Pack.SORT);\n```\n\nwhere `Pack.SORT` [compares](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java#L85) `lastModified` bit:\n```\n\tpublic static final Comparator\u003cPack\u003e SORT \u003d (a, b) -\u003e b.packLastModified\n\t\t\t.compareTo(a.packLastModified);\n```\n\nI believe that we are good now 😊 WDYT?",
+      "parentUuid": "e4675cdb_65cbdbd8",
+      "range": {
+        "startLine": 1574,
+        "startChar": 26,
+        "endLine": 1574,
+        "endChar": 53
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99fc3def_4a9acf2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-08T06:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac8ae4c_3d523340",
+      "range": {
+        "startLine": 1574,
+        "startChar": 7,
+        "endLine": 1574,
+        "endChar": 23
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "71e1ffbc_a5c441e0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2024-10-04T21:47:48Z",
       "side": 1,
       "message": "```suggestion\n\tprivate static long getLastBitmapTime(Collection\u003cPack\u003e packs)\n```",
+      "range": {
+        "startLine": 1968,
+        "startChar": 21,
+        "endLine": 1968,
+        "endChar": 40
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "068bfe30_f7203f9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-08T06:28:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e1ffbc_a5c441e0",
       "range": {
         "startLine": 1968,
         "startChar": 21,

@@ -188,6 +188,30 @@
       },
       "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adfc95bd_7a2242d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-08T06:28:19Z",
+      "side": 1,
+      "message": "\u003e but we are not handling it in the non stream version either\n\nThat is correct, we are not handling it because we don\u0027t have to, it is bubbling up to the caller to decide what to do with it. Now if we want to wrap it into `Stream` that is a slightly different story as checked exceptions cannot be thrown from it and `IOException` is one of them. We would have to catch the `IOException` and re-thrown it as `RuntimeException` or ignore...",
+      "parentUuid": "ed0da87b_e8d0b396",
+      "range": {
+        "startLine": 1970,
+        "startChar": 2,
+        "endLine": 1980,
+        "endChar": 26
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
