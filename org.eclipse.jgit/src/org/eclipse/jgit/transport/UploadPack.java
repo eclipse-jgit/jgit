@@ -2369,7 +2369,8 @@ public class UploadPack implements Closeable {
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
 
-				// Ownership is transferred below
+				// dw borrows the reader from walk which is closed by #close
+				@SuppressWarnings("resource")
 				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
 						walk.getObjectReader(), walkDepth);
 				dw.setDeepenSince(req.getDeepenSince());
