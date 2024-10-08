@@ -124,6 +124,13 @@ public class CoreConfig {
 	public static final boolean DEFAULT_COMMIT_GRAPH_ENABLE = false;
 
 	/**
+	 * Default value of multi-pack-index enable option: {@value}
+	 *
+	 * @since 7.0
+	 */
+	public static final boolean DEFAULT_MULTI_PACK_INDEX_ENABLE = true;
+
+	/**
 	 * Permissible values for {@code core.trustPackedRefsStat}.
 	 *
 	 * @since 6.1.1
@@ -169,6 +176,8 @@ public class CoreConfig {
 
 	private final boolean commitGraph;
 
+	private final boolean multiPackIndex;
+
 	/**
 	 * Options for symlink handling
 	 *
@@ -210,6 +219,9 @@ public class CoreConfig {
 		commitGraph = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_COMMIT_GRAPH,
 				DEFAULT_COMMIT_GRAPH_ENABLE);
+		multiPackIndex = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_MULTI_PACK_INDEX,
+				DEFAULT_MULTI_PACK_INDEX_ENABLE);
 	}
 
 	/**
@@ -259,5 +271,17 @@ public class CoreConfig {
 	 */
 	public boolean enableCommitGraph() {
 		return commitGraph;
+	}
+
+	/**
+	 * Whether to read the multi-pack-index file (if it exists) to lookup objects across several packs.
+	 * Default to
+	 * {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_MULTI_PACK_INDEX_ENABLE}.
+	 *
+	 * @return whether to read the multi-pack-index file
+	 * @since 7.0
+	 */
+	public boolean enableMultiPackIndex() {
+		return multiPackIndex;
 	}
 }

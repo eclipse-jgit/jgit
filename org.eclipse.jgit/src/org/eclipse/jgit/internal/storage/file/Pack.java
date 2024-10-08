@@ -1089,6 +1089,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	LocalObjectRepresentation representation(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
 		final long pos = idx().findOffset(objectId);
+		return representation(curs, pos);
+	}
+
+	LocalObjectRepresentation representation(WindowCursor curs,
+		long pos) throws IOException {
 		if (pos < 0)
 			return null;
 

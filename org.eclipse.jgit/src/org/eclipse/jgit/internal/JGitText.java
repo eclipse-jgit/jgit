@@ -212,6 +212,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String copyFileFailedNullFiles;
 	/***/ public String corruptCommitGraph;
 	/***/ public String corruptionDetectedReReadingAt;
+	/***/ public String corruptMultiPackIndex;
 	/***/ public String corruptObjectBadDate;
 	/***/ public String corruptObjectBadEmail;
 	/***/ public String corruptObjectBadStream;
@@ -359,6 +360,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionOccurredDuringReadingOfGIT_DIR;
 	/***/ public String exceptionWhileFindingUserHome;
 	/***/ public String exceptionWhileLoadingCommitGraph;
+	/***/ public String exceptionWhileLoadingMultiPackIndex;
 	/***/ public String exceptionWhileReadingPack;
 	/***/ public String expectedACKNAKFoundEOF;
 	/***/ public String expectedACKNAKGot;

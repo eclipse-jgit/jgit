@@ -973,6 +973,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_COMMIT_GRAPH = "commitGraph";
 
 	/**
+	 * The "multi-pack-index" used by multi-pack-index feature
+	 *
+	 * @since 7.0
+	 */
+	public static final String CONFIG_MULTI_PACK_INDEX = "multiPackIndex";
+
+	/**
 	 * The "trustPackedRefsStat" key
 	 *
 	 * @since 6.1.1
