@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "187c4004_5658bcc5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/midx/MIDXLoaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb03bc1b_f154b2de",
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c42e04f_90228f4a",
