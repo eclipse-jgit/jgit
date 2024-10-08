@@ -58,6 +58,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b017219_90fa1fc5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/midx/MIDXLoaderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c42e04f_90228f4a",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53e15538_6fb066e7",
@@ -75,6 +99,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e76cf11_f99ad243",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDX.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53e15538_6fb066e7",
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89b2ad9f_5e846607",
@@ -88,6 +130,24 @@
       "writtenOn": "2024-10-08T18:15:11Z",
       "side": 1,
       "message": "```suggestion\n    long getPackFilesCount();\n```",
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b633a38_6f925467",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDX.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89b2ad9f_5e846607",
       "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -115,6 +175,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "980d9e2a_e28da951",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4119b076_08472b0d",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b82f2c4_5191a5e2",
@@ -128,6 +212,30 @@
       "writtenOn": "2024-10-08T18:08:24Z",
       "side": 1,
       "message": "MIDXIndex",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "507423ce_402434ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b82f2c4_5191a5e2",
       "range": {
         "startLine": 31,
         "startChar": 22,
@@ -184,6 +292,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4d9a6cd_a234afb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c2112f_061efc69",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c504218_e8a2c63c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc7b5f3_29af2d17",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79efe3e7_44b61363",
@@ -230,6 +386,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70c5e6b6_aaf8e4c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79efe3e7_44b61363",
+      "range": {
+        "startLine": 65,
+        "startChar": 12,
+        "endLine": 65,
+        "endChar": 17
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b26f8f5_df1c0629",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a694f2_d7305536",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 25
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "604a39ae_2563c515",
@@ -243,6 +447,30 @@
       "writtenOn": "2024-10-08T18:08:24Z",
       "side": 1,
       "message": "midx",
+      "range": {
+        "startLine": 35,
+        "startChar": 32,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ab2761a_dc2e9299",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "604a39ae_2563c515",
       "range": {
         "startLine": 35,
         "startChar": 32,
@@ -276,6 +504,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19869048_c72c7fef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e8c1af_c1c7920a",
+      "range": {
+        "startLine": 36,
+        "startChar": 29,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66502b7f_ffc75c5e",
@@ -299,6 +551,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e7ff69c_20b8d497",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66502b7f_ffc75c5e",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 60
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88e9098d_e28e2829",
@@ -312,6 +588,30 @@
       "writtenOn": "2024-10-08T18:08:24Z",
       "side": 1,
       "message": "midx",
+      "range": {
+        "startLine": 64,
+        "startChar": 36,
+        "endLine": 64,
+        "endChar": 48
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c0e404b_e8c2742f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T21:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88e9098d_e28e2829",
       "range": {
         "startLine": 64,
         "startChar": 36,
