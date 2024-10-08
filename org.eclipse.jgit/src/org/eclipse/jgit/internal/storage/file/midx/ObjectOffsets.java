@@ -10,57 +10,75 @@
 
 package org.eclipse.jgit.internal.storage.file.midx;
 
+import static org.eclipse.jgit.internal.storage.file.midx.MultiPackIndexConstants.OBJECT_OFFSETS_DATA_WIDTH;
+
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.util.NB;
 
-import static org.eclipse.jgit.internal.storage.file.midx.MultiPackIndexConstants.OBJECT_OFFSETS_DATA_WIDTH;
-
 /**
- * Represent the collection of {@link MultiPackIndex.ObjectOffset}.
+ * Represent the collection of {@link ObjectOffset}.
  */
 public class ObjectOffsets {
-    private final byte[] data;
+	private final byte[] data;
 
-    /**
-     * Initialize the ObjectOffsets.
-     *
-     * @param objectOffset content of ObjectOffset Chunk.
-     */
-    public ObjectOffsets(@NonNull byte[] objectOffset) {
-        this.data = objectOffset;
-    }
+	/**
+	 * Initialize the ObjectOffsets.
+	 *
+	 * @param objectOffset
+	 * 		content of ObjectOffset Chunk.
+	 */
+	public ObjectOffsets(@NonNull byte[] objectOffset) {
+		this.data = objectOffset;
+	}
 
-    /**
-     * Get the metadata of a commit。
-     *
-     * @param position the position in the multi-pack-index of the object.
-     * @return the ObjectOffset.
-     */
-    public MultiPackIndex.ObjectOffset getObjectOffset(int position) {
-        int pos = position * OBJECT_OFFSETS_DATA_WIDTH;
-        final int packIntId = NB.decodeInt32(data, pos);
-        final int offset = NB.decodeInt32(data, pos + 4);
-        return new ObjectOffsetImpl(packIntId, offset);
-    }
+	/**
+	 * Get the metadata of a commit。
+	 *
+	 * @param position
+	 * 		the position in the multi-pack-index of the object.
+	 * @return the ObjectOffset.
+	 */
+	public ObjectOffset getObjectOffset(int position) {
+		int pos = position * OBJECT_OFFSETS_DATA_WIDTH;
+		final int packIntId = NB.decodeInt32(data, pos);
+		final int offset = NB.decodeInt32(data, pos + 4);
+		return new ObjectOffset(packIntId, offset);
+	}
 
-    private static class ObjectOffsetImpl implements MultiPackIndex.ObjectOffset {
+	/**
+	 * Object offset in data chunk.
+	 */
+	public static class ObjectOffset {
 
-        private final int packIntId;
-        private final long offset;
+		private final int packIntId;
 
-        public ObjectOffsetImpl(int packIntId, long offset) {
-            this.packIntId = packIntId;
-            this.offset = offset;
-        }
+		private final long offset;
 
-        @Override
-        public int getPackIntId() {
-            return packIntId;
-        }
+		/**
+		 * Object offset in data chunk.
+		 *
+		 * @param packIntId
+		 * 		packfile name's relative position in packfile names chunk
+		 * @param offset
+		 * 		offset for an object in the ObjectOffsets chunk
+		 */
+		public ObjectOffset(int packIntId, long offset) {
+			this.packIntId = packIntId;
+			this.offset = offset;
+		}
 
-        @Override
-        public long getOffset() {
-            return offset;
-        }
-    }
+		/**
+		 * @return packfile name's relative position in packfile names chunk
+		 */
+		public int getPackIntId() {
+			return packIntId;
+		}
+
+		/**
+		 * @return offset for an object in the ObjectOffsets chunk
+		 */
+		public long getOffset() {
+			return offset;
+		}
+	}
 }

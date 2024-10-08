@@ -17,14 +17,15 @@ import java.io.IOException;
  */
 public class MultiPackIndexFormatException extends IOException {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Construct an exception.
-     *
-     * @param why description of the type of error.
-     */
-    MultiPackIndexFormatException(String why) {
-        super(why);
-    }
+	/**
+	 * Construct an exception.
+	 *
+	 * @param why
+	 * 		description of the type of error.
+	 */
+	MultiPackIndexFormatException(String why) {
+		super(why);
+	}
 }

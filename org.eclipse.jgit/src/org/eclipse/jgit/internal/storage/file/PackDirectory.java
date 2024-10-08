@@ -26,6 +26,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -35,6 +36,8 @@ import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.midx.MultiPackIndexConstants;
+import org.eclipse.jgit.internal.storage.file.midx.MultiPackIndexLoader;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -57,8 +60,8 @@ import org.slf4j.LoggerFactory;
  * {@link org.eclipse.jgit.internal.storage.file.Pack}s.
  */
 class PackDirectory {
-	private final static Logger LOG = LoggerFactory
-			.getLogger(PackDirectory.class);
+	private final static Logger LOG = LoggerFactory.getLogger(
+			PackDirectory.class);
 
 	private static final int MAX_PACKLIST_RESCAN_ATTEMPTS = 5;
 
@@ -73,13 +76,15 @@ class PackDirectory {
 
 	private final boolean trustFolderStat;
 
+	private Optional<MultiPackIndex> optionalMidx;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
 	 * @param config
-	 *            configuration this directory consults for write settings.
+	 * 		configuration this directory consults for write settings.
 	 * @param directory
-	 *            the location of the {@code pack} directory.
+	 * 		the location of the {@code pack} directory.
 	 */
 	PackDirectory(Config config, File directory) {
 		this.config = config;
@@ -131,15 +136,17 @@ class PackDirectory {
 
 	@Override
 	public String toString() {
-		return "PackDirectory[" + getDirectory() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "PackDirectory[" + getDirectory()
+				+ "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Does the requested object exist in this PackDirectory?
 	 *
 	 * @param objectId
-	 *            identity of the object to test for existence of.
-	 * @return {@code true} if the specified object is stored in this PackDirectory.
+	 * 		identity of the object to test for existence of.
+	 * @return {@code true} if the specified object is stored in this
+	 * 		PackDirectory.
 	 */
 	boolean has(AnyObjectId objectId) {
 		return getPack(objectId) != null;
@@ -150,17 +157,30 @@ class PackDirectory {
 	 * specified object if it is stored in this PackDirectory.
 	 *
 	 * @param objectId
-	 *            identity of the object to find the Pack for.
+	 * 		identity of the object to find the Pack for.
 	 * @return {@link org.eclipse.jgit.internal.storage.file.Pack} which
-	 *         contains the specified object or {@code null} if it is not stored
-	 *         in this PackDirectory.
+	 * 		contains the specified object or {@code null} if it is not stored in
+	 * 		this PackDirectory.
 	 */
 	@Nullable
 	Pack getPack(AnyObjectId objectId) {
+		Optional<MultiPackIndex> optionalMultiPackIndex = midx();
+		if (optionalMultiPackIndex.isPresent()) {
+			Optional<Pack> midxPack = optionalMultiPackIndex.get()
+					.getPack(objectId);
+			if (midxPack.isPresent()) {
+				return midxPack.get();
+			}
+		}
+		// check if any pack files are in the pack directory and not registered in the MIDX
 		PackList pList;
 		do {
 			pList = packList.get();
 			for (Pack p : pList.packs) {
+				if (optionalMultiPackIndex.isPresent()
+						&& optionalMultiPackIndex.get().containsPack(p)) {
+					continue;
+				}
 				try {
 					if (p.hasObject(objectId)) {
 						return p;
@@ -183,25 +203,32 @@ class PackDirectory {
 	 * Find objects matching the prefix abbreviation.
 	 *
 	 * @param matches
-	 *            set to add any located ObjectIds to. This is an output
-	 *            parameter.
+	 * 		set to add any located ObjectIds to. This is an output parameter.
 	 * @param id
-	 *            prefix to search for.
+	 * 		prefix to search for.
 	 * @param matchLimit
-	 *            maximum number of results to return. At most this many
-	 *            ObjectIds should be added to matches before returning.
+	 * 		maximum number of results to return. At most this many ObjectIds should
+	 * 		be added to matches before returning.
 	 * @return {@code true} if the matches were exhausted before reaching
-	 *         {@code maxLimit}.
+	 *        {@code maxLimit}.
 	 */
 	boolean resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) {
 		// Go through the packs once. If we didn't find any resolutions
 		// scan for new packs and check once more.
 		int oldSize = matches.size();
+		Optional<MultiPackIndex> optionalMultiPackIndex = midx();
+		optionalMultiPackIndex.ifPresent(
+				multiPackIndex -> multiPackIndex.resolve(matches, id,
+						matchLimit));
 		PackList pList;
 		do {
 			pList = packList.get();
 			for (Pack p : pList.packs) {
+				if (optionalMultiPackIndex.isPresent()
+						&& optionalMultiPackIndex.get().containsPack(p)) {
+					continue;
+				}
 				try {
 					p.resolve(matches, id, matchLimit);
 					p.resetTransientErrorCount();
@@ -218,12 +245,30 @@ class PackDirectory {
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
+		Optional<MultiPackIndex> optionalMultiPackIndex = midx();
+		if (optionalMultiPackIndex.isPresent()) {
+			try {
+				ObjectLoader ldr = optionalMultiPackIndex.get()
+						.open(curs, objectId);
+				if (ldr != null) {
+					return ldr;
+				}
+			} catch (IOException e) {
+				LOG.error("Error opening object from MIDX", e);
+			}
+		}
+		// check if any pack files are in the pack directory and not registered in the MIDX
 		PackList pList;
 		do {
 			int retries = 0;
-			SEARCH: for (;;) {
+			SEARCH:
+			for (; ; ) {
 				pList = packList.get();
 				for (Pack p : pList.packs) {
+					if (optionalMultiPackIndex.isPresent()
+							&& optionalMultiPackIndex.get().containsPack(p)) {
+						continue;
+					}
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
@@ -247,12 +292,29 @@ class PackDirectory {
 
 	long getSize(WindowCursor curs, AnyObjectId id)
 			throws PackMismatchException {
+		Optional<MultiPackIndex> optionalMultiPackIndex = midx();
+		if (optionalMultiPackIndex.isPresent()) {
+			try {
+				long len = optionalMultiPackIndex.get().getObjectSize(curs, id);
+				if (0 <= len) {
+					return len;
+				}
+			} catch (IOException e) {
+				LOG.error("Error getting object size from MIDX", e);
+			}
+		}
+		// check if any pack files are in the pack directory and not registered in the MIDX
 		PackList pList;
 		do {
 			int retries = 0;
-			SEARCH: for (;;) {
+			SEARCH:
+			for (; ; ) {
 				pList = packList.get();
 				for (Pack p : pList.packs) {
+					if (optionalMultiPackIndex.isPresent()
+							&& optionalMultiPackIndex.get().containsPack(p)) {
+						continue;
+					}
 					try {
 						long len = p.getObjectSize(curs, id);
 						p.resetTransientErrorCount();
@@ -279,8 +341,30 @@ class PackDirectory {
 			WindowCursor curs) throws PackMismatchException {
 		PackList pList = packList.get();
 		int retries = 0;
-		SEARCH: for (;;) {
+		SEARCH:
+		for (; ; ) {
+			Optional<MultiPackIndex> optionalMultiPackIndex = midx();
+			if (optionalMultiPackIndex.isPresent()) {
+				try {
+					Optional<LocalObjectRepresentation> representation = optionalMultiPackIndex.get()
+							.representation(curs, otp);
+					if (representation.isPresent()) {
+						LocalObjectRepresentation rep = representation.get();
+						packer.select(otp, rep);
+						packer.checkSearchForReuseTimeout();
+					}
+				} catch (SearchForReuseTimeout e) {
+					break;
+				} catch (IOException e) {
+					LOG.error("Error getting object representation from MIDX",
+							e);
+				}
+			}
 			for (Pack p : pList.packs) {
+				if (optionalMultiPackIndex.isPresent()
+						&& optionalMultiPackIndex.get().containsPack(p)) {
+					continue;
+				}
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
@@ -354,7 +438,7 @@ class PackDirectory {
 
 	/**
 	 * @param n
-	 *            count of consecutive failures
+	 * 		count of consecutive failures
 	 * @return {@code true} if i is a power of 2
 	 */
 	private boolean doLogExponentialBackoff(int n) {
@@ -444,8 +528,7 @@ class PackDirectory {
 		Map<String, Map<PackExt, PackFile>> packFilesByExtById = getPackFilesByExtById();
 		List<Pack> list = new ArrayList<>(packFilesByExtById.size());
 		boolean foundNew = false;
-		for (Map<PackExt, PackFile> packFilesByExt : packFilesByExtById
-				.values()) {
+		for (Map<PackExt, PackFile> packFilesByExt : packFilesByExtById.values()) {
 			PackFile packFile = packFilesByExt.get(PACK);
 			if (packFile == null || !packFilesByExt.containsKey(INDEX)) {
 				// Sometimes C Git's HTTP fetch transport leaves a
@@ -456,21 +539,24 @@ class PackDirectory {
 			}
 
 			Pack oldPack = forReuse.get(packFile.getName());
-			if (oldPack != null
-					&& !oldPack.getFileSnapshot().isModified(packFile)) {
+			if (oldPack != null && !oldPack.getFileSnapshot()
+					.isModified(packFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
 				try {
-					if(oldPack.getBitmapIndex() == null) {
-						oldPack.refreshBitmapIndex(packFilesByExt.get(BITMAP_INDEX));
+					if (oldPack.getBitmapIndex() == null) {
+						oldPack.refreshBitmapIndex(
+								packFilesByExt.get(BITMAP_INDEX));
 					}
 				} catch (IOException e) {
-					LOG.warn(JGitText.get().bitmapAccessErrorForPackfile, oldPack.getPackName(), e);
+					LOG.warn(JGitText.get().bitmapAccessErrorForPackfile,
+							oldPack.getPackName(), e);
 				}
 				continue;
 			}
 
-			list.add(new Pack(config, packFile, packFilesByExt.get(BITMAP_INDEX)));
+			list.add(new Pack(config, packFile,
+					packFilesByExt.get(BITMAP_INDEX)));
 			foundNew = true;
 		}
 
@@ -532,8 +618,8 @@ class PackDirectory {
 	 * {@link org.eclipse.jgit.internal.storage.file.PackFile} for.
 	 *
 	 * @return a map of {@link org.eclipse.jgit.internal.storage.file.PackFile}s
-	 *         and {@link org.eclipse.jgit.internal.storage.pack.PackExt}s keyed
-	 *         by pack ids
+	 * 		and {@link org.eclipse.jgit.internal.storage.pack.PackExt}s keyed by
+	 * 		pack ids
 	 */
 	private Map<String, Map<PackExt, PackFile>> getPackFilesByExtById() {
 		final String[] nameList = directory.list();
@@ -546,8 +632,8 @@ class PackDirectory {
 			try {
 				PackFile pack = new PackFile(directory, name);
 				if (pack.getPackExt() != null) {
-					Map<PackExt, PackFile> packByExt = packFilesByExtById
-							.get(pack.getId());
+					Map<PackExt, PackFile> packByExt = packFilesByExtById.get(
+							pack.getId());
 					if (packByExt == null) {
 						packByExt = new EnumMap<>(PackExt.class);
 						packFilesByExtById.put(pack.getId(), packByExt);
@@ -559,6 +645,24 @@ class PackDirectory {
 			}
 		}
 		return packFilesByExtById;
+	}
+
+	private Optional<MultiPackIndex> midx() {
+		// FIXME: This needs to check the FS to see if we need to reload the MIDX
+		// Use a FileSnapshot
+		// Or should this just be a part of scanPacksImpl()?
+		try {
+			MultiPackIndex midx = MultiPackIndexLoader.open(directory.toPath()
+					.resolve(MultiPackIndexConstants.MIDX_FILE_NAME).toFile());
+			midx.setPackDir(this);
+			optionalMidx = Optional.of(midx);
+		} catch (FileNotFoundException e) {
+			optionalMidx = Optional.empty();
+		} catch (IOException e) {
+			LOG.error("Failed to open MultiPackIndex", e);
+			optionalMidx = Optional.empty();
+		}
+		return optionalMidx;
 	}
 
 	static final class PackList {
