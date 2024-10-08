@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4119b076_08472b0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "`ObjectDataCnt` ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b82f2c4_5191a5e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "MIDXIndex",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c2112f_061efc69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "add MIDX error",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79efe3e7_44b61363",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "MIDX",
+      "range": {
+        "startLine": 65,
+        "startChar": 12,
+        "endLine": 65,
+        "endChar": 17
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "604a39ae_2563c515",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "midx",
+      "range": {
+        "startLine": 35,
+        "startChar": 32,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e8c1af_c1c7920a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "midx",
+      "range": {
+        "startLine": 36,
+        "startChar": 29,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66502b7f_ffc75c5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "Add MIDX error",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 60
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e9098d_e28e2829",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MIDXLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-08T18:08:24Z",
+      "side": 1,
+      "message": "midx",
+      "range": {
+        "startLine": 64,
+        "startChar": 36,
+        "endLine": 64,
+        "endChar": 48
+      },
+      "revId": "6e11aca6f22b6a7b705c90623699d67805dae008",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
