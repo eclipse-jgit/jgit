@@ -16,6 +16,23 @@
       "message": "Jenkins verification fails in the license check. Verified locally.",
       "revId": "7258cf0f06c04ceab66bf8ecd7c16af35989e6e4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "048042ba_b2d9f9db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-08T18:47:32Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "7258cf0f06c04ceab66bf8ecd7c16af35989e6e4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
