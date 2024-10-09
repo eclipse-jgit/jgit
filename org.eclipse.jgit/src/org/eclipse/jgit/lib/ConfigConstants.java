@@ -446,6 +446,13 @@ public final class ConfigConstants {
 	/** The "rebase" key */
 	public static final String CONFIG_KEY_REBASE = "rebase";
 
+	/**
+	 * The "checkout" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_CHECKOUT = "checkout";
+
 	/** The "url" key */
 	public static final String CONFIG_KEY_URL = "url";
 
