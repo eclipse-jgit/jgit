@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ac77a5a_931e4704",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T19:31:34Z",
+      "side": 1,
+      "message": "First off, yes, this is an odd name. I\u0027m not sold on it either 😊. I just pushed a change on top of this one that does the integration with PackDirectory (it has a few TODOs still).\n\nAs you might have guessed from the copy/paste error in the other file, we based our approach here on commit-graph since they both use [chunk-based file formats](https://git-scm.com/docs/gitformat-chunk). Beyond that, they also have the same OID Fanout \u0026 Lookup data structures within that chunk data.\n\nThis `MultiPackIndexIndex` understands how to use the fanout \u0026 lookup data to find the position of specific objects within the ObjectOffset chunk.\n\nHaving the `midx` package does complicate things and is different than how most other things are done for `storage.file`, so maybe we want to flatten it.",
+      "parentUuid": "6c833978_0ed6c3fd",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0f7fa95a_59e0cd23",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
         "patchSetId": 15
@@ -60,6 +84,30 @@
       "writtenOn": "2024-10-09T14:38:04Z",
       "side": 1,
       "message": "why isn\u0027t this a method in MultiPackIndex ?",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb6c5922_d6c5aae6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T19:31:34Z",
+      "side": 1,
+      "message": "Because this is an intermediate step to find the position of the object offset data within the [`Object Offsets (ID: {\u0027O\u0027, \u0027O\u0027, \u0027F\u0027, \u0027F\u0027})`](https://git-scm.com/docs/gitformat-pack#_multi_pack_index_midx_files_have_the_following_format) chunk. The caller then needs to use the returned value to fetch the actual ObjectOffset data from within that chunk and then return it in the way the end-caller (`PackDirectory`) wants.",
+      "parentUuid": "0f7fa95a_59e0cd23",
       "range": {
         "startLine": 74,
         "startChar": 8,
@@ -95,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "356f0b03_aa4f6ee4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T19:31:34Z",
+      "side": 1,
+      "message": "Yep, copy/paste error",
+      "parentUuid": "63b5b085_c1c6ad9a",
+      "range": {
+        "startLine": 74,
+        "startChar": 36,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f5967d3_5355ba16",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
         "patchSetId": 15
@@ -106,6 +178,30 @@
       "writtenOn": "2024-10-09T16:51:55Z",
       "side": 1,
       "message": "What if position is `-1`, i.e. the object wasn\u0027t found?",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55dc95b7_e27a1e2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T19:31:34Z",
+      "side": 1,
+      "message": "Then we shouldn\u0027t be calling this?",
+      "parentUuid": "6f5967d3_5355ba16",
       "range": {
         "startLine": 39,
         "startChar": 59,
