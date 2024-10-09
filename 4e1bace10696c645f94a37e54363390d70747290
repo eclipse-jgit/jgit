@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "551a1a34_45975815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-09T17:52:41Z",
+      "side": 1,
+      "message": "Looks much better IMO. But see inline comment.",
+      "revId": "4e1bace10696c645f94a37e54363390d70747290",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0614bf2_81d1d8a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-09T17:52:41Z",
+      "side": 1,
+      "message": "Lines 327 and 328 tell me that it is possible that getDirectory() or getWorkTree() are _not_ absolute. So what happens then in getRelativeXY()?",
+      "revId": "4e1bace10696c645f94a37e54363390d70747290",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
