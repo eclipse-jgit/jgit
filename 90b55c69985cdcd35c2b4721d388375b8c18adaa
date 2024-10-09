@@ -91,6 +91,52 @@
       },
       "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f5967d3_5355ba16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-09T16:51:55Z",
+      "side": 1,
+      "message": "What if position is `-1`, i.e. the object wasn\u0027t found?",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17cc3cb8_682a2868",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-09T16:51:55Z",
+      "side": 1,
+      "message": "Pick a better name for this.",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
