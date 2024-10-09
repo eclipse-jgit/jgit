@@ -168,4 +168,72 @@ public class SubmoduleUpdateTest extends RepositoryTestCase {
 		assertNotNull(updated);
 		assertTrue(updated.isEmpty());
 	}
+
+	@Test
+	public void restoreSubmodule() throws Exception {
+		writeTrashFile("file.txt", "content");
+		Git git = Git.wrap(db);
+		git.add().addFilepattern("file.txt").call();
+		final RevCommit commit = git.commit().setMessage("create file").call();
+
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			@Override
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(commit);
+			}
+		});
+		editor.commit();
+
+		StoredConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL,
+				db.getDirectory().toURI().toString());
+		config.save();
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(
+				new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
+				db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		modulesConfig.save();
+
+		SubmoduleUpdateCommand command = new SubmoduleUpdateCommand(db);
+		Collection<String> updated = command.call();
+		assertNotNull(updated);
+		assertEquals(1, updated.size());
+		assertEquals(path, updated.iterator().next());
+
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+			try (Repository subRepo = generator.getRepository()) {
+				assertNotNull(subRepo);
+				assertEquals(commit, subRepo.resolve(Constants.HEAD));
+			}
+		}
+
+		recursiveDelete(new File(db.getWorkTree(), path));
+
+		command = new SubmoduleUpdateCommand(db);
+		updated = command.call();
+		assertNotNull(updated);
+		assertEquals(1, updated.size());
+		assertEquals(path, updated.iterator().next());
+
+		try (SubmoduleWalk generator = SubmoduleWalk.forIndex(db)) {
+			assertTrue(generator.next());
+			try (Repository subRepo = generator.getRepository()) {
+				assertNotNull(subRepo);
+				String gitdir = read(
+						new File(subRepo.getWorkTree(), Constants.DOT_GIT));
+				assertEquals("gitdir: ../.git/modules/sub", gitdir);
+				assertEquals(commit, subRepo.resolve(Constants.HEAD));
+			}
+		}
+
+	}
 }
