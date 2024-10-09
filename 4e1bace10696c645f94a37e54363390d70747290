@@ -33,6 +33,24 @@
       "message": "Lines 327 and 328 tell me that it is possible that getDirectory() or getWorkTree() are _not_ absolute. So what happens then in getRelativeXY()?",
       "revId": "4e1bace10696c645f94a37e54363390d70747290",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1ef27fa_90bfb3b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-10-09T22:07:42Z",
+      "side": 1,
+      "message": "For the submodule usecase getPath() for both File objects returns a absolute path.\nTo be more robust for other usecases patchset 4 adds a explicit conversion to File objects based on a absolute path. This ensures that getPath() also returns a absolute path when FileUtils.pathToString() is called.",
+      "parentUuid": "f0614bf2_81d1d8a8",
+      "revId": "4e1bace10696c645f94a37e54363390d70747290",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
