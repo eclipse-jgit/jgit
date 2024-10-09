@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9431756b_cf559be7",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 15
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-09T14:38:04Z",
+      "side": 1,
+      "message": "I\u0027d use the term \"multi-pack-index\" which is already used by cgit, using 2 names for the same thing is confusing",
+      "range": {
+        "startLine": 561,
+        "startChar": 15,
+        "endLine": 561,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c833978_0ed6c3fd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-09T14:38:04Z",
+      "side": 1,
+      "message": "That\u0027s an odd name, why does a multi-pack-index need another index ?\n\nIs this related to a stack of incremental multi-pack-indexes ?",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f7fa95a_59e0cd23",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-09T14:38:04Z",
+      "side": 1,
+      "message": "why isn\u0027t this a method in MultiPackIndex ?",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63b5b085_c1c6ad9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-09T14:38:04Z",
+      "side": 1,
+      "message": "isn\u0027t this a multi-pack-index ?",
+      "range": {
+        "startLine": 74,
+        "startChar": 36,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
