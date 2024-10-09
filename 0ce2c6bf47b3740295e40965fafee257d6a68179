@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d32fbb_b0e17374",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-10-09T17:39:58Z",
+      "side": 1,
+      "message": "EGit change https://eclipse.gerrithub.io/c/eclipse-egit/egit/+/1202412 uses this to provide SSH signing and signature verification in EGit.",
+      "revId": "0ce2c6bf47b3740295e40965fafee257d6a68179",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
