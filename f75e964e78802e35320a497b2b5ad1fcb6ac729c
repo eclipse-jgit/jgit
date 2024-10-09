@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a8a0a7b_a370c445",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T18:27:50Z",
+      "side": 1,
+      "message": "Remove these comments",
+      "revId": "f75e964e78802e35320a497b2b5ad1fcb6ac729c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b696e8b8_698553a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T18:27:50Z",
+      "side": 1,
+      "message": "I think I have the formatter setup correctly in IntelliJ, but did it do this incorrectly?",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 14
+      },
+      "revId": "f75e964e78802e35320a497b2b5ad1fcb6ac729c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b0a82b4_8819c58b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T18:27:50Z",
+      "side": 1,
+      "message": "We probably want to do something like FileCommitGraph which does store a FileSnapshot within its GraphSnapshot.",
+      "revId": "f75e964e78802e35320a497b2b5ad1fcb6ac729c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f99d1b14_726bf47d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-09T18:27:50Z",
+      "side": 1,
+      "message": "We should skip attempting to do anything with midx if `core.multiPackIndex` is `false`. git.git defaults it to true.",
+      "revId": "f75e964e78802e35320a497b2b5ad1fcb6ac729c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
