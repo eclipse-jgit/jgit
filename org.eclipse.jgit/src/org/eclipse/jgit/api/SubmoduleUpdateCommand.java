@@ -28,6 +28,7 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * A class used to execute a submodule update command.
@@ -116,25 +118,57 @@ public class SubmoduleUpdateCommand extends
 		return this;
 	}
 
+	private static boolean checkSubmoduleExists(File gitDir) {
+		if (gitDir != null && gitDir.exists()) {
+			File[] files = gitDir.listFiles();
+			return files != null && files.length != 0;
+		}
+		return false;
+	}
+
+	private static void restoreSubmodule(File gitDir, File repoDir)
+			throws IOException {
+		LockFile dotGitLockFile = new LockFile(
+				new File(repoDir, Constants.DOT_GIT));
+		if (dotGitLockFile.lock()) {
+			File relPath;
+			try {
+				relPath = repoDir.toPath().relativize(gitDir.toPath()).toFile();
+			} catch (IllegalArgumentException e) {
+				relPath = gitDir;
+			}
+			String relGitDir = FileUtils.pathToString(relPath);
+			dotGitLockFile
+					.write(Constants.encode(Constants.GITDIR + relGitDir));
+			dotGitLockFile.commit();
+		}
+	}
+
 	private Repository getOrCloneSubmodule(SubmoduleWalk generator, String url)
 			throws IOException, GitAPIException {
 		Repository repository = generator.getRepository();
 		if (repository == null) {
-			if (callback != null) {
-				callback.cloningSubmodule(generator.getPath());
-			}
-			CloneCommand clone = Git.cloneRepository();
-			configure(clone);
-			clone.setURI(url);
-			clone.setDirectory(generator.getDirectory());
-			clone.setGitDir(new File(
+			File gitDir = new File(
 					new File(repo.getCommonDirectory(), Constants.MODULES),
-					generator.getPath()));
-			clone.setRelativePaths(true);
-			if (monitor != null) {
-				clone.setProgressMonitor(monitor);
+					generator.getPath());
+			if (true == checkSubmoduleExists(gitDir)) {
+				restoreSubmodule(gitDir, generator.getDirectory());
+				repository = generator.getRepository();
+			} else {
+				if (callback != null) {
+					callback.cloningSubmodule(generator.getPath());
+				}
+				CloneCommand clone = Git.cloneRepository();
+				configure(clone);
+				clone.setURI(url);
+				clone.setDirectory(generator.getDirectory());
+				clone.setGitDir(gitDir);
+				clone.setRelativePaths(true);
+				if (monitor != null) {
+					clone.setProgressMonitor(monitor);
+				}
+				repository = clone.call().getRepository();
 			}
-			repository = clone.call().getRepository();
 		} else if (this.fetch) {
 			if (fetchCallback != null) {
 				fetchCallback.fetchingSubmodule(generator.getPath());
