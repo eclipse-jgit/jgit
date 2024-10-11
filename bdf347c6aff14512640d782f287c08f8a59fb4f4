@@ -16,6 +16,24 @@
       "message": "good catch\n\nplease add a test for the case when `uploadpack.allowAnySHA1InWant \u003d true` which wasn\u0027t handled correctly without this fix",
       "revId": "bdf347c6aff14512640d782f287c08f8a59fb4f4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b58de3_61a9666e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-11T22:20:07Z",
+      "side": 1,
+      "message": "Done in the follow-up I99d062a5a6.",
+      "parentUuid": "784f51f3_bb6c040a",
+      "revId": "bdf347c6aff14512640d782f287c08f8a59fb4f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
