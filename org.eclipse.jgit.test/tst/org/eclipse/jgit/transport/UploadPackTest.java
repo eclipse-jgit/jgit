@@ -11,6 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -561,6 +562,47 @@ public class UploadPackTest {
 			}
 		}
 		assertThat(lines, hasItems("ls-refs", "fetch", "server-option"));
+	}
+
+	@Test
+	public void testV0CapabilitiesAllowAnySha1InWant() throws Exception {
+		checkAvertisedCapabilityProtocolV0IfAllowed("uploadpack", "allowanysha1inwant",
+			"allow-reachable-sha1-in-want", "allow-tip-sha1-in-want");
+	}
+
+	@Test
+	public void testV0CapabilitiesAllowReachableSha1InWant() throws Exception {
+		checkAvertisedCapabilityProtocolV0IfAllowed("uploadpack", "allowreachablesha1inwant",
+			"allow-reachable-sha1-in-want");
+	}
+
+	@Test
+	public void testV0CapabilitiesAllowTipSha1InWant() throws Exception {
+		checkAvertisedCapabilityProtocolV0IfAllowed("uploadpack", "allowtipsha1inwant",
+			"allow-tip-sha1-in-want");
+	}
+
+	private void checkAvertisedCapabilityProtocolV0IfAllowed(String configSection, String configName,
+					      String... capabilities) throws Exception {
+		server.getConfig().setBoolean(configSection, null, configName, true);
+		ByteArrayInputStream recvStream = uploadPackSetup(
+			TransferConfig.ProtocolVersion.V0.version(), null,
+			PacketLineIn.end());
+		PacketLineIn pckIn = new PacketLineIn(recvStream);
+
+		String line;
+		while (!PacketLineIn.isEnd((line = pckIn.readString()))) {
+			if (line.contains("capabilities")) {
+				List<String> linesCapabilities = Arrays.asList(line.substring(
+					line.indexOf(" ",
+						line.indexOf("capabilities")) + 1
+				).split(" "));
+				assertThat(linesCapabilities,
+					hasItems(capabilities));
+				return;
+			}
+		}
+		fail("Server side protocol did not contain any capabilities'");
 	}
 
 	@Test
