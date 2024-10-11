@@ -31,6 +31,7 @@ For details on native git options see also the official [git config documentatio
 | `core.dfs.blockSize` | `64 kiB` | &#x20DE; | Size in bytes of a single window read in from the pack file into the DFS block cache. |
 | `core.dfs.concurrencyLevel` | `32` | &#x20DE; | The estimated number of threads concurrently accessing the DFS block cache. |
 | `core.dfs.deltaBaseCacheLimit` | `10 MiB` | &#x20DE; | Maximum number of bytes to hold in per-reader DFS delta base cache. |
+| `core.dfs.loadRevIndexInParallel` | false; | &#x20DE; | Try to load the reverse index in parallel with the bitmap index. |
 | `core.dfs.streamFileThreshold` | `50 MiB` | &#x20DE; | The size threshold beyond which objects must be streamed. |
 | `core.dfs.streamBuffer` | Block size of the pack | &#x20DE; | Number of bytes to use for buffering when streaming a pack file during copying. If 0 the block size of the pack is used|
 | `core.dfs.streamRatio` | `0.30` | &#x20DE; | Ratio of DFS block cache to occupy with a copied pack. Values between `0` and `1.0`. |
