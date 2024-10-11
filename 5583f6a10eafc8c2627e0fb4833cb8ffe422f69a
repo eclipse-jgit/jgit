@@ -16,6 +16,23 @@
       "message": "fixed formatting",
       "revId": "5583f6a10eafc8c2627e0fb4833cb8ffe422f69a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6d578d_427e8fd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-11T23:47:16Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com any idea what this problem is about in the build?\n\n```\n00:23:19  [ERROR] Failed to execute goal org.eclipse.dash:license-tool-plugin:1.1.0:license-check (license-check) on project org.eclipse.jgit-parent: Execution license-check of goal org.eclipse.dash:license-tool-plugin:1.1.0:license-check failed: Received an error response from ClearlyDefined. -\u003e [Help 1]\n00:23:19  org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.eclipse.dash:license-tool-plugin:1.1.0:license-check (license-check) on project org.eclipse.jgit-parent: Execution license-check of goal org.eclipse.dash:license-tool-plugin:1.1.0:license-check failed: Received an error response from ClearlyDefined.\n```",
+      "revId": "5583f6a10eafc8c2627e0fb4833cb8ffe422f69a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
