@@ -1027,4 +1027,11 @@ public final class ConfigConstants {
 	 * @since 7.0
 	 */
 	public static final String CONFIG_KEY_USE_OBJECT_SIZE_INDEX = "useObjectSizeIndex";
+
+	/**
+	 * The "loadRevIndexInParallel" key
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL = "loadRevIndexInParallel";
 }
