@@ -97,31 +97,31 @@ public class DfsReaderTest {
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			assertFalse("limit < threshold < obj",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
-			assertEquals(1, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(1, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(1, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertFalse("limit = threshold < obj",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
-			assertEquals(2, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(2, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(2, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertFalse("threshold < limit < obj",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 150));
-			assertEquals(3, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(3, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(3, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("threshold < limit = obj",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 200));
-			assertEquals(4, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(4, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(4, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("threshold < obj < limit",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 250));
-			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(5, ctx.stats.objectSizeIndexHit);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 		}
@@ -135,31 +135,31 @@ public class DfsReaderTest {
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			assertFalse("limit < obj < threshold",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 10));
-			assertEquals(1, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(1, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(1, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("limit = obj < threshold",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
-			assertEquals(2, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(2, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(2, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("obj < limit < threshold",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 80));
-			assertEquals(3, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(3, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(3, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("obj < limit = threshold",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
-			assertEquals(4, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(4, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(4, ctx.stats.objectSizeIndexMiss);
 
 			assertTrue("obj < threshold < limit",
 					ctx.isNotLargerThan(obj, OBJ_BLOB, 120));
-			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 			assertEquals(5, ctx.stats.objectSizeIndexMiss);
 		}
@@ -176,7 +176,7 @@ public class DfsReaderTest {
 			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
 			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
 
-			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(5, ctx.stats.objectSizeIndexMiss);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 		}
@@ -193,7 +193,7 @@ public class DfsReaderTest {
 			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 50));
 			assertTrue(ctx.isNotLargerThan(obj, OBJ_BLOB, 100));
 
-			assertEquals(5, ctx.stats.isNotLargerThanCallCount);
+			assertEquals(5, ctx.stats.objectSizeIndexQueryCount);
 			assertEquals(0, ctx.stats.objectSizeIndexMiss);
 			assertEquals(0, ctx.stats.objectSizeIndexHit);
 		}

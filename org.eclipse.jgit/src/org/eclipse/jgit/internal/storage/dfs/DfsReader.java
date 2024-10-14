@@ -537,7 +537,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 
-		stats.isNotLargerThanCallCount += 1;
 		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
 			return pack.getObjectSize(this, objectId) <= limit;
 		}
@@ -572,6 +571,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private Optional<Long> safeGetIndexedObjectSize(DfsPackFile pack,
 			AnyObjectId objectId) {
+		stats.objectSizeIndexQueryCount += 1;
 		long sz;
 		try {
 			sz = pack.getIndexedObjectSize(this, objectId);

@@ -10,8 +10,6 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-
 /**
  * IO statistics for a {@link org.eclipse.jgit.internal.storage.dfs.DfsReader}.
  */
@@ -104,7 +102,7 @@ public class DfsReaderIoStats {
 		long inflationMicros;
 
 		/** Count of queries for the size of an object via #isNotLargerThan */
-		long isNotLargerThanCallCount;
+		long objectSizeIndexQueryCount;
 
 		/** Object was below threshold in the object size index */
 		long objectSizeIndexMiss;
@@ -359,16 +357,12 @@ public class DfsReaderIoStats {
 	}
 
 	/**
-	 * Get count of invocations to
-	 * {@link DfsReader#isNotLargerThan(AnyObjectId, int, long)}
-	 * <p>
-	 * Each call could use the object-size index or not.
+	 * Get times we tried to read an object size from the index.
 	 *
-	 * @return how many times the size of an object was checked with
-	 *         {@link DfsReader#isNotLargerThan(AnyObjectId, int, long)}
+	 * @return how many times we tried to read the object size from the index
 	 */
-	public long getIsNotLargerThanCallCount() {
-		return stats.isNotLargerThanCallCount;
+	public long getObjectSizeIndexQueryCount() {
+		return stats.objectSizeIndexQueryCount;
 	}
 
 	/**
