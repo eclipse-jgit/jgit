@@ -714,6 +714,15 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
+	 * Return a command object to execute a {@code PackRefs} command
+	 *
+	 * @return a {@link org.eclipse.jgit.api.PackRefsCommand}
+	 */
+	public PackRefsCommand packRefs() {
+		return new PackRefsCommand(repo);
+	}
+
+	/**
 	 * Return a command object to find human-readable names of revisions.
 	 *
 	 * @return a {@link org.eclipse.jgit.api.NameRevCommand}.
