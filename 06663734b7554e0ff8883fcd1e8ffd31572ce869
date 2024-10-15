@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5cdaa24_a06edebb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-10-15T18:19:41Z",
+      "side": 1,
+      "message": "This isn\u0027t closed - include it in the try() expression.",
+      "range": {
+        "startLine": 795,
+        "startChar": 25,
+        "endLine": 795,
+        "endChar": 28
+      },
+      "revId": "06663734b7554e0ff8883fcd1e8ffd31572ce869",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0d9d9e_6bc6a531",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-10-15T18:19:41Z",
+      "side": 1,
+      "message": "This is very repetitive. How about changing pw.writeIndex to just take an output stream, and have it call BasePackIndexWriter itself?",
+      "revId": "06663734b7554e0ff8883fcd1e8ffd31572ce869",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "576d69a8_5aff2942",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2024-10-15T18:19:41Z",
+      "side": 1,
+      "message": "Hmm, are we writing C# all of a sudden?",
+      "range": {
+        "startLine": 1096,
+        "startChar": 24,
+        "endLine": 1096,
+        "endChar": 40
+      },
+      "revId": "06663734b7554e0ff8883fcd1e8ffd31572ce869",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
