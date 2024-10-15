@@ -627,6 +627,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packObjectCountMismatch;
 	/***/ public String packRefs;
+	/***/ public String packRefsFailed;
 	/***/ public String packSizeNotSetYet;
 	/***/ public String packTooLargeForIndexVersion1;
 	/***/ public String packWasDeleted;
@@ -894,6 +895,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedObjectSizeIndexVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
+	/***/ public String unsupportedPackRefs;
 	/***/ public String unsupportedPackReverseIndexVersion;
 	/***/ public String unsupportedPackVersion;
 	/***/ public String unsupportedReftableVersion;
