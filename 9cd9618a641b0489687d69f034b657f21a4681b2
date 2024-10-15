@@ -45,6 +45,54 @@
       },
       "revId": "9cd9618a641b0489687d69f034b657f21a4681b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "572152f1_af430f27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-15T22:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05cd9b82_f1941fbc",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "9cd9618a641b0489687d69f034b657f21a4681b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0fa3a4f_a24e5979",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-15T22:13:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1993bf59_3861ded8",
+      "range": {
+        "startLine": 97,
+        "startChar": 13,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "9cd9618a641b0489687d69f034b657f21a4681b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
