@@ -16,6 +16,24 @@
       "message": "I find confusing having these two methods (#getBlockCacheStats and #getAllCaches...()) in the API.\n\nMaybe we could make #getBlockCacheStats() method to return a Map\u003cString, BlockCacheStats\u003e (name -\u003e stats)\n\nAnd the dfsBlockCache, when it needs the aggregation, can do:\nBlockCacheStats aggregated \u003d CacheStatsAggregator.combine(listOfStats);\n\nThat aggregator is ~the CachedStats we already have.",
       "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c34837_c5c774e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-16T18:14:04Z",
+      "side": 1,
+      "message": "I specifically didn\u0027t want to change the existing public interface function. Plus \"getBlockCacheStats\" right now has the return type being a single \"BlockCacheStats\" instance. Keeping the name and returning a list (or map) would also be confusing in that it would return multiple \"BlockCacheStats\"s, or BlockCacheStatss (I pretty much did write that last part out for a little fun).\n\nI can set it as @Deprecated and give the alternative usage, then we can remove it later after both have existed together.\n\nBetween a List\u003cBlockCacheStats\u003e and Map\u003cString, BlockCacheStats\u003e I don\u0027t particularly have a preference towards one or the other.\nWe don\u0027t actually validate that names are unique in the BlockCacheTables so right now it should probably be map\u003cstring, list\u003cblockcachestats\u003e. With that, I\u0027d prefer to keep it as a list since each instance should be distinct, and actual usage or meaning can be left up to the caller.",
+      "parentUuid": "0f9d7b4d_dac9a791",
+      "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
