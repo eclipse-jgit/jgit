@@ -89,6 +89,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d2392da_996ee6d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackIndexWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-16T20:29:42Z",
+      "side": 1,
+      "message": "Ok thanks for the explanation. That makes sense to me",
+      "parentUuid": "e13f8a88_b5c90da2",
+      "revId": "38a583016101454095a8cf03e56f8370c2b54f67",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0e66208_8c08a676",
@@ -102,6 +120,30 @@
       "writtenOn": "2024-10-15T19:03:51Z",
       "side": 1,
       "message": "Same here and in other variables, probably we can use the interface.",
+      "range": {
+        "startLine": 323,
+        "startChar": 3,
+        "endLine": 323,
+        "endChar": 22
+      },
+      "revId": "38a583016101454095a8cf03e56f8370c2b54f67",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17e920c0_47a3a6a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-16T20:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0e66208_8c08a676",
       "range": {
         "startLine": 323,
         "startChar": 3,
