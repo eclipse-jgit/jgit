@@ -41,6 +41,8 @@ public class ReftableCompactor {
 	private boolean includeDeletes;
 	private long reflogExpireMinUpdateIndex = 0;
 	private long reflogExpireMaxUpdateIndex = Long.MAX_VALUE;
+        /** Default expiry of ref logs set to 90 days */
+        private long reflogExpireOldestReflogTimeMillis = System.currentTimeMillis() - 7776000000L ;
 	private long reflogExpireOldestReflogTimeMillis;
 	private Stats stats;
 
