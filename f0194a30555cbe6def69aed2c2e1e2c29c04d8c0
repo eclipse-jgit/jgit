@@ -34,6 +34,24 @@
       "parentUuid": "0f9d7b4d_dac9a791",
       "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b61f7c2b_b2331d78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-16T20:14:42Z",
+      "side": 1,
+      "message": "\u003e I specifically didn\u0027t want to change the existing public interface function. Plus \"getBlockCacheStats\" right now has the return type being a single \"BlockCacheStats\" instance.\n\nNote that this is an .internal package, it is ok to change the API if we have a good reason for it.\n\n\u003e Keeping the name and returning a list (or map) would also be confusing...\n\n~Agree. Maybe #getAllBlockCacheStats()? and javadoc explaining that the cache can use multiple tables internally, so this is the list of the individual stats and use blablaAggregator to combine them. The list should always have at least one element.\n\n\u003e I can set it as @Deprecated and give the alternative usage, then we can remove it later after both have existed together.\n\nNah, lets choose something and rename/rework as needed.\n\n\u003e Between a List\u003cBlockCacheStats\u003e and Map\u003cString, BlockCacheStats\u003e I don\u0027t particularly have a preference towards one or the other.\n\nMy mistake. The idea of the map was to pass the name of the table with the stats, but now I see that the stats already have the name. A list is fine.",
+      "parentUuid": "f1c34837_c5c774e4",
+      "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
