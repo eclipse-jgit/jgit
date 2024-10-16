@@ -31,7 +31,6 @@ import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.Ref;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCache.RefLoader;
 import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DfsBlockCachePackExtConfig;
-import org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheTable.DfsBlockCacheStats;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.junit.Test;
 import org.mockito.Mockito;
