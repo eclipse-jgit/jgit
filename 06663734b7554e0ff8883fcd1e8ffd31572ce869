@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d99fb0_dc509a0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-16T18:40:00Z",
+      "side": 1,
+      "message": "Done. This was copied from the original implementation, so I guess that relied on it being closed when the function ended.",
+      "parentUuid": "e5cdaa24_a06edebb",
+      "range": {
+        "startLine": 795,
+        "startChar": 25,
+        "endLine": 795,
+        "endChar": 28
+      },
+      "revId": "06663734b7554e0ff8883fcd1e8ffd31572ce869",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee0d9d9e_6bc6a531",
@@ -41,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd92f42_0c582ee0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-16T18:40:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0d9d9e_6bc6a531",
+      "revId": "06663734b7554e0ff8883fcd1e8ffd31572ce869",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "576d69a8_5aff2942",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-10-15T18:19:41Z",
       "side": 1,
       "message": "Hmm, are we writing C# all of a sudden?",
+      "range": {
+        "startLine": 1096,
+        "startChar": 24,
+        "endLine": 1096,
+        "endChar": 40
+      },
+      "revId": "06663734b7554e0ff8883fcd1e8ffd31572ce869",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96f4e73f_185439c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-16T18:40:00Z",
+      "side": 1,
+      "message": ":)",
+      "parentUuid": "576d69a8_5aff2942",
       "range": {
         "startLine": 1096,
         "startChar": 24,
