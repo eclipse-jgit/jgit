@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e13f8a88_b5c90da2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackIndexWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-16T19:47:02Z",
+      "side": 1,
+      "message": "We want callers to use the interface, not the specific implementation (as we usually pass List around, instead of ArrayList).\n\nUsing the interface is also a proof that it is useful (if you need to know the implementation, something is wrong).\n\nIn this case, we are renaming a bunch of things to the new abstract class, and when we introduce the interface, we probably move them to the interface, so we could do that in just one step.",
+      "parentUuid": "78887f6c_cc3f04c0",
+      "revId": "38a583016101454095a8cf03e56f8370c2b54f67",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0e66208_8c08a676",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackInserter.java",
         "patchSetId": 4
