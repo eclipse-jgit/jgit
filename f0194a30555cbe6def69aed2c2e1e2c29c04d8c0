@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f9d7b4d_dac9a791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-16T17:47:40Z",
+      "side": 1,
+      "message": "I find confusing having these two methods (#getBlockCacheStats and #getAllCaches...()) in the API.\n\nMaybe we could make #getBlockCacheStats() method to return a Map\u003cString, BlockCacheStats\u003e (name -\u003e stats)\n\nAnd the dfsBlockCache, when it needs the aggregation, can do:\nBlockCacheStats aggregated \u003d CacheStatsAggregator.combine(listOfStats);\n\nThat aggregator is ~the CachedStats we already have.",
+      "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
