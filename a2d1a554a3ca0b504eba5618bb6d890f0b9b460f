@@ -212,6 +212,30 @@
       },
       "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b41e06d0_f1025140",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1980,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2024-10-16T12:53:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "adfc95bd_7a2242d1",
+      "range": {
+        "startLine": 1970,
+        "startChar": 2,
+        "endLine": 1980,
+        "endChar": 26
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
