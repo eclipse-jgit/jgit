@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fd30535_ed4717f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/BasePackIndexWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-16T18:28:23Z",
+      "side": 1,
+      "message": "Why do you prefer that to leaving it as the more specific type?\n\nBasePackIndexWriter always will automatically be a PackIndexWriter. If we make it PackIndexWriter, then callers might have to cast if they actually wanted a BasePackIndexWriter.",
+      "parentUuid": "e928171e_13bca711",
+      "revId": "38a583016101454095a8cf03e56f8370c2b54f67",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0e66208_8c08a676",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackInserter.java",
         "patchSetId": 4
