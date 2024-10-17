@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d4862fb_6e330282",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-17T21:55:00Z",
+      "side": 1,
+      "message": "We are doing this to fit \"cache over multiple tables\", so it should be explained here. Also, IIUC, this is just a refactor to accommodate later the List\u003cstats\u003e API, right?\n\nUse the first paragraph for the problem. e.g.\n\nThe DfsBlockCache can use internally more than one table, but the stats API assumes only one. This has worked so far because we return the aggregated stats of all tables, but to fine-tune the cache, we need also the stats of each table.\n\nAnd the second/third paragraphs explains your solution, e.g.\n\nRefactor the code, so instead of an implementation of stats for one table and implementation for n tables, we have just the implementation (for a single table) and an aggregator class.\n\nLater we can make the cache return a list stats and let the caller aggregate if needed.",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc63d71_63aff7f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-17T21:55:00Z",
+      "side": 1,
+      "message": "Should this name be just the concatenated name of the tables?",
+      "range": {
+        "startLine": 25,
+        "startChar": 27,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a278e063_627a2d43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-17T21:55:00Z",
+      "side": 1,
+      "message": "Maybe we could use a factory method to cover the (very common) single table case:\n\n```\nstatic BlockCacheStats fromStats(List\u003cBlockCacheStats\u003e stats) {\n  if (stats.size() \u003d\u003d 1) {\n    return stats.get(0);\n  }\n  return new AggregatedBlockCacheStats(stats);\n}\n```?\n\nThis could be checked by each table class... but that depends on what is the intended final API.",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d78fa7_a64960b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-17T21:55:00Z",
+      "side": 1,
+      "message": "Optional: Move this as a protected static inner class in the table?",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

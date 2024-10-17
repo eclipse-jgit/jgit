@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17a2a6f_43e711a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-17T21:55:00Z",
+      "side": 0,
+      "message": "This interface can stay here (moving out the implementation is good!).",
+      "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
