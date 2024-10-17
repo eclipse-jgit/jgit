@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f14ade_09005596",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26990d3f_5275c812",
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5702ef70_77e74dfb",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-10-17T18:49:18Z",
       "side": 1,
       "message": "nit: extra space (two spaces after a period is no longer the norm).",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7a08489_67006d19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5702ef70_77e74dfb",
       "range": {
         "startLine": 10,
         "startChar": 16,
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe584d12_08da65ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05ea8481_e526b224",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78cbe195_209140ef",
@@ -87,6 +153,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc9879c_dbd0ae32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78cbe195_209140ef",
+      "range": {
+        "startLine": 26,
+        "startChar": 31,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cd4b3cf_b0f3a7a9",
@@ -100,6 +190,24 @@
       "writtenOn": "2024-10-17T18:49:18Z",
       "side": 1,
       "message": "Also lift the content from BasePackIndexWritter?",
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb5ddb5_87a1cc80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cd4b3cf_b0f3a7a9",
       "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

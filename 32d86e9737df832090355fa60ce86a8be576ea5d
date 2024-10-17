@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce77b484_b98456e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:35Z",
+      "side": 1,
+      "message": "Thanks for the input here! This fits the existing implementation much better now.",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
