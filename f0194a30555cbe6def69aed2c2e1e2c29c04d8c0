@@ -52,6 +52,24 @@
       "parentUuid": "f1c34837_c5c774e4",
       "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9561dded_0c3a39a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-17T21:02:02Z",
+      "side": 1,
+      "message": "\u003e Nah, lets choose something and rename/rework as needed.\n\nsure.\n\nSee the changes in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1202651 and here.",
+      "parentUuid": "b61f7c2b_b2331d78",
+      "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
