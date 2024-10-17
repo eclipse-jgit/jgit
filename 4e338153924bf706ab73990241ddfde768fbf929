@@ -16,6 +16,24 @@
       "message": "This needs a better explanation as to why this is a good thing to do. It appears that the intent is to allow DfsObjectDatabase to expose a getPackIndexWriter() implementation?",
       "revId": "4e338153924bf706ab73990241ddfde768fbf929",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9445ffda_cbe62fb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-17T21:53:47Z",
+      "side": 1,
+      "message": "Hi mfick, thanks for the input on this and the previous CL!\n\nI updated the commit message here to give some more context on why we think this is a necessary change.\n\nPlease let me know if I can provide more details or any other discussion points.",
+      "parentUuid": "ff940585_3583991d",
+      "revId": "4e338153924bf706ab73990241ddfde768fbf929",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
