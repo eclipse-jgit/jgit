@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26990d3f_5275c812",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-17T18:49:18Z",
+      "side": 1,
+      "message": "I think the summary here should not be about the rename, that is a \"side-effect\" of the intention to create the new interface. This line should probably highlight the new interface instead.",
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5702ef70_77e74dfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-17T18:49:18Z",
+      "side": 1,
+      "message": "nit: extra space (two spaces after a period is no longer the norm).",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ea8481_e526b224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-17T18:49:18Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 12,
+        "startChar": 31,
+        "endLine": 12,
+        "endChar": 33
+      },
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78cbe195_209140ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-17T18:49:18Z",
+      "side": 1,
+      "message": "This wording is confusing. Should this not say:\n\"sorted list of objects to store in the index. The caller must have previously sorted the list using{@link org.eclipse.jgit.transport.PackedObjectInfo}\u0027s native {@link java.lang.Comparable} implementation.\" since that is what the javadoc say on the class this was lifted from?",
+      "range": {
+        "startLine": 26,
+        "startChar": 31,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cd4b3cf_b0f3a7a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-17T18:49:18Z",
+      "side": 1,
+      "message": "Also lift the content from BasePackIndexWritter?",
+      "revId": "8efaa798cafb529070b0cb80c736cfa44e925386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
