@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a215be6b_0b46fd7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-18T00:23:15Z",
+      "side": 1,
+      "message": "\u003e We are doing this to fit \"cache over multiple tables\", so it should be explained here\n\nThis isn\u0027t really adding any new functionality (other than changing AggregatedBlockCacheStats from private in PackExt). So \"what we are doing\" is what we were already doing.\n\n\u003e Also, IIUC, this is just a refactor to accommodate later the List\u003cstats\u003e API, right?\n\nThat\u0027s the reason why this change started, but imo this structure makes more sense than the non-uniform use of inner classes (some were done in the block cache interface class, some in a cache implmenetation). Both implementations that were moved to their own files are generic enough to not be specific to any one implementation (hence the name change to AggregatedBlockCacheStats).\n\nI considered moving AggregatedBlockCacheStats to where DfsBlockCacheStats was defined, but instead chose to move the implemenations to their own files producing this change that\u0027s effectively a move.\n\n\u003e (...)\n\nThe rest of this comment will be considered, but I wanted to hear your thoughts from these replies first.",
+      "parentUuid": "3d4862fb_6e330282",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbc63d71_63aff7f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
         "patchSetId": 7
@@ -60,6 +78,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "332912b6_6da7f9e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-18T00:23:15Z",
+      "side": 1,
+      "message": "Maybe, but if so this should be done in a different change as it would change existing functionality.",
+      "parentUuid": "cbc63d71_63aff7f5",
+      "range": {
+        "startLine": 25,
+        "startChar": 27,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eddc25e7_e43aa08f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-18T00:23:15Z",
+      "side": 1,
+      "message": "Sure, done! Makes the case of a single entry a little \"safer\" in that it doesn\u0027t need to go through extra functions.",
+      "parentUuid": "a278e063_627a2d43",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4d78fa7_a64960b8",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheStats.java",
         "patchSetId": 7
@@ -71,6 +131,24 @@
       "writtenOn": "2024-10-17T21:55:00Z",
       "side": 1,
       "message": "Optional: Move this as a protected static inner class in the table?",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9490c292_6780e4da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-18T00:23:15Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s a good reason to move it to an inner class as it\u0027s not specific to any one cache implementation.",
+      "parentUuid": "e4d78fa7_a64960b8",
       "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

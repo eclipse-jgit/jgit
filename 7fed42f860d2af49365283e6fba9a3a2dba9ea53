@@ -16,6 +16,24 @@
       "message": "This interface can stay here (moving out the implementation is good!).",
       "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba9b928f_5d73b5bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-18T00:23:15Z",
+      "side": 0,
+      "message": "¯\\\\_(ツ)_/¯ Sure. I don\u0027t have much preference here. I\u0027d generally prefer not to nest this type of interface, but I can see the rational for doing so for some types of grouping purposes.\n\nI don\u0027t think users of BlockCacheStats should necessarily need to depend on DfsBlockCacheTable (through being an inner interface). They\u0027re related, but more in a \"DfsBlockCacheTable produces BlockCacheStats\" way.",
+      "parentUuid": "b17a2a6f_43e711a9",
+      "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
