@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b7f8029_2c322ac9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-18T17:37:52Z",
+      "side": 1,
+      "message": "\u003e This isn\u0027t really adding any new functionality (other than changing AggregatedBlockCacheStats from private in PackExt). So \"what we are doing\" is what we were already doing.\n\nIt took me a while to realize that this is just moving code around.\n\nFor somebody without context, it is not clear *why* do we need this change (to accommodate \"multitable stats\"). \n\nBoth things deserve to be mentioned in the commit message.\n\n\u003e  Both implementations that were moved to their own files are generic enough to not be specific to any one implementation\n\nWe expect the aggregator to be public and makes sense as top-level class. For the table stats, the instances are always created by the ClockBlockCacheTable (because PackExt...Table is just a collection of individual tables). I would expect the stats class to be inside the ClockBlockCacheTable (maybe even with a private constructor), and only make it to a top-level class when we have another implementation that needs it.\n\nI do similar comment in the stats class itself, sorry for the duplication.",
+      "parentUuid": "a215be6b_0b46fd7e",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbc63d71_63aff7f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
         "patchSetId": 7
@@ -118,6 +136,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c161136_284d7921",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-18T17:37:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "332912b6_6da7f9e9",
+      "range": {
+        "startLine": 25,
+        "startChar": 27,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4d78fa7_a64960b8",
@@ -149,6 +191,24 @@
       "side": 1,
       "message": "I don\u0027t think there\u0027s a good reason to move it to an inner class as it\u0027s not specific to any one cache implementation.",
       "parentUuid": "e4d78fa7_a64960b8",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b423b3_00767c6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-18T17:37:52Z",
+      "side": 1,
+      "message": "It is only instantiated from the clock table and at the moment there is no reason for anybody else to instantiate it.\n\nOptional as it is not big drama as a top-level class when it has package-only visibility.",
+      "parentUuid": "9490c292_6780e4da",
       "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

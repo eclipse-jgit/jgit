@@ -34,6 +34,24 @@
       "parentUuid": "b17a2a6f_43e711a9",
       "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41aa4c0b_409d0432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-18T17:37:52Z",
+      "side": 0,
+      "message": "The table and the stats it needs to provide are a logical unit and the stats interface doesn\u0027t have any other use.\n\nFor a user of DfsBlockCache it makes sense to see the whole API, including stats, in one place/unit.",
+      "parentUuid": "ba9b928f_5d73b5bd",
+      "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
