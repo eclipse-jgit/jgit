@@ -52,6 +52,24 @@
       "parentUuid": "ba9b928f_5d73b5bd",
       "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1b0c037_c0d0eb2b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-21T18:31:35Z",
+      "side": 0,
+      "message": "Acknowledged; this is mainly talking about structuring code using the file system vs using a mixture of file system and single-file structuring. The interface doesn\u0027t depend on it\u0027s nesting interface nor does it change visibility so in the end this is a purely cosmetic and personal style difference.",
+      "parentUuid": "41aa4c0b_409d0432",
+      "revId": "7fed42f860d2af49365283e6fba9a3a2dba9ea53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

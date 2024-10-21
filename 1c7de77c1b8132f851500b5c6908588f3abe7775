@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "429654a9_c2ad2445",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-21T18:31:35Z",
+      "side": 1,
+      "message": "I\u0027ve updated the description. \n\nFor the second part: we can keep the discussions in the other threads.",
+      "parentUuid": "1b7f8029_2c322ac9",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbc63d71_63aff7f5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/AggregatedBlockCacheStats.java",
         "patchSetId": 7
@@ -209,6 +227,24 @@
       "side": 1,
       "message": "It is only instantiated from the clock table and at the moment there is no reason for anybody else to instantiate it.\n\nOptional as it is not big drama as a top-level class when it has package-only visibility.",
       "parentUuid": "9490c292_6780e4da",
+      "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9bf8840_1bf60047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheStats.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-21T18:31:35Z",
+      "side": 1,
+      "message": "Acknowledged.\n\n\u003e at the moment\n\nYes for the moment it\u0027s only being used with the clock table, but nothing actually links it to that implementation.",
+      "parentUuid": "10b423b3_00767c6c",
       "revId": "1c7de77c1b8132f851500b5c6908588f3abe7775",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
