@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9198c349_d44486de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderIoStats.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-21T17:37:11Z",
+      "side": 1,
+      "message": "Since this is tracking a different metric (the move in usage shows that pretty explicitly) this should be 2 different changes: 1 that adds the new field, 1 that removed the one that isn\u0027t needed anymore.\n\nThe description itself doesn\u0027t really give a justification for a rename; it looks like this is doing 2 distinct changes in 1",
+      "range": {
+        "startLine": 364,
+        "startChar": 13,
+        "endLine": 364,
+        "endChar": 41
+      },
+      "revId": "54af02798363619b1610f8e3ccd7ed17913f1336",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
