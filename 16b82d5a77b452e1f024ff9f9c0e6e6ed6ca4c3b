@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d3cdc2a_8cb23752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-21T17:15:21Z",
+      "side": 1,
+      "message": "Add missing java docs",
+      "revId": "16b82d5a77b452e1f024ff9f9c0e6e6ed6ca4c3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
