@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c17cbc8_6957d4a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T19:07:09Z",
+      "side": 1,
+      "message": "I reworded the commit message to follow better the \"problem - proposed solution\" pattern. Couldn\u0027t come up with a better title.",
+      "revId": "fe8919d107cbfbc52b84f9b8e9fe55668dfbebb1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
