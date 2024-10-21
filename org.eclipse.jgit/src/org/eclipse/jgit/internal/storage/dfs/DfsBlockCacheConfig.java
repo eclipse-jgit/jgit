@@ -581,7 +581,7 @@ public class DfsBlockCacheConfig {
 		void print(String linePrefix, String pad, PrintWriter writer) {
 			packExtCacheConfiguration.print(linePrefix, pad, writer);
 			writer.println(linePrefix + pad + "PackExts: "
-					+ packExts.stream().sorted().toList());
+					+ packExts.stream().sorted().collect(Collectors.toList()));
 		}
 	}
 }
