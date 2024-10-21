@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f9518e4_f0fcd007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "It helps to follow the structure:\n\u003ctitle\u003e\n\n\u003cCurrent situation and why it is a problem\u003e\n\n\u003cProposed solution\u003e\n\n\u003cadditional comments if needed\u003e\n\nMaybe something like:\n\nPackWriter: create interface to write indexes\n\nPackWriter assumes that the primary index goes to a file in a well-known format. This cannot accomodate implementations in other storages or formats (e.g. in a database).\n\nCreate an interface to write the index (PackIndexWriter), implemented by the previous writers. \n\nAs the \"PackIndexWriter\" name was used by the previous superclass of the file writers, we renamed that class to \"BasePackIndexWriter\".",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ce77b484_b98456e6",
@@ -14,6 +31,126 @@
       "writtenOn": "2024-10-17T21:53:35Z",
       "side": 1,
       "message": "Thanks for the input here! This fits the existing implementation much better now.",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78434f3b_f3830ee5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1042d4e8_5dcd8aa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "What indexes is this interface suppose to write? primary? primary and reverse? It should be mentioned explicitly here.\n\nThere is no need to limit this to be a function. Maybe some implementations need a full class.",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dba3c8d_3b720780",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "I think we don\u0027t need the @FunctionalInterface annotation here.\n\nI associate \"Functional interface\" with something you are going to pass e.g. to a map(). This is just an interface with a regular method.",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77f44f5a_e0bbc2d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "Maybe \"or the underlying format cannot store the object data supplied\". The interface itself doesn\u0027t have a format, so \"this index format\" looks weird.",
+      "range": {
+        "startLine": 36,
+        "startChar": 71,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c906fcb1_c5523d1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "No need for \"public\" here, all interface methods are public.\n\nAlso, we don\u0027t use \"final\" for parameters in JGit anymore. That was an old convention. You can remove them from this interface.",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 7
+      },
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "389c7e6b_68b0f1ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-21T21:58:50Z",
+      "side": 1,
+      "message": "nit: Remove the final, now that we are touching the line. That was the old style we don\u0027t follow anymore.",
       "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
