@@ -70,6 +70,24 @@
       "parentUuid": "b61f7c2b_b2331d78",
       "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d814b1_dc12f4b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-21T21:23:56Z",
+      "side": 1,
+      "message": "The previous change is now merged.",
+      "parentUuid": "9561dded_0c3a39a8",
+      "revId": "f0194a30555cbe6def69aed2c2e1e2c29c04d8c0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
