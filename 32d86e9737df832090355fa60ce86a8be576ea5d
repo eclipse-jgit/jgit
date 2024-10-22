@@ -137,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10e14cd5_befe0489",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-22T21:41:33Z",
+      "side": 1,
+      "message": "Not specifying it is the worst option: an implementor to not know what to do and a caller doesn\u0027t know what to assume. Both end up with hacks to cover both cases.\n\nThe PackWriter API is very explicit:\npw \u003d new PackWriter()\npw.writeIndex(...)\npw.writeReverseIndex(...)\npw.writeBitmaps(...)\n\nand this is for writeIndex, so it should be about writing the primary index. \n\nIf an implementation writes the reverse index, it is their own hack (for PackWriter is ok as long as #writeReverseIndex still works).\n\nIdeally we would offer a PackReverseIndexWriter interface with the same pattern and then implementors can decide where both things go (even writing both in the #writeIndex and do-nothing in #writeReverseIndex).",
+      "parentUuid": "6ce64497_8114d2b7",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9dba3c8d_3b720780",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
         "patchSetId": 6
