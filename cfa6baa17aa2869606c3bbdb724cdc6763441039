@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6562bcde_3c02ca3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-22T10:00:03Z",
+      "side": 1,
+      "message": "Good catch, *much* better indeed.",
+      "parentUuid": "5bb18b4d_c51686a6",
+      "range": {
+        "startLine": 1574,
+        "startChar": 26,
+        "endLine": 1574,
+        "endChar": 53
+      },
+      "revId": "cfa6baa17aa2869606c3bbdb724cdc6763441039",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71e1ffbc_a5c441e0",

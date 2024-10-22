@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ad3aaeb_8b30cf7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-22T10:00:03Z",
+      "side": 1,
+      "message": "I believe `numberOfPackFilesAfterBitmap` is clear enough.",
+      "parentUuid": "9a39c7eb_61d6d49c",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "a2d1a554a3ca0b504eba5618bb6d890f0b9b460f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bb17b39_f4833f6a",
