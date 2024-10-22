@@ -23,5 +23,12 @@ public enum ContentMergeStrategy {
 	OURS,
 
 	/** Resolve the conflict hunk using the theirs version. */
-	THEIRS
+	THEIRS,
+
+	/**
+	 * Resolve the conflict hunk using a union of both ours and theirs versions.
+	 *
+	 * @since 6.10.1
+	 */
+	UNION
 }
