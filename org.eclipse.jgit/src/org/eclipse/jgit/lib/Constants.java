@@ -494,6 +494,13 @@ public final class Constants {
 	public static final String ATTR_BUILTIN_BINARY_MERGER = "binary"; //$NON-NLS-1$
 
 	/**
+	 * Union built-in merge driver
+	 *
+	 * @since 7.1
+	 */
+	public static final String ATTR_BUILTIN_UNION_MERGE_DRIVER = "union"; //$NON-NLS-1$
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.

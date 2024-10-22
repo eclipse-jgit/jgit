@@ -1489,9 +1489,21 @@ public class ResolveMerger extends ThreeWayMerger {
 				: getRawText(ours.getEntryObjectId(), attributes[T_OURS]);
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
 				: getRawText(theirs.getEntryObjectId(), attributes[T_THEIRS]);
-		mergeAlgorithm.setContentMergeStrategy(strategy);
+		mergeAlgorithm.setContentMergeStrategy(
+				getAttributesContentMergeStrategy(attributes[T_OURS],
+						strategy));
 		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText);
+	}
+
+	private ContentMergeStrategy getAttributesContentMergeStrategy(
+			Attributes attributes, ContentMergeStrategy strategy) {
+		Attribute attr = attributes.get(Constants.ATTR_MERGE);
+		if (attr != null && attr.getValue()
+				.equals(Constants.ATTR_BUILTIN_UNION_MERGE_DRIVER)) {
+			return ContentMergeStrategy.UNION;
+		}
+		return strategy;
 	}
 
 	private boolean isIndexDirty() {
