@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ef8ce5a_50d5727a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-22T23:14:33Z",
+      "side": 1,
+      "message": "Actually, this should stay with the old signature.",
+      "revId": "01b3df4259856d6fd93c438a2d3f2d3a12bf18ba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b544482b_ec4726fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-22T23:14:33Z",
+      "side": 1,
+      "message": "This method is used in a bunch of places (e.g. compactation). Should we convert all  those usages to objdb.getIndexWriter() and let the object db choose the backend?\n\nRight now only GC supports \"custom storage\", which looks like a weird exception in the code.",
+      "revId": "01b3df4259856d6fd93c438a2d3f2d3a12bf18ba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
