@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b81636de_ea6e5cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f9518e4_f0fcd007",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce77b484_b98456e6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -259,6 +277,24 @@
       "writtenOn": "2024-10-21T21:58:50Z",
       "side": 1,
       "message": "nit: Remove the final, now that we are touching the line. That was the old style we don\u0027t follow anymore.",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e73f410_75804415",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "389c7e6b_68b0f1ab",
       "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
