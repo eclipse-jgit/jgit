@@ -39,6 +39,30 @@
       },
       "revId": "fe4e881ad8c0a1cc75c3fc4206d090e2c5dec4ab",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "458b5bc7_fbdfa23b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-10-22T11:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "078d80cd_75a1c3a8",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "fe4e881ad8c0a1cc75c3fc4206d090e2c5dec4ab",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
