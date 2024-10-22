@@ -120,6 +120,7 @@ public final class MergeAlgorithm {
 						result.add(1, 0, 0, ConflictState.NO_CONFLICT);
 						break;
 					case THEIRS:
+					case UNION:
 						result.add(2, 0, theirs.size(),
 								ConflictState.NO_CONFLICT);
 						break;
@@ -148,6 +149,7 @@ public final class MergeAlgorithm {
 				// we modified, they deleted
 				switch (strategy) {
 				case OURS:
+				case UNION:
 					result.add(1, 0, ours.size(), ConflictState.NO_CONFLICT);
 					break;
 				case THEIRS:
@@ -158,7 +160,7 @@ public final class MergeAlgorithm {
 					result.add(1, 0, ours.size(),
 							ConflictState.FIRST_CONFLICTING_RANGE);
 					result.add(0, 0, base.size(),
-						ConflictState.BASE_CONFLICTING_RANGE);
+							ConflictState.BASE_CONFLICTING_RANGE);
 					result.add(2, 0, 0, ConflictState.NEXT_CONFLICTING_RANGE);
 					break;
 				}
@@ -329,6 +331,15 @@ public final class MergeAlgorithm {
 								ConflictState.NO_CONFLICT);
 						break;
 					case THEIRS:
+						result.add(2, theirsBeginB + commonPrefix,
+								theirsEndB - commonSuffix,
+								ConflictState.NO_CONFLICT);
+						break;
+					case UNION:
+						result.add(1, oursBeginB + commonPrefix,
+								oursEndB - commonSuffix,
+								ConflictState.NO_CONFLICT);
+
 						result.add(2, theirsBeginB + commonPrefix,
 								theirsEndB - commonSuffix,
 								ConflictState.NO_CONFLICT);
