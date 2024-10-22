@@ -58,6 +58,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6523ef8c_0d0a638b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78434f3b_f3830ee5",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1042d4e8_5dcd8aa8",
@@ -77,6 +101,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ce64497_8114d2b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:35:06Z",
+      "side": 1,
+      "message": "Do we want to call out an explicit index in this writer? That seems to me like we\u0027ll be introducing a contract that didn\u0027t exist before.\n\nE.g. if we say that this writer should be responsible for primary and reverse indexes, then BasePackIndexWriter won\u0027t implement the interface fully.\n\nAlso if say it is specific to the primary index, then if we overload this and write a reverse index, then we are also not implementing the contract.\n\nCan we just not specify it?",
+      "parentUuid": "1042d4e8_5dcd8aa8",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9dba3c8d_3b720780",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
         "patchSetId": 6
@@ -88,6 +130,24 @@
       "writtenOn": "2024-10-21T21:58:50Z",
       "side": 1,
       "message": "I think we don\u0027t need the @FunctionalInterface annotation here.\n\nI associate \"Functional interface\" with something you are going to pass e.g. to a map(). This is just an interface with a regular method.",
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5171ce96_985f2637",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dba3c8d_3b720780",
       "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -115,6 +175,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aca61fc_2f3e59d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77f44f5a_e0bbc2d6",
+      "range": {
+        "startLine": 36,
+        "startChar": 71,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c906fcb1_c5523d1d",
@@ -128,6 +212,30 @@
       "writtenOn": "2024-10-21T21:58:50Z",
       "side": 1,
       "message": "No need for \"public\" here, all interface methods are public.\n\nAlso, we don\u0027t use \"final\" for parameters in JGit anymore. That was an old convention. You can remove them from this interface.",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 7
+      },
+      "revId": "32d86e9737df832090355fa60ce86a8be576ea5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b552b39_a555bbb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1037809
+      },
+      "writtenOn": "2024-10-22T20:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c906fcb1_c5523d1d",
       "range": {
         "startLine": 39,
         "startChar": 1,
