@@ -16,6 +16,24 @@
       "message": "Add missing java docs",
       "revId": "16b82d5a77b452e1f024ff9f9c0e6e6ed6ca4c3b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "166867fc_447e9811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-22T11:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d3cdc2a_8cb23752",
+      "revId": "16b82d5a77b452e1f024ff9f9c0e6e6ed6ca4c3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
