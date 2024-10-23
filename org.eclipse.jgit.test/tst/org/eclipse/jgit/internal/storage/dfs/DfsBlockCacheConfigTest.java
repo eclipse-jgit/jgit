@@ -38,6 +38,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.dfs.DfsBlockCacheConfig.DEFAULT_NAME;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_CACHE_PREFIX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
@@ -48,11 +49,17 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThrows;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -173,6 +180,38 @@ public class DfsBlockCacheConfigTest {
 	}
 
 	@Test
+	public void fromConfigs_baseConfigOnly_nameSetFromConfigDfsSubSection() {
+		Config config = new Config();
+
+		DfsBlockCacheConfig blockCacheConfig = new DfsBlockCacheConfig()
+				.fromConfig(config);
+		assertThat(blockCacheConfig.getName(), equalTo(DEFAULT_NAME));
+	}
+
+	@Test
+	public void fromConfigs_namesSetFromConfigDfsCachePrefixSubSections() {
+		Config config = new Config();
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_STREAM_RATIO, "0.5");
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_CACHE_PREFIX + "name1",
+				CONFIG_KEY_PACK_EXTENSIONS, PackExt.PACK.name());
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_CACHE_PREFIX + "name2",
+				CONFIG_KEY_PACK_EXTENSIONS, PackExt.BITMAP_INDEX.name());
+
+		DfsBlockCacheConfig blockCacheConfig = new DfsBlockCacheConfig()
+				.fromConfig(config);
+		assertThat(blockCacheConfig.getName(), equalTo("dfs"));
+		assertThat(
+				blockCacheConfig.getPackExtCacheConfigurations().get(0)
+						.getPackExtCacheConfiguration().getName(),
+				equalTo("dfs.name1"));
+		assertThat(
+				blockCacheConfig.getPackExtCacheConfigurations().get(1)
+						.getPackExtCacheConfiguration().getName(),
+				equalTo("dfs.name2"));
+	}
+
+	@Test
 	public void fromConfigs_dfsBlockCachePackExtConfigWithDuplicateExtensions_throws() {
 		Config config = new Config();
 		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_CACHE_PREFIX + "pack1",
@@ -214,6 +253,45 @@ public class DfsBlockCacheConfigTest {
 
 		assertThrows(IllegalArgumentException.class,
 				() -> new DfsBlockCacheConfig().fromConfig(config));
+	}
+
+	@Test
+	public void writeConfigurationDebug_writesConfigsToWriter()
+			throws Exception {
+		Config config = new Config();
+		config.setLong(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_BLOCK_LIMIT, 50 * 1024);
+		config.setInt(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_BLOCK_SIZE, 1024);
+		config.setInt(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_CONCURRENCY_LEVEL, 3);
+		config.setString(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_STREAM_RATIO, "0.5");
+		addPackExtConfigEntry(config, "pack", List.of(PackExt.PACK),
+				/* blockLimit= */ 20 * 512, /* blockSize= */ 512);
+
+		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig()
+				.fromConfig(config);
+		Map<PackExt, Integer> hotmap = Map.of(PackExt.PACK, 10);
+		cacheConfig.setCacheHotMap(hotmap);
+
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		cacheConfig.print(new PrintWriter(byteArrayOutputStream, true,
+				StandardCharsets.UTF_8));
+
+		String writenConfig = byteArrayOutputStream
+				.toString(StandardCharsets.UTF_8);
+
+		List<String> writenLines = Arrays.asList(writenConfig.split("\n"));
+		assertThat(writenLines,
+				equalTo(List.of("Name: dfs", "  BlockLimit: " + (50 * 1024),
+						"  BlockSize: 1024", "  StreamRatio: 0.5",
+						"  ConcurrencyLevel: 3",
+						"  CacheHotMapEntry: " + PackExt.PACK + " : " + 10,
+						"  Name: dfs.pack", "    BlockLimit: " + 20 * 512,
+						"    BlockSize: 512", "    StreamRatio: 0.3",
+						"    ConcurrencyLevel: 32",
+						"    PackExts: " + List.of(PackExt.PACK))));
 	}
 
 	private static void addPackExtConfigEntry(Config config, String configName,

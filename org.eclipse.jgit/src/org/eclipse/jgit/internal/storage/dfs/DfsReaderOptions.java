@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_BASE_CACHE_LIMIT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_BUFFER;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_THRESHOLD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX;
@@ -197,6 +198,9 @@ public class DfsReaderOptions {
 		setUseObjectSizeIndex(rc.getBoolean(CONFIG_CORE_SECTION,
 				CONFIG_DFS_SECTION, CONFIG_KEY_USE_OBJECT_SIZE_INDEX,
 				false));
+		setLoadRevIndexInParallel(
+				rc.getBoolean(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+						CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL, false));
 		return this;
 	}
 }

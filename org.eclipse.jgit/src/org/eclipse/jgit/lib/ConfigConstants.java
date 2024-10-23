@@ -206,7 +206,36 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_SIGNINGKEY = "signingKey";
 
 	/**
+	 * The "ssh" subsection key.
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_SSH_SUBSECTION = "ssh";
+
+	/**
+	 * The "defaultKeyCommand" key.
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_SSH_DEFAULT_KEY_COMMAND = "defaultKeyCommand";
+
+	/**
+	 * The "allowedSignersFile" key.
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_SSH_ALLOWED_SIGNERS_FILE = "allowedSignersFile";
+
+	/**
+	 * The "revocationFile" key,
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_SSH_REVOCATION_FILE = "revocationFile";
+
+	/**
 	 * The "commit" section
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_COMMIT_SECTION = "commit";
@@ -1027,4 +1056,11 @@ public final class ConfigConstants {
 	 * @since 7.0
 	 */
 	public static final String CONFIG_KEY_USE_OBJECT_SIZE_INDEX = "useObjectSizeIndex";
+
+	/**
+	 * The "loadRevIndexInParallel" key
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL = "loadRevIndexInParallel";
 }

@@ -66,7 +66,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class PackWriterTest extends SampleDataRepositoryTestCase {
+public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 	private static final List<RevObject> EMPTY_LIST_REVS = Collections
 			.<RevObject> emptyList();

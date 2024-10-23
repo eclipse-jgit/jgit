@@ -117,13 +117,13 @@ public class UploadPack implements Closeable {
 	/** Policy the server uses to validate client requests */
 	public enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
-		ADVERTISED,
+		ADVERTISED(0x08),
 
 		/**
 		 * Client may ask for any commit reachable from a reference advertised by
 		 * the server.
 		 */
-		REACHABLE_COMMIT,
+		REACHABLE_COMMIT(0x02),
 
 		/**
 		 * Client may ask for objects that are the tip of any reference, even if not
@@ -133,18 +133,34 @@ public class UploadPack implements Closeable {
 		 *
 		 * @since 3.1
 		 */
-		TIP,
+		TIP(0x01),
 
 		/**
 		 * Client may ask for any commit reachable from any reference, even if that
-		 * reference wasn't advertised.
+		 * reference wasn't advertised, implies REACHABLE_COMMIT and TIP.
 		 *
 		 * @since 3.1
 		 */
-		REACHABLE_COMMIT_TIP,
+		REACHABLE_COMMIT_TIP(0x03),
 
-		/** Client may ask for any SHA-1 in the repository. */
-		ANY;
+		/** Client may ask for any SHA-1 in the repository, implies REACHABLE_COMMIT_TIP. */
+		ANY(0x07);
+
+		private final int bitmask;
+
+		RequestPolicy(int bitmask) {
+			this.bitmask = bitmask;
+		}
+
+		/**
+		 * Check if the current policy implies another, based on its bitmask.
+		 *
+		 * @param implied the implied policy based on its bitmask.
+		 * @return true if the policy is implied.
+		 */
+		public boolean implies(RequestPolicy implied) {
+			return (bitmask & implied.bitmask) != 0;
+		}
 	}
 
 	/**
@@ -1582,13 +1598,9 @@ public class UploadPack implements Closeable {
 		if (!biDirectionalPipe)
 			adv.advertiseCapability(OPTION_NO_DONE);
 		RequestPolicy policy = getRequestPolicy();
-		if (policy == RequestPolicy.TIP
-				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
-				|| policy == null)
+		if (policy == null || policy.implies(RequestPolicy.TIP))
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
-		if (policy == RequestPolicy.REACHABLE_COMMIT
-				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
-				|| policy == null)
+		if (policy == null || policy.implies(RequestPolicy.REACHABLE_COMMIT))
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		if (transferConfig.isAllowFilter()) {
@@ -2369,7 +2381,8 @@ public class UploadPack implements Closeable {
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
 
-				// Ownership is transferred below
+				// dw borrows the reader from walk which is closed by #close
+				@SuppressWarnings("resource")
 				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
 						walk.getObjectReader(), walkDepth);
 				dw.setDeepenSince(req.getDeepenSince());

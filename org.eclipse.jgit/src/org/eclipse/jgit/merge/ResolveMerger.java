@@ -1273,6 +1273,13 @@ public class ResolveMerger extends ThreeWayMerger {
 					default:
 						break;
 				}
+				if (ignoreConflicts) {
+					// If the path is selected to be treated as binary via attributes, we do not perform
+					// content merge. When ignoreConflicts = true, we simply keep OURS to allow virtual commit
+					// to be built.
+					keep(ourDce);
+					return true;
+				}
 				// add the conflicting path to merge result
 				String currentPath = tw.getPathString();
 				MergeResult<RawText> result = new MergeResult<>(
@@ -1312,8 +1319,12 @@ public class ResolveMerger extends ThreeWayMerger {
 					addToCheckout(currentPath, null, attributes);
 					return true;
 				} catch (BinaryBlobException e) {
-					// if the file is binary in either OURS, THEIRS or BASE
-					// here, we don't have an option to ignore conflicts
+					// The file is binary in either OURS, THEIRS or BASE
+					if (ignoreConflicts) {
+						// When ignoreConflicts = true, we simply keep OURS to allow virtual commit to be built.
+						keep(ourDce);
+						return true;
+					}
 				}
 			}
 			switch (getContentMergeStrategy()) {
@@ -1354,6 +1365,8 @@ public class ResolveMerger extends ThreeWayMerger {
 					}
 				}
 			} else {
+				// This is reachable if contentMerge() call above threw BinaryBlobException, so we don't
+				// need to check ignoreConflicts here, since it's already handled above.
 				result.setContainsConflicts(true);
 				addConflict(base, ours, theirs);
 				unmergedPaths.add(currentPath);

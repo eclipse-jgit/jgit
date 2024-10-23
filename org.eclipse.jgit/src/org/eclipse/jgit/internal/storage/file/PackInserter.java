@@ -77,6 +77,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -320,7 +321,8 @@ public class PackInserter extends ObjectInserter {
 	private static void writePackIndex(File idx, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
 		try (OutputStream os = new FileOutputStream(idx)) {
-			PackIndexWriter w = PackIndexWriter.createVersion(os, INDEX_VERSION);
+			PackIndexWriter w = BasePackIndexWriter.createVersion(os,
+					INDEX_VERSION);
 			w.write(list, packHash);
 		}
 	}

@@ -120,7 +120,7 @@
 
     <jgit-last-release-version>7.0.0.202409031743-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
-    <apache-sshd-version>2.13.2</apache-sshd-version>
+    <apache-sshd-version>2.14.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.3</jzlib-version>
     <javaewah-version>1.2.3</javaewah-version>
@@ -130,7 +130,7 @@
     <commons-compress-version>1.27.1</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>6.1.0</servlet-api-version>
-    <jetty-version>12.0.13</jetty-version>
+    <jetty-version>12.0.14</jetty-version>
     <japicmp-version>0.21.2</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>

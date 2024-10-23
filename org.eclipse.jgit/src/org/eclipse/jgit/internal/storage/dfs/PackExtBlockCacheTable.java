@@ -37,6 +37,11 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * type.
  */
 class PackExtBlockCacheTable implements DfsBlockCacheTable {
+	/**
+	 * Table name.
+	 */
+	private final String name;
+
 	private final DfsBlockCacheTable defaultBlockCacheTable;
 
 	// Holds the unique tables backing the extBlockCacheTables values.
@@ -120,13 +125,19 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 		Set<DfsBlockCacheTable> blockCacheTables = new HashSet<>();
 		blockCacheTables.add(defaultBlockCacheTable);
 		blockCacheTables.addAll(packExtBlockCacheTables.values());
-		return new PackExtBlockCacheTable(defaultBlockCacheTable,
+		String name = defaultBlockCacheTable.getName() + ","
+				+ packExtBlockCacheTables.values().stream()
+						.map(DfsBlockCacheTable::getName).sorted()
+						.collect(Collectors.joining(","));
+		return new PackExtBlockCacheTable(name, defaultBlockCacheTable,
 				List.copyOf(blockCacheTables), packExtBlockCacheTables);
 	}
 
-	private PackExtBlockCacheTable(DfsBlockCacheTable defaultBlockCacheTable,
+	private PackExtBlockCacheTable(String name,
+			DfsBlockCacheTable defaultBlockCacheTable,
 			List<DfsBlockCacheTable> blockCacheTableList,
 			Map<PackExt, DfsBlockCacheTable> extBlockCacheTables) {
+		this.name = name;
 		this.defaultBlockCacheTable = defaultBlockCacheTable;
 		this.blockCacheTableList = blockCacheTableList;
 		this.extBlockCacheTables = extBlockCacheTables;
@@ -178,9 +189,15 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	@Override
 	public BlockCacheStats getBlockCacheStats() {
-		return new CacheStats(blockCacheTableList.stream()
-				.map(DfsBlockCacheTable::getBlockCacheStats)
-				.collect(Collectors.toList()));
+		return AggregatedBlockCacheStats.fromStatsList(name,
+				blockCacheTableList.stream()
+						.map(DfsBlockCacheTable::getBlockCacheStats)
+						.collect(Collectors.toList()));
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	private DfsBlockCacheTable getTable(PackExt packExt) {
@@ -195,95 +212,5 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 
 	private static PackExt getPackExt(DfsStreamKey key) {
 		return PackExt.values()[key.packExtPos];
-	}
-
-	private static class CacheStats implements BlockCacheStats {
-		private final List<BlockCacheStats> blockCacheStats;
-
-		private CacheStats(List<BlockCacheStats> blockCacheStats) {
-			this.blockCacheStats = blockCacheStats;
-		}
-
-		@Override
-		public long[] getCurrentSize() {
-			long[] sums = emptyPackStats();
-			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
-				sums = add(sums, blockCacheStatsEntry.getCurrentSize());
-			}
-			return sums;
-		}
-
-		@Override
-		public long[] getHitCount() {
-			long[] sums = emptyPackStats();
-			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
-				sums = add(sums, blockCacheStatsEntry.getHitCount());
-			}
-			return sums;
-		}
-
-		@Override
-		public long[] getMissCount() {
-			long[] sums = emptyPackStats();
-			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
-				sums = add(sums, blockCacheStatsEntry.getMissCount());
-			}
-			return sums;
-		}
-
-		@Override
-		public long[] getTotalRequestCount() {
-			long[] sums = emptyPackStats();
-			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
-				sums = add(sums, blockCacheStatsEntry.getTotalRequestCount());
-			}
-			return sums;
-		}
-
-		@Override
-		public long[] getHitRatio() {
-			long[] hit = getHitCount();
-			long[] miss = getMissCount();
-			long[] ratio = new long[Math.max(hit.length, miss.length)];
-			for (int i = 0; i < ratio.length; i++) {
-				if (i >= hit.length) {
-					ratio[i] = 0;
-				} else if (i >= miss.length) {
-					ratio[i] = 100;
-				} else {
-					long total = hit[i] + miss[i];
-					ratio[i] = total == 0 ? 0 : hit[i] * 100 / total;
-				}
-			}
-			return ratio;
-		}
-
-		@Override
-		public long[] getEvictions() {
-			long[] sums = emptyPackStats();
-			for (BlockCacheStats blockCacheStatsEntry : blockCacheStats) {
-				sums = add(sums, blockCacheStatsEntry.getEvictions());
-			}
-			return sums;
-		}
-
-		private static long[] emptyPackStats() {
-			return new long[PackExt.values().length];
-		}
-
-		private static long[] add(long[] first, long[] second) {
-			long[] sums = new long[Integer.max(first.length, second.length)];
-			int i;
-			for (i = 0; i < Integer.min(first.length, second.length); i++) {
-				sums[i] = first[i] + second[i];
-			}
-			for (int j = i; j < first.length; j++) {
-				sums[j] = first[i];
-			}
-			for (int j = i; j < second.length; j++) {
-				sums[j] = second[i];
-			}
-			return sums;
-		}
 	}
 }

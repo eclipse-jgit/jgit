@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONCURRENCY_LEVEL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_EXTENSIONS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_RATIO;
 
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -49,6 +50,10 @@ public class DfsBlockCacheConfig {
 	/** Default number of max cache hits. */
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
 
+	static final String DEFAULT_NAME = "<default>";
+
+	private String name;
+
 	private long blockLimit;
 
 	private int blockSize;
@@ -69,12 +74,81 @@ public class DfsBlockCacheConfig {
 	 * Create a default configuration.
 	 */
 	public DfsBlockCacheConfig() {
+		name = DEFAULT_NAME;
 		setBlockLimit(32 * MB);
 		setBlockSize(64 * KB);
 		setStreamRatio(0.30);
 		setConcurrencyLevel(32);
 		cacheHotMap = Collections.emptyMap();
 		packExtCacheConfigurations = Collections.emptyList();
+	}
+
+	/**
+	 * Print the current cache configuration to the given {@link PrintWriter}.
+	 *
+	 * @param writer
+	 *            {@link PrintWriter} to write the cache's configuration to.
+	 */
+	public void print(PrintWriter writer) {
+		print(/* linePrefix= */ "", /* pad= */ "  ", writer);
+	}
+
+	/**
+	 * Print the current cache configuration to the given {@link PrintWriter}.
+	 *
+	 * @param linePrefix
+	 *            prefix to prepend all writen lines with. Ex a string of 0 or
+	 *            more " " entries.
+	 * @param pad
+	 *            filler used to extend linePrefix. Ex a multiple of " ".
+	 * @param writer
+	 *            {@link PrintWriter} to write the cache's configuration to.
+	 */
+	private void print(String linePrefix, String pad, PrintWriter writer) {
+		String currentPrefixLevel = linePrefix;
+		if (!name.isEmpty() || !packExtCacheConfigurations.isEmpty()) {
+			String name = this.name;
+			if (name.isEmpty()) {
+				name = "<Default>";
+			}
+			writer.println(linePrefix + "Name: " + name);
+			currentPrefixLevel += pad;
+		}
+		writer.println(currentPrefixLevel + "BlockLimit: " + blockLimit);
+		writer.println(currentPrefixLevel + "BlockSize: " + blockSize);
+		writer.println(currentPrefixLevel + "StreamRatio: " + streamRatio);
+		writer.println(
+				currentPrefixLevel + "ConcurrencyLevel: " + concurrencyLevel);
+		for (Map.Entry<PackExt, Integer> entry : cacheHotMap.entrySet()) {
+			writer.println(currentPrefixLevel + "CacheHotMapEntry: "
+					+ entry.getKey() + " : " + entry.getValue());
+		}
+		for (DfsBlockCachePackExtConfig extConfig : packExtCacheConfigurations) {
+			extConfig.print(currentPrefixLevel, pad, writer);
+		}
+	}
+
+	/**
+	 * Get the name for the block cache configured by this cache config.
+	 *
+	 * @return the name for the block cache configured by this cache config.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Set the name for the block cache configured by this cache config.
+	 * <p>
+	 * Made visible for testing.
+	 *
+	 * @param name
+	 *            the name for the block cache configured by this cache config.
+	 * @return {@code this}
+	 */
+	DfsBlockCacheConfig setName(String name) {
+		this.name = name;
+		return this;
 	}
 
 	/**
@@ -308,6 +382,11 @@ public class DfsBlockCacheConfig {
 					Long.valueOf(cfgBlockLimit), Long.valueOf(cfgBlockSize)));
 		}
 
+		// Set name only if `core dfs` is configured, otherwise fall back to the
+		// default.
+		if (rc.getSubsections(section).contains(subSection)) {
+			this.name = subSection;
+		}
 		setBlockLimit(cfgBlockLimit);
 		setBlockSize(cfgBlockSize);
 
@@ -497,6 +576,12 @@ public class DfsBlockCacheConfig {
 			dfsBlockCacheConfig.fromConfig(section, subSection, config);
 			return new DfsBlockCachePackExtConfig(EnumSet.copyOf(packExts),
 					dfsBlockCacheConfig);
+		}
+
+		void print(String linePrefix, String pad, PrintWriter writer) {
+			packExtCacheConfiguration.print(linePrefix, pad, writer);
+			writer.println(linePrefix + pad + "PackExts: "
+					+ packExts.stream().sorted().collect(Collectors.toList()));
 		}
 	}
 }
