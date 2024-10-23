@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a0db761_4021e137",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:19:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da06c2ba_653572c6",
+      "revId": "90263d172073452877d1b55d047c02bc9f349efa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22c4ad48_f1900765",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-10-23T17:03:46Z",
       "side": 1,
       "message": "errorprone raises an error here:\n\n```\norg.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java:93: error: [ZoneIdOfZ] Use ZoneOffset.UTC instead of ZoneId.of(\"Z\").\n\t\t\t\t\"tester@example.com\", commitTime, ZoneId.of(\"Z\"));\n\t\t\t\t                                           ^\n    (see https://errorprone.info/bugpattern/ZoneIdOfZ)\n  Did you mean \u0027\"tester@example.com\", commitTime, ZoneOffset.UTC);\u0027?\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 38,
+        "endLine": 93,
+        "endChar": 52
+      },
+      "revId": "90263d172073452877d1b55d047c02bc9f349efa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca0998f_a512c9fa",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:19:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22c4ad48_f1900765",
       "range": {
         "startLine": 93,
         "startChar": 38,
