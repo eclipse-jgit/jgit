@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c21079c_7e391ef9",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/signing/ssh/AllowedSigners.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72d37062_f29f592a",
+      "range": {
+        "startLine": 95,
+        "startChar": 22,
+        "endLine": 95,
+        "endChar": 58
+      },
+      "revId": "2b853ba6bc84c84971c2c51a250bf674877ce402",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a9fe1b4_323a56f2",
@@ -58,6 +82,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f050e184_742ddf14",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/signing/ssh/AllowedSigners.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a9fe1b4_323a56f2",
+      "revId": "2b853ba6bc84c84971c2c51a250bf674877ce402",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b92d210e_82e01ee7",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-10-23T17:16:11Z",
       "side": 1,
       "message": "errorprone raises an error here:\n\n```\norg.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/signing/ssh/OpenSshBinaryKrl.java:96: error: [EqualsGetClass] Prefer instanceof to getClass when implementing Object#equals.\n\t\tpublic final boolean equals(Object any) {\n\t\t                     ^\n    (see https://errorprone.info/bugpattern/EqualsGetClass)\n  Did you mean \u0027if (!(any instanceof Blob)) {\u0027?\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 50
+      },
+      "revId": "2b853ba6bc84c84971c2c51a250bf674877ce402",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b72753a4_76e97830",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/signing/ssh/OpenSshBinaryKrl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:19:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b92d210e_82e01ee7",
       "range": {
         "startLine": 100,
         "startChar": 22,
