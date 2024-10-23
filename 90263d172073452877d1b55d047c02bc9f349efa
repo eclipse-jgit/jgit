@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6606b44_e44a4b49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:03:46Z",
+      "side": 1,
+      "message": "will push a new patchset with the fixes shortly",
+      "revId": "90263d172073452877d1b55d047c02bc9f349efa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da06c2ba_653572c6",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:03:46Z",
+      "side": 1,
+      "message": "bazel raises this error:\n\n```\norg.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java:40: error: [strict] Using type org.eclipse.jgit.junit.RepositoryTestCase from an indirect dependency (TOOL_INFO: \"//org.eclipse.jgit.junit:junit\"). See command below **\npublic abstract class AbstractSshSignatureTest extends RepositoryTestCase {\n                                                       ^\n ** Please add the following dependencies:\n  //org.eclipse.jgit.junit:junit to //org.eclipse.jgit.ssh.apache.test:sshd_apache\n ** You can use the following buildozer command:\nbuildozer \u0027add deps //org.eclipse.jgit.junit:junit\u0027 //org.eclipse.jgit.ssh.apache.test:sshd_apache\n```\n\nbazel test //... fails since there are no tests in this abstract base class, need to exclude this class when running tests",
+      "revId": "90263d172073452877d1b55d047c02bc9f349efa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c4ad48_f1900765",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-23T17:03:46Z",
+      "side": 1,
+      "message": "errorprone raises an error here:\n\n```\norg.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/internal/signing/ssh/AbstractSshSignatureTest.java:93: error: [ZoneIdOfZ] Use ZoneOffset.UTC instead of ZoneId.of(\"Z\").\n\t\t\t\t\"tester@example.com\", commitTime, ZoneId.of(\"Z\"));\n\t\t\t\t                                           ^\n    (see https://errorprone.info/bugpattern/ZoneIdOfZ)\n  Did you mean \u0027\"tester@example.com\", commitTime, ZoneOffset.UTC);\u0027?\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 38,
+        "endLine": 93,
+        "endChar": 52
+      },
+      "revId": "90263d172073452877d1b55d047c02bc9f349efa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
