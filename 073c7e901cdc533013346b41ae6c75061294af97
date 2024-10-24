@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "791ca542_65dc4c7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-24T23:10:17Z",
+      "side": 1,
+      "message": "Matthias, hopefully this is ok on 6.10 since I would like to use it with Gerrit 3.9 (which can\u0027t move to 7.0 due to Java version incompatibility).",
+      "revId": "073c7e901cdc533013346b41ae6c75061294af97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
