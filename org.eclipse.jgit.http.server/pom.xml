@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>7.1.0.202410232130-m2</version>
+    <version>7.1.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.http.server</artifactId>
