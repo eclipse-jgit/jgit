@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88ddb260_948394df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-24T19:01:19Z",
+      "side": 1,
+      "message": "A note on tenses to help readers: you want to use the imperative to show what this change is doing, so this summary would be clearer if it said something like \"Make PackWriter.writeIndex() take a PackIndexWriter\".",
+      "revId": "01b3df4259856d6fd93c438a2d3f2d3a12bf18ba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "704374a5_5808d116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-24T19:01:19Z",
+      "side": 1,
+      "message": "\"existing\" will be confusing for the reader because once this code is merged it will be harder to understand what existing means (before or after this change). Instead, I think the convention is to use \"previously\" and the past tense to describe what code did before your change: \"Previously the implementation required...\"",
+      "revId": "01b3df4259856d6fd93c438a2d3f2d3a12bf18ba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eba14a7_9e2d1f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-10-24T19:01:19Z",
+      "side": 1,
+      "message": "Example imperative approach: s/we can allow/allow/",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "01b3df4259856d6fd93c438a2d3f2d3a12bf18ba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ef8ce5a_50d5727a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 21
