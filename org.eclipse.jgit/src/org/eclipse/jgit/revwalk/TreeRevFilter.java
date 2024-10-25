@@ -110,15 +110,16 @@ public class TreeRevFilter extends RevFilter {
 	private boolean shouldInclude(RevWalk walker, RevCommit c)
 			throws IOException {
 		TreeFilter tf = pathFilter.getFilter();
-		boolean changedPathFilterUsed = false;
-		if (c.getParentCount() == 1) {
-			boolean shouldTreeWalk  = tf.shouldTreeWalk(c, walker);
-			changedPathFilterUsed = tf.serveChangedPathFilter()
-					&& c.getChangedPathFilter(walker) != null;
-			if (!shouldTreeWalk) {
-				walker.getRevFilterStats().incrementChangedPathFilterNegative();
-				return false;
+		boolean shouldTreeWalk  = tf.shouldTreeWalk(c, walker);
+		boolean changedPathFilterUsed = tf.serveChangedPathFilter()
+				&& c.getChangedPathFilter(walker) != null && c.getParentCount() > 0;
+		if (!shouldTreeWalk) {
+			walker.getRevFilterStats().incrementChangedPathFilterNegative();
+			if (c.getParentCount() > 1) {
+				walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+				c.parents = new RevCommit[] { c.getParent(0) };
 			}
+			return false;
 		}
 		boolean shouldInclude = includeByTreeWalk(walker, c);
 		if (changedPathFilterUsed) {
@@ -232,6 +233,12 @@ public class TreeRevFilter extends RevFilter {
 						continue;
 					}
 
+					if (i == 0) {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+					} else {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedPullRequestParentAsRedirect();
+					}
+
 					c.parents = new RevCommit[] { p };
 					return false;
 				}
@@ -258,6 +265,7 @@ public class TreeRevFilter extends RevFilter {
 				// way from all of our parents. We have to take the blame for
 				// that difference.
 				//
+				walker.getRevFilterStats().incrementNumMergeCommitsHadNoRedirect();
 				return true;
 			}
 
@@ -265,6 +273,7 @@ public class TreeRevFilter extends RevFilter {
 			// as they are and allow those parents to flow into pending
 			// for further scanning.
 			//
+			walker.getRevFilterStats().incrementNumMergeCommitsHadNoDiffButNoInterestingParent();
 			return false;
 		}
 	}
