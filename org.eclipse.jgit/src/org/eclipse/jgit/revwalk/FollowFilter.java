@@ -59,6 +59,26 @@ public class FollowFilter extends TreeFilter {
 		return new FollowFilter(PathAnyDiffFilter.create(path), cfg);
 	}
 
+	/**
+	 * Create a new follow filter for a user supplied PathAnyDiffFilter.
+	 * <p>
+	 * The PathAnyDiffFilter has path strings that are relative to the root of
+	 * the repository. If the user's input should be assumed relative to a
+	 * subdirectory of the repository the caller must prepend the subdirectory's
+	 * path prior to creating the filter.
+	 * <p>
+	 *
+	 * @param path
+	 *            the PathAnyDiffFilter to be embedded onto.
+	 * @param cfg
+	 *            diff config specifying rename detection options.
+	 * @return a new filter embedded with a given PathAnyDiffFilter.
+	 * @since 7.0
+	 */
+	public static FollowFilter create(PathAnyDiffFilter path, DiffConfig cfg) {
+		return new FollowFilter(path, cfg);
+	}
+
 	private final PathAnyDiffFilter path;
 	final DiffConfig cfg;
 
