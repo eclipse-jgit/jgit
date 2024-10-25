@@ -45,7 +45,8 @@ public final class SigningDatabase {
 			SigningKeyDatabase database) {
 		SigningKeyDatabase previous = INSTANCE;
 		if (database != INSTANCE) {
-			if (INSTANCE instanceof CachingSigningKeyDatabase caching) {
+			if (INSTANCE instanceof CachingSigningKeyDatabase) {
+				CachingSigningKeyDatabase caching = (CachingSigningKeyDatabase) INSTANCE;
 				caching.clearCache();
 			}
 			if (database == null) {

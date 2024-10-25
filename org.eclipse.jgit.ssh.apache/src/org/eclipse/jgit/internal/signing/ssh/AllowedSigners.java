@@ -82,9 +82,28 @@ final class AllowedSigners extends ModifiableFileWatcher {
 	private static final Predicate<AllowedEntry> PLAIN_KEYS = Predicate
 			.not(CERTIFICATES);
 
-	static record AllowedEntry(String[] identities, boolean isCA,
-			String[] namespaces, Instant validAfter, Instant validBefore,
-			String key) {
+	static final class AllowedEntry {
+		private final String[] identities;
+
+		private final boolean isCA;
+
+		private final String[] namespaces;
+
+		private final Instant validAfter;
+
+		private final Instant validBefore;
+
+		private final String key;
+
+		AllowedEntry(String[] identities, boolean isCA, String[] namespaces,
+				Instant validAfter, Instant validBefore, String key) {
+			this.identities = identities;
+			this.isCA = isCA;
+			this.namespaces = namespaces;
+			this.validAfter = validAfter;
+			this.validBefore = validBefore;
+			this.key = key;
+		}
 		// Empty
 
 		@Override
@@ -111,9 +130,73 @@ final class AllowedSigners extends ModifiableFileWatcher {
 			hash = hash * 31 + Arrays.hashCode(namespaces);
 			return hash * 31 + Objects.hash(validAfter, validBefore, key);
 		}
+
+		public String[] identities() {
+			return identities;
+		}
+
+		public boolean isCA() {
+			return isCA;
+		}
+
+		public String[] namespaces() {
+			return namespaces;
+		}
+
+		public Instant validAfter() {
+			return validAfter;
+		}
+
+		public Instant validBefore() {
+			return validBefore;
+		}
+
+		public String key() {
+			return key;
+		}
+
+		@Override
+		public String toString() {
+			return "AllowedEntry[" + "identities=" + Arrays.toString(identities)
+					+ ", " + "isCA=" + isCA + ", " + "namespaces="
+					+ Arrays.toString(namespaces) + ", " + "validAfter="
+					+ validAfter + ", " + "validBefore=" + validBefore + ", "
+					+ "key=" + key + ']';
+		}
+
 	}
 
-	private static record State(Map<String, List<AllowedEntry>> entries) {
+	private static final class State {
+		private final Map<String, List<AllowedEntry>> entries;
+
+		private State(Map<String, List<AllowedEntry>> entries) {
+			this.entries = entries;
+		}
+
+		public Map<String, List<AllowedEntry>> entries() {
+			return entries;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this)
+				return true;
+			if (obj == null || obj.getClass() != this.getClass())
+				return false;
+			var that = (State) obj;
+			return Objects.equals(this.entries, that.entries);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(entries);
+		}
+
+		@Override
+		public String toString() {
+			return "State[" + "entries=" + entries + ']';
+		}
+
 		// Empty
 	}
 
@@ -128,7 +211,8 @@ final class AllowedSigners extends ModifiableFileWatcher {
 			Instant time) throws IOException, VerificationException {
 		State currentState = refresh();
 		PublicKey keyToCheck = key;
-		if (key instanceof OpenSshCertificate certificate) {
+		if (key instanceof OpenSshCertificate) {
+			OpenSshCertificate certificate = (OpenSshCertificate)key;
 			AllowedEntry entry = find(currentState, certificate.getCaPubKey(),
 					namespace, name, time, CERTIFICATES);
 			if (entry != null) {
@@ -529,7 +613,45 @@ final class AllowedSigners extends ModifiableFileWatcher {
 		return new Dequoted(line.substring(from, i), i);
 	}
 
-	static record Dequoted(String value, int after) {
-		// Empty
-	}
+	static final class Dequoted {
+		private final String value;
+		private final int after;
+
+		Dequoted(String value, int after) {
+			this.value = value;
+			this.after = after;
+		}
+
+		public String value() {
+			return value;
+		}
+
+		public int after() {
+			return after;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this) return true;
+			if (obj == null || obj.getClass() != this.getClass())
+				return false;
+			var that = (Dequoted) obj;
+			return Objects.equals(this.value, that.value) &&
+					this.after == that.after;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(value, after);
+		}
+
+		@Override
+		public String toString() {
+			return "Dequoted[" +
+					"value=" + value + ", " +
+					"after=" + after + ']';
+		}
+
+			// Empty
+		}
 }

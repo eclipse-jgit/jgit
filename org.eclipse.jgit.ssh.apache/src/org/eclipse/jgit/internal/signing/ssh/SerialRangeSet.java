@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.signing.ssh;
 
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -30,15 +31,49 @@ class SerialRangeSet {
 		long to();
 	}
 
-	private static record Singleton(long from) implements SerialRange {
+	private static final class Singleton implements SerialRange {
+		private final long from;
+
+		private Singleton(long from) {
+			this.from = from;
+		}
 
 		@Override
 		public long to() {
 			return from;
 		}
+
+		@Override
+		public long from() {
+			return from;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this)
+				return true;
+			if (obj == null || obj.getClass() != this.getClass())
+				return false;
+			var that = (Singleton) obj;
+			return this.from == that.from;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(from);
+		}
+
+		@Override
+		public String toString() {
+			return "Singleton[" + "from=" + from + ']';
+		}
+
 	}
 
-	private static record Range(long from, long to) implements SerialRange {
+	private static final class Range implements SerialRange {
+		private final long from;
+
+		private final long to;
 
 		public Range(long from, long to) {
 			if (Long.compareUnsigned(from, to) > 0) {
@@ -48,6 +83,37 @@ class SerialRangeSet {
 			this.from = from;
 			this.to = to;
 		}
+
+		@Override
+		public long from() {
+			return from;
+		}
+
+		@Override
+		public long to() {
+			return to;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this)
+				return true;
+			if (obj == null || obj.getClass() != this.getClass())
+				return false;
+			var that = (Range) obj;
+			return this.from == that.from && this.to == that.to;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(from, to);
+		}
+
+		@Override
+		public String toString() {
+			return "Range[" + "from=" + from + ", " + "to=" + to + ']';
+		}
+
 	}
 
 	// We use the same data structure as OpenSSH,; basically a

@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.sshd.common.config.keys.OpenSshCertificate;
@@ -34,9 +35,47 @@ import org.eclipse.jgit.util.IO;
  */
 class OpenSshKrl extends ModifiableFileWatcher {
 
-	private static record State(Set<String> keys, OpenSshBinaryKrl krl) {
-		// Empty
-	}
+	private static final class State {
+		private final Set<String> keys;
+		private final OpenSshBinaryKrl krl;
+
+		private State(Set<String> keys, OpenSshBinaryKrl krl) {
+			this.keys = keys;
+			this.krl = krl;
+		}
+
+		public Set<String> keys() {
+			return keys;
+		}
+
+		public OpenSshBinaryKrl krl() {
+			return krl;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this) return true;
+			if (obj == null || obj.getClass() != this.getClass())
+				return false;
+			var that = (State) obj;
+			return Objects.equals(this.keys, that.keys) &&
+					Objects.equals(this.krl, that.krl);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(keys, krl);
+		}
+
+		@Override
+		public String toString() {
+			return "State[" +
+					"keys=" + keys + ", " +
+					"krl=" + krl + ']';
+		}
+
+			// Empty
+		}
 
 	private State state;
 
@@ -51,7 +90,8 @@ class OpenSshKrl extends ModifiableFileWatcher {
 	}
 
 	private boolean isRevoked(State current, PublicKey key) {
-		if (key instanceof OpenSshCertificate cert) {
+		if (key instanceof OpenSshCertificate) {
+			OpenSshCertificate cert = (OpenSshCertificate) key;
 			OpenSshBinaryKrl krl = current.krl();
 			if (krl != null && krl.isRevoked(cert)) {
 				return true;

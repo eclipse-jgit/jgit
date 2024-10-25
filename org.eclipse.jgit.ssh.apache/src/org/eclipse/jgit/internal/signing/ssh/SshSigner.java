@@ -282,7 +282,8 @@ public class SshSigner implements Signer {
 								privateKey = pair.getPrivate();
 							} else {
 								PublicKey original = publicKey;
-								if (publicKey instanceof OpenSshCertificate cert) {
+								if (publicKey instanceof OpenSshCertificate) {
+									OpenSshCertificate cert = (OpenSshCertificate) publicKey;
 									original = cert.getCertPubKey();
 								}
 								if (KeyUtils.compareKeys(original, pk)) {
@@ -308,7 +309,8 @@ public class SshSigner implements Signer {
 			throw new IOException(MessageFormat
 					.format(SshdText.get().signNoPublicKey, signingKey));
 		}
-		if (publicKey instanceof OpenSshCertificate cert) {
+		if (publicKey instanceof OpenSshCertificate) {
+			OpenSshCertificate cert = (OpenSshCertificate) publicKey;
 			String message = SshCertificateUtils.verify(cert,
 					committer.getWhenAsInstant());
 			if (message != null) {

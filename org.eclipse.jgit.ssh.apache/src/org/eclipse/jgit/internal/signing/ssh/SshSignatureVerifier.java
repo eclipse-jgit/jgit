@@ -108,7 +108,8 @@ public class SshSignatureVerifier implements SignatureVerifier {
 
 		PublicKey key = signature.getPublicKey();
 		String fingerprint;
-		if (key instanceof OpenSshCertificate cert) {
+		if (key instanceof OpenSshCertificate) {
+			OpenSshCertificate cert = (OpenSshCertificate) key;
 			fingerprint = KeyUtils.getFingerPrint(cert.getCertPubKey());
 			String message = SshCertificateUtils.verify(cert, signatureInstant);
 			if (message != null) {
@@ -186,10 +187,12 @@ public class SshSignatureVerifier implements SignatureVerifier {
 		String message = null;
 		try {
 			Signature verifier = factory.create();
-			verifier.initVerifier(null,
-					key instanceof OpenSshCertificate cert
-							? cert.getCertPubKey()
-							: key);
+			if (key instanceof OpenSshCertificate) {
+				OpenSshCertificate cert = (OpenSshCertificate) key;
+				verifier.initVerifier(null, cert.getCertPubKey());
+			} else {
+				verifier.initVerifier(null, key);
+			}
 			// Feed it the data
 			Buffer toSign = new ByteArrayBuffer();
 			toSign.putRawBytes(SshSignatureConstants.MAGIC);
@@ -214,7 +217,8 @@ public class SshSignatureVerifier implements SignatureVerifier {
 				SigningKeyDatabase database = SigningKeyDatabase.getInstance();
 				if (database.isRevoked(repository, config, key)) {
 					valid = false;
-					if (key instanceof OpenSshCertificate certificate) {
+					if (key instanceof OpenSshCertificate) {
+						OpenSshCertificate certificate = (OpenSshCertificate) key;
 						message = MessageFormat.format(
 								SshdText.get().signCertificateRevoked,
 								KeyUtils.getFingerPrint(
@@ -312,7 +316,8 @@ public class SshSignatureVerifier implements SignatureVerifier {
 	@Override
 	public void clear() {
 		SigningKeyDatabase database = SigningKeyDatabase.getInstance();
-		if (database instanceof CachingSigningKeyDatabase caching) {
+		if (database instanceof CachingSigningKeyDatabase) {
+			CachingSigningKeyDatabase caching = (CachingSigningKeyDatabase) database;
 			caching.clearCache();
 		}
 	}
