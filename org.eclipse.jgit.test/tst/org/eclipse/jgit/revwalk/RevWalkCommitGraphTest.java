@@ -173,6 +173,267 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testChangedPathFilterMergeCommit_disabled() throws Exception {
+		RevCommit root1 = commit(tree(file("file1", blob("1"))));
+		RevCommit root2 = commit(tree(file("file1", blob("2"))));
+		RevCommit root3 = commit(tree(file("file1", blob("3"))));
+		RevCommit merge1 = commit(tree(file("file1", blob("1"))), root1, root2);
+		RevCommit merge2 = commit(tree(file("file1", blob("1"))), merge1,
+				root3);
+
+		branch(merge2, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create("file1");
+		pathAnyDiffFilter.setServeMergeCommitChangedPathFilters(false);
+
+		rw.setTreeFilter(pathAnyDiffFilter);
+		rw.setRevFilter(RevFilter.ALL);
+		rw.sort(RevSort.NONE);
+		rw.setRetainBody(false);
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+
+		assertCommits(
+				// no CG nor BF
+				travel(pathAnyDiffFilter, RevFilter.ALL, RevSort.NONE, false,
+						"master"),
+				// with CG and BF
+				travel(rw, true));
+
+		// no CPF was served
+		// since it's disabled for merge1 and merge2, and root1 is a root commit
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+		assertEquals(0, rfs.getChangedPathFilterTruePositive());
+
+		// No false positives
+		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
+
+		// No negatives because all 4 commits had modified file1
+		assertEquals(0, rfs.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterMergeCommit_followFilter()
+			throws Exception {
+		RevCommit root1 = commit(tree(file("file1", blob("1"))));
+		RevCommit root2 = commit(tree(file("file1", blob("2"))));
+		RevCommit root3 = commit(tree(file("file1", blob("3"))));
+		RevCommit merge1 = commit(tree(file("file1", blob("1"))), root1, root2);
+		RevCommit merge2 = commit(tree(file("file1", blob("1"))), merge1,
+				root3);
+		RevCommit tip2 = commit(tree(file("file1", blob("1"))), merge2);
+		RevCommit tip = commit(tree(file("file2", blob("1"))), tip2);
+
+		branch(tip, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create("file2");
+		pathAnyDiffFilter.setServeMergeCommitChangedPathFilters(true);
+		FollowFilter followFilter = FollowFilter.create(pathAnyDiffFilter,
+				db.getConfig().get(DiffConfig.KEY));
+
+		rw.setTreeFilter(followFilter);
+		rw.setRevFilter(RevFilter.ALL);
+		rw.sort(RevSort.NONE);
+		rw.setRetainBody(false);
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+
+		assertCommits(
+				// no CG nor BF
+				travel(followFilter, RevFilter.ALL, RevSort.NONE, false,
+						"master"),
+				// with CG and BF
+				travel(rw, true));
+
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+
+		// tip did a rename but didn't change content
+		assertEquals(1, rfs.getChangedPathFilterTruePositive());
+
+		assertEquals(0, rfs.getChangedPathFilterFalsePositive());
+
+		// tip2, merge2, merge1 didn't change content relative to their base
+		// parent
+		assertEquals(3, rfs.getChangedPathFilterNegative());
+	}
+
+	@Test
+	public void testChangedPathFilterMergeCommit_usedBaseParentAsRewrite()
+			throws Exception {
+		RevCommit root1 = commit(tree(file("file1", blob("1"))));
+		RevCommit root2 = commit(tree(file("file1", blob("2"))));
+		RevCommit root3 = commit(tree(file("file1", blob("3"))));
+		RevCommit merge1 = commit(tree(file("file1", blob("1"))), root1, root2);
+		RevCommit merge2 = commit(tree(file("file1", blob("1"))), merge1,
+				root3);
+
+		branch(merge2, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create("file1");
+		pathAnyDiffFilter.setServeMergeCommitChangedPathFilters(true);
+
+		rw.setTreeFilter(pathAnyDiffFilter);
+		rw.setRevFilter(RevFilter.ALL);
+		rw.sort(RevSort.NONE);
+		rw.setRetainBody(false);
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+
+		assertCommits(
+				// no CG nor BF
+				travel(pathAnyDiffFilter, RevFilter.ALL, RevSort.NONE, false,
+						"master"),
+				// with CG and BF
+				travel(rw, true));
+
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+		// both merge1 and merge2 used their base parent as redirect
+		assertEquals(2, rfs.getNumMergeCommitsUsedBaseParentAsRedirect());
+		assertEquals(0,
+				rfs.getNumMergeCommitsUsedPullRequestParentAsRedirect());
+		assertEquals(0, rfs.getNumMergeCommitsHadNoRedirect());
+		assertEquals(0,
+				rfs.getNumMergeCommitsHadNoDiffWithAnyInterestingParent());
+	}
+
+	@Test
+	public void testChangedPathFilterMergeCommit_usedPullRequestParentAsRewrite()
+			throws Exception {
+		RevCommit root1 = commit(tree(file("file1", blob("1"))));
+		RevCommit root2 = commit(tree(file("file1", blob("2"))));
+		RevCommit root3 = commit(tree(file("file1", blob("3"))));
+		RevCommit merge1 = commit(tree(file("file1", blob("2"))), root1, root2);
+		RevCommit merge2 = commit(tree(file("file1", blob("2"))), root3,
+				merge1);
+
+		branch(merge2, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create("file1");
+		pathAnyDiffFilter.setServeMergeCommitChangedPathFilters(true);
+
+		rw.setTreeFilter(pathAnyDiffFilter);
+		rw.setRevFilter(RevFilter.ALL);
+		rw.sort(RevSort.NONE);
+		rw.setRetainBody(false);
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+
+		assertCommits(
+				// no CG nor BF
+				travel(pathAnyDiffFilter, RevFilter.ALL, RevSort.NONE, false,
+						"master"),
+				// with CG and BF
+				travel(rw, true));
+
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+		// both merge1 and merge2 used their 2nd parent as redirect
+		assertEquals(0, rfs.getNumMergeCommitsUsedBaseParentAsRedirect());
+		assertEquals(2,
+				rfs.getNumMergeCommitsUsedPullRequestParentAsRedirect());
+		assertEquals(0, rfs.getNumMergeCommitsHadNoRedirect());
+		assertEquals(0,
+				rfs.getNumMergeCommitsHadNoDiffWithAnyInterestingParent());
+	}
+
+	@Test
+	public void testChangedPathFilterMergeCommit_noParentRedirect()
+			throws Exception {
+		RevCommit root1 = commit(tree(file("file1", blob("1"))));
+		RevCommit root2 = commit(tree(file("file1", blob("2"))));
+		RevCommit root3 = commit(tree(file("file1", blob("3"))));
+		RevCommit merge1 = commit(tree(file("file1", blob("4"))), root1, root2);
+		RevCommit merge2 = commit(tree(file("file1", blob("5"))), root3,
+				merge1);
+
+		branch(merge2, "master");
+
+		enableAndWriteCommitGraph();
+
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create("file1");
+		pathAnyDiffFilter.setServeMergeCommitChangedPathFilters(true);
+		rw.setTreeFilter(pathAnyDiffFilter);
+		rw.setRevFilter(RevFilter.ALL);
+		rw.sort(RevSort.NONE);
+		rw.setRetainBody(false);
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+
+		assertCommits(
+				// no CG nor BF
+				travel(pathAnyDiffFilter, RevFilter.ALL, RevSort.NONE, false,
+						"master"),
+				// with CG and BF
+				travel(rw, true));
+
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+		// both merge1 and merge2 did not need redirect since they are different
+		// from all of their parents
+		assertEquals(0, rfs.getNumMergeCommitsUsedBaseParentAsRedirect());
+		assertEquals(0,
+				rfs.getNumMergeCommitsUsedPullRequestParentAsRedirect());
+		assertEquals(2, rfs.getNumMergeCommitsHadNoRedirect());
+		assertEquals(0,
+				rfs.getNumMergeCommitsHadNoDiffWithAnyInterestingParent());
+	}
+
+	@Test
+	public void testChangedPathFilterMergeCommit_noInterestingParentForRedirect()
+			throws Exception {
+		RevCommit root1 = commit(tree(file("file1", blob("1"))));
+		RevCommit root2 = commit(tree(file("file1", blob("2"))));
+		RevCommit root3 = commit(tree(file("file1", blob("2"))));
+		RevCommit root4 = commit(tree(file("file1", blob("3"))));
+
+		RevCommit merge1 = commit(tree(file("file1", blob("1"))), root1, root2);
+		RevCommit merge2 = commit(tree(file("file1", blob("2"))), root3, root4);
+		RevCommit merge3 = commit(tree(file("file1", blob("1"))), merge1,
+				merge2);
+
+		branch(merge3, "master");
+
+		PathAnyDiffFilter pathAnyDiffFilter = PathAnyDiffFilter.create("file1");
+		pathAnyDiffFilter.setServeMergeCommitChangedPathFilters(true);
+
+		RevWalk expectedRevWalk = new RevWalk(db);
+		expectedRevWalk.setTreeFilter(pathAnyDiffFilter);
+		expectedRevWalk.setRevFilter(RevFilter.ALL);
+		expectedRevWalk.sort(RevSort.NONE);
+		expectedRevWalk.setRetainBody(false);
+		expectedRevWalk
+				.markStart(expectedRevWalk.lookupCommit(db.resolve("master")));
+		expectedRevWalk.markUninteresting(expectedRevWalk.lookupCommit(merge1));
+		expectedRevWalk.markUninteresting(expectedRevWalk.lookupCommit(root3));
+
+		enableAndWriteCommitGraph();
+		rw.setTreeFilter(pathAnyDiffFilter);
+		rw.setRevFilter(RevFilter.ALL);
+		rw.sort(RevSort.NONE);
+		rw.setRetainBody(false);
+		rw.markStart(rw.lookupCommit(db.resolve("master")));
+		rw.markUninteresting(rw.lookupCommit(merge1));
+		rw.markUninteresting(rw.lookupCommit(root3));
+
+		assertCommits(
+				// no CG nor BF
+				travel(expectedRevWalk, false),
+				// with CG and BF
+				travel(rw, true));
+
+		RevWalk.RevFilterStats rfs = rw.getRevFilterStats();
+		// both merge3 and merge2 had same content base parent but they were
+		// UNINTERESTING
+		assertEquals(0, rfs.getNumMergeCommitsUsedBaseParentAsRedirect());
+		assertEquals(0,
+				rfs.getNumMergeCommitsUsedPullRequestParentAsRedirect());
+		assertEquals(0, rfs.getNumMergeCommitsHadNoRedirect());
+		assertEquals(2,
+				rfs.getNumMergeCommitsHadNoDiffWithAnyInterestingParent());
+	}
+
+	@Test
 	public void testChangedPathFilter() throws Exception {
 		RevCommit c1 = commit(tree(file("file1", blob("1"))));
 		RevCommit c2 = commit(tree(file("file2", blob("2"))), c1);
@@ -810,6 +1071,24 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 				.setStartPoint(commit.name()).call();
 	}
 
+	List<RevCommit> travel(RevWalk walk, boolean enableCommitGraph) {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, enableCommitGraph);
+
+		List<RevCommit> commits = new ArrayList<>();
+
+		if (enableCommitGraph) {
+			assertTrue(walk.commitGraph().getCommitCnt() > 0);
+		} else {
+			assertEquals(EMPTY, walk.commitGraph());
+		}
+
+		for (RevCommit commit : walk) {
+			commits.add(commit);
+		}
+		return commits;
+	}
+
 	List<RevCommit> travel(TreeFilter treeFilter, RevFilter revFilter,
 			RevSort revSort, boolean enableCommitGraph, String... starts)
 			throws Exception {
@@ -824,18 +1103,7 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 			for (String start : starts) {
 				walk.markStart(walk.lookupCommit(db.resolve(start)));
 			}
-			List<RevCommit> commits = new ArrayList<>();
-
-			if (enableCommitGraph) {
-				assertTrue(walk.commitGraph().getCommitCnt() > 0);
-			} else {
-				assertEquals(EMPTY, walk.commitGraph());
-			}
-
-			for (RevCommit commit : walk) {
-				commits.add(commit);
-			}
-			return commits;
+			return travel(walk, enableCommitGraph);
 		}
 	}
 

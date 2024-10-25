@@ -23,6 +23,7 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathAnyDiffFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -109,18 +110,20 @@ public class TreeRevFilter extends RevFilter {
 
 	private boolean includeLogic(RevWalk walker, RevCommit c)
 			throws IOException {
-		boolean changedPathFilterUsed = false;
-		if (c.getParentCount() == 1) {
-			boolean shouldTreeWalk = pathFilter.getFilter().shouldTreeWalk(c,
-					walker);
-			changedPathFilterUsed = c.has(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
-			if (changedPathFilterUsed) {
-				c.remove(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		boolean changedPathFilterUsed;
+		boolean shouldTreeWalk = pathFilter.getFilter().shouldTreeWalk(c,
+				walker);
+		changedPathFilterUsed = c.has(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		if (changedPathFilterUsed) {
+			c.remove(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		}
+		if (!shouldTreeWalk) {
+			walker.getRevFilterStats().incrementChangedPathFilterNegative();
+			if (c.getParentCount() > 1) {
+				walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+				c.parents = new RevCommit[] { c.getParent(0) };
 			}
-			if (!shouldTreeWalk) {
-				walker.getRevFilterStats().incrementChangedPathFilterNegative();
-				return false;
-			}
+			return false;
 		}
 		boolean shouldInclude = includeByTreeWalk(walker, c);
 		if (changedPathFilterUsed) {
@@ -234,6 +237,12 @@ public class TreeRevFilter extends RevFilter {
 						continue;
 					}
 
+					if (i == 0) {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+					} else {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedPullRequestParentAsRedirect();
+					}
+
 					c.parents = new RevCommit[] { p };
 					return false;
 				}
@@ -260,6 +269,7 @@ public class TreeRevFilter extends RevFilter {
 				// way from all of our parents. We have to take the blame for
 				// that difference.
 				//
+				walker.getRevFilterStats().incrementNumMergeCommitsHadNoRedirect();
 				return true;
 			}
 
@@ -267,6 +277,7 @@ public class TreeRevFilter extends RevFilter {
 			// as they are and allow those parents to flow into pending
 			// for further scanning.
 			//
+			walker.getRevFilterStats().incrementNumMergeCommitsHadNoDiffButNoInterestingParent();
 			return false;
 		}
 	}
@@ -291,7 +302,14 @@ public class TreeRevFilter extends RevFilter {
 		TreeFilter newFilter = oldFilter;
 		for (DiffEntry ent : files) {
 			if (isRename(ent) && ent.getNewPath().equals(oldFilter.getPath())) {
-				newFilter = FollowFilter.create(ent.getOldPath(), cfg);
+				PathAnyDiffFilter newPathFilter = PathAnyDiffFilter
+						.create(ent.getOldPath());
+				boolean serveCpfForMergeCommits = oldFilter
+						.getServeMergeCommitChangedPathFilters();
+				if (serveCpfForMergeCommits) {
+					newPathFilter.setServeMergeCommitChangedPathFilters(true);
+				}
+				newFilter = FollowFilter.create(newPathFilter, cfg);
 				RenameCallback callback = oldFilter.getRenameCallback();
 				if (callback != null) {
 					callback.renamed(ent, commit);
