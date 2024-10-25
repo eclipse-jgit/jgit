@@ -14,6 +14,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.StringUtils;
@@ -91,6 +92,13 @@ public class ChangedPathTreeFilter extends TreeFilter {
 	@Override
 	public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
 			MutableBoolean cpfUsed) {
+		// don't apply cpf to root commits
+		// other logic might have overwritten the parentList
+		// to shortcut the walk.
+		if (c.getParentCount() == 0) {
+			return true;
+		}
+
 		ChangedPathFilter cpf = c.getChangedPathFilter(rw);
 		if (cpf == null) {
 			return true;
@@ -99,7 +107,21 @@ public class ChangedPathTreeFilter extends TreeFilter {
 			cpfUsed.orValue(true);
 		}
 		// return true if at least one path might exist in cpf
-		return rawPaths.stream().anyMatch(cpf::maybeContains);
+		if (rawPaths.stream().anyMatch(cpf::maybeContains)) {
+			return true;
+		}
+
+		if (c.getParentCount() == 1) {
+			return false;
+		}
+
+		// only for merge commits
+		RevCommit baseParent = c.getParent(0);
+		if (baseParent.has(RevFlag.UNINTERESTING)) {
+			// merge commit CPF can only redirect to the base parent
+			return true;
+		}
+		return false;
 	}
 
 	@Override
