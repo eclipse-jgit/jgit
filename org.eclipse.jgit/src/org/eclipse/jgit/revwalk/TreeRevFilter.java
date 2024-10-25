@@ -108,6 +108,33 @@ public class TreeRevFilter extends RevFilter {
 	}
 
 	private boolean includeLogic(RevWalk walker, RevCommit c)
+			throws IOException {
+		TreeFilter tf = pathFilter.getFilter();
+		boolean shouldTreeWalk  = tf.shouldTreeWalk(c, walker);
+		boolean changedPathFilterUsed = tf.serveChangedPathFilter()
+				&& c.getChangedPathFilter(walker) != null && c.getParentCount() > 0;
+		if (!shouldTreeWalk) {
+			walker.getRevFilterStats().incrementChangedPathFilterNegative();
+			if (c.getParentCount() > 1) {
+				walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+				c.parents = new RevCommit[] { c.getParent(0) };
+			}
+			return false;
+		}
+		boolean shouldInclude = includeByTreeWalk(walker, c);
+		if (changedPathFilterUsed) {
+			if (shouldInclude) {
+				walker.getRevFilterStats()
+						.incrementChangedPathFilterTruePositive();
+			} else {
+				walker.getRevFilterStats()
+						.incrementChangedPathFilterFalsePositive();
+			}
+		}
+		return shouldInclude;
+	}
+
+	private boolean includeByTreeWalk(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		RevCommit[] pList = c.getParents();
@@ -138,33 +165,19 @@ public class TreeRevFilter extends RevFilter {
 			// We have exactly one parent. This is a very common case.
 			//
 			int chgs = 0, adds = 0;
-			TreeFilter tf = pathFilter.getFilter();
-			boolean mustCalculateChgs = tf.shouldTreeWalk(c, walker);
-			boolean changedPathFilterUsed = tf.serveChangedPathFilter()
-					&& c.getChangedPathFilter(walker) != null;
-			if (mustCalculateChgs) {
-				while (tw.next()) {
-					chgs++;
-					if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
-						adds++;
-					} else {
-						break; // no point in looking at this further.
-					}
+			while (tw.next()) {
+				chgs++;
+				if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
+					adds++;
+				} else {
+					break; // no point in looking at this further.
 				}
-				if (changedPathFilterUsed) {
-					if (chgs > 0) {
-						walker.getRevFilterStats()
-								.incrementChangedPathFilterTruePositive();
-					} else {
-						walker.getRevFilterStats()
-								.incrementChangedPathFilterFalsePositive();
-					}
-				}
-			} else {
-				if (changedPathFilterUsed) {
-					walker.getRevFilterStats()
-							.incrementChangedPathFilterNegative();
-				}
+			}
+			if (chgs == 0) {
+				// No changes, so our tree is effectively the same as
+				// our parent tree. We pass the buck to our parent.
+				//
+				return false;
 			}
 
 			// We have interesting items, but neither of the special
@@ -220,7 +233,13 @@ public class TreeRevFilter extends RevFilter {
 						continue;
 					}
 
-					c.parents = new RevCommit[]{p};
+					if (i == 0) {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+					} else {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedPullRequestParentAsRedirect();
+					}
+
+					c.parents = new RevCommit[] { p };
 					return false;
 				}
 
@@ -246,6 +265,7 @@ public class TreeRevFilter extends RevFilter {
 				// way from all of our parents. We have to take the blame for
 				// that difference.
 				//
+				walker.getRevFilterStats().incrementNumMergeCommitsHadNoRedirect();
 				return true;
 			}
 
@@ -253,6 +273,7 @@ public class TreeRevFilter extends RevFilter {
 			// as they are and allow those parents to flow into pending
 			// for further scanning.
 			//
+			walker.getRevFilterStats().incrementNumMergeCommitsHadNoDiffButNoInterestingParent();
 			return false;
 		}
 	}
