@@ -42,6 +42,8 @@ public class PathAnyDiffFilter extends TreeFilter {
 
 	List<byte[]> rawPaths;
 
+	boolean serveMergeCommitChangedPathFilters = false;
+
 	/**
 	 * Create a collection of pathAnyDiffFilters from Java strings.
 	 * <p>
@@ -94,13 +96,38 @@ public class PathAnyDiffFilter extends TreeFilter {
 
 	@Override
 	public boolean shouldTreeWalk(RevCommit c, RevWalk rw) {
+		// don't apply cpf to root commits
+		// other logic might have overwritten the parentList
+		// to shortcut the walk.
+		if (c.getParentCount() == 0) {
+			return true;
+		}
+
+		if (c.getParentCount() > 1 && !serveMergeCommitChangedPathFilters) {
+			return true;
+		}
+
 		ChangedPathFilter cpf = c.getChangedPathFilter(rw);
 		if (cpf == null) {
 			return true;
 		}
 		c.add(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
 		// return true if at least one path might exist in cpf
-		return rawPaths.stream().anyMatch(cpf::maybeContains);
+		if (rawPaths.stream().anyMatch(cpf::maybeContains)) {
+			return true;
+		}
+
+		if (c.getParentCount() == 1) {
+			return false;
+		}
+
+		// only for merge commits
+		RevCommit baseParent = c.getParent(0);
+		if (baseParent.has(RevFlag.UNINTERESTING)) {
+			// merge commit CPF can only redirect to the base parent
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -125,6 +152,16 @@ public class PathAnyDiffFilter extends TreeFilter {
 	 */
 	public List<String> getPaths() {
 		return paths;
+	}
+
+	/**
+	 * Set whether the ChangedPathFilter of a merge commit is reserved.
+	 *
+	 * @param serveMergeCommitCpf
+	 *            true to serve changedPathFilters; false otherwise.
+	 */
+	public void setServeMergeCommitChangedPathFilters(boolean serveMergeCommitCpf) {
+		this.serveMergeCommitChangedPathFilters = serveMergeCommitCpf;
 	}
 
 	@Override

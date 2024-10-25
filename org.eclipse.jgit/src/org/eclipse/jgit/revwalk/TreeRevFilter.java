@@ -109,18 +109,20 @@ public class TreeRevFilter extends RevFilter {
 
 	private boolean includeLogic(RevWalk walker, RevCommit c)
 			throws IOException {
-		boolean changedPathFilterUsed = false;
-		if (c.getParentCount() == 1) {
-			boolean shouldTreeWalk = pathFilter.getFilter().shouldTreeWalk(c,
-					walker);
-			changedPathFilterUsed = c.has(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
-			if (changedPathFilterUsed) {
-				c.remove(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		boolean changedPathFilterUsed;
+		boolean shouldTreeWalk = pathFilter.getFilter().shouldTreeWalk(c,
+				walker);
+		changedPathFilterUsed = c.has(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		if (changedPathFilterUsed) {
+			c.remove(RevFlag.CHANGED_PATHS_FILTER_APPLIED);
+		}
+		if (!shouldTreeWalk) {
+			walker.getRevFilterStats().incrementChangedPathFilterNegative();
+			if (c.getParentCount() > 1) {
+				walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+				c.parents = new RevCommit[] { c.getParent(0) };
 			}
-			if (!shouldTreeWalk) {
-				walker.getRevFilterStats().incrementChangedPathFilterNegative();
-				return false;
-			}
+			return false;
 		}
 		boolean shouldInclude = includeByTreeWalk(walker, c);
 		if (changedPathFilterUsed) {
@@ -234,6 +236,12 @@ public class TreeRevFilter extends RevFilter {
 						continue;
 					}
 
+					if (i == 0) {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedBaseParentAsRedirect();
+					} else {
+						walker.getRevFilterStats().incrementNumMergeCommitsUsedPullRequestParentAsRedirect();
+					}
+
 					c.parents = new RevCommit[] { p };
 					return false;
 				}
@@ -260,6 +268,7 @@ public class TreeRevFilter extends RevFilter {
 				// way from all of our parents. We have to take the blame for
 				// that difference.
 				//
+				walker.getRevFilterStats().incrementNumMergeCommitsHadNoRedirect();
 				return true;
 			}
 
@@ -267,6 +276,7 @@ public class TreeRevFilter extends RevFilter {
 			// as they are and allow those parents to flow into pending
 			// for further scanning.
 			//
+			walker.getRevFilterStats().incrementNumMergeCommitsHadNoDiffButNoInterestingParent();
 			return false;
 		}
 	}

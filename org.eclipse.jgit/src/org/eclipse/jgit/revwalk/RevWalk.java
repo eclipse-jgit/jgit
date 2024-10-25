@@ -1836,7 +1836,47 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 		private long numTreesParsedInTreeRevFilter = 0;
 
+		private long numMergeCommitsUsedBaseParentAsRedirect = 0;
+
+		private long numMergeCommitsUsedPullRequestParentAsRedirect = 0;
+
+		private long numMergeCommitsHadNoRedirect = 0;
+
+		private long numMergeCommitsHadNoDiffWithAnyInterestingParent = 0;
+
 		private RevFilterStats() {
+		}
+
+		/**
+		 * Increment the numMergeCommitsUsedBaseParentAsRedirect count
+		 * @since 7.0
+		 */
+		public void incrementNumMergeCommitsUsedBaseParentAsRedirect() {
+			numMergeCommitsUsedBaseParentAsRedirect++;
+		}
+
+		/**
+		 * Increment the numMergeCommitsUsedPullRequestParentAsRedirect count
+		 * @since 7.0
+		 */
+		public void incrementNumMergeCommitsUsedPullRequestParentAsRedirect() {
+			numMergeCommitsUsedPullRequestParentAsRedirect++;
+		}
+
+		/**
+		 * Increment the numMergeCommitsHadNoDiffWithAnyInterestingParent count
+		 * @since 7.0
+		 */
+		public void incrementNumMergeCommitsHadNoDiffButNoInterestingParent() {
+			numMergeCommitsHadNoDiffWithAnyInterestingParent++;
+		}
+
+		/**
+		 * Increment the numMergeCommitsHadNoRedirect count
+		 * @since 7.0
+		 */
+		public void incrementNumMergeCommitsHadNoRedirect() {
+			numMergeCommitsHadNoRedirect++;
 		}
 
 		/**
@@ -1879,6 +1919,46 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		 */
 		public void incrementNumTreesParsedInTreeRevFilter(int numTrees) {
 			numTreesParsedInTreeRevFilter += numTrees;
+		}
+
+		/**
+		 * Return the number of merge commits used the base parent to redirect the RevWalk
+		 *
+		 * @return count
+		 * @since 7.0
+		 */
+		public long getNumMergeCommitsUsedBaseParentAsRedirect() {
+			return numMergeCommitsUsedBaseParentAsRedirect;
+		}
+
+		/**
+		 * Return the number of merge commits used a pull request parent to redirect the RevWalk
+		 *
+		 * @return count
+		 * @since 7.0
+		 */
+		public long getNumMergeCommitsUsedPullRequestParentAsRedirect() {
+			return numMergeCommitsUsedPullRequestParentAsRedirect;
+		}
+
+		/**
+		 * Return the number of merge commits did not need be redirected
+		 *
+		 * @return count
+		 * @since 7.0
+		 */
+		public long getNumMergeCommitsHadNoRedirect() {
+			return numMergeCommitsHadNoRedirect;
+		}
+
+		/**
+		 * Return the number of merge commits had no diff and had no interesting parent to redirect
+		 *
+		 * @return count
+		 * @since 7.0
+		 */
+		public long getNumMergeCommitsHadNoDiffWithAnyInterestingParent() {
+			return numMergeCommitsHadNoDiffWithAnyInterestingParent;
 		}
 
 		/**
