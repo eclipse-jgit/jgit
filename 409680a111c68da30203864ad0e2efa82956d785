@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a55adcfd_5df2d472",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-25T09:20:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ff936e1_89879585",
+      "range": {
+        "startLine": 600,
+        "startChar": 15,
+        "endLine": 600,
+        "endChar": 34
+      },
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93876edb_5242e6ec",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-24T22:28:39Z",
       "side": 1,
       "message": "Packing refs",
+      "range": {
+        "startLine": 868,
+        "startChar": 20,
+        "endLine": 868,
+        "endChar": 39
+      },
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65332de0_d0a58df9",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-25T09:20:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93876edb_5242e6ec",
       "range": {
         "startLine": 868,
         "startChar": 20,
@@ -64,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa63cdb2_a967a5c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-25T09:20:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7726bddd_ad1906e5",
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ceb4a48_003735af",
@@ -77,6 +143,24 @@
       "writtenOn": "2024-10-24T22:28:39Z",
       "side": 1,
       "message": "missing @since 7.1 for new API",
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae09f821_ec2f3c80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-25T09:20:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ceb4a48_003735af",
       "revId": "409680a111c68da30203864ad0e2efa82956d785",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -128,6 +212,24 @@
       "writtenOn": "2024-10-24T22:28:39Z",
       "side": 1,
       "message": "cgit behaves slightly different: The command by default packs all tags and refs that are already packed, and leaves other refs alone. See https://git-scm.com/docs/git-pack-refs",
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5e3fd56_ca1e9ceb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1533,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-25T09:20:41Z",
+      "side": 1,
+      "message": "Actually, I tried it out locally and it seems `pack-refs` command doesn\u0027t really pack any other refs besides tags if `--all` option is not passed.\n\n```\n❯ git --version\ngit version 2.47.0\n\n❯ cat .git/packed-refs\n# pack-refs with: peeled fully-peeled sorted\n35f5e90aeae122ec49b122d1dfa57fff54a4e03d refs/heads/master\n0c1c83dd18adb40ba92cab1d8170f36dc74ceacd refs/test/ref1\n\n❯ tree .git/refs\n.git/refs\n├── heads\n│   └── master\n├── tags\n└── test\n    └── ref1\n\n4 directories, 2 files\n\n❯ git pack-refs\n\n❯ tree .git/refs\n.git/refs\n├── heads\n│   └── master\n├── tags\n└── test\n    └── ref1\n\n4 directories, 2 files\n```",
+      "parentUuid": "cacfb71e_016b9417",
       "revId": "409680a111c68da30203864ad0e2efa82956d785",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
