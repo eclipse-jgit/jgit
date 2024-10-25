@@ -232,6 +232,24 @@
       "parentUuid": "cacfb71e_016b9417",
       "revId": "409680a111c68da30203864ad0e2efa82956d785",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0a4bbf_08af5d86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1533,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-25T17:16:55Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com I had the same misconception about cgit behavior. It wasn\u0027t until Yash tested it and showed me the results that I learned it was different.",
+      "parentUuid": "b5e3fd56_ca1e9ceb",
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
