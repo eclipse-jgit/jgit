@@ -12,8 +12,13 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
@@ -714,14 +719,15 @@ public final class Constants {
 	 *             the 7-bit ASCII character space.
 	 */
 	public static byte[] encodeASCII(String s) {
-		final byte[] r = new byte[s.length()];
-		for (int k = r.length - 1; k >= 0; k--) {
-			final char c = s.charAt(k);
-			if (c > 127)
-				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().notASCIIString, s));
-			r[k] = (byte) c;
+		try {
+			CharsetEncoder encoder = US_ASCII.newEncoder()
+					.onUnmappableCharacter(CodingErrorAction.REPORT)
+					.onMalformedInput(CodingErrorAction.REPORT);
+			return encoder.encode(CharBuffer.wrap(s)).array();
+		} catch (CharacterCodingException e) {
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().notASCIIString, s), e);
 		}
-		return r;
 	}
 
 	/**
