@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "002541d0_194795aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-28T17:48:49Z",
+      "side": 1,
+      "message": "Nit in the javadoc, otherwise looks great. Thanks!",
+      "revId": "da57c96f0d4be4e0a32da01208ce45722538475e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29c6f33d_d3e125ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-28T17:48:49Z",
+      "side": 1,
+      "message": "This should explain why it is a list and not a plain stats object. \n\nMaybe something like:\n```\nGet the stats held by this cache.\n\u003cp\u003e\nThe list has an object per configured table (at least one). Use {@code Aggregate...} to combine the results.\n```",
+      "revId": "da57c96f0d4be4e0a32da01208ce45722538475e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
