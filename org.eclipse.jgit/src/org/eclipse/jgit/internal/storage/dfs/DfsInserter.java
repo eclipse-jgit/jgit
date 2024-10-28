@@ -41,8 +41,8 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -279,10 +279,8 @@ public class DfsInserter extends ObjectInserter {
 
 		rollback = true;
 		packDsc = db.newPack(DfsObjDatabase.PackSource.INSERT);
-		DfsOutputStream dfsOut = db.writeFile(packDsc, PACK);
-		packDsc.setBlockSize(PACK, dfsOut.blockSize());
-		packOut = new PackStream(dfsOut);
 		packKey = packDsc.getStreamKey(PACK);
+		packOut = newPackStream(packDsc);
 
 		// Write the header as though it were a single object pack.
 		byte[] buf = packOut.hdrBuf;
@@ -290,6 +288,21 @@ public class DfsInserter extends ObjectInserter {
 		NB.encodeInt32(buf, 4, 2); // Always use pack version 2.
 		NB.encodeInt32(buf, 8, 1); // Always assume 1 object.
 		packOut.write(buf, 0, 12);
+	}
+
+	/**
+	 * Creates an output stream for a new packfile.
+	 *
+	 * Override this if you need greater control of the output stream than DfsObjDatabase provides.
+	 *
+ 	 * @param packDsc the pack to create an output stream for.
+	 * @return a new PackStream.
+	 * @throws IOException if anything goes wrong with opening the stream.
+	 */
+	protected PackStream newPackStream(DfsPackDescription packDsc) throws IOException {
+		var dfsOut = db.writeFile(packDsc, PACK);
+		packDsc.setBlockSize(PACK, dfsOut.blockSize());
+		return new PackStream(dfsOut);
 	}
 
 	private void sortObjectsById() {
