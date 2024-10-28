@@ -33,6 +33,24 @@
       "message": "This should explain why it is a list and not a plain stats object. \n\nMaybe something like:\n```\nGet the stats held by this cache.\n\u003cp\u003e\nThe list has an object per configured table (at least one). Use {@code Aggregate...} to combine the results.\n```",
       "revId": "da57c96f0d4be4e0a32da01208ce45722538475e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d0db3be_62c08274",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheTable.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-28T19:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29c6f33d_d3e125ae",
+      "revId": "da57c96f0d4be4e0a32da01208ce45722538475e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
