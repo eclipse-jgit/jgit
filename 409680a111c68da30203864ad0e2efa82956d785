@@ -182,6 +182,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f4be095_89e86a6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-29T16:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99d1acb9_7f34f1d2",
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c6e36c7_c16639fa",
@@ -195,6 +213,24 @@
       "writtenOn": "2024-10-24T22:28:39Z",
       "side": 1,
       "message": "- this is ugly, see comment above\n- what about DfsRepository using DfsReftable ?",
+      "revId": "409680a111c68da30203864ad0e2efa82956d785",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4608e870_ff4b1c80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1515,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-29T16:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c6e36c7_c16639fa",
       "revId": "409680a111c68da30203864ad0e2efa82956d785",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

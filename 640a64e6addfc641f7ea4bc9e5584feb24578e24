@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f214cd1_32695652",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-29T16:27:10Z",
+      "side": 1,
+      "message": "Might be able to de-dup this logic from `DfsGarbageCollector.java`",
+      "revId": "640a64e6addfc641f7ea4bc9e5584feb24578e24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
