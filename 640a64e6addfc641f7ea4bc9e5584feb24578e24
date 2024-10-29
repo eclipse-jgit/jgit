@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6ab6f33_49982218",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-10-29T16:28:26Z",
+      "side": 1,
+      "message": "Follow-up: Add support to return repository stats after the operation",
+      "revId": "640a64e6addfc641f7ea4bc9e5584feb24578e24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f214cd1_32695652",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
         "patchSetId": 6
