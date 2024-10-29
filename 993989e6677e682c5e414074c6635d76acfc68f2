@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43d4799f_57218791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-10-29T20:30:04Z",
+      "side": 1,
+      "message": "Nit: Add a comment parameter name comment",
+      "range": {
+        "startLine": 97,
+        "startChar": 49,
+        "endLine": 97,
+        "endChar": 53
+      },
+      "revId": "993989e6677e682c5e414074c6635d76acfc68f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
