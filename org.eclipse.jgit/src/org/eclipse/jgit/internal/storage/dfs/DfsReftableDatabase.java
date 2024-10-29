@@ -11,7 +11,9 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +24,22 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
+import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
+
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
+import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureReftable;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 /**
  * A {@link org.eclipse.jgit.internal.storage.dfs.DfsRefDatabase} that uses
@@ -268,4 +276,24 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 		// Do not cache peeled state in reftable.
 	}
 
+	@Override
+	public void packRefs(ProgressMonitor pm, PackRefsOptions options)
+			throws IOException {
+		DfsObjDatabase objdb = getRepository().getObjectDatabase();
+		ArrayList<DfsReftable> srcRefTables = new ArrayList<>(
+				Arrays.asList(objdb.getReftables()));
+		ReftableConfig reftableConfig = getReftableConfig();
+
+		DfsPackDescription outDesc = objdb.newPack(COMPACT);
+		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcRefTables);
+				DfsOutputStream out = objdb.writeFile(outDesc, REFTABLE)) {
+			ReftableCompactor compact = new ReftableCompactor(out);
+			compact.addAll(stack.readers());
+			compact.setIncludeDeletes(true);
+			compact.setConfig(configureReftable(reftableConfig, out));
+			compact.compact();
+			outDesc.addFileExt(REFTABLE);
+			outDesc.setReftableStats(compact.getStats());
+		}
+	}
 }

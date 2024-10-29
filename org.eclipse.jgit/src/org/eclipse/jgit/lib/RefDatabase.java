@@ -593,4 +593,20 @@ public abstract class RefDatabase {
 		}
 		return null;
 	}
+
+	public void packRefs(ProgressMonitor pm, PackRefsOptions options)
+			throws IOException {
+		// nothing
+	};
+
+	public static class PackRefsOptions {
+		public boolean all;
+
+		public PackRefsOptions() {
+		}
+
+		public PackRefsOptions(boolean all) {
+			this.all = all;
+		}
+	}
 }
