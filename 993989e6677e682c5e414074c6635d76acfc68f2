@@ -22,6 +22,30 @@
       },
       "revId": "993989e6677e682c5e414074c6635d76acfc68f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bec65a0_54a1bb60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-29T20:45:26Z",
+      "side": 1,
+      "message": "I replaced the call with `getInt(x, y, default)`, which is the same (internally it calls `getInt(x, null, y, default)`.",
+      "parentUuid": "43d4799f_57218791",
+      "range": {
+        "startLine": 97,
+        "startChar": 49,
+        "endLine": 97,
+        "endChar": 53
+      },
+      "revId": "993989e6677e682c5e414074c6635d76acfc68f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
