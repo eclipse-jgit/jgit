@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7f23637_9aab84a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "Adding an option sound like adding a new \"gc.xxx\" or something like that.\n\nThis change is only about allowing to set the limit and passing it down to the compactor.\n\nMaybe a better title:\nDfsGarbageCollector: Add setter for reflog expiration time",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca4d4e7f_e2c86e8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "This is misleading. The reftable code already knows how to purge old ref log entries, it seems it is not *exposed* in the API.\n\nSuggestion:\nJGit reftable writer/compator knows how to prune the history to a certain time, but DfsGarbageCollector doesn\u0027t expose the time limit\n\nAdd a method to DfsGarbageCollector to set the reflog time limit and pass the value to the reftable compactor.\n\nCallers usually pass here the value from gc.reflogExpire.",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2e0b84_fb8c743f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "There is no need to put the relog spec here.\n\nMaybe something like:\n\"The reflog block length is stored in 24 bits[link to the spec], limiting the size to 16MB. I have observed that in repositories with frequent commits, reflogs hit that size in 6-12 months\".",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "413794aa_144ce6ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "Thanks, the code change is small and straight forward. Some small details for the javadoc and commit message.",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b9edc91_0adf4c61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "nit: extra whitespace before the \";\"",
+      "range": {
+        "startLine": 104,
+        "startChar": 26,
+        "endLine": 104,
+        "endChar": 27
+      },
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b3558a8_bdf96462",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "nit: \"Method descriptions begin with a verb phrase.\" [1]. Other javadocs follow that format. Maybe something like:\n\"Set a time limit to the reflog history.\"\n\nOptional: For the description, we can follow upstream wording[2], with something like: \"GC prunes from the reflog entries older than the specified time\".\n\n[1] https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html#styleguide\n[2] https://git-scm.com/docs/git-reflog#Documentation/git-reflog.txt---expirelttimegt\n\"",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b42a10c_d5e4ad5e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-10-30T17:03:47Z",
+      "side": 1,
+      "message": "nit: we usually use {@code } instead of \u003ccode\u003e",
+      "range": {
+        "startLine": 208,
+        "startChar": 6,
+        "endLine": 208,
+        "endChar": 10
+      },
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
