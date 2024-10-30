@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc432a8_c9227ae4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T22:50:49Z",
+      "side": 1,
+      "message": "reformat commit message to lines shorter than 60-70 chars",
+      "revId": "6cf9203b7a90cba8339c9ab67695af58ecd78bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "067c6480_f506fa23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T22:50:49Z",
+      "side": 1,
+      "message": "remove this blank line, commit message trailers must be in the last paragraph, see https://git-scm.com/docs/git-interpret-trailers",
+      "revId": "6cf9203b7a90cba8339c9ab67695af58ecd78bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
