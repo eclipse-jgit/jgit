@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d8f72cb_56208fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-10-30T00:32:17Z",
+      "side": 1,
+      "message": "The other approach I considered was to relax the requirement in TreeWalk to always have an AttributesNodeProvider and allow it to at least always use the .gitattributes files within the trees.\n\nThat would be enough for my use case, but there are comments implying we should only read attributes when an AttributesNodeProvider is available, so I was hesitant to do that.",
+      "revId": "272285dec3daabbd1003d61b2e2b6169b4ab10f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
