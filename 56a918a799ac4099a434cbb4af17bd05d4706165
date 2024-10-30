@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c37b4823_8a9fa44c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-30T00:59:22Z",
+      "side": 1,
+      "message": "Yea I agree. I was initially thinking the same and will create a patch set for that as it require a lot more testing. Can I just add this change for now so we are unblocked with the issue ?",
+      "parentUuid": "9374e34d_db92eb53",
+      "range": {
+        "startLine": 8,
+        "startChar": 29,
+        "endLine": 8,
+        "endChar": 44
+      },
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "883d624a_05e6ffe5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
