@@ -59,9 +59,9 @@ import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndexWriter;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -1113,7 +1113,7 @@ public class PackWriter implements AutoCloseable {
 	 * the network do not need to create an index.
 	 *
 	 * @param iw
-	 *            an @code{PackIndexWriter} instance to write the index
+	 *            an {@link PackIndexWriter} instance to write the index
 	 * @throws java.io.IOException
 	 *             the index data could not be written to the supplied stream.
 	 */
