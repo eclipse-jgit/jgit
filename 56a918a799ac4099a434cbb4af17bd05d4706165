@@ -1,6 +1,80 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4acc7e5c_98ed7440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T00:28:11Z",
+      "side": 1,
+      "message": "this commit message needs to be reformatted, see https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#commit-message-guidelines",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9374e34d_db92eb53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T00:28:11Z",
+      "side": 1,
+      "message": "I think also DfsGarbageCollector should respect `gc.reflogExpire` if it is configured",
+      "range": {
+        "startLine": 8,
+        "startChar": 29,
+        "endLine": 8,
+        "endChar": 44
+      },
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "883d624a_05e6ffe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T00:28:11Z",
+      "side": 1,
+      "message": "Which implementation of the DFS API are you using ?",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af6dc36_74d41c7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T00:28:11Z",
+      "side": 1,
+      "message": "move this to the last paragraph of the commit message and use the following format and let Gerrit render the link:\n\nBug: jgit-96",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6efb1541_a34c6b58",
@@ -14,6 +88,23 @@
       "writtenOn": "2024-10-29T20:41:13Z",
       "side": 1,
       "message": "Hello Matthias, Could you please review this change ?",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42ef261_e241ed14",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-30T00:28:11Z",
+      "side": 1,
+      "message": "note to myself: we should migrate GitDateParser from `java.util.Date` to the new `java.time` API (in another change)",
       "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
