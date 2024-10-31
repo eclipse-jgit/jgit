@@ -30,7 +30,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
-import java.security.AccessControlException;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -262,31 +261,6 @@ public abstract class FS {
 		private static final AtomicInteger threadNumber = new AtomicInteger(1);
 
 		/**
-		 * Don't use the default thread factory of the ForkJoinPool for the
-		 * CompletableFuture; it runs without any privileges, which causes
-		 * trouble if a SecurityManager is present.
-		 * <p>
-		 * Instead use normal daemon threads. They'll belong to the
-		 * SecurityManager's thread group, or use the one of the calling thread,
-		 * as appropriate.
-		 * </p>
-		 *
-		 * @see java.util.concurrent.Executors#newCachedThreadPool()
-		 */
-		private static final ExecutorService FUTURE_RUNNER = new ThreadPoolExecutor(
-				5, 5, 30L, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<>(),
-				runnable -> {
-					Thread t = new Thread(runnable,
-							"JGit-FileStoreAttributeReader-" //$NON-NLS-1$
-							+ threadNumber.getAndIncrement());
-					// Make sure these threads don't prevent application/JVM
-					// shutdown.
-					t.setDaemon(true);
-					return t;
-				});
-
-		/**
 		 * Use a separate executor with at most one thread to synchronize
 		 * writing to the config. We write asynchronously since the config
 		 * itself might be on a different file system, which might otherwise
@@ -463,7 +437,7 @@ public abstract class FS {
 								locks.remove(s);
 							}
 							return attributes;
-						}, FUTURE_RUNNER);
+						});
 				f = f.exceptionally(e -> {
 					LOG.error(e.getLocalizedMessage(), e);
 					return Optional.empty();
@@ -1391,13 +1365,6 @@ public abstract class FS {
 			}
 		} catch (IOException e) {
 			LOG.error("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
-		} catch (AccessControlException e) {
-			LOG.warn(MessageFormat.format(
-					JGitText.get().readPipeIsNotAllowedRequiredPermission,
-					command, dir, e.getPermission()));
-		} catch (SecurityException e) {
-			LOG.warn(MessageFormat.format(JGitText.get().readPipeIsNotAllowed,
-					command, dir));
 		}
 		if (debug) {
 			LOG.debug("readpipe returns null"); //$NON-NLS-1$

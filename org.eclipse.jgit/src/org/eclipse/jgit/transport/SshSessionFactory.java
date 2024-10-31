@@ -11,8 +11,6 @@
 
 package org.eclipse.jgit.transport;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
@@ -99,9 +97,8 @@ public abstract class SshSessionFactory {
 	 * @since 5.2
 	 */
 	public static String getLocalUserName() {
-		return AccessController
-				.doPrivileged((PrivilegedAction<String>) () -> SystemReader
-						.getInstance().getProperty(Constants.OS_USER_NAME_KEY));
+		return SystemReader.getInstance()
+				.getProperty(Constants.OS_USER_NAME_KEY);
 	}
 
 	/**

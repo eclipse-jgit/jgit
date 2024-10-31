@@ -23,8 +23,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -670,9 +668,7 @@ public abstract class SystemReader {
 	}
 
 	private String getOsName() {
-		return AccessController.doPrivileged(
-				(PrivilegedAction<String>) () -> getProperty("os.name") //$NON-NLS-1$
-		);
+		return getProperty("os.name"); //$NON-NLS-1$
 	}
 
 	/**
