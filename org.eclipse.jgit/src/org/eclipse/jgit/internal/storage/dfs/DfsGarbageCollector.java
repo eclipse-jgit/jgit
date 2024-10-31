@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -99,6 +100,7 @@ public class DfsGarbageCollector {
 	private Set<ObjectId> allTags;
 	private Set<ObjectId> nonHeads;
 	private Set<ObjectId> tagTargets;
+	private Date refLogExpire;
 
 	/**
 	 * Initialize a garbage collector.
@@ -196,6 +198,22 @@ public class DfsGarbageCollector {
 	 */
 	public DfsGarbageCollector setReftableInitialMinUpdateIndex(long u) {
 		reftableInitialMinUpdateIndex = Math.max(u, 0);
+		return this;
+	}
+
+
+	/**
+	 *  Set time limit to the reflog history.
+         *  <p>
+         *  Garbage Collector prunes entries from reflog history older than {@code refLogExpire}
+         *  <p>
+	 *
+	 * @param refLogExpire
+	 *            instant in time which defines refLog expiration
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setRefLogExpire(Date refLogExpire) {
+		this.refLogExpire = refLogExpire ;
 		return this;
 	}
 
@@ -733,6 +751,9 @@ public class DfsGarbageCollector {
 			compact.addAll(stack.readers());
 			compact.setIncludeDeletes(includeDeletes);
 			compact.setConfig(configureReftable(reftableConfig, out));
+			if(refLogExpire != null ){
+				compact.setReflogExpireOldestReflogTimeMillis(refLogExpire.getTime());
+			}
 			compact.compact();
 			pack.addFileExt(REFTABLE);
 			pack.setReftableStats(compact.getStats());
