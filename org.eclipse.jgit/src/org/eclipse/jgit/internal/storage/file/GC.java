@@ -1515,6 +1515,12 @@ public class GC {
 		public long numberOfPackFilesSinceBitmap;
 
 		/**
+		 * The number of objects stored in pack files and as loose object
+		 * created after the last bitmap generation.
+		 */
+		public long numberOfObjectsSinceBitmap;
+
+		/**
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
@@ -1551,6 +1557,8 @@ public class GC {
 			b.append(", numberOfPackFiles=").append(numberOfPackFiles); //$NON-NLS-1$
 			b.append(", numberOfPackFilesSinceBitmap=") //$NON-NLS-1$
 					.append(numberOfPackFilesSinceBitmap);
+			b.append(", numberOfObjectsSinceBitmap=") //$NON-NLS-1$
+					.append(numberOfObjectsSinceBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1571,14 +1579,19 @@ public class GC {
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
 		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		long latestBitmapTime = Long.MIN_VALUE;
 		for (Pack p : packs) {
-			ret.numberOfPackedObjects += p.getIndex().getObjectCount();
+			long packedObjects = p.getIndex().getObjectCount();
+			ret.numberOfPackedObjects += packedObjects;
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
+				latestBitmapTime = p.getFileSnapshot().lastModifiedInstant()
+						.toEpochMilli();
 			} else {
 				ret.numberOfPackFilesSinceBitmap++;
+				ret.numberOfObjectsSinceBitmap += packedObjects;
 			}
 		}
 		File objDir = repo.getObjectsDirectory();
@@ -1595,6 +1608,9 @@ public class GC {
 						continue;
 					ret.numberOfLooseObjects++;
 					ret.sizeOfLooseObjects += f.length();
+					if (f.lastModified() > latestBitmapTime) {
+						ret.numberOfObjectsSinceBitmap ++;
+					}
 				}
 			}
 		}
