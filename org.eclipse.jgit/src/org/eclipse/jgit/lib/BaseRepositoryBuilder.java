@@ -15,6 +15,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BARE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_WORKTREE;
 import static org.eclipse.jgit.lib.Constants.CONFIG;
 import static org.eclipse.jgit.lib.Constants.DOT_GIT;
+import static org.eclipse.jgit.lib.Constants.GITDIR_FILE;
 import static org.eclipse.jgit.lib.Constants.GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_CEILING_DIRECTORIES_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_COMMON_DIR_KEY;
@@ -23,7 +24,6 @@ import static org.eclipse.jgit.lib.Constants.GIT_INDEX_FILE_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_OBJECT_DIRECTORY_KEY;
 import static org.eclipse.jgit.lib.Constants.GIT_WORK_TREE_KEY;
 import static org.eclipse.jgit.lib.Constants.OBJECTS;
-import static org.eclipse.jgit.lib.Constants.GITDIR_FILE;
 
 import java.io.File;
 import java.io.IOException;
@@ -485,7 +485,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		if (getAlternateObjectDirectories() == null) {
 			String val = sr.getenv(GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY);
 			if (val != null) {
-				for (String path : val.split(File.pathSeparator))
+				for (String path : val.split(File.pathSeparator, -1))
 					addAlternateObjectDirectory(new File(path));
 			}
 		}
@@ -505,7 +505,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 		if (ceilingDirectories == null) {
 			String val = sr.getenv(GIT_CEILING_DIRECTORIES_KEY);
 			if (val != null) {
-				for (String path : val.split(File.pathSeparator))
+				for (String path : val.split(File.pathSeparator, -1))
 					addCeilingDirectory(new File(path));
 			}
 		}
