@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a55273f_463d4600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Thanks for the review , I have reformatted the message by shortening the lines. Please review again",
+      "parentUuid": "ccc432a8_c9227ae4",
+      "revId": "6cf9203b7a90cba8339c9ab67695af58ecd78bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "067c6480_f506fa23",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-30T22:50:49Z",
       "side": 1,
       "message": "remove this blank line, commit message trailers must be in the last paragraph, see https://git-scm.com/docs/git-interpret-trailers",
+      "revId": "6cf9203b7a90cba8339c9ab67695af58ecd78bd0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff30563_d8618dca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "067c6480_f506fa23",
       "revId": "6cf9203b7a90cba8339c9ab67695af58ecd78bd0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

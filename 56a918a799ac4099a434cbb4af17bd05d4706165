@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec533213_ddefa97c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4acc7e5c_98ed7440",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9374e34d_db92eb53",
@@ -65,6 +83,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7feff8b6_28a18f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c37b4823_8a9fa44c",
+      "range": {
+        "startLine": 8,
+        "startChar": 29,
+        "endLine": 8,
+        "endChar": 44
+      },
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "883d624a_05e6ffe5",
@@ -100,6 +142,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9073d385_b831006b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50cb64c3_00532fcf",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af6dc36_74d41c7d",
@@ -113,6 +173,24 @@
       "writtenOn": "2024-10-30T00:28:11Z",
       "side": 1,
       "message": "move this to the last paragraph of the commit message and use the following format and let Gerrit render the link:\n\nBug: jgit-96",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb5158e3_b5bfc6ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af6dc36_74d41c7d",
       "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -147,6 +225,24 @@
       "writtenOn": "2024-10-30T00:28:11Z",
       "side": 1,
       "message": "note to myself: we should migrate GitDateParser from `java.util.Date` to the new `java.time` API (in another change)",
+      "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7c1c324_e45217d5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c42ef261_e241ed14",
       "revId": "56a918a799ac4099a434cbb4af17bd05d4706165",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

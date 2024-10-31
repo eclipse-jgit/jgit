@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60e3af7d_fb36605e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7f23637_9aab84a4",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca4d4e7f_e2c86e8b",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c3bdfd_a24d9af6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca4d4e7f_e2c86e8b",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a2e0b84_fb8c743f",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-10-30T17:03:47Z",
       "side": 1,
       "message": "There is no need to put the relog spec here.\n\nMaybe something like:\n\"The reflog block length is stored in 24 bits[link to the spec], limiting the size to 16MB. I have observed that in repositories with frequent commits, reflogs hit that size in 6-12 months\".",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c640b94a_ef410bba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a2e0b84_fb8c743f",
       "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -92,6 +146,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aea5ae53_aa0c3f33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b9edc91_0adf4c61",
+      "range": {
+        "startLine": 104,
+        "startChar": 26,
+        "endLine": 104,
+        "endChar": 27
+      },
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b3558a8_bdf96462",
@@ -109,6 +187,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4cb1561_121366e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b3558a8_bdf96462",
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b42a10c_d5e4ad5e",
@@ -122,6 +218,30 @@
       "writtenOn": "2024-10-30T17:03:47Z",
       "side": 1,
       "message": "nit: we usually use {@code } instead of \u003ccode\u003e",
+      "range": {
+        "startLine": 208,
+        "startChar": 6,
+        "endLine": 208,
+        "endChar": 10
+      },
+      "revId": "f77443bb6cf2a2ad47e18adc2e217b374eefe3ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1195defc_44882000",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsGarbageCollector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1038398
+      },
+      "writtenOn": "2024-10-31T03:50:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b42a10c_d5e4ad5e",
       "range": {
         "startLine": 208,
         "startChar": 6,
