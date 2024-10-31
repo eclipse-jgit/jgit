@@ -14,18 +14,22 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.stream.StreamSupport;
 
+import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
+public class GcSinceBitmapStatisticsTest extends GcTestCase {
 	@Test
-	public void testShouldReportZeroObjectsForInitializedRepo()
+	public void testShouldReportZeroPacksAndObjectsForInitializedRepo()
 			throws IOException {
-		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+		RepoStatistics s = gc.getStatistics();
+		assertEquals(0L, s.numberOfPackFilesSinceBitmap);
+		assertEquals(0L, s.numberOfObjectsSinceBitmap);
 	}
 
 	@Test
@@ -38,7 +42,17 @@ public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNoObjectsDirectlyAfterGc() throws Exception {
+	public void testShouldReportAllObjectsWhenNoGcWasPerformed()
+			throws Exception {
+		tr.packAndPrune();
+
+		assertEquals(
+				getNumberOfBojectsInPacks(repo.getObjectDatabase().getPacks()),
+				gc.getStatistics().numberOfObjectsSinceBitmap);
+	}
+
+	@Test
+	public void testShouldReportNoPacksDirectlyAfterGc() throws Exception {
 		// given
 		addCommit(null);
 		gc.gc().get();
@@ -47,7 +61,17 @@ public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNewObjectsSinceGcWhenRepositoryProgresses()
+	public void testShouldReportNoObjectsDirectlyAfterGc() throws Exception {
+		// given
+		addCommit(null);
+		assertEquals(2L, gc.getStatistics().numberOfObjectsSinceBitmap);
+
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewPacksSinceGcWhenRepositoryProgresses()
 			throws Exception {
 		// commit & gc
 		RevCommit parent = addCommit(null);
@@ -62,7 +86,23 @@ public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNewObjectsFromTheLatestBitmapWhenRepositoryProgresses()
+	public void testShouldReportNewObjectsSinceGcWhenRepositoryProgresses()
+			throws Exception {
+		// commit & gc
+		RevCommit parent = addCommit(null);
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+
+		// progress & pack
+		addCommit(parent);
+		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
+
+		tr.packAndPrune();
+		assertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewOPacksFromTheLatestBitmapWhenRepositoryProgresses()
 			throws Exception {
 		// commit & gc
 		RevCommit parent = addCommit(null);
@@ -79,6 +119,26 @@ public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
 		tr.packAndPrune();
 
 		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewObjectsFromTheLatestBitmapWhenRepositoryProgresses()
+			throws Exception {
+		// commit & gc
+		RevCommit parent = addCommit(null);
+		gc.gc().get();
+
+		// progress & gc
+		parent = addCommit(parent);
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+
+		// progress & pack
+		addCommit(parent);
+		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
+
+		tr.packAndPrune();
+		assertEquals(4L, gc.getStatistics().numberOfObjectsSinceBitmap);
 	}
 
 	private RevCommit addCommit(RevCommit parent) throws Exception {
@@ -101,5 +161,15 @@ public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
 								.getPackDirectory().toPath(), "pack-*.bitmap")
 						.spliterator(), false)
 				.count();
+	}
+
+	private long getNumberOfBojectsInPacks(Collection<Pack> packs) {
+		return packs.stream().mapToLong(pack -> {
+			try {
+				return pack.getObjectCount();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}).sum();
 	}
 }
