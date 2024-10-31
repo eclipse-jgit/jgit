@@ -17,10 +17,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
+import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -33,11 +35,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
-public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
+public class GcAfterBitmapStatisticsTest extends GcTestCase {
 	@Test
-	public void testShouldReportZeroObjectsForInitializedRepo()
+	public void testShouldReportZeroPacksAndObjectsForInitializedRepo()
 			throws IOException {
-		assertEquals(0L, gc.getStatistics().numberOfPackFilesAfterBitmap);
+		RepoStatistics s = gc.getStatistics();
+		assertEquals(0L, s.numberOfPackFilesAfterBitmap);
+		assertEquals(0L, s.numberOfObjectsAfterBitmap);
 	}
 
 	@Test
@@ -50,7 +54,17 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNoObjectsDirectlyAfterGc() throws Exception {
+	public void testShouldReportAllObjectsWhenNoGcWasPerformed()
+			throws Exception {
+		packAndPrune();
+
+		assertEquals(
+				getNumberOfBojectsInPacks(repo.getObjectDatabase().getPacks()),
+				gc.getStatistics().numberOfObjectsAfterBitmap);
+	}
+
+	@Test
+	public void testShouldReportNoPacksDirectlyAfterGc() throws Exception {
 		// given
 		addCommit(null);
 		gc.gc().get();
@@ -59,7 +73,18 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNewObjectsAfterGcWhenRepositoryProgresses()
+	public void testShouldReportNoObjectsDirectlyAfterGc()
+			throws Exception {
+		// given
+		addCommit(null);
+		assertEquals(2L, gc.getStatistics().numberOfObjectsAfterBitmap);
+
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsAfterBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewPacksAfterGcWhenRepositoryProgresses()
 			throws Exception {
 		// commit & gc
 		RevCommit parent = addCommit(null);
@@ -74,7 +99,23 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNewObjectsFromTheLatestBitmapWhenRepositoryProgresses()
+	public void testShouldReportNewObjectsAfterGcWhenRepositoryProgresses()
+			throws Exception {
+		// commit & gc
+		RevCommit parent = addCommit(null);
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsAfterBitmap);
+
+		// progress & pack
+		addCommit(parent);
+		assertEquals(1L, gc.getStatistics().numberOfObjectsAfterBitmap);
+
+		packAndPrune();
+		assertEquals(3L, gc.getStatistics().numberOfObjectsAfterBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewOPacksFromTheLatestBitmapWhenRepositoryProgresses()
 			throws Exception {
 		// commit & gc
 		RevCommit parent = addCommit(null);
@@ -91,6 +132,26 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 		packAndPrune();
 
 		assertEquals(1L, gc.getStatistics().numberOfPackFilesAfterBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewObjectsFromTheLatestBitmapWhenRepositoryProgresses()
+			throws Exception {
+		// commit & gc
+		RevCommit parent = addCommit(null);
+		gc.gc().get();
+
+		// progress & gc
+		parent = addCommit(parent);
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsAfterBitmap);
+
+		// progress & pack
+		addCommit(parent);
+		assertEquals(1L, gc.getStatistics().numberOfObjectsAfterBitmap);
+
+		packAndPrune();
+		assertEquals(4L, gc.getStatistics().numberOfObjectsAfterBitmap);
 	}
 
 	private void packAndPrune() throws Exception {
@@ -120,6 +181,16 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 								.getPackDirectory().toPath(), "pack-*.bitmap")
 						.spliterator(), false)
 				.count();
+	}
+
+	private long getNumberOfBojectsInPacks(Collection<Pack> packs) {
+		return packs.stream().mapToLong(pack -> {
+			try {
+				return pack.getObjectCount();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}).sum();
 	}
 
 	/**
