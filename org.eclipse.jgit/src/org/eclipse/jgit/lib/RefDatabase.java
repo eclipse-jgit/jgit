@@ -160,7 +160,7 @@ public abstract class RefDatabase {
 			if (existing.startsWith(prefix))
 				conflicting.add(existing);
 
-		return conflicting;
+		return Collections.unmodifiableList(conflicting);
 	}
 
 	/**
