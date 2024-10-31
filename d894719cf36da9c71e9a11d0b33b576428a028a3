@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fabf0b58_04d57704",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-31T20:55:04Z",
+      "side": 0,
+      "message": "also remove the corresponding text",
+      "range": {
+        "startLine": 1396,
+        "startChar": 20,
+        "endLine": 1396,
+        "endChar": 58
+      },
+      "revId": "d894719cf36da9c71e9a11d0b33b576428a028a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb477bb_616903bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1399,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-10-31T20:55:04Z",
+      "side": 0,
+      "message": "same here",
+      "range": {
+        "startLine": 1399,
+        "startChar": 48,
+        "endLine": 1399,
+        "endChar": 68
+      },
+      "revId": "d894719cf36da9c71e9a11d0b33b576428a028a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
