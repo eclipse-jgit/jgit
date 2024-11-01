@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71e51ab_0ebba00c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-01T22:43:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "fabf0b58_04d57704",
+      "range": {
+        "startLine": 1396,
+        "startChar": 20,
+        "endLine": 1396,
+        "endChar": 58
+      },
+      "revId": "d894719cf36da9c71e9a11d0b33b576428a028a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0bb477bb_616903bd",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-31T20:55:04Z",
       "side": 0,
       "message": "same here",
+      "range": {
+        "startLine": 1399,
+        "startChar": 48,
+        "endLine": 1399,
+        "endChar": 68
+      },
+      "revId": "d894719cf36da9c71e9a11d0b33b576428a028a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b5aa361_e455e8a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1399,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-01T22:43:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "0bb477bb_616903bd",
       "range": {
         "startLine": 1399,
         "startChar": 48,
