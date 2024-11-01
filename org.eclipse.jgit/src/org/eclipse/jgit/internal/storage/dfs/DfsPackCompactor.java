@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation.PACK_DELTA;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.util.BlockList;
+import org.eclipse.jgit.util.io.CountingOutputStream;
 
 /**
  * Combine several pack files into one pack.
@@ -247,6 +249,7 @@ public class DfsPackCompactor {
 			try {
 				writePack(objdb, outDesc, pw, pm);
 				writeIndex(objdb, outDesc, pw);
+				writeObjectSizeIndex(objdb, outDesc, pw);
 
 				PackStatistics stats = pw.getStatistics();
 
@@ -457,6 +460,18 @@ public class DfsPackCompactor {
 			DfsPackDescription pack,
 			PackWriter pw) throws IOException {
 		pw.writeIndex(objdb.getPackIndexWriter(pack, pw.getIndexVersion()));
+	}
+
+	private static void writeObjectSizeIndex(DfsObjDatabase objdb,
+											 DfsPackDescription pack,
+											 PackWriter pw) throws IOException {
+		try (DfsOutputStream out = objdb.writeFile(pack, OBJECT_SIZE_INDEX)) {
+			CountingOutputStream cnt = new CountingOutputStream(out);
+			pw.writeObjectSizeIndex(cnt);
+			pack.addFileExt(OBJECT_SIZE_INDEX);
+			pack.setFileSize(OBJECT_SIZE_INDEX, cnt.getCount());
+			pack.setBlockSize(OBJECT_SIZE_INDEX, out.blockSize());
+		}
 	}
 
 	static ReftableConfig configureReftable(ReftableConfig cfg,
