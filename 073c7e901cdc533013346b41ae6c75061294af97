@@ -33,6 +33,24 @@
       "message": "did you mean refs/heads/right -\u003e refs/heads/right ?",
       "revId": "073c7e901cdc533013346b41ae6c75061294af97",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9b5757_70bfc11b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-04T21:55:17Z",
+      "side": 1,
+      "message": "I meant refs/heads/right -\u003e refs/heads/left",
+      "parentUuid": "e65b9eec_b0bb2640",
+      "revId": "073c7e901cdc533013346b41ae6c75061294af97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
