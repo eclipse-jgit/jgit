@@ -12,13 +12,18 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,6 +103,40 @@ public class DfsPackCompacterTest {
 				pack.getPackDescription().getEstimatedPackSize());
 	}
 
+	@Test
+	public void testObjectSizeIndexWritten() throws Exception {
+		writeObjectSizeIndex(repo, true);
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		compact();
+
+		Optional<DfsPackFile> compactPack = Arrays.stream(odb.getPacks())
+				.filter(pack -> pack.getPackDescription()
+						.getPackSource() == COMPACT)
+				.findFirst();
+		assertTrue(compactPack.isPresent());
+		assertTrue(compactPack.get().getPackDescription().hasFileExt(OBJECT_SIZE_INDEX));
+	}
+
+	@Test
+	public void testObjectSizeIndexNotWritten() throws Exception {
+		writeObjectSizeIndex(repo, false);
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		compact();
+
+		Optional<DfsPackFile> compactPack = Arrays.stream(odb.getPacks())
+				.filter(pack -> pack.getPackDescription()
+						.getPackSource() == COMPACT)
+				.findFirst();
+		assertTrue(compactPack.isPresent());
+		assertFalse(compactPack.get().getPackDescription().hasFileExt(OBJECT_SIZE_INDEX));
+	}
+
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
 		return git.commit();
 	}
@@ -107,5 +146,10 @@ public class DfsPackCompacterTest {
 		compactor.autoAdd();
 		compactor.compact(null);
 		odb.clearCache();
+	}
+
+	private static void writeObjectSizeIndex(DfsRepository repo, boolean should) {
+		repo.getConfig().setInt(ConfigConstants.CONFIG_PACK_SECTION, null,
+				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, should ? 0 : -1);
 	}
 }
