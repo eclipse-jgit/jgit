@@ -52,6 +52,24 @@
       "parentUuid": "b7530845_96a787f8",
       "revId": "6eb1fc2553d003294f2bcef29b658edfff9d65be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "865df594_de911208",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-11-04T23:17:45Z",
+      "side": 1,
+      "message": "Got it, thanks. I guess I need to figure out how to get my Eclipse install working. The contributor guide steps weren\u0027t working for me, but it could be due to some company-specific issue. 😞",
+      "parentUuid": "951525bc_e7f214bb",
+      "revId": "6eb1fc2553d003294f2bcef29b658edfff9d65be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
