@@ -51,6 +51,24 @@
       "parentUuid": "e65b9eec_b0bb2640",
       "revId": "073c7e901cdc533013346b41ae6c75061294af97",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6559864_36bbbb6f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-11-04T22:31:41Z",
+      "side": 1,
+      "message": "Yes. This is bad copy/paste from above.",
+      "parentUuid": "1e9b5757_70bfc11b",
+      "revId": "073c7e901cdc533013346b41ae6c75061294af97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
