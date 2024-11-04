@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -198,7 +199,9 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 *
 	 * @return current date.
 	 * @since 4.2
+	 * @deprecated Use {@link #getInstant()} instead.
 	 */
+	@Deprecated
 	public Date getDate() {
 		return new Date(mockSystemReader.getCurrentTime());
 	}
@@ -210,16 +213,28 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 * @since 6.8
 	 */
 	public Instant getInstant() {
-		return Instant.ofEpochMilli(mockSystemReader.getCurrentTime());
+		return mockSystemReader.now();
 	}
 
 	/**
 	 * Get timezone
 	 *
 	 * @return timezone used for default identities.
+	 * @deprecated Use {@link #getTimeZoneId()} instead.
 	 */
+	@Deprecated
 	public TimeZone getTimeZone() {
 		return mockSystemReader.getTimeZone();
+	}
+
+
+	/**
+	 * Get timezone
+	 *
+	 * @return timezone used for default identities.
+	 */
+	public ZoneId getTimeZoneId() {
+		return mockSystemReader.getTimeZoneId();
 	}
 
 	/**
@@ -233,14 +248,14 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	}
 
 	/**
-	 * Set the author and committer using {@link #getDate()}.
+	 * Set the author and committer using {@link #getInstant()}.
 	 *
 	 * @param c
 	 *            the commit builder to store.
 	 */
 	public void setAuthorAndCommitter(org.eclipse.jgit.lib.CommitBuilder c) {
-		c.setAuthor(new PersonIdent(defaultAuthor, getDate()));
-		c.setCommitter(new PersonIdent(defaultCommitter, getDate()));
+		c.setAuthor(new PersonIdent(defaultAuthor, getInstant()));
+		c.setCommitter(new PersonIdent(defaultCommitter, getInstant()));
 	}
 
 	/**
@@ -488,8 +503,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		c = new org.eclipse.jgit.lib.CommitBuilder();
 		c.setTreeId(tree);
 		c.setParentIds(parents);
-		c.setAuthor(new PersonIdent(defaultAuthor, getDate()));
-		c.setCommitter(new PersonIdent(defaultCommitter, getDate()));
+		c.setAuthor(new PersonIdent(defaultAuthor, getInstant()));
+		c.setCommitter(new PersonIdent(defaultCommitter, getInstant()));
 		c.setMessage("");
 		ObjectId id;
 		try (ObjectInserter ins = inserter) {
@@ -529,7 +544,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(dst);
 		t.setTag(name);
-		t.setTagger(new PersonIdent(defaultCommitter, getDate()));
+		t.setTagger(new PersonIdent(defaultCommitter, getInstant()));
 		t.setMessage("");
 		ObjectId id;
 		try (ObjectInserter ins = inserter) {
@@ -798,7 +813,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 			b.setParentId(head);
 			b.setTreeId(merger.getResultTreeId());
 			b.setAuthor(commit.getAuthorIdent());
-			b.setCommitter(new PersonIdent(defaultCommitter, getDate()));
+			b.setCommitter(new PersonIdent(defaultCommitter, getInstant()));
 			b.setMessage(commit.getFullMessage());
 			ObjectId result;
 			try (ObjectInserter ins = inserter) {
@@ -1408,7 +1423,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 					c.setAuthor(author);
 				if (committer != null) {
 					if (updateCommitterTime)
-						committer = new PersonIdent(committer, getDate());
+						committer = new PersonIdent(committer, getInstant());
 					c.setCommitter(committer);
 				}
 

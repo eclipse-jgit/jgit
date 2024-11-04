@@ -39,7 +39,7 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 	}
 
 	protected Date getDate() {
-		return util.getDate();
+		return Date.from(util.getInstant());
 	}
 
 	protected void tick(int secDelta) {
