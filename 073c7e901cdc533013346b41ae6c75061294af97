@@ -69,6 +69,24 @@
       "parentUuid": "1e9b5757_70bfc11b",
       "revId": "073c7e901cdc533013346b41ae6c75061294af97",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71ff6c65_3e43818c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/merge/MergeGitAttributeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-11-04T22:35:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6559864_36bbbb6f",
+      "revId": "073c7e901cdc533013346b41ae6c75061294af97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
