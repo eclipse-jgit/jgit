@@ -34,6 +34,24 @@
       "parentUuid": "e50ee961_3775a16f",
       "revId": "6eb1fc2553d003294f2bcef29b658edfff9d65be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "951525bc_e7f214bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-04T23:11:14Z",
+      "side": 1,
+      "message": "set the correct API baseline in Eclipse and rebuild the project https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#checking-for-jgit-api-changes-using-api-baseline. This raises errors for missing or wrong @since tags.\n\nThe PDE API tooling doesn\u0027t accept addition of new features in a service release (third number in version number increased). Though I prefer to give the version where the API was changed even if that\u0027s a service release like here 6.10.1, hence I suppress the corresponding error raised by the API tooling. This adds an entry in .api_filters",
+      "parentUuid": "b7530845_96a787f8",
+      "revId": "6eb1fc2553d003294f2bcef29b658edfff9d65be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
