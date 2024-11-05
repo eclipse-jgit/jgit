@@ -33,6 +33,24 @@
       "message": "Throw UnsupportedOperationException here. If it ends up being called, we\u0027d get an early failure at least.\n\nI\u0027ll have to check later if we can remove our own file parsing now and just use the one provided by BC. They do support OCB now, and there has been quite a bit of work in this area in BC.",
       "revId": "5b49919a0c614b1e485037beb314540fdae73a3c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c96429_1a10cbf0",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/keys/OCBPBEProtectionRemoverFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-05T08:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0db3263_f7439b57",
+      "revId": "5b49919a0c614b1e485037beb314540fdae73a3c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
