@@ -120,6 +120,13 @@ class OCBPBEProtectionRemoverFactory
 					}
 				}
 			}
+
+			@Override
+			public byte[] recoverKeyData(int encAlgorithm, int aeadAlgorithm,
+					byte[] s2kKey, byte[] iv, int packetTag, int keyVersion,
+					byte[] keyData, byte[] pubkeyData) throws PGPException {
+				throw new UnsupportedOperationException();
+			}
 		};
 	}
 }
