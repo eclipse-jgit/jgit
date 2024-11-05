@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit" version="2">
+    <resource path="src/org/eclipse/jgit/lib/Constants.java" type="org.eclipse.jgit.lib.Constants">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="6.10.1"/>
+                <message_argument value="ATTR_BUILTIN_UNION_MERGE_DRIVER"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/merge/ContentMergeStrategy.java" type="org.eclipse.jgit.merge.ContentMergeStrategy">
+        <filter id="1176502275">
+            <message_arguments>
+                <message_argument value="6.10.1"/>
+                <message_argument value="UNION"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/merge/ResolveMerger.java" type="org.eclipse.jgit.merge.ResolveMerger">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.merge.ResolveMerger"/>
+                <message_argument value="attributesNodeProvider"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="6.10.1"/>
+                <message_argument value="attributesNodeProvider"/>
+            </message_arguments>
+        </filter>
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="6.10.1"/>
+                <message_argument value="setAttributesNodeProvider(AttributesNodeProvider)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
