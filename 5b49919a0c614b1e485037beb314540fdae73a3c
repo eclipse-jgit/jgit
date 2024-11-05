@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de4b599_e3319fa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-05T07:37:54Z",
+      "side": 1,
+      "message": "LGTM, but see inline comment.",
+      "revId": "5b49919a0c614b1e485037beb314540fdae73a3c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0db3263_f7439b57",
+        "filename": "org.eclipse.jgit.gpg.bc/src/org/eclipse/jgit/gpg/bc/internal/keys/OCBPBEProtectionRemoverFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-05T07:37:54Z",
+      "side": 1,
+      "message": "Throw UnsupportedOperationException here. If it ends up being called, we\u0027d get an early failure at least.\n\nI\u0027ll have to check later if we can remove our own file parsing now and just use the one provided by BC. They do support OCB now, and there has been quite a bit of work in this area in BC.",
+      "revId": "5b49919a0c614b1e485037beb314540fdae73a3c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
