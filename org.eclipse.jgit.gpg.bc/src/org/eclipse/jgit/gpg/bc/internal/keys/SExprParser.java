@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.util.Date;
 
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x9.ECNamedCurveTable;
@@ -40,8 +39,6 @@ import org.bouncycastle.bcpg.ECSecretBCPGKey;
 import org.bouncycastle.bcpg.ElGamalPublicBCPGKey;
 import org.bouncycastle.bcpg.ElGamalSecretBCPGKey;
 import org.bouncycastle.bcpg.HashAlgorithmTags;
-import org.bouncycastle.bcpg.PublicKeyAlgorithmTags;
-import org.bouncycastle.bcpg.PublicKeyPacket;
 import org.bouncycastle.bcpg.RSAPublicBCPGKey;
 import org.bouncycastle.bcpg.RSASecretBCPGKey;
 import org.bouncycastle.bcpg.S2K;
@@ -50,7 +47,6 @@ import org.bouncycastle.bcpg.SymmetricKeyAlgorithmTags;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
-import org.bouncycastle.openpgp.operator.KeyFingerPrintCalculator;
 import org.bouncycastle.openpgp.operator.PBEProtectionRemoverFactory;
 import org.bouncycastle.openpgp.operator.PBESecretKeyDecryptor;
 import org.bouncycastle.openpgp.operator.PGPDigestCalculator;
@@ -254,150 +250,6 @@ public class SExprParser {
 						new RSASecretBCPGKey(values[0], values[1], values[2])
 								.getEncoded()),
 						pubKey);
-			} else {
-				throw new PGPException("unknown key type: " + keyType);
-			}
-		}
-
-		throw new PGPException("unknown key type found");
-	}
-
-	/**
-	 * Parse a secret key from one of the GPG S expression keys.
-	 *
-	 * @param inputStream
-	 *            to read from
-	 * @param keyProtectionRemoverFactory
-	 *            for decrypting encrypted keys
-	 * @param fingerPrintCalculator
-	 *            for calculating key fingerprints
-	 *
-	 * @return a secret key object.
-	 * @throws IOException
-	 *             if an IO error occurred
-	 * @throws PGPException
-	 *             if a PGP error occurred
-	 */
-	public PGPSecretKey parseSecretKey(InputStream inputStream,
-			PBEProtectionRemoverFactory keyProtectionRemoverFactory,
-			KeyFingerPrintCalculator fingerPrintCalculator)
-			throws IOException, PGPException {
-		SXprUtils.skipOpenParenthesis(inputStream);
-
-		String type;
-
-		type = SXprUtils.readString(inputStream, inputStream.read());
-		if (type.equals("protected-private-key")
-				|| type.equals("private-key")) {
-			SXprUtils.skipOpenParenthesis(inputStream);
-
-			String keyType = SXprUtils.readString(inputStream,
-					inputStream.read());
-			if (keyType.equals("ecc")) {
-				SXprUtils.skipOpenParenthesis(inputStream);
-
-				String curveID = SXprUtils.readString(inputStream,
-						inputStream.read());
-				String curveName = SXprUtils.readString(inputStream,
-						inputStream.read());
-
-				if (curveName.startsWith("NIST ")) {
-					curveName = curveName.substring("NIST ".length());
-				}
-
-				SXprUtils.skipCloseParenthesis(inputStream);
-
-				byte[] qVal;
-
-				SXprUtils.skipOpenParenthesis(inputStream);
-
-				type = SXprUtils.readString(inputStream, inputStream.read());
-				// JGit: c.f. https://github.com/bcgit/bc-java/issues/1590.
-				// There may be a flags sub-list here for ed25519 or curve25519.
-				if (type.equals("flags")) {
-					SXprUtils.readString(inputStream, inputStream.read());
-					SXprUtils.skipCloseParenthesis(inputStream);
-					SXprUtils.skipOpenParenthesis(inputStream);
-					type = SXprUtils.readString(inputStream,
-							inputStream.read());
-				}
-				if (type.equals("q")) {
-					qVal = SXprUtils.readBytes(inputStream, inputStream.read());
-				} else {
-					throw new PGPException("no q value found");
-				}
-
-				PublicKeyPacket pubPacket = new PublicKeyPacket(
-						PublicKeyAlgorithmTags.ECDSA, new Date(),
-						new ECDSAPublicBCPGKey(
-								ECNamedCurveTable.getOID(curveName),
-								new BigInteger(1, qVal)));
-
-				SXprUtils.skipCloseParenthesis(inputStream);
-
-				BigInteger d = processECSecretKey(inputStream, curveID,
-						curveName, qVal, keyProtectionRemoverFactory);
-
-				return new PGPSecretKey(
-						new SecretKeyPacket(pubPacket,
-								SymmetricKeyAlgorithmTags.NULL, null, null,
-								new ECSecretBCPGKey(d).getEncoded()),
-						new PGPPublicKey(pubPacket, fingerPrintCalculator));
-			} else if (keyType.equals("dsa")) {
-				BigInteger p = readBigInteger("p", inputStream);
-				BigInteger q = readBigInteger("q", inputStream);
-				BigInteger g = readBigInteger("g", inputStream);
-
-				BigInteger y = readBigInteger("y", inputStream);
-
-				BigInteger x = processDSASecretKey(inputStream, p, q, g, y,
-						keyProtectionRemoverFactory);
-
-				PublicKeyPacket pubPacket = new PublicKeyPacket(
-						PublicKeyAlgorithmTags.DSA, new Date(),
-						new DSAPublicBCPGKey(p, q, g, y));
-
-				return new PGPSecretKey(
-						new SecretKeyPacket(pubPacket,
-								SymmetricKeyAlgorithmTags.NULL, null, null,
-								new DSASecretBCPGKey(x).getEncoded()),
-						new PGPPublicKey(pubPacket, fingerPrintCalculator));
-			} else if (keyType.equals("elg")) {
-				BigInteger p = readBigInteger("p", inputStream);
-				BigInteger g = readBigInteger("g", inputStream);
-
-				BigInteger y = readBigInteger("y", inputStream);
-
-				BigInteger x = processElGamalSecretKey(inputStream, p, g, y,
-						keyProtectionRemoverFactory);
-
-				PublicKeyPacket pubPacket = new PublicKeyPacket(
-						PublicKeyAlgorithmTags.ELGAMAL_ENCRYPT, new Date(),
-						new ElGamalPublicBCPGKey(p, g, y));
-
-				return new PGPSecretKey(
-						new SecretKeyPacket(pubPacket,
-								SymmetricKeyAlgorithmTags.NULL, null, null,
-								new ElGamalSecretBCPGKey(x).getEncoded()),
-						new PGPPublicKey(pubPacket, fingerPrintCalculator));
-			} else if (keyType.equals("rsa")) {
-				BigInteger n = readBigInteger("n", inputStream);
-				BigInteger e = readBigInteger("e", inputStream);
-
-				BigInteger[] values = processRSASecretKey(inputStream, n, e,
-						keyProtectionRemoverFactory);
-
-				// TODO: type of RSA key?
-				PublicKeyPacket pubPacket = new PublicKeyPacket(
-						PublicKeyAlgorithmTags.RSA_GENERAL, new Date(),
-						new RSAPublicBCPGKey(n, e));
-
-				return new PGPSecretKey(
-						new SecretKeyPacket(pubPacket,
-								SymmetricKeyAlgorithmTags.NULL, null, null,
-								new RSASecretBCPGKey(values[0], values[1],
-										values[2]).getEncoded()),
-						new PGPPublicKey(pubPacket, fingerPrintCalculator));
 			} else {
 				throw new PGPException("unknown key type: " + keyType);
 			}
