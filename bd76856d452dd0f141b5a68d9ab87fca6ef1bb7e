@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "100e8ff5_6e952031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-05T08:41:16Z",
+      "side": 1,
+      "message": "We don\u0027t use markdown in commit messages: just remove the backticks?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "bd76856d452dd0f141b5a68d9ab87fca6ef1bb7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b4a3083_9816bccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-05T08:41:16Z",
+      "side": 1,
+      "message": "was",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "bd76856d452dd0f141b5a68d9ab87fca6ef1bb7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ff38961_7b4f4de5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-05T08:41:16Z",
+      "side": 1,
+      "message": "Should this be split into two tests? Ideally one test should only test one feature and fail for one reason.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 2
+      },
+      "revId": "bd76856d452dd0f141b5a68d9ab87fca6ef1bb7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "126bf33d_019f9a0e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-05T08:41:16Z",
+      "side": 1,
+      "message": "Should this be split into two tests? Ideally one test should only test one feature and fail for one reason.",
+      "range": {
+        "startLine": 76,
+        "startChar": 13,
+        "endLine": 76,
+        "endChar": 78
+      },
+      "revId": "bd76856d452dd0f141b5a68d9ab87fca6ef1bb7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e59f5757_5583d49d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-05T08:41:16Z",
+      "side": 1,
+      "message": "Should this be split into two tests? Ideally one test should only test one feature and fail for one reason.",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 90
+      },
+      "revId": "bd76856d452dd0f141b5a68d9ab87fca6ef1bb7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73661fc2_cafdd715",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1610,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-05T08:41:16Z",
+      "side": 1,
+      "message": "You are missing the check of the timestamp: we should remember at what time the latest bitmap was generated and add the count of objects only if their timestamp is after that time.",
+      "range": {
+        "startLine": 1610,
+        "startChar": 3,
+        "endLine": 1610,
+        "endChar": 62
+      },
+      "revId": "bd76856d452dd0f141b5a68d9ab87fca6ef1bb7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
