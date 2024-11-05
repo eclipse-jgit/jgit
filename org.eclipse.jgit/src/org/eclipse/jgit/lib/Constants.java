@@ -547,6 +547,13 @@ public final class Constants {
 	public static final String SSH_SIGNATURE_PREFIX = "-----BEGIN SSH SIGNATURE-----"; //$NON-NLS-1$
 
 	/**
+	 * Union built-in merge driver
+	 *
+	 * @since 6.10.1
+	 */
+	public static final String ATTR_BUILTIN_UNION_MERGE_DRIVER = "union"; //$NON-NLS-1$
+
+	/**
 	 * Create a new digest function for objects.
 	 *
 	 * @return a new digest object.

@@ -41,6 +41,7 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
@@ -837,6 +838,13 @@ public class ResolveMerger extends ThreeWayMerger {
 	@NonNull
 	private ContentMergeStrategy contentStrategy = ContentMergeStrategy.CONFLICT;
 
+	/**
+	 * The {@link AttributesNodeProvider} to use while merging trees.
+	 *
+	 * @since 6.10.1
+	 */
+	protected AttributesNodeProvider attributesNodeProvider;
+
 	private static MergeAlgorithm getMergeAlgorithm(Config config) {
 		SupportedAlgorithm diffAlg = config.getEnum(
 				CONFIG_DIFF_SECTION, null, CONFIG_KEY_ALGORITHM,
@@ -1502,9 +1510,21 @@ public class ResolveMerger extends ThreeWayMerger {
 				: getRawText(ours.getEntryObjectId(), attributes[T_OURS]);
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
 				: getRawText(theirs.getEntryObjectId(), attributes[T_THEIRS]);
-		mergeAlgorithm.setContentMergeStrategy(strategy);
+		mergeAlgorithm.setContentMergeStrategy(
+				getAttributesContentMergeStrategy(attributes[T_OURS],
+						strategy));
 		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText);
+	}
+
+	private ContentMergeStrategy getAttributesContentMergeStrategy(
+			Attributes attributes, ContentMergeStrategy strategy) {
+		Attribute attr = attributes.get(Constants.ATTR_MERGE);
+		if (attr != null && attr.getValue()
+				.equals(Constants.ATTR_BUILTIN_UNION_MERGE_DRIVER)) {
+			return ContentMergeStrategy.UNION;
+		}
+		return strategy;
 	}
 
 	private boolean isIndexDirty() {
@@ -1837,6 +1857,18 @@ public class ResolveMerger extends ThreeWayMerger {
 		this.workingTreeIterator = workingTreeIterator;
 	}
 
+	/**
+	 * Sets the {@link AttributesNodeProvider} to be used by this merger.
+	 *
+	 * @param attributesNodeProvider
+	 *            the attributeNodeProvider to set
+	 * @since 6.10.1
+	 */
+	public void setAttributesNodeProvider(
+			AttributesNodeProvider attributesNodeProvider) {
+		this.attributesNodeProvider = attributesNodeProvider;
+	}
+
 
 	/**
 	 * The resolve conflict way of three way merging
@@ -1881,6 +1913,9 @@ public class ResolveMerger extends ThreeWayMerger {
 					WorkTreeUpdater.createWorkTreeUpdater(db, dircache);
 			dircache = workTreeUpdater.getLockedDirCache();
 			tw = new NameConflictTreeWalk(db, reader);
+			if (attributesNodeProvider != null) {
+				tw.setAttributesNodeProvider(attributesNodeProvider);
+			}
 
 			tw.addTree(baseTree);
 			tw.setHead(tw.addTree(headTree));
