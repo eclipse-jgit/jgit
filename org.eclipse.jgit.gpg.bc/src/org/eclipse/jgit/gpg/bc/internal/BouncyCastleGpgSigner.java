@@ -105,7 +105,8 @@ public class BouncyCastleGpgSigner implements Signer {
 			PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(
 					new JcaPGPContentSignerBuilder(
 							publicKey.getAlgorithm(),
-							HashAlgorithmTags.SHA256));
+							HashAlgorithmTags.SHA256),
+					publicKey);
 			signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
 			PGPSignatureSubpacketGenerator subpackets = new PGPSignatureSubpacketGenerator();
 			subpackets.setIssuerFingerprint(false, publicKey);
