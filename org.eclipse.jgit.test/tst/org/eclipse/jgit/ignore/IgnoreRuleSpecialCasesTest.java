@@ -949,6 +949,7 @@ public class IgnoreRuleSpecialCasesTest {
 	 * http://article.gmane.org/gmane.comp.version-control.git/278699.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testBracketsUnmatched1() throws Exception {
@@ -967,6 +968,7 @@ public class IgnoreRuleSpecialCasesTest {
 	 * Single ']' is treated here literally, not as an and of a character group
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testBracketsUnmatched2() throws Exception {

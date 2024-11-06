@@ -387,7 +387,9 @@ public class AddCommandTest extends RepositoryTestCase {
 	 * filenames
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testCommandInjection() throws IOException, GitAPIException {

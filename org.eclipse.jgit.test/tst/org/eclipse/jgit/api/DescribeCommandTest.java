@@ -210,6 +210,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testDescribeBranch() throws Exception {
@@ -251,6 +252,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void t1DominatesT2() throws Exception {
@@ -291,6 +293,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void t1AnnotatedDominatesT2lightweight() throws Exception {
@@ -348,6 +351,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void t1nearerT2() throws Exception {
@@ -383,6 +387,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void t1sameDepthT2() throws Exception {
@@ -446,6 +451,7 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	 *     +-> t1
 	 * </pre>
 	 * @throws Exception
+	 *             if an error occured
 	 * */
 	@Test
 	public void testDescribeUseAllRefsBranch() throws Exception {

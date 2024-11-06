@@ -550,6 +550,7 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 	 * A
 	 * </pre>
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testCherryPickMerge() throws Exception {

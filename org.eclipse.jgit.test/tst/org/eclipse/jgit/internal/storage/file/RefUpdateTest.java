@@ -183,6 +183,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Delete a ref that is pointed to by HEAD
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testDeleteHEADreferencedRef() throws IOException {
@@ -305,6 +306,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * and the reflog dir too
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testDeleteLooseAndItsDirectory() throws IOException {
@@ -381,6 +383,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try modify a ref forward, fast forward
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefForward() throws IOException {
@@ -406,6 +409,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Update the HEAD ref. Only it should be changed, not what it points to.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefDetached() throws Exception {
@@ -436,6 +440,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Update the HEAD ref when the referenced branch is unborn
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefDetachedUnbornHead() throws Exception {
@@ -467,6 +472,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * cannot be resolved after delete.
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testDeleteLoosePacked() throws IOException {
@@ -489,6 +495,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try modify a ref to same
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefNoChange() throws IOException {
@@ -509,6 +516,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * ref was packed due to implementation issues.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testRefsCacheAfterUpdate() throws Exception {
@@ -545,6 +553,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * update of symref.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testRefsCacheAfterUpdateLooseOnly() throws Exception {
@@ -570,6 +579,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try modify a ref, but get wrong expected old value
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefLockFailureWrongOldValue() throws IOException {
@@ -586,6 +596,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try modify a ref forward, fast forward, checking old value first
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefForwardWithCheck1() throws IOException {
@@ -612,6 +623,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try modify a ref forward, fast forward, checking old commit first
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefForwardWithCheck2() throws IOException {
@@ -641,6 +653,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try modify a ref that is locked
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUpdateRefLockFailureLocked() throws IOException {
@@ -666,6 +679,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 * Try to delete a ref. Delete requires force.
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testDeleteLoosePackedRejected() throws IOException {

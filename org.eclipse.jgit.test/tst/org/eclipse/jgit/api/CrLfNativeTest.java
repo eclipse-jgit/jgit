@@ -82,6 +82,7 @@ public class CrLfNativeTest extends RepositoryTestCase {
 	 * -text, crlf=input == eol=lf
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testCrLfAttribute() throws Exception {

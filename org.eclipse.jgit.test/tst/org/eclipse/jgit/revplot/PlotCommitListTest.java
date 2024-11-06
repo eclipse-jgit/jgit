@@ -426,6 +426,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testBug419359() throws Exception {
@@ -485,6 +486,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testMultipleMerges() throws Exception {
@@ -531,6 +533,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testMergeBlockedBySelf() throws Exception {
@@ -581,6 +584,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testMergeBlockedByOther() throws Exception {
@@ -625,6 +629,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	 * </pre>
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testDanglingCommitShouldContinueLane() throws Exception {

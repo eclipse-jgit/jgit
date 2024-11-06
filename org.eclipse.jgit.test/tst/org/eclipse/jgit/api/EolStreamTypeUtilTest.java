@@ -120,6 +120,7 @@ public class EolStreamTypeUtilTest {
 	 * @param expectedConversion
 	 *            is the expected converted output without binary characters
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	private void testCheckout(EolStreamType streamTypeText,
 			EolStreamType streamTypeWithBinaryCheck, String output,
@@ -255,6 +256,7 @@ public class EolStreamTypeUtilTest {
 	 * @param expectedConversion
 	 *            is the expected converted input without binary characters
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	private void testCheckin(EolStreamType streamTypeText,
 			EolStreamType streamTypeWithBinaryCheck, String input,

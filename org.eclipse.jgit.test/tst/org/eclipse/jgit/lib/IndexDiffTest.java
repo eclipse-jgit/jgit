@@ -330,7 +330,9 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * used by Git.
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 * @throws GitAPIException
+	 *             if an error occured
 	 */
 	@Test
 	public void testUnchangedComplex() throws IOException, GitAPIException {
@@ -391,6 +393,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * is checked if IndexDiff detects this file as removed and untracked.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testRemovedUntracked() throws Exception{
@@ -412,6 +415,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	/**
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testUntrackedFolders() throws Exception {
@@ -467,6 +471,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 	 * ignored.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testUntrackedNotIgnoredFolders() throws Exception {

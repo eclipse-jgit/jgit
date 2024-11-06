@@ -79,6 +79,7 @@ public class FileSnapshotTest {
 	 * Change data and time stamp.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testActuallyIsModifiedTrivial() throws Exception {
@@ -97,6 +98,7 @@ public class FileSnapshotTest {
 	 * this
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testNewFileWithWait() throws Exception {
@@ -117,6 +119,7 @@ public class FileSnapshotTest {
 	 * Same as {@link #testNewFileWithWait()} but do not wait at all
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testNewFileNoWait() throws Exception {
@@ -156,6 +159,7 @@ public class FileSnapshotTest {
 	 * terminology).
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testSimulatePackfileReplacement() throws Exception {
@@ -186,6 +190,7 @@ public class FileSnapshotTest {
 	 * lastModified
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testFileSizeChanged() throws Exception {

@@ -42,7 +42,8 @@ public class MergeAlgorithmUnionTest {
 	 * Check for a conflict where the second text was changed similar to the
 	 * first one, but the second texts modification covers one more line.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testTwoConflictingModifications() throws IOException {
@@ -55,7 +56,8 @@ public class MergeAlgorithmUnionTest {
 	 * modifies all three chunks. The second text modifies the first and the
 	 * last chunk. This should be reported as one conflicting region.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testOneAgainstTwoConflictingModifications() throws IOException {
@@ -67,7 +69,8 @@ public class MergeAlgorithmUnionTest {
 	 * Test a merge where only the second text contains modifications. Expect as
 	 * merge result the second text.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testNoAgainstOneModification() throws IOException {
@@ -79,7 +82,8 @@ public class MergeAlgorithmUnionTest {
 	 * Both texts contain modifications but not on the same chunks. Expect a
 	 * non-conflict merge result.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testTwoNonConflictingModifications() throws IOException {
@@ -91,7 +95,8 @@ public class MergeAlgorithmUnionTest {
 	 * Merge two complicated modifications. The merge algorithm has to extend
 	 * and combine conflicting regions to get to the expected merge result.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testTwoComplicatedModifications() throws IOException {
@@ -104,7 +109,8 @@ public class MergeAlgorithmUnionTest {
 	 * diff algorithm has to provide consistent edit results to get the expected
 	 * merge result.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testTwoModificationsWithSharedDelete() throws IOException {
@@ -116,7 +122,8 @@ public class MergeAlgorithmUnionTest {
 	 * diff algorithm has to provide consistent edit results to get the expected
 	 * merge result.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testModificationsWithMiddleInsert() throws IOException {
@@ -129,7 +136,8 @@ public class MergeAlgorithmUnionTest {
 	 * diff algorithm has to provide consistent edit results to get the expected
 	 * merge result.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testModificationsWithMiddleDelete() throws IOException {
@@ -150,7 +158,8 @@ public class MergeAlgorithmUnionTest {
 	/**
 	 * Test a conflicting region at the very start of the text.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testConflictAtStart() throws IOException {
@@ -161,7 +170,8 @@ public class MergeAlgorithmUnionTest {
 	/**
 	 * Test a conflicting region at the very end of the text.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testConflictAtEnd() throws IOException {
@@ -173,7 +183,8 @@ public class MergeAlgorithmUnionTest {
 	 * Check for a conflict where the second text was changed similar to the
 	 * first one, but the second texts modification covers one more line.
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testSameModification() throws IOException {
@@ -185,7 +196,8 @@ public class MergeAlgorithmUnionTest {
 	 * Check that a deleted vs. a modified line shows up as conflict (see Bug
 	 * 328551)
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testDeleteVsModify() throws IOException {
@@ -219,7 +231,8 @@ public class MergeAlgorithmUnionTest {
 	 * and insertion is a block which is common between the two contents and the
 	 * common base
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testTwoSimilarModsAndOneInsert() throws IOException {
@@ -239,7 +252,8 @@ public class MergeAlgorithmUnionTest {
 	 * insertion is a block which is common between the two contents and the
 	 * common base
 	 *
-	 * @throws java.io.IOException
+	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testTwoSimilarModsAndOneInsertAtEnd() throws IOException {

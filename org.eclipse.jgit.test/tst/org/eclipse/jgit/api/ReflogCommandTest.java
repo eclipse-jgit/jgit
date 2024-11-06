@@ -50,6 +50,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	 * Test getting the HEAD reflog
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testHeadReflog() throws Exception {
@@ -74,6 +75,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	 * Test getting the reflog for an explicit branch
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testBranchReflog() throws Exception {
@@ -95,6 +97,7 @@ public class ReflogCommandTest extends RepositoryTestCase {
 	 * Test getting the reflog for an amend commit
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testAmendReflog() throws Exception {

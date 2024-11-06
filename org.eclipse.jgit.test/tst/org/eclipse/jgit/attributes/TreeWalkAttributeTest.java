@@ -118,8 +118,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * </p>
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 * @throws NoFilepatternException
+	 *             if an error occurred
 	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testCheckinCheckoutDifferences() throws IOException,
@@ -172,8 +175,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * are missing in the working tree.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 * @throws NoFilepatternException
+	 *             if an error occurred
 	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testIndexOnly() throws IOException, NoFilepatternException,
@@ -227,8 +233,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * we are currently inspecting does not exist anymore in the working tree.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 * @throws NoFilepatternException
+	 *             if an error occurred
 	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testIndexOnly2()
@@ -259,8 +268,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * </p>
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 * @throws NoFilepatternException
+	 *             if an error occurred
 	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testRules() throws IOException, NoFilepatternException,
@@ -302,6 +314,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * everything still work fine.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testNoAttributes() throws IOException {
@@ -326,6 +339,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * Checks that an empty .gitattribute file does not return incorrect value.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testEmptyGitAttributeFile() throws IOException {
@@ -376,6 +390,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * Checks that $GIT_DIR/info/attributes file has the highest precedence.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testPrecedenceInfo() throws IOException {
@@ -407,6 +422,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * parent.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testPrecedenceCurrent() throws IOException {
@@ -436,6 +452,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * Checks that the parent ".gitattributes" file is used as fallback.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testPrecedenceParent() throws IOException {
@@ -462,6 +479,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * Checks that the grand parent ".gitattributes" file is used as fallback.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testPrecedenceRoot() throws IOException {
@@ -486,6 +504,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * Checks that the global attribute file is used as fallback.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testPrecedenceGlobal() throws IOException {
@@ -510,8 +529,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * </p>
 	 *
 	 * @throws IOException
-	 * @throws GitAPIException
+	 *             if an error occurred
 	 * @throws NoFilepatternException
+	 *             if an error occurred
+	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testHierarchyBothIterator() throws IOException,
@@ -559,8 +581,11 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * </p>
 	 *
 	 * @throws IOException
-	 * @throws GitAPIException
+	 *             if an error occurred
 	 * @throws NoFilepatternException
+	 *             if an error occurred
+	 * @throws GitAPIException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testHierarchyWorktreeOnly()
@@ -604,6 +629,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * attributes from the attributes files hierarchy.
 	 *
 	 * @throws IOException
+	 *             if an error occurred
 	 */
 	@Test
 	public void testAggregation() throws IOException {
@@ -646,6 +672,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * same attribute
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testOverriding() throws IOException {
@@ -679,6 +706,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * attribute is defined several time.
 	 *
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	@Test
 	public void testOverriding2() throws IOException {
@@ -734,6 +762,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @param pathName
 	 * @param forBothOperaiton
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	private void assertEntry(FileMode type, String pathName,
 			Set<Attribute> forBothOperaiton) throws IOException {
@@ -746,6 +775,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @param type
 	 * @param pathName
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	private void assertEntry(FileMode type, String pathName) throws IOException {
 		assertEntry(type, pathName, Collections.<Attribute> emptySet(),
@@ -766,6 +796,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @param checkinAttributes
 	 * @param checkoutAttributes
 	 * @throws IOException
+	 *             if an error occured
 	 */
 	private void assertEntry(FileMode type, String pathName,
 			Set<Attribute> checkinAttributes, Set<Attribute> checkoutAttributes)
@@ -809,6 +840,7 @@ public class TreeWalkAttributeTest extends RepositoryTestCase {
 	 * @param attributes
 	 * @return The attribute file
 	 * @throws IOException
+	 *             if an error occured
 	 * @see Repository#getConfig()
 	 */
 	private File writeGlobalAttributeFile(String fileName, String... attributes)

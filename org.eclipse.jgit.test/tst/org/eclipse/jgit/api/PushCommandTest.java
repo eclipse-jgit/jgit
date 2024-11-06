@@ -239,6 +239,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that pushes over file protocol lead to appropriate ref-updates.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushRefUpdate() throws Exception {
@@ -281,6 +282,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that the push refspec is read from config.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushWithRefSpecFromConfig() throws Exception {
@@ -310,6 +312,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that only HEAD is pushed if no refspec is given.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushWithoutPushRefSpec() throws Exception {
@@ -351,6 +354,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * DetachedHeadException.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultDetachedHead() throws Exception {
@@ -386,6 +390,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * InvalidRefNameException.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultNothing() throws Exception {
@@ -425,6 +430,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * branches.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultMatching() throws Exception {
@@ -511,6 +517,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * branch to the configured upstream.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultUpstream() throws Exception {
@@ -569,6 +576,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * InvalidRefNameException if the current branch has no upstream.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultUpstreamNoTracking() throws Exception {
@@ -607,6 +615,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * remote.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultUpstreamTriangular() throws Exception {
@@ -646,6 +655,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * branch to the configured upstream name.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultSimple() throws Exception {
@@ -698,6 +708,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * branch to a branch with the same name in a triangular workflow.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultSimpleTriangular() throws Exception {
@@ -755,6 +766,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * InvalidRefNameException if the current branch has no upstream.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultSimpleNoTracking() throws Exception {
@@ -793,6 +805,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * different name.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultSimpleDifferentTracking() throws Exception {
@@ -832,6 +845,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * config.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultFromConfig() throws Exception {
@@ -892,6 +906,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * defaults to "simple".
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushDefaultFromConfigDefault() throws Exception {
@@ -944,6 +959,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that branch.&lt;name&gt;.pushRemote overrides anything else.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testBranchPushRemote() throws Exception {
@@ -983,6 +999,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that remote.pushDefault overrides branch.&lt;name&gt;.remote
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testRemotePushDefault() throws Exception {
@@ -1021,6 +1038,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that ultimately we fall back to "origin".
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testDefaultRemote() throws Exception {
@@ -1062,6 +1080,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * succeed if the git config is correct.
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testDefaultPush() throws Exception {
@@ -1114,6 +1133,7 @@ public class PushCommandTest extends RepositoryTestCase {
 	 * Check that missing refs don't cause errors during push
 	 *
 	 * @throws Exception
+	 *             if an error occured
 	 */
 	@Test
 	public void testPushAfterGC() throws Exception {
