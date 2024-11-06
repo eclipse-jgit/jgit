@@ -10,6 +10,8 @@
 package org.eclipse.jgit.util;
 
 import java.text.MessageFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -42,12 +44,29 @@ public class RelativeDateFormatter {
 	 * @return age of given {@link java.util.Date} compared to now formatted in
 	 *         the same relative format as returned by
 	 *         {@code git log --relative-date}
+	 * @deprecated Use {@link #format(Instant)} instead.
 	 */
+	@Deprecated(since = "7.2")
 	@SuppressWarnings("boxing")
 	public static String format(Date when) {
+		return format(when.toInstant());
+	}
 
-		long ageMillis = SystemReader.getInstance().getCurrentTime()
-				- when.getTime();
+	/**
+	 * Get age of given {@link java.time.Instant} compared to now formatted in the
+	 * same relative format as returned by {@code git log --relative-date}
+	 *
+	 * @param when
+	 *            an instant to format
+	 * @return age of given instant compared to now formatted in
+	 *         the same relative format as returned by
+	 *         {@code git log --relative-date}
+	 * @since 7.2
+	 */
+	@SuppressWarnings("boxing")
+	public static String format(Instant when) {
+		long ageMillis = Duration
+				.between(when, SystemReader.getInstance().now()).toMillis();
 
 		// shouldn't happen in a perfect world
 		if (ageMillis < 0)
