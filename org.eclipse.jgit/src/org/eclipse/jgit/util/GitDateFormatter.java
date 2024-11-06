@@ -148,7 +148,7 @@ public class GitDateFormatter {
 			return String.format("%d %s%02d%02d", //$NON-NLS-1$
 					ident.getWhen().getTime() / 1000, sign, hours, minutes);
 		case RELATIVE:
-			return RelativeDateFormatter.format(ident.getWhen());
+			return RelativeDateFormatter.format(ident.getWhenAsInstant());
 		case LOCALELOCAL:
 		case LOCAL:
 			dateTimeInstance.setTimeZone(SystemReader.getInstance()

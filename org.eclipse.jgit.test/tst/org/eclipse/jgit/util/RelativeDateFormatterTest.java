@@ -16,7 +16,7 @@ import static org.eclipse.jgit.util.RelativeDateFormatter.SECOND_IN_MILLIS;
 import static org.eclipse.jgit.util.RelativeDateFormatter.YEAR_IN_MILLIS;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.junit.After;
@@ -37,9 +37,9 @@ public class RelativeDateFormatterTest {
 
 	private static void assertFormat(long ageFromNow, long timeUnit,
 			String expectedFormat) {
-		Date d = new Date(SystemReader.getInstance().getCurrentTime()
-				- ageFromNow * timeUnit);
-		String s = RelativeDateFormatter.format(d);
+		long millis = ageFromNow * timeUnit;
+		Instant aTime = SystemReader.getInstance().now().minusMillis(millis);
+		String s = RelativeDateFormatter.format(aTime);
 		assertEquals(expectedFormat, s);
 	}
 
