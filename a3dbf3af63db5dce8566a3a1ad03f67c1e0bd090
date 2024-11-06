@@ -33,6 +33,24 @@
       "message": "https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1203669 is the change removing SExprParser and friends completely.",
       "revId": "a3dbf3af63db5dce8566a3a1ad03f67c1e0bd090",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8efebc3b_e070b1a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-06T19:09:49Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "947ab233_9a4af1ef",
+      "revId": "a3dbf3af63db5dce8566a3a1ad03f67c1e0bd090",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
