@@ -16,6 +16,23 @@
       "message": "This is OK; feel free to submit this.\n\nI\u0027m in the process of preparing a change that will get rid of this custom copy of SExprParser altogether.\n\nIt was introduced because the BC version way back was buggy and did not support AES/OCB encrypted secret keys. In BC 1.79, there have been many improvements in this area, and it now can handle everything we need, so we can ditch this (as well as our own OCB decryptor).",
       "revId": "a3dbf3af63db5dce8566a3a1ad03f67c1e0bd090",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d9ef11_624ba2a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-06T18:26:15Z",
+      "side": 1,
+      "message": "https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1203669 is the change removing SExprParser and friends completely.",
+      "revId": "a3dbf3af63db5dce8566a3a1ad03f67c1e0bd090",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
