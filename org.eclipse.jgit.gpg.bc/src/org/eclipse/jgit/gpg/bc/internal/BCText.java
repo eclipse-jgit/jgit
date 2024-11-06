@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Salesforce and others
+ * Copyright (C) 2018, 2024 Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -30,8 +30,6 @@ public final class BCText extends TranslationBundle {
 	// @formatter:off
 	/***/ public String corrupt25519Key;
 	/***/ public String credentialPassphrase;
-	/***/ public String cryptCipherError;
-	/***/ public String cryptWrongDecryptedLength;
 	/***/ public String gpgFailedToParseSecretKey;
 	/***/ public String gpgNoCredentialsProvider;
 	/***/ public String gpgNoKeygrip;
@@ -39,22 +37,14 @@ public final class BCText extends TranslationBundle {
 	/***/ public String gpgNoKeyInLegacySecring;
 	/***/ public String gpgNoPublicKeyFound;
 	/***/ public String gpgNoSecretKeyForPublicKey;
-	/***/ public String gpgNoSuchAlgorithm;
 	/***/ public String gpgNotASigningKey;
 	/***/ public String gpgKeyInfo;
 	/***/ public String gpgSigningCancelled;
+	/***/ public String keyAlgorithmMismatch;
+	/***/ public String keyMismatch;
 	/***/ public String logWarnGnuPGHome;
 	/***/ public String logWarnGpgHomeProperty;
 	/***/ public String nonSignatureError;
-	/***/ public String secretKeyTooShort;
-	/***/ public String sexprHexNotClosed;
-	/***/ public String sexprHexOdd;
-	/***/ public String sexprStringInvalidEscape;
-	/***/ public String sexprStringInvalidEscapeAtEnd;
-	/***/ public String sexprStringInvalidHexEscape;
-	/***/ public String sexprStringInvalidOctalEscape;
-	/***/ public String sexprStringNotClosed;
-	/***/ public String sexprUnhandled;
 	/***/ public String signatureInconsistent;
 	/***/ public String signatureKeyLookupError;
 	/***/ public String signatureNoKeyInfo;
