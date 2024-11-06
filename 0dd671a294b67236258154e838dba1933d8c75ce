@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36ab4f41_3b11b62e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-06T22:15:25Z",
+      "side": 1,
+      "message": "I know these small formatting commits are mostly annoying for merges/history.\n\nIn this case it solves warnings in errorprone that polute the compilation log and it is only in the tests, that shouldn\u0027t be too problematic for merges.\n\nI think it is worthy to fix them, but can abandon the change if there is no consensus.",
+      "revId": "0dd671a294b67236258154e838dba1933d8c75ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
