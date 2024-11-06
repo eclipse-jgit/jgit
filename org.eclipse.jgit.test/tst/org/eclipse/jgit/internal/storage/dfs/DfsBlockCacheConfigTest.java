@@ -180,6 +180,76 @@ public class DfsBlockCacheConfigTest {
 	}
 
 	@Test
+	public void fromConfig_withExistingCacheHotMap_configWithPackExtConfigsHasHotMaps() {
+		Config config = new Config();
+		addPackExtConfigEntry(config, "pack", List.of(PackExt.PACK),
+				/* blockLimit= */ 20 * 512, /* blockSize= */ 512);
+
+		addPackExtConfigEntry(config, "bitmap", List.of(PackExt.BITMAP_INDEX),
+				/* blockLimit= */ 25 * 1024, /* blockSize= */ 1024);
+
+		addPackExtConfigEntry(config, "index",
+				List.of(PackExt.INDEX, PackExt.OBJECT_SIZE_INDEX,
+						PackExt.REVERSE_INDEX),
+				/* blockLimit= */ 30 * 1024, /* blockSize= */ 1024);
+
+		Map<PackExt, Integer> cacheHotMap = Map.of(PackExt.PACK, 1,
+				PackExt.BITMAP_INDEX, 2, PackExt.INDEX, 3, PackExt.REFTABLE, 4);
+
+		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig();
+		cacheConfig.setCacheHotMap(cacheHotMap);
+		cacheConfig.fromConfig(config);
+
+		var configs = cacheConfig.getPackExtCacheConfigurations();
+		assertThat(cacheConfig.getCacheHotMap(), is(cacheHotMap));
+		assertThat(configs, hasSize(3));
+		var packConfig = getConfigForExt(configs, PackExt.PACK);
+		assertThat(packConfig.getCacheHotMap(), is(Map.of(PackExt.PACK, 1)));
+
+		var bitmapConfig = getConfigForExt(configs, PackExt.BITMAP_INDEX);
+		assertThat(bitmapConfig.getCacheHotMap(),
+				is(Map.of(PackExt.BITMAP_INDEX, 2)));
+
+		var indexConfig = getConfigForExt(configs, PackExt.INDEX);
+		assertThat(indexConfig.getCacheHotMap(), is(Map.of(PackExt.INDEX, 3)));
+	}
+
+	@Test
+	public void setCacheHotMap_configWithPackExtConfigs_setsHotMaps() {
+		Config config = new Config();
+		addPackExtConfigEntry(config, "pack", List.of(PackExt.PACK),
+				/* blockLimit= */ 20 * 512, /* blockSize= */ 512);
+
+		addPackExtConfigEntry(config, "bitmap", List.of(PackExt.BITMAP_INDEX),
+				/* blockLimit= */ 25 * 1024, /* blockSize= */ 1024);
+
+		addPackExtConfigEntry(config, "index",
+				List.of(PackExt.INDEX, PackExt.OBJECT_SIZE_INDEX,
+						PackExt.REVERSE_INDEX),
+				/* blockLimit= */ 30 * 1024, /* blockSize= */ 1024);
+
+		Map<PackExt, Integer> cacheHotMap = Map.of(PackExt.PACK, 1,
+				PackExt.BITMAP_INDEX, 2, PackExt.INDEX, 3, PackExt.REFTABLE, 4);
+
+		DfsBlockCacheConfig cacheConfig = new DfsBlockCacheConfig()
+				.fromConfig(config);
+		cacheConfig.setCacheHotMap(cacheHotMap);
+
+		var configs = cacheConfig.getPackExtCacheConfigurations();
+		assertThat(cacheConfig.getCacheHotMap(), is(cacheHotMap));
+		assertThat(configs, hasSize(3));
+		var packConfig = getConfigForExt(configs, PackExt.PACK);
+		assertThat(packConfig.getCacheHotMap(), is(Map.of(PackExt.PACK, 1)));
+
+		var bitmapConfig = getConfigForExt(configs, PackExt.BITMAP_INDEX);
+		assertThat(bitmapConfig.getCacheHotMap(),
+				is(Map.of(PackExt.BITMAP_INDEX, 2)));
+
+		var indexConfig = getConfigForExt(configs, PackExt.INDEX);
+		assertThat(indexConfig.getCacheHotMap(), is(Map.of(PackExt.INDEX, 3)));
+	}
+
+	@Test
 	public void fromConfigs_baseConfigOnly_nameSetFromConfigDfsSubSection() {
 		Config config = new Config();
 
@@ -291,6 +361,7 @@ public class DfsBlockCacheConfigTest {
 						"  Name: dfs.pack", "    BlockLimit: " + 20 * 512,
 						"    BlockSize: 512", "    StreamRatio: 0.3",
 						"    ConcurrencyLevel: 32",
+						"    CacheHotMapEntry: " + PackExt.PACK + " : " + 10,
 						"    PackExts: " + List.of(PackExt.PACK))));
 	}
 
