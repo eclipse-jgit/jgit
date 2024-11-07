@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d09f141d_1b5a77df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-11-07T20:57:05Z",
+      "side": 1,
+      "message": "Verified locally by calling:\n```\nbazel test --test_output\u003dstreamed --test_filter\u003dorg.eclipse.jgit.internal.storage.file.GcNumberOfPackFilesAfterBitmapStatisticsTest //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest --cache_test_results\u003dNO\n...\nTime: 3.614\n\nOK (5 tests)\n\n\nBazelTestRunner exiting with a return value of 0\nJVM shutdown hooks (if any) will run now.\nThe JVM will exit once they complete.\n\n-- JVM shutdown starting at 2024-11-07 20:55:13 --\n\nINFO: Found 1 test target...\nTarget //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest up-to-date:\n  bazel-bin/org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest\n  bazel-bin/org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest.jar\nINFO: Elapsed time: 48.809s, Critical Path: 33.84s\nINFO: 27 processes: 5 internal, 17 darwin-sandbox, 5 worker.\nINFO: Build completed successfully, 27 total actions\n//org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest PASSED in 4.2s\n\n```",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
