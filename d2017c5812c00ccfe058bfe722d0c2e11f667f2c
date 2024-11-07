@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8bf9643_5cebbb92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "how about `numberOfPackFilesSinceBitmap` ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb9dd2e8_311d9c13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "remove this word",
+      "range": {
+        "startLine": 15,
+        "startChar": 52,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d09f141d_1b5a77df",
@@ -14,6 +60,103 @@
       "writtenOn": "2024-11-07T20:57:05Z",
       "side": 1,
       "message": "Verified locally by calling:\n```\nbazel test --test_output\u003dstreamed --test_filter\u003dorg.eclipse.jgit.internal.storage.file.GcNumberOfPackFilesAfterBitmapStatisticsTest //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest --cache_test_results\u003dNO\n...\nTime: 3.614\n\nOK (5 tests)\n\n\nBazelTestRunner exiting with a return value of 0\nJVM shutdown hooks (if any) will run now.\nThe JVM will exit once they complete.\n\n-- JVM shutdown starting at 2024-11-07 20:55:13 --\n\nINFO: Found 1 test target...\nTarget //org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest up-to-date:\n  bazel-bin/org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest\n  bazel-bin/org.eclipse.jgit.test/org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest.jar\nINFO: Elapsed time: 48.809s, Critical Path: 33.84s\nINFO: 27 processes: 5 internal, 17 darwin-sandbox, 5 worker.\nINFO: Build completed successfully, 27 total actions\n//org.eclipse.jgit.test:org_eclipse_jgit_internal_storage_file_GcNumberOfPackFilesAfterBitmapStatisticsTest PASSED in 4.2s\n\n```",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "788f8a1e_52d94c4b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "teach CommitBuilder#parent to accept null parent ?",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e24efadd_e8024506",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "if you start the call sequence with `tr.branch(\"master\").commit()` this update will be done by `#create` already",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1ccec3b_79ea2dd1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "this can be shortened to `return commit`",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 16
+      },
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de76c40f_1938379f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "Why is it necessary to skip missing files ?\n\nIf this is really necessary improve `TestRepository#packAndPrune` instead of creating a copy.",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96f1f186_3e77fb27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:50:35Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\tif (p.getBitmapIndex() !\u003d null) {\n\t\t\t\tret.numberOfBitmaps +\u003d p.getBitmapIndex().getBitmapCount();\n\t\t\t} else {\n\t\t\t\tret.numberOfPackFilesAfterBitmap++;\n\t\t\t}\n```",
+      "range": {
+        "startLine": 1578,
+        "startChar": 0,
+        "endLine": 1581,
+        "endChar": 39
+      },
       "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
