@@ -49,6 +49,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d5cf048e_f74fc1db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9dd2e8_311d9c13",
+      "range": {
+        "startLine": 15,
+        "startChar": 52,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d09f141d_1b5a77df",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -81,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f013b8bb_0e678f44",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:53:02Z",
+      "side": 1,
+      "message": "done in predecessor commit",
+      "parentUuid": "788f8a1e_52d94c4b",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e24efadd_e8024506",
@@ -98,6 +140,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f8c023_4e3dce9b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24efadd_e8024506",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1ccec3b_79ea2dd1",
@@ -111,6 +171,30 @@
       "writtenOn": "2024-11-07T22:50:35Z",
       "side": 1,
       "message": "this can be shortened to `return commit`",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 16
+      },
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "487c132f_d71560c8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-07T22:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1ccec3b_79ea2dd1",
       "range": {
         "startLine": 112,
         "startChar": 0,
