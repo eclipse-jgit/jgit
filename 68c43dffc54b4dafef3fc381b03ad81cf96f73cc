@@ -33,6 +33,24 @@
       "message": "Add a TODO like:\n\nTODO: This setter is a workaround because the cacheHotMap is not in the conf. Add a conf option for it and remove this setter.",
       "revId": "68c43dffc54b4dafef3fc381b03ad81cf96f73cc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ac3e10_e8bc7f1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1037574
+      },
+      "writtenOn": "2024-11-08T17:42:48Z",
+      "side": 1,
+      "message": "Sure, done",
+      "parentUuid": "5600b981_c6690c54",
+      "revId": "68c43dffc54b4dafef3fc381b03ad81cf96f73cc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
