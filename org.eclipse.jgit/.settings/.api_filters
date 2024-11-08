@@ -36,4 +36,18 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/SystemReader.java" type="org.eclipse.jgit.util.SystemReader">
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.SystemReader"/>
+                <message_argument value="getTimeZoneAt(Instant)"/>
+            </message_arguments>
+        </filter>
+        <filter id="336695337">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.util.SystemReader"/>
+                <message_argument value="now()"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
