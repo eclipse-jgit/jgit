@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b97a522_ce8f352a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-08T16:08:22Z",
+      "side": 1,
+      "message": "Good catch. I assume the hotmap extensions not in the table are just ignored. As a quick solution this change is fine, thanks!\n\nI suspect these hotmaps are not in the conf because they were an experimental feature. TODO(): We should document them and add them to the dfs conf.",
+      "revId": "68c43dffc54b4dafef3fc381b03ad81cf96f73cc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
