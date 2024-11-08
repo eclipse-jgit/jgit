@@ -24,11 +24,11 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -100,7 +100,7 @@ public class DfsGarbageCollector {
 	private Set<ObjectId> allTags;
 	private Set<ObjectId> nonHeads;
 	private Set<ObjectId> tagTargets;
-	private Date refLogExpire;
+	private Instant refLogExpire;
 
 	/**
 	 * Initialize a garbage collector.
@@ -212,8 +212,8 @@ public class DfsGarbageCollector {
 	 *            instant in time which defines refLog expiration
 	 * @return {@code this}
 	 */
-	public DfsGarbageCollector setRefLogExpire(Date refLogExpire) {
-		this.refLogExpire = refLogExpire ;
+	public DfsGarbageCollector setRefLogExpire(Instant refLogExpire) {
+		this.refLogExpire = refLogExpire;
 		return this;
 	}
 
@@ -752,7 +752,8 @@ public class DfsGarbageCollector {
 			compact.setIncludeDeletes(includeDeletes);
 			compact.setConfig(configureReftable(reftableConfig, out));
 			if(refLogExpire != null ){
-				compact.setReflogExpireOldestReflogTimeMillis(refLogExpire.getTime());
+				compact.setReflogExpireOldestReflogTimeMillis(
+						refLogExpire.toEpochMilli());
 			}
 			compact.compact();
 			pack.addFileExt(REFTABLE);
