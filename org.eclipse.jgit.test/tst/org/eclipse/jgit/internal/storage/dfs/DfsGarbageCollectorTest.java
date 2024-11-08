@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
@@ -1331,7 +1331,7 @@ public class DfsGarbageCollectorTest {
 		gc = new DfsGarbageCollector(repo);
 		gc.setReftableConfig(new ReftableConfig());
 		// Expire ref log entries older than 30 days
-		gc.setRefLogExpire(new Date(thirty_days_ago));
+		gc.setRefLogExpire(Instant.ofEpochMilli(thirty_days_ago));
 		run(gc);
 
 		// Single GC pack present with all objects.
