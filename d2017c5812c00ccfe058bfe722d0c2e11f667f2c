@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59eaf34b_16f4bc74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-09T23:14:03Z",
+      "side": 1,
+      "message": "then let\u0027s do this in another change",
+      "parentUuid": "8667dc84_4da4a41d",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb9dd2e8_311d9c13",
@@ -260,6 +284,24 @@
       "side": 1,
       "message": "Otherwise it fails during this operation. It could be the desired behaviour in other cases... perhaps I could do that in the follow-up so that the scope change doesn\u0027t explode, WDYT?",
       "parentUuid": "de76c40f_1938379f",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9c9c46_08378b02",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-09T23:14:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3dd3e7cd_7a0100d6",
       "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
