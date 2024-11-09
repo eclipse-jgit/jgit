@@ -1,0 +1,8 @@
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+1: JC <geminica.programs@gmail.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Sat, 09 Nov 2024 23:14:22 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1203546
+Project: eclipse-jgit/jgit
+Branch: refs/heads/stable-6.10
