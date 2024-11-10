@@ -16,6 +16,23 @@
       "message": "I would like this on Gerrit 3.8.x, so I have pushed this to jgit 6.6. Since this is a reliability improvement (not quite a bug fix) Please let me know if I should push it to an older branch, or if for any reason that I should push it to any other branch.",
       "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78226374_7787a22b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-10T21:33:50Z",
+      "side": 1,
+      "message": "Although I cannot reproduce this in a test setup yet (I have been trying for weeks), in production I see Errors which look like they cause user commands to fail from lines 404 and from lines 569. The line 404 one should get fixed by this change in all repacking cases, and the 569 one should get fix if it was from the first loop iteration (likely it was).",
+      "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
