@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c9a44d6_562a7a47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-11-11T11:52:43Z",
+      "side": 1,
+      "message": "As requested in this [comment](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1203735/1..3/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java#b128).",
+      "revId": "9843e30694ee4ec24b361d9f9fbefc6d04b2f4a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
