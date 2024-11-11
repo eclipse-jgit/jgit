@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a9636a7_b17e8f1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-11T14:28:40Z",
+      "side": 1,
+      "message": "\"missing objects\" sounds misleading, how about:\n\nDon\u0027t fail when trying to prune pack which is already gone",
+      "revId": "9843e30694ee4ec24b361d9f9fbefc6d04b2f4a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ae57074_db0333bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-11T14:28:40Z",
+      "side": 1,
+      "message": "if a pack to be pruned is already gone",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "9843e30694ee4ec24b361d9f9fbefc6d04b2f4a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2c9a44d6_562a7a47",
