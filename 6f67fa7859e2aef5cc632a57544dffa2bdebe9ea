@@ -86,6 +86,24 @@
       "parentUuid": "2463370d_9063fa8c",
       "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbf0f17b_d824f69f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-11T16:34:08Z",
+      "side": 1,
+      "message": "Unfortunately, I only have evidence in production of the problem. It is very much a racy thing, a race that seems very hard to reproduce, I have tried creating a test and cannot cause the problem. I am hoping to deploy this in production to see if it will fix things, but I\u0027m not sure when I can do that yet. The problem happens on a busy server with a fairly large project which is fairly busy and has around 400+pack files when it gets repacked. This might be a problem for others too, you would have to likely translate the line numbers to whatever version others are running in prod since they likely change. They will show up with errors with copyAiIs2() and the specific line numbers in the logs.\n\nThanks for the correct branch info, I have adjusted it.",
+      "parentUuid": "5e1887fc_cf4af98e",
+      "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
