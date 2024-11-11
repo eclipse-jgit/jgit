@@ -51,6 +51,41 @@
       "parentUuid": "78226374_7787a22b",
       "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e1887fc_cf4af98e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-11T15:30:18Z",
+      "side": 1,
+      "message": "Do you have evidence from using this change that it improves reuse ?\n\nWould it be feasible to write some tests ?",
+      "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36649b73_385a228b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-11T15:30:18Z",
+      "side": 1,
+      "message": "the tip of Gerrit stable-3.8\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.8/modules/jgit\nuses jgit 1cd87ab79065b78a0774f20f1bfd522747c37c15 which corresponds to jgit stable-6.10:\n\n$ git describe 1cd87ab79065b78a0774f20f1bfd522747c37c15\nv6.10.0.202406032230-r-28-g1cd87ab79\n\nIf you need it on stable-6.6 I am fine with that.\nOtherwise I\u0027d prefer to do it on 6.10 to limit the number of changes on old branches.",
+      "parentUuid": "2463370d_9063fa8c",
+      "revId": "6f67fa7859e2aef5cc632a57544dffa2bdebe9ea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
