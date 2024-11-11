@@ -16,6 +16,98 @@
       "message": "This change does not take into consideration that creating a new branch `refs/heads/foo` should trigger a lock failure if any branch starting with `refs/heads/foo/` exists.",
       "revId": "d35e9f9f457226e3648d98c7950dec37aaf5c682",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb6ac1f_cedb89d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T00:39:07Z",
+      "side": 1,
+      "message": "We should find a reliable and fast way to implement the locking on ref-prefixes, rather than relying on a feature flag on a check that is mandatory.",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 119
+      },
+      "revId": "d35e9f9f457226e3648d98c7950dec37aaf5c682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2b539c_6de9c217",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T00:39:07Z",
+      "side": 1,
+      "message": "Actually it\u0027s the other way around: the lock would succeed even if we were supposed to reject the batch ref-update.",
+      "range": {
+        "startLine": 137,
+        "startChar": 5,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "d35e9f9f457226e3648d98c7950dec37aaf5c682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d44f8371_f8454e8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T00:39:07Z",
+      "side": 1,
+      "message": "The check can\u0027t be skipped, because otherwise the locking on refs prefixes won\u0027t work.",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 138,
+        "endChar": 36
+      },
+      "revId": "d35e9f9f457226e3648d98c7950dec37aaf5c682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2de4404d_1ab87000",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T00:39:07Z",
+      "side": 1,
+      "message": "This loop is way too expensive, because of the following reasons:\n\n1. Extract all refs (what if a repo has millions of them?)\n2. Add the ref name into yet another in-memory collection (memory intensive)\n3. Compute the prefixes for all refs with a loop on the refs parts.\n\nWe should get rid of it and instead:\n- Perform a refs prefixes filtering on the refs to be updated\n- Check ONLY for those refs that belong to the prefixes, instead of processing all refs of a repository.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 3
+      },
+      "revId": "d35e9f9f457226e3648d98c7950dec37aaf5c682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
