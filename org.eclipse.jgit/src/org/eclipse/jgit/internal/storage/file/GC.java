@@ -1509,7 +1509,7 @@ public class GC {
 		public long numberOfPackFiles;
 
 		/**
-		 * The number of pack files that were created after the last bitmap
+		 * The number of pack files that were created since the last bitmap
 		 * generation.
 		 */
 		public long numberOfPackFilesSinceBitmap;
@@ -1575,10 +1575,11 @@ public class GC {
 			ret.numberOfPackedObjects += p.getIndex().getObjectCount();
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
-			if (p.getBitmapIndex() != null)
+			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
-			else
+			} else {
 				ret.numberOfPackFilesSinceBitmap++;
+			}
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();
