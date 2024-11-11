@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -1144,15 +1145,18 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		}
 
 		/**
-		 * set parent commit
+		 * Set parent commit
 		 *
 		 * @param p
-		 *            parent commit
+		 *            parent commit, can be {@code null}
 		 * @return this commit builder
 		 * @throws Exception
 		 *             if an error occurred
 		 */
-		public CommitBuilder parent(RevCommit p) throws Exception {
+		public CommitBuilder parent(@Nullable RevCommit p) throws Exception {
+			if (p == null) {
+				return this;
+			}
 			if (parents.isEmpty()) {
 				DirCacheBuilder b = tree.builder();
 				parseBody(p);

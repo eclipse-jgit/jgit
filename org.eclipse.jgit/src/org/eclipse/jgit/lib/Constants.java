@@ -12,9 +12,13 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
@@ -722,14 +726,15 @@ public final class Constants {
 	 *             the 7-bit ASCII character space.
 	 */
 	public static byte[] encodeASCII(String s) {
-		final byte[] r = new byte[s.length()];
-		for (int k = r.length - 1; k >= 0; k--) {
-			final char c = s.charAt(k);
-			if (c > 127)
-				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().notASCIIString, s));
-			r[k] = (byte) c;
+		try {
+			CharsetEncoder encoder = US_ASCII.newEncoder()
+					.onUnmappableCharacter(CodingErrorAction.REPORT)
+					.onMalformedInput(CodingErrorAction.REPORT);
+			return encoder.encode(CharBuffer.wrap(s)).array();
+		} catch (CharacterCodingException e) {
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().notASCIIString, s), e);
 		}
-		return r;
 	}
 
 	/**
@@ -741,17 +746,7 @@ public final class Constants {
 	 *         default character encoding (UTF-8).
 	 */
 	public static byte[] encode(String str) {
-		final ByteBuffer bb = UTF_8.encode(str);
-		final int len = bb.limit();
-		if (bb.hasArray() && bb.arrayOffset() == 0) {
-			final byte[] arr = bb.array();
-			if (arr.length == len)
-				return arr;
-		}
-
-		final byte[] arr = new byte[len];
-		bb.get(arr);
-		return arr;
+		return str.getBytes(UTF_8);
 	}
 
 	static {
