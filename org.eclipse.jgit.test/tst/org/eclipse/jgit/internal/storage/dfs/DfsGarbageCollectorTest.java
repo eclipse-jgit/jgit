@@ -6,6 +6,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.IN
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -15,8 +16,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
@@ -24,6 +28,7 @@ import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.reftable.LogCursor;
 import org.eclipse.jgit.internal.storage.reftable.RefCursor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
@@ -37,6 +42,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -44,6 +50,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
@@ -1275,6 +1282,90 @@ public class DfsGarbageCollectorTest {
 				bitmapIndex.getXorBitmapCount() > 0);
 	}
 
+	@Test
+	public void gitGCWithRefLogExpire() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update(master, commit1);
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setReftableConfig(new ReftableConfig());
+		run(gc);
+		DfsPackDescription t1 = odb.newPack(INSERT);
+		Ref next = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE,
+				"refs/heads/next", commit0.copy());
+		long currentDay = new Date().getTime();
+		GregorianCalendar cal = new GregorianCalendar(SystemReader
+				.getInstance().getTimeZone(), SystemReader.getInstance()
+				.getLocale());
+		long ten_days_ago = GitDateParser.parse("10 days ago",cal,SystemReader.getInstance()
+				.getLocale()).getTime() ;
+		long twenty_days_ago = GitDateParser.parse("20 days ago",cal,SystemReader.getInstance()
+				.getLocale()).getTime() ;
+		long thirty_days_ago = GitDateParser.parse("30 days ago",cal,SystemReader.getInstance()
+				.getLocale()).getTime() ;;
+		long fifty_days_ago = GitDateParser.parse("50 days ago",cal,SystemReader.getInstance()
+				.getLocale()).getTime() ;
+		PersonIdent who2 = new PersonIdent("J.Author", "authemail", currentDay, -8 * 60);
+		PersonIdent who3 = new PersonIdent("J.Author", "authemail", ten_days_ago, -8 * 60);
+		PersonIdent who4 = new PersonIdent("J.Author", "authemail", twenty_days_ago, -8 * 60);
+		PersonIdent who5 = new PersonIdent("J.Author", "authemail", thirty_days_ago, -8 * 60);
+		PersonIdent who6 = new PersonIdent("J.Author", "authemail", fifty_days_ago, -8 * 60);
+
+		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
+			ReftableWriter w = new ReftableWriter(out);
+			w.setMinUpdateIndex(42);
+			w.setMaxUpdateIndex(42);
+			w.begin();
+			w.sortAndWriteRefs(Collections.singleton(next));
+			w.writeLog("refs/heads/branch", 1, who2, ObjectId.zeroId(),id(2), "Branch Message");
+			w.writeLog("refs/heads/branch1", 2, who3, ObjectId.zeroId(),id(3), "Branch Message1");
+			w.writeLog("refs/heads/branch2", 2, who4, ObjectId.zeroId(),id(4), "Branch Message2");
+			w.writeLog("refs/heads/branch3", 2, who5, ObjectId.zeroId(),id(5), "Branch Message3");
+			w.writeLog("refs/heads/branch4", 2, who6, ObjectId.zeroId(),id(6), "Branch Message4");
+			w.finish();
+			t1.addFileExt(REFTABLE);
+			t1.setReftableStats(w.getStats());
+		}
+		odb.commitPack(Collections.singleton(t1), null);
+
+		gc = new DfsGarbageCollector(repo);
+		gc.setReftableConfig(new ReftableConfig());
+		// Expire ref log entries older than 30 days
+		gc.setRefLogExpire(Instant.ofEpochMilli(thirty_days_ago));
+		run(gc);
+
+		// Single GC pack present with all objects.
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		DfsPackDescription desc = pack.getPackDescription();
+
+		DfsReftable table = new DfsReftable(DfsBlockCache.getInstance(), desc);
+		try (DfsReader ctx = odb.newReader();
+			 ReftableReader rr = table.open(ctx);
+			 RefCursor rc = rr.allRefs();
+			 LogCursor lc = rr.allLogs()) {
+			assertTrue(rc.next());
+			assertEquals(master, rc.getRef().getName());
+			assertEquals(commit1, rc.getRef().getObjectId());
+			assertTrue(rc.next());
+			assertEquals(next.getName(), rc.getRef().getName());
+			assertEquals(commit0, rc.getRef().getObjectId());
+			assertFalse(rc.next());
+			assertTrue(lc.next());
+			assertEquals(lc.getRefName(),"refs/heads/branch");
+			assertTrue(lc.next());
+			assertEquals(lc.getRefName(),"refs/heads/branch1");
+			assertTrue(lc.next());
+			assertEquals(lc.getRefName(),"refs/heads/branch2");
+			// Old entries are purged
+			assertFalse(lc.next());
+
+		}
+
+	}
+
+
 	private RevCommit commitChain(RevCommit parent, int length)
 			throws Exception {
 		for (int i = 0; i < length; i++) {
@@ -1363,5 +1454,13 @@ public class DfsGarbageCollectorTest {
 			}
 		}
 		return cnt;
+	}
+	private static ObjectId id(int i) {
+		byte[] buf = new byte[OBJECT_ID_LENGTH];
+		buf[0] = (byte) (i & 0xff);
+		buf[1] = (byte) ((i >>> 8) & 0xff);
+		buf[2] = (byte) ((i >>> 16) & 0xff);
+		buf[3] = (byte) (i >>> 24);
+		return ObjectId.fromRaw(buf);
 	}
 }

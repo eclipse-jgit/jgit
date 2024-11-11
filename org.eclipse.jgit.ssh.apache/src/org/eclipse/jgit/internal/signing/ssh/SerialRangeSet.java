@@ -9,7 +9,6 @@
  */
 package org.eclipse.jgit.internal.signing.ssh;
 
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
@@ -50,14 +49,14 @@ class SerialRangeSet {
 		}
 	}
 
-	// We use the same data structure as OpenSSH,; basically a
-	// TreeSet<SerialRange> of mutable elements. To get "mutability", the set is
-	// implemented as a TreeMap with the same elements as keys and values.
+	// We use the same data structure as OpenSSH; basically a TreeSet of mutable
+	// SerialRanges. To get "mutability", the set is implemented as a TreeMap
+	// with the same elements as keys and values.
 	//
 	// get(x) will return null if none of the serial numbers in the range x is
 	// in the set, and some range (partially) overlapping with x otherwise.
 	//
-	// containsKey will return true if there is any (partially) overlapping
+	// containsKey(x) will return true if there is any (partially) overlapping
 	// range in the TreeMap.
 	private final TreeMap<SerialRange, SerialRange> ranges = new TreeMap<>(
 			SerialRangeSet::compare);
@@ -117,21 +116,15 @@ class SerialRangeSet {
 		}
 		// No overlapping range exists: check for coalescing with the
 		// previous/next range
-		SortedMap<SerialRange, SerialRange> head = ranges.headMap(newRange);
-		if (!head.isEmpty()) {
-			SerialRange prev = head.lastKey();
-			if (newRange.from() - prev.to() == 1) {
-				ranges.remove(prev);
-				newRange = new Range(prev.from(), newRange.to());
-			}
+		SerialRange prev = ranges.floorKey(newRange);
+		if (prev != null && newRange.from() - prev.to() == 1) {
+			ranges.remove(prev);
+			newRange = new Range(prev.from(), newRange.to());
 		}
-		SortedMap<SerialRange, SerialRange> tail = ranges.tailMap(newRange);
-		if (!tail.isEmpty()) {
-			SerialRange next = tail.firstKey();
-			if (next.from() - newRange.to() == 1) {
-				ranges.remove(next);
-				newRange = new Range(newRange.from(), next.to());
-			}
+		SerialRange next = ranges.ceilingKey(newRange);
+		if (next != null && next.from() - newRange.to() == 1) {
+			ranges.remove(next);
+			newRange = new Range(newRange.from(), next.to());
 		}
 		ranges.put(newRange, newRange);
 	}

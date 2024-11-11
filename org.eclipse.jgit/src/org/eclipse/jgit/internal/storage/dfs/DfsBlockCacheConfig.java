@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -300,10 +301,22 @@ public class DfsBlockCacheConfig {
 	 *            map of hot count per pack extension for {@code DfsBlockCache}.
 	 * @return {@code this}
 	 */
+	/*
+	 * TODO The cache HotMap configuration should be set as a config option and
+	 * not passed in through a setter.
+	 */
 	public DfsBlockCacheConfig setCacheHotMap(
 			Map<PackExt, Integer> cacheHotMap) {
 		this.cacheHotMap = Collections.unmodifiableMap(cacheHotMap);
+		setCacheHotMapToPackExtConfigs(this.cacheHotMap);
 		return this;
+	}
+
+	private void setCacheHotMapToPackExtConfigs(
+			Map<PackExt, Integer> cacheHotMap) {
+		for (DfsBlockCachePackExtConfig packExtConfig : packExtCacheConfigurations) {
+			packExtConfig.setCacheHotMap(cacheHotMap);
+		}
 	}
 
 	/**
@@ -433,6 +446,7 @@ public class DfsBlockCacheConfig {
 			cacheConfigs.add(cacheConfig);
 		}
 		packExtCacheConfigurations = cacheConfigs;
+		setCacheHotMapToPackExtConfigs(this.cacheHotMap);
 	}
 
 	private static <T> Set<T> intersection(Set<T> first, Set<T> second) {
@@ -549,6 +563,14 @@ public class DfsBlockCacheConfig {
 
 		DfsBlockCacheConfig getPackExtCacheConfiguration() {
 			return packExtCacheConfiguration;
+		}
+
+		void setCacheHotMap(Map<PackExt, Integer> cacheHotMap) {
+			Map<PackExt, Integer> packExtHotMap = packExts.stream()
+					.filter(cacheHotMap::containsKey)
+					.collect(Collectors.toUnmodifiableMap(Function.identity(),
+							cacheHotMap::get));
+			packExtCacheConfiguration.setCacheHotMap(packExtHotMap);
 		}
 
 		private static DfsBlockCachePackExtConfig fromConfig(Config config,

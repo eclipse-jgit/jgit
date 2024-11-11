@@ -33,18 +33,18 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
-public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
+public class GcNumberOfPackFilesSinceBitmapStatisticsTest extends GcTestCase {
 	@Test
 	public void testShouldReportZeroObjectsForInitializedRepo()
 			throws IOException {
-		assertEquals(0L, gc.getStatistics().numberOfPackFilesAfterBitmap);
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
 	@Test
 	public void testShouldReportAllPackFilesWhenNoGcWasPerformed()
 			throws Exception {
 		packAndPrune();
-		long result = gc.getStatistics().numberOfPackFilesAfterBitmap;
+		long result = gc.getStatistics().numberOfPackFilesSinceBitmap;
 
 		assertEquals(repo.getObjectDatabase().getPacks().size(), result);
 	}
@@ -55,11 +55,11 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 		addCommit(null);
 		gc.gc().get();
 		assertEquals(1L, repositoryBitmapFiles());
-		assertEquals(0L, gc.getStatistics().numberOfPackFilesAfterBitmap);
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
 	@Test
-	public void testShouldReportNewObjectsAfterGcWhenRepositoryProgresses()
+	public void testShouldReportNewObjectsSinceGcWhenRepositoryProgresses()
 			throws Exception {
 		// commit & gc
 		RevCommit parent = addCommit(null);
@@ -70,7 +70,7 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 		addCommit(parent);
 		packAndPrune();
 
-		assertEquals(1L, gc.getStatistics().numberOfPackFilesAfterBitmap);
+		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class GcNumberOfPackFilesAfterBitmapStatisticsTest extends GcTestCase {
 		addCommit(parent);
 		packAndPrune();
 
-		assertEquals(1L, gc.getStatistics().numberOfPackFilesAfterBitmap);
+		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
 	private void packAndPrune() throws Exception {
