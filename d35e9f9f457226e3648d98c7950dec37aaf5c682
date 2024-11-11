@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33be7395_39a50459",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-11T00:18:59Z",
+      "side": 1,
+      "message": "This change does not take into consideration that creating a new branch `refs/heads/foo` should trigger a lock failure if any branch starting with `refs/heads/foo/` exists.",
+      "revId": "d35e9f9f457226e3648d98c7950dec37aaf5c682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
