@@ -1512,7 +1512,7 @@ public class GC {
 		 * The number of pack files that were created after the last bitmap
 		 * generation.
 		 */
-		public long numberOfPackFilesAfterBitmap;
+		public long numberOfPackFilesSinceBitmap;
 
 		/**
 		 * The number of objects stored as loose objects.
@@ -1549,8 +1549,8 @@ public class GC {
 			final StringBuilder b = new StringBuilder();
 			b.append("numberOfPackedObjects=").append(numberOfPackedObjects); //$NON-NLS-1$
 			b.append(", numberOfPackFiles=").append(numberOfPackFiles); //$NON-NLS-1$
-			b.append(", numberOfPackFilesAfterBitmap=") //$NON-NLS-1$
-					.append(numberOfPackFilesAfterBitmap);
+			b.append(", numberOfPackFilesSinceBitmap=") //$NON-NLS-1$
+					.append(numberOfPackFilesSinceBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1578,7 +1578,7 @@ public class GC {
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
 			} else {
-				ret.numberOfPackFilesAfterBitmap++;
+				ret.numberOfPackFilesSinceBitmap++;
 			}
 		}
 		File objDir = repo.getObjectsDirectory();
