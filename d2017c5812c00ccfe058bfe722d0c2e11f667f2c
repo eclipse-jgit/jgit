@@ -330,6 +330,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64b3bb1_e1f41528",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-11-11T11:51:17Z",
+      "side": 1,
+      "message": "Addressed in I01b4ddbadde",
+      "parentUuid": "7a9c9c46_08378b02",
+      "revId": "d2017c5812c00ccfe058bfe722d0c2e11f667f2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96f1f186_3e77fb27",
