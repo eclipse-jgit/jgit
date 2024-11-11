@@ -193,7 +193,10 @@ public abstract class SystemReader {
 	 */
 	public static class Delegate extends SystemReader {
 
-		private final SystemReader delegate;
+		/**
+		 * The SystemReader to delegate to.
+		 */
+		protected final SystemReader delegate;
 
 		/**
 		 * Create a delegating system reader
