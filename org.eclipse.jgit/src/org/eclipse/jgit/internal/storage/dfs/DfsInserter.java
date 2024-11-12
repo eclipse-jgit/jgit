@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
@@ -84,6 +85,7 @@ public class DfsInserter extends ObjectInserter {
 	PackStream packOut;
 	private boolean rollback;
 	private boolean checkExisting = true;
+	private List<InserterListener> listeners;
 
 	/**
 	 * Initialize a new inserter.
@@ -96,6 +98,11 @@ public class DfsInserter extends ObjectInserter {
 		this.minBytesForObjectSizeIndex = db.getRepository().getConfig().getInt(
 				ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, -1);
+		this.listeners = new ArrayList<>();
+	}
+
+	public void addListener(InserterListener listerner) {
+		listeners.add(listerner);
 	}
 
 	/**
