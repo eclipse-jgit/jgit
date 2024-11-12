@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f40a5e_d55ab37c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-12T14:45:20Z",
+      "side": 1,
+      "message": "fixed typo",
+      "revId": "f583fa6bcab425eae998da69ba41cdae33a2d587",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d9517a_4f42cac0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-12T14:45:20Z",
+      "side": 1,
+      "message": "restored from https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1203735/3/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcNumberOfPackFilesAfterBitmapStatisticsTest.java",
+      "revId": "f583fa6bcab425eae998da69ba41cdae33a2d587",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9698c0f_5310a9da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-12T14:45:20Z",
+      "side": 1,
+      "message": "fixed formatting",
+      "revId": "f583fa6bcab425eae998da69ba41cdae33a2d587",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "214470dc_1da3b989",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1611,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-12T14:45:20Z",
+      "side": 1,
+      "message": "added missing braces",
+      "revId": "f583fa6bcab425eae998da69ba41cdae33a2d587",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
