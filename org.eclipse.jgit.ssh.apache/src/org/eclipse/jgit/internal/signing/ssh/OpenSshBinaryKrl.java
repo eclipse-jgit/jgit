@@ -90,6 +90,7 @@ class OpenSshBinaryKrl {
 	 * @param blob
 	 *            the array to wrap
 	 */
+	@SuppressWarnings("ArrayRecordComponent")
 	private static record Blob(byte[] blob) {
 
 		@Override
