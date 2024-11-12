@@ -84,6 +84,7 @@ public class DfsInserter extends ObjectInserter {
 	PackStream packOut;
 	private boolean rollback;
 	private boolean checkExisting = true;
+	private List<InserterListener> listeners;
 
 	/**
 	 * Initialize a new inserter.
@@ -96,6 +97,11 @@ public class DfsInserter extends ObjectInserter {
 		this.minBytesForObjectSizeIndex = db.getRepository().getConfig().getInt(
 				ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, -1);
+		this.listeners = new ArrayList<>();
+	}
+
+	public void addListener(InserterListener listerner) {
+		listeners.add(listerner);
 	}
 
 	/**
@@ -200,6 +206,8 @@ public class DfsInserter extends ObjectInserter {
 
 		PackIndex index = writePackIndex(packDsc, packHash, objectList);
 		writeObjectSizeIndex(packDsc, objectList);
+
+		listeners.forEach(s -> s.onFlush(packDsc));
 		db.commitPack(Collections.singletonList(packDsc), null);
 		rollback = false;
 
