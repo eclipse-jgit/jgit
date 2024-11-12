@@ -26,6 +26,7 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Locale;
@@ -536,6 +537,17 @@ public abstract class SystemReader {
 		// Subclasses overriding getCurrentTime should keep working
 		// TODO(ifrade): Once we remove getCurrentTime, use Instant.now()
 		return Instant.ofEpochMilli(getCurrentTime());
+	}
+
+	/**
+	 * Get "now" as civil time, in the System timezone
+	 *
+	 * @return the current system time
+	 *
+	 * @since 7.1
+	 */
+	public LocalDateTime civilNow() {
+		return LocalDateTime.ofInstant(now(), getTimeZoneId());
 	}
 
 	/**
