@@ -10,32 +10,6 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
-import static org.eclipse.jgit.lib.Constants.OBJ_OFS_DELTA;
-import static org.eclipse.jgit.lib.Constants.OBJ_REF_DELTA;
-
-import java.io.BufferedInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.security.MessageDigest;
-import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.zip.CRC32;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.Inflater;
-import java.util.zip.InflaterInputStream;
-
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -45,16 +19,7 @@ import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ConfigConstants;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdOwnerMap;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.IO;
@@ -62,6 +27,17 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.CountingOutputStream;
 import org.eclipse.jgit.util.sha1.SHA1;
+
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.zip.*;
+
+import static org.eclipse.jgit.internal.storage.pack.PackExt.*;
+import static org.eclipse.jgit.lib.Constants.OBJ_OFS_DELTA;
+import static org.eclipse.jgit.lib.Constants.OBJ_REF_DELTA;
 
 /**
  * Inserts objects into the DFS.
@@ -84,6 +60,7 @@ public class DfsInserter extends ObjectInserter {
 	PackStream packOut;
 	private boolean rollback;
 	private boolean checkExisting = true;
+	private List<InserterListener> listeners;
 
 	/**
 	 * Initialize a new inserter.
@@ -96,15 +73,19 @@ public class DfsInserter extends ObjectInserter {
 		this.minBytesForObjectSizeIndex = db.getRepository().getConfig().getInt(
 				ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, -1);
+		this.listeners = new ArrayList<>();
+	}
+
+	public void addListener(InserterListener listerner) {
+		listeners.add(listerner);
 	}
 
 	/**
 	 * Check existence
 	 *
-	 * @param check
-	 *            if {@code false}, will write out possibly-duplicate objects
-	 *            without first checking whether they exist in the repo; default
-	 *            is true.
+	 * @param check if {@code false}, will write out possibly-duplicate objects
+	 *              without first checking whether they exist in the repo; default
+	 *              is true.
 	 */
 	public void checkExisting(boolean check) {
 		checkExisting = check;
