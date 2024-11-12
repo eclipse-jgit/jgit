@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262abad0_bc2bc26e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InserterListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-12T23:08:10Z",
+      "side": 1,
+      "message": "This interface belongs to the DfsInserter, define it there (we do that with other interfaces)",
+      "revId": "03563c7e66e66df07a43eb19231e601b0fc87d4d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba7e1cb5_46d30823",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InserterListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-12T23:08:10Z",
+      "side": 1,
+      "message": "the first line says this is called before the pack is flushed, but here it seems that the data has already being flushed?\n \nAlso, can you add more details on the state of the pack? What is included in \"flushed\"? Is it committed? If not, does it matter for these listeners? (or why not?).",
+      "revId": "03563c7e66e66df07a43eb19231e601b0fc87d4d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
