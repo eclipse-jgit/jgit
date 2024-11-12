@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.ssh.apache
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 7.1.0.qualifier
+Bundle-Version: 7.1.0.202411121450-m3
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.jgit.internal.signing.ssh;version="7.1.0";x-friends:="org.eclipse.jgit.ssh.apache.test",
  org.eclipse.jgit.internal.transport.sshd;version="7.1.0";x-internal:=true;

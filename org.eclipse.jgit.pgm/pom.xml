@@ -17,7 +17,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>7.1.0-SNAPSHOT</version>
+    <version>7.1.0.202411121450-m3</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.pgm</artifactId>
