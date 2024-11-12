@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01254994_0654721f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-11-12T07:01:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9636a7_b17e8f1c",
+      "revId": "9843e30694ee4ec24b361d9f9fbefc6d04b2f4a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ae57074_db0333bb",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-11-11T14:28:40Z",
       "side": 1,
       "message": "if a pack to be pruned is already gone",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "9843e30694ee4ec24b361d9f9fbefc6d04b2f4a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "279f042e_bf3a032e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-11-12T07:01:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ae57074_db0333bb",
       "range": {
         "startLine": 9,
         "startChar": 62,
