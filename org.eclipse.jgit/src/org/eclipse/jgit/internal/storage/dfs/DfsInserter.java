@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -84,6 +85,7 @@ public class DfsInserter extends ObjectInserter {
 	PackStream packOut;
 	private boolean rollback;
 	private boolean checkExisting = true;
+	private List<InserterListener> listeners;
 
 	/**
 	 * Initialize a new inserter.
@@ -96,6 +98,18 @@ public class DfsInserter extends ObjectInserter {
 		this.minBytesForObjectSizeIndex = db.getRepository().getConfig().getInt(
 				ConfigConstants.CONFIG_PACK_SECTION,
 				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, -1);
+		this.listeners = new ArrayList<>();
+	}
+
+	/**
+	 * Register a listener
+	 *
+	 * @param listener
+	 *            a listener that its callbacks will be triggered in
+	 *            corresponding events.
+	 */
+	public void addListener(InserterListener listener) {
+		listeners.add(listener);
 	}
 
 	/**
@@ -200,6 +214,8 @@ public class DfsInserter extends ObjectInserter {
 
 		PackIndex index = writePackIndex(packDsc, packHash, objectList);
 		writeObjectSizeIndex(packDsc, objectList);
+
+		listeners.forEach(s -> s.onFlush(packDsc));
 		db.commitPack(Collections.singletonList(packDsc), null);
 		rollback = false;
 
@@ -726,5 +742,20 @@ public class DfsInserter extends ObjectInserter {
 			}
 			return n;
 		}
+	}
+
+	/**
+	 * Listener for {@link DfsInserter}
+	 */
+	protected interface InserterListener {
+		/**
+		 * Called during the insert is flush, before PackDescription is committed to DB.
+		 *
+		 * <p>This is called when the inserter is flushed, which means that all the data that was added to
+		 * the inserter has been written to disk.
+		 *
+		 * @param packDescription the pack description that was flushed
+		 */
+		void onFlush(DfsPackDescription packDescription);
 	}
 }
