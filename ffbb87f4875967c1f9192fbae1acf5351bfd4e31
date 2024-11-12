@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ea336d_8157431e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2024-11-12T08:09:17Z",
+      "side": 1,
+      "message": "Modified test succeeds ([result](https://ci.eclipse.org/jgit/job/stable/job/jgit.gerrit-pipeline.java11/2897/console)):\n```\n08:32:19  [INFO] Running org.eclipse.jgit.internal.storage.file.GcSinceBitmapStatisticsTest\n08:32:20  [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.428 s -- in org.eclipse.jgit.internal.storage.file.GcSinceBitmapStatisticsTest\n```\nyet it fails with some unrelated test\n```\n08:34:06  [ERROR] Failures: \n08:34:06  [ERROR]   ArchiveCommandTest.archiveHeadAllFilesTbz2WithCompressionReducesArchiveSize:220-\u003earchiveHeadAllFilesWithCompression:270\n08:34:06  [INFO] \n08:34:06  [ERROR] Tests run: 5806, Failures: 1, Errors: 0, Skipped: 109\n```",
+      "revId": "ffbb87f4875967c1f9192fbae1acf5351bfd4e31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
