@@ -82,6 +82,7 @@ final class AllowedSigners extends ModifiableFileWatcher {
 	private static final Predicate<AllowedEntry> PLAIN_KEYS = Predicate
 			.not(CERTIFICATES);
 
+	@SuppressWarnings("ArrayRecordComponent")
 	static record AllowedEntry(String[] identities, boolean isCA,
 			String[] namespaces, Instant validAfter, Instant validBefore,
 			String key) {
