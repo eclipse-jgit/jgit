@@ -178,11 +178,6 @@ public abstract class SystemReader {
 		public int getTimezone(long when) {
 			return getTimeZone().getOffset(when) / (60 * 1000);
 		}
-
-		@Override
-		public ZoneOffset getTimeZoneAt(Instant when) {
-			return getTimeZoneId().getRules().getOffset(when);
-		}
 	}
 
 	/**
@@ -569,7 +564,9 @@ public abstract class SystemReader {
 	 * @return the local time zone
 	 * @since 7.1
 	 */
-	public abstract ZoneOffset getTimeZoneAt(Instant when);
+	public ZoneOffset getTimeZoneAt(Instant when) {
+		return getTimeZoneId().getRules().getOffset(when);
+	}
 
 	/**
 	 * Get system time zone, possibly mocked for testing
