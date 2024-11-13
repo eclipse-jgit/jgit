@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb8f417_8f8f7cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-13T20:06:04Z",
+      "side": 1,
+      "message": "This method was introduced recently and it hasn\u0027t been in a release, so it is ok to change it.",
+      "revId": "c64bc936938b1388065be1c89eb929278b505a87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
