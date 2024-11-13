@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2367e551_a55d4a30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-13T17:12:03Z",
+      "side": 1,
+      "message": "Sorry, the right link is https://errorprone.info/bugpattern/ArrayRecordComponent\n\nI updated the commit message.",
+      "parentUuid": "39d00213_23a2b5ef",
+      "revId": "ab032dfe02c2e915d5527f823d72f4ff264a5920",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a8d8bafc_906cc442",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
