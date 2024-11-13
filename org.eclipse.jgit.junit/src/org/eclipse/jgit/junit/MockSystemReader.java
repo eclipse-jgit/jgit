@@ -245,11 +245,6 @@ public class MockSystemReader extends SystemReader {
 	}
 
 	@Override
-	public ZoneOffset getTimeZoneAt(Instant when) {
-		return getTimeZoneId().getRules().getOffset(when);
-	}
-
-	@Override
 	public TimeZone getTimeZone() {
 		return TimeZone.getTimeZone("GMT-03:30");
 	}
