@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bac50f0_f0801af0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-13T19:51:05Z",
+      "side": 1,
+      "message": "Sorry for the long wait; I was on vacation and only got around to this again now. I think we should use Path.relativize(); the FileUtils method won\u0027t work if the two directories are on different drives in Windows.",
+      "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cf2051f_3cd584e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-13T19:51:05Z",
+      "side": 1,
+      "message": "I would suggest a single method. But `FileUtils.relativizeGitDir()` cannot be used. It does not work if the two paths have different roots. (Consider Windows: Git repo in C:\\Users\\johndoe\\git\\myrepo, but working tree at D:\\work\\my_repo; then add a submodule...)\n\nI suggest using java.nio.file Path.relativize() instead:\n```\nprivate String getRelativeDir(File base, File other) {\n  try {\n    return FileUtils.pathToString(base.toPath().relativize(other.toPath()).toFile());\n  } catch (IllegalArgumentException e) {\n    // Invalid path, or cannot be made relative\n    return FileUtils.pathToString(other);\n  }\n}\n```",
+      "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "438d9dbc_bbbe0f35",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-13T19:51:05Z",
+      "side": 1,
+      "message": "And then calling here\n```\n  String workTreePath;\n  String gitDirPath;\n  if (relativePaths) {\n    File canonGitDir \u003d getDirectory().getCanonicalFile();\n    File canonWorkTree \u003d getWorkTree().getCanonicalFile();\n    workTreePath \u003d getRelativeDir(canonGitDir, canonWorkTree);\n    gitDirPath \u003d getRelativeDir(canonWorkTree, canonGitDir);\n  } else {\n    workTreePath \u003d \u003d getWorkTree().getAbsolutePath();\n    gitDirPath \u003d getDirectory().getAbsolutePath()\n  }\n```\n\n(Note: must be the canonical paths, otherwise the behavior may be rather surprising if symlinks are involved. See the javadoc of Path.relativize().)",
+      "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
