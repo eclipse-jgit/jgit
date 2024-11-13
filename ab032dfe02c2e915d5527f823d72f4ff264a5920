@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d00213_23a2b5ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-13T07:41:00Z",
+      "side": 1,
+      "message": "This link doesn\u0027t work for me.",
+      "revId": "ab032dfe02c2e915d5527f823d72f4ff264a5920",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8d8bafc_906cc442",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-13T07:41:00Z",
+      "side": 1,
+      "message": "CI currently doesn\u0027t work; the Eclipse Foundation is doing major infrastructure maintenance which apparently they cannot do in a non-disruptive way. Retrigger later today, or tomorrow.",
+      "revId": "ab032dfe02c2e915d5527f823d72f4ff264a5920",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
