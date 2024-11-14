@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.HashMap;
@@ -202,11 +201,6 @@ public class MockSystemReader extends SystemReader {
 	@Override
 	public long getCurrentTime() {
 		return now;
-	}
-
-	@Override
-	public Instant now() {
-		return Instant.ofEpochMilli(now);
 	}
 
 	@Override

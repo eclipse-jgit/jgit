@@ -532,7 +532,11 @@ public abstract class SystemReader {
 	 *
 	 * @since 7.1
 	 */
-	public abstract Instant now();
+	public Instant now() {
+		// Subclasses overriding getCurrentTime should keep working
+		// TODO(ifrade): Once we remove getCurrentTime, use Instant.now()
+		return Instant.ofEpochMilli(getCurrentTime());
+	}
 
 	/**
 	 * Get clock instance preferred by this system.
