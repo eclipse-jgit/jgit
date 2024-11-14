@@ -743,4 +743,19 @@ public class DfsInserter extends ObjectInserter {
 			return n;
 		}
 	}
+
+	/**
+	 * Listener for {@link DfsInserter}
+	 */
+	protected interface InserterListener {
+		/**
+		 * Called during the insert is flush, before PackDescription is committed to DB.
+		 *
+		 * <p>This is called when the inserter is flushed, which means that all the data that was added to
+		 * the inserter has been written to disk.
+		 *
+		 * @param packDescription the pack description that was flushed
+		 */
+		void onFlush(DfsPackDescription packDescription);
+	}
 }
