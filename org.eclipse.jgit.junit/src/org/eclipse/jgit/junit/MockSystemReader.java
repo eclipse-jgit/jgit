@@ -251,7 +251,7 @@ public class MockSystemReader extends SystemReader {
 
 	@Override
 	public ZoneId getTimeZoneId() {
-		return ZoneOffset.ofHoursMinutes(-3, 30);
+		return ZoneOffset.ofHoursMinutes(-3, -30);
 	}
 
 	@Override
