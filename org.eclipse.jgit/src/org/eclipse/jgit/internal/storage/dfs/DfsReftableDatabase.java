@@ -267,5 +267,4 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	protected void cachePeeledState(Ref oldLeaf, Ref newLeaf) {
 		// Do not cache peeled state in reftable.
 	}
-
 }

@@ -286,7 +286,8 @@ public class GC {
 				return Collections.emptyList();
 			}
 			pm.start(6 /* tasks */);
-			packRefs();
+			repo.getRefDatabase().packRefs(pm,
+					new RefDatabase.PackRefsOptions(/* all */ true));
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
 			prune(Collections.emptySet());
@@ -777,43 +778,6 @@ public class GC {
 		}
 		return !r2.isSymbolic()
 				&& Objects.equals(r1.getObjectId(), r2.getObjectId());
-	}
-
-	/**
-	 * Pack ref storage. For a RefDirectory database, this packs all
-	 * non-symbolic, loose refs into packed-refs. For Reftable, all of the data
-	 * is compacted into a single table.
-	 *
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 */
-	public void packRefs() throws IOException {
-		RefDatabase refDb = repo.getRefDatabase();
-		if (refDb instanceof FileReftableDatabase) {
-			// TODO: abstract this more cleanly.
-			pm.beginTask(JGitText.get().packRefs, 1);
-			try {
-				((FileReftableDatabase) refDb).compactFully();
-			} finally {
-				pm.endTask();
-			}
-			return;
-		}
-
-		Collection<Ref> refs = refDb.getRefsByPrefix(Constants.R_REFS);
-		List<String> refsToBePacked = new ArrayList<>(refs.size());
-		pm.beginTask(JGitText.get().packRefs, refs.size());
-		try {
-			for (Ref ref : refs) {
-				checkCancelled();
-				if (!ref.isSymbolic() && ref.getStorage().isLoose())
-					refsToBePacked.add(ref.getName());
-				pm.update(1);
-			}
-			((RefDirectory) repo.getRefDatabase()).pack(refsToBePacked);
-		} finally {
-			pm.endTask();
-		}
 	}
 
 	/**
