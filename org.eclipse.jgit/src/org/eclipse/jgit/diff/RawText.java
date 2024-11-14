@@ -365,7 +365,7 @@ public class RawText extends Sequence {
 		byte current;
 		while (ptr < length - 2) {
 			current = raw[++ptr];
-			if ('\0' == current || '\r' == current && raw[++ptr] != '\n') {
+			if (current == '\0' || (current == '\r' && raw[++ptr] != '\n')) {
 				return true;
 			}
 		}
@@ -373,7 +373,7 @@ public class RawText extends Sequence {
 		if (ptr == length - 2) {
 			// if '\r' be last, then if isComplete then return binary
 			current = raw[++ptr];
-			return '\0' == current || '\r' == current && isComplete;
+			return current == '\0' || (current == '\r' && isComplete);
 		}
 
 		return false;
@@ -490,7 +490,7 @@ public class RawText extends Sequence {
 		if (ptr == length - 2) {
 			// if '\r' be last, then if isComplete then return binary
 			current = raw[++ptr];
-			if('\0' == current || '\r' == current && complete){
+			if (current == '\0' || (current == '\r' && complete)) {
 				return false;
 			}
 		}
