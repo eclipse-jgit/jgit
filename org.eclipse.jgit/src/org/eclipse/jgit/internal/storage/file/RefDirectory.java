@@ -57,6 +57,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.PackRefsCommand;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -69,6 +70,7 @@ import org.eclipse.jgit.lib.CoreConfig.TrustLooseRefStat;
 import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -285,6 +287,33 @@ public class RefDirectory extends RefDatabase {
 	public void refresh() {
 		super.refresh();
 		clearReferences();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * For a RefDirectory database, by default this packs non-symbolic, loose
+	 * tag refs into packed-refs. If {@code all} flag is set, this pack all the
+	 * non-symbolic, loose refs.
+	 */
+	@Override
+	public void packRefs(ProgressMonitor pm, PackRefsCommand packRefs)
+			throws IOException {
+		String prefix = packRefs.isAll() ? R_REFS : R_TAGS;
+		Collection<Ref> refs = getRefsByPrefix(prefix);
+		List<String> refsToBePacked = new ArrayList<>(refs.size());
+		pm.beginTask(JGitText.get().packRefs, refs.size());
+		try {
+			for (Ref ref : refs) {
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					refsToBePacked.add(ref.getName());
+				}
+				pm.update(1);
+			}
+			pack(refsToBePacked);
+		} finally {
+			pm.endTask();
+		}
 	}
 
 	@Override
