@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "779a1b4f_d0c7c264",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-11-14T07:32:15Z",
+      "side": 1,
+      "message": "And calling `FileUtils.pathToString()` probably also isn\u0027t necessary, plain `File.toString()` should be fine. Or does it have to be with forward slashes, even on Windows?",
+      "parentUuid": "3cf2051f_3cd584e9",
+      "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "438d9dbc_bbbe0f35",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
