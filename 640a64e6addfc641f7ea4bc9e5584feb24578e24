@@ -33,6 +33,24 @@
       "message": "Might be able to de-dup this logic from `DfsGarbageCollector.java`",
       "revId": "640a64e6addfc641f7ea4bc9e5584feb24578e24",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aad785e_f5113fe1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReftableDatabase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-14T14:37:27Z",
+      "side": 1,
+      "message": "Not relevant here",
+      "parentUuid": "6f214cd1_32695652",
+      "revId": "640a64e6addfc641f7ea4bc9e5584feb24578e24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

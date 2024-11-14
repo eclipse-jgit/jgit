@@ -51,6 +51,24 @@
       "message": "Create and add tests to `org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/PackRefsTest.java`?",
       "revId": "16b82d5a77b452e1f024ff9f9c0e6e6ed6ca4c3b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fcef472_c2980d95",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/PackRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-14T14:37:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d3e48c2_11ee64d5",
+      "revId": "16b82d5a77b452e1f024ff9f9c0e6e6ed6ca4c3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
