@@ -593,4 +593,49 @@ public abstract class RefDatabase {
 		}
 		return null;
 	}
+
+	/**
+	 * Optimize pack ref storage. For a RefDirectory database, this packs all
+	 * non-symbolic, loose refs into packed-refs. For Reftable, all the data is
+	 * compacted into a single table.
+	 *
+	 * @param pm
+	 *            a progress monitor
+	 *
+	 * @param options
+	 *            {@link PackRefsOptions} to control ref packing behavior
+	 *
+	 * @throws java.io.IOException
+	 *             if an IO error occurred
+	 */
+	public void packRefs(ProgressMonitor pm, PackRefsOptions options)
+			throws IOException {
+		// nothing
+	}
+
+	/**
+	 * Options controlling ref packing behavior.
+	 */
+	public static class PackRefsOptions {
+		/**
+		 * Specify whether to pack all the references.
+		 */
+		public boolean all;
+
+		/**
+		 * Default constructor for PackRefsOptions
+		 */
+		public PackRefsOptions() {
+		}
+
+		/**
+		 * Constructor for PackRefsOptions
+		 *
+		 * @param all
+		 *            whether to pack all the references
+		 */
+		public PackRefsOptions(boolean all) {
+			this.all = all;
+		}
+	}
 }

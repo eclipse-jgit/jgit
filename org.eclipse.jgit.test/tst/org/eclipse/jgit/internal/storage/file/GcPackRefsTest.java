@@ -31,10 +31,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PackRefsCommand;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -49,7 +52,7 @@ public class GcPackRefsTest extends GcTestCase {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
 
-		gc.packRefs();
+		packRefs();
 		assertSame(repo.exactRef("refs/tags/t").getStorage(), Storage.PACKED);
 	}
 
@@ -60,7 +63,7 @@ public class GcPackRefsTest extends GcTestCase {
 		String name = repo.findRef(ref).getName();
 		Path dir = repo.getCommonDirectory().toPath().resolve(name).getParent();
 		assertNotNull(dir);
-		gc.packRefs();
+		packRefs(new RefDatabase.PackRefsOptions(true));
 		assertFalse(Files.exists(dir));
 	}
 
@@ -75,7 +78,7 @@ public class GcPackRefsTest extends GcTestCase {
 		Callable<Integer> packRefs = () -> {
 			syncPoint.await();
 			try {
-				gc.packRefs();
+				packRefs();
 				return 0;
 			} catch (IOException e) {
 				return 1;
@@ -102,7 +105,7 @@ public class GcPackRefsTest extends GcTestCase {
 				"refs/tags/t1"));
 		try {
 			refLock.lock();
-			gc.packRefs();
+			packRefs();
 		} finally {
 			refLock.unlock();
 		}
@@ -145,7 +148,7 @@ public class GcPackRefsTest extends GcTestCase {
 
 			Future<Result> result2 = pool.submit(() -> {
 				refUpdateLockedRef.await();
-				gc.packRefs();
+				packRefs();
 				packRefsDone.await();
 				return null;
 			});
@@ -173,19 +176,20 @@ public class GcPackRefsTest extends GcTestCase {
 		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
 		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
-		gc.packRefs();
+		PackRefsCommand packRefsCommand = git.packRefs().setAll(true);
+		packRefsCommand.call();
 		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
 		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
 
 		git.checkout().setName("refs/heads/side").call();
-		gc.packRefs();
+		packRefsCommand.call();
 		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 
 		// check for detached HEAD
 		git.checkout().setName(first.getName()).call();
-		gc.packRefs();
+		packRefsCommand.call();
 		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 	}
 
@@ -208,7 +212,7 @@ public class GcPackRefsTest extends GcTestCase {
 		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
 		assertNull(repo.exactRef("HEAD").getTarget().getObjectId());
-		gc.packRefs();
+		packRefs(new RefDatabase.PackRefsOptions(true));
 		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 		assertEquals(repo.exactRef("HEAD").getTarget().getName(),
 				"refs/heads/master");
@@ -216,9 +220,19 @@ public class GcPackRefsTest extends GcTestCase {
 
 		// check for non-detached HEAD
 		repo.updateRef(Constants.HEAD).link("refs/heads/side");
-		gc.packRefs();
+		packRefs(new RefDatabase.PackRefsOptions(true));
 		assertSame(repo.exactRef("HEAD").getStorage(), Storage.LOOSE);
 		assertEquals(repo.exactRef("HEAD").getTarget().getObjectId(),
 				second.getId());
 	}
+
+	private void packRefs() throws IOException {
+		packRefs(new RefDatabase.PackRefsOptions());
+	}
+
+	private void packRefs(RefDatabase.PackRefsOptions options)
+			throws IOException {
+		repo.getRefDatabase().packRefs(NullProgressMonitor.INSTANCE, options);
+	}
+
 }

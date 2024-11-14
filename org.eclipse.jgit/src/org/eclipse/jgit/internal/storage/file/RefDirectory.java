@@ -69,6 +69,7 @@ import org.eclipse.jgit.lib.CoreConfig.TrustLooseRefStat;
 import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -285,6 +286,28 @@ public class RefDirectory extends RefDatabase {
 	public void refresh() {
 		super.refresh();
 		clearReferences();
+	}
+
+	@Override
+	public void packRefs(ProgressMonitor pm, PackRefsOptions options)
+			throws IOException {
+		Collection<Ref> refs = getRefsByPrefix(Constants.R_REFS);
+		List<String> refsToBePacked = new ArrayList<>(refs.size());
+		pm.beginTask(JGitText.get().packRefs, refs.size());
+		try {
+			for (Ref ref : refs) {
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					if (options.all
+							|| ref.getName().startsWith(Constants.R_TAGS)) {
+						refsToBePacked.add(ref.getName());
+					}
+				}
+				pm.update(1);
+			}
+			pack(refsToBePacked);
+		} finally {
+			pm.endTask();
+		}
 	}
 
 	@Override
