@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.RefsChangedEvent;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.ReftableBatchRefUpdate;
 import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
@@ -39,6 +40,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
@@ -105,6 +107,17 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public boolean hasFastTipsWithSha1() throws IOException {
 		return reftableDatabase.hasFastTipsWithSha1();
+	}
+
+	@Override
+	public void packRefs(ProgressMonitor pm, PackRefsOptions options)
+			throws IOException {
+		pm.beginTask(JGitText.get().packRefs, 1);
+		try {
+			compactFully();
+		} finally {
+			pm.endTask();
+		}
 	}
 
 	/**
