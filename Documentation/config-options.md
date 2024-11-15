@@ -134,6 +134,13 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
 
+## reftable options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `reftable.autoRefresh` | `false` | &#x20DE; | Whether to auto-refresh the reftable stack if it is out of date. |
+
+
 ## __repack__ options
 
 |  option | default | git option | description |
