@@ -13,9 +13,10 @@
 package org.eclipse.jgit.lib;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -46,6 +47,17 @@ public class PersonIdent implements Serializable {
 		tzId.append("GMT"); //$NON-NLS-1$
 		appendTimezone(tzId, tzOffset);
 		return TimeZone.getTimeZone(tzId.toString());
+	}
+
+	/**
+	 * Translate a minutes offset into a ZoneId
+	 *
+	 * @param tzOffset as minutes east of UTC
+	 * @return a ZoneId  for this offset
+	 * @since 7.1
+	 */
+	public static ZoneId getZoneId(int tzOffset) {
+		return ZoneOffset.ofHoursMinutes(tzOffset / 60, tzOffset % 60);
 	}
 
 	/**
@@ -121,13 +133,17 @@ public class PersonIdent implements Serializable {
 		}
 	}
 
+	// Write offsets as [+-]HHMM
+	private static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter
+			.ofPattern("Z", Locale.US); //$NON-NLS-1$
+
 	private final String name;
 
 	private final String emailAddress;
 
-	private final long when;
+	private final Instant when;
 
-	private final int tzOffset;
+	private final ZoneId tzOffset;
 
 	/**
 	 * Creates new PersonIdent from config info in repository, with current time.
@@ -160,7 +176,7 @@ public class PersonIdent implements Serializable {
 	 *            a {@link java.lang.String} object.
 	 */
 	public PersonIdent(String aName, String aEmailAddress) {
-		this(aName, aEmailAddress, SystemReader.getInstance().getCurrentTime());
+		this(aName, aEmailAddress, SystemReader.getInstance().now());
 	}
 
 	/**
@@ -177,7 +193,7 @@ public class PersonIdent implements Serializable {
 	 */
 	public PersonIdent(String aName, String aEmailAddress,
 			ProposedTimestamp when) {
-		this(aName, aEmailAddress, when.millis());
+		this(aName, aEmailAddress, when.instant());
 	}
 
 	/**
@@ -189,8 +205,25 @@ public class PersonIdent implements Serializable {
 	 *            local time
 	 * @param tz
 	 *            time zone
+	 * @deprecated Use {@link #PersonIdent(PersonIdent, Instant, ZoneId)} instead.
 	 */
+	@Deprecated(since = "7.1")
 	public PersonIdent(PersonIdent pi, Date when, TimeZone tz) {
+		this(pi.getName(), pi.getEmailAddress(), when.toInstant(), tz.toZoneId());
+	}
+
+	/**
+	 * Copy a PersonIdent, but alter the clone's time stamp
+	 *
+	 * @param pi
+	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
+	 * @param when
+	 *            local time
+	 * @param tz
+	 *            time zone offset
+	 * @since 7.1
+	 */
+	public PersonIdent(PersonIdent pi, Instant when, ZoneId tz) {
 		this(pi.getName(), pi.getEmailAddress(), when, tz);
 	}
 
@@ -202,9 +235,11 @@ public class PersonIdent implements Serializable {
 	 *            original {@link org.eclipse.jgit.lib.PersonIdent}
 	 * @param aWhen
 	 *            local time
+	 * @deprecated Use the variant with an Instant instead
 	 */
+	@Deprecated(since = "7.1")
 	public PersonIdent(PersonIdent pi, Date aWhen) {
-		this(pi.getName(), pi.getEmailAddress(), aWhen.getTime(), pi.tzOffset);
+		this(pi.getName(), pi.getEmailAddress(), aWhen.toInstant());
 	}
 
 	/**
@@ -218,7 +253,7 @@ public class PersonIdent implements Serializable {
 	 * @since 6.1
 	 */
 	public PersonIdent(PersonIdent pi, Instant aWhen) {
-		this(pi.getName(), pi.getEmailAddress(), aWhen.toEpochMilli(), pi.tzOffset);
+		this(pi.getName(), pi.getEmailAddress(), aWhen, pi.tzOffset);
 	}
 
 	/**
@@ -230,11 +265,12 @@ public class PersonIdent implements Serializable {
 	 *            local time stamp
 	 * @param aTZ
 	 *            time zone
+	 * @deprecated Use the variant with Instant and ZoneId instead
 	 */
+	@Deprecated(since = "7.1")
 	public PersonIdent(final String aName, final String aEmailAddress,
 			final Date aWhen, final TimeZone aTZ) {
-		this(aName, aEmailAddress, aWhen.getTime(), aTZ.getOffset(aWhen
-				.getTime()) / (60 * 1000));
+		this(aName, aEmailAddress, aWhen.toInstant(), aTZ.toZoneId());
 	}
 
 	/**
@@ -252,10 +288,16 @@ public class PersonIdent implements Serializable {
 	 */
 	public PersonIdent(final String aName, String aEmailAddress, Instant aWhen,
 			ZoneId zoneId) {
-		this(aName, aEmailAddress, aWhen.toEpochMilli(),
-				TimeZone.getTimeZone(zoneId)
-						.getOffset(aWhen
-				.toEpochMilli()) / (60 * 1000));
+		if (aName == null)
+			throw new IllegalArgumentException(
+					JGitText.get().personIdentNameNonNull);
+		if (aEmailAddress == null)
+			throw new IllegalArgumentException(
+					JGitText.get().personIdentEmailNonNull);
+		name = aName;
+		emailAddress = aEmailAddress;
+		when = aWhen;
+		tzOffset = zoneId;
 	}
 
 	/**
@@ -267,15 +309,18 @@ public class PersonIdent implements Serializable {
 	 *            local time stamp
 	 * @param aTZ
 	 *            time zone
+	 * @deprecated Use the variant with Instant and ZoneId instead
 	 */
+	@Deprecated(since = "7.1")
 	public PersonIdent(PersonIdent pi, long aWhen, int aTZ) {
-		this(pi.getName(), pi.getEmailAddress(), aWhen, aTZ);
+		this(pi.getName(), pi.getEmailAddress(), Instant.ofEpochMilli(aWhen),
+				getZoneId(aTZ));
 	}
 
 	private PersonIdent(final String aName, final String aEmailAddress,
-			long when) {
+			Instant when) {
 		this(aName, aEmailAddress, when, SystemReader.getInstance()
-				.getTimezone(when));
+				.getTimeZoneAt(when));
 	}
 
 	private PersonIdent(UserConfig config) {
@@ -298,19 +343,12 @@ public class PersonIdent implements Serializable {
 	 *            local time stamp
 	 * @param aTZ
 	 *            time zone
+	 * @deprecated Use  the variant with Instant and ZoneId instead
 	 */
+	@Deprecated(since = "7.1")
 	public PersonIdent(final String aName, final String aEmailAddress,
 			final long aWhen, final int aTZ) {
-		if (aName == null)
-			throw new IllegalArgumentException(
-					JGitText.get().personIdentNameNonNull);
-		if (aEmailAddress == null)
-			throw new IllegalArgumentException(
-					JGitText.get().personIdentEmailNonNull);
-		name = aName;
-		emailAddress = aEmailAddress;
-		when = aWhen;
-		tzOffset = aTZ;
+		this(aName, aEmailAddress, Instant.ofEpochMilli(aWhen), getZoneId(aTZ));
 	}
 
 	/**
@@ -335,9 +373,12 @@ public class PersonIdent implements Serializable {
 	 * Get timestamp
 	 *
 	 * @return timestamp
+	 *
+	 * @deprecated Use getWhenAsInstant instead
 	 */
+	@Deprecated(since = "7.1")
 	public Date getWhen() {
-		return new Date(when);
+		return Date.from(when);
 	}
 
 	/**
@@ -347,26 +388,39 @@ public class PersonIdent implements Serializable {
 	 * @since 6.1
 	 */
 	public Instant getWhenAsInstant() {
-		return Instant.ofEpochMilli(when);
+		return when;
 	}
 
 	/**
 	 * Get this person's declared time zone
 	 *
 	 * @return this person's declared time zone; null if time zone is unknown.
+	 *
+	 * @deprecated Use getZoneId instead
 	 */
+	@Deprecated(since = "7.1")
 	public TimeZone getTimeZone() {
-		return getTimeZone(tzOffset);
+		return TimeZone.getTimeZone(tzOffset);
 	}
 
 	/**
 	 * Get the time zone id
 	 *
 	 * @return the time zone id
-	 * @since 6.1
+	 * @since 7.1
 	 */
 	public ZoneId getZoneId() {
-		return getTimeZone().toZoneId();
+		return tzOffset;
+	}
+
+	/**
+	 * Return the offset in this timezone at the specific time
+	 *
+	 * @return the offset
+	 * @since 7.1
+	 */
+	public ZoneOffset getZoneOffset() {
+		return tzOffset.getRules().getOffset(when);
 	}
 
 	/**
@@ -374,9 +428,11 @@ public class PersonIdent implements Serializable {
 	 *
 	 * @return this person's declared time zone as minutes east of UTC. If the
 	 *         timezone is to the west of UTC it is negative.
+	 * @deprecated Use {@link #getZoneOffset()} and read minutes from there
 	 */
+	@Deprecated(since = "7.1")
 	public int getTimeZoneOffset() {
-		return tzOffset;
+		return getZoneOffset().getTotalSeconds() / 60;
 	}
 
 	/**
@@ -388,7 +444,7 @@ public class PersonIdent implements Serializable {
 	public int hashCode() {
 		int hc = getEmailAddress().hashCode();
 		hc *= 31;
-		hc += (int) (when / 1000L);
+		hc += when.hashCode();
 		return hc;
 	}
 
@@ -398,7 +454,7 @@ public class PersonIdent implements Serializable {
 			final PersonIdent p = (PersonIdent) o;
 			return getName().equals(p.getName())
 					&& getEmailAddress().equals(p.getEmailAddress())
-					&& when / 1000L == p.when / 1000L;
+					&& when.equals(p.when);
 		}
 		return false;
 	}
@@ -414,9 +470,9 @@ public class PersonIdent implements Serializable {
 		r.append(" <"); //$NON-NLS-1$
 		appendSanitized(r, getEmailAddress());
 		r.append("> "); //$NON-NLS-1$
-		r.append(when / 1000);
+		r.append(when.toEpochMilli() / 1000);
 		r.append(' ');
-		appendTimezone(r, tzOffset);
+		r.append(OFFSET_FORMATTER.format(getZoneOffset()));
 		return r.toString();
 	}
 
@@ -424,18 +480,16 @@ public class PersonIdent implements Serializable {
 	@SuppressWarnings("nls")
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
-		final SimpleDateFormat dtfmt;
-		dtfmt = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
-		dtfmt.setTimeZone(getTimeZone());
-
+		DateTimeFormatter dtfmt = DateTimeFormatter
+				.ofPattern("EEE MMM d HH:mm:ss yyyy Z", Locale.US) //$NON-NLS-1$
+				.withZone(tzOffset);
 		r.append("PersonIdent[");
 		r.append(getName());
 		r.append(", ");
 		r.append(getEmailAddress());
 		r.append(", ");
-		r.append(dtfmt.format(Long.valueOf(when)));
+		r.append(dtfmt.format(when));
 		r.append("]");
-
 		return r.toString();
 	}
 }
