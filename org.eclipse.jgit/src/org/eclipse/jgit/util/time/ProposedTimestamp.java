@@ -138,7 +138,10 @@ public abstract class ProposedTimestamp implements AutoCloseable {
 	 * Get time since epoch, with up to microsecond resolution.
 	 *
 	 * @return time since epoch, with up to microsecond resolution.
+	 *
+	 * @deprecated Use instant() instead
 	 */
+	@Deprecated
 	public Timestamp timestamp() {
 		return Timestamp.from(instant());
 	}
@@ -147,7 +150,10 @@ public abstract class ProposedTimestamp implements AutoCloseable {
 	 * Get time since epoch, with up to millisecond resolution.
 	 *
 	 * @return time since epoch, with up to millisecond resolution.
+	 *
+	 * @deprecated Use instant() instead
 	 */
+	@Deprecated
 	public Date date() {
 		return new Date(millis());
 	}
