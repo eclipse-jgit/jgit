@@ -10,10 +10,13 @@
 
 package org.eclipse.jgit.util;
 
+import static java.time.Instant.EPOCH;
+import static java.time.ZoneOffset.UTC;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
@@ -22,8 +25,8 @@ public class RawParseUtils_ParsePersonIdentTest {
 
 	@Test
 	public void testParsePersonIdent_legalCases() {
-		final Date when = new Date(1234567890000L);
-		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
+		Instant when = Instant.ofEpochMilli(1234567890000L);
+		ZoneId tz = ZoneOffset.ofHours(-7);
 
 		assertPersonIdent("Me <me@example.com> 1234567890 -0700",
 				new PersonIdent("Me", "me@example.com", when, tz));
@@ -50,8 +53,8 @@ public class RawParseUtils_ParsePersonIdentTest {
 
 	@Test
 	public void testParsePersonIdent_fuzzyCases() {
-		final Date when = new Date(1234567890000L);
-		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
+		Instant when = Instant.ofEpochMilli(1234567890000L);
+		ZoneId tz = ZoneOffset.ofHours(-7);
 
 		assertPersonIdent(
 				"A U Thor <author@example.com>,  C O. Miter <comiter@example.com> 1234567890 -0700",
@@ -64,8 +67,8 @@ public class RawParseUtils_ParsePersonIdentTest {
 
 	@Test
 	public void testParsePersonIdent_incompleteCases() {
-		final Date when = new Date(1234567890000L);
-		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
+		Instant when = Instant.ofEpochMilli(1234567890000L);
+		ZoneId tz = ZoneOffset.ofHours(-7);
 
 		assertPersonIdent("Me <> 1234567890 -0700", new PersonIdent("Me", "",
 				when, tz));
@@ -76,26 +79,26 @@ public class RawParseUtils_ParsePersonIdentTest {
 		assertPersonIdent(" <> 1234567890 -0700", new PersonIdent("", "", when,
 				tz));
 
-		assertPersonIdent("<>", new PersonIdent("", "", 0, 0));
+		assertPersonIdent("<>", new PersonIdent("", "", EPOCH, UTC));
 
-		assertPersonIdent(" <>", new PersonIdent("", "", 0, 0));
+		assertPersonIdent(" <>", new PersonIdent("", "", EPOCH, UTC));
 
 		assertPersonIdent("<me@example.com>", new PersonIdent("",
-				"me@example.com", 0, 0));
+				"me@example.com", EPOCH, UTC));
 
 		assertPersonIdent(" <me@example.com>", new PersonIdent("",
-				"me@example.com", 0, 0));
+				"me@example.com", EPOCH, UTC));
 
-		assertPersonIdent("Me <>", new PersonIdent("Me", "", 0, 0));
+		assertPersonIdent("Me <>", new PersonIdent("Me", "", EPOCH, UTC));
 
 		assertPersonIdent("Me <me@example.com>", new PersonIdent("Me",
-				"me@example.com", 0, 0));
+				"me@example.com", EPOCH, UTC));
 
 		assertPersonIdent("Me <me@example.com> 1234567890", new PersonIdent(
-				"Me", "me@example.com", 0, 0));
+				"Me", "me@example.com", EPOCH, UTC));
 
 		assertPersonIdent("Me <me@example.com> 1234567890 ", new PersonIdent(
-				"Me", "me@example.com", 0, 0));
+				"Me", "me@example.com", EPOCH, UTC));
 	}
 
 	@Test
