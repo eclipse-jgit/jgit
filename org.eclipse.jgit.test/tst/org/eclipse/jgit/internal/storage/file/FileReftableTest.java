@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,8 +34,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -51,6 +59,10 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
 import org.junit.Test;
 
 public class FileReftableTest extends SampleDataRepositoryTestCase {
@@ -66,9 +78,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 	@SuppressWarnings("boxing")
 	@Test
-	public void testRacyReload() throws Exception {
+	public void testReloadIfNecessary() throws Exception {
 		ObjectId id = db.resolve("master");
-		int retry = 0;
 		try (FileRepository repo1 = new FileRepository(db.getDirectory());
 				FileRepository repo2 = new FileRepository(db.getDirectory())) {
 			FileRepository repos[] = { repo1, repo2 };
@@ -77,23 +88,56 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 					FileRepository repo = repos[j];
 					RefUpdate u = repo.getRefDatabase().newUpdate(
 							String.format("branch%d", i * 10 + j), false);
-
 					u.setNewObjectId(id);
 					RefUpdate.Result r = u.update();
-					if (!r.equals(Result.NEW)) {
-						retry++;
-						u = repo.getRefDatabase().newUpdate(
-								String.format("branch%d", i * 10 + j), false);
-
-						u.setNewObjectId(id);
-						r = u.update();
-						assertEquals(Result.NEW, r);
-					}
+					assertEquals(Result.NEW, r);
 				}
 			}
+		}
+	}
 
-			// only the first one succeeds
-			assertEquals(19, retry);
+	@Test
+	public void testRacyReload() throws Exception {
+		ObjectId id = db.resolve("master");
+
+		final CyclicBarrier barrier = new CyclicBarrier(2);
+
+		class UpdateRef implements Callable<RefUpdate.Result> {
+
+			private RefUpdate u;
+
+			UpdateRef(FileRepository repo, String branchName)
+					throws IOException {
+				u = repo.getRefDatabase().newUpdate(branchName,
+						false);
+				u.setNewObjectId(id);
+			}
+
+			@Override
+			public RefUpdate.Result call() throws Exception {
+				barrier.await(); // wait for the other thread to prepare
+				return u.update();
+			}
+		}
+
+		ExecutorService pool = Executors.newFixedThreadPool(2);
+		try (FileRepository repo1 = new FileRepository(db.getDirectory());
+				FileRepository repo2 = new FileRepository(db.getDirectory())) {
+			for (int i = 0; i < 10; i++) {
+				String branchName = String.format("branch%d",
+						Integer.valueOf(i));
+				Future<RefUpdate.Result> ru1 = pool
+						.submit(new UpdateRef(repo1, branchName));
+				Future<RefUpdate.Result> ru2 = pool
+						.submit(new UpdateRef(repo2, branchName));
+				assertTrue((ru1.get() == Result.NEW
+						&& ru2.get() == Result.LOCK_FAILURE)
+						|| (ru1.get() == Result.LOCK_FAILURE
+								&& ru2.get() == Result.NEW));
+			}
+		} finally {
+			pool.shutdown();
+			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
 		}
 	}
 
@@ -642,6 +686,53 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
 		assertEquals(1, refs.size());
 		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_102() throws Exception {
+		assumeTrue(atLeastGitVersion(2, 45));
+		Git git = Git.wrap(db);
+		git.tag().setName("foo").call();
+		Ref ref = db.exactRef("refs/tags/foo");
+		assertNotNull(ref);
+		runGitCommand("tag", "--force", "foo", "e");
+		Ref e = db.exactRef("refs/heads/e");
+		Ref foo = db.exactRef("refs/tags/foo");
+		assertEquals(e.getObjectId(), foo.getObjectId());
+	}
+
+	private String toString(TemporaryBuffer b) throws IOException {
+		return RawParseUtils.decode(b.toByteArray());
+	}
+
+	private ExecutionResult runGitCommand(String... args)
+			throws IOException, InterruptedException {
+		FS fs = db.getFS();
+		ProcessBuilder pb = fs.runInShell("git", args);
+		pb.directory(db.getWorkTree());
+		System.err.println("PATH=" + pb.environment().get("PATH"));
+		ExecutionResult result = fs.execute(pb, null);
+		assertEquals(0, result.getRc());
+		String err = toString(result.getStderr());
+		if (!err.isEmpty()) {
+			System.err.println(err);
+		}
+		String out = toString(result.getStdout());
+		if (!out.isEmpty()) {
+			System.out.println(out);
+		}
+		return result;
+	}
+
+	private boolean atLeastGitVersion(int minMajor, int minMinor)
+			throws IOException, InterruptedException {
+		String version = toString(runGitCommand("version").getStdout())
+				.split(" ")[2];
+		System.out.println(version);
+		String[] digits = version.split("\\.");
+		int major = Integer.parseInt(digits[0]);
+		int minor = Integer.parseInt(digits[1]);
+		return (major >= minMajor) && (minor >= minMinor);
 	}
 
 	private RefUpdate updateRef(String name) throws IOException {
