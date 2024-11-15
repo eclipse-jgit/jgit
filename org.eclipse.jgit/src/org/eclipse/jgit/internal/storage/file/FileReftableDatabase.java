@@ -16,6 +16,7 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableBatchRefUpdate;
 import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -70,6 +72,8 @@ public class FileReftableDatabase extends RefDatabase {
 
 	private final FileReftableStack reftableStack;
 
+	private boolean autoRefresh;
+
 	FileReftableDatabase(FileRepository repo) throws IOException {
 		this(repo, new File(new File(repo.getCommonDirectory(), Constants.REFTABLE),
 				Constants.TABLES_LIST));
@@ -77,6 +81,9 @@ public class FileReftableDatabase extends RefDatabase {
 
 	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
+		this.autoRefresh = repo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_REFTABLE_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false);
 		this.reftableStack = new FileReftableStack(refstackName,
 				new File(fileRepository.getCommonDirectory(), Constants.REFTABLE),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
@@ -183,6 +190,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
+		autoRefresh();
 		return reftableDatabase.exactRef(name);
 	}
 
@@ -193,6 +201,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
+		autoRefresh();
 		List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
 		RefList.Builder<Ref> builder = new RefList.Builder<>(refs.size());
 		for (Ref r : refs) {
@@ -205,6 +214,7 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
+		autoRefresh();
 		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
 	}
 
@@ -221,6 +231,50 @@ public class FileReftableDatabase extends RefDatabase {
 		}
 		return recreate(ref, doPeel(oldLeaf), hasVersioning());
 
+	}
+
+	/**
+	 * Whether to auto-refresh the reftable stack if it is out of date.
+	 *
+	 * @param autoRefresh
+	 *            whether to auto-refresh the reftable stack if it is out of
+	 *            date.
+	 */
+	public void setAutoRefresh(boolean autoRefresh) {
+		this.autoRefresh = autoRefresh;
+	}
+
+	/**
+	 * Whether the reftable stack is auto-refreshed if it is out of date.
+	 *
+	 * @return whether the reftable stack is auto-refreshed if it is out of
+	 *         date.
+	 */
+	public boolean isAutoRefresh() {
+		return autoRefresh;
+	}
+
+	private void autoRefresh() {
+		if (autoRefresh) {
+			refresh();
+		}
+	}
+
+	/**
+	 * Check if the reftable stack is up to date, and if not, reload it.
+	 * <p>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void refresh() {
+		try {
+			if (!reftableStack.isUpToDate()) {
+				reftableDatabase.clearCache();
+				reftableStack.reload();
+			}
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	private Ref doPeel(Ref leaf) throws IOException {
