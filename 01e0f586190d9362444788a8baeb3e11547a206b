@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d9e58ee_fcde5207",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-15T08:50:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb54279_6b0a8965",
+      "revId": "01e0f586190d9362444788a8baeb3e11547a206b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cb607f2_349d81a9",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-14T23:14:45Z",
       "side": 1,
       "message": "Probably needs an `@since` tag",
+      "revId": "01e0f586190d9362444788a8baeb3e11547a206b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d08746b9_6ffbce55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-15T08:50:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb607f2_349d81a9",
       "revId": "01e0f586190d9362444788a8baeb3e11547a206b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
