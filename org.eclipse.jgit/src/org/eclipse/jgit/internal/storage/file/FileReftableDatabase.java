@@ -183,6 +183,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
+		reloadIfNecessary();
 		return reftableDatabase.exactRef(name);
 	}
 
@@ -193,6 +194,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
+		reloadIfNecessary();
 		List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
 		RefList.Builder<Ref> builder = new RefList.Builder<>(refs.size());
 		for (Ref r : refs) {
@@ -205,6 +207,7 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
+		reloadIfNecessary();
 		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
 	}
 
@@ -221,6 +224,13 @@ public class FileReftableDatabase extends RefDatabase {
 		}
 		return recreate(ref, doPeel(oldLeaf), hasVersioning());
 
+	}
+
+	private void reloadIfNecessary() throws IOException {
+		if (!reftableStack.isUpToDate()) {
+			reftableDatabase.clearCache();
+			reftableStack.reload();
+		}
 	}
 
 	private Ref doPeel(Ref leaf) throws IOException {
