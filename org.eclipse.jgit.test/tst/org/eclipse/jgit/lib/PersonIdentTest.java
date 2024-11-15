@@ -55,7 +55,8 @@ public class PersonIdentTest {
 				p.getWhenAsInstant());
 		assertEquals("A U Thor <author@example.com> 1142878501 -0500",
 				p.toExternalString());
-		assertEquals(ZoneId.of("GMT-05:00"), p.getZoneId());
+		assertEquals(ZoneId.of("GMT-05:00").getRules().getOffset(
+				Instant.ofEpochMilli(1142878501000L)), p.getZoneOffset());
 	}
 
 	@Test
@@ -69,7 +70,8 @@ public class PersonIdentTest {
 				p.getWhenAsInstant());
 		assertEquals("A U Thor <author@example.com> 1142878501 +0530",
 				p.toExternalString());
-		assertEquals(ZoneId.of("GMT+05:30"), p.getZoneId());
+		assertEquals(ZoneId.of("GMT+05:30").getRules().getOffset(
+				Instant.ofEpochMilli(1142878501000L)), p.getZoneOffset());
 	}
 
 	@SuppressWarnings("unused")
