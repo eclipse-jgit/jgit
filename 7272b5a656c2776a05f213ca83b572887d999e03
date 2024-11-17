@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "275001b2_7e6c064e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterBuiltInDriverTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "move this source code bodies to test resources under `test-rsrc/` and load them from there ?",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b200d945_ca9bcda0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "I\u0027d set this to 6.10.1, Eclipse API tooling will complain about this, it doesn\u0027t like 3 section version numbers for new feature, since with strict semantic versions, new features should only be done in new minor version (2. digit).\nWe add the feature after 6.10 was released hence I think 6.10.1 is more accurate.\nSuppress this error using the quick fix.",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed85aa60_37164be2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "6.10.1",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b41c6233_75cfaf12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "add @since 6.10.1",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed8aa180_88334f82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "missing @since 6.10.1\n\nI am wondering if it would make sense to convert this class into an enum\n- use an enum value per driver\n- `Driver` constructors become enum constructors\n- instead of `#getDriverByName` we can use `Enum#valueOf`",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63bc28e7_43536093",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "split these long Strings into multiple to avoid overly long lines ?",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a95a7eaa_0d15c632",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "I think there\u0027s no need for a nested class, all this code could be pulled up to the outer class (and I\u0027d try to make the outer class an enum).",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0ceae5_2376718b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-17T23:27:23Z",
+      "side": 1,
+      "message": "declare fields private final ?",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
