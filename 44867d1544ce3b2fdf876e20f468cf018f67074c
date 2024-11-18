@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b278452b_56eecc64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-18T22:18:29Z",
+      "side": 1,
+      "message": "suppress non-externalized string warning by appending //$NON-NLS-1$ at the end of the line",
+      "range": {
+        "startLine": 138,
+        "startChar": 14,
+        "endLine": 138,
+        "endChar": 17
+      },
+      "revId": "44867d1544ce3b2fdf876e20f468cf018f67074c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b23ec77b_ae1803f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-18T22:18:29Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "44867d1544ce3b2fdf876e20f468cf018f67074c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c961e39_3e0a71de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-18T22:18:29Z",
+      "side": 1,
+      "message": "```suggestion\n\t * @deprecated Use {@link #PersonIdent(PersonIdent, Instant, ZoneId)} instead.\n```",
+      "revId": "44867d1544ce3b2fdf876e20f468cf018f67074c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10d9b180_a1903a11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-18T22:18:29Z",
+      "side": 1,
+      "message": "- missing javadoc",
+      "revId": "44867d1544ce3b2fdf876e20f468cf018f67074c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
