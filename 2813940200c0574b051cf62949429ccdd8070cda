@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aef7413_d22735f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-18T22:28:39Z",
+      "side": 1,
+      "message": "should we deprecate the old GitDateParser ?",
+      "revId": "2813940200c0574b051cf62949429ccdd8070cda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ea70b3b_e4122b37",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/GitTimeParserTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-18T22:28:39Z",
+      "side": 1,
+      "message": "years, months, hours, minutes, seconds ago aren\u0027t covered by tests",
+      "revId": "2813940200c0574b051cf62949429ccdd8070cda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
