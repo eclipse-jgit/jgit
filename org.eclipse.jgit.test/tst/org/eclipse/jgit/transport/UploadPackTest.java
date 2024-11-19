@@ -2862,7 +2862,7 @@ public class UploadPackTest {
 		RevTag heavyTag2 = remote.tag("middleTagRing", heavyTag1);
 		remote.lightweightTag("refTagRing", heavyTag2);
 
-		UploadPack uploadPack = new UploadPack(remote.getRepository());
+		try (UploadPack uploadPack = new UploadPack(remote.getRepository())) {
 
 		ByteArrayOutputStream cli = new ByteArrayOutputStream();
 		PacketLineOut clientWant = new PacketLineOut(cli);
@@ -2872,7 +2872,6 @@ public class UploadPackTest {
 		clientWant.writeString("done\n");
 
 		try (ByteArrayOutputStream serverResponse = new ByteArrayOutputStream()) {
-
 			uploadPack.setPreUploadHook(new PreUploadHook() {
 				@Override
 				public void onBeginNegotiateRound(UploadPack up,
@@ -2925,6 +2924,7 @@ public class UploadPackTest {
 			assertTrue(objDb.has(heavyTag2.toObjectId()));
 		}
 	}
+}
 
 	@Test
 	public void testSingleBranchShallowCloneTagChainWithReflessTag() throws Exception {
@@ -2936,7 +2936,7 @@ public class UploadPackTest {
 		RevTag tag3 = remote.tag("t3", tag2);
 		remote.lightweightTag("t3", tag3);
 
-		UploadPack uploadPack = new UploadPack(remote.getRepository());
+		try (UploadPack uploadPack = new UploadPack(remote.getRepository())) {
 
 		ByteArrayOutputStream cli = new ByteArrayOutputStream();
 		PacketLineOut clientWant = new PacketLineOut(cli);
@@ -2946,7 +2946,6 @@ public class UploadPackTest {
 		clientWant.writeString("done\n");
 
 		try (ByteArrayOutputStream serverResponse = new ByteArrayOutputStream()) {
-
 			uploadPack.setPreUploadHook(new PreUploadHook() {
 				@Override
 				public void onBeginNegotiateRound(UploadPack up,
@@ -2994,6 +2993,7 @@ public class UploadPackTest {
 			assertTrue(objDb.has(one.toObjectId()));
 		}
 	}
+}
 
 	@Test
 	public void testSafeToClearRefsInFetchV0() throws Exception {
