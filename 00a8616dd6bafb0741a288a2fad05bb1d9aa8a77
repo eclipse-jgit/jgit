@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c9991ff_aa9ede9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T13:53:18Z",
+      "side": 1,
+      "message": "I couldn\u0027t yet figure out how to convince Eclipse not to compile Greetings.java in Eclipse instead of just using it as a test resource loaded dynamically.\nWhen running the tests from Maven or bazel it works that way.\n\nWe could try to use a different file extension e.g. `.javasource` for it to prevent this.",
+      "revId": "00a8616dd6bafb0741a288a2fad05bb1d9aa8a77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd57f342_d242024f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffDriver.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T13:53:18Z",
+      "side": 1,
+      "message": "suppress non-externalized String warnings for the many technical strings in this class",
+      "revId": "00a8616dd6bafb0741a288a2fad05bb1d9aa8a77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

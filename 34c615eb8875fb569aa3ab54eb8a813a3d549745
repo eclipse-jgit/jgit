@@ -22,6 +22,30 @@
       },
       "revId": "34c615eb8875fb569aa3ab54eb8a813a3d549745",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef37961_83d58388",
+        "filename": "org.eclipse.jgit.test/tst-rsrc/org/eclipse/jgit/test/resources/Greeting.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T13:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc22224_d53141db",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "34c615eb8875fb569aa3ab54eb8a813a3d549745",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
