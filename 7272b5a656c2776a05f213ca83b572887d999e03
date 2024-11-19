@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57c0b546_754e5cf6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterBuiltInDriverTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "275001b2_7e6c064e",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b200d945_ca9bcda0",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-17T23:27:23Z",
       "side": 1,
       "message": "I\u0027d set this to 6.10.1, Eclipse API tooling will complain about this, it doesn\u0027t like 3 section version numbers for new feature, since with strict semantic versions, new features should only be done in new minor version (2. digit).\nWe add the feature after 6.10 was released hence I think 6.10.1 is more accurate.\nSuppress this error using the quick fix.",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af39d48a_de43b575",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done.\n\nI am currently unable to setup eclipse for JGit dev due to a firewall issue. I am trying to fix it. Can you please help me with the \u0027quick fix\u0027 meanwhile?",
+      "parentUuid": "b200d945_ca9bcda0",
       "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea7fc29_a9b4b3ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed85aa60_37164be2",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b41c6233_75cfaf12",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-11-17T23:27:23Z",
       "side": 1,
       "message": "add @since 6.10.1",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86621105_900ef8fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b41c6233_75cfaf12",
       "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f08afe09_cba61ea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8aa180_88334f82",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63bc28e7_43536093",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-11-17T23:27:23Z",
       "side": 1,
       "message": "split these long Strings into multiple to avoid overly long lines ?",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe840b9_a10c6766",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63bc28e7_43536093",
       "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -120,6 +228,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20047355_e3df4009",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a95a7eaa_0d15c632",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa0ceae5_2376718b",
@@ -133,6 +259,24 @@
       "writtenOn": "2024-11-17T23:27:23Z",
       "side": 1,
       "message": "declare fields private final ?",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef1ca579_3572835b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/UserDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T00:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa0ceae5_2376718b",
       "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
