@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf20083_4f5d9c2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T11:50:34Z",
+      "side": 1,
+      "message": "some tests are failing since commit timestamps are stored in git commits with 1 second precision, the new implementation uses precision of the clock hence some time comparisons fail",
+      "revId": "0f2c2606159083150eda7408f99ee8478f565f2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
