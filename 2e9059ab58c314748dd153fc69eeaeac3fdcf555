@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70458ee7_b5ea936d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:00:21Z",
+      "side": 1,
+      "message": "```suggestion\n@Deprecated(since \u003d \"7.1\")\n```\n\nShould we mark it for removal (https://www.baeldung.com/java-deprecated#optional-attributes)",
+      "revId": "2e9059ab58c314748dd153fc69eeaeac3fdcf555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
