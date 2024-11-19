@@ -249,7 +249,7 @@ public class RecursiveMerger extends ResolveMerger {
 
 		if (failingPaths.size() > max) {
 			failedPaths = String.format("%s\n... (%s failing paths omitted)", //$NON-NLS-1$
-					failedPaths, failingPaths.size() - max);
+					failedPaths, Integer.valueOf(failingPaths.size() - max));
 		}
 		return failedPaths;
 	}
