@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.HashMap;
@@ -205,11 +204,6 @@ public class MockSystemReader extends SystemReader {
 	}
 
 	@Override
-	public Instant now() {
-		return Instant.ofEpochMilli(now);
-	}
-
-	@Override
 	public MonotonicClock getClock() {
 		return () -> {
 			long t = getCurrentTime();
@@ -245,18 +239,13 @@ public class MockSystemReader extends SystemReader {
 	}
 
 	@Override
-	public ZoneOffset getTimeZoneAt(Instant when) {
-		return getTimeZoneId().getRules().getOffset(when);
-	}
-
-	@Override
 	public TimeZone getTimeZone() {
 		return TimeZone.getTimeZone("GMT-03:30");
 	}
 
 	@Override
 	public ZoneId getTimeZoneId() {
-		return ZoneOffset.ofHoursMinutes(-3, 30);
+		return ZoneOffset.ofHoursMinutes(-3, -30);
 	}
 
 	@Override
