@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c7404f0_5e7d6df5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6f2d869_1d0c517d",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de43743d_87b44005",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-19T09:27:36Z",
       "side": 1,
       "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d20e9b1b_4f191a16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de43743d_87b44005",
       "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfc3f488_ccbebdd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c35c48_03ad1551",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b50999b_88260ead",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-11-19T09:27:36Z",
       "side": 1,
       "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81057b4f_ac010f49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b50999b_88260ead",
       "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83c770cf_49174036",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8aca409_d6f956ab",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69941d8f_56ff72e8",
@@ -99,6 +189,24 @@
       "writtenOn": "2024-11-19T09:27:36Z",
       "side": 1,
       "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3fd0810_57a2fc52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69941d8f_56ff72e8",
       "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -120,6 +228,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cb810ac_5b1792f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b892435c_73af00fb",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc1776c3_0a6a5147",
@@ -133,6 +259,24 @@
       "writtenOn": "2024-11-19T09:27:36Z",
       "side": 1,
       "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f77ed0b_c5b88874",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T10:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc1776c3_0a6a5147",
       "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
