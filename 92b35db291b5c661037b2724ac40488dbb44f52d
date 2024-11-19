@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a41d5d_ffa76974",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T12:23:22Z",
+      "side": 1,
+      "message": "we should replace all usages of the now deprecated methods with the new ones",
+      "revId": "92b35db291b5c661037b2724ac40488dbb44f52d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
