@@ -89,6 +89,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8e6e136_6cbfbc45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-19T23:16:14Z",
+      "side": 1,
+      "message": "Thanks @matthias.sohn@sap.com",
+      "parentUuid": "af39d48a_de43b575",
+      "revId": "7272b5a656c2776a05f213ca83b572887d999e03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed85aa60_37164be2",
