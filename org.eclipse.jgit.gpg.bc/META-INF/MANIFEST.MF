@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.gpg.bc;singleton:=true
 Fragment-Host: org.eclipse.jgit;bundle-version="[7.1.0,7.2.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/gpg_bc
-Bundle-Version: 7.1.0.202411191359-rc1
+Bundle-Version: 7.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: org.bouncycastle.asn1;version="[1.79.0,2.0.0)",
  org.bouncycastle.asn1.x9;version="[1.79.0,2.0.0)",
