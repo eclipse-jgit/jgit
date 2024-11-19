@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f2d869_1d0c517d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```\n\nShould we mark the deprecated methods for removal ?",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de43743d_87b44005",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c35c48_03ad1551",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b50999b_88260ead",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8aca409_d6f956ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69941d8f_56ff72e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b892435c_73af00fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc1776c3_0a6a5147",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-19T09:27:36Z",
+      "side": 1,
+      "message": "```suggestion\n\t@Deprecated(since \u003d \"7.1\")\n```",
+      "revId": "4112006afb06304b62fadfeb3ff63f88df33cf2f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
