@@ -16,6 +16,24 @@
       "message": "we should replace all usages of the now deprecated methods with the new ones",
       "revId": "92b35db291b5c661037b2724ac40488dbb44f52d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec82f121_7ffc85f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-11-19T19:27:36Z",
+      "side": 1,
+      "message": "Thanks for the fixes!\n\nYes, PersonIdent/SystemReader/GitDateParser looked like the most basic blocks. Once those have java.time API, it should be easier to update other classes.",
+      "parentUuid": "93a41d5d_ffa76974",
+      "revId": "92b35db291b5c661037b2724ac40488dbb44f52d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
