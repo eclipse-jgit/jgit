@@ -244,11 +244,11 @@ public class RecursiveMerger extends ResolveMerger {
 	private String failingPathsMessage() {
 		int max = 25;
 		String failedPaths = failingPaths.entrySet().stream().limit(max)
-				.map(entry -> entry.getKey() + ":" + entry.getValue())
-				.collect(Collectors.joining("\n"));
+				.map(entry -> entry.getKey() + ":" + entry.getValue()) //$NON-NLS-1$
+				.collect(Collectors.joining("\n")); //$NON-NLS-1$
 
 		if (failingPaths.size() > max) {
-			failedPaths = String.format("%s\n... (%s failing paths omitted)",
+			failedPaths = String.format("%s\n... (%s failing paths omitted)", //$NON-NLS-1$
 					failedPaths, failingPaths.size() - max);
 		}
 		return failedPaths;

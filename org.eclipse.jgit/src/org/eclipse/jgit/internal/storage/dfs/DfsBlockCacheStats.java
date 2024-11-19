@@ -46,7 +46,7 @@ class DfsBlockCacheStats implements BlockCacheStats {
 	private final AtomicReference<AtomicLong[]> liveBytes;
 
 	DfsBlockCacheStats() {
-		this("");
+		this(""); //$NON-NLS-1$
 	}
 
 	DfsBlockCacheStats(String name) {

@@ -125,10 +125,10 @@ class PackExtBlockCacheTable implements DfsBlockCacheTable {
 		Set<DfsBlockCacheTable> blockCacheTables = new HashSet<>();
 		blockCacheTables.add(defaultBlockCacheTable);
 		blockCacheTables.addAll(packExtBlockCacheTables.values());
-		String name = defaultBlockCacheTable.getName() + ","
+		String name = defaultBlockCacheTable.getName() + "," //$NON-NLS-1$
 				+ packExtBlockCacheTables.values().stream()
 						.map(DfsBlockCacheTable::getName).sorted()
-						.collect(Collectors.joining(","));
+						.collect(Collectors.joining(",")); //$NON-NLS-1$
 		return new PackExtBlockCacheTable(name, defaultBlockCacheTable,
 				List.copyOf(blockCacheTables), packExtBlockCacheTables);
 	}

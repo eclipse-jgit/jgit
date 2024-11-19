@@ -51,7 +51,7 @@ public class DfsBlockCacheConfig {
 	/** Default number of max cache hits. */
 	public static final int DEFAULT_CACHE_HOT_MAX = 1;
 
-	static final String DEFAULT_NAME = "<default>";
+	static final String DEFAULT_NAME = "<default>"; //$NON-NLS-1$
 
 	private String name;
 
@@ -91,7 +91,7 @@ public class DfsBlockCacheConfig {
 	 *            {@link PrintWriter} to write the cache's configuration to.
 	 */
 	public void print(PrintWriter writer) {
-		print(/* linePrefix= */ "", /* pad= */ "  ", writer);
+		print(/* linePrefix= */ "", /* pad= */ "  ", writer); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/**
@@ -105,14 +105,12 @@ public class DfsBlockCacheConfig {
 	 * @param writer
 	 *            {@link PrintWriter} to write the cache's configuration to.
 	 */
+	@SuppressWarnings("nls")
 	private void print(String linePrefix, String pad, PrintWriter writer) {
 		String currentPrefixLevel = linePrefix;
 		if (!name.isEmpty() || !packExtCacheConfigurations.isEmpty()) {
-			String name = this.name;
-			if (name.isEmpty()) {
-				name = "<Default>";
-			}
-			writer.println(linePrefix + "Name: " + name);
+			writer.println(linePrefix + "Name: "
+					+ (name.isEmpty() ? DEFAULT_NAME : this.name));
 			currentPrefixLevel += pad;
 		}
 		writer.println(currentPrefixLevel + "BlockLimit: " + blockLimit);
@@ -602,7 +600,7 @@ public class DfsBlockCacheConfig {
 
 		void print(String linePrefix, String pad, PrintWriter writer) {
 			packExtCacheConfiguration.print(linePrefix, pad, writer);
-			writer.println(linePrefix + pad + "PackExts: "
+			writer.println(linePrefix + pad + "PackExts: " //$NON-NLS-1$
 					+ packExts.stream().sorted().collect(Collectors.toList()));
 		}
 	}
