@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd386d04_1a04ed87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffDriver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T22:44:06Z",
+      "side": 0,
+      "message": "this was illegal javadoc",
+      "range": {
+        "startLine": 66,
+        "startChar": 29,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "2c86ef2427ad3c65bfa4dee90311408255869638",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
