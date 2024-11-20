@@ -408,7 +408,7 @@ public class PersonIdent implements Serializable {
 	 * Get the time zone id
 	 *
 	 * @return the time zone id
-	 * @since 7.1
+	 * @since 6.1
 	 */
 	public ZoneId getZoneId() {
 		return tzOffset;
@@ -496,4 +496,3 @@ public class PersonIdent implements Serializable {
 		return r.toString();
 	}
 }
-
