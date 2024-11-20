@@ -16,6 +16,149 @@
       "message": "@matthias.sohn@sap.com PTAL",
       "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d436c067_e4d6c5f0",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "this detail is only correct for RefDirectory but not for other implementations of RefDatabase\n\n```suggestion\nusage_All\u003dPack all refs, except hidden refs, broken refs, and symbolic refs.\n```",
+      "range": {
+        "startLine": 260,
+        "startChar": 10,
+        "endLine": 260,
+        "endChar": 73
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3acae604_9ff7f158",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "I think by default it only packs tags and refs which were already packed before",
+      "range": {
+        "startLine": 304,
+        "startChar": 76,
+        "endLine": 304,
+        "endChar": 132
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aa4ee37_b53ef203",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "I thought by default it only packs tags and refs which were already packed",
+      "range": {
+        "startLine": 25,
+        "startChar": 64,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea8a3a03_bd7aef54",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "add a getter for each option to this class and pass `this` to `#packRefs` then the implementation can get the option from the command instance and we don\u0027t need `PackOptions` below ?",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ada68ba7_a1c5fdfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "if option `--all` is disabled we could filter to tags already in line 294 by using the prefix `Constants.R_TAGS`. This would ensure we don\u0027t allocate a potentially way too large List in line 295.",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6340544_0ee58c2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "by default it only packs loose tags, I\u0027d avoid to mention here what subclasses implement, instead explain the details in javadoc of the respective subclass, there you can reference the generic documentation of this superclass (https://medium.com/@gewzk/what-is-inheritdoc-in-java-with-example-300ad5566fbc).",
+      "range": {
+        "startLine": 598,
+        "startChar": 60,
+        "endLine": 599,
+        "endChar": 45
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4daf3da7_1c0564c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T13:20:11Z",
+      "side": 1,
+      "message": "I think we can replace this separate object by the command which already has the options",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
