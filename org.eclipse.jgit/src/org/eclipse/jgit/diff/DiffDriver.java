@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"ImmutableEnumChecker", "nls"})
 public enum DiffDriver {
 	/**
-	 * Built-in diff driver for <a
-	 * href="https://learn.microsoft.com/en-us/cpp/cpp/cpp-language-reference">c++</a>
+	 * Built-in diff driver for <a href=
+	 * "https://learn.microsoft.com/en-us/cpp/cpp/cpp-language-reference">c++</a>
 	 */
 	cpp(List.of(
 			/* Jump targets or access declarations */
@@ -37,16 +37,16 @@ public enum DiffDriver {
 			/* functions/methods, variables, and compounds at top level */
 			"^((::\\s*)?[A-Za-z_].*)$")),
 	/**
-	 * Built-in diff driver for <a
-	 * href="https://devicetree-specification.readthedocs.io/en/stable/source-language.html">device
+	 * Built-in diff driver for <a href=
+	 * "https://devicetree-specification.readthedocs.io/en/stable/source-language.html">device
 	 * tree files</a>
 	 */
 	dts(List.of(";", "="), List.of(
 			/* lines beginning with a word optionally preceded by '&' or the root */
 			"^[ \\t]*((/[ \\t]*\\{|&?[a-zA-Z_]).*)")),
 	/**
-	 * Built-in diff driver for <a
-	 * href="https://docs.oracle.com/javase/specs/jls/se21/html/index.html">java</a>
+	 * Built-in diff driver for <a href=
+	 * "https://docs.oracle.com/javase/specs/jls/se21/html/index.html">java</a>
 	 */
 	java(List.of(
 			"^[ \\t]*(catch|do|for|if|instanceof|new|return|switch|throw|while)"),
@@ -58,13 +58,13 @@ public enum DiffDriver {
 					"^[ \\t]*(([A-Za-z_<>&\\]\\[][?&<>.,A-Za-z_0-9]*[ \\t]+)+[A-Za-z_]"
 							+ "[A-Za-z_0-9]*[ \\t]*\\([^;]*)$")),
 	/**
-	 * Built-in diff driver for <a
-	 * href="https://docs.python.org/3/reference/index.html">python</a>
+	 * Built-in diff driver for
+	 * <a href="https://docs.python.org/3/reference/index.html">python</a>
 	 */
 	python(List.of("^[ \\t]*((class|(async[ \\t]+)?def)[ \\t].*)$")),
 	/**
-	 * Built-in diff driver for <a *
-	 * href="https://doc.rust-lang.org/reference/introduction.html">java</a>
+	 * Built-in diff driver for
+	 * <a href="https://doc.rust-lang.org/reference/introduction.html">java</a>
 	 */
 	rust(List.of("^[\\t ]*((pub(\\([^\\)]+\\))?[\\t ]+)?"
 			+ "((async|const|unsafe|extern([\\t ]+\"[^\"]+\"))[\\t ]+)?"
