@@ -64,7 +64,7 @@ public enum DiffDriver {
 	python(List.of("^[ \\t]*((class|(async[ \\t]+)?def)[ \\t].*)$")),
 	/**
 	 * Built-in diff driver for
-	 * <a href="https://doc.rust-lang.org/reference/introduction.html">java</a>
+	 * <a href="https://doc.rust-lang.org/reference/introduction.html">rust</a>
 	 */
 	rust(List.of("^[\\t ]*((pub(\\([^\\)]+\\))?[\\t ]+)?"
 			+ "((async|const|unsafe|extern([\\t ]+\"[^\"]+\"))[\\t ]+)?"
