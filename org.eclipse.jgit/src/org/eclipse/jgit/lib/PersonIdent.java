@@ -240,7 +240,8 @@ public class PersonIdent implements Serializable {
 	 */
 	@Deprecated(since = "7.1")
 	public PersonIdent(PersonIdent pi, Date aWhen) {
-		this(pi.getName(), pi.getEmailAddress(), aWhen.toInstant());
+		this(pi.getName(), pi.getEmailAddress(), aWhen.toInstant(),
+				pi.tzOffset);
 	}
 
 	/**
