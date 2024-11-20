@@ -46,6 +46,30 @@
       },
       "revId": "48f36f969542930722a9041b24bbb3c00dc919a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "438908b0_fe6648d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffDriver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2024-11-20T23:24:00Z",
+      "side": 1,
+      "message": "1204412: DiffDriver: fix doc for rust built-in | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1204412",
+      "parentUuid": "4c14bf1c_b04af856",
+      "range": {
+        "startLine": 67,
+        "startChar": 68,
+        "endLine": 67,
+        "endChar": 72
+      },
+      "revId": "48f36f969542930722a9041b24bbb3c00dc919a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
