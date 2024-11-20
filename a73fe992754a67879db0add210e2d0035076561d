@@ -16,6 +16,24 @@
       "message": "only the filename of the resource needs to change so that the Eclipse Java compiler doesn\u0027t try to compile the resource, we can use the real name for the file to be committed in the test",
       "revId": "a73fe992754a67879db0add210e2d0035076561d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf96f150_3211bb2f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterBuiltInDriverTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-20T09:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b1423bd_98e94cfe",
+      "revId": "a73fe992754a67879db0add210e2d0035076561d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
