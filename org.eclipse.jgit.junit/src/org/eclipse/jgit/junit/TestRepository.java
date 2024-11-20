@@ -1020,7 +1020,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	private static void prunePacked(ObjectDirectory odb) throws IOException {
 		for (Pack p : odb.getPacks()) {
 			for (MutableEntry e : p)
-				FileUtils.delete(odb.fileFor(e.toObjectId()));
+				FileUtils.delete(odb.fileFor(e.toObjectId()),
+						FileUtils.SKIP_MISSING);
 		}
 	}
 

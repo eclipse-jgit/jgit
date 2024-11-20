@@ -1,0 +1,37 @@
+public class Greeting {
+    public String getGreeting(String name) {
+        String msg = "Hello, " + name + "!";
+        return msg;
+    }
+
+    public String getFarewell(String name) {
+        String msg = "Goodbye, " + name + ". Have a great day!";
+        return msg;
+    }
+
+    public String getPersonalizedGreeting(String name, String timeOfDay) {
+        String msg;
+        switch (timeOfDay.toLowerCase()) {
+        case "morning":
+            msg = "Good morning, " + name;
+            break;
+        case "afternoon":
+            msg = "Good afternoon, " + name;
+            break;
+        case "evening":
+            msg = "Good evening, " + name;
+            break;
+        default:
+            msg = "Good day, " + name;
+            break;
+        }
+        return msg;
+    }
+
+    public static void main(String[] args) {
+        Greeting greeting = new Greeting();
+        System.out.println(greeting.getGreeting("foo"));
+        System.out.println(greeting.getFarewell("bar"));
+        System.out.println(greeting.getPersonalizedGreeting("baz", "morning"));
+    }
+}
