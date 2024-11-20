@@ -17,9 +17,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 
 /**
@@ -35,7 +36,8 @@ import org.eclipse.jgit.internal.JGitText;
  */
 public class GitTimeParser {
 
-	private static final Map<ParseableSimpleDateFormat, DateTimeFormatter> formatCache = new HashMap<>();
+	private static final Map<ParseableSimpleDateFormat, DateTimeFormatter> formatCache = new EnumMap<>(
+			ParseableSimpleDateFormat.class);
 
 	// An enum of all those formats which this parser can parse with the help of
 	// a DateTimeFormatter. There are other formats (e.g. the relative formats
@@ -57,6 +59,10 @@ public class GitTimeParser {
 		ParseableSimpleDateFormat(String formatStr) {
 			this.formatStr = formatStr;
 		}
+	}
+
+	private GitTimeParser() {
+		// This class is not supposed to be instantiated
 	}
 
 	/**
@@ -95,16 +101,17 @@ public class GitTimeParser {
 	static LocalDateTime parse(String dateStr, LocalDateTime now)
 			throws ParseException {
 		dateStr = dateStr.trim();
-		LocalDateTime ret;
 
-		if ("never".equalsIgnoreCase(dateStr)) //$NON-NLS-1$
+		if (dateStr.equalsIgnoreCase("never")) { //$NON-NLS-1$
 			return LocalDateTime.MAX;
-		ret = parse_relative(dateStr, now);
-		if (ret != null)
+		}
+		LocalDateTime ret = parseRelative(dateStr, now);
+		if (ret != null) {
 			return ret;
+		}
 		for (ParseableSimpleDateFormat f : ParseableSimpleDateFormat.values()) {
 			try {
-				return parse_simple(dateStr, f);
+				return parseSimple(dateStr, f);
 			} catch (DateTimeParseException e) {
 				// simply proceed with the next parser
 			}
@@ -112,8 +119,9 @@ public class GitTimeParser {
 		ParseableSimpleDateFormat[] values = ParseableSimpleDateFormat.values();
 		StringBuilder allFormats = new StringBuilder("\"") //$NON-NLS-1$
 				.append(values[0].formatStr);
-		for (int i = 1; i < values.length; i++)
+		for (int i = 1; i < values.length; i++) {
 			allFormats.append("\", \"").append(values[i].formatStr); //$NON-NLS-1$
+		}
 		allFormats.append("\""); //$NON-NLS-1$
 		throw new ParseException(
 				MessageFormat.format(JGitText.get().cannotParseDate, dateStr,
@@ -122,10 +130,11 @@ public class GitTimeParser {
 	}
 
 	// tries to parse a string with the formats supported by DateTimeFormatter
-	private static LocalDateTime parse_simple(String dateStr,
+	private static LocalDateTime parseSimple(String dateStr,
 			ParseableSimpleDateFormat f) throws DateTimeParseException {
 		DateTimeFormatter dateFormat = formatCache.computeIfAbsent(f,
-				format -> DateTimeFormatter.ofPattern(f.formatStr)
+				format -> DateTimeFormatter
+						.ofPattern(f.formatStr)
 						.withLocale(SystemReader.getInstance().getLocale()));
 		TemporalAccessor parsed = dateFormat.parse(dateStr);
 		return parsed.isSupported(ChronoField.HOUR_OF_DAY)
@@ -135,25 +144,27 @@ public class GitTimeParser {
 
 	// tries to parse a string with a relative time specification
 	@SuppressWarnings("nls")
-	private static LocalDateTime parse_relative(String dateStr,
+	@Nullable
+	private static LocalDateTime parseRelative(String dateStr,
 			LocalDateTime now) {
 		// check for the static words "yesterday" or "now"
-		if ("now".equals(dateStr)) {
+		if (dateStr.equals("now")) {
 			return now;
 		}
 
-		if ("yesterday".equals(dateStr)) {
+		if (dateStr.equals("yesterday")) {
 			return now.minusDays(1);
 		}
 
 		// parse constructs like "3 days ago", "5.week.2.day.ago"
-		String[] parts = dateStr.split("\\.| ");
+		String[] parts = dateStr.split("\\.| ", -1);
 		int partsLength = parts.length;
 		// check we have an odd number of parts (at least 3) and that the last
 		// part is "ago"
 		if (partsLength < 3 || (partsLength & 1) == 0
-				|| !"ago".equals(parts[parts.length - 1]))
+				|| !parts[parts.length - 1].equals("ago")) {
 			return null;
+		}
 		int number;
 		for (int i = 0; i < parts.length - 2; i += 2) {
 			try {
