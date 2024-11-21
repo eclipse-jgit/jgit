@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c91373_4a612f4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-11-21T23:07:30Z",
+      "side": 1,
+      "message": "nit: should be `packs`\n\n```suggestion\n\t * tag refs into packed-refs. If {@code all} flag is set, this packs all the\n```",
+      "range": {
+        "startLine": 296,
+        "startChar": 64,
+        "endLine": 296,
+        "endChar": 68
+      },
+      "revId": "d14937ea92683ecfd2b3490dca5729b4573ac15e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
