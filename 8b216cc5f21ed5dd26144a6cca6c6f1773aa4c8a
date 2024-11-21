@@ -194,6 +194,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba90814d_e691ba0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-21T21:00:50Z",
+      "side": 1,
+      "message": "yes, done",
+      "parentUuid": "a64ed07e_8d62af97",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ada68ba7_a1c5fdfb",
@@ -289,6 +307,24 @@
       "writtenOn": "2024-11-20T13:20:11Z",
       "side": 1,
       "message": "I think we can replace this separate object by the command which already has the options",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8dc15c8_5345b397",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-21T21:00:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4daf3da7_1c0564c7",
       "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
