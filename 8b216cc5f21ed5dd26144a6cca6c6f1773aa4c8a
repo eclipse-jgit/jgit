@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6a10db7_1a903caa",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-21T10:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d436c067_e4d6c5f0",
+      "range": {
+        "startLine": 260,
+        "startChar": 10,
+        "endLine": 260,
+        "endChar": 73
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3acae604_9ff7f158",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-11-20T13:20:11Z",
       "side": 1,
       "message": "I think by default it only packs tags and refs which were already packed before",
+      "range": {
+        "startLine": 304,
+        "startChar": 76,
+        "endLine": 304,
+        "endChar": 132
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7586b2bb_49b742b6",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-21T10:06:10Z",
+      "side": 1,
+      "message": "Replaced with the description from official git documentation.",
+      "parentUuid": "3acae604_9ff7f158",
       "range": {
         "startLine": 304,
         "startChar": 76,
@@ -87,6 +135,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "008c557e_9c68a7d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-21T10:06:10Z",
+      "side": 1,
+      "message": "Removed details from the java doc",
+      "parentUuid": "4aa4ee37_b53ef203",
+      "range": {
+        "startLine": 25,
+        "startChar": 64,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea8a3a03_bd7aef54",
@@ -100,6 +172,24 @@
       "writtenOn": "2024-11-20T13:20:11Z",
       "side": 1,
       "message": "add a getter for each option to this class and pass `this` to `#packRefs` then the implementation can get the option from the command instance and we don\u0027t need `PackOptions` below ?",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a64ed07e_8d62af97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PackRefsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-21T10:06:10Z",
+      "side": 1,
+      "message": "In that case `GC.java` would need to use `PackRefsCommand ` like below. Do you think it\u0027s ok to use it here ? \n\n```\ntry {\n  new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true).call();\n} catch (GitAPIException e) {\n  LOG.error(e.getMessage(), e);\n}\n```",
+      "parentUuid": "ea8a3a03_bd7aef54",
       "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -121,6 +211,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "163f7c8e_231868cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-21T10:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada68ba7_a1c5fdfb",
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6340544_0ee58c2c",
@@ -134,6 +242,30 @@
       "writtenOn": "2024-11-20T13:20:11Z",
       "side": 1,
       "message": "by default it only packs loose tags, I\u0027d avoid to mention here what subclasses implement, instead explain the details in javadoc of the respective subclass, there you can reference the generic documentation of this superclass (https://medium.com/@gewzk/what-is-inheritdoc-in-java-with-example-300ad5566fbc).",
+      "range": {
+        "startLine": 598,
+        "startChar": 60,
+        "endLine": 599,
+        "endChar": 45
+      },
+      "revId": "8b216cc5f21ed5dd26144a6cca6c6f1773aa4c8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c149262_3a31547d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2024-11-21T10:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6340544_0ee58c2c",
       "range": {
         "startLine": 598,
         "startChar": 60,
