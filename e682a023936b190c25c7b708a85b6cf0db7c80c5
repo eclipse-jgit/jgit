@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77fa26b2_418787af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-22T22:03:23Z",
+      "side": 1,
+      "message": "We have deployed this in production and so far there are no more errors coming from this line (which was the most common previously, approximately 5/day).",
+      "revId": "e682a023936b190c25c7b708a85b6cf0db7c80c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b2d219_f2c83b87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-22T22:03:23Z",
+      "side": 1,
+      "message": "We no longer see errors coming from this line either. These were the rarest, approximately 4 in 3 weeks.",
+      "revId": "e682a023936b190c25c7b708a85b6cf0db7c80c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d96c55a_4f1cdfef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-22T22:03:23Z",
+      "side": 1,
+      "message": "Errors here were previously happening a bit less than once a day. In theory this change only fixes the first iteration of this loop, once the header is written, any further iterations will still result in a permanent failure. We have seen one occurrence of this error in about a day and a half so far.\n\nMy assumption has been that if the file was deleted it should fail on the first read during the first iteration because the file would then be open and spare unix from reference collecting it until jgit let\u0027s go of the file. However, I realize that it might be possible for the read to hit a jgit block cached section without the file being open? If so, we might want to have an API in the block cache which let\u0027s us know if the file is open or not, and to call it first here, and abort if the file is not yet opened and cannot be opened before sending the header. That could potentially help us recover even more?",
+      "revId": "e682a023936b190c25c7b708a85b6cf0db7c80c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
