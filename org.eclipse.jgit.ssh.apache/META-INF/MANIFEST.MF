@@ -9,7 +9,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-Version: 7.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.jgit.internal.signing.ssh;version="7.2.0";x-friends:="org.eclipse.jgit.ssh.apache.test",
- org.eclipse.jgit.internal.transport.sshd;version="7.2.0";x-internal:=true;
+ org.eclipse.jgit.internal.transport.sshd;version="7.2.0";x-friends:="org.eclipse.jgit.ssh.apache.test";
   uses:="org.apache.sshd.client,
    org.apache.sshd.client.auth,
    org.apache.sshd.client.auth.keyboard,
