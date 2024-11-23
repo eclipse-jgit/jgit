@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7939e60f_7fafb237",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-23T22:58:58Z",
+      "side": 1,
+      "message": "JGit\u0027s GC class uses a different name pattern for temporary packs created during gc [1], e.g.:\n\n- gc_15642100813845695188.pack_tmp\n- gc_15642100813845695188.idx_tmp\n\nLooks like they are safe to use and we don\u0027t need to also exclude them here.\n\n[1] https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java#L1308",
+      "revId": "f026c19a054a5247ddcdf747479be87b7e01152e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
