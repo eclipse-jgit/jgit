@@ -27,6 +27,7 @@ public class PackFile extends File {
 	private static final long serialVersionUID = 1L;
 
 	private static final String PREFIX = "pack-"; //$NON-NLS-1$
+	private static final String TMP_GC_PREFIX = ".tmp-"; //$NON-NLS-1$
 
 	private final String base; // PREFIX + id i.e.
 								// pack-0123456789012345678901234567890123456789
@@ -123,6 +124,13 @@ public class PackFile extends File {
 	 */
 	public PackExt getPackExt() {
 		return packExt;
+	}
+
+	/**
+	 * @return whether the file is a temporary GC file
+	 */
+	public boolean isTmpGCFile() {
+		return id.startsWith(TMP_GC_PREFIX);
 	}
 
 	/**

@@ -661,6 +661,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 		try {
 			synchronized (readLock) {
+				doOpenHardIndex();
 				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
 				length = fd.length();
 				onOpenPack();
@@ -704,8 +705,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		doClose();
 	}
 
+	private void doOpenHardIndex() {
+	}
+
+	private void doCloseHardIndex() {
+	}
+
 	private void doClose() {
 		synchronized (readLock) {
+			doCloseHardIndex();
 			if (fd != null) {
 				try {
 					fd.close();
