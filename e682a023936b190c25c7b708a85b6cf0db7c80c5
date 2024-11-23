@@ -50,6 +50,24 @@
       "message": "Errors here were previously happening a bit less than once a day. In theory this change only fixes the first iteration of this loop, once the header is written, any further iterations will still result in a permanent failure. We have seen one occurrence of this error in about a day and a half so far.\n\nMy assumption has been that if the file was deleted it should fail on the first read during the first iteration because the file would then be open and spare unix from reference collecting it until jgit let\u0027s go of the file. However, I realize that it might be possible for the read to hit a jgit block cached section without the file being open? If so, we might want to have an API in the block cache which let\u0027s us know if the file is open or not, and to call it first here, and abort if the file is not yet opened and cannot be opened before sending the header. That could potentially help us recover even more?",
       "revId": "e682a023936b190c25c7b708a85b6cf0db7c80c5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04632901_f00bf0e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-23T02:36:29Z",
+      "side": 1,
+      "message": "Hmm, it appears that Pack.copyAsIs() is intended to be a mechanism to keep the file open during copyAsIs2(). However, it appears that there are ways for the file to become invalid, and beginCopyAsIs() doesn\u0027t actually check that it is still valid and it feels like it should. It appears from the latest stack trace that the file was potentially invalidated by another thread trying to load the idx file. Additionally, now that indexes can be soft, even though the pack file is kept open during copyAsIs2(), the index files could be gced. To fix the fact that the packfile can be invalidated by another thread, I have uploaded a follow on change to this one to check whether it is invalid at the last possible opportunity.\n\nI also noticed that the problematic file in this particular stack trace might be a file it ironically should not be looking at in the first place: \n\norg.eclipse.jgit.errors.PackInvalidException: Pack file invalid: \u003crepo_path\u003e/objects/pack/.tmp-338582-pack-5e167d67b5c6f384e3ace2946f3fdcf2bbf12340.pack\n\nthat is jgit trying to read a .tmp- file which git gc is creating. I have uploaded a change to filter these out: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1204287\n\nLastly, as for the index, it is used during copyAsIs2(), but only for the crc. I suspect that if we cached the CRC in Pack instead of relying on having the index available, that this could further reduce failures due to repacking.",
+      "parentUuid": "9d96c55a_4f1cdfef",
+      "revId": "e682a023936b190c25c7b708a85b6cf0db7c80c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
