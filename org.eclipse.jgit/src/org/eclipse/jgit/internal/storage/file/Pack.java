@@ -584,13 +584,19 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						assert(crc2 != null);
 						crc2.update(buf, 0, n);
 					}
+					cnt -= n;
 					if (!isHeaderWritten) {
+						if (invalid && cnt > 0) {
+							// Since this is not the last iteration and the packfile is invalid,
+							// better to assume the iterations will not all complete here while
+							// it is still likely recoverable.
+							throw new StoredObjectRepresentationNotAvailableException(invalidatingCause);
+						}
 						out.writeHeader(src, inflatedLength);
 						isHeaderWritten = true;
 					}
 					out.write(buf, 0, n);
 					pos += n;
-					cnt -= n;
 				}
 				if (validate) {
 					assert(crc2 != null);
