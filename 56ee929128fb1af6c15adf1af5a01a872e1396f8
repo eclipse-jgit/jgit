@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57ab4bc2_c3c11e03",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-11-23T13:39:02Z",
+      "side": 1,
+      "message": "Acknowledged, I kept \u0027FileUtils.pathToString()\u0027 as cgit on Windows is also using forward slahes as path separator.",
+      "parentUuid": "779a1b4f_d0c7c264",
+      "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "438d9dbc_bbbe0f35",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "writtenOn": "2024-11-13T19:51:05Z",
       "side": 1,
       "message": "And then calling here\n```\n  String workTreePath;\n  String gitDirPath;\n  if (relativePaths) {\n    File canonGitDir \u003d getDirectory().getCanonicalFile();\n    File canonWorkTree \u003d getWorkTree().getCanonicalFile();\n    workTreePath \u003d getRelativeDir(canonGitDir, canonWorkTree);\n    gitDirPath \u003d getRelativeDir(canonWorkTree, canonGitDir);\n  } else {\n    workTreePath \u003d \u003d getWorkTree().getAbsolutePath();\n    gitDirPath \u003d getDirectory().getAbsolutePath()\n  }\n```\n\n(Note: must be the canonical paths, otherwise the behavior may be rather surprising if symlinks are involved. See the javadoc of Path.relativize().)",
+      "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e11e0c_77a9fc77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-11-23T13:39:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "438d9dbc_bbbe0f35",
       "revId": "56ee929128fb1af6c15adf1af5a01a872e1396f8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
