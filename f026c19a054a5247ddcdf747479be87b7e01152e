@@ -34,6 +34,24 @@
       "parentUuid": "7939e60f_7fafb237",
       "revId": "f026c19a054a5247ddcdf747479be87b7e01152e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82156fc2_02e7ccd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-24T07:31:06Z",
+      "side": 1,
+      "message": "Let\u0027s stick to `TMP_GC_PREFIX` and use the same prefix in JGit, I think it\u0027s not API and nobody should depend on it.",
+      "parentUuid": "cfaacdcc_48348f1d",
+      "revId": "f026c19a054a5247ddcdf747479be87b7e01152e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
