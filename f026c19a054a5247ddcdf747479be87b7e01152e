@@ -52,6 +52,24 @@
       "parentUuid": "cfaacdcc_48348f1d",
       "revId": "f026c19a054a5247ddcdf747479be87b7e01152e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf3bd056_c8173caa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-25T19:46:46Z",
+      "side": 1,
+      "message": "OK. If we want to improve jgit gc, then I think that likely should be a separate change for master.",
+      "parentUuid": "82156fc2_02e7ccd1",
+      "revId": "f026c19a054a5247ddcdf747479be87b7e01152e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
