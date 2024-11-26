@@ -63,6 +63,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.PackRefsCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -233,9 +235,11 @@ public class GC {
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
+	 * @throws GitAPIException
+	 *             If packing refs failed
 	 */
 	public CompletableFuture<Collection<Pack>> gc()
-			throws IOException, ParseException {
+			throws IOException, ParseException, GitAPIException {
 		if (!background) {
 			return CompletableFuture.completedFuture(doGc());
 		}
@@ -254,7 +258,7 @@ public class GC {
 					gcLog.commit();
 				}
 				return newPacks;
-			} catch (IOException | ParseException e) {
+			} catch (IOException | ParseException | GitAPIException e) {
 				try {
 					gcLog.write(e.getMessage());
 					StringWriter sw = new StringWriter();
@@ -277,7 +281,8 @@ public class GC {
 		return (executor != null) ? executor : WorkQueue.getExecutor();
 	}
 
-	private Collection<Pack> doGc() throws IOException, ParseException {
+	private Collection<Pack> doGc()
+			throws IOException, ParseException, GitAPIException {
 		if (automatic && !needGc()) {
 			return Collections.emptyList();
 		}
@@ -286,7 +291,8 @@ public class GC {
 				return Collections.emptyList();
 			}
 			pm.start(6 /* tasks */);
-			packRefs();
+			new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
+					.call();
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
 			prune(Collections.emptySet());
@@ -777,43 +783,6 @@ public class GC {
 		}
 		return !r2.isSymbolic()
 				&& Objects.equals(r1.getObjectId(), r2.getObjectId());
-	}
-
-	/**
-	 * Pack ref storage. For a RefDirectory database, this packs all
-	 * non-symbolic, loose refs into packed-refs. For Reftable, all of the data
-	 * is compacted into a single table.
-	 *
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 */
-	public void packRefs() throws IOException {
-		RefDatabase refDb = repo.getRefDatabase();
-		if (refDb instanceof FileReftableDatabase) {
-			// TODO: abstract this more cleanly.
-			pm.beginTask(JGitText.get().packRefs, 1);
-			try {
-				((FileReftableDatabase) refDb).compactFully();
-			} finally {
-				pm.endTask();
-			}
-			return;
-		}
-
-		Collection<Ref> refs = refDb.getRefsByPrefix(Constants.R_REFS);
-		List<String> refsToBePacked = new ArrayList<>(refs.size());
-		pm.beginTask(JGitText.get().packRefs, refs.size());
-		try {
-			for (Ref ref : refs) {
-				checkCancelled();
-				if (!ref.isSymbolic() && ref.getStorage().isLoose())
-					refsToBePacked.add(ref.getName());
-				pm.update(1);
-			}
-			((RefDirectory) repo.getRefDatabase()).pack(refsToBePacked);
-		} finally {
-			pm.endTask();
-		}
 	}
 
 	/**

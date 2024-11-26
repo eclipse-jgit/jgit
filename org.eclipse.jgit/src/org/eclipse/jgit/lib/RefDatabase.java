@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.PackRefsCommand;
 
 /**
  * Abstraction of name to {@link org.eclipse.jgit.lib.ObjectId} mapping.
@@ -592,5 +593,23 @@ public abstract class RefDatabase {
 				return ref;
 		}
 		return null;
+	}
+
+	/**
+	 * Optimize pack ref storage.
+	 *
+	 * @param pm
+	 *            a progress monitor
+	 *
+	 * @param packRefs
+	 *            {@link PackRefsCommand} to control ref packing behavior
+	 *
+	 * @throws java.io.IOException
+	 *             if an IO error occurred
+	 * @since 7.1
+	 */
+	public void packRefs(ProgressMonitor pm, PackRefsCommand packRefs)
+			throws IOException {
+		// nothing
 	}
 }

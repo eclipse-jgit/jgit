@@ -33,6 +33,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
@@ -599,7 +600,7 @@ public class FileRepository extends Repository {
 		gc.setBackground(shouldAutoDetach());
 		try {
 			gc.gc();
-		} catch (ParseException | IOException e) {
+		} catch (ParseException | IOException | GitAPIException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
 	}

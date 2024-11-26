@@ -545,7 +545,7 @@ class PackDirectory {
 		for (String name : nameList) {
 			try {
 				PackFile pack = new PackFile(directory, name);
-				if (pack.getPackExt() != null) {
+				if (pack.getPackExt() != null && !pack.isTmpGCFile()) {
 					Map<PackExt, PackFile> packByExt = packFilesByExtById
 							.get(pack.getId());
 					if (packByExt == null) {
