@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,9 +112,7 @@ class PackDirectory {
 	void close() {
 		PackList packs = packList.get();
 		if (packs != NO_PACKS && packList.compareAndSet(packs, NO_PACKS)) {
-			for (Pack p : packs.packs) {
-				p.close();
-			}
+			Pack.close(Set.of(packs.packs));
 		}
 	}
 
@@ -484,9 +483,7 @@ class PackDirectory {
 			return old;
 		}
 
-		for (Pack p : forReuse.values()) {
-			p.close();
-		}
+		Pack.close(new HashSet<>(forReuse.values()));
 
 		if (list.isEmpty()) {
 			return new PackList(snapshot, NO_PACKS.packs);
