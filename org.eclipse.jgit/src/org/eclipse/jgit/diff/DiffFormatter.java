@@ -1334,7 +1334,7 @@ public class DiffFormatter implements AutoCloseable {
 					continue;
 				}
 				if (matchesAny(diffDriver.getMatchPatterns(), line)) {
-					String funcName = line.replaceAll("^[ \\t]+", "");
+					String funcName = line.replaceAll("^[ \\t]+", ""); //$NON-NLS-1$//$NON-NLS-2$
 					return funcName.substring(0,
 							Math.min(funcName.length(), 80)).trim();
 				}
