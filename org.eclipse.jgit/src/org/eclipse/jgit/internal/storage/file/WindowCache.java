@@ -17,6 +17,7 @@ import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -397,7 +398,11 @@ public class WindowCache {
 	}
 
 	static final void purge(Pack pack) {
-		cache.removeAll(pack);
+		purge(Collections.singleton(pack));
+	}
+
+	static final void purge(Set<Pack> packs) {
+		cache.removeAll(packs);
 	}
 
 	/** cleanup released and/or garbage collected windows. */
@@ -710,20 +715,21 @@ public class WindowCache {
 	/**
 	 * Clear all entries related to a single file.
 	 * <p>
-	 * Typically this method is invoked during {@link Pack#close()}, when we
-	 * know the pack is never going to be useful to us again (for example, it no
-	 * longer exists on disk). A concurrent reader loading an entry from this
-	 * same pack may cause the pack to become stuck in the cache anyway.
+	 * Typically this method is invoked during {@link Pack#close()}, or
+	 * {@link Pack#close(Set)}, when we know the packs are never going to be
+	 * useful to us again (for example, they no longer exist on disk after gc).
+	 * A concurrent reader loading an entry from these same packs may cause a
+	 * pack to become stuck in the cache anyway.
 	 *
-	 * @param pack
-	 *            the file to purge all entries of.
+	 * @param packs
+	 *            the files to purge all entries of.
 	 */
-	private void removeAll(Pack pack) {
+	private void removeAll(Set<Pack> packs) {
 		for (int s = 0; s < tableSize; s++) {
 			final Entry e1 = table.get(s);
 			boolean hasDead = false;
 			for (Entry e = e1; e != null; e = e.next) {
-				if (e.ref.getPack() == pack) {
+				if (packs.contains(e.ref.getPack())) {
 					e.kill();
 					hasDead = true;
 				} else if (e.dead)
