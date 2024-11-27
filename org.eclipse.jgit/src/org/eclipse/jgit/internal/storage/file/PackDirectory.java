@@ -111,9 +111,7 @@ class PackDirectory {
 	void close() {
 		PackList packs = packList.get();
 		if (packs != NO_PACKS && packList.compareAndSet(packs, NO_PACKS)) {
-			for (Pack p : packs.packs) {
-				p.close();
-			}
+			Pack.close(Arrays.asList(packs.packs));
 		}
 	}
 
@@ -484,9 +482,7 @@ class PackDirectory {
 			return old;
 		}
 
-		for (Pack p : forReuse.values()) {
-			p.close();
-		}
+		Pack.close(forReuse.values());
 
 		if (list.isEmpty()) {
 			return new PackList(snapshot, NO_PACKS.packs);

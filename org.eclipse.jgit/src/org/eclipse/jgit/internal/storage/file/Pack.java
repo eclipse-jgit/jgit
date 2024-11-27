@@ -31,6 +31,7 @@ import java.nio.file.NoSuchFileException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -296,15 +297,25 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
-	 * Close the resources utilized by this repository
+	 * Close the resources utilized by these pack files
+	 */
+	public static void close(Collection<Pack> packs) {
+		WindowCache.purge(packs);
+		packs.forEach(p -> p.closeIndices());
+	}
+
+	/**
+	 * Close the resources utilized by this pack file
 	 */
 	public void close() {
 		WindowCache.purge(this);
-		synchronized (this) {
-			loadedIdx.clear();
-			reverseIdx.clear();
-			bitmapIdx.clear();
-		}
+		closeIndices();
+	}
+
+	private synchronized void closeIndices() {
+		loadedIdx.clear();
+		reverseIdx.clear();
+		bitmapIdx.clear();
 	}
 
 	/**
