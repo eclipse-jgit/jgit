@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12e3674_98efb199",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:58:36Z",
+      "side": 1,
+      "message": "I don\u0027t know yet if this series helps at all. We see a large instantaneous spike in our http thread pool right after git gc completes in production. The spike drops right back down, but can take up to a minute. Metrics show a massive block cache eviction at this point which makes sense. I am hoping that this will reduce that spike. I do know that back in our Gerrit 2.7 days that we would every now and then see Gerrit get into a weird state where it was really slow, and I believe the jstacks would show a massive amount of removeAll()s being called over and over.",
+      "revId": "5448f3a6a101c88be497ce31ccd9854d22ac9155",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
