@@ -22,6 +22,30 @@
       },
       "revId": "3923cdca6ffe0146e6e30e93dbed8d391f71ba0e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b171606d_024bb4ec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T20:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89ff1bfa_a08cfaad",
+      "range": {
+        "startLine": 699,
+        "startChar": 40,
+        "endLine": 699,
+        "endChar": 44
+      },
+      "revId": "3923cdca6ffe0146e6e30e93dbed8d391f71ba0e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
