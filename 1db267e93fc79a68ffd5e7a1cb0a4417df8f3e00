@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f96831a7_5f341782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:18Z",
+      "side": 1,
+      "message": "drastically",
+      "range": {
+        "startLine": 21,
+        "startChar": 19,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "1db267e93fc79a68ffd5e7a1cb0a4417df8f3e00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3c9681_6495384d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:18Z",
+      "side": 1,
+      "message": "this method isn\u0027t used",
+      "revId": "1db267e93fc79a68ffd5e7a1cb0a4417df8f3e00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b144a5_a9aedef7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:18Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t// if the system is so busy that removals are always being added during processing.\n```",
+      "revId": "1db267e93fc79a68ffd5e7a1cb0a4417df8f3e00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1074e4d2_3b91a7e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:18Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t// If the system is this busy, it likely means that these 10 consolidations will\n```",
+      "revId": "1db267e93fc79a68ffd5e7a1cb0a4417df8f3e00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7aee7b6_66976617",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:18Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\tpacksToRemove \u003d new HashSet\u003c\u003e();\n```",
+      "revId": "1db267e93fc79a68ffd5e7a1cb0a4417df8f3e00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
