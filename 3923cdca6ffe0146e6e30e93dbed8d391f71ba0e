@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89ff1bfa_a08cfaad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T19:07:13Z",
+      "side": 1,
+      "message": "packs ?",
+      "range": {
+        "startLine": 699,
+        "startChar": 40,
+        "endLine": 699,
+        "endChar": 44
+      },
+      "revId": "3923cdca6ffe0146e6e30e93dbed8d391f71ba0e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
