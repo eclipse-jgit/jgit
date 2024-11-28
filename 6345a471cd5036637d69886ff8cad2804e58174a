@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dff2e031_542f9422",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e30483c6_d8811631",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08863172_65cd299b",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-28T11:27:00Z",
       "side": 1,
       "message": "expensive",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58f2baf2_34b2e165",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08863172_65cd299b",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b066a54_e8400201",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e7e37d_7fd8ef0d",
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c03ff534_427b799b",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-11-28T11:27:00Z",
       "side": 1,
       "message": "changeRemoveAll to accept Collection and pass packs here\n\n\n\n```suggestion\n\t\tcache.removeAll(packs);\n```",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 407,
+        "endChar": 77
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e569681_385f16ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:50:20Z",
+      "side": 1,
+      "message": "See my answer below.",
+      "parentUuid": "c03ff534_427b799b",
       "range": {
         "startLine": 407,
         "startChar": 73,
@@ -110,6 +200,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac3d0296_48f792a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a91c375_ed27c7dd",
+      "range": {
+        "startLine": 721,
+        "startChar": 32,
+        "endLine": 721,
+        "endChar": 38
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bd9ac22_5c2f1612",
@@ -123,6 +237,30 @@
       "writtenOn": "2024-11-28T11:27:00Z",
       "side": 1,
       "message": "Use Collection ? I think there is no need to restrict this to Set.\n```suggestion\n\tprivate void removeAll(Collection\u003cPack\u003e packs) {\n```",
+      "range": {
+        "startLine": 729,
+        "startChar": 24,
+        "endLine": 729,
+        "endChar": 27
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b6b8e0_d30c2f10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-28T15:50:20Z",
+      "side": 1,
+      "message": "If we don\u0027t use a Set, we likely don\u0027t get a O(1) optimization for the contains() on line 734. While I could accept anything here and then convert if it is not a Set, I think it makes the preference for a Set a bit more obvious if we leave this signature with a Set. Highlighting that preference could lead to design decisions which avoid conversions. If we want to change anything related to this (not that I think we should), I would lean towards pushing the Set requirement all the way up the stack.",
+      "parentUuid": "2bd9ac22_5c2f1612",
       "range": {
         "startLine": 729,
         "startChar": 24,
