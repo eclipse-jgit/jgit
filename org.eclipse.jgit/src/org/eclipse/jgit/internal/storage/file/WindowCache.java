@@ -404,7 +404,7 @@ public class WindowCache {
 	}
 
 	static final void purge(Collection<Pack> packs) {
-		cache.removeAll(packs instanceof Set ? (Set<Pack>) packs : new HashSet<Pack>(packs));
+		cache.queuedRemoveAll(packs instanceof Set ? (Set<Pack>) packs : new HashSet<Pack>(packs));
 	}
 
 	/** cleanup released and/or garbage collected windows. */
@@ -447,6 +447,10 @@ public class WindowCache {
 	private final boolean useStrongRefs;
 
 	private final boolean useStrongIndexRefs;
+
+	private Set<Pack> packsToRemove = new HashSet<>();
+
+	private boolean isOkToQueueRemovals;
 
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
@@ -692,6 +696,38 @@ public class WindowCache {
 		}
 	}
 
+	private void queuedRemoveAll(Set<Pack> pack) {
+		synchronized (this) {
+			if (isOkToQueueRemovals) {
+				packsToRemove.addAll(pack);
+				return;
+			}
+			isOkToQueueRemovals = true;
+			packsToRemove.addAll(pack);
+		}
+		// Although this can process up to 10 consolidations, this will only happen
+		// if the system is so busy that removals are always being added during processing.
+		// If the system is this busy, it likely means that these 10 consolidations will
+		// process way more than 10 removals which can be a vey large gain under load.
+		for (int i = 0 ; processRemovals(i > 10); i++) {}
+	}
+
+	private boolean processRemovals(boolean isLastIteration) {
+		Set<Pack>	toRemove;
+		synchronized (this) {
+			if (isLastIteration) {
+				isOkToQueueRemovals = false;
+			}
+			if (packsToRemove.isEmpty()) {
+				return false;
+			}
+			toRemove = packsToRemove;
+			packsToRemove = new HashSet<>();
+		}
+		removeAll(toRemove);
+		return ! isLastIteration;
+  }
+
 	/**
 	 * Clear every entry from the cache.
 	 * <p>
@@ -715,7 +751,7 @@ public class WindowCache {
 	}
 
 	/**
-	 * Clear all entries related to a single file.
+	 * Clear all entries related to files.
 	 * <p>
 	 * Typically this method is invoked during {@link Pack#close()}, or
 	 * {@link Pack#close(Collection)}, when we know the packs are never going
