@@ -177,6 +177,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67316d4a_ed909655",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T19:07:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6e569681_385f16ee",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 407,
+        "endChar": 77
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a91c375_ed27c7dd",
@@ -261,6 +285,30 @@
       "side": 1,
       "message": "If we don\u0027t use a Set, we likely don\u0027t get a O(1) optimization for the contains() on line 734. While I could accept anything here and then convert if it is not a Set, I think it makes the preference for a Set a bit more obvious if we leave this signature with a Set. Highlighting that preference could lead to design decisions which avoid conversions. If we want to change anything related to this (not that I think we should), I would lean towards pushing the Set requirement all the way up the stack.",
       "parentUuid": "2bd9ac22_5c2f1612",
+      "range": {
+        "startLine": 729,
+        "startChar": 24,
+        "endLine": 729,
+        "endChar": 27
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c08418f_2c19ab0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T19:07:02Z",
+      "side": 1,
+      "message": "ack, didn\u0027t think about performance when writing this.\n\nThen I\u0027d push the Set requirement up to `Pack#close(Set\u003cPack\u003e packs)` and convert map values to a Set in PackDirectory: `Pack.close(new HashSet\u003c\u003e(forReuse.values()))`",
+      "parentUuid": "e9b6b8e0_d30c2f10",
       "range": {
         "startLine": 729,
         "startChar": 24,
