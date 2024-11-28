@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e30483c6_d8811631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:00Z",
+      "side": 1,
+      "message": "time",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08863172_65cd299b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:00Z",
+      "side": 1,
+      "message": "expensive",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e7e37d_7fd8ef0d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:00Z",
+      "side": 1,
+      "message": "```suggestion\n\t * Close the resources utilized by these pack files\n\t *\n\t * @param packs\n\t *            packs to close\n```",
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03ff534_427b799b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:00Z",
+      "side": 1,
+      "message": "changeRemoveAll to accept Collection and pass packs here\n\n\n\n```suggestion\n\t\tcache.removeAll(packs);\n```",
+      "range": {
+        "startLine": 407,
+        "startChar": 73,
+        "endLine": 407,
+        "endChar": 77
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a91c375_ed27c7dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:00Z",
+      "side": 1,
+      "message": "remove the type parameter otherwise javadoc complains\n```suggestion\n\t * {@link Pack#close(Collection)}, when we know the packs are never going\n```",
+      "range": {
+        "startLine": 721,
+        "startChar": 32,
+        "endLine": 721,
+        "endChar": 38
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd9ac22_5c2f1612",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-11-28T11:27:00Z",
+      "side": 1,
+      "message": "Use Collection ? I think there is no need to restrict this to Set.\n```suggestion\n\tprivate void removeAll(Collection\u003cPack\u003e packs) {\n```",
+      "range": {
+        "startLine": 729,
+        "startChar": 24,
+        "endLine": 729,
+        "endChar": 27
+      },
+      "revId": "6345a471cd5036637d69886ff8cad2804e58174a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
