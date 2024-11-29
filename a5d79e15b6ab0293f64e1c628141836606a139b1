@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf0c796d_0a07e979",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-29T17:13:23Z",
+      "side": 1,
+      "message": "I can\u0027t tell what the build errors are from the logs, any ideas?",
+      "revId": "a5d79e15b6ab0293f64e1c628141836606a139b1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
