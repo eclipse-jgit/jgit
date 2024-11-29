@@ -16,6 +16,24 @@
       "message": "How about using Set#of instead ?\n\n```suggestion\n\t\t\tPack.close(Set.of(packs.packs));\n```",
       "revId": "05910e9bf40f0f6401fe3777d16d9ab5ef2be3e2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a663ac1f_d0a62ab4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-11-29T02:27:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f47ff10e_12355fae",
+      "revId": "05910e9bf40f0f6401fe3777d16d9ab5ef2be3e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
