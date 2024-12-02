@@ -44,8 +44,8 @@ public class PatchIdDiffFormatter extends DiffFormatter {
 	}
 
 	@Override
-	protected void writeHunkHeader(int aStartLine, int aEndLine, int bStartLine,
-			int bEndLine, String funcName) throws IOException {
+	protected void writeHunkHeader(int aStartLine, int aEndLine,
+			int bStartLine, int bEndLine) throws IOException {
 		// The hunk header is not taken into account for patch id calculation
 	}
 

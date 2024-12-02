@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="src/org/eclipse/jgit/diff/DiffDriver.java" type="org.eclipse.jgit.diff.DiffDriver">
-        <filter id="1109393411">
-            <message_arguments>
-                <message_argument value="6.10.1"/>
-                <message_argument value="org.eclipse.jgit.diff.DiffDriver"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/diff/DiffFormatter.java" type="org.eclipse.jgit.diff.DiffFormatter">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="6.10.1"/>
-                <message_argument value="format(EditList, RawText, RawText, DiffDriver)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="6.10.1"/>
-                <message_argument value="format(FileHeader, RawText, RawText, DiffDriver)"/>
-            </message_arguments>
-        </filter>
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="6.10.1"/>
-                <message_argument value="writeHunkHeader(int, int, int, int, String)"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/gitrepo/RepoProject.java" type="org.eclipse.jgit.gitrepo.RepoProject">
         <filter id="1141899266">
             <message_arguments>
