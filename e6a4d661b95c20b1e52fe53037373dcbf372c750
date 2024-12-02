@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31332239_922db007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-02T20:46:52Z",
+      "side": 1,
+      "message": "see test failures in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1204694",
+      "revId": "e6a4d661b95c20b1e52fe53037373dcbf372c750",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
