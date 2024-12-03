@@ -33,6 +33,24 @@
       "message": "Chiming in here as a drive by observation. The CL message states \"Since the removal\nis not something that needs to be synchronous\", which would be a surprise to me. My expectation would be that calling `Pack#close()` does synchronously close open file descriptors, which is important on Windows to avoid file deletion failures due to locked files. Mildly related could be https://github.com/eclipse-jgit/jgit/issues/66",
       "revId": "f665f533c6ba2862fc24162ee6fc7b9a303865d3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd8c50c5_bf1c0448",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-03T22:55:12Z",
+      "side": 1,
+      "message": "Thanks for pointing me to that issue, I have commented there. That\u0027s a tricky problem, but I don\u0027t believe calling Pack.close() is intended to be something which synchronously closes the file descriptor (as you likely have unfortuntately discovered).",
+      "parentUuid": "a00c6d67_1e7b84fc",
+      "revId": "f665f533c6ba2862fc24162ee6fc7b9a303865d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
