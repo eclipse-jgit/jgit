@@ -1,0 +1,7 @@
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+2: Andrey Loskutov <loskutov@gmx.de>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 03 Dec 2024 16:26:36 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1205021
+Project: eclipse-jgit/jgit
+Branch: refs/heads/stable-6.10
