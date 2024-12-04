@@ -1358,7 +1358,10 @@ public class DiffFormatter implements AutoCloseable {
 		Attribute diffAttr = entry.getDiffAttribute();
 		if (diffAttr != null) {
 			try {
-				return DiffDriver.valueOf(diffAttr.getValue());
+				String diffAttrValue = diffAttr.getValue();
+				if (diffAttrValue != null) {
+					return DiffDriver.valueOf(diffAttrValue);
+				}
 			} catch (IllegalArgumentException e) {
 				return null;
 			}
