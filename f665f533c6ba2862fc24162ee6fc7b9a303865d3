@@ -51,6 +51,24 @@
       "parentUuid": "a00c6d67_1e7b84fc",
       "revId": "f665f533c6ba2862fc24162ee6fc7b9a303865d3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6a36b6_87823bae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-04T20:06:23Z",
+      "side": 1,
+      "message": "FYI, so far the patchsets on this change are synchronous in single threaded operation, so I don\u0027t think this change makes things any worse for the concerned Windows case. The approach in PS3 could easily be made to be synchronous using a lock instead of a counter, but then it would lose advantage #2, and it would be blocking threads when it doesn\u0027t really need to.",
+      "parentUuid": "cd8c50c5_bf1c0448",
+      "revId": "f665f533c6ba2862fc24162ee6fc7b9a303865d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
