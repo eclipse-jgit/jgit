@@ -38,12 +38,12 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -303,6 +303,7 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 	/** Can be set to identify the tree to use for {@link #getAttributes()}. */
 	private int headIndex = -1;
 
+	@Nullable
 	private Config config;
 
 	private Set<String> filterCommands;
@@ -1591,6 +1592,9 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		String filterCommand = filterCommandsByNameDotType.get(key);
 		if (filterCommand != null)
 			return filterCommand;
+		if (config == null) {
+			return null;
+		}
 		filterCommand = config.getString(ConfigConstants.CONFIG_FILTER_SECTION,
 				filterDriverName, filterCommandType);
 		boolean useBuiltin = config.getBoolean(
