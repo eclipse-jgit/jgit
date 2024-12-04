@@ -1591,6 +1591,9 @@ public class TreeWalk implements AutoCloseable, AttributesProvider {
 		String filterCommand = filterCommandsByNameDotType.get(key);
 		if (filterCommand != null)
 			return filterCommand;
+		if (config == null) {
+			return null;
+		}
 		filterCommand = config.getString(ConfigConstants.CONFIG_FILTER_SECTION,
 				filterDriverName, filterCommandType);
 		boolean useBuiltin = config.getBoolean(
