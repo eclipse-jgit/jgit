@@ -16,6 +16,24 @@
       "message": "I am struggling to understand this sentence, does this reflect what you said:\n\nWhen copyAsIs2() needs to send a large object requiring multiple read iterations — any of which could fail if the object isn\u0027t already in the WindowCache — it should first verify that the packfile is still valid at the latest possible moment, just before sending the header that would make recovery impossible.",
       "revId": "4a64b77b82d37dcc7efa607bb0197dc16325f246",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac41cf6_9584083c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-04T19:10:45Z",
+      "side": 1,
+      "message": "Yes. Done",
+      "parentUuid": "32351dc5_d1bc548e",
+      "revId": "4a64b77b82d37dcc7efa607bb0197dc16325f246",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
