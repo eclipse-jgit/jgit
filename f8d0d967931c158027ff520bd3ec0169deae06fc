@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0ed04f_e8ac1c8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-04T21:19:04Z",
+      "side": 1,
+      "message": "Looks like a valid verification error:\n```\n10:30:44  [ERROR] Tests run: 11, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.314 s \u003c\u003c\u003c FAILURE! -- in org.eclipse.jgit.pgm.MergeToolTest\n10:30:44  [ERROR] org.eclipse.jgit.pgm.MergeToolTest.testEmptyToolName -- Time elapsed: 0.873 s \u003c\u003c\u003c FAILURE!\n10:30:44  org.junit.ComparisonFailure: Expected no standard error output from tool expected:\u003c[compare[: unrecognized option `-wait\u0027 @ error/compare.c/CompareImageCommand/1123., compare: unrecognized option `-wait\u0027 @ error/compare.c/CompareImageCommand/1123].]\u003e but was:\u003c[compare[-im6.q16: unrecognized option `-wait\u0027 @ error/compare.c/CompareImageCommand/1131., compare-im6.q16: unrecognized option `-wait\u0027 @ error/compare.c/CompareImageCommand/1131].]\u003e\n10:30:44  \tat org.junit.Assert.assertEquals(Assert.java:117)\n10:30:44  \tat org.eclipse.jgit.pgm.ToolTestCase.runAndCaptureUsingInitRaw(ToolTestCase.java:112)\n10:30:44  \tat org.eclipse.jgit.pgm.ToolTestCase.runAndCaptureUsingInitRaw(ToolTestCase.java:79)\n```",
+      "revId": "f8d0d967931c158027ff520bd3ec0169deae06fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
