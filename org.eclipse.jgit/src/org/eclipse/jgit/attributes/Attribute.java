@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.attributes;
 
+import org.eclipse.jgit.annotations.Nullable;
+
 /**
  * Represents an attribute.
  * <p>
@@ -139,7 +141,7 @@ public final class Attribute {
 	 *
 	 * @return the attribute value (may be <code>null</code>)
 	 */
-	public String getValue() {
+	public @Nullable String getValue() {
 		return value;
 	}
 
