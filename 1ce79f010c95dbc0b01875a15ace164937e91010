@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7d4b8e_fd35a2f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2024-12-05T21:44:15Z",
+      "side": 1,
+      "message": "Should usage of `@Nullable` get added to the [jgit coding standards](https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#coding-standards)?",
+      "revId": "1ce79f010c95dbc0b01875a15ace164937e91010",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
