@@ -11,14 +11,18 @@
 package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
+import static java.time.ZoneOffset.UTC;
 import static org.eclipse.jgit.util.RawParseUtils.lastIndexOfTrim;
 
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -66,15 +70,17 @@ public class PushCertificateIdent {
 		int tzBegin = raw.length - 1;
 		tzBegin = lastIndexOfTrim(raw, ' ', tzBegin);
 		if (tzBegin < 0 || raw[tzBegin] != ' ') {
-			return new PushCertificateIdent(str, str, 0, 0);
+			return new PushCertificateIdent(str, str, EPOCH, UTC);
 		}
 		int whenBegin = tzBegin++;
-		int tz = RawParseUtils.parseTimeZoneOffset(raw, tzBegin, p);
+		// Don't parse the timezone yet: if tz is missing, this could
+		// be the timestamp
+		int hhmm = RawParseUtils.parseBase10(raw, tzBegin, p);
 		boolean hasTz = p.value != tzBegin;
 
 		whenBegin = lastIndexOfTrim(raw, ' ', whenBegin);
 		if (whenBegin < 0 || raw[whenBegin] != ' ') {
-			return new PushCertificateIdent(str, str, 0, 0);
+			return new PushCertificateIdent(str, str, EPOCH, UTC);
 		}
 		int idEnd = whenBegin++;
 		long when = RawParseUtils.parseLongBase10(raw, whenBegin, p);
@@ -85,7 +91,7 @@ public class PushCertificateIdent {
 		} else {
 			// If either tz or when are non-numeric, mimic parsePersonIdent behavior and
 			// set them both to zero.
-			tz = 0;
+			hhmm = 0;
 			when = 0;
 			if (hasTz && !hasWhen) {
 				// Only one trailing numeric field; assume User ID ends before this
@@ -98,13 +104,20 @@ public class PushCertificateIdent {
 		}
 		String id = new String(raw, 0, idEnd, UTF_8);
 
-		return new PushCertificateIdent(str, id, when * 1000L, tz);
+		return new PushCertificateIdent(str, id, Instant.ofEpochSecond(when),
+				ZoneOffset.ofHoursMinutes(hhmm / 100, hhmm % 100));
 	}
+
+	private static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter
+			.ofPattern("Z", Locale.US);
+
+	private static DateTimeFormatter TO_STRING_FORMATTER = DateTimeFormatter
+			.ofPattern("EEE MMM d HH:mm:ss yyyy Z").withLocale(Locale.US);
 
 	private final String raw;
 	private final String userId;
-	private final long when;
-	private final int tzOffset;
+	private final Instant when;
+	private final ZoneId tzOffset;
 
 	/**
 	 * Construct a new identity from an OpenPGP User ID.
@@ -115,19 +128,37 @@ public class PushCertificateIdent {
 	 *            local time.
 	 * @param tzOffset
 	 *            timezone offset; see {@link #getTimeZoneOffset()}.
+	 * @deprecated Use {@link #PushCertificateIdent(String,Instant,ZoneId)}
+	 *             instead.
 	 */
+	@Deprecated(since = "7.1")
 	public PushCertificateIdent(String userId, long when, int tzOffset) {
+		this(userId, Instant.ofEpochMilli(when),
+				ZoneOffset.ofHoursMinutes(tzOffset / 60, tzOffset % 60));
+	}
+
+	/**
+	 * Construct a new identity from an OpenPGP User ID.
+	 *
+	 * @param userId
+	 *            OpenPGP User ID; any UTF-8 string.
+	 * @param when
+	 *            local time.
+	 * @param tzOffset
+	 *            timezone offset.
+	 */
+	public PushCertificateIdent(String userId, Instant when, ZoneId tzOffset) {
 		this.userId = userId;
 		this.when = when;
 		this.tzOffset = tzOffset;
-		StringBuilder sb = new StringBuilder(userId).append(' ').append(when / 1000)
-				.append(' ');
-		PersonIdent.appendTimezone(sb, tzOffset);
+		StringBuilder sb = new StringBuilder(userId).append(' ').append(when.toEpochMilli() / 1000)
+				.append(' ')
+				.append(OFFSET_FORMATTER.format(tzOffset.getRules().getOffset(when)));
 		raw = sb.toString();
 	}
 
-	private PushCertificateIdent(String raw, String userId, long when,
-			int tzOffset) {
+	private PushCertificateIdent(String raw, String userId, Instant when,
+			ZoneId tzOffset) {
 		this.raw = raw;
 		this.userId = userId;
 		this.when = when;
@@ -203,19 +234,34 @@ public class PushCertificateIdent {
 	 * Get the timestamp of the identity.
 	 *
 	 * @return the timestamp of the identity.
+	 *
+	 * @deprecated Use getWhenAsInstant() instead.
 	 */
+	@Deprecated(since="7.2")
 	public Date getWhen() {
-		return new Date(when);
+		return Date.from(when);
 	}
+
+	Instant getWhenAsInstant() {
+		return when;
+	}
+
 
 	/**
 	 * Get this person's declared time zone
 	 *
 	 * @return this person's declared time zone; null if the timezone is
 	 *         unknown.
+	 *
+	 * @deprecated Use {@link #getZoneId()} instead.
 	 */
+	@Deprecated(since="7.2")
 	public TimeZone getTimeZone() {
-		return PersonIdent.getTimeZone(tzOffset);
+		return TimeZone.getTimeZone(tzOffset);
+	}
+
+	ZoneId getZoneId() {
+		return tzOffset;
 	}
 
 	/**
@@ -225,7 +271,7 @@ public class PushCertificateIdent {
 	 *         timezone is to the west of UTC it is negative.
 	 */
 	public int getTimeZoneOffset() {
-		return tzOffset;
+		return tzOffset.getRules().getOffset(when).getTotalSeconds() / 60;
 	}
 
 	@Override
@@ -242,12 +288,13 @@ public class PushCertificateIdent {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		SimpleDateFormat fmt;
-		fmt = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
-		fmt.setTimeZone(getTimeZone());
-		return getClass().getSimpleName()
-			+ "[raw=\"" + raw + "\","
-			+ " userId=\"" + userId + "\","
-			+ " " + fmt.format(Long.valueOf(when)) + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getSimpleName());
+		sb.append("[");
+		sb.append("raw=\"").append(raw).append("\", ");
+		sb.append("userId=\"").append(userId).append("\", ");
+		sb.append(TO_STRING_FORMATTER.withZone(getZoneId()).format(when));
+		sb.append("]");
+		return sb.toString();
 	}
 }
