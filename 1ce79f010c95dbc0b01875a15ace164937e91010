@@ -33,6 +33,24 @@
       "message": "We usually put the @Nullable in the line above the method declaration, like @Override",
       "revId": "1ce79f010c95dbc0b01875a15ace164937e91010",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52bd0227_0a0aae41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-05T22:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5bdd8f0_6b45741f",
+      "revId": "1ce79f010c95dbc0b01875a15ace164937e91010",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
