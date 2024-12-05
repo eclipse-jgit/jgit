@@ -51,6 +51,24 @@
       "parentUuid": "36ed5b55_bea92972",
       "revId": "d5319ec08349cbdc46420af0aeb8653f63aae0ad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3efe2904_02fed2b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-05T18:26:12Z",
+      "side": 1,
+      "message": "Optional: a more flat structure with early returns could make this more readable:\n\n```\nif (diffAttr \u003d\u003d null) { \n return null;\n}\n\nString value \u003d ...\nif (value \u003d\u003d null) {\n  return null;\n}\n\ntry {\n   return DiffDriver.valueOf(value);\n} catch (...)\n   return null;\n}\n```",
+      "parentUuid": "36ed5b55_bea92972",
+      "revId": "d5319ec08349cbdc46420af0aeb8653f63aae0ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
