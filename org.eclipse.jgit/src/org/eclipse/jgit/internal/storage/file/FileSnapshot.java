@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -231,14 +232,8 @@ public class FileSnapshot {
 		this.useConfig = useConfig;
 		BasicFileAttributes fileAttributes = null;
 		try {
-			fileAttributes = FS.DETECTED.fileAttributes(file);
-		} catch (NoSuchFileException e) {
-			this.lastModified = Instant.EPOCH;
-			this.size = 0L;
-			this.fileKey = MISSING_FILEKEY;
-			return;
-		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			fileAttributes = getFileAttributes(file);
+		} catch (NoSuchElementException e) {
 			this.lastModified = Instant.EPOCH;
 			this.size = 0L;
 			this.fileKey = MISSING_FILEKEY;
@@ -319,16 +314,11 @@ public class FileSnapshot {
 		long currSize;
 		Object currFileKey;
 		try {
-			BasicFileAttributes fileAttributes = FS.DETECTED.fileAttributes(path);
+			BasicFileAttributes fileAttributes = getFileAttributes(path);
 			currLastModified = fileAttributes.lastModifiedTime().toInstant();
 			currSize = fileAttributes.size();
 			currFileKey = getFileKey(fileAttributes);
-		} catch (NoSuchFileException e) {
-			currLastModified = Instant.EPOCH;
-			currSize = 0L;
-			currFileKey = MISSING_FILEKEY;
-		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+		} catch (NoSuchElementException e) {
 			currLastModified = Instant.EPOCH;
 			currSize = 0L;
 			currFileKey = MISSING_FILEKEY;
@@ -586,4 +576,14 @@ public class FileSnapshot {
 		}
 		return fileStoreAttributeCache;
 	}
+
+	private static BasicFileAttributes getFileAttributes(File path) throws NoSuchElementException {
+		try {
+			return FS.DETECTED.fileAttributes(path);
+		} catch (NoSuchFileException e) {
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+		}
+		throw new NoSuchElementException(path.toString());
+  }
 }
