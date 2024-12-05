@@ -15,7 +15,6 @@ import static java.time.Instant.EPOCH;
 import static java.time.ZoneOffset.UTC;
 import static org.eclipse.jgit.util.RawParseUtils.lastIndexOfTrim;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -111,6 +110,9 @@ public class PushCertificateIdent {
 
 	private static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter
 			.ofPattern("Z", Locale.US);
+
+	private static DateTimeFormatter TO_STRING_FORMATTER = DateTimeFormatter
+			.ofPattern("EEE MMM d HH:mm:ss yyyy Z").withLocale(Locale.US);
 
 	private final String raw;
 	private final String userId;
@@ -232,19 +234,34 @@ public class PushCertificateIdent {
 	 * Get the timestamp of the identity.
 	 *
 	 * @return the timestamp of the identity.
+	 *
+	 * @deprecated Use getWhenAsInstant() instead.
 	 */
+	@Deprecated(since="7.2")
 	public Date getWhen() {
 		return Date.from(when);
 	}
+
+	Instant getWhenAsInstant() {
+		return when;
+	}
+
 
 	/**
 	 * Get this person's declared time zone
 	 *
 	 * @return this person's declared time zone; null if the timezone is
 	 *         unknown.
+	 *
+	 * @deprecated Use {@link #getZoneId()} instead.
 	 */
+	@Deprecated(since="7.2")
 	public TimeZone getTimeZone() {
 		return TimeZone.getTimeZone(tzOffset);
+	}
+
+	ZoneId getZoneId() {
+		return tzOffset;
 	}
 
 	/**
@@ -271,12 +288,13 @@ public class PushCertificateIdent {
 	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		SimpleDateFormat fmt;
-		fmt = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
-		fmt.setTimeZone(getTimeZone());
-		return getClass().getSimpleName()
-			+ "[raw=\"" + raw + "\","
-			+ " userId=\"" + userId + "\","
-			+ " " + fmt.format(when.toEpochMilli()) + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getSimpleName());
+		sb.append("[");
+		sb.append("raw=\"").append(raw).append("\", ");
+		sb.append("userId=\"").append(userId).append("\", ");
+		sb.append(TO_STRING_FORMATTER.withZone(getZoneId()).format(when));
+		sb.append("]");
+		return sb.toString();
 	}
 }
