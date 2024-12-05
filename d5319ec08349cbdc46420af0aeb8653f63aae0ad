@@ -87,6 +87,24 @@
       "parentUuid": "3efe2904_02fed2b8",
       "revId": "d5319ec08349cbdc46420af0aeb8653f63aae0ad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb14d6a4_1fbe97f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-05T22:38:12Z",
+      "side": 1,
+      "message": "Thanks! And sorry for the noise, I didn\u0027t send the comment right away, patchset 2 came in the mean time and I didn\u0027t see it.",
+      "parentUuid": "7b8beefc_459ccee8",
+      "revId": "d5319ec08349cbdc46420af0aeb8653f63aae0ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
