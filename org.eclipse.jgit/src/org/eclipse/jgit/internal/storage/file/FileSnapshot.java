@@ -583,8 +583,9 @@ public class FileSnapshot {
 			return FS.DETECTED.fileAttributes(path);
 		} catch (NoSuchFileException e) {
 		} catch (FileSystemException e) {
-			if (!e.getMessage().endsWith("Not a directory")) {
-				LOG.error(e.getMessage(), e);
+			String msg = e.getMessage();
+			if (!msg.endsWith("Not a directory") && !msg.endsWith("Stale file handle")) {
+				LOG.error(msg, e);
 			}
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
