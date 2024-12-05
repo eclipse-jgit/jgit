@@ -14,8 +14,8 @@ import static org.eclipse.jgit.transport.PushCertificateIdent.parse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
@@ -23,14 +23,15 @@ import org.junit.Test;
 public class PushCertificateIdentTest {
 	@Test
 	public void parseValid() throws Exception {
+		Instant when = Instant.ofEpochSecond(1218123387);
 		String raw = "A U. Thor <a_u_thor@example.com> 1218123387 +0700";
 		PushCertificateIdent ident = parse(raw);
 		assertEquals(raw, ident.getRaw());
 		assertEquals("A U. Thor <a_u_thor@example.com>", ident.getUserId());
 		assertEquals("A U. Thor", ident.getName());
 		assertEquals("a_u_thor@example.com", ident.getEmailAddress());
-		assertEquals(1218123387000L, ident.getWhen().getTime());
-		assertEquals(TimeZone.getTimeZone("GMT+0700"), ident.getTimeZone());
+		assertEquals(when, ident.getWhenAsInstant());
+		assertEquals(ZoneOffset.ofHours(7), ident.getZoneId().getRules().getOffset(when));
 		assertEquals(7 * 60, ident.getTimeZoneOffset());
 	}
 
@@ -73,8 +74,8 @@ public class PushCertificateIdentTest {
 	@Test
 	public void fuzzyCasesMatchPersonIdent() throws Exception {
 		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_fuzzyCases()
-		Date when = new Date(1234567890000L);
-		TimeZone tz = TimeZone.getTimeZone("GMT-7");
+		Instant when = Instant.ofEpochSecond(1234567890);
+		ZoneOffset tz = ZoneOffset.ofHours(-7);
 
 		assertMatchesPersonIdent(
 				"A U Thor <author@example.com>,  C O. Miter <comiter@example.com> 1234567890 -0700",
@@ -89,8 +90,8 @@ public class PushCertificateIdentTest {
 	@Test
 	public void incompleteCasesMatchPersonIdent() throws Exception {
 		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_incompleteCases()
-		Date when = new Date(1234567890000L);
-		TimeZone tz = TimeZone.getTimeZone("GMT-7");
+		Instant when = Instant.ofEpochSecond(1234567890);
+		ZoneOffset tz = ZoneOffset.ofHours(-7);
 
 		assertMatchesPersonIdent(
 				"Me <> 1234567890 -0700",
