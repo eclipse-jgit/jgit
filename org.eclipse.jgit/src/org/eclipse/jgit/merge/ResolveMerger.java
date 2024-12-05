@@ -1520,9 +1520,12 @@ public class ResolveMerger extends ThreeWayMerger {
 	private ContentMergeStrategy getAttributesContentMergeStrategy(
 			Attributes attributes, ContentMergeStrategy strategy) {
 		Attribute attr = attributes.get(Constants.ATTR_MERGE);
-		if (attr != null && attr.getValue()
-				.equals(Constants.ATTR_BUILTIN_UNION_MERGE_DRIVER)) {
-			return ContentMergeStrategy.UNION;
+		if (attr != null) {
+			String attrValue = attr.getValue();
+			if (attrValue != null && attrValue
+					.equals(Constants.ATTR_BUILTIN_UNION_MERGE_DRIVER)) {
+				return ContentMergeStrategy.UNION;
+			}
 		}
 		return strategy;
 	}

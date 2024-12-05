@@ -296,15 +296,28 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
-	 * Close the resources utilized by this repository
+	 * Close the resources utilized by these pack files
+	 *
+	 * @param packs
+	 *            packs to close
+	 */
+	public static void close(Set<Pack> packs) {
+		WindowCache.purge(packs);
+		packs.forEach(p -> p.closeIndices());
+	}
+
+	/**
+	 * Close the resources utilized by this pack file
 	 */
 	public void close() {
 		WindowCache.purge(this);
-		synchronized (this) {
-			loadedIdx.clear();
-			reverseIdx.clear();
-			bitmapIdx.clear();
-		}
+		closeIndices();
+	}
+
+	private synchronized void closeIndices() {
+		loadedIdx.clear();
+		reverseIdx.clear();
+		bitmapIdx.clear();
 	}
 
 	/**
@@ -584,13 +597,19 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						assert(crc2 != null);
 						crc2.update(buf, 0, n);
 					}
+					cnt -= n;
 					if (!isHeaderWritten) {
+						if (invalid && cnt > 0) {
+							// Since this is not the last iteration and the packfile is invalid,
+							// better to assume the iterations will not all complete here while
+							// it is still likely recoverable.
+							throw new StoredObjectRepresentationNotAvailableException(invalidatingCause);
+						}
 						out.writeHeader(src, inflatedLength);
 						isHeaderWritten = true;
 					}
 					out.write(buf, 0, n);
 					pos += n;
-					cnt -= n;
 				}
 				if (validate) {
 					assert(crc2 != null);
