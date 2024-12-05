@@ -72,7 +72,8 @@ public class PushCertificateIdentTest {
 
 	@Test
 	public void fuzzyCasesMatchPersonIdent() throws Exception {
-		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_fuzzyCases()
+		// See
+		// RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_fuzzyCases()
 		Date when = new Date(1234567890000L);
 		TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
@@ -88,99 +89,85 @@ public class PushCertificateIdentTest {
 
 	@Test
 	public void incompleteCasesMatchPersonIdent() throws Exception {
-		// See RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_incompleteCases()
+		// See
+		// RawParseUtils_ParsePersonIdentTest#testParsePersonIdent_incompleteCases()
 		Date when = new Date(1234567890000L);
 		TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
-		assertMatchesPersonIdent(
-				"Me <> 1234567890 -0700",
-				new PersonIdent("Me", "", when, tz),
-				"Me <>");
-		assertMatchesPersonIdent(
-				" <me@example.com> 1234567890 -0700",
+		assertMatchesPersonIdent("Me <> 1234567890 -0700",
+				new PersonIdent("Me", "", when, tz), "Me <>");
+		assertMatchesPersonIdent(" <me@example.com> 1234567890 -0700",
 				new PersonIdent("", "me@example.com", when, tz),
 				" <me@example.com>");
-		assertMatchesPersonIdent(
-				" <> 1234567890 -0700",
-				new PersonIdent("", "", when, tz),
-				" <>");
-		assertMatchesPersonIdent(
-				"<>",
-				new PersonIdent("", "", 0, 0),
-				"<>");
-		assertMatchesPersonIdent(
-				" <>",
-				new PersonIdent("", "", 0, 0),
-				" <>");
-		assertMatchesPersonIdent(
-				"<me@example.com>",
+		assertMatchesPersonIdent(" <> 1234567890 -0700",
+				new PersonIdent("", "", when, tz), " <>");
+		assertMatchesPersonIdent("<>", new PersonIdent("", "", 0, 0), "<>");
+		assertMatchesPersonIdent(" <>", new PersonIdent("", "", 0, 0), " <>");
+		assertMatchesPersonIdent("<me@example.com>",
 				new PersonIdent("", "me@example.com", 0, 0),
 				"<me@example.com>");
-		assertMatchesPersonIdent(
-				" <me@example.com>",
+		assertMatchesPersonIdent(" <me@example.com>",
 				new PersonIdent("", "me@example.com", 0, 0),
 				" <me@example.com>");
-		assertMatchesPersonIdent(
-				"Me <>",
-				new PersonIdent("Me", "", 0, 0),
+		assertMatchesPersonIdent("Me <>", new PersonIdent("Me", "", 0, 0),
 				"Me <>");
-		assertMatchesPersonIdent(
-				"Me <me@example.com>",
+		assertMatchesPersonIdent("Me <me@example.com>",
 				new PersonIdent("Me", "me@example.com", 0, 0),
 				"Me <me@example.com>");
-		assertMatchesPersonIdent(
-				"Me <me@example.com> 1234567890",
+		assertMatchesPersonIdent("Me <me@example.com> 1234567890",
 				new PersonIdent("Me", "me@example.com", 0, 0),
 				"Me <me@example.com>");
-		assertMatchesPersonIdent(
-				"Me <me@example.com> 1234567890 ",
+		assertMatchesPersonIdent("Me <me@example.com> 1234567890 ",
 				new PersonIdent("Me", "me@example.com", 0, 0),
 				"Me <me@example.com>");
 	}
 
 	@Test
 	public void timezoneRange_hours() {
-		int HOUR_TO_MS = 60 * 60 * 1000;
+		/*
+		 * Real timezones are in the [-12, 14] range of hours.
+		 *
+		 * Before 7.2, PushCertificateIdent used java.util.Timezone, which
+		 * accepted hours between 0 and 24. Now java.util.ZoneOffset accepts
+		 * only hours between 0 and 18.
+		 *
+		 * Invalid timezones default to UTC.
+		 */
+		PushCertificateIdent ok = PushCertificateIdent
+				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +1000");
+		assertEquals(10 * 60, ok.getTimeZoneOffset());
+		assertEquals(10 * 60 * 60 * 1000, ok.getTimeZone().getOffset(1218123387));
 
-		// java.util.TimeZone: Hours must be between 0 to 23
-		PushCertificateIdent hourLimit = PushCertificateIdent
+		PushCertificateIdent unrealistic = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +2300");
-		assertEquals(1380, hourLimit.getTimeZoneOffset());
-		assertEquals(23 * HOUR_TO_MS,
-				hourLimit.getTimeZone().getOffset(1218123387));
+		assertEquals(0, unrealistic.getTimeZoneOffset());
+		assertEquals(0, unrealistic.getTimeZone().getOffset(1218123387));
 
-		PushCertificateIdent hourDubious = PushCertificateIdent
-				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +2400");
-		assertEquals(1440, hourDubious.getTimeZoneOffset());
-		assertEquals(0, hourDubious.getTimeZone().getOffset(1218123387));
+		PushCertificateIdent tooBig = PushCertificateIdent
+				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +2500");
+		assertEquals(0, tooBig.getTimeZoneOffset());
+		assertEquals(0, tooBig.getTimeZone().getOffset(1218123387));
 	}
 
 	@Test
 	public void timezoneRange_minutes() {
-		PushCertificateIdent hourLimit = PushCertificateIdent
+		PushCertificateIdent okMinutes = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0059");
-		assertEquals(59, hourLimit.getTimeZoneOffset());
+		assertEquals(59, okMinutes.getTimeZoneOffset());
 		assertEquals(59 * 60 * 1000,
-				hourLimit.getTimeZone().getOffset(1218123387));
+				okMinutes.getTimeZone().getOffset(1218123387));
 
-		// This becomes one hour and one minute (!)
-		PushCertificateIdent hourDubious = PushCertificateIdent
+		PushCertificateIdent invalidMinutes = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0061");
-		assertEquals(61, hourDubious.getTimeZoneOffset());
-		assertEquals(61 * 60 * 1000,
-				hourDubious.getTimeZone().getOffset(1218123387));
+		assertEquals(0, invalidMinutes.getTimeZoneOffset());
+		assertEquals(0, invalidMinutes.getTimeZone().getOffset(1218123387));
 
+		// Before 7.2, this was converted into 99 minutes and then to GMT+0139
+		// This is an invalid timezone and now becomes UTC.
 		PushCertificateIdent weirdCase = PushCertificateIdent
-				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0099");
-		assertEquals(99, weirdCase.getTimeZoneOffset());
-		assertEquals(99 * 60 * 1000,
-				weirdCase.getTimeZone().getOffset(1218123387));
-
-		PushCertificateIdent weirdCase2 = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0199");
-		assertEquals(60 + 99, weirdCase2.getTimeZoneOffset());
-		assertEquals((60 + 99) * 60 * 1000,
-				weirdCase2.getTimeZone().getOffset(1218123387));
+		assertEquals(0, weirdCase.getTimeZoneOffset());
+		assertEquals(0, weirdCase.getTimeZone().getOffset(1218123387));
 	}
 
 	private static void assertMatchesPersonIdent(String raw,
@@ -197,8 +184,8 @@ public class PushCertificateIdentTest {
 		assertEquals(expectedUserId, certIdent.getUserId());
 	}
 
-	private static void checkNameEmail(String expectedName, String expectedEmail,
-			String raw) {
+	private static void checkNameEmail(String expectedName,
+			String expectedEmail, String raw) {
 		PushCertificateIdent ident = parse(raw);
 		assertNotNull(ident);
 		assertEquals(raw, ident.getRaw());
