@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccec5f65_3876fc12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-05T17:13:40Z",
+      "side": 1,
+      "message": "Remove extra space",
+      "range": {
+        "startLine": 770,
+        "startChar": 39,
+        "endLine": 770,
+        "endChar": 40
+      },
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be481c1_5e9ff31e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-05T17:13:40Z",
+      "side": 1,
+      "message": "Spacing",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
