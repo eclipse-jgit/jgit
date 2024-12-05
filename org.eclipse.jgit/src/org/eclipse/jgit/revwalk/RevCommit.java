@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2009 Google Inc.
+ * Copyright (C) 2008, 2024 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -521,6 +521,30 @@ public class RevCommit extends RevObject {
 			if (r[b++] == '\n')
 				return true;
 		return false;
+	}
+
+	/**
+	 * Parse the commit message and return its first line, i.e., everything up
+	 * to but not including the first newline, if any.
+	 *
+	 * @return the first line of the decoded commit message as a string; never
+	 *         {@code null}.
+	 * @since 7.2
+	 */
+	public final String getFirstMessageLine() {
+		int msgB = RawParseUtils.commitMessage(buffer, 0);
+		if (msgB < 0) {
+			return ""; //$NON-NLS-1$
+		}
+		int msgE = msgB;
+		byte[] raw = buffer;
+		while (msgE < raw.length && raw[msgE] != '\n') {
+			msgE++;
+		}
+		if (msgE > msgB && msgE > 0 && raw[msgE - 1] == '\r') {
+			msgE--;
+		}
+		return RawParseUtils.decode(guessEncoding(buffer), buffer, msgB, msgE);
 	}
 
 	/**

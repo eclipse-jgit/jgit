@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Robin Rosenberg and others
+ * Copyright (C) 2011, 2024 Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -59,7 +59,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 			writeTrashFile("a",
 					"first line\nsecond line\nthird line\nfourth line\n");
 			git.add().addFilepattern("a").call();
-			RevCommit fixingA = git.commit().setMessage("fixed a").call();
+			// Commit message with a non-empty second line on purpose
+			RevCommit fixingA = git.commit().setMessage("fixed a\nsecond line")
+					.call();
 
 			writeTrashFile("b", "first line\n");
 			git.add().addFilepattern("b").call();
@@ -78,7 +80,8 @@ public class RevertCommandTest extends RepositoryTestCase {
 					+ "This reverts commit " + fixingA.getId().getName() + ".\n";
 			assertEquals(expectedMessage, revertCommit.getFullMessage());
 			assertEquals("fixed b", history.next().getFullMessage());
-			assertEquals("fixed a", history.next().getFullMessage());
+			assertEquals("fixed a\nsecond line",
+					history.next().getFullMessage());
 			assertEquals("enlarged a", history.next().getFullMessage());
 			assertEquals("create b", history.next().getFullMessage());
 			assertEquals("create a", history.next().getFullMessage());
