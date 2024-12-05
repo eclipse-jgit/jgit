@@ -16,6 +16,23 @@
       "message": "Should usage of `@Nullable` get added to the [jgit coding standards](https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#coding-standards)?",
       "revId": "1ce79f010c95dbc0b01875a15ace164937e91010",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5bdd8f0_6b45741f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-05T22:39:55Z",
+      "side": 1,
+      "message": "We usually put the @Nullable in the line above the method declaration, like @Override",
+      "revId": "1ce79f010c95dbc0b01875a15ace164937e91010",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
