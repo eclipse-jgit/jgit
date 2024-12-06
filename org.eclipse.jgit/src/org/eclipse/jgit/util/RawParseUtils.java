@@ -13,6 +13,8 @@ package org.eclipse.jgit.util;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
+import static java.time.ZoneOffset.UTC;
 import static org.eclipse.jgit.lib.ObjectChecker.author;
 import static org.eclipse.jgit.lib.ObjectChecker.committer;
 import static org.eclipse.jgit.lib.ObjectChecker.encoding;
@@ -30,6 +32,9 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -456,6 +461,24 @@ public final class RawParseUtils {
 		final int tzMins = v % 100;
 		final int tzHours = v / 100;
 		return tzHours * 60 + tzMins;
+	}
+
+	/**
+	 * Parse a Git style timezone string in [+-]hhmm format
+	 *
+	 * @param b
+	 *            buffer to scan.
+	 * @param ptr
+	 *            position within buffer to start parsing digits at.
+	 * @param ptrResult
+	 *            optional location to return the new ptr value through. If null
+	 *            the ptr value will be discarded.
+	 * @return the ZoneOffset represention of the timezone offset string
+	 */
+	private static ZoneId parseZoneOffset(final byte[] b, int ptr,
+			MutableInteger ptrResult) {
+		int hhmm = parseBase10(b, ptr, ptrResult);
+		return ZoneOffset.ofHoursMinutes(hhmm / 100, hhmm % 100);
 	}
 
 	/**
@@ -1027,17 +1050,19 @@ public final class RawParseUtils {
 		// character if there is no trailing LF.
 		final int tzBegin = lastIndexOfTrim(raw, ' ',
 				nextLF(raw, emailE - 1) - 2) + 1;
-		if (tzBegin <= emailE) // No time/zone, still valid
-			return new PersonIdent(name, email, 0, 0);
+		if (tzBegin <= emailE) { // No time/zone, still valid
+			return new PersonIdent(name, email, EPOCH, UTC);
+		}
 
 		final int whenBegin = Math.max(emailE,
 				lastIndexOfTrim(raw, ' ', tzBegin - 1) + 1);
-		if (whenBegin >= tzBegin - 1) // No time/zone, still valid
-			return new PersonIdent(name, email, 0, 0);
+		if (whenBegin >= tzBegin - 1) { // No time/zone, still valid
+			return new PersonIdent(name, email, EPOCH, UTC);
+		}
 
-		final long when = parseLongBase10(raw, whenBegin, null);
-		final int tz = parseTimeZoneOffset(raw, tzBegin);
-		return new PersonIdent(name, email, when * 1000L, tz);
+		long when = parseLongBase10(raw, whenBegin, null);
+		return new PersonIdent(name, email, Instant.ofEpochSecond(when),
+				parseZoneOffset(raw, tzBegin, null));
 	}
 
 	/**
@@ -1075,16 +1100,16 @@ public final class RawParseUtils {
 			name = decode(raw, nameB, stop);
 
 		final MutableInteger ptrout = new MutableInteger();
-		long when;
-		int tz;
+		Instant when;
+		ZoneId tz;
 		if (emailE < stop) {
-			when = parseLongBase10(raw, emailE + 1, ptrout);
-			tz = parseTimeZoneOffset(raw, ptrout.value);
+			when = Instant.ofEpochSecond(parseLongBase10(raw, emailE + 1, ptrout));
+			tz = parseZoneOffset(raw, ptrout.value, null);
 		} else {
-			when = 0;
-			tz = 0;
+			when = EPOCH;
+			tz = UTC;
 		}
-		return new PersonIdent(name, email, when * 1000L, tz);
+		return new PersonIdent(name, email, when, tz);
 	}
 
 	/**
