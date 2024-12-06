@@ -22,6 +22,30 @@
       },
       "revId": "1d9211b99ffa284af4585c93c6c0c37f407306e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d5b420e_a1318667",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-06T01:28:26Z",
+      "side": 1,
+      "message": "What I am seeing in production is a FileSystemException (which is also an IOException). Since I need the check to happen for FileSystemExceptions, but I think it makes sense to also catch these for other forms of IOExceptions, I moved this up a level to be able to catch any stale file handles, even those which may not be thrown as FileSystemExceptions (I suspect different jvms can do different things here), even though I am not seeing those in production.\n\nDone.",
+      "parentUuid": "51304f81_2df4c835",
+      "range": {
+        "startLine": 587,
+        "startChar": 44,
+        "endLine": 587,
+        "endChar": 77
+      },
+      "revId": "1d9211b99ffa284af4585c93c6c0c37f407306e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
