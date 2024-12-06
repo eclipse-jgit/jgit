@@ -1356,13 +1356,17 @@ public class DiffFormatter implements AutoCloseable {
 
 	private DiffDriver getDiffDriver(DiffEntry entry) {
 		Attribute diffAttr = entry.getDiffAttribute();
-		if (diffAttr != null) {
-			try {
-				return DiffDriver.valueOf(diffAttr.getValue());
-			} catch (IllegalArgumentException e) {
-				return null;
-			}
+		if (diffAttr == null) {
+			return null;
 		}
-		return null;
+		String diffAttrValue = diffAttr.getValue();
+		if (diffAttrValue == null) {
+			return null;
+		}
+		try {
+			return DiffDriver.valueOf(diffAttrValue);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
 }

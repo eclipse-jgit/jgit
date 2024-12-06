@@ -158,7 +158,7 @@ public class UploadPack implements Closeable {
 		 * @param implied
 		 *            the implied policy based on its bitmask.
 		 * @return true if the policy is implied.
-		 * @since 7.1
+		 * @since 6.10.1
 		 */
 		public boolean implies(RequestPolicy implied) {
 			return (bitmask & implied.bitmask) != 0;

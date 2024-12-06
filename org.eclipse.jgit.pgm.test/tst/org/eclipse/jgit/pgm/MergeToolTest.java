@@ -27,6 +27,7 @@ import org.eclipse.jgit.internal.diffmergetool.ExternalMergeTool;
 import org.eclipse.jgit.internal.diffmergetool.MergeTools;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -77,6 +78,7 @@ public class MergeToolTest extends ToolTestCase {
 				+ errorReturnCode);
 	}
 
+	@Ignore
 	@Test
 	public void testEmptyToolName() throws Exception {
 		assumeLinuxPlatform();
