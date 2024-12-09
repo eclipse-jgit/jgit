@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea2e7f94_082a3267",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2024-12-09T22:56:22Z",
+      "side": 1,
+      "message": "This seems to change the behaviour slightly (going from just setting a wrong tz to setting it as UTC?).\nI haven\u0027t looked deeply into it, but are there tests covering this specific case?\nAnd if not, can you add that so as to show that it was an intended behaviour for future readers?",
+      "range": {
+        "startLine": 300,
+        "startChar": 23,
+        "endLine": 300,
+        "endChar": 31
+      },
+      "revId": "ce0c8a4f1973d6c650580b37784b2c07f36de899",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
