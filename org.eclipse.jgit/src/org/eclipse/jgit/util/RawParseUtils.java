@@ -473,11 +473,15 @@ public final class RawParseUtils {
 	 * @param ptrResult
 	 *            optional location to return the new ptr value through. If null
 	 *            the ptr value will be discarded.
-	 * @return the ZoneOffset represention of the timezone offset string
+	 * @return the ZoneOffset represention of the timezone offset string.
+	 *         Invalid offsets default to UTC.
 	 */
 	private static ZoneId parseZoneOffset(final byte[] b, int ptr,
 			MutableInteger ptrResult) {
 		int hhmm = parseBase10(b, ptr, ptrResult);
+		if (hhmm > 1800 || hhmm < -1800) {
+			return UTC;
+		}
 		return ZoneOffset.ofHoursMinutes(hhmm / 100, hhmm % 100);
 	}
 

@@ -107,6 +107,13 @@ public class RawParseUtils_ParsePersonIdentTest {
 		assertPersonIdent("Me <me@example.com 1234567890 -0700", null);
 	}
 
+	@Test
+	public void testParsePersonIdent_badTz() {
+		PersonIdent actual = RawParseUtils
+				.parsePersonIdent("Me <me@example.com> 1234567890 8315");
+		assertEquals(actual.getZoneOffset().getTotalSeconds(), 0);
+	}
+
 	private static void assertPersonIdent(String line, PersonIdent expected) {
 		PersonIdent actual = RawParseUtils.parsePersonIdent(line);
 		assertEquals(expected, actual);
