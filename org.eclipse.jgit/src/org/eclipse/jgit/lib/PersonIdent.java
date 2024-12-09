@@ -12,7 +12,10 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.time.ZoneOffset.UTC;
+
 import java.io.Serializable;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -54,11 +57,15 @@ public class PersonIdent implements Serializable {
 	 * Translate a minutes offset into a ZoneId
 	 *
 	 * @param tzOffset as minutes east of UTC
-	 * @return a ZoneId  for this offset
+	 * @return a ZoneId for this offset (UTC if invalid)
 	 * @since 7.1
 	 */
 	public static ZoneId getZoneId(int tzOffset) {
-		return ZoneOffset.ofHoursMinutes(tzOffset / 60, tzOffset % 60);
+		try {
+			return ZoneOffset.ofHoursMinutes(tzOffset / 60, tzOffset % 60);
+		} catch (DateTimeException e) {
+			return UTC;
+		}
 	}
 
 	/**
