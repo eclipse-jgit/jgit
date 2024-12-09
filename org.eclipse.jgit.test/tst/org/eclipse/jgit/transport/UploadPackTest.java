@@ -502,7 +502,7 @@ public class UploadPackTest {
 		assertThat(hook.capabilitiesRequest, notNullValue());
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-				Arrays.asList(pckIn.readString(), pckIn.readString(),
+				Arrays.asList(pckIn.readString(),pckIn.readString(), pckIn.readString(),
 						pckIn.readString()),
 				// TODO(jonathantanmy) This check is written this way
 				// to make it simple to see that we expect this list of
@@ -510,7 +510,7 @@ public class UploadPackTest {
 				// allow additional commands to be added to the list,
 				// and additional capabilities to be added to existing
 				// commands without requiring test changes.
-				hasItems("ls-refs", "fetch=shallow", "server-option"));
+				hasItems("agent","ls-refs", "fetch=shallow", "server-option"));
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
@@ -536,7 +536,7 @@ public class UploadPackTest {
 				lines.add(line);
 			}
 		}
-		assertThat(lines, containsInAnyOrder("ls-refs", "fetch", "server-option"));
+		assertThat(lines, containsInAnyOrder("ls-refs", "fetch", "server-option", "agent"));
 	}
 
 	private void checkUnadvertisedIfUnallowed(String configSection,
@@ -643,9 +643,9 @@ public class UploadPackTest {
 
 		assertThat(pckIn.readString(), is("version 2"));
 		assertThat(
-				Arrays.asList(pckIn.readString(), pckIn.readString(),
+				Arrays.asList(pckIn.readString(),pckIn.readString(), pckIn.readString(),
 						pckIn.readString()),
-				hasItems("ls-refs", "fetch=shallow", "server-option"));
+				hasItems("agent","ls-refs", "fetch=shallow", "server-option"));
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
