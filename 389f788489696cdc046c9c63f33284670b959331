@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19bbe19_aeceb976",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-09T22:06:46Z",
+      "side": 1,
+      "message": "The commit message isn\u0027t in markdown format.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "389f788489696cdc046c9c63f33284670b959331",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73bc193b_18fae504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-09T22:06:46Z",
+      "side": 1,
+      "message": "Shall we have an issue raised on the JGit\u0027s project on GitHub?",
+      "revId": "389f788489696cdc046c9c63f33284670b959331",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1dd414b_296af090",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-09T22:06:46Z",
+      "side": 1,
+      "message": "Good catch @syntonyze@gmail.com !",
+      "revId": "389f788489696cdc046c9c63f33284670b959331",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
