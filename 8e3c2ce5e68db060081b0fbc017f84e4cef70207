@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeb06d51_f96bd701",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-12-09T16:09:03Z",
+      "side": 1,
+      "message": "Verified with:\n\n```\nGIT_TRACE_PACKET\u003d1 git clone \"ssh://admin@skywalker-nuc2:29418/foofa\"\nCloning into \u0027foofa\u0027...\n16:58:12.608531 pkt-line.c:80           packet:        clone\u003c version 2\n16:58:12.610490 pkt-line.c:80           packet:        clone\u003c ls-refs\n16:58:12.610497 pkt-line.c:80           packet:        clone\u003c fetch\u003dshallow\n16:58:12.610501 pkt-line.c:80           packet:        clone\u003c server-option\n16:58:12.610504 pkt-line.c:80           packet:        clone\u003c agent\u003dJGit/v6.10.0.202406032230-r-66-g8e3c2ce5e\n16:58:12.610507 pkt-line.c:80           packet:        clone\u003c 0000\n16:58:12.610512 pkt-line.c:80           packet:        clone\u003e command\u003dls-refs\n16:58:12.610524 pkt-line.c:80           packet:        clone\u003e agent\u003dgit/2.39.3.(Apple.Git-146)\n16:58:12.610528 pkt-line.c:80           packet:        clone\u003e 0001\n16:58:12.610531 pkt-line.c:80           packet:        clone\u003e peel\n16:58:12.610534 pkt-line.c:80           packet:        clone\u003e symrefs\n16:58:12.610538 pkt-line.c:80           packet:        clone\u003e ref-prefix HEAD\n16:58:12.610541 pkt-line.c:80           packet:        clone\u003e ref-prefix refs/heads/\n16:58:12.610543 pkt-line.c:80           packet:        clone\u003e ref-prefix refs/tags/\n16:58:12.610545 pkt-line.c:80           packet:        clone\u003e 0000\n16:58:12.629034 pkt-line.c:80           packet:        clone\u003c 5dec62ce36a795b4e6738077f69e1fcd9e850138 HEAD symref-target:refs/heads/master\n16:58:12.629083 pkt-line.c:80           packet:        clone\u003c 5dec62ce36a795b4e6738077f69e1fcd9e850138 refs/heads/master\n16:58:12.629091 pkt-line.c:80           packet:        clone\u003c 0000\n16:58:12.631045 pkt-line.c:80           packet:        clone\u003e command\u003dfetch\n16:58:12.631053 pkt-line.c:80           packet:        clone\u003e agent\u003dgit/2.39.3.(Apple.Git-146)\n16:58:12.631055 pkt-line.c:80           packet:        clone\u003e 0001\n16:58:12.631057 pkt-line.c:80           packet:        clone\u003e thin-pack\n...\n```\n\nThe sshd_log can now be found in",
+      "revId": "8e3c2ce5e68db060081b0fbc017f84e4cef70207",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
