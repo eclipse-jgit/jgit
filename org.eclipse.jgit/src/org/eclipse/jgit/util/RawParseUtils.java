@@ -32,6 +32,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -473,12 +474,17 @@ public final class RawParseUtils {
 	 * @param ptrResult
 	 *            optional location to return the new ptr value through. If null
 	 *            the ptr value will be discarded.
-	 * @return the ZoneOffset represention of the timezone offset string
+	 * @return the ZoneOffset represention of the timezone offset string.
+	 *         Invalid offsets default to UTC.
 	 */
 	private static ZoneId parseZoneOffset(final byte[] b, int ptr,
 			MutableInteger ptrResult) {
 		int hhmm = parseBase10(b, ptr, ptrResult);
-		return ZoneOffset.ofHoursMinutes(hhmm / 100, hhmm % 100);
+		try {
+			return ZoneOffset.ofHoursMinutes(hhmm / 100, hhmm % 100);
+		} catch (DateTimeException e) {
+			return UTC;
+		}
 	}
 
 	/**
