@@ -1382,6 +1382,8 @@ public class UploadPack implements Closeable {
 						: "")
 				+ OPTION_SHALLOW);
 		caps.add(CAPABILITY_SERVER_OPTION);
+		caps.add(OPTION_AGENT + "=" + UserAgent.get());
+
 		return caps;
 	}
 
