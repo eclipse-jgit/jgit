@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d670d9fb_661c6fd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-12-10T07:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b19bbe19_aeceb976",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "389f788489696cdc046c9c63f33284670b959331",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73bc193b_18fae504",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-12-09T22:06:46Z",
       "side": 1,
       "message": "Shall we have an issue raised on the JGit\u0027s project on GitHub?",
+      "revId": "389f788489696cdc046c9c63f33284670b959331",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b156f4_476fdb24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-12-10T07:41:52Z",
+      "side": 1,
+      "message": "I have already done [1]. it is linked to the footer as \u0027Bug: 118\u0027, even though it\u0027s not hyperlinked.\n\n\n[1] https://github.com/eclipse-jgit/jgit/issues/118",
+      "parentUuid": "73bc193b_18fae504",
       "revId": "389f788489696cdc046c9c63f33284670b959331",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
