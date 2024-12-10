@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "651e1258_5c2f771b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-12-10T21:11:12Z",
+      "side": 1,
+      "message": "I\u0027m fine with the removal, and I see Ivan has already removed all other uses in JGit. But I also notice that some of the libraries we use still use these deprecated classes.",
+      "revId": "dbd0a6a745eaa1345aed8b1383e97eb88ac90e5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
