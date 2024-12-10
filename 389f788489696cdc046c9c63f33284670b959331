@@ -85,6 +85,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4f343125_d7ff3e42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2024-12-10T11:17:03Z",
+      "side": 1,
+      "message": "Thanks @matthias.sohn@sap.com",
+      "parentUuid": "d7b156f4_476fdb24",
+      "revId": "389f788489696cdc046c9c63f33284670b959331",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f1dd414b_296af090",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
