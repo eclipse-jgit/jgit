@@ -1,0 +1,11 @@
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Sven Selberg <sven.selberg@axis.com>
+Code-Review+1: Martin Fick <mfick@nvidia.com>
+Code-Review+1: Jackson Toeniskoetter <jackdt@google.com>
+Code-Review+1: Nasser Grainawi <quic_nasserg@quicinc.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 10 Dec 2024 16:08:59 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1205031
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
