@@ -16,7 +16,6 @@ import static org.eclipse.jgit.util.FS.FileStoreAttributes.FALLBACK_TIMESTAMP_RE
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.time.Instant;
@@ -547,7 +546,6 @@ public class FileSnapshot {
 	private static BasicFileAttributes getFileAttributes(File path) throws NoSuchElementException {
 		try {
 			return FS.DETECTED.fileAttributes(path);
-		} catch (NoSuchFileException e) {
 		} catch (FileSystemException e) {
 			if (!e.getMessage().endsWith("Not a directory")) {
 				LOG.error(e.getMessage(), e);
