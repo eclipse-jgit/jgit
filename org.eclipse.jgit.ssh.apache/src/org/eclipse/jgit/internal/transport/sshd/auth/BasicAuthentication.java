@@ -17,8 +17,6 @@ import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.concurrent.CancellationException;
 
@@ -113,13 +111,12 @@ public abstract class BasicAuthentication<ParameterType, TokenType>
 	 */
 	protected void askCredentials() {
 		clearPassword();
-		PasswordAuthentication auth = AccessController.doPrivileged(
-				(PrivilegedAction<PasswordAuthentication>) () -> Authenticator
-						.requestPasswordAuthentication(proxy.getHostString(),
-								proxy.getAddress(), proxy.getPort(),
-								SshConstants.SSH_SCHEME,
-								SshdText.get().proxyPasswordPrompt, "Basic", //$NON-NLS-1$
-								null, RequestorType.PROXY));
+		PasswordAuthentication auth = Authenticator
+				.requestPasswordAuthentication(proxy.getHostString(),
+						proxy.getAddress(), proxy.getPort(),
+						SshConstants.SSH_SCHEME,
+						SshdText.get().proxyPasswordPrompt, "Basic", //$NON-NLS-1$
+						null, RequestorType.PROXY);
 		if (auth == null) {
 			user = ""; //$NON-NLS-1$
 			throw new CancellationException(
