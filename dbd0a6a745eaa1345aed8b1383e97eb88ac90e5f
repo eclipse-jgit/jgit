@@ -16,6 +16,24 @@
       "message": "I\u0027m fine with the removal, and I see Ivan has already removed all other uses in JGit. But I also notice that some of the libraries we use still use these deprecated classes.",
       "revId": "dbd0a6a745eaa1345aed8b1383e97eb88ac90e5f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6f8422_1714a480",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-11T12:13:07Z",
+      "side": 1,
+      "message": "I think we should stop using the SecurityManager API since Java 24 arriving in March 2025 will make it unusable, see https://openjdk.org/jeps/486",
+      "parentUuid": "651e1258_5c2f771b",
+      "revId": "dbd0a6a745eaa1345aed8b1383e97eb88ac90e5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
