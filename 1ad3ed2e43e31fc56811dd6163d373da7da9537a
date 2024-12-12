@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "203f859e_d57e88e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-12T15:29:25Z",
+      "side": 1,
+      "message": "I have two stack traces showing over 300 threads in removeAll() using a war from the tip of stable-6.10 without this change in it. That means that unfortunately the removeAll() alone does not result in the proper timing to consolidate enough of these removals to improve the performance.",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccec5f65_3876fc12",
