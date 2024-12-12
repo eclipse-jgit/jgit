@@ -22,6 +22,30 @@
       },
       "revId": "ce0c8a4f1973d6c650580b37784b2c07f36de899",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840b5799_69c3b11a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-12T23:41:41Z",
+      "side": 1,
+      "message": "I added tests in a previous change, to show the existing API.\n\nThis change changes the behaviour, comments it and updates the tests.",
+      "parentUuid": "ea2e7f94_082a3267",
+      "range": {
+        "startLine": 300,
+        "startChar": 23,
+        "endLine": 300,
+        "endChar": 31
+      },
+      "revId": "ce0c8a4f1973d6c650580b37784b2c07f36de899",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
