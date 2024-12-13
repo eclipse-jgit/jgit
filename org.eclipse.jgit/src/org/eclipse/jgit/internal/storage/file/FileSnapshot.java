@@ -581,22 +581,19 @@ public class FileSnapshot {
 
 	private static BasicFileAttributes getFileAttributes(File path) throws NoSuchElementException {
 		try {
-			try {
-				return FS.DETECTED.fileAttributes(path);
-			} catch (IOException e) {
-				if (!FileUtils.isStaleFileHandle(e)) {
-					throw e;
-				}
-			}
+			return FS.DETECTED.fileAttributes(path);
 		} catch (NoSuchFileException e) {
+			// ignore
 		} catch (FileSystemException e) {
 			String msg = e.getMessage();
-			if (!msg.endsWith("Not a directory")) {
+			if (!msg.endsWith("Not a directory")) { //$NON-NLS-1$
 				LOG.error(msg, e);
 			}
 		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
+			if (!FileUtils.isStaleFileHandle(e)) {
+				LOG.error(e.getMessage(), e);
+			}
 		}
 		throw new NoSuchElementException(path.toString());
-  }
+	}
 }
