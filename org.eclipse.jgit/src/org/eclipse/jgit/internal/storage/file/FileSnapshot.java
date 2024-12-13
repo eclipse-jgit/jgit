@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.FileStoreAttributes;
 import org.slf4j.Logger;
@@ -546,11 +547,18 @@ public class FileSnapshot {
 
 	private static BasicFileAttributes getFileAttributes(File path) throws NoSuchElementException {
 		try {
-			return FS.DETECTED.fileAttributes(path);
+			try {
+				return FS.DETECTED.fileAttributes(path);
+			} catch (IOException e) {
+				if (!FileUtils.isStaleFileHandle(e)) {
+					throw e;
+				}
+			}
 		} catch (NoSuchFileException e) {
 		} catch (FileSystemException e) {
-			if (!e.getMessage().endsWith("Not a directory")) {
-				LOG.error(e.getMessage(), e);
+			String msg = e.getMessage();
+			if (!msg.endsWith("Not a directory")) {
+				LOG.error(msg, e);
 			}
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);

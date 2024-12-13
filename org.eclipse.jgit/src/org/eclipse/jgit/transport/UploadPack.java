@@ -1394,6 +1394,7 @@ public class UploadPack implements Closeable {
 		if (transferConfig.isAdvertiseObjectInfo()) {
 			caps.add(COMMAND_OBJECT_INFO);
 		}
+		caps.add(OPTION_AGENT + "=" + UserAgent.get());
 
 		return caps;
 	}
