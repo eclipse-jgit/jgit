@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8579f594_2552256f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-13T15:08:24Z",
+      "side": 1,
+      "message": "The problem with this approach is that I found FileSystemExceptions that were due to a stale file handle, and this approach does not catch them.",
+      "revId": "03e85a7d93125e9bec00bf70ecd18ec131677364",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
