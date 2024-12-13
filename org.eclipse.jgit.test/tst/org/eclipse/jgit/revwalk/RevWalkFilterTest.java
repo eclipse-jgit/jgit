@@ -14,6 +14,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -217,14 +218,132 @@ public class RevWalkFilterTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		tick(100);
 
-		Date since = getDate();
+		Instant since = getInstant();
 		final RevCommit c1 = commit(b);
 		tick(100);
 
 		final RevCommit c2 = commit(b);
 		tick(100);
 
-		Date until = getDate();
+		Instant until = getInstant();
+		final RevCommit d = commit(c1, c2);
+		tick(100);
+
+		final RevCommit e = commit(d);
+
+		{
+			RevFilter after = CommitTimeRevFilter.after(since);
+			assertNotNull(after);
+			rw.setRevFilter(after);
+			markStart(e);
+			assertCommit(e, rw.next());
+			assertCommit(d, rw.next());
+			assertCommit(c2, rw.next());
+			assertCommit(c1, rw.next());
+			assertNull(rw.next());
+		}
+
+		{
+			RevFilter before = CommitTimeRevFilter.before(until);
+			assertNotNull(before);
+			rw.reset();
+			rw.setRevFilter(before);
+			markStart(e);
+			assertCommit(c2, rw.next());
+			assertCommit(c1, rw.next());
+			assertCommit(b, rw.next());
+			assertCommit(a, rw.next());
+			assertNull(rw.next());
+		}
+
+		{
+			RevFilter between = CommitTimeRevFilter.between(since, until);
+			assertNotNull(between);
+			rw.reset();
+			rw.setRevFilter(between);
+			markStart(e);
+			assertCommit(c2, rw.next());
+			assertCommit(c1, rw.next());
+			assertNull(rw.next());
+		}
+	}
+
+	@Test
+	public void testCommitTimeRevFilter_date() throws Exception {
+		// Using deprecated Date api for the commit time rev filter.
+		// Delete this tests when method is removed.
+		final RevCommit a = commit();
+		tick(100);
+
+		final RevCommit b = commit(a);
+		tick(100);
+
+		Date since = Date.from(getInstant());
+		final RevCommit c1 = commit(b);
+		tick(100);
+
+		final RevCommit c2 = commit(b);
+		tick(100);
+
+		Date until = Date.from(getInstant());
+		final RevCommit d = commit(c1, c2);
+		tick(100);
+
+		final RevCommit e = commit(d);
+
+		{
+			RevFilter after = CommitTimeRevFilter.after(since);
+			assertNotNull(after);
+			rw.setRevFilter(after);
+			markStart(e);
+			assertCommit(e, rw.next());
+			assertCommit(d, rw.next());
+			assertCommit(c2, rw.next());
+			assertCommit(c1, rw.next());
+			assertNull(rw.next());
+		}
+
+		{
+			RevFilter before = CommitTimeRevFilter.before(until);
+			assertNotNull(before);
+			rw.reset();
+			rw.setRevFilter(before);
+			markStart(e);
+			assertCommit(c2, rw.next());
+			assertCommit(c1, rw.next());
+			assertCommit(b, rw.next());
+			assertCommit(a, rw.next());
+			assertNull(rw.next());
+		}
+
+		{
+			RevFilter between = CommitTimeRevFilter.between(since, until);
+			assertNotNull(between);
+			rw.reset();
+			rw.setRevFilter(between);
+			markStart(e);
+			assertCommit(c2, rw.next());
+			assertCommit(c1, rw.next());
+			assertNull(rw.next());
+		}
+	}
+
+	@Test
+	public void testCommitTimeRevFilter_long() throws Exception {
+		final RevCommit a = commit();
+		tick(100);
+
+		final RevCommit b = commit(a);
+		tick(100);
+
+		long since = getInstant().toEpochMilli();
+		final RevCommit c1 = commit(b);
+		tick(100);
+
+		final RevCommit c2 = commit(b);
+		tick(100);
+
+		long until = getInstant().toEpochMilli();
 		final RevCommit d = commit(c1, c2);
 		tick(100);
 
