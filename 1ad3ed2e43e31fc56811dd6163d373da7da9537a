@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1841a34_757289ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-13T21:33:18Z",
+      "side": 1,
+      "message": "We deployed this last night and had an incident with around 700 packfiles being deleted by gc this afternoon and I could not see any sign in the jstacks (running every 5 seconds) that this code was even running; it seems to have very gracefully handled the removals almost instantly. We still had some http thread spikes, but from the jstack, I believe these are now due to the new packfiles being loaded (which is good), as opposed to removing the old deleted packfiles. Friday tends to be a bit slower, so hopefully this will also stand up to the load early next week, I will monitor more.\n\nI think there is still room for improvement with respect to gc performance, particularly on the loads in Pack.java which is littered with full file synchronizeds and some synchronized(readLock)s (some of those inside the full file ones even). These show up in the jstacks. It looks like loading the bitmaps basically blocks everything, we may want to improve that further.",
+      "parentUuid": "203f859e_d57e88e6",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccec5f65_3876fc12",
