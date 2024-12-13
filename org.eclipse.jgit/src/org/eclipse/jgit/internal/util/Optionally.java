@@ -53,24 +53,24 @@ public interface Optionally<T> {
 		/**
 		 * The mutable optional object
 		 */
-		protected T element;
+		protected Optional<T> optional;
 
 		/**
 		 * @param element
 		 *            the mutable optional object
 		 */
 		public Hard(T element) {
-			this.element = element;
+			optional = Optional.ofNullable(element);
 		}
 
 		@Override
 		public void clear() {
-			element = null;
+			optional = Optional.empty();
 		}
 
 		@Override
 		public Optional<T> getOptional() {
-			return Optional.ofNullable(element);
+			return optional;
 		}
 	}
 
