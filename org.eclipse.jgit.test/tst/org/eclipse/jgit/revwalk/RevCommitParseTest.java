@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc. and others
+ * Copyright (C) 2008, 2024 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -408,6 +408,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(msg);
 		assertEquals(msg, c.getFullMessage());
 		assertEquals(msg, c.getShortMessage());
+		assertEquals(msg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -415,6 +416,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create("\n");
 		assertEquals("\n", c.getFullMessage());
 		assertEquals("", c.getShortMessage());
+		assertEquals("", c.getFirstMessageLine());
 	}
 
 	@Test
@@ -423,6 +425,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(shortMsg);
 		assertEquals(shortMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals(shortMsg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -432,6 +435,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals(shortMsg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -441,6 +445,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals("This is a", c.getFirstMessageLine());
 	}
 
 	@Test
@@ -450,6 +455,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals("This is a", c.getFirstMessageLine());
 	}
 
 	@Test
@@ -461,6 +467,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals(shortMsg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -480,6 +487,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertEquals(author, p.getAuthorIdent());
 		assertEquals(committer, p.getCommitterIdent());
 		assertEquals("Test commit", p.getShortMessage());
+		assertEquals("Test commit", p.getFirstMessageLine());
 		assertEquals(src.getMessage(), p.getFullMessage());
 	}
 
@@ -494,6 +502,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals("This fixes a", c.getFirstMessageLine());
 	}
 
 	private static ObjectId id(String str) {
