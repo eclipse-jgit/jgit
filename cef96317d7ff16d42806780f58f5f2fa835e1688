@@ -22,6 +22,30 @@
       },
       "revId": "cef96317d7ff16d42806780f58f5f2fa835e1688",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f13f156_ee3018e7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-13T21:05:04Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c47728a8_19ada0cb",
+      "range": {
+        "startLine": 148,
+        "startChar": 31,
+        "endLine": 148,
+        "endChar": 48
+      },
+      "revId": "cef96317d7ff16d42806780f58f5f2fa835e1688",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
