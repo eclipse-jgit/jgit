@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7dd61a6_8c95dda7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-13T14:01:12Z",
+      "side": 0,
+      "message": "lost the catch block",
+      "revId": "ec5305a9dbbb8a47313c98fb417793beafeac5a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
