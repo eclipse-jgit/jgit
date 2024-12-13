@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -217,14 +217,14 @@ public class RevWalkFilterTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		tick(100);
 
-		Date since = getDate();
+		Instant since = getInstant();
 		final RevCommit c1 = commit(b);
 		tick(100);
 
 		final RevCommit c2 = commit(b);
 		tick(100);
 
-		Date until = getDate();
+		Instant until = getInstant();
 		final RevCommit d = commit(c1, c2);
 		tick(100);
 
