@@ -16,6 +16,23 @@
       "message": "The eclipse-ci is failing when attempting to download a certain artifact:\n\n```\n13:47:13  [ERROR] The following artifacts could not be downloaded: \n13:47:13  [ERROR]   osgi.bundle,org.eclipse.osgi,3.11.3.v20170209-1843\n13:47:13  [ERROR] Internal error: java.lang.RuntimeException: Some required artifacts could not be downloaded. See log output for details. -\u003e [Help 1]\n13:47:13  org.apache.maven.InternalErrorException: Internal error: java.lang.RuntimeException: Some required artifacts could not be downloaded. See log output for details.\n```\n\nHowever all tests are successful:\n\n```\n13:46:45  [INFO] Reactor Summary for JGit - Parent 5.13.3.202401111512-r:\n13:46:45  [INFO] \n13:46:45  [INFO] JGit - Parent ...................................... SUCCESS [ 49.574 s]\n13:46:45  [INFO] JGit - Core ........................................ SUCCESS [01:23 min]\n13:46:45  [INFO] JGit - Ant Tasks ................................... SUCCESS [ 11.561 s]\n13:46:45  [INFO] JGit - Archive Formats ............................. SUCCESS [ 11.852 s]\n13:46:45  [INFO] JGit - AWT User Interface .......................... SUCCESS [ 17.034 s]\n13:46:45  [INFO] JGit - BouncyCastle-based GPG support .............. SUCCESS [ 20.533 s]\n13:46:45  [INFO] JGit - Apache httpclient based HTTP support ........ SUCCESS [ 11.753 s]\n13:46:45  [INFO] JGit - HTTP Server ................................. SUCCESS [ 17.859 s]\n13:46:45  [INFO] JGit - Apache sshd-based SSH support ............... SUCCESS [ 25.746 s]\n13:46:45  [INFO] JGit - JSch-based SSH support ...................... SUCCESS [ 15.448 s]\n13:46:45  [INFO] JGit - Large File Storage .......................... SUCCESS [ 15.156 s]\n13:46:45  [INFO] JGit - Large File Storage Server ................... SUCCESS [ 14.198 s]\n13:46:45  [INFO] JGit - Command Line Interface ...................... SUCCESS [ 36.595 s]\n13:46:45  [INFO] JGit - JUnit Utility Classes ....................... SUCCESS [ 18.207 s]\n13:46:45  [INFO] JGit - JUnit Http Utility Classes .................. SUCCESS [ 15.686 s]\n13:46:45  [INFO] JGit - JUnit Ssh Utility Classes ................... SUCCESS [ 15.099 s]\n13:46:45  [INFO] JGit - Core Tests .................................. SUCCESS [02:50 min]\n13:46:45  [INFO] JGit - Ant Tasks Tests ............................. SUCCESS [  9.753 s]\n13:46:45  [INFO] JGit - BouncyCastle GPG Tests ...................... SUCCESS [  8.124 s]\n13:46:45  [INFO] JGit - HTTP Tests .................................. SUCCESS [01:31 min]\n13:46:45  [INFO] JGit - Command Line Interface Tests ................ SUCCESS [ 34.194 s]\n13:46:45  [INFO] JGit - Large File Storage Tests .................... SUCCESS [ 10.007 s]\n13:46:45  [INFO] JGit - LFS Server Tests ............................ SUCCESS [ 13.137 s]\n13:46:45  [INFO] JGit - Apache sshd SSH Tests ....................... SUCCESS [01:31 min]\n13:46:45  [INFO] JGit - JSch sshd SSH Tests ......................... SUCCESS [01:01 min]\n13:46:45  [INFO] JGit - Test Coverage ............................... SUCCESS [  3.747 s]\n13:46:45  [INFO] JGit - JMH based benchmarks ........................ SUCCESS [ 27.348 s]\n13:46:45  [INFO] ------------------------------------------------------------------------\n13:46:45  [INFO] BUILD SUCCESS\n13:46:45  [INFO] ------------------------------------------------------------------------\n13:46:45  [INFO] Total time:  09:31 min (Wall Clock)\n13:46:45  [INFO] Finished at: 2024-12-11T12:46:45Z\n13:46:45  [INFO] ------------------------------------------------------------------------\n```",
       "revId": "80fa80add8d109a5a57474ec924fd7952cb45482",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9001a462_1d0f84ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-13T00:45:45Z",
+      "side": 1,
+      "message": "I lack the time to review changes on the second last major release and merge it up across umpteen stable branches",
+      "revId": "80fa80add8d109a5a57474ec924fd7952cb45482",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
