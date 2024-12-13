@@ -2225,7 +2225,7 @@ public class UploadPack implements Closeable {
 		walk.resetRetain(SAVE);
 		walk.markStart((RevCommit) want);
 		if (oldestTime != 0)
-			walk.setRevFilter(CommitTimeRevFilter.after(oldestTime * 1000L));
+			walk.setRevFilter(CommitTimeRevFilter.after(Instant.ofEpochSecond(oldestTime)));
 		for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
