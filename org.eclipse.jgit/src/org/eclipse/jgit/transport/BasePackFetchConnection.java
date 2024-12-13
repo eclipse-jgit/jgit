@@ -12,10 +12,10 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DELIM;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_NOT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DEEPEN_SINCE;
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DELIM;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_END;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
@@ -32,7 +32,6 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -715,7 +714,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			// wind up later matching up against things we want and we
 			// can avoid asking for something we already happen to have.
 			//
-			final Date maxWhen = new Date(maxTime * 1000L);
+			Instant maxWhen = Instant.ofEpochSecond(maxTime);
 			walk.sort(RevSort.COMMIT_TIME_DESC);
 			walk.markStart(reachableCommits);
 			walk.setRevFilter(CommitTimeRevFilter.after(maxWhen));
