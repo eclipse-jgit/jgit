@@ -139,48 +139,64 @@ public class PushCertificateIdentTest {
 	}
 
 	@Test
-	public void timezoneRange_hours() {
-		int HOUR_TO_MS = 60 * 60 * 1000;
+	public void timezoneRange_hours_ok() {
+		PushCertificateIdent ident = PushCertificateIdent
+				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +1000");
+		assertEquals(10 * 60, ident.getTimeZoneOffset());
+		assertEquals(10 * 60 * 60 * 1000, ident.getTimeZone().getOffset(1218123387));
+	}
 
-		// java.util.TimeZone: Hours must be between 0 to 23
-		PushCertificateIdent hourLimit = PushCertificateIdent
+	/*
+	 * Real timezones are in the [-12, 14] range of hours.
+	 *
+	 * Before 7.2, PushCertificateIdent used java.util.Timezone, which
+	 * accepted hours between 0 and 24. Now java.util.ZoneOffset accepts
+	 * only hours between 0 and 18.
+	 *
+	 * Invalid timezones default to UTC.
+	 */
+	@Test
+	public void getTimeZone_hours_unrealistic_utc() {
+		PushCertificateIdent ident = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +2300");
-		assertEquals(1380, hourLimit.getTimeZoneOffset());
-		assertEquals(23 * HOUR_TO_MS,
-				hourLimit.getTimeZone().getOffset(1218123387));
-
-		PushCertificateIdent hourDubious = PushCertificateIdent
-				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +2400");
-		assertEquals(1440, hourDubious.getTimeZoneOffset());
-		assertEquals(0, hourDubious.getTimeZone().getOffset(1218123387));
+		assertEquals(0, ident.getTimeZoneOffset());
+		assertEquals(0, ident.getTimeZone().getOffset(1218123387));
 	}
 
 	@Test
-	public void timezoneRange_minutes() {
-		PushCertificateIdent hourLimit = PushCertificateIdent
+	public void getTimeZone_hours_tooBig_utc() {
+		PushCertificateIdent ident = PushCertificateIdent
+				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +2500");
+		assertEquals(0, ident.getTimeZoneOffset());
+		assertEquals(0, ident.getTimeZone().getOffset(1218123387));
+	}
+
+	@Test
+	public void getTimeZone_minutes_ok() {
+		PushCertificateIdent ident = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0059");
-		assertEquals(59, hourLimit.getTimeZoneOffset());
+		assertEquals(59, ident.getTimeZoneOffset());
 		assertEquals(59 * 60 * 1000,
-				hourLimit.getTimeZone().getOffset(1218123387));
-
-		// This becomes one hour and one minute (!)
-		PushCertificateIdent hourDubious = PushCertificateIdent
+				ident.getTimeZone().getOffset(1218123387));
+	}
+	@Test
+	public void getTimeZone_minutes_tooBig_utc() {
+		// Before 7.2, this was converted into minutes and then to GMT+0101
+		// This is an invalid timezone and now becomes UTC.
+		PushCertificateIdent ident = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0061");
-		assertEquals(61, hourDubious.getTimeZoneOffset());
-		assertEquals(61 * 60 * 1000,
-				hourDubious.getTimeZone().getOffset(1218123387));
+		assertEquals(0, ident.getTimeZoneOffset());
+		assertEquals(0, ident.getTimeZone().getOffset(1218123387));
+	}
 
-		PushCertificateIdent weirdCase = PushCertificateIdent
-				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0099");
-		assertEquals(99, weirdCase.getTimeZoneOffset());
-		assertEquals(99 * 60 * 1000,
-				weirdCase.getTimeZone().getOffset(1218123387));
-
-		PushCertificateIdent weirdCase2 = PushCertificateIdent
+	@Test
+	public void getTimeZone_minutes_tooBigMoreThanOneHour_utc() {
+		// Before 7.2, this was converted into 99 minutes and then to GMT+0139
+		// This is an invalid timezone and now becomes UTC.
+		PushCertificateIdent ident = PushCertificateIdent
 				.parse("A U. Thor <a_u_thor@example.com> 1218123387 +0199");
-		assertEquals(60 + 99, weirdCase2.getTimeZoneOffset());
-		assertEquals((60 + 99) * 60 * 1000,
-				weirdCase2.getTimeZone().getOffset(1218123387));
+		assertEquals(0, ident.getTimeZoneOffset());
+		assertEquals(0, ident.getTimeZone().getOffset(1218123387));
 	}
 
 	private static void assertMatchesPersonIdent(String raw,
