@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c47728a8_19ada0cb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2024-12-13T00:14:38Z",
+      "side": 0,
+      "message": "Since these still exist you should keep them in tests along side the new methods",
+      "range": {
+        "startLine": 148,
+        "startChar": 31,
+        "endLine": 148,
+        "endChar": 48
+      },
+      "revId": "cef96317d7ff16d42806780f58f5f2fa835e1688",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
