@@ -12,6 +12,7 @@
 package org.eclipse.jgit.revwalk.filter;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -30,9 +31,23 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param ts
 	 *            the point in time to cut on.
 	 * @return a new filter to select commits on or before <code>ts</code>.
+	 *
+	 * @deprecated Use {@link #before(Instant)} instead.
 	 */
+	@Deprecated(since="7.2")
 	public static final RevFilter before(Date ts) {
-		return before(ts.getTime());
+		return before(ts.toInstant());
+	}
+
+	/**
+	 * Create a new filter to select commits before a given date/time.
+	 *
+	 * @param ts
+	 *            the point in time to cut on.
+	 * @return a new filter to select commits on or before <code>ts</code>.
+	 */
+	public static RevFilter before(Instant ts) {
+		return new Before(ts);
 	}
 
 	/**
@@ -43,7 +58,21 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @return a new filter to select commits on or before <code>ts</code>.
 	 */
 	public static final RevFilter before(long ts) {
-		return new Before(ts);
+		return new Before(Instant.ofEpochMilli(ts));
+	}
+
+	/**
+	 * Create a new filter to select commits after a given date/time.
+	 *
+	 * @param ts
+	 *            the point in time to cut on.
+	 * @return a new filter to select commits on or after <code>ts</code>.
+	 *
+	 * @deprecated Use {@link #after(Instant)} instead.
+	 */
+	@Deprecated(since="7.2")
+	public static final RevFilter after(Date ts) {
+		return after(ts.toInstant());
 	}
 
 	/**
@@ -53,8 +82,8 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 *            the point in time to cut on.
 	 * @return a new filter to select commits on or after <code>ts</code>.
 	 */
-	public static final RevFilter after(Date ts) {
-		return after(ts.getTime());
+	public static RevFilter after(Instant ts) {
+		return new After(ts);
 	}
 
 	/**
@@ -65,7 +94,22 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @return a new filter to select commits on or after <code>ts</code>.
 	 */
 	public static final RevFilter after(long ts) {
-		return new After(ts);
+		return after(Instant.ofEpochMilli(ts));
+	}
+
+	/**
+	 * Create a new filter to select commits after or equal a given date/time <code>since</code>
+	 * and before or equal a given date/time <code>until</code>.
+	 *
+	 * @param since the point in time to cut on.
+	 * @param until the point in time to cut off.
+	 * @return a new filter to select commits between the given date/times.
+	 *
+	 * @deprecated Use {@link #between(Instant, Instant)} instead.
+	 */
+	@Deprecated(since="7.2")
+	public static final RevFilter between(Date since, Date until) {
+		return between(since.toInstant(), until.toInstant());
 	}
 
 	/**
@@ -76,8 +120,8 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param until the point in time to cut off.
 	 * @return a new filter to select commits between the given date/times.
 	 */
-	public static final RevFilter between(Date since, Date until) {
-		return between(since.getTime(), until.getTime());
+	public static RevFilter between(Instant since, Instant until) {
+		return new Between(since, until);
 	}
 
 	/**
@@ -87,15 +131,22 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param since the point in time to cut on, in milliseconds.
 	 * @param until the point in time to cut off, in millisconds.
 	 * @return a new filter to select commits between the given date/times.
+	 *
+	 * @deprecated Use {@link #between(Instant, Instant)} instead.
 	 */
+	@Deprecated(since="7.2")
 	public static final RevFilter between(long since, long until) {
-		return new Between(since, until);
+		return new Between(Instant.ofEpochMilli(since), Instant.ofEpochMilli(until));
 	}
 
 	final int when;
 
 	CommitTimeRevFilter(long ts) {
 		when = (int) (ts / 1000);
+	}
+
+	CommitTimeRevFilter(Instant t) {
+		when = (int) t.getEpochSecond();
 	}
 
 	@Override
@@ -109,8 +160,8 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	}
 
 	private static class Before extends CommitTimeRevFilter {
-		Before(long ts) {
-			super(ts);
+		Before(Instant t) {
+			super(t);
 		}
 
 		@Override
@@ -123,14 +174,12 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return super.toString() + "(" + new Date(when * 1000L) + ")";
+			return super.toString() + "(" + Instant.ofEpochSecond(when) + ")";
 		}
 	}
 
 	private static class After extends CommitTimeRevFilter {
-		After(long ts) {
-			super(ts);
-		}
+		After(Instant t) { super(t); }
 
 		@Override
 		public boolean include(RevWalk walker, RevCommit cmit)
@@ -148,16 +197,16 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return super.toString() + "(" + new Date(when * 1000L) + ")";
+			return super.toString() + "(" + Instant.ofEpochSecond(when) + ")";
 		}
 	}
 
 	private static class Between extends CommitTimeRevFilter {
 		private final int until;
 
-		Between(long since, long until) {
+		Between(Instant since, Instant until) {
 			super(since);
-			this.until = (int) (until / 1000);
+			this.until = (int) until.getEpochSecond();
 		}
 
 		@Override
@@ -170,8 +219,8 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		@SuppressWarnings("nls")
 		@Override
 		public String toString() {
-			return super.toString() + "(" + new Date(when * 1000L) + " - "
-					+ new Date(until * 1000L) + ")";
+			return super.toString() + "(" + Instant.ofEpochSecond(when) + " - "
+					+ Instant.ofEpochSecond(until) + ")";
 		}
 
 	}
