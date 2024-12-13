@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa7096df_a590ee74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-12-13T10:00:18Z",
+      "side": 1,
+      "message": "I noticed similar problems before; I think it was https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1203669/2/org.eclipse.jgit.gpg.bc.test/META-INF/MANIFEST.MF#11 (the addition of the asn1 package).\n\nSeems to be a problem with the JUnit4 runner in Eclipse? It should not be necessary to add transitive dependencies.\n\nJust to clear: I\u0027m totally fine with adding this. But I think it\u0027s a work-around for a problem elsewhere. Perhaps it\u0027s high time to move to JUnit5?",
+      "revId": "bc66d1a8bf93c6ce6cd5a5d0c45d9b9859ae3851",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
