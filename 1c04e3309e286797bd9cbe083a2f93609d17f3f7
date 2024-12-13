@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63c0f86b_c5359a39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-13T00:50:56Z",
+      "side": 1,
+      "message": "- adding new API on stable branches is questionable\n- I have no time to review changes on such old branches and merge them up across umpteen stable branches",
+      "revId": "1c04e3309e286797bd9cbe083a2f93609d17f3f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
