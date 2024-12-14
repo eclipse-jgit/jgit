@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e49fc3_d2f4b97c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-14T02:05:38Z",
+      "side": 1,
+      "message": "Of course, the other possibility is that it isn\u0027t working at all, and none of the files are being removed. :( Of course, they will get evicted from the cache the normal way (because they are no longer being used) eventually, but I wonder if that might be what is happening.",
+      "parentUuid": "e1841a34_757289ca",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccec5f65_3876fc12",
