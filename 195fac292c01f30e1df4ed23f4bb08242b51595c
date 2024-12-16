@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9cba00b_2a5ec07a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2024-12-16T19:44:42Z",
+      "side": 1,
+      "message": "as a nit: I\u0027d put the test cases into their separate test methods with names according to exactly what they\u0027re testing and expected outcomes (alternatively additional comments delineating each test case better).\n\nApplies to timezoneRange_hours above too",
+      "range": {
+        "startLine": 169,
+        "startChar": 13,
+        "endLine": 169,
+        "endChar": 34
+      },
+      "revId": "195fac292c01f30e1df4ed23f4bb08242b51595c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
