@@ -119,7 +119,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private byte[] packChecksum;
 
-	private volatile Optionally<PackIndex> loadedIdx = Optionally.empty();
+	private Optionally<PackIndex> loadedIdx = Optionally.empty();
 
 	private Optionally<PackReverseIndex> reverseIdx = Optionally.empty();
 
@@ -159,60 +159,54 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		length = Long.MAX_VALUE;
 	}
 
-	private PackIndex idx() throws IOException {
+	private synchronized PackIndex idx() throws IOException {
 		Optional<PackIndex> optional = loadedIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
 		}
-		synchronized (this) {
-			optional = loadedIdx.getOptional();
-			if (optional.isPresent()) {
-				return optional.get();
+		if (invalid) {
+			throw new PackInvalidException(packFile, invalidatingCause);
+		}
+		try {
+			long start = System.currentTimeMillis();
+			PackFile idxFile = packFile.create(INDEX);
+			PackIndex idx = PackIndex.open(idxFile);
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(String.format(
+						"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
+						idxFile.getAbsolutePath(),
+						Float.valueOf(idxFile.length()
+								/ (1024f * 1024)),
+						Long.valueOf(System.currentTimeMillis()
+								- start)));
 			}
-			if (invalid) {
-				throw new PackInvalidException(packFile, invalidatingCause);
-			}
-			try {
-				long start = System.currentTimeMillis();
-				PackFile idxFile = packFile.create(INDEX);
-				PackIndex idx = PackIndex.open(idxFile);
-				if (LOG.isDebugEnabled()) {
-					LOG.debug(String.format(
-							"Opening pack index %s, size %.3f MB took %d ms", //$NON-NLS-1$
-							idxFile.getAbsolutePath(),
-							Float.valueOf(idxFile.length()
-									/ (1024f * 1024)),
-							Long.valueOf(System.currentTimeMillis()
-									- start)));
-				}
-
 				if (packChecksum == null) {
-					packChecksum = idx.getChecksum();
-					fileSnapshot.setChecksum(
-							ObjectId.fromRaw(packChecksum));
-				} else if (!Arrays.equals(packChecksum,
-						idx.getChecksum())) {
-					throw new PackMismatchException(MessageFormat
-							.format(JGitText.get().packChecksumMismatch,
-									packFile.getPath(),
-									PackExt.PACK.getExtension(),
-									Hex.toHexString(packChecksum),
-									PackExt.INDEX.getExtension(),
-									Hex.toHexString(idx.getChecksum())));
-				}
-				loadedIdx = optionally(idx);
-				return idx;
-			} catch (InterruptedIOException e) {
-				// don't invalidate the pack, we are interrupted from
-				// another thread
-				throw e;
-			} catch (IOException e) {
-				invalid = true;
-				invalidatingCause = e;
-				throw e;
+				packChecksum = idx.getChecksum();
+				fileSnapshot.setChecksum(
+						ObjectId.fromRaw(packChecksum));
+			} else if (!Arrays.equals(packChecksum,
+					idx.getChecksum())) {
+				throw new PackMismatchException(MessageFormat
+						.format(JGitText.get().packChecksumMismatch,
+								packFile.getPath(),
+								PackExt.PACK.getExtension(),
+								Hex.toHexString(packChecksum),
+								PackExt.INDEX.getExtension(),
+							Hex.toHexString(idx.getChecksum())));
 			}
+			loadedIdx = optionally(idx);
+			return idx;
+		} catch (InterruptedIOException e) {
+			// don't invalidate the pack, we are interrupted from
+			// another thread
+			throw e;
+		} catch (IOException e) {
+			invalid = true;
+			invalidatingCause = e;
+			throw e;
 		}
 	}
+
 	/**
 	 * Get the File object which locates this pack on disk.
 	 *
