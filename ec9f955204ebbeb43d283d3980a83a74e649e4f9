@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68dbc8a_3fdb9f89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-17T12:23:13Z",
+      "side": 0,
+      "message": "NoSuchFileExceptions are ignored intentionally, not ignoring them will flood the log, see https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1205026",
+      "revId": "ec9f955204ebbeb43d283d3980a83a74e649e4f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
