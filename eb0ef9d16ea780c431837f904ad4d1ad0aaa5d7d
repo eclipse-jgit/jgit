@@ -69,6 +69,24 @@
       "parentUuid": "353e04ac_6088ab56",
       "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c23c2ec8_e8ce80a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-17T12:21:08Z",
+      "side": 1,
+      "message": "yes, looks like a bad conflict resolution, I now submitted the merge in\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1205652\nwhich fixes this problem",
+      "parentUuid": "b96e5c44_a6033691",
+      "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
