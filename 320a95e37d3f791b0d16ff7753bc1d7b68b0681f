@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "320a95e37d3f791b0d16ff7753bc1d7b68b0681f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b1a53b8_b211db4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-17T00:20:02Z",
+      "side": 1,
+      "message": "Cannot access the logs. Tests pass locally (except a flaky //org.eclipse.jgit.test:org_eclipse_jgit_api_LinkedWorktreeTest which doesn\u0027t seem related).",
+      "revId": "320a95e37d3f791b0d16ff7753bc1d7b68b0681f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
