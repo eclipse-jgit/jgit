@@ -51,6 +51,24 @@
       "parentUuid": "86cc2ed8_e2300422",
       "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b96e5c44_a6033691",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-12-17T10:21:41Z",
+      "side": 1,
+      "message": "In the master branch there is no catch for NoSuchFileException, and then it _is_ logged (because the exception message will not be \"Not a directory\"). It appears the catch was removed in I78d6b1ca8152b6eee50a69d24ca987868866ba06.",
+      "parentUuid": "353e04ac_6088ab56",
+      "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
