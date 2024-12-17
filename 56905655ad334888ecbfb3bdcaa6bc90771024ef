@@ -16,6 +16,29 @@
       "message": "trigger build",
       "revId": "56905655ad334888ecbfb3bdcaa6bc90771024ef",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e2e108e_89f4b97f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2024-12-17T00:31:39Z",
+      "side": 1,
+      "message": "Keep the tests for both after/before/between (Date) and (Instance) while the Date ones still exist.",
+      "range": {
+        "startLine": 213,
+        "startChar": 13,
+        "endLine": 213,
+        "endChar": 36
+      },
+      "revId": "56905655ad334888ecbfb3bdcaa6bc90771024ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
