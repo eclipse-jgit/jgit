@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -233,8 +234,8 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	protected void tick() {
 		mockSystemReader.tick(5 * 60);
-		final long now = mockSystemReader.getCurrentTime();
-		final int tz = mockSystemReader.getTimezone(now);
+		Instant now = mockSystemReader.now();
+		ZoneId tz = mockSystemReader.getTimeZoneId();
 
 		author = new PersonIdent(author, now, tz);
 		committer = new PersonIdent(committer, now, tz);
