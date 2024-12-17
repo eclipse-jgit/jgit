@@ -18,10 +18,10 @@ package org.eclipse.jgit.merge;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -233,12 +233,11 @@ public class RecursiveMerger extends ResolveMerger {
 	private static PersonIdent mockAuthor(List<RevCommit> parents) {
 		String name = RecursiveMerger.class.getSimpleName();
 		int time = 0;
-		for (RevCommit p : parents)
+		for (RevCommit p : parents) {
 			time = Math.max(time, p.getCommitTime());
-		return new PersonIdent(
-				name, name + "@JGit", //$NON-NLS-1$
-				new Date((time + 1) * 1000L),
-				TimeZone.getTimeZone("GMT+0000")); //$NON-NLS-1$
+		}
+		return new PersonIdent(name, name + "@JGit", //$NON-NLS-1$
+				Instant.ofEpochSecond(time), ZoneOffset.UTC);
 	}
 
 	private String failingPathsMessage() {
