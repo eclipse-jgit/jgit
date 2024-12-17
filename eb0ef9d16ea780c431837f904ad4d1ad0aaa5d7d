@@ -16,6 +16,23 @@
       "message": "We get about 10 of these a month on one of our servers.",
       "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86cc2ed8_e2300422",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-12-17T09:30:35Z",
+      "side": 1,
+      "message": "This is not good. This now logs normal NoSuchFileExceptions, which are **very** common (ref only in packedrefs, but no loose ref file).\n\nAlso: are we sure the message is always \"Not a directory\"? What if it\u0027s localized? Testing for exception messages is super fragile and should not be done.",
+      "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
