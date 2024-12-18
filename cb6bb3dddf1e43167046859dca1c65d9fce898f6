@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d350c4f2_bfbff769",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-18T00:26:23Z",
+      "side": 1,
+      "message": "This is buggy, isOkToQueueRemovals should have been set to false before returning, otherwise returning here keep isOkToQueueRemovals permanetly stuck at True with no threads to clear any future additions.",
+      "revId": "cb6bb3dddf1e43167046859dca1c65d9fce898f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

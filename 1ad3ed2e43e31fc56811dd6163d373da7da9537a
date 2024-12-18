@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8644e794_89c96277",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-18T00:26:23Z",
+      "side": 1,
+      "message": "It turns out we deployed an earlier version, PS3, of this change last Friday by accident. Since PS3 is buggy and can get stuck in a state then never removes files, it explains what I was seeing, a cache which only evicted things when it was full.\n\nWe deployed PS7 this morning and I am delighted that it seems very fast indeed, and the cache appears to get cleared properly. I cannot catch it doing any removal work in any jstacks, despite running them a second apart. Any remaining slowness is now clearly on the loading side of things, no longer on evicting. I will keep monitoring this and I will post any issues we might see.",
+      "parentUuid": "a7e49fc3_d2f4b97c",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccec5f65_3876fc12",
