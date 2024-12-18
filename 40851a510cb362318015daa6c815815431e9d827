@@ -16,6 +16,23 @@
       "message": "I have seen over 100 threads waiting for the reverse index or the bitmaps to load here.",
       "revId": "40851a510cb362318015daa6c815815431e9d827",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1c3243c_d437d6b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-18T02:28:04Z",
+      "side": 1,
+      "message": "I am indenting these (but otherwise untouching this code), should I be adding braces and removing unneeded finals?",
+      "revId": "40851a510cb362318015daa6c815815431e9d827",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
