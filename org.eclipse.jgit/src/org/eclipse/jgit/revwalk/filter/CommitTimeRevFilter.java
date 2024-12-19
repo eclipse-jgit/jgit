@@ -45,6 +45,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param ts
 	 *            the point in time to cut on.
 	 * @return a new filter to select commits on or before <code>ts</code>.
+	 * @since 7.2
 	 */
 	public static RevFilter before(Instant ts) {
 		return new Before(ts);
@@ -81,6 +82,7 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @param ts
 	 *            the point in time to cut on.
 	 * @return a new filter to select commits on or after <code>ts</code>.
+	 * @since 7.2
 	 */
 	public static RevFilter after(Instant ts) {
 		return new After(ts);
@@ -113,12 +115,16 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	}
 
 	/**
-	 * Create a new filter to select commits after or equal a given date/time <code>since</code>
-	 * and before or equal a given date/time <code>until</code>.
+	 * Create a new filter to select commits after or equal a given date/time
+	 * <code>since</code> and before or equal a given date/time
+	 * <code>until</code>.
 	 *
-	 * @param since the point in time to cut on.
-	 * @param until the point in time to cut off.
+	 * @param since
+	 *            the point in time to cut on.
+	 * @param until
+	 *            the point in time to cut off.
 	 * @return a new filter to select commits between the given date/times.
+	 * @since 7.2
 	 */
 	public static RevFilter between(Instant since, Instant until) {
 		return new Between(since, until);
