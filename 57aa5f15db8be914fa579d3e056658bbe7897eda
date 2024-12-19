@@ -16,6 +16,24 @@
       "message": "s/removers/remover\u0027s/",
       "revId": "57aa5f15db8be914fa579d3e056658bbe7897eda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e41a2196_bb01730d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-19T20:34:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faafd28f_5db88534",
+      "revId": "57aa5f15db8be914fa579d3e056658bbe7897eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
