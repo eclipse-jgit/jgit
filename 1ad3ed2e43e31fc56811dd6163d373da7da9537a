@@ -72,6 +72,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37f64fe6_212eaeaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-19T18:09:48Z",
+      "side": 1,
+      "message": "We have been running this for 2 days now, and I am very pleased with the results. I highly recommend this approach.",
+      "parentUuid": "8644e794_89c96277",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccec5f65_3876fc12",
@@ -95,6 +113,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb93d04_ebd6d8b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-19T18:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccec5f65_3876fc12",
+      "range": {
+        "startLine": 770,
+        "startChar": 39,
+        "endLine": 770,
+        "endChar": 40
+      },
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1be481c1_5e9ff31e",
@@ -108,6 +150,24 @@
       "writtenOn": "2024-12-05T17:13:40Z",
       "side": 1,
       "message": "Spacing",
+      "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10dac867_9ac7d06d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-19T18:09:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1be481c1_5e9ff31e",
       "revId": "1ad3ed2e43e31fc56811dd6163d373da7da9537a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
