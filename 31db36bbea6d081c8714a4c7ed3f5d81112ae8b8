@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "31db36bbea6d081c8714a4c7ed3f5d81112ae8b8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be050fc_f4cfecec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-19T23:57:35Z",
+      "side": 1,
+      "message": "If we apply this change into stable-6.10, we can make gerrit build the javax version and later update JGit to master or a stable branch...",
+      "revId": "31db36bbea6d081c8714a4c7ed3f5d81112ae8b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
