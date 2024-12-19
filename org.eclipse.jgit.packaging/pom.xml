@@ -31,7 +31,7 @@
   <properties>
     <java.version>17</java.version>
     <tycho-version>4.0.8</tycho-version>
-    <target-platform>jgit-4.17</target-platform>
+    <target-platform>jgit-4.32</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
 
