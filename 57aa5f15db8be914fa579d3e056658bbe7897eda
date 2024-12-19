@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faafd28f_5db88534",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-19T20:22:08Z",
+      "side": 1,
+      "message": "s/removers/remover\u0027s/",
+      "revId": "57aa5f15db8be914fa579d3e056658bbe7897eda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
