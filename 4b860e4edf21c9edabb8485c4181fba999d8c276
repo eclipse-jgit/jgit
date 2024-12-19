@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a39985_185a1256",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-19T20:16:43Z",
+      "side": 1,
+      "message": "nice :-)",
+      "revId": "4b860e4edf21c9edabb8485c4181fba999d8c276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7b3955b_b6addde0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-19T20:16:43Z",
+      "side": 1,
+      "message": "```suggestion\n\t * The optimizations above are all achieved without blocking threads to wait\n```",
+      "range": {
+        "startLine": 777,
+        "startChar": 53,
+        "endLine": 777,
+        "endChar": 60
+      },
+      "revId": "4b860e4edf21c9edabb8485c4181fba999d8c276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
