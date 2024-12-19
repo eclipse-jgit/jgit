@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca087946_783c1ea2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-19T20:54:02Z",
+      "side": 1,
+      "message": "The build failure is caused by a too old target platform being used in the maven build which refers to p2 repositories which have been archived and are no longer available on the download server. I will upload a fix updating the target platform to the one matching 6.10 and purging old target platforms. Then we can rebase this change to fix its build. We always built against the oldest compatible Eclipse platform version but this is now getting really too old. Users which use such old platform versions should upgrade to a recent version instead of us maintaining compatibility against umpteen old versions.",
+      "revId": "6f027b34ec72f3fca2c096bcb979af721d7914fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
