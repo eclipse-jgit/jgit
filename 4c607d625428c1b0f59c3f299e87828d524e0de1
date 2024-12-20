@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40338cb_20f36889",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T14:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45bc954a_93e72010",
+      "range": {
+        "startLine": 121,
+        "startChar": 24,
+        "endLine": 121,
+        "endChar": 44
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "564be5ca_0d7a36de",
@@ -82,6 +106,30 @@
         "id": 1000671
       },
       "writtenOn": "2024-12-20T13:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "564be5ca_0d7a36de",
+      "range": {
+        "startLine": 122,
+        "startChar": 31,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0f4e6f0_587579e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T14:53:59Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "564be5ca_0d7a36de",
@@ -142,6 +190,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fa7df96_19ab2711",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T14:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7433842c_45885926",
+      "range": {
+        "startLine": 129,
+        "startChar": 56,
+        "endLine": 129,
+        "endChar": 63
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "814f745d_f9503ea9",
@@ -189,6 +261,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a0fc0f_a413a0e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T14:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "814f745d_f9503ea9",
+      "range": {
+        "startLine": 154,
+        "startChar": 6,
+        "endLine": 154,
+        "endChar": 15
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c20c0b43_09a11bce",
@@ -220,6 +316,24 @@
       "side": 1,
       "message": "which mode are you referring to ?",
       "parentUuid": "c20c0b43_09a11bce",
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ca6e710_b726e26d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T14:53:59Z",
+      "side": 1,
+      "message": "@Thomas Wolf talks about the submodule\u0027s \"update\" mode/strategy: either REBASE, MERGE or CHECKOUT(default if none is set).",
+      "parentUuid": "edcdd4f3_ac445038",
       "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

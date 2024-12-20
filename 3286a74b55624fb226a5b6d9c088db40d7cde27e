@@ -20,6 +20,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9ca5ecb3_6041c8ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T14:53:59Z",
+      "side": 1,
+      "message": "@Matthias Sohn: I saw you provided a new patch adressing the same remarks as my patch 6. Do you want to take over? I just want to avoid double work.",
+      "revId": "3286a74b55624fb226a5b6d9c088db40d7cde27e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8d83cd4b_e0431e6f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
         "patchSetId": 7
