@@ -232,6 +232,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 * Get timezone
 	 *
 	 * @return timezone used for default identities.
+	 * @since 7.2
 	 */
 	public ZoneId getTimeZoneId() {
 		return mockSystemReader.getTimeZoneId();
