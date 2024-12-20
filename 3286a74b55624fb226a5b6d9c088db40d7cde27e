@@ -55,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6f078ee4_078590a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T15:15:48Z",
+      "side": 1,
+      "message": "OK, thanks for clarification and trying to spare me some time. I\u0027m quite new to Gerrit and I have to remind myself to also publish my comments not only write them. In my day job\u0027s review tool comments are published automatically.\n\nI will go on with a new patch addressing Thomas\u0027 concern about the \"update\" mode.",
+      "parentUuid": "7ae5d9aa_7620bd68",
+      "revId": "3286a74b55624fb226a5b6d9c088db40d7cde27e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8d83cd4b_e0431e6f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
         "patchSetId": 7
