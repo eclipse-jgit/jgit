@@ -408,6 +408,24 @@
       "parentUuid": "b7d6eeb5_f88735ae",
       "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d2d7d6e_07f26632",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T19:19:48Z",
+      "side": 1,
+      "message": "Okay, I change the code accordingly: if a submodule is freshly cloned or \"restored\" the merge mode is set to CHECKOUT. I will also add new tests.",
+      "parentUuid": "bc55b6d1_3b6d4aeb",
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
