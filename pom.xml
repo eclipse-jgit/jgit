@@ -131,17 +131,17 @@
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>6.1.0</servlet-api-version>
     <jetty-version>12.0.15</jetty-version>
-    <japicmp-version>0.21.2</japicmp-version>
+    <japicmp-version>0.23.0</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>1.7.36</slf4j-version>
-    <maven-javadoc-plugin-version>3.6.3</maven-javadoc-plugin-version>
+    <maven-javadoc-plugin-version>3.11.2</maven-javadoc-plugin-version>
     <gson-version>2.11.0</gson-version>
     <bouncycastle-version>1.79</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.8.5.0</spotbugs-maven-plugin-version>
-    <maven-project-info-reports-plugin-version>3.5.1</maven-project-info-reports-plugin-version>
-    <maven-jxr-plugin-version>3.3.2</maven-jxr-plugin-version>
-    <maven-surefire-plugin-version>3.2.5</maven-surefire-plugin-version>
+    <spotbugs-maven-plugin-version>4.8.6.6</spotbugs-maven-plugin-version>
+    <maven-project-info-reports-plugin-version>3.8.0</maven-project-info-reports-plugin-version>
+    <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
+    <maven-surefire-plugin-version>3.5.2</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.13.0</maven-compiler-plugin-version>
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
@@ -184,7 +184,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.4.2</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -208,13 +208,13 @@
 
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.6.0</version>
         </plugin>
 
         <plugin>
@@ -226,7 +226,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.8.1</version>
         </plugin>
 
         <plugin>
@@ -277,7 +277,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.22.0</version>
+          <version>3.26.0</version>
           <configuration>
             <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <minimumTokens>100</minimumTokens>
@@ -300,7 +300,7 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.4.3</version>
+          <version>1.5.2</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
@@ -310,7 +310,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M14</version>
+          <version>4.0.0-M16</version>
           <dependencies>
             <dependency><!-- add support for ssh/scp -->
               <groupId>org.apache.maven.wagon</groupId>
@@ -337,12 +337,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -357,7 +357,7 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>2.7.18</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.dash</groupId>
@@ -367,12 +367,12 @@
         <plugin>
           <groupId>org.cyclonedx</groupId>
           <artifactId>cyclonedx-maven-plugin</artifactId>
-          <version>2.8.0</version>
+          <version>2.9.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-artifact-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.5.3</version>
           <configuration>
             <ignore>**/*cyclonedx.json</ignore>
             <reproducible>true</reproducible>
@@ -381,7 +381,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -623,7 +623,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>8.0.2</version>
+        <version>9.0.1</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>
@@ -642,7 +642,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>4.0.1</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.groovy</groupId>

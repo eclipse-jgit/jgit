@@ -30,7 +30,7 @@
 
   <properties>
     <java.version>17</java.version>
-    <tycho-version>4.0.8</tycho-version>
+    <tycho-version>4.0.10</tycho-version>
     <target-platform>jgit-4.32</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
@@ -174,7 +174,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -204,7 +204,7 @@
       <plugin>
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
-        <version>2.8.0</version>
+        <version>2.9.1</version>
         <configuration>
           <projectType>library</projectType>
           <schemaVersion>1.4</schemaVersion>
@@ -233,7 +233,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>8.0.2</version>
+        <version>9.0.1</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>
@@ -273,7 +273,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.4.2</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -381,7 +381,7 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.4.3</version>
+          <version>1.5.2</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -390,27 +390,27 @@
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>4.0.0-M14</version>
+          <version>4.0.0-M16</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-artifact-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.5.3</version>
           <configuration>
             <ignore>**/*cyclonedx.json</ignore>
             <reproducible>true</reproducible>
