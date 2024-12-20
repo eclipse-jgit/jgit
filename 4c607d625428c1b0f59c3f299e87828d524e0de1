@@ -354,6 +354,24 @@
       "parentUuid": "1ca6e710_b726e26d",
       "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a9d88c7_4a2759f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2024-12-20T15:12:03Z",
+      "side": 1,
+      "message": "Line 217ff. The use case appears to be that the submodule directory was deleted/cleared (which is also what the test does), and then is restored by running a SubmoduleUpdateCommand. If the update strategy defined by git config submodule.\u003cname\u003e.update is \"merge\" or \"rebase\", it\u0027ll always fail (dirty worktree since all files were removed). Hence I wonder if we shouldn\u0027t do a checkout unconditionally in this case? What does C git do?",
+      "parentUuid": "edcdd4f3_ac445038",
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
