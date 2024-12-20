@@ -45,12 +45,15 @@ public final class SignatureUtils {
 	public static String toString(SignatureVerification verification,
 			PersonIdent creator, GitDateFormatter formatter) {
 		StringBuilder result = new StringBuilder();
-		// Use the creator's timezone for the signature date
-		PersonIdent dateId = new PersonIdent(creator,
-				verification.creationDate());
-		result.append(MessageFormat.format(JGitText.get().verifySignatureMade,
-				formatter.formatDate(dateId)));
-		result.append('\n');
+		if (verification.creationDate() != null) {
+			// Use the creator's timezone for the signature date
+			PersonIdent dateId = new PersonIdent(creator,
+					verification.creationDate());
+			result.append(
+					MessageFormat.format(JGitText.get().verifySignatureMade,
+							formatter.formatDate(dateId)));
+			result.append('\n');
+		}
 		result.append(MessageFormat.format(
 				JGitText.get().verifySignatureKey,
 				verification.keyFingerprint().toUpperCase(Locale.ROOT)));
