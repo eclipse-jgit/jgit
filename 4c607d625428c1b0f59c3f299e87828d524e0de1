@@ -372,6 +372,24 @@
       "parentUuid": "edcdd4f3_ac445038",
       "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d6eeb5_f88735ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T15:19:33Z",
+      "side": 1,
+      "message": "Cgit does a checkout and ignores the other modes in this scenario. \nI can implement it the same way in this change or raise a separate GitHub issue. What do you prefer?",
+      "parentUuid": "4a9d88c7_4a2759f7",
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
