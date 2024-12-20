@@ -50,6 +50,23 @@
       "message": "extracted this to another method to improve readability",
       "revId": "3286a74b55624fb226a5b6d9c088db40d7cde27e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0d47236_60fedb0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-20T15:01:42Z",
+      "side": 1,
+      "message": "This is where the \"update\" mode is evaluated. After cloning/restoring a submodule only \"CHECKOUT\" might be a useful option. cgit is assuming \"CHECKOUT\" after a clone/restore and ignores the config constant.",
+      "revId": "3286a74b55624fb226a5b6d9c088db40d7cde27e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
