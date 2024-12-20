@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "114901ad_a0da130b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-20T13:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45bc954a_93e72010",
+      "range": {
+        "startLine": 121,
+        "startChar": 24,
+        "endLine": 121,
+        "endChar": 44
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "564be5ca_0d7a36de",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-12-18T09:23:35Z",
       "side": 1,
       "message": "What if it isn\u0027t a directory? Is a symlink to a directory OK? Use `gitDir.isDirectory()` or `Files.isDirectory(gitDir.toPath())` as appropriate.",
+      "range": {
+        "startLine": 122,
+        "startChar": 31,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cf12a1f_d7b55ca4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-20T13:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "564be5ca_0d7a36de",
       "range": {
         "startLine": 122,
         "startChar": 31,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e0f3b6_b5fbd1b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-20T13:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7433842c_45885926",
+      "range": {
+        "startLine": 129,
+        "startChar": 56,
+        "endLine": 129,
+        "endChar": 63
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "814f745d_f9503ea9",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-12-18T09:23:35Z",
       "side": 1,
       "message": "Remove this.",
+      "range": {
+        "startLine": 154,
+        "startChar": 6,
+        "endLine": 154,
+        "endChar": 15
+      },
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72bae70f_afeb7c22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-20T13:51:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "814f745d_f9503ea9",
       "range": {
         "startLine": 154,
         "startChar": 6,
