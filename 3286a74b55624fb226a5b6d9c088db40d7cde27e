@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7ae5d9aa_7620bd68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-20T15:02:10Z",
+      "side": 1,
+      "message": "I marked the review comments as done which you fixed in ps 6 and extracted the method getRelativePath to improve readability in ps 7. I thought I\u0027d spare you one round-trip instead of asking you to do this.",
+      "parentUuid": "9ca5ecb3_6041c8ca",
+      "revId": "3286a74b55624fb226a5b6d9c088db40d7cde27e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8d83cd4b_e0431e6f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
         "patchSetId": 7
