@@ -336,6 +336,24 @@
       "parentUuid": "edcdd4f3_ac445038",
       "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d87c49_c71b5291",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-20T15:05:29Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "1ca6e710_b726e26d",
+      "revId": "4c607d625428c1b0f59c3f299e87828d524e0de1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
