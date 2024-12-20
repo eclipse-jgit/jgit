@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f5f4229c_3f8d6f21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-20T23:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a2306c3_64f968c5",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "40851a510cb362318015daa6c815815431e9d827",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "67d7c0ef_7b59814a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "yes, you can do such minor cleanup on touched code",
       "parentUuid": "e1c3243c_d437d6b8",
+      "revId": "40851a510cb362318015daa6c815815431e9d827",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bf3dedf_80843ac6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-20T23:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe69516c_6d51031b",
       "revId": "40851a510cb362318015daa6c815815431e9d827",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
