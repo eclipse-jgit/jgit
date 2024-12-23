@@ -1,5 +1,6 @@
 package org.eclipse.jgit.transport;
 
+import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
@@ -18,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1506,14 +1508,19 @@ public class UploadPackTest {
 	public void testV2FetchShallowSince() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
-		RevCommit beyondBoundary = remote.commit()
-			.committer(new PersonIdent(person, 1510000000, 0)).create();
-		RevCommit boundary = remote.commit().parent(beyondBoundary)
-			.committer(new PersonIdent(person, 1520000000, 0)).create();
-		RevCommit tooOld = remote.commit()
-			.committer(new PersonIdent(person, 1500000000, 0)).create();
+		RevCommit beyondBoundary = remote.commit().committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1510000), UTC))
+				.create();
+		RevCommit boundary = remote.commit().parent(beyondBoundary).committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1520000), UTC))
+				.create();
+		RevCommit tooOld = remote.commit().committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1500000), UTC))
+				.create();
 		RevCommit merge = remote.commit().parent(boundary).parent(tooOld)
-			.committer(new PersonIdent(person, 1530000000, 0)).create();
+				.committer(new PersonIdent(person,
+						Instant.ofEpochSecond(1530000), UTC))
+				.create();
 
 		remote.update("branch1", merge);
 
@@ -1559,12 +1566,15 @@ public class UploadPackTest {
 	public void testV2FetchShallowSince_excludedParentWithMultipleChildren() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
-		RevCommit base = remote.commit()
-			.committer(new PersonIdent(person, 1500000000, 0)).create();
-		RevCommit child1 = remote.commit().parent(base)
-			.committer(new PersonIdent(person, 1510000000, 0)).create();
-		RevCommit child2 = remote.commit().parent(base)
-			.committer(new PersonIdent(person, 1520000000, 0)).create();
+		RevCommit base = remote.commit().committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1500000), UTC))
+				.create();
+		RevCommit child1 = remote.commit().parent(base).committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1510000), UTC))
+				.create();
+		RevCommit child2 = remote.commit().parent(base).committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1520000), UTC))
+				.create();
 
 		remote.update("branch1", child1);
 		remote.update("branch2", child2);
@@ -1601,8 +1611,9 @@ public class UploadPackTest {
 	public void testV2FetchShallowSince_noCommitsSelected() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
-		RevCommit tooOld = remote.commit()
-				.committer(new PersonIdent(person, 1500000000, 0)).create();
+		RevCommit tooOld = remote.commit().committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1500000), UTC))
+				.create();
 
 		remote.update("branch1", tooOld);
 
@@ -1726,12 +1737,15 @@ public class UploadPackTest {
 	public void testV2FetchDeepenNot_excludedParentWithMultipleChildren() throws Exception {
 		PersonIdent person = new PersonIdent(remote.getRepository());
 
-		RevCommit base = remote.commit()
-			.committer(new PersonIdent(person, 1500000000, 0)).create();
-		RevCommit child1 = remote.commit().parent(base)
-			.committer(new PersonIdent(person, 1510000000, 0)).create();
-		RevCommit child2 = remote.commit().parent(base)
-			.committer(new PersonIdent(person, 1520000000, 0)).create();
+		RevCommit base = remote.commit().committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1500000), UTC))
+				.create();
+		RevCommit child1 = remote.commit().parent(base).committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1510000), UTC))
+				.create();
+		RevCommit child2 = remote.commit().parent(base).committer(
+				new PersonIdent(person, Instant.ofEpochSecond(1520000), UTC))
+				.create();
 
 		remote.update("base", base);
 		remote.update("branch1", child1);
