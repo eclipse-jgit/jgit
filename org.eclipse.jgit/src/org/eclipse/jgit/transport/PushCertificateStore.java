@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -329,7 +330,7 @@ public class PushCertificateStore implements AutoCloseable {
 		if (newId == null) {
 			return RefUpdate.Result.NO_CHANGE;
 		}
-		try (ObjectInserter inserter = db.newObjectInserter()) {
+		try {
 			RefUpdate.Result result = updateRef(newId);
 			switch (result) {
 				case FAST_FORWARD:
@@ -404,8 +405,8 @@ public class PushCertificateStore implements AutoCloseable {
 	}
 
 	private static void sortPending(List<PendingCert> pending) {
-		Collections.sort(pending, (PendingCert a, PendingCert b) -> Long.signum(
-				a.ident.getWhen().getTime() - b.ident.getWhen().getTime()));
+		Collections.sort(pending,
+				Comparator.comparing((PendingCert a) -> a.ident.getWhenAsInstant()));
 	}
 
 	private DirCache newDirCache() throws IOException {
@@ -503,7 +504,7 @@ public class PushCertificateStore implements AutoCloseable {
 		} else {
 			sb.append(MessageFormat.format(
 					JGitText.get().storePushCertMultipleRefs,
-					Integer.valueOf(cert.getCommands().size())));
+					cert.getCommands().size()));
 		}
 		return sb.append('\n').toString();
 	}
