@@ -87,6 +87,24 @@
       "parentUuid": "b96e5c44_a6033691",
       "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7747a1d_53104e7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2024-12-23T22:56:56Z",
+      "side": 1,
+      "message": "FYI, no, unfortunately, the FileSystemExceptions in these cases were specifically not NotDirectoryExceptions, I wish they were.",
+      "parentUuid": "c23c2ec8_e8ce80a1",
+      "revId": "eb0ef9d16ea780c431837f904ad4d1ad0aaa5d7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
