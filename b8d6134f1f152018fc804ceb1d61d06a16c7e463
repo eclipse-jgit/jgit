@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f18f9fb_2d97519c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-24T11:00:58Z",
+      "side": 1,
+      "message": "Declare this public since it\u0027s supposed to replace the deprecated API method and add javadoc ?",
+      "revId": "b8d6134f1f152018fc804ceb1d61d06a16c7e463",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a934272_6f76dc88",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-24T11:00:58Z",
+      "side": 1,
+      "message": "Declare this public since it\u0027s supposed to replace the deprecated API method and add javadoc ?",
+      "revId": "b8d6134f1f152018fc804ceb1d61d06a16c7e463",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

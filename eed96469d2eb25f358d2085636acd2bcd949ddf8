@@ -16,6 +16,46 @@
       "message": "trigger build",
       "revId": "eed96469d2eb25f358d2085636acd2bcd949ddf8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eeada8f_bf981a21",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PushCertificateIdentTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-24T11:00:58Z",
+      "side": 1,
+      "message": "I think it was converted to 60 + 99 minutes and then to GMT+0239",
+      "range": {
+        "startLine": 194,
+        "startChar": 41,
+        "endLine": 194,
+        "endChar": 51
+      },
+      "revId": "eed96469d2eb25f358d2085636acd2bcd949ddf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047e5634_a0a04ccd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificateIdent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-24T11:00:58Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tStringBuilder sb \u003d new StringBuilder(userId).append(\u0027 \u0027).append(when.getEpochSecond())\n```",
+      "revId": "eed96469d2eb25f358d2085636acd2bcd949ddf8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
