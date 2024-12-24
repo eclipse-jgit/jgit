@@ -45,7 +45,9 @@ public class PersonIdent implements Serializable {
 	 *            timezone offset as in {@link #getTimeZoneOffset()}.
 	 * @return time zone object for the given offset.
 	 * @since 4.1
+	 * @deprecated use {@link #getZoneId(int)} instead
 	 */
+	@Deprecated(since = "7.2")
 	public static TimeZone getTimeZone(int tzOffset) {
 		StringBuilder tzId = new StringBuilder(8);
 		tzId.append("GMT"); //$NON-NLS-1$
