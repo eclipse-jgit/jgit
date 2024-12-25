@@ -21,6 +21,7 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -36,8 +37,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -482,12 +481,10 @@ final class AllowedSigners extends ModifiableFileWatcher {
 		if (isUTC) {
 			return time.atOffset(ZoneOffset.UTC).toInstant();
 		}
-		TimeZone tz = SystemReader.getInstance().getTimeZone();
+		ZoneId tz = SystemReader.getInstance().getTimeZoneId();
 		// Since there are a few TimeZone IDs that are not recognized by ZoneId,
 		// use offsets.
-		return time.atOffset(ZoneOffset.ofTotalSeconds(
-				(int) TimeUnit.MILLISECONDS.toSeconds(tz.getRawOffset())))
-				.toInstant();
+		return time.atZone(tz).toInstant();
 	}
 
 	// OpenSSH uses the backslash *only* to quote the double-quote.
