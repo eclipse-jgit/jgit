@@ -11,6 +11,7 @@ package org.eclipse.jgit.util;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -95,6 +96,40 @@ public class GitTimeParser {
 	 */
 	public static LocalDateTime parse(String dateStr) throws ParseException {
 		return parse(dateStr, SystemReader.getInstance().civilNow());
+	}
+
+	/**
+	 * Parses a string into a {@link java.time.Instant} using the default
+	 * locale. Since this parser also supports relative formats (e.g.
+	 * "yesterday") the caller can specify the reference date. These types of
+	 * strings can be parsed:
+	 * <ul>
+	 * <li>"never"</li>
+	 * <li>"now"</li>
+	 * <li>"yesterday"</li>
+	 * <li>"(x) years|months|weeks|days|hours|minutes|seconds ago"<br>
+	 * Multiple specs can be combined like in "2 weeks 3 days ago". Instead of '
+	 * ' one can use '.' to separate the words</li>
+	 * <li>"yyyy-MM-dd HH:mm:ss Z" (ISO)</li>
+	 * <li>"EEE, dd MMM yyyy HH:mm:ss Z" (RFC)</li>
+	 * <li>"yyyy-MM-dd"</li>
+	 * <li>"yyyy.MM.dd"</li>
+	 * <li>"MM/dd/yyyy",</li>
+	 * <li>"dd.MM.yyyy"</li>
+	 * <li>"EEE MMM dd HH:mm:ss yyyy Z" (DEFAULT)</li>
+	 * <li>"EEE MMM dd HH:mm:ss yyyy" (LOCAL)</li>
+	 * </ul>
+	 *
+	 * @param dateStr
+	 *            the string to be parsed
+	 * @return the parsed {@link java.time.Instant}
+	 * @throws java.text.ParseException
+	 *             if the given dateStr was not recognized
+	 * @since 7.2
+	 */
+	public static Instant parseInstant(String dateStr) throws ParseException {
+		return parse(dateStr).atZone(SystemReader.getInstance().getTimeZoneId())
+				.toInstant();
 	}
 
 	// Only tests seem to use this method
