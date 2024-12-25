@@ -19,9 +19,9 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
@@ -486,11 +486,11 @@ public class CommitCommandTest extends RepositoryTestCase {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 
-			final String authorName = "First Author";
-			final String authorEmail = "author@example.org";
-			final Date authorDate = new Date(1349621117000L);
+			String authorName = "First Author";
+			String authorEmail = "author@example.org";
+			Instant authorDate = Instant.ofEpochSecond(1349621117L);
 			PersonIdent firstAuthor = new PersonIdent(authorName, authorEmail,
-					authorDate, TimeZone.getTimeZone("UTC"));
+					authorDate, ZoneOffset.UTC);
 			git.commit().setMessage("initial commit").setAuthor(firstAuthor).call();
 
 			RevCommit amended = git.commit().setAmend(true)
@@ -499,7 +499,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			PersonIdent amendedAuthor = amended.getAuthorIdent();
 			assertEquals(authorName, amendedAuthor.getName());
 			assertEquals(authorEmail, amendedAuthor.getEmailAddress());
-			assertEquals(authorDate.getTime(), amendedAuthor.getWhen().getTime());
+			assertEquals(authorDate.getEpochSecond(),
+					amendedAuthor.getWhenAsInstant().getEpochSecond());
 		}
 	}
 
