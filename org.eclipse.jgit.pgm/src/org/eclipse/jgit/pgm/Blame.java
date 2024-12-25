@@ -18,7 +18,7 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +91,7 @@ class Blame extends TextBuiltin {
 
 	private final Map<RevCommit, String> abbreviatedCommits = new HashMap<>();
 
-	private SimpleDateFormat dateFmt;
+	private DateTimeFormatter dateFmt;
 
 	private int begin;
 
@@ -125,9 +125,9 @@ class Blame extends TextBuiltin {
 		}
 
 		if (showRawTimestamp) {
-			dateFmt = new SimpleDateFormat("ZZZZ"); //$NON-NLS-1$
+			dateFmt = DateTimeFormatter.ofPattern("ZZ"); //$NON-NLS-1$
 		} else {
-			dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZZ"); //$NON-NLS-1$
+			dateFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ"); //$NON-NLS-1$
 		}
 
 		try (ObjectReader reader = db.newObjectReader();
@@ -335,12 +335,14 @@ class Blame extends TextBuiltin {
 		if (author == null)
 			return ""; //$NON-NLS-1$
 
-		dateFmt.setTimeZone(author.getTimeZone());
-		if (!showRawTimestamp)
-			return dateFmt.format(author.getWhen());
+		if (!showRawTimestamp) {
+			return dateFmt.withZone(author.getZoneId())
+					.format(author.getWhenAsInstant());
+		}
 		return String.format("%d %s", //$NON-NLS-1$
-				Long.valueOf(author.getWhen().getTime() / 1000L),
-				dateFmt.format(author.getWhen()));
+				Long.valueOf(author.getWhenAsInstant().getEpochSecond()),
+				dateFmt.withZone(author.getZoneId())
+						.format(author.getWhenAsInstant()));
 	}
 
 	private String abbreviate(ObjectReader reader, RevCommit commit)
