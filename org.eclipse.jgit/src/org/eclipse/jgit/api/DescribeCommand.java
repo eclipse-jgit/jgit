@@ -15,11 +15,11 @@ import static org.eclipse.jgit.lib.TypedConfigGetter.UNSET_INT;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -274,10 +274,10 @@ public class DescribeCommand extends GitCommand<String> {
 			}
 		}
 
-		private Date tagDate(Ref tag) throws IOException {
+		private Instant tagDate(Ref tag) throws IOException {
 			RevTag t = w.parseTag(tag.getObjectId());
 			w.parseBody(t);
-			return t.getTaggerIdent().getWhen();
+			return t.getTaggerIdent().getWhenAsInstant();
 		}
 	};
 
