@@ -168,6 +168,14 @@ public class AllowedSignersParseTest {
 				"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGATOZ8PcOKdY978fzIstnZ0+FuefIWKp7wRZynQLdzO"),
 				AllowedSigners.parseLine(
 						"*@a.com,*@b.a.com cert-authority namespaces=\"git\" valid-after=\"20240901\" valid-before=\"202409011200Z\" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGATOZ8PcOKdY978fzIstnZ0+FuefIWKp7wRZynQLdzO"));
+		assertEquals(new AllowedSigners.AllowedEntry(
+				new String[] { "foo@a.com" },
+				false, new String[] { "git" },
+				Instant.parse("2024-09-01T03:30:00.00Z"),
+				Instant.parse("2024-09-01T12:00:00.00Z"),
+				"ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGxkz2AUld8eitmyIYlVV+Sot4jT3CigyBmvFRff0q4cSsKLx4x2TxGQeKKVueJEawtsUC2GNRV9FxXsTCUGcZU="),
+				AllowedSigners.parseLine(
+						"foo@a.com namespaces=\"git\" valid-after=\"20240901\" valid-before=\"202409011200Z\" ecdsa-sha2-nistp256   AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGxkz2AUld8eitmyIYlVV+Sot4jT3CigyBmvFRff0q4cSsKLx4x2TxGQeKKVueJEawtsUC2GNRV9FxXsTCUGcZU="));
 	}
 
 	@Test
@@ -182,6 +190,8 @@ public class AllowedSignersParseTest {
 				"valid-before=\"20240901\" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGATOZ8PcOKdY978fzIstnZ0+FuefIWKp7wRZynQLdzO"));
 		assertThrows(Exception.class, () -> AllowedSigners.parseLine(
 				"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGATOZ8PcOKdY978fzIstnZ0+FuefIWKp7wRZynQLdzO"));
+		assertThrows(Exception.class, () -> AllowedSigners.parseLine(
+				"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGATOZ8PcOKdY978fzIstnZ0+FuefIWKp7wRZynQLdzO foo@bar.com"));
 		assertThrows(Exception.class, () -> AllowedSigners.parseLine(
 				"AAAAC3NzaC1lZDI1NTE5AAAAIGATOZ8PcOKdY978fzIstnZ0+FuefIWKp7wRZynQLdzO"));
 		assertThrows(Exception.class, () -> AllowedSigners.parseLine(

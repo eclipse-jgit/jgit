@@ -63,8 +63,6 @@ final class AllowedSigners extends ModifiableFileWatcher {
 
 	private static final String VALID_BEFORE = "valid-before="; //$NON-NLS-1$
 
-	private static final String SSH_KEY_PREFIX = "ssh-"; //$NON-NLS-1$
-
 	private static final DateTimeFormatter SSH_DATE_FORMAT = new DateTimeFormatterBuilder()
 			.appendValue(ChronoField.YEAR, 4)
 			.appendValue(ChronoField.MONTH_OF_YEAR, 2)
@@ -322,8 +320,7 @@ final class AllowedSigners extends ModifiableFileWatcher {
 				&& Character.isWhitespace(line.charAt(CERT_AUTHORITY.length())))
 				|| matches(line, NAMESPACES, 0)
 				|| matches(line, VALID_AFTER, 0)
-				|| matches(line, VALID_BEFORE, 0)
-				|| matches(line, SSH_KEY_PREFIX, 0)) {
+				|| matches(line, VALID_BEFORE, 0)) {
 			throw new StreamCorruptedException(
 					SshdText.get().signAllowedSignersNoIdentities);
 		}
@@ -448,7 +445,9 @@ final class AllowedSigners extends ModifiableFileWatcher {
 					s.substring(start)));
 		}
 		String keyType = s.substring(start, endOfKeyType);
-		if (!keyType.startsWith(SSH_KEY_PREFIX)) {
+		String key = s.substring(startOfKey, i);
+		if (!key.startsWith("AAAA")) { //$NON-NLS-1$
+			// base64 encoded SSH keys always start with four 'A's.
 			throw new StreamCorruptedException(MessageFormat.format(
 					SshdText.get().signAllowedSignersPublicKeyParsing,
 					s.substring(start)));
