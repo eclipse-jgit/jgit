@@ -16,6 +16,24 @@
       "message": "If we go for ZoneId in the first place it makes no sense to use offsets below. I think just using time.atZone(tz).toInstant() would be fine.",
       "revId": "8118327e976e3490de353852e5fece4886350dd6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9da7c6ef_cbd5289c",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/internal/signing/ssh/AllowedSigners.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2024-12-25T12:58:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a3e85d_304c12f6",
+      "revId": "8118327e976e3490de353852e5fece4886350dd6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
