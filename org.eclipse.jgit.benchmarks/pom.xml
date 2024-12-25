@@ -79,7 +79,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin-version}</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <release>${java.version}</release>
