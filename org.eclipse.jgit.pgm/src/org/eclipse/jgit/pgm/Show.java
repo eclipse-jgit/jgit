@@ -14,11 +14,10 @@ package org.eclipse.jgit.pgm;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextComparator;
@@ -51,9 +50,9 @@ import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_show")
 class Show extends TextBuiltin {
-	private final TimeZone myTZ = TimeZone.getDefault();
+	private final ZoneId myTZ = ZoneId.systemDefault();
 
-	private final DateFormat fmt;
+	private final DateTimeFormatter fmt;
 
 	private DiffFormatter diffFmt;
 
@@ -157,7 +156,8 @@ class Show extends TextBuiltin {
 	// END -- Options shared with Diff
 
 	Show() {
-		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US); //$NON-NLS-1$
+		fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy ZZ", //$NON-NLS-1$
+				Locale.US);
 	}
 
 	@Override
@@ -232,15 +232,17 @@ class Show extends TextBuiltin {
 		outw.print(tag.getTagName());
 		outw.println();
 
-		final PersonIdent tagger = tag.getTaggerIdent();
+		PersonIdent tagger = tag.getTaggerIdent();
 		if (tagger != null) {
 			outw.println(MessageFormat.format(CLIText.get().taggerInfo,
 					tagger.getName(), tagger.getEmailAddress()));
 
-			final TimeZone taggerTZ = tagger.getTimeZone();
-			fmt.setTimeZone(taggerTZ != null ? taggerTZ : myTZ);
+			ZoneId taggerTZ = tagger.getZoneId();
+			String formattedTaggerTime = fmt
+					.withZone(taggerTZ != null ? taggerTZ : myTZ)
+					.format(tagger.getWhenAsInstant());
 			outw.println(MessageFormat.format(CLIText.get().dateInfo,
-					fmt.format(tagger.getWhen())));
+					formattedTaggerTime));
 		}
 
 		outw.println();
@@ -293,10 +295,12 @@ class Show extends TextBuiltin {
 		outw.println(MessageFormat.format(CLIText.get().authorInfo,
 				author.getName(), author.getEmailAddress()));
 
-		final TimeZone authorTZ = author.getTimeZone();
-		fmt.setTimeZone(authorTZ != null ? authorTZ : myTZ);
+		final ZoneId authorTZ = author.getZoneId();
+		String formattedAuthorTime = fmt
+				.withZone(authorTZ != null ? authorTZ : myTZ)
+				.format(author.getWhenAsInstant());
 		outw.println(MessageFormat.format(CLIText.get().dateInfo,
-				fmt.format(author.getWhen())));
+				formattedAuthorTime));
 
 		outw.println();
 		final String[] lines = c.getFullMessage().split("\n"); //$NON-NLS-1$
