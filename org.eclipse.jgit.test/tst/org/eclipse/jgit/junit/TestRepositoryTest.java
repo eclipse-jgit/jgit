@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -199,8 +199,11 @@ public class TestRepositoryTest {
 		assertEquals(orig.getAuthorIdent(), amended.getAuthorIdent());
 
 		// Committer name/email is the same, but time was incremented.
-		assertEquals(new PersonIdent(orig.getCommitterIdent(), new Date(0)),
-				new PersonIdent(amended.getCommitterIdent(), new Date(0)));
+		assertEquals(
+				new PersonIdent(orig.getCommitterIdent(),
+						Instant.ofEpochSecond(0)),
+				new PersonIdent(amended.getCommitterIdent(),
+						Instant.ofEpochSecond(0)));
 		assertTrue(orig.getCommitTime() < amended.getCommitTime());
 
 		assertEquals("foo contents", blobAsString(amended, "foo"));
@@ -294,8 +297,11 @@ public class TestRepositoryTest {
 		assertEquals(toPick.getAuthorIdent(), result.getAuthorIdent());
 
 		// Committer name/email matches default, and time was incremented.
-		assertEquals(new PersonIdent(head.getCommitterIdent(), new Date(0)),
-				new PersonIdent(result.getCommitterIdent(), new Date(0)));
+		assertEquals(
+				new PersonIdent(head.getCommitterIdent(),
+						Instant.ofEpochSecond(0)),
+				new PersonIdent(result.getCommitterIdent(),
+						Instant.ofEpochSecond(0)));
 		assertTrue(toPick.getCommitTime() < result.getCommitTime());
 
 		assertEquals("message to cherry-pick", result.getFullMessage());
