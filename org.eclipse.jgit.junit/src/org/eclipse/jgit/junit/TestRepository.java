@@ -201,7 +201,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 * @since 4.2
 	 * @deprecated Use {@link #getInstant()} instead.
 	 */
-	@Deprecated
+	@Deprecated(since = "7.2")
 	public Date getDate() {
 		return new Date(mockSystemReader.getCurrentTime());
 	}
@@ -222,7 +222,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	 * @return timezone used for default identities.
 	 * @deprecated Use {@link #getTimeZoneId()} instead.
 	 */
-	@Deprecated
+	@Deprecated(since = "7.2")
 	public TimeZone getTimeZone() {
 		return mockSystemReader.getTimeZone();
 	}
