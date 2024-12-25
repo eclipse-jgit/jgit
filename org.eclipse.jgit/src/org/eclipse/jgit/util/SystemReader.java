@@ -523,7 +523,7 @@ public abstract class SystemReader {
 	 *
 	 * @deprecated Use {@link #now()}
 	 */
-	@Deprecated
+	@Deprecated(since = "7.1")
 	public abstract long getCurrentTime();
 
 	/**
@@ -569,7 +569,7 @@ public abstract class SystemReader {
 	 *
 	 * @deprecated Use {@link #getTimeZoneAt(Instant)} instead.
 	 */
-	@Deprecated
+	@Deprecated(since = "7.1")
 	public abstract int getTimezone(long when);
 
 	/**
@@ -592,7 +592,7 @@ public abstract class SystemReader {
 	 *
 	 * @deprecated Use {@link #getTimeZoneId()}
 	 */
-	@Deprecated
+	@Deprecated(since = "7.1")
 	public TimeZone getTimeZone() {
 		return TimeZone.getDefault();
 	}
