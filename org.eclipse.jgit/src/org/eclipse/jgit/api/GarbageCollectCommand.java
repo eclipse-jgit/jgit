@@ -12,6 +12,7 @@ package org.eclipse.jgit.api;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -59,7 +60,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private ProgressMonitor monitor;
 
-	private Date expire;
+	private Instant expire;
 
 	private PackConfig pconfig;
 
@@ -98,8 +99,29 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * @param expire
 	 *            minimal age of objects to be pruned.
 	 * @return this instance
+	 * @deprecated use {@link #setExpire(Instant)} instead
 	 */
+	@Deprecated(since = "7.2")
 	public GarbageCollectCommand setExpire(Date expire) {
+		if (expire != null) {
+			this.expire = expire.toInstant();
+		}
+		return this;
+	}
+
+	/**
+	 * During gc() or prune() each unreferenced, loose object which has been
+	 * created or modified after <code>expire</code> will not be pruned. Only
+	 * older objects may be pruned. If set to null then every object is a
+	 * candidate for pruning. Use {@link org.eclipse.jgit.util.GitTimeParser} to
+	 * parse time formats used by git gc.
+	 *
+	 * @param expire
+	 *            minimal age of objects to be pruned.
+	 * @return this instance
+	 * @since 7.2
+	 */
+	public GarbageCollectCommand setExpire(Instant expire) {
 		this.expire = expire;
 		return this;
 	}
@@ -108,8 +130,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	 * Whether to use aggressive mode or not. If set to true JGit behaves more
 	 * similar to native git's "git gc --aggressive". If set to
 	 * <code>true</code> compressed objects found in old packs are not reused
-	 * but every object is compressed again. Configuration variables
-	 * pack.window and pack.depth are set to 250 for this GC.
+	 * but every object is compressed again. Configuration variables pack.window
+	 * and pack.depth are set to 250 for this GC.
 	 *
 	 * @since 3.6
 	 * @param aggressive
