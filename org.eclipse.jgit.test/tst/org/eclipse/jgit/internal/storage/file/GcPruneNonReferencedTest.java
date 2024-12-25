@@ -16,8 +16,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.Collections;
-import java.util.Date;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -30,7 +30,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 	@Test
 	public void nonReferencedNonExpiredObject_notPruned() throws Exception {
 		RevBlob a = tr.blob("a");
-		gc.setExpire(new Date(lastModified(a)));
+		gc.setExpire(Instant.ofEpochMilli(lastModified(a)));
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.getObjectDatabase().has(a));
 	}
@@ -58,7 +58,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 	@Test
 	public void nonReferencedObjects_onlyExpiredPruned() throws Exception {
 		RevBlob a = tr.blob("a");
-		gc.setExpire(new Date(lastModified(a) + 1));
+		gc.setExpire(Instant.ofEpochMilli(lastModified(a) + 1));
 
 		fsTick();
 		RevBlob b = tr.blob("b");
