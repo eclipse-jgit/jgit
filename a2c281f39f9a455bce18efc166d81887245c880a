@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12d5f94f_4b1d162d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-26T16:58:34Z",
+      "side": 1,
+      "message": "ZoneId is never null in PersonIdent. Maybe later we can mark it as @NonNull and remove these checks.",
+      "revId": "a2c281f39f9a455bce18efc166d81887245c880a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
