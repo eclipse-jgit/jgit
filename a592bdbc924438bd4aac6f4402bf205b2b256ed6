@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace796bc_dc49fe3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/junit/TestRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-26T19:25:08Z",
+      "side": 1,
+      "message": "This can be EPOCH (Instant.EPOCH imported statically).",
+      "range": {
+        "startLine": 204,
+        "startChar": 14,
+        "endLine": 204,
+        "endChar": 27
+      },
+      "revId": "a592bdbc924438bd4aac6f4402bf205b2b256ed6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
