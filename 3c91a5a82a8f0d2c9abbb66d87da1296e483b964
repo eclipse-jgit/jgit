@@ -16,6 +16,24 @@
       "message": "@ifrade@google.com: does GitTimeParser support this ?",
       "revId": "3c91a5a82a8f0d2c9abbb66d87da1296e483b964",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f451a4f7_0eab128e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-26T19:22:41Z",
+      "side": 1,
+      "message": "Yes. This should be GitTimeParser.parse(pruneExpireStr).\n\nThis call is using \"now\" because the time is null and using the systemreader locale for the date format patterns. GitTimeParser#parse(String) uses those values by default.\n\nTime/locale as parameters were only used in tests, so I hid them in GitTimeParser for a cleaner API.",
+      "parentUuid": "68a73468_c870bbb4",
+      "revId": "3c91a5a82a8f0d2c9abbb66d87da1296e483b964",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
