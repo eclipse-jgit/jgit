@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f931693e_4edcaf09",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportHttpTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2024-12-26T20:19:53Z",
+      "side": 1,
+      "message": "We can use Duration here and it reads better:\n```\nDuration.between(Instant.parse(\"2100-01-01T11:00:00.000Z\"), creationDate).getSeconds();\n```",
+      "revId": "aad22fbc21fd6ec536ec066580bbc71422e11448",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
