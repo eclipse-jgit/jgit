@@ -48,7 +48,7 @@ public final class SignatureUtils {
 		if (verification.creationDate() != null) {
 			// Use the creator's timezone for the signature date
 			PersonIdent dateId = new PersonIdent(creator,
-					verification.creationDate());
+					verification.creationDate().toInstant());
 			result.append(
 					MessageFormat.format(JGitText.get().verifySignatureMade,
 							formatter.formatDate(dateId)));
