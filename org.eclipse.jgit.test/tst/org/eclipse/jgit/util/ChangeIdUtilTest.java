@@ -12,7 +12,9 @@ package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.lib.ObjectId;
@@ -53,9 +55,9 @@ public class ChangeIdUtilTest {
 
 	MockSystemReader mockSystemReader = new MockSystemReader();
 
-	final long when = mockSystemReader.getCurrentTime();
+	Instant when = mockSystemReader.now();
 
-	final int tz = new MockSystemReader().getTimezone(when);
+	ZoneId tz = new MockSystemReader().getTimeZoneAt(when);
 
 	PersonIdent author = new PersonIdent("J. Author", "ja@example.com");
 	{
@@ -342,9 +344,7 @@ public class ChangeIdUtilTest {
 
 	/** Increment the {@link #author} and {@link #committer} times. */
 	protected void tick() {
-		final long delta = TimeUnit.MILLISECONDS.convert(5 * 60,
-				TimeUnit.SECONDS);
-		final long now = author.getWhen().getTime() + delta;
+		Instant now = author.getWhenAsInstant().plus(Duration.ofMinutes(5));
 
 		author = new PersonIdent(author, now, tz);
 		committer = new PersonIdent(committer, now, tz);
