@@ -32,6 +32,8 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -245,9 +247,9 @@ class BlockReader {
 	private PersonIdent readPersonIdent() {
 		String name = readValueString();
 		String email = readValueString();
-		long ms = readVarint64() * 1000;
-		int tz = readInt16();
-		return new PersonIdent(name, email, ms, tz);
+		long epochSeconds = readVarint64();
+		ZoneOffset tz = ZoneOffset.ofTotalSeconds(readInt16() * 60);
+		return new PersonIdent(name, email, Instant.ofEpochSecond(epochSeconds), tz);
 	}
 
 	void readBlock(BlockSource src, long pos, int fileBlockSize)
