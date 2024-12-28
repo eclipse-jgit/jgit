@@ -17,10 +17,9 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
@@ -50,7 +49,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.GitDateParser;
+import org.eclipse.jgit.util.GitTimeParser;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
@@ -1294,23 +1293,22 @@ public class DfsGarbageCollectorTest {
 		DfsPackDescription t1 = odb.newPack(INSERT);
 		Ref next = new ObjectIdRef.PeeledNonTag(Ref.Storage.LOOSE,
 				"refs/heads/next", commit0.copy());
-		long currentDay = new Date().getTime();
-		GregorianCalendar cal = new GregorianCalendar(SystemReader
-				.getInstance().getTimeZone(), SystemReader.getInstance()
-				.getLocale());
-		long ten_days_ago = GitDateParser.parse("10 days ago",cal,SystemReader.getInstance()
-				.getLocale()).getTime() ;
-		long twenty_days_ago = GitDateParser.parse("20 days ago",cal,SystemReader.getInstance()
-				.getLocale()).getTime() ;
-		long thirty_days_ago = GitDateParser.parse("30 days ago",cal,SystemReader.getInstance()
-				.getLocale()).getTime() ;;
-		long fifty_days_ago = GitDateParser.parse("50 days ago",cal,SystemReader.getInstance()
-				.getLocale()).getTime() ;
-		PersonIdent who2 = new PersonIdent("J.Author", "authemail", currentDay, -8 * 60);
-		PersonIdent who3 = new PersonIdent("J.Author", "authemail", ten_days_ago, -8 * 60);
-		PersonIdent who4 = new PersonIdent("J.Author", "authemail", twenty_days_ago, -8 * 60);
-		PersonIdent who5 = new PersonIdent("J.Author", "authemail", thirty_days_ago, -8 * 60);
-		PersonIdent who6 = new PersonIdent("J.Author", "authemail", fifty_days_ago, -8 * 60);
+		Instant currentDay = Instant.now();
+		Instant ten_days_ago = GitTimeParser.parseInstant("10 days ago");
+		Instant twenty_days_ago = GitTimeParser.parseInstant("20 days ago");
+		Instant thirty_days_ago = GitTimeParser.parseInstant("30 days ago");
+		Instant fifty_days_ago = GitTimeParser.parseInstant("50 days ago");
+		final ZoneOffset offset = ZoneOffset.ofHours(-8);
+		PersonIdent who2 = new PersonIdent("J.Author", "authemail", currentDay,
+				offset);
+		PersonIdent who3 = new PersonIdent("J.Author", "authemail",
+				ten_days_ago, offset);
+		PersonIdent who4 = new PersonIdent("J.Author", "authemail",
+				twenty_days_ago, offset);
+		PersonIdent who5 = new PersonIdent("J.Author", "authemail",
+				thirty_days_ago, offset);
+		PersonIdent who6 = new PersonIdent("J.Author", "authemail",
+				fifty_days_ago, offset);
 
 		try (DfsOutputStream out = odb.writeFile(t1, REFTABLE)) {
 			ReftableWriter w = new ReftableWriter(out);
@@ -1332,7 +1330,7 @@ public class DfsGarbageCollectorTest {
 		gc = new DfsGarbageCollector(repo);
 		gc.setReftableConfig(new ReftableConfig());
 		// Expire ref log entries older than 30 days
-		gc.setRefLogExpire(Instant.ofEpochMilli(thirty_days_ago));
+		gc.setRefLogExpire(thirty_days_ago);
 		run(gc);
 
 		// Single GC pack present with all objects.
@@ -1360,9 +1358,7 @@ public class DfsGarbageCollectorTest {
 			assertEquals(lc.getRefName(),"refs/heads/branch2");
 			// Old entries are purged
 			assertFalse(lc.next());
-
 		}
-
 	}
 
 
