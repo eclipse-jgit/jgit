@@ -790,7 +790,9 @@ public class WindowCache {
 			}
 			numRemovers++;
 		}
-		for (int numRemoved = 0; removeNextBlock(numRemoved); numRemoved++);
+		for (int numRemoved = 0; removeNextBlock(numRemoved); numRemoved++) {
+			// empty
+		}
 		synchronized (this) {
 			if (numRemovers > 0) {
 				numRemovers--;
