@@ -90,7 +90,7 @@ public class DfsGarbageCollector {
 	private long coalesceGarbageLimit = 50 << 20;
 	private long garbageTtlMillis = TimeUnit.DAYS.toMillis(1);
 
-	private long startTimeMillis;
+	private Instant startTime;
 	private List<DfsPackFile> packsBefore;
 	private List<DfsReftable> reftablesBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
@@ -352,7 +352,7 @@ public class DfsGarbageCollector {
 			throw new IllegalStateException(
 					JGitText.get().supportOnlyPackIndexVersion2);
 
-		startTimeMillis = SystemReader.getInstance().getCurrentTime();
+		startTime = SystemReader.getInstance().now();
 		ctx = objdb.newReader();
 		try {
 			refdb.refresh();
@@ -435,7 +435,7 @@ public class DfsGarbageCollector {
 		packsBefore = new ArrayList<>(packs.length);
 		expiredGarbagePacks = new ArrayList<>(packs.length);
 
-		long now = SystemReader.getInstance().getCurrentTime();
+		long now = SystemReader.getInstance().now().toEpochMilli();
 		for (DfsPackFile p : packs) {
 			DfsPackDescription d = p.getPackDescription();
 			if (d.getPackSource() != UNREACHABLE_GARBAGE) {
@@ -723,7 +723,7 @@ public class DfsGarbageCollector {
 
 		PackStatistics stats = pw.getStatistics();
 		pack.setPackStats(stats);
-		pack.setLastModified(startTimeMillis);
+		pack.setLastModified(startTime.toEpochMilli());
 		newPackDesc.add(pack);
 		newPackStats.add(stats);
 		newPackObj.add(pw.getObjectSet());
