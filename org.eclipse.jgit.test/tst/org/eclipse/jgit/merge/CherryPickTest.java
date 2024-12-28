@@ -15,6 +15,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -162,7 +165,8 @@ public class CherryPickTest extends RepositoryTestCase {
 			final ObjectId[] parentIds) throws Exception {
 		final CommitBuilder c = new CommitBuilder();
 		c.setTreeId(treeB.writeTree(odi));
-		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
+		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor",
+				Instant.ofEpochSecond(1), ZoneOffset.UTC));
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
 		c.setMessage("Tree " + c.getTreeId().name());
