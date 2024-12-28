@@ -159,8 +159,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 		this.pool = rw;
 		this.inserter = db.newObjectInserter();
 		this.mockSystemReader = reader;
-		long now = mockSystemReader.getCurrentTime();
-		int tz = mockSystemReader.getTimezone(now);
+		Instant now = mockSystemReader.now();
+		ZoneId tz = mockSystemReader.getTimeZoneAt(now);
 		defaultAuthor = new PersonIdent(AUTHOR, AUTHOR_EMAIL, now, tz);
 		defaultCommitter = new PersonIdent(COMMITTER, COMMITTER_EMAIL, now, tz);
 	}
