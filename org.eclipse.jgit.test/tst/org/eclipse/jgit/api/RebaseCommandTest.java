@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -1603,7 +1605,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	public void testAuthorScriptConverter() throws Exception {
 		// -1 h timezone offset
 		PersonIdent ident = new PersonIdent("Author name", "a.mail@some.com",
-				123456789123L, -60);
+				Instant.ofEpochMilli(123456789123L), ZoneOffset.ofHours(-1));
 		String convertedAuthor = git.rebase().toAuthorScript(ident);
 		String[] lines = convertedAuthor.split("\n");
 		assertEquals("GIT_AUTHOR_NAME='Author name'", lines[0]);
@@ -1615,12 +1617,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(ident.getName(), parsedIdent.getName());
 		assertEquals(ident.getEmailAddress(), parsedIdent.getEmailAddress());
 		// this is rounded to the last second
-		assertEquals(123456789000L, parsedIdent.getWhen().getTime());
-		assertEquals(ident.getTimeZoneOffset(), parsedIdent.getTimeZoneOffset());
+		assertEquals(123456789000L,
+				parsedIdent.getWhenAsInstant().toEpochMilli());
+		assertEquals(ident.getZoneId(), parsedIdent.getZoneId());
 
 		// + 9.5h timezone offset
 		ident = new PersonIdent("Author name", "a.mail@some.com",
-				123456789123L, +570);
+				Instant.ofEpochMilli(123456789123L),
+				ZoneOffset.ofHoursMinutes(9, 30));
 		convertedAuthor = git.rebase().toAuthorScript(ident);
 		lines = convertedAuthor.split("\n");
 		assertEquals("GIT_AUTHOR_NAME='Author name'", lines[0]);
@@ -1631,8 +1635,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				convertedAuthor.getBytes(UTF_8));
 		assertEquals(ident.getName(), parsedIdent.getName());
 		assertEquals(ident.getEmailAddress(), parsedIdent.getEmailAddress());
-		assertEquals(123456789000L, parsedIdent.getWhen().getTime());
-		assertEquals(ident.getTimeZoneOffset(), parsedIdent.getTimeZoneOffset());
+		assertEquals(123456789000L,
+				parsedIdent.getWhenAsInstant().toEpochMilli());
+		assertEquals(ident.getZoneId(), parsedIdent.getZoneId());
 	}
 
 	@Test
