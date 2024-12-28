@@ -26,6 +26,7 @@ import org.eclipse.jgit.attributes.Attribute.State;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
@@ -230,10 +231,10 @@ public class AttributesNodeDirCacheIteratorTest extends RepositoryTestCase {
 		else {
 
 			Attributes entryAttributes = new Attributes();
-			new AttributesHandler(walk).mergeAttributes(attributesNode,
-					pathName,
-					false,
-					entryAttributes);
+			new AttributesHandler(walk,
+					() -> walk.getTree(CanonicalTreeParser.class))
+							.mergeAttributes(attributesNode, pathName, false,
+									entryAttributes);
 
 			if (nodeAttrs != null && !nodeAttrs.isEmpty()) {
 				for (Attribute attribute : nodeAttrs) {
