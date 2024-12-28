@@ -16,6 +16,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -24,21 +27,21 @@ import org.junit.Test;
 public class ReflogConfigTest extends RepositoryTestCase {
 	@Test
 	public void testlogAllRefUpdates() throws Exception {
-		long commitTime = 1154236443000L;
-		int tz = -4 * 60;
+		Instant commitTime = Instant.ofEpochSecond(1154236443L);
+		ZoneOffset tz = ZoneOffset.ofHours(-4);
 
 		// check that there are no entries in the reflog and turn off writing
 		// reflogs
 		assertTrue(db.getReflogReader(Constants.HEAD).getReverseEntries()
 				.isEmpty());
-		final FileBasedConfig cfg = db.getConfig();
+		FileBasedConfig cfg = db.getConfig();
 		cfg.setBoolean("core", null, "logallrefupdates", false);
 		cfg.save();
 
 		// do one commit and check that reflog size is 0: no reflogs should be
 		// written
 		commit("A Commit\n", commitTime, tz);
-		commitTime += 60 * 1000;
+		commitTime = commitTime.plus(Duration.ofMinutes(1));
 		assertTrue("Reflog for HEAD still contain no entry", db
 				.getReflogReader(Constants.HEAD).getReverseEntries().isEmpty());
 
@@ -52,7 +55,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// do one commit and check that reflog size is increased to 1
 		commit("A Commit\n", commitTime, tz);
-		commitTime += 60 * 1000;
+		commitTime = commitTime.plus(Duration.ofMinutes(1));
 		assertTrue(
 				"Reflog for HEAD should contain one entry",
 				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 1);
@@ -67,7 +70,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// do one commit and check that reflog size is 2
 		commit("A Commit\n", commitTime, tz);
-		commitTime += 60 * 1000;
+		commitTime = commitTime.plus(Duration.ofMinutes(1));
 		assertTrue(
 				"Reflog for HEAD should contain two entries",
 				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
@@ -88,9 +91,9 @@ public class ReflogConfigTest extends RepositoryTestCase {
 						.size() == 3);
 	}
 
-	private void commit(String commitMsg, long commitTime, int tz)
+	private void commit(String commitMsg, Instant commitTime, ZoneOffset tz)
 			throws IOException {
-		final CommitBuilder commit = new CommitBuilder();
+		CommitBuilder commit = new CommitBuilder();
 		commit.setAuthor(new PersonIdent(author, commitTime, tz));
 		commit.setCommitter(new PersonIdent(committer, commitTime, tz));
 		commit.setMessage(commitMsg);
