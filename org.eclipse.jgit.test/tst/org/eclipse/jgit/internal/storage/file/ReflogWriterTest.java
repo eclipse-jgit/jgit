@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -32,7 +34,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 		ReflogWriter writer =
 				new ReflogWriter((RefDirectory) db.getRefDatabase());
 		PersonIdent ident = new PersonIdent("John Doe", "john@doe.com",
-				1243028200000L, 120);
+				Instant.ofEpochMilli(1243028200000L), ZoneOffset.ofHours(2));
 		ObjectId oldId = ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e");
 		ObjectId newId = ObjectId
