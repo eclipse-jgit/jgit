@@ -401,13 +401,13 @@ public class RevCommit extends RevObject {
 	 * @since 5.1
 	 */
 	public final byte[] getRawGpgSignature() {
-		final byte[] raw = buffer;
-		final byte[] header = { 'g', 'p', 'g', 's', 'i', 'g' };
-		final int start = RawParseUtils.headerStart(header, raw, 0);
+		byte[] raw = buffer;
+		byte[] header = { 'g', 'p', 'g', 's', 'i', 'g' };
+		int start = RawParseUtils.headerStart(header, raw, 0);
 		if (start < 0) {
 			return null;
 		}
-		final int end = RawParseUtils.headerEnd(raw, start);
+		int end = RawParseUtils.nextLfSkippingSplitLines(raw, start);
 		return RawParseUtils.headerValue(raw, start, end);
 	}
 
