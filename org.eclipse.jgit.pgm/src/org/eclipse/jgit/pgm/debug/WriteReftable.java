@@ -24,6 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -209,14 +211,15 @@ class WriteReftable extends TextBuiltin {
 				}
 				String ref = m.group(1);
 				double t = Double.parseDouble(m.group(2));
-				long time = ((long) t) * 1000L;
+				Instant time = Instant.ofEpochSecond((long) t);
 				long index = (long) (t * 1e6);
 				String user = m.group(3);
 				ObjectId oldId = parseId(m.group(4));
 				ObjectId newId = parseId(m.group(5));
 				String msg = m.group(6);
 				String email = user + "@gerrit"; //$NON-NLS-1$
-				PersonIdent who = new PersonIdent(user, email, time, -480);
+				PersonIdent who = new PersonIdent(user, email, time,
+						ZoneOffset.ofHours(-8));
 				log.add(new LogEntry(ref, index, who, oldId, newId, msg));
 			}
 		}
