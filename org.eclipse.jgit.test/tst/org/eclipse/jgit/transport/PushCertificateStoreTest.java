@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -318,8 +320,8 @@ public class PushCertificateStoreTest {
 	}
 
 	private PersonIdent newIdent() {
-		return new PersonIdent(
-				"A U. Thor", "author@example.com", ts.getAndIncrement(), 0);
+		return new PersonIdent("A U. Thor", "author@example.com",
+				Instant.ofEpochMilli(ts.getAndIncrement()), ZoneOffset.UTC);
 	}
 
 	private PushCertificateStore newStore() {
