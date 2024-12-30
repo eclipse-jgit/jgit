@@ -287,7 +287,12 @@ public class GC {
 				return Collections.emptyList();
 			}
 			pm.start(6 /* tasks */);
-			packRefs();
+			boolean skipPackedRefs = Boolean.parseBoolean(System.getProperty("gc.skip.packrefs"));
+			if(skipPackedRefs) {
+				LOG.warn("'gc.skip.packrefs' is true, skipping refs packing during GC");
+			} else {
+				packRefs();
+			}
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
 			prune(Collections.emptySet());
