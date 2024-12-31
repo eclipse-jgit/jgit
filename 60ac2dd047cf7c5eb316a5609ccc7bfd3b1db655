@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "172e2f30_6ca61c79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037602
+      },
+      "writtenOn": "2024-12-31T14:06:46Z",
+      "side": 1,
+      "message": "New in patch 8:\n- checkout the commit unconditionally if the submodule is cloned or restored\n- addtional tests for the various update modes",
+      "revId": "60ac2dd047cf7c5eb316a5609ccc7bfd3b1db655",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
