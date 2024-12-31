@@ -562,6 +562,9 @@ public class FileRepository extends Repository {
 	@Override
 	public @NonNull ReflogReader getReflogReader(@NonNull Ref ref)
 			throws IOException {
+		if (refs instanceof FileReftableDatabase) {
+			return ((FileReftableDatabase)refs).getReflogReader(ref.getName());
+		}
 		return new ReflogReaderImpl(this, ref.getName());
 	}
 
