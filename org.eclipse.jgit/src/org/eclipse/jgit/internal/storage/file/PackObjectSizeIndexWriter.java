@@ -131,7 +131,7 @@ public abstract class PackObjectSizeIndexWriter {
 	 * </ul>
 	 */
 	static class PackObjectSizeWriterV1 extends PackObjectSizeIndexWriter {
-
+		private static final int MB = 1024 * 1024;
 		private final OutputStream os;
 
 		private final int minObjSize;
@@ -139,7 +139,7 @@ public abstract class PackObjectSizeIndexWriter {
 		private final byte[] intBuffer = new byte[4];
 
 		PackObjectSizeWriterV1(OutputStream os, int minSize) {
-			this.os = new BufferedOutputStream(os);
+			this.os = new BufferedOutputStream(os, 8 * MB);
 			this.minObjSize = minSize;
 		}
 
