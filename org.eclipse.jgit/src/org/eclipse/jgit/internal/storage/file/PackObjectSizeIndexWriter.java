@@ -43,8 +43,8 @@ public abstract class PackObjectSizeIndexWriter {
 	 *            Output stream where to write the index
 	 * @param minSize
 	 *            objects strictly smaller than this size won't be added to the
-	 *            index. Negative size won't write AT ALL. Other sizes could write
-	 *            an empty index.
+	 *            index. Negative size won't write AT ALL. Other sizes could
+	 *            write an empty index.
 	 * @return the index writer
 	 */
 	public static PackObjectSizeIndexWriter createWriter(OutputStream os,
@@ -69,7 +69,7 @@ public abstract class PackObjectSizeIndexWriter {
 
 	/**
 	 * Object size index v1.
-	 *
+	 * <p>
 	 * Store position (in the main index) to size as parallel arrays.
 	 *
 	 * <p>
@@ -151,10 +151,8 @@ public abstract class PackObjectSizeIndexWriter {
 			writeInt32(minObjSize);
 
 			PackedObjectStats stats = countIndexableObjects(allObjects);
-			int[] indexablePositions = findIndexablePositions(allObjects,
-					stats.indexableObjs);
-			writeInt32(indexablePositions.length); // Total # of objects
-			if (indexablePositions.length == 0) {
+			writeInt32(stats.indexableObjs); // Total # of objects
+			if (stats.indexableObjs == 0) {
 				os.flush();
 				return;
 			}
@@ -163,8 +161,13 @@ public abstract class PackObjectSizeIndexWriter {
 			if (stats.pos24Bits > 0) {
 				writeUInt8(24);
 				writeInt32(stats.pos24Bits);
-				applyToRange(indexablePositions, 0, stats.pos24Bits,
-						this::writeInt24);
+				for (int i = 0; i < allObjects.size()
+						&& i <= MAX_24BITS_UINT; i++) {
+					if (!shouldIndex(allObjects.get(i))) {
+						continue;
+					}
+					writeInt24(i);
+				}
 			}
 			// Positions that fit in 4 bytes
 			// We only use 31 bits due to sign,
@@ -172,18 +175,21 @@ public abstract class PackObjectSizeIndexWriter {
 			if (stats.pos31Bits > 0) {
 				writeUInt8(32);
 				writeInt32(stats.pos31Bits);
-				applyToRange(indexablePositions, stats.pos24Bits,
-						stats.pos24Bits + stats.pos31Bits, this::writeInt32);
+				for (int i = MAX_24BITS_UINT + 1; i < allObjects.size(); i++) {
+					if (!shouldIndex(allObjects.get(i))) {
+						continue;
+					}
+					writeInt32(i);
+				}
 			}
 			writeUInt8(0);
-			writeSizes(allObjects, indexablePositions, stats.sizeOver2GB);
+			writeSizes(allObjects, stats);
 			os.flush();
 		}
 
 		private void writeUInt8(int i) throws IOException {
 			if (i > 255) {
-				throw new IllegalStateException(
-						JGitText.get().numberDoesntFit);
+				throw new IllegalStateException(JGitText.get().numberDoesntFit);
 			}
 			NB.encodeInt32(intBuffer, 0, i);
 			os.write(intBuffer, 3, 1);
@@ -200,17 +206,18 @@ public abstract class PackObjectSizeIndexWriter {
 		}
 
 		private void writeSizes(List<? extends PackedObjectInfo> allObjects,
-				int[] indexablePositions, int objsBiggerThan2Gb)
-				throws IOException {
-			if (indexablePositions.length == 0) {
+				PackedObjectStats stats) throws IOException {
+			if (stats.indexableObjs == 0) {
 				writeInt32(0);
 				return;
 			}
 
-			byte[] sizes64bits = new byte[8 * objsBiggerThan2Gb];
+			byte[] sizes64bits = new byte[8 * stats.sizeOver2GB];
 			int s64 = 0;
-			for (int i = 0; i < indexablePositions.length; i++) {
-				PackedObjectInfo info = allObjects.get(indexablePositions[i]);
+			for (PackedObjectInfo info : allObjects) {
+				if (!shouldIndex(info)) {
+					continue;
+				}
 				if (info.getFullSize() < Integer.MAX_VALUE) {
 					writeInt32((int) info.getFullSize());
 				} else {
@@ -221,26 +228,11 @@ public abstract class PackObjectSizeIndexWriter {
 					s64++;
 				}
 			}
-			if (objsBiggerThan2Gb > 0) {
-				writeInt32(objsBiggerThan2Gb);
+			if (stats.sizeOver2GB > 0) {
+				writeInt32(stats.sizeOver2GB);
 				os.write(sizes64bits);
 			}
 			writeInt32(0);
-		}
-
-		private int[] findIndexablePositions(
-				List<? extends PackedObjectInfo> allObjects,
-				int indexableObjs) {
-			int[] positions = new int[indexableObjs];
-			int positionIdx = 0;
-			for (int i = 0; i < allObjects.size(); i++) {
-				PackedObjectInfo o = allObjects.get(i);
-				if (!shouldIndex(o)) {
-					continue;
-				}
-				positions[positionIdx++] = i;
-			}
-			return positions;
 		}
 
 		private PackedObjectStats countIndexableObjects(
@@ -279,17 +271,6 @@ public abstract class PackObjectSizeIndexWriter {
 
 			int sizeOver2GB;
 		}
-
-		@FunctionalInterface
-		interface IntEncoder {
-			void encode(int i) throws IOException;
-		}
-
-		private static void applyToRange(int[] allPositions, int start, int end,
-				IntEncoder encoder) throws IOException {
-			for (int i = start; i < end; i++) {
-				encoder.encode(allPositions[i]);
-			}
-		}
 	}
+
 }
