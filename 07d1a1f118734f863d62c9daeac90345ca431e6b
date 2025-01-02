@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98ba389e_e4770e70",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-02T23:53:56Z",
+      "side": 1,
+      "message": "Would it be possible to get this one configurable?\n\nThe description \"Try using a bigger buffer (...)\" implies that this could change so it might be best to set it up that way to begin with.",
+      "range": {
+        "startLine": 142,
+        "startChar": 41,
+        "endLine": 142,
+        "endChar": 48
+      },
+      "revId": "07d1a1f118734f863d62c9daeac90345ca431e6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
