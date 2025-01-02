@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56dc511f_d9cc54cd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-02T19:36:11Z",
+      "side": 1,
+      "message": "This timestamp should end in 10 (and 11 in \"who3\"), otherwise the idents are all the same.",
+      "range": {
+        "startLine": 725,
+        "startChar": 25,
+        "endLine": 725,
+        "endChar": 35
+      },
+      "revId": "9e869d9a923997d2aa05b48f5a45f67bebbb7d45",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
