@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "083fa2c4_35f9f34d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-02T19:33:12Z",
+      "side": 1,
+      "message": "This comparison of ZoneIds is not reliable. e.g if the ident was constructed with  ZoneId.of(\"UTC+0100\"), it would fail. I think it works here because the parser also uses ZoneOffset.ofHoursMinutes.\n\nSomewhere else, I asserted it comparing the offset at certain time (getZoneId().getOffset(time)), which doesn\u0027t read very well either.\n\nOptional: Maybe worth to put a comment.",
+      "revId": "5439648f1c0109e9841a45e9885a41f8c6d6b117",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
