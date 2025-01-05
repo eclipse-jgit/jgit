@@ -90,7 +90,13 @@ public class FileReftableDatabase extends RefDatabase {
 		};
 	}
 
-	ReflogReader getReflogReader(String refname) throws IOException {
+	@Override
+	public ReflogReader getReflogReader(Ref ref) throws IOException {
+		return reftableDatabase.getReflogReader(ref.getName());
+	}
+
+	@Override
+	public ReflogReader getReflogReader(String refname) throws IOException {
 		return reftableDatabase.getReflogReader(refname);
 	}
 
