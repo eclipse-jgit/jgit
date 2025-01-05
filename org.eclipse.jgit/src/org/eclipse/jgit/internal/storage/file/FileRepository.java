@@ -31,7 +31,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
-import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -543,29 +542,6 @@ public class FileRepository extends Repository {
 	}
 
 	@Override
-	public ReflogReader getReflogReader(String refName) throws IOException {
-		if (refs instanceof FileReftableDatabase) {
-			// Cannot use findRef: reftable stores log data for deleted or renamed
-			// branches.
-			return ((FileReftableDatabase)refs).getReflogReader(refName);
-		}
-
-		// TODO: use exactRef here, which offers more predictable and therefore preferable
-		// behavior.
-		Ref ref = findRef(refName);
-		if (ref == null) {
-			return null;
-		}
-		return new ReflogReaderImpl(this, ref.getName());
-	}
-
-	@Override
-	public @NonNull ReflogReader getReflogReader(@NonNull Ref ref)
-			throws IOException {
-		return new ReflogReaderImpl(this, ref.getName());
-	}
-
-	@Override
 	public AttributesNodeProvider createAttributesNodeProvider() {
 		return new AttributesNodeProviderImpl(this);
 	}
@@ -697,8 +673,8 @@ public class FileRepository extends Repository {
 			}
 
 			if (writeLogs) {
-				List<ReflogEntry> logs = oldDb.getReflogReader(r.getName())
-						.getReverseEntries();
+				ReflogReader reflogReader = oldDb.getReflogReader(r);
+				List<ReflogEntry> logs = reflogReader.getReverseEntries();
 				Collections.reverse(logs);
 				for (ReflogEntry e : logs) {
 					logWriter.log(r.getName(), e);

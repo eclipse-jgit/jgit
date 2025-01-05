@@ -356,6 +356,42 @@ public abstract class RefDatabase {
 	}
 
 	/**
+	 * Get the reflog reader
+	 *
+	 * @param refName
+	 *            a {@link java.lang.String} object.
+	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied
+	 *         refname, or {@code null} if the named ref does not exist.
+	 * @throws java.io.IOException
+	 *             the ref could not be accessed.
+	 * @since 7.2
+	 */
+	@Nullable
+	public ReflogReader getReflogReader(String refName) throws IOException {
+		// TODO: use exactRef here, which offers more predictable and therefore
+		// preferable behavior.
+		Ref ref = findRef(refName);
+		if (ref == null) {
+			return null;
+		}
+		return getReflogReader(ref);
+	}
+
+	/**
+	 * Get the reflog reader.
+	 *
+	 * @param ref
+	 *            a Ref
+	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied ref.
+	 * @throws IOException
+	 *             if an IO error occurred
+	 * @since 7.2
+	 */
+	@NonNull
+	public abstract ReflogReader getReflogReader(@NonNull Ref ref)
+			throws IOException;
+
+	/**
 	 * Get a section of the reference namespace.
 	 *
 	 * @param prefix
