@@ -534,7 +534,7 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("cherry-pick: "));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("cherry-pick: "));
 		}
