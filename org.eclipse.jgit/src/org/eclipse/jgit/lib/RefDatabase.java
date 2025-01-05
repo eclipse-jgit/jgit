@@ -368,9 +368,7 @@ public abstract class RefDatabase {
 	 */
 	@Nullable
 	public ReflogReader getReflogReader(String refName) throws IOException {
-		// TODO: use exactRef here, which offers more predictable and therefore
-		// preferable behavior.
-		Ref ref = findRef(refName);
+		Ref ref = exactRef(refName);
 		if (ref == null) {
 			return null;
 		}

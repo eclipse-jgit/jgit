@@ -157,9 +157,11 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 		setupReflog("logs/HEAD", headLine);
 		RefDatabase refDb = db.getRefDatabase();
 		assertEquals("branch: change to master",
-				refDb.getReflogReader("master").getLastEntry().getComment());
+				refDb.getReflogReader("refs/heads/master").getLastEntry()
+						.getComment());
 		assertEquals("branch: change to a",
-				refDb.getReflogReader("a").getLastEntry().getComment());
+				refDb.getReflogReader("refs/heads/a").getLastEntry()
+						.getComment());
 		assertEquals("branch: change to HEAD",
 				refDb.getReflogReader("HEAD").getLastEntry().getComment());
 	}
@@ -168,7 +170,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testReadLineWithMissingComment() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLineWithoutComment);
 		final ReflogReader reader = db.getRefDatabase()
-				.getReflogReader("master");
+				.getReflogReader("refs/heads/master");
 		ReflogEntry e = reader.getLastEntry();
 		assertEquals(ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
@@ -188,8 +190,9 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testNoLog() throws Exception {
 		RefDatabase refDb = db.getRefDatabase();
 		assertEquals(0,
-				refDb.getReflogReader("master").getReverseEntries().size());
-		assertNull(refDb.getReflogReader("master").getLastEntry());
+				refDb.getReflogReader("refs/heads/master").getReverseEntries()
+						.size());
+		assertNull(refDb.getReflogReader("refs/heads/master").getLastEntry());
 	}
 
 	@Test

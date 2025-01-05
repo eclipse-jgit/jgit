@@ -81,7 +81,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("commit (initial): initial commit", refDb
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("commit (initial): initial commit", refDb
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				.getReflogReader(db.getFullBranch()).getLastEntry()
+				.getComment());
 	}
 
 	@Test
@@ -99,7 +100,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("commit: second commit", db.getRefDatabase()
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("commit: second commit", db.getRefDatabase()
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				.getReflogReader(db.getFullBranch()).getLastEntry()
+				.getComment());
 	}
 
 	@Test
@@ -122,7 +124,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 				refDb.getReflogReader(Constants.HEAD)
 						.getLastEntry().getComment());
 		assertEquals("merge refs/heads/master: Fast-forward",
-				refDb.getReflogReader(db.getBranch())
+				refDb.getReflogReader(db.getFullBranch())
 						.getLastEntry().getComment());
 	}
 
@@ -147,7 +149,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("merge refs/heads/master: Fast-forward", refDb
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("merge refs/heads/master: Fast-forward", refDb
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				.getReflogReader(db.getFullBranch()).getLastEntry()
+				.getComment());
 	}
 
 	@Test
@@ -179,7 +182,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("merge refs/heads/master: Fast-forward", refDb
 				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("merge refs/heads/master: Fast-forward", refDb
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				.getReflogReader(db.getFullBranch()).getLastEntry()
+				.getComment());
 	}
 
 	@Test
@@ -243,7 +247,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(
 				"merge refs/heads/master: Merge made by "
 						+ mergeStrategy.getName() + ".",
-				refDb.getReflogReader(db.getBranch()).getLastEntry()
+				refDb.getReflogReader(db.getFullBranch()).getLastEntry()
 						.getComment());
 	}
 
@@ -679,7 +683,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals(
 					"merge " + secondCommit.getId().getName()
 							+ ": Merge made by resolve.",
-					refDb.getReflogReader(db.getBranch()).getLastEntry()
+					refDb.getReflogReader(db.getFullBranch()).getLastEntry()
 							.getComment());
 		}
 	}
