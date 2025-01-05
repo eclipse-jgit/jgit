@@ -92,7 +92,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -176,7 +176,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -230,7 +230,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -439,7 +439,7 @@ public class RevertCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(
 					reader.getLastEntry().getComment().startsWith("revert: "));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(
 					reader.getLastEntry().getComment().startsWith("revert: "));
 		}

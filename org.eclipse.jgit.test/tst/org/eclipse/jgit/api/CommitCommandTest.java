@@ -439,7 +439,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 					db.getRefDatabase().getReflogReader(Constants.HEAD)
 							.getLastEntry().getComment());
 			assertEquals("commit: Squashed commit of the following:",
-					db.getRefDatabase().getReflogReader(db.getBranch())
+					db.getRefDatabase().getReflogReader(db.getFullBranch())
 							.getLastEntry().getComment());
 		}
 	}
@@ -464,7 +464,7 @@ public class CommitCommandTest extends RepositoryTestCase {
 					db.getRefDatabase().getReflogReader(Constants.HEAD)
 							.getReverseEntries()));
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getRefDatabase().getReflogReader(db.getBranch())
+					db.getRefDatabase().getReflogReader(db.getFullBranch())
 							.getReverseEntries()));
 		}
 	}

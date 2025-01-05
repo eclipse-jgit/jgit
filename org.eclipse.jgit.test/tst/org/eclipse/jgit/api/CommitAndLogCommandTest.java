@@ -74,7 +74,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(
 					reader.getLastEntry().getComment().startsWith("commit:"));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(
 					reader.getLastEntry().getComment().startsWith("commit:"));
 		}
@@ -254,7 +254,7 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("commit (amend):"));
-			reader = refDb.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("commit (amend):"));
 		}
