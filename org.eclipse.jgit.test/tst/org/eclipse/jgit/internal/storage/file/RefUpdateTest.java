@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -111,16 +112,17 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertNotSame(newid, r.getObjectId());
 		assertSame(ObjectId.class, r.getObjectId().getClass());
 		assertEquals(newid, r.getObjectId());
-		List<ReflogEntry> reverseEntries1 = db
+		List<ReflogEntry> reverseEntries1 = db.getRefDatabase()
 				.getReflogReader("refs/heads/abc").getReverseEntries();
 		ReflogEntry entry1 = reverseEntries1.get(0);
 		assertEquals(1, reverseEntries1.size());
 		assertEquals(ObjectId.zeroId(), entry1.getOldId());
 		assertEquals(r.getObjectId(), entry1.getNewId());
-		assertEquals(new PersonIdent(db).toString(),  entry1.getWho().toString());
+		assertEquals(new PersonIdent(db).toString(),
+				entry1.getWho().toString());
 		assertEquals("", entry1.getComment());
-		List<ReflogEntry> reverseEntries2 = db.getReflogReader("HEAD")
-				.getReverseEntries();
+		List<ReflogEntry> reverseEntries2 = db.getRefDatabase()
+				.getReflogReader("HEAD").getReverseEntries();
 		assertEquals(0, reverseEntries2.size());
 	}
 
@@ -136,8 +138,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		final RefUpdate ru2 = updateRef(newRef2);
 		Result update2 = ru2.update();
 		assertEquals(Result.LOCK_FAILURE, update2);
-		assertEquals(1, db.getReflogReader("refs/heads/z").getReverseEntries().size());
-		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(1, refDb.getReflogReader("refs/heads/z")
+				.getReverseEntries().size());
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
 	@Test
@@ -147,8 +152,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		final RefUpdate ru = updateRef(newRef);
 		Result update = ru.update();
 		assertEquals(Result.LOCK_FAILURE, update);
-		assertNull(db.getReflogReader("refs/heads/master/x"));
-		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertNull(refDb.getReflogReader("refs/heads/master/x"));
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
 	@Test
@@ -163,9 +170,12 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		final RefUpdate ru2 = updateRef(newRef2);
 		Result update2 = ru2.update();
 		assertEquals(Result.LOCK_FAILURE, update2);
-		assertEquals(1, db.getReflogReader("refs/heads/z/a").getReverseEntries().size());
-		assertNull(db.getReflogReader("refs/heads/z"));
-		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(1, refDb.getReflogReader("refs/heads/z/a")
+				.getReverseEntries().size());
+		assertNull(refDb.getReflogReader("refs/heads/z"));
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
 	@Test
@@ -175,8 +185,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		final RefUpdate ru = updateRef(newRef);
 		Result update = ru.update();
 		assertEquals(Result.LOCK_FAILURE, update);
-		assertNull(db.getReflogReader("refs/heads/prefix"));
-		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertNull(refDb.getReflogReader("refs/heads/prefix"));
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
 	/**
@@ -197,8 +209,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		Result delete = updateRef2.delete();
 		assertEquals(Result.REJECTED_CURRENT_BRANCH, delete);
 		assertEquals(pid, db.resolve("refs/heads/master"));
-		assertEquals(1,db.getReflogReader("refs/heads/master").getReverseEntries().size());
-		assertEquals(0,db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(1, refDb.getReflogReader("refs/heads/master")
+				.getReverseEntries().size());
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
 	@Test
@@ -209,7 +224,8 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		updateRef.setForceUpdate(true);
 		Result update = updateRef.update();
 		assertEquals(Result.FORCED, update);
-		assertEquals(1,db.getReflogReader("refs/heads/master").getReverseEntries().size());
+		assertEquals(1, db.getRefDatabase().getReflogReader("refs/heads/master")
+				.getReverseEntries().size());
 	}
 
 	@Test
@@ -219,15 +235,18 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ref.update(); // create loose ref
 		ref = updateRef(newRef); // refresh
 		delete(ref, Result.NO_CHANGE);
-		assertNull(db.getReflogReader("refs/heads/abc"));
+		assertNull(db.getRefDatabase().getReflogReader("refs/heads/abc"));
 	}
 
 	@Test
 	public void testDeleteHead() throws IOException {
 		final RefUpdate ref = updateRef(Constants.HEAD);
 		delete(ref, Result.REJECTED_CURRENT_BRANCH, true, false);
-		assertEquals(0, db.getReflogReader("refs/heads/master").getReverseEntries().size());
-		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(0, refDb.getReflogReader("refs/heads/master")
+				.getReverseEntries().size());
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
 	@Test
@@ -423,7 +442,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		// the branch HEAD referred to is left untouched
 		assertEquals(pid, db.resolve("refs/heads/master"));
-		ReflogReader reflogReader = db.getReflogReader("HEAD");
+		ReflogReader reflogReader = db.getRefDatabase().getReflogReader("HEAD");
 		ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(pid, e.getOldId());
 		assertEquals(ppid, e.getNewId());
@@ -453,7 +472,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		// the branch HEAD referred to is left untouched
 		assertNull(db.resolve("refs/heads/unborn"));
-		ReflogReader reflogReader = db.getReflogReader("HEAD");
+		ReflogReader reflogReader = db.getRefDatabase().getReflogReader("HEAD");
 		ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(ObjectId.zeroId(), e.getOldId());
 		assertEquals(ppid, e.getNewId());
@@ -691,9 +710,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.RENAMED, result);
 		assertEquals(rb, db.resolve("refs/heads/new/name"));
 		assertNull(db.resolve("refs/heads/b"));
-		assertEquals(1, db.getReflogReader("new/name").getReverseEntries().size());
-		assertEquals("Branch: renamed b to new/name", db.getReflogReader("new/name")
-				.getLastEntry().getComment());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(1,
+				refDb.getReflogReader("new/name").getReverseEntries().size());
+		assertEquals("Branch: renamed b to new/name",
+				refDb.getReflogReader("new/name").getLastEntry().getComment());
 		assertFalse(new File(db.getDirectory(), "logs/refs/heads/b").exists());
 		assertEquals(oldHead, db.resolve(Constants.HEAD)); // unchanged
 	}
@@ -713,10 +734,12 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.RENAMED, result);
 		assertEquals(rb, db.resolve("refs/heads/new/name"));
 		assertNull(db.resolve("refs/heads/b"));
-		assertEquals(2, db.getReflogReader("new/name").getReverseEntries().size());
-		assertEquals("Branch: renamed b to new/name", db.getReflogReader("new/name")
-				.getLastEntry().getComment());
-		assertEquals("Just a message", db.getReflogReader("new/name")
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(2,
+				refDb.getReflogReader("new/name").getReverseEntries().size());
+		assertEquals("Branch: renamed b to new/name",
+				refDb.getReflogReader("new/name").getLastEntry().getComment());
+		assertEquals("Just a message", refDb.getReflogReader("new/name")
 				.getReverseEntries().get(1).getComment());
 		assertFalse(new File(db.getDirectory(), "logs/refs/heads/b").exists());
 		assertEquals(oldHead, db.resolve(Constants.HEAD)); // unchanged
@@ -737,13 +760,18 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.RENAMED, result);
 		assertEquals(rb, db.resolve("refs/heads/new/name"));
 		assertNull(db.resolve("refs/heads/b"));
-		assertEquals("Branch: renamed b to new/name", db.getReflogReader(
-				"new/name").getLastEntry().getComment());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals("Branch: renamed b to new/name",
+				refDb.getReflogReader("new/name").getLastEntry().getComment());
 		assertFalse(new File(db.getDirectory(), "logs/refs/heads/b").exists());
 		assertEquals(rb, db.resolve(Constants.HEAD));
-		assertEquals(2, db.getReflogReader("new/name").getReverseEntries().size());
-		assertEquals("Branch: renamed b to new/name", db.getReflogReader("new/name").getReverseEntries().get(0).getComment());
-		assertEquals("Just a message", db.getReflogReader("new/name").getReverseEntries().get(1).getComment());
+		assertEquals(2,
+				refDb.getReflogReader("new/name").getReverseEntries().size());
+		assertEquals("Branch: renamed b to new/name",
+				refDb.getReflogReader("new/name").getReverseEntries().get(0)
+						.getComment());
+		assertEquals("Just a message", refDb.getReflogReader("new/name")
+				.getReverseEntries().get(1).getComment());
 	}
 
 	@Test
@@ -766,11 +794,16 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.RENAMED, result);
 		assertEquals(rb2, db.resolve("refs/heads/new/name"));
 		assertNull(db.resolve("refs/heads/b"));
-		assertEquals("Branch: renamed b to new/name", db.getReflogReader(
-				"new/name").getLastEntry().getComment());
-		assertEquals(3, db.getReflogReader("refs/heads/new/name").getReverseEntries().size());
-		assertEquals("Branch: renamed b to new/name", db.getReflogReader("refs/heads/new/name").getReverseEntries().get(0).getComment());
-		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals("Branch: renamed b to new/name",
+				refDb.getReflogReader("new/name").getLastEntry().getComment());
+		assertEquals(3, refDb.getReflogReader("refs/heads/new/name")
+				.getReverseEntries().size());
+		assertEquals("Branch: renamed b to new/name",
+				refDb.getReflogReader("refs/heads/new/name").getReverseEntries()
+						.get(0).getComment());
+		assertEquals(0,
+				refDb.getReflogReader("HEAD").getReverseEntries().size());
 		// make sure b's log file is gone too.
 		assertFalse(new File(db.getDirectory(), "logs/refs/heads/b").exists());
 
@@ -789,9 +822,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ObjectId oldfromId = db.resolve(fromName);
 		ObjectId oldHeadId = db.resolve(Constants.HEAD);
 		writeReflog(db, oldfromId, "Just a message", fromName);
-		List<ReflogEntry> oldFromLog = db
+		RefDatabase refDb = db.getRefDatabase();
+		List<ReflogEntry> oldFromLog = refDb
 				.getReflogReader(fromName).getReverseEntries();
-		List<ReflogEntry> oldHeadLog = oldHeadId != null ? db
+		List<ReflogEntry> oldHeadLog = oldHeadId != null ? refDb
 				.getReflogReader(Constants.HEAD).getReverseEntries() : null;
 
 		assertTrue("internal check, we have a log", new File(db.getDirectory(),
@@ -818,10 +852,10 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			assertEquals(oldHeadId, db.resolve(Constants.HEAD));
 			assertEquals(oldfromId, db.resolve(fromName));
 			assertNull(db.resolve(toName));
-			assertEquals(oldFromLog.toString(), db.getReflogReader(fromName)
+			assertEquals(oldFromLog.toString(), refDb.getReflogReader(fromName)
 					.getReverseEntries().toString());
 			if (oldHeadId != null && oldHeadLog != null)
-				assertEquals(oldHeadLog.toString(), db.getReflogReader(
+				assertEquals(oldHeadLog.toString(), refDb.getReflogReader(
 						Constants.HEAD).getReverseEntries().toString());
 		} finally {
 			lockFile.unlock();
@@ -942,15 +976,17 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.RENAMED, result);
 		assertNull(db.resolve("refs/heads/a"));
 		assertEquals(rb, db.resolve("refs/heads/a/b"));
-		assertEquals(3, db.getReflogReader("a/b").getReverseEntries().size());
-		assertEquals("Branch: renamed a to a/b", db.getReflogReader("a/b")
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(3,
+				refDb.getReflogReader("a/b").getReverseEntries().size());
+		assertEquals("Branch: renamed a to a/b", refDb.getReflogReader("a/b")
 				.getReverseEntries().get(0).getComment());
-		assertEquals("Just a message", db.getReflogReader("a/b")
+		assertEquals("Just a message", refDb.getReflogReader("a/b")
 				.getReverseEntries().get(1).getComment());
-		assertEquals("Setup", db.getReflogReader("a/b").getReverseEntries()
+		assertEquals("Setup", refDb.getReflogReader("a/b").getReverseEntries()
 				.get(2).getComment());
 		// same thing was logged to HEAD
-		assertEquals("Branch: renamed a to a/b", db.getReflogReader("HEAD")
+		assertEquals("Branch: renamed a to a/b", refDb.getReflogReader("HEAD")
 				.getReverseEntries().get(0).getComment());
 	}
 
@@ -978,15 +1014,19 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		assertNull(db.resolve("refs/heads/prefix/a"));
 		assertEquals(rb, db.resolve("refs/heads/prefix"));
-		assertEquals(3, db.getReflogReader("prefix").getReverseEntries().size());
-		assertEquals("Branch: renamed prefix/a to prefix", db.getReflogReader(
-				"prefix").getReverseEntries().get(0).getComment());
-		assertEquals("Just a message", db.getReflogReader("prefix")
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(3,
+				refDb.getReflogReader("prefix").getReverseEntries().size());
+		assertEquals("Branch: renamed prefix/a to prefix",
+				refDb.getReflogReader("prefix").getReverseEntries().get(0)
+						.getComment());
+		assertEquals("Just a message", refDb.getReflogReader("prefix")
 				.getReverseEntries().get(1).getComment());
-		assertEquals("Setup", db.getReflogReader("prefix").getReverseEntries()
-				.get(2).getComment());
-		assertEquals("Branch: renamed prefix/a to prefix", db.getReflogReader(
-				"HEAD").getReverseEntries().get(0).getComment());
+		assertEquals("Setup", refDb.getReflogReader("prefix")
+				.getReverseEntries().get(2).getComment());
+		assertEquals("Branch: renamed prefix/a to prefix",
+				refDb.getReflogReader("HEAD").getReverseEntries().get(0)
+						.getComment());
 	}
 
 	@Test

@@ -182,7 +182,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 
 	private static boolean hasRefLog(Repository repo, Ref ref) {
 		try {
-			return repo.getReflogReader(ref.getName()).getLastEntry() != null;
+			return repo.getRefDatabase().getReflogReader(ref.getName())
+					.getLastEntry() != null;
 		} catch (IOException ioe) {
 			throw new IllegalStateException(ioe);
 		}
