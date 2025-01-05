@@ -171,7 +171,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		v.update();
 
 		db.convertToPackedRefs(true, false);
-		List<ReflogEntry> logs = db.getReflogReader("refs/heads/master").getReverseEntries(2);
+		List<ReflogEntry> logs = db.getRefDatabase()
+				.getReflogReader("refs/heads/master").getReverseEntries(2);
 		assertEquals(logs.get(0).getComment(), "banana");
 		assertEquals(logs.get(1).getComment(), "apple");
 	}
@@ -185,8 +186,9 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		ReceiveCommand rc1 = new ReceiveCommand(ObjectId.zeroId(), cur, "refs/heads/batch1");
 		ReceiveCommand rc2 = new ReceiveCommand(ObjectId.zeroId(), prev, "refs/heads/batch2");
 		String msg =  "message";
+		RefDatabase refDb = db.getRefDatabase();
 		try (RevWalk rw = new RevWalk(db)) {
-			db.getRefDatabase().newBatchUpdate()
+			refDb.newBatchUpdate()
 					.addCommand(rc1, rc2)
 					.setAtomic(true)
 					.setRefLogIdent(person)
@@ -197,12 +199,14 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(rc1.getResult(), ReceiveCommand.Result.OK);
 		assertEquals(rc2.getResult(), ReceiveCommand.Result.OK);
 
-		ReflogEntry e = db.getReflogReader("refs/heads/batch1").getLastEntry();
+		ReflogEntry e = refDb.getReflogReader("refs/heads/batch1")
+				.getLastEntry();
 		assertEquals(msg, e.getComment());
 		assertEquals(person, e.getWho());
 		assertEquals(cur, e.getNewId());
 
-		e = db.getReflogReader("refs/heads/batch2").getLastEntry();
+		e = refDb.getReflogReader("refs/heads/batch2")
+				.getLastEntry();
 		assertEquals(msg, e.getComment());
 		assertEquals(person, e.getWho());
 		assertEquals(prev, e.getNewId());
@@ -309,7 +313,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		// the branch HEAD referred to is left untouched
 		assertEquals(pid, db.resolve("refs/heads/master"));
-		ReflogReader reflogReader = db.getReflogReader("HEAD");
+		ReflogReader reflogReader = db.getRefDatabase().getReflogReader("HEAD");
 		ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(ppid, e.getNewId());
 		assertEquals("GIT_COMMITTER_EMAIL", e.getWho().getEmailAddress());
@@ -330,7 +334,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		updateRef.setForceUpdate(true);
 		RefUpdate.Result update = updateRef.update();
 		assertEquals(FORCED, update); // internal
-		ReflogReader r = db.getReflogReader("refs/heads/master");
+		ReflogReader r = db.getRefDatabase()
+				.getReflogReader("refs/heads/master");
 
 		ReflogEntry e = r.getLastEntry();
 		assertEquals(e.getNewId(), pid);
@@ -355,7 +360,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(ref.delete(), RefUpdate.Result.NO_CHANGE);
 
 		// Differs from RefupdateTest. Deleting a loose ref leaves reflog trail.
-		ReflogReader reader = db.getReflogReader("refs/heads/abc");
+		ReflogReader reader = db.getRefDatabase()
+				.getReflogReader("refs/heads/abc");
 		assertEquals(ObjectId.zeroId(), reader.getReverseEntry(1).getOldId());
 		assertEquals(nonZero, reader.getReverseEntry(1).getNewId());
 		assertEquals(nonZero, reader.getReverseEntry(0).getOldId());
@@ -382,8 +388,9 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertNotSame(newid, r.getObjectId());
 		assertSame(ObjectId.class, r.getObjectId().getClass());
 		assertEquals(newid, r.getObjectId());
-		List<ReflogEntry> reverseEntries1 = db.getReflogReader("refs/heads/abc")
-				.getReverseEntries();
+		RefDatabase refDb = db.getRefDatabase();
+		List<ReflogEntry> reverseEntries1 = refDb
+				.getReflogReader("refs/heads/abc").getReverseEntries();
 		ReflogEntry entry1 = reverseEntries1.get(0);
 		assertEquals(1, reverseEntries1.size());
 		assertEquals(ObjectId.zeroId(), entry1.getOldId());
@@ -392,7 +399,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(new PersonIdent(db).toString(),
 				entry1.getWho().toString());
 		assertEquals("", entry1.getComment());
-		List<ReflogEntry> reverseEntries2 = db.getReflogReader("HEAD")
+		List<ReflogEntry> reverseEntries2 = refDb.getReflogReader("HEAD")
 				.getReverseEntries();
 		assertEquals(0, reverseEntries2.size());
 	}
@@ -455,7 +462,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		// the branch HEAD referred to is left untouched
 		assertNull(db.resolve("refs/heads/unborn"));
-		ReflogReader reflogReader = db.getReflogReader("HEAD");
+		ReflogReader reflogReader = db.getRefDatabase().getReflogReader("HEAD");
 		ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(ObjectId.zeroId(), e.getOldId());
 		assertEquals(ppid, e.getNewId());
@@ -499,7 +506,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		names.add("refs/heads/new/name");
 
 		for (String nm : names) {
-			ReflogReader rd = db.getReflogReader(nm);
+			ReflogReader rd = db.getRefDatabase().getReflogReader(nm);
 			assertNotNull(rd);
 			ReflogEntry last = rd.getLastEntry();
 			ObjectId id = last.getNewId();

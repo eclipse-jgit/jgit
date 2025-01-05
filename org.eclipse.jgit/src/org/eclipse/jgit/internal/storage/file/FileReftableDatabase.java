@@ -563,9 +563,10 @@ public class FileReftableDatabase extends RefDatabase {
 			boolean writeLogs) throws IOException {
 		int size = 0;
 		List<Ref> refs = repo.getRefDatabase().getRefs();
+		RefDatabase refDb = repo.getRefDatabase();
 		if (writeLogs) {
 			for (Ref r : refs) {
-				ReflogReader rlr = repo.getReflogReader(r.getName());
+				ReflogReader rlr = refDb.getReflogReader(r.getName());
 				if (rlr != null) {
 					size = Math.max(rlr.getReverseEntries().size(), size);
 				}
@@ -588,7 +589,7 @@ public class FileReftableDatabase extends RefDatabase {
 		if (writeLogs) {
 			for (Ref r : refs) {
 				long idx = size;
-				ReflogReader reader = repo.getReflogReader(r.getName());
+				ReflogReader reader = refDb.getReflogReader(r.getName());
 				if (reader == null) {
 					continue;
 				}
