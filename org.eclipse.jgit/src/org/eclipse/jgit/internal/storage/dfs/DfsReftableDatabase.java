@@ -28,6 +28,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.RefList;
@@ -174,6 +175,11 @@ public class DfsReftableDatabase extends DfsRefDatabase {
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
 		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
+	}
+
+	@Override
+	public ReflogReader getReflogReader(Ref ref) throws IOException {
+		return reftableDatabase.getReflogReader(ref.getName());
 	}
 
 	@Override

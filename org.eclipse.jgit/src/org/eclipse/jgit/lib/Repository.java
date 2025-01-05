@@ -1694,8 +1694,9 @@ public abstract class Repository implements AutoCloseable {
 	 * @since 3.0
 	 */
 	@Nullable
-	public abstract ReflogReader getReflogReader(String refName)
-			throws IOException;
+	public ReflogReader getReflogReader(String refName) throws IOException {
+		return getRefDatabase().getReflogReader(refName);
+	}
 
 	/**
 	 * Get the reflog reader. Subclasses should override this method and provide
@@ -1703,15 +1704,15 @@ public abstract class Repository implements AutoCloseable {
 	 *
 	 * @param ref
 	 *            a Ref
-	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied ref,
-	 *         or {@code null} if the ref does not exist.
+	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied ref.
 	 * @throws IOException
 	 *             if an IO error occurred
 	 * @since 5.13.2
 	 */
-	public @Nullable ReflogReader getReflogReader(@NonNull	Ref ref)
+	@NonNull
+	public ReflogReader getReflogReader(@NonNull Ref ref)
 			throws IOException {
-		return getReflogReader(ref.getName());
+		return getRefDatabase().getReflogReader(ref);
 	}
 
 	/**
