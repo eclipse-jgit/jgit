@@ -1157,7 +1157,7 @@ public class GC {
 	 *             if an IO error occurred
 	 */
 	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
-		ReflogReader reflogReader = repo.getReflogReader(ref);
+		ReflogReader reflogReader = repo.getRefDatabase().getReflogReader(ref);
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
 		if (rlEntries == null || rlEntries.isEmpty())

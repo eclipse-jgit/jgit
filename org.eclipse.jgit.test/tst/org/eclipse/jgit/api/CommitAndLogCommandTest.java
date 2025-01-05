@@ -26,6 +26,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -69,10 +70,11 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 				l--;
 			}
 			assertEquals(l, -1);
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(
 					reader.getLastEntry().getComment().startsWith("commit:"));
-			reader = db.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getBranch());
 			assertTrue(
 					reader.getLastEntry().getComment().startsWith("commit:"));
 		}
@@ -248,10 +250,11 @@ public class CommitAndLogCommandTest extends RepositoryTestCase {
 				c++;
 			}
 			assertEquals(1, c);
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("commit (amend):"));
-			reader = db.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("commit (amend):"));
 		}

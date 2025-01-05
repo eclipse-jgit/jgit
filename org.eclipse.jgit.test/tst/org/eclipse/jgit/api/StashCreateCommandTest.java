@@ -409,8 +409,8 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals("content", read(committedFile));
 		validateStashedCommit(stashed);
 
-		ReflogReader reader = git.getRepository().getReflogReader(
-				Constants.R_STASH);
+		ReflogReader reader = git.getRepository().getRefDatabase()
+				.getReflogReader(Constants.R_STASH);
 		ReflogEntry entry = reader.getLastEntry();
 		assertNotNull(entry);
 		assertEquals(ObjectId.zeroId(), entry.getOldId());

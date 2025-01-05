@@ -92,8 +92,8 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		assertTrue(remoteRef.getName().startsWith(Constants.R_REMOTES));
 		assertEquals(defaultBranchSha1, remoteRef.getObjectId());
-		assertNotNull(git.getRepository().getReflogReader(remoteRef.getName())
-				.getLastEntry());
+		assertNotNull(git.getRepository().getRefDatabase()
+				.getReflogReader(remoteRef.getName()).getLastEntry());
 	}
 
 	@Test

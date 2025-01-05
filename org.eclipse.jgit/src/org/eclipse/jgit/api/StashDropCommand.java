@@ -165,7 +165,8 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 
 		List<ReflogEntry> entries;
 		try {
-			ReflogReader reader = repo.getReflogReader(R_STASH);
+			ReflogReader reader = repo.getRefDatabase()
+					.getReflogReader(R_STASH);
 			if (reader == null) {
 				throw new RefNotFoundException(MessageFormat
 						.format(JGitText.get().refNotResolved, stashRef));

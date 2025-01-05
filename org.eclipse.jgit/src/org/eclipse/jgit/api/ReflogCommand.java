@@ -68,7 +68,7 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 		checkCallable();
 
 		try {
-			ReflogReader reader = repo.getReflogReader(ref);
+			ReflogReader reader = repo.getRefDatabase().getReflogReader(ref);
 			if (reader == null)
 				throw new RefNotFoundException(MessageFormat.format(
 						JGitText.get().refNotResolved, ref));
