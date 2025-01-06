@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c8f1973_a4a9f53f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-06T12:49:50Z",
+      "side": 1,
+      "message": "need to figure out why this breaks the test `FileReftableTest.testRacyReload()`",
+      "revId": "a9d5673f1f210ce240f119288c0ca5473c0cafc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
