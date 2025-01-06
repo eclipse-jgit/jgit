@@ -16,6 +16,24 @@
       "message": "Thanks for this fix, though I think we better fix this by moving the getReflogReader methods to RefDatabase and use polymorphism to create the appropriate ReflogReader instead of doing this here.\n\nI pushed https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206679 for review which implements this approach. \n\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206680 deprecates the getReflogReader methods on Repository.",
       "revId": "f76d10ce1bcc1b432bc790fcf78c5b186b726430",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "824b11a3_84086c68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2025-01-06T11:58:09Z",
+      "side": 1,
+      "message": "It\u0027s much better.👍",
+      "parentUuid": "15d046c4_fc268289",
+      "revId": "f76d10ce1bcc1b432bc790fcf78c5b186b726430",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
