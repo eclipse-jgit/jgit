@@ -12,12 +12,9 @@
  */
 package org.eclipse.jgit.internal.storage.file;
 
-import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.LOCK_SUFFIX;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
-import static org.eclipse.jgit.lib.Constants.R_NOTES;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
-import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,22 +25,18 @@ import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.ReflogEntry;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Utility for writing reflog entries using the traditional one-file-per-log
  * format.
  */
-public class ReflogWriter {
+public class ReflogWriter extends FileReflogWriter {
 
 	/**
 	 * Get the ref name to be used for when locking a ref's log for rewriting.
@@ -103,38 +96,7 @@ public class ReflogWriter {
 	}
 
 	/**
-	 * Write the given entry to the ref's log.
-	 *
-	 * @param refName
-	 *            a {@link java.lang.String} object.
-	 * @param entry
-	 *            a {@link org.eclipse.jgit.lib.ReflogEntry} object.
-	 * @return this writer
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 */
-	public ReflogWriter log(String refName, ReflogEntry entry)
-			throws IOException {
-		return log(refName, entry.getOldId(), entry.getNewId(), entry.getWho(),
-				entry.getComment());
-	}
-
-	/**
-	 * Write the given entry information to the ref's log
-	 *
-	 * @param refName
-	 *            ref name
-	 * @param oldId
-	 *            old object id
-	 * @param newId
-	 *            new object id
-	 * @param ident
-	 *            a {@link org.eclipse.jgit.lib.PersonIdent}
-	 * @param message
-	 *            reflog message
-	 * @return this writer
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
+	 * {@inheritDoc}
 	 */
 	public ReflogWriter log(String refName, ObjectId oldId,
 			ObjectId newId, PersonIdent ident, String message) throws IOException {
@@ -212,7 +174,7 @@ public class ReflogWriter {
 	private ReflogWriter log(String refName, byte[] rec) throws IOException {
 		File log = refdb.logFor(refName);
 		boolean write = forceWrite
-				|| shouldAutoCreateLog(refName)
+				|| shouldAutoCreateLog(refdb.getRepository(), refName)
 				|| log.isFile();
 		if (!write)
 			return this;
@@ -231,29 +193,5 @@ public class ReflogWriter {
 			}
 		}
 		return this;
-	}
-
-	private boolean shouldAutoCreateLog(String refName) {
-		Repository repo = refdb.getRepository();
-		CoreConfig.LogRefUpdates value = repo.isBare()
-				? CoreConfig.LogRefUpdates.FALSE
-				: CoreConfig.LogRefUpdates.TRUE;
-		value = repo.getConfig().getEnum(ConfigConstants.CONFIG_CORE_SECTION,
-				null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, value);
-		if (value != null) {
-			switch (value) {
-			case FALSE:
-				break;
-			case TRUE:
-				return refName.equals(HEAD) || refName.startsWith(R_HEADS)
-						|| refName.startsWith(R_REMOTES)
-						|| refName.startsWith(R_NOTES);
-			case ALWAYS:
-				return refName.equals(HEAD) || refName.startsWith(R_REFS);
-			default:
-				break;
-			}
-		}
-		return false;
 	}
 }

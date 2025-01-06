@@ -288,8 +288,8 @@ public class FileReftableDatabase extends RefDatabase {
 							|| s.equals(destination.getName())) ? objId
 									: ObjectId.zeroId();
 
-					w.writeLog(s, idx, who, old, newId,
-							destination.getRefLogMessage());
+					newInternalLogWriter(false)
+							.logInternal(w, idx, s, old, newId, who, destination.getRefLogMessage());
 				}
 			}
 		}
@@ -443,8 +443,9 @@ public class FileReftableDatabase extends RefDatabase {
 			if (oldId == null) {
 				oldId = ObjectId.zeroId();
 			}
-			w.writeLog(dstRef.getName(), idx, getRefLogIdent(), oldId,
-					getNewObjectId(), getRefLogMessage());
+
+			newInternalLogWriter(isForceRefLog())
+					.logInternal(w, idx, dstRef.getName(), oldId, getNewObjectId(), getRefLogIdent(), getRefLogMessage());
 		}
 
 		@Override
@@ -472,8 +473,8 @@ public class FileReftableDatabase extends RefDatabase {
 				}
 			}
 
-			w.writeLog(dstRef.getName(), idx, getRefLogIdent(), oldId,
-					ObjectId.zeroId(), getRefLogMessage());
+			newInternalLogWriter(isForceRefLog()).logInternal(w, idx, dstRef.getName(), oldId,
+					ObjectId.zeroId(), getRefLogIdent(), getRefLogMessage());
 		}
 
 		@Override
@@ -527,8 +528,8 @@ public class FileReftableDatabase extends RefDatabase {
 				afterId = after.getObjectId();
 			}
 
-			w.writeLog(dstRef.getName(), idx, getRefLogIdent(), beforeId,
-					afterId, getRefLogMessage());
+			newInternalLogWriter(isForceRefLog()).logInternal(w, idx, dstRef.getName(), beforeId,
+					afterId, getRefLogIdent(), getRefLogMessage());
 		}
 
 		@Override
@@ -550,6 +551,67 @@ public class FileReftableDatabase extends RefDatabase {
 			// XXX unclear if we should support FORCED here. Baseclass says
 			// NEW is OK ?
 			return exists ? Result.FORCED : Result.NEW;
+		}
+	}
+
+	/**
+	 * Create reflog writer for reftable repository.
+	 *
+	 * @param forceWrite
+	 *            true to write to disk all entries logged, false to respect the
+	 *            repository's config and current log file status.
+	 * @return the writer.
+	 */
+	public org.eclipse.jgit.lib.ReflogWriter newLogWriter(boolean forceWrite) {
+		return new ReflogWriter(forceWrite);
+	}
+
+	ReflogWriter newInternalLogWriter(boolean forceWrite) {
+		return new ReflogWriter(forceWrite);
+	}
+
+	/**
+	 * Utility for reading reflog entries using the reftable format.
+	 */
+	class ReflogWriter extends FileReflogWriter {
+		private final boolean forceWrite;
+
+		/**
+		 * Create reflog writer for reftable repository.
+		 *
+		 * @param forceWrite
+		 *            true to write to disk all entries logged, false to respect the
+		 *            repository's config and current log file status.
+		 */
+		public ReflogWriter(boolean forceWrite) {
+			this.forceWrite = forceWrite;
+		}
+
+		public ReflogWriter log(String refName, ObjectId oldId,
+						   ObjectId newId, PersonIdent ident, String message) throws IOException {
+			if (!shouldWrite(refName)) {
+				return this;
+			}
+
+			addReftable(w -> {
+				long idx = reftableDatabase.nextUpdateIndex();
+				w.setMinUpdateIndex(idx).setMaxUpdateIndex(idx).begin()
+						.writeLog(refName, idx, ident, oldId, newId, message);
+			});
+			return this;
+		}
+
+		private void logInternal(ReftableWriter reftableWriter, Long updateIndex, String refName,
+										 ObjectId oldId, ObjectId newId, PersonIdent ident, String message) throws IOException {
+			if (!shouldWrite(refName)) {
+				return;
+			}
+			reftableWriter.writeLog(refName, updateIndex, ident, oldId, newId, message);
+		}
+
+		private boolean shouldWrite(String refName) {
+			return forceWrite
+					|| shouldAutoCreateLog(fileRepository, refName);
 		}
 	}
 

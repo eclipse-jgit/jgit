@@ -565,6 +565,23 @@ public class FileRepository extends Repository {
 		return new ReflogReaderImpl(this, ref.getName());
 	}
 
+	/**
+	 * Create reflog writer for reftable repository.
+	 *
+	 * @param force
+	 *            true to write to disk all entries logged, false to respect the
+	 *            repository's config and current log file status.
+	 * @return the writer.
+	 */
+	public org.eclipse.jgit.lib.ReflogWriter getReflogWriter(boolean force) {
+		if (refs instanceof FileReftableDatabase) {
+			return ((FileReftableDatabase)refs).newLogWriter(force);
+		} else if (refs instanceof RefDirectory) {
+			return new ReflogWriter((RefDirectory)refs, force);
+		}
+		return null;
+	}
+
 	@Override
 	public AttributesNodeProvider createAttributesNodeProvider() {
 		return new AttributesNodeProviderImpl(this);
