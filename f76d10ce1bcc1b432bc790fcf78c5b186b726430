@@ -34,6 +34,24 @@
       "parentUuid": "15d046c4_fc268289",
       "revId": "f76d10ce1bcc1b432bc790fcf78c5b186b726430",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f19b2f_3bfd89ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2025-01-06T12:00:02Z",
+      "side": 1,
+      "message": "I thought I already replied, but just found this reply still remained as a draft. LOL. I am new to Gerrit.",
+      "parentUuid": "824b11a3_84086c68",
+      "revId": "f76d10ce1bcc1b432bc790fcf78c5b186b726430",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
