@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2318c324_93766995",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2025-01-06T12:02:13Z",
+      "side": 1,
+      "message": "It is better to add RefDatabase#getReflogWriter methods for a better abstraction, like RefDatabase#getReflogReader from https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206679. I will do it later.",
+      "revId": "347fcb638ed4b26ec404a04d68fdf272af78ecb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ceda879_1e0476ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ReflogWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2025-01-06T12:02:13Z",
+      "side": 1,
+      "message": "I didn\u0027t rename The ReflogWriter impl of RefDirectory, it is still called ReflogWriter, considering existing uses of it. It is better to rename it to something else, like RefDirectoryReflogWriter.",
+      "revId": "347fcb638ed4b26ec404a04d68fdf272af78ecb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
