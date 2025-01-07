@@ -16,6 +16,24 @@
       "message": "need to figure out why this breaks the test `FileReftableTest.testRacyReload()`",
       "revId": "a9d5673f1f210ce240f119288c0ca5473c0cafc8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "555b968e_07f9a7af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-07T13:36:27Z",
+      "side": 1,
+      "message": "`FileReftableStack#addReftable` checks if the stack is uptodate while it holds the FileLock for `tables.list`, if it is not uptodate the `RefUpdate` fails with a `LOCK_FAILURE` to protect against lost ref updates if another thread/process updated the stack in another instance of FileReftableDatabase (or using git) since we last read it. Since we now check before each ref resolution if we are uptodate and reload the stack automatically using `FileReftableDatabase#reloadIfNecessary` the single-threaded test `#.testRacyReload` can\u0027t hit the racy case anymore. \n\nThough we still have the above protection but writing a test proving this became harder since now the competing concurrent ref updates need to intersect within the small time interval between the call to `#reloadIfNecessary` before resolving the last ref and the subsequent ref update.",
+      "parentUuid": "0c8f1973_a4a9f53f",
+      "revId": "a9d5673f1f210ce240f119288c0ca5473c0cafc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
