@@ -743,6 +743,8 @@ public class FileRepository extends Repository {
 		}
 		repoConfig.unset(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE);
+		repoConfig.setLong(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 		repoConfig.save();
 	}
 
