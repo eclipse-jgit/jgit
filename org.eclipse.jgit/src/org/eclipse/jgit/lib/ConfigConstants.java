@@ -1038,6 +1038,14 @@ public final class ConfigConstants {
 	 * @since 7.2
 	 */
 	public static final String CONFIG_KEY_TRUST_LOOSE_OBJECT_STAT = "trustLooseObjectStat";
+
+	/**
+	 * The "trustTablesListStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_TABLESLIST_STAT = "trustTablesListStat";
+
 	/**
 	 * The "pack.preserveOldPacks" key
 	 *
