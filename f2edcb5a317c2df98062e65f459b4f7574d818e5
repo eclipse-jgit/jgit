@@ -16,6 +16,24 @@
       "message": "alternative fix for https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206494",
       "revId": "f2edcb5a317c2df98062e65f459b4f7574d818e5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "426571e9_ca2a5fef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2025-01-08T08:23:23Z",
+      "side": 1,
+      "message": "The alternative fix was closed because this is better.",
+      "parentUuid": "653b2594_04dfe840",
+      "revId": "f2edcb5a317c2df98062e65f459b4f7574d818e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
