@@ -22,6 +22,30 @@
       },
       "revId": "66c687df6beb007b17333eec2cca259ceadbff30",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ae1c651_80cafe07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-08T22:37:10Z",
+      "side": 1,
+      "message": "We are writing \"i\", the position in the list, not the element itself. \n\nIf I understand correctly your suggestion, in anything like allObjects.sublist(x, y).foreach() I don\u0027t have access to the current position",
+      "parentUuid": "93b9b323_1700a21b",
+      "range": {
+        "startLine": 164,
+        "startChar": 5,
+        "endLine": 164,
+        "endChar": 41
+      },
+      "revId": "66c687df6beb007b17333eec2cca259ceadbff30",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
