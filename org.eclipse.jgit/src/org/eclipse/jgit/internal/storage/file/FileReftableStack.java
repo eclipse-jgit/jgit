@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,9 @@ public class FileReftableStack implements AutoCloseable {
 	private MergedReftable mergedReftable;
 
 	private List<StackEntry> stack;
+
+	private AtomicReference<FileSnapshot> snapshot = new AtomicReference<>(
+			FileSnapshot.DIRTY);
 
 	private long lastNextUpdateIndex;
 
@@ -272,19 +276,26 @@ public class FileReftableStack implements AutoCloseable {
 	}
 
 	private List<String> readTableNames() throws IOException {
+		FileSnapshot old, witness = null;
 		List<String> names = new ArrayList<>(stack.size() + 1);
-
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(stackPath), UTF_8))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (!line.isEmpty()) {
-					names.add(line);
+		do {
+			old = snapshot.get();
+			try (BufferedReader br = new BufferedReader(new InputStreamReader(
+					new FileInputStream(stackPath), UTF_8))) {
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (!line.isEmpty()) {
+						names.add(line);
+					}
 				}
+				witness = snapshot.compareAndExchange(old,
+						FileSnapshot.save(stackPath));
+			} catch (FileNotFoundException e) {
+				// file isn't there: empty repository.
+				witness = snapshot.compareAndExchange(old,
+						FileSnapshot.MISSING_FILE);
 			}
-		} catch (FileNotFoundException e) {
-			// file isn't there: empty repository.
-		}
+		} while (!witness.equals(old));
 		return names;
 	}
 
@@ -294,9 +305,10 @@ public class FileReftableStack implements AutoCloseable {
 	 *             on IO problem
 	 */
 	boolean isUpToDate() throws IOException {
-		// We could use FileSnapshot to avoid reading the file, but the file is
-		// small so it's probably a minor optimization.
 		try {
+			if (!snapshot.get().isModified(stackPath)) {
+				return true;
+			}
 			List<String> names = readTableNames();
 			if (names.size() != stack.size()) {
 				return false;
