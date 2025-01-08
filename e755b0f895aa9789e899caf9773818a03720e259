@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "096611ef_07f044e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-08T23:28:13Z",
+      "side": 1,
+      "message": "nit: subject line is too long, see https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#commit-message-guidelines",
+      "revId": "e755b0f895aa9789e899caf9773818a03720e259",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5b9d67b3_54821804",
