@@ -215,6 +215,8 @@ public class CoreConfig {
 
 	private final TrustStat trustLooseObjectStat;
 
+	private final TrustStat trustTablesListStat;
+
 	/**
 	 * Options for symlink handling
 	 *
@@ -268,6 +270,7 @@ public class CoreConfig {
 		trustLooseRefStat = parseTrustLooseRefStat(rc);
 		trustPackStat = parseTrustPackFileStat(rc);
 		trustLooseObjectStat = parseTrustLooseObjectFileStat(rc);
+		trustTablesListStat = parseTablesListStat(rc);
 	}
 
 	private static TrustStat parseTrustStat(Config rc) {
@@ -314,6 +317,13 @@ public class CoreConfig {
 
 	private TrustStat inheritParseTrustStat(Config rc, String key) {
 		TrustStat t = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null, key,
+				TrustStat.INHERIT);
+		return t == TrustStat.INHERIT ? trustStat : t;
+	}
+
+	private TrustStat parseTablesListStat(Config rc) {
+		TrustStat t = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUST_TABLESLIST_STAT,
 				TrustStat.INHERIT);
 		return t == TrustStat.INHERIT ? trustStat : t;
 	}
@@ -417,5 +427,19 @@ public class CoreConfig {
 	 */
 	public TrustStat getTrustLooseObjectStat() {
 		return trustLooseObjectStat;
+	}
+
+	/**
+	 * Get how far we can trust file attributes of the "tables.list" file which
+	 * is used to store the list of filenames of the files storing
+	 * {@link org.eclipse.jgit.internal.storage.reftable.Reftable}s in
+	 * {@link org.eclipse.jgit.internal.storage.file.FileReftableDatabase}.
+	 *
+	 * @return how far we can trust file attributes of the "tables.list" file.
+	 *
+	 * @since 7.2
+	 */
+	public TrustStat getTrustTablesListStat() {
+		return trustTablesListStat;
 	}
 }
