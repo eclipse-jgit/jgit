@@ -18,8 +18,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -39,6 +42,8 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -58,6 +63,9 @@ public class FileReftableStack implements AutoCloseable {
 	private MergedReftable mergedReftable;
 
 	private List<StackEntry> stack;
+
+	private AtomicReference<FileSnapshot> snapshot = new AtomicReference<>(
+			FileSnapshot.DIRTY);
 
 	private long lastNextUpdateIndex;
 
@@ -98,6 +106,8 @@ public class FileReftableStack implements AutoCloseable {
 
 	private final CompactionStats stats;
 
+	private final TrustStat trustReftableStat;
+
 	/**
 	 * Creates a stack corresponding to the list of reftables in the argument
 	 *
@@ -126,6 +136,8 @@ public class FileReftableStack implements AutoCloseable {
 		reload();
 
 		stats = new CompactionStats();
+		trustReftableStat = configSupplier.get().get(CoreConfig.KEY)
+				.getTrustReftableStat();
 	}
 
 	CompactionStats getStats() {
@@ -272,8 +284,9 @@ public class FileReftableStack implements AutoCloseable {
 	}
 
 	private List<String> readTableNames() throws IOException {
+		FileSnapshot old;
 		List<String> names = new ArrayList<>(stack.size() + 1);
-
+		old = snapshot.get();
 		try (BufferedReader br = new BufferedReader(
 				new InputStreamReader(new FileInputStream(stackPath), UTF_8))) {
 			String line;
@@ -282,8 +295,10 @@ public class FileReftableStack implements AutoCloseable {
 					names.add(line);
 				}
 			}
+			snapshot.compareAndSet(old, FileSnapshot.save(stackPath));
 		} catch (FileNotFoundException e) {
 			// file isn't there: empty repository.
+			snapshot.compareAndSet(old, FileSnapshot.MISSING_FILE);
 		}
 		return names;
 	}
@@ -294,9 +309,28 @@ public class FileReftableStack implements AutoCloseable {
 	 *             on IO problem
 	 */
 	boolean isUpToDate() throws IOException {
-		// We could use FileSnapshot to avoid reading the file, but the file is
-		// small so it's probably a minor optimization.
 		try {
+			switch (trustReftableStat) {
+			case NEVER:
+				break;
+			case AFTER_OPEN:
+				try (InputStream stream = Files
+						.newInputStream(stackPath.toPath())) {
+					// open the tables.list file to refresh attributes (on some
+					// NFS clients)
+				} catch (FileNotFoundException | NoSuchFileException e) {
+					// ignore
+				}
+				//$FALL-THROUGH$
+			case ALWAYS:
+				if (!snapshot.get().isModified(stackPath)) {
+					return true;
+				}
+				break;
+			case INHERIT:
+				// only used in CoreConfig internally
+				throw new IllegalStateException();
+			}
 			List<String> names = readTableNames();
 			if (names.size() != stack.size()) {
 				return false;
