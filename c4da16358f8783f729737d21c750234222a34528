@@ -16,6 +16,24 @@
       "message": "Still need to add an option to configure optional refreshing of file attributes of file `tables.list` to ensure this also works on NFS.\n\nMaybe it\u0027s time to consolidate proliferation of trustXXX config options ?\n\nWe already have\n- core.trustFolderStat\n- core.trustLooseRefStat\n- core.trustPackedRefsStat\n\nShould we add another option `core.trustTablesListStat` for `tables.list` or consolidate all of these options into a single one ?\n\nDo we really need to configure these options independently ?\n\nWDYT ?",
       "revId": "c4da16358f8783f729737d21c750234222a34528",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59947e54_33e2c2ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-01-09T17:47:46Z",
+      "side": 1,
+      "message": "\u003e Should we add another option `core.trustTablesListStat` for `tables.list` or consolidate all of these options into a single one ?\n\u003e \n\u003e Do we really need to configure these options independently ?\n\nUnfortunately I think we probably do need them all.\n\nWe use these values for our Gerrit primaries in production:\n```\n    trustPackedRefsStat \u003d after_open\n    trustLooseRefStat \u003d after_open\n    trustFolderStat \u003d false\n```\n\nand (for performance reasons) these values for our Gerrit replicas:\n```\n    trustPackedRefsStat \u003d after_open\n    trustLooseRefStat \u003d always\n    trustFolderStat \u003d false\n```\n\nI don\u0027t know how we would express that replica config with a single option.",
+      "parentUuid": "70728ec0_2a8319ce",
+      "revId": "c4da16358f8783f729737d21c750234222a34528",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
