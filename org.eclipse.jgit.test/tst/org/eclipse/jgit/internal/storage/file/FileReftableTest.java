@@ -87,13 +87,13 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 						u.setNewObjectId(id);
 						r = u.update();
-						assertEquals(r, Result.NEW);
+						assertEquals(Result.NEW, r);
 					}
 				}
 			}
 
 			// only the first one succeeds
-			assertEquals(retry, 19);
+			assertEquals(19, retry);
 		}
 	}
 
@@ -105,13 +105,13 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			RefUpdate u = db.updateRef("refs/heads/master");
 			u.setForceUpdate(true);
 			u.setNewObjectId((i%2) == 0 ? c1 : c2);
-			assertEquals(u.update(), FORCED);
+			assertEquals(FORCED, u.update());
 		}
 
 		File tableDir = new File(db.getDirectory(), Constants.REFTABLE);
 		assertTrue(tableDir.listFiles().length > 2);
 		((FileReftableDatabase)db.getRefDatabase()).compactFully();
-		assertEquals(tableDir.listFiles().length,2);
+		assertEquals(2, tableDir.listFiles().length);
 	}
 
 	@Test
@@ -172,8 +172,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		db.convertToPackedRefs(true, false);
 		List<ReflogEntry> logs = db.getReflogReader("refs/heads/master").getReverseEntries(2);
-		assertEquals(logs.get(0).getComment(), "banana");
-		assertEquals(logs.get(1).getComment(), "apple");
+		assertEquals("banana", logs.get(0).getComment());
+		assertEquals("apple", logs.get(1).getComment());
 	}
 
 	@Test
@@ -194,8 +194,8 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 					.execute(rw, NullProgressMonitor.INSTANCE);
 		}
 
-		assertEquals(rc1.getResult(), ReceiveCommand.Result.OK);
-		assertEquals(rc2.getResult(), ReceiveCommand.Result.OK);
+		assertEquals(ReceiveCommand.Result.OK, rc1.getResult());
+		assertEquals(ReceiveCommand.Result.OK, rc2.getResult());
 
 		ReflogEntry e = db.getReflogReader("refs/heads/batch1").getLastEntry();
 		assertEquals(msg, e.getComment());
@@ -267,7 +267,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		RefUpdate up = db.getRefDatabase().newUpdate("refs/heads/a", false);
 		up.setForceUpdate(true);
 		RefUpdate.Result res = up.delete();
-		assertEquals(res, FORCED);
+		assertEquals(FORCED, res);
 		assertNull(db.exactRef("refs/heads/a"));
 	}
 
@@ -333,9 +333,9 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		ReflogReader r = db.getReflogReader("refs/heads/master");
 
 		ReflogEntry e = r.getLastEntry();
-		assertEquals(e.getNewId(), pid);
-		assertEquals(e.getComment(), "REFLOG!: FORCED");
-		assertEquals(e.getWho(), person);
+		assertEquals(pid, e.getNewId());
+		assertEquals("REFLOG!: FORCED", e.getComment());
+		assertEquals(person, e.getWho());
 	}
 
 	@Test
@@ -352,7 +352,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		ref = db.updateRef(newRef);
 		ref.setNewObjectId(db.resolve(Constants.HEAD));
 
-		assertEquals(ref.delete(), RefUpdate.Result.NO_CHANGE);
+		assertEquals(RefUpdate.Result.NO_CHANGE, ref.delete());
 
 		// Differs from RefupdateTest. Deleting a loose ref leaves reflog trail.
 		ReflogReader reader = db.getReflogReader("refs/heads/abc");
@@ -431,7 +431,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		Ref head = db.exactRef("HEAD");
 		assertTrue(head.isSymbolic());
-		assertEquals(head.getTarget().getName(), "refs/heads/unborn");
+		assertEquals("refs/heads/unborn", head.getTarget().getName());
 	}
 
 	/**
@@ -573,10 +573,10 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			assertTrue(res == Result.NEW || res == FORCED);
 		}
 
-		assertEquals(refDb.exactRef(refName).getObjectId(), bId);
+		assertEquals(bId, refDb.exactRef(refName).getObjectId());
 		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
 		refDb.compactFully();
-		assertEquals(refDb.exactRef(refName).getObjectId(), bId);
+		assertEquals(bId, refDb.exactRef(refName).getObjectId());
 		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
 	}
 
