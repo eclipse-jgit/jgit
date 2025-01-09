@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac626082_e043bb05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MultiPackIndexV1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2025-01-09T09:45:58Z",
+      "side": 1,
+      "message": "Logging here throws a NPE, because `Pack#toString` uses `Pack.packChecksum`, which is null since the Pack here is not loaded yet. might be better to log only `pack.getPackName()` instead.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 63
+      },
+      "revId": "a8a688ea5b640ca3fd16938bb9743d4b9b75c5b1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
