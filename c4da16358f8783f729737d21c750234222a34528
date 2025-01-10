@@ -52,6 +52,24 @@
       "parentUuid": "59947e54_33e2c2ab",
       "revId": "c4da16358f8783f729737d21c750234222a34528",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53206556_89730204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-01-10T00:51:22Z",
+      "side": 1,
+      "message": "\u003e I think these options still feel odd:\n\u003e - looking at `TrustPackedRefsStat` I think we don\u0027t need `UNSET` since that\u0027s effectively the same as `NEVER` assuming you set `trustFolderStat \u003d false` on NFS\n\nI don\u0027t recall the use case for `UNSET`. @mfick@nvidia.com do you recall?\n\n\u003e - for `LooseObjects` we either have `trustFolderStat\u003dtrue` or we implicitly use `AFTER_OPEN` opening an input stream on the parent directory\n\nI think the input stream opening only happens on failures though, correct?\n\n\u003e - it seems for `LooseObjects` we shouldn\u0027t look at `trustFolderStat` but rather use `TrustLooseRefStat.ALWAYS` which is currently unused, and explicitly use `TrustLooseRefStat.AFTER_OPEN` instead of assuming that implicitly (this value is currently also unused)\n\nI don\u0027t think we would want `TrustLooseRefStat` affecting loose objects, since those are fundamentally different things (objects are immutable).\n\n\u003e - why does `TrustLooseRefStat` not have `NEVER` ?\n\nI don\u0027t remember... @quic_kaushikl@quicinc.com do you recall?\n\n\u003e - apparently we should also implement an `AFTER_OPEN` for `PackDirectory#searchPacksAgain` to avoid always rescanning the pack directory if `trustFolderStat \u003d false` by opening an InputStream on the pack directory\n\nYeah, that might be a nice improvement. I don\u0027t know if you need to open the pack dir or the parent (`objects/`).\n\n\u003e \n\u003e Would it be clearer to remove `trustFolderStat` and add options for loose objects and the pack directory:\n\nYes, I think having consistent naming like this would be nice.\n\n\u003e - `trustLooseRefStat`\n\u003e - `trustPackedRefStat`\n\u003e - `trustLooseObjStat`\n\u003e - `trustPackDirStat`\n\u003e \n\u003e Can we consolidate to a single `TrustFileStat` enum with the values `NEVER, ALWAYS, AFTER_OPEN` for possible values of all these options ?\n\nThat sounds reasonable to me.\n\n\u003e \n\u003e And for `RefTable` reuse `trustPackedRefStat` option to configure how stats for `tables.list` are handled ?\n\nI don\u0027t know the reftable implementation well enough to know if `tables.list` conceptually maps better to packed refs or loose refs for purposes of file modification, but I think if we have these other 4 configs, a 5th for `trustRefTablesListStat` would be acceptable too.",
+      "parentUuid": "6a8366d8_2de8c0f7",
+      "revId": "c4da16358f8783f729737d21c750234222a34528",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
