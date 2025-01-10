@@ -53,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ee0105e_6570a71c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-10T14:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "851b6299_b5751d25",
+      "revId": "f2edcb5a317c2df98062e65f459b4f7574d818e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9d8218a_6f8d9080",
@@ -66,6 +84,24 @@
       "writtenOn": "2025-01-10T12:28:29Z",
       "side": 1,
       "message": "This doesn\u0027t match with the @NonNull at 1713",
+      "revId": "f2edcb5a317c2df98062e65f459b4f7574d818e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a10a77_3073d090",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1708,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-10T14:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9d8218a_6f8d9080",
       "revId": "f2edcb5a317c2df98062e65f459b4f7574d818e5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
