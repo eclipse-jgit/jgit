@@ -88,6 +88,23 @@
       "parentUuid": "53206556_89730204",
       "revId": "c4da16358f8783f729737d21c750234222a34528",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8deeecde_4d39b28b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-10T15:53:22Z",
+      "side": 1,
+      "message": "This creates a \"correctness\" issue on NFS, so I don\u0027t think we want to make force such a regression on users without giving them an option to turn this off.",
+      "revId": "c4da16358f8783f729737d21c750234222a34528",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
