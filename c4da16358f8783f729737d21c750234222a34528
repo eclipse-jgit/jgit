@@ -34,6 +34,24 @@
       "parentUuid": "70728ec0_2a8319ce",
       "revId": "c4da16358f8783f729737d21c750234222a34528",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a8366d8_2de8c0f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-10T00:16:16Z",
+      "side": 1,
+      "message": "ok, I see\n\nI think these options still feel odd:\n- looking at `TrustPackedRefsStat` I think we don\u0027t need `UNSET` since that\u0027s effectively the same as `NEVER` assuming you set `trustFolderStat \u003d false` on NFS\n- for `LooseObjects` we either have `trustFolderStat\u003dtrue` or we implicitly use `AFTER_OPEN` opening an input stream on the parent directory\n- it seems for `LooseObjects` we shouldn\u0027t look at `trustFolderStat` but rather use `TrustLooseRefStat.ALWAYS` which is currently unused, and explicitly use `TrustLooseRefStat.AFTER_OPEN` instead of assuming that implicitly (this value is currently also unused)\n- why does `TrustLooseRefStat` not have `NEVER` ?\n- apparently we should also implement an `AFTER_OPEN` for `PackDirectory#searchPacksAgain` to avoid always rescanning the pack directory if `trustFolderStat \u003d false` by opening an InputStream on the pack directory\n\nWould it be clearer to remove `trustFolderStat` and add options for loose objects and the pack directory:\n- `trustLooseRefStat`\n- `trustPackedRefStat`\n- `trustLooseObjStat`\n- `trustPackDirStat`\n\nCan we consolidate to a single `TrustFileStat` enum with the values `NEVER, ALWAYS, AFTER_OPEN` for possible values of all these options ?\n\nAnd for `RefTable` reuse `trustPackedRefStat` option to configure how stats for `tables.list` are handled ?",
+      "parentUuid": "59947e54_33e2c2ab",
+      "revId": "c4da16358f8783f729737d21c750234222a34528",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
