@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3b0dbb_e53642cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-11T12:01:02Z",
+      "side": 1,
+      "message": "I may be missing some context: how can the Git client can display the error triggered on the remote if we just return an HTTP status error?\n\nBefore this change, the Git client had the information that the Git server wanted to communicate (e.g. validation errors) but now it just displays:\n\n```\nerror: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403\n```",
+      "revId": "8984e1f663b5b58f74cd0381043133f0059e004d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc5630e0_61714d78",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-11T12:01:02Z",
+      "side": 1,
+      "message": "This has broken Gerrit\u0027s UploadValidators: any call to `throw new UploadValidationException(e.getMessage());` triggers in JGit a ServiceMayNotContinueException() with the message to be sent to the Git client.\n\nHowever, the issue here is that even if the response is of `UPLOAD_PACK_RESULT_TYPE` the Git client would just assume that the Smart-HTTP request has failed and won\u0027t be even bothered to fetch the text to display to the client.",
+      "range": {
+        "startLine": 194,
+        "startChar": 61,
+        "endLine": 194,
+        "endChar": 71
+      },
+      "revId": "8984e1f663b5b58f74cd0381043133f0059e004d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
