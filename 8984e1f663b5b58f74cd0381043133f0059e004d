@@ -39,6 +39,30 @@
       },
       "revId": "8984e1f663b5b58f74cd0381043133f0059e004d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42226e5a_8b87393a",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-12T09:47:20Z",
+      "side": 1,
+      "message": "This could be fixed on the Gerrit side with https://gerrit-review.googlesource.com/c/gerrit/+/447506, @sven.selberg@axis.com WDYT?",
+      "parentUuid": "dc5630e0_61714d78",
+      "range": {
+        "startLine": 194,
+        "startChar": 61,
+        "endLine": 194,
+        "endChar": 71
+      },
+      "revId": "8984e1f663b5b58f74cd0381043133f0059e004d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
