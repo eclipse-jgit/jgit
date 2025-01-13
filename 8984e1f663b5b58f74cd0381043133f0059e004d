@@ -63,6 +63,30 @@
       },
       "revId": "8984e1f663b5b58f74cd0381043133f0059e004d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a83b771_ae78bfd8",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1019023
+      },
+      "writtenOn": "2025-01-13T09:25:25Z",
+      "side": 1,
+      "message": "If `cause` was ignored before this change it doesn\u0027t make much sense to keep that ctor IMO.\nSince it\u0027s already merged I\u0027ll resolve this comment.",
+      "parentUuid": "42226e5a_8b87393a",
+      "range": {
+        "startLine": 194,
+        "startChar": 61,
+        "endLine": 194,
+        "endChar": 71
+      },
+      "revId": "8984e1f663b5b58f74cd0381043133f0059e004d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
