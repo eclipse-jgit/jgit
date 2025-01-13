@@ -22,6 +22,30 @@
       },
       "revId": "44d61a3d727eb68db9e57acec0704bfc6758f878",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4429c28d_dead38b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-13T20:15:13Z",
+      "side": 1,
+      "message": "Ugh, yeah sorry about that. I\u0027m surprised that got in that way. It should have said: \"Closing the PackDirectory also uses the new bulk close() method.\"",
+      "parentUuid": "d828da6f_3ef95c18",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 42
+      },
+      "revId": "44d61a3d727eb68db9e57acec0704bfc6758f878",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
