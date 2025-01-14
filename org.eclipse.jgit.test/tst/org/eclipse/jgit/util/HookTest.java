@@ -22,6 +22,7 @@ import java.io.PrintStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.hooks.CommitMsgHook;
+import org.eclipse.jgit.hooks.PostCheckoutHook;
 import org.eclipse.jgit.hooks.PostCommitHook;
 import org.eclipse.jgit.hooks.PreCommitHook;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -56,6 +57,18 @@ public class HookTest extends RepositoryTestCase {
 				"#!/bin/bash\necho \"test $1 $2\"");
 		assertEquals("expected to find post-commit hook", hookFile,
 				FS.DETECTED.findHook(db, PostCommitHook.NAME));
+	}
+
+	@Test
+	public void testFindPostCheckoutHook() throws Exception {
+		assumeSupportedPlatform();
+
+		assertNull("no hook should be installed",
+				FS.DETECTED.findHook(db, PostCheckoutHook.NAME));
+		File hookFile = writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/bash\necho \"test $1 $2\"");
+		assertEquals("expected to find post-checkout hook", hookFile,
+				FS.DETECTED.findHook(db, PostCheckoutHook.NAME));
 	}
 
 	@Test
@@ -139,6 +152,27 @@ public class HookTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPostCheckoutRunHook() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\necho 1>&2 \"stderr\"");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+				PostCheckoutHook.NAME, new String[] { "arg1", "arg2" },
+				new PrintStream(out), new PrintStream(err), "stdin");
+
+		assertEquals("unexpected hook output", "test arg1 arg2\nstdin\n",
+				out.toString(UTF_8));
+		assertEquals("unexpected output on stderr stream", "stderr\n",
+				err.toString(UTF_8));
+		assertEquals("unexpected exit code", 0, res.getExitCode());
+		assertEquals("unexpected process status", ProcessResult.Status.OK,
+				res.getStatus());
+	}
+
+	@Test
 	public void testAllCommitHooks() throws Exception {
 		assumeSupportedPlatform();
 
@@ -153,15 +187,20 @@ public class HookTest extends RepositoryTestCase {
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
 		try {
 			git.commit().setMessage("commit")
-					.setHookOutputStream(new PrintStream(out)).call();
+					.setHookOutputStream(new PrintStream(out))
+					.setHookErrorStream(new PrintStream(err)).call();
 		} catch (AbortedByHookException e) {
 			throw new AssertionError("unexpected hook failure", e);
 		}
-		assertEquals("unexpected hook output",
+		assertEquals("unexpected hook output stream",
 				"test pre-commit\ntest commit-msg .git/COMMIT_EDITMSG\ntest post-commit\n",
 				out.toString(UTF_8));
+		assertEquals("unexpected hook error stream",
+				"stderr pre-commit\nstderr commit-msg\nstderr post-commit\n",
+				err.toString(UTF_8));
 	}
 
 	@Test
@@ -313,6 +352,41 @@ public class HookTest extends RepositoryTestCase {
 			assertEquals("unexpected output from pre-commit hook", "test\n",
 					out.toString(UTF_8));
 		}
+	}
+
+	@Test
+	public void testPostCheckoutHook() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/sh\necho \"test post-checkout out\"\necho 1>&2 \"stderr post-checkout err\"\nexit 0");
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+
+		ByteArrayOutputStream outTrash = new ByteArrayOutputStream();
+		git.commit().setMessage("commit")
+				.setHookOutputStream(new PrintStream(outTrash)).call();
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+		try {
+			git.checkout().setName("testbranch").setCreateBranch(true)
+					.setHookOutputStream(new PrintStream(out))
+					.setHookErrorStream(new PrintStream(err)).call();
+		} catch (Exception e) {
+			throw new AssertionError(
+					"unexpected error during checkout operation while testing post-checkout hook",
+					e);
+		}
+
+		assertEquals("unexpected hook output stream",
+				"test post-checkout out\n",
+				out.toString(UTF_8));
+		assertEquals("unexpected hook error stream",
+				"stderr post-checkout err\n",
+				err.toString(UTF_8));
 	}
 
 	private File writeHookFile(String name, String data)
