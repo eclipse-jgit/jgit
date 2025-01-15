@@ -64,10 +64,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig.TrustLooseRefStat;
-import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
+import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -185,11 +184,7 @@ public class RefDirectory extends RefDatabase {
 
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
-	private final boolean trustFolderStat;
-
-	private final TrustPackedRefsStat trustPackedRefsStat;
-
-	private final TrustLooseRefStat trustLooseRefStat;
+	private final CoreConfig coreConfig;
 
 	RefDirectory(RefDirectory refDb) {
 		parent = refDb.parent;
@@ -201,9 +196,7 @@ public class RefDirectory extends RefDatabase {
 		packedRefsFile = refDb.packedRefsFile;
 		looseRefs.set(refDb.looseRefs.get());
 		packedRefs.set(refDb.packedRefs.get());
-		trustFolderStat = refDb.trustFolderStat;
-		trustPackedRefsStat = refDb.trustPackedRefsStat;
-		trustLooseRefStat = refDb.trustLooseRefStat;
+		coreConfig = refDb.coreConfig;
 		inProcessPackedRefsLock = refDb.inProcessPackedRefsLock;
 	}
 
@@ -219,17 +212,7 @@ public class RefDirectory extends RefDatabase {
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
-		trustFolderStat = db.getConfig()
-				.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
-		trustPackedRefsStat = db.getConfig()
-				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
-						TrustPackedRefsStat.UNSET);
-		trustLooseRefStat = db.getConfig()
-				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_TRUST_LOOSE_REF_STAT,
-						TrustLooseRefStat.ALWAYS);
+		coreConfig = db.getConfig().get(CoreConfig.KEY);
 		inProcessPackedRefsLock = new ReentrantLock(true);
 	}
 
@@ -979,7 +962,7 @@ public class RefDirectory extends RefDatabase {
 	PackedRefList getPackedRefs() throws IOException {
 		final PackedRefList curList = packedRefs.get();
 
-		switch (trustPackedRefsStat) {
+		switch (coreConfig.getTrustPackedRefsStat()) {
 		case NEVER:
 			break;
 		case AFTER_OPEN:
@@ -995,12 +978,8 @@ public class RefDirectory extends RefDatabase {
 				return curList;
 			}
 			break;
-		case UNSET:
-			if (trustFolderStat
-					&& !curList.snapshot.isModified(packedRefsFile)) {
-				return curList;
-			}
-			break;
+		case INHERIT:
+			// only used in CoreConfig internally
 		}
 
 		return refreshPackedRefs(curList);
@@ -1186,7 +1165,7 @@ public class RefDirectory extends RefDatabase {
 	LooseRef scanRef(LooseRef ref, String name) throws IOException {
 		final File path = fileFor(name);
 
-		if (trustLooseRefStat.equals(TrustLooseRefStat.AFTER_OPEN)) {
+		if (coreConfig.getTrustLooseRefStat() == TrustStat.AFTER_OPEN) {
 			refreshPathToLooseRef(Paths.get(name));
 		}
 
