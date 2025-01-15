@@ -17,6 +17,8 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +44,8 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.FileUtils;
@@ -72,7 +75,7 @@ class PackDirectory {
 
 	private final AtomicReference<PackList> packList;
 
-	private final boolean trustFolderStat;
+	private final TrustStat trustPackStat;
 
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
@@ -86,14 +89,7 @@ class PackDirectory {
 		this.config = config;
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
-
-		// Whether to trust the pack folder's modification time. If set to false
-		// we will always scan the .git/objects/pack folder to check for new
-		// pack files. If set to true (default) we use the folder's size,
-		// modification time, and key (inode) and assume that no new pack files
-		// can be in this folder if these attributes have not changed.
-		trustFolderStat = config.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+		trustPackStat = config.get(CoreConfig.KEY).getTrustPackStat();
 	}
 
 	/**
@@ -365,8 +361,26 @@ class PackDirectory {
 	}
 
 	boolean searchPacksAgain(PackList old) {
-		return (!trustFolderStat || old.snapshot.isModified(directory))
-				&& old != scanPacks(old);
+		switch (trustPackStat) {
+		case NEVER:
+			break;
+		case AFTER_OPEN:
+			try (InputStream stream = Files
+					.newInputStream(directory.toPath())) {
+				// open the pack directory to refresh attributes (on some NFS clients)
+			} catch (IOException e) {
+				// ignore
+			}
+			//$FALL-THROUGH$
+		case ALWAYS:
+			if (!old.snapshot.isModified(directory)) {
+				return false;
+			}
+			break;
+		case INHERIT:
+			// only used in CoreConfig internally
+		}
+		return old != scanPacks(old);
 	}
 
 	void insert(Pack pack) {
