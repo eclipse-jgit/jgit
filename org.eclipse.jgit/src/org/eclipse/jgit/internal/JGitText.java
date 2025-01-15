@@ -493,6 +493,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidTimeUnitValue2;
 	/***/ public String invalidTimeUnitValue3;
 	/***/ public String invalidTreeZeroLengthName;
+	/***/ public String invalidTrustStat;
 	/***/ public String invalidURL;
 	/***/ public String invalidWildcards;
 	/***/ public String invalidRefSpec;
