@@ -49,7 +49,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -66,6 +68,7 @@ import java.util.concurrent.Future;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -221,19 +224,21 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		verify(unpackedObjectCacheMock).remove(id);
 	}
 
-	@Test
+	@Test(expected = IOException.class)
 	public void testOpenLooseObjectPropagatesIOExceptions() throws Exception {
 		ObjectId id = ObjectId
 				.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
 
-		LooseObjects mock = mock(LooseObjects.class);
+		Config config = new Config();
+		config.setString("core", null, "trustFolderStat", "false");
+		LooseObjects spy = spy(new LooseObjects(config,
+				db.getObjectDatabase().getDirectory()));
 
-		Mockito.when(mock.getObjectLoader(any(), any(), any()))
-				.thenThrow(new IOException("some IO failure"));
-		Mockito.when(mock.open(curs, id)).thenCallRealMethod();
+		doThrow(new IOException("some IO failure")).when(spy)
+				.getObjectLoader(any(), any(), any());
 
-		assertThrows(IOException.class, () -> mock.open(curs, id));
+		spy.open(curs, id);
 	}
 
 	@Test
