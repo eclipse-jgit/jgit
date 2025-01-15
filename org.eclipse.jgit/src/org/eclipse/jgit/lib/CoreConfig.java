@@ -17,7 +17,9 @@ package org.eclipse.jgit.lib;
 
 import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
 
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * This class keeps git repository core parameters.
@@ -127,7 +129,9 @@ public class CoreConfig {
 	 * Permissible values for {@code core.trustPackedRefsStat}.
 	 *
 	 * @since 6.1.1
+	 * @deprecated use {@link TrustStat} instead
 	 */
+	@Deprecated(since = "7.2", forRemoval = true)
 	public enum TrustPackedRefsStat {
 		/** Do not trust file attributes of the packed-refs file. */
 		NEVER,
@@ -135,12 +139,15 @@ public class CoreConfig {
 		/** Trust file attributes of the packed-refs file. */
 		ALWAYS,
 
-		/** Open and close the packed-refs file to refresh its file attributes
-		 * and then trust it. */
+		/**
+		 * Open and close the packed-refs file to refresh its file attributes
+		 * and then trust it.
+		 */
 		AFTER_OPEN,
 
-		/** {@code core.trustPackedRefsStat} defaults to this when it is
-		 * not set */
+		/**
+		 * {@code core.trustPackedRefsStat} defaults to this when it is not set
+		 */
 		UNSET
 	}
 
@@ -148,15 +155,42 @@ public class CoreConfig {
 	 * Permissible values for {@code core.trustLooseRefStat}.
 	 *
 	 * @since 6.9
+	 * @deprecated use {@link TrustStat} instead
 	 */
+	@Deprecated(since = "7.2", forRemoval = true)
 	public enum TrustLooseRefStat {
 
 		/** Trust file attributes of the loose ref. */
 		ALWAYS,
 
-		/** Open and close parent directories of the loose ref file until the
-		 * repository root to refresh its file attributes and then trust it. */
+		/**
+		 * Open and close parent directories of the loose ref file until the
+		 * repository root to refresh its file attributes and then trust it.
+		 */
 		AFTER_OPEN,
+	}
+
+	/**
+	 * Values for {@code core.trustXXX} options.
+	 *
+	 * @since 7.2
+	 */
+	public enum TrustStat {
+		/** Do not trust file attributes of a File. */
+		NEVER,
+
+		/** Always trust file attributes of a File. */
+		ALWAYS,
+
+		/** Open and close the File to refresh its file attributes
+		 * and then trust it. */
+		AFTER_OPEN,
+
+		/**
+		 * Used for specific options to inherit value from value set for
+		 * core.trustStat.
+		 */
+		INHERIT
 	}
 
 	private final int compression;
@@ -168,6 +202,16 @@ public class CoreConfig {
 	private final String attributesfile;
 
 	private final boolean commitGraph;
+
+	private final TrustStat trustStat;
+
+	private final TrustStat trustPackedRefsStat;
+
+	private final TrustStat trustLooseRefStat;
+
+	private final TrustStat trustPackStat;
+
+	private final TrustStat trustLooseObjectStat;
 
 	/**
 	 * Options for symlink handling
@@ -198,7 +242,13 @@ public class CoreConfig {
 		DOTGITONLY
 	}
 
-	private CoreConfig(Config rc) {
+	/**
+	 * Create a new core configuration from the passed configuration.
+	 *
+	 * @param rc
+	 *            git configuration
+	 */
+	CoreConfig(Config rc) {
 		compression = rc.getInt(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_KEY_COMPRESSION, DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt(ConfigConstants.CONFIG_PACK_SECTION,
@@ -210,6 +260,63 @@ public class CoreConfig {
 		commitGraph = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_COMMIT_GRAPH,
 				DEFAULT_COMMIT_GRAPH_ENABLE);
+
+		trustStat = parseTrustStat(rc);
+		trustPackedRefsStat = parseTrustPackedRefsStat(rc);
+		trustLooseRefStat = parseTrustLooseRefStat(rc);
+		trustPackStat = parseTrustPackFileStat(rc);
+		trustLooseObjectStat = parseTrustLooseObjectFileStat(rc);
+	}
+
+	private TrustStat parseTrustStat(Config rc) {
+		// if deprecated trustFolderStat is configured migrate it to new
+		// trustFileStat
+		String s = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT);
+		if (!StringUtils.isEmptyOrNull(s)) {
+			boolean trustFolderStat = rc.getBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+			if (trustFolderStat) {
+				return TrustStat.ALWAYS;
+			}
+			return TrustStat.NEVER;
+		}
+		TrustStat ts = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUST_STAT,
+				TrustStat.ALWAYS);
+		if (ts == TrustStat.INHERIT) {
+			throw new IllegalStateException(JGitText.get().invalidTrustStat);
+		}
+		return ts;
+	}
+
+	private TrustStat parseTrustPackedRefsStat(Config rc) {
+		TrustStat t = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
+				TrustStat.INHERIT);
+		return t == TrustStat.INHERIT ? trustStat : t;
+	}
+
+	private TrustStat parseTrustLooseRefStat(Config rc) {
+		TrustStat t = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUST_LOOSE_REF_STAT,
+				TrustStat.INHERIT);
+		return t == TrustStat.INHERIT ? trustStat : t;
+	}
+
+	private TrustStat parseTrustPackFileStat(Config rc) {
+		TrustStat t = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUST_PACK_STAT,
+				TrustStat.INHERIT);
+		return t == TrustStat.INHERIT ? trustStat : t;
+	}
+
+	private TrustStat parseTrustLooseObjectFileStat(Config rc) {
+		TrustStat t = rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_TRUST_LOOSE_OBJECT_STAT,
+				TrustStat.INHERIT);
+		return t == TrustStat.INHERIT ? trustStat : t;
 	}
 
 	/**
@@ -259,5 +366,57 @@ public class CoreConfig {
 	 */
 	public boolean enableCommitGraph() {
 		return commitGraph;
+	}
+
+	/**
+	 * Get how far we can trust file attributes of packed-refs file which is
+	 * used to store {@link org.eclipse.jgit.lib.Ref}s in
+	 * {@link org.eclipse.jgit.internal.storage.file.RefDirectory}.
+	 *
+	 * @return how far we can trust file attributes of packed-refs file.
+	 *
+	 * @since 7.2
+	 */
+	public TrustStat getTrustPackedRefsStat() {
+		return trustPackedRefsStat;
+	}
+
+	/**
+	 * Get how far we can trust file attributes of loose ref files which are
+	 * used to store {@link org.eclipse.jgit.lib.Ref}s in
+	 * {@link org.eclipse.jgit.internal.storage.file.RefDirectory}.
+	 *
+	 * @return how far we can trust file attributes of loose ref files.
+	 *
+	 * @since 7.2
+	 */
+	public TrustStat getTrustLooseRefStat() {
+		return trustLooseRefStat;
+	}
+
+	/**
+	 * Get how far we can trust file attributes of packed-refs file which is
+	 * used to store {@link org.eclipse.jgit.lib.Ref}s in
+	 * {@link org.eclipse.jgit.internal.storage.file.RefDirectory}.
+	 *
+	 * @return how far we can trust file attributes of packed-refs file.
+	 *
+	 * @since 7.2
+	 */
+	public TrustStat getTrustPackStat() {
+		return trustPackStat;
+	}
+
+	/**
+	 * Get how far we can trust file attributes of loose ref files which are
+	 * used to store {@link org.eclipse.jgit.lib.Ref}s in
+	 * {@link org.eclipse.jgit.internal.storage.file.RefDirectory}.
+	 *
+	 * @return how far we can trust file attributes of loose ref files.
+	 *
+	 * @since 7.2
+	 */
+	public TrustStat getTrustLooseObjectStat() {
+		return trustLooseObjectStat;
 	}
 }

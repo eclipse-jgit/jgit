@@ -593,9 +593,19 @@ public final class ConfigConstants {
 
 	/**
 	 * The "trustfolderstat" key in the "core" section
+	 *
 	 * @since 3.6
+	 * @deprecated use {CONFIG_KEY_TRUST_STAT} instead
 	 */
+	@Deprecated(since = "7.2", forRemoval = true)
 	public static final String CONFIG_KEY_TRUSTFOLDERSTAT = "trustfolderstat";
+
+	/**
+	 * The "trustfilestat" key in the "core"section
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_STAT = "truststat";
 
 	/**
 	 * The "supportsAtomicFileCreation" key in the "core" section
@@ -1015,6 +1025,19 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_TRUST_LOOSE_REF_STAT = "trustLooseRefStat";
 
+	/**
+	 * The "trustLooseRefStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_PACK_STAT = "trustPackStat";
+
+	/**
+	 * The "trustLooseObjectFileStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_LOOSE_OBJECT_STAT = "trustLooseObjectStat";
 	/**
 	 * The "pack.preserveOldPacks" key
 	 *
