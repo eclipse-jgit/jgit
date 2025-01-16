@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6894bdd_2f4e1096",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038591
+      },
+      "writtenOn": "2025-01-16T09:25:49Z",
+      "side": 1,
+      "message": "First contribution to eclipse project, if I missed anything kindly correct me :)",
+      "revId": "2e6989c098acb61841d2d0d35b080ac6dc9e25b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
