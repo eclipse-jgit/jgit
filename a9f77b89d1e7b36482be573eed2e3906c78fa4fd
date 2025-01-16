@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d40e7f15_b65b41bb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ObjectDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-01-16T15:56:41Z",
+      "side": 1,
+      "message": "nit: Is it clearer to use `setString()`?\n```suggestion\n\t\tconfig. setString(\"core\", null, \"trustFolderStat\", \"false\");\n```",
+      "range": {
+        "startLine": 234,
+        "startChar": 2,
+        "endLine": 234,
+        "endChar": 60
+      },
+      "revId": "a9f77b89d1e7b36482be573eed2e3906c78fa4fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
