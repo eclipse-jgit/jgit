@@ -22,6 +22,30 @@
       },
       "revId": "07d1a1f118734f863d62c9daeac90345ca431e6b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "605a052b_84fd6fb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-17T11:57:20Z",
+      "side": 1,
+      "message": "e.g. pack.objectSizeWriterBufferSize \u003d 8m",
+      "parentUuid": "98ba389e_e4770e70",
+      "range": {
+        "startLine": 142,
+        "startChar": 41,
+        "endLine": 142,
+        "endChar": 48
+      },
+      "revId": "07d1a1f118734f863d62c9daeac90345ca431e6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
