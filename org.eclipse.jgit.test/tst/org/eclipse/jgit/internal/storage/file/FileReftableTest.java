@@ -559,7 +559,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		}
 
 		String randomStr = String.join("", strs);
-		String refName = "branch";
+		String refName = "refs/heads/branch";
 		for (long i = 0; i < 2; i++) {
 			RefUpdate ru = refDb.newUpdate(refName, false);
 			ru.setNewObjectId(i % 2 == 0 ? aId : bId);
