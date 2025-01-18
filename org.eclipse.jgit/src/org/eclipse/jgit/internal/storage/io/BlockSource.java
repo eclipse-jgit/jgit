@@ -10,10 +10,16 @@
 
 package org.eclipse.jgit.internal.storage.io;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 /**
  * Provides content blocks of file.
@@ -108,6 +114,54 @@ public abstract class BlockSource implements AutoCloseable {
 	}
 
 	/**
+	 * Read from a {@code File}.
+	 * <p>
+	 * The returned {@code BlockSource} is thread-safe. It's read the whole file
+	 * when necessary and safe the content as SoftReference. So the content is
+	 * cleanup, when the heap memory gets low.
+	 *
+	 * @param file
+	 *            the file. (@code BlockSource) read the content in first call
+	 *            of read
+	 * @return wrapper for {@code file}.
+	 */
+	public static BlockSource from(File file) {
+		return new BlockSource() {
+			private SoftReference<BlockSource> bytesource = new SoftReference<>(
+					null);
+
+			private AtomicReference<FileSnapshot> snapshot = new AtomicReference<>(
+					FileSnapshot.save(file));
+
+			@Override
+			public long size() throws IOException {
+				return file.length();
+			}
+
+			@Override
+			public ByteBuffer read(long position, int blockSize)
+					throws IOException {
+				BlockSource source = bytesource.get();
+				if (snapshot.get().isModified(file)) {
+					snapshot.get().setClean(FileSnapshot.save(file));
+					source = null;
+				}
+				if (source == null) {
+					byte[] buffer = Files.readAllBytes(file.toPath());
+					source = BlockSource.from(buffer);
+					bytesource = new SoftReference<>(source);
+				}
+				return source.read(position, blockSize);
+			}
+
+			@Override
+			public void close() {
+				bytesource.clear();
+			}
+		};
+	}
+
+	/**
 	 * Read a block from the file.
 	 * <p>
 	 * To reduce copying, the returned ByteBuffer should have an accessible
@@ -149,4 +203,5 @@ public abstract class BlockSource implements AutoCloseable {
 
 	@Override
 	public abstract void close();
+
 }

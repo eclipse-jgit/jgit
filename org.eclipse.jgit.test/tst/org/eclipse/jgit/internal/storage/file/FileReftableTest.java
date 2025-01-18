@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.NoSuchFileException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -686,6 +687,36 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
 		assertEquals(1, refs.size());
 		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_101() throws Exception {
+		Git git = Git.wrap(db);
+		assertEquals(FileReftableDatabase.class,
+				git.getRepository().getRefDatabase().getClass());
+
+		File reftabledir = new File(db.getDirectory(), Constants.REFTABLE);
+		// Its illegal to delete a reftable file which is referenced by
+		// tables.list, but since JGit reload the reftable stack only if
+		// needed, it should be possible for an external process to
+		// change / delete the files for reftable compaction
+		// This test assert, that the referenced reftable files didn't locked
+		// from filesystem, but leads to NoSuchFileException because the
+		// reftable is referenced in tables.list
+		for (File file : reftabledir.listFiles()) {
+			if (!file.getName().equals(Constants.TABLES_LIST)) {
+				file.delete();
+			}
+		}
+
+		// the NoSuchFileException is thrown in next access to a ref
+		try {
+			db.exactRef("HEAD");
+
+			fail("FileNotFoundException is expected");
+		} catch (NoSuchFileException e) {
+			// This NoSuchFileException should be thrown in BlockSource.read
+		}
 	}
 
 	@Test
