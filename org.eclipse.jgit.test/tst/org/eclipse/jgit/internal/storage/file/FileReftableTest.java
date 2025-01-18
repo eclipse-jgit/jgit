@@ -21,15 +21,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -43,6 +46,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -686,6 +690,85 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
 		assertEquals(1, refs.size());
 		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_101() throws Exception {
+		Git git = Git.wrap(db);
+		assertEquals(FileReftableDatabase.class,
+				git.getRepository().getRefDatabase().getClass());
+
+		File reftabledir = new File(db.getDirectory(), Constants.REFTABLE);
+		// Its illegal to delete a reftable file which is referenced by
+		// tables.list, but since JGit reload the reftable stack only if
+		// needed, it should be possible for an external process to
+		// change / delete the files for reftable compaction
+		// This test assert, that the referenced reftable files didn't locked
+		// from filesystem, but leads to FileNotFoundException because the
+		// reftable is referenced in tables.list
+		for (File file : reftabledir.listFiles()) {
+			if (!file.getName().equals(Constants.TABLES_LIST)) {
+				assertTrue(file.delete());
+			}
+		}
+
+		// the FileNotFoundException is thrown in next access to a ref
+		assertThrows(FileNotFoundException.class,
+				() -> db.exactRef("refs/heads/a"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_101_content_changed() throws Exception {
+		Git git = Git.wrap(db);
+		assertEquals(FileReftableDatabase.class,
+				git.getRepository().getRefDatabase().getClass());
+
+		File reftabledir = new File(db.getDirectory(), Constants.REFTABLE);
+
+		assertEquals(25, db.getRefDatabase().getRefs().size());
+		assertEquals(
+				ObjectId.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4"),
+				db.exactRef("refs/heads/a").getObjectId());
+
+		for (File file : reftabledir.listFiles()) {
+			if (!file.getName().equals(Constants.TABLES_LIST)) {
+				// Overwrite the reftable file with corrupt content
+				// to ensure, the file is reloaded in BlockSource
+				byte[] newcontent = new byte[(int) file.length()];
+				try (FileOutputStream fos = new FileOutputStream(file)) {
+					fos.write(newcontent);
+				}
+			}
+		}
+
+		// the JGitInternalException from BlockSource
+		assertThrows(JGitInternalException.class,
+				() -> db.exactRef("refs/heads/a"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_101_filetime_changed() throws Exception {
+		Git git = Git.wrap(db);
+		assertEquals(FileReftableDatabase.class,
+				git.getRepository().getRefDatabase().getClass());
+
+		File reftabledir = new File(db.getDirectory(), Constants.REFTABLE);
+
+		assertEquals(25, db.getRefDatabase().getRefs().size());
+		assertEquals(
+				ObjectId.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4"),
+				db.exactRef("refs/heads/a").getObjectId());
+
+		for (File file : reftabledir.listFiles()) {
+			if (!file.getName().equals(Constants.TABLES_LIST)) {
+				// Change the Filetime
+				file.setLastModified(Instant.now().getEpochSecond());
+			}
+		}
+
+		assertEquals(
+				ObjectId.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4"),
+				db.exactRef("refs/heads/a").getObjectId());
 	}
 
 	@Test

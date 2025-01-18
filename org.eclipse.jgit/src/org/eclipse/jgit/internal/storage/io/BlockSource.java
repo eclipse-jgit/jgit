@@ -10,10 +10,20 @@
 
 package org.eclipse.jgit.internal.storage.io;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.MessageFormat;
+import java.util.Arrays;
+
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Provides content blocks of file.
@@ -103,6 +113,84 @@ public abstract class BlockSource implements AutoCloseable {
 				} catch (IOException e) {
 					// Ignore close failures of read-only files.
 				}
+			}
+		};
+	}
+
+	/**
+	 * Read from a {@code File}.
+	 * <p>
+	 * The returned {@code BlockSource} is thread-safe. It's read the whole file
+	 * when necessary and safe the content as SoftReference. So the content is
+	 * cleanup, when the heap memory gets low.
+	 *
+	 * @since 7.2
+	 * @param file
+	 *            the file. (@code BlockSource) read the content in first call
+	 *            of read
+	 * @return wrapper for {@code file}.
+	 */
+	public static BlockSource from(File file) {
+		return new BlockSource() {
+			private SoftReference<BlockSource> bytesource = new SoftReference<>(
+					null);
+
+			private FileSnapshot snapshot = FileSnapshot.save(file);
+
+			private int hash;
+
+			@Override
+			public long size() throws IOException {
+				return file.length();
+			}
+
+			@Override
+			public ByteBuffer read(long position, int blockSize)
+					throws IOException {
+				BlockSource source = bytesource.get();
+				if (source != null) {
+					FileSnapshot newSnapshot = FileSnapshot.save(file);
+					if (!snapshot.equals(newSnapshot)) {
+						if (!FS.DETECTED.exists(file)) {
+							throw new FileNotFoundException(file.toString());
+						}
+
+						if (newSnapshot.size() != snapshot.size()) {
+							throw new JGitInternalException(
+									MessageFormat.format(JGitText
+											.get().illegalFileModification,
+											file.toString(),
+											"filesize has changed"));
+						}
+						byte[] buffer;
+						try (FileInputStream fin = new FileInputStream(file)) {
+							buffer = fin.readAllBytes();
+						}
+						int newhash = Arrays.hashCode(buffer);
+						if (newhash != hash) {
+							throw new JGitInternalException(
+									MessageFormat.format(JGitText
+											.get().illegalFileModification,
+											file.toString(),
+											"filecontent has changed"));
+						}
+					}
+				}
+				if (source == null) {
+					byte[] buffer;
+					try (FileInputStream fin = new FileInputStream(file)) {
+						buffer = fin.readAllBytes();
+					}
+					hash = Arrays.hashCode(buffer);
+					source = BlockSource.from(buffer);
+					bytesource = new SoftReference<>(source);
+				}
+				return source.read(position, blockSize);
+			}
+
+			@Override
+			public void close() {
+				bytesource.clear();
 			}
 		};
 	}
