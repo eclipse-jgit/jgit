@@ -16,6 +16,24 @@
       "message": "should I use FileInputStream to read the file and get an FileNotFoundException",
       "revId": "31218ced91e63a7033883d5cdfff4bb47bb6aea6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "286e2534_0bc1100b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/io/BlockSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1038600
+      },
+      "writtenOn": "2025-01-18T08:56:23Z",
+      "side": 1,
+      "message": "changed to FileInputStream.readAllBytes. So its not an API change.",
+      "parentUuid": "dae6e154_d90b1906",
+      "revId": "31218ced91e63a7033883d5cdfff4bb47bb6aea6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
