@@ -163,7 +163,7 @@ public class FileReftableStack implements AutoCloseable {
 
 					is = new FileInputStream(subtable);
 
-					t = new ReftableReader(BlockSource.from(is));
+					t = new ReftableReader(BlockSource.from(is, subtable));
 					newTables.add(t);
 				}
 

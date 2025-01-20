@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -541,6 +542,22 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		updateRef.setForceUpdate(true);
 		assertEquals(FORCED, updateRef.update());
 		assertEquals(RefUpdate.Result.LOCK_FAILURE, rename.rename());
+	}
+
+	@Test
+	public void readingFromNonExistingRefTableShouldThrow() throws Exception {
+		FileReftableDatabase refDbA = (FileReftableDatabase) db.getRefDatabase();
+		assertEquals(RefUpdate.Result.NEW, updateRef("refs/heads/abc").update());
+
+		try (FileRepository fileRepository = new FileRepository(db.getDirectory())) {
+			FileReftableDatabase refDbB = (FileReftableDatabase) fileRepository.getRefDatabase();
+			refDbA.compactFully();
+			assertThrows(
+                    "Expected an IllegalStateException when reading a non-existing ref table",
+                    IllegalStateException.class,
+                    () -> refDbB.exactRef("refs/heads/abc")
+            );
+		}
 	}
 
 	@Test

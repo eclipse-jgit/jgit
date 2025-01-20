@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.io;
 
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -22,6 +24,12 @@ import java.nio.channels.FileChannel;
  * or not.
  */
 public abstract class BlockSource implements AutoCloseable {
+
+	/**
+	 * The file this block is created from, <code>null</code> when a block is created from a byte array.
+	 */
+	protected File file;
+
 	/**
 	 * Wrap a byte array as a {@code BlockSource}.
 	 *
@@ -33,6 +41,9 @@ public abstract class BlockSource implements AutoCloseable {
 		return new BlockSource() {
 			@Override
 			public ByteBuffer read(long pos, int cnt) {
+				if(file != null && !file.exists()) {
+					throw new IllegalStateException("Cannot read from " + file.getAbsolutePath() + " because it does not exist");
+				}
 				ByteBuffer buf = ByteBuffer.allocate(cnt);
 				if (pos < content.length) {
 					int p = (int) pos;
@@ -68,6 +79,26 @@ public abstract class BlockSource implements AutoCloseable {
 		return from(in.getChannel());
 	}
 
+
+	/**
+	 * Read from a {@code FileInputStream} and provide the related {@code File}.
+	 * <p>
+	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
+	 * file channel to read a block.
+	 *
+	 *
+	 * @param in
+	 *            the file. The {@code BlockSource} will close {@code in}.
+	 * @param file the file the {@code FileInputStream} is created from.
+	 * @return wrapper for {@code in}.
+	 */
+	public static BlockSource from(FileInputStream in, File file) {
+		BlockSource from = from(in.getChannel());
+		from.file = file;
+		return from;
+	}
+
+
 	/**
 	 * Read from a {@code FileChannel}.
 	 * <p>
@@ -82,6 +113,9 @@ public abstract class BlockSource implements AutoCloseable {
 		return new BlockSource() {
 			@Override
 			public ByteBuffer read(long pos, int blockSize) throws IOException {
+				if(file != null && !file.exists()) {
+					throw new IllegalStateException("Cannot read from " + file.getAbsolutePath() + " because it does not exist");
+				}
 				ByteBuffer b = ByteBuffer.allocate(blockSize);
 				ch.position(pos);
 				int n;
