@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.nio.channels.ClosedChannelException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,6 +28,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Operations on {@link MergedReftable} that is common to various reftable-using
@@ -39,6 +42,9 @@ public abstract class ReftableDatabase {
 	private final ReentrantLock lock = new ReentrantLock(true);
 
 	private Reftable mergedTables;
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(ReftableDatabase.class);
 
 	/**
 	 * ReftableDatabase lazily initializes its merged reftable on the first read after
@@ -233,20 +239,33 @@ public abstract class ReftableDatabase {
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
-	@Nullable
-	public Ref exactRef(String name) throws IOException {
-		lock.lock();
-		try {
-			Reftable table = reader();
-			Ref ref = table.exactRef(name);
-			if (ref != null && ref.isSymbolic()) {
-				return table.resolve(ref);
-			}
-			return ref;
-		} finally {
-			lock.unlock();
-		}
-	}
+    @Nullable
+    public Ref exactRef(String name) throws IOException {
+        int maxRetries = 3;
+        lock.lock();
+        try {
+            int attempts = 0;
+            while (true) {
+                try {
+                    Reftable table = reader();
+                    Ref ref = table.exactRef(name);
+                    if (ref != null && ref.isSymbolic()) {
+                        return table.resolve(ref);
+                    }
+                    return ref;
+                   } catch (ClosedChannelException e) {
+					LOG.warn("[{}/{}] Caught ClosedChannelException when looking up ref {}", ++attempts, maxRetries, name);
+                    clearCache();
+                    if (attempts >= maxRetries) {
+						LOG.error("Giving up looking up ref {}", name, e);
+						throw e;
+					}
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 
 	/**
 	 * Returns refs whose names start with a given prefix.
