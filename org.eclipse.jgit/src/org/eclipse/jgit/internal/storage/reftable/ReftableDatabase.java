@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
+import java.nio.channels.ClosedChannelException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -233,20 +234,29 @@ public abstract class ReftableDatabase {
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
-	@Nullable
-	public Ref exactRef(String name) throws IOException {
-		lock.lock();
-		try {
-			Reftable table = reader();
-			Ref ref = table.exactRef(name);
-			if (ref != null && ref.isSymbolic()) {
-				return table.resolve(ref);
-			}
-			return ref;
-		} finally {
-			lock.unlock();
-		}
-	}
+    @Nullable
+    public Ref exactRef(String name) throws IOException {
+        int maxRetries = 3;
+        lock.lock();
+        try {
+            int attempts = 0;
+            while (true) {
+                try {
+                    Reftable table = reader();
+                    Ref ref = table.exactRef(name);
+                    if (ref != null && ref.isSymbolic()) {
+                        return table.resolve(ref);
+                    }
+                    return ref;
+                   } catch (ClosedChannelException e) {
+                    clearCache();
+                    if (++attempts >= maxRetries) throw e;
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 
 	/**
 	 * Returns refs whose names start with a given prefix.
