@@ -233,7 +233,7 @@ public abstract class ReftableDatabase {
 	 * @throws java.io.IOException
 	 *             the reference space cannot be accessed.
 	 */
-	@Nullable
+    @Nullable
 	public Ref exactRef(String name) throws IOException {
 		lock.lock();
 		try {

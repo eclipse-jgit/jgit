@@ -16,6 +16,7 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.ClosedChannelException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -158,7 +159,13 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
-		return reftableDatabase.exactRef(name);
+		try {
+			return reftableDatabase.exactRef(name);
+		} catch(ClosedChannelException e) {
+			reftableStack.reload();
+			reftableDatabase.clearCache();
+			return reftableDatabase.exactRef(name);
+		}
 	}
 
 	@Override

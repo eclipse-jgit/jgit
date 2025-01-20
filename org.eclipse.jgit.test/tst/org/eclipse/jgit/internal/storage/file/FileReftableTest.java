@@ -544,6 +544,21 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void racyTable() throws Exception {
+		FileReftableDatabase refDb = (FileReftableDatabase) db.getRefDatabase();
+
+		RefUpdate dst = updateRef("refs/heads/abc");
+		assertEquals(RefUpdate.Result.NEW, dst.update());
+
+		FileReftableDatabase refDb2 = (FileReftableDatabase) new FileRepository(db.getDirectory()).getRefDatabase();
+
+		refDb.compactFully();
+		refDb2.close();
+
+		refDb2.exactRef("refs/heads/abc");
+	}
+
+		@Test
 	public void compactFully() throws Exception {
 		FileReftableDatabase refDb = (FileReftableDatabase) db.getRefDatabase();
 		PersonIdent person = new PersonIdent("jane", "jane@invalid");
