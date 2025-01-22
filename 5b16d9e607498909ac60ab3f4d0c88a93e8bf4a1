@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2a0968d_e034e9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:50:44Z",
+      "side": 1,
+      "message": "I am also concerned that this approach will potentially slow down reading refs significantly. Refs are the most dynamic data structure in git, and with RefTables they impact the entire repository, so if we don\u0027t have to read an entire table, it might be better. Due to reflogs, the sum of all the data in the tables will tend to grow over time, so this can really get expensive. Even if we consider that most reflogs might be placed in a separate reftable, if a specific ref needs to be accessed in the last table in the stack, I believe this will mean reading all of the refs? That can be very slow on NFS, especially if we have to read more than one file. Reftables was designed to perform much better than a packed-refs file, but theoretically (ignoring compression, and the fact that it is more than one file) this has the potential to bring read performance down to be about the same as packedrefs. :(",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
