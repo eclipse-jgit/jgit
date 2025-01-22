@@ -70,6 +70,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd3aa0c_4d96aa49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038600
+      },
+      "writtenOn": "2025-01-22T17:14:31Z",
+      "side": 1,
+      "message": "understand.\nAt moment its not a big concern. Only few people moved to reftables and use eclispe egit (or other jgit-tools) parallel to cgit. I think the problem gets bigger, when cgit change the default to reftables or more people uses reftables.\n\nThe best option to avoid is using a WatchKey for tables.list and invalidating (closing) the reftablestack on modification. But I didn\u0027t see any use of WatchKey, so I think its not desirable to use it in jgit. Should I give this a try.\n\nOther ideas are welcome.\n\nSorry, I don\u0027t have any benchmarks at moment. I try to solve jgit-101 because it prevent me to use reftables in an project in which we use jgit and cgit parallel.",
+      "parentUuid": "e607750d_7d7eac4c",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
