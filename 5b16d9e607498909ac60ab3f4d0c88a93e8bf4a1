@@ -94,6 +94,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c88a5afb_e5c52b9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T17:55:41Z",
+      "side": 1,
+      "message": "\u003e The best option to avoid is using a WatchKey for tables.list and invalidating (closing) the reftablestack on modification. But I didn\u0027t see any use of WatchKey, so I think its not desirable to use it in jgit.\n\nThis approach would be racy.\n\nI don\u0027t know what the right approach is for windows, it almost seems like git needs an entirely different design on windows, the ability to delete files is an essential design concept in git. \n\nMaybe windows should keep a list of files \"to delete\" and just move on when it can\u0027t delete a file? jgit could have a process that watches files in that list to see that they are no longer open by another program and delete them then?",
+      "parentUuid": "cbd3aa0c_4d96aa49",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
