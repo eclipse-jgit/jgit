@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.lfs.server" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="923795461">
+            <message_arguments>
+                <message_argument value="7.2.0"/>
+                <message_argument value="7.1.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java" type="org.eclipse.jgit.lfs.server.LfsProtocolServlet">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.LfsProtocolServlet"/>
+                <message_argument value="jakarta.servlet.ServletConfig,jakarta.servlet.Servlet"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.LfsProtocolServlet"/>
+                <message_argument value="doPost(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.LfsProtocolServlet"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java" type="org.eclipse.jgit.lfs.server.fs.FileLfsServlet">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.FileLfsServlet"/>
+                <message_argument value="jakarta.servlet.ServletConfig,jakarta.servlet.Servlet"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.FileLfsServlet"/>
+                <message_argument value="doGet(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.FileLfsServlet"/>
+                <message_argument value="doPut(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.FileLfsServlet"/>
+                <message_argument value="getObjectToTransfer(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.FileLfsServlet"/>
+                <message_argument value="sendError(HttpServletResponse, int, String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.FileLfsServlet"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="getObjectToTransfer(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="sendError(HttpServletResponse, int, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java" type="org.eclipse.jgit.lfs.server.fs.ObjectDownloadListener">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.ObjectDownloadListener"/>
+                <message_argument value="jakarta.servlet.WriteListener"/>
+            </message_arguments>
+        </filter>
+        <filter id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.ObjectDownloadListener"/>
+                <message_argument value="ObjectDownloadListener(FileLfsRepository, AsyncContext, HttpServletResponse, AnyLongObjectId)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="ObjectDownloadListener(FileLfsRepository, AsyncContext, HttpServletResponse, AnyLongObjectId)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java" type="org.eclipse.jgit.lfs.server.fs.ObjectUploadListener">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.ObjectUploadListener"/>
+                <message_argument value="jakarta.servlet.ReadListener"/>
+            </message_arguments>
+        </filter>
+        <filter id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.lfs.server.fs.ObjectUploadListener"/>
+                <message_argument value="ObjectUploadListener(FileLfsRepository, AsyncContext, HttpServletRequest, HttpServletResponse, AnyLongObjectId)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="ObjectUploadListener(FileLfsRepository, AsyncContext, HttpServletRequest, HttpServletResponse, AnyLongObjectId)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
