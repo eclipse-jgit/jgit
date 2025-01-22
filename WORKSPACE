@@ -162,8 +162,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "jakarta.servlet:jakarta.servlet-api:6.1.0",
-    sha1 = "1169a246913fe3823782af7943e7a103634867c5",
+    artifact = "jakarta.servlet:jakarta.servlet-api:4.0.4",
+    sha1 = "b8a1142e04838fe54194049c6e7a18dae8f9b960",
 )
 
 maven_jar(
@@ -250,8 +250,8 @@ JETTY_VER = "12.0.16"
 
 maven_jar(
     name = "jetty-servlet",
-    artifact = "org.eclipse.jetty.ee10:jetty-ee10-servlet:" + JETTY_VER,
-    sha1 = "022a746c00b1ac5c790fee65a398c707160a46d8",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
+    sha1 = "302b59975d097da9eb895c010c3f53d89dcd8620",
 )
 
 maven_jar(
@@ -295,6 +295,30 @@ maven_jar(
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VER,
     sha1 = "60225034131e3f771b40bc75c15bd9cc4952302b",
 )
+
+maven_jar(
+    name = "jetty-ee8-nested",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-nested:" + JETTY_VER,
+    sha1 = "cf015654802538decd8e69f148541ec46f14c0bd",
+)
+
+maven_jar(
+    name = "jetty-ee8-security",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VER,
+    sha1 = "da04efb8443018cec4b583c0c2731bfe5dc49657",
+)
+
+maven_jar(
+    name = "jetty-ee8-servlet",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
+    sha1 = "302b59975d097da9eb895c010c3f53d89dcd8620",
+)
+
+# maven_jar(
+#     name = "jetty-servlet-api",
+#     artifact = "org.eclipse.jetty.toolchain:jetty-servlet-api:" + JETTY_VER,
+#     sha1 = "96a4cc324c11f2258cacb6d4f196e3e98b444f44",
+# )
 
 BOUNCYCASTLE_VER = "1.80"
 

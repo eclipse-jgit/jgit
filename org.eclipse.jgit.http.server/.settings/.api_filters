@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.http.server" version="2">
+    <resource path="META-INF/MANIFEST.MF">
+        <filter id="923795461">
+            <message_arguments>
+                <message_argument value="7.2.0"/>
+                <message_argument value="7.1.0"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/ClientVersionUtil.java" type="org.eclipse.jgit.http.server.ClientVersionUtil">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ClientVersionUtil"/>
+                <message_argument value="hasChunkedEncodingRequestBug(int[], HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="hasChunkedEncodingRequestBug(int[], HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/GitFilter.java" type="org.eclipse.jgit.http.server.GitFilter">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitFilter"/>
+                <message_argument value="jakarta.servlet.Filter"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitFilter"/>
+                <message_argument value="addReceivePackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitFilter"/>
+                <message_argument value="addUploadPackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitFilter"/>
+                <message_argument value="init(FilterConfig)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="addReceivePackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="addUploadPackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/GitServlet.java" type="org.eclipse.jgit.http.server.GitServlet">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitServlet"/>
+                <message_argument value="jakarta.servlet.ServletConfig,jakarta.servlet.Servlet"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitServlet"/>
+                <message_argument value="addReceivePackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitServlet"/>
+                <message_argument value="addUploadPackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitServlet"/>
+                <message_argument value="init(ServletConfig)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="addReceivePackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="addUploadPackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/GitSmartHttpTools.java" type="org.eclipse.jgit.http.server.GitSmartHttpTools">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="getResponseContentType(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="isGitClient(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="isInfoRefs(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="isReceivePack(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="isUploadPack(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.GitSmartHttpTools"/>
+                <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int, String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="getResponseContentType(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="isGitClient(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="isInfoRefs(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="isReceivePack(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="isUploadPack(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java" type="org.eclipse.jgit.http.server.ReceivePackErrorHandler">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ReceivePackErrorHandler"/>
+                <message_argument value="receive(HttpServletRequest, HttpServletResponse, ReceivePackErrorHandler.ReceivePackRunnable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="405901410">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ReceivePackErrorHandler"/>
+                <message_argument value="receive(HttpServletRequest, HttpServletResponse, ReceivePackErrorHandler.ReceivePackRunnable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="receive(HttpServletRequest, HttpServletResponse, ReceivePackErrorHandler.ReceivePackRunnable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/RepositoryFilter.java" type="org.eclipse.jgit.http.server.RepositoryFilter">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.RepositoryFilter"/>
+                <message_argument value="jakarta.servlet.Filter"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.RepositoryFilter"/>
+                <message_argument value="doFilter(ServletRequest, ServletResponse, FilterChain)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.RepositoryFilter"/>
+                <message_argument value="init(FilterConfig)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/ServletUtils.java" type="org.eclipse.jgit.http.server.ServletUtils">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ServletUtils"/>
+                <message_argument value="consumeRequestBody(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ServletUtils"/>
+                <message_argument value="getInputStream(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ServletUtils"/>
+                <message_argument value="getRepository(ServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ServletUtils"/>
+                <message_argument value="send(byte[], HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.ServletUtils"/>
+                <message_argument value="sendPlainText(String, HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="consumeRequestBody(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="getInputStream(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="getRepository(ServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="send(byte[], HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="sendPlainText(String, HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java" type="org.eclipse.jgit.http.server.UploadPackErrorHandler">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.UploadPackErrorHandler"/>
+                <message_argument value="upload(HttpServletRequest, HttpServletResponse, UploadPackErrorHandler.UploadPackRunnable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="405901410">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.UploadPackErrorHandler"/>
+                <message_argument value="upload(HttpServletRequest, HttpServletResponse, UploadPackErrorHandler.UploadPackRunnable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="upload(HttpServletRequest, HttpServletResponse, UploadPackErrorHandler.UploadPackRunnable)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/glue/ErrorServlet.java" type="org.eclipse.jgit.http.server.glue.ErrorServlet">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ErrorServlet"/>
+                <message_argument value="jakarta.servlet.ServletConfig,jakarta.servlet.Servlet"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ErrorServlet"/>
+                <message_argument value="doGet(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ErrorServlet"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/glue/MetaFilter.java" type="org.eclipse.jgit.http.server.glue.MetaFilter">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaFilter"/>
+                <message_argument value="jakarta.servlet.Filter"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaFilter"/>
+                <message_argument value="doFilter(ServletRequest, ServletResponse, FilterChain)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaFilter"/>
+                <message_argument value="init(FilterConfig)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/glue/MetaServlet.java" type="org.eclipse.jgit.http.server.glue.MetaServlet">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaServlet"/>
+                <message_argument value="jakarta.servlet.ServletConfig,jakarta.servlet.Servlet"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaServlet"/>
+                <message_argument value="init(ServletConfig)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaServlet"/>
+                <message_argument value="service(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.MetaServlet"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/glue/RegexGroupFilter.java" type="org.eclipse.jgit.http.server.glue.RegexGroupFilter">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.RegexGroupFilter"/>
+                <message_argument value="jakarta.servlet.Filter"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.RegexGroupFilter"/>
+                <message_argument value="doFilter(ServletRequest, ServletResponse, FilterChain)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.RegexGroupFilter"/>
+                <message_argument value="init(FilterConfig)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/glue/ServletBinder.java" type="org.eclipse.jgit.http.server.glue.ServletBinder">
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ServletBinder"/>
+                <message_argument value="through(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="403804204">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ServletBinder"/>
+                <message_argument value="with(HttpServlet)"/>
+            </message_arguments>
+        </filter>
+        <filter id="405901410">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ServletBinder"/>
+                <message_argument value="through(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="405901410">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.ServletBinder"/>
+                <message_argument value="with(HttpServlet)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="through(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="with(HttpServlet)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/glue/WrappedRequest.java" type="org.eclipse.jgit.http.server.glue.WrappedRequest">
+        <filter id="337682486">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.WrappedRequest"/>
+                <message_argument value="jakarta.servlet.http.HttpServletRequest,jakarta.servlet.ServletRequest"/>
+            </message_arguments>
+        </filter>
+        <filter id="338722907">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.WrappedRequest"/>
+                <message_argument value="WrappedRequest(HttpServletRequest, String, String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338849923">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.glue.WrappedRequest"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="WrappedRequest(HttpServletRequest, String, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/resolver/AsIsFileService.java" type="org.eclipse.jgit.http.server.resolver.AsIsFileService">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.resolver.AsIsFileService"/>
+                <message_argument value="access(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="access(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java" type="org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory"/>
+                <message_argument value="create(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="create(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java" type="org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory"/>
+                <message_argument value="create(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="create(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

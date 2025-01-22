@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.junit.http" version="2">
+    <resource path="src/org/eclipse/jgit/junit/http/AppServer.java" type="org.eclipse.jgit.junit.http.AppServer">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.http.AppServer"/>
+                <message_argument value="addContext(String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.http.AppServer"/>
+                <message_argument value="authBasic(ServletContextHandler, String[])"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="addContext(String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="authBasic(ServletContextHandler, String[])"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/junit/http/HttpTestCase.java" type="org.eclipse.jgit.junit.http.HttpTestCase">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.http.HttpTestCase"/>
+                <message_argument value="toURIish(ServletContextHandler, String)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.2"/>
+                <message_argument value="toURIish(ServletContextHandler, String)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/org/eclipse/jgit/junit/http/MockServletConfig.java" type="org.eclipse.jgit.junit.http.MockServletConfig">
+        <filter id="338792546">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.http.MockServletConfig"/>
+                <message_argument value="getServletContext()"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

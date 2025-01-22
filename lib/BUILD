@@ -194,6 +194,26 @@ java_library(
 )
 
 java_library(
+    name = "jetty-ee8-nested",
+    # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
+    visibility = ["//visibility:public"],
+    exports = ["@jetty-ee8-nested//jar"],
+)
+
+java_library(
+    name = "jetty-ee8-security",
+    # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
+    visibility = ["//visibility:public"],
+    exports = ["@jetty-ee8-security//jar"],
+)
+
+java_library(
+    name = "jetty-ee8-servlet",
+    # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
+    visibility = ["//visibility:public"],
+    exports = ["@jetty-ee8-servlet//jar"],
+)
+java_library(
     name = "jsch",
     visibility = [
         "//org.eclipse.jgit.junit.ssh:__pkg__",

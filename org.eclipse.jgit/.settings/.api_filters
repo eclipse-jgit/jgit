@@ -7,12 +7,6 @@
                 <message_argument value="getReflogReader(Ref)"/>
             </message_arguments>
         </filter>
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.RefDatabase"/>
-                <message_argument value="getReflogReader(String)"/>
-            </message_arguments>
-        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lib/TypedConfigGetter.java" type="org.eclipse.jgit.lib.TypedConfigGetter">
         <filter id="403804204">
@@ -25,12 +19,6 @@
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
                 <message_argument value="getInt(Config, String, String, String, Integer)"/>
-            </message_arguments>
-        </filter>
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getIntInRange(Config, String, String, String, Integer, Integer, Integer)"/>
             </message_arguments>
         </filter>
         <filter id="403804204">

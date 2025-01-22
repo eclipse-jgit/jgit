@@ -129,7 +129,7 @@
     <args4j-version>2.37</args4j-version>
     <commons-compress-version>1.27.1</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
-    <servlet-api-version>6.1.0</servlet-api-version>
+    <servlet-api-version>4.0.4</servlet-api-version>
     <jetty-version>12.0.16</jetty-version>
     <japicmp-version>0.23.0</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
@@ -915,8 +915,8 @@
       </dependency>
 
       <dependency>
-        <groupId>org.eclipse.jetty.ee10</groupId>
-        <artifactId>jetty-ee10-servlet</artifactId>
+        <groupId>org.eclipse.jetty.ee8</groupId>
+        <artifactId>jetty-ee8-servlet</artifactId>
         <version>${jetty-version}</version>
       </dependency>
 

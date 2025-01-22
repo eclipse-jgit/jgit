@@ -27,15 +27,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
-import org.eclipse.jetty.ee10.servlet.security.ConstraintMapping;
-import org.eclipse.jetty.ee10.servlet.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.ee8.nested.ServletConstraint;
+import org.eclipse.jetty.ee8.security.Authenticator;
+import org.eclipse.jetty.ee8.security.ConstraintMapping;
+import org.eclipse.jetty.ee8.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.ee8.security.authentication.BasicAuthenticator;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
 import org.eclipse.jetty.security.AbstractLoginService;
-import org.eclipse.jetty.security.Authenticator;
-import org.eclipse.jetty.security.Constraint;
 import org.eclipse.jetty.security.RolePrincipal;
 import org.eclipse.jetty.security.UserPrincipal;
-import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -307,11 +307,10 @@ public class AppServer {
 
 	private ConstraintMapping createConstraintMapping() {
 		ConstraintMapping cm = new ConstraintMapping();
-		Constraint constraint = new Constraint.Builder()
-				.authorization(Constraint.Authorization.SPECIFIC_ROLE)
-				.roles(new String[] { authRole }).build();
-		cm.setConstraint(constraint);
-		cm.setPathSpec("/*");
+		cm.setConstraint(new ServletConstraint());
+		cm.getConstraint().setAuthenticate(true);
+		cm.getConstraint().setDataConstraint(ServletConstraint.DC_NONE);
+		cm.getConstraint().setRoles(new String[] { authRole });
 		return cm;
 	}
 
@@ -320,11 +319,14 @@ public class AppServer {
 		AbstractLoginService users = new TestMappedLoginService(authRole);
 		List<ConstraintMapping> mappings = new ArrayList<>();
 		if (methods == null || methods.length == 0) {
-			mappings.add(createConstraintMapping());
+			ConstraintMapping cm = createConstraintMapping();
+			cm.setPathSpec("/*");
+			mappings.add(cm);
 		} else {
 			for (String method : methods) {
 				ConstraintMapping cm = createConstraintMapping();
 				cm.setMethod(method.toUpperCase(Locale.ROOT));
+				cm.setPathSpec("/*");
 				mappings.add(cm);
 			}
 		}
@@ -333,12 +335,8 @@ public class AppServer {
 		sec.setRealmName(realm);
 		sec.setAuthenticator(authType);
 		sec.setLoginService(users);
-		sec.setConstraintMappings(
-				mappings.toArray(new ConstraintMapping[0]));
-		sec.setHandler(ctx);
-
-		contexts.removeHandler(ctx);
-		contexts.addHandler(sec);
+		sec.setConstraintMappings(mappings.toArray(new ConstraintMapping[0]));
+		ctx.setSecurityHandler(sec);
 	}
 
 	/**

@@ -10,8 +10,8 @@
 
 package org.eclipse.jgit.http.server.glue;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.http.HttpServlet;
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServlet;
 
 /**
  * Binds a servlet to a URL.
