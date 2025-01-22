@@ -118,6 +118,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35262ae6_db9a9d5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038600
+      },
+      "writtenOn": "2025-01-22T19:09:25Z",
+      "side": 1,
+      "message": "Yeah. It\u0027s not easy.\nPerhaps, its a bug in cgit. cgit tries to delete reftablesfiles on compactation, but this fails, because jgit hold the lock on windows.\ncgit ask the user to retry:\nUnlink of file \u0027C:/temp/jgit/.git/reftable/0x000000000001-0x000000000007-43471c5d.ref\u0027 failed. Should I try again? (y/n)\nThe should be ignored and the files should deleted on next compactation.\n\ncgit has documented the problem under https://git-scm.com/docs/reftable#_windows, so there are aware of it.\n\nI started a thread in cgit mailing list and wait for response.",
+      "parentUuid": "c88a5afb_e5c52b9f",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
