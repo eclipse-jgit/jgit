@@ -46,6 +46,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e607750d_7d7eac4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T15:59:18Z",
+      "side": 1,
+      "message": "I don\u0027t see #1 as a solution. #2 would be fine with me, it would allow the feature to be tested, but it doesn\u0027t really sound like a great solution for the project to expect people to have to set this on windows? Do you have any sort of benchmarks for this change?",
+      "parentUuid": "2dc2c73e_84a69cb9",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
