@@ -22,6 +22,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc2c73e_84a69cb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038600
+      },
+      "writtenOn": "2025-01-22T05:32:55Z",
+      "side": 1,
+      "message": "thx you for feedback 😊\nI can share your concerns.\nI see two options.\nFirst, I can try to open the FileInputStream on the first read and close the FileStream via a timer three seconds (or something different) after the last read. But I dont know how long it takes, to open a FileInputStream / FileChannel. In worst case the file have to be open right away after the close. This can be combined with blockwise (8k) read and buffer the readed data to improve. But this increase the complexity of BlockSource.\n\nSecond Option, add a config option to fully read the reftable files, so the user can decide.",
+      "parentUuid": "a2a0968d_e034e9c7",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
