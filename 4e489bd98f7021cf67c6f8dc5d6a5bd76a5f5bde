@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bb1421c_1141d2f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:24:13Z",
+      "side": 1,
+      "message": "This should probably indicate the default for this option. Might we want the default to be inherit, and allow this to override trustFolder state? I am worried that if there is an old config value somewhere in the config stack (but possibly not obvious), that setting trustStat will not have an effect.",
+      "revId": "4e489bd98f7021cf67c6f8dc5d6a5bd76a5f5bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d507c5_0eab5aa0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:24:13Z",
+      "side": 1,
+      "message": "Unrelate note: the three lines above make a for() loop.",
+      "revId": "4e489bd98f7021cf67c6f8dc5d6a5bd76a5f5bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d679a66_8cc334cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:24:13Z",
+      "side": 1,
+      "message": "Unrelated note: this would be better done outside (before) the loop.",
+      "revId": "4e489bd98f7021cf67c6f8dc5d6a5bd76a5f5bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5843a0db_6b3b66f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:24:13Z",
+      "side": 1,
+      "message": "I would delete this comment or move further up in the stack if you believe it is not documented where the options are documented. Here it just repeats the code and becomes a maintenance burden.",
+      "revId": "4e489bd98f7021cf67c6f8dc5d6a5bd76a5f5bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d2dcc1_481a3260",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:24:13Z",
+      "side": 1,
+      "message": "This suggestion might not be the most elegant, but it seems that there is some very common looking code in three of these classes, and I would love for that to look clearer using a function somehow. Here\u0027s my best shot:\n\n```\nprivate \u003cT\u003e T runAfterOpenGetUnlessNever(TrustStat ts, T never, Runnable afterOpen, Supplier supplier) {\n  switch (trustPackStat) {\n    case NEVER:\n      return never;\n    case AFTER_OPEN:\n      afterOpen.run()\n      //$FALL-THROUGH$\n    case ALWAYS:\n      return supplier.get();\n    case INHERIT:\n      // only used in CoreConfig internally\n      return true; // or throw an exception?\n  }\n```\n\nProbably don\u0027t do that, but I figured I\u0027d mentioning it in case it inspires something better.",
+      "revId": "4e489bd98f7021cf67c6f8dc5d6a5bd76a5f5bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "956d52d6_0e2d63d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T00:24:13Z",
+      "side": 1,
+      "message": "Add a method to simplify:\n```\n  private TrustStat parseTrustLooseObjectFileStat(Config rc) {\n    return inheritParseTrustStat(rc, ConfigConstants.CONFIG_KEY_TRUST_LOOSE_OBJECT_STAT);\n  }\n\t\n  private TrustStat inheritParseTrustStat(Config rc, String key) {\n    TrustStat t \u003d rc.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null, key, TrustStat.INHERIT);\n    return t \u003d\u003d TrustStat.INHERIT ? trustStat : t;\n  }\n```",
+      "revId": "4e489bd98f7021cf67c6f8dc5d6a5bd76a5f5bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
