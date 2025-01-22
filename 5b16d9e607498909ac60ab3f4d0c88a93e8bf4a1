@@ -142,6 +142,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df01b0a5_b5ecb20c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-22T20:26:12Z",
+      "side": 1,
+      "message": "Perhaps you can put together a hybrid approach? While reading the entire file can slow down individual lookups, it can then speedup future lookups. An ideal compromise would be able to read the specific ref being looked up only, and then pass the stream/fd to a background thread for completion and return to the caller right away. The background thread could then continue to read the rest of the file and cache it just like what your approach is doing now. That would allow the file to then be closed, it will make future lookups to the same file fast, and it would also ensure fast responses when the file is not cached.",
+      "parentUuid": "35262ae6_db9a9d5d",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
