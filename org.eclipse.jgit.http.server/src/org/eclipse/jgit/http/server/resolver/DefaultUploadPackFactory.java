@@ -12,7 +12,7 @@ package org.eclipse.jgit.http.server.resolver;
 
 import java.util.Arrays;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;

@@ -152,8 +152,18 @@ maven jetty
 	includeSources
 {
 	dependency {
-		groupId = "org.eclipse.jetty.ee10"
-		artifactId = "jetty-ee10-servlet"
+		groupId = "org.eclipse.jetty.ee8"
+		artifactId = "jetty-ee8-servlet"
+		version = "12.0.16"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty.ee8"
+		artifactId = "jetty-ee8-nested"
+		version = "12.0.16"
+	}
+	dependency {
+		groupId = "org.eclipse.jetty.ee8"
+		artifactId = "jetty-ee8-security"
 		version = "12.0.16"
 	}
 	dependency {
@@ -194,7 +204,7 @@ maven jetty
 	dependency {
 		groupId = "jakarta.servlet"
 		artifactId = "jakarta.servlet-api"
-		version = "6.1.0"
+		version = "4.0.4"
 	}
 }
 

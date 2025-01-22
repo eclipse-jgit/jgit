@@ -162,8 +162,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "jakarta.servlet:jakarta.servlet-api:6.1.0",
-    sha1 = "1169a246913fe3823782af7943e7a103634867c5",
+    artifact = "jakarta.servlet:jakarta.servlet-api:4.0.4",
+    sha1 = "b8a1142e04838fe54194049c6e7a18dae8f9b960",
 )
 
 maven_jar(
@@ -250,8 +250,8 @@ JETTY_VER = "12.0.16"
 
 maven_jar(
     name = "jetty-servlet",
-    artifact = "org.eclipse.jetty.ee10:jetty-ee10-servlet:" + JETTY_VER,
-    sha1 = "022a746c00b1ac5c790fee65a398c707160a46d8",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
+    sha1 = "302b59975d097da9eb895c010c3f53d89dcd8620",
 )
 
 maven_jar(
