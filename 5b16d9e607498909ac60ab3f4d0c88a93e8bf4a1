@@ -166,6 +166,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7269d0a4_7228c0f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038600
+      },
+      "writtenOn": "2025-01-23T20:46:14Z",
+      "side": 1,
+      "message": "I try to implement the hybrid approach. I have to add the option, to activate this by option, but its look good. Its difficult to add test-cases, so i dont know if it is enough.\nI dont know, if it is a improvement in performance, because BlockSource dont know, which parts of the file are really needed next. So the backgroundReader reads sequentially 4K blocks. If a block is needed, which isnt readed yet, the backgroundReader reads the needed block next. So there is potentiel latency between two calls of BlockSource.read.\nIt\u0027s not proven, that the idea with SoftReference really works. And i think its impossible to implement specific test-cases to approve this.\n\nSo, do you see any chance, that this change could be merge to master, if I add the option to active the backgroundread (maybe: core.preloadReftableFiles)",
+      "parentUuid": "df01b0a5_b5ecb20c",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
