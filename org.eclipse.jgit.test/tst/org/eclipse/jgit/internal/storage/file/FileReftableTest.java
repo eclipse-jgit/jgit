@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -686,6 +687,79 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
 		assertEquals(1, refs.size());
 		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_101() throws Exception {
+		Git git = Git.wrap(db);
+		assertEquals(FileReftableDatabase.class,
+				git.getRepository().getRefDatabase().getClass());
+
+		List<Ref> refs = git.getRepository().getRefDatabase().getRefs();
+		File reftabledir = new File(db.getDirectory(), Constants.REFTABLE);
+		// Its illegal to delete a reftable file which is referenced by
+		// tables.list, but since JGit reload the reftable stack only if
+		// needed, it should be possible for an external process to
+		// change / delete the files for reftable compaction
+		// This test assert, that the referenced reftable files didn't locked
+		// from filesystem, but leads to FileNotFoundException because the
+		// reftable is referenced in tables.list
+		for (File file : reftabledir.listFiles()) {
+			if (!file.getName().equals(Constants.TABLES_LIST)) {
+				int trys = 5;
+				while (trys > 0) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						throw new RuntimeException(e);
+					}
+					if (file.delete()) {
+						break;
+					}
+					trys--;
+				}
+
+				if (trys == 0) {
+					fail("could not delete reftablefile " + file);
+				}
+			}
+		}
+
+		// Since all reftables files are readed there is no need to have the
+		// reftablefiles. So getRefs should return all refs
+		List<Ref> newrefs = git.getRepository().getRefDatabase().getRefs();
+		assertEquals(refs.size(), newrefs.size());
+		for (int i = 0; i < refs.size(); i++) {
+			assertEquals(refs.get(i).getName(), newrefs.get(i).getName());
+			assertEquals(refs.get(i).getObjectId(),
+					newrefs.get(i).getObjectId());
+		}
+	}
+
+	@Test
+	public void testExternalUpdate_bug_101_filetime_changed() throws Exception {
+		Git git = Git.wrap(db);
+		assertEquals(FileReftableDatabase.class,
+				git.getRepository().getRefDatabase().getClass());
+
+		File reftabledir = new File(db.getDirectory(), Constants.REFTABLE);
+
+		assertEquals(25, db.getRefDatabase().getRefs().size());
+		assertEquals(
+				ObjectId.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4"),
+				db.exactRef("refs/heads/a").getObjectId());
+
+		for (File file : reftabledir.listFiles()) {
+			if (!file.getName().equals(Constants.TABLES_LIST)) {
+				// Change the Filetime
+				file.setLastModified(Instant.now().getEpochSecond());
+			}
+		}
+
+		assertEquals(
+				ObjectId.fromString("6db9c2ebf75590eef973081736730a9ea169a0c4"),
+				db.exactRef("refs/heads/a").getObjectId());
 	}
 
 	@Test

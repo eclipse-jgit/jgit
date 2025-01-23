@@ -10,10 +10,19 @@
 
 package org.eclipse.jgit.internal.storage.io;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.Future;
+
+import org.eclipse.jgit.lib.internal.WorkQueue;
 
 /**
  * Provides content blocks of file.
@@ -103,6 +112,180 @@ public abstract class BlockSource implements AutoCloseable {
 				} catch (IOException e) {
 					// Ignore close failures of read-only files.
 				}
+			}
+		};
+	}
+
+	/**
+	 * Read from a {@code File}.
+	 * <p>
+	 * The returned {@code BlockSource} is thread-safe. It's read the whole file
+	 * when necessary and safe the content as SoftReference. So the content is
+	 * cleanup, when the heap memory gets low.
+	 *
+	 * @since 7.2
+	 * @param file
+	 *            the file. (@code BlockSource) read the content in first call
+	 *            of read
+	 * @return wrapper for {@code file}.
+	 */
+	public static BlockSource from(File file) {
+		return new BlockSource() {
+
+			final long BLOCK_SIZE = 4096;
+
+			private FileInputStream fis = null;
+			private FileChannel ch = null;
+			private List<SoftReference<ByteBuffer>> blocks;
+
+			private Future<?> backgroundReader;
+			private ConcurrentLinkedDeque<Integer> stack = new ConcurrentLinkedDeque<>();
+
+			private Object blocker = new Object();
+
+			{
+				int blockcount = blockIndexOfByte(file.length());
+				blocks = new ArrayList<>();
+				while (blockcount >= 0) {
+					blocks.add(new SoftReference<>(null));
+					blockcount--;
+				}
+
+			}
+
+			@Override
+			public long size() throws IOException {
+				return file.length();
+			}
+
+			@Override
+			public ByteBuffer read(long position, int blockSize)
+					throws IOException {
+				int beginBlock = blockIndexOfByte(position);
+				int endBlock = blockIndexOfByte(position + blockSize);
+
+				ensureBlocksReaded(beginBlock, endBlock);
+
+				ByteBuffer b = ByteBuffer.allocate(blockSize);
+
+				int currentblock = beginBlock;
+				while (blockSize > 0) {
+					long beginOfBlock = currentblock * BLOCK_SIZE;
+					long readbegin = position - beginOfBlock;
+					long readlength = Math.min(blockSize, BLOCK_SIZE - readbegin);
+					byte[] blockbuffer = blocks.get(currentblock).get().array();
+
+					b.put(blockbuffer, (int) readbegin, (int) readlength);
+					blockSize -= readlength;
+					currentblock++;
+				}
+
+				return b;
+			}
+
+			private void ensureBlocksReaded(int beginBlock, int endBlock)
+					throws IOException {
+				for (int i = beginBlock; i <= endBlock; i++) {
+					if (blocks.get(i).get() == null) {
+						readBlockImmedatly(i);
+					}
+				}
+
+				if (backgroundReader != null) {
+					return;
+				}
+				boolean needread = false;
+				for (SoftReference<ByteBuffer> ref : blocks) {
+					if (ref.get() == null) {
+						needread = true;
+						break;
+					}
+				}
+				if (!needread) {
+					closeFileInputStream();
+					return;
+				}
+				// The backgroundReader reads all Blocks sequentiell, looks
+				// in the stack, if blocks are needed
+				backgroundReader = WorkQueue.getExecutor().submit(() -> {
+					int i = 0;
+
+					while (i < blocks.size()) {
+						int readblock = i;
+						if (!stack.isEmpty()) {
+							readblock = stack.pollFirst();
+						} else {
+							i++;
+						}
+						if (blocks.get(readblock).get() == null) {
+							try {
+								readBlock(readblock);
+							} catch (IOException e) {
+								throw new UncheckedIOException(e);
+							}
+						}
+						synchronized (blocker) {
+							blocker.notify();
+						}
+					}
+					closeFileInputStream();
+					backgroundReader = null;
+				});
+			}
+
+			private void readBlockImmedatly(int block) throws IOException {
+				if (ch == null) {
+					fis = new FileInputStream(file);
+					ch = fis.getChannel();
+				}
+
+				if (backgroundReader == null) {
+					readBlock(block);
+				} else {
+					stack.push(block);
+					try {
+						while (blocks.get(block).get() == null) {
+							synchronized (blocker) {
+								blocker.wait();
+							}
+						}
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						throw new RuntimeException(e);
+					}
+				}
+			}
+
+			private void readBlock(int block) throws IOException {
+				ch.position(block * BLOCK_SIZE);
+
+				ByteBuffer b = ByteBuffer.allocate((int) BLOCK_SIZE);
+				int n;
+				do {
+					n = ch.read(b);
+				} while (n > 0 && b.position() < BLOCK_SIZE);
+				blocks.set(block, new SoftReference<>(b));
+			}
+
+			public int blockIndexOfByte(final long position) {
+				return (int) (position / BLOCK_SIZE);
+			}
+
+			private void closeFileInputStream() {
+				if (fis != null) {
+					try {
+						fis.close();
+					} catch (IOException e) {
+						// Ignore Error on Closing FileInputStream
+					}
+					fis = null;
+					ch = null;
+				}
+			}
+
+			@Override
+			public void close() {
+				blocks.clear();
 			}
 		};
 	}
