@@ -1,0 +1,49 @@
+/*
+ * Copyright (C) 2025, Google Inc.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+package org.eclipse.jgit.internal.storage.midx;
+
+class MultiPackIndexConstants {
+	static final int MULTIPACK_INDEX_MAGIC = 0x4d494458; /* MIDX */
+
+	static final byte MULTIPACK_INDEX_VERSION_GENERATED = 1;
+
+	/**
+	 * We infer the length of object IDs (OIDs) from this value:
+	 * <pre>
+	 * 1 => SHA-1
+	 * 2 => SHA-256
+	 * </pre>
+	 */
+	static final byte OID_HASH_VERSION = 1;
+
+	static final int MULTIPACK_INDEX_FANOUT_SIZE = 4 * 256;
+
+	/**
+	 * First 4 bytes describe the chunk id. Value 0 is a terminating label.
+	 * Other 8 bytes provide the byte-offset in current file for chunk to start.
+	 */
+	static final int CHUNK_LOOKUP_WIDTH = 12;
+
+	static final int CHUNK_ID_PACKFILE_NAMES = 0x504e414d; /* "PNAM" */
+
+	/** "PNAM" */
+	static final int CHUNK_ID_OID_FANOUT = 0x4f494446; /* "OIDF" */
+
+	static final int CHUNK_ID_OID_LOOKUP = 0x4f49444c; /* "OIDL" */
+
+	static final int CHUNK_ID_OBJECT_OFFSET = 0x4f4f4646; /* "OOFF" */
+
+	static final int CHUNK_ID_OBJECT_LARGE_OFFSET = 0x4c4f4646; /* "LOFF" */
+
+	static final int CHUNK_ID_RIDX = 0x52494458; /* "RIDX" */
+
+	private MultiPackIndexConstants() {
+	}
+}
