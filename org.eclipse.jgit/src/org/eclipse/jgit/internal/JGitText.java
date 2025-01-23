@@ -557,6 +557,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String month;
 	/***/ public String months;
 	/***/ public String monthsAgo;
+	/***/ public String multiPackIndexUnexpectedSize;
+	/***/ public String multiPackIndexWritingCancelled;
 	/***/ public String multipleMergeBasesFor;
 	/***/ public String nameMustNotBeNullOrEmpty;
 	/***/ public String need2Arguments;
