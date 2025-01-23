@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "481e4186_884ea43c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-01-23T14:09:18Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com I believe this issue I am working on is somewhat related [1]\n\nWhen having a highly concurrent load (r/w) against a Gerrit on reftable with external GC processes scheduled, we found that `BlockSource` endup pointing to stale reftable resources.\n\nThe plan is check explicitly before attempting a read and then handle the exception appropriately (i.e. triggering a refresh/reload, similarly to what you do here).\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206693",
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "518f9f36_0ba8baf8",
