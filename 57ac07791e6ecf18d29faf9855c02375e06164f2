@@ -16,6 +16,24 @@
       "message": "@ifrade@google.com are you already aware of the WIP changes for MIDX?\n1202277: MIDX implementation | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1202277\n1202417: MIDX: Integrate with PackDirectory | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1202417\n\nI keep planning to get back to working on them, but you\u0027re interested in picking those up / leveraging them, please feel free.",
       "revId": "57ac07791e6ecf18d29faf9855c02375e06164f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19b4789c_e322ba8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T19:49:21Z",
+      "side": 1,
+      "message": "No, I wasn\u0027t! Thanks. IIUC we have been working on complementary stack of changes. 1202277 is about *loading* the midx and non-dfs side, this stack is about *writing* it and some wip dfs integration.\n\nThis series should not overlap yet with the loading code. Is only about writing and debugging the output.\n\nNit: I used here storage.midx package for the common midx code (dfs or not). Probably we could move the MultiPackIndex interface and other classes here?",
+      "parentUuid": "10e9e04f_56a577e0",
+      "revId": "57ac07791e6ecf18d29faf9855c02375e06164f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
