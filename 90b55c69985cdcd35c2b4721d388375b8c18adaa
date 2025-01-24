@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "315a7936_80523020",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "Thanks a lot for this!\n\nI have some suggestions about names and hidding some classes. Is anybody going to work on this soonish? I am glad to work a bit on this code.",
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9431756b_cf559be7",
@@ -19,6 +36,92 @@
         "startChar": 15,
         "endLine": 561,
         "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bd5302f_02968791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "We can define the class directly here (instead of interface + implementation). \n\nIt represents an plain carrier of two fields. I also lean for a class and not a record in case the implementors want to reuse instances.",
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b8d72e2_58aa0a4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "Naming: what about \"Location\"? or \"ObjectLocation\"? because it is not an offset anymore, it is a pair of (pack, offset).",
+      "range": {
+        "startLine": 54,
+        "startChar": 14,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28e454f8_94172ff1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "Can we make this an inner class of the loader? (probably not public). I think it is used only there and exposing a builder and a loader is rather confusing.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99abba8e_3f1b08ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "nit: setPackfileCount()",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 38
       },
       "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
@@ -61,6 +164,30 @@
       "side": 1,
       "message": "First off, yes, this is an odd name. I\u0027m not sold on it either 😊. I just pushed a change on top of this one that does the integration with PackDirectory (it has a few TODOs still).\n\nAs you might have guessed from the copy/paste error in the other file, we based our approach here on commit-graph since they both use [chunk-based file formats](https://git-scm.com/docs/gitformat-chunk). Beyond that, they also have the same OID Fanout \u0026 Lookup data structures within that chunk data.\n\nThis `MultiPackIndexIndex` understands how to use the fanout \u0026 lookup data to find the position of specific objects within the ObjectOffset chunk.\n\nHaving the `midx` package does complicate things and is different than how most other things are done for `storage.file`, so maybe we want to flatten it.",
       "parentUuid": "6c833978_0ed6c3fd",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ced947_52f54abd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "This class could be an inner class in MultiPackIndexV1. At the end it is a helper to tie together two chunks (fanout and oid list).\n\nI am confused by the extra properties. Why does it need the objectOffsetCount or the packfileCnt?\n\nAbout the naming, what about OidTable? OidLookup? OidLocator?",
+      "parentUuid": "7ac77a5a_931e4704",
       "range": {
         "startLine": 25,
         "startChar": 13,
@@ -120,6 +247,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "129e93fb_5b6ae323",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "This looks like returning the actual offset inside the data file.\n\nWhat about something like:\nprivate int offsetInChunk(int objPosition)\nor just inline it in the binary search.",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 27
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63b5b085_c1c6ad9a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexLoader.java",
         "patchSetId": 15
@@ -167,6 +317,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f1125fe_9c05f87a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexV1.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "This class could receive all the chunks, and create internally the instances of MultiPackIndexIndex and ObjectOffsets.\n\nMultiPackIndexIndex and ObjectOffsets then could be private inner classes here.\n\nMultiPackIndexIndex could be renamed to OidLookup (I put a comment also on its file)\nObjectOffsets could be OffsetChunk",
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e31fef_1dbb2331",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "Maybe OffsetsChunk? not to confuse it with the ObjectOffset class.",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f5967d3_5355ba16",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
         "patchSetId": 15
@@ -202,6 +392,53 @@
       "side": 1,
       "message": "Then we shouldn\u0027t be calling this?",
       "parentUuid": "6f5967d3_5355ba16",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ad1915_9d6b11b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "About the naming, \"find\" is probably enough. ObjectOffset is redundant:\n\nObjectOffset x \u003d offsetsChunk.find(pos);",
+      "range": {
+        "startLine": 39,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "defb7ccb_b9686775",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T22:58:47Z",
+      "side": 1,
+      "message": "Throw an IllegalArgumentException. A -1 here would be a bug in the code.",
+      "parentUuid": "55dc95b7_e27a1e2f",
       "range": {
         "startLine": 39,
         "startChar": 59,
