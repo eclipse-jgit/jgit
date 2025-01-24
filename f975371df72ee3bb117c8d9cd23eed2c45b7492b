@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c36af1c_3f5fe3d3",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/FakeIndexFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-01-24T21:53:01Z",
+      "side": 1,
+      "message": "Missing `@since 7.2`.",
+      "revId": "f975371df72ee3bb117c8d9cd23eed2c45b7492b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
