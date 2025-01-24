@@ -459,6 +459,10 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 		src.close();
 	}
 
+	public boolean isOpen() {
+		return src.isOpen();
+	}
+
 	private class RefCursorImpl extends RefCursor {
 		private final long scanEnd;
 		private final byte[] match;
