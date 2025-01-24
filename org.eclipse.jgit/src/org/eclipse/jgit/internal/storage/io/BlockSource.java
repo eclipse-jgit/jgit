@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.io;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -22,6 +23,8 @@ import java.nio.channels.FileChannel;
  * or not.
  */
 public abstract class BlockSource implements AutoCloseable {
+	protected File file;
+
 	/**
 	 * Wrap a byte array as a {@code BlockSource}.
 	 *
@@ -69,6 +72,24 @@ public abstract class BlockSource implements AutoCloseable {
 	}
 
 	/**
+	 * Read from a {@code FileInputStream}.
+	 * <p>
+	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
+	 * file channel to read a block.
+	 *
+	 * @param in
+	 *            the file input stream. The {@code BlockSource} will close {@code in}.
+	 * @param file
+	 * 	      the file associated with in.
+	 * @return wrapper for {@code in}.
+	 */
+	public static BlockSource from(FileInputStream in, File file) {
+		BlockSource blockSource = from(in.getChannel());
+		blockSource.file = file;
+		return blockSource;
+	}
+
+	/**
 	 * Read from a {@code FileChannel}.
 	 * <p>
 	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
@@ -82,6 +103,9 @@ public abstract class BlockSource implements AutoCloseable {
 		return new BlockSource() {
 			@Override
 			public ByteBuffer read(long pos, int blockSize) throws IOException {
+				if(file != null && !file.exists()) {
+					throw new BlockSourceFileNotFoundException(file);
+				}
 				ByteBuffer b = ByteBuffer.allocate(blockSize);
 				ch.position(pos);
 				int n;
