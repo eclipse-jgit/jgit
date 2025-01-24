@@ -82,6 +82,9 @@ public abstract class BlockSource implements AutoCloseable {
 		return new BlockSource() {
 			@Override
 			public ByteBuffer read(long pos, int blockSize) throws IOException {
+				if(file != null && !file.exists()) {
+					throw new BlockSourceFileNotFoundException(file);
+				}
 				ByteBuffer b = ByteBuffer.allocate(blockSize);
 				ch.position(pos);
 				int n;
