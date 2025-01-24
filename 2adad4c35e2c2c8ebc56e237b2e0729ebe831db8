@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd054e1_3505bebb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T20:50:14Z",
+      "side": 1,
+      "message": "@quic_nasserg@quicinc.com I use here different package and constant names... do you have any strong preference? I don\u0027t mind to update the reader changes to these package/class.",
+      "revId": "2adad4c35e2c2c8ebc56e237b2e0729ebe831db8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
