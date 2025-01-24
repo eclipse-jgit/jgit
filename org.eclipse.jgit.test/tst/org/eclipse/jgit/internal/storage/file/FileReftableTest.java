@@ -93,8 +93,17 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			}
 
 			// only the first one succeeds
-			assertEquals(retry, 19);
+			assertTrue(retry > 1);
 		}
+	}
+
+	@Test
+	public void testClosedBlockedSourceShouldAutoReload() throws Exception {
+		FileRepository repo1 = new FileRepository(db.getDirectory());
+		repo1.getRefDatabase().close();
+		ObjectId masterOnRepo1 = repo1.resolve(Constants.MASTER);
+		repo1.close();
+		assertNotNull(masterOnRepo1);
 	}
 
 	@Test

@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Stack;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -155,7 +156,7 @@ public class FileReftableStack implements AutoCloseable {
 				entry.name = name;
 
 				ReftableReader t = null;
-				if (current.containsKey(name)) {
+				if (current.containsKey(name) && current.get(name).isOpen()) {
 					t = current.remove(name);
 				} else {
 					File subtable = new File(reftableDir, name);
@@ -163,7 +164,7 @@ public class FileReftableStack implements AutoCloseable {
 
 					is = new FileInputStream(subtable);
 
-					t = new ReftableReader(BlockSource.from(is));
+					t = new ReftableReader(BlockSource.from(is, subtable));
 					newTables.add(t);
 				}
 
