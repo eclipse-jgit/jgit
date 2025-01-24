@@ -25,11 +25,16 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
+import org.slf4j.Logger;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.RefsChangedEvent;
+import org.eclipse.jgit.internal.storage.io.BlockSourceClosedException;
+import org.eclipse.jgit.internal.storage.io.BlockSourceFileNotFoundException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.ReftableBatchRefUpdate;
 import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
@@ -54,6 +59,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements RefDatabase using reftable for storage.
@@ -66,6 +72,14 @@ public class FileReftableDatabase extends RefDatabase {
 	private final FileRepository fileRepository;
 
 	private final FileReftableStack reftableStack;
+
+	private static final Logger LOG = LoggerFactory
+		.getLogger(FileReftableDatabase.class.getName());
+
+	@FunctionalInterface
+	public interface CheckedFunction<R> {
+		R apply() throws IOException;
+	}
 
 	FileReftableDatabase(FileRepository repo) throws IOException {
 		this(repo, new File(new File(repo.getDirectory(), Constants.REFTABLE),
@@ -158,29 +172,43 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
-		return reftableDatabase.exactRef(name);
+		return stalenessCheck(() -> reftableDatabase.exactRef(name));
+	}
+
+	private <T> T stalenessCheck(CheckedFunction<T> supplyFunc) throws IOException {
+		while (true) {
+			try {
+				return supplyFunc.apply();
+			} catch (BlockSourceFileNotFoundException | BlockSourceClosedException e) {
+				LOG.error("RefTable content is stale: {}", e.getMessage(), e);
+				reftableDatabase.clearCache();
+				reftableStack.reload();
+			}
+		}
 	}
 
 	@Override
 	public List<Ref> getRefs() throws IOException {
-		return super.getRefs();
+		return stalenessCheck(() -> super.getRefs());
 	}
 
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
-		List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
-		RefList.Builder<Ref> builder = new RefList.Builder<>(refs.size());
-		for (Ref r : refs) {
-			builder.add(r);
-		}
-		return new RefMap(prefix, builder.toRefList(), RefList.emptyList(),
-				RefList.emptyList());
+		return stalenessCheck(() -> {
+			List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
+			RefList.Builder<Ref> builder = new RefList.Builder<>(refs.size());
+			for (Ref r : refs) {
+				builder.add(r);
+			}
+			return new RefMap(prefix, builder.toRefList(), RefList.emptyList(),
+					RefList.emptyList());
+		});
 	}
 
 	@Override
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
-		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
+		return stalenessCheck(() -> reftableDatabase.getRefsByPrefixWithExclusions(include, excludes));
 	}
 
 	@Override
