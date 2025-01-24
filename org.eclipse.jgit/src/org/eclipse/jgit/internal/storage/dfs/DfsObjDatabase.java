@@ -11,8 +11,11 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,12 +30,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
-import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -45,9 +49,8 @@ import org.eclipse.jgit.util.io.CountingOutputStream;
  * system.
  */
 public abstract class DfsObjDatabase extends ObjectDatabase {
-	private static final PackList NO_PACKS = new PackList(
-			new DfsPackFile[0],
-			new DfsReftable[0]) {
+	private static final PackList NO_PACKS = new PackList(new DfsPackFile[0],
+			new DfsReftable[0], new DfsMultiPackIndex[0]) {
 		@Override
 		boolean dirty() {
 			return true;
@@ -67,9 +70,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	/**
 	 * Sources for a pack file.
 	 * <p>
-	 * <strong>Note:</strong> When sorting packs by source, do not use the default
-	 * comparator based on {@link Enum#compareTo}. Prefer {@link
-	 * #DEFAULT_COMPARATOR} or your own {@link ComparatorBuilder}.
+	 * <strong>Note:</strong> When sorting packs by source, do not use the
+	 * default comparator based on {@link Enum#compareTo}. Prefer
+	 * {@link #DEFAULT_COMPARATOR} or your own {@link ComparatorBuilder}.
 	 */
 	public enum PackSource {
 		/** The pack is created by ObjectInserter due to local activity. */
@@ -123,32 +126,29 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		/**
 		 * Default comparator for sources.
 		 * <p>
-		 * Sorts generally newer, smaller types such as {@code INSERT} and {@code
+		 * Sorts generally newer, smaller types such as {@code INSERT} and
+		 * {@code
 		 * RECEIVE} earlier; older, larger types such as {@code GC} later; and
 		 * {@code UNREACHABLE_GARBAGE} at the end.
 		 */
-		public static final Comparator<PackSource> DEFAULT_COMPARATOR =
-				new ComparatorBuilder()
-						.add(INSERT, RECEIVE)
-						.add(COMPACT)
-						.add(GC)
-						.add(GC_REST)
-						.add(UNREACHABLE_GARBAGE)
-						.build();
+		public static final Comparator<PackSource> DEFAULT_COMPARATOR = new ComparatorBuilder()
+				.add(INSERT, RECEIVE).add(COMPACT).add(GC).add(GC_REST)
+				.add(UNREACHABLE_GARBAGE).build();
 
 		/**
-		 * Builder for describing {@link PackSource} ordering where some values are
-		 * explicitly considered equal to others.
+		 * Builder for describing {@link PackSource} ordering where some values
+		 * are explicitly considered equal to others.
 		 */
 		public static class ComparatorBuilder {
 			private final Map<PackSource, Integer> ranks = new HashMap<>();
+
 			private int counter;
 
 			/**
 			 * Add a collection of sources that should sort as equal.
 			 * <p>
-			 * Sources in the input will sort after sources listed in previous calls
-			 * to this method.
+			 * Sources in the input will sort after sources listed in previous
+			 * calls to this method.
 			 *
 			 * @param sources
 			 *            sources in this equivalence class.
@@ -167,20 +167,21 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			 *
 			 * @return new comparator instance.
 			 * @throws IllegalArgumentException
-			 *             not all {@link PackSource} instances were explicitly assigned
-			 *             an equivalence class.
+			 *             not all {@link PackSource} instances were explicitly
+			 *             assigned an equivalence class.
 			 */
 			public Comparator<PackSource> build() {
 				return new PackSourceComparator(ranks);
 			}
 		}
 
-		private static class PackSourceComparator implements Comparator<PackSource> {
+		private static class PackSourceComparator
+				implements Comparator<PackSource> {
 			private final Map<PackSource, Integer> ranks;
 
 			private PackSourceComparator(Map<PackSource, Integer> ranks) {
 				if (!ranks.keySet().equals(
-							new HashSet<>(Arrays.asList(PackSource.values())))) {
+						new HashSet<>(Arrays.asList(PackSource.values())))) {
 					throw new IllegalArgumentException();
 				}
 				this.ranks = new HashMap<>(ranks);
@@ -195,7 +196,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			public String toString() {
 				return Arrays.stream(PackSource.values())
 						.map(s -> s + "=" + ranks.get(s)) //$NON-NLS-1$
-						.collect(joining(", ", getClass().getSimpleName() + "{", "}")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						.collect(joining(", ", getClass().getSimpleName() + "{", //$NON-NLS-1$ //$NON-NLS-2$
+								"}")); //$NON-NLS-1$
 			}
 		}
 	}
@@ -244,7 +246,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @param packComparator
 	 *            comparator.
 	 */
-	public void setPackComparator(Comparator<DfsPackDescription> packComparator) {
+	public void setPackComparator(
+			Comparator<DfsPackDescription> packComparator) {
 		this.packComparator = packComparator;
 	}
 
@@ -270,6 +273,10 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return getPackList().packs;
 	}
 
+	DfsVirtualPack[] getVirtualPacks() throws IOException {
+		return getPackList().getVirtualPacks();
+	}
+
 	/**
 	 * Scan and list all available reftable files in the repository.
 	 *
@@ -280,6 +287,18 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	public DfsReftable[] getReftables() throws IOException {
 		return getPackList().reftables;
+	}
+
+	/**
+	 * Scan and list all available multipack index files in the repository.
+	 *
+	 * @return array of available multipack indexes. The returned array is shared
+	 *         with the implementation and must not be modified by the caller.
+	 * @throws java.io.IOException
+	 *             the pack list cannot be initialized.
+	 */
+	DfsMultiPackIndex[] getMultiPackIndexes() throws IOException {
+		return getPackList().multiPackIndexes;
 	}
 
 	/**
@@ -338,8 +357,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	/**
 	 * Does the requested object exist in this database?
 	 * <p>
-	 * This differs from ObjectDatabase's implementation in that we can selectively
-	 * ignore unreachable (garbage) objects.
+	 * This differs from ObjectDatabase's implementation in that we can
+	 * selectively ignore unreachable (garbage) objects.
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
@@ -489,9 +508,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @throws java.io.IOException
 	 *             the file cannot be opened.
 	 */
-	protected abstract ReadableChannel openFile(
-			DfsPackDescription desc, PackExt ext)
-			throws FileNotFoundException, IOException;
+	protected abstract ReadableChannel openFile(DfsPackDescription desc,
+			PackExt ext) throws FileNotFoundException, IOException;
 
 	/**
 	 * Open a pack, pack index, or other related file for writing.
@@ -506,8 +524,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @throws java.io.IOException
 	 *             the file cannot be opened.
 	 */
-	protected abstract DfsOutputStream writeFile(
-			DfsPackDescription desc, PackExt ext) throws IOException;
+	protected abstract DfsOutputStream writeFile(DfsPackDescription desc,
+			PackExt ext) throws IOException;
 
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;
@@ -534,7 +552,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile[] packs = new DfsPackFile[1 + o.packs.length];
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
-			n = new PackListImpl(packs, o.reftables);
+			n = new PackListImpl(packs, o.reftables, o.multiPackIndexes);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -559,7 +577,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				}
 			}
 			tables.add(new DfsReftable(add));
-			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]));
+			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]),
+					o.multiPackIndexes);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -587,18 +606,21 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		DfsBlockCache cache = DfsBlockCache.getInstance();
 		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
+		Map<DfsPackDescription, DfsMultiPackIndex> multiPackIndexes = mmidxMap(
+				old);
 
 		List<DfsPackDescription> scanned = listPacks();
 		Collections.sort(scanned, packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
 		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());
+		List<DfsMultiPackIndex> newMultiPackIndexes = new ArrayList<>();
 		boolean foundNew = false;
 		for (DfsPackDescription dsc : scanned) {
 			DfsPackFile oldPack = packs.remove(dsc);
 			if (oldPack != null) {
 				newPacks.add(oldPack);
-			} else if (dsc.hasFileExt(PackExt.PACK)) {
+			} else if (dsc.hasFileExt(PACK)) {
 				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
 			}
@@ -610,18 +632,28 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				newReftables.add(new DfsReftable(cache, dsc));
 				foundNew = true;
 			}
+
+			DfsMultiPackIndex oldMidx = multiPackIndexes.remove(dsc);
+			if (oldMidx != null) {
+				newMultiPackIndexes.add(oldMidx);
+			} else if (dsc.hasFileExt(MULTI_PACK_INDEX)) {
+				newMultiPackIndexes.add(new DfsMultiPackIndex(cache, dsc));
+				foundNew = true;
+			}
 		}
 
-		if (newPacks.isEmpty() && newReftables.isEmpty())
-			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
+		if (newPacks.isEmpty() && newReftables.isEmpty()) {
+			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables,
+					NO_PACKS.multiPackIndexes);
+		}
 		if (!foundNew) {
 			old.clearDirty();
 			return old;
 		}
 		Collections.sort(newReftables, reftableComparator());
-		return new PackListImpl(
-				newPacks.toArray(new DfsPackFile[0]),
-				newReftables.toArray(new DfsReftable[0]));
+		return new PackListImpl(newPacks.toArray(new DfsPackFile[0]),
+				newReftables.toArray(new DfsReftable[0]),
+				newMultiPackIndexes.toArray(new DfsMultiPackIndex[0]));
 	}
 
 	/**
@@ -651,7 +683,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return forReuse;
 	}
 
-	private static Map<DfsPackDescription, DfsReftable> reftableMap(PackList old) {
+	private static Map<DfsPackDescription, DfsReftable> reftableMap(
+			PackList old) {
 		Map<DfsPackDescription, DfsReftable> forReuse = new HashMap<>();
 		for (DfsReftable p : old.reftables) {
 			if (!p.invalid()) {
@@ -661,14 +694,19 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return forReuse;
 	}
 
+	private static Map<DfsPackDescription, DfsMultiPackIndex> mmidxMap(
+			PackList old) {
+		return Arrays.stream(old.multiPackIndexes).collect(toMap(
+				DfsMultiPackIndex::getPackDescription, Function.identity()));
+	}
+
 	/**
 	 * Get comparator to sort {@link DfsReftable} by priority.
 	 *
 	 * @return comparator to sort {@link DfsReftable} by priority.
 	 */
 	protected Comparator<DfsReftable> reftableComparator() {
-		return Comparator.comparing(
-				DfsReftable::getPackDescription,
+		return Comparator.comparing(DfsReftable::getPackDescription,
 				DfsPackDescription.reftableComparator());
 	}
 
@@ -692,11 +730,64 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		/** All known reftables, sorted. */
 		public final DfsReftable[] reftables;
 
+		private final DfsMultiPackIndex[] multiPackIndexes;
+
+		private DfsVirtualPack[] vPacks;
+
 		private long lastModified = -1;
 
-		PackList(DfsPackFile[] packs, DfsReftable[] reftables) {
+		private static String getFileName(DfsPackDescription desc) {
+			String withExt = desc.getFileName(PACK);
+			int cut = withExt.length() - PACK.getExtension().length() - 1; // .<pack-extension>
+			return withExt.substring(0, cut);
+		}
+
+		PackList(DfsPackFile[] packs, DfsReftable[] reftables,
+				DfsMultiPackIndex[] multiPackIndexes) {
 			this.packs = packs;
 			this.reftables = reftables;
+			this.multiPackIndexes = multiPackIndexes;
+		}
+
+		/**
+		 * Return a reworked stack of packs, where packs covered by a multipack
+		 * index are represented as a single pack.
+		 *
+		 * @return a list of virtual packs
+		 */
+		public DfsVirtualPack[] getVirtualPacks() {
+			if (vPacks == null) {
+				if (multiPackIndexes.length == 0) {
+					// No multipack
+					vPacks = new DfsVirtualPack[packs.length];
+					for (int i = 0; i < packs.length; i++) {
+						vPacks[i] = DfsVirtualPackFactory.create(packs[i]);
+					}
+					return vPacks;
+				}
+
+				List<DfsVirtualPack> vPacksTmp = new ArrayList<>();
+				Map<String, DfsPackFile> nameToPack = Arrays.stream(packs)
+						.collect(toMap(
+								pf -> getFileName(pf.getPackDescription()),
+								Function.identity()));
+				for (DfsMultiPackIndex midxFile : multiPackIndexes) {
+					try {
+						// #create() removes the referenced packs from the map
+						vPacksTmp.add(DfsVirtualPackFactory.create(midxFile,
+								nameToPack));
+					} catch (DfsVirtualPackFactory.MultipackIndexMissingPackException e) {
+						// The multipack index refers to packs that are not in
+						// the stack anymore. Ignore.
+					}
+				}
+				// Remaining packs are not in any multipack index
+				nameToPack.values().forEach(dfsPackFile -> vPacksTmp
+						.add(DfsVirtualPackFactory.create(dfsPackFile)));
+				Collections.sort(vPacksTmp, DfsVirtualPack.DEFAULT_COMPARATOR);
+				this.vPacks = vPacksTmp.toArray(new DfsVirtualPack[0]);
+			}
+			return vPacks;
 		}
 
 		/**
@@ -708,7 +799,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			if (lastModified < 0) {
 				long max = 0;
 				for (DfsPackFile pack : packs) {
-					max = Math.max(max, pack.getPackDescription().getLastModified());
+					max = Math.max(max,
+							pack.getPackDescription().getLastModified());
 				}
 				lastModified = max;
 			}
@@ -716,14 +808,15 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 
 		abstract boolean dirty();
+
 		abstract void clearDirty();
 
 		/**
 		 * Mark pack list as dirty.
 		 * <p>
-		 * Used when the caller knows that new data might have been written to the
-		 * repository that could invalidate open readers depending on this pack list,
-		 * for example if refs are newly scanned.
+		 * Used when the caller knows that new data might have been written to
+		 * the repository that could invalidate open readers depending on this
+		 * pack list, for example if refs are newly scanned.
 		 */
 		public abstract void markDirty();
 	}
@@ -731,8 +824,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	private static final class PackListImpl extends PackList {
 		private volatile boolean dirty;
 
-		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables) {
-			super(packs, reftables);
+		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables,
+				DfsMultiPackIndex[] multiPackIndexes) {
+			super(packs, reftables, multiPackIndexes);
 		}
 
 		@Override
@@ -787,15 +881,13 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *             when some I/O problem occurs while creating or writing to
 	 *             output stream
 	 */
-	public PackIndexWriter getPackIndexWriter(
-			DfsPackDescription pack, int indexVersion)
-			throws IOException {
+	public PackIndexWriter getPackIndexWriter(DfsPackDescription pack,
+			int indexVersion) throws IOException {
 		return (objectsToStore, packDataChecksum) -> {
 			try (DfsOutputStream out = writeFile(pack, INDEX);
 					CountingOutputStream cnt = new CountingOutputStream(out)) {
 				final PackIndexWriter iw = BasePackIndexWriter
-						.createVersion(cnt,
-						indexVersion);
+						.createVersion(cnt, indexVersion);
 				iw.write(objectsToStore, packDataChecksum);
 				pack.addFileExt(INDEX);
 				pack.setFileSize(INDEX, cnt.getCount());
