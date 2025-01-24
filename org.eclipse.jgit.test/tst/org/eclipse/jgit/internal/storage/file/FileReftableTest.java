@@ -93,7 +93,11 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			}
 
 			// only the first one succeeds
+<<<<<<< PATCH SET (6d835d Fix racy ref-table)
+			assertTrue(retry > 1);
+=======
 			assertEquals(19, retry);
+>>>>>>> BASE      (1af00e Add target platform jgit-4.35 for Eclipse 2025-03)
 		}
 	}
 

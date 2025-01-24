@@ -82,6 +82,12 @@ public abstract class BlockSource implements AutoCloseable {
 		return new BlockSource() {
 			@Override
 			public ByteBuffer read(long pos, int blockSize) throws IOException {
+<<<<<<< PATCH SET (6d835d Fix racy ref-table)
+				if(file != null && !file.exists()) {
+					throw new BlockSourceFileNotFoundException(file);
+				}
+=======
+>>>>>>> BASE      (1af00e Add target platform jgit-4.35 for Eclipse 2025-03)
 				ByteBuffer b = ByteBuffer.allocate(blockSize);
 				ch.position(pos);
 				int n;
