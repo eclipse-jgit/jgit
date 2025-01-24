@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a442ac98_1fd75e40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-24T23:55:18Z",
+      "side": 1,
+      "message": "An alternative design that I was drafting in the DFS side. I am not sure it is better than this, just bouncing the idea:\n\nWhat about creating a \"MultiPack\", a composite that looks like a single pack and internally has n-packs glued together by the multipack index.\n\nThen we tweak the PackList. When creating the packlist, if there is multipack index, we replace the packs in the midx with a single MultiPack. For example, the stack [pack1,pack2,pack3], with a multipack index over pack1,pack2, would become: [MultiPack(pack1, pack2), pack3].\n\nThen all the code that does \"for (Pack pack: packList) { ... pack.something() }\" would benefit from the multipack index.\n\nDunno, there is more inheritance and complexity. But I think this idea would also work cleanly with multiple midx and would support cleanly midx bitmaps. What do you think?",
+      "revId": "a8a688ea5b640ca3fd16938bb9743d4b9b75c5b1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac626082_e043bb05",
