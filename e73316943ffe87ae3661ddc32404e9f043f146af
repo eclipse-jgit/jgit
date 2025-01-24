@@ -63,6 +63,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "407e8cef_ff7f341a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-24T21:58:27Z",
+      "side": 1,
+      "message": "\u003e I would say that looping should only happen on exceptions (when a result cannot be read), not because the files(ref) have changed after line 191. While it is true, that an out-of-date result may be returned,\n\nIt could be actually worse: if we are in a racy situation, then the data may be changing *whilst* we read and therefore the results may be inconsistent or, as you\u0027ve rightly pointed out, even cause exceptions.\n\nWe do the racy loop in PackDirectory.getPacks()\n\n```\ndo {\n\tlist \u003d packList.get();\n\tif (list \u003d\u003d NO_PACKS) {\n\t\tlist \u003d scanPacks(list);\n\t}\n} while (searchPacksAgain(list));\n```\n\n\u003e that is true no matter how much you loop, even once the files appear to no longer change (they can always change again after your check).\n\nTrue, but at least we know that *at the point of the return* the data was stable and did not change between the start and the end of the method.\nIf the data on disk is different on the start than at the end of the method, the read is definitely racy.\n\nSee the relevant discussion and presentation by Matthias many years ago at the Gerrit User Summit (https://youtu.be/m44cAozuLNI).\n\n\u003e What matters is not that the latest result is always returned (that is impossible), but that the result returned was accurate at least for a moment in time after the method call started.\n\nI respectfully disagree: it must be *consistent* and up-to-date to when the method ended. If the data on disk is changing, my read could be inconsistent, even there are no exception thrown.",
+      "parentUuid": "5c7fe6c6_7b3c9eb1",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
