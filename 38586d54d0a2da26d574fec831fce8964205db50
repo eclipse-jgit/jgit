@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cce9b4c1_6beaa35a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 92
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-24T13:57:57Z",
+      "side": 1,
+      "message": "Post-merge -1: I don\u0027t understand the testRacyReload()",
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f928708b_14ac9263",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-24T13:57:57Z",
+      "side": 1,
+      "message": "The name of the test should tell what the test is expecting to achieve; example _\"tesRacyReloadShouldSucceedOnlyOnce\"_.\n\nWhat was the overall object of this test?\n\nTests are the only piece of code that aren\u0027t tested (unless you write the test of a test) and the code here below doesn\u0027t really express what is the overall expectation of the end-to-end functionality.",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0679ea8a_ed211662",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-24T13:57:57Z",
+      "side": 1,
+      "message": "I see that all iterations of this loop use a different branch name:\n- j\u003d0; i\u003d0 \u003d\u003e branch0\n- j\u003d1; i\u003d0 \u003d\u003e branch1\n- j\u003d0; i\u003d1 \u003d\u003e branch10\n- j\u003d1; i\u003d0 \u003d\u003e branch11\n...\n\nWhy are we expecting the update to fail? If the update fails, why are we retrying unconditionally? (we should check for lock failures instead?) Why are we retrying only once?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
