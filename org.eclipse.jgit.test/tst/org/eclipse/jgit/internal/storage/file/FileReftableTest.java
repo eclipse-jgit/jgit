@@ -93,7 +93,11 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			}
 
 			// only the first one succeeds
+<<<<<<< PATCH SET (bcce7a Fix racy ref-table)
+			assertTrue(retry > 1);
+=======
 			assertEquals(retry, 19);
+>>>>>>> BASE      (d5cc10 http.server/BUILD: expose servlet resources as target)
 		}
 	}
 
