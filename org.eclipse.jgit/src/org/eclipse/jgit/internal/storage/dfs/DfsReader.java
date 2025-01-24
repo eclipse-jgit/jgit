@@ -78,10 +78,15 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	final DfsReaderIoStats.Accumulator stats = new DfsReaderIoStats.Accumulator();
 
 	private Inflater inf;
+
 	private DfsBlock block;
+
 	private DeltaBaseCache baseCache;
-	private DfsPackFile last;
+
+	private DfsVirtualPack last;
+
 	private boolean avoidUnreachable;
+
 	private List<PackLoadListener> packLoadListeners = new ArrayList<>();
 
 	/**
@@ -92,7 +97,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	 */
 	protected DfsReader(DfsObjDatabase db) {
 		this.db = db;
-		this.streamFileThreshold = db.getReaderOptions().getStreamFileThreshold();
+		this.streamFileThreshold = db.getReaderOptions()
+				.getStreamFileThreshold();
 	}
 
 	DfsReaderOptions getOptions() {
@@ -117,7 +123,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public BitmapIndex getBitmapIndex() throws IOException {
-		for (DfsPackFile pack : db.getPacks()) {
+		for (DfsVirtualPack pack : db.getVirtualPacks()) {
 			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
 			if (bitmapIndex != null)
 				return createBitmapIndex(bitmapIndex);
@@ -139,7 +145,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public Optional<CommitGraph> getCommitGraph() throws IOException {
-		for (DfsPackFile pack : db.getPacks()) {
+		for (DfsVirtualPack pack : db.getVirtualPacks()) {
 			CommitGraph cg = pack.getCommitGraph(this);
 			if (cg != null) {
 				return Optional.of(cg);
@@ -150,12 +156,12 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
-		BitmapBuilder needBitmap) throws IOException {
+			BitmapBuilder needBitmap) throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
 			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
 			if (needBitmap.removeAllOrNone(bitmapIndex))
-				return Collections.<CachedPack> singletonList(
-						new DfsCachedPack(pack));
+				return Collections
+						.<CachedPack> singletonList(new DfsCachedPack(pack));
 		}
 		return Collections.emptyList();
 	}
@@ -177,7 +183,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private void resolveImpl(PackList packList, AbbreviatedObjectId id,
 			HashSet<ObjectId> matches) throws IOException {
-		for (DfsPackFile pack : packList.packs) {
+		for (DfsVirtualPack pack : packList.getVirtualPacks()) {
 			if (skipGarbagePack(pack)) {
 				continue;
 			}
@@ -190,8 +196,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
-		if (last != null
-				&& !skipGarbagePack(last)
+		if (last != null && !skipGarbagePack(last)
 				&& last.hasObject(this, objectId))
 			return true;
 		PackList packList = db.getPackList();
@@ -206,7 +211,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private boolean hasImpl(PackList packList, AnyObjectId objectId)
 			throws IOException {
-		for (DfsPackFile pack : packList.packs) {
+		for (DfsVirtualPack pack : packList.getVirtualPacks()) {
 			if (pack == last || skipGarbagePack(pack))
 				continue;
 			if (pack.hasObject(this, objectId)) {
@@ -258,7 +263,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private ObjectLoader openImpl(PackList packList, AnyObjectId objectId)
 			throws IOException {
-		for (DfsPackFile pack : packList.packs) {
+		for (DfsVirtualPack pack : packList.getVirtualPacks()) {
 			if (pack == last || skipGarbagePack(pack)) {
 				continue;
 			}
@@ -286,8 +291,11 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private static class FoundObject<T extends ObjectId> {
 		final T id;
+
 		final DfsPackFile pack;
+
 		final long offset;
+
 		final int packIndex;
 
 		FoundObject(T objectId, int packIdx, DfsPackFile pack, long offset) {
@@ -328,19 +336,20 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private <T extends ObjectId> void findAllImpl(PackList packList,
 			HashSet<T> pending, List<FoundObject<T>> r) {
-		DfsPackFile[] packs = packList.packs;
+		DfsVirtualPack[] packs = packList.getVirtualPacks();
 		if (packs.length == 0) {
 			return;
 		}
 		int lastIdx = 0;
-		DfsPackFile lastPack = packs[lastIdx];
+		DfsVirtualPack lastPack = packs[lastIdx];
 		HashSet<T> toRemove = new HashSet<>();
 		OBJECT_SCAN: for (T t : pending) {
 			if (!skipGarbagePack(lastPack)) {
 				try {
-					long p = lastPack.findOffset(this, t);
-					if (0 < p) {
-						r.add(new FoundObject<>(t, lastIdx, lastPack, p));
+					DfsVirtualPack.DfsPackOffset ol = lastPack.find(this, t);
+					if (ol != null) {
+						r.add(new FoundObject<>(t, lastIdx, ol.getPack(),
+								ol.getOffset()));
 						toRemove.add(t);
 						continue;
 					}
@@ -352,13 +361,14 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			for (int i = 0; i < packs.length; i++) {
 				if (i == lastIdx)
 					continue;
-				DfsPackFile pack = packs[i];
+				DfsVirtualPack pack = packs[i];
 				if (skipGarbagePack(pack))
 					continue;
 				try {
-					long p = pack.findOffset(this, t);
-					if (0 < p) {
-						r.add(new FoundObject<>(t, i, pack, p));
+					DfsVirtualPack.DfsPackOffset loc = pack.find(this, t);
+					if (loc != null) {
+						r.add(new FoundObject<>(t, i, loc.getPack(),
+								loc.getOffset()));
 						toRemove.add(t);
 						lastIdx = i;
 						lastPack = pack;
@@ -374,8 +384,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		last = lastPack;
 	}
 
-	private boolean skipGarbagePack(DfsPackFile pack) {
-		return avoidUnreachable && pack.isGarbage();
+	private boolean skipGarbagePack(DfsVirtualPack superPack) {
+		return avoidUnreachable && superPack.isUnreachableGarbage();
 	}
 
 	@Override
@@ -453,6 +463,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		final IOException findAllError = error;
 		return new AsyncObjectSizeQueue<>() {
 			private FoundObject<T> cur;
+
 			private long sz;
 
 			@Override
@@ -522,7 +533,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 		return pack.getObjectSize(this, objectId);
 	}
-
 
 	@Override
 	public boolean isNotLargerThan(AnyObjectId objectId, int typeHint,
@@ -599,16 +609,25 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throws IOException {
 		if (last != null && !skipGarbagePack(last)
 				&& last.hasObject(this, objectId)) {
-			return last;
+			DfsVirtualPack.DfsPackOffset loc = last.find(this, objectId);
+			if (loc != null) {
+				return loc.getPack();
+			}
 		}
 		PackList packList = db.getPackList();
 		// hasImpl doesn't check "last", but leaves "last" pointing to the pack
 		// with the object
 		if (hasImpl(packList, objectId)) {
-			return last;
+			DfsVirtualPack.DfsPackOffset loc = last.find(this, objectId);
+			if (loc != null) {
+				return loc.getPack();
+			}
 		} else if (packList.dirty()) {
 			if (hasImpl(db.getPackList(), objectId)) {
-				return last;
+				DfsVirtualPack.DfsPackOffset loc = last.find(this, objectId);
+				if (loc != null) {
+					return loc.getPack();
+				}
 			}
 		}
 		return null;
@@ -642,7 +661,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects,
 			List<DfsPackFile> packs, boolean skipFound) throws IOException {
 		for (DfsPackFile pack : packs) {
-			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects, skipFound);
+			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects,
+					skipFound);
 			if (tmp.isEmpty())
 				continue;
 			Collections.sort(tmp, OFFSET_SORT);
@@ -660,9 +680,9 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	private static final Comparator<DfsPackFile> PACK_SORT_FOR_REUSE =
-		Comparator.comparing(
-				DfsPackFile::getPackDescription, DfsPackDescription.reuseComparator());
+	private static final Comparator<DfsPackFile> PACK_SORT_FOR_REUSE = Comparator
+			.comparing(DfsPackFile::getPackDescription,
+					DfsPackDescription.reuseComparator());
 
 	private List<DfsPackFile> sortPacksForSelectRepresentation()
 			throws IOException {
@@ -700,7 +720,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	private List<DfsObjectToPack> findAllFromPack(DfsPackFile pack,
 			Iterable<ObjectToPack> objects, boolean skipFound)
-					throws IOException {
+			throws IOException {
 		List<DfsObjectToPack> tmp = new BlockList<>();
 		PackIndex idx = pack.getPackIndex(this);
 		for (ObjectToPack obj : objects) {
@@ -824,8 +844,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	DfsBlock quickCopy(DfsPackFile p, long pos, long cnt)
-			throws IOException {
+	DfsBlock quickCopy(DfsPackFile p, long pos, long cnt) throws IOException {
 		pin(p, pos);
 		if (block.contains(p.key, pos + (cnt - 1)))
 			return block;
@@ -875,6 +894,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		 */
 		class DfsBlockData {
 			private final int identityHash;
+
 			private final int size;
 
 			static DfsBlockData of(DfsBlock src) {
@@ -914,8 +934,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		 * @param loadedIdx
 		 *            reference to the loaded index
 		 */
-		void onIndexLoad(String packName, PackSource src, PackExt ext, long size,
-				Object loadedIdx);
+		void onIndexLoad(String packName, PackSource src, PackExt ext,
+				long size, Object loadedIdx);
 
 		/**
 		 * This is called when a dfs block is loaded into the reader.
@@ -940,10 +960,10 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	void emitIndexLoad(DfsPackDescription packDescription, PackExt ext,
 			Object loadedIdx) {
-		packLoadListeners.forEach(
-				listener -> listener.onIndexLoad(packDescription.getFileName(ext),
-						packDescription.getPackSource(), ext,
-						packDescription.getFileSize(ext), loadedIdx));
+		packLoadListeners.forEach(listener -> listener.onIndexLoad(
+				packDescription.getFileName(ext),
+				packDescription.getPackSource(), ext,
+				packDescription.getFileSize(ext), loadedIdx));
 	}
 
 	void emitBlockLoad(BlockBasedFile file, long position, DfsBlock dfsBlock) {
@@ -956,7 +976,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	/**
 	 * Add listener to record loads by this reader
 	 *
-	 * @param listener a listener
+	 * @param listener
+	 *            a listener
 	 */
 	protected void addPackLoadListener(PackLoadListener listener) {
 		packLoadListeners.add(listener);
