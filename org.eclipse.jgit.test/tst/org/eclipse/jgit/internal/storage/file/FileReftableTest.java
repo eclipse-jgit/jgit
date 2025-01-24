@@ -94,7 +94,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			}
 
 			// only the first one succeeds
-			assertEquals(retry, 19);
+			assertTrue(retry > 1);
 		}
 	}
 

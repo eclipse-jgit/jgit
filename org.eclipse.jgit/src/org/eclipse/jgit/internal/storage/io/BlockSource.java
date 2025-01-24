@@ -114,7 +114,7 @@ public abstract class BlockSource implements AutoCloseable {
 			@Override
 			public ByteBuffer read(long pos, int blockSize) throws IOException {
 				if(file != null && !file.exists()) {
-					throw new IllegalStateException("Cannot read from " + file.getAbsolutePath() + " because it does not exist");
+					throw new BlockSourceFileNotFoundException(file);
 				}
 				ByteBuffer b = ByteBuffer.allocate(blockSize);
 				ch.position(pos);
