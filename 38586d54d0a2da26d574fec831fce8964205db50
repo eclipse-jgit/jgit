@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf6a69b8_d2225318",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-24T18:10:58Z",
+      "side": 1,
+      "message": "\u003e sure. Your code review comment is a bit late, though.\n\nI know 😊 ... better later than never!",
+      "parentUuid": "683921e2_a061295c",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0679ea8a_ed211662",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 92
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "have a look at FileReftableDatabase::addReftable\n\nA ref update in repo1 causes the tables.list to updated, so repo2 has an outdated view and will fail any write that is applied. If this happens, the update fails, but tables.list is reloaded. So the 2nd try goes through.\n\nin the loose files storage, such changes can run concurrently.\n\nif you were writing the same branch, you would always have a failure, regardless of backend.",
       "parentUuid": "0679ea8a_ed211662",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8571ebc2_bcaf8553",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-24T18:10:58Z",
+      "side": 1,
+      "message": "\u003e have a look at FileReftableDatabase::addReftable\n\u003e \n\u003e A ref update in repo1 causes the tables.list to updated, so repo2 has an outdated view and will fail any write that is applied.\n\nI understand it better now, thanks. Do you believe that the retry should be implicit in the update() though?\nAlso, what if you did not perform an update() but simply a read of an outdated ref, then it would not fail and the data returned would be stale.\n\n\u003e If this happens, the update fails, but tables.list is reloaded. So the 2nd try goes through.\n\u003e \n\u003e in the loose files storage, such changes can run concurrently.\n\nI see, but it seems that you are testing the internal implementation details of what the current implementation of ref-table does, rather than testing what an external user should see from a ref-database.\n\n\u003e if you were writing the same branch, you would always have a failure, regardless of backend.\n\nMakes sense. Thanks for clarifying it.",
+      "parentUuid": "b1e970b4_40099651",
       "range": {
         "startLine": 108,
         "startChar": 0,
