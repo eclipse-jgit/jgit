@@ -34,6 +34,24 @@
       "parentUuid": "10e9e04f_56a577e0",
       "revId": "57ac07791e6ecf18d29faf9855c02375e06164f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5264d17_ddd663b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-01-24T22:58:06Z",
+      "side": 1,
+      "message": "\u003e No, I wasn\u0027t! Thanks. IIUC we have been working on complementary stack of changes. 1202277 is about *loading* the midx and non-dfs side, this stack is about *writing* it and some wip dfs integration.\n\u003e \n\u003e This series should not overlap yet with the loading code. Is only about writing and debugging the output.\n\nAwesome!\n\n\u003e \n\u003e Nit: I used here storage.midx package for the common midx code (dfs or not). Probably we could move the MultiPackIndex interface and other classes here?\n\nSounds good to me. If you have time, I\u0027d appreciate any feedback you can leave on those changes. Part of why I lost momentum on them was because I wasn\u0027t quite sure how best to structure them, so any advice you can share there would be excellent.",
+      "parentUuid": "19b4789c_e322ba8f",
+      "revId": "57ac07791e6ecf18d29faf9855c02375e06164f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
