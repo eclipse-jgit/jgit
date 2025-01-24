@@ -87,6 +87,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a2217f_c59c4f1b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-24T22:03:59Z",
+      "side": 1,
+      "message": "\u003e it must be consistent and up-to-date to when the method ended. If the data on disk is changing, my read could be inconsistent, even there are no exception thrown.\n\nI agree with this. I do believe that the design of the tables helps ensure this. RefTable files are immutable, so the data within an individual table file cannot change. The only thing that can change the view is the table list, and the existence of RefTable files. Once the file list is read, if the tables are looked up in the order of the list, and no tables are missed, the view should be guaranteed to be consistent with the original list.",
+      "parentUuid": "407e8cef_ff7f341a",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
