@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "683921e2_a061295c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1007980
+      },
+      "writtenOn": "2025-01-24T14:49:16Z",
+      "side": 1,
+      "message": "sure. Your code review comment is a bit late, though.",
+      "parentUuid": "f928708b_14ac9263",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0679ea8a_ed211662",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 92
@@ -54,6 +78,30 @@
       "writtenOn": "2025-01-24T13:57:57Z",
       "side": 1,
       "message": "I see that all iterations of this loop use a different branch name:\n- j\u003d0; i\u003d0 \u003d\u003e branch0\n- j\u003d1; i\u003d0 \u003d\u003e branch1\n- j\u003d0; i\u003d1 \u003d\u003e branch10\n- j\u003d1; i\u003d0 \u003d\u003e branch11\n...\n\nWhy are we expecting the update to fail? If the update fails, why are we retrying unconditionally? (we should check for lock failures instead?) Why are we retrying only once?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e970b4_40099651",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1007980
+      },
+      "writtenOn": "2025-01-24T14:49:16Z",
+      "side": 1,
+      "message": "have a look at FileReftableDatabase::addReftable\n\nA ref update in repo1 causes the tables.list to updated, so repo2 has an outdated view and will fail any write that is applied. If this happens, the update fails, but tables.list is reloaded. So the 2nd try goes through.\n\nin the loose files storage, such changes can run concurrently.\n\nif you were writing the same branch, you would always have a failure, regardless of backend.",
+      "parentUuid": "0679ea8a_ed211662",
       "range": {
         "startLine": 108,
         "startChar": 0,
