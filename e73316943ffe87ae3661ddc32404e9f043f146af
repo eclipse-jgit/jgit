@@ -39,6 +39,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7fe6c6_7b3c9eb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-24T18:18:50Z",
+      "side": 1,
+      "message": "I would say that looping should only happen on exceptions (when a result cannot be read), not because the files(ref) have changed after line 191. While it is true, that an out-of-date result may be returned, that is true no matter how much you loop, even once the files appear to no longer change (they can always change again after your check). What matters is not that the latest result is always returned (that is impossible), but that the result returned was accurate at least for a moment in time after the method call started. Therefore, I think it is wrong to be rechecking timestamps at the end unless we are trying to determine that a detected error condition (such as a caught exception) might have been caused by a change.",
+      "parentUuid": "518f9f36_0ba8baf8",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
