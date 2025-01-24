@@ -36,7 +36,10 @@ public enum PackExt {
 	COMMIT_GRAPH("graph"), //$NON-NLS-1$
 
 	/** An object size index. */
-	OBJECT_SIZE_INDEX("objsize"); //$NON-NLS-1$
+	OBJECT_SIZE_INDEX("objsize"), //$NON-NLS-1$
+
+	/** Multi pack index */
+	MULTI_PACK_INDEX("midx"); //$NON-NLS-1$
 
 	private final String ext;
 

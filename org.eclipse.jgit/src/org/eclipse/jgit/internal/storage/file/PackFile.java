@@ -185,7 +185,11 @@ public class PackFile extends File {
 
 	private static PackExt getPackExt(String endsWithExtension) {
 		for (PackExt ext : PackExt.values()) {
-			if (endsWithExtension.endsWith(ext.getExtension())) {
+			if (endsWithExtension.equals(ext.getExtension())) {
+				return ext;
+			}
+
+			if (endsWithExtension.equals("old-" + ext.getExtension())) {
 				return ext;
 			}
 		}
