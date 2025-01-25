@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c69b2358_ad9f41f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038600
+      },
+      "writtenOn": "2025-01-25T05:44:06Z",
+      "side": 1,
+      "message": "The developers of git want to fix the unlink problem:\n\nhttps://lore.kernel.org/git/Z5M08DQCZ_43EIbm@pks.im/T/#t\n\nSo I think, the change is no longer necessary.\nWhat do you think?",
+      "revId": "5dc22b68aa8de399c3820fbb7b55563442d2eb64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
