@@ -158,6 +158,30 @@
       },
       "revId": "38586d54d0a2da26d574fec831fce8964205db50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "922602ad_0be200f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1007980
+      },
+      "writtenOn": "2025-01-25T15:55:23Z",
+      "side": 1,
+      "message": "\u003eAlso, what if you did not perform an update() but simply a read of an outdated ref, then it would not fail and the data \u003ereturned would be stale.\n\nref updates are usually part of a transaction, where  you read the database at a fixed timestamp, create an update based on what you read, and then try to commit it. If the intervening update changed what you read, the transaction would no longer be valid and should be redone as a whole.\n\nReading stale data is a fact of life in any system that allows concurrent access.\n\n\u003eI see, but it seems that you are testing the internal implementation details of what the current implementation of ref-table does, rather than testing what an external user should see from a ref-database.\n\nIt is testing code that was written. \n\nInstead of complaining, why don\u0027t you say what your real problem is?\n\nNote that the CGit reftable code was originally inspired by this code. There have been several performance fixes to it since it was committed into CGit.",
+      "parentUuid": "8571ebc2_bcaf8553",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
