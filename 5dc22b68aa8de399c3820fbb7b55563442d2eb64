@@ -16,6 +16,24 @@
       "message": "The developers of git want to fix the unlink problem:\n\nhttps://lore.kernel.org/git/Z5M08DQCZ_43EIbm@pks.im/T/#t\n\nSo I think, the change is no longer necessary.\nWhat do you think?",
       "revId": "5dc22b68aa8de399c3820fbb7b55563442d2eb64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b015b912_c8c15fe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-26T10:48:53Z",
+      "side": 1,
+      "message": "\u003e The developers of git want to fix the unlink problem:\n\u003e \n\u003e https://lore.kernel.org/git/Z5M08DQCZ_43EIbm@pks.im/T/#t\n\nThanks for the pointer, it looks like that Patrick Steinhardt would still expect to have a first interactive question about deletions, which should be completely ignored if they fail instead.\n\n\u003e So I think, the change is no longer necessary.\n\u003e What do you think?\n\nThere are two issues here:\n\n1. At https://git-scm.com/docs/reftable#_readers in point 4. _\"Read from the now-open files as long as necessary.\"_\n\n2. At https://git-scm.com/docs/reftable#_compaction in point 10. _Delete B and C, perhaps after a short sleep to avoid forcing readers to backtrack._\n\nThe read at 1. does not perform any locking on the _tables.list.lock_ therefore it may well be keeping an open file descriptor to B and C that are being deleted as result of compaction at 2, without knowing that someone is still reading the files at 1.\n\nThe issue is *definitely* the cleanup after compaction here. I agree that the CGit implementation did not implement the compaction directives in the documentation that say generically _perhaps after a short sleep_ that should have been written _lazily with a long-enough expire time_ to avoid problems with concurrent reads.\n\nAlso, I believe JGit has _abused_ the _as long as necessary_ clause and read it as _indefinitely until the repository is closed_.\n\nI do see a point where you may not want to open/close 1000 times a file if you need to read 1000 refs; however, if you are done with your reads, what\u0027s the point of keeping the file opened indefinitely?",
+      "parentUuid": "c69b2358_ad9f41f6",
+      "revId": "5dc22b68aa8de399c3820fbb7b55563442d2eb64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
