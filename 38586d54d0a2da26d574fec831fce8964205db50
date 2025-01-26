@@ -223,6 +223,30 @@
       },
       "revId": "38586d54d0a2da26d574fec831fce8964205db50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfe21477_9d89705d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1007980
+      },
+      "writtenOn": "2025-01-26T10:47:45Z",
+      "side": 1,
+      "message": "\u003e Matthias has drafted a fix with Change 1206683 (https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206683) which breaks this test and I was trying to understand if that was because an external expected functionality would break or if this was just a white-box testing which is expected to break once the implementation changes.\n\nI don\u0027t think the bugreport is a bug per se. The 2nd read is delivering the value it read when it took the snapshot. What does JGit promise about how things are supposed to work? As discussed, exactRef can always return a stale data. If the reporter has expectations about ordering, they should use synchronization mechanism to disambiguate how stale they allow their data to be.\n\nBy rereading the DB at random in a exactRef() and friends, you make it impossible for anyone to build a system that creates consistent transactions (reader runs the risk of seeing a frankenstein of snapshot versions when doing the reads.) \n\nIn general, that may not be a big deal, but since you are in the business of building databases on top of git (NoteDB), that sounds like a risky tradeoff to make. (Also it inserts a disk read in a potentially hot code path; not great for performance)\n\n\u003e I tried to run a simple test using both together and ended up with a corrupted repository very quickly :-(\n\nI\u0027m sorry to hear that. AFAIK, there was no incompatiblity in storage format, so that should not happen. Do you have a reproducible scenario?",
+      "parentUuid": "7aebfd1d_48b627ba",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
