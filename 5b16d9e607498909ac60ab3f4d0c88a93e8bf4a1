@@ -214,6 +214,30 @@
       },
       "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aae81bc_2015d562",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-26T10:19:51Z",
+      "side": 1,
+      "message": "I share the same concerns as @mfick@nvidia.com; I want to review and benchmark the hybrid approach as the background loading into the cache may still block the 2nd lookup whilst the loading is ongoing.\n\nAlso, the ref-table is designed for speed and concurrency: if we start making critical sections and background threads with locks and waits it may hinder the all purpose of using the ref-table in the first place.\n\nMy 2c: the speed and concurrency objectives are mainly for Unix systems, as I don\u0027t think anyone in the world would use Windows for a server-side JGit stack (I may be wrong, that\u0027s just my assumption). Why don\u0027t we just move the responsibility of opening the file into the BlockSource? It could then open/close the file as needed on Windows whilst keep the current behaviour and code on Unix.",
+      "parentUuid": "8d4de022_05e76139",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5b16d9e607498909ac60ab3f4d0c88a93e8bf4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
