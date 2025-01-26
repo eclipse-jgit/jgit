@@ -271,6 +271,30 @@
       },
       "revId": "38586d54d0a2da26d574fec831fce8964205db50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684a9d1c_198a52ec",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1007980
+      },
+      "writtenOn": "2025-01-26T11:49:48Z",
+      "side": 1,
+      "message": "\u003e Yes, it is specifically mentioned in the \"readers contract\" of the RefTable specs at https://git-scm.com/docs/reftable#_readers.\n\nThe question is what JGit promised about this before. If it make the promises that you always get the state on disk at the moment of exactRef(), then you\u0027ll have to honor this, and devise a special mode for \u0027consistent snapshot read\u0027 that turns off implicit rereads.\n\n\n\u003e I believe JGit\u0027s RepositoryCache should be disabled when using RefTable because it would risk to have a snapshot which is left opened indefinitely\n\nthat may create other performance problems. Why not drop the reftable cache when you hand out a cached copy?\n\n\u003e Sure, will file a separate bug on CGit (and possibly also propose a fix?). \n\nif you want me to opine, CC me directly. I don\u0027t keep track of JGit or CGit these days.",
+      "parentUuid": "61e22d5b_75dfce85",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
