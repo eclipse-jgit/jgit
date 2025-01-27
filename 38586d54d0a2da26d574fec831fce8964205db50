@@ -295,6 +295,30 @@
       },
       "revId": "38586d54d0a2da26d574fec831fce8964205db50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdcd928b_a4b35b36",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-27T16:45:43Z",
+      "side": 1,
+      "message": "I discovered at the end that it was a problem with Gerrit reference counting and the RepositoryCache: fixed in Gerrit with https://gerrit-review.googlesource.com/c/gerrit/+/449083 and the problem has just disappeared 🎉\n\nI can see changes on the repository that are coming from CGit. I\u0027ll file a separate bug about the corruption.\n\nI was wrong about the RepositoryCache: there is no need to disable it. If the reference counting works (now with https://gerrit-review.googlesource.com/c/gerrit/+/449083, it does work), the mostly used repos are reused and released when unused.\n\nBecause JGit\u0027s ref-table refreshes on updates, all changes made within Gerrit are automatically detected. Changes from outside Gerrit are detected either upon update or when the cache expires, which is what you would expect from a cache to behave.",
+      "parentUuid": "684a9d1c_198a52ec",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
