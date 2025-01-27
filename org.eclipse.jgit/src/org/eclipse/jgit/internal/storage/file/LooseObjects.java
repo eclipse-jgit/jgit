@@ -49,7 +49,7 @@ class LooseObjects {
 	 * Maximum number of attempts to read a loose object for which a stale file
 	 * handle exception is thrown
 	 */
-	private final static int MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS = 5;
+	private final static int MAX_STALE_READ_RETRIES = 5;
 
 	private final File directory;
 
@@ -163,9 +163,7 @@ class LooseObjects {
 	}
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId id) throws IOException {
-		int readAttempts = 0;
-		while (readAttempts < MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS) {
-			readAttempts++;
+		for (int retries = 0; retries < MAX_STALE_READ_RETRIES; retries++) {
 			File path = fileFor(id);
 			if (trustFolderStat && !path.exists()) {
 				break;
@@ -184,8 +182,8 @@ class LooseObjects {
 				if (LOG.isDebugEnabled()) {
 					LOG.debug(MessageFormat.format(
 							JGitText.get().looseObjectHandleIsStale, id.name(),
-							Integer.valueOf(readAttempts), Integer.valueOf(
-									MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS)));
+							Integer.valueOf(retries), Integer.valueOf(
+									MAX_STALE_READ_RETRIES)));
 				}
 			}
 		}
