@@ -163,8 +163,8 @@ class LooseObjects {
 	}
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId id) throws IOException {
+		File path = fileFor(id);
 		for (int retries = 0; retries < MAX_STALE_READ_RETRIES; retries++) {
-			File path = fileFor(id);
 			if (trustFolderStat && !path.exists()) {
 				break;
 			}
