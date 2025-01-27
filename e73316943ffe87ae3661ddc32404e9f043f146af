@@ -159,6 +159,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6dda413_6ab97a02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1007980
+      },
+      "writtenOn": "2025-01-27T11:07:40Z",
+      "side": 1,
+      "message": "Any write (including compaction) causes tables.list and/or the tables to be outdated. But this is usually not the case, because writes happen less frequently than reads. If you write as often as you read, You\u0027re Gonna Have a Bad Time whatever you do.\n\n\u003e and cause the whole transaction to be retried,\n\nno, this is up to the caller. The caller may also give up.\n\nI think the reporter for the bug would be happy if something in Eclipse would reload the ref based on some sort of file notification on `tables.list`. I can\u0027t judge if this appropriate to add to JGit though. \n\n\u003e\"Delete B and C, perhaps after a short sleep to avoid forcing readers to backtrack.\n\nI did not implement this, because it requires hooking up the RefDB to some sort of thread-executor to schedule the background work.",
+      "parentUuid": "b2c45203_c40ad7e6",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
