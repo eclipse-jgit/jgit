@@ -50,6 +50,8 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Traditional file system based {@link org.eclipse.jgit.lib.ObjectDatabase}.
@@ -70,6 +72,11 @@ import org.eclipse.jgit.util.FileUtils;
  * considered.
  */
 public class ObjectDirectory extends FileObjectDatabase {
+
+	private final static Logger LOG = LoggerFactory
+			.getLogger(ObjectDirectory.class);
+
+
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
@@ -315,7 +322,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	boolean hasPackedObject(AnyObjectId objectId) {
-		return packed.has(objectId);
+		return packed.has(objectId) || restoreFromSelfOrAlternate(objectId, null);
 	}
 
 	@Override
@@ -536,6 +543,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 				.createForDirectory(packed.getDirectory());
 		try {
 			Files.createLink(restored.toPath(), preservedPack.toPath());
+            LOG.warn("[TONY] Restored {} into {}", preservedPack.toPath(), restored.toPath());
 		} catch (IOException e) {
 			return false;
 		}

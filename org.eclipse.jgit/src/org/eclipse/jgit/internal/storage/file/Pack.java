@@ -201,6 +201,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			// another thread
 			throw e;
 		} catch (IOException e) {
+			LOG.warn("[TONY] - Setting invalid flag for {}", this.getPackName());
 			invalid = true;
 			invalidatingCause = e;
 			throw e;
@@ -723,6 +724,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private void openFail(boolean invalidate, Exception cause) {
 		activeWindows = 0;
 		activeCopyRawData = 0;
+		if(invalidate) {
+            LOG.warn("[TONY] - openFail - Setting invalid flag for {}", this.getPackName());
+		}
 		invalid = invalidate;
 		invalidatingCause = cause;
 		doClose();
