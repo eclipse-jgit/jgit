@@ -18,6 +18,40 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc76068_c27dbc90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-27T15:40:32Z",
+      "side": 1,
+      "message": "FYI, I\u0027ve raised a Gerrit bug where the reference counting diverges and repositories won\u0027t be closed. Fixing it, would solve the ref-table issue. See https://issues.gerritcodereview.com/issues/392541994",
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe57f35b_1b687f7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-27T15:40:32Z",
+      "side": 1,
+      "message": "FYI, I\u0027ve raised a Gerrit bug where the reference counting diverges and repositories won\u0027t be closed. Fixing it, would solve the ref-table issue",
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "518f9f36_0ba8baf8",
