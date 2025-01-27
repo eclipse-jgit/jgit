@@ -106,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d97781b_8b5da6e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 92
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-27T16:46:40Z",
+      "side": 1,
+      "message": "All clarified now, thanks @hanwenn@gmail.com ! I\u0027ll upload a new change with more descriptive names and info to the test.",
+      "parentUuid": "bf6a69b8_d2225318",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "38586d54d0a2da26d574fec831fce8964205db50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0679ea8a_ed211662",
