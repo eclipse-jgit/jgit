@@ -111,6 +111,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dcfce33_ea8ab3ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-27T09:17:05Z",
+      "side": 1,
+      "message": "yep, I think reading a stack of reftables always returns a consistent result.\n\nReftable files are immutable, the stack of reftable files (`FileReftableStack`) considered in reads is based on the list of reftable file names stored in the `tables.list` file. Updates of this file are guarded by a FileLock, the new content is written to a temporary file and transactions are committed by atomically renaming the `tables.list` file.\n\nUnless we enforce pessimistic locking of all refs, a reftable stack, representing a consistent view on all refs, can be outdated anytime after we started reading it.\nRef updates add another reftable, the corresponding new reftable file name is added to the `tables.list` file using a transactional update as explained above. Updating refs should fail if the view of refs the update is based on, is found to be stale during the update.",
+      "parentUuid": "08a2217f_c59c4f1b",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
