@@ -315,7 +315,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	boolean hasPackedObject(AnyObjectId objectId) {
-		return packed.has(objectId);
+		return packed.has(objectId) || restoreFromSelfOrAlternate(objectId, null);
 	}
 
 	@Override
