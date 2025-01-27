@@ -183,6 +183,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "362f4328_f9574271",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-27T11:39:21Z",
+      "side": 1,
+      "message": "\u003e Any write (including compaction) causes tables.list and/or the tables to be outdated. But this is usually not the case, because writes happen less frequently than reads.\n\nWith NoteDb, in my experience with CI/CD Bots and AI tools with customers, the draft comments, reviews, scores and messages on the changes are making the refs updated *very frequently*. The `packed-refs` was always constantly locked.\n\nAlso, with the adoption of mono-repos, reviews and activities on separate projects that are hosted on the same repository compete to lock the same `packed-refs` file.\n\nNow, with ref-table, my worry is that we have a similar problem if we try to lock the `tables.list`.\n\n\u003e If you write as often as you read, You\u0027re Gonna Have a Bad Time whatever you do.\n\u003e and cause the whole transaction to be retried,\n\nYes, I see this happening in my initial tests, where I simulate _customer-like_ traffic using Gatling tests with hundreds of users working on the same repository.\n\n\u003e no, this is up to the caller. The caller may also give up.\n\nGerrit also has an internal _retry helper_ that does the retry _on behalf_ of the client.\n\n\u003e I think the reporter for the bug would be happy if something in Eclipse would reload the ref based on some sort of file notification on `tables.list`. I can\u0027t judge if this appropriate to add to JGit though. \n\nI believe it should be done at higher level in the EGit plugin rather than in JGit.\nSimilarly, it should be done at Gerrit level rather than in JGit.\n\nThe higher application level *knows* the boundaries of the transaction that is willing to perform, therefore it can decide on the window of _consistency_ that is needed to complete it.\n\n\u003e \u003e\"Delete B and C, perhaps after a short sleep to avoid forcing readers to backtrack.\n\u003e \n\u003e I did not implement this, because it requires hooking up the RefDB to some sort of thread-executor to schedule the background work.\n\nYes, I believe that\u0027s just another feature to be added: thanks for the work you\u0027ve done so far, maybe we can take this onboard and add it to the JGit\u0027s ref-table implementation.",
+      "parentUuid": "b6dda413_6ab97a02",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
