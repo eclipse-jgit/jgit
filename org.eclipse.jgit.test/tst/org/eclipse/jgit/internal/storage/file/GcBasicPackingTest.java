@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -363,6 +364,39 @@ public class GcBasicPackingTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
+	}
+
+	@Test
+	public void testHasPackedObjectForPreservedPack() throws Exception {
+		String tempRef = "refs/heads/foo";
+		TestRepository<FileRepository>.BranchBuilder bb = tr.branch(tempRef);
+		bb.commit().add("A", "A").create();
+
+		// Pack all objects in a single pack
+		gc.gc().get();
+
+		// Delete the temp ref, orphaning its commit
+		RefUpdate update = tr.getRepository().getRefDatabase().newUpdate(tempRef, false);
+		update.setForceUpdate(true);
+		ObjectId objectId = update.getOldObjectId();
+		RefUpdate.Result result = update.delete();
+		assertEquals(RefUpdate.Result.FORCED, result);
+
+		fsTick();
+
+		// prune existing packfile, but preserve it
+		configureGc(gc, false).setPreserveOldPacks(true);
+		gc.setExpireAgeMillis(0);
+		gc.setPackExpireAgeMillis(0);
+
+		gc.gc().get();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackedObjects);
+		assertEquals(0, stats.numberOfPackFiles);
+
+		// Checking if object is stored in this repo returns true
+		assertTrue(tr.getRepository().getObjectDatabase().hasPackedObject(objectId));
 	}
 
 	private PackConfig configureGc(GC myGc, boolean aggressive) {
