@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d18dd1f0_e0b1d3cf",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/FakeIndexFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-27T22:25:38Z",
+      "side": 1,
+      "message": "Nit but maybe move this to the top or bottom so it\u0027s not in the middle of the class?",
+      "range": {
+        "startLine": 85,
+        "startChar": 9,
+        "endLine": 85,
+        "endChar": 25
+      },
+      "revId": "b68dafebcb16b0d005e47c6409a68f03aea2b670",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce6773e_783064b0",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/FakeIndexFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-27T22:25:38Z",
+      "side": 1,
+      "message": "Add comment indicating it\u0027s intentionally left empty?\n\n`// Does nothing`",
+      "range": {
+        "startLine": 182,
+        "startChar": 14,
+        "endLine": 182,
+        "endChar": 32
+      },
+      "revId": "b68dafebcb16b0d005e47c6409a68f03aea2b670",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
