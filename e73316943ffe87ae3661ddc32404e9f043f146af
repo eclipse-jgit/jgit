@@ -135,6 +135,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c45203_c40ad7e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-27T10:07:23Z",
+      "side": 1,
+      "message": "\u003e yep, I think reading a stack of reftables always returns a consistent result.\n\u003e \n\u003e Reftable files are immutable, the stack of reftable files (`FileReftableStack`) considered in reads is based on the list of reftable file names stored in the `tables.list` file. Updates of this file are guarded by a FileLock, the new content is written to a temporary file and transactions are committed by atomically renaming the `tables.list` file.\n\nYes, there is an issue in the auto-compaction though: the specs (https://git-scm.com/docs/reftable#_compaction) say that _\"Delete B and C, perhaps after a short sleep to avoid forcing readers to backtrack.\"_ whilst at the moment they happen immediately.\n\nSo, even if you are reading the `tables.list` and checking that all the files exist, then another thread may perform the deletion of compacted files and you may fail to get your consistent read.\n\nThat is possibly something we need to address in the auto-compaction algorithm and doing something like the _\"preserved\"_ directory for files to be removed later on.\n\n\u003e Unless we enforce pessimistic locking of all refs, a reftable stack, representing a consistent view on all refs, can be outdated anytime after we started reading it.\n\nYes and agreed: we don\u0027t care about the data read to be stale, as you can *always* be stale compared with what is on disk at any time after the read.\n\nIf the subsequent update on the reftable which was based on stale data detects the staleness, it will then fail and cause the whole transaction to be retried, as @hanwenn@gmail.com properly tested in the `FileReftableTest.testRacyReload()`. \n\nP.S. I believe we *should keep* that test and make sure we don\u0027t break it, as it represent one design principle of the ref-table about consistent snapshots and consistent updates.",
+      "parentUuid": "5dcfce33_ea8ab3ab",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
