@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59e1c79_5f7990f1",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-28T23:12:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "750ae552_2d80fa0d",
+      "range": {
+        "startLine": 63,
+        "startChar": 568,
+        "endLine": 63,
+        "endChar": 573
+      },
+      "revId": "6f2a91ef2098f0d68ebd7302bc884c9a9556643b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efc8deb1_5546d0d3",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-28T01:05:07Z",
       "side": 1,
       "message": "Will this render the repo unusable until it is fixed? Do we do that for anything else like this?",
+      "range": {
+        "startLine": 300,
+        "startChar": 13,
+        "endLine": 300,
+        "endChar": 34
+      },
+      "revId": "6f2a91ef2098f0d68ebd7302bc884c9a9556643b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f3523d_de5f5197",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-28T23:12:02Z",
+      "side": 1,
+      "message": "If the application doesn\u0027t handle IllegalStateException it will choke on this exception. Typically these options are set globally (e.g. in Gerrit\u0027s `jgit.config`) not on a single repo.\n\nThrowing InvalidConfigException would be semantically better but would require to change methods signatures which is probably cumbersome.",
+      "parentUuid": "efc8deb1_5546d0d3",
       "range": {
         "startLine": 300,
         "startChar": 13,
