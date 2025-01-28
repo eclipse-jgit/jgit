@@ -57,6 +57,24 @@
       "parentUuid": "5c499018_d15d07f0",
       "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42bc89e_c29a918b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-01-28T06:36:27Z",
+      "side": 1,
+      "message": "or better question: would `restoreFromSelfOrAlternate` work if `hasPackedOrLooseInSelfOrAlternate` was actually `false`? Perhaps these 2 should be OR\u0027ed in line 275 as in the current code it is checked if the object is in alt space but not loaded or alternatively checked if it is not there and tried to load... or I\u0027m messing it up 😊",
+      "parentUuid": "86f7b70f_6a9e3d19",
+      "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
