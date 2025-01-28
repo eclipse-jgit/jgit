@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40233306_3001bca2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "This comment applies to all package private methods and classes below:\n\nHow are all of these going to be used outside of this class?\nCould you add doc comments to them or make them explicitly private where they\u0027re no intention of using them outside this class?",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b25313b_6453f0a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "MutableEntry as a name doesn\u0027t really describe it\u0027s purpose.\n\nA rename + comments would help understand the usage.",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbe3c57d_0b321e99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "Is there a reason to use an array here rather than a list?",
+      "range": {
+        "startLine": 43,
+        "startChar": 15,
+        "endLine": 43,
+        "endChar": 26
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9975d2dd_2f05cfcc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "(re \"Is MutableEntry needed\") Here\u0027s where it does matter: are the returned values ever expected to be mutated?\n\nThe tests don\u0027t show any usage regarding the mutability of the returned values either which does support the question of \"Is this needed?\".",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cd67972_01f31e71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "Would it make sense to have these as Records instead? Other than setting the values and returning it doesn\u0027t look like this is getting mutated.",
+      "range": {
+        "startLine": 155,
+        "startChar": 28,
+        "endLine": 155,
+        "endChar": 40
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "064d9554_f1718b74",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "Nit but naming of the variables below is a little hard to follow.\n\nI assume\n\"winner\" is something like \"next index candidate\"\n\"tip\" is \"current iteration object id\"\n\"bestSoFar\" is something like \"next index candidate object id\"\n\nand that you\u0027re trying to perform a total ordering of all objects in all indexes?\nChanging names a bit could help clarify that.\n\nAnd for this method in general:\n\nWould it be worth pre-computing the ordering?\n\nAnd if not, rather than starting from i\u003d0 every time wrap the for loop here in a class that saves the state between \"findNextIndex\" calls?",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfaa3fcc_8723cdcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-28T00:32:01Z",
+      "side": 1,
+      "message": "(re \"Is MutableEntry needed\") Same here. lastReturned and srcNext can move the objects around as needed rather than filling in the fields them themselves",
+      "range": {
+        "startLine": 223,
+        "startChar": 3,
+        "endLine": 223,
+        "endChar": 15
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
