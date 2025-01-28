@@ -39,6 +39,24 @@
       "message": "This should not be needed, I believe line 276 should be catching this? If it is not, then it\u0027s probably better to figure out why.\n\nLine 276 gets ANDed with 277, this line does not, perhaps that ANDing should be happening, and this is broken and giving false positives (is there a negative test,if not this change should have one?)?",
       "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86f7b70f_6a9e3d19",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-01-28T06:25:41Z",
+      "side": 1,
+      "message": "check in lin 277 is redundant as it is the same as in line 275 which is already ORed IOW it it was `true` in line 275 then line 276 (and 277) wouldn\u0027t happen - I believe it should be removed from 277 as it doesn\u0027t bring anything there",
+      "parentUuid": "5c499018_d15d07f0",
+      "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
