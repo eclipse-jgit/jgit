@@ -75,6 +75,24 @@
       "parentUuid": "86f7b70f_6a9e3d19",
       "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85d31a5c_49a844de",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-01-28T09:59:42Z",
+      "side": 1,
+      "message": "Thanks for the feedback @mfick@nvidia.com and @geminica.programs@gmail.com\n\nThe method you are referring to (L275-277) is the `ObjectDirectory.has()` method, which is _one of the (indirect) callers of the ObjectDirectory.hasPackedObject()_.\n\nHowever it is not the only one.\nIf you take a look at the thread dump provided with the issue [1], you\u0027ll notice how the `ObjectDirectory.hasPackedObject()`is called from the `CachedObjectDirectory.has`.\n\nThe `ObjectDirectory.has()` is not even part of the call stack.\n\nIn general, the semantics of `hasPackedObject` should ensure that if a `preserved` pack is availble, it should be honoured and restored. For this reason, I don\u0027t think we should just rely on callers doing the restore on its behalf, but rather the method itself should take care of it.\n\nPerhaps there\u0027s room to consolidate this rather sparse logic in a better way, but I think, if needed, this refactoring should be done in master and that we should fix this issue in the small possible way on stable branches. \n\n```\norg.eclipse.jgit.internal.storage.file.ObjectDirectory.hasPackedObject(ObjectDirectory.java:318)\norg.eclipse.jgit.internal.storage.file.CachedObjectDirectory.has(CachedObjectDirectory.java:164)\n```\n\n[1] https://github.com/eclipse-jgit/jgit/issues/133",
+      "parentUuid": "c42bc89e_c29a918b",
+      "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
