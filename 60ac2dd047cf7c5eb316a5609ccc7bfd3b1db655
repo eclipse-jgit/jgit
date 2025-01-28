@@ -16,6 +16,23 @@
       "message": "New in patch 8:\n- checkout the commit unconditionally if the submodule is cloned or restored\n- addtional tests for the various update modes",
       "revId": "60ac2dd047cf7c5eb316a5609ccc7bfd3b1db655",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8634fd3b_aade023a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-28T23:52:02Z",
+      "side": 1,
+      "message": "nit: missing braces around single line block",
+      "revId": "60ac2dd047cf7c5eb316a5609ccc7bfd3b1db655",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
