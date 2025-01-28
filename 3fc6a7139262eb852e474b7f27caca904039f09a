@@ -16,6 +16,24 @@
       "message": "I think this should be plural \"trustRefTablesStat\".",
       "revId": "3fc6a7139262eb852e474b7f27caca904039f09a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3ae5cc_db8a9717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-28T00:37:41Z",
+      "side": 1,
+      "message": "renamed to `trustTablesListStat` matching the name of the file this is meant to be used for",
+      "parentUuid": "7bce99cf_319aafff",
+      "revId": "3fc6a7139262eb852e474b7f27caca904039f09a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
