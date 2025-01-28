@@ -90,7 +90,13 @@ public class FileReftableDatabase extends RefDatabase {
 		};
 	}
 
-	ReflogReader getReflogReader(String refname) throws IOException {
+	@Override
+	public ReflogReader getReflogReader(Ref ref) throws IOException {
+		return reftableDatabase.getReflogReader(ref.getName());
+	}
+
+	@Override
+	public ReflogReader getReflogReader(String refname) throws IOException {
 		return reftableDatabase.getReflogReader(refname);
 	}
 
@@ -557,9 +563,10 @@ public class FileReftableDatabase extends RefDatabase {
 			boolean writeLogs) throws IOException {
 		int size = 0;
 		List<Ref> refs = repo.getRefDatabase().getRefs();
+		RefDatabase refDb = repo.getRefDatabase();
 		if (writeLogs) {
 			for (Ref r : refs) {
-				ReflogReader rlr = repo.getReflogReader(r.getName());
+				ReflogReader rlr = refDb.getReflogReader(r);
 				if (rlr != null) {
 					size = Math.max(rlr.getReverseEntries().size(), size);
 				}
@@ -582,10 +589,7 @@ public class FileReftableDatabase extends RefDatabase {
 		if (writeLogs) {
 			for (Ref r : refs) {
 				long idx = size;
-				ReflogReader reader = repo.getReflogReader(r.getName());
-				if (reader == null) {
-					continue;
-				}
+				ReflogReader reader = refDb.getReflogReader(r);
 				for (ReflogEntry e : reader.getReverseEntries()) {
 					w.writeLog(r.getName(), idx, e.getWho(), e.getOldId(),
 							e.getNewId(), e.getComment());

@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.ContentMergeStrategy;
@@ -529,10 +530,11 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 
 		if (reason == null) {
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("cherry-pick: "));
-			reader = db.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("cherry-pick: "));
 		}

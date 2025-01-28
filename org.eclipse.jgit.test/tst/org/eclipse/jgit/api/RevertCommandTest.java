@@ -29,6 +29,7 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -87,10 +88,11 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals("create a", history.next().getFullMessage());
 			assertFalse(history.hasNext());
 
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = db.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -170,10 +172,11 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals("add first", history.next().getFullMessage());
 			assertFalse(history.hasNext());
 
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = db.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -223,10 +226,11 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals("add first", history.next().getFullMessage());
 			assertFalse(history.hasNext());
 
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
-			reader = db.getReflogReader(db.getBranch());
+			reader = refDb.getReflogReader(db.getFullBranch());
 			assertTrue(reader.getLastEntry().getComment()
 					.startsWith("revert: Revert \""));
 		}
@@ -431,12 +435,13 @@ public class RevertCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 
 		if (reason == null) {
-			ReflogReader reader = db.getReflogReader(Constants.HEAD);
-			assertTrue(reader.getLastEntry().getComment()
-					.startsWith("revert: "));
-			reader = db.getReflogReader(db.getBranch());
-			assertTrue(reader.getLastEntry().getComment()
-					.startsWith("revert: "));
+			RefDatabase refDb = db.getRefDatabase();
+			ReflogReader reader = refDb.getReflogReader(Constants.HEAD);
+			assertTrue(
+					reader.getLastEntry().getComment().startsWith("revert: "));
+			reader = refDb.getReflogReader(db.getFullBranch());
+			assertTrue(
+					reader.getLastEntry().getComment().startsWith("revert: "));
 		}
 	}
 }

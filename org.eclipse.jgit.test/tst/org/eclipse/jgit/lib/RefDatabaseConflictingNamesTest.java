@@ -71,6 +71,11 @@ public class RefDatabaseConflictingNamesTest {
 		}
 
 		@Override
+		public ReflogReader getReflogReader(Ref ref) throws IOException {
+			return null;
+		}
+
+		@Override
 		public void create() throws IOException {
 			// Not needed
 		}

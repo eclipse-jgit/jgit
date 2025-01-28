@@ -435,10 +435,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 			assertEquals(1, squashedCommit.getParentCount());
 			assertNull(db.readSquashCommitMsg());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(db.getBranch()).getLastEntry().getComment());
+			assertEquals("commit: Squashed commit of the following:",
+					db.getRefDatabase().getReflogReader(Constants.HEAD)
+							.getLastEntry().getComment());
+			assertEquals("commit: Squashed commit of the following:",
+					db.getRefDatabase().getReflogReader(db.getFullBranch())
+							.getLastEntry().getComment());
 		}
 	}
 
@@ -455,12 +457,15 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("c3").setAll(true)
 					.setReflogComment("testRl").call();
 
-			db.getReflogReader(Constants.HEAD).getReverseEntries();
+			db.getRefDatabase().getReflogReader(Constants.HEAD)
+					.getReverseEntries();
 
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getReflogReader(Constants.HEAD).getReverseEntries()));
+					db.getRefDatabase().getReflogReader(Constants.HEAD)
+							.getReverseEntries()));
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getReflogReader(db.getBranch()).getReverseEntries()));
+					db.getRefDatabase().getReflogReader(db.getFullBranch())
+							.getReverseEntries()));
 		}
 	}
 

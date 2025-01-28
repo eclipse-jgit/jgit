@@ -1263,7 +1263,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private ReflogEntry getLastReflog(String name) throws IOException {
-		ReflogReader r = diskRepo.getReflogReader(name);
+		ReflogReader r = diskRepo.getRefDatabase().getReflogReader(name);
 		if (r == null) {
 			return null;
 		}

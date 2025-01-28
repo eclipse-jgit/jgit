@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -454,6 +455,11 @@ public class RefDirectory extends RefDatabase {
 				ret.add(r);
 		}
 		return ret;
+	}
+
+	@Override
+	public ReflogReader getReflogReader(Ref ref) throws IOException {
+		return new ReflogReaderImpl(getRepository(), ref.getName());
 	}
 
 	@SuppressWarnings("unchecked")

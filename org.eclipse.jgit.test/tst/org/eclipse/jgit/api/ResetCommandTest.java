@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -557,43 +558,45 @@ public class ResetCommandTest extends RepositoryTestCase {
 	private void assertReflog(ObjectId prevHead, ObjectId head)
 			throws IOException {
 		// Check the reflog for HEAD
-		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+		RefDatabase refDb = db.getRefDatabase();
+		String actualHeadMessage = refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getComment();
 		String expectedHeadMessage = head.getName() + ": updating HEAD";
 		assertEquals(expectedHeadMessage, actualHeadMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getNewId().getName());
-		assertEquals(prevHead.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(prevHead.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 
 		// The reflog for master contains the same as the one for HEAD
-		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+		String actualMasterMessage = refDb.getReflogReader("refs/heads/master")
 				.getLastEntry().getComment();
 		String expectedMasterMessage = head.getName() + ": updating HEAD"; // yes!
 		assertEquals(expectedMasterMessage, actualMasterMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getNewId().getName());
-		assertEquals(prevHead.getName(), db
-				.getReflogReader("refs/heads/master").getLastEntry().getOldId()
-				.getName());
+		assertEquals(prevHead.getName(),
+				refDb.getReflogReader("refs/heads/master").getLastEntry()
+						.getOldId().getName());
 	}
 
 	private void assertReflogDisabled(ObjectId head)
 			throws IOException {
+		RefDatabase refDb = db.getRefDatabase();
 		// Check the reflog for HEAD
-		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+		String actualHeadMessage = refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getComment();
 		String expectedHeadMessage = "commit: adding a.txt and dir/b.txt";
 		assertEquals(expectedHeadMessage, actualHeadMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 
 		// The reflog for master contains the same as the one for HEAD
-		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+		String actualMasterMessage = refDb.getReflogReader("refs/heads/master")
 				.getLastEntry().getComment();
 		String expectedMasterMessage = "commit: adding a.txt and dir/b.txt";
 		assertEquals(expectedMasterMessage, actualMasterMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 	}
 	/**

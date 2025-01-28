@@ -1728,7 +1728,8 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(Q, remoteRepository.exactRef(dstName).getObjectId());
 		fsck(remoteRepository, Q);
 
-		final ReflogReader log = remoteRepository.getReflogReader(dstName);
+		final ReflogReader log = remoteRepository.getRefDatabase()
+				.getReflogReader(dstName);
 		assertNotNull("has log for " + dstName, log);
 
 		final ReflogEntry last = log.getLastEntry();
