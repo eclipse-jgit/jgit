@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a6000aa_1f1acad0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-29T12:05:01Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\tdebugTmpl \u003d JGitText.get().packWasDeleted;\n```",
+      "range": {
+        "startLine": 332,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 13
+      },
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a95ba0_7bda397c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-29T12:05:01Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t} if (debugTmpl !\u003d null) {\n\t\t\tLOG.debug(MessageFormat.format(debugTmpl,\n\t\t\t\tp.getPackFile().getAbsolutePath()), e);\n```",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 43
+      },
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
