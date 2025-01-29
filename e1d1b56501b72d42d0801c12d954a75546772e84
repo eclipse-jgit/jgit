@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b0f96f0_88df6beb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-29T14:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c076046c_c32ab2ca",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 40
+      },
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8338ebd9_58b3f812",
@@ -64,6 +88,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48027f9_a9cb42bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-29T14:30:34Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5a6000aa_1f1acad0",
+      "range": {
+        "startLine": 332,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 13
+      },
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63839d75_c34c0791",
@@ -94,6 +142,30 @@
       "writtenOn": "2025-01-29T12:05:01Z",
       "side": 1,
       "message": "```suggestion\n\t\t} if (debugTmpl !\u003d null) {\n\t\t\tLOG.debug(MessageFormat.format(debugTmpl,\n\t\t\t\tp.getPackFile().getAbsolutePath()), e);\n```",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 43
+      },
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dd45601_06e09e78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-29T14:30:34Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "97a95ba0_7bda397c",
       "range": {
         "startLine": 344,
         "startChar": 0,
