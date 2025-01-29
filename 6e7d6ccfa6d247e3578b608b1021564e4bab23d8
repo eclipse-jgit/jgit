@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcdf0ca9_1c7c1933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-29T20:19:41Z",
+      "side": 1,
+      "message": "I  looks like the reference wasn\u0027t added",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df6ec566_04ebe2ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-29T20:19:41Z",
+      "side": 1,
+      "message": "Would it make sense to add a sample of the structure here?\nIt\u0027s a little hard to know what the chunks written should look like without a reference sample.\n\nOr a link to where we can find more info about the format?",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 18
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
