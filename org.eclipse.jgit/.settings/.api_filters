@@ -80,6 +80,14 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/revwalk/RevWalk.java" type="org.eclipse.jgit.revwalk.RevWalk">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="6.10.1"/>
+                <message_argument value="isMergedIntoAnyCommit(RevCommit, Collection&lt;RevCommit&gt;)"/>
+            </message_arguments>
+        </filter>
+    </resource>
     <resource path="src/org/eclipse/jgit/transport/UploadPack.java" type="org.eclipse.jgit.transport.UploadPack$RequestPolicy">
         <filter id="1176502275">
             <message_arguments>
