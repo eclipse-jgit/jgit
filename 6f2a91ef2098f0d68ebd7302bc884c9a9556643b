@@ -117,6 +117,30 @@
       },
       "revId": "6f2a91ef2098f0d68ebd7302bc884c9a9556643b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4842e54_a1686214",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-29T21:22:30Z",
+      "side": 1,
+      "message": "ok, makes sens.\n\nThen I suggest we define that the new trustStat has precedence over trustFolderStat, i.e. if both are configured ignore trustFolderStat (logging a warning) and use trustStat instead of throwing an exception.\n\nWDYT ?",
+      "parentUuid": "996d4324_f41ac69d",
+      "range": {
+        "startLine": 300,
+        "startChar": 13,
+        "endLine": 300,
+        "endChar": 34
+      },
+      "revId": "6f2a91ef2098f0d68ebd7302bc884c9a9556643b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
