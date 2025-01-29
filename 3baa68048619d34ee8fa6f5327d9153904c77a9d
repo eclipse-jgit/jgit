@@ -93,6 +93,24 @@
       "parentUuid": "c42bc89e_c29a918b",
       "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c22c30_4e439b4a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-29T01:09:03Z",
+      "side": 1,
+      "message": "Thanks for clarifying why hasPackedObject() is the better place to do things. I think this change should remove the restore code from the has() method (remove lines 276-277)",
+      "parentUuid": "85d31a5c_49a844de",
+      "revId": "3baa68048619d34ee8fa6f5327d9153904c77a9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
