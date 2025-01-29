@@ -168,7 +168,7 @@ class PackDirectory {
 					// The hasObject call should have only touched the index, so
 					// any failure here indicates the index is unreadable by
 					// this process, and the pack is likewise not readable.
-					LOG.warn(MessageFormat.format(
+					LOG.trace(MessageFormat.format(
 							JGitText.get().unableToReadPackfile,
 							p.getPackFile().getAbsolutePath()), e);
 					remove(p);
@@ -319,7 +319,7 @@ class PackDirectory {
 		if ((e instanceof CorruptObjectException)
 				|| (e instanceof PackInvalidException)) {
 			warnTmpl = JGitText.get().corruptPack;
-			LOG.warn(MessageFormat.format(warnTmpl,
+			LOG.trace(MessageFormat.format(warnTmpl,
 					p.getPackFile().getAbsolutePath()), e);
 			// Assume the pack is corrupted, and remove it from the list.
 			remove(p);
