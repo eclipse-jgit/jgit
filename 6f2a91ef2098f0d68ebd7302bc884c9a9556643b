@@ -141,6 +141,30 @@
       },
       "revId": "6f2a91ef2098f0d68ebd7302bc884c9a9556643b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e211bbf4_4e47f0bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-29T22:15:08Z",
+      "side": 1,
+      "message": "Implemented this if trustFolderStat and trustStat are both set.\nNow falling back to ALWAYS if trustStat is set to INHERIT.",
+      "parentUuid": "d4842e54_a1686214",
+      "range": {
+        "startLine": 300,
+        "startChar": 13,
+        "endLine": 300,
+        "endChar": 34
+      },
+      "revId": "6f2a91ef2098f0d68ebd7302bc884c9a9556643b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
