@@ -26,14 +26,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -48,6 +47,7 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
 
 /**
@@ -85,6 +85,16 @@ public abstract class LocalDiskRepositoryTestCase {
 	protected MockSystemReader mockSystemReader;
 
 	private final Set<Repository> toClose = new HashSet<>();
+
+	/**
+	 * Temporary test root directory for files created by tests.
+	 * @since 7.2
+	 */
+	@Rule
+	public TemporaryFolder testRoot = new TemporaryFolder();
+
+	Random rand = new Random();
+
 	private File tmp;
 
 	private File homeDir;
@@ -115,11 +125,8 @@ public abstract class LocalDiskRepositoryTestCase {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		tmp = File.createTempFile("jgit_" + getTestName() + '_', "_tmp");
-		Cleanup.deleteOnShutdown(tmp);
-		if (!tmp.delete() || !tmp.mkdir()) {
-			throw new IOException("Cannot create " + tmp);
-		}
+		tmp = testRoot.newFolder(getTestName() + rand.nextInt());
+
 		mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 
@@ -220,12 +227,6 @@ public abstract class LocalDiskRepositoryTestCase {
 			System.gc();
 		}
 		FS.DETECTED.setUserHome(homeDir);
-		if (tmp != null) {
-			recursiveDelete(tmp, false, true);
-		}
-		if (tmp != null && !tmp.exists()) {
-			Cleanup.removed(tmp);
-		}
 		SystemReader.setInstance(null);
 	}
 
@@ -623,42 +624,5 @@ public abstract class LocalDiskRepositoryTestCase {
 
 	private static HashMap<String, String> cloneEnv() {
 		return new HashMap<>(System.getenv());
-	}
-
-	private static final class Cleanup {
-		private static final Cleanup INSTANCE = new Cleanup();
-
-		static {
-			ShutdownHook.INSTANCE.register(() -> INSTANCE.onShutdown());
-		}
-
-		private final Set<File> toDelete = ConcurrentHashMap.newKeySet();
-
-		private Cleanup() {
-			// empty
-		}
-
-		static void deleteOnShutdown(File tmp) {
-			INSTANCE.toDelete.add(tmp);
-		}
-
-		static void removed(File tmp) {
-			INSTANCE.toDelete.remove(tmp);
-		}
-
-		private void onShutdown() {
-			// On windows accidentally open files or memory
-			// mapped regions may prevent files from being deleted.
-			// Suggesting a GC increases the likelihood that our
-			// test repositories actually get removed after the
-			// tests, even in the case of failure.
-			System.gc();
-			synchronized (this) {
-				boolean silent = false;
-				boolean failOnError = false;
-				for (File tmp : toDelete)
-					recursiveDelete(tmp, silent, failOnError);
-			}
-		}
 	}
 }
