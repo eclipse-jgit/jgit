@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fed3c47_76033de0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-29T15:29:21Z",
+      "side": 0,
+      "message": "I believe this test should be kept, see the associated discussion with Han-Wen who initially implemented the ref-table at https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/146568/comment/f928708b_14ac9263/",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
