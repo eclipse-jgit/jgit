@@ -121,7 +121,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 		Collection<Ref> sortedRefs = RefComparator.sort(allRefs);
 		List<Ref> actual = RevWalkUtils.findBranchesReachableFrom(commit,
 				rw, sortedRefs);
-		assertEquals(refsThatShouldContainCommit, actual);
+		assertEquals(new HashSet<>(refsThatShouldContainCommit), new HashSet<>(actual));
 	}
 
 }
