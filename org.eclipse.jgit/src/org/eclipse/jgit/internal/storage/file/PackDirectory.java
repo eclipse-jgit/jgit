@@ -314,6 +314,7 @@ class PackDirectory {
 
 	private void handlePackError(IOException e, Pack p) {
 		String warnTmpl = null;
+		String debugImpl = null;
 		int transientErrorCount = 0;
 		String errTmpl = JGitText.get().exceptionWhileReadingPack;
 		if ((e instanceof CorruptObjectException)
@@ -328,7 +329,7 @@ class PackDirectory {
 				errTmpl = JGitText.get().packInaccessible;
 				transientErrorCount = p.incrementTransientErrorCount();
 			} else {
-				warnTmpl = JGitText.get().packWasDeleted;
+				debugImpl = JGitText.get().packWasDeleted;
 				remove(p);
 			}
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
@@ -340,6 +341,9 @@ class PackDirectory {
 		if (warnTmpl != null) {
 			LOG.warn(MessageFormat.format(warnTmpl,
 					p.getPackFile().getAbsolutePath()), e);
+		} if (debugImpl != null) {
+			LOG.debug(MessageFormat.format(debugImpl,
+				p.getPackFile().getAbsolutePath()), e);
 		} else {
 			if (doLogExponentialBackoff(transientErrorCount)) {
 				// Don't remove the pack from the list, as the error may be
