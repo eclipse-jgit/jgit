@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e89d30f_32ea3806",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-29T14:36:48Z",
+      "side": 1,
+      "message": "Sure, let me do as a separate change.",
+      "parentUuid": "8338ebd9_58b3f812",
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a6000aa_1f1acad0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 3
@@ -125,6 +143,24 @@
       "writtenOn": "2025-01-29T14:21:42Z",
       "side": 1,
       "message": "The formatting is strange. Was this intended to be an `else if`?",
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb0e985_7f9a422b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-29T14:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63839d75_c34c0791",
       "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
