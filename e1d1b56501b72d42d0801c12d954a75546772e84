@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8338ebd9_58b3f812",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-01-29T14:21:42Z",
+      "side": 1,
+      "message": "May I suggest that all these `*Tmpl` variables be renamed properly to `*Template`? That would have avoided the mistake of using `Impl` here for sure.",
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a6000aa_1f1acad0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 3
@@ -43,6 +60,23 @@
         "endLine": 332,
         "endChar": 13
       },
+      "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63839d75_c34c0791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-01-29T14:21:42Z",
+      "side": 1,
+      "message": "The formatting is strange. Was this intended to be an `else if`?",
       "revId": "e1d1b56501b72d42d0801c12d954a75546772e84",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
