@@ -265,6 +265,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2541c5da_5d77fec7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-30T17:42:57Z",
+      "side": 1,
+      "message": "\u003e \u003e Now, with ref-table, my worry is that we have a similar problem if we try to lock the `tables.list`.\n\u003e \n\u003e \n\u003e Hopefully this not be a problem. Although in theory, re-tables should actually lock the main point of contention, \"tables.list\", more often than the packed-refs file, the lock durations should be way shorter, especially when comparing to large packed-refs files (the ones the most likely to updated frequently). \n\nYes, agreed. It is very unlikely for a Gerrit site to have thousands of lines in the `tables.list` file, therefore the contention would not last for long.\n\n\u003e That means, that we may want to tweak retry times in applications such a Gerrit when using reftables, we may want the retry wait times to be much shorter. Shorter retry wait times should increase write throughput.\n\nYep.\n\n\u003e \u003e \u003e I did not implement this, because it requires hooking up the RefDB to some sort of thread-executor to schedule the background work.\n\u003e \n\u003e This could potentially be also addressed via \"preserved\" tables. Allow the deletion of normal compacted tables to be synchronous, and make readers smart enough to look for the preserved files even if they did not already have the non preserved version open. This could allow reads to avoid starting completely over and increase read throughput on servers with heavy writes.\n\nSure, that would work because even if the file is not in its location, the actual content and inode is still there but with a different name. It would also work nicely over NFS avoiding the stale file handle problem upon physical deletions.",
+      "parentUuid": "48abf3f4_8a120d1c",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
