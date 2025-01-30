@@ -313,42 +313,42 @@ class PackDirectory {
 	}
 
 	private void handlePackError(IOException e, Pack p) {
-		String warnTmpl = null;
-		String debugTmpl = null;
+		String warnTemplate = null;
+		String debugTemplate = null;
 		int transientErrorCount = 0;
-		String errTmpl = JGitText.get().exceptionWhileReadingPack;
+		String errorTemplate = JGitText.get().exceptionWhileReadingPack;
 		if ((e instanceof CorruptObjectException)
 				|| (e instanceof PackInvalidException)) {
-			warnTmpl = JGitText.get().corruptPack;
-			LOG.warn(MessageFormat.format(warnTmpl,
+			warnTemplate = JGitText.get().corruptPack;
+			LOG.warn(MessageFormat.format(warnTemplate,
 					p.getPackFile().getAbsolutePath()), e);
 			// Assume the pack is corrupted, and remove it from the list.
 			remove(p);
 		} else if (e instanceof FileNotFoundException) {
 			if (p.getPackFile().exists()) {
-				errTmpl = JGitText.get().packInaccessible;
+				errorTemplate = JGitText.get().packInaccessible;
 				transientErrorCount = p.incrementTransientErrorCount();
 			} else {
-				debugTmpl = JGitText.get().packWasDeleted;
+				debugTemplate = JGitText.get().packWasDeleted;
 				remove(p);
 			}
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
-			warnTmpl = JGitText.get().packHandleIsStale;
+			warnTemplate = JGitText.get().packHandleIsStale;
 			remove(p);
 		} else {
 			transientErrorCount = p.incrementTransientErrorCount();
 		}
-		if (warnTmpl != null) {
-			LOG.warn(MessageFormat.format(warnTmpl,
+		if (warnTemplate != null) {
+			LOG.warn(MessageFormat.format(warnTemplate,
 					p.getPackFile().getAbsolutePath()), e);
-		} else if (debugTmpl != null) {
-			LOG.debug(MessageFormat.format(debugTmpl,
+		} else if (debugTemplate != null) {
+			LOG.debug(MessageFormat.format(debugTemplate,
 				p.getPackFile().getAbsolutePath()), e);
 		} else {
 			if (doLogExponentialBackoff(transientErrorCount)) {
 				// Don't remove the pack from the list, as the error may be
 				// transient.
-				LOG.error(MessageFormat.format(errTmpl,
+				LOG.error(MessageFormat.format(errorTemplate,
 						p.getPackFile().getAbsolutePath(),
 						Integer.valueOf(transientErrorCount)), e);
 			}
