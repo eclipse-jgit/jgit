@@ -62,8 +62,7 @@ public interface PackIndex
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
 	static PackIndex open(File idxFile) throws IOException {
-		try (SilentFileInputStream fd = new SilentFileInputStream(
-				idxFile)) {
+		try (SilentFileInputStream fd = new SilentFileInputStream(idxFile)) {
 			return read(fd);
 		} catch (FileNotFoundException e) {
 			throw e;
@@ -92,8 +91,8 @@ public interface PackIndex
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the stream does not contain a valid pack index.
 	 */
-	static PackIndex read(InputStream fd) throws IOException,
-			CorruptObjectException {
+	static PackIndex read(InputStream fd)
+			throws IOException, CorruptObjectException {
 		final byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
 		if (isTOC(hdr)) {
@@ -285,8 +284,8 @@ public interface PackIndex
 	 * @throws java.io.IOException
 	 *             the index cannot be read.
 	 */
-	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
-			int matchLimit) throws IOException;
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit)
+			throws IOException;
 
 	/**
 	 * Get pack checksum
@@ -304,6 +303,7 @@ public interface PackIndex
 	class MutableEntry {
 		/** Buffer of the ObjectId visited by the EntriesIterator. */
 		final MutableObjectId idBuffer = new MutableObjectId();
+
 		/** Offset into the packfile of the current object. */
 		long offset;
 
@@ -345,6 +345,34 @@ public interface PackIndex
 			r.offset = offset;
 			return r;
 		}
+
+		/**
+		 * Similar to {@link Comparable#compareTo(Object)}, using only the
+		 * object id in the entry.
+		 * 
+		 * @param other
+		 *            Another mutable entry (probably for another object)
+		 *
+		 * @return a negative integer, zero, or a positive integer as this
+		 *         object is less than, equal to, or greater than the specified
+		 *         object.
+		 */
+		public int compareBySha1To(MutableEntry other) {
+			return idBuffer.compareTo(other.idBuffer);
+		}
+
+		/**
+		 * Copy the current ObjectId to dest
+		 * <p>
+		 * Like {@link #toObjectId()}, but reusing the destination instead of
+		 * creatin ga new ObjectId instance.
+		 * 
+		 * @param dest
+		 *            destination for the object id
+		 */
+		public void copyOidTo(MutableObjectId dest) {
+			dest.fromObjectId(idBuffer);
+		}
 	}
 
 	/**
@@ -367,7 +395,6 @@ public interface PackIndex
 		protected EntriesIterator(long objectCount) {
 			this.objectCount = objectCount;
 		}
-
 
 		@Override
 		public boolean hasNext() {
@@ -392,7 +419,6 @@ public interface PackIndex
 		 * {@link #setIdBuffer} and {@link #setOffset}.
 		 */
 		protected abstract void readNext();
-
 
 		/**
 		 * Copies to the entry an {@link ObjectId} from the int buffer and
@@ -423,7 +449,8 @@ public interface PackIndex
 		/**
 		 * Sets the {@code offset} to the entry
 		 *
-		 * @param offset the offset in the pack file
+		 * @param offset
+		 *            the offset in the pack file
 		 */
 		protected void setOffset(long offset) {
 			entry.offset = offset;
