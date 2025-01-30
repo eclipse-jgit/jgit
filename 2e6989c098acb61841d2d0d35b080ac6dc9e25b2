@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "89e112da_afa5ab39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038591
+      },
+      "writtenOn": "2025-01-30T12:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ed3efb1_e60bb090",
+      "revId": "2e6989c098acb61841d2d0d35b080ac6dc9e25b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d6894bdd_2f4e1096",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -75,6 +93,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a19404ad_94373d2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostCheckoutHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1038591
+      },
+      "writtenOn": "2025-01-30T12:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e048f2ab_0f390f00",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "2e6989c098acb61841d2d0d35b080ac6dc9e25b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fad4d010_3566dcf7",
@@ -92,6 +134,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b43f8e_d047d31f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostCheckoutHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1038591
+      },
+      "writtenOn": "2025-01-30T12:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fad4d010_3566dcf7",
+      "revId": "2e6989c098acb61841d2d0d35b080ac6dc9e25b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6dbd6f69_a34d53c9",
@@ -105,6 +165,24 @@
       "writtenOn": "2025-01-17T12:28:36Z",
       "side": 1,
       "message": "This hook cannot affect the outcome of git switch or git checkout, other than that the hook’s exit status becomes the exit status of these two commands.\n\nThis means the exit code of the org.eclipse.jgit.pgm.Checkout command needs to return the exit code the hook script returned.\n\nPlease add a test for the case where the hook fails.",
+      "revId": "2e6989c098acb61841d2d0d35b080ac6dc9e25b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c3bf196_4d6b5d27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostCheckoutHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1038591
+      },
+      "writtenOn": "2025-01-30T12:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dbd6f69_a34d53c9",
       "revId": "2e6989c098acb61841d2d0d35b080ac6dc9e25b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
