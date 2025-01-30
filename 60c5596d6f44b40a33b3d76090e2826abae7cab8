@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540e20d5_c205cb3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "I am adding this class on its own, without the callers, to keep the patch small and the review simple.\n\nThis will be used by the MultiPackIndexWriter (in the same package), so it can give it the list of indexes and hide the merging logic.See https://gerrithub.io/c/eclipse-jgit/jgit/+/1207705/6/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java\n\n\nI\u0027ll update the javadoc.",
+      "parentUuid": "40233306_3001bca2",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b25313b_6453f0a5",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-28T00:32:01Z",
       "side": 1,
       "message": "MutableEntry as a name doesn\u0027t really describe it\u0027s purpose.\n\nA rename + comments would help understand the usage.",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fe67b51_ea248a20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "The name keeps the convention from PackIndex, which also has a PackIndex.MutableEntry. I like the reminder of its mutability in the name and then it follows the java convention (e.g. Map.Entry).\n\nI renamed it to MidxMutableEntry to avoid confusion when copying data with the PackIndex.MutableEntry.",
+      "parentUuid": "7b25313b_6453f0a5",
       "range": {
         "startLine": 27,
         "startChar": 14,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0102f1_9aab8c10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "Actually not! Done.",
+      "parentUuid": "dbe3c57d_0b321e99",
+      "range": {
+        "startLine": 43,
+        "startChar": 15,
+        "endLine": 43,
+        "endChar": 26
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9975d2dd_2f05cfcc",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-01-28T00:32:01Z",
       "side": 1,
       "message": "(re \"Is MutableEntry needed\") Here\u0027s where it does matter: are the returned values ever expected to be mutated?\n\nThe tests don\u0027t show any usage regarding the mutability of the returned values either which does support the question of \"Is this needed?\".",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91a3a53e_e2a73b28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "This follows the style/convention of the regular PackIndex.MutableEntry, where the iterator is always returning the same object loaded with different values.\n\nWe do now want to allocate an object per entry in the index during iteration.\n\nThis is rather un-javaish, but it is one of the performance tricks that JGit uses and is consistent between indexes.",
+      "parentUuid": "9975d2dd_2f05cfcc",
       "range": {
         "startLine": 108,
         "startChar": 10,
@@ -116,6 +212,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdc47b0f_112539b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "The goal is to iterate through the index reusing the memory, instead of creating new instances per entry.\n\n\u003e returning it doesn\u0027t look like this is getting mutated.\n\nYep, I realized that this wasn\u0027t filling its purpose, as getObjectId() was creating instances of ObjectId left and right. I have changed a lot the code to prevent that.",
+      "parentUuid": "5cd67972_01f31e71",
+      "range": {
+        "startLine": 155,
+        "startChar": 28,
+        "endLine": 155,
+        "endChar": 40
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "064d9554_f1718b74",
@@ -139,6 +259,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6594ef1c_f9f26040",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "\u003e and that you\u0027re trying to perform a total ordering of all objects in all indexes?\n\nCorrect.\n\n\u003e Would it be worth pre-computing the ordering?\n\nThe whole ordering? If we precompute the ordering, we need to keep ~the size of the index in memory. This is a merge of n sorted entries, we should be able to do it as we go without extra memory.\n\n\u003e rather than starting from i\u003d0 every time\n\nNot sure I understand this.\n\nEvery time we need to check, from all the current index tips, which one goes next. IIUC saving \"i\" doesn\u0027t help, as maybe the index  is the next entry now.\n\nI renamed the variables and now the code is rather different (an extra iterator!). I hope it is clearer.",
+      "parentUuid": "064d9554_f1718b74",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfaa3fcc_8723cdcd",
@@ -152,6 +296,30 @@
       "writtenOn": "2025-01-28T00:32:01Z",
       "side": 1,
       "message": "(re \"Is MutableEntry needed\") Same here. lastReturned and srcNext can move the objects around as needed rather than filling in the fields them themselves",
+      "range": {
+        "startLine": 223,
+        "startChar": 3,
+        "endLine": 223,
+        "endChar": 15
+      },
+      "revId": "60c5596d6f44b40a33b3d76090e2826abae7cab8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be24ebc_7adce4ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "Yep, the whole mutability was a broken in this patchset. Please see the new version.\n\nNow we copy data directly from MutableEntry to MidxMutableEntry and do comparisons on their mutableObjectId, saving any extra instances in the iteration.",
+      "parentUuid": "dfaa3fcc_8723cdcd",
       "range": {
         "startLine": 223,
         "startChar": 3,

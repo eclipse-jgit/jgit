@@ -33,6 +33,24 @@
       "message": "added missing export of new package",
       "revId": "ab7ae1aa66dc7479c454fb198176b61a3b5c4604",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc554e0e_36bf50cd",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:12:04Z",
+      "side": 1,
+      "message": "Thanks! Accidentally I overwrote these changes, but I added them again manually.",
+      "parentUuid": "e4aa7e64_76c33668",
+      "revId": "ab7ae1aa66dc7479c454fb198176b61a3b5c4604",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
