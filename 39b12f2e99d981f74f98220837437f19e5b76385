@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f3ffc52_c8f6c4de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-30T17:54:37Z",
+      "side": 1,
+      "message": "@hanwenn@gmail.com @matthias.sohn@sap.com did you also discuss the option of opening the _read snapshot_ when the Repository is opened from RepositoryCache and releasing it when is closed?\n\nI am concerned that the read performance would be massively reduced by this change, which would make the adoption of refTable less appealing for users.\n\nP.S. I can share some stats already from our tests of Gatling tests with Gerrit w/ packed-refs vs. Gerrit w/ref-table and the results are outstanding already.",
+      "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
