@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ee1483_c6da93ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:49:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcdf0ca9_1c7c1933",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df6ec566_04ebe2ee",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "178dc4a3_40dd9ac4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:49:01Z",
+      "side": 1,
+      "message": "Added the spec in the class javadoc.",
+      "parentUuid": "df6ec566_04ebe2ee",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 18
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ad3e718_c71a540d",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-01-29T23:25:51Z",
       "side": 1,
       "message": "??",
+      "range": {
+        "startLine": 273,
+        "startChar": 63,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2d0c97e_e233b103",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:49:01Z",
+      "side": 1,
+      "message": "The spec don\u0027t mention encoding. I\u0027ll assume UTF8, and leave a comment.",
+      "parentUuid": "1ad3e718_c71a540d",
       "range": {
         "startLine": 273,
         "startChar": 63,
