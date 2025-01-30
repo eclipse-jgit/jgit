@@ -16,6 +16,24 @@
       "message": "add @SuppressWarnings(\"nls\") to suppress non-externalized text warnings ?",
       "revId": "9e20bae15a5d2ac02cdad1506df844714d0b4a91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "257068eb_35f7df81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexPrettyPrinter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-30T22:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f352e586_1f5eed64",
+      "revId": "9e20bae15a5d2ac02cdad1506df844714d0b4a91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
