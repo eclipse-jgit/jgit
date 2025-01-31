@@ -50,6 +50,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77cf8bfe_d3484035",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-31T23:12:30Z",
+      "side": 1,
+      "message": "this seems displaced, I would prefer javadoc for each constant instead of a comment since javadoc shows up in the IDE when hovering over code using a constant",
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df6ec566_04ebe2ee",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
         "patchSetId": 6
@@ -90,6 +107,46 @@
         "startChar": 13,
         "endLine": 65,
         "endChar": 18
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b29f3c57_ff49a443",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-31T23:12:30Z",
+      "side": 1,
+      "message": "```suggestion\n\tprivate List\u003cChunkHeader\u003e createChunkHeaders(PackIndexMerger merger) {\n```",
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ebe5ef6_8e2bdc11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-31T23:12:30Z",
+      "side": 1,
+      "message": "I\u0027d inline this",
+      "range": {
+        "startLine": 151,
+        "startChar": 7,
+        "endLine": 151,
+        "endChar": 14
       },
       "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"

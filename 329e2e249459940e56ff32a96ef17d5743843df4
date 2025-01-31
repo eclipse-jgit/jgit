@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b7497a9_5a89ace6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-31T23:12:30Z",
+      "side": 1,
+      "message": "Add a corresponding interoperability test using git to run `git multi-pack-index verify` ? See e.g. CGitLockFileTest.\n\nCould be based on SampleDataRepositoryTestCase which imports in its setup() method a repo with multiple packs which was created using git.",
+      "revId": "329e2e249459940e56ff32a96ef17d5743843df4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
