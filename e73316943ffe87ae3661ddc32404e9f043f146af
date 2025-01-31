@@ -289,6 +289,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b39c471_403635ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-31T22:54:45Z",
+      "side": 1,
+      "message": "Can we move the discussion about the problem with compaction to an issue ?\nIt seems to go beyond the scope of this change.",
+      "parentUuid": "2541c5da_5d77fec7",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

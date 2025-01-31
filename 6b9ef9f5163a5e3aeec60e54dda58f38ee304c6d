@@ -22,6 +22,30 @@
       },
       "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98b9c30_775ad1f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-01-31T22:54:45Z",
+      "side": 0,
+      "message": "With the auto-refresh this change introduces this test can\u0027t be implemented anymore using a single thread since then the auto-refresh always detects that the ref was updated by the ref update done via the first FileReftableDatabase instance of the first FileRepository instance and refreshes the ReftableStack of the second FileReftableDatabase instance before the second ref update is executed. Therefor the ref update is not based on an outdated read and hence doesn\u0027t fail with a LOCK_FAILURE. \n\nHence I changed the testRacyReload test to run the competing ref updates from two threads using a CyclicBarrier to ensure the ref updates are done concurrently which shows both that the result of the auto-refresh is still racy (as discussed above) and the protection against updates based on an outdated read still works and fails with a LOCK_FAILURE.",
+      "parentUuid": "0fed3c47_76033de0",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
