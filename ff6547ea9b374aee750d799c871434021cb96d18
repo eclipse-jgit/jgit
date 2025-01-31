@@ -16,6 +16,98 @@
       "message": "trigger build",
       "revId": "ff6547ea9b374aee750d799c871434021cb96d18",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4a1075_48489696",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/midx/PackIndexMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-31T23:52:38Z",
+      "side": 1,
+      "message": "Nit: add comments for parameters? The sha1 is more obvious than the offset param but both need a little more thought (or require viewing IndexObject)\n\n(for all below)",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "ff6547ea9b374aee750d799c871434021cb96d18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262c4286_70fe5655",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/midx/PackIndexPeekIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-31T23:52:38Z",
+      "side": 1,
+      "message": "*doesNotAdvance?",
+      "range": {
+        "startLine": 36,
+        "startChar": 21,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "ff6547ea9b374aee750d799c871434021cb96d18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a38505b_7f088a31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-31T23:52:38Z",
+      "side": 1,
+      "message": "Nit: Maybe make the fields private with getters? That\u0027ll make it harder to do something wrong like setting a outside of one of the \"fill\" calls.",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "ff6547ea9b374aee750d799c871434021cb96d18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "848cff34_8170d74b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-01-31T23:52:38Z",
+      "side": 1,
+      "message": "Nit but I don\u0027t think you need this \"next index\".\n\nSomething like this? to me looks cleaner (sorry for it being hard to read this is the output of a diff...)\n\n\n```\n--- a/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java\n+++ b/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java\n@@ -204,46 +204,37 @@ private static final class MultiIndexIterator\n \n                private final MidxMutableEntry mutableEntry \u003d new MidxMutableEntry();\n \n-               private int nextIndexToRead;\n-\n-               private boolean hasEmptyIndexes;\n-\n                MultiIndexIterator(List\u003cPackIndex\u003e indexes) {\n                        this.indexIterators \u003d new ArrayList\u003c\u003e(indexes.size());\n                        for (int i \u003d 0; i \u003c indexes.size(); i++) {\n                                PackIndexPeekIterator it \u003d new PackIndexPeekIterator(i,\n                                                indexes.get(i));\n-                               it.next(); // Position in the first element\n-                               indexIterators.add(it);\n+                               if (it.next() !\u003d null) { // Position in the first element\n+                                       indexIterators.add(it);\n+                               }\n                        }\n-                       nextIndexToRead \u003d findNextIndex();\n                }\n \n                @Override\n                public boolean hasNext() {\n-                       return nextIndexToRead !\u003d -1;\n+                       return !indexIterators.isEmpty();\n                }\n \n                @Override\n                public MidxMutableEntry next() {\n+                       int nextIndexToRead \u003d findNextIndex();\n                        if (nextIndexToRead \u003d\u003d -1) {\n                                throw new NoSuchElementException();\n                        }\n                        consume(nextIndexToRead, mutableEntry);\n-                       nextIndexToRead \u003d findNextIndex();\n                        return mutableEntry;\n                }\n \n                private void consume(int index, MidxMutableEntry entry) {\n                        PackIndexPeekIterator winner \u003d indexIterators.get(index);\n                        entry.fill(winner.getPackId(), winner.peek());\n-                       winner.next();\n-                       if (hasEmptyIndexes) {\n-                               for (int i \u003d indexIterators.size() - 1; i \u003e\u003d 0; i--) {\n-                                       if (indexIterators.get(i).peek() \u003d\u003d null) {\n-                                               indexIterators.remove(i);\n-                                       }\n-                               }\n+                       if(winner.next() \u003d\u003d null) {\n+                               indexIterators.remove(index);\n                        }\n                }\n \n@@ -260,14 +251,6 @@ private int findNextIndex() {\n                        PackIndex.MutableEntry bestSoFar \u003d null;\n                        for (int index \u003d 0; index \u003c indexIterators.size(); index++) {\n                                PackIndexPeekIterator current \u003d indexIterators.get(index);\n-                               if (current.peek() \u003d\u003d null) {\n-                                       // No more entries in this index, but we cannot delete\n-                                       // it now, because index could point to the wrong position.\n-                                       // Clean it up after consuming the element, so findNextIndex\n-                                       // do not see it in the next invocation.\n-                                       hasEmptyIndexes \u003d true;\n-                                       continue;\n-                               }\n \n                                if (nextIndex \u003d\u003d -1\n                                                || current.peek().compareBySha1To(bestSoFar) \u003c 0) {\n```",
+      "range": {
+        "startLine": 207,
+        "startChar": 14,
+        "endLine": 207,
+        "endChar": 29
+      },
+      "revId": "ff6547ea9b374aee750d799c871434021cb96d18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
