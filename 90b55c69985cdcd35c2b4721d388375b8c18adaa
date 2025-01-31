@@ -99,6 +99,48 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d8c6940_89e9dc0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bd5302f_02968791",
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3d854ae_cfc4c7e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b8d72e2_58aa0a4a",
+      "range": {
+        "startLine": 54,
+        "startChar": 14,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28e454f8_94172ff1",
@@ -122,6 +164,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5463e962_aeaf6ff2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28e454f8_94172ff1",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99abba8e_3f1b08ba",
@@ -135,6 +201,30 @@
       "writtenOn": "2025-01-24T22:58:47Z",
       "side": 1,
       "message": "nit: setPackfileCount()",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56db9a14_424e6c2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99abba8e_3f1b08ba",
       "range": {
         "startLine": 60,
         "startChar": 26,
@@ -216,6 +306,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "322d0fb0_50481522",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9ced947_52f54abd",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 32
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f7fa95a_59e0cd23",
@@ -286,6 +400,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93661102_c3615b0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "129e93fb_5b6ae323",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 27
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63b5b085_c1c6ad9a",
@@ -333,6 +471,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9dca110_f5ad4594",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexLoader.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "356f0b03_aa4f6ee4",
+      "range": {
+        "startLine": 74,
+        "startChar": 36,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f1125fe_9c05f87a",
@@ -350,6 +512,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8962f3f0_16087a7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexV1.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f1125fe_9c05f87a",
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68e31fef_1dbb2331",
@@ -363,6 +543,30 @@
       "writtenOn": "2025-01-24T22:58:47Z",
       "side": 1,
       "message": "Maybe OffsetsChunk? not to confuse it with the ObjectOffset class.",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37dc8ab2_0f2a6b49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68e31fef_1dbb2331",
       "range": {
         "startLine": 21,
         "startChar": 13,
@@ -457,6 +661,54 @@
       "side": 1,
       "message": "Throw an IllegalArgumentException. A -1 here would be a bug in the code.",
       "parentUuid": "55dc95b7_e27a1e2f",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01b64c7_535588a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68ad1915_9d6b11b5",
+      "range": {
+        "startLine": 39,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a3f0f0_d25142a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-01-31T23:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defb7ccb_b9686775",
       "range": {
         "startLine": 39,
         "startChar": 59,
