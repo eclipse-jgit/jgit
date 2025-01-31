@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f12bdaa_1ad000c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-31T15:57:25Z",
+      "side": 1,
+      "message": "s/and/an/",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "d79d905fdc76416f2267746b50a7c22615460876",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66fbcb82_ac0d1a93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-01-31T15:57:25Z",
+      "side": 1,
+      "message": "Need javadocs, since 6.10.1, or just 6.10?",
+      "revId": "d79d905fdc76416f2267746b50a7c22615460876",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
