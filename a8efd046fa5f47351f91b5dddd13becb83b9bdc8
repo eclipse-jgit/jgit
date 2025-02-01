@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6898d13c_128c7b51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-01T00:44:09Z",
+      "side": 1,
+      "message": "6.10.1 which is more accurate than 6.10, suppressed the error raised by API tools which don\u0027t like 3 digit version number in @since",
+      "revId": "a8efd046fa5f47351f91b5dddd13becb83b9bdc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
