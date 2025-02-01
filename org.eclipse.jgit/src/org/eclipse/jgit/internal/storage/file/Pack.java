@@ -95,6 +95,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private RandomAccessFile fd;
 
+	/** For managing open/close accounting of {@link #fd}. */
+	private final Object activeLock = new Object();
+
 	/** Serializes reads performed against {@link #fd}. */
 	private final Object readLock = new Object();
 
@@ -645,37 +648,48 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			throw new EOFException();
 	}
 
-	private synchronized void beginCopyAsIs()
+	private void beginCopyAsIs()
 			throws StoredObjectRepresentationNotAvailableException {
-		if (++activeCopyRawData == 1 && activeWindows == 0) {
-			try {
-				doOpen();
-			} catch (IOException thisPackNotValid) {
-				throw new StoredObjectRepresentationNotAvailableException(
-						thisPackNotValid);
+		synchronized (activeLock) {
+			if (++activeCopyRawData == 1 && activeWindows == 0) {
+				try {
+					doOpen();
+				} catch (IOException thisPackNotValid) {
+					throw new StoredObjectRepresentationNotAvailableException(
+							thisPackNotValid);
+				}
 			}
 		}
 	}
 
-	private synchronized void endCopyAsIs() {
-		if (--activeCopyRawData == 0 && activeWindows == 0)
-			doClose();
-	}
-
-	synchronized boolean beginWindowCache() throws IOException {
-		if (++activeWindows == 1) {
-			if (activeCopyRawData == 0)
-				doOpen();
-			return true;
+	private void endCopyAsIs() {
+		synchronized (activeLock) {
+			if (--activeCopyRawData == 0 && activeWindows == 0) {
+				doClose();
+			}
 		}
-		return false;
 	}
 
-	synchronized boolean endWindowCache() {
-		final boolean r = --activeWindows == 0;
-		if (r && activeCopyRawData == 0)
-			doClose();
-		return r;
+	boolean beginWindowCache() throws IOException {
+		synchronized (activeLock) {
+			if (++activeWindows == 1) {
+				if (activeCopyRawData == 0) {
+					doOpen();
+				}
+				return true;
+			}
+			return false;
+		}
+	}
+
+	boolean endWindowCache() {
+		synchronized (activeLock) {
+			boolean r = --activeWindows == 0;
+			if (r && activeCopyRawData == 0) {
+				doClose();
+			}
+			return r;
+		}
 	}
 
 	private void doOpen() throws IOException {
