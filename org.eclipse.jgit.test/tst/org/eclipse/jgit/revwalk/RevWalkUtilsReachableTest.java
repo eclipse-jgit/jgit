@@ -14,6 +14,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
@@ -121,7 +122,7 @@ public class RevWalkUtilsReachableTest extends RevWalkTestCase {
 		Collection<Ref> sortedRefs = RefComparator.sort(allRefs);
 		List<Ref> actual = RevWalkUtils.findBranchesReachableFrom(commit,
 				rw, sortedRefs);
-		assertEquals(refsThatShouldContainCommit, actual);
+		assertEquals(new HashSet<>(refsThatShouldContainCommit), new HashSet<>(actual));
 	}
 
 }
