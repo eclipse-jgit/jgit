@@ -1636,6 +1636,21 @@ public class ConfigTest {
 		assertFalse(config.get(CoreConfig.KEY).enableCommitGraph());
 	}
 
+	@Test
+	public void testIsNotSet() {
+		Config config = new Config();
+		assertFalse(config.isSet("foo", "zip", "bar"));
+		assertFalse(config.isSet("foo", "bar"));
+	}
+
+	@Test
+	public void testIsSet() throws ConfigInvalidException {
+		Config config = parse(
+				"[foo \"zip\"]\nbar=x\n[foo]\nbar=y\n");
+		assertTrue(config.isSet("foo", "zip", "bar"));
+		assertTrue(config.isSet("foo", "bar"));
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);

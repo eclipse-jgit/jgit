@@ -244,6 +244,36 @@ public class Config {
 	}
 
 	/**
+	 * Whether the config option is set.
+	 *
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param name
+	 *            name of the key to check.
+	 * @return whether the config option is set.
+	 * @since 7.2
+	 */
+	public boolean isSet(String section, String name) {
+		return isSet(section, null, name);
+	}
+
+	/**
+	 * Whether the config option is set.
+	 *
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection the key is grouped within.
+	 * @param name
+	 *            name of the key to check.
+	 * @return whether the config option is set.
+	 * @since 7.2
+	 */
+	public boolean isSet(String section, String subsection, String name) {
+		return getRawString(section, subsection, name) != null;
+	}
+
+	/**
 	 * Obtain an integer value from the configuration.
 	 *
 	 * @param section
