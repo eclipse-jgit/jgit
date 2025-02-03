@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a087bf8_1753ad4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-03T17:27:17Z",
+      "side": 1,
+      "message": "I don\u0027t think that allowing null to be returned would break anything if the only way that null could be returned is if the defaultValue were passed in as null, would it? It might break any code expecting a null being passed in to throw an exception, but do we care about that?",
+      "parentUuid": "d4e76630_b8c23408",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
