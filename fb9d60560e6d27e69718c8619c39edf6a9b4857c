@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74aa0b43_ab087f3c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackIndexTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-03T19:07:58Z",
+      "side": 1,
+      "message": "\"firstInMutable\"? Thanks to the n and m looking similar it reads more like \"immutable\" \u003e\u003c",
+      "range": {
+        "startLine": 132,
+        "startChar": 13,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "fb9d60560e6d27e69718c8619c39edf6a9b4857c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
