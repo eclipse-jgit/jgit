@@ -22,6 +22,30 @@
       },
       "revId": "fb9d60560e6d27e69718c8619c39edf6a9b4857c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79798d87_af54e388",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackIndexTestCase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-03T20:02:08Z",
+      "side": 1,
+      "message": "Thanks! Immutable it is.",
+      "parentUuid": "74aa0b43_ab087f3c",
+      "range": {
+        "startLine": 132,
+        "startChar": 13,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "fb9d60560e6d27e69718c8619c39edf6a9b4857c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
