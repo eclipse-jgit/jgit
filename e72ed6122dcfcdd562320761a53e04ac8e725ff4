@@ -108,6 +108,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbb4fb72_d637feee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-03T22:17:32Z",
+      "side": 1,
+      "message": "At least for compile time I think you could change the existing parameters of the existing methods and auto-valuing would make them just work (there would be no source code changes needed by the method callers). However, I suspect that already compiled calls to the older methods would then fail if they weren\u0027t recompiled?",
+      "parentUuid": "a8728705_64f6bdf3",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
