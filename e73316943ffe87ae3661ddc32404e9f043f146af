@@ -313,6 +313,30 @@
       },
       "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8763a56d_645ab872",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-03T15:01:43Z",
+      "side": 1,
+      "message": "I think this change fixes the main intent if the change, and improves the code in a clean simple way. Any further improvements can be follow on changes.",
+      "parentUuid": "1b39c471_403635ca",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 21
+      },
+      "revId": "e73316943ffe87ae3661ddc32404e9f043f146af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
