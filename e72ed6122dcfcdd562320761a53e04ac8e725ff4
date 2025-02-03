@@ -72,6 +72,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d5e5e7_6e5611d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-03T17:54:32Z",
+      "side": 1,
+      "message": "\u003e I was referring to your proposal to return an Optional.\n\nGotcha, I understand now. Sorry, I wasn\u0027t clear, that proposal was to actually add new overloaded methods which did not take a defaultValue (otherwise the Optional would never need to be empty).\n\nBut I think fewer methods is better, so if we can just handle null parameters, that\u0027s probably better?",
+      "parentUuid": "a3fef394_9b4e8cbf",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
