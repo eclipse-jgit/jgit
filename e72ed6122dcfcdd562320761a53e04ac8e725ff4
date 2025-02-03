@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3fef394_9b4e8cbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-03T17:48:46Z",
+      "side": 1,
+      "message": "I was referring to your proposal to return an Optional.\n\nI agree instead of introducing #isSet methods we could pass a null default value to the typed getters and compare the returned value to null to find out if the value is set.",
+      "parentUuid": "5a087bf8_1753ad4f",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
