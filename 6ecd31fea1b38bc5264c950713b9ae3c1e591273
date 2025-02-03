@@ -16,6 +16,24 @@
       "message": "Tests for these? otherwise lgtm",
       "revId": "6ecd31fea1b38bc5264c950713b9ae3c1e591273",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8ba593_e9fea28c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-03T18:49:58Z",
+      "side": 1,
+      "message": "Done. I also removed some just-format changes and fixed types in javadoc.",
+      "parentUuid": "847afa2d_367b219c",
+      "revId": "6ecd31fea1b38bc5264c950713b9ae3c1e591273",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
