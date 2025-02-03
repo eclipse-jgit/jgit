@@ -90,6 +90,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8728705_64f6bdf3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-03T22:12:21Z",
+      "side": 1,
+      "message": "For that we would need to add more methods since `#getBoolean, #getInt, #getLong` accept only primitive `boolean, int, long` default values where we can\u0027t pass `null`. Hence I think we better use the `#isSet` methods.",
+      "parentUuid": "27d5e5e7_6e5611d3",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
