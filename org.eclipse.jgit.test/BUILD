@@ -53,6 +53,11 @@ tests(tests = glob(
     exclude = HELPERS + DATA + EXCLUDED,
 ))
 
+
+tests(tests = glob(["exttst/**/*.java"]),
+    srcprefix = "exttst/",
+    extra_tags = ["ext"])
+
 # Non abstract base classes used for tests by other test classes
 BASE = [
     PKG + "internal/storage/file/FileRepositoryBuilderTest.java",
