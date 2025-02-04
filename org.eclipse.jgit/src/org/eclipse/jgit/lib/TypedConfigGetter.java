@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.FS;
 
@@ -50,9 +51,34 @@ public interface TypedConfigGetter {
 	 *            default value to return if no value was present.
 	 * @return true if any value or defaultValue is true, false for missing or
 	 *         explicit false
+	 * @deprecated use
+	 *             {@link #getBoolean(Config, String, String, String, Boolean)}
+	 *             instead
 	 */
+	@Deprecated
 	boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue);
+
+	/**
+	 * Get a boolean value from a git {@link Config}.
+	 *
+	 * @param config
+	 *            to get the value from
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return true if any value or defaultValue is true, false for missing or
+	 *         explicit false
+	 * @since 7.2
+	 */
+	@Nullable
+	Boolean getBoolean(Config config, String section, String subsection,
+			String name, @Nullable Boolean defaultValue);
 
 	/**
 	 * Parse an enumeration from a git {@link Config}.
@@ -74,8 +100,9 @@ public interface TypedConfigGetter {
 	 *            default value to return if no value was present.
 	 * @return the selected enumeration value, or {@code defaultValue}.
 	 */
+	@Nullable
 	<T extends Enum<?>> T getEnum(Config config, T[] all, String section,
-			String subsection, String name, T defaultValue);
+			String subsection, String name, @Nullable T defaultValue);
 
 	/**
 	 * Obtain an integer value from a git {@link Config}.
@@ -91,9 +118,32 @@ public interface TypedConfigGetter {
 	 * @param defaultValue
 	 *            default value to return if no value was present.
 	 * @return an integer value from the configuration, or defaultValue.
+	 * @deprecated use {@link #getInt(Config, String, String, String, Integer)}
+	 *             instead
 	 */
+	@Deprecated
 	int getInt(Config config, String section, String subsection, String name,
 			int defaultValue);
+
+	/**
+	 * Obtain an integer value from a git {@link Config}.
+	 *
+	 * @param config
+	 *            to get the value from
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return an integer value from the configuration, or defaultValue.
+	 * @since 7.2
+	 */
+	@Nullable
+	Integer getInt(Config config, String section, String subsection,
+			String name, @Nullable Integer defaultValue);
 
 	/**
 	 * Obtain an integer value from a git {@link Config} which must be in given
@@ -117,9 +167,41 @@ public interface TypedConfigGetter {
 	 * @return an integer value from the configuration, or defaultValue.
 	 *         {@code #UNSET_INT} if unset.
 	 * @since 6.1
+	 * @deprecated use
+	 *             {@link #getIntInRange(Config, String, String, String, int, int, Integer)}
+	 *             instead
 	 */
+	@Deprecated
 	int getIntInRange(Config config, String section, String subsection,
 			String name, int minValue, int maxValue, int defaultValue);
+
+	/**
+	 * Obtain an integer value from a git {@link Config} which must be in given
+	 * range.
+	 *
+	 * @param config
+	 *            to get the value from
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param minValue
+	 *            minimal value
+	 * @param maxValue
+	 *            maximum value
+	 * @param defaultValue
+	 *            default value to return if no value was present. Use
+	 *            {@code #UNSET_INT} to set the default to unset.
+	 * @return an integer value from the configuration, or defaultValue.
+	 *         {@code #UNSET_INT} if unset.
+	 * @since 7.2
+	 */
+	@Nullable
+	Integer getIntInRange(Config config, String section, String subsection,
+			String name, int minValue, int maxValue,
+			@Nullable Integer defaultValue);
 
 	/**
 	 * Obtain a long value from a git {@link Config}.
@@ -135,9 +217,32 @@ public interface TypedConfigGetter {
 	 * @param defaultValue
 	 *            default value to return if no value was present.
 	 * @return a long value from the configuration, or defaultValue.
+	 * @deprecated use {@link #getLong(Config, String, String, String, Long)}
+	 *             instead
 	 */
+	@Deprecated
 	long getLong(Config config, String section, String subsection, String name,
 			long defaultValue);
+
+	/**
+	 * Obtain a long value from a git {@link Config}.
+	 *
+	 * @param config
+	 *            to get the value from
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return a long value from the configuration, or defaultValue.
+	 * @since 7.2
+	 */
+	@Nullable
+	Long getLong(Config config, String section, String subsection, String name,
+			@Nullable Long defaultValue);
 
 	/**
 	 * Parse a numerical time unit, such as "1 minute", from a git
@@ -159,9 +264,39 @@ public interface TypedConfigGetter {
 	 *            indication of the units.
 	 * @return the value, or {@code defaultValue} if not set, expressed in
 	 *         {@code units}.
+	 * @deprecated use
+	 *             {@link #getTimeUnit(Config, String, String, String, Long, TimeUnit)}
+	 *             instead
 	 */
+	@Deprecated
 	long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit);
+
+	/**
+	 * Parse a numerical time unit, such as "1 minute", from a git
+	 * {@link Config}.
+	 *
+	 * @param config
+	 *            to get the value from
+	 * @param section
+	 *            section the key is in.
+	 * @param subsection
+	 *            subsection the key is in, or null if not in a subsection.
+	 * @param name
+	 *            the key name.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @param wantUnit
+	 *            the units of {@code defaultValue} and the return value, as
+	 *            well as the units to assume if the value does not contain an
+	 *            indication of the units.
+	 * @return the value, or {@code defaultValue} if not set, expressed in
+	 *         {@code units}.
+	 * @since 7.2
+	 */
+	@Nullable
+	Long getTimeUnit(Config config, String section, String subsection,
+			String name, @Nullable Long defaultValue, TimeUnit wantUnit);
 
 	/**
 	 * Parse a string value from a git {@link Config} and treat it as a file
@@ -189,9 +324,10 @@ public interface TypedConfigGetter {
 	 * @return the {@link Path}, or {@code defaultValue} if not set
 	 * @since 5.10
 	 */
+	@Nullable
 	default Path getPath(Config config, String section, String subsection,
 			String name, @NonNull FS fs, File resolveAgainst,
-			Path defaultValue) {
+			@Nullable Path defaultValue) {
 		String value = config.getString(section, subsection, name);
 		if (value == null) {
 			return defaultValue;
