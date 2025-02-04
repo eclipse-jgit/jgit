@@ -65,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "544f6020_b81e1c20",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-04T18:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77cf8bfe_d3484035",
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df6ec566_04ebe2ee",
@@ -129,6 +147,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7808b36f_28708125",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-04T18:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b29f3c57_ff49a443",
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ebe5ef6_8e2bdc11",
@@ -142,6 +178,30 @@
       "writtenOn": "2025-01-31T23:12:30Z",
       "side": 1,
       "message": "I\u0027d inline this",
+      "range": {
+        "startLine": 151,
+        "startChar": 7,
+        "endLine": 151,
+        "endChar": 14
+      },
+      "revId": "6e7d6ccfa6d247e3578b608b1021564e4bab23d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8091457_f7c8a9c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-04T18:51:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ebe5ef6_8e2bdc11",
       "range": {
         "startLine": 151,
         "startChar": 7,
