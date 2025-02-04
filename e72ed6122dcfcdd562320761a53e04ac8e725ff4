@@ -162,6 +162,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50628bf7_46632eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-04T10:17:56Z",
+      "side": 1,
+      "message": "I tried and found that would be rather messy. To do this consistently I have to override 9 methods in `Config` and 5 in `TypedConfigGetter` and 5 in `DefaultTypedConfigGetter`. The same number of methods would be deprecated.\n\nAlso we cannot allow a `null` defaultValue for `#getEnum` since we get the type of the `defaultValue` via introspection to find out which enum class to use which doesn\u0027t work for a null value.",
+      "parentUuid": "914ca7db_86a24d6e",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
