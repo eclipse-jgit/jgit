@@ -180,6 +180,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14e49b9c_81405a2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-04T19:41:43Z",
+      "side": 1,
+      "message": "Arg, I see that is tricky. There is however this version of the method:\n\n```public \u003cT extends Enum\u003c?\u003e\u003e T getEnum(final T[] all, final String section,\n\t\t\tfinal String subsection, final String name, final T defaultValue) {```\n\t\t\t\nwhich perhaps could be used instead?",
+      "parentUuid": "50628bf7_46632eaa",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
