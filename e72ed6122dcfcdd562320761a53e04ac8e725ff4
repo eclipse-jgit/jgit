@@ -144,6 +144,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "914ca7db_86a24d6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-04T00:02:38Z",
+      "side": 1,
+      "message": "Interestingly enough, I seem to be able to add methods with effectively the same signatures except for replacing boolean with Boolean for parameters and return types and it compiles. Maybe we should just add the new Boolean method and deprecate the old boolean method?",
+      "parentUuid": "24fa8914_87076d17",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
