@@ -390,6 +390,17 @@ public abstract class RefDatabase {
 			throws IOException;
 
 	/**
+	 * Create the reflog writer.
+	 *
+	 * @param force
+	 *            true to write to disk all entries logged, false to respect the
+	 *            repository's config and current log file status.
+	 * @return the writer.
+	 * @since 7.2
+	 */
+	public abstract ReflogWriter getReflogWriter(boolean force);
+
+	/**
 	 * Get a section of the reference namespace.
 	 *
 	 * @param prefix
