@@ -198,6 +198,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2241e63_92ba6761",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-05T23:22:10Z",
+      "side": 1,
+      "message": "Instead of overloading all these methods I now added Config getters for the primitive types which don\u0027t take a default value and return null if the option is unset.",
+      "parentUuid": "14e49b9c_81405a2e",
+      "revId": "e72ed6122dcfcdd562320761a53e04ac8e725ff4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cabc6dca_3dc03907",
