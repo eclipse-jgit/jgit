@@ -462,6 +462,11 @@ public class RefDirectory extends RefDatabase {
 		return new ReflogReaderImpl(getRepository(), ref.getName());
 	}
 
+	@Override
+	public org.eclipse.jgit.lib.ReflogWriter getReflogWriter(boolean force) {
+		return new ReflogWriter(this, force);
+	}
+
 	@SuppressWarnings("unchecked")
 	private RefList<Ref> upcast(RefList<? extends Ref> loose) {
 		return (RefList<Ref>) loose;
