@@ -28,6 +28,8 @@ import org.eclipse.jgit.blame.Candidate.BlobCandidate;
 import org.eclipse.jgit.blame.Candidate.HeadCandidate;
 import org.eclipse.jgit.blame.Candidate.ReverseCandidate;
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
+import org.eclipse.jgit.blame.cache.BlameCache;
+import org.eclipse.jgit.blame.cache.CacheRegion;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -129,7 +131,10 @@ public class BlameGenerator implements AutoCloseable {
 
 	/** Blame is currently assigned to this source. */
 	private Candidate outCandidate;
+
 	private Region outRegion;
+
+	private final BlameCache blameCache;
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -142,6 +147,24 @@ public class BlameGenerator implements AutoCloseable {
 	 *            repository).
 	 */
 	public BlameGenerator(Repository repository, String path) {
+		this(repository, path, null);
+	}
+
+	/**
+	 * Create a blame generator for the repository and path (relative to
+	 * repository)
+	 *
+	 * @param repository
+	 *            repository to access revision data from.
+	 * @param path
+	 *            initial path of the file to start scanning (relative to the
+	 *            repository).
+	 * @param blameCache
+	 *            previously calculated blames. This generator will *not*
+	 *            populate it, just consume it.
+	 */
+	public BlameGenerator(Repository repository, String path,
+			@Nullable BlameCache blameCache) {
 		this.repository = repository;
 		this.resultPath = PathFilter.create(path);
 
@@ -150,6 +173,7 @@ public class BlameGenerator implements AutoCloseable {
 		initRevPool(false);
 
 		remaining = -1;
+		this.blameCache = blameCache;
 	}
 
 	private void initRevPool(boolean reverse) {
@@ -591,6 +615,15 @@ public class BlameGenerator implements AutoCloseable {
 			Candidate n = pop();
 			if (n == null)
 				return done();
+
+			if (blameCache != null) {
+				List<CacheRegion> cachedBlame = blameCache.get(repository, n.sourceCommit, n.sourcePath.getPath());
+				if (cachedBlame != null) {
+					BlameRegionMerger rb = new BlameRegionMerger(revPool, cachedBlame);
+					Candidate fullyBlamed = rb.mergeCandidate(n);
+					return result(fullyBlamed);
+				}
+			}
 
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
