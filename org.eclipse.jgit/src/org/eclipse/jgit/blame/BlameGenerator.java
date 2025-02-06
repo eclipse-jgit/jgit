@@ -129,7 +129,14 @@ public class BlameGenerator implements AutoCloseable {
 
 	/** Blame is currently assigned to this source. */
 	private Candidate outCandidate;
+
 	private Region outRegion;
+
+	private final BlameCache blameCache;
+
+	private BlameCache.EntryBuilder blameCacheEntryBuilder;
+
+	private boolean usingCachedResults;
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -142,6 +149,24 @@ public class BlameGenerator implements AutoCloseable {
 	 *            repository).
 	 */
 	public BlameGenerator(Repository repository, String path) {
+		this(repository, path, null);
+	}
+
+	/**
+	 * Create a blame generator for the repository and path (relative to
+	 * repository)
+	 *
+	 * @param repository
+	 *            repository to access revision data from.
+	 * @param path
+	 *            initial path of the file to start scanning (relative to the
+	 *            repository).
+	 * @param blameCache
+	 *            previously calculated blames. This generator will *not*
+	 *            populate it, just consume it.
+	 */
+	public BlameGenerator(Repository repository, String path,
+			@Nullable BlameCache blameCache) {
 		this.repository = repository;
 		this.resultPath = PathFilter.create(path);
 
@@ -150,6 +175,7 @@ public class BlameGenerator implements AutoCloseable {
 		initRevPool(false);
 
 		remaining = -1;
+		this.blameCache = blameCache;
 	}
 
 	private void initRevPool(boolean reverse) {
@@ -592,6 +618,19 @@ public class BlameGenerator implements AutoCloseable {
 			if (n == null)
 				return done();
 
+			BlameCache.Key cacheKey = BlameCache.Key.of(
+					repository.getIdentifier(), n.sourceCommit.name(),
+					n.sourcePath.getPath());
+			if (blameCache != null) {
+				BlameCache.Entry fullyBlamed = blameCache.get(cacheKey);
+				if (fullyBlamed != null) {
+					BlameCacheUtil bcu = new BlameCacheUtil(revPool);
+					Candidate ready = bcu.blameFromCache(fullyBlamed, n);
+					usingCachedResults = true;
+					return result(ready);
+				}
+			}
+
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
 				if (processOne(n))
@@ -615,6 +654,12 @@ public class BlameGenerator implements AutoCloseable {
 
 	private boolean done() {
 		close();
+		if (blameCache != null) {
+			if (blameCacheEntryBuilder != null) {
+				BlameCache.Entry entry = blameCacheEntryBuilder.done();
+				blameCache.put(blameCacheEntryBuilder.getKey(), entry);
+			}
+		}
 		return false;
 	}
 
@@ -622,6 +667,17 @@ public class BlameGenerator implements AutoCloseable {
 		n.beginResult(revPool);
 		outCandidate = n;
 		outRegion = n.regionList;
+		if (blameCache != null && !usingCachedResults) {
+			if (blameCacheEntryBuilder == null) {
+				// First candidate returned... start the cache.
+				BlameCache.Key cacheKey = BlameCache.Key.of(
+						repository.getIdentifier(), n.sourceCommit.name(),
+						n.sourcePath.getPath());
+				blameCacheEntryBuilder = blameCache.entryBuilder(cacheKey,
+						n.sourceText.size());
+			}
+			blameCacheEntryBuilder.add(n);
+		}
 		return outRegion != null;
 	}
 

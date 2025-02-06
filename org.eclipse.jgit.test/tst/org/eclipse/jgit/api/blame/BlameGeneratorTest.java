@@ -13,7 +13,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.blame.BlameCache;
 import org.eclipse.jgit.blame.BlameGenerator;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -164,10 +168,163 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void cachePopulated() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "first", "second", "third" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c1 = git.commit().setMessage("create file").call();
+
+			String[] content2 = new String[] { "first", "second", "third",
+					"fourth" };
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("add line").call();
+
+			String[] content3 = new String[] { "first", "other2", "other3",
+					"fourth" };
+			writeTrashFile("file.txt", join(content3));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c3 = git.commit().setMessage("change 2 middle lines")
+					.call();
+
+			String[] content4 = new String[] { "first", "other22", "other3",
+					"other4" };
+			writeTrashFile("file.txt", join(content4));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c4 = git.commit().setMessage("change 2nd and 4th lines")
+					.call();
+
+			InMemoryBlameCache cache = new InMemoryBlameCache();
+			try (BlameGenerator generator = new BlameGenerator(db, "file.txt",
+					cache)) {
+				generator.push(null, db.resolve(Constants.HEAD));
+				assertEquals(4, generator.getResultContents().size());
+
+				assertTrue(generator.next());
+				assertEquals(c4, generator.getSourceCommit());
+				assertEquals(1, generator.getResultStart());
+				assertEquals(2, generator.getResultEnd());
+
+				assertTrue(generator.next());
+				assertEquals(c4, generator.getSourceCommit());
+				assertEquals(3, generator.getResultStart());
+				assertEquals(4, generator.getResultEnd());
+
+				assertTrue(generator.next());
+				assertEquals(c3, generator.getSourceCommit());
+				assertEquals(2, generator.getResultStart());
+				assertEquals(3, generator.getResultEnd());
+
+				assertTrue(generator.next());
+				assertEquals(c1, generator.getSourceCommit());
+				assertEquals(0, generator.getResultStart());
+				assertEquals(1, generator.getResultEnd());
+
+				assertFalse(generator.next());
+
+				assertEquals(1, cache.cache.size());
+
+				BlameCache.Key key = BlameCache.Key.of(db.getIdentifier(), db.resolve(Constants.HEAD).name(), "file.txt");
+				BlameCache.Entry entry = cache.get(key);
+				assertEquals(entry.getCommitId(0), c1.name());
+				assertEquals(entry.getCommitId(1), c4.name());
+				assertEquals(entry.getCommitId(2), c3.name());
+				assertEquals(entry.getCommitId(3), c4.name());
+			}
+		}
+	}
+
+	@Test
+	public void cacheUsed() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "first", "second", "third" };
+			writeTrashFile("file.txt", join(content1));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c1 = git.commit().setMessage("create file").call();
+
+			String[] content2 = new String[] { "first", "second", "third",
+					"fourth" };
+			writeTrashFile("file.txt", join(content2));
+			git.add().addFilepattern("file.txt").call();
+			git.commit().setMessage("add line").call();
+
+			String[] content3 = new String[] { "first", "other2", "other3",
+					"fourth" };
+			writeTrashFile("file.txt", join(content3));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c3 = git.commit().setMessage("change 2 middle lines")
+					.call();
+
+			String[] content4 = new String[] { "first", "other22", "other3",
+					"other4" };
+			writeTrashFile("file.txt", join(content4));
+			git.add().addFilepattern("file.txt").call();
+			RevCommit c4 = git.commit().setMessage("change 2nd and 4th lines")
+					.call();
+
+			InMemoryBlameCache cache = new InMemoryBlameCache();
+			BlameCache.Entry e = new BlameCache.Entry(new String[] {c1.name(), c4.name(), c3.name(), c4.name()});
+			BlameCache.Key key = BlameCache.Key.of(db.getIdentifier(), db.resolve(Constants.HEAD).name(), "file.txt");
+			cache.put(key, e);
+
+			System.out.println("c1 " + c1);
+			System.out.println("c3 " + c3);
+			System.out.println("c4 " + c4);
+
+
+			try (BlameGenerator generator = new BlameGenerator(db, "file.txt",
+					cache)) {
+				generator.push(null, db.resolve(Constants.HEAD));
+				assertEquals(4, generator.getResultContents().size());
+
+				assertTrue(generator.next());
+				assertEquals(c1, generator.getSourceCommit());
+				assertEquals(0, generator.getResultStart());
+				assertEquals(1, generator.getResultEnd());
+
+				assertTrue(generator.next());
+				assertEquals(c4, generator.getSourceCommit());
+				assertEquals(1, generator.getResultStart());
+				assertEquals(2, generator.getResultEnd());
+
+				assertTrue(generator.next());
+				assertEquals(c3, generator.getSourceCommit());
+				assertEquals(2, generator.getResultStart());
+				assertEquals(3, generator.getResultEnd());
+
+				assertTrue(generator.next());
+				assertEquals(c4, generator.getSourceCommit());
+				assertEquals(3, generator.getResultStart());
+				assertEquals(4, generator.getResultEnd());
+
+				assertFalse(generator.next());
+
+				assertEquals(1, cache.cache.size());
+			}
+		}
+	}
+
 	private static String join(String... lines) {
 		StringBuilder joined = new StringBuilder();
 		for (String line : lines)
 			joined.append(line).append('\n');
 		return joined.toString();
+	}
+
+	static class InMemoryBlameCache implements BlameCache {
+
+		Map<Key, Entry> cache = new HashMap<>();
+
+		@Override
+		public Entry get(Key cacheKey) {
+			return cache.get(cacheKey);
+		}
+
+		@Override
+		public void put(Key cacheKey, Entry value) {
+			cache.put(cacheKey, value);
+		}
 	}
 }
