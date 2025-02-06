@@ -22,6 +22,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 /** Unit tests of {@link BlameGenerator}. */
+
 public class BlameGeneratorTest extends RepositoryTestCase {
 	private static final String FILE = "file.txt";
 
@@ -174,4 +175,5 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 			joined.append(line).append('\n');
 		return joined.toString();
 	}
+
 }
