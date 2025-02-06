@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config.ConfigEnum;
 import org.eclipse.jgit.transport.RefSpec;
@@ -34,24 +35,32 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
+		return getBoolean(config, section, subsection, name, defaultValue);
+	}
+
+	@Nullable
+	@Override
+	public Boolean getBoolean(Config config, String section, String subsection,
+			String name, @Nullable Boolean defaultValue) {
 		String n = config.getString(section, subsection, name);
 		if (n == null) {
 			return defaultValue;
 		}
 		if (Config.isMissing(n)) {
-			return true;
+			return Boolean.TRUE;
 		}
 		try {
-			return StringUtils.toBoolean(n);
+			return Boolean.valueOf(StringUtils.toBoolean(n));
 		} catch (IllegalArgumentException err) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().invalidBooleanValue, section, name, n), err);
 		}
 	}
 
+	@Nullable
 	@Override
 	public <T extends Enum<?>> T getEnum(Config config, T[] all, String section,
-			String subsection, String name, T defaultValue) {
+			String subsection, String name, @Nullable T defaultValue) {
 		String value = config.getString(section, subsection, name);
 		if (value == null) {
 			return defaultValue;
@@ -107,9 +116,26 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public int getInt(Config config, String section, String subsection,
 			String name, int defaultValue) {
-		long val = config.getLong(section, subsection, name, defaultValue);
+		return getInt(config, section, subsection, name, defaultValue);
+	}
+
+	@Nullable
+	@Override
+	@SuppressWarnings("boxing")
+	public Integer getInt(Config config, String section, String subsection,
+			String name, @Nullable Integer defaultValue) {
+		Long longDefault = defaultValue != null
+				? Long.valueOf(defaultValue.longValue())
+				: null;
+		Long val = config.getLong(section, subsection, name);
+		if (val == null) {
+			val = longDefault;
+		}
+		if (val == null) {
+			return null;
+		}
 		if (Integer.MIN_VALUE <= val && val <= Integer.MAX_VALUE) {
-			return (int) val;
+			return Integer.valueOf(Math.toIntExact(val));
 		}
 		throw new IllegalArgumentException(MessageFormat
 				.format(JGitText.get().integerValueOutOfRange, section, name));
@@ -118,31 +144,48 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public int getIntInRange(Config config, String section, String subsection,
 			String name, int minValue, int maxValue, int defaultValue) {
-		int val = getInt(config, section, subsection, name, defaultValue);
+		return getIntInRange(config, section, subsection, name, minValue,
+				maxValue, defaultValue);
+	}
+
+	@Override
+	@SuppressWarnings("boxing")
+	public Integer getIntInRange(Config config, String section,
+			String subsection, String name, int minValue, int maxValue,
+			Integer defaultValue) {
+		Integer val = getInt(config, section, subsection, name, defaultValue);
+		if (val == null) {
+			return null;
+		}
 		if ((val >= minValue && val <= maxValue) || val == UNSET_INT) {
 			return val;
 		}
 		if (subsection == null) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().integerValueNotInRange, section, name,
-					Integer.valueOf(val), Integer.valueOf(minValue),
-					Integer.valueOf(maxValue)));
+					val, minValue, maxValue));
 		}
 		throw new IllegalArgumentException(MessageFormat.format(
 				JGitText.get().integerValueNotInRangeSubSection, section,
-				subsection, name, Integer.valueOf(val),
-				Integer.valueOf(minValue), Integer.valueOf(maxValue)));
+				subsection, name, val, minValue, maxValue));
 	}
 
 	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
-		final String str = config.getString(section, subsection, name);
+		return getLong(config, section, subsection, name, defaultValue);
+	}
+
+	@Nullable
+	@Override
+	public Long getLong(Config config, String section, String subsection,
+			String name, @Nullable Long defaultValue) {
+		String str = config.getString(section, subsection, name);
 		if (str == null) {
 			return defaultValue;
 		}
 		try {
-			return StringUtils.parseLongWithSuffix(str, false);
+			return Long.valueOf(StringUtils.parseLongWithSuffix(str, false));
 		} catch (StringIndexOutOfBoundsException e) {
 			// Empty
 			return defaultValue;
@@ -156,6 +199,14 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit) {
+		Long v = getTimeUnit(config, section, subsection, name,
+				Long.valueOf(defaultValue), wantUnit);
+		return v == null ? defaultValue : v.longValue();
+	}
+
+	@Override
+	public Long getTimeUnit(Config config, String section, String subsection,
+			String name, @Nullable Long defaultValue, TimeUnit wantUnit) {
 		String valueString = config.getString(section, subsection, name);
 
 		if (valueString == null) {
@@ -232,8 +283,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 
 		try {
-			return wantUnit.convert(Long.parseLong(digits) * inputMul,
-					inputUnit);
+			return Long.valueOf(wantUnit
+					.convert(Long.parseLong(digits) * inputMul, inputUnit));
 		} catch (NumberFormatException nfe) {
 			IllegalArgumentException iae = notTimeUnit(section, subsection,
 					unitName, valueString);
