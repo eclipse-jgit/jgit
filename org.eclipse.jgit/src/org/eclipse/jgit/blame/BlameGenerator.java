@@ -28,6 +28,8 @@ import org.eclipse.jgit.blame.Candidate.BlobCandidate;
 import org.eclipse.jgit.blame.Candidate.HeadCandidate;
 import org.eclipse.jgit.blame.Candidate.ReverseCandidate;
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
+import org.eclipse.jgit.blame.cache.BlameCache;
+import org.eclipse.jgit.blame.cache.CacheRegion;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -129,7 +131,18 @@ public class BlameGenerator implements AutoCloseable {
 
 	/** Blame is currently assigned to this source. */
 	private Candidate outCandidate;
+
 	private Region outRegion;
+
+	private final BlameCache blameCache;
+
+	/**
+	 * Blame in reverse order needs the source lines, but we don't have them in
+	 * the cache. We need to ignore the cache in that case.
+	 */
+	private boolean useCache = true;
+
+	private final Stats stats = new Stats();
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -142,6 +155,24 @@ public class BlameGenerator implements AutoCloseable {
 	 *            repository).
 	 */
 	public BlameGenerator(Repository repository, String path) {
+		this(repository, path, null);
+	}
+
+	/**
+	 * Create a blame generator for the repository and path (relative to
+	 * repository)
+	 *
+	 * @param repository
+	 *            repository to access revision data from.
+	 * @param path
+	 *            initial path of the file to start scanning (relative to the
+	 *            repository).
+	 * @param blameCache
+	 *            previously calculated blames. This generator will *not*
+	 *            populate it, just consume it.
+	 */
+	public BlameGenerator(Repository repository, String path,
+			@Nullable BlameCache blameCache) {
 		this.repository = repository;
 		this.resultPath = PathFilter.create(path);
 
@@ -150,6 +181,7 @@ public class BlameGenerator implements AutoCloseable {
 		initRevPool(false);
 
 		remaining = -1;
+		this.blameCache = blameCache;
 	}
 
 	private void initRevPool(boolean reverse) {
@@ -159,10 +191,12 @@ public class BlameGenerator implements AutoCloseable {
 		if (revPool != null)
 			revPool.close();
 
-		if (reverse)
+		if (reverse) {
+			useCache = false;
 			revPool = new ReverseWalk(getRepository());
-		else
+		} else {
 			revPool = new RevWalk(getRepository());
+		}
 
 		SEEN = revPool.newFlag("SEEN"); //$NON-NLS-1$
 		reader = revPool.getObjectReader();
@@ -242,6 +276,27 @@ public class BlameGenerator implements AutoCloseable {
 	@Nullable
 	public RenameDetector getRenameDetector() {
 		return renameDetector;
+	}
+
+	/**
+	 * Stats about this generator
+	 *
+	 * @return the stats of this generator
+	 */
+	public Stats getStats() {
+		return stats;
+	}
+
+	/**
+	 * Enable/disable the use of cache (if present). Enabled by default.
+	 * <p>
+	 * If caller need source line numbers, the generator cannot use the cache
+	 * (source lines are not there). Use this method to disable the cache in that case.
+	 *
+	 * @param useCache should this generator use the cache.
+	 */
+	public void setUseCache(boolean useCache) {
+		this.useCache = useCache;
 	}
 
 	/**
@@ -591,6 +646,20 @@ public class BlameGenerator implements AutoCloseable {
 			Candidate n = pop();
 			if (n == null)
 				return done();
+			stats.candidatesVisited += 1;
+			if (blameCache != null && useCache) {
+				List<CacheRegion> cachedBlame = blameCache.get(repository,
+						n.sourceCommit, n.sourcePath.getPath());
+				if (cachedBlame != null) {
+					BlameRegionMerger rb = new BlameRegionMerger(repository, revPool,
+							cachedBlame);
+					Candidate fullyBlamed = rb.mergeCandidate(n);
+					if (fullyBlamed != null) {
+						stats.cacheHit = true;
+						return result(fullyBlamed);
+					}
+				}
+			}
 
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
@@ -605,7 +674,7 @@ public class BlameGenerator implements AutoCloseable {
 				// Do not generate a tip of a reverse. The region
 				// survives and should not appear to be deleted.
 
-			} else /* if (pCnt == 0) */{
+			} else /* if (pCnt == 0) */ {
 				// Root commit, with at least one surviving region.
 				// Assign the remaining blame here.
 				return result(n);
@@ -846,8 +915,8 @@ public class BlameGenerator implements AutoCloseable {
 				editList = new EditList(0);
 			} else {
 				p.loadText(reader);
-				editList = diffAlgorithm.diff(textComparator,
-						p.sourceText, n.sourceText);
+				editList = diffAlgorithm.diff(textComparator, p.sourceText,
+						n.sourceText);
 			}
 
 			if (editList.isEmpty()) {
@@ -981,6 +1050,10 @@ public class BlameGenerator implements AutoCloseable {
 	/**
 	 * Get first line of the source data that has been blamed for the current
 	 * region
+	 * <p>
+	 * This value is not reliable when the generator is reusing cached values.
+	 * Cache doesn't keep the source lines, the returned value is based on the
+	 * result and can be off if the region moved in previous commits.
 	 *
 	 * @return first line of the source data that has been blamed for the
 	 *         current region. This is line number of where the region was added
@@ -994,6 +1067,10 @@ public class BlameGenerator implements AutoCloseable {
 	/**
 	 * Get one past the range of the source data that has been blamed for the
 	 * current region
+	 * <p>
+	 * This value is not reliable when the generator is reusing cached values.
+	 * Cache doesn't keep the source lines, the returned value is based on the
+	 * result and can be off if the region moved in previous commits.
 	 *
 	 * @return one past the range of the source data that has been blamed for
 	 *         the current region. This is line number of where the region was
@@ -1123,5 +1200,39 @@ public class BlameGenerator implements AutoCloseable {
 	private static boolean isRename(DiffEntry ent) {
 		return ent.getChangeType() == ChangeType.RENAME
 				|| ent.getChangeType() == ChangeType.COPY;
+	}
+
+	/**
+	 * Stats about the work done by the generator
+	 */
+	public static class Stats {
+
+		/** Candidates taken from the queue */
+		private int candidatesVisited;
+
+		private boolean cacheHit;
+
+		/**
+		 * Number of candidates taken from the queue
+		 * <p>
+		 * The generator could signal it's done without exhausting all
+		 * candidates if there is no more remaining lines or the last visited
+		 * candidate is found in the cache.
+		 *
+		 * @return number of candidates taken from the queue
+		 */
+		public int getCandidatesVisited() {
+			return candidatesVisited;
+		}
+
+		/**
+		 * The generator found a blamed version in the cache
+		 *
+		 * @return true if we used results from the cache
+		 */
+		public boolean isCacheHit() {
+			return cacheHit;
+		}
+
 	}
 }
