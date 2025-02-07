@@ -70,6 +70,30 @@
       },
       "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d65cb8_9931708d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-07T14:29:36Z",
+      "side": 0,
+      "message": "Ok, but doesn\u0027t the updated concurrent `#testRacyReload` show that ref updates based on an outdated read still fail ?\n\nLooking from perspective of the `RefDatabase` API without the auto-refresh the behaviour implicitly depends on which subclass is used, `RefDirectory` or `FileReftableDatabase`. \n\nWe can surface this to the API by adding a method `#setReadConsistency` accepting the values `CONSISTENT_READ` and `AUTO_REFRESH`  so that clients can control if they want consistent read or auto-refresh. I guess that consistent reads are only relevant if a client wants to update multiple refs in one transaction and doesn\u0027t read all these refs in one method call e.g. by calling `#exactRef` multiple times for different refs. I suppose that in EGit I don\u0027t need to care about read consistency but rather want auto-refresh since there users want to always see the current state and this should be updated asap not regarding whether ref updates are done in Eclipse or using C git from a terminal.\n\nI guess I should write more tests with `BatchRefUpdate` updating multiple refs to cover such scenarios.",
+      "parentUuid": "1b76a836_c6dd6d5b",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
