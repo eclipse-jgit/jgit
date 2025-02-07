@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a1fc8c7_21572fcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-07T15:20:17Z",
+      "side": 1,
+      "message": "I\u0027ve run the GetRefsBenchmark [1] before and after this change, and the results suggest some performance regressions introduced with this implementation.\n\nYou can find the full benchmark results here [2] for reference.\n\n[1] https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java\n\n[2] https://pastebin.com/raw/LkCfzEMr",
+      "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
