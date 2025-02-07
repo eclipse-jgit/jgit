@@ -70,6 +70,24 @@
       "parentUuid": "e0696aa9_ffee8aab",
       "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75efc811_ca5af319",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-07T15:37:03Z",
+      "side": 1,
+      "message": "Unfortunately, I don\u0027t have proper test results, nicely graphed out and formatted.\n\nHowever, I extracted some info from the logs, and this is a quick and dirty comparison of git-receive-pack latencies obtained by pointing gatling tests writing to Gerrit with 70 users in parallel [1]\n\nLatencies against a file-based packed-ref repo, raise to the order of multiple dozens of seconds (and do so immediately, due to locking).\n\nThe same simulation (70 users) against a reftable repo shows much much better results, only taking up a few seconds.\n\n[1] https://pastebin.com/raw/3kvjARa0",
+      "parentUuid": "8ea84c5c_93f89001",
+      "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
