@@ -26,6 +26,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,10 +37,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -131,6 +138,8 @@ public abstract class Repository implements AutoCloseable {
 	private final File indexFile;
 
 	private final String initialBranch;
+
+	private final AtomicReference<Boolean> caseInsensitiveWorktree = new AtomicReference<>();
 
 	/**
 	 * Initialize a new repository instance.
@@ -1574,6 +1583,62 @@ public abstract class Repository implements AutoCloseable {
 		if (isBare())
 			throw new NoWorkTreeException();
 		return workTree;
+	}
+
+	/**
+	 * Determines whether the work tree is on a case-insensitive file system.
+	 *
+	 * @return {@code true} if the work tree is case-insensitive; {@code false}
+	 *         otherwise
+	 * @throws NoWorkTreeException
+	 *             if the repository is bare
+	 * @since 7.2
+	 */
+	public boolean isWorkTreeCaseInsensitive() throws NoWorkTreeException {
+		if (isBare()) {
+			throw new NoWorkTreeException();
+		}
+		Boolean flag = caseInsensitiveWorktree.get();
+		if (flag == null) {
+			try {
+				flag = Boolean
+						.valueOf(determineCaseInsensitivity(getWorkTree()));
+			} catch (IOException e) {
+				// Fall back to a mostly sane default. On Mac, HFS+ and APFS
+				// partitions are case-insensitive by default but can be
+				// configured to be case-sensitive.
+				SystemReader system = SystemReader.getInstance();
+				flag = Boolean.valueOf(system.isWindows() || system.isMacOS());
+			}
+			if (!caseInsensitiveWorktree.compareAndSet(null, flag)) {
+				flag = caseInsensitiveWorktree.get();
+			}
+		}
+		return flag.booleanValue();
+	}
+
+	private static boolean determineCaseInsensitivity(File directory)
+			throws IOException {
+		// List the directory. If there are two file names only differing by
+		// case, it's case sensitive.
+		Set<String> names = new TreeSet<>(String::compareToIgnoreCase);
+		try (DirectoryStream<Path> list = Files
+				.newDirectoryStream(directory.toPath())) {
+			for (Path p : list) {
+				if (!names.add(p.getFileName().toString())) {
+					return false;
+				}
+			}
+		}
+		names = null;
+		// No case variants found. See if we can find ".git" also as ".GIT".
+		File dotGit = new File(directory, Constants.DOT_GIT);
+		if (Files.exists(dotGit.toPath(), LinkOption.NOFOLLOW_LINKS)) {
+			dotGit = new File(directory,
+					Constants.DOT_GIT.toUpperCase(Locale.ROOT));
+			return Files.exists(dotGit.toPath(), LinkOption.NOFOLLOW_LINKS);
+		}
+		throw new IOException(JGitText.get().notAGitDirectory);
 	}
 
 	/**
