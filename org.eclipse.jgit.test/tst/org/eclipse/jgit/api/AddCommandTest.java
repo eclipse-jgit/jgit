@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Stefan Lay <stefan.lay@sap.com>
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2010, 2025 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -665,11 +665,13 @@ public class AddCommandTest extends RepositoryTestCase {
 			FileUtils.delete(file);
 
 			// is supposed to do nothing
-			dc = git.add().addFilepattern("a.txt").call();
+			dc = git.add().addFilepattern("a.txt").setAll(false).call();
 			assertEquals(oid, dc.getEntry(0).getObjectId());
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
 					indexState(CONTENT));
+			git.add().addFilepattern("a.txt").call();
+			assertEquals("", indexState(CONTENT));
 		}
 	}
 
@@ -690,11 +692,13 @@ public class AddCommandTest extends RepositoryTestCase {
 			FileUtils.delete(file);
 
 			// is supposed to do nothing
-			dc = git.add().addFilepattern("a.txt").call();
+			dc = git.add().addFilepattern("a.txt").setAll(false).call();
 			assertEquals(oid, dc.getEntry(0).getObjectId());
 			assertEquals(
 					"[a.txt, mode:100644, content:content]",
 					indexState(CONTENT));
+			git.add().addFilepattern("a.txt").call();
+			assertEquals("", indexState(CONTENT));
 		}
 	}
 
@@ -964,7 +968,7 @@ public class AddCommandTest extends RepositoryTestCase {
 			// file sub/b.txt is deleted
 			FileUtils.delete(file2);
 
-			git.add().addFilepattern("sub").call();
+			git.add().addFilepattern("sub").setAll(false).call();
 			// change in sub/a.txt is staged
 			// deletion of sub/b.txt is not staged
 			// sub/c.txt is staged
@@ -972,6 +976,12 @@ public class AddCommandTest extends RepositoryTestCase {
 					"[sub/a.txt, mode:100644, content:modified content]" +
 					"[sub/b.txt, mode:100644, content:content b]" +
 					"[sub/c.txt, mode:100644, content:content c]",
+					indexState(CONTENT));
+			git.add().addFilepattern("sub").call();
+			// deletion of sub/b.txt is staged
+			assertEquals(
+					"[sub/a.txt, mode:100644, content:modified content]"
+							+ "[sub/c.txt, mode:100644, content:content c]",
 					indexState(CONTENT));
 		}
 	}
