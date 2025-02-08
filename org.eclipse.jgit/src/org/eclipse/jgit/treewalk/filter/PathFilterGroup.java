@@ -110,43 +110,10 @@ public class PathFilterGroup {
 	}
 
 	private static TreeFilter create(PathFilter[] p) {
-		if (p.length == 1)
-			return new Single(p[0]);
+		if (p.length == 1) {
+			return p[0];
+		}
 		return new Group(p);
-	}
-
-	static class Single extends TreeFilter {
-		private final PathFilter path;
-
-		private final byte[] raw;
-
-		private Single(PathFilter p) {
-			path = p;
-			raw = path.pathRaw;
-		}
-
-		@Override
-		public boolean include(TreeWalk walker) {
-			final int cmp = walker.isPathPrefix(raw, raw.length);
-			if (cmp > 0)
-				throw StopWalkException.INSTANCE;
-			return cmp == 0;
-		}
-
-		@Override
-		public boolean shouldBeRecursive() {
-			return path.shouldBeRecursive();
-		}
-
-		@Override
-		public TreeFilter clone() {
-			return this;
-		}
-
-		@Override
-		public String toString() {
-			return "FAST_" + path.toString(); //$NON-NLS-1$
-		}
 	}
 
 	static class Group extends TreeFilter {
