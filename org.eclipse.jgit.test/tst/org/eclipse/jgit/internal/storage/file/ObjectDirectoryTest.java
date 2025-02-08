@@ -50,6 +50,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -210,17 +211,17 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 				.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
 
-		LooseObjects mock = mock(LooseObjects.class);
+		Config config = new Config();
+		config.setString("core", null, "trustLooseObjectStat", "ALWAYS");
+		LooseObjects spy = Mockito.spy(new LooseObjects(config, trash));
 		UnpackedObjectCache unpackedObjectCacheMock = mock(
 				UnpackedObjectCache.class);
 
-		Mockito.when(mock.getObjectLoader(any(), any(), any()))
-				.thenThrow(new IOException("Stale File Handle"));
-		Mockito.when(mock.open(curs, id)).thenCallRealMethod();
-		Mockito.when(mock.unpackedObjectCache())
-				.thenReturn(unpackedObjectCacheMock);
+		doThrow(new IOException("Stale File Handle")).when(spy)
+				.getObjectLoader(any(), any(), any());
+		doReturn(unpackedObjectCacheMock).when(spy).unpackedObjectCache();
 
-		assertNull(mock.open(curs, id));
+		assertNull(spy.open(curs, id));
 		verify(unpackedObjectCacheMock).remove(id);
 	}
 
@@ -231,7 +232,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		WindowCursor curs = new WindowCursor(db.getObjectDatabase());
 
 		Config config = new Config();
-		config.setString("core", null, "trustFolderStat", "false");
+		config.setString("core", null, "trustLooseObjectStat", "NEVER");
 		LooseObjects spy = spy(new LooseObjects(config,
 				db.getObjectDatabase().getDirectory()));
 
