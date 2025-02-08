@@ -412,7 +412,8 @@ public class DirCacheCheckout {
 					}
 				} else
 					update(m);
-			} else if (f == null || !m.idEqual(i)) {
+			} else if (f == null || !m.idEqual(i)
+					|| m.getEntryRawMode() != i.getEntryRawMode()) {
 				// The working tree file is missing or the merge content differs
 				// from index content
 				update(m);
@@ -420,11 +421,11 @@ public class DirCacheCheckout {
 				// The index contains a file (and not a folder)
 				if (f.isModified(i.getDirCacheEntry(), true,
 						this.walk.getObjectReader())
-						|| i.getDirCacheEntry().getStage() != 0)
+						|| i.getDirCacheEntry().getStage() != 0) {
 					// The working tree file is dirty or the index contains a
 					// conflict
 					update(m);
-				else {
+				} else {
 					// update the timestamp of the index with the one from the
 					// file if not set, as we are sure to be in sync here.
 					DirCacheEntry entry = i.getDirCacheEntry();

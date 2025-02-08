@@ -42,6 +42,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 public class ResetCommandTest extends RepositoryTestCase {
@@ -553,6 +554,56 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertNull(aEntry);
 		assertFalse(fileA.exists());
 		assertNull(db.resolve(Constants.HEAD));
+	}
+
+	@Test
+	public void testHardResetFileMode() throws Exception {
+		Assume.assumeTrue("Test must be able to set executable bit",
+				db.getFS().supportsExecute());
+		git = new Git(db);
+		File a = writeTrashFile("a.txt", "aaa");
+		File b = writeTrashFile("b.txt", "bbb");
+		db.getFS().setExecute(b, true);
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		RevCommit commit = git.commit().setMessage("files created").call();
+		db.getFS().setExecute(a, true);
+		db.getFS().setExecute(b, false);
+		assertTrue(db.getFS().canExecute(a));
+		assertFalse(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		git.commit().setMessage("change exe bits").call();
+		Ref ref = git.reset().setRef(commit.getName()).setMode(HARD).call();
+		assertSameAsHead(ref);
+		assertEquals(commit.getId(), ref.getObjectId());
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+	}
+
+	@Test
+	public void testHardResetFileModePath() throws Exception {
+		Assume.assumeTrue("Test must be able to set executable bit",
+				db.getFS().supportsExecute());
+		git = new Git(db);
+		File a = writeTrashFile("a.txt", "aaa");
+		File b = writeTrashFile("b.txt", "bbb");
+		db.getFS().setExecute(b, true);
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		RevCommit commit = git.commit().setMessage("files created").call();
+		db.getFS().setExecute(a, true);
+		db.getFS().setExecute(b, false);
+		assertTrue(db.getFS().canExecute(a));
+		assertFalse(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		git.commit().setMessage("change exe bits").call();
+		Ref ref = git.reset().setRef(commit.getName()).setMode(HARD)
+				.addPath("a.txt").call();
+		assertSameAsHead(ref);
+		assertFalse(db.getFS().canExecute(a));
+		assertFalse(db.getFS().canExecute(b));
 	}
 
 	private void assertReflog(ObjectId prevHead, ObjectId head)
