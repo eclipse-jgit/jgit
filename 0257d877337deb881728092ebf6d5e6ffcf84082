@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d332653d_964495e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 1022032
+      },
+      "writtenOn": "2025-02-09T12:09:17Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this check for .git\u003d\u003d.GIT be sufficient for all cases, so the directory traversal above could be left away? This part has a fixed run time, the above depends on the repo content.",
+      "revId": "0257d877337deb881728092ebf6d5e6ffcf84082",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
