@@ -22,6 +22,30 @@
       },
       "revId": "62700763735007d829071af240e22ba8c12855b9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f47cb7b9_e894ef48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilterGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1020268
+      },
+      "writtenOn": "2025-02-10T01:55:36Z",
+      "side": 1,
+      "message": "\u003e IFAIK, the create() method should create a new object. This changes will affect the performance of the code.\n\u003e \n\nThis changes will affect the behavior of the code.",
+      "parentUuid": "b09721c1_5598fafe",
+      "range": {
+        "startLine": 114,
+        "startChar": 3,
+        "endLine": 114,
+        "endChar": 15
+      },
+      "revId": "62700763735007d829071af240e22ba8c12855b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
