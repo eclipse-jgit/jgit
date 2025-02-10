@@ -216,6 +216,55 @@ public class OpenSshServerKeyDatabaseTest {
 	}
 
 	@Test
+	public void testModifyMatchingKeyType() throws Exception {
+		List<String> initialKnownHosts = List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),
+				"some.other.com " + PublicKeyEntry.toString(ec384));
+		Files.write(knownHosts, initialKnownHosts);
+		List<String> initialKnownHosts2 = List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(ec256),
+				"some.other.com " + PublicKeyEntry.toString(rsa2048));
+		Files.write(knownHosts2, initialKnownHosts2);
+		TestCredentialsProvider ui = new TestCredentialsProvider(true, true);
+		assertTrue(database.accept("localhost", LOCAL, rsa2048,
+				new KnownHostsConfig(
+						ServerKeyDatabase.Configuration.StrictHostKeyChecking.ASK),
+				ui));
+		assertEquals(1, ui.invocations);
+		assertFile(knownHosts,
+				List.of("localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(rsa2048),
+						"some.other.com " + PublicKeyEntry.toString(ec384)));
+		assertFile(knownHosts2, initialKnownHosts2);
+		assertTrue(database.accept("127.0.0.1:22", LOCAL, rsa2048,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testModifyMatchingKeyType2() throws Exception {
+		List<String> initialKnownHosts = List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(ec256),
+				"some.other.com " + PublicKeyEntry.toString(ec384));
+		Files.write(knownHosts, initialKnownHosts);
+		List<String> initialKnownHosts2 = List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),
+				"some.other.com " + PublicKeyEntry.toString(rsa2048));
+		Files.write(knownHosts2, initialKnownHosts2);
+		TestCredentialsProvider ui = new TestCredentialsProvider(true, true);
+		assertTrue(database.accept("localhost", LOCAL, ec384,
+				new KnownHostsConfig(
+						ServerKeyDatabase.Configuration.StrictHostKeyChecking.ASK),
+				ui));
+		assertEquals(1, ui.invocations);
+		assertFile(knownHosts,
+				List.of("localhost,127.0.0.1 " + PublicKeyEntry.toString(ec384),
+						"some.other.com " + PublicKeyEntry.toString(ec384)));
+		assertFile(knownHosts2, initialKnownHosts2);
+		assertTrue(database.accept("127.0.0.1:22", LOCAL, ec384,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
 	public void testModifySecondFile() throws Exception {
 		List<String> initialKnownHosts = List.of(
 				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),

@@ -276,6 +276,12 @@ public class OpenSshServerKeyDatabase
 	private boolean find(Collection<SshdSocketAddress> candidates,
 			PublicKey serverKey, List<HostEntryPair> entries,
 			HostEntryPair[] modified) throws RevokedKeyException {
+		String keyType = KeyUtils.getKeyType(serverKey);
+		String modifiedKeyType = null;
+		if (modified[0] != null) {
+			modifiedKeyType = modified[0].getHostEntry().getKeyEntry()
+					.getKeyType();
+		}
 		for (HostEntryPair current : entries) {
 			KnownHostEntry entry = current.getHostEntry();
 			if (candidates.stream().anyMatch(host -> entry
@@ -290,12 +296,46 @@ public class OpenSshServerKeyDatabase
 					return true;
 				} else if (!revoked) {
 					// Server sent a different key.
-					modified[0] = current;
+					if (modifiedKeyType == null) {
+						modified[0] = current;
+						modifiedKeyType = entry.getKeyEntry().getKeyType();
+					} else if (!keyType.equals(modifiedKeyType)) {
+						String thisKeyType = entry.getKeyEntry().getKeyType();
+						if (isBetterMatch(keyType, thisKeyType,
+								modifiedKeyType)) {
+							// Since we may replace the modified[0] key,
+							// prefer to report a key of the same key type
+							// as having been modified.
+							modified[0] = current;
+							modifiedKeyType = keyType;
+						}
+					}
 					// Keep going -- maybe there's another entry for this
 					// host
 				}
 			}
 		}
+		return false;
+	}
+
+	private static boolean isBetterMatch(String keyType, String thisType,
+			String modifiedType) {
+		if (keyType.equals(thisType)) {
+			return true;
+		}
+		// EC keys are a bit special because they encode the curve in the key
+		// type. If we have no exactly matching EC key type in known_hosts, we
+		// still prefer to update an existing EC key type over some other key
+		// type.
+		if (!keyType.startsWith("ecdsa") || !thisType.startsWith("ecdsa")) { //$NON-NLS-1$ //$NON-NLS-2$
+			return false;
+		}
+		if (!modifiedType.startsWith("ecdsa")) { //$NON-NLS-1$
+			return true;
+		}
+		// All three are EC keys. thisType doesn't match the size of keyType
+		// (otherwise the two would have compared equal above already), so it is
+		// not better than modifiedType.
 		return false;
 	}
 
