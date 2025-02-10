@@ -16,6 +16,24 @@
       "message": "I\u0027ve run the GetRefsBenchmark [1] before and after this change, and the results suggest some performance regressions introduced with this implementation.\n\nYou can find the full benchmark results here [2] for reference.\n\n[1] https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java\n\n[2] https://pastebin.com/raw/LkCfzEMr",
       "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fbfa9ab_101ae40e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-10T22:28:11Z",
+      "side": 1,
+      "message": "I updated the GetRefsBenchmark to use the new 3-state TrustStat enum and ran it on master, this change 1206683 and the successor change using FileSnapshot to speedup auto-refresh.\n\nFind the results here (reordered results to simplify comparison)\nhttps://pastebin.com/GKcjEL1U",
+      "parentUuid": "0a1fc8c7_21572fcf",
+      "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
