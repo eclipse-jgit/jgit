@@ -50,6 +50,7 @@ import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
+import org.apache.sshd.common.config.keys.OpenSshCertificate;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.digest.BuiltinDigests;
@@ -129,6 +130,9 @@ public class OpenSshServerKeyDatabase
 	/** Can be used to mark revoked known host lines. */
 	private static final String MARKER_REVOKED = "revoked"; //$NON-NLS-1$
 
+	/** Marks CA keys used for SSH certificates. */
+	private static final String MARKER_CA = "cert-authority"; //$NON-NLS-1$
+
 	private final boolean askAboutNewFile;
 
 	private final Map<Path, HostKeyFile> knownHostsFiles = new ConcurrentHashMap<>();
@@ -181,7 +185,7 @@ public class OpenSshServerKeyDatabase
 		for (HostKeyFile file : filesToUse) {
 			for (HostEntryPair current : file.get()) {
 				KnownHostEntry entry = current.getHostEntry();
-				if (!isRevoked(entry)) {
+				if (!isRevoked(entry) && !isCertificateAuthority(entry)) {
 					for (SshdSocketAddress host : candidates) {
 						if (entry.isHostMatch(host.getHostName(),
 								host.getPort())) {
@@ -221,6 +225,9 @@ public class OpenSshServerKeyDatabase
 				// entry
 				path = file.getPath();
 			}
+		}
+		if (serverKey instanceof OpenSshCertificate) {
+			return false;
 		}
 		if (modified[0] != null) {
 			// We found an entry, but with a different key.
@@ -269,32 +276,46 @@ public class OpenSshServerKeyDatabase
 		private static final long serialVersionUID = 1L;
 	}
 
-	private boolean isRevoked(KnownHostEntry entry) {
+	private static boolean isRevoked(KnownHostEntry entry) {
 		return MARKER_REVOKED.equals(entry.getMarker());
+	}
+
+	private static boolean isCertificateAuthority(KnownHostEntry entry) {
+		return MARKER_CA.equals(entry.getMarker());
 	}
 
 	private boolean find(Collection<SshdSocketAddress> candidates,
 			PublicKey serverKey, List<HostEntryPair> entries,
 			HostEntryPair[] modified) throws RevokedKeyException {
-		String keyType = KeyUtils.getKeyType(serverKey);
+		PublicKey keyToCheck = serverKey;
+		boolean isCert = false;
+		String keyType = KeyUtils.getKeyType(keyToCheck);
 		String modifiedKeyType = null;
 		if (modified[0] != null) {
 			modifiedKeyType = modified[0].getHostEntry().getKeyEntry()
 					.getKeyType();
+		}
+		if (serverKey instanceof OpenSshCertificate) {
+			keyToCheck = ((OpenSshCertificate) serverKey).getCaPubKey();
+			isCert = true;
 		}
 		for (HostEntryPair current : entries) {
 			KnownHostEntry entry = current.getHostEntry();
 			if (candidates.stream().anyMatch(host -> entry
 					.isHostMatch(host.getHostName(), host.getPort()))) {
 				boolean revoked = isRevoked(entry);
-				if (KeyUtils.compareKeys(serverKey, current.getServerKey())) {
+				boolean haveCert = isCertificateAuthority(entry);
+				if (KeyUtils.compareKeys(keyToCheck, current.getServerKey())) {
 					// Exact match
 					if (revoked) {
 						throw new RevokedKeyException();
 					}
-					modified[0] = null;
-					return true;
-				} else if (!revoked) {
+					if (haveCert == isCert) {
+						modified[0] = null;
+						return true;
+					}
+				}
+				if (haveCert == isCert && !haveCert && !revoked) {
 					// Server sent a different key.
 					if (modifiedKeyType == null) {
 						modified[0] = current;
@@ -494,15 +515,22 @@ public class OpenSshServerKeyDatabase
 				return;
 			}
 			InetSocketAddress remote = (InetSocketAddress) remoteAddress;
+			boolean isCert = serverKey instanceof OpenSshCertificate;
+			PublicKey keyToReport = isCert
+					? ((OpenSshCertificate) serverKey).getCaPubKey()
+					: serverKey;
 			URIish uri = JGitUserInteraction.toURI(config.getUsername(),
 					remote);
 			String sha256 = KeyUtils.getFingerPrint(BuiltinDigests.sha256,
-					serverKey);
-			String md5 = KeyUtils.getFingerPrint(BuiltinDigests.md5, serverKey);
-			String keyAlgorithm = serverKey.getAlgorithm();
+					keyToReport);
+			String md5 = KeyUtils.getFingerPrint(BuiltinDigests.md5,
+					keyToReport);
+			String keyAlgorithm = keyToReport.getAlgorithm();
+			String msg = isCert
+					? SshdText.get().knownHostsRevokedCertificateMsg
+					: SshdText.get().knownHostsRevokedKeyMsg;
 			askUser(provider, uri, null, //
-					format(SshdText.get().knownHostsRevokedKeyMsg,
-							remote.getHostString(), path),
+					format(msg, remote.getHostString(), path),
 					format(SshdText.get().knownHostsKeyFingerprints,
 							keyAlgorithm),
 					md5, sha256);

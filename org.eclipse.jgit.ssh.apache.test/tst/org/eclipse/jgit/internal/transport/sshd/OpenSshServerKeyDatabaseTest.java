@@ -17,11 +17,14 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.sshd.certificate.OpenSshCertificateBuilder;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.cipher.ECCurves;
 import org.apache.sshd.common.config.keys.KeyUtils;
@@ -54,6 +57,8 @@ public class OpenSshServerKeyDatabaseTest {
 	private static PublicKey rsa2048;
 	private static PublicKey ec256;
 	private static PublicKey ec384;
+	private static PublicKey caKey;
+	private static PublicKey certificate;
 
 	@BeforeClass
 	public static void initKeys() throws Exception {
@@ -67,9 +72,23 @@ public class OpenSshServerKeyDatabaseTest {
 		ECCurves curve = ECCurves.fromCurveSize(256);
 		gen.initialize(curve.getParameters());
 		ec256 = gen.generateKeyPair().getPublic();
+		PublicKey certKey = gen.generateKeyPair().getPublic();
 		curve = ECCurves.fromCurveSize(384);
 		gen.initialize(curve.getParameters());
 		ec384 = gen.generateKeyPair().getPublic();
+		// Generate a certificate for some key
+		gen.initialize(curve.getParameters());
+		KeyPair ca = gen.generateKeyPair();
+		caKey = ca.getPublic();
+		certificate = OpenSshCertificateBuilder
+				.hostCertificate()
+				.serial(System.currentTimeMillis())
+				.publicKey(certKey)
+				.id("test-host-cert")
+				.validBefore(
+						System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1))
+				.principals(List.of("localhost", "127.0.0.1"))
+				.sign(ca, "ecdsa-sha2-nistp384");
 	}
 
 	@Rule
@@ -133,6 +152,88 @@ public class OpenSshServerKeyDatabaseTest {
 				new KnownHostsConfig(), null));
 		assertFalse(database.accept("localhost", LOCAL, ec384,
 				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testFindCertificate() throws Exception {
+		Files.write(knownHosts,
+				List.of("localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(rsa1024),
+						"some.other.com " + PublicKeyEntry.toString(ec384),
+						"@cert-authority localhost,127.0.0.1 "
+								+ PublicKeyEntry.toString(caKey)));
+		assertTrue(database.accept("localhost", LOCAL, certificate,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testCaKeyNotConsidered() throws Exception {
+		Files.write(knownHosts,
+				List.of("localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(rsa1024),
+						"some.other.com " + PublicKeyEntry.toString(ec384),
+						"@cert-authority localhost,127.0.0.1 "
+								+ PublicKeyEntry.toString(ec256)));
+		assertFalse(database.accept("localhost", LOCAL, ec256,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testkeyPlainAndCa() throws Exception {
+		Files.write(knownHosts, List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),
+				"some.other.com " + PublicKeyEntry.toString(ec384),
+				"@cert-authority localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(ec256),
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(ec256)));
+		// ec256 is a CA key, but also a valid direct host key for localhost
+		assertTrue(database.accept("localhost", LOCAL, ec256,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testLookupCertificate() throws Exception {
+		List<PublicKey> keys = database.lookup("localhost", LOCAL,
+				new KnownHostsConfig());
+		// Certificates or CA keys are not reported via lookup.
+		assertTrue(keys.isEmpty());
+	}
+
+	@Test
+	public void testCertificateNotAdded() throws Exception {
+		List<String> initialKnownHosts = List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),
+				"some.other.com " + PublicKeyEntry.toString(ec384));
+		Files.write(knownHosts, initialKnownHosts);
+		assertFalse(database.accept("localhost", LOCAL, certificate,
+				new KnownHostsConfig(), null));
+		TestCredentialsProvider ui = new TestCredentialsProvider(true, true);
+		assertFalse(
+				database.accept("localhost", LOCAL, certificate,
+						new KnownHostsConfig(
+								KnownHostsConfig.StrictHostKeyChecking.ASK),
+						ui));
+		assertEquals(0, ui.invocations);
+		assertFile(knownHosts, initialKnownHosts);
+	}
+
+	@Test
+	public void testCertificateNotModified() throws Exception {
+		List<String> initialKnownHosts = List.of(
+				"@cert-authority localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(ec384),
+				"some.other.com " + PublicKeyEntry.toString(ec256));
+		Files.write(knownHosts, initialKnownHosts);
+		assertFalse(database.accept("localhost", LOCAL, certificate,
+				new KnownHostsConfig(), null));
+		TestCredentialsProvider ui = new TestCredentialsProvider(true, true);
+		assertFalse(
+				database.accept("localhost", LOCAL, certificate,
+						new KnownHostsConfig(
+								KnownHostsConfig.StrictHostKeyChecking.ASK),
+						ui));
+		assertEquals(0, ui.invocations);
+		assertFile(knownHosts, initialKnownHosts);
 	}
 
 	@Test

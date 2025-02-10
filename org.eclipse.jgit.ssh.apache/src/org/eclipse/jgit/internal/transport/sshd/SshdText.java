@@ -83,6 +83,7 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String knownHostsModifiedKeyDenyMsg;
 	/***/ public String knownHostsModifiedKeyStorePrompt;
 	/***/ public String knownHostsModifiedKeyWarning;
+	/***/ public String knownHostsRevokedCertificateMsg;
 	/***/ public String knownHostsRevokedKeyMsg;
 	/***/ public String knownHostsUnknownKeyMsg;
 	/***/ public String knownHostsUnknownKeyPrompt;
