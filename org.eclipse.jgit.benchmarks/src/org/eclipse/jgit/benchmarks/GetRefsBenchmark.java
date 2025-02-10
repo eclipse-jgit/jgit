@@ -28,6 +28,7 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
@@ -66,11 +67,11 @@ public class GetRefsBenchmark {
 		@Param({ "true", "false" })
 		boolean useRefTable;
 
-		@Param({ "100", "2500", "10000", "50000" })
+		@Param({ "100", "1000", "10000", "100000" })
 		int numBranches;
 
-		@Param({ "true", "false" })
-		boolean trustFolderStat;
+		@Param({ "ALWAYS", "AFTER_OPEN", "NEVER" })
+		TrustStat trustStat;
 
 		List<String> branches = new ArrayList<>(numBranches);
 
@@ -83,8 +84,8 @@ public class GetRefsBenchmark {
 		public void setupBenchmark() throws IOException, GitAPIException {
 			String firstBranch = "firstbranch";
 			testDir = Files.createDirectory(Paths.get("testrepos"));
-			String repoName = "branches-" + numBranches + "-trustFolderStat-"
-					+ trustFolderStat + "-" + refDatabaseType();
+			String repoName = "branches-" + numBranches + "-trustStat-"
+					+ trustStat + "-" + refDatabaseType();
 			Path workDir = testDir.resolve(repoName);
 			Path repoPath = workDir.resolve(".git");
 			Git git = Git.init().setDirectory(workDir.toFile()).call();
@@ -98,9 +99,9 @@ public class GetRefsBenchmark {
 						ConfigConstants.CONFIG_REF_STORAGE_REFTABLE, false,
 						false);
 			} else {
-				cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT,
-						trustFolderStat);
+				cfg.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_TRUST_STAT,
+						trustStat);
 			}
 			cfg.setInt(ConfigConstants.CONFIG_RECEIVE_SECTION, null,
 					"maxCommandBytes", Integer.MAX_VALUE);
@@ -112,7 +113,7 @@ public class GetRefsBenchmark {
 			System.out.println("Preparing test");
 			System.out.println("- repository: \t\t" + repoPath);
 			System.out.println("- refDatabase: \t\t" + refDatabaseType());
-			System.out.println("- trustFolderStat: \t" + trustFolderStat);
+			System.out.println("- trustStat: \t" + trustStat);
 			System.out.println("- branches: \t\t" + numBranches);
 
 			BatchRefUpdate u = repo.getRefDatabase().newBatchUpdate();
@@ -152,7 +153,7 @@ public class GetRefsBenchmark {
 	@BenchmarkMode({ Mode.AverageTime })
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	@Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = 2, time = 10, timeUnit = TimeUnit.SECONDS)
+	@Measurement(iterations = 2, time = 1, timeUnit = TimeUnit.SECONDS)
 	public void testGetExactRef(Blackhole blackhole, BenchmarkState state)
 			throws IOException {
 		String branchName = state.branches
@@ -164,7 +165,7 @@ public class GetRefsBenchmark {
 	@BenchmarkMode({ Mode.AverageTime })
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	@Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-	@Measurement(iterations = 2, time = 10, timeUnit = TimeUnit.SECONDS)
+	@Measurement(iterations = 2, time = 1, timeUnit = TimeUnit.SECONDS)
 	public void testGetRefsByPrefix(Blackhole blackhole, BenchmarkState state)
 			throws IOException {
 		String branchPrefix = "refs/heads/branch/" + branchIndex.nextInt(100)
