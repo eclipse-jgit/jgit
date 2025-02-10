@@ -302,8 +302,7 @@ public class HttpConfig {
 		int postBufferSize = config.getInt(HTTP, POST_BUFFER_KEY,
 				1 * 1024 * 1024);
 		boolean sslVerifyFlag = config.getBoolean(HTTP, SSL_VERIFY_KEY, true);
-		HttpRedirectMode followRedirectsMode = config.getEnum(
-				HttpRedirectMode.values(), HTTP, null,
+		HttpRedirectMode followRedirectsMode = config.getEnum(HTTP, null,
 				FOLLOW_REDIRECTS_KEY, HttpRedirectMode.INITIAL);
 		int redirectLimit = config.getInt(HTTP, MAX_REDIRECTS_KEY,
 				MAX_REDIRECTS);
@@ -335,8 +334,8 @@ public class HttpConfig {
 					postBufferSize);
 			sslVerifyFlag = config.getBoolean(HTTP, match, SSL_VERIFY_KEY,
 					sslVerifyFlag);
-			followRedirectsMode = config.getEnum(HttpRedirectMode.values(),
-					HTTP, match, FOLLOW_REDIRECTS_KEY, followRedirectsMode);
+			followRedirectsMode = config.getEnum(HTTP, match,
+					FOLLOW_REDIRECTS_KEY, followRedirectsMode);
 			int newMaxRedirects = config.getInt(HTTP, match, MAX_REDIRECTS_KEY,
 					redirectLimit);
 			if (newMaxRedirects >= 0) {
