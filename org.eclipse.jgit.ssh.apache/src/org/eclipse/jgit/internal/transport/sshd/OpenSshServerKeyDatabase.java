@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2025 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -31,9 +31,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -45,6 +47,7 @@ import org.apache.sshd.client.config.hosts.KnownHostHashValue;
 import org.apache.sshd.client.keyverifier.KnownHostsServerKeyVerifier.HostEntryPair;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
@@ -204,6 +207,7 @@ public class OpenSshServerKeyDatabase
 		Collection<SshdSocketAddress> candidates = getCandidates(connectAddress,
 				remoteAddress);
 		for (HostKeyFile file : filesToUse) {
+			HostEntryPair lastModified = modified[0];
 			try {
 				if (find(candidates, serverKey, file.get(), modified)) {
 					return true;
@@ -212,14 +216,14 @@ public class OpenSshServerKeyDatabase
 				ask.revokedKey(remoteAddress, serverKey, file.getPath());
 				return false;
 			}
-			if (path == null && modified[0] != null) {
+			if (modified[0] != lastModified) {
 				// Remember the file in which we might need to update the
 				// entry
 				path = file.getPath();
 			}
 		}
 		if (modified[0] != null) {
-			// We found an entry, but with a different key
+			// We found an entry, but with a different key.
 			AskUser.ModifiedKeyHandling toDo = ask.acceptModifiedServerKey(
 					remoteAddress, modified[0].getServerKey(),
 					serverKey, path);
@@ -274,24 +278,21 @@ public class OpenSshServerKeyDatabase
 			HostEntryPair[] modified) throws RevokedKeyException {
 		for (HostEntryPair current : entries) {
 			KnownHostEntry entry = current.getHostEntry();
-			for (SshdSocketAddress host : candidates) {
-				if (entry.isHostMatch(host.getHostName(), host.getPort())) {
-					boolean revoked = isRevoked(entry);
-					if (KeyUtils.compareKeys(serverKey,
-							current.getServerKey())) {
-						// Exact match
-						if (revoked) {
-							throw new RevokedKeyException();
-						}
-						modified[0] = null;
-						return true;
-					} else if (!revoked) {
-						// Server sent a different key
-						modified[0] = current;
-						// Keep going -- maybe there's another entry for this
-						// host
+			if (candidates.stream().anyMatch(host -> entry
+					.isHostMatch(host.getHostName(), host.getPort()))) {
+				boolean revoked = isRevoked(entry);
+				if (KeyUtils.compareKeys(serverKey, current.getServerKey())) {
+					// Exact match
+					if (revoked) {
+						throw new RevokedKeyException();
 					}
-					break;
+					modified[0] = null;
+					return true;
+				} else if (!revoked) {
+					// Server sent a different key.
+					modified[0] = current;
+					// Keep going -- maybe there's another entry for this
+					// host
 				}
 			}
 		}
@@ -625,7 +626,7 @@ public class OpenSshServerKeyDatabase
 
 	private SshdSocketAddress toSshdSocketAddress(@NonNull String address) {
 		String host = null;
-		int port = 0;
+		int port = SshConstants.DEFAULT_PORT;
 		if (HostPatternsHolder.NON_STANDARD_PORT_PATTERN_ENCLOSURE_START_DELIM == address
 				.charAt(0)) {
 			int end = address.indexOf(
@@ -665,12 +666,23 @@ public class OpenSshServerKeyDatabase
 		if (address != null) {
 			candidates.add(address);
 		}
-		return candidates;
+		List<SshdSocketAddress> result = new ArrayList<>();
+		result.addAll(candidates);
+		if (!remoteAddress.isUnresolved()) {
+			SshdSocketAddress ip = new SshdSocketAddress(
+					remoteAddress.getAddress().getHostAddress(),
+					remoteAddress.getPort());
+			if (candidates.add(ip)) {
+				result.add(ip);
+			}
+		}
+		return result;
 	}
 
 	private String createHostKeyLine(Collection<SshdSocketAddress> patterns,
 			PublicKey key, Configuration config) throws Exception {
 		StringBuilder result = new StringBuilder();
+		Set<String> knownNames = new HashSet<>();
 		if (config.getHashKnownHosts()) {
 			// SHA1 is the only algorithm for host name hashing known to OpenSSH
 			// or to Apache MINA sshd.
@@ -680,10 +692,10 @@ public class OpenSshServerKeyDatabase
 				prng = new SecureRandom();
 			}
 			byte[] salt = new byte[mac.getDefaultBlockSize()];
-			for (SshdSocketAddress address : patterns) {
-				if (result.length() > 0) {
-					result.append(',');
-				}
+			// For hashed hostnames, only one hashed pattern is allowed per
+			// https://man.openbsd.org/sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT
+			if (!patterns.isEmpty()) {
+				SshdSocketAddress address = patterns.iterator().next();
 				prng.nextBytes(salt);
 				KnownHostHashValue.append(result, digester, salt,
 						KnownHostHashValue.calculateHashValue(
@@ -692,6 +704,10 @@ public class OpenSshServerKeyDatabase
 			}
 		} else {
 			for (SshdSocketAddress address : patterns) {
+				String tgt = address.getHostName() + ':' + address.getPort();
+				if (!knownNames.add(tgt)) {
+					continue;
+				}
 				if (result.length() > 0) {
 					result.append(',');
 				}
