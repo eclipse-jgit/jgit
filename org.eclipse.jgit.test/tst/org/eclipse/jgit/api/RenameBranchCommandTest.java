@@ -118,23 +118,21 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 		String branch = "b1";
 
 		assertEquals(BranchRebaseMode.REBASE,
-				config.getEnum(BranchRebaseMode.values(),
-						ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
-						ConfigConstants.CONFIG_KEY_REBASE,
+				config.getEnum(ConfigConstants.CONFIG_BRANCH_SECTION,
+						Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
 		assertNull(config.getEnum(BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION, branch,
-				ConfigConstants.CONFIG_KEY_REBASE, null));
+				ConfigConstants.CONFIG_KEY_REBASE));
 
 		assertNotNull(git.branchRename().setNewName(branch).call());
 
 		config = git.getRepository().getConfig();
 		assertNull(config.getEnum(BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
-				ConfigConstants.CONFIG_KEY_REBASE, null));
+				ConfigConstants.CONFIG_KEY_REBASE));
 		assertEquals(BranchRebaseMode.REBASE,
-				config.getEnum(BranchRebaseMode.values(),
-						ConfigConstants.CONFIG_BRANCH_SECTION, branch,
+				config.getEnum(ConfigConstants.CONFIG_BRANCH_SECTION, branch,
 						ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
 	}
@@ -170,13 +168,12 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 		String branch = "b1";
 
 		assertEquals(BranchRebaseMode.REBASE,
-				config.getEnum(BranchRebaseMode.values(),
-						ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
-						ConfigConstants.CONFIG_KEY_REBASE,
+				config.getEnum(ConfigConstants.CONFIG_BRANCH_SECTION,
+						Constants.MASTER, ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
 		assertNull(config.getEnum(BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION, branch,
-				ConfigConstants.CONFIG_KEY_REBASE, null));
+				ConfigConstants.CONFIG_KEY_REBASE));
 		assertTrue(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
 				Constants.MASTER, ConfigConstants.CONFIG_KEY_MERGE, true));
 		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,
@@ -187,10 +184,9 @@ public class RenameBranchCommandTest extends RepositoryTestCase {
 		config = git.getRepository().getConfig();
 		assertNull(config.getEnum(BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION, Constants.MASTER,
-				ConfigConstants.CONFIG_KEY_REBASE, null));
+				ConfigConstants.CONFIG_KEY_REBASE));
 		assertEquals(BranchRebaseMode.REBASE,
-				config.getEnum(BranchRebaseMode.values(),
-						ConfigConstants.CONFIG_BRANCH_SECTION, branch,
+				config.getEnum(ConfigConstants.CONFIG_BRANCH_SECTION, branch,
 						ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
 		assertFalse(config.getBoolean(ConfigConstants.CONFIG_BRANCH_SECTION,

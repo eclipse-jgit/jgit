@@ -74,8 +74,7 @@ public class GpgConfig {
 	 *            the config to read from
 	 */
 	public GpgConfig(Config config) {
-		keyFormat = config.getEnum(GpgFormat.values(),
-				ConfigConstants.CONFIG_GPG_SECTION, null,
+		keyFormat = config.getEnum(ConfigConstants.CONFIG_GPG_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FORMAT, GpgFormat.OPENPGP);
 		signingKey = config.getString(ConfigConstants.CONFIG_USER_SECTION, null,
 				ConfigConstants.CONFIG_KEY_SIGNINGKEY);

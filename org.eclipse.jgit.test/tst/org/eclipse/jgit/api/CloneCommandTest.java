@@ -797,7 +797,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertNull(git2.getRepository().getConfig().getEnum(
 				BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION, "test",
-				ConfigConstants.CONFIG_KEY_REBASE, null));
+				ConfigConstants.CONFIG_KEY_REBASE));
 
 		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
@@ -813,7 +813,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 		assertEquals(BranchRebaseMode.REBASE,
 				git2.getRepository().getConfig().getEnum(
-						BranchRebaseMode.values(),
 						ConfigConstants.CONFIG_BRANCH_SECTION, "test",
 						ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
@@ -830,7 +829,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 		assertEquals(BranchRebaseMode.REBASE,
 				git2.getRepository().getConfig().getEnum(
-						BranchRebaseMode.values(),
 						ConfigConstants.CONFIG_BRANCH_SECTION, "test",
 						ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
