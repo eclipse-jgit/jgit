@@ -3,9 +3,9 @@ load(
     "junit_tests",
 )
 
-def tests(tests):
+def tests(tests, srcprefix="tst/", extra_tags=[]):
     for src in tests:
-        name = src[len("tst/"):len(src) - len(".java")].replace("/", "_")
+        name = src[len(srcprefix):len(src) - len(".java")].replace("/", "_")
         labels = []
         timeout = "moderate"
         if name.startswith("org_eclipse_jgit_"):
@@ -19,6 +19,8 @@ def tests(tests):
                 labels.append(index)
         if "lib" not in labels:
             labels.append("lib")
+
+        labels.extend(extra_tags)
 
         # TODO(http://eclip.se/534285): Make this test pass reliably
         # and remove the flaky attribute.
