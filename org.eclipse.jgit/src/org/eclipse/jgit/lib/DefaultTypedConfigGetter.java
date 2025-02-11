@@ -32,10 +32,12 @@ import org.eclipse.jgit.util.StringUtils;
  */
 public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
+	@SuppressWarnings("boxed")
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
-		return getBoolean(config, section, subsection, name, defaultValue);
+		return neverNull(getBoolean(config, section, subsection, name,
+				Boolean.valueOf(defaultValue)));
 	}
 
 	@Nullable
@@ -116,7 +118,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public int getInt(Config config, String section, String subsection,
 			String name, int defaultValue) {
-		return getInt(config, section, subsection, name, defaultValue);
+		return neverNull(getInt(config, section, subsection, name,
+				Integer.valueOf(defaultValue)));
 	}
 
 	@Nullable
@@ -144,8 +147,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public int getIntInRange(Config config, String section, String subsection,
 			String name, int minValue, int maxValue, int defaultValue) {
-		return getIntInRange(config, section, subsection, name, minValue,
-				maxValue, defaultValue);
+		return neverNull(getIntInRange(config, section, subsection, name,
+				minValue, maxValue, Integer.valueOf(defaultValue)));
 	}
 
 	@Override
@@ -161,9 +164,9 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			return val;
 		}
 		if (subsection == null) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().integerValueNotInRange, section, name,
-					val, minValue, maxValue));
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().integerValueNotInRange,
+							section, name, val, minValue, maxValue));
 		}
 		throw new IllegalArgumentException(MessageFormat.format(
 				JGitText.get().integerValueNotInRangeSubSection, section,
@@ -173,7 +176,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
-		return getLong(config, section, subsection, name, defaultValue);
+		return neverNull(getLong(config, section, subsection, name,
+				Long.valueOf(defaultValue)));
 	}
 
 	@Nullable
@@ -190,8 +194,9 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			// Empty
 			return defaultValue;
 		} catch (NumberFormatException nfe) {
-			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().invalidIntegerValue, section, name, str),
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().invalidIntegerValue,
+							section, name, str),
 					nfe);
 		}
 	}
@@ -199,9 +204,8 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit) {
-		Long v = getTimeUnit(config, section, subsection, name,
-				Long.valueOf(defaultValue), wantUnit);
-		return v == null ? defaultValue : v.longValue();
+		return neverNull(getTimeUnit(config, section, subsection, name,
+				Long.valueOf(defaultValue), wantUnit));
 	}
 
 	@Override
@@ -324,5 +328,15 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 			result.add(new RefSpec(spec));
 		}
 		return result;
+	}
+
+	// Trick for the checkers. When we use this, one is never null, but
+	// they don't know.
+	@NonNull
+	private static <T> T neverNull(T one) {
+		if (one == null) {
+			throw new IllegalArgumentException();
+		}
+		return one;
 	}
 }
