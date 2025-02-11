@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "741f6fcf_5d3a5795",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-02-11T21:04:00Z",
+      "side": 1,
+      "message": "Unused?",
+      "revId": "0e55bd28fa33dfd12ff67347e82742c9f6f7631a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd59ec3d_6dcaf2b9",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-02-11T21:04:00Z",
+      "side": 1,
+      "message": "From what I\u0027m seeing, you should be able to still use `setHandler` because ee8 will use https://github.com/jetty/jetty.project/blob/12d16112fc65062f8d8de144a131b9f99dcae246/jetty-ee9/jetty-ee9-nested/src/main/java/org/eclipse/jetty/ee9/nested/HandlerWrapper.java",
+      "revId": "0e55bd28fa33dfd12ff67347e82742c9f6f7631a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
