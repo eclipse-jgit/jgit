@@ -16,6 +16,23 @@
       "message": "Do we really need this new methods? What is the caller going to do with a null? If it is setting a value, it can as well be a default.\n\nIs it to ensure that a flag is set or to log the value? Maybe a \"boolean isDefined(section, subsection, name)\" would be clearer and avoid duplicating the methods?",
       "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b47695f3_8fc16edc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-11T19:15:18Z",
+      "side": 1,
+      "message": "Ugh, this is a lot of extra code, can we not turn that error off some how?\n\nIf not, this should probably use firstNonNull() or something similar.",
+      "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
