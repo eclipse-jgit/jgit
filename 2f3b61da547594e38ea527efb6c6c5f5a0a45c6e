@@ -34,6 +34,24 @@
       "parentUuid": "0a1fc8c7_21572fcf",
       "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c892f69c_673f4433",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-11T15:56:05Z",
+      "side": 1,
+      "message": "Thanks for sharing this and for updating the benchmark @matthias.sohn@sap.com.\n\nAfter reviewing the performance of getExactRef, it seems that Change 1206683 does introduce a significant performance regression compared to the baseline.\n\nThat said, Change 1206684 shows a notable improvement, although it\u0027s still approximately twice as slow as the baseline.\n\nInterestingly, this performance trend appears to be consistent across all `trustStat` values, suggesting the degradation isn’t tied to any specific setting.\n\n@luca.milanesio@gmail.com – would you mind taking a look at the benchmark and sharing your thoughts?\n\nThis is a graph comparing the results: https://postimg.cc/Th1G8qCD",
+      "parentUuid": "9fbfa9ab_101ae40e",
+      "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
