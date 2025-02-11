@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8baa81a2_dc3780cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem needed. You can probably just use OBJECT_ID_LENGTH in place instead",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 25
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3e8776_edd15e34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "This index appears to be optional on the format docs. Should this also be optional here?",
+      "range": {
+        "startLine": 109,
+        "startChar": 35,
+        "endLine": 109,
+        "endChar": 56
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "081896e2_e0f3bae9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "Move this to a constant? The number 12 here isn\u0027t really helpful.\nIs this occurrence of \"12\" \"header size\"?\nAnd is CHUNK_LOOKUP_WIDTH would be the same as the 12 in `new byte[12]` below?",
+      "range": {
+        "startLine": 136,
+        "startChar": 26,
+        "endLine": 136,
+        "endChar": 28
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6bbda5_4f9a288f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "Add a note that this segment adds the \"terminating label\" for the chunk lookup section",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 0
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9214f61_0b924dca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "Add a comment reminding readers that this is a manually ordered and bounded list?\n\nGetting to this point I did a double take about why this is iterating through chunkHeaders, but then writing from \"merger\".\n\nAnd alternative would be to define each writer as it\u0027s own consumer function, add them to a ChunkHeader, and do something like `for chunk in chunks: chunk.write(out, merger)` or something similar rather than the switch-case below. You shouldn\u0027t need this switch statement since the list of ChunkHeaders is manually built anyways (give or take a few optional chunks)",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 41
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9408810_23d6ebc6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "Can you add as a doc comment what each chuck writes out? Applies to the methods below too.",
+      "range": {
+        "startLine": 175,
+        "startChar": 14,
+        "endLine": 175,
+        "endChar": 30
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f2d74d_4c066b9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-11T02:40:12Z",
+      "side": 1,
+      "message": "Since this one doesn\u0027t have such a well defined section in the format doc can you also add comments on the ordering including about the pseudo-pack order?\nIt\u0027s a little hard to map what this implementation means vs what the format doc describes.",
+      "range": {
+        "startLine": 227,
+        "startChar": 14,
+        "endLine": 227,
+        "endChar": 23
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
