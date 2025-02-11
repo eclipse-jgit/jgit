@@ -1,9 +1,21 @@
+'''
+Expose each test as a bazel target
+'''
 load(
     "@com_googlesource_gerrit_bazlets//tools:junit.bzl",
     "junit_tests",
 )
 
 def tests(tests, srcprefix="tst/", extra_tags=[]):
+    '''
+    Create a target each of the tests
+
+    Each target is the full push (removing srcprefix) replacing directory
+    separators with underscores.
+
+    e.g. a test under tst/a/b/c/A.test will become the target
+    //org.eclipse.jgit.tests:a_b_c_A
+    '''
     for src in tests:
         name = src[len(srcprefix):len(src) - len(".java")].replace("/", "_")
         labels = []
