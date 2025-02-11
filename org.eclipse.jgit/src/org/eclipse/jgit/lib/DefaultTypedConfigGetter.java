@@ -35,7 +35,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
-		return getBoolean(config, section, subsection, name, defaultValue);
+		return getBoolean(config, section, subsection, name, Boolean.valueOf(defaultValue));
 	}
 
 	@Nullable
@@ -116,7 +116,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public int getInt(Config config, String section, String subsection,
 			String name, int defaultValue) {
-		return getInt(config, section, subsection, name, defaultValue);
+		return getInt(config, section, subsection, name, Integer.valueOf(defaultValue));
 	}
 
 	@Nullable
@@ -145,7 +145,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	public int getIntInRange(Config config, String section, String subsection,
 			String name, int minValue, int maxValue, int defaultValue) {
 		return getIntInRange(config, section, subsection, name, minValue,
-				maxValue, defaultValue);
+				maxValue, Integer.valueOf(defaultValue));
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
-		return getLong(config, section, subsection, name, defaultValue);
+		return getLong(config, section, subsection, name, Long.valueOf(defaultValue));
 	}
 
 	@Nullable
