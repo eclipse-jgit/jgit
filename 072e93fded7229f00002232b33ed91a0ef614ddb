@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6104f9b_d2b7a205",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1038111
+      },
+      "writtenOn": "2025-02-12T23:05:09Z",
+      "side": 1,
+      "message": "An alternative to keeping `largeOffsets` on the side is the writer `writeObjectLargeOffsets` could be part of the implementation of `writeObjectOffsets`, though this is fine",
+      "range": {
+        "startLine": 418,
+        "startChar": 8,
+        "endLine": 418,
+        "endChar": 20
+      },
+      "revId": "072e93fded7229f00002232b33ed91a0ef614ddb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
