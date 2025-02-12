@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d23a0e51_f8832225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "IIUC, the goal of the CL is to shortcut the blame generator when it reaches a candidate that\u0027s already in the cache, no? \n\nif so, why is it necessary for us to import all these merging logic into jgit versus keeping them in gitiles? E.g. Blame Generator could simply announce it\u0027s \"DONE\" if the interface signals a candidate exists, then let the caller or gitiles to handle the merging logic since they already have access to all the \"results\" up to the point of \"DONE\".\n\nor is the decision due to Gitiles already is built on top of jgit with many of jgit\u0027s interfaces, so it\u0027s just easier to add these things in jgit?",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c816ea84_660f92fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "do we have to specify Gitiles particular in the description? The interface seems generic enough to stand on its own, no?",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ac9b5e3_7eae99c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "We could break this Stats section into its own CL to make this CL smaller.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b16cda51_bfd62e2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/BlameCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "We could break this interface section into its own CL to make this CL smaller.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66cca098_8c234c45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "is there an update to java doc recently? usually there\u0027s next line after the param name.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d40fe6c0_2763c26e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "nit: put these assertions into a private method.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc9d0c54_1a2aec76",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "why do we want all null? and if we want a object that\u0027s all null, let\u0027s add additional empty constructor for it.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

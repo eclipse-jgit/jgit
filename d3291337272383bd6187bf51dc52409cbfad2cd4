@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09c852bf_68d99f4b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "nit: I would move the refactoring into another CL since this CL is already very long to review.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abf9460_503cfdf5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "new ArrayList\u003c\u003e(3); not 4",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03022e39_5c834bef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "C2 only added the \"fourth\" line relative to C1.\n\nSo the file state of c2 should be c1 covering L0 to L3, and c2 covering L3 to L4.\n\nThese setup should be \n\n```\nc2Regions.add(new CacheRegion(FILE, c1, author, 1, 3));\nc2Regions.add(new CacheRegion(FILE, c2, author, 3, 4));\n```",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54eacb49_cb25991b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "since the test set up the cache with the state of a single commit, let\u0027s make sure cache hit is indeed by a candidate containing said commit, c2 in this case. \n\nWe should double check this for every test.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac25beb_79425fd6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "A few more tests to consider:\n\n1. cache the state of an old commit but a newer commit override the whole file, so the cache should never hit the old commit since the line remaining would be 0 before getting to the old commit.\n2. add a test with multiple silo\u0027d unblamed regions, then use the each into its own BlameRegionMerger logic to break each unblamed regions into smaller outregions, preferably showing whether it\u0027s possible to have multiple \"newCandidates\" with the same commit.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b4a4a5_1aadd01f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "can you add anther test that checks for commits blamed for multiple non-continuous sections resulting in multiple candidates with the same commit? \n\ne.g. we cache the following state: C1 modified L0-L12 AND L23-L31, C2 modified L12-L15 AND L18-L23. The unblamed regions are L0-L15 and L18-L31, then the there should be 4 candidates, C1-\u003eC2-\u003eC2-\u003eC1.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9356802d_00acf898",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "outdated comment?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab1915b_aa7d71da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "a bit confusing of a paragraph. For first time reader of the BlameGenerator file, the linked list aspect of the candidate queue can be hard to understand. \n\nI think you meant \"The generator could signal it\u0027s done without exhausting all candidates if there is no more remaining lines or the last visited candidate is found in the cache.\n\nmaybe add another paragraph on this is also a metric for \"# of CacheMiss\" if the cache is present.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "445d2c22_c0f93dfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "nit: would be easier to understand if you can state that the regionList of the input candidate are the regions that have yet been blamed.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd54c50c_990549e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "Under the default blame logic, usually an outCandidate could have multiple outRegion as its regionList, i.e. the default blame generator behaves by blaming as many unblamed region as possible onto each candidate/commit during its iteration cycle. \n\nThis logic here inverts this relationship to one unblamed region could be blame into multiple candidates, i wonder if we will see multiple \"newCandidates\" sharing the same commit with this approach; perhaps it\u0027s fine to have multiple \"newCandidates\" with the same commit since the end result look the same to the users.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "480e2fec_f19a96ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "all region merging logic reside in the Candidate class, by convention, we should put these merging logic and overlap logic in the Candidate class as well.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f63d94b0_d64af79a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "is this possible to happen? IIRC the input Region data is based on the file state of the current candidate, so are the cachedRegion data. I don\u0027t see how overlaps can ever be empty unless the cachedRegion data is somehow corrupted.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8978258e_bc2e0e45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "all Candidates created within the blame generator have the repo field populated, let\u0027s not break that convention here. We want to continue supports for callers that rely on that field from the default implementation.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30317965_33d501f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "nit, to make this section easier to understand:\n\nmake \"blameEnd - blamedStart\" into the line before, like \"length \u003d blameEnd - blamedStart\", then add a comment \"the length of ownership by candidate within this region.\"",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cbba382_70ccd7b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "We could break this class into its own CL to make this CL smaller.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d32131b_02fcf78c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "why not just extend the Region class?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00739603_f6d709c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "why do we need to store \"sourceCommit\" and \"sourceAuthor\" info in a region object? These should be part of the candidate class. \n\nIs it because you need them on the side of generating the cache, because the cache is only stored by region not by candidate? If you know the commit SHA, then you could always parse the author from the SHA, no?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aabf8f2d_3289e477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "is there a particular implementation reason that you only exposing the start setter?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efdb7439_2ad1a9d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "recalculate the count if start gets set?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8f6b2c_7fd8b135",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "why only comparing the start line here? shouldn\u0027t a region object to be same if and only if the commit, the author, the start, and the end to be all be the same?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203346c2_1cc8f5a2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "this toString seems to imply to have a lot of unmentioned implementation details on how this CacheRegion would be used by gitiles; without reading other files in this CL, I assume the \"unblamed region\" is for CacheRegion objects with null fields, frankly it\u0027s not clear to me why we need to support them without knowing the need from the gitiles side.\n\nMaybe add some description about the need to support both unblamed region and region with valid values?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

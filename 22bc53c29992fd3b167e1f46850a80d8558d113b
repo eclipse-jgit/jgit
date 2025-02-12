@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f6056cb_75b07291",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-12T21:30:07Z",
+      "side": 1,
+      "message": "these assertions are the same from cache_empty test above, just different in the order of the outregions.\n\nThe test looks correct since the stats of candidatesVisted and cachehit are correct.\n\nBut like Minh said, it would be more ideal that we generate the expected result (without the cache) and the actual result (with the cache) in the same tests; then all we have to do is testing different commit topologies. Not sure how hard it would be to set the tests up like that though.",
+      "parentUuid": "4df5b344_85c75881",
+      "range": {
+        "startLine": 256,
+        "startChar": 34,
+        "endLine": 256,
+        "endChar": 69
+      },
+      "revId": "22bc53c29992fd3b167e1f46850a80d8558d113b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1f0d610c_8589de59",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
         "patchSetId": 7
