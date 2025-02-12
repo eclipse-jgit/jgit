@@ -14,6 +14,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,6 +27,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -406,6 +408,39 @@ public class WindowCache {
 		cache.queueRemoveAll(packs);
 	}
 
+	static final boolean isOpenExtraPack() {
+		return cache.openExtraPack();
+	}
+
+	static final void closeExtraPack() {
+		cache.decrementFileCount();
+	}
+
+	static synchronized final void notifyOnFileLimitRecession(Object waiter) {
+		if (waiters == null) {
+			waiters = new ConcurrentLinkedQueue<>();
+		}
+		waiters.add(waiter);
+	}
+
+	private static Collection<Object> waiters;
+
+	private void notifyLimitRecession(BooleanSupplier isBelowFileLimit) {
+		Collection<Object> waiters = refreshWaitersIfBelowLimit(isBelowFileLimit);
+		if (waiters == null) {
+			return;
+		}
+		waiters.forEach(w -> { synchronized (w) { w.notify(); } });
+	}
+
+	static synchronized final Collection<Object> refreshWaitersIfBelowLimit(BooleanSupplier isBelowFileLimit) {
+		Collection<Object> waiters = WindowCache.waiters;
+		if (waiters != null && isBelowFileLimit.getAsBoolean()) {
+			WindowCache.waiters = null;
+		}
+		return waiters;
+	}
+
 	/** cleanup released and/or garbage collected windows. */
 	private final CleanupQueue queue;
 
@@ -593,12 +628,34 @@ public class WindowCache {
 
 	private void close(Pack pack) {
 		if (pack.endWindowCache()) {
-			statsRecorder.recordOpenFiles(-1);
+			decrementFileCount();
 		}
 	}
 
+	private boolean openExtraPack() {
+		statsRecorder.recordOpenFiles(1);
+		if (!isAboveFileLimit()) {
+			return true;
+		}
+		decrementFileCount();
+		return false;
+	}
+
+	private void decrementFileCount() {
+		statsRecorder.recordOpenFiles(-1);
+		notifyLimitRecession(this::isBelowFileLimit);
+	}
+
+	private boolean isBelowFileLimit() {
+		return maxFiles > mbean.getOpenFileCount();
+	}
+
+	private boolean isAboveFileLimit() {
+		return maxFiles < mbean.getOpenFileCount();
+	}
+
 	private boolean isFull() {
-		return maxFiles < mbean.getOpenFileCount()
+		return isAboveFileLimit()
 				|| maxBytes < mbean.getOpenByteCount();
 	}
 
