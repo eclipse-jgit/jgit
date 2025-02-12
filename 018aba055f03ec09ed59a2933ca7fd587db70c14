@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a091bde8_905969be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8baa81a2_dc3780cc",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 25
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e3e8776_edd15e34",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-02-11T02:40:12Z",
       "side": 1,
       "message": "This index appears to be optional on the format docs. Should this also be optional here?",
+      "range": {
+        "startLine": 109,
+        "startChar": 35,
+        "endLine": 109,
+        "endChar": 56
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709bb22b_cac9762b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "Once everything is in place (i.e. bitmaps), I don\u0027t see why we would have a multipack index but disable the reverse index.\n\nReaders should ignore optional chunks they don\u0027t know, so we are not generating an invalid multipack index.",
+      "parentUuid": "7e3e8776_edd15e34",
       "range": {
         "startLine": 109,
         "startChar": 35,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5491c414_5793c5ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "This is the header size (what we wrote in writeHeader). I defined MIDX_HEADER_SIZE.\n\nThe 12 below is the size of a \"line\" in the chunk lookup:\n[ 4 bytes for the chunkId, 8 bytes for the offset in the file]\n\nActually the 12 below should be CHUNK_LOOKUP_WIDTH.",
+      "parentUuid": "081896e2_e0f3bae9",
+      "range": {
+        "startLine": 136,
+        "startChar": 26,
+        "endLine": 136,
+        "endChar": 28
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee6bbda5_4f9a288f",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-02-11T02:40:12Z",
       "side": 1,
       "message": "Add a note that this segment adds the \"terminating label\" for the chunk lookup section",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 0
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ac700a_696ec7b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee6bbda5_4f9a288f",
       "range": {
         "startLine": 145,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20fea548_aff2fee0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "Done. It required an extra wrapper to the parameters (WriteContext), but now the function goes with chunk.",
+      "parentUuid": "a9214f61_0b924dca",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 41
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9408810_23d6ebc6",
@@ -139,6 +259,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc3e575f_3fe05f71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9408810_23d6ebc6",
+      "range": {
+        "startLine": 175,
+        "startChar": 14,
+        "endLine": 175,
+        "endChar": 30
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36f2d74d_4c066b9c",
@@ -152,6 +296,30 @@
       "writtenOn": "2025-02-11T02:40:12Z",
       "side": 1,
       "message": "Since this one doesn\u0027t have such a well defined section in the format doc can you also add comments on the ordering including about the pseudo-pack order?\nIt\u0027s a little hard to map what this implementation means vs what the format doc describes.",
+      "range": {
+        "startLine": 227,
+        "startChar": 14,
+        "endLine": 227,
+        "endChar": 23
+      },
+      "revId": "018aba055f03ec09ed59a2933ca7fd587db70c14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a8867a_7ac54e7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-12T19:11:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f2d74d_4c066b9c",
       "range": {
         "startLine": 227,
         "startChar": 14,
