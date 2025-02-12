@@ -51,6 +51,24 @@
       "message": "Ugh, this is a lot of extra code, can we not turn that error off some how?\n\nIf not, this should probably use firstNonNull() or something similar.",
       "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72d548bb_89cfc7b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-12T23:05:13Z",
+      "side": 1,
+      "message": "How about this:\n\n```\n\r@SuppressWarnings(\"boxing\")\n@Override\npublic boolean getBoolean(Config config, String section, String subsection,\n\t\tString name, boolean defaultValue) {\n\treturn ObjectUtils.firstNonNull(getBoolean(config, section, subsection,\n\t\t\tname, Boolean.valueOf(defaultValue)), defaultValue);\n}\n```",
+      "parentUuid": "b47695f3_8fc16edc",
+      "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
