@@ -69,6 +69,24 @@
       "parentUuid": "b47695f3_8fc16edc",
       "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba7be78_b1632560",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-12T23:09:16Z",
+      "side": 1,
+      "message": "That\u0027s probably the best we are going to get. It sucks that we basically are doing the \"default\" processing twice. We should be able to deprecate these methods right?",
+      "parentUuid": "72d548bb_89cfc7b1",
+      "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
