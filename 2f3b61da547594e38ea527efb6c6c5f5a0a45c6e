@@ -52,6 +52,24 @@
       "parentUuid": "9fbfa9ab_101ae40e",
       "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f374566_201dfd23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-12T22:17:47Z",
+      "side": 1,
+      "message": "Yes, I know, but on the other hand in many scenarios there are multiple threads or processes changing refs of the same repo concurrently so that reading refs from a potentially outdated snapshot may need a re-read when an update transaction fails since another thread/process modified tables.list by adding another reftable. This means in an environment where many threads do ref updates on the same repo using auto-refresh might be actually faster than re-reading refs after a failed update.\n\nI will add an API method for enabling/disabling auto-refresh and make #reloadIfNecessary public to allow clients to refresh explicitly.",
+      "parentUuid": "c892f69c_673f4433",
+      "revId": "2f3b61da547594e38ea527efb6c6c5f5a0a45c6e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
