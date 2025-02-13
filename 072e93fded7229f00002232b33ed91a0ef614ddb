@@ -22,6 +22,30 @@
       },
       "revId": "072e93fded7229f00002232b33ed91a0ef614ddb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57abad5f_981134c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T00:12:33Z",
+      "side": 1,
+      "message": "Acknowledged. I prefer to keep the \"each chunk writes itself\" style and keep the data around that intermix chunck headers and writers.",
+      "parentUuid": "d6104f9b_d2b7a205",
+      "range": {
+        "startLine": 418,
+        "startChar": 8,
+        "endLine": 418,
+        "endChar": 20
+      },
+      "revId": "072e93fded7229f00002232b33ed91a0ef614ddb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
