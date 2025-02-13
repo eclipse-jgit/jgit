@@ -1589,6 +1589,10 @@ public class GC {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
 				latestBitmapTime = p.getFileSnapshot().lastModifiedInstant()
 						.toEpochMilli();
+				// reset number of pack files and objects since bitmap as the
+				// newer bitmap was found
+				ret.numberOfPackFilesSinceBitmap = 0L;
+				ret.numberOfObjectsSinceBitmap = 0L;
 			} else {
 				ret.numberOfPackFilesSinceBitmap++;
 				ret.numberOfObjectsSinceBitmap += packedObjects;
