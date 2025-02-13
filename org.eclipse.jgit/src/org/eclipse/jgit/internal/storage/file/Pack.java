@@ -116,7 +116,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private volatile Exception invalidatingCause;
 
 	@Nullable
-	private PackFile bitmapIdxFile;
+	private volatile PackFile bitmapIdxFile;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
 
@@ -1211,17 +1211,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return null;
 	}
 
-	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
-		this.bitmapIdx = Optionally.empty();
-		this.invalid = false;
+	void setBitmapIndexFile(PackFile bitmapIndexFile) {
 		this.bitmapIdxFile = bitmapIndexFile;
-		try {
-			getBitmapIndex();
-		} catch (IOException e) {
-			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
-			this.bitmapIdx = Optionally.empty();
-			this.bitmapIdxFile = null;
-		}
 	}
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {

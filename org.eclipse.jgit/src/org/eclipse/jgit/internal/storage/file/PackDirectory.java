@@ -459,12 +459,9 @@ class PackDirectory {
 					&& !oldPack.getFileSnapshot().isModified(packFile)) {
 				forReuse.remove(packFile.getName());
 				list.add(oldPack);
-				try {
-					if(oldPack.getBitmapIndex() == null) {
-						oldPack.refreshBitmapIndex(packFilesByExt.get(BITMAP_INDEX));
-					}
-				} catch (IOException e) {
-					LOG.warn(JGitText.get().bitmapAccessErrorForPackfile, oldPack.getPackName(), e);
+				PackFile bitMaps = packFilesByExt.get(BITMAP_INDEX);
+				if(bitMaps != null) {
+					oldPack.setBitmapIndexFile(bitMaps);
 				}
 				continue;
 			}
