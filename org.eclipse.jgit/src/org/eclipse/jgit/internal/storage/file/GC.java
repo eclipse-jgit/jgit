@@ -1579,7 +1579,7 @@ public class GC {
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
 		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
-		long latestBitmapTime = Long.MIN_VALUE;
+		long latestBitmapTime = 0L;
 		for (Pack p : packs) {
 			long packedObjects = p.getIndex().getObjectCount();
 			ret.numberOfPackedObjects += packedObjects;
@@ -1587,9 +1587,11 @@ public class GC {
 			ret.sizeOfPackedObjects += p.getPackFile().length();
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
-				latestBitmapTime = p.getFileSnapshot().lastModifiedInstant()
-						.toEpochMilli();
-			} else {
+				if (latestBitmapTime == 0L) {
+					latestBitmapTime = p.getFileSnapshot().lastModifiedInstant().toEpochMilli();
+				}
+			}
+			else if (latestBitmapTime == 0L) {
 				ret.numberOfPackFilesSinceBitmap++;
 				ret.numberOfObjectsSinceBitmap += packedObjects;
 			}
