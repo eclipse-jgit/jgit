@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.eclipse.jgit.blame.ReverseWalk.ReverseCommit;
+import org.eclipse.jgit.blame.cache.CacheRegion;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.RawText;
@@ -146,6 +147,12 @@ class Candidate {
 						sourcePath.getPath(), sourceCommit)
 						.get(Constants.ATTR_DIFF));
 		sourceText = new RawText(ldr.getCachedBytes(Integer.MAX_VALUE));
+	}
+
+	Candidate takeBlame(RevWalk revPool, List<CacheRegion> cacheRegions) {
+		BlameRegionMerger merger = new BlameRegionMerger(sourceRepository, revPool,
+				cacheRegions);
+		return merger.mergeCandidate(this);
 	}
 
 	void takeBlame(EditList editList, Candidate child) {

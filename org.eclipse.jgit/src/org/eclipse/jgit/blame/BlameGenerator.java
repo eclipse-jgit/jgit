@@ -631,9 +631,7 @@ public class BlameGenerator implements AutoCloseable {
 				List<CacheRegion> cachedBlame = blameCache.get(repository,
 						n.sourceCommit, n.sourcePath.getPath());
 				if (cachedBlame != null) {
-					BlameRegionMerger rb = new BlameRegionMerger(repository, revPool,
-							cachedBlame);
-					Candidate fullyBlamed = rb.mergeCandidate(n);
+					Candidate fullyBlamed = n.takeBlame(revPool, cachedBlame);
 					if (fullyBlamed != null) {
 						stats.cacheHit = true;
 						return result(fullyBlamed);
