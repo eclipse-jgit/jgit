@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "484ae4aa_051afde2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "\u003eIt would be a very strange case (unintuitive, error-prone) that the generator returns incomplete results \n\nI think the expectation of \"always returning full result\" is more of an expectation of the blame command and the callers of the blame generator, not the blame generator itself. Technically speaking, the caller (e.g. gitiles) of the blame generator is the one deciding on which outRegion they want to show to the end users; i.e. under the existing implementation, the callers already have the ability to skip any outRegion by keep calling \"next\" without getting the result. \n\nBy introducing this new logic of \"if a cache is hit, always return the full result\", this ability of skipping any outRegion is taken away when the cache is hit. \n\nThis is a minor behavior change from the default implementation and I don\u0027t know how many callers of blame generators are taking advantage of \"skipping/omitting region\", so feel free to resolve this comment if you think we no longer need to support this use case.",
+      "parentUuid": "eedaf47e_205214cf",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c816ea84_660f92fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8

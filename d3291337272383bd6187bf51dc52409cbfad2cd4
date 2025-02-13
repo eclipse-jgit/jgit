@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "097f50d4_3ebf5c98",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "this is more of a nit. \n\nIf we treat the blame generator impl and the cache impl as black boxes, and our test is only adding c2\u0027s state into the cache, then the only cache hit that should happen is by a candidate with c2. For additional test coverage, we should add another test that add the state of c1 and c2 into the cache, then always assert the cache hit came from c2.",
+      "parentUuid": "7524de62_5ad8b5a1",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ac25beb_79425fd6",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
         "patchSetId": 9
@@ -213,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3de8cdfd_468bc30f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "\"blame_overTwoBlamedRegions\" is close to what I am describing but not quite; it\u0027s testing one unblamed region (L8-L13) assigning to two candidates with different commits. \n\nWould you mind adding a test that has two unblamed region assigned to the two candidates with the same commit?",
+      "parentUuid": "5b83cb44_8a3c8136",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9356802d_00acf898",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
         "patchSetId": 9
@@ -277,6 +313,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "eab1915b_aa7d71da",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ff5b988_9fe79d78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "Ah, sorry, \"candidateVisited\" is not always # of cacheMiss, since you would always have to visit at least 1 candidate before checking the cache. \n\nIts relationship to # of cacheMiss actually depends on whether the cache is present/hit; if no cache or cache never hit, `candidateVisited \u003d\u003d cacheMiss`, else if there is a cache hit, `candidateVisited \u003d\u003d cacheMiss -1`.\n\nLet\u0027s make another stat just for `cacheMiss` and leave the `candidateVisited` as it is. If cachedBlame \u003d\u003d null || fullyBlamed \u003d\u003d null, increment cacheMiss.",
+      "parentUuid": "d579a544_f111b3ab",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -388,6 +442,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d8757d5_05b37e64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "this is more of a nitpick, but I think consolidating the merging region logic into Candidate class is much preferred because we can maintain the current relationship between BlameGenerator, Region, and Candidate; i.e. BG is responsible for setting up the iteration, Region as a POJO is responsible for the result format, Candidate is responsible for merging/dividing/linking regions.  \n\nI think it\u0027s fine that we put BlameRegionMerger into Candidate as you suggested, and I also think we should move the editlist merging logic into its class into its own \"merger\" class in another refactoring would make the candidate class easier to read.",
+      "parentUuid": "429039d2_086df0d5",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f63d94b0_d64af79a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
         "patchSetId": 9
@@ -417,6 +489,24 @@
       "side": 1,
       "message": "Correct. That is why it throws an IllegalStateException.\n\nGiven that the cache is writter/parsed somewhere else, is still worth to assert this.",
       "parentUuid": "f63d94b0_d64af79a",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a926348_2ab8e7ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "can you add a test to assert this exception?",
+      "parentUuid": "ce7d7497_4d9cbbd6",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -557,6 +647,24 @@
       "side": 1,
       "message": "This class came from gitiles. We want to keep them compatible, to reuse the caches we already have.",
       "parentUuid": "5d32131b_02fcf78c",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "331bb98e_11fe5af0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-13T22:10:29Z",
+      "side": 1,
+      "message": "nit: This part of my concern about introducing cache related merging into jgit. IIRC, Gitiles should be dependent on Jgit, it\u0027s not clean to move a Gitiles\u0027 class into jgit for compatibility reason.  \n\nI would much prefer Gitiles owns these CacheRegion objects and the merging logic associated. i.e. let the blame generator be the source of truth for blamed regions as it is, but let the caller (i.e. Gitiles) decide on what they want to do with their cached data vs the generated data. The only thing BlameGenerator has to know from the interface is \"whether I can stop at this commit\". \n\nIf we really do want to move these CacheRegion and merge logic into jgit, then we should refactor Gitiles to use them directly since I assume Gitiles already relies heavily on most jgit objects.   \n\nIn terms of most ideal approach, I would do what @mthai@google.com suggested, which is make the interface of the blame generator and the interface of Gitiles more abstract, so anyone using either or both (jgit/gitiles) as dependencies could own any intermediate logic without worrying about producing future circular dependencies. This approach would also make it easier to move away from jgit or from Gitiles.\n\nif free to take this comment as a nitpick, but code hygiene is a good topic to discuss whenever we think about moving class from a downstream dependency (e.g. Gitiles) to an its upstream dependency (e.g. jgit).",
+      "parentUuid": "70b54b75_d2321db1",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
