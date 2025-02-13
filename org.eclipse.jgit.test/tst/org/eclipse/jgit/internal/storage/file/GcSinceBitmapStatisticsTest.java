@@ -52,11 +52,43 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 
 	@Test
 	public void testShouldReportNoPacksDirectlyAfterGc() throws Exception {
-		// given
+		// given two packfiles
 		addCommit(null);
+		tr.packAndPrune();
+		addCommit(null);
+		tr.packAndPrune();
+		assertEquals(2L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
+
+		// when existing packs are getting re-packed
+		gc.setPackExpireAgeMillis(0L);
 		gc.gc().get();
+
+		// then
 		assertEquals(1L, repositoryBitmapFiles());
 		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+		assertEquals(1L, gc.getStatistics().numberOfPackFiles);
+	}
+
+	@Test
+	public void testShouldReportNoPacksDirectlyAfterGcEvenWhenPackfilesAreKeptAfterGc()
+			throws Exception {
+		// given two packfiles
+		addCommit(null);
+		tr.packAndPrune();
+		addCommit(null);
+		tr.packAndPrune();
+		assertEquals(2L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
+
+		// when repacking with bitmap without pruning old packfiles
+		gc.setPackExpireAgeMillis(Long.MAX_VALUE);
+		gc.gc().get();
+
+		// then
+		assertEquals(1L, repositoryBitmapFiles());
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
 	}
 
 	@Test
@@ -79,8 +111,11 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 
 		// progress & pack
 		addCommit(parent);
-		tr.packAndPrune();
+		assertEquals(1L, gc.getStatistics().numberOfPackFiles);
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 
+		tr.packAndPrune();
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
 		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
@@ -90,13 +125,17 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		// commit & gc
 		RevCommit parent = addCommit(null);
 		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfLooseObjects);
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
 		// progress & pack
 		addCommit(parent);
+		assertEquals(1L, gc.getStatistics().numberOfLooseObjects);
 		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
 		tr.packAndPrune();
+		assertEquals(0L, gc.getStatistics().numberOfLooseObjects);
+		// Number of objects contained in the newly created PackFile
 		assertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);
 	}
 
