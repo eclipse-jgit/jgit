@@ -1585,11 +1585,14 @@ public class GC {
 			ret.numberOfPackedObjects += packedObjects;
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
+			long packFileModifiedTime = p.getFileSnapshot().lastModifiedInstant().toEpochMilli();
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
-				latestBitmapTime = p.getFileSnapshot().lastModifiedInstant()
-						.toEpochMilli();
-			} else {
+				if(latestBitmapTime == Long.MIN_VALUE) {
+					latestBitmapTime = packFileModifiedTime;
+				}
+			}
+			else if(packFileModifiedTime > latestBitmapTime) {
 				ret.numberOfPackFilesSinceBitmap++;
 				ret.numberOfObjectsSinceBitmap += packedObjects;
 			}
