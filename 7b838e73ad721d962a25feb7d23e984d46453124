@@ -87,6 +87,24 @@
       "parentUuid": "72d548bb_89cfc7b1",
       "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24c6c002_5c4cdb3e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T00:23:41Z",
+      "side": 1,
+      "message": "IIUC ObjectUtils is in apache-commons lang and we don\u0027t have that one (we have other apache-common dependencies though).\n\nI am trying with a \"nonNull\" locally defined function to trick checkers.",
+      "parentUuid": "2ba7be78_b1632560",
+      "revId": "7b838e73ad721d962a25feb7d23e984d46453124",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
