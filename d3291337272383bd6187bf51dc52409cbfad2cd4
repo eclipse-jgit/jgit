@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84eed690_42648a5d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09c852bf_68d99f4b",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4abf9460_503cfdf5",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67727e7c_92953259",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4abf9460_503cfdf5",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03022e39_5c834bef",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "C2 only added the \"fourth\" line relative to C1.\n\nSo the file state of c2 should be c1 covering L0 to L3, and c2 covering L3 to L4.\n\nThese setup should be \n\n```\nc2Regions.add(new CacheRegion(FILE, c1, author, 1, 3));\nc2Regions.add(new CacheRegion(FILE, c2, author, 3, 4));\n```",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b798bb05_7c96b1bc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done. Thanks, good catch. The test was still passing because the first line was correctly blamed.",
+      "parentUuid": "03022e39_5c834bef",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7524de62_5ad8b5a1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Don\u0027t follow. What other cache hit could it be?\n\nThe final results are correct, if the generator would be querying the wrong candidate, results would be off.",
+      "parentUuid": "54eacb49_cb25991b",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ac25beb_79425fd6",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
         "patchSetId": 9
@@ -82,6 +154,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "A few more tests to consider:\n\n1. cache the state of an old commit but a newer commit override the whole file, so the cache should never hit the old commit since the line remaining would be 0 before getting to the old commit.\n2. add a test with multiple silo\u0027d unblamed regions, then use the each into its own BlameRegionMerger logic to break each unblamed regions into smaller outregions, preferably showing whether it\u0027s possible to have multiple \"newCandidates\" with the same commit.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c7c625e_8e6a4573",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "#1 Done\n\n#2 That is in BlameRegionMergerTest (it got lost in the change split but is coming back in next patchset).",
+      "parentUuid": "2ac25beb_79425fd6",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -103,6 +193,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b83cb44_8a3c8136",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41b4a4a5_1aadd01f",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9356802d_00acf898",
@@ -116,6 +224,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "outdated comment?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d66cab9_bc2d381e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9356802d_00acf898",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -137,6 +263,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d579a544_f111b3ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eab1915b_aa7d71da",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "445d2c22_c0f93dfb",
@@ -150,6 +294,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "nit: would be easier to understand if you can state that the regionList of the input candidate are the regions that have yet been blamed.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db4a0c3_530e79ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Rephrased this from \"regions to blame\" to \"unblamed regions\".",
+      "parentUuid": "445d2c22_c0f93dfb",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -188,6 +350,42 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bee216f_3dfd14ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Yes, this logic could have different Candidate instances pointing to the same commit. \n\nWe could go though the list and merge consecutive candidates with same commit, but the generator is going to put the candidate list in outCandidate and emit region by region, so it is irrelevant.\n\nIn other words,\n (candidate 1, region 1) (candidate 1, region 2)\nand\n (candidate 1, [region 1, region 2])\n \nproduce the same results in generator.next()",
+      "parentUuid": "cd54c50c_990549e3",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "429039d2_086df0d5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Candidate already has the merging of regions with editlists, so another set of merging operations would only confuse things.\n\nWe could add to Candidate:\n\n```\n+       Candidate takeBlame(RevWalk revPool, List\u003cCacheRegion\u003e cacheRegions) {\n+               BlameRegionMerger merger \u003d new BlameRegionMerger(sourceRepository, revPool,\n+                               cacheRegions);\n+               return merger.mergeCandidate(this);\n+       }\n```\n\nbut it doesn\u0027t improve the encapsulation of any of the classes involved.",
+      "parentUuid": "480e2fec_f19a96ef",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f63d94b0_d64af79a",
@@ -201,6 +399,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "is this possible to happen? IIRC the input Region data is based on the file state of the current candidate, so are the cachedRegion data. I don\u0027t see how overlaps can ever be empty unless the cachedRegion data is somehow corrupted.",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce7d7497_4d9cbbd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Correct. That is why it throws an IllegalStateException.\n\nGiven that the cache is writter/parsed somewhere else, is still worth to assert this.",
+      "parentUuid": "f63d94b0_d64af79a",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -222,6 +438,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a643bb_ad03aa9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8978258e_bc2e0e45",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30317965_33d501f1",
@@ -235,6 +469,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "nit, to make this section easier to understand:\n\nmake \"blameEnd - blamedStart\" into the line before, like \"length \u003d blameEnd - blamedStart\", then add a comment \"the length of ownership by candidate within this region.\"",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab907cf_ddd87793",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Extracted length to a variable.\n\nThe comment seems unnecessary, when we are setting a variable \"length\" to a parameter \"len\" in something called Region.",
+      "parentUuid": "30317965_33d501f1",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -256,6 +508,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e28523a_ae674863",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbba382_70ccd7b9",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d32131b_02fcf78c",
@@ -269,6 +539,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "why not just extend the Region class?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b54b75_d2321db1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "This class came from gitiles. We want to keep them compatible, to reuse the caches we already have.",
+      "parentUuid": "5d32131b_02fcf78c",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -290,6 +578,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68eb1dd6_0c6a4028",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "We are trying to reuse the caches from gitiles, and this is the class serialized over there.\n\nAs you mentioned, it has few oddities but we want to keep it compatible. \n\nWe could also define a new class and translate it when reading the cache, although it sound like adding more failure steps.\n\nThis is now in its own change, lets continue the comments there.",
+      "parentUuid": "00739603_f6d709c6",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aabf8f2d_3289e477",
@@ -303,6 +609,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "is there a particular implementation reason that you only exposing the start setter?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad9f2ed_c958ea02",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "http://google3/third_party/java_src/gitiles/java/com/google/gitiles/blame/BlameServlet.java?rcl\u003d726552537\u0026l\u003d128\n\nGitiles uses it to move the regions from 0-based to 1-based index",
+      "parentUuid": "aabf8f2d_3289e477",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -324,6 +648,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f901e4c_7f868fd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "setStart is used to \"shift\" the region, so the count (length) is the same.",
+      "parentUuid": "efdb7439_2ad1a9d7",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b8f6b2c_7fd8b135",
@@ -341,6 +683,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fef65ef1_aa117acf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "That would be for #equals(), compareTo is to sort them and for that the start of the region is enough (we want them in \"file order\").",
+      "parentUuid": "1b8f6b2c_7fd8b135",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "203346c2_1cc8f5a2",
@@ -354,6 +714,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "this toString seems to imply to have a lot of unmentioned implementation details on how this CacheRegion would be used by gitiles; without reading other files in this CL, I assume the \"unblamed region\" is for CacheRegion objects with null fields, frankly it\u0027s not clear to me why we need to support them without knowing the need from the gitiles side.\n\nMaybe add some description about the need to support both unblamed region and region with valid values?",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3267e31f_e1d9789f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Added comment on the class javadoc about the nullness of the fields.",
+      "parentUuid": "203346c2_1cc8f5a2",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

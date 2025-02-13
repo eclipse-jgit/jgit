@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eedaf47e_205214cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "The generator returns the blamed regions of a file, with a cache it makes it faster.\n\nThis is easy to explain and a common idiom.\n\nIt would be a very strange case (unintuitive, error-prone) that the generator returns incomplete results if it receives a cache and the client needs to complete them from the cache. Besides, all clients would need to copy the merging logic, as it is really the same.",
+      "parentUuid": "d23a0e51_f8832225",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c816ea84_660f92fe",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "do we have to specify Gitiles particular in the description? The interface seems generic enough to stand on its own, no?",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7aa8ea9_31ff06f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "CacheRegion is peculiar compared to the regular jgit.Region, because it comes from gitiles and we try to keep this easy between them.\n\nCache classes are now in their own commit (where I mention gitiles to explain their shape) and I removed gitiles mentions here.",
+      "parentUuid": "c816ea84_660f92fe",
       "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "041b1065_e47c4c87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "It is a minimal class and it helps to assert the generator behavior in the tests.",
+      "parentUuid": "9ac9b5e3_7eae99c7",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b16cda51_bfd62e2d",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "We could break this interface section into its own CL to make this CL smaller.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe236b95_70791081",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/BlameCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b16cda51_bfd62e2d",
       "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae514057_e3a3ea1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66cca098_8c234c45",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d40fe6c0_2763c26e",
@@ -103,6 +193,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f440ae0_c66318ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d40fe6c0_2763c26e",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc9d0c54_1a2aec76",
@@ -116,6 +224,24 @@
       "writtenOn": "2025-02-12T21:30:07Z",
       "side": 1,
       "message": "why do we want all null? and if we want a object that\u0027s all null, let\u0027s add additional empty constructor for it.",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df0992a9_19dce6fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-13T20:03:22Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/gitiles/+/refs/heads/master/java/com/google/gitiles/blame/cache/BlameCacheImpl.java#206\n\nAgain, if we want to keep it compatible to gitiles, we need to still live with this constructor.",
+      "parentUuid": "bc9d0c54_1a2aec76",
       "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
