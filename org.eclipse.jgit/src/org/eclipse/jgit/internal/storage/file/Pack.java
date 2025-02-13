@@ -1213,7 +1213,6 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
 		this.bitmapIdx = Optionally.empty();
-		this.invalid = false;
 		this.bitmapIdxFile = bitmapIndexFile;
 		try {
 			getBitmapIndex();
