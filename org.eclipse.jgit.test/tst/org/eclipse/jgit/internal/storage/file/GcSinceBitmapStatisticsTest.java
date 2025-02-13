@@ -77,10 +77,14 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		gc.gc().get();
 		assertEquals(1L, repositoryBitmapFiles());
 
-		// progress & pack
+		// progress
 		addCommit(parent);
-		tr.packAndPrune();
+		assertEquals(1L, gc.getStatistics().numberOfPackFiles);
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 
+		// & pack
+		tr.packAndPrune();
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
 		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
@@ -92,12 +96,13 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		gc.gc().get();
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
-		// progress & pack
+		// progress
 		addCommit(parent);
 		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
+		// & pack
 		tr.packAndPrune();
-		assertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
 	}
 
 	@Test
@@ -113,10 +118,12 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		gc.gc().get();
 		assertEquals(2L, repositoryBitmapFiles());
 
-		// progress & pack
+		// progress
 		addCommit(parent);
-		tr.packAndPrune();
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 
+		// & pack
+		tr.packAndPrune();
 		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
@@ -132,12 +139,13 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		gc.gc().get();
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
-		// progress & pack
+		// progress
 		addCommit(parent);
 		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
+		// & pack
 		tr.packAndPrune();
-		assertEquals(4L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
 	}
 
 	private RevCommit addCommit(RevCommit parent) throws Exception {
