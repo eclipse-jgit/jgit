@@ -1,0 +1,10 @@
+Code-Review+2: Ivan Frade <ifrade@google.com>
+Code-Review+1: Martin Fick <mfick@nvidia.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Ivan Frade <ifrade@google.com>
+Submitted-at: Thu, 13 Feb 2025 00:24:33 +0000
+Reviewed-on: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1208660
+Comments-Total: 6
+Comments-Unresolved: 1
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
