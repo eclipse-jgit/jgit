@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "075982c7_2a17a88c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-13T14:05:34Z",
+      "side": 1,
+      "message": "We need *two* to cause the re-packing to create a *new* packfile with a *new* sha1.\n\nIf you had just one, the repacking will keep it (its sha1 hasn\u0027t changed), and it will just add a bitmap to it.",
+      "parentUuid": "ae81a288_778a31a1",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 20
+      },
+      "revId": "3d60539be49b1bf78ac7d8509a3df4a9eaf25053",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0471792f_85ccf66c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2025-02-13T13:45:48Z",
       "side": 1,
       "message": "it should be `else if` as we want to count only when packfile has no bitmap associated",
+      "revId": "3d60539be49b1bf78ac7d8509a3df4a9eaf25053",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9f57b5_b9fda013",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-13T14:05:34Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0471792f_85ccf66c",
       "revId": "3d60539be49b1bf78ac7d8509a3df4a9eaf25053",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
