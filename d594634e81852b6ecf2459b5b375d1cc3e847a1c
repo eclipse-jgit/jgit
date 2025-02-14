@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e4d9545_207478df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-02-14T02:09:10Z",
+      "side": 1,
+      "message": "This isn\u0027t enough to clear an existing non-empty `bitmapIdx`, so I think you need that line and the line to clear `invalid` still.\n```suggestion\n\t\tthis.bitmapIdxFile \u003d bitmapIndexFile;\n\t\tthis.bitmapIdx \u003d Optionally.empty();\n\t\tthis.invalid \u003d false;\n```",
+      "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
