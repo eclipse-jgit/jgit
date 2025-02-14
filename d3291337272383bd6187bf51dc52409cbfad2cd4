@@ -159,6 +159,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff61a60_37f49cb5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "097f50d4_3ebf5c98",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ac25beb_79425fd6",
@@ -247,6 +265,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34003e80_231b89db",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameRegionMergerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "blame_fromCandidate_twiceCandidateInOutput",
+      "parentUuid": "3de8cdfd_468bc30f",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9356802d_00acf898",
@@ -331,6 +367,24 @@
       "side": 1,
       "message": "Ah, sorry, \"candidateVisited\" is not always # of cacheMiss, since you would always have to visit at least 1 candidate before checking the cache. \n\nIts relationship to # of cacheMiss actually depends on whether the cache is present/hit; if no cache or cache never hit, `candidateVisited \u003d\u003d cacheMiss`, else if there is a cache hit, `candidateVisited \u003d\u003d cacheMiss -1`.\n\nLet\u0027s make another stat just for `cacheMiss` and leave the `candidateVisited` as it is. If cachedBlame \u003d\u003d null || fullyBlamed \u003d\u003d null, increment cacheMiss.",
       "parentUuid": "d579a544_f111b3ab",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7456134_a6e77276",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "I\u0027ll remove the reference to cache misses. We can add it when neede. These stats are not wrong and help with the tests.",
+      "parentUuid": "6ff5b988_9fe79d78",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -458,6 +512,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29f1939e_196067f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "ACK. We can refactor this later.",
+      "parentUuid": "2d8757d5_05b37e64",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f63d94b0_d64af79a",
@@ -507,6 +579,24 @@
       "side": 1,
       "message": "can you add a test to assert this exception?",
       "parentUuid": "ce7d7497_4d9cbbd6",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32ab4b8e_70a80864",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a926348_2ab8e7ea",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -665,6 +755,24 @@
       "side": 1,
       "message": "nit: This part of my concern about introducing cache related merging into jgit. IIRC, Gitiles should be dependent on Jgit, it\u0027s not clean to move a Gitiles\u0027 class into jgit for compatibility reason.  \n\nI would much prefer Gitiles owns these CacheRegion objects and the merging logic associated. i.e. let the blame generator be the source of truth for blamed regions as it is, but let the caller (i.e. Gitiles) decide on what they want to do with their cached data vs the generated data. The only thing BlameGenerator has to know from the interface is \"whether I can stop at this commit\". \n\nIf we really do want to move these CacheRegion and merge logic into jgit, then we should refactor Gitiles to use them directly since I assume Gitiles already relies heavily on most jgit objects.   \n\nIn terms of most ideal approach, I would do what @mthai@google.com suggested, which is make the interface of the blame generator and the interface of Gitiles more abstract, so anyone using either or both (jgit/gitiles) as dependencies could own any intermediate logic without worrying about producing future circular dependencies. This approach would also make it easier to move away from jgit or from Gitiles.\n\nif free to take this comment as a nitpick, but code hygiene is a good topic to discuss whenever we think about moving class from a downstream dependency (e.g. Gitiles) to an its upstream dependency (e.g. jgit).",
       "parentUuid": "70b54b75_d2321db1",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33374f39_00bd90b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/CacheRegion.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "ACK. We will go with this approach, see how it plays with gitiles and adapt.",
+      "parentUuid": "331bb98e_11fe5af0",
       "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "801cb587_3c527846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "\u003e By introducing this new logic of \"if a cache is hit, always return the full result\", this ability of skipping any outRegion is taken away when the cache is hit.\n\n?! There is no such change. The only difference is that all regions are available immediately (internally) when the cache is hit, but #next() will keep returning them region by region and callers can skip them as before.",
+      "parentUuid": "484ae4aa_051afde2",
+      "revId": "7638d5a955c242c8b372cbb5269d3c39cd34a1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c816ea84_660f92fe",

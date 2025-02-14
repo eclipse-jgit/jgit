@@ -16,6 +16,24 @@
       "message": "nit: move these refactoring for the existing tests, e.g. testBoundLineDelete(), testRenamedBoundLineDelete(), testLinesAllDeletedShortenedWalk() into another CL?",
       "revId": "7b16cf5d8b1131fdaea405608b0ee452eeca2c64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb8e9025_3c54f005",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-14T21:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9261d280_6e89dbda",
+      "revId": "7b16cf5d8b1131fdaea405608b0ee452eeca2c64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
