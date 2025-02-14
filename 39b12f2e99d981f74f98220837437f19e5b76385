@@ -88,6 +88,24 @@
       "parentUuid": "8ea84c5c_93f89001",
       "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "776237c1_243b78e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-14T01:29:21Z",
+      "side": 1,
+      "message": "I don\u0027t understand how these Gatling tests relate to using auto-refresh or not.\n\nThe updated benchmark shows that auto-refresh causes a performance penalty which is heavily reduced by using a FileSnapshot to detect if refresh is necessary (https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206684). Though a ref update without auto-refresh has a higher likelihood to fail due to an outdated read which will needs to be repeated after a refresh which adds a similar overhead.",
+      "parentUuid": "75efc811_ca5af319",
+      "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
