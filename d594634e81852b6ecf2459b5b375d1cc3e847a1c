@@ -16,6 +16,24 @@
       "message": "This isn\u0027t enough to clear an existing non-empty `bitmapIdx`, so I think you need that line and the line to clear `invalid` still.\n```suggestion\n\t\tthis.bitmapIdxFile \u003d bitmapIndexFile;\n\t\tthis.bitmapIdx \u003d Optionally.empty();\n\t\tthis.invalid \u003d false;\n```",
       "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a4dc458_8e5881c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-14T02:18:29Z",
+      "side": 1,
+      "message": "It is my understanding that this was not about actually refreshing the bitmaps in the sense that they were bad. Instead, I believe the intent of the original code was to recognize a bitmap file which was not passed in during Pack construction (because the original scan missed it), so there should be no need to clear an existing index. The original code would not have cleared it either because PackDirectory called getBitmapIndex() to see if it was already set and only called the refresh method if it was not.\n\nAs for the invalid, I believe that line was buggy and should have been removed anyway (see PS1 for why).",
+      "parentUuid": "0e4d9545_207478df",
+      "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
