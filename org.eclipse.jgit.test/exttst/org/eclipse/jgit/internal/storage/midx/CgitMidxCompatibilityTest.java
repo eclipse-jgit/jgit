@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.internal.storage.file.PackFile;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -123,8 +122,7 @@ public class CgitMidxCompatibilityTest extends SampleDataRepositoryTestCase {
 	}
 
 	private File getMIdxStandardLocation() {
-		return new File(
-				((ObjectDirectory) db.getObjectDatabase()).getPackDirectory(),
+		return new File(db.getObjectDatabase().getPackDirectory(),
 				"multi-pack-index");
 	}
 
