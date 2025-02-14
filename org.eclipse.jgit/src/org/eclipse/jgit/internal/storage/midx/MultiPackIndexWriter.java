@@ -46,6 +46,8 @@ import org.eclipse.jgit.util.NB;
  * See <a href=
  * "https://git-scm.com/docs/pack-format#_multi_pack_index_midx_files_have_the_following_format">multipack
  * index format spec</a>
+ *
+ * @since 7.2
  */
 public class MultiPackIndexWriter {
 
@@ -86,7 +88,8 @@ public class MultiPackIndexWriter {
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
 						JGitText.get().multiPackIndexUnexpectedSize,
-						expectedSize, out.length()));
+						Long.valueOf(expectedSize),
+						Long.valueOf(out.length())));
 			}
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
@@ -287,12 +290,13 @@ public class MultiPackIndexWriter {
 			MidxMutableEntry e = iterator.next();
 			OffsetPosition op = new OffsetPosition(e.getOffset(), midxPosition);
 			midxPosition++;
-			packOffsets.computeIfAbsent(e.getPackId(), k -> new ArrayList<>())
-					.add(op);
+			packOffsets.computeIfAbsent(Integer.valueOf(e.getPackId()),
+					k -> new ArrayList<>()).add(op);
 		}
 
 		for (int i = 0; i < ctx.data.getPackCount(); i++) {
-			List<OffsetPosition> offsetsForPack = packOffsets.get(i);
+			List<OffsetPosition> offsetsForPack = packOffsets
+					.get(Integer.valueOf(i));
 			if (offsetsForPack.isEmpty()) {
 				continue;
 			}
