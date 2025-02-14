@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c2843e_b3622812",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-14T09:57:25Z",
+      "side": 1,
+      "message": "Reducing the measurement time may impact the benchmark\u0027s reliability and accuracy, as fewer executions will be collected, making the results more susceptible to noise and outliers.\n\nI think lowering it, is good for having fast feedback, but we should aim to have a longer value: This would be the only benchmark in the jgit code base that will run each iteration for only _one_ second.",
+      "range": {
+        "startLine": 168,
+        "startChar": 30,
+        "endLine": 168,
+        "endChar": 38
+      },
+      "revId": "3b55666c41973b82bd2a5dde02af2c958d510c49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
