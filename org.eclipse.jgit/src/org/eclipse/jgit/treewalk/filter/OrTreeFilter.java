@@ -12,7 +12,11 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -80,6 +84,22 @@ public abstract class OrTreeFilter extends TreeFilter {
 		return new List(subfilters);
 	}
 
+	@Override
+	public Optional<Set<byte[]>> getPathsBestEffort() {
+		Set<byte[]> paths = Arrays.stream(getSubTreeFilters())
+				.map(TreeFilter::getPathsBestEffort)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.flatMap(Set::stream)
+				.collect(Collectors.toSet());
+		if (paths.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(paths);
+	}
+
+	abstract TreeFilter[] getSubTreeFilters();
+
 	private static class Binary extends OrTreeFilter {
 		private final TreeFilter a;
 
@@ -88,6 +108,11 @@ public abstract class OrTreeFilter extends TreeFilter {
 		Binary(TreeFilter one, TreeFilter two) {
 			a = one;
 			b = two;
+		}
+
+		@Override
+		TreeFilter[] getSubTreeFilters() {
+			return new TreeFilter[] { a, b };
 		}
 
 		@Override
@@ -137,6 +162,11 @@ public abstract class OrTreeFilter extends TreeFilter {
 
 		List(TreeFilter[] list) {
 			subfilters = list;
+		}
+
+		@Override
+		TreeFilter[] getSubTreeFilters() {
+			return subfilters;
 		}
 
 		@Override
