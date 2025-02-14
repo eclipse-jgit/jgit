@@ -34,6 +34,41 @@
       "parentUuid": "0e4d9545_207478df",
       "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "141cf90e_d7cb1ddc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-14T08:36:26Z",
+      "side": 1,
+      "message": "could you add this explanation from ps1 to the commit message ?\nwhat if the bitmap index is deleted after we\u0027ve found it ?",
+      "parentUuid": "1a4dc458_8e5881c5",
+      "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb7edb4_a3e9e900",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-14T08:36:26Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\tif (bitMaps !\u003d null) {\n```",
+      "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
