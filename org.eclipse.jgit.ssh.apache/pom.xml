@@ -30,7 +30,6 @@
   <properties>
     <translate-qualifier/>
     <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
-    <eddsa-version>0.3.0</eddsa-version>
   </properties>
 
   <dependencies>
@@ -60,12 +59,6 @@
           <artifactId>sshd-core</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>net.i2p.crypto</groupId>
-      <artifactId>eddsa</artifactId>
-      <version>${eddsa-version}</version>
     </dependency>
 
     <dependency>

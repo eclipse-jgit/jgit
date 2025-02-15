@@ -73,12 +73,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "eddsa",
-    artifact = "net.i2p.crypto:eddsa:0.3.0",
-    sha1 = "1901c8d4d8bffb7d79027686cfb91e704217c3e1",
-)
-
-maven_jar(
     name = "jsch",
     artifact = "com.jcraft:jsch:0.1.55",
     sha1 = "bbd40e5aa7aa3cfad5db34965456cee738a42a50",
