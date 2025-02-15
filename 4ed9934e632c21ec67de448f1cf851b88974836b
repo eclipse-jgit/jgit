@@ -22,6 +22,75 @@
       },
       "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a50745f7_58cbe0e9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-02-15T18:32:42Z",
+      "side": 1,
+      "message": "we should cover two cases here:\n1. when GC repacks everything\n2. when GC keeps existing packs\n```suggestion\n\t@Test\n\tpublic void testShouldReportNoPacksDirectlyAfterGc() throws Exception {\n\t\t// given two packfiles\n\t\taddCommit(null);\n\t\ttr.packAndPrune();\n\t\taddCommit(null);\n\t\ttr.packAndPrune();\n\t\tassertEquals(2L, gc.getStatistics().numberOfPackFilesSinceBitmap);\n\t\tassertEquals(2L, gc.getStatistics().numberOfPackFiles);\n\n\t\t// when existing packs are getting re-packed\n\t\tgc.setPackExpireAgeMillis(0L);\n\t\tgc.gc().get();\n\n\t\t// then\n\t\tassertEquals(1L, repositoryBitmapFiles());\n\t\tassertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);\n\t\tassertEquals(1L, gc.getStatistics().numberOfPackFiles);\n\t}\n\n\t@Test\n\tpublic void testShouldReportNoPacksDirectlyAfterGcEvenWhenPackfilesAreKeptAfterGc()\n\t\t\tthrows Exception {\n\t\t// given two packfiles\n\t\taddCommit(null);\n\t\ttr.packAndPrune();\n\t\taddCommit(null);\n\t\ttr.packAndPrune();\n\t\tassertEquals(2L, gc.getStatistics().numberOfPackFilesSinceBitmap);\n\t\tassertEquals(2L, gc.getStatistics().numberOfPackFiles);\n\n\t\t// when repacking with bitmap without pruning old packfiles\n\t\tgc.setPackExpireAgeMillis(Long.MAX_VALUE);\n\t\tgc.gc().get();\n\n\t\t// then\n\t\tassertEquals(1L, repositoryBitmapFiles());\n\t\tassertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);\n\t\tassertEquals(2L, gc.getStatistics().numberOfPackFiles);\n\t}\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 2
+      },
+      "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1a3163_ef4d6bc4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-02-15T18:32:42Z",
+      "side": 1,
+      "message": "nit: should be formatted accordingly to the comment IOW progress check as first group, pack and check as second\n```suggestion\n\t\t// progress \u0026 pack\n\t\taddCommit(parent);\n\t\tassertEquals(1L, gc.getStatistics().numberOfPackFiles);\n\t\tassertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);\n\n\t\ttr.packAndPrune();\n\t\tassertEquals(2L, gc.getStatistics().numberOfPackFiles);\n\t\tassertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);\n```",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 68
+      },
+      "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad76f694_e9cf90b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-02-15T18:32:42Z",
+      "side": 1,
+      "message": "nit: it probably makes sense to also show `numberOfLooseObjects` to correlate the shape of repo with `numberOfObjectsSinceBitmaps` around GC, WDYT?\n```suggestion\n\t@Test\n\tpublic void testShouldReportNewObjectsSinceGcWhenRepositoryProgresses()\n\t\t\tthrows Exception {\n\t\t// commit \u0026 gc\n\t\tRevCommit parent \u003d addCommit(null);\n\t\tgc.gc().get();\n\t\tassertEquals(0L, gc.getStatistics().numberOfLooseObjects);\n\t\tassertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);\n\n\t\t// progress \u0026 pack\n\t\taddCommit(parent);\n\t\tassertEquals(1L, gc.getStatistics().numberOfLooseObjects);\n\t\tassertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);\n\n\t\ttr.packAndPrune();\n\t\tassertEquals(0L, gc.getStatistics().numberOfLooseObjects);\n\t\t// Number of objects contained in the newly created PackFile\n\t\tassertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);\n\t}\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 2
+      },
+      "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
