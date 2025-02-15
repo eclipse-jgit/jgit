@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -59,6 +60,11 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		head = git.commit().setMessage("add file").call();
 		assertNotNull(head);
 		untrackedFile = writeTrashFile("untracked.txt", "content");
+	}
+
+	private void convertToRefTable() throws IOException {
+		((FileRepository) git.getRepository()).convertRefStorage("reftable",
+				true, false);
 	}
 
 	private void validateStashedCommit(RevCommit commit)
@@ -140,6 +146,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void noLocalChangesRefTable() throws Exception {
+		convertToRefTable();
+		noLocalChanges();
+	}
+
+	@Test
 	public void workingDirectoryDelete() throws Exception {
 		deleteTrashFile("file.txt");
 		RevCommit stashed = git.stashCreate().call();
@@ -153,6 +165,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(1, diffs.size());
 		assertEquals(DiffEntry.ChangeType.DELETE, diffs.get(0).getChangeType());
 		assertEquals("file.txt", diffs.get(0).getOldPath());
+	}
+
+	@Test
+	public void workingDirectoryDeleteRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryDelete();
 	}
 
 	@Test
@@ -171,6 +189,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(1, diffs.size());
 		assertEquals(DiffEntry.ChangeType.ADD, diffs.get(0).getChangeType());
 		assertEquals("file2.txt", diffs.get(0).getNewPath());
+	}
+
+	@Test
+	public void indexAddRefTable() throws Exception {
+		convertToRefTable();
+		indexAdd();
 	}
 
 	@Test
@@ -195,6 +219,13 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void newFileInIndexThenModifiedInWorkTreeRefTable()
+			throws Exception {
+		convertToRefTable();
+		newFileInIndexThenModifiedInWorkTree();
+	}
+
+	@Test
 	public void indexDelete() throws Exception {
 		git.rm().addFilepattern("file.txt").call();
 
@@ -212,6 +243,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void indexDeleteRefTable() throws Exception {
+		convertToRefTable();
+		indexDelete();
+	}
+
+	@Test
 	public void workingDirectoryModify() throws Exception {
 		writeTrashFile("file.txt", "content2");
 
@@ -226,6 +263,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(1, diffs.size());
 		assertEquals(DiffEntry.ChangeType.MODIFY, diffs.get(0).getChangeType());
 		assertEquals("file.txt", diffs.get(0).getNewPath());
+	}
+
+	@Test
+	public void workingDirectoryModifyRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryModify();
 	}
 
 	@Test
@@ -248,6 +291,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(1, diffs.size());
 		assertEquals(DiffEntry.ChangeType.MODIFY, diffs.get(0).getChangeType());
 		assertEquals(path, diffs.get(0).getNewPath());
+	}
+
+	@Test
+	public void workingDirectoryModifyInSubfolderRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryModifyInSubfolder();
 	}
 
 	@Test
@@ -282,6 +331,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void workingDirectoryModifyIndexChangedRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryModifyIndexChanged();
+	}
+
+	@Test
 	public void workingDirectoryCleanIndexModify() throws Exception {
 		writeTrashFile("file.txt", "content2");
 		git.add().addFilepattern("file.txt").call();
@@ -310,6 +365,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 				.getOldId());
 		assertTrue(workingDiffs.get(0).getNewId()
 				.equals(indexDiffs.get(0).getNewId()));
+	}
+
+	@Test
+	public void workingDirectoryCleanIndexModifyRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryCleanIndexModify();
 	}
 
 	@Test
@@ -348,6 +409,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void workingDirectoryDeleteIndexAddRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryDeleteIndexAdd();
+	}
+
+	@Test
 	public void workingDirectoryDeleteIndexEdit() throws Exception {
 		File edited = writeTrashFile("file.txt", "content2");
 		git.add().addFilepattern("file.txt").call();
@@ -380,6 +447,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void workingDirectoryDeleteIndexEditRefTable() throws Exception {
+		convertToRefTable();
+		workingDirectoryDeleteIndexEdit();
+	}
+
+	@Test
 	public void multipleEdits() throws Exception {
 		git.rm().addFilepattern("file.txt").call();
 		File addedFile = writeTrashFile("file2.txt", "content2");
@@ -401,6 +474,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void multipleEditsRefTable() throws Exception {
+		convertToRefTable();
+		multipleEdits();
+	}
+
+	@Test
 	public void refLogIncludesCommitMessage() throws Exception {
 		PersonIdent who = new PersonIdent("user", "user@email.com");
 		deleteTrashFile("file.txt");
@@ -419,6 +498,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals(stashed.getFullMessage(), entry.getComment());
 	}
 
+	@Test
+	public void refLogIncludesCommitMessageRefTable() throws Exception {
+		convertToRefTable();
+		refLogIncludesCommitMessage();
+	}
+
 	@Test(expected = UnmergedPathsException.class)
 	public void unmergedPathsShouldCauseException() throws Exception {
 		commitFile("file.txt", "master", "base");
@@ -427,6 +512,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		git.merge().include(side).call();
 
 		git.stashCreate().call();
+	}
+
+	@Test(expected = UnmergedPathsException.class)
+	public void unmergedPathsShouldCauseExceptionRefTable() throws Exception {
+		convertToRefTable();
+		unmergedPathsShouldCauseException();
 	}
 
 	@Test
@@ -446,6 +537,12 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void untrackedFileIncludedRefTable() throws Exception {
+		convertToRefTable();
+		untrackedFileIncluded();
+	}
+
+	@Test
 	public void untrackedFileNotIncluded() throws Exception {
 		String trackedPath = "tracked.txt";
 		// at least one modification needed
@@ -458,5 +555,11 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertTrue("untracked file should be left untouched.",
 				untrackedFile.exists());
 		assertEquals("content", read(untrackedFile));
+	}
+
+	@Test
+	public void untrackedFileNotIncludedRefTable() throws Exception {
+		convertToRefTable();
+		untrackedFileNotIncluded();
 	}
 }
