@@ -10,6 +10,7 @@
 package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.lib.Constants.R_STASH;
+import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,12 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileReftableDatabase;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.internal.storage.file.ReflogWriter;
+import org.eclipse.jgit.internal.storage.reftable.ReftableReflogReader;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -58,7 +62,8 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	 */
 	public StashDropCommand(Repository repo) {
 		super(repo);
-		if (!(repo.getRefDatabase() instanceof RefDirectory)) {
+		if (!(repo.getRefDatabase() instanceof RefDirectory)
+				&& !(repo.getRefDatabase() instanceof FileReftableDatabase)) {
 			throw new UnsupportedOperationException(
 					JGitText.get().stashDropNotSupported);
 		}
@@ -164,8 +169,9 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 		}
 
 		List<ReflogEntry> entries;
+		ReflogReader reader;
 		try {
-			ReflogReader reader = repo.getRefDatabase()
+			reader = repo.getRefDatabase()
 					.getReflogReader(R_STASH);
 			if (reader == null) {
 				throw new RefNotFoundException(MessageFormat
@@ -185,37 +191,65 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 			return null;
 		}
 
-		RefDirectory refdb = (RefDirectory) repo.getRefDatabase();
-		ReflogWriter writer = new ReflogWriter(refdb, true);
-		String stashLockRef = ReflogWriter.refLockFor(R_STASH);
-		File stashLockFile = refdb.logFor(stashLockRef);
-		File stashFile = refdb.logFor(R_STASH);
-		if (stashLockFile.exists())
-			throw new JGitInternalException(JGitText.get().stashDropFailed,
-					new LockFailedException(stashFile));
+		if (repo.getRefDatabase() instanceof RefDirectory) {
+			RefDirectory refdb = (RefDirectory) repo.getRefDatabase();
+			ReflogWriter writer = new ReflogWriter(refdb, true);
+			String stashLockRef = ReflogWriter.refLockFor(R_STASH);
+			File stashLockFile = refdb.logFor(stashLockRef);
+			File stashFile = refdb.logFor(R_STASH);
+			if (stashLockFile.exists())
+				throw new JGitInternalException(JGitText.get().stashDropFailed,
+						new LockFailedException(stashFile));
 
-		entries.remove(stashRefEntry);
-		ObjectId entryId = ObjectId.zeroId();
-		try {
-			for (int i = entries.size() - 1; i >= 0; i--) {
-				ReflogEntry entry = entries.get(i);
-				writer.log(stashLockRef, entryId, entry.getNewId(),
-						entry.getWho(), entry.getComment());
-				entryId = entry.getNewId();
-			}
+			entries.remove(stashRefEntry);
+			ObjectId entryId = ObjectId.zeroId();
 			try {
-				FileUtils.rename(stashLockFile, stashFile,
-						StandardCopyOption.ATOMIC_MOVE);
-			} catch (IOException e) {
+				for (int i = entries.size() - 1; i >= 0; i--) {
+					// Write new Entry without the entry to delete
+					ReflogEntry entry = entries.get(i);
+					writer.log(stashLockRef, entryId, entry.getNewId(),
+							entry.getWho(), entry.getComment());
+					entryId = entry.getNewId();
+				}
+				try {
+					FileUtils.rename(stashLockFile, stashFile,
+							StandardCopyOption.ATOMIC_MOVE);
+				} catch (IOException e) {
 					throw new JGitInternalException(MessageFormat.format(
 							JGitText.get().renameFileFailed,
-								stashLockFile.getPath(), stashFile.getPath()),
+							stashLockFile.getPath(), stashFile.getPath()), e);
+				}
+			} catch (IOException e) {
+				throw new JGitInternalException(JGitText.get().stashDropFailed,
 						e);
 			}
-		} catch (IOException e) {
-			throw new JGitInternalException(JGitText.get().stashDropFailed, e);
+			updateRef(stashRef, entryId);
+		} else {
+			FileReftableDatabase refdb = (FileReftableDatabase) repo
+					.getRefDatabase();
+
+			try {
+				// Write an deletelog block to hide the stash entry
+				long updateidx = ((ReftableReflogReader) reader)
+						.getUpdateIndexOfEntry(stashRefEntry);
+				long nextidx = refdb.nextUpdateIndex();
+				refdb.addReftable(rw -> {
+					rw.setMinUpdateIndex(nextidx).setMaxUpdateIndex(nextidx)
+							.begin();
+					// if the first stash was dropped, the ref should be
+					// change to the new top of the stash
+					if (stashRefEntry == 0) {
+						rw.writeRef(new ObjectIdRef.PeeledNonTag(PACKED,
+								R_STASH, entries.get(1).getNewId(), nextidx));
+					}
+					rw.deleteLog(R_STASH, updateidx);
+				});
+			} catch (IOException e) {
+				throw new JGitInternalException(JGitText.get().stashDropFailed,
+						e);
+			}
+
 		}
-		updateRef(stashRef, entryId);
 
 		try {
 			Ref newStashRef = repo.exactRef(R_STASH);

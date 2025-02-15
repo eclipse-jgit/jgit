@@ -71,13 +71,18 @@ public abstract class ReftableDatabase {
 	/**
 	 * Get ReflogReader
 	 *
-	 * @return a ReflogReader for the given ref
+	 * @return a ReflogReader for the given ref or null, if the ref not exist
 	 * @param refname
 	 *            the name of the ref.
 	 * @throws IOException
 	 *             on I/O problems
 	 */
 	public ReflogReader getReflogReader(String refname) throws IOException {
+		// Same behavior like in RefDatabase.getReflogReader
+		// if the ref not exists return null
+		if (exactRef(refname) == null) {
+			return null;
+		}
 		lock.lock();
 		try {
 			return new ReftableReflogReader(lock, reader(), refname);
