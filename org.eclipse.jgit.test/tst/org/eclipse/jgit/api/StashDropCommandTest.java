@@ -16,9 +16,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -51,14 +53,31 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNotNull(head);
 	}
 
+	private void convertToRefTable() throws IOException {
+		((FileRepository) git.getRepository()).convertRefStorage("reftable",
+				true, false);
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void dropNegativeRef() {
 		git.stashDrop().setStashRef(-1);
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropNegativeRefRefTable() throws Exception {
+		convertToRefTable();
+		dropNegativeRef();
+	}
+
 	@Test
 	public void dropWithNoStashedCommits() throws Exception {
 		assertNull(git.stashDrop().call());
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropWithNoStashedCommitsRefTable() throws Exception {
+		convertToRefTable();
+		dropWithNoStashedCommits();
 	}
 
 	@Test
@@ -79,6 +98,12 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropWithInvalidLogIndexRefTable() throws Exception {
+		convertToRefTable();
+		dropWithInvalidLogIndex();
+	}
+
 	@Test
 	public void dropSingleStashedCommit() throws Exception {
 		write(committedFile, "content2");
@@ -95,6 +120,12 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		ReflogReader reader = git.getRepository().getRefDatabase()
 				.getReflogReader(Constants.R_STASH);
 		assertNull(reader);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropSingleStashedCommitRefTable() throws Exception {
+		convertToRefTable();
+		dropSingleStashedCommit();
 	}
 
 	@Test
@@ -123,6 +154,12 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		ReflogReader reader = git.getRepository().getRefDatabase()
 				.getReflogReader(Constants.R_STASH);
 		assertNull(reader);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropAllRefTable() throws Exception {
+		convertToRefTable();
+		dropAll();
 	}
 
 	@Test
@@ -157,6 +194,12 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertEquals(ObjectId.zeroId(), entries.get(0).getOldId());
 		assertEquals(firstStash, entries.get(0).getNewId());
 		assertTrue(entries.get(0).getComment().length() > 0);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropFirstStashedCommitRefTable() throws Exception {
+		convertToRefTable();
+		dropFirstStashedCommit();
 	}
 
 	@Test
@@ -202,6 +245,12 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertEquals(entries.get(0).getOldId(), entries.get(1).getNewId());
 		assertEquals(thirdStash, entries.get(0).getNewId());
 		assertTrue(entries.get(0).getComment().length() > 0);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropMiddleStashCommitRefTable() throws Exception {
+		convertToRefTable();
+		dropMiddleStashCommit();
 	}
 
 	@Test
@@ -260,5 +309,11 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertEquals(entries.get(0).getOldId(), entries.get(1).getNewId());
 		assertEquals(thirdStash, entries.get(0).getNewId());
 		assertTrue(entries.get(0).getComment().length() > 0);
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void dropBoundaryStashedCommitsRefTable() throws Exception {
+		convertToRefTable();
+		dropBoundaryStashedCommits();
 	}
 }
