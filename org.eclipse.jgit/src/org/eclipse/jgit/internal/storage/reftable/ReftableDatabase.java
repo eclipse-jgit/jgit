@@ -71,7 +71,7 @@ public abstract class ReftableDatabase {
 	/**
 	 * Get ReflogReader
 	 *
-	 * @return a ReflogReader for the given ref
+	 * @return a ReflogReader for the given ref or null, if the ref not exist
 	 * @param refname
 	 *            the name of the ref.
 	 * @throws IOException

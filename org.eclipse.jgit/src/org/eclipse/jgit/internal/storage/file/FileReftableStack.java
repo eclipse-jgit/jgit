@@ -327,7 +327,15 @@ public class FileReftableStack implements AutoCloseable {
 		}
 	}
 
-	private long nextUpdateIndex() throws IOException {
+	/**
+	 * returns the next updateIndex which should be used from the underlying
+	 * reftable stack.
+	 *
+	 * @return next usable updateIndex
+	 * @throws IOException
+	 *             on I/O errors
+	 */
+	protected long nextUpdateIndex() throws IOException {
 		return stack.size() > 0
 				? stack.get(stack.size() - 1).reftableReader.maxUpdateIndex()
 						+ 1
