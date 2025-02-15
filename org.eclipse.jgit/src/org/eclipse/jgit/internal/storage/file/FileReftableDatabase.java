@@ -108,6 +108,17 @@ public class FileReftableDatabase extends RefDatabase {
 	}
 
 	/**
+	 * returns the next updateIndex which should be used from the underlying
+	 * reftableDatabase.
+	 *
+	 * @return next usable updateIndex
+	 * @throws IOException
+	 *             on I/O errors
+	 */
+	public long nextUpdateIndex() throws IOException {
+		return reftableDatabase.nextUpdateIndex();
+	}
+	/**
 	 * Whether the given repo uses reftable for refdb storage
 	 *
 	 * @param repoDir
@@ -401,7 +412,17 @@ public class FileReftableDatabase extends RefDatabase {
 				true);
 	}
 
-	private boolean addReftable(FileReftableStack.Writer w) throws IOException {
+	/**
+	 * Writes a new reftable in the stack. In the writer the caller have to set
+	 * the minimum and maximum updateIndex and call begin
+	 *
+	 * @param w
+	 *            function, in which the refs or logs are written
+	 * @return true if succeed
+	 * @throws IOException
+	 *             on I/O errors
+	 */
+	public boolean addReftable(FileReftableStack.Writer w) throws IOException {
 		if (!reftableStack.addReftable(w)) {
 			reftableStack.reload();
 			reftableDatabase.clearCache();
