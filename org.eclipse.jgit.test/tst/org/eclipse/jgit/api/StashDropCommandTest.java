@@ -42,6 +42,16 @@ public class StashDropCommandTest extends RepositoryTestCase {
 
 	private File committedFile;
 
+	private List<ReflogEntry> entries;
+
+	private RevCommit firstStash;
+
+	private RevCommit secondStash;
+
+	private RevCommit thirdStash;
+
+	private RevCommit fourthStash;
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
@@ -63,7 +73,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		git.stashDrop().setStashRef(-1);
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void dropNegativeRefRefTable() throws Exception {
 		convertToRefTable();
 		dropNegativeRef();
@@ -74,7 +84,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertNull(git.stashDrop().call());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropWithNoStashedCommitsRefTable() throws Exception {
 		convertToRefTable();
 		dropWithNoStashedCommits();
@@ -98,7 +108,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropWithInvalidLogIndexRefTable() throws Exception {
 		convertToRefTable();
 		dropWithInvalidLogIndex();
@@ -117,14 +127,13 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
 
-		ReflogReader reader = git.getRepository().getRefDatabase()
-				.getReflogReader(Constants.R_STASH);
-		assertNull(reader);
+		assertTrue(git.stashList().call().isEmpty());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropSingleStashedCommitRefTable() throws Exception {
 		convertToRefTable();
+
 		dropSingleStashedCommit();
 	}
 
@@ -133,7 +142,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
-		RevCommit firstStash = git.stashCreate().call();
+		firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -141,7 +150,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
-		RevCommit secondStash = git.stashCreate().call();
+		secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -149,14 +158,11 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		assertNull(git.stashDrop().setAll(true).call());
-		assertNull(git.getRepository().exactRef(Constants.R_STASH));
 
-		ReflogReader reader = git.getRepository().getRefDatabase()
-				.getReflogReader(Constants.R_STASH);
-		assertNull(reader);
+		assertTrue(git.stashList().call().isEmpty());
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropAllRefTable() throws Exception {
 		convertToRefTable();
 		dropAll();
@@ -167,7 +173,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
-		RevCommit firstStash = git.stashCreate().call();
+		firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -175,7 +181,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
-		RevCommit secondStash = git.stashCreate().call();
+		secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -189,25 +195,24 @@ public class StashDropCommandTest extends RepositoryTestCase {
 
 		ReflogReader reader = git.getRepository().getRefDatabase()
 				.getReflogReader(Constants.R_STASH);
-		List<ReflogEntry> entries = reader.getReverseEntries();
+		entries = reader.getReverseEntries();
 		assertEquals(1, entries.size());
 		assertEquals(ObjectId.zeroId(), entries.get(0).getOldId());
 		assertEquals(firstStash, entries.get(0).getNewId());
 		assertTrue(entries.get(0).getComment().length() > 0);
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropFirstStashedCommitRefTable() throws Exception {
 		convertToRefTable();
 		dropFirstStashedCommit();
 	}
 
-	@Test
-	public void dropMiddleStashCommit() throws Exception {
+	private void doDropMiddleStashCommit() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
-		RevCommit firstStash = git.stashCreate().call();
+		firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -215,7 +220,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
-		RevCommit secondStash = git.stashCreate().call();
+		secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -223,7 +228,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content4");
-		RevCommit thirdStash = git.stashCreate().call();
+		thirdStash = git.stashCreate().call();
 		assertNotNull(thirdStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -237,7 +242,13 @@ public class StashDropCommandTest extends RepositoryTestCase {
 
 		ReflogReader reader = git.getRepository().getRefDatabase()
 				.getReflogReader(Constants.R_STASH);
-		List<ReflogEntry> entries = reader.getReverseEntries();
+		entries = reader.getReverseEntries();
+	}
+
+	@Test
+	public void dropMiddleStashCommit() throws Exception {
+		doDropMiddleStashCommit();
+
 		assertEquals(2, entries.size());
 		assertEquals(ObjectId.zeroId(), entries.get(1).getOldId());
 		assertEquals(firstStash, entries.get(1).getNewId());
@@ -247,18 +258,26 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertTrue(entries.get(0).getComment().length() > 0);
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropMiddleStashCommitRefTable() throws Exception {
 		convertToRefTable();
-		dropMiddleStashCommit();
+
+		doDropMiddleStashCommit();
+
+		assertEquals(2, entries.size());
+		assertEquals(ObjectId.zeroId(), entries.get(1).getOldId());
+		assertEquals(firstStash, entries.get(1).getNewId());
+		assertEquals(secondStash, entries.get(0).getOldId());
+		assertEquals(thirdStash, entries.get(0).getNewId());
+		assertTrue(entries.get(0).getComment().length() > 0);
+		assertTrue(entries.get(1).getComment().length() > 0);
 	}
 
-	@Test
-	public void dropBoundaryStashedCommits() throws Exception {
+	private void doDropBoundaryStashedCommits() throws Exception {
 		write(committedFile, "content2");
 		Ref stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNull(stashRef);
-		RevCommit firstStash = git.stashCreate().call();
+		firstStash = git.stashCreate().call();
 		assertNotNull(firstStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -266,7 +285,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content3");
-		RevCommit secondStash = git.stashCreate().call();
+		secondStash = git.stashCreate().call();
 		assertNotNull(secondStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -274,7 +293,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content4");
-		RevCommit thirdStash = git.stashCreate().call();
+		thirdStash = git.stashCreate().call();
 		assertNotNull(thirdStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -282,7 +301,7 @@ public class StashDropCommandTest extends RepositoryTestCase {
 				git.getRepository().exactRef(Constants.R_STASH).getObjectId());
 
 		write(committedFile, "content5");
-		RevCommit fourthStash = git.stashCreate().call();
+		fourthStash = git.stashCreate().call();
 		assertNotNull(fourthStash);
 		stashRef = git.getRepository().exactRef(Constants.R_STASH);
 		assertNotNull(stashRef);
@@ -301,7 +320,13 @@ public class StashDropCommandTest extends RepositoryTestCase {
 
 		ReflogReader reader = git.getRepository().getRefDatabase()
 				.getReflogReader(Constants.R_STASH);
-		List<ReflogEntry> entries = reader.getReverseEntries();
+		entries = reader.getReverseEntries();
+	}
+
+	@Test
+	public void dropBoundaryStashedCommits() throws Exception {
+		doDropBoundaryStashedCommits();
+
 		assertEquals(2, entries.size());
 		assertEquals(ObjectId.zeroId(), entries.get(1).getOldId());
 		assertEquals(secondStash, entries.get(1).getNewId());
@@ -311,9 +336,22 @@ public class StashDropCommandTest extends RepositoryTestCase {
 		assertTrue(entries.get(0).getComment().length() > 0);
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void dropBoundaryStashedCommitsRefTable() throws Exception {
 		convertToRefTable();
-		dropBoundaryStashedCommits();
+
+		// Drop a stash in reftable didn't change the oldid, because a
+		// stash entry can be hided in reftable. No need to rewrite the
+		// whole stash. So we have here other results than in
+		// dropBoundaryStashedCommits (refdirectory test)
+		doDropBoundaryStashedCommits();
+
+		assertEquals(2, entries.size());
+		assertEquals(secondStash, entries.get(0).getOldId());
+		assertEquals(thirdStash, entries.get(0).getNewId());
+		assertEquals(firstStash, entries.get(1).getOldId());
+		assertEquals(secondStash, entries.get(1).getNewId());
+		assertTrue(entries.get(0).getComment().length() > 0);
+		assertTrue(entries.get(1).getComment().length() > 0);
 	}
 }

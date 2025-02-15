@@ -69,6 +69,33 @@ public class ReftableReflogReader implements ReflogReader {
 		}
 	}
 
+	/**
+	 * Gets the updateIndex of nth entry in reflog. Specially for write a delete
+	 * block in a reftable.
+	 *
+	 * @param number
+	 *            the nth entry to demiter the updateindex
+	 * @return the updateindex or -1 if the entry doesn't exists
+	 * @throws IOException
+	 *             from reftable.seekLog
+	 */
+	public long getUpdateIndexOfEntry(int number) throws IOException {
+		lock.lock();
+		try {
+			LogCursor cursor = reftable.seekLog(refname);
+			while (true) {
+				if (!cursor.next() || number < 0) {
+					return -1;
+				}
+				if (number == 0) {
+					return cursor.getUpdateIndex();
+				}
+				number--;
+			}
+		} finally {
+			lock.unlock();
+		}
+	}
 	@Override
 	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
 		lock.lock();
