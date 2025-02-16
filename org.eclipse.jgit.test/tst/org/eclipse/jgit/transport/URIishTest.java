@@ -82,6 +82,43 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testBrokenFilePath() throws Exception {
+		String str = "D:\\\\my\\\\x";
+		URIish u = new URIish(str);
+		assertNull(u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals(str, u.getPath());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testStackOverflow() throws Exception {
+		StringBuilder b = new StringBuilder("D:\\");
+		for (int i = 0; i < 4000; i++) {
+			b.append("x\\");
+		}
+		String str = b.toString();
+		URIish u = new URIish(str);
+		assertNull(u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals(str, u.getPath());
+	}
+
+	@Test
+	public void testStackOverflow2() throws Exception {
+		StringBuilder b = new StringBuilder("D:\\");
+		for (int i = 0; i < 4000; i++) {
+			b.append("x\\");
+		}
+		b.append('y');
+		String str = b.toString();
+		URIish u = new URIish(str);
+		assertNull(u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals(str, u.getPath());
+	}
+
+	@Test
 	public void testRelativePath() throws Exception {
 		final String str = "../../foo/bar";
 		URIish u = new URIish(str);
