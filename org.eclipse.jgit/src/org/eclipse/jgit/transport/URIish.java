@@ -82,7 +82,7 @@ public class URIish implements Serializable {
 	 * Part of a pattern which matches a relative path. Relative paths don't
 	 * start with slash or drive letters. Defines no capturing group.
 	 */
-	private static final String RELATIVE_PATH_P = "(?:(?:[^\\\\/]+[\\\\/]+)*[^\\\\/]+[\\\\/]*)"; //$NON-NLS-1$
+	private static final String RELATIVE_PATH_P = "(?:(?:[^\\\\/]+[\\\\/]+)*+[^\\\\/]*)"; //$NON-NLS-1$
 
 	/**
 	 * Part of a pattern which matches a relative or absolute path. Defines no
@@ -120,7 +120,7 @@ public class URIish implements Serializable {
 	 * path (maybe even containing windows drive-letters) or a relative path.
 	 */
 	private static final Pattern LOCAL_FILE = Pattern.compile("^" // //$NON-NLS-1$
-			+ "([\\\\/]?" + PATH_P + ")" // //$NON-NLS-1$ //$NON-NLS-2$
+			+ "([\\\\/]?+" + PATH_P + ")" // //$NON-NLS-1$ //$NON-NLS-2$
 			+ "$"); //$NON-NLS-1$
 
 	/**
