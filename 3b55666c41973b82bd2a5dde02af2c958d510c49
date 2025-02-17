@@ -22,6 +22,30 @@
       },
       "revId": "3b55666c41973b82bd2a5dde02af2c958d510c49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72ed315b_ea0734b9",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/GetRefsBenchmark.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-17T14:02:36Z",
+      "side": 1,
+      "message": "ok, I now increased measurement time to 5 sec (half of the old value 10s). With this the benchmark takes around 1h on my laptop.",
+      "parentUuid": "a1c2843e_b3622812",
+      "range": {
+        "startLine": 168,
+        "startChar": 30,
+        "endLine": 168,
+        "endChar": 38
+      },
+      "revId": "3b55666c41973b82bd2a5dde02af2c958d510c49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
