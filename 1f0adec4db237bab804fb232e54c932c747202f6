@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc6df501_577eebb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-17T14:07:39Z",
+      "side": 1,
+      "message": "Maybe we should move this setter and the getter up to `RefDatabase` ?\nRefDirectory implicitly does auto-refresh since it doesn\u0027t support consistent read across multiple ref resolutions.",
+      "revId": "1f0adec4db237bab804fb232e54c932c747202f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
