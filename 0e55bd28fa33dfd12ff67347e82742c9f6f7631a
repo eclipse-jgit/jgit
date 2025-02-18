@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1a0681_d7a29db0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-18T19:28:13Z",
+      "side": 1,
+      "message": "Looks good. I assume this branch is a revert of some commits from upstream. If so, could we add that in the commit message?\n\nSomething like:\n* Revert commit x, y, z\n* Fixed compilation errors\n\nThis would help if a future rebase gets messed up and we want to \"restart\" the branch.",
+      "revId": "0e55bd28fa33dfd12ff67347e82742c9f6f7631a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "741f6fcf_5d3a5795",
