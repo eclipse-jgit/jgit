@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (c) 2025 Gasper Kojek [and others]
+
+   This program and the accompanying materials are made available under the
+   terms of the Eclipse Distribution License v. 1.0 which is available at
+   https://www.eclipse.org/org/documents/edl-v10.php.
+
+   SPDX-License-Identifier: BSD-3-Clause
+-->
+<extensions>
+	<extension>
+		<groupId>com.gradle</groupId>
+		<artifactId>develocity-maven-extension</artifactId>
+		<version>1.23.1</version>
+	</extension>
+	<extension>
+		<groupId>com.gradle</groupId>
+		<artifactId>common-custom-user-data-maven-extension</artifactId>
+		<version>2.0.1</version>
+	</extension>
+</extensions>
