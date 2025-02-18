@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b807c0b5_0f97abe6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-02-18T22:02:33Z",
+      "side": 1,
+      "message": "please expand the name of this test to distinguish it from the next test cache_intermediateInCache_stopInCache",
+      "range": {
+        "startLine": 289,
+        "startChar": 13,
+        "endLine": 289,
+        "endChar": 38
+      },
+      "revId": "74441ba2dddfc6ff81b60fbce4e4f14f685e6823",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe8852ba_05a8e034",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-02-18T22:02:33Z",
+      "side": 1,
+      "message": "I wonder if this test is here, as it gives the impression that JGit will generate the cache. Or maybe the test name is misleading...",
+      "range": {
+        "startLine": 363,
+        "startChar": 13,
+        "endLine": 363,
+        "endChar": 35
+      },
+      "revId": "74441ba2dddfc6ff81b60fbce4e4f14f685e6823",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e71ec55a_95c9ad1c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-02-18T22:02:33Z",
+      "side": 1,
+      "message": "private?",
+      "range": {
+        "startLine": 506,
+        "startChar": 1,
+        "endLine": 506,
+        "endChar": 7
+      },
+      "revId": "74441ba2dddfc6ff81b60fbce4e4f14f685e6823",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
