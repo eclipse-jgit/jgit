@@ -39,6 +39,30 @@
       },
       "revId": "1ca21a47dc23c455ecda405d5d046c697bb80b6c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c915bfb_6881150d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/BlameCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-18T21:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ef5480d_e6ecc912",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "1ca21a47dc23c455ecda405d5d046c697bb80b6c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
