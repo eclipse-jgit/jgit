@@ -532,6 +532,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b0cc919_2fcdaf9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-02-18T17:55:00Z",
+      "side": 1,
+      "message": "why wait to refactor it into the Candidate class later?\n\nthis is the CL that introduces the BlameRegionMerger class, we should not be introducing tech debt when introducing new classes. Putting the BlameRegionMerger initiation into the candidate class should be fairly easy. We can add another \"merger\" class for the editList merging logic in a later CL.",
+      "parentUuid": "29f1939e_196067f3",
+      "revId": "d3291337272383bd6187bf51dc52409cbfad2cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f63d94b0_d64af79a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
         "patchSetId": 9
