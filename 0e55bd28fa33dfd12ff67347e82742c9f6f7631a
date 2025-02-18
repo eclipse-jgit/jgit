@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4e6f41_02a7ca8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-18T19:44:19Z",
+      "side": 1,
+      "message": "no, it\u0027s a straight downport to servlet API 4.0.4\nI didn\u0027t revert the commits we did to upgrade to servlet 6 since we did this in several intermediate steps via Jetty 11 and servlet 5. If we revert them we are back to servlet 4 and Jetty 10 which is EOL.\n\nHence I mechanically changed back the servlet package name and downgraded the version of the servlet API and followed the Jetty migration guide to replace the ee10 with the ee8 environment of Jetty 12 which is based on servlet 4.\n\nThere\u0027s still a compile error in AppServer which I still need to fix.",
+      "parentUuid": "ab1a0681_d7a29db0",
+      "revId": "0e55bd28fa33dfd12ff67347e82742c9f6f7631a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "741f6fcf_5d3a5795",
