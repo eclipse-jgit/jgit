@@ -71,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3437213f_1c5faac4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-18T16:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a50745f7_58cbe0e9",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 2
+      },
+      "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d1a3163_ef4d6bc4",
@@ -94,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "344734b5_084231c3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-18T16:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d1a3163_ef4d6bc4",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 68
+      },
+      "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad76f694_e9cf90b8",
@@ -107,6 +155,30 @@
       "writtenOn": "2025-02-15T18:32:42Z",
       "side": 1,
       "message": "nit: it probably makes sense to also show `numberOfLooseObjects` to correlate the shape of repo with `numberOfObjectsSinceBitmaps` around GC, WDYT?\n```suggestion\n\t@Test\n\tpublic void testShouldReportNewObjectsSinceGcWhenRepositoryProgresses()\n\t\t\tthrows Exception {\n\t\t// commit \u0026 gc\n\t\tRevCommit parent \u003d addCommit(null);\n\t\tgc.gc().get();\n\t\tassertEquals(0L, gc.getStatistics().numberOfLooseObjects);\n\t\tassertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);\n\n\t\t// progress \u0026 pack\n\t\taddCommit(parent);\n\t\tassertEquals(1L, gc.getStatistics().numberOfLooseObjects);\n\t\tassertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);\n\n\t\ttr.packAndPrune();\n\t\tassertEquals(0L, gc.getStatistics().numberOfLooseObjects);\n\t\t// Number of objects contained in the newly created PackFile\n\t\tassertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);\n\t}\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 2
+      },
+      "revId": "4ed9934e632c21ec67de448f1cf851b88974836b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91b66116_39f95ef4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-18T16:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad76f694_e9cf90b8",
       "range": {
         "startLine": 99,
         "startChar": 0,
