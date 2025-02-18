@@ -106,6 +106,24 @@
       "parentUuid": "75efc811_ca5af319",
       "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11aa9cd2_385e0f26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-18T08:51:15Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand how these Gatling tests relate to using auto-refresh or not.\n\nThe gatling tests were affected by two factors:\n1 - The resource leaking of `Repository` objects that were not closed properly. ( @luca.milanesio@gmail.com has merged a series of changes in master to do this properly now). This had the result of leaving pointers to reftable resources that did not exist anymore.\n\n2 - external GC process: during the execution of our gatling tests we were also periodically triggering external `jgit gc` to the target repo.\n\nEven if the `FileSnapshotting` helps with auto-refresh and helps consistency, my major worry is losing a consistent view of the refs.\n\nAs Han-Wen describes in this conversation [1]:\n\n```\nref updates are usually part of a transaction, where you read the database at a fixed timestamp, create an update based on what you read, and then try to commit it. If the intervening update changed what you read, the transaction would no longer be valid and should be redone as a whole.\n```\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/146568/comment/0679ea8a_ed211662/",
+      "parentUuid": "776237c1_243b78e2",
+      "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
