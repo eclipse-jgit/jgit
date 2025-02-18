@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "358629ae_8ac16fd0",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-18T20:34:43Z",
+      "side": 1,
+      "message": "the compile error is here:\n\n```\n[ERROR] org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java:[342,12] \nThe method addHandler(org.eclipse.jetty.server.Handler) in the type \norg.eclipse.jetty.server.Handler.Collection is not applicable for the arguments \n(org.eclipse.jetty.ee8.security.ConstraintSecurityHandler)\n```\n\nThe question is how to convert a  `org.eclipse.jetty.ee8.security.ConstraintSecurityHandler`\nto a\n`org.eclipse.jetty.server.Handler`",
+      "revId": "6d0272b8b49004faaa8c7daec6d955ed72b2ec7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
