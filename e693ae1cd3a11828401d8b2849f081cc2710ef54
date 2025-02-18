@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f69f6e9b_96bdc686",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameRegionMerger.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-02-18T20:59:00Z",
+      "side": 1,
+      "message": "this is not visible, and no tests yet. I think a lot of the tests added for the merger are basically tests of overlaps, so let\u0027s move those tests down a level to findOverlaps() directly.",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 95,
+        "endChar": 8
+      },
+      "revId": "e693ae1cd3a11828401d8b2849f081cc2710ef54",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
