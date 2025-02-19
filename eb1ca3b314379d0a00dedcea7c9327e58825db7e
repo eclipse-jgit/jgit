@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de54e7ee_940fdc7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-19T19:01:29Z",
+      "side": 1,
+      "message": "Unfortunately, I cannot show any improvements with this yet. I have written a simple test program which reads a file using the same RandomAccessFile methods as Pack does, and I can show a speedup by reading portions of the files using a different RandomAccessFile in parallel, but I cannot find a use case in Gerrit that I can make faster with this.",
+      "revId": "eb1ca3b314379d0a00dedcea7c9327e58825db7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
