@@ -295,6 +295,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deleteTagUnexpectedResult;
 	/***/ public String deletingBranches;
 	/***/ public String deletingNotSupported;
+	/***/ public String deprecatedTrustFolderStat;
 	/***/ public String depthMustBeAt1;
 	/***/ public String depthWithUnshallow;
 	/***/ public String destinationIsNotAWildcard;
@@ -493,6 +494,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidTimeUnitValue2;
 	/***/ public String invalidTimeUnitValue3;
 	/***/ public String invalidTreeZeroLengthName;
+	/***/ public String invalidTrustStat;
 	/***/ public String invalidURL;
 	/***/ public String invalidWildcards;
 	/***/ public String invalidRefSpec;
@@ -557,6 +559,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String month;
 	/***/ public String months;
 	/***/ public String monthsAgo;
+	/***/ public String multiPackIndexUnexpectedSize;
+	/***/ public String multiPackIndexWritingCancelled;
 	/***/ public String multipleMergeBasesFor;
 	/***/ public String nameMustNotBeNullOrEmpty;
 	/***/ public String need2Arguments;
@@ -645,6 +649,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String personIdentEmailNonNull;
 	/***/ public String personIdentNameNonNull;
 	/***/ public String postCommitHookFailed;
+	/***/ public String precedenceTrustConfig;
 	/***/ public String prefixRemote;
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;

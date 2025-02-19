@@ -37,5 +37,6 @@ build:remote21 --config=remote
 test --build_tests_only
 test --test_output=errors
 test --flaky_test_attempts=3
+test --test_tag_filters=-ext
 
 import %workspace%/tools/remote-bazelrc

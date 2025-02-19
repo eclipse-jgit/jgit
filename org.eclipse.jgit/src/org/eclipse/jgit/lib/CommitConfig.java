@@ -119,7 +119,7 @@ public class CommitConfig {
 		if (!StringUtils.isEmptyOrNull(comment)) {
 			if ("auto".equalsIgnoreCase(comment)) { //$NON-NLS-1$
 				autoCommentChar = true;
-			} else {
+			} else if (comment != null) {
 				char first = comment.charAt(0);
 				if (first > ' ' && first < 127) {
 					commentCharacter = first;

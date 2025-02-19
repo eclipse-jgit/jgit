@@ -26,8 +26,9 @@ import org.eclipse.jgit.internal.storage.file.FileObjectDatabase.InsertLooseObje
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.FileUtils;
@@ -49,13 +50,13 @@ class LooseObjects {
 	 * Maximum number of attempts to read a loose object for which a stale file
 	 * handle exception is thrown
 	 */
-	private final static int MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS = 5;
+	private final static int MAX_STALE_READ_RETRIES = 5;
 
 	private final File directory;
 
 	private final UnpackedObjectCache unpackedObjectCache;
 
-	private final boolean trustFolderStat;
+	private final TrustStat trustLooseObjectStat;
 
 	/**
 	 * Initialize a reference to an on-disk object directory.
@@ -68,9 +69,8 @@ class LooseObjects {
 	LooseObjects(Config config, File dir) {
 		directory = dir;
 		unpackedObjectCache = new UnpackedObjectCache();
-		trustFolderStat = config.getBoolean(
-				ConfigConstants.CONFIG_CORE_SECTION,
-				ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
+		trustLooseObjectStat = config.get(CoreConfig.KEY)
+				.getTrustLooseObjectStat();
 	}
 
 	/**
@@ -108,7 +108,8 @@ class LooseObjects {
 	 */
 	boolean has(AnyObjectId objectId) {
 		boolean exists = hasWithoutRefresh(objectId);
-		if (trustFolderStat || exists) {
+		if (trustLooseObjectStat == TrustStat.ALWAYS
+				|| exists) {
 			return exists;
 		}
 		try (InputStream stream = Files.newInputStream(directory.toPath())) {
@@ -163,13 +164,31 @@ class LooseObjects {
 	}
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId id) throws IOException {
-		int readAttempts = 0;
-		while (readAttempts < MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS) {
-			readAttempts++;
-			File path = fileFor(id);
-			if (trustFolderStat && !path.exists()) {
+		File path = fileFor(id);
+		for (int retries = 0; retries < MAX_STALE_READ_RETRIES; retries++) {
+			boolean reload = true;
+			switch (trustLooseObjectStat) {
+			case NEVER:
 				break;
+			case AFTER_OPEN:
+				try (InputStream stream = Files
+						.newInputStream(path.getParentFile().toPath())) {
+					// open the loose object's fanout directory to refresh
+					// attributes (on some NFS clients)
+				} catch (FileNotFoundException | NoSuchFileException e) {
+					// ignore
+				}
+				//$FALL-THROUGH$
+			case ALWAYS:
+				if (!path.exists()) {
+					reload = false;
+				}
+				break;
+			case INHERIT:
+				// only used in CoreConfig internally
+				throw new IllegalStateException();
 			}
+			if (reload) {
 			try {
 				return getObjectLoader(curs, path, id);
 			} catch (FileNotFoundException noFile) {
@@ -183,9 +202,10 @@ class LooseObjects {
 				}
 				if (LOG.isDebugEnabled()) {
 					LOG.debug(MessageFormat.format(
-							JGitText.get().looseObjectHandleIsStale, id.name(),
-							Integer.valueOf(readAttempts), Integer.valueOf(
-									MAX_LOOSE_OBJECT_STALE_READ_ATTEMPTS)));
+								JGitText.get().looseObjectHandleIsStale,
+								id.name(), Integer.valueOf(retries),
+								Integer.valueOf(MAX_STALE_READ_RETRIES)));
+					}
 				}
 			}
 		}
@@ -211,7 +231,7 @@ class LooseObjects {
 		try {
 			return getObjectLoaderWithoutRefresh(curs, path, id);
 		} catch (FileNotFoundException e) {
-			if (trustFolderStat) {
+			if (trustLooseObjectStat == TrustStat.ALWAYS) {
 				throw e;
 			}
 			try (InputStream stream = Files
@@ -248,7 +268,7 @@ class LooseObjects {
 			return getSizeWithoutRefresh(curs, id);
 		} catch (FileNotFoundException noFile) {
 			try {
-				if (trustFolderStat) {
+				if (trustLooseObjectStat == TrustStat.ALWAYS) {
 					throw noFile;
 				}
 				try (InputStream stream = Files
