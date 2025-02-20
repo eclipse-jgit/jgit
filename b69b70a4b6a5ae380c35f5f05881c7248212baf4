@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50b54e8a_bbbb1847",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameGeneratorCacheTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-02-20T22:54:13Z",
+      "side": 1,
+      "message": "In the previous comment, I suggested to use \"L1C1\" instead of \"first\" so the tests are easier to follow. Since the javadoc is updated, please feel free to ignore this comment, thanks!",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 69
+      },
+      "revId": "b69b70a4b6a5ae380c35f5f05881c7248212baf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
