@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fafa79f9_9406d805",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameGeneratorSimpleTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-02-20T22:01:16Z",
+      "side": 1,
+      "message": "Perhaps it\u0027s easier to track if the line context consists of the line number and the commit number, asterisk + indicates modifications:\n```\nC1     C2     C3     C4      C4 blame\n----------------------------------\nL1C1   L1C1   L1C1   L1C1    C1\nL2C1   L2C1   *L2C3  *L2C4   C4\nL3C1   L3C1   *L3C3  L3C3    C3\n       *L4C2  L4C2   *L4C4   C4\n```\nAnother case not covered, AFAIK, is line insertion, for example:\n```\nC1     C2     C2 blame\n--------------------\nL1C1   L1C1   C1\nL2C1   *L2C2  C2\nL3C1   L2C1   C1\n       L3C1   C1\n```",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "622f95d1cb148c709f49d0b675e6e415f3feff64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
