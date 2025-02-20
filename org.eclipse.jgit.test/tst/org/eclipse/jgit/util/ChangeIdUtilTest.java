@@ -528,7 +528,7 @@ public class ChangeIdUtilTest {
 	}
 
 	@Test
-	public void testChangeIdAfterBugOrIssue() throws Exception {
+	public void testChangeIdAfterOtherFooters() throws Exception {
 		assertEquals("a\n" + //
 				"\n" + //
 				"Bug: 42\n" + //
@@ -548,6 +548,14 @@ public class ChangeIdUtilTest {
 						"\n" + //
 						"Issue: 42\n" + //
 						SOB1));
+
+		assertEquals("a\n" + //
+				"\n" + //
+				"Other: none\n" + //
+				"Change-Id: Ide70e625dea61854206378a377dd12e462ae720f\n",//
+				call("a\n" + //
+						"\n" + //
+						"Other: none\n"));
 	}
 
 	@Test
