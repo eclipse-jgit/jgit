@@ -34,6 +34,24 @@
       "parentUuid": "358629ae_8ac16fd0",
       "revId": "6d0272b8b49004faaa8c7daec6d955ed72b2ec7e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "901af3eb_75eb0bbe",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-20T16:23:41Z",
+      "side": 1,
+      "message": "fixed :-)",
+      "parentUuid": "720f0a5c_6021faec",
+      "revId": "6d0272b8b49004faaa8c7daec6d955ed72b2ec7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
