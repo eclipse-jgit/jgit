@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f8f75d_4b608893",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-20T22:46:32Z",
+      "side": 1,
+      "message": "Tests are now named: blame_\u003ctopology\u003e_{cacheUsage|correctRegions}\n\nwith topology \"simple\", \"merge\", \"move\" (should be insertion?) and \"overwrite\"",
+      "parentUuid": "b807c0b5_0f97abe6",
+      "range": {
+        "startLine": 289,
+        "startChar": 13,
+        "endLine": 289,
+        "endChar": 38
+      },
+      "revId": "74441ba2dddfc6ff81b60fbce4e4f14f685e6823",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe8852ba_05a8e034",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c131d0ad_77f0012b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-20T22:46:32Z",
+      "side": 1,
+      "message": "In the new order there is no specific test for \"generate and use\" (all tests generate the caches they need).",
+      "parentUuid": "fe8852ba_05a8e034",
+      "range": {
+        "startLine": 363,
+        "startChar": 13,
+        "endLine": 363,
+        "endChar": 35
+      },
+      "revId": "74441ba2dddfc6ff81b60fbce4e4f14f685e6823",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e71ec55a_95c9ad1c",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-02-18T22:02:33Z",
       "side": 1,
       "message": "private?",
+      "range": {
+        "startLine": 506,
+        "startChar": 1,
+        "endLine": 506,
+        "endChar": 7
+      },
+      "revId": "74441ba2dddfc6ff81b60fbce4e4f14f685e6823",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3307290_467ee167",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-20T22:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e71ec55a_95c9ad1c",
       "range": {
         "startLine": 506,
         "startChar": 1,
