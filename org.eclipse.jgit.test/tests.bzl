@@ -1,11 +1,29 @@
+'''
+Expose each test as a bazel target
+'''
 load(
     "@com_googlesource_gerrit_bazlets//tools:junit.bzl",
     "junit_tests",
 )
 
-def tests(tests):
+def tests(tests, srcprefix="tst/", extra_tags=[]):
+    '''
+    Create a target each of the tests
+
+    Each target is the full push (removing srcprefix) replacing directory
+    separators with underscores.
+
+    e.g. a test under tst/a/b/c/A.test will become the target
+    //org.eclipse.jgit.tests:a_b_c_A
+
+    Args:
+      tests: a glob of tests files
+      srcprefix: prefix between org.eclipse.jgit.tests and the package
+        start
+      extra_tags: additional tags to add to the generated targets
+    '''
     for src in tests:
-        name = src[len("tst/"):len(src) - len(".java")].replace("/", "_")
+        name = src[len(srcprefix):len(src) - len(".java")].replace("/", "_")
         labels = []
         timeout = "moderate"
         if name.startswith("org_eclipse_jgit_"):
@@ -19,6 +37,8 @@ def tests(tests):
                 labels.append(index)
         if "lib" not in labels:
             labels.append("lib")
+
+        labels.extend(extra_tags)
 
         # TODO(http://eclip.se/534285): Make this test pass reliably
         # and remove the flaky attribute.

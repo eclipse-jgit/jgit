@@ -29,6 +29,7 @@ import org.apache.sshd.client.config.hosts.HostPatternsHolder;
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.apache.sshd.client.config.hosts.KnownHostHashValue;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
+import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +98,7 @@ public class KnownHostEntryReader {
 		return i < 0 ? line.trim() : line.substring(0, i).trim();
 	}
 
-	private static KnownHostEntry parseHostEntry(String line) {
+	static KnownHostEntry parseHostEntry(String line) {
 		KnownHostEntry entry = new KnownHostEntry();
 		entry.setConfigLine(line);
 		String tmp = line;
@@ -135,8 +136,8 @@ public class KnownHostEntryReader {
 			entry.setPatterns(patterns);
 		}
 		tmp = tmp.substring(i + 1).trim();
-		AuthorizedKeyEntry key = AuthorizedKeyEntry
-				.parseAuthorizedKeyEntry(tmp);
+		AuthorizedKeyEntry key = PublicKeyEntry
+				.parsePublicKeyEntry(new AuthorizedKeyEntry(), tmp);
 		if (key == null) {
 			return null;
 		}

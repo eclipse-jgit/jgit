@@ -533,9 +533,9 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 			Config config) {
 		BranchRebaseMode mode = config.getEnum(BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION,
-				branchName, ConfigConstants.CONFIG_KEY_REBASE, null);
+				branchName, ConfigConstants.CONFIG_KEY_REBASE);
 		if (mode == null) {
-			mode = config.getEnum(BranchRebaseMode.values(),
+			mode = config.getEnum(
 					ConfigConstants.CONFIG_PULL_SECTION, null,
 					ConfigConstants.CONFIG_KEY_REBASE, BranchRebaseMode.NONE);
 		}
@@ -549,7 +549,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		Config config = repo.getConfig();
 		Merge ffMode = config.getEnum(Merge.values(),
 				ConfigConstants.CONFIG_PULL_SECTION, null,
-				ConfigConstants.CONFIG_KEY_FF, null);
+				ConfigConstants.CONFIG_KEY_FF);
 		return ffMode != null ? FastForwardMode.valueOf(ffMode) : null;
 	}
 }
