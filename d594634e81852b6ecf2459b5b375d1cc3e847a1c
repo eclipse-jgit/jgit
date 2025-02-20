@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5858233_a2c33237",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-20T21:28:42Z",
+      "side": 1,
+      "message": "Done. A deleted bitmap file will also not result in an invalid Pack (added that to commit message explanation also).",
+      "parentUuid": "141cf90e_d7cb1ddc",
+      "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efb7edb4_a3e9e900",
@@ -67,6 +85,24 @@
       "writtenOn": "2025-02-14T08:36:26Z",
       "side": 1,
       "message": "```suggestion\n\t\t\t\tif (bitMaps !\u003d null) {\n```",
+      "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccce91ca_75e5bd5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-02-20T21:28:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efb7edb4_a3e9e900",
       "revId": "d594634e81852b6ecf2459b5b375d1cc3e847a1c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
