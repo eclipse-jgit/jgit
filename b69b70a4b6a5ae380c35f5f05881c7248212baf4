@@ -22,6 +22,30 @@
       },
       "revId": "b69b70a4b6a5ae380c35f5f05881c7248212baf4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fcfcc89_0b7357aa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameGeneratorCacheTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-20T23:14:31Z",
+      "side": 1,
+      "message": "I updated the lines where it is possible to that content.",
+      "parentUuid": "50b54e8a_bbbb1847",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 69
+      },
+      "revId": "b69b70a4b6a5ae380c35f5f05881c7248212baf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
