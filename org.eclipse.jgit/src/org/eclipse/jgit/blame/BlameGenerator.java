@@ -170,6 +170,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * @param blameCache
 	 *            previously calculated blames. This generator will *not*
 	 *            populate it, just consume it.
+	 * @since 7.2
 	 */
 	public BlameGenerator(Repository repository, String path,
 			@Nullable BlameCache blameCache) {
@@ -282,6 +283,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * Stats about this generator
 	 *
 	 * @return the stats of this generator
+	 * @since 7.2
 	 */
 	public Stats getStats() {
 		return stats;
@@ -291,9 +293,12 @@ public class BlameGenerator implements AutoCloseable {
 	 * Enable/disable the use of cache (if present). Enabled by default.
 	 * <p>
 	 * If caller need source line numbers, the generator cannot use the cache
-	 * (source lines are not there). Use this method to disable the cache in that case.
+	 * (source lines are not there). Use this method to disable the cache in
+	 * that case.
 	 *
-	 * @param useCache should this generator use the cache.
+	 * @param useCache
+	 *            should this generator use the cache.
+	 * @since 7.2
 	 */
 	public void setUseCache(boolean useCache) {
 		this.useCache = useCache;
@@ -651,8 +656,8 @@ public class BlameGenerator implements AutoCloseable {
 				List<CacheRegion> cachedBlame = blameCache.get(repository,
 						n.sourceCommit, n.sourcePath.getPath());
 				if (cachedBlame != null) {
-					BlameRegionMerger rb = new BlameRegionMerger(repository, revPool,
-							cachedBlame);
+					BlameRegionMerger rb = new BlameRegionMerger(repository,
+							revPool, cachedBlame);
 					Candidate fullyBlamed = rb.mergeCandidate(n);
 					if (fullyBlamed != null) {
 						stats.cacheHit = true;
@@ -1204,6 +1209,8 @@ public class BlameGenerator implements AutoCloseable {
 
 	/**
 	 * Stats about the work done by the generator
+	 *
+	 * @since 7.2
 	 */
 	public static class Stats {
 
@@ -1233,6 +1240,5 @@ public class BlameGenerator implements AutoCloseable {
 		public boolean isCacheHit() {
 			return cacheHit;
 		}
-
 	}
 }
