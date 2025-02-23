@@ -76,6 +76,11 @@ public class DescribeCommand extends GitCommand<String> {
 	private List<FileNameMatcher> matchers = new ArrayList<>();
 
 	/**
+	 * Pattern matchers to be applied to tags for exclusion.
+	 */
+	private List<FileNameMatcher> excludeMatchers = new ArrayList<>();
+
+	/**
 	 * Whether to use all refs in the refs/ namespace
 	 */
 	private boolean useAll;
@@ -263,6 +268,27 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	/**
+	 * Sets one or more {@code glob(7)} patterns that tags must not match to be
+	 * considered. If multiple patterns are provided, they will all be applied.
+	 *
+	 * @param patterns
+	 *            the {@code glob(7)} pattern or patterns
+	 * @return {@code this}
+	 * @throws org.eclipse.jgit.errors.InvalidPatternException
+	 *             if the pattern passed in was invalid.
+	 * @see <a href=
+	 *      "https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 *      >Git documentation about describe</a>
+	 * @since 7.2
+	 */
+	public DescribeCommand setExclude(String... patterns) throws InvalidPatternException {
+		for (String p : patterns) {
+			excludeMatchers.add(new FileNameMatcher(p, null));
+		}
+		return this;
+	}
+
 	private final Comparator<Ref> TAG_TIE_BREAKER = new Comparator<>() {
 
 		@Override
@@ -284,7 +310,7 @@ public class DescribeCommand extends GitCommand<String> {
 	private Optional<Ref> getBestMatch(List<Ref> tags) {
 		if (tags == null || tags.isEmpty()) {
 			return Optional.empty();
-		} else if (matchers.isEmpty()) {
+		} else if (matchers.isEmpty() && excludeMatchers.isEmpty()) {
 			Collections.sort(tags, TAG_TIE_BREAKER);
 			return Optional.of(tags.get(0));
 		} else {
@@ -298,6 +324,16 @@ public class DescribeCommand extends GitCommand<String> {
 							boolean result = matcher.isMatch();
 							matcher.reset();
 							return result;
+						});
+				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
+			}
+			for (FileNameMatcher matcher : excludeMatchers) {
+				Stream<Ref> m = tags.stream().filter(
+						tag -> {
+							matcher.append(formatRefName(tag.getName()));
+							boolean result = matcher.isMatch();
+							matcher.reset();
+							return !result;
 						});
 				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
 			}

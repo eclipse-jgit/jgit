@@ -12,6 +12,7 @@ package org.eclipse.jgit.api;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -87,6 +88,8 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("alice-t1", describe(c2, "alice*"));
 			assertEquals("alice-t1", describe(c2, "a*", "b*", "c*"));
 
+			assertNotEquals("alice-t1", describeExcluding(c2, "alice*"));
+
 			assertEquals("bob-t2", describe(c3));
 			assertEquals("bob-t2-0-g44579eb", describe(c3, true, false));
 			assertEquals("alice-t1-1-g44579eb", describe(c3, "alice*"));
@@ -94,6 +97,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 			assertEquals("bob-t2", describe(c3, "bob*"));
 			assertEquals("bob-t2", describe(c3, "?ob*"));
 			assertEquals("bob-t2", describe(c3, "a*", "b*", "c*"));
+
+			assertNotEquals("alice-t1-1-g44579eb", describeExcluding(c3, "alice*"));
+			assertNotEquals("alice-t1-1-g44579eb", describeExcluding(c3, "a??c?-t*"));
+			assertNotEquals("bob-t2", describeExcluding(c3, "bob*"));
+			assertNotEquals("bob-t2", describeExcluding(c3, "?ob*"));
 
 			// the value verified with git-describe(1)
 			assertEquals("bob-t2-1-g3e563c5", describe(c4));
@@ -516,6 +524,11 @@ public class DescribeCommandTest extends RepositoryTestCase {
 	private String describe(ObjectId c1, String... patterns) throws Exception {
 		return git.describe().setTarget(c1).setTags(describeUseAllTags)
 				.setMatch(patterns).call();
+	}
+
+	private String describeExcluding(ObjectId c1, String... patterns) throws Exception {
+		return git.describe().setTarget(c1).setTags(describeUseAllTags)
+				.setExclude(patterns).call();
 	}
 
 	private static void assertNameStartsWith(ObjectId c4, String prefix) {
