@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "161f0fa2_15277317",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T09:12:13Z",
+      "side": 1,
+      "message": "Fix bug jgit-140",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecf11716_7a8d645c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -61,6 +84,75 @@
       "writtenOn": "2025-02-19T10:01:09Z",
       "side": 1,
       "message": "LGTM @luca.milanesio@gmail.com @matthias.sohn@sap.com WDYT?",
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d2c5d2_d4984415",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T09:12:13Z",
+      "side": 1,
+      "message": "I know it wasn\u0027t introduced in your this change; however, having a negative value doesn\u0027t look right. I would start with 0 instead.",
+      "range": {
+        "startLine": 1582,
+        "startChar": 26,
+        "endLine": 1582,
+        "endChar": 40
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbfa8e6a_b8da6957",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T09:12:13Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\tif (latestBitmapTime \u003d\u003d Long.MIN_VALUE) {\n```",
+      "range": {
+        "startLine": 1591,
+        "startChar": 4,
+        "endLine": 1591,
+        "endChar": 7
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92aa8cbb_3ade64b9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T09:12:13Z",
+      "side": 1,
+      "message": "I believe you mentioned in the commit message that we could stop counting as soon as we reach the first bitmap, hence we could just say that *IF* `latestBitmapTime` has been set to a value different than its initial value, we can stop counting and this if isn\u0027t needed anymore.",
+      "range": {
+        "startLine": 1595,
+        "startChar": 11,
+        "endLine": 1595,
+        "endChar": 50
+      },
       "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
