@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af44d37_ffda22c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-24T10:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "161f0fa2_15277317",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecf11716_7a8d645c",
@@ -111,6 +135,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b56104f_36273a1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1582,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-24T10:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d2c5d2_d4984415",
+      "range": {
+        "startLine": 1582,
+        "startChar": 26,
+        "endLine": 1582,
+        "endChar": 40
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbfa8e6a_b8da6957",
@@ -134,6 +182,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9655faa_53b7f6e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-24T10:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbfa8e6a_b8da6957",
+      "range": {
+        "startLine": 1591,
+        "startChar": 4,
+        "endLine": 1591,
+        "endChar": 7
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92aa8cbb_3ade64b9",
@@ -147,6 +219,30 @@
       "writtenOn": "2025-02-24T09:12:13Z",
       "side": 1,
       "message": "I believe you mentioned in the commit message that we could stop counting as soon as we reach the first bitmap, hence we could just say that *IF* `latestBitmapTime` has been set to a value different than its initial value, we can stop counting and this if isn\u0027t needed anymore.",
+      "range": {
+        "startLine": 1595,
+        "startChar": 11,
+        "endLine": 1595,
+        "endChar": 50
+      },
+      "revId": "ca6a771f5f0241ee3f9711962447552271e6b3a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a43d993_0f0b42b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-24T10:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92aa8cbb_3ade64b9",
       "range": {
         "startLine": 1595,
         "startChar": 11,
