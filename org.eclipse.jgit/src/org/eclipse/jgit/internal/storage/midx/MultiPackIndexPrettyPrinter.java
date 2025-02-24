@@ -21,8 +21,10 @@ import org.eclipse.jgit.util.NB;
 
 /**
  * Prints a multipack index file in a human-readable format.
+ *
+ * @since 7.2
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "boxing", "nls" })
 public class MultiPackIndexPrettyPrinter {
 
 	/**
