@@ -46,6 +46,52 @@
       },
       "revId": "a8efd046fa5f47351f91b5dddd13becb83b9bdc8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "764b93c6_c0c6d41b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-24T22:48:14Z",
+      "side": 0,
+      "message": "remove now unused text from nls bundle",
+      "range": {
+        "startLine": 1221,
+        "startChar": 27,
+        "endLine": 1221,
+        "endChar": 44
+      },
+      "revId": "a8efd046fa5f47351f91b5dddd13becb83b9bdc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f725ae6a_636838e0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-24T22:48:14Z",
+      "side": 0,
+      "message": "remove the now unused text from nls bundle",
+      "range": {
+        "startLine": 467,
+        "startChar": 29,
+        "endLine": 467,
+        "endChar": 57
+      },
+      "revId": "a8efd046fa5f47351f91b5dddd13becb83b9bdc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
