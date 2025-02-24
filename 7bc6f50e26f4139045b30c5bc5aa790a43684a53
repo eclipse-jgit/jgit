@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b1b22b6_13c4acc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1038664
+      },
+      "writtenOn": "2025-02-24T23:02:54Z",
+      "side": 1,
+      "message": "This will make match have priority over exclude. Are you sure this is what you want? Maybe we could add a check if there are only excluding matchers, to populate the matchingTags stream with all tags.\n\ngit describe\u0027s documentation states \"When combined with --match a tag will beconsidered when it matches at least one --match pattern and does not\nmatch any of the --exclude patterns.\"\n\nhttps://git-scm.com/docs/git-describe#Documentation/git-describe.txt---excludeltpatterngt",
+      "revId": "7bc6f50e26f4139045b30c5bc5aa790a43684a53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
