@@ -16,6 +16,24 @@
       "message": "This will make match have priority over exclude. Are you sure this is what you want? Maybe we could add a check if there are only excluding matchers, to populate the matchingTags stream with all tags.\n\ngit describe\u0027s documentation states \"When combined with --match a tag will beconsidered when it matches at least one --match pattern and does not\nmatch any of the --exclude patterns.\"\n\nhttps://git-scm.com/docs/git-describe#Documentation/git-describe.txt---excludeltpatterngt",
       "revId": "7bc6f50e26f4139045b30c5bc5aa790a43684a53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fcd25a5_1d789213",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1038664
+      },
+      "writtenOn": "2025-02-24T23:33:11Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded patchset 5 to address this concern of mine. The patch surface is a lot higher, but I believe it to be worth it to achieve parity with git\u0027s describe command in the terminal. I\u0027ve included a few new test cases to account for this.",
+      "parentUuid": "1b1b22b6_13c4acc9",
+      "revId": "7bc6f50e26f4139045b30c5bc5aa790a43684a53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
