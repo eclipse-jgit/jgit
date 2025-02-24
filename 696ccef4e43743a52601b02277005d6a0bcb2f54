@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15d27d05_9724d808",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T12:41:32Z",
+      "side": 1,
+      "message": "Is adding a second packfile adding any additional safety to this test?\n\nTo me, we should check that:\n\n1) When you create a packfile and NO bitmap, then the numberOfPackFilesSinceBitmap should return 1\n\n2) When you perform a GC and create a bitmap, then the numberOfPackFilesSinceBitmap should return 0\n\n3) When adding yet another packfile *after* the bitmap creation, then the numberOfPackFilesSinceBitmap should return 1",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 20
+      },
+      "revId": "696ccef4e43743a52601b02277005d6a0bcb2f54",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "059894c5_295d0e5c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T12:41:32Z",
+      "side": 1,
+      "message": "Should we mention that you are testing the case where the packfiles are older than the bitmap file?",
+      "range": {
+        "startLine": 74,
+        "startChar": 55,
+        "endLine": 74,
+        "endChar": 82
+      },
+      "revId": "696ccef4e43743a52601b02277005d6a0bcb2f54",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fbcee2a_f8fbe010",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-24T12:41:32Z",
+      "side": 1,
+      "message": "Same as before: I do not see how adding 2 packfiles instead of 1 adds anything to the test validity.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 57
+      },
+      "revId": "696ccef4e43743a52601b02277005d6a0bcb2f54",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
