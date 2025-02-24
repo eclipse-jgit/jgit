@@ -22,6 +22,30 @@
       },
       "revId": "9b835ee079909bd42a2270bf409006b7cee0e352",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfca7f4_a657f28c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1588,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-02-24T11:05:42Z",
+      "side": 1,
+      "message": "yep, inlined.",
+      "parentUuid": "d4509f60_32be4b71",
+      "range": {
+        "startLine": 1588,
+        "startChar": 3,
+        "endLine": 1588,
+        "endChar": 88
+      },
+      "revId": "9b835ee079909bd42a2270bf409006b7cee0e352",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
