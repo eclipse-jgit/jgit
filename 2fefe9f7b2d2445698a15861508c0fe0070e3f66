@@ -16,6 +16,24 @@
       "message": "you could use the change-id as a shorter means to reference the other change",
       "revId": "2fefe9f7b2d2445698a15861508c0fe0070e3f66",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f873d6_fba18963",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-02-25T23:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca909eb3_10295395",
+      "revId": "2fefe9f7b2d2445698a15861508c0fe0070e3f66",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
