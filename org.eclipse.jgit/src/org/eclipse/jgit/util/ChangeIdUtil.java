@@ -159,8 +159,7 @@ public class ChangeIdUtil {
 		int footerFirstLine = indexOfFirstFooterLine(lines);
 		int insertAfter = footerFirstLine;
 		for (int i = footerFirstLine; i < lines.length; ++i) {
-			if (footerPattern.matcher(lines[i]).matches() &&
-					!signedOffByPattern.matcher(lines[i]).matches()) {
+			if (!signedOffByPattern.matcher(lines[i]).matches()) {
 				insertAfter = i + 1;
 				continue;
 			}

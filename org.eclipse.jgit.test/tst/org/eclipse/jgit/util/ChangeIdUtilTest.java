@@ -220,23 +220,23 @@ public class ChangeIdUtilTest {
 	@Test
 	public void testACommitWithSubjectBodyBugBrackersAndSob() throws Exception {
 		assertEquals(
-				"a commit with subject body, bug. brackers and sob\n\nText\n\nBug: 33\nChange-Id: I90ecb589bef766302532c3e00915e10114b00f62\n[bracket]\nSigned-off-by: me@you.too\n",
-				call("a commit with subject body, bug. brackers and sob\n\nText\n\nBug: 33\n[bracket]\nSigned-off-by: me@you.too\n\n"));
+				"a commit with subject body, bug, brackers and sob\n\nText\n\nBug: 33\n[bracket]\nChange-Id: I94dc6ed919a4baaa7c1bf8712717b888c6b90363\nSigned-off-by: me@you.too\n",
+				call("a commit with subject body, bug, brackers and sob\n\nText\n\nBug: 33\n[bracket]\nSigned-off-by: me@you.too\n\n"));
 	}
 
 	@Test
 	public void testACommitWithSubjectBodyBugLineWithASpaceAndSob()
 			throws Exception {
 		assertEquals(
-				"a commit with subject body, bug. line with a space and sob\n\nText\n\nBug: 33\nChange-Id: I864e2218bdee033c8ce9a7f923af9e0d5dc16863\n \nSigned-off-by: me@you.too\n",
-				call("a commit with subject body, bug. line with a space and sob\n\nText\n\nBug: 33\n \nSigned-off-by: me@you.too\n\n"));
+				"a commit with subject body, bug, line with a space and sob\n\nText\n\nBug: 33\n \nChange-Id: I126b472d2e0e64ad8187d61857f0169f9ccdae86\nSigned-off-by: me@you.too\n",
+				call("a commit with subject body, bug, line with a space and sob\n\nText\n\nBug: 33\n \nSigned-off-by: me@you.too\n\n"));
 	}
 
 	@Test
 	public void testACommitWithSubjectBodyBugEmptyLineAndSob() throws Exception {
 		assertEquals(
-				"a commit with subject body, bug. empty line and sob\n\nText\n\nBug: 33\nChange-Id: I33f119f533313883e6ada3df600c4f0d4db23a76\n \nSigned-off-by: me@you.too\n",
-				call("a commit with subject body, bug. empty line and sob\n\nText\n\nBug: 33\n \nSigned-off-by: me@you.too\n\n"));
+				"a commit with subject body, bug, empty line and sob\n\nText\n\nBug: 33\n\nChange-Id: Ic3b61b6e39a0815669b65302e9e75e6a5a019a26\nSigned-off-by: me@you.too\n",
+				call("a commit with subject body, bug, empty line and sob\n\nText\n\nBug: 33\n\nSigned-off-by: me@you.too\n\n"));
 	}
 
 	@Test
@@ -537,6 +537,18 @@ public class ChangeIdUtilTest {
 				call("a\n" + //
 						"\n" + //
 						"Bug: 42\n" + //
+						SOB1));
+
+		assertEquals("a\n" + //
+				"\n" + //
+				"Bug: 42\n" + //
+				"     multi-line Bug footer\n" + //
+				"Change-Id: Icc953ef35f1a4ee5eb945132aefd603ae3d9dd9f\n" + //
+				SOB1,//
+				call("a\n" + //
+						"\n" + //
+						"Bug: 42\n" + //
+						"     multi-line Bug footer\n" + //
 						SOB1));
 
 		assertEquals("a\n" + //
