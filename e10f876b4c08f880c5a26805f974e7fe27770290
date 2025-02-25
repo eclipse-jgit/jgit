@@ -16,6 +16,24 @@
       "message": "The usual license check failure...",
       "revId": "e10f876b4c08f880c5a26805f974e7fe27770290",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c17f629_134c57d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-25T00:25:57Z",
+      "side": 1,
+      "message": "I added the new version to ClearlyDefined, hope this helps",
+      "parentUuid": "0dfd5a5d_9d1b8b2e",
+      "revId": "e10f876b4c08f880c5a26805f974e7fe27770290",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
