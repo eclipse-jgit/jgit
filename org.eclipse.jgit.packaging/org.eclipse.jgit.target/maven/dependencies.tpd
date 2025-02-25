@@ -10,7 +10,7 @@ maven apache
 	dependency {
 		groupId = "commons-codec"
 		artifactId = "commons-codec"
-		version = "1.17.2"
+		version = "1.18.0"
 	}
 	dependency {
 		groupId = "org.apache.commons"
