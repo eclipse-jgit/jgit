@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca909eb3_10295395",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-25T23:08:36Z",
+      "side": 1,
+      "message": "you could use the change-id as a shorter means to reference the other change",
+      "revId": "2fefe9f7b2d2445698a15861508c0fe0070e3f66",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
