@@ -313,39 +313,39 @@ public class DescribeCommand extends GitCommand<String> {
 		} else if (matchers.isEmpty() && excludeMatchers.isEmpty()) {
 			Collections.sort(tags, TAG_TIE_BREAKER);
 			return Optional.of(tags.get(0));
-		} else {
-			Stream<Ref> matchingTags;
-			if (!matchers.isEmpty()) {
-				// Find the first tag that matches in the stream of all tags
-				// filtered by matchers ordered by tie break order
-				matchingTags = Stream.empty();
-				for (FileNameMatcher matcher : matchers) {
-					Stream<Ref> m = tags.stream().filter(
+		}
+
+		Stream<Ref> matchingTags;
+		if (!matchers.isEmpty()) {
+			// Find the first tag that matches in the stream of all tags
+			// filtered by matchers ordered by tie break order
+			matchingTags = Stream.empty();
+			for (FileNameMatcher matcher : matchers) {
+				Stream<Ref> m = tags.stream().filter( //
 						tag -> {
 							matcher.append(formatRefName(tag.getName()));
 							boolean result = matcher.isMatch();
 							matcher.reset();
 							return result;
 						});
-					matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
-				}
-			} else {
-				// If there are no matchers, there are only excluders
-				// Assume all tags match for now before applying excluders
-				matchingTags = tags.stream();
+				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
 			}
+		} else {
+			// If there are no matchers, there are only excluders
+			// Assume all tags match for now before applying excluders
+			matchingTags = tags.stream();
+		}
 
-			for (FileNameMatcher matcher : excludeMatchers) {
-				matchingTags = matchingTags.filter(
+		for (FileNameMatcher matcher : excludeMatchers) {
+			matchingTags = matchingTags.filter( //
 					tag -> {
 						matcher.append(formatRefName(tag.getName()));
 						boolean result = matcher.isMatch();
 						matcher.reset();
 						return !result;
 					});
-			}
-			return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
 		}
+		return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
 	}
 
 	private ObjectId getObjectIdFromRef(Ref r) throws JGitInternalException {
