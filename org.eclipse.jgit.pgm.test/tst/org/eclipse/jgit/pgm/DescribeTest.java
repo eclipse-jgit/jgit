@@ -123,6 +123,15 @@ public class DescribeTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testDescribeExclude() throws Exception {
+		initialCommitAndTag();
+		secondCommit();
+		git.tag().setName("v2.0").call();
+		assertArrayEquals(new String[] { "v1.0-1-g56f6ceb", "" },
+				execute("git describe --exclude v2.*"));
+	}
+
+	@Test
 	public void testDescribeCommitMultiMatch() throws Exception {
 		initialCommitAndTag();
 		secondCommit();
@@ -130,6 +139,17 @@ public class DescribeTest extends CLIRepositoryTestCase {
 		git.tag().setName("v2.1.1").call();
 		assertArrayEquals("git yields v2.0.0", new String[] { "v2.0.0", "" },
 				execute("git describe --match v2.0* --match v2.1.*"));
+	}
+
+	@Test
+	public void testDescribeCommitMultiExclude() throws Exception {
+		initialCommitAndTag();
+		secondCommit();
+		git.tag().setName("v2.0.0").call();
+		git.tag().setName("v2.1.1").call();
+		git.tag().setName("v2.2").call();
+		assertArrayEquals("git yields v2.2", new String[] { "v2.2", "" },
+				execute("git describe --exclude v2.0* --exclude v2.1.*"));
 	}
 
 	@Test
