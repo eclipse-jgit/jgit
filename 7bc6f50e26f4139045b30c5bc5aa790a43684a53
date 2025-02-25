@@ -34,6 +34,24 @@
       "parentUuid": "1b1b22b6_13c4acc9",
       "revId": "7bc6f50e26f4139045b30c5bc5aa790a43684a53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2870484d_5de1e5d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-25T09:31:08Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7fcd25a5_1d789213",
+      "revId": "7bc6f50e26f4139045b30c5bc5aa790a43684a53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
