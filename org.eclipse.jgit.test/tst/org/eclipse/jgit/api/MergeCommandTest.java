@@ -21,6 +21,9 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
@@ -46,6 +49,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -2098,6 +2102,94 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 			assertEquals("#user message\n\n; Conflicts:\n;\ta\n",
 					db.readMergeCommitMsg());
+		}
+	}
+
+	@Test
+	public void testMergeCaseInsensitiveRename() throws Exception {
+		Assume.assumeTrue(
+				"Test makes only sense on a case-insensitive file system",
+				db.isWorkTreeCaseInsensitive());
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "aaa");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+			// "Rename" "a" to "A"
+			git.rm().addFilepattern("a").call();
+			writeTrashFile("A", "aaa");
+			git.add().addFilepattern("A").call();
+			RevCommit master = git.commit().setMessage("rename to A").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("b", "bbb");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("side").call();
+
+			// Merge master into side
+			MergeResult result = git.merge().include(master)
+					.setStrategy(MergeStrategy.RECURSIVE).call();
+			assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+			assertTrue(new File(db.getWorkTree(), "A").isFile());
+			// Double check
+			boolean found = true;
+			try (DirectoryStream<Path> dir = Files
+					.newDirectoryStream(db.getWorkTree().toPath())) {
+				for (Path p : dir) {
+					found = "A".equals(p.getFileName().toString());
+					if (found) {
+						break;
+					}
+				}
+			}
+			assertTrue(found);
+		}
+	}
+
+	@Test
+	public void testMergeCaseInsensitiveRenameConflict() throws Exception {
+		Assume.assumeTrue(
+				"Test makes only sense on a case-insensitive file system",
+				db.isWorkTreeCaseInsensitive());
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "aaa");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+			// "Rename" "a" to "A" and change it
+			git.rm().addFilepattern("a").call();
+			writeTrashFile("A", "yyy");
+			git.add().addFilepattern("A").call();
+			RevCommit master = git.commit().setMessage("rename to A").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "xxx");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("side").call();
+
+			// Merge master into side
+			MergeResult result = git.merge().include(master)
+					.setStrategy(MergeStrategy.RECURSIVE).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+			File a = new File(db.getWorkTree(), "A");
+			assertTrue(a.isFile());
+			// Double check
+			boolean found = true;
+			try (DirectoryStream<Path> dir = Files
+					.newDirectoryStream(db.getWorkTree().toPath())) {
+				for (Path p : dir) {
+					found = "A".equals(p.getFileName().toString());
+					if (found) {
+						break;
+					}
+				}
+			}
+			assertTrue(found);
+			assertEquals(1, result.getConflicts().size());
+			assertTrue(result.getConflicts().containsKey("a"));
+			checkFile(a, "yyy");
 		}
 	}
 
