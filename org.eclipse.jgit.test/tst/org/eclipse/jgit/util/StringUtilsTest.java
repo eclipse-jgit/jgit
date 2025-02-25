@@ -12,6 +12,7 @@ package org.eclipse.jgit.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -171,5 +172,23 @@ public class StringUtilsTest {
 		assertEquals("abcd", StringUtils.commonPrefix("abcd", "abcdefgh"));
 		assertEquals("foo bar ",
 				StringUtils.commonPrefix("foo bar 42", "foo bar 24"));
+	}
+
+	@Test
+	public void testTrim() {
+		assertEquals("a", StringUtils.trim("a", '/'));
+		assertEquals("aaaa", StringUtils.trim("aaaa", '/'));
+		assertEquals("aaa", StringUtils.trim("/aaa", '/'));
+		assertEquals("aaa", StringUtils.trim("aaa/", '/'));
+		assertEquals("aaa", StringUtils.trim("/aaa/", '/'));
+		assertEquals("aa/aa", StringUtils.trim("/aa/aa/", '/'));
+		assertEquals("aa/aa", StringUtils.trim("aa/aa", '/'));
+
+		assertEquals("", StringUtils.trim("", '/'));
+		assertEquals("", StringUtils.trim("/", '/'));
+		assertEquals("", StringUtils.trim("//", '/'));
+		assertEquals("", StringUtils.trim("///", '/'));
+
+		assertNull(StringUtils.trim(null, '/'));
 	}
 }
