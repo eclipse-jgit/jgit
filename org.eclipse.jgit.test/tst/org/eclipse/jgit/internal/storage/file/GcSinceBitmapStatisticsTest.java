@@ -20,6 +20,7 @@ import java.util.stream.StreamSupport;
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Test;
 
 public class GcSinceBitmapStatisticsTest extends GcTestCase {
@@ -51,11 +52,19 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 	}
 
 	@Test
-	public void testShouldReportNoPacksDirectlyAfterGc() throws Exception {
-		// given
+	public void testShouldReportNoPacksFilesSinceBitmapWhenPackfilesAreOlderThanBitmapFile()
+			throws Exception {
 		addCommit(null);
-		gc.gc().get();
+		configureGC(/* buildBitmap */ false).gc().get();
+		assertEquals(1L, gc.getStatistics().numberOfPackFiles);
+		assertEquals(0L, repositoryBitmapFiles());
+		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
+
+		addCommit(null);
+		configureGC(/* buildBitmap */ true).gc().get();
+
 		assertEquals(1L, repositoryBitmapFiles());
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
 		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
@@ -79,8 +88,11 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 
 		// progress & pack
 		addCommit(parent);
-		tr.packAndPrune();
+		assertEquals(1L, gc.getStatistics().numberOfPackFiles);
+		assertEquals(0L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 
+		tr.packAndPrune();
+		assertEquals(2L, gc.getStatistics().numberOfPackFiles);
 		assertEquals(1L, gc.getStatistics().numberOfPackFilesSinceBitmap);
 	}
 
@@ -90,13 +102,17 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		// commit & gc
 		RevCommit parent = addCommit(null);
 		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfLooseObjects);
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
 		// progress & pack
 		addCommit(parent);
+		assertEquals(1L, gc.getStatistics().numberOfLooseObjects);
 		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
 
 		tr.packAndPrune();
+		assertEquals(0L, gc.getStatistics().numberOfLooseObjects);
+		// Number of objects contained in the newly created PackFile
 		assertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);
 	}
 
@@ -163,5 +179,12 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 				throw new RuntimeException(e);
 			}
 		}).sum();
+	}
+
+	private GC configureGC(boolean buildBitmap) {
+		PackConfig pc = new PackConfig(repo.getObjectDatabase().getConfig());
+		pc.setBuildBitmaps(buildBitmap);
+		gc.setPackConfig(pc);
+		return gc;
 	}
 }
