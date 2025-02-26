@@ -22,6 +22,30 @@
       },
       "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "778d2d7b_a1102490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-26T10:52:12Z",
+      "side": 1,
+      "message": "To allow applications using JGit (e.g. EGit, see jgit-102) to use the RefDatabase API in the same way for RefDirectory and FileReftableDatabase. RefDirectory always had auto-refresh behavior and cannot support consistent read across resolution of multiple refs in multiple calls to the RefDatabase API whereas FileReftableDatabase does support that. \n\nWithout auto-refresh support in FileReftableDatabase applications have to explicitly refresh refs they read earlier from reftables in order to recognize ref updates, they don\u0027t need to do that when using RefDirectory.\n\nThe protection from lost ref updates is unrelated to the implementation of auto-refresh (see the tests).",
+      "parentUuid": "49ccf70e_dbd19479",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
