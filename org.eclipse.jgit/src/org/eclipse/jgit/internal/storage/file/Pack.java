@@ -37,6 +37,8 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -99,7 +101,14 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private final Object activeLock = new Object();
 
 	/** Serializes reads performed against {@link #fd}. */
-	private final Object readLock = new Object();
+	private final Lock readLock = new ReentrantLock() {
+					public void unlock() {
+						super.unlock();
+						synchronized (this) {
+							notify();
+						}
+					}
+				};
 
 	long length;
 
@@ -116,7 +125,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private volatile Exception invalidatingCause;
 
 	@Nullable
-	private PackFile bitmapIdxFile;
+	private volatile PackFile bitmapIdxFile;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
 
@@ -694,72 +703,88 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private void doOpen() throws IOException {
 		if (invalid) {
-			openFail(true, invalidatingCause);
+			openFail(invalidatingCause);
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
 		try {
-			synchronized (readLock) {
+			readLock.lock();
+			try {
 				fd = new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
 				length = fd.length();
 				onOpenPack();
+			} finally {
+				readLock.unlock();
 			}
 		} catch (InterruptedIOException e) {
 			// don't invalidate the pack, we are interrupted from another thread
-			openFail(false, e);
+			openFail(e);
 			throw e;
 		} catch (FileNotFoundException fn) {
-			// don't invalidate the pack if opening an existing file failed
-			// since it may be related to a temporary lack of resources (e.g.
-			// max open files)
-			openFail(!packFile.exists(), fn);
+			if (!packFile.exists()) {
+				// Failure to open an existing file may be related to a temporary lack of resources
+				// (e.g. max open files)
+				invalid = true;
+			}
+			openFail(fn);
 			throw fn;
 		} catch (EOFException | AccessDeniedException | NoSuchFileException
 				| CorruptObjectException | NoPackSignatureException
 				| PackMismatchException | UnpackException
 				| UnsupportedPackIndexVersionException
 				| UnsupportedPackVersionException pe) {
-			// exceptions signaling permanent problems with a pack
-			openFail(true, pe);
+			invalid = true; // exceptions signaling permanent problems with a pack
+			openFail(pe);
 			throw pe;
 		} catch (IOException ioe) {
-			// mark this packfile as invalid when NFS stale file handle error
-			// occur
-			openFail(FileUtils.isStaleFileHandleInCausalChain(ioe), ioe);
+			if (FileUtils.isStaleFileHandleInCausalChain(ioe)) {
+				invalid = true;
+			}
+			openFail(ioe);
 			throw ioe;
 		} catch (RuntimeException ge) {
 			// generic exceptions could be transient so we should not mark the
 			// pack invalid to avoid false MissingObjectExceptions
-			openFail(false, ge);
+			openFail(ge);
 			throw ge;
 		}
 	}
 
-	private void openFail(boolean invalidate, Exception cause) {
+	private void openFail(Exception cause) {
 		activeWindows = 0;
 		activeCopyRawData = 0;
-		invalid = invalidate;
 		invalidatingCause = cause;
 		doClose();
 	}
 
 	private void doClose() {
-		synchronized (readLock) {
+		try {
+			readLock.lock();
 			if (fd != null) {
-				try {
-					fd.close();
-				} catch (IOException err) {
-					// Ignore a close event. We had it open only for reading.
-					// There should not be errors related to network buffers
-					// not flushed, etc.
-				}
+				close(fd);
 				fd = null;
 			}
+		} finally {
+			readLock.unlock();
 		}
 	}
 
-	ByteArrayWindow read(long pos, int size) throws IOException {
-		synchronized (readLock) {
-			if (invalid || fd == null) {
+	private void close(RandomAccessFile fd) {
+		try {
+			fd.close();
+		} catch (IOException err) {
+			// Ignore a close event. We had it open only for reading.
+			// There should not be errors related to network buffers
+			// not flushed, etc.
+		}
+	}
+
+	ByteArrayWindow read(long pos, int size) throws FileNotFoundException, IOException {
+		if (invalid) {
+			throw new PackInvalidException(packFile, invalidatingCause);
+		}
+		RandomAccessFile fd = acquireFd();
+		try {
+			if (invalid || this.fd == null) {
 				// Due to concurrency between a read and another packfile invalidation thread
 				// one thread could come up to this point and then fail with NPE.
 				// Detect the situation and throw a proper exception so that can be properly
@@ -767,17 +792,61 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				// any failures.
 				throw new PackInvalidException(packFile, invalidatingCause);
 			}
-			if (length < pos + size)
-				size = (int) (length - pos);
-			final byte[] buf = new byte[size];
-			fd.seek(pos);
-			fd.readFully(buf, 0, size);
-			return new ByteArrayWindow(this, pos, buf);
+			return read(fd, fd.length(), pos, size);
+		} finally {
+			releaseFd(fd);
 		}
 	}
 
+	private ByteArrayWindow read(RandomAccessFile f, long fsize, long pos, int size) throws IOException {
+		if (fsize < pos + size) {
+			size = (int) (fsize - pos);
+		}
+		byte[] buf = new byte[size];
+		f.seek(pos);
+		f.readFully(buf, 0, size);
+		return new ByteArrayWindow(this, pos, buf);
+	}
+
+	private RandomAccessFile tryAcquireFd() throws FileNotFoundException {//, IOException {
+		if (readLock.tryLock()) {
+			return fd;
+		}
+		if (WindowCache.isOpenExtraPack()) {
+			return new RandomAccessFile(packFile, "r"); //$NON-NLS-1$
+		}
+		return null;
+	}
+
+	private RandomAccessFile acquireFd() throws FileNotFoundException, IOException {
+		RandomAccessFile fd;
+		while ((fd = tryAcquireFd()) == null) {
+			synchronized (readLock) {
+				if ((fd = tryAcquireFd()) == null) {
+					WindowCache.notifyOnFileLimitRecession(readLock);
+					try {
+						readLock.wait(1000 /* milliseconds, in case of misses */);
+					} catch (InterruptedException e) {
+						throw new IOException(e);
+					}
+				}
+			}
+		}
+		return fd;
+	}
+
+	private void releaseFd(RandomAccessFile fd) {
+		if (fd == this.fd) {
+			readLock.unlock();
+			return;
+		}
+		close(fd);
+		WindowCache.closeExtraPack();
+	}
+
 	ByteWindow mmap(long pos, int size) throws IOException {
-		synchronized (readLock) {
+		try {
+			readLock.lock();
 			if (length < pos + size)
 				size = (int) (length - pos);
 
@@ -797,6 +866,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			if (map.hasArray())
 				return new ByteArrayWindow(this, pos, map.array());
 			return new ByteBufferWindow(this, pos, map);
+		} finally {
+			readLock.unlock();
 		}
 	}
 
@@ -1211,17 +1282,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return null;
 	}
 
-	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
-		this.bitmapIdx = Optionally.empty();
-		this.invalid = false;
+	void setBitmapIndexFile(PackFile bitmapIndexFile) {
 		this.bitmapIdxFile = bitmapIndexFile;
-		try {
-			getBitmapIndex();
-		} catch (IOException e) {
-			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
-			this.bitmapIdx = Optionally.empty();
-			this.bitmapIdxFile = null;
-		}
 	}
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {
