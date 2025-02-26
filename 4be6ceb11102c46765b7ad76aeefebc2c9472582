@@ -94,6 +94,30 @@
       },
       "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccf5e299_722f71ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-02-26T16:48:17Z",
+      "side": 1,
+      "message": "Many application like e.g. EGit don\u0027t have a need for consistent reads of multiple refs, with this change they can use the same code that works for RefDirectory also on repos configured to use reftables. Gerrit will probably opt to not use this auto-refresh which is still the default with this change.\n\nClosing the Repository just to refresh the reftable stack seems unnecessary to me and has other side effects. With this change you can instead call `#refresh` to reload the reftable stack if it changed which is much faster than closing and reopening both the repo and ref database.",
+      "parentUuid": "6d57da00_36616b4a",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
