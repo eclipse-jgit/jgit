@@ -46,6 +46,30 @@
       },
       "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3033ea94_dd637537",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-26T11:21:49Z",
+      "side": 1,
+      "message": "\u003e To allow applications using JGit (e.g. EGit, see jgit-102) to use the RefDatabase API in the same way for RefDirectory and FileReftableDatabase. RefDirectory always had auto-refresh behavior and cannot support consistent read across resolution of multiple refs in multiple calls to the RefDatabase API whereas FileReftableDatabase \ndoes support that. \n\nMy personal point of view (arguable, of course) is that the problem is real, but the solution should be implemented in the repository cache rather than in the ref lookup.\n\nIf you start reading from ref-table, you must (according to specs at https://git-scm.com/docs/reftable#_readers):\n\n1. Start your \"snapshot\" read and the associated list of ref-tables\n2. Read your refs (potentially more than one)\n3. Close your \"snapshot\" when you\u0027re done\n\nThe above allows for achieving:\n\na. Consistency: the data read corresponds to the same time of the snapshot at 1.\nb. Speed: you do not have to access the filesystem to checks for reloads at every lookup\nc. Safety against raciness: should any of the data change from point 1, and the update, you get notified of a lock failure and start your transaction again\n\nThere is auto-refresh in the specifications of ref-table, so that would bring a new functionality that has no mention so far anywhere. I agree that it would align the ref-table with the same behavior of packed-refs, but the question is: do we really need it after all?\n\nIf yes, why not just using packed-refs then? I wouldn\u0027t be happy to make ref-table code so complex and slow as packed-refs after all :-)\n\nRef-table is going to be supported side-by-side with packed-refs, I don\u0027t see the packed-refs support to disappear anytime soon.\n\n\u003e Without auto-refresh support in FileReftableDatabase applications have to explicitly refresh refs they read earlier from reftables in order to recognize ref updates\n\nThat\u0027s because of a problem in the RepositoryCache: I believe we should release the ref-table \"snapshot\" as soon as the repository is handed back to the cache, whilst today we keep the \"snapshot\" active indefinitely, that\u0027s a bug IMHO.\n\n\u003e they don\u0027t need to do that when using RefDirectory.\n\nYes, but RefDirectory doesn\u0027t support consistency, speed, and update safety.",
+      "parentUuid": "778d2d7b_a1102490",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
