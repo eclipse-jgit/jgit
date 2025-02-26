@@ -124,6 +124,24 @@
       "parentUuid": "776237c1_243b78e2",
       "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d19d93e2_b0ad45f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-02-26T16:05:19Z",
+      "side": 1,
+      "message": "\u003e Even if the `FileSnapshotting` helps with auto-refresh and helps consistency, my major worry is losing a consistent view of the refs.\n\nI don\u0027t follow this. Why would the FileSnapshot mean you lose a consistent view of the refs?",
+      "parentUuid": "11aa9cd2_385e0f26",
+      "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

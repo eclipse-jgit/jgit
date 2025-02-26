@@ -70,6 +70,30 @@
       },
       "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d57da00_36616b4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-02-26T16:05:19Z",
+      "side": 1,
+      "message": "\u003e RefDirectory always had auto-refresh behavior and cannot support consistent read across resolution of multiple refs in multiple calls to the RefDatabase API\n\nI haven\u0027t followed this entire discussion or delved into the reftable specs much, but I wanted to point out that while RefDirectory doesn\u0027t support a consistent read, the [SnapshottingRefDirectory](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java) does. I mostly point that out because it\u0027s not the RepositoryCache, so I don\u0027t think we should be pushing a ref snapshot concept into that class.",
+      "parentUuid": "3033ea94_dd637537",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "4be6ceb11102c46765b7ad76aeefebc2c9472582",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
