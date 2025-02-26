@@ -164,7 +164,7 @@ public class AddCommand extends GitCommand<DirCache> {
 				all = Boolean.TRUE;
 			}
 		}
-		boolean stageDeletions = update || all != null && all.booleanValue();
+		boolean stageDeletions = update || (all != null && all.booleanValue());
 
 		DirCache dc = null;
 
