@@ -16,6 +16,24 @@
       "message": "I think we should also purge old target platforms from egit",
       "revId": "9ad4310db312ccaca1db80738334df5d3b0b817f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "638e71a9_8a27b8ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-02-26T19:21:57Z",
+      "side": 1,
+      "message": "Removing unused Orbit stuff is https://eclipse.gerrithub.io/c/eclipse-egit/egit/+/1209419 .\n\nReally purging platforms: Our baseline in EGit officially is 4.27, but the 4.27 target has never worked for me. 4.26 was the last target I could start a runtime Eclipse with. The newer targets have never worked for me, but I had assumed it was because of my stone-age Mac OS.\n\nYou made some changes in Idcaae4dd24f8a288bcfc08502898559999d6df32 to fix target platforms that didn\u0027t work, but I had no time yet to check which ones work now and which ones don\u0027t.\n\nThe Jenkins build uses 4.26.\n\nI suggest we make no big changes in this area now. The risk to break things is high, and we\u0027re close to the release. Let\u0027s look at this again after the release.",
+      "parentUuid": "79d98b4b_37da6095",
+      "revId": "9ad4310db312ccaca1db80738334df5d3b0b817f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
