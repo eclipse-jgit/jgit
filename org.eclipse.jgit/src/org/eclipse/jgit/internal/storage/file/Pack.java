@@ -116,7 +116,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private volatile Exception invalidatingCause;
 
 	@Nullable
-	private PackFile bitmapIdxFile;
+	private volatile PackFile bitmapIdxFile;
 
 	private AtomicInteger transientErrorCount = new AtomicInteger();
 
@@ -694,7 +694,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private void doOpen() throws IOException {
 		if (invalid) {
-			openFail(true, invalidatingCause);
+			openFail(invalidatingCause);
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
 		try {
@@ -705,39 +705,41 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			}
 		} catch (InterruptedIOException e) {
 			// don't invalidate the pack, we are interrupted from another thread
-			openFail(false, e);
+			openFail(e);
 			throw e;
 		} catch (FileNotFoundException fn) {
-			// don't invalidate the pack if opening an existing file failed
-			// since it may be related to a temporary lack of resources (e.g.
-			// max open files)
-			openFail(!packFile.exists(), fn);
+			if (!packFile.exists()) {
+				// Failure to open an existing file may be related to a temporary lack of resources
+				// (e.g. max open files)
+				invalid = true;
+			}
+			openFail(fn);
 			throw fn;
 		} catch (EOFException | AccessDeniedException | NoSuchFileException
 				| CorruptObjectException | NoPackSignatureException
 				| PackMismatchException | UnpackException
 				| UnsupportedPackIndexVersionException
 				| UnsupportedPackVersionException pe) {
-			// exceptions signaling permanent problems with a pack
-			openFail(true, pe);
+			invalid = true; // exceptions signaling permanent problems with a pack
+			openFail(pe);
 			throw pe;
 		} catch (IOException ioe) {
-			// mark this packfile as invalid when NFS stale file handle error
-			// occur
-			openFail(FileUtils.isStaleFileHandleInCausalChain(ioe), ioe);
+			if (FileUtils.isStaleFileHandleInCausalChain(ioe)) {
+				invalid = true;
+			}
+			openFail(ioe);
 			throw ioe;
 		} catch (RuntimeException ge) {
 			// generic exceptions could be transient so we should not mark the
 			// pack invalid to avoid false MissingObjectExceptions
-			openFail(false, ge);
+			openFail(ge);
 			throw ge;
 		}
 	}
 
-	private void openFail(boolean invalidate, Exception cause) {
+	private void openFail(Exception cause) {
 		activeWindows = 0;
 		activeCopyRawData = 0;
-		invalid = invalidate;
 		invalidatingCause = cause;
 		doClose();
 	}
@@ -1211,17 +1213,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return null;
 	}
 
-	synchronized void refreshBitmapIndex(PackFile bitmapIndexFile) {
-		this.bitmapIdx = Optionally.empty();
-		this.invalid = false;
+	void setBitmapIndexFile(PackFile bitmapIndexFile) {
 		this.bitmapIdxFile = bitmapIndexFile;
-		try {
-			getBitmapIndex();
-		} catch (IOException e) {
-			LOG.warn(JGitText.get().bitmapFailedToGet, bitmapIdxFile, e);
-			this.bitmapIdx = Optionally.empty();
-			this.bitmapIdxFile = null;
-		}
 	}
 
 	private synchronized PackReverseIndex getReverseIdx() throws IOException {

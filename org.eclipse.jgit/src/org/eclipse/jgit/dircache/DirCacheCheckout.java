@@ -5,7 +5,7 @@
  * Copyright (C) 2006, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Chrisian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2019, 2020, Andre Bossert <andre.bossert@siemens.com>
- * Copyright (C) 2017, 2023, Thomas Wolf <twolf@apache.org> and others
+ * Copyright (C) 2017, 2025, Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.FilterFailedException;
@@ -66,7 +67,6 @@ import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.ExecutionResult;
-import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
 import org.slf4j.Logger;
@@ -113,9 +113,11 @@ public class DirCacheCheckout {
 
 	private Map<String, CheckoutMetadata> updated = new LinkedHashMap<>();
 
+	private Set<String> existing;
+
 	private ArrayList<String> conflicts = new ArrayList<>();
 
-	private ArrayList<String> removed = new ArrayList<>();
+	private TreeSet<String> removed;
 
 	private ArrayList<String> kept = new ArrayList<>();
 
@@ -185,7 +187,7 @@ public class DirCacheCheckout {
 	 * @return a list of all files removed by this checkout
 	 */
 	public List<String> getRemoved() {
-		return removed;
+		return new ArrayList<>(removed);
 	}
 
 	/**
@@ -214,6 +216,14 @@ public class DirCacheCheckout {
 		this.mergeCommitTree = mergeCommitTree;
 		this.workingTree = workingTree;
 		this.initialCheckout = !repo.isBare() && !repo.getIndexFile().exists();
+		boolean caseInsensitive = !repo.isBare()
+				&& repo.isWorkTreeCaseInsensitive();
+		this.removed = caseInsensitive
+				? new TreeSet<>(String::compareToIgnoreCase)
+				: new TreeSet<>();
+		this.existing = caseInsensitive
+				? new TreeSet<>(String::compareToIgnoreCase)
+				: null;
 	}
 
 	/**
@@ -400,9 +410,11 @@ public class DirCacheCheckout {
 						// content to be checked out.
 						update(m);
 					}
-				} else
+				} else {
 					update(m);
-			} else if (f == null || !m.idEqual(i)) {
+				}
+			} else if (f == null || !m.idEqual(i)
+					|| m.getEntryRawMode() != i.getEntryRawMode()) {
 				// The working tree file is missing or the merge content differs
 				// from index content
 				update(m);
@@ -410,11 +422,11 @@ public class DirCacheCheckout {
 				// The index contains a file (and not a folder)
 				if (f.isModified(i.getDirCacheEntry(), true,
 						this.walk.getObjectReader())
-						|| i.getDirCacheEntry().getStage() != 0)
+						|| i.getDirCacheEntry().getStage() != 0) {
 					// The working tree file is dirty or the index contains a
 					// conflict
 					update(m);
-				else {
+				} else {
 					// update the timestamp of the index with the one from the
 					// file if not set, as we are sure to be in sync here.
 					DirCacheEntry entry = i.getDirCacheEntry();
@@ -424,9 +436,10 @@ public class DirCacheCheckout {
 					}
 					keep(i.getEntryPathString(), entry, f);
 				}
-			} else
+			} else {
 				// The index contains a folder
 				keep(i.getEntryPathString(), i.getDirCacheEntry(), f);
+			}
 		} else {
 			// There is no entry in the merge commit. Means: we want to delete
 			// what's currently in the index and working tree
@@ -521,6 +534,13 @@ public class DirCacheCheckout {
 			// update our index
 			builder.finish();
 
+			// On case-insensitive file systems we may have a case variant kept
+			// and another one removed. In that case, don't remove it.
+			if (existing != null) {
+				removed.removeAll(existing);
+				existing.clear();
+			}
+
 			// init progress reporting
 			int numTotal = removed.size() + updated.size() + conflicts.size();
 			monitor.beginTask(JGitText.get().checkingOutFiles, numTotal);
@@ -531,9 +551,9 @@ public class DirCacheCheckout {
 			// when deleting files process them in the opposite order as they have
 			// been reported. This ensures the files are deleted before we delete
 			// their parent folders
-			IntList nonDeleted = new IntList();
-			for (int i = removed.size() - 1; i >= 0; i--) {
-				String r = removed.get(i);
+			Iterator<String> iter = removed.descendingIterator();
+			while (iter.hasNext()) {
+				String r = iter.next();
 				file = new File(repo.getWorkTree(), r);
 				if (!file.delete() && repo.getFS().exists(file)) {
 					// The list of stuff to delete comes from the index
@@ -542,7 +562,7 @@ public class DirCacheCheckout {
 					// to delete it. A submodule is not empty, so it
 					// is safe to check this after a failed delete.
 					if (!repo.getFS().isDirectory(file)) {
-						nonDeleted.add(i);
+						iter.remove();
 						toBeDeleted.add(r);
 					}
 				} else {
@@ -560,8 +580,6 @@ public class DirCacheCheckout {
 			if (file != null) {
 				removeEmptyParents(file);
 			}
-			removed = filterOut(removed, nonDeleted);
-			nonDeleted = null;
 			Iterator<Map.Entry<String, CheckoutMetadata>> toUpdate = updated
 					.entrySet().iterator();
 			Map.Entry<String, CheckoutMetadata> e = null;
@@ -631,36 +649,6 @@ public class DirCacheCheckout {
 				throw new IndexWriteException();
 		}
 		return toBeDeleted.isEmpty();
-	}
-
-	private static ArrayList<String> filterOut(ArrayList<String> strings,
-			IntList indicesToRemove) {
-		int n = indicesToRemove.size();
-		if (n == strings.size()) {
-			return new ArrayList<>(0);
-		}
-		switch (n) {
-		case 0:
-			return strings;
-		case 1:
-			strings.remove(indicesToRemove.get(0));
-			return strings;
-		default:
-			int length = strings.size();
-			ArrayList<String> result = new ArrayList<>(length - n);
-			// Process indicesToRemove from the back; we know that it
-			// contains indices in descending order.
-			int j = n - 1;
-			int idx = indicesToRemove.get(j);
-			for (int i = 0; i < length; i++) {
-				if (i == idx) {
-					idx = (--j >= 0) ? indicesToRemove.get(j) : -1;
-				} else {
-					result.add(strings.get(i));
-				}
-			}
-			return result;
-		}
 	}
 
 	private static boolean isSamePrefix(String a, String b) {
@@ -1232,6 +1220,9 @@ public class DirCacheCheckout {
 		}
 		if (!FileMode.TREE.equals(e.getFileMode())) {
 			builder.add(e);
+		}
+		if (existing != null) {
+			existing.add(path);
 		}
 		if (force) {
 			if (f == null || f.isModified(e, true, walk.getObjectReader())) {

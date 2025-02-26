@@ -217,9 +217,17 @@ public class Checkout {
 			}
 		}
 		try {
-			if (recursiveDelete && Files.isDirectory(f.toPath(),
-					LinkOption.NOFOLLOW_LINKS)) {
+			boolean isDir = Files.isDirectory(f.toPath(),
+					LinkOption.NOFOLLOW_LINKS);
+			if (recursiveDelete && isDir) {
 				FileUtils.delete(f, FileUtils.RECURSIVE);
+			}
+			if (cache.getRepository().isWorkTreeCaseInsensitive() && !isDir) {
+				// We cannot rely on rename via Files.move() to work correctly
+				// if the target exists in a case variant. For instance with JDK
+				// 17 on Mac OS, the existing case-variant name is kept. On
+				// Windows 11 it would work and use the name given in 'f'.
+				FileUtils.delete(f, FileUtils.SKIP_MISSING);
 			}
 			FileUtils.rename(tmpFile, f, StandardCopyOption.ATOMIC_MOVE);
 			cachedParent.remove(f.getName());

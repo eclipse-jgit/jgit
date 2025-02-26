@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Google Inc. and others
+ * Copyright (C) 2012, 2025 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -12,7 +12,10 @@ package org.eclipse.jgit.pgm;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCache;
@@ -32,17 +35,23 @@ public class AddTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testAddNothing() throws Exception {
-		try {
-			execute("git add");
-			fail("Must die");
-		} catch (Die e) {
-			// expected, requires argument
-		}
+		assertThrows(Die.class, () -> execute("git add"));
 	}
 
 	@Test
 	public void testAddUsage() throws Exception {
 		execute("git add --help");
+	}
+
+	@Test
+	public void testAddInvalidOptionCombinations() throws Exception {
+		writeTrashFile("greeting", "Hello, world!");
+		assertThrows(Die.class, () -> execute("git add -u -A greeting"));
+		assertThrows(Die.class,
+				() -> execute("git add -u --ignore-removed greeting"));
+		// --renormalize implies -u
+		assertThrows(Die.class,
+				() -> execute("git add --renormalize --all greeting"));
 	}
 
 	@Test
@@ -77,5 +86,35 @@ public class AddTest extends CLIRepositoryTestCase {
 		DirCache cache = db.readDirCache();
 		assertNotNull(cache.getEntry("greeting"));
 		assertEquals(1, cache.getEntryCount());
+	}
+
+	@Test
+	public void testAddDeleted() throws Exception {
+		File greeting = writeTrashFile("greeting", "Hello, world!");
+		git.add().addFilepattern("greeting").call();
+		DirCache cache = db.readDirCache();
+		assertNotNull(cache.getEntry("greeting"));
+		assertEquals(1, cache.getEntryCount());
+		assertTrue(greeting.delete());
+		assertArrayEquals(new String[] { "" }, //
+				execute("git add greeting"));
+
+		cache = db.readDirCache();
+		assertEquals(0, cache.getEntryCount());
+	}
+
+	@Test
+	public void testAddDeleted2() throws Exception {
+		File greeting = writeTrashFile("greeting", "Hello, world!");
+		git.add().addFilepattern("greeting").call();
+		DirCache cache = db.readDirCache();
+		assertNotNull(cache.getEntry("greeting"));
+		assertEquals(1, cache.getEntryCount());
+		assertTrue(greeting.delete());
+		assertArrayEquals(new String[] { "" }, //
+				execute("git add -A"));
+
+		cache = db.readDirCache();
+		assertEquals(0, cache.getEntryCount());
 	}
 }

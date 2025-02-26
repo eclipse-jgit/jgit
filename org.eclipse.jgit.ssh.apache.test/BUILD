@@ -8,7 +8,9 @@ load(
 )
 
 DEPS = [
-    "//lib:eddsa",
+    "//lib:bcpkix",
+    "//lib:bcprov",
+    "//lib:bcutil",
     "//lib:junit",
     "//lib:slf4j-api",
     "//lib:sshd-osgi",

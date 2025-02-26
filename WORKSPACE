@@ -73,12 +73,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "eddsa",
-    artifact = "net.i2p.crypto:eddsa:0.3.0",
-    sha1 = "1901c8d4d8bffb7d79027686cfb91e704217c3e1",
-)
-
-maven_jar(
     name = "jsch",
     artifact = "com.jcraft:jsch:0.1.55",
     sha1 = "bbd40e5aa7aa3cfad5db34965456cee738a42a50",
@@ -108,18 +102,18 @@ maven_jar(
     sha1 = "51cf043c87253c9f58b539c9f7e44c8894223850",
 )
 
-SSHD_VERS = "2.14.0"
+SSHD_VERS = "2.15.0"
 
 maven_jar(
     name = "sshd-osgi",
     artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-    sha1 = "6ef66228a088f8ac1383b2ff28f3102f80ebc01a",
+    sha1 = "aa76898fe47eab7da0878dd60e6f3be5631e076c",
 )
 
 maven_jar(
     name = "sshd-sftp",
     artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
-    sha1 = "c070ac920e72023ae9ab0a3f3a866bece284b470",
+    sha1 = "2e226055ed060c64ed76256a9c45de6d0109eef8",
 )
 
 JNA_VERS = "5.16.0"
@@ -138,14 +132,14 @@ maven_jar(
 
 maven_jar(
     name = "commons-codec",
-    artifact = "commons-codec:commons-codec:1.17.2",
-    sha1 = "cd6bb9d856db5f61871a94d5801efd0b93b7fcb2",
+    artifact = "commons-codec:commons-codec:1.18.0",
+    sha1 = "ee45d1cf6ec2cc2b809ff04b4dc7aec858e0df8f",
 )
 
 maven_jar(
     name = "commons-logging",
-    artifact = "commons-logging:commons-logging:1.3.4",
-    sha1 = "b9fc14968d63a8b8a8a2c1885fe3e90564239708",
+    artifact = "commons-logging:commons-logging:1.3.5",
+    sha1 = "a3fcc5d3c29b2b03433aa2d2f2d2c1b1638924a1",
 )
 
 maven_jar(
@@ -220,18 +214,18 @@ maven_jar(
     sha1 = "31f5d58a202bd5df4993fb10fa2cffd610c20d6f",
 )
 
-BYTE_BUDDY_VERSION = "1.16.1"
+BYTE_BUDDY_VERSION = "1.17.1"
 
 maven_jar(
     name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "f95f4d5efa5e07706129048a62b38a0acb35592c",
+    sha1 = "8b5205fad48196a88d3d66dddff5a7417bce3596",
 )
 
 maven_jar(
     name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "22bb84b3bda45a329d17930809683484a5ac2db2",
+    sha1 = "0669a13b59d5ffd8198a79e4dc99018a9278e457",
 )
 
 maven_jar(
@@ -242,8 +236,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.11.0",
-    sha1 = "527175ca6d81050b53bdd4c457a6d6e017626b0e",
+    artifact = "com.google.code.gson:gson:2.12.1",
+    sha1 = "4e773a317740b83b43cfc3d652962856041697cb",
 )
 
 JETTY_VER = "12.0.16"

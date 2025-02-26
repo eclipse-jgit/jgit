@@ -8,7 +8,9 @@ junit_tests(
     srcs = glob(["tst/**/*.java"]),
     tags = ["jsch"],
     deps = [
-        "//lib:eddsa",
+        "//lib:bcpkix",
+        "//lib:bcprov",
+        "//lib:bcutil",
         "//lib:jsch",
         "//lib:junit",
         "//org.eclipse.jgit:jgit",
