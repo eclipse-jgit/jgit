@@ -72,7 +72,7 @@ class BlameRegionMerger {
 	List<Candidate> mergeOneRegion(Region region) throws IOException {
 		List<CacheRegion> overlaps = findOverlaps(region);
 		if (overlaps.isEmpty()) {
-			throw new IllegalStateException(
+			throw new IOException(
 					"Cached blame should cover all lines");
 		}
 		/*
