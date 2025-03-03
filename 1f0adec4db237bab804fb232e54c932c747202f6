@@ -34,6 +34,24 @@
       "parentUuid": "bc6df501_577eebb3",
       "revId": "1f0adec4db237bab804fb232e54c932c747202f6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85f260fb_6443bbb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-03T20:14:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5af6bfc9_284bb468",
+      "revId": "1f0adec4db237bab804fb232e54c932c747202f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

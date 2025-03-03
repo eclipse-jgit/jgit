@@ -142,6 +142,24 @@
       "parentUuid": "11aa9cd2_385e0f26",
       "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "699613d0_eb51cfc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-03T20:14:03Z",
+      "side": 1,
+      "message": "To implement that with this change you can leave auto-refresh (which is the default), read refs from the reftables consistently, try to commit the refupdate, if it fails run #refresh to reload the reftables and read the same refs again and retry the update.",
+      "parentUuid": "d19d93e2_b0ad45f7",
+      "revId": "39b12f2e99d981f74f98220837437f19e5b76385",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
