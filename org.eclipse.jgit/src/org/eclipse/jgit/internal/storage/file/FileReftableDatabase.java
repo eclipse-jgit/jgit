@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -72,7 +73,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	private final FileReftableStack reftableStack;
 
-	private boolean autoRefresh;
+	private final AtomicBoolean autoRefresh;
 
 	FileReftableDatabase(FileRepository repo) throws IOException {
 		this(repo, new File(new File(repo.getCommonDirectory(), Constants.REFTABLE),
@@ -81,9 +82,9 @@ public class FileReftableDatabase extends RefDatabase {
 
 	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
-		this.autoRefresh = repo.getConfig().getBoolean(
+		this.autoRefresh = new AtomicBoolean(repo.getConfig().getBoolean(
 				ConfigConstants.CONFIG_REFTABLE_SECTION,
-				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false);
+				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false));
 		this.reftableStack = new FileReftableStack(refstackName,
 				new File(fileRepository.getCommonDirectory(), Constants.REFTABLE),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
@@ -241,7 +242,7 @@ public class FileReftableDatabase extends RefDatabase {
 	 *            date.
 	 */
 	public void setAutoRefresh(boolean autoRefresh) {
-		this.autoRefresh = autoRefresh;
+		this.autoRefresh.set(autoRefresh);
 	}
 
 	/**
@@ -251,11 +252,11 @@ public class FileReftableDatabase extends RefDatabase {
 	 *         date.
 	 */
 	public boolean isAutoRefresh() {
-		return autoRefresh;
+		return autoRefresh.get();
 	}
 
 	private void autoRefresh() {
-		if (autoRefresh) {
+		if (autoRefresh.get()) {
 			refresh();
 		}
 	}
