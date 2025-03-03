@@ -1,4 +1,56 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ddbf5c9_d50b87e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-03T20:27:36Z",
+      "side": 1,
+      "message": "This does not feel like an API that can be used from threads?",
+      "revId": "1ff9c2a1cbd5ac718559eef152d954755f257bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9586adcc_22dc322c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-03T20:27:36Z",
+      "side": 1,
+      "message": "This does not feel like an API that can be used from threads?",
+      "revId": "1ff9c2a1cbd5ac718559eef152d954755f257bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc266e8_7cf3c0e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-03T20:27:36Z",
+      "side": 1,
+      "message": "This does not feel like an API that can be used from threads?",
+      "revId": "1ff9c2a1cbd5ac718559eef152d954755f257bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
