@@ -50,6 +50,24 @@
       "message": "This does not feel like an API that can be used from threads?",
       "revId": "1ff9c2a1cbd5ac718559eef152d954755f257bc8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "234b72d6_746b68eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-03T21:18:35Z",
+      "side": 1,
+      "message": "fixed in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1209407",
+      "parentUuid": "cbc266e8_7cf3c0e5",
+      "revId": "1ff9c2a1cbd5ac718559eef152d954755f257bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
