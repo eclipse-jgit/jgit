@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f2f389_e5bf368c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/FollowFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "477a3006_bc5f4ccf",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09029d8c_9b7bdfe7",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-03-03T17:57:18Z",
       "side": 1,
       "message": "nit: \"as\", no capital letter here",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 5
+      },
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2279256_b79c2a52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09029d8c_9b7bdfe7",
       "range": {
         "startLine": 33,
         "startChar": 3,
@@ -58,6 +100,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bbb2d18_a8deb48b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "\"ChangedPathFilter\" is already in used as a POJO class under the `org.eclipse.jgit.internal.storage.commitgraph` package. It\u0027s a field under the RevCommit class. \n\nMaking this TreeFilter under the treewalk package the same name as the current \"ChangedPathFilter\" field under the RevCommitCG responsible for BF check is rather confusing to read imo. \n\nLike every other TreeFilter impl, the intended usage is always shown under the \"include\" method, i.e. path.include \u0026\u0026 any_diff.include. The sole use of this \"PathAnyDiffFilter\" in a TreeWalk without TreeRevFilter DOES NOT imply the use of Bloom Filters.",
+      "parentUuid": "c68ba014_523b2a9e",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a13b6ab7_edc478f6",
@@ -71,6 +131,24 @@
       "writtenOn": "2025-03-03T17:57:18Z",
       "side": 1,
       "message": "nit: any reason these are not private or protected?",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be32615b_1840e3ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "made private.",
+      "parentUuid": "a13b6ab7_edc478f6",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -92,6 +170,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7d037cd_d4c009f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f36017da_594052bc",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87a2ac7d_97d05ab2",
@@ -105,6 +201,24 @@
       "writtenOn": "2025-03-03T17:57:18Z",
       "side": 1,
       "message": "Is there any other use to this flag than signaling the feature has been used? It looks like all invocations do:\n\n```\nx \u003d shouldTreeWalk(commit, revwalk);\nfilterUsed \u003d flag is set\nif (flag is set) \n   unset flag\n```\n\nBesides the convoluted API, somebody in the future could use shouldTreeWalk, forget to remove the flag, or consider it harmless, and cause havoc somewhere else.\n\nIf this is for our bookkeeping, maybe the caller could just do something like: \n```\nx \u003d shouldTreeWalk(commit, revwalk);\nfilterUsed \u003d commit.getChangedPathFilter(revwalk) !\u003d null; \n```\n\nThe bloom filters should be already in memory, so this is not doing extra work  and it is less error prone. It is ugly, but if it is only for our own counting, is a worthy tradeoff.",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83613fba_24499a47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "yep, this is purely for accounting so we have correct metrics on whether CPF is used within a commit.\n\nhowever `filterUsed \u003d commit.getChangedPathFilter(revwalk) !\u003d null; ` is not sufficient because the existence of CPF DOES NOT imply its usage. \n\nThere are other use cases not covered under this CL on \"existence of CPF DOES NOT imply its usage\". You can see the full use cases under https://gerrithub.io/c/eclipse-jgit/jgit/+/1203632.\n\n1. TreeRevFilter accepts any form of TreeFilter, but only PathAnyDiffFilter serves CPF when CPF is present. \n2. root commits don\u0027t serve BF, even if BF is present. \n3. merge commits have additional flag on whether to serve BF, even if BF is present. \n\nI do think that if we REMOVE the merge commit serving flag, we could keep the  bookkeeping logic strictly in TreeRevFilter and follow the pattern you suggest here, this would solve problem #2 and #3. Something like this in TreeRevFilter. For problem #1, we could make a boolean in TreeFilter like \"serveCpf\", then only have PathAnyDiffFilter with this boolean as true. The end result would be something like\n\n```\nx \u003d shouldTreeWalk(commit, revwalk);\nfilterUsed \u003d false;\ntf.serveChangedPathFilter()\n\t\t\t\t\u0026\u0026 c.getChangedPathFilter(walker) !\u003d null \u0026\u0026 c.getParentCount() \u003e 0;\n```",
+      "parentUuid": "87a2ac7d_97d05ab2",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

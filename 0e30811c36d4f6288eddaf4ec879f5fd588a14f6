@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b548ac79_b08f091c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevFlag.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "908c9c25_5ba8c1c8",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef715990_de9fc3fc",
@@ -54,6 +78,24 @@
       "writtenOn": "2024-08-27T08:50:21Z",
       "side": 1,
       "message": "missing @since 7.0 annotation for new API class",
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f6be1f0_d9257944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef715990_de9fc3fc",
       "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -81,6 +123,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59590b97_c3ca4083",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b45aa9b_96791c92",
+      "range": {
+        "startLine": 227,
+        "startChar": 11,
+        "endLine": 227,
+        "endChar": 15
+      },
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5620d7a_f737dbb1",
@@ -94,6 +160,30 @@
       "writtenOn": "2024-08-27T08:50:21Z",
       "side": 1,
       "message": "7.0",
+      "range": {
+        "startLine": 241,
+        "startChar": 22,
+        "endLine": 241,
+        "endChar": 26
+      },
+      "revId": "0e30811c36d4f6288eddaf4ec879f5fd588a14f6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f09c3a2_0a290a87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-03T20:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5620d7a_f737dbb1",
       "range": {
         "startLine": 241,
         "startChar": 22,
