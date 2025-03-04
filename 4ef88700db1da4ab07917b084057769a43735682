@@ -16,6 +16,23 @@
       "message": "My concern with the API is not that it is not just that it wasn\u0027t thread safe, but rather that it is not useful from threads because it is effectively a global state and this is likely something that needs to be controlled not on a per object basis, but potentially per request (while other request are ongoing). This is why we specifically had to create a new Object to prevent refreshes with RefDirectory.\n\nI can see three conceptual approaches that could allow for this:\n\n1) Having a default object that has refreshes on like RefDirectory, and creating a separate object for those requests which do not want it to refresh, like SnapshottingRefDirectory.\n\n2) The opposite, having an object which does not refresh by default, and creating separate objects for those requests which do want it to refresh be default\n\n3) The current API (but thread safe), and then having the user manage separate copies of this object when they need separate policies.",
       "revId": "4ef88700db1da4ab07917b084057769a43735682",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0886404_1d5a3a41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-04T13:03:31Z",
+      "side": 1,
+      "message": "AtomicBoolean is overkill, volatile will do since there is no set() based on a get().",
+      "revId": "4ef88700db1da4ab07917b084057769a43735682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
