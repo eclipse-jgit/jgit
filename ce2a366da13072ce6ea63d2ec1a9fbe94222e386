@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfc448d6_dc41c00a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T23:10:02Z",
+      "side": 1,
+      "message": "field removed in favor of suggestion 4 under https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1193110/comment/87a2ac7d_97d05ab2/.",
+      "parentUuid": "6286ea60_029c5bb1",
+      "revId": "ce2a366da13072ce6ea63d2ec1a9fbe94222e386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1cac3cf_8823a324",
@@ -48,6 +66,48 @@
       "writtenOn": "2025-03-04T19:48:22Z",
       "side": 1,
       "message": "\"serve\" hints that the changed path filter is return to the caller and that is not the case.\n\nMaybe something like: usesChangedPathFilter(), mayUseChangedPathFilter(), checksChangedPathFilter(), accessChangedPathFilter()",
+      "range": {
+        "startLine": 225,
+        "startChar": 16,
+        "endLine": 225,
+        "endChar": 38
+      },
+      "revId": "ce2a366da13072ce6ea63d2ec1a9fbe94222e386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a1e476d_e771decc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T23:10:02Z",
+      "side": 1,
+      "message": "field removed in favor of suggestion 4 under https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1193110/comment/87a2ac7d_97d05ab2/.",
+      "parentUuid": "a1cac3cf_8823a324",
+      "revId": "ce2a366da13072ce6ea63d2ec1a9fbe94222e386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c70afb12_8c2f0aef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T23:10:02Z",
+      "side": 1,
+      "message": "field removed in favor of suggestion 4 under https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1193110/comment/87a2ac7d_97d05ab2/.",
+      "parentUuid": "8b36dd5b_1203975c",
       "range": {
         "startLine": 225,
         "startChar": 16,

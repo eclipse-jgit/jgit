@@ -101,6 +101,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc9aae7_c9fc7813",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T23:10:02Z",
+      "side": 1,
+      "message": "ah, I meant the serving aspect is controlled under TreeRevFilter; TreeRevFilter is only applying `shouldTreeWalk` to single parent commits.",
+      "parentUuid": "da501ce2_9708db5b",
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "677f9292_8450d0f6",
@@ -150,6 +168,24 @@
       "side": 1,
       "message": "I see why `c.getChangedPathFilter(walker) !\u003d null` wouldn\u0027t cut it, but I don\u0027t think the \"serveChangedPathFilter\" method solves it either. \n\nThe filter only knows it will *try* to use CPF but maybe it doesn\u0027t because there is no commit graph, because there is commit graph and it doesn\u0027t have BF, because this commit doesnt need bloom filters (root) or maybe other reasons.\n\nThe fact that it actually used a BF is only known per-commit, so it must come with the shouldTreeWalk call and be cheap.",
       "parentUuid": "e7173a3e_ea57f20c",
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b23d589e_392e35b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T23:10:02Z",
+      "side": 1,
+      "message": "\u003e\u003emaybe it doesn\u0027t because there is no commit graph, because there is commit graph and it doesn\u0027t have BF, because this commit doesnt need bloom filters (root) or maybe other reasons.\n\nah, good point, i forgot about the root commit case. The current `tf.serveChangedPathFilter() \u0026\u0026 c.getChangedPathFilter(walker) !\u003d null;` won\u0027t handle it.\n\n\u003eThe fact that it actually used a BF is only known per-commit, so it must come with the shouldTreeWalk call and be cheap.\n\nyep, this is why we introduced the RevFlag, `CHANGED_PATHS_FILTER_APPLIED`, in the eariler patchset. let\u0027s continue this topic on https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1193110/comment/87a2ac7d_97d05ab2/.",
+      "parentUuid": "af8b8051_a408e568",
       "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

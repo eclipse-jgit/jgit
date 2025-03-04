@@ -311,6 +311,24 @@
       "parentUuid": "ea6e92ff_6eae6399",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea37cc4_183eb9bf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T23:10:02Z",
+      "side": 1,
+      "message": "Thanks for the options. #1 is an expensive option for each \"include()\" call. #4 is similar to #3, #4 has a callback, #3 has a mutable data container. Also, for #2, I think you meant \"TreeFilter returns always the same instance\".\n\n#2 sounds similar to the existing FollowFilter RenameCallback pattern, which is conventional in the context of TreeRevFilter; but here is the challenge of #2. FollowFilter benefits from this pattern because it is always meant to be the top level TreeFilter within TreeRevFilter. This pattern wouldn\u0027t work well if the FollowFilter is part of combinator TreeFilter. \n\nImo, the original `CHANGED_PATHS_FILTER_APPLIED` revFlag from eariler patchset is the best solution here; it\u0027s a conventional solution for jgit to use the `RevWalk.TEMP_MARK` for tracking states within the different abstraction levels of RevWalk. It\u0027s cheap since it\u0027s just a bit that we set and unset, and it\u0027s easily assessible within `shouldTreeWalk`. You can see the same pattern with `RevWalk.TREE_REV_FILTER_APPLIED`, `RevWalk.UNINTERESTING`, `RevWalk.PARSED`; they are meant to track work done across different abstraction level.\n\nanyway, I made a new atomicBoolean for `changedPathFilterUsed` and propagated into the TreeFilter with a runnable callback. I think this is similar to your #4 idea 😊.",
+      "parentUuid": "ea197c80_6f5333f8",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
