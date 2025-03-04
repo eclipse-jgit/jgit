@@ -1,0 +1,8 @@
+Code-Review+1: Martin Fick <mfick@nvidia.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Tue, 04 Mar 2025 22:15:58 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1210464
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
