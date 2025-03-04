@@ -118,6 +118,30 @@
       },
       "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63032eb1_8014b6b5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-04T22:00:44Z",
+      "side": 0,
+      "message": "\u003e - added config and method to enable/disable auto-refresh\n\u003e - restored #testRacyReload with auto-refresh disabled\n\n👍 Thanks @matthias.sohn@sap.com",
+      "parentUuid": "f1e6283e_f8665b70",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "6b9ef9f5163a5e3aeec60e54dda58f38ee304c6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
