@@ -1,0 +1,10 @@
+diff --git a/ConflictOutOfBounds b/ConflictOutOfBounds
+index 0000000..de98044
+--- a/ConflictOutOfBounds
++++ b/ConflictOutOfBounds
+@@ -25,4 +25,4 @@
+ line3
+-lineA
++lineB
+ line5
+ line6

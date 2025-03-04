@@ -16,6 +16,7 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,22 +24,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.PackRefsCommand;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.events.RefsChangedEvent;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.reftable.MergedReftable;
 import org.eclipse.jgit.internal.storage.reftable.ReftableBatchRefUpdate;
 import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
@@ -67,15 +73,20 @@ public class FileReftableDatabase extends RefDatabase {
 
 	private final FileReftableStack reftableStack;
 
+	private final AtomicBoolean autoRefresh;
+
 	FileReftableDatabase(FileRepository repo) throws IOException {
-		this(repo, new File(new File(repo.getDirectory(), Constants.REFTABLE),
+		this(repo, new File(new File(repo.getCommonDirectory(), Constants.REFTABLE),
 				Constants.TABLES_LIST));
 	}
 
 	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
+		this.autoRefresh = new AtomicBoolean(repo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_REFTABLE_SECTION,
+				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false));
 		this.reftableStack = new FileReftableStack(refstackName,
-			new File(fileRepository.getDirectory(), Constants.REFTABLE),
+				new File(fileRepository.getCommonDirectory(), Constants.REFTABLE),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
 			() -> fileRepository.getConfig());
 		this.reftableDatabase = new ReftableDatabase() {
@@ -87,7 +98,13 @@ public class FileReftableDatabase extends RefDatabase {
 		};
 	}
 
-	ReflogReader getReflogReader(String refname) throws IOException {
+	@Override
+	public ReflogReader getReflogReader(Ref ref) throws IOException {
+		return reftableDatabase.getReflogReader(ref.getName());
+	}
+
+	@Override
+	public ReflogReader getReflogReader(String refname) throws IOException {
 		return reftableDatabase.getReflogReader(refname);
 	}
 
@@ -105,6 +122,22 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public boolean hasFastTipsWithSha1() throws IOException {
 		return reftableDatabase.hasFastTipsWithSha1();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * For Reftable, all the data is compacted into a single table.
+	 */
+	@Override
+	public void packRefs(ProgressMonitor pm, PackRefsCommand packRefs)
+			throws IOException {
+		pm.beginTask(JGitText.get().packRefs, 1);
+		try {
+			compactFully();
+		} finally {
+			pm.endTask();
+		}
 	}
 
 	/**
@@ -158,6 +191,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
+		autoRefresh();
 		return reftableDatabase.exactRef(name);
 	}
 
@@ -168,6 +202,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
+		autoRefresh();
 		List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
 		RefList.Builder<Ref> builder = new RefList.Builder<>(refs.size());
 		for (Ref r : refs) {
@@ -180,6 +215,7 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
+		autoRefresh();
 		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
 	}
 
@@ -196,6 +232,50 @@ public class FileReftableDatabase extends RefDatabase {
 		}
 		return recreate(ref, doPeel(oldLeaf), hasVersioning());
 
+	}
+
+	/**
+	 * Whether to auto-refresh the reftable stack if it is out of date.
+	 *
+	 * @param autoRefresh
+	 *            whether to auto-refresh the reftable stack if it is out of
+	 *            date.
+	 */
+	public void setAutoRefresh(boolean autoRefresh) {
+		this.autoRefresh.set(autoRefresh);
+	}
+
+	/**
+	 * Whether the reftable stack is auto-refreshed if it is out of date.
+	 *
+	 * @return whether the reftable stack is auto-refreshed if it is out of
+	 *         date.
+	 */
+	public boolean isAutoRefresh() {
+		return autoRefresh.get();
+	}
+
+	private void autoRefresh() {
+		if (autoRefresh.get()) {
+			refresh();
+		}
+	}
+
+	/**
+	 * Check if the reftable stack is up to date, and if not, reload it.
+	 * <p>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void refresh() {
+		try {
+			if (!reftableStack.isUpToDate()) {
+				reftableDatabase.clearCache();
+				reftableStack.reload();
+			}
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	private Ref doPeel(Ref leaf) throws IOException {
@@ -318,7 +398,7 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public void create() throws IOException {
 		FileUtils.mkdir(
-				new File(fileRepository.getDirectory(), Constants.REFTABLE),
+				new File(fileRepository.getCommonDirectory(), Constants.REFTABLE),
 				true);
 	}
 
@@ -538,9 +618,10 @@ public class FileReftableDatabase extends RefDatabase {
 			boolean writeLogs) throws IOException {
 		int size = 0;
 		List<Ref> refs = repo.getRefDatabase().getRefs();
+		RefDatabase refDb = repo.getRefDatabase();
 		if (writeLogs) {
 			for (Ref r : refs) {
-				ReflogReader rlr = repo.getReflogReader(r.getName());
+				ReflogReader rlr = refDb.getReflogReader(r);
 				if (rlr != null) {
 					size = Math.max(rlr.getReverseEntries().size(), size);
 				}
@@ -563,10 +644,7 @@ public class FileReftableDatabase extends RefDatabase {
 		if (writeLogs) {
 			for (Ref r : refs) {
 				long idx = size;
-				ReflogReader reader = repo.getReflogReader(r.getName());
-				if (reader == null) {
-					continue;
-				}
+				ReflogReader reader = refDb.getReflogReader(r);
 				for (ReflogEntry e : reader.getReverseEntries()) {
 					w.writeLog(r.getName(), idx, e.getWho(), e.getOldId(),
 							e.getNewId(), e.getComment());
@@ -615,7 +693,7 @@ public class FileReftableDatabase extends RefDatabase {
 		FileReftableDatabase newDb = null;
 		File reftableList = null;
 		try {
-			File reftableDir = new File(repo.getDirectory(),
+			File reftableDir = new File(repo.getCommonDirectory(),
 					Constants.REFTABLE);
 			reftableList = new File(reftableDir, Constants.TABLES_LIST);
 			if (!reftableDir.isDirectory()) {

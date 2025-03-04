@@ -18,10 +18,11 @@ package org.eclipse.jgit.merge;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -185,12 +186,15 @@ public class RecursiveMerger extends ResolveMerger {
 				if (mergeTrees(bcTree, currentBase.getTree(),
 						nextBase.getTree(), true))
 					currentBase = createCommitForTree(resultTree, parents);
-				else
+				else {
+					String failedPaths = failingPathsMessage();
 					throw new NoMergeBaseException(
 							NoMergeBaseException.MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION,
 							MessageFormat.format(
 									JGitText.get().mergeRecursiveConflictsWhenMergingCommonAncestors,
-									currentBase.getName(), nextBase.getName()));
+									currentBase.getName(), nextBase.getName(),
+									failedPaths));
+				}
 			}
 		} finally {
 			inCore = oldIncore;
@@ -229,11 +233,23 @@ public class RecursiveMerger extends ResolveMerger {
 	private static PersonIdent mockAuthor(List<RevCommit> parents) {
 		String name = RecursiveMerger.class.getSimpleName();
 		int time = 0;
-		for (RevCommit p : parents)
+		for (RevCommit p : parents) {
 			time = Math.max(time, p.getCommitTime());
-		return new PersonIdent(
-				name, name + "@JGit", //$NON-NLS-1$
-				new Date((time + 1) * 1000L),
-				TimeZone.getTimeZone("GMT+0000")); //$NON-NLS-1$
+		}
+		return new PersonIdent(name, name + "@JGit", //$NON-NLS-1$
+				Instant.ofEpochSecond(time+1), ZoneOffset.UTC);
+	}
+
+	private String failingPathsMessage() {
+		int max = 25;
+		String failedPaths = failingPaths.entrySet().stream().limit(max)
+				.map(entry -> entry.getKey() + ":" + entry.getValue()) //$NON-NLS-1$
+				.collect(Collectors.joining("\n")); //$NON-NLS-1$
+
+		if (failingPaths.size() > max) {
+			failedPaths = String.format("%s\n... (%s failing paths omitted)", //$NON-NLS-1$
+					failedPaths, Integer.valueOf(failingPaths.size() - max));
+		}
+		return failedPaths;
 	}
 }

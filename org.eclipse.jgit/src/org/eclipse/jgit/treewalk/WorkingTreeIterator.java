@@ -498,6 +498,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			filterProcessBuilder.directory(repository.getWorkTree());
 			filterProcessBuilder.environment().put(Constants.GIT_DIR_KEY,
 					repository.getDirectory().getAbsolutePath());
+			filterProcessBuilder.environment().put(Constants.GIT_COMMON_DIR_KEY,
+					repository.getCommonDirectory().getAbsolutePath());
 			ExecutionResult result;
 			try {
 				result = fs.execute(filterProcessBuilder, in);
@@ -615,18 +617,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 		}
 		return canonLen;
-	}
-
-	/**
-	 * Get the last modified time of this entry.
-	 *
-	 * @return last modified time of this file, in milliseconds since the epoch
-	 *         (Jan 1, 1970 UTC).
-	 * @deprecated use {@link #getEntryLastModifiedInstant()} instead
-	 */
-	@Deprecated
-	public long getEntryLastModified() {
-		return current().getLastModified();
 	}
 
 	/**
@@ -1229,21 +1219,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		 * needs to compute the value they should cache the reference within an
 		 * instance member instead.
 		 *
-		 * @return time since the epoch (in ms) of the last change.
-		 * @deprecated use {@link #getLastModifiedInstant()} instead
-		 */
-		@Deprecated
-		public abstract long getLastModified();
-
-		/**
-		 * Get the last modified time of this entry.
-		 * <p>
-		 * <b>Note: Efficient implementation required.</b>
-		 * <p>
-		 * The implementation of this method must be efficient. If a subclass
-		 * needs to compute the value they should cache the reference within an
-		 * instance member instead.
-		 *
 		 * @return time of the last change.
 		 * @since 5.1.9
 		 */
@@ -1332,7 +1307,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 			IgnoreNode infoExclude = new IgnoreNodeWithParent(
 					coreExclude);
-			File exclude = fs.resolve(repository.getDirectory(),
+			File exclude = fs.resolve(repository.getCommonDirectory(),
 					Constants.INFO_EXCLUDE);
 			if (fs.exists(exclude)) {
 				loadRulesFromFile(infoExclude, exclude);

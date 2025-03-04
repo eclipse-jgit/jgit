@@ -36,29 +36,39 @@ import org.eclipse.jgit.annotations.NonNull;
  */
 public interface HttpConnection {
 	/**
+	 * HttpURLConnection#HTTP_OK
+	 *
 	 * @see HttpURLConnection#HTTP_OK
 	 */
 	int HTTP_OK = java.net.HttpURLConnection.HTTP_OK;
 
 	/**
+	 * HttpURLConnection#HTTP_NOT_AUTHORITATIVE
+	 *
 	 * @see HttpURLConnection#HTTP_NOT_AUTHORITATIVE
 	 * @since 5.8
 	 */
 	int HTTP_NOT_AUTHORITATIVE = java.net.HttpURLConnection.HTTP_NOT_AUTHORITATIVE;
 
 	/**
+	 * HttpURLConnection#HTTP_MOVED_PERM
+	 *
 	 * @see HttpURLConnection#HTTP_MOVED_PERM
 	 * @since 4.7
 	 */
 	int HTTP_MOVED_PERM = java.net.HttpURLConnection.HTTP_MOVED_PERM;
 
 	/**
+	 * HttpURLConnection#HTTP_MOVED_TEMP
+	 *
 	 * @see HttpURLConnection#HTTP_MOVED_TEMP
 	 * @since 4.9
 	 */
 	int HTTP_MOVED_TEMP = java.net.HttpURLConnection.HTTP_MOVED_TEMP;
 
 	/**
+	 * HttpURLConnection#HTTP_SEE_OTHER
+	 *
 	 * @see HttpURLConnection#HTTP_SEE_OTHER
 	 * @since 4.9
 	 */
@@ -85,16 +95,22 @@ public interface HttpConnection {
 	int HTTP_11_MOVED_PERM = 308;
 
 	/**
+	 * HttpURLConnection#HTTP_NOT_FOUND
+	 *
 	 * @see HttpURLConnection#HTTP_NOT_FOUND
 	 */
 	int HTTP_NOT_FOUND = java.net.HttpURLConnection.HTTP_NOT_FOUND;
 
 	/**
+	 * HttpURLConnection#HTTP_UNAUTHORIZED
+	 *
 	 * @see HttpURLConnection#HTTP_UNAUTHORIZED
 	 */
 	int HTTP_UNAUTHORIZED = java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
 
 	/**
+	 * HttpURLConnection#HTTP_FORBIDDEN
+	 *
 	 * @see HttpURLConnection#HTTP_FORBIDDEN
 	 */
 	int HTTP_FORBIDDEN = java.net.HttpURLConnection.HTTP_FORBIDDEN;

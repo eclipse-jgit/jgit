@@ -14,8 +14,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,10 +41,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 	 * @return true if cygwin is found
 	 */
 	public static boolean isCygwin() {
-		final String path = AccessController
-				.doPrivileged((PrivilegedAction<String>) () -> System
-						.getProperty("java.library.path") //$NON-NLS-1$
-				);
+		final String path = System.getProperty("java.library.path"); //$NON-NLS-1$
 		if (path == null)
 			return false;
 		File found = FS.searchPath(path, "cygpath.exe"); //$NON-NLS-1$
@@ -99,9 +94,7 @@ public class FS_Win32_Cygwin extends FS_Win32 {
 
 	@Override
 	protected File userHomeImpl() {
-		final String home = AccessController.doPrivileged(
-				(PrivilegedAction<String>) () -> System.getenv("HOME") //$NON-NLS-1$
-		);
+		final String home = System.getenv("HOME"); //$NON-NLS-1$
 		if (home == null || home.length() == 0)
 			return super.userHomeImpl();
 		return resolve(new File("."), home); //$NON-NLS-1$

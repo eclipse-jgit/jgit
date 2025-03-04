@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -47,6 +48,11 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * invocations is also fixed in size.
  */
 final class ClockBlockCacheTable implements DfsBlockCacheTable {
+	/**
+	 * Table name.
+	 */
+	private final String name;
+
 	/** Number of entries in {@link #table}. */
 	private final int tableSize;
 
@@ -129,14 +135,20 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 				-1, 0, null);
 		clockHand.next = clockHand;
 
-		this.dfsBlockCacheStats = new DfsBlockCacheStats();
+		this.name = cfg.getName();
+		this.dfsBlockCacheStats = new DfsBlockCacheStats(this.name);
 		this.refLockWaitTime = cfg.getRefLockWaitTimeConsumer();
 		this.indexEventConsumer = cfg.getIndexEventConsumer();
 	}
 
 	@Override
-	public DfsBlockCacheStats getDfsBlockCacheStats() {
-		return dfsBlockCacheStats;
+	public List<BlockCacheStats> getBlockCacheStats() {
+		return List.of(dfsBlockCacheStats);
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override

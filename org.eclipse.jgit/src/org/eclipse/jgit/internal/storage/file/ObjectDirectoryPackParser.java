@@ -28,6 +28,7 @@ import java.util.zip.Deflater;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
@@ -110,7 +111,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 	 * @param version
 	 *            the version to write. The special version 0 designates the
 	 *            oldest (most compatible) format available for the objects.
-	 * @see PackIndexWriter
+	 * @see BasePackIndexWriter
 	 */
 	public void setIndexVersion(int version) {
 		indexVersion = version;
@@ -386,9 +387,9 @@ public class ObjectDirectoryPackParser extends PackParser {
 		try (FileOutputStream os = new FileOutputStream(tmpIdx)) {
 			final PackIndexWriter iw;
 			if (indexVersion <= 0)
-				iw = PackIndexWriter.createOldestPossible(os, list);
+				iw = BasePackIndexWriter.createOldestPossible(os, list);
 			else
-				iw = PackIndexWriter.createVersion(os, indexVersion);
+				iw = BasePackIndexWriter.createVersion(os, indexVersion);
 			iw.write(list, packHash);
 			os.getChannel().force(true);
 		}

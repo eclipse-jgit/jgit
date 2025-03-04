@@ -114,6 +114,13 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 				try (Repository subModRepo = generator.getRepository()) {
 					assertNotNull(subModRepo);
 					assertEquals(subCommit, commit);
+					String worktreeDir = subModRepo.getConfig().getString(
+							ConfigConstants.CONFIG_CORE_SECTION, null,
+							ConfigConstants.CONFIG_KEY_WORKTREE);
+					assertEquals("../../../sub", worktreeDir);
+					String gitdir = read(new File(subModRepo.getWorkTree(),
+							Constants.DOT_GIT));
+					assertEquals("gitdir: ../.git/modules/sub", gitdir);
 				}
 			}
 			Status status = Git.wrap(db).status().call();

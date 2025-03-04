@@ -255,9 +255,11 @@ public class GitSmartHttpTools {
 	private static void send(HttpServletRequest req, HttpServletResponse res,
 			String type, byte[] buf, int httpStatus) throws IOException {
 		ServletUtils.consumeRequestBody(req);
-		res.setStatus(httpStatus);
-		res.setContentType(type);
-		res.setContentLength(buf.length);
+		if (!res.isCommitted()) {
+			res.setStatus(httpStatus);
+			res.setContentType(type);
+			res.setContentLength(buf.length);
+		}
 		try (OutputStream os = res.getOutputStream()) {
 			os.write(buf);
 		}

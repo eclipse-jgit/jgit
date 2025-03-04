@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Properties;
 
 import org.eclipse.jgit.api.errors.DetachedHeadException;
@@ -1146,7 +1147,7 @@ public class PushCommandTest extends RepositoryTestCase {
 			RevCommit commit2 = git2.commit().setMessage("adding a").call();
 
 			// run a gc to ensure we have a bitmap index
-			Properties res = git1.gc().setExpire(null).call();
+			Properties res = git1.gc().setExpire((Instant) null).call();
 			assertEquals(8, res.size());
 
 			// create another commit so we have something else to push

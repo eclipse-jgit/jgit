@@ -20,6 +20,16 @@ java_library(
 )
 
 java_library(
+    name = "commons-lang3",
+    visibility = [
+        "//org.eclipse.jgit.archive:__pkg__",
+        "//org.eclipse.jgit.pgm.test:__pkg__",
+        "//org.eclipse.jgit.test:__pkg__",
+    ],
+    exports = ["@commons-lang3//jar"],
+)
+
+java_library(
     name = "commons-io",
     visibility = [
         "//org.eclipse.jgit.archive:__pkg__",
@@ -42,16 +52,6 @@ java_library(
     name = "commons-logging",
     visibility = ["//visibility:public"],
     exports = ["@commons-logging//jar"],
-)
-
-java_library(
-    name = "eddsa",
-    visibility = [
-        "//org.eclipse.jgit.ssh.apache:__pkg__",
-        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
-    ],
-    exports = ["@eddsa//jar"],
 )
 
 java_library(
@@ -208,6 +208,8 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@bcprov//jar"],
@@ -218,6 +220,8 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@bcutil//jar"],
@@ -227,6 +231,8 @@ java_library(
     name = "bcpkix",
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
+        "//org.eclipse.jgit.ssh.apache.test:__pkg__",
+        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@bcpkix//jar"],

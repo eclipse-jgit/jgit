@@ -171,7 +171,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 			assertEquals(c2.getResult(), ReceiveCommand.Result.OK);
 		}
 
-		File packed = new File(diskRepo.getDirectory(), "packed-refs");
+		File packed = new File(diskRepo.getCommonDirectory(), "packed-refs");
 		String packedStr = new String(Files.readAllBytes(packed.toPath()),
 				UTF_8);
 
@@ -1263,7 +1263,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private ReflogEntry getLastReflog(String name) throws IOException {
-		ReflogReader r = diskRepo.getReflogReader(name);
+		ReflogReader r = diskRepo.getRefDatabase().getReflogReader(name);
 		if (r == null) {
 			return null;
 		}

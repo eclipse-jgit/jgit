@@ -757,8 +757,10 @@ public class AmazonS3 {
 
 					final XMLReader xr;
 					try {
-						xr = SAXParserFactory.newInstance().newSAXParser()
-								.getXMLReader();
+						SAXParserFactory saxParserFactory = SAXParserFactory
+								.newInstance();
+						saxParserFactory.setNamespaceAware(true);
+						xr = saxParserFactory.newSAXParser().getXMLReader();
 					} catch (SAXException | ParserConfigurationException e) {
 						throw new IOException(
 								JGitText.get().noXMLParserAvailable, e);

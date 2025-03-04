@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2020 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2024 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -47,6 +47,8 @@ public class PasswordProviderWrapper implements FilePasswordProvider {
 
 	private final Supplier<KeyPasswordProvider> factory;
 
+	private PerSessionState noSessionState;
+
 	/**
 	 * Creates a new {@link PasswordProviderWrapper}.
 	 *
@@ -59,13 +61,18 @@ public class PasswordProviderWrapper implements FilePasswordProvider {
 	}
 
 	private PerSessionState getState(SessionContext context) {
-		PerSessionState state = context.getAttribute(STATE);
+		PerSessionState state = context != null ? context.getAttribute(STATE)
+				: noSessionState;
 		if (state == null) {
 			state = new PerSessionState();
 			state.delegate = factory.get();
 			state.delegate.setAttempts(
 					PASSWORD_PROMPTS.getRequiredDefault().intValue());
-			context.setAttribute(STATE, state);
+			if (context != null) {
+				context.setAttribute(STATE, state);
+			} else {
+				noSessionState = state;
+			}
 		}
 		return state;
 	}

@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
@@ -206,7 +206,7 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// The old packfile is too young to be deleted. We should end up with
 		// two pack files
-		gc.setExpire(new Date(oldPackfile.lastModified() - 1));
+		gc.setExpire(Instant.ofEpochMilli(oldPackfile.lastModified() - 1));
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);

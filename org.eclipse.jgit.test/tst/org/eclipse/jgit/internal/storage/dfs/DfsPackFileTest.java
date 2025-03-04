@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
@@ -126,6 +127,7 @@ public class DfsPackFileTest {
 		setObjectSizeIndexMinBytes(0);
 		ObjectId blobId = setupPack(512, 800);
 
+		db.getObjectDatabase().getReaderOptions().setUseObjectSizeIndex(true);
 		DfsReader reader = db.getObjectDatabase().newReader();
 		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
 		assertTrue(pack.hasObjectSizeIndex(reader));
@@ -308,7 +310,7 @@ public class DfsPackFileTest {
 
 	private void assertPackSize() throws IOException {
 		try (DfsReader ctx = db.getObjectDatabase().newReader();
-				PackWriter pw = new PackWriter(ctx);
+		     PackWriter pw = new PackWriter(new PackConfig(), ctx);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				PackOutputStream out = new PackOutputStream(
 						NullProgressMonitor.INSTANCE, os, pw)) {

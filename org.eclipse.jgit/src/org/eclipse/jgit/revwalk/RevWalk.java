@@ -19,9 +19,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.
+Optional;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -31,9 +36,9 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
-import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -276,23 +281,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public ObjectReader getObjectReader() {
 		return reader;
-	}
-
-	/**
-	 * Get a reachability checker for commits over this revwalk.
-	 *
-	 * @return the most efficient reachability checker for this repository.
-	 * @throws IOException
-	 *             if it cannot open any of the underlying indices.
-	 *
-	 * @since 5.4
-	 * @deprecated use {@code ObjectReader#createReachabilityChecker(RevWalk)}
-	 *             instead.
-	 */
-	@Deprecated
-	public final ReachabilityChecker createReachabilityChecker()
-			throws IOException {
-		return reader.createReachabilityChecker(this);
 	}
 
 	/**
@@ -540,6 +528,27 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
+	 * Determine if a <code>commit</code> is merged into any of the given
+	 * <code>revs</code>.
+	 *
+	 * @param commit
+	 *            commit the caller thinks is reachable from <code>revs</code>.
+	 * @param revs
+	 *            commits to start iteration from, and which is most likely a
+	 *            descendant (child) of <code>commit</code>.
+	 * @return true if commit is merged into any of the revs; false otherwise.
+	 * @throws java.io.IOException
+	 *             a pack file or loose object could not be read.
+	 * @since 6.10.1
+	 */
+	public boolean isMergedIntoAnyCommit(RevCommit commit, Collection<RevCommit> revs)
+			throws IOException {
+		return getCommitsMergedInto(commit, revs,
+				GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND,
+				NullProgressMonitor.INSTANCE).size() > 0;
+	}
+
+	/**
 	 * Determine if a <code>commit</code> is merged into all of the given
 	 * <code>refs</code>.
 	 *
@@ -562,7 +571,26 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private List<Ref> getMergedInto(RevCommit needle, Collection<Ref> haystacks,
 			Enum returnStrategy, ProgressMonitor monitor) throws IOException {
+		Map<RevCommit, List<Ref>> refsByCommit = new HashMap<>();
+		for (Ref r : haystacks) {
+			RevObject o = peel(parseAny(r.getObjectId()));
+			if (!(o instanceof RevCommit)) {
+				continue;
+			}
+			refsByCommit.computeIfAbsent((RevCommit) o, c -> new ArrayList<>()).add(r);
+		}
+		monitor.update(1);
 		List<Ref> result = new ArrayList<>();
+		for (RevCommit c : getCommitsMergedInto(needle, refsByCommit.keySet(),
+				returnStrategy, monitor)) {
+			result.addAll(refsByCommit.get(c));
+		}
+		return result;
+	}
+
+	private Set<RevCommit> getCommitsMergedInto(RevCommit needle, Collection<RevCommit> haystacks,
+			Enum returnStrategy, ProgressMonitor monitor) throws IOException {
+		Set<RevCommit> result = new HashSet<>();
 		List<RevCommit> uninteresting = new ArrayList<>();
 		List<RevCommit> marked = new ArrayList<>();
 		RevFilter oldRF = filter;
@@ -578,16 +606,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				needle.parseHeaders(this);
 			}
 			int cutoff = needle.getGeneration();
-			for (Ref r : haystacks) {
+			for (RevCommit c : haystacks) {
 				if (monitor.isCancelled()) {
 					return result;
 				}
 				monitor.update(1);
-				RevObject o = peel(parseAny(r.getObjectId()));
-				if (!(o instanceof RevCommit)) {
-					continue;
-				}
-				RevCommit c = (RevCommit) o;
 				reset(UNINTERESTING | TEMP_MARK);
 				markStart(c);
 				boolean commitFound = false;
@@ -599,7 +622,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 					}
 					if (References.isSameObject(next, needle)
 							|| (next.flags & TEMP_MARK) != 0) {
-						result.add(r);
+						result.add(c);
 						if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND) {
 							return result;
 						}

@@ -2,7 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2006-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2006-2024, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -31,8 +31,8 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
-import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
@@ -60,7 +60,6 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -165,7 +164,7 @@ public class FileRepository extends Repository {
 			throw new IOException(e.getMessage(), e);
 		}
 		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
-				getDirectory(), Constants.CONFIG),
+				getCommonDirectory(), Constants.CONFIG),
 				getFS());
 		loadRepoConfig();
 
@@ -193,7 +192,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS(), //
-				new File(getDirectory(), Constants.SHALLOW));
+				new File(getCommonDirectory(), Constants.SHALLOW));
 
 		if (objectDatabase.exists()) {
 			if (repositoryFormatVersion > 1)
@@ -215,6 +214,16 @@ public class FileRepository extends Repository {
 		}
 	}
 
+	private String getRelativeDir(File base, File other) {
+		File relPath;
+		try {
+			relPath = base.toPath().relativize(other.toPath()).toFile();
+		} catch (IllegalArgumentException e) {
+			relPath = other;
+		}
+		return FileUtils.pathToString(relPath);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -223,6 +232,22 @@ public class FileRepository extends Repository {
 	 */
 	@Override
 	public void create(boolean bare) throws IOException {
+		create(bare, false);
+	}
+
+	/**
+	 * Create a new Git repository initializing the necessary files and
+	 * directories.
+	 *
+	 * @param bare
+	 *            if true, a bare repository (a repository without a working
+	 *            directory) is created.
+	 * @param relativePaths
+	 *            if true, relative paths are used for GIT_DIR and GIT_WORK_TREE
+	 * @throws IOException
+	 *             in case of IO problem
+	 */
+	public void create(boolean bare, boolean relativePaths) throws IOException {
 		final FileBasedConfig cfg = getConfig();
 		if (cfg.getFile().exists()) {
 			throw new IllegalStateException(MessageFormat.format(
@@ -293,15 +318,25 @@ public class FileRepository extends Repository {
 		if (!bare) {
 			File workTree = getWorkTree();
 			if (!getDirectory().getParentFile().equals(workTree)) {
+				String workTreePath;
+				String gitDirPath;
+				if (relativePaths) {
+					File canonGitDir = getDirectory().getCanonicalFile();
+					File canonWorkTree = getWorkTree().getCanonicalFile();
+					workTreePath = getRelativeDir(canonGitDir, canonWorkTree);
+					gitDirPath = getRelativeDir(canonWorkTree, canonGitDir);
+				} else {
+					workTreePath = getWorkTree().getAbsolutePath();
+					gitDirPath = getDirectory().getAbsolutePath();
+				}
 				cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_WORKTREE, getWorkTree()
-								.getAbsolutePath());
+						ConfigConstants.CONFIG_KEY_WORKTREE, workTreePath);
 				LockFile dotGitLockFile = new LockFile(new File(workTree,
 						Constants.DOT_GIT));
 				try {
 					if (dotGitLockFile.lock()) {
 						dotGitLockFile.write(Constants.encode(Constants.GITDIR
-								+ getDirectory().getAbsolutePath()));
+								+ gitDirPath));
 						dotGitLockFile.commit();
 					}
 				} finally {
@@ -507,29 +542,6 @@ public class FileRepository extends Repository {
 	}
 
 	@Override
-	public ReflogReader getReflogReader(String refName) throws IOException {
-		if (refs instanceof FileReftableDatabase) {
-			// Cannot use findRef: reftable stores log data for deleted or renamed
-			// branches.
-			return ((FileReftableDatabase)refs).getReflogReader(refName);
-		}
-
-		// TODO: use exactRef here, which offers more predictable and therefore preferable
-		// behavior.
-		Ref ref = findRef(refName);
-		if (ref == null) {
-			return null;
-		}
-		return new ReflogReaderImpl(this, ref.getName());
-	}
-
-	@Override
-	public @NonNull ReflogReader getReflogReader(@NonNull Ref ref)
-			throws IOException {
-		return new ReflogReaderImpl(this, ref.getName());
-	}
-
-	@Override
 	public AttributesNodeProvider createAttributesNodeProvider() {
 		return new AttributesNodeProviderImpl(this);
 	}
@@ -595,13 +607,12 @@ public class FileRepository extends Repository {
 	@Override
 	public void autoGC(ProgressMonitor monitor) {
 		GC gc = new GC(this);
-		gc.setPackConfig(new PackConfig(this));
 		gc.setProgressMonitor(monitor);
 		gc.setAuto(true);
 		gc.setBackground(shouldAutoDetach());
 		try {
 			gc.gc();
-		} catch (ParseException | IOException e) {
+		} catch (ParseException | IOException | GitAPIException e) {
 			throw new JGitInternalException(JGitText.get().gcFailed, e);
 		}
 	}
@@ -622,16 +633,17 @@ public class FileRepository extends Repository {
 	 *             on IO problem
 	 */
 	void convertToPackedRefs(boolean writeLogs, boolean backup) throws IOException {
+		File commonDirectory = getCommonDirectory();
 		List<Ref> all = refs.getRefs();
-		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
+		File packedRefs = new File(commonDirectory, Constants.PACKED_REFS);
 		if (packedRefs.exists()) {
 			throw new IOException(MessageFormat.format(JGitText.get().fileAlreadyExists,
 				packedRefs.getName()));
 		}
 
-		File refsFile = new File(getDirectory(), "refs"); //$NON-NLS-1$
+		File refsFile = new File(commonDirectory, "refs"); //$NON-NLS-1$
 		File refsHeadsFile = new File(refsFile, "heads");//$NON-NLS-1$
-		File headFile = new File(getDirectory(), Constants.HEAD);
+		File headFile = new File(commonDirectory, Constants.HEAD);
 		FileReftableDatabase oldDb = (FileReftableDatabase) refs;
 
 		// Remove the dummy files that ensure compatibility with older git
@@ -661,8 +673,8 @@ public class FileRepository extends Repository {
 			}
 
 			if (writeLogs) {
-				List<ReflogEntry> logs = oldDb.getReflogReader(r.getName())
-						.getReverseEntries();
+				ReflogReader reflogReader = oldDb.getReflogReader(r);
+				List<ReflogEntry> logs = reflogReader.getReverseEntries();
 				Collections.reverse(logs);
 				for (ReflogEntry e : logs) {
 					logWriter.log(r.getName(), e);
@@ -701,12 +713,14 @@ public class FileRepository extends Repository {
 		}
 
 		if (!backup) {
-			File reftableDir = new File(getDirectory(), Constants.REFTABLE);
+			File reftableDir = new File(commonDirectory, Constants.REFTABLE);
 			FileUtils.delete(reftableDir,
 					FileUtils.RECURSIVE | FileUtils.IGNORE_ERRORS);
 		}
 		repoConfig.unset(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE);
+		repoConfig.setLong(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 		repoConfig.save();
 	}
 
@@ -730,8 +744,10 @@ public class FileRepository extends Repository {
 	@SuppressWarnings("nls")
 	void convertToReftable(boolean writeLogs, boolean backup)
 			throws IOException {
-		File reftableDir = new File(getDirectory(), Constants.REFTABLE);
-		File headFile = new File(getDirectory(), Constants.HEAD);
+		File commonDirectory = getCommonDirectory();
+		File directory = getDirectory();
+		File reftableDir = new File(commonDirectory, Constants.REFTABLE);
+		File headFile = new File(directory, Constants.HEAD);
 		if (reftableDir.exists() && FileUtils.hasFiles(reftableDir.toPath())) {
 			throw new IOException(JGitText.get().reftableDirExists);
 		}
@@ -739,28 +755,28 @@ public class FileRepository extends Repository {
 		// Ignore return value, as it is tied to temporary newRefs file.
 		FileReftableDatabase.convertFrom(this, writeLogs);
 
-		File refsFile = new File(getDirectory(), "refs");
+		File refsFile = new File(commonDirectory, "refs");
 
 		// non-atomic: remove old data.
-		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
-		File logsDir = new File(getDirectory(), Constants.LOGS);
+		File packedRefs = new File(commonDirectory, Constants.PACKED_REFS);
+		File logsDir = new File(commonDirectory, Constants.LOGS);
 
 		List<String> additional = getRefDatabase().getAdditionalRefs().stream()
 				.map(Ref::getName).collect(toList());
 		additional.add(Constants.HEAD);
 		if (backup) {
-			FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
+			FileUtils.rename(refsFile, new File(commonDirectory, "refs.old"));
 			if (packedRefs.exists()) {
-				FileUtils.rename(packedRefs, new File(getDirectory(),
+				FileUtils.rename(packedRefs, new File(commonDirectory,
 						Constants.PACKED_REFS + ".old"));
 			}
 			if (logsDir.exists()) {
 				FileUtils.rename(logsDir,
-						new File(getDirectory(), Constants.LOGS + ".old"));
+						new File(commonDirectory, Constants.LOGS + ".old"));
 			}
 			for (String r : additional) {
-				FileUtils.rename(new File(getDirectory(), r),
-					new File(getDirectory(), r + ".old"));
+				FileUtils.rename(new File(commonDirectory, r),
+						new File(commonDirectory, r + ".old"));
 			}
 		} else {
 			FileUtils.delete(packedRefs, FileUtils.SKIP_MISSING);
@@ -770,7 +786,7 @@ public class FileRepository extends Repository {
 			FileUtils.delete(refsFile,
 					FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
 			for (String r : additional) {
-				new File(getDirectory(), r).delete();
+				new File(commonDirectory, r).delete();
 			}
 		}
 
@@ -784,7 +800,7 @@ public class FileRepository extends Repository {
 
 		// Some tools might write directly into .git/refs/heads/BRANCH. By
 		// putting a file here, this fails spectacularly.
-		FileUtils.createNewFile(new File(refsFile, "heads"));
+		FileUtils.createNewFile(new File(refsFile, Constants.HEADS));
 
 		repoConfig.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE,

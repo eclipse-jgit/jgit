@@ -16,6 +16,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -375,7 +377,8 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 			ObjectId[] parentIds) throws Exception {
 		CommitBuilder c = new CommitBuilder();
 		c.setTreeId(treeB.writeTree(odi));
-		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
+		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor",
+				Instant.ofEpochMilli(1L), ZoneOffset.UTC));
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
 		c.setMessage("Tree " + c.getTreeId().name());

@@ -63,6 +63,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.api.PackRefsCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -100,9 +102,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.LockToken;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.GitDateParser;
+import org.eclipse.jgit.util.GitTimeParser;
 import org.eclipse.jgit.util.StringUtils;
-import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -158,11 +159,11 @@ public class GC {
 
 	private long expireAgeMillis = -1;
 
-	private Date expire;
+	private Instant expire;
 
 	private long packExpireAgeMillis = -1;
 
-	private Date packExpire;
+	private Instant packExpire;
 
 	private Boolean packKeptObjects;
 
@@ -233,9 +234,11 @@ public class GC {
 	 * @throws java.text.ParseException
 	 *             If the configuration parameter "gc.pruneexpire" couldn't be
 	 *             parsed
+	 * @throws GitAPIException
+	 *             If packing refs failed
 	 */
 	public CompletableFuture<Collection<Pack>> gc()
-			throws IOException, ParseException {
+			throws IOException, ParseException, GitAPIException {
 		if (!background) {
 			return CompletableFuture.completedFuture(doGc());
 		}
@@ -254,7 +257,7 @@ public class GC {
 					gcLog.commit();
 				}
 				return newPacks;
-			} catch (IOException | ParseException e) {
+			} catch (IOException | ParseException | GitAPIException e) {
 				try {
 					gcLog.write(e.getMessage());
 					StringWriter sw = new StringWriter();
@@ -277,7 +280,8 @@ public class GC {
 		return (executor != null) ? executor : WorkQueue.getExecutor();
 	}
 
-	private Collection<Pack> doGc() throws IOException, ParseException {
+	private Collection<Pack> doGc()
+			throws IOException, ParseException, GitAPIException {
 		if (automatic && !needGc()) {
 			return Collections.emptyList();
 		}
@@ -286,7 +290,8 @@ public class GC {
 				return Collections.emptyList();
 			}
 			pm.start(6 /* tasks */);
-			packRefs();
+			new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
+					.call();
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
 			prune(Collections.emptySet());
@@ -692,16 +697,18 @@ public class GC {
 
 		if (expire == null && expireAgeMillis == -1) {
 			String pruneExpireStr = getPruneExpireStr();
-			if (pruneExpireStr == null)
+			if (pruneExpireStr == null) {
 				pruneExpireStr = PRUNE_EXPIRE_DEFAULT;
-			expire = GitDateParser.parse(pruneExpireStr, null, SystemReader
-					.getInstance().getLocale());
+			}
+			expire = GitTimeParser.parseInstant(pruneExpireStr);
 			expireAgeMillis = -1;
 		}
-		if (expire != null)
-			expireDate = expire.getTime();
-		if (expireAgeMillis != -1)
+		if (expire != null) {
+			expireDate = expire.toEpochMilli();
+		}
+		if (expireAgeMillis != -1) {
 			expireDate = System.currentTimeMillis() - expireAgeMillis;
+		}
 		return expireDate;
 	}
 
@@ -718,16 +725,18 @@ public class GC {
 			String prunePackExpireStr = repo.getConfig().getString(
 					ConfigConstants.CONFIG_GC_SECTION, null,
 					ConfigConstants.CONFIG_KEY_PRUNEPACKEXPIRE);
-			if (prunePackExpireStr == null)
+			if (prunePackExpireStr == null) {
 				prunePackExpireStr = PRUNE_PACK_EXPIRE_DEFAULT;
-			packExpire = GitDateParser.parse(prunePackExpireStr, null,
-					SystemReader.getInstance().getLocale());
+			}
+			packExpire = GitTimeParser.parseInstant(prunePackExpireStr);
 			packExpireAgeMillis = -1;
 		}
-		if (packExpire != null)
-			packExpireDate = packExpire.getTime();
-		if (packExpireAgeMillis != -1)
+		if (packExpire != null) {
+			packExpireDate = packExpire.toEpochMilli();
+		}
+		if (packExpireAgeMillis != -1) {
 			packExpireDate = System.currentTimeMillis() - packExpireAgeMillis;
+		}
 		return packExpireDate;
 	}
 
@@ -777,43 +786,6 @@ public class GC {
 		}
 		return !r2.isSymbolic()
 				&& Objects.equals(r1.getObjectId(), r2.getObjectId());
-	}
-
-	/**
-	 * Pack ref storage. For a RefDirectory database, this packs all
-	 * non-symbolic, loose refs into packed-refs. For Reftable, all of the data
-	 * is compacted into a single table.
-	 *
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 */
-	public void packRefs() throws IOException {
-		RefDatabase refDb = repo.getRefDatabase();
-		if (refDb instanceof FileReftableDatabase) {
-			// TODO: abstract this more cleanly.
-			pm.beginTask(JGitText.get().packRefs, 1);
-			try {
-				((FileReftableDatabase) refDb).compactFully();
-			} finally {
-				pm.endTask();
-			}
-			return;
-		}
-
-		Collection<Ref> refs = refDb.getRefsByPrefix(Constants.R_REFS);
-		List<String> refsToBePacked = new ArrayList<>(refs.size());
-		pm.beginTask(JGitText.get().packRefs, refs.size());
-		try {
-			for (Ref ref : refs) {
-				checkCancelled();
-				if (!ref.isSymbolic() && ref.getStorage().isLoose())
-					refsToBePacked.add(ref.getName());
-				pm.update(1);
-			}
-			((RefDirectory) repo.getRefDatabase()).pack(refsToBePacked);
-		} finally {
-			pm.endTask();
-		}
 	}
 
 	/**
@@ -1047,7 +1019,7 @@ public class GC {
 	}
 
 	private void deleteEmptyRefsFolders() throws IOException {
-		Path refs = repo.getDirectory().toPath().resolve(Constants.R_REFS);
+		Path refs = repo.getCommonDirectory().toPath().resolve(Constants.R_REFS);
 		// Avoid deleting a folder that was created after the threshold so that concurrent
 		// operations trying to create a reference are not impacted
 		Instant threshold = Instant.now().minus(30, ChronoUnit.SECONDS);
@@ -1185,7 +1157,7 @@ public class GC {
 	 *             if an IO error occurred
 	 */
 	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
-		ReflogReader reflogReader = repo.getReflogReader(ref);
+		ReflogReader reflogReader = repo.getRefDatabase().getReflogReader(ref);
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
 		if (rlEntries == null || rlEntries.isEmpty())
@@ -1509,6 +1481,18 @@ public class GC {
 		public long numberOfPackFiles;
 
 		/**
+		 * The number of pack files that were created since the last bitmap
+		 * generation.
+		 */
+		public long numberOfPackFilesSinceBitmap;
+
+		/**
+		 * The number of objects stored in pack files and as loose object
+		 * created after the last bitmap generation.
+		 */
+		public long numberOfObjectsSinceBitmap;
+
+		/**
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
@@ -1543,6 +1527,10 @@ public class GC {
 			final StringBuilder b = new StringBuilder();
 			b.append("numberOfPackedObjects=").append(numberOfPackedObjects); //$NON-NLS-1$
 			b.append(", numberOfPackFiles=").append(numberOfPackFiles); //$NON-NLS-1$
+			b.append(", numberOfPackFilesSinceBitmap=") //$NON-NLS-1$
+					.append(numberOfPackFilesSinceBitmap);
+			b.append(", numberOfObjectsSinceBitmap=") //$NON-NLS-1$
+					.append(numberOfObjectsSinceBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1563,12 +1551,22 @@ public class GC {
 	public RepoStatistics getStatistics() throws IOException {
 		RepoStatistics ret = new RepoStatistics();
 		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		long latestBitmapTime = 0L;
 		for (Pack p : packs) {
-			ret.numberOfPackedObjects += p.getIndex().getObjectCount();
+			long packedObjects = p.getIndex().getObjectCount();
+			ret.numberOfPackedObjects += packedObjects;
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
-			if (p.getBitmapIndex() != null)
+			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
+				if (latestBitmapTime == 0L) {
+					latestBitmapTime = p.getFileSnapshot().lastModifiedInstant().toEpochMilli();
+				}
+			}
+			else if (latestBitmapTime == 0L) {
+				ret.numberOfPackFilesSinceBitmap++;
+				ret.numberOfObjectsSinceBitmap += packedObjects;
+			}
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();
@@ -1584,6 +1582,9 @@ public class GC {
 						continue;
 					ret.numberOfLooseObjects++;
 					ret.sizeOfLooseObjects += f.length();
+					if (f.lastModified() > latestBitmapTime) {
+						ret.numberOfObjectsSinceBitmap ++;
+					}
 				}
 			}
 		}
@@ -1659,12 +1660,31 @@ public class GC {
 	 * candidate for pruning.
 	 *
 	 * @param expire
-	 *            instant in time which defines object expiration
-	 *            objects with modification time before this instant are expired
-	 *            objects with modification time newer or equal to this instant
-	 *            are not expired
+	 *            instant in time which defines object expiration objects with
+	 *            modification time before this instant are expired objects with
+	 *            modification time newer or equal to this instant are not
+	 *            expired
+	 * @deprecated use {@link #setExpire(Instant)} instead
 	 */
+	@Deprecated(since = "7.2")
 	public void setExpire(Date expire) {
+		this.expire = expire.toInstant();
+		expireAgeMillis = -1;
+	}
+
+	/**
+	 * During gc() or prune() each unreferenced, loose object which has been
+	 * created or modified after or at <code>expire</code> will not be pruned.
+	 * Only older objects may be pruned. If set to null then every object is a
+	 * candidate for pruning.
+	 *
+	 * @param expire
+	 *            instant in time which defines object expiration objects with
+	 *            modification time before this instant are expired objects with
+	 *            modification time newer or equal to this instant are not
+	 *            expired
+	 */
+	public void setExpire(Instant expire) {
 		this.expire = expire;
 		expireAgeMillis = -1;
 	}
@@ -1677,8 +1697,24 @@ public class GC {
 	 *
 	 * @param packExpire
 	 *            instant in time which defines packfile expiration
+	 * @deprecated use {@link #setPackExpire(Instant)} instead
 	 */
+	@Deprecated(since = "7.2")
 	public void setPackExpire(Date packExpire) {
+		this.packExpire = packExpire.toInstant();
+		packExpireAgeMillis = -1;
+	}
+
+	/**
+	 * During gc() or prune() packfiles which are created or modified after or
+	 * at <code>packExpire</code> will not be deleted. Only older packfiles may
+	 * be deleted. If set to null then every packfile is a candidate for
+	 * deletion.
+	 *
+	 * @param packExpire
+	 *            instant in time which defines packfile expiration
+	 */
+	public void setPackExpire(Instant packExpire) {
 		this.packExpire = packExpire;
 		packExpireAgeMillis = -1;
 	}

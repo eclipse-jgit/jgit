@@ -12,6 +12,7 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertSame;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -38,8 +39,14 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		return new RevWalk(db);
 	}
 
+	// Use getInstant() instead
+	@Deprecated
 	protected Date getDate() {
-		return util.getDate();
+		return Date.from(util.getInstant());
+	}
+
+	protected Instant getInstant() {
+		return util.getInstant();
 	}
 
 	protected void tick(int secDelta) {

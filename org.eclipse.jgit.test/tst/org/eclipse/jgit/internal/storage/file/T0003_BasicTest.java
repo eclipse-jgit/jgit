@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -374,8 +375,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	public void test009_CreateCommitOldFormat() throws IOException {
 		final ObjectId treeId = insertTree(new TreeFormatter());
 		final CommitBuilder c = new CommitBuilder();
-		c.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
-		c.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
+		c.setAuthor(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
+		c.setCommitter(new PersonIdent(committer,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		c.setMessage("A Commit\n");
 		c.setTreeId(treeId);
 		assertEquals(treeId, c.getTreeId());
@@ -411,7 +414,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(emptyId, Constants.OBJ_BLOB);
 		t.setTag("test020");
-		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
+		t.setTagger(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		t.setMessage("test020 tagged\n");
 		ObjectId actid = insertTag(t);
 		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", actid.name());
@@ -419,8 +423,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_BLOB, mapTag.getObject().getType());
 		assertEquals("test020 tagged\n", mapTag.getFullMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag
-				.getTaggerIdent());
+		assertEquals(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)),
+				mapTag.getTaggerIdent());
 		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag
 				.getObject().getId().name());
 	}
@@ -434,7 +439,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(almostEmptyTreeId, Constants.OBJ_TREE);
 		t.setTag("test021");
-		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
+		t.setTagger(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		t.setMessage("test021 tagged\n");
 		ObjectId actid = insertTag(t);
 		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", actid.name());
@@ -442,8 +448,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_TREE, mapTag.getObject().getType());
 		assertEquals("test021 tagged\n", mapTag.getFullMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag
-				.getTaggerIdent());
+		assertEquals(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)),
+				mapTag.getTaggerIdent());
 		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag
 				.getObject().getId().name());
 	}
@@ -455,17 +462,18 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		almostEmptyTree.append("empty", FileMode.REGULAR_FILE, emptyId);
 		final ObjectId almostEmptyTreeId = insertTree(almostEmptyTree);
 		final CommitBuilder almostEmptyCommit = new CommitBuilder();
-		almostEmptyCommit.setAuthor(new PersonIdent(author, 1154236443000L,
-				-2 * 60)); // not exactly the same
-		almostEmptyCommit.setCommitter(new PersonIdent(author, 1154236443000L,
-				-2 * 60));
+		almostEmptyCommit.setAuthor(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-2)));
+		almostEmptyCommit.setCommitter(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-2)));
 		almostEmptyCommit.setMessage("test022\n");
 		almostEmptyCommit.setTreeId(almostEmptyTreeId);
 		ObjectId almostEmptyCommitId = insertCommit(almostEmptyCommit);
 		final TagBuilder t = new TagBuilder();
 		t.setObjectId(almostEmptyCommitId, Constants.OBJ_COMMIT);
 		t.setTag("test022");
-		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
+		t.setTagger(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		t.setMessage("test022 tagged\n");
 		ObjectId actid = insertTag(t);
 		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", actid.name());
@@ -473,8 +481,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_COMMIT, mapTag.getObject().getType());
 		assertEquals("test022 tagged\n", mapTag.getFullMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag
-				.getTaggerIdent());
+		assertEquals(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)),
+				mapTag.getTaggerIdent());
 		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag
 				.getObject().getId().name());
 	}
@@ -488,9 +497,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		CommitBuilder commit = new CommitBuilder();
 		commit.setTreeId(almostEmptyTreeId);
 		commit.setAuthor(new PersonIdent("Joe H\u00e4cker", "joe@example.com",
-				4294967295000L, 60));
+				Instant.ofEpochMilli(4294967295000L), ZoneOffset.ofHours(1)));
 		commit.setCommitter(new PersonIdent("Joe Hacker", "joe2@example.com",
-				4294967295000L, 60));
+				Instant.ofEpochMilli(4294967295000L), ZoneOffset.ofHours(1)));
 		commit.setEncoding(UTF_8);
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
@@ -509,9 +518,9 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		CommitBuilder commit = new CommitBuilder();
 		commit.setTreeId(almostEmptyTreeId);
 		commit.setAuthor(new PersonIdent("Joe H\u00e4cker", "joe@example.com",
-				4294967295000L, 60));
+				Instant.ofEpochMilli(4294967295000L), ZoneOffset.ofHours(1)));
 		commit.setCommitter(new PersonIdent("Joe Hacker", "joe2@example.com",
-				4294967295000L, 60));
+				Instant.ofEpochMilli(4294967295000L), ZoneOffset.ofHours(1)));
 		commit.setEncoding(ISO_8859_1);
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
@@ -544,8 +553,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 				.fromString("00b1f73724f493096d1ffa0b0f1f1482dbb8c936"), treeId);
 
 		final CommitBuilder c1 = new CommitBuilder();
-		c1.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
-		c1.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
+		c1.setAuthor(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
+		c1.setCommitter(new PersonIdent(committer,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		c1.setMessage("A Commit\n");
 		c1.setTreeId(treeId);
 		assertEquals(treeId, c1.getTreeId());
@@ -555,8 +566,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(cmtid1, actid1);
 
 		final CommitBuilder c2 = new CommitBuilder();
-		c2.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
-		c2.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
+		c2.setAuthor(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
+		c2.setCommitter(new PersonIdent(committer,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		c2.setMessage("A Commit 2\n");
 		c2.setTreeId(treeId);
 		assertEquals(treeId, c2.getTreeId());
@@ -577,8 +590,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(actid1, rm2.getParent(0));
 
 		final CommitBuilder c3 = new CommitBuilder();
-		c3.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
-		c3.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
+		c3.setAuthor(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
+		c3.setCommitter(new PersonIdent(committer,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		c3.setMessage("A Commit 3\n");
 		c3.setTreeId(treeId);
 		assertEquals(treeId, c3.getTreeId());
@@ -600,8 +615,10 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertEquals(actid2, rm3.getParent(1));
 
 		final CommitBuilder c4 = new CommitBuilder();
-		c4.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
-		c4.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
+		c4.setAuthor(new PersonIdent(author,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
+		c4.setCommitter(new PersonIdent(committer,
+				Instant.ofEpochMilli(1154236443000L), ZoneOffset.ofHours(-4)));
 		c4.setMessage("A Commit 4\n");
 		c4.setTreeId(treeId);
 		assertEquals(treeId, c3.getTreeId());

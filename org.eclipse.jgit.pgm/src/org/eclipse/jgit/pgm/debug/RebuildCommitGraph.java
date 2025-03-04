@@ -18,8 +18,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -166,7 +166,8 @@ class RebuildCommitGraph extends TextBuiltin {
 
 					final CommitBuilder newc = new CommitBuilder();
 					newc.setTreeId(emptyTree);
-					newc.setAuthor(new PersonIdent(me, new Date(t.commitTime)));
+					newc.setAuthor(new PersonIdent(me,
+							Instant.ofEpochSecond(t.commitTime)));
 					newc.setCommitter(newc.getAuthor());
 					newc.setParentIds(newParents);
 					newc.setMessage("ORIGINAL " + t.oldId.name() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$

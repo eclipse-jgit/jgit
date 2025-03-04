@@ -19,14 +19,15 @@ import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.EmptyCommitException;
+import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.dircache.DirCache;
@@ -34,19 +35,23 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.time.TimeUtil;
-import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.GpgSigner;
+import org.eclipse.jgit.lib.GpgConfig;
+import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
+import org.eclipse.jgit.lib.GpgSignature;
+import org.eclipse.jgit.lib.ObjectBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Signer;
+import org.eclipse.jgit.lib.Signers;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -430,10 +435,12 @@ public class CommitCommandTest extends RepositoryTestCase {
 
 			assertEquals(1, squashedCommit.getParentCount());
 			assertNull(db.readSquashCommitMsg());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-			assertEquals("commit: Squashed commit of the following:", db
-					.getReflogReader(db.getBranch()).getLastEntry().getComment());
+			assertEquals("commit: Squashed commit of the following:",
+					db.getRefDatabase().getReflogReader(Constants.HEAD)
+							.getLastEntry().getComment());
+			assertEquals("commit: Squashed commit of the following:",
+					db.getRefDatabase().getReflogReader(db.getFullBranch())
+							.getLastEntry().getComment());
 		}
 	}
 
@@ -450,12 +457,15 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.commit().setMessage("c3").setAll(true)
 					.setReflogComment("testRl").call();
 
-			db.getReflogReader(Constants.HEAD).getReverseEntries();
+			db.getRefDatabase().getReflogReader(Constants.HEAD)
+					.getReverseEntries();
 
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getReflogReader(Constants.HEAD).getReverseEntries()));
+					db.getRefDatabase().getReflogReader(Constants.HEAD)
+							.getReverseEntries()));
 			assertEquals("testRl;commit (initial): c1;", reflogComments(
-					db.getReflogReader(db.getBranch()).getReverseEntries()));
+					db.getRefDatabase().getReflogReader(db.getFullBranch())
+							.getReverseEntries()));
 		}
 	}
 
@@ -481,11 +491,11 @@ public class CommitCommandTest extends RepositoryTestCase {
 			writeTrashFile("file1", "file1");
 			git.add().addFilepattern("file1").call();
 
-			final String authorName = "First Author";
-			final String authorEmail = "author@example.org";
-			final Date authorDate = new Date(1349621117000L);
+			String authorName = "First Author";
+			String authorEmail = "author@example.org";
+			Instant authorDate = Instant.ofEpochSecond(1349621117L);
 			PersonIdent firstAuthor = new PersonIdent(authorName, authorEmail,
-					authorDate, TimeZone.getTimeZone("UTC"));
+					authorDate, ZoneOffset.UTC);
 			git.commit().setMessage("initial commit").setAuthor(firstAuthor).call();
 
 			RevCommit amended = git.commit().setAmend(true)
@@ -494,7 +504,8 @@ public class CommitCommandTest extends RepositoryTestCase {
 			PersonIdent amendedAuthor = amended.getAuthorIdent();
 			assertEquals(authorName, amendedAuthor.getName());
 			assertEquals(authorEmail, amendedAuthor.getEmailAddress());
-			assertEquals(authorDate.getTime(), amendedAuthor.getWhen().getTime());
+			assertEquals(authorDate.getEpochSecond(),
+					amendedAuthor.getWhenAsInstant().getEpochSecond());
 		}
 	}
 
@@ -839,21 +850,39 @@ public class CommitCommandTest extends RepositoryTestCase {
 			String[] signingKey = new String[1];
 			PersonIdent[] signingCommitters = new PersonIdent[1];
 			AtomicInteger callCount = new AtomicInteger();
-			GpgSigner.setDefault(new GpgSigner() {
+			// Since GpgFormat defaults to OpenPGP just set a new signer for
+			// that.
+			Signers.set(GpgFormat.OPENPGP, new Signer() {
+
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey,
-						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {
-					signingKey[0] = gpgSigningKey;
+				public void signObject(Repository repo, GpgConfig config,
+						ObjectBuilder builder, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
+					signingKey[0] = signingKeySpec;
 					signingCommitters[0] = signingCommitter;
 					callCount.incrementAndGet();
 				}
 
 				@Override
-				public boolean canLocateSigningKey(String gpgSigningKey,
-						PersonIdent signingCommitter,
+				public GpgSignature sign(Repository repo, GpgConfig config,
+						byte[] data, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
+					throw new CanceledException("Unexpected call");
+				}
+
+				@Override
+				public boolean canLocateSigningKey(Repository repo,
+						GpgConfig config, PersonIdent signingCommitter,
+						String signingKeySpec,
 						CredentialsProvider credentialsProvider)
 						throws CanceledException {
-					return false;
+					throw new CanceledException("Unexpected call");
 				}
 			});
 
@@ -904,19 +933,37 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("file1").call();
 
 			AtomicInteger callCount = new AtomicInteger();
-			GpgSigner.setDefault(new GpgSigner() {
+			// Since GpgFormat defaults to OpenPGP just set a new signer for
+			// that.
+			Signers.set(GpgFormat.OPENPGP, new Signer() {
+
 				@Override
-				public void sign(CommitBuilder commit, String gpgSigningKey,
-						PersonIdent signingCommitter, CredentialsProvider credentialsProvider) {
+				public void signObject(Repository repo, GpgConfig config,
+						ObjectBuilder builder, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
 					callCount.incrementAndGet();
 				}
 
 				@Override
-				public boolean canLocateSigningKey(String gpgSigningKey,
-						PersonIdent signingCommitter,
+				public GpgSignature sign(Repository repo, GpgConfig config,
+						byte[] data, PersonIdent signingCommitter,
+						String signingKeySpec,
+						CredentialsProvider credentialsProvider)
+						throws CanceledException,
+						UnsupportedSigningFormatException {
+					throw new CanceledException("Unexpected call");
+				}
+
+				@Override
+				public boolean canLocateSigningKey(Repository repo,
+						GpgConfig config, PersonIdent signingCommitter,
+						String signingKeySpec,
 						CredentialsProvider credentialsProvider)
 						throws CanceledException {
-					return false;
+					throw new CanceledException("Unexpected call");
 				}
 			});
 

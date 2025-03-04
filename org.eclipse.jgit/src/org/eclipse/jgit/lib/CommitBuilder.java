@@ -194,19 +194,6 @@ public class CommitBuilder extends ObjectBuilder {
 		}
 	}
 
-	/**
-	 * Set the encoding for the commit information.
-	 *
-	 * @param encodingName
-	 *            the encoding name. See
-	 *            {@link java.nio.charset.Charset#forName(String)}.
-	 * @deprecated use {@link #setEncoding(Charset)} instead.
-	 */
-	@Deprecated
-	public void setEncoding(String encodingName) {
-		setEncoding(Charset.forName(encodingName));
-	}
-
 	@Override
 	public byte[] build() throws UnsupportedEncodingException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();

@@ -16,6 +16,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.LOGS;
+import static org.eclipse.jgit.lib.Constants.L_LOGS;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
@@ -56,23 +57,25 @@ import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.PackRefsCommand;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig.TrustLooseRefStat;
-import org.eclipse.jgit.lib.CoreConfig.TrustPackedRefsStat;
+import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
+import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -123,6 +126,8 @@ public class RefDirectory extends RefDatabase {
 	private final FileRepository parent;
 
 	private final File gitDir;
+
+	private final File gitCommonDir;
 
 	final File refsDir;
 
@@ -179,24 +184,19 @@ public class RefDirectory extends RefDatabase {
 
 	private List<Integer> retrySleepMs = RETRY_SLEEP_MS;
 
-	private final boolean trustFolderStat;
-
-	private final TrustPackedRefsStat trustPackedRefsStat;
-
-	private final TrustLooseRefStat trustLooseRefStat;
+	private final CoreConfig coreConfig;
 
 	RefDirectory(RefDirectory refDb) {
 		parent = refDb.parent;
 		gitDir = refDb.gitDir;
+		gitCommonDir = refDb.gitCommonDir;
 		refsDir = refDb.refsDir;
 		logsDir = refDb.logsDir;
 		logsRefsDir = refDb.logsRefsDir;
 		packedRefsFile = refDb.packedRefsFile;
 		looseRefs.set(refDb.looseRefs.get());
 		packedRefs.set(refDb.packedRefs.get());
-		trustFolderStat = refDb.trustFolderStat;
-		trustPackedRefsStat = refDb.trustPackedRefsStat;
-		trustLooseRefStat = refDb.trustLooseRefStat;
+		coreConfig = refDb.coreConfig;
 		inProcessPackedRefsLock = refDb.inProcessPackedRefsLock;
 	}
 
@@ -204,24 +204,15 @@ public class RefDirectory extends RefDatabase {
 		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
-		refsDir = fs.resolve(gitDir, R_REFS);
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
-		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
+		gitCommonDir = db.getCommonDirectory();
+		refsDir = fs.resolve(gitCommonDir, R_REFS);
+		logsDir = fs.resolve(gitCommonDir, LOGS);
+		logsRefsDir = fs.resolve(gitCommonDir, L_LOGS + R_REFS);
+		packedRefsFile = fs.resolve(gitCommonDir, PACKED_REFS);
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
-		trustFolderStat = db.getConfig()
-				.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						ConfigConstants.CONFIG_KEY_TRUSTFOLDERSTAT, true);
-		trustPackedRefsStat = db.getConfig()
-				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_TRUST_PACKED_REFS_STAT,
-						TrustPackedRefsStat.UNSET);
-		trustLooseRefStat = db.getConfig()
-				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_TRUST_LOOSE_REF_STAT,
-						TrustLooseRefStat.ALWAYS);
+		coreConfig = db.getConfig().get(CoreConfig.KEY);
 		inProcessPackedRefsLock = new ReentrantLock(true);
 	}
 
@@ -280,6 +271,33 @@ public class RefDirectory extends RefDatabase {
 	public void refresh() {
 		super.refresh();
 		clearReferences();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * For a RefDirectory database, by default this packs non-symbolic, loose
+	 * tag refs into packed-refs. If {@code all} flag is set, this packs all the
+	 * non-symbolic, loose refs.
+	 */
+	@Override
+	public void packRefs(ProgressMonitor pm, PackRefsCommand packRefs)
+			throws IOException {
+		String prefix = packRefs.isAll() ? R_REFS : R_TAGS;
+		Collection<Ref> refs = getRefsByPrefix(prefix);
+		List<String> refsToBePacked = new ArrayList<>(refs.size());
+		pm.beginTask(JGitText.get().packRefs, refs.size());
+		try {
+			for (Ref ref : refs) {
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					refsToBePacked.add(ref.getName());
+				}
+				pm.update(1);
+			}
+			pack(refsToBePacked);
+		} finally {
+			pm.endTask();
+		}
 	}
 
 	@Override
@@ -420,6 +438,11 @@ public class RefDirectory extends RefDatabase {
 				ret.add(r);
 		}
 		return ret;
+	}
+
+	@Override
+	public ReflogReader getReflogReader(Ref ref) throws IOException {
+		return new ReflogReaderImpl(getRepository(), ref.getName());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -939,7 +962,7 @@ public class RefDirectory extends RefDatabase {
 	PackedRefList getPackedRefs() throws IOException {
 		final PackedRefList curList = packedRefs.get();
 
-		switch (trustPackedRefsStat) {
+		switch (coreConfig.getTrustPackedRefsStat()) {
 		case NEVER:
 			break;
 		case AFTER_OPEN:
@@ -955,12 +978,8 @@ public class RefDirectory extends RefDatabase {
 				return curList;
 			}
 			break;
-		case UNSET:
-			if (trustFolderStat
-					&& !curList.snapshot.isModified(packedRefsFile)) {
-				return curList;
-			}
-			break;
+		case INHERIT:
+			// only used in CoreConfig internally
 		}
 
 		return refreshPackedRefs(curList);
@@ -1146,7 +1165,7 @@ public class RefDirectory extends RefDatabase {
 	LooseRef scanRef(LooseRef ref, String name) throws IOException {
 		final File path = fileFor(name);
 
-		if (trustLooseRefStat.equals(TrustLooseRefStat.AFTER_OPEN)) {
+		if (coreConfig.getTrustLooseRefStat() == TrustStat.AFTER_OPEN) {
 			refreshPathToLooseRef(Paths.get(name));
 		}
 
@@ -1329,7 +1348,12 @@ public class RefDirectory extends RefDatabase {
 			name = name.substring(R_REFS.length());
 			return new File(refsDir, name);
 		}
-		return new File(gitDir, name);
+		// HEAD needs to get resolved from git dir as resolving it from common dir
+		// would always lead back to current default branch
+		if (name.equals(HEAD)) {
+			return new File(gitDir, name);
+		}
+		return new File(gitCommonDir, name);
 	}
 
 	static int levelsIn(String name) {

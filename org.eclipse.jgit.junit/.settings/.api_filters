@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.junit" version="2">
+    <resource path="src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java" type="org.eclipse.jgit.junit.LocalDiskRepositoryTestCase">
+        <filter id="336658481">
+            <message_arguments>
+                <message_argument value="org.eclipse.jgit.junit.LocalDiskRepositoryTestCase"/>
+                <message_argument value="testRoot"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

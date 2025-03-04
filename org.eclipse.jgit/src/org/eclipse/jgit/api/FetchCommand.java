@@ -124,7 +124,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 		FetchRecurseSubmodulesMode mode = repo.getConfig().getEnum(
 				FetchRecurseSubmodulesMode.values(),
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
-				ConfigConstants.CONFIG_KEY_FETCH_RECURSE_SUBMODULES, null);
+				ConfigConstants.CONFIG_KEY_FETCH_RECURSE_SUBMODULES);
 		if (mode != null) {
 			return mode;
 		}
@@ -132,7 +132,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 		// Fall back to fetch.recurseSubmodules, if set
 		mode = repo.getConfig().getEnum(FetchRecurseSubmodulesMode.values(),
 				ConfigConstants.CONFIG_FETCH_SECTION, null,
-				ConfigConstants.CONFIG_KEY_RECURSE_SUBMODULES, null);
+				ConfigConstants.CONFIG_KEY_RECURSE_SUBMODULES);
 		if (mode != null) {
 			return mode;
 		}

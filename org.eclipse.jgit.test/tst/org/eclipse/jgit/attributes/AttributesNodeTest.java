@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
 import org.junit.Test;
@@ -156,8 +157,9 @@ public class AttributesNodeTest {
 	private void assertAttribute(String path, AttributesNode node,
 			Attributes attrs) throws IOException {
 		Attributes attributes = new Attributes();
-		new AttributesHandler(DUMMY_WALK).mergeAttributes(node, path, false,
-				attributes);
+		new AttributesHandler(DUMMY_WALK,
+				() -> DUMMY_WALK.getTree(CanonicalTreeParser.class))
+						.mergeAttributes(node, path, false, attributes);
 		assertEquals(attrs, attributes);
 	}
 

@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.file.PackBitmapIndex.FLAG_REUSE;
 import static org.eclipse.jgit.revwalk.RevFlag.SEEN;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,16 +29,16 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.revwalk.AddUnseenToBitmapFilter;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
+import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexRemapper;
-import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl.CompressedBitmap;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.revwalk.BitmapWalker;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -99,10 +100,10 @@ class PackWriterBitmapPreparer {
 		this.excessiveBranchCount = config.getBitmapExcessiveBranchCount();
 		this.excessiveBranchTipCount = Math.max(excessiveBranchCount,
 				config.getBitmapExcessiveBranchTipCount());
-		long now = SystemReader.getInstance().getCurrentTime();
+		Instant now = SystemReader.getInstance().now();
 		long ageInSeconds = (long) config.getBitmapInactiveBranchAgeInDays()
 				* DAY_IN_SECONDS;
-		this.inactiveBranchTimestamp = (now / 1000) - ageInSeconds;
+		this.inactiveBranchTimestamp = now.getEpochSecond() - ageInSeconds;
 	}
 
 	/**

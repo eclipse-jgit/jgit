@@ -771,24 +771,6 @@ public class FileUtils {
 	}
 
 	/**
-	 * Get the lastModified attribute for a given file
-	 *
-	 * @param file
-	 *            the file
-	 * @return lastModified attribute for given file, not following symbolic
-	 *         links
-	 * @throws IOException
-	 *             if an IO error occurred
-	 * @deprecated use {@link #lastModifiedInstant(Path)} instead which returns
-	 *             FileTime
-	 */
-	@Deprecated
-	static long lastModified(File file) throws IOException {
-		return Files.getLastModifiedTime(toPath(file), LinkOption.NOFOLLOW_LINKS)
-				.toMillis();
-	}
-
-	/**
 	 * Get last modified timestamp of a file
 	 *
 	 * @param path
@@ -825,21 +807,6 @@ public class FileUtils {
 	 */
 	static BasicFileAttributes fileAttributes(File file) throws IOException {
 		return Files.readAttributes(file.toPath(), BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
-	}
-
-	/**
-	 * Set the last modified time of a file system object.
-	 *
-	 * @param file
-	 *            the file
-	 * @param time
-	 *            last modified timestamp
-	 * @throws IOException
-	 *             if an IO error occurred
-	 */
-	@Deprecated
-	static void setLastModified(File file, long time) throws IOException {
-		Files.setLastModifiedTime(toPath(file), FileTime.fromMillis(time));
 	}
 
 	/**

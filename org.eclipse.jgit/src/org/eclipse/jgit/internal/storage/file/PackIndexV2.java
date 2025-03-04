@@ -28,7 +28,7 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 /** Support for the pack index v2 format. */
-class PackIndexV2 extends PackIndex {
+class PackIndexV2 implements PackIndex {
 	private static final long IS_O64 = 1L << 31;
 
 	private static final int FANOUT = 256;
@@ -36,6 +36,9 @@ class PackIndexV2 extends PackIndex {
 	private static final int[] NO_INTS = {};
 
 	private static final byte[] NO_BYTES = {};
+
+	/** Footer checksum applied on the bottom of the pack file. */
+	protected byte[] packChecksum;
 
 	private long objectCnt;
 
@@ -221,7 +224,7 @@ class PackIndexV2 extends PackIndex {
 
 	@Override
 	public Iterator<MutableEntry> iterator() {
-		return new EntriesIteratorV2();
+		return new EntriesIteratorV2(this);
 	}
 
 	@Override
@@ -281,37 +284,39 @@ class PackIndexV2 extends PackIndex {
 		return -1;
 	}
 
-	private class EntriesIteratorV2 extends EntriesIterator {
-		int levelOne;
+	@Override
+	public byte[] getChecksum() {
+		return packChecksum;
+	}
 
-		int levelTwo;
+	private static class EntriesIteratorV2 extends EntriesIterator {
+		private int levelOne = 0;
 
-		@Override
-		protected MutableEntry initEntry() {
-			return new MutableEntry() {
-				@Override
-				protected void ensureId() {
-					idBuffer.fromRaw(names[levelOne], levelTwo
-							- Constants.OBJECT_ID_LENGTH / 4);
-				}
-			};
+		private int levelTwo = 0;
+
+		private final PackIndexV2 packIndex;
+
+		private EntriesIteratorV2(PackIndexV2 packIndex) {
+			super(packIndex.objectCnt);
+			this.packIndex = packIndex;
 		}
 
 		@Override
-		public MutableEntry next() {
-			for (; levelOne < names.length; levelOne++) {
-				if (levelTwo < names[levelOne].length) {
+		protected void readNext() {
+			for (; levelOne < packIndex.names.length; levelOne++) {
+				if (levelTwo < packIndex.names[levelOne].length) {
 					int idx = levelTwo / (Constants.OBJECT_ID_LENGTH / 4) * 4;
-					long offset = NB.decodeUInt32(offset32[levelOne], idx);
+					long offset = NB.decodeUInt32(packIndex.offset32[levelOne],
+							idx);
 					if ((offset & IS_O64) != 0) {
 						idx = (8 * (int) (offset & ~IS_O64));
-						offset = NB.decodeUInt64(offset64, idx);
+						offset = NB.decodeUInt64(packIndex.offset64, idx);
 					}
-					entry.offset = offset;
-
-					levelTwo += Constants.OBJECT_ID_LENGTH / 4;
-					returnedNumber++;
-					return entry;
+					super.setOffset(offset);
+					this.levelTwo += Constants.OBJECT_ID_LENGTH / 4;
+					super.setIdBuffer(packIndex.names[levelOne],
+							levelTwo - Constants.OBJECT_ID_LENGTH / 4);
+					return;
 				}
 				levelTwo = 0;
 			}

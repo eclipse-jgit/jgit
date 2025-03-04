@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,7 +39,9 @@ class ReflogReaderImpl implements ReflogReader {
 	 *            {@code Ref} name
 	 */
 	ReflogReaderImpl(Repository db, String refname) {
-		logName = new File(db.getDirectory(), Constants.LOGS + '/' + refname);
+		File logBaseDir = refname.equals(HEAD) ? db.getDirectory()
+				: db.getCommonDirectory();
+		logName = new File(logBaseDir, Constants.L_LOGS + refname);
 	}
 
 	/* (non-Javadoc)

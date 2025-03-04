@@ -18,6 +18,8 @@ import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -239,6 +241,11 @@ public class MockSystemReader extends SystemReader {
 	@Override
 	public TimeZone getTimeZone() {
 		return TimeZone.getTimeZone("GMT-03:30");
+	}
+
+	@Override
+	public ZoneId getTimeZoneId() {
+		return ZoneOffset.ofHoursMinutes(-3, -30);
 	}
 
 	@Override

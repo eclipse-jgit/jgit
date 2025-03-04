@@ -11,6 +11,7 @@
 package org.eclipse.jgit.junit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.Instant.EPOCH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -18,7 +19,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -199,8 +199,8 @@ public class TestRepositoryTest {
 		assertEquals(orig.getAuthorIdent(), amended.getAuthorIdent());
 
 		// Committer name/email is the same, but time was incremented.
-		assertEquals(new PersonIdent(orig.getCommitterIdent(), new Date(0)),
-				new PersonIdent(amended.getCommitterIdent(), new Date(0)));
+		assertEquals(new PersonIdent(orig.getCommitterIdent(), EPOCH),
+				new PersonIdent(amended.getCommitterIdent(), EPOCH));
 		assertTrue(orig.getCommitTime() < amended.getCommitTime());
 
 		assertEquals("foo contents", blobAsString(amended, "foo"));
@@ -275,9 +275,9 @@ public class TestRepositoryTest {
 		RevCommit toPick = tr.commit()
 				.parent(tr.commit().create()) // Can't cherry-pick root.
 				.author(new PersonIdent("Cherrypick Author", "cpa@example.com",
-						tr.getDate(), tr.getTimeZone()))
+						tr.getInstant(), tr.getTimeZoneId()))
 				.author(new PersonIdent("Cherrypick Committer", "cpc@example.com",
-						tr.getDate(), tr.getTimeZone()))
+						tr.getInstant(), tr.getTimeZoneId()))
 				.message("message to cherry-pick")
 				.add("bar", "bar contents\n")
 				.create();
@@ -294,8 +294,8 @@ public class TestRepositoryTest {
 		assertEquals(toPick.getAuthorIdent(), result.getAuthorIdent());
 
 		// Committer name/email matches default, and time was incremented.
-		assertEquals(new PersonIdent(head.getCommitterIdent(), new Date(0)),
-				new PersonIdent(result.getCommitterIdent(), new Date(0)));
+		assertEquals(new PersonIdent(head.getCommitterIdent(), EPOCH),
+				new PersonIdent(result.getCommitterIdent(), EPOCH));
 		assertTrue(toPick.getCommitTime() < result.getCommitTime());
 
 		assertEquals("message to cherry-pick", result.getFullMessage());

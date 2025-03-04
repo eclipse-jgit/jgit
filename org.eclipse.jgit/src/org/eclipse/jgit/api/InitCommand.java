@@ -19,6 +19,7 @@ import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -43,6 +44,8 @@ public class InitCommand implements Callable<Git> {
 	private FS fs;
 
 	private String initialBranch;
+
+	private boolean relativePaths;
 
 	/**
 	 * {@inheritDoc}
@@ -100,7 +103,11 @@ public class InitCommand implements Callable<Git> {
 					: initialBranch);
 			Repository repository = builder.build();
 			if (!repository.getObjectDatabase().exists())
-				repository.create(bare);
+				if (repository instanceof FileRepository) {
+					((FileRepository) repository).create(bare, relativePaths);
+				} else {
+					repository.create(bare);
+				}
 			return new Git(repository, true);
 		} catch (IOException | ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
@@ -212,6 +219,20 @@ public class InitCommand implements Callable<Git> {
 	public InitCommand setInitialBranch(String branch)
 			throws InvalidRefNameException {
 		this.initialBranch = branch;
+		return this;
+	}
+
+	/**
+	 * * Set whether the repository shall use relative paths for GIT_DIR and
+	 * GIT_WORK_TREE
+	 *
+	 * @param relativePaths
+	 *            if true, use relative paths for GIT_DIR and GIT_WORK_TREE
+	 * @return {@code this}
+	 * @since 7.2
+	 */
+	public InitCommand setRelativeDirs(boolean relativePaths) {
+		this.relativePaths = relativePaths;
 		return this;
 	}
 }

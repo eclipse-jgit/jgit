@@ -14,6 +14,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -100,7 +101,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 			GitAPIException {
 		File workTree = db.getWorkTree();
 		Git git = Git.open(workTree);
-		git.gc().setExpire(null).call();
+		git.gc().setExpire((Instant) null).call();
 		git.checkout().setName(git.getRepository().resolve("HEAD^").getName())
 				.call();
 		try {

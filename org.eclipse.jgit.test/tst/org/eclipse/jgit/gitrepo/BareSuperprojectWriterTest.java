@@ -12,6 +12,7 @@ package org.eclipse.jgit.gitrepo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +23,7 @@ import java.util.List;
 import org.eclipse.jgit.gitrepo.BareSuperprojectWriter.BareWriterConfig;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -64,6 +66,49 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 					containsInAnyOrder(is("\tbranch = refs/heads/branch-x"),
 							is("\tpath = path/to"),
 							is("\turl = http://example.com/a")));
+		}
+	}
+
+	@Test
+	public void write_setGitModulesContents_pinned() throws Exception {
+		try (Repository bareRepo = createBareRepository()) {
+			RepoProject pinWithUpstream = new RepoProject("pinWithUpstream",
+					"path/x", "cbc0fae7e1911d27e1de37d364698dba4411c78b",
+					"remote", "");
+			pinWithUpstream.setUrl("http://example.com/a");
+			pinWithUpstream.setUpstream("branchX");
+
+			RepoProject pinWithoutUpstream = new RepoProject(
+					"pinWithoutUpstream", "path/y",
+					"cbc0fae7e1911d27e1de37d364698dba4411c78b", "remote", "");
+			pinWithoutUpstream.setUrl("http://example.com/b");
+
+			RemoteReader mockRemoteReader = mock(RemoteReader.class);
+
+			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
+					null, "refs/heads/master", author, mockRemoteReader,
+					BareWriterConfig.getDefault(), List.of());
+
+			RevCommit commit = w
+					.write(Arrays.asList(pinWithUpstream, pinWithoutUpstream));
+
+			String contents = readContents(bareRepo, commit, ".gitmodules");
+			Config cfg = new Config();
+			cfg.fromText(contents);
+
+			assertThat(cfg.getString("submodule", "pinWithUpstream", "path"),
+					is("path/x"));
+			assertThat(cfg.getString("submodule", "pinWithUpstream", "url"),
+					is("http://example.com/a"));
+			assertThat(cfg.getString("submodule", "pinWithUpstream", "ref"),
+					is("branchX"));
+
+			assertThat(cfg.getString("submodule", "pinWithoutUpstream", "path"),
+					is("path/y"));
+			assertThat(cfg.getString("submodule", "pinWithoutUpstream", "url"),
+					is("http://example.com/b"));
+			assertThat(cfg.getString("submodule", "pinWithoutUpstream", "ref"),
+					nullValue());
 		}
 	}
 

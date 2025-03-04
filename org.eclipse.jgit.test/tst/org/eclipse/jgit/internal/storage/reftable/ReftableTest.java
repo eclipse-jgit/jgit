@@ -29,6 +29,8 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -175,7 +177,8 @@ public class ReftableTest {
 
 	@Test
 	public void hasObjLogs() throws IOException {
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		String msg = "test";
 		ReftableConfig cfg = new ReftableConfig();
 		cfg.setIndexObjects(false);
@@ -617,7 +620,8 @@ public class ReftableTest {
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(2)
 			.begin();
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		String msg = "test";
 
 		writer.writeLog(MASTER, 1, who, ObjectId.zeroId(), id(1), msg);
@@ -633,7 +637,8 @@ public class ReftableTest {
 			.setMinUpdateIndex(1)
 			.setMaxUpdateIndex(1)
 			.begin();
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		String msg = "test";
 
 		writer.writeLog(NEXT, 1, who, ObjectId.zeroId(), id(1), msg);
@@ -647,7 +652,8 @@ public class ReftableTest {
 	public void withReflog() throws IOException {
 		Ref master = ref(MASTER, 1);
 		Ref next = ref(NEXT, 2);
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		String msg = "test";
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -712,11 +718,14 @@ public class ReftableTest {
 		writer.writeRef(master);
 		writer.writeRef(next);
 
-		PersonIdent who1 = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who1 = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		writer.writeLog(MASTER, 3, who1, ObjectId.zeroId(), id(1), "1");
-		PersonIdent who2 = new PersonIdent("Log", "Ger", 1500079710, -8 * 60);
+		PersonIdent who2 = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		writer.writeLog(MASTER, 2, who2, id(1), id(2), "2");
-		PersonIdent who3 = new PersonIdent("Log", "Ger", 1500079711, -8 * 60);
+		PersonIdent who3 = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		writer.writeLog(MASTER, 1, who3, id(2), id(3), "3");
 
 		writer.finish();
@@ -753,7 +762,8 @@ public class ReftableTest {
 				.setMaxUpdateIndex(1)
 				.setConfig(cfg)
 				.begin();
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 
 		// Fill out the 1st ref block.
 		List<String> names = new ArrayList<>();
@@ -782,7 +792,8 @@ public class ReftableTest {
 
 	@Test
 	public void reflogSeek() throws IOException {
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochSecond(1500079709), ZoneOffset.ofHours(-8));
 		String msg = "test";
 		String msgNext = "test next";
 
@@ -827,7 +838,8 @@ public class ReftableTest {
 
 	@Test
 	public void reflogSeekPrefix() throws IOException {
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		ReftableWriter writer = new ReftableWriter(buffer)
@@ -850,7 +862,8 @@ public class ReftableTest {
 
 	@Test
 	public void onlyReflog() throws IOException {
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		String msg = "test";
 
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -916,7 +929,8 @@ public class ReftableTest {
 			writer.writeRef(ref);
 		}
 
-		PersonIdent who = new PersonIdent("Log", "Ger", 1500079709, -8 * 60);
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
 		for (Ref ref : refs) {
 			writer.writeLog(ref.getName(), 1, who,
 					ObjectId.zeroId(), ref.getObjectId(),

@@ -126,7 +126,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 		JGitTestUtil.writeTrashFile(db, "Test.txt", "Some change");
 		git.add().addFilepattern("Test.txt").call();
 		return git.commit()
-				.setCommitter(new PersonIdent(this.committer, tr.getDate()))
+				.setCommitter(new PersonIdent(this.committer, tr.getInstant()))
 				.setMessage("Second commit").call();
 	}
 
@@ -134,7 +134,7 @@ public class CloneTest extends CLIRepositoryTestCase {
 		JGitTestUtil.writeTrashFile(db, "change.txt", "another change");
 		git.add().addFilepattern("change.txt").call();
 		return git.commit()
-				.setCommitter(new PersonIdent(this.committer, tr.getDate()))
+				.setCommitter(new PersonIdent(this.committer, tr.getInstant()))
 				.setMessage("Third commit").call();
 	}
 

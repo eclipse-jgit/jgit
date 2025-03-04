@@ -78,6 +78,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_DFS_SECTION = "dfs";
 
 	/**
+	 * The dfs cache subsection prefix.
+	 *
+	 * @since 7.0
+	 */
+	public static final String CONFIG_DFS_CACHE_PREFIX = "dfs.";
+
+	/**
 	 * The "receive" section
 	 * @since 4.6
 	 */
@@ -199,7 +206,36 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_SIGNINGKEY = "signingKey";
 
 	/**
+	 * The "ssh" subsection key.
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_SSH_SUBSECTION = "ssh";
+
+	/**
+	 * The "defaultKeyCommand" key.
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_SSH_DEFAULT_KEY_COMMAND = "defaultKeyCommand";
+
+	/**
+	 * The "allowedSignersFile" key.
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_SSH_ALLOWED_SIGNERS_FILE = "allowedSignersFile";
+
+	/**
+	 * The "revocationFile" key,
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_SSH_REVOCATION_FILE = "revocationFile";
+
+	/**
 	 * The "commit" section
+	 *
 	 * @since 5.2
 	 */
 	public static final String CONFIG_COMMIT_SECTION = "commit";
@@ -332,6 +368,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_DELTA_BASE_CACHE_LIMIT = "deltaBaseCacheLimit";
 
 	/**
+	 * The "packExtensions" key
+	 *
+	 * @since 7.0
+	 **/
+	public static final String CONFIG_KEY_PACK_EXTENSIONS = "packExtensions";
+
+	/**
 	 * The "symlinks" key
 	 * @since 3.3
 	 */
@@ -343,12 +386,6 @@ public final class ConfigConstants {
 	 * @since 6.8
 	 */
 	public static final String CONFIG_KEY_STREAM_FILE_THRESHOLD = "streamFileThreshold";
-
-	/**
-	 * @deprecated typo, use CONFIG_KEY_STREAM_FILE_THRESHOLD instead
-	 */
-	@Deprecated(since = "6.8")
-	public static final String CONFIG_KEY_STREAM_FILE_TRESHOLD = CONFIG_KEY_STREAM_FILE_THRESHOLD;
 
 	/**
 	 * The "packedGitMmap" key
@@ -408,6 +445,13 @@ public final class ConfigConstants {
 
 	/** The "rebase" key */
 	public static final String CONFIG_KEY_REBASE = "rebase";
+
+	/**
+	 * The "checkout" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_CHECKOUT = "checkout";
 
 	/** The "url" key */
 	public static final String CONFIG_KEY_URL = "url";
@@ -556,9 +600,19 @@ public final class ConfigConstants {
 
 	/**
 	 * The "trustfolderstat" key in the "core" section
+	 *
 	 * @since 3.6
+	 * @deprecated use {CONFIG_KEY_TRUST_STAT} instead
 	 */
+	@Deprecated(since = "7.2", forRemoval = true)
 	public static final String CONFIG_KEY_TRUSTFOLDERSTAT = "trustfolderstat";
+
+	/**
+	 * The "trustfilestat" key in the "core"section
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_STAT = "truststat";
 
 	/**
 	 * The "supportsAtomicFileCreation" key in the "core" section
@@ -979,6 +1033,27 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_TRUST_LOOSE_REF_STAT = "trustLooseRefStat";
 
 	/**
+	 * The "trustLooseRefStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_PACK_STAT = "trustPackStat";
+
+	/**
+	 * The "trustLooseObjectFileStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_LOOSE_OBJECT_STAT = "trustLooseObjectStat";
+
+	/**
+	 * The "trustTablesListStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_TABLESLIST_STAT = "trustTablesListStat";
+
+	/**
 	 * The "pack.preserveOldPacks" key
 	 *
 	 * @since 5.13.2
@@ -1012,4 +1087,32 @@ public final class ConfigConstants {
 	 * @since 6.7
 	 */
 	public static final String CONFIG_KEY_READ_CHANGED_PATHS = "readChangedPaths";
+
+	/**
+	 * The "useObjectSizeIndex" key
+	 *
+	 * @since 7.0
+	 */
+	public static final String CONFIG_KEY_USE_OBJECT_SIZE_INDEX = "useObjectSizeIndex";
+
+	/**
+	 * The "loadRevIndexInParallel" key
+	 *
+	 * @since 7.1
+	 */
+	public static final String CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL = "loadRevIndexInParallel";
+
+	/**
+	 * The "reftable" section
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_REFTABLE_SECTION = "reftable";
+
+	/**
+	 * The "autorefresh" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_AUTOREFRESH = "autorefresh";
 }

@@ -21,10 +21,10 @@ import org.eclipse.jgit.util.NB;
 /**
  * Creates the version 1 (old style) pack table of contents files.
  *
- * @see PackIndexWriter
+ * @see BasePackIndexWriter
  * @see PackIndexV1
  */
-class PackIndexWriterV1 extends PackIndexWriter {
+class PackIndexWriterV1 extends BasePackIndexWriter {
 	static boolean canStore(PackedObjectInfo oe) {
 		// We are limited to 4 GB per pack as offset is 32 bit unsigned int.
 		//

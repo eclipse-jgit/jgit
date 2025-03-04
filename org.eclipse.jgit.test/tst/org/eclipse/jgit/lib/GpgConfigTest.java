@@ -96,6 +96,16 @@ public class GpgConfigTest {
 	}
 
 	@Test
+	public void testGetKeyFormat_ssh() throws Exception {
+		Config c = parse("" //
+				+ "[gpg]\n" //
+				+ "  format = ssh\n" //
+		);
+
+		assertEquals(GpgConfig.GpgFormat.SSH, new GpgConfig(c).getKeyFormat());
+	}
+
+	@Test
 	public void testGetSigningKey() throws Exception {
 		Config c = parse("" //
 				+ "[user]\n" //

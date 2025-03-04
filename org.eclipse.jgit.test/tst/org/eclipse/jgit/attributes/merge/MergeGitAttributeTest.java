@@ -268,6 +268,51 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void mergeTextualFile_SetUnionMerge() throws NoWorkTreeException,
+			NoFilepatternException, GitAPIException, IOException {
+		try (Git git = createRepositoryBinaryConflict(g -> {
+			try {
+				writeTrashFile(".gitattributes", "*.cat merge=union");
+				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			}
+		}, g -> {
+			try {
+				writeTrashFile("main.cat", "A\n" + "G\n" + "C\n" + "F\n");
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			}
+		}, g -> {
+			try {
+				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			}
+		})) {
+			// Check that the merge attribute is set to union
+			assertAddMergeAttributeCustom(REFS_HEADS_LEFT, "main.cat", "union");
+			assertAddMergeAttributeCustom(REFS_HEADS_RIGHT, "main.cat",
+					"union");
+
+			checkoutBranch(REFS_HEADS_LEFT);
+			// Merge refs/heads/left -> refs/heads/right
+
+			MergeResult mergeResult = git.merge()
+					.include(git.getRepository().resolve(REFS_HEADS_RIGHT))
+					.call();
+			assertEquals(MergeStatus.MERGED, mergeResult.getMergeStatus());
+
+			// Check that the file is the union of both branches (no conflict
+			// marker added)
+			String result = read(writeTrashFile("res.cat",
+					"A\n" + "G\n" + "E\n" + "C\n" + "F\n"));
+			assertEquals(result, read(git.getRepository().getWorkTree().toPath()
+					.resolve("main.cat").toFile()));
+		}
+	}
+
+	@Test
 	public void mergeBinaryFile_NoAttr_Conflict() throws IllegalStateException,
 			IOException, NoHeadException, ConcurrentRefUpdateException,
 			CheckoutConflictException, InvalidMergeHeadsException,

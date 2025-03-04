@@ -97,7 +97,8 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	public void lfsUrlFromLocalConfig() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 
-		StoredConfig cfg = ((Repository) db).getConfig();
+		@SuppressWarnings("restriction")
+		StoredConfig cfg = db.getConfig();
 		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS,
 				null,
 				ConfigConstants.CONFIG_KEY_URL,
@@ -111,7 +112,8 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	public void lfsUrlFromOriginConfig() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 
-		StoredConfig cfg = ((Repository) db).getConfig();
+		@SuppressWarnings("restriction")
+		StoredConfig cfg = db.getConfig();
 		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS,
 				org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME,
 				ConfigConstants.CONFIG_KEY_URL,

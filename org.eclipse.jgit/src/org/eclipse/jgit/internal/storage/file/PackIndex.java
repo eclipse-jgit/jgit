@@ -42,8 +42,8 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
  * by ObjectId.
  * </p>
  */
-public abstract class PackIndex
-		implements Iterable<PackIndex.MutableEntry>, ObjectIdSet {
+public interface PackIndex
+		extends Iterable<PackIndex.MutableEntry>, ObjectIdSet {
 	/**
 	 * Open an existing pack <code>.idx</code> file for reading.
 	 * <p>
@@ -61,7 +61,7 @@ public abstract class PackIndex
 	 *             the file exists but could not be read due to security errors,
 	 *             unrecognized data version, or unexpected data corruption.
 	 */
-	public static PackIndex open(File idxFile) throws IOException {
+	static PackIndex open(File idxFile) throws IOException {
 		try (SilentFileInputStream fd = new SilentFileInputStream(
 				idxFile)) {
 			return read(fd);
@@ -92,7 +92,7 @@ public abstract class PackIndex
 	 * @throws org.eclipse.jgit.errors.CorruptObjectException
 	 *             the stream does not contain a valid pack index.
 	 */
-	public static PackIndex read(InputStream fd) throws IOException,
+	static PackIndex read(InputStream fd) throws IOException,
 			CorruptObjectException {
 		final byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
@@ -109,15 +109,12 @@ public abstract class PackIndex
 	}
 
 	private static boolean isTOC(byte[] h) {
-		final byte[] toc = PackIndexWriter.TOC;
+		final byte[] toc = BasePackIndexWriter.TOC;
 		for (int i = 0; i < toc.length; i++)
 			if (h[i] != toc[i])
 				return false;
 		return true;
 	}
-
-	/** Footer checksum applied on the bottom of the pack file. */
-	protected byte[] packChecksum;
 
 	/**
 	 * Determine if an object is contained within the pack file.
@@ -126,12 +123,12 @@ public abstract class PackIndex
 	 *            the object to look for. Must not be null.
 	 * @return true if the object is listed in this index; false otherwise.
 	 */
-	public boolean hasObject(AnyObjectId id) {
+	default boolean hasObject(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 
 	@Override
-	public boolean contains(AnyObjectId id) {
+	default boolean contains(AnyObjectId id) {
 		return findOffset(id) != -1;
 	}
 
@@ -147,7 +144,7 @@ public abstract class PackIndex
 	 * </p>
 	 */
 	@Override
-	public abstract Iterator<MutableEntry> iterator();
+	Iterator<MutableEntry> iterator();
 
 	/**
 	 * Obtain the total number of objects described by this index.
@@ -155,7 +152,7 @@ public abstract class PackIndex
 	 * @return number of objects in this index, and likewise in the associated
 	 *         pack that this index was generated from.
 	 */
-	public abstract long getObjectCount();
+	long getObjectCount();
 
 	/**
 	 * Obtain the total number of objects needing 64 bit offsets.
@@ -163,7 +160,7 @@ public abstract class PackIndex
 	 * @return number of objects in this index using a 64 bit offset; that is an
 	 *         object positioned after the 2 GB position within the file.
 	 */
-	public abstract long getOffset64Count();
+	long getOffset64Count();
 
 	/**
 	 * Get ObjectId for the n-th object entry returned by {@link #iterator()}.
@@ -185,7 +182,7 @@ public abstract class PackIndex
 	 *            is 0, the second is 1, etc.
 	 * @return the ObjectId for the corresponding entry.
 	 */
-	public abstract ObjectId getObjectId(long nthPosition);
+	ObjectId getObjectId(long nthPosition);
 
 	/**
 	 * Get ObjectId for the n-th object entry returned by {@link #iterator()}.
@@ -209,7 +206,7 @@ public abstract class PackIndex
 	 *            negative, but still valid.
 	 * @return the ObjectId for the corresponding entry.
 	 */
-	public final ObjectId getObjectId(int nthPosition) {
+	default ObjectId getObjectId(int nthPosition) {
 		if (nthPosition >= 0)
 			return getObjectId((long) nthPosition);
 		final int u31 = nthPosition >>> 1;
@@ -228,7 +225,7 @@ public abstract class PackIndex
 	 *            etc. Positions past 2**31-1 are negative, but still valid.
 	 * @return the offset in a pack for the corresponding entry.
 	 */
-	protected abstract long getOffset(long nthPosition);
+	long getOffset(long nthPosition);
 
 	/**
 	 * Locate the file offset position for the requested object.
@@ -239,7 +236,7 @@ public abstract class PackIndex
 	 *         object does not exist in this index and is thus not stored in the
 	 *         associated pack.
 	 */
-	public abstract long findOffset(AnyObjectId objId);
+	long findOffset(AnyObjectId objId);
 
 	/**
 	 * Locate the position of this id in the list of object-ids in the index
@@ -250,7 +247,7 @@ public abstract class PackIndex
 	 *         of ids stored in this index; -1 if the object does not exist in
 	 *         this index and is thus not stored in the associated pack.
 	 */
-	public abstract int findPosition(AnyObjectId objId);
+	int findPosition(AnyObjectId objId);
 
 	/**
 	 * Retrieve stored CRC32 checksum of the requested object raw-data
@@ -264,7 +261,7 @@ public abstract class PackIndex
 	 * @throws java.lang.UnsupportedOperationException
 	 *             when this index doesn't support CRC32 checksum
 	 */
-	public abstract long findCRC32(AnyObjectId objId)
+	long findCRC32(AnyObjectId objId)
 			throws MissingObjectException, UnsupportedOperationException;
 
 	/**
@@ -272,7 +269,7 @@ public abstract class PackIndex
 	 *
 	 * @return true if CRC32 is stored, false otherwise
 	 */
-	public abstract boolean hasCRC32Support();
+	boolean hasCRC32Support();
 
 	/**
 	 * Find objects matching the prefix abbreviation.
@@ -288,8 +285,8 @@ public abstract class PackIndex
 	 * @throws java.io.IOException
 	 *             the index cannot be read.
 	 */
-	public abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
-			int matchLimit) throws IOException;
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+				 int matchLimit) throws IOException;
 
 	/**
 	 * Get pack checksum
@@ -297,18 +294,18 @@ public abstract class PackIndex
 	 * @return the checksum of the pack; caller must not modify it
 	 * @since 5.5
 	 */
-	public byte[] getChecksum() {
-		return packChecksum;
-	}
+	byte[] getChecksum();
 
 	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
 	 * in pack (both mutable).
 	 *
 	 */
-	public static class MutableEntry {
+	class MutableEntry {
+		/** Buffer of the ObjectId visited by the EntriesIterator. */
 		final MutableObjectId idBuffer = new MutableObjectId();
 
+		/** Offset into the packfile of the current object. */
 		long offset;
 
 		/**
@@ -326,7 +323,6 @@ public abstract class PackIndex
 		 * @return hex string describing the object id of this entry.
 		 */
 		public String name() {
-			ensureId();
 			return idBuffer.name();
 		}
 
@@ -336,7 +332,6 @@ public abstract class PackIndex
 		 * @return a copy of the object id.
 		 */
 		public ObjectId toObjectId() {
-			ensureId();
 			return idBuffer.toObjectId();
 		}
 
@@ -347,27 +342,64 @@ public abstract class PackIndex
 		 */
 		public MutableEntry cloneEntry() {
 			final MutableEntry r = new MutableEntry();
-			ensureId();
 			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
 
-		void ensureId() {
-			// Override in implementations.
+		/**
+		 * Similar to {@link Comparable#compareTo(Object)}, using only the
+		 * object id in the entry.
+		 *
+		 * @param other
+		 *            Another mutable entry (probably from another index)
+		 *
+		 * @return a negative integer, zero, or a positive integer as this
+		 *         object is less than, equal to, or greater than the specified
+		 *         object.
+		 */
+		public int compareBySha1To(MutableEntry other) {
+			return idBuffer.compareTo(other.idBuffer);
+		}
+
+		/**
+		 * Copy the current ObjectId to dest
+		 * <p>
+		 * Like {@link #toObjectId()}, but reusing the destination instead of
+		 * creating a new ObjectId instance.
+		 *
+		 * @param dest
+		 *            destination for the object id
+		 */
+		public void copyOidTo(MutableObjectId dest) {
+			dest.fromObjectId(idBuffer);
 		}
 	}
 
+	/**
+	 * Base implementation of the iterator over index entries.
+	 */
 	abstract class EntriesIterator implements Iterator<MutableEntry> {
-		protected final MutableEntry entry = initEntry();
+		private final long objectCount;
 
-		protected long returnedNumber = 0;
+		private final MutableEntry entry = new MutableEntry();
 
-		protected abstract MutableEntry initEntry();
+		/** Counts number of entries accessed so far. */
+		private long returnedNumber = 0;
+
+		/**
+		 * Construct an iterator that can move objectCount times forward.
+		 *
+		 * @param objectCount
+		 *            the number of objects in the PackFile.
+		 */
+		protected EntriesIterator(long objectCount) {
+			this.objectCount = objectCount;
+		}
 
 		@Override
 		public boolean hasNext() {
-			return returnedNumber < getObjectCount();
+			return returnedNumber < objectCount;
 		}
 
 		/**
@@ -375,7 +407,55 @@ public abstract class PackIndex
 		 * element.
 		 */
 		@Override
-		public abstract MutableEntry next();
+		public MutableEntry next() {
+			readNext();
+			returnedNumber++;
+			return entry;
+		}
+
+		/**
+		 * Used by subclasses to load the next entry into the MutableEntry.
+		 * <p>
+		 * Subclasses are expected to populate the entry with
+		 * {@link #setIdBuffer} and {@link #setOffset}.
+		 */
+		protected abstract void readNext();
+
+		/**
+		 * Copies to the entry an {@link ObjectId} from the int buffer and
+		 * position idx
+		 *
+		 * @param raw
+		 *            the raw data
+		 * @param idx
+		 *            the index into {@code raw}
+		 */
+		protected void setIdBuffer(int[] raw, int idx) {
+			entry.idBuffer.fromRaw(raw, idx);
+		}
+
+		/**
+		 * Copies to the entry an {@link ObjectId} from the byte array at
+		 * position idx.
+		 *
+		 * @param raw
+		 *            the raw data
+		 * @param idx
+		 *            the index into {@code raw}
+		 */
+		protected void setIdBuffer(byte[] raw, int idx) {
+			entry.idBuffer.fromRaw(raw, idx);
+		}
+
+		/**
+		 * Sets the {@code offset} to the entry
+		 *
+		 * @param offset
+		 *            the offset in the pack file
+		 */
+		protected void setOffset(long offset) {
+			entry.offset = offset;
+		}
 
 		@Override
 		public void remove() {

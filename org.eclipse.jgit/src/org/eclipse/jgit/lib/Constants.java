@@ -12,10 +12,13 @@
 
 package org.eclipse.jgit.lib;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
@@ -203,24 +206,6 @@ public final class Constants {
 	 */
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
 
-	/**
-	 * Native character encoding for commit messages, file names...
-	 *
-	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
-	 *             instead.
-	 */
-	@Deprecated
-	public static final Charset CHARSET;
-
-	/**
-	 * Native character encoding for commit messages, file names...
-	 *
-	 * @deprecated Use {@link java.nio.charset.StandardCharsets#UTF_8} directly
-	 *             instead.
-	 */
-	@Deprecated
-	public static final String CHARACTER_ENCODING;
-
 	/** Default main branch name */
 	public static final String MASTER = "master";
 
@@ -271,6 +256,20 @@ public final class Constants {
 
 	/** Info refs folder */
 	public static final String INFO_REFS = "info/refs";
+
+	/**
+	 * Name of heads folder or file in refs.
+	 *
+	 * @since 7.0
+	 */
+	public static final String HEADS = "heads";
+
+	/**
+	 * Prefix for any log.
+	 *
+	 * @since 7.0
+	 */
+	public static final String L_LOGS = LOGS + "/";
 
 	/**
 	 * Info alternates file (goes under OBJECTS)
@@ -356,6 +355,14 @@ public final class Constants {
 	 * directory
 	 */
 	public static final String GIT_DIR_KEY = "GIT_DIR";
+
+	/**
+	 * The environment variable that tells us which directory is the common
+	 * ".git" directory.
+	 *
+	 * @since 7.0
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
 
 	/**
 	 * The environment variable that tells us which directory is the working
@@ -459,6 +466,36 @@ public final class Constants {
 	public static final String GITDIR = "gitdir: ";
 
 	/**
+	 * Name of the file (inside gitDir) that references the worktree's .git
+	 * file (opposite link).
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/gitdir
+	 *
+	 * A text file containing the absolute path back to the .git file that
+	 * points here. This file is used to verify if the linked repository has been
+	 * manually removed in which case this directory is no longer needed.
+	 * The modification time (mtime) of this file should be updated each time
+	 * the linked repository is accessed.
+	 *
+	 * @since 7.0
+	 */
+	public static final String GITDIR_FILE = "gitdir";
+
+	/**
+	 * Name of the file (inside gitDir) that has reference to $GIT_COMMON_DIR.
+	 *
+	 * .git/worktrees/&lt;worktree-name&gt;/commondir
+	 *
+	 * If this file exists, $GIT_COMMON_DIR will be set to the path specified in
+	 * this file unless it is explicitly set. If the specified path is relative,
+	 * it is relative to $GIT_DIR. The repository with commondir is incomplete
+	 * without the repository pointed by "commondir".
+	 *
+	 * @since 7.0
+	 */
+	public static final String COMMONDIR_FILE = "commondir";
+
+	/**
 	 * Name of the folder (inside gitDir) where submodules are stored
 	 *
 	 * @since 3.6
@@ -492,6 +529,34 @@ public final class Constants {
 	 * @since 4.9
 	 */
 	public static final String ATTR_BUILTIN_BINARY_MERGER = "binary"; //$NON-NLS-1$
+
+	/**
+	 * Prefix of a GPG signature.
+	 *
+	 * @since 7.0
+	 */
+	public static final String GPG_SIGNATURE_PREFIX = "-----BEGIN PGP SIGNATURE-----"; //$NON-NLS-1$
+
+	/**
+	 * Prefix of a CMS signature (X.509, S/MIME).
+	 *
+	 * @since 7.0
+	 */
+	public static final String CMS_SIGNATURE_PREFIX = "-----BEGIN SIGNED MESSAGE-----"; //$NON-NLS-1$
+
+	/**
+	 * Prefix of an SSH signature.
+	 *
+	 * @since 7.0
+	 */
+	public static final String SSH_SIGNATURE_PREFIX = "-----BEGIN SSH SIGNATURE-----"; //$NON-NLS-1$
+
+	/**
+	 * Union built-in merge driver
+	 *
+	 * @since 6.10.1
+	 */
+	public static final String ATTR_BUILTIN_UNION_MERGE_DRIVER = "union"; //$NON-NLS-1$
 
 	/**
 	 * Create a new digest function for objects.
@@ -661,44 +726,32 @@ public final class Constants {
 	 *             the 7-bit ASCII character space.
 	 */
 	public static byte[] encodeASCII(String s) {
-		final byte[] r = new byte[s.length()];
-		for (int k = r.length - 1; k >= 0; k--) {
-			final char c = s.charAt(k);
-			if (c > 127)
-				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().notASCIIString, s));
-			r[k] = (byte) c;
+		try {
+			CharsetEncoder encoder = US_ASCII.newEncoder()
+					.onUnmappableCharacter(CodingErrorAction.REPORT)
+					.onMalformedInput(CodingErrorAction.REPORT);
+			return encoder.encode(CharBuffer.wrap(s)).array();
+		} catch (CharacterCodingException e) {
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().notASCIIString, s), e);
 		}
-		return r;
 	}
 
 	/**
-	 * Convert a string to a byte array in the standard character encoding.
+	 * Convert a string to a byte array in the standard character encoding UTF8.
 	 *
 	 * @param str
 	 *            the string to convert. May contain any Unicode characters.
 	 * @return a byte array representing the requested string, encoded using the
 	 *         default character encoding (UTF-8).
-	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(String str) {
-		final ByteBuffer bb = UTF_8.encode(str);
-		final int len = bb.limit();
-		if (bb.hasArray() && bb.arrayOffset() == 0) {
-			final byte[] arr = bb.array();
-			if (arr.length == len)
-				return arr;
-		}
-
-		final byte[] arr = new byte[len];
-		bb.get(arr);
-		return arr;
+		return str.getBytes(UTF_8);
 	}
 
 	static {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError(JGitText.get().incorrectOBJECT_ID_LENGTH);
-		CHARSET = UTF_8;
-		CHARACTER_ENCODING = UTF_8.name();
 	}
 
 	/** name of the file containing the commit msg for a merge commit */

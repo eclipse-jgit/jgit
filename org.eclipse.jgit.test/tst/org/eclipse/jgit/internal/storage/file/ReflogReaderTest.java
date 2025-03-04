@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.CheckoutEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
@@ -154,18 +155,22 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 		setupReflog("logs/refs/heads/a", aLine);
 		setupReflog("logs/refs/heads/master", masterLine);
 		setupReflog("logs/HEAD", headLine);
-		assertEquals("branch: change to master", db.getReflogReader("master")
-				.getLastEntry().getComment());
-		assertEquals("branch: change to a", db.getReflogReader("a")
-				.getLastEntry().getComment());
-		assertEquals("branch: change to HEAD", db.getReflogReader("HEAD")
-				.getLastEntry().getComment());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals("branch: change to master",
+				refDb.getReflogReader("refs/heads/master").getLastEntry()
+						.getComment());
+		assertEquals("branch: change to a",
+				refDb.getReflogReader("refs/heads/a").getLastEntry()
+						.getComment());
+		assertEquals("branch: change to HEAD",
+				refDb.getReflogReader("HEAD").getLastEntry().getComment());
 	}
 
 	@Test
 	public void testReadLineWithMissingComment() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLineWithoutComment);
-		final ReflogReader reader = db.getReflogReader("master");
+		final ReflogReader reader = db.getRefDatabase()
+				.getReflogReader("refs/heads/master");
 		ReflogEntry e = reader.getLastEntry();
 		assertEquals(ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
@@ -183,15 +188,18 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testNoLog() throws Exception {
-		assertEquals(0, db.getReflogReader("master").getReverseEntries().size());
-		assertNull(db.getReflogReader("master").getLastEntry());
+		RefDatabase refDb = db.getRefDatabase();
+		assertEquals(0,
+				refDb.getReflogReader("refs/heads/master").getReverseEntries()
+						.size());
+		assertNull(refDb.getReflogReader("refs/heads/master").getLastEntry());
 	}
 
 	@Test
 	public void testCheckout() throws Exception {
 		setupReflog("logs/HEAD", switchBranch);
-		List<ReflogEntry> entries = db.getReflogReader(Constants.HEAD)
-				.getReverseEntries();
+		List<ReflogEntry> entries = db.getRefDatabase()
+				.getReflogReader(Constants.HEAD).getReverseEntries();
 		assertEquals(1, entries.size());
 		ReflogEntry entry = entries.get(0);
 		CheckoutEntry checkout = entry.parseCheckout();
@@ -238,7 +246,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
 	private void setupReflog(String logName, byte[] data)
 			throws FileNotFoundException, IOException {
-		File logfile = new File(db.getDirectory(), logName);
+		File logfile = new File(db.getCommonDirectory(), logName);
 		if (!logfile.getParentFile().mkdirs()
 				&& !logfile.getParentFile().isDirectory()) {
 			throw new IOException(

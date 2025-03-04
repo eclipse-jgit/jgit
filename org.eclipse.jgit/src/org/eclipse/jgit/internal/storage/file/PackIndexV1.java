@@ -29,12 +29,15 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
-class PackIndexV1 extends PackIndex {
+class PackIndexV1 implements PackIndex {
 	private static final int IDX_HDR_LEN = 256 * 4;
 
 	private static final int RECORD_SIZE = 4 + Constants.OBJECT_ID_LENGTH;
 
 	private final long[] idxHeader;
+
+	/** Footer checksum applied on the bottom of the pack file. */
+	protected byte[] packChecksum;
 
 	byte[][] idxdata;
 
@@ -118,7 +121,7 @@ class PackIndexV1 extends PackIndex {
 	}
 
 	@Override
-	protected long getOffset(long nthPosition) {
+	public long getOffset(long nthPosition) {
 		final int levelOne = findLevelOne(nthPosition);
 		final int levelTwo = getLevelTwo(nthPosition, levelOne);
 		final int p = (4 + Constants.OBJECT_ID_LENGTH) * levelTwo;
@@ -200,7 +203,7 @@ class PackIndexV1 extends PackIndex {
 
 	@Override
 	public Iterator<MutableEntry> iterator() {
-		return new IndexV1Iterator();
+		return new EntriesIteratorV1(this);
 	}
 
 	@Override
@@ -238,32 +241,35 @@ class PackIndexV1 extends PackIndex {
 		return (RECORD_SIZE * mid) + 4;
 	}
 
-	private class IndexV1Iterator extends EntriesIterator {
-		int levelOne;
+	@Override
+	public byte[] getChecksum() {
+		return packChecksum;
+	}
 
-		int levelTwo;
+	private static class EntriesIteratorV1 extends EntriesIterator {
+		private int levelOne;
 
-		@Override
-		protected MutableEntry initEntry() {
-			return new MutableEntry() {
-				@Override
-				protected void ensureId() {
-					idBuffer.fromRaw(idxdata[levelOne], levelTwo
-							- Constants.OBJECT_ID_LENGTH);
-				}
-			};
+		private int levelTwo;
+
+		private final PackIndexV1 packIndex;
+
+		private EntriesIteratorV1(PackIndexV1 packIndex) {
+			super(packIndex.objectCnt);
+			this.packIndex = packIndex;
 		}
 
 		@Override
-		public MutableEntry next() {
-			for (; levelOne < idxdata.length; levelOne++) {
-				if (idxdata[levelOne] == null)
+		protected void readNext() {
+			for (; levelOne < packIndex.idxdata.length; levelOne++) {
+				if (packIndex.idxdata[levelOne] == null)
 					continue;
-				if (levelTwo < idxdata[levelOne].length) {
-					entry.offset = NB.decodeUInt32(idxdata[levelOne], levelTwo);
-					levelTwo += Constants.OBJECT_ID_LENGTH + 4;
-					returnedNumber++;
-					return entry;
+				if (levelTwo < packIndex.idxdata[levelOne].length) {
+					super.setOffset(NB.decodeUInt32(packIndex.idxdata[levelOne],
+							levelTwo));
+					this.levelTwo += Constants.OBJECT_ID_LENGTH + 4;
+					super.setIdBuffer(packIndex.idxdata[levelOne],
+							levelTwo - Constants.OBJECT_ID_LENGTH);
+					return;
 				}
 				levelTwo = 0;
 			}

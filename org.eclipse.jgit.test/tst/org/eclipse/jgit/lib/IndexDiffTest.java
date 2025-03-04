@@ -2,7 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2013, Robin Stocker <robin@nibor.org> and others
+ * Copyright (C) 2013, 2025 Robin Stocker <robin@nibor.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -539,7 +539,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 			assertTrue(diff.getAssumeUnchanged().contains("file3"));
 			assertTrue(diff.getModified().contains("file"));
 
-			git.add().addFilepattern(".").call();
+			git.add().addFilepattern(".").setAll(false).call();
 
 			iterator = new FileTreeIterator(db);
 			diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -549,6 +549,18 @@ public class IndexDiffTest extends RepositoryTestCase {
 			assertEquals(1, diff.getChanged().size());
 			assertTrue(diff.getAssumeUnchanged().contains("file2"));
 			assertTrue(diff.getAssumeUnchanged().contains("file3"));
+			assertTrue(diff.getChanged().contains("file"));
+			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+
+			git.add().addFilepattern(".").call();
+
+			iterator = new FileTreeIterator(db);
+			diff = new IndexDiff(db, Constants.HEAD, iterator);
+			diff.diff();
+			assertEquals(1, diff.getAssumeUnchanged().size());
+			assertEquals(0, diff.getModified().size());
+			assertEquals(1, diff.getChanged().size());
+			assertTrue(diff.getAssumeUnchanged().contains("file2"));
 			assertTrue(diff.getChanged().contains("file"));
 			assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
 		}

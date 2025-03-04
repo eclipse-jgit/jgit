@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -33,12 +34,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.zip.InflaterInputStream;
+
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.FilterFailedException;
-import org.eclipse.jgit.api.errors.PatchFormatException;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.FilterCommand;
@@ -101,11 +103,12 @@ import org.eclipse.jgit.util.sha1.SHA1;
  * @since 6.4
  */
 public class PatchApplier {
-
 	private static final byte[] NO_EOL = "\\ No newline at end of file" //$NON-NLS-1$
 			.getBytes(StandardCharsets.US_ASCII);
 
-	/** The tree before applying the patch. Only non-null for inCore operation. */
+	/**
+	 * The tree before applying the patch. Only non-null for inCore operation.
+	 */
 	@Nullable
 	private final RevTree beforeTree;
 
@@ -115,9 +118,13 @@ public class PatchApplier {
 
 	private final ObjectReader reader;
 
+	private final Charset charset;
+
 	private WorkingTreeOptions workingTreeOptions;
 
 	private int inCoreSizeLimit;
+
+	private boolean allowConflicts;
 
 	/**
 	 * @param repo
@@ -128,7 +135,8 @@ public class PatchApplier {
 		inserter = repo.newObjectInserter();
 		reader = inserter.newReader();
 		beforeTree = null;
-
+		allowConflicts = false;
+		charset = StandardCharsets.UTF_8;
 		Config config = repo.getConfig();
 		workingTreeOptions = config.get(WorkingTreeOptions.KEY);
 		inCoreSizeLimit = config.getInt(ConfigConstants.CONFIG_MERGE_SECTION,
@@ -143,11 +151,14 @@ public class PatchApplier {
 	 * @param oi
 	 *            to be used for modifying objects
 	 */
-	public PatchApplier(Repository repo, RevTree beforeTree, ObjectInserter oi)  {
+	public PatchApplier(Repository repo, RevTree beforeTree,
+			ObjectInserter oi) {
 		this.repo = repo;
 		this.beforeTree = beforeTree;
 		inserter = oi;
 		reader = oi.newReader();
+		allowConflicts = false;
+		charset = StandardCharsets.UTF_8;
 	}
 
 	/**
@@ -157,7 +168,6 @@ public class PatchApplier {
 	 * @since 6.3
 	 */
 	public static class Result {
-
 		/**
 		 * A wrapper for a patch applying error that affects a given file.
 		 *
@@ -166,28 +176,68 @@ public class PatchApplier {
 		// TODO(ms): rename this class in next major release
 		@SuppressWarnings("JavaLangClash")
 		public static class Error {
+			final String msg;
 
-			private String msg;
-			private String oldFileName;
-			private @Nullable HunkHeader hh;
+			final String oldFileName;
 
-			private Error(String msg, String oldFileName,
-					@Nullable HunkHeader hh) {
+			@Nullable
+			final HunkHeader hh;
+
+			final boolean isGitConflict;
+
+			Error(String msg, String oldFileName, @Nullable HunkHeader hh,
+					boolean isGitConflict) {
 				this.msg = msg;
 				this.oldFileName = oldFileName;
 				this.hh = hh;
+				this.isGitConflict = isGitConflict;
+			}
+
+			/**
+			 * Signals if as part of encountering this error, conflict markers
+			 * were added to the file.
+			 *
+			 * @return {@code true} if conflict markers were added for this
+			 *         error.
+			 *
+			 * @since 6.10
+			 */
+			public boolean isGitConflict() {
+				return isGitConflict;
 			}
 
 			@Override
 			public String toString() {
 				if (hh != null) {
-					return MessageFormat.format(JGitText.get().patchApplyErrorWithHunk,
-							oldFileName, hh, msg);
+					return MessageFormat.format(
+							JGitText.get().patchApplyErrorWithHunk, oldFileName,
+							hh, msg);
 				}
-				return MessageFormat.format(JGitText.get().patchApplyErrorWithoutHunk,
-						oldFileName, msg);
+				return MessageFormat.format(
+						JGitText.get().patchApplyErrorWithoutHunk, oldFileName,
+						msg);
 			}
 
+			@Override
+			public boolean equals(Object o) {
+				if (this == o) {
+					return true;
+				}
+				if (o == null || !(o instanceof Error)) {
+					return false;
+				}
+				Error error = (Error) o;
+				return Objects.equals(msg, error.msg)
+						&& Objects.equals(oldFileName, error.oldFileName)
+						&& Objects.equals(hh, error.hh)
+						&& isGitConflict == error.isGitConflict;
+			}
+
+			@Override
+			public int hashCode() {
+				return Objects.hash(msg, oldFileName, hh,
+						Boolean.valueOf(isGitConflict));
+			}
 		}
 
 		private ObjectId treeId;
@@ -225,35 +275,15 @@ public class PatchApplier {
 			return errors;
 		}
 
-		private void addError(String msg,String oldFileName, @Nullable HunkHeader hh) {
-			errors.add(new Error(msg, oldFileName, hh));
+		private void addError(String msg, String oldFileName,
+				@Nullable HunkHeader hh) {
+			errors.add(new Error(msg, oldFileName, hh, false));
 		}
-	}
 
-	/**
-	 * Applies the given patch
-	 *
-	 * @param patchInput
-	 *            the patch to apply.
-	 * @return the result of the patch
-	 * @throws PatchFormatException
-	 *             if the patch cannot be parsed
-	 * @throws IOException
-	 *             if the patch read fails
-	 * @deprecated use {@link #applyPatch(Patch)} instead
-	 */
-	@Deprecated
-	public Result applyPatch(InputStream patchInput)
-			throws PatchFormatException, IOException {
-		Patch p = new Patch();
-		try (InputStream inStream = patchInput) {
-			p.parse(inStream);
-
-			if (!p.getErrors().isEmpty()) {
-				throw new PatchFormatException(p.getErrors());
-			}
+		private void addErrorWithGitConflict(String msg, String oldFileName,
+				@Nullable HunkHeader hh) {
+			errors.add(new Error(msg, oldFileName, hh, true));
 		}
-		return applyPatch(p);
 	}
 
 	/**
@@ -357,6 +387,17 @@ public class PatchApplier {
 		return result;
 	}
 
+	/**
+	 * Sets up the {@link PatchApplier} to apply patches even if they conflict.
+	 *
+	 * @return the {@link PatchApplier} to apply any patches
+	 * @since 6.10
+	 */
+	public PatchApplier allowConflicts() {
+		allowConflicts = true;
+		return this;
+	}
+
 	private File getFile(String path) {
 		return inCore() ? null : new File(repo.getWorkTree(), path);
 	}
@@ -439,6 +480,7 @@ public class PatchApplier {
 			return false;
 		}
 	}
+
 	private static final int FILE_TREE_INDEX = 1;
 
 	/**
@@ -539,7 +581,9 @@ public class PatchApplier {
 					convertCrLf);
 			resultStreamLoader = applyText(raw, fh, result);
 		}
-		if (resultStreamLoader == null || !result.getErrors().isEmpty()) {
+		if (resultStreamLoader == null
+				|| (!result.getErrors().isEmpty() && result.getErrors().stream()
+						.anyMatch(e -> !e.msg.equals("cannot apply hunk")))) { //$NON-NLS-1$
 			return;
 		}
 
@@ -961,9 +1005,51 @@ public class PatchApplier {
 				}
 			}
 			if (!applies) {
-				result.addError(JGitText.get().applyTextPatchCannotApplyHunk,
-						fh.getOldPath(), hh);
-				return null;
+				if (!allowConflicts) {
+					result.addError(
+							JGitText.get().applyTextPatchCannotApplyHunk,
+							fh.getOldPath(), hh);
+					return null;
+				}
+				// Insert conflict markers. This is best-guess because the
+				// file might have changed completely. But at least we give
+				// the user a graceful state that they can resolve manually.
+				// An alternative to this is using the 3-way merger. This
+				// only works if the pre-image SHA is contained in the repo.
+				// If that was the case, cherry-picking the original commit
+				// should be preferred to apply a patch.
+				result.addErrorWithGitConflict("cannot apply hunk", fh.getOldPath(), hh); //$NON-NLS-1$
+				newLines.add(Math.min(applyAt++, newLines.size()),
+						asBytes("<<<<<<< HEAD")); //$NON-NLS-1$
+				applyAt += hh.getOldImage().lineCount;
+				newLines.add(Math.min(applyAt++, newLines.size()),
+						asBytes("=======")); //$NON-NLS-1$
+
+				int sz = hunkLines.size();
+				for (int j = 1; j < sz; j++) {
+					ByteBuffer hunkLine = hunkLines.get(j);
+					if (!hunkLine.hasRemaining()) {
+						// Completely empty line; accept as empty context
+						// line
+						applyAt++;
+						lastWasRemoval = false;
+						continue;
+					}
+					switch (hunkLine.array()[hunkLine.position()]) {
+					case ' ':
+					case '+':
+						newLines.add(Math.min(applyAt++, newLines.size()),
+								slice(hunkLine, 1));
+						break;
+					case '-':
+					case '\\':
+					default:
+						break;
+					}
+				}
+				newLines.add(Math.min(applyAt++, newLines.size()),
+						asBytes(">>>>>>> PATCH")); //$NON-NLS-1$
+				continue;
 			}
 			// Hunk applies at applyAt. Apply it, and update afterLastHunk and
 			// lineNumberShift
@@ -1010,7 +1096,11 @@ public class PatchApplier {
 		} else if (!rt.isMissingNewlineAtEnd()) {
 			newLines.add(null);
 		}
+		return toContentStreamLoader(newLines);
+	}
 
+	private static ContentStreamLoader toContentStreamLoader(
+			List<ByteBuffer> newLines) throws IOException {
 		// We could check if old == new, but the short-circuiting complicates
 		// logic for inCore patching, so just write the new thing regardless.
 		TemporaryBuffer buffer = new TemporaryBuffer.LocalFile(null);
@@ -1032,6 +1122,10 @@ public class PatchApplier {
 			return new ContentStreamLoader(buffer::openInputStream,
 				out.getCount());
 		}
+	}
+
+	private ByteBuffer asBytes(String str) {
+		return ByteBuffer.wrap(str.getBytes(charset));
 	}
 
 	@SuppressWarnings("ByteBufferBackingArray")

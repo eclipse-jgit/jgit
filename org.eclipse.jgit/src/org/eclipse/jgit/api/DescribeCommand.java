@@ -15,11 +15,11 @@ import static org.eclipse.jgit.lib.TypedConfigGetter.UNSET_INT;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -74,6 +74,11 @@ public class DescribeCommand extends GitCommand<String> {
 	 * Pattern matchers to be applied to tags under consideration.
 	 */
 	private List<FileNameMatcher> matchers = new ArrayList<>();
+
+	/**
+	 * Pattern matchers to be applied to tags for exclusion.
+	 */
+	private List<FileNameMatcher> excludeMatchers = new ArrayList<>();
 
 	/**
 	 * Whether to use all refs in the refs/ namespace
@@ -263,6 +268,27 @@ public class DescribeCommand extends GitCommand<String> {
 		return this;
 	}
 
+	/**
+	 * Sets one or more {@code glob(7)} patterns that tags must not match to be
+	 * considered. If multiple patterns are provided, they will all be applied.
+	 *
+	 * @param patterns
+	 *            the {@code glob(7)} pattern or patterns
+	 * @return {@code this}
+	 * @throws org.eclipse.jgit.errors.InvalidPatternException
+	 *             if the pattern passed in was invalid.
+	 * @see <a href=
+	 *      "https://www.kernel.org/pub/software/scm/git/docs/git-describe.html"
+	 *      >Git documentation about describe</a>
+	 * @since 7.2
+	 */
+	public DescribeCommand setExclude(String... patterns) throws InvalidPatternException {
+		for (String p : patterns) {
+			excludeMatchers.add(new FileNameMatcher(p, null));
+		}
+		return this;
+	}
+
 	private final Comparator<Ref> TAG_TIE_BREAKER = new Comparator<>() {
 
 		@Override
@@ -274,25 +300,28 @@ public class DescribeCommand extends GitCommand<String> {
 			}
 		}
 
-		private Date tagDate(Ref tag) throws IOException {
+		private Instant tagDate(Ref tag) throws IOException {
 			RevTag t = w.parseTag(tag.getObjectId());
 			w.parseBody(t);
-			return t.getTaggerIdent().getWhen();
+			return t.getTaggerIdent().getWhenAsInstant();
 		}
 	};
 
 	private Optional<Ref> getBestMatch(List<Ref> tags) {
 		if (tags == null || tags.isEmpty()) {
 			return Optional.empty();
-		} else if (matchers.isEmpty()) {
+		} else if (matchers.isEmpty() && excludeMatchers.isEmpty()) {
 			Collections.sort(tags, TAG_TIE_BREAKER);
 			return Optional.of(tags.get(0));
-		} else {
+		}
+
+		Stream<Ref> matchingTags;
+		if (!matchers.isEmpty()) {
 			// Find the first tag that matches in the stream of all tags
 			// filtered by matchers ordered by tie break order
-			Stream<Ref> matchingTags = Stream.empty();
+			matchingTags = Stream.empty();
 			for (FileNameMatcher matcher : matchers) {
-				Stream<Ref> m = tags.stream().filter(
+				Stream<Ref> m = tags.stream().filter( //
 						tag -> {
 							matcher.append(formatRefName(tag.getName()));
 							boolean result = matcher.isMatch();
@@ -301,8 +330,22 @@ public class DescribeCommand extends GitCommand<String> {
 						});
 				matchingTags = Stream.of(matchingTags, m).flatMap(i -> i);
 			}
-			return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
+		} else {
+			// If there are no matchers, there are only excluders
+			// Assume all tags match for now before applying excluders
+			matchingTags = tags.stream();
 		}
+
+		for (FileNameMatcher matcher : excludeMatchers) {
+			matchingTags = matchingTags.filter( //
+					tag -> {
+						matcher.append(formatRefName(tag.getName()));
+						boolean result = matcher.isMatch();
+						matcher.reset();
+						return !result;
+					});
+		}
+		return matchingTags.sorted(TAG_TIE_BREAKER).findFirst();
 	}
 
 	private ObjectId getObjectIdFromRef(Ref r) throws JGitInternalException {

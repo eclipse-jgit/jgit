@@ -182,7 +182,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 
 	private static boolean hasRefLog(Repository repo, Ref ref) {
 		try {
-			return repo.getReflogReader(ref.getName()).getLastEntry() != null;
+			return repo.getRefDatabase().getReflogReader(ref)
+					.getLastEntry() != null;
 		} catch (IOException ioe) {
 			throw new IllegalStateException(ioe);
 		}
@@ -647,7 +648,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 					new File(git.getRepository().getWorkTree(), walk.getPath()),
 					subRepo.getWorkTree());
 			assertEquals(new File(new File(git.getRepository().getDirectory(),
-					"modules"), walk.getPath()), subRepo.getDirectory());
+					"modules"), walk.getPath()).getCanonicalPath(),
+					subRepo.getDirectory().getCanonicalPath());
 		}
 
 		File directory = createTempDirectory("testCloneRepositoryWithSubmodules");
@@ -681,8 +683,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 					walk.getPath()), clonedSub1.getWorkTree());
 			assertEquals(
 					new File(new File(git2.getRepository().getDirectory(),
-							"modules"), walk.getPath()),
-					clonedSub1.getDirectory());
+							"modules"), walk.getPath()).getCanonicalPath(),
+					clonedSub1.getDirectory().getCanonicalPath());
 		}
 	}
 
@@ -770,8 +772,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 						walk.getPath()), clonedSub1.getWorkTree());
 				assertEquals(
 						new File(new File(git2.getRepository().getDirectory(),
-								"modules"), walk.getPath()),
-						clonedSub1.getDirectory());
+								"modules"), walk.getPath()).getCanonicalPath(),
+						clonedSub1.getDirectory().getCanonicalPath());
 				status = new SubmoduleStatusCommand(clonedSub1);
 				statuses = status.call();
 			}
@@ -795,7 +797,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertNull(git2.getRepository().getConfig().getEnum(
 				BranchRebaseMode.values(),
 				ConfigConstants.CONFIG_BRANCH_SECTION, "test",
-				ConfigConstants.CONFIG_KEY_REBASE, null));
+				ConfigConstants.CONFIG_KEY_REBASE));
 
 		StoredConfig userConfig = SystemReader.getInstance()
 				.getUserConfig();
@@ -811,7 +813,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 		assertEquals(BranchRebaseMode.REBASE,
 				git2.getRepository().getConfig().getEnum(
-						BranchRebaseMode.values(),
 						ConfigConstants.CONFIG_BRANCH_SECTION, "test",
 						ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));
@@ -828,7 +829,6 @@ public class CloneCommandTest extends RepositoryTestCase {
 		addRepoToClose(git2.getRepository());
 		assertEquals(BranchRebaseMode.REBASE,
 				git2.getRepository().getConfig().getEnum(
-						BranchRebaseMode.values(),
 						ConfigConstants.CONFIG_BRANCH_SECTION, "test",
 						ConfigConstants.CONFIG_KEY_REBASE,
 						BranchRebaseMode.NONE));

@@ -88,52 +88,6 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack {
-	/**
-	 * Data in the first line of a request, the line itself plus capabilities.
-	 *
-	 * @deprecated Use {@link FirstCommand} instead.
-	 * @since 5.6
-	 */
-	@Deprecated
-	public static class FirstLine {
-		private final FirstCommand command;
-
-		/**
-		 * Parse the first line of a receive-pack request.
-		 *
-		 * @param line
-		 *            line from the client.
-		 */
-		public FirstLine(String line) {
-			command = FirstCommand.fromLine(line);
-		}
-
-		/**
-		 * Get non-capabilities part of the line
-		 *
-		 * @return non-capabilities part of the line.
-		 */
-		public String getLine() {
-			return command.getLine();
-		}
-
-		/**
-		 * Get capabilities parsed from the line
-		 *
-		 * @return capabilities parsed from the line.
-		 */
-		public Set<String> getCapabilities() {
-			Set<String> reconstructedCapabilites = new HashSet<>();
-			for (Map.Entry<String, String> e : command.getCapabilities()
-					.entrySet()) {
-				String cap = e.getValue() == null ? e.getKey()
-						: e.getKey() + "=" + e.getValue(); //$NON-NLS-1$
-				reconstructedCapabilites.add(cap);
-			}
-
-			return reconstructedCapabilites;
-		}
-	}
 
 	/** Database we write the stored objects into. */
 	private final Repository db;
@@ -2146,22 +2100,6 @@ public class ReceivePack {
 	 */
 	public void setUnpackErrorHandler(UnpackErrorHandler unpackErrorHandler) {
 		this.unpackErrorHandler = unpackErrorHandler;
-	}
-
-	/**
-	 * Set whether this class will report command failures as warning messages
-	 * before sending the command results.
-	 *
-	 * @param echo
-	 *            if true this class will report command failures as warning
-	 *            messages before sending the command results. This is usually
-	 *            not necessary, but may help buggy Git clients that discard the
-	 *            errors when all branches fail.
-	 * @deprecated no widely used Git versions need this any more
-	 */
-	@Deprecated
-	public void setEchoCommandFailures(boolean echo) {
-		// No-op.
 	}
 
 	/**

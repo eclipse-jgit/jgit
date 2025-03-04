@@ -11,8 +11,6 @@ package org.eclipse.jgit.util.io;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import org.eclipse.jgit.util.SystemReader;
 
@@ -35,10 +33,7 @@ public class ThrowingPrintWriter extends Writer {
 	 */
 	public ThrowingPrintWriter(Writer out) {
 		this.out = out;
-		LF = AccessController
-				.doPrivileged((PrivilegedAction<String>) () -> SystemReader
-						.getInstance().getProperty("line.separator") //$NON-NLS-1$
-				);
+		LF = SystemReader.getInstance().getProperty("line.separator"); //$NON-NLS-1$
 	}
 
 	@Override

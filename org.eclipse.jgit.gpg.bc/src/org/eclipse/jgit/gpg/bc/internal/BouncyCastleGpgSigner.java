@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2021, Salesforce and others
+ * Copyright (C) 2018, 2024, Salesforce and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -14,13 +14,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.Security;
 import java.util.Iterator;
 
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.BCPGOutputStream;
 import org.bouncycastle.bcpg.HashAlgorithmTags;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPrivateKey;
 import org.bouncycastle.openpgp.PGPPublicKey;
@@ -30,79 +28,23 @@ import org.bouncycastle.openpgp.PGPSignatureGenerator;
 import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
 import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
-import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.GpgConfig;
-import org.eclipse.jgit.lib.GpgObjectSigner;
 import org.eclipse.jgit.lib.GpgSignature;
-import org.eclipse.jgit.lib.GpgSigner;
-import org.eclipse.jgit.lib.ObjectBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.GpgConfig.GpgFormat;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Signer;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
  * GPG Signer using the BouncyCastle library.
  */
-public class BouncyCastleGpgSigner extends GpgSigner
-		implements GpgObjectSigner {
-
-	private static void registerBouncyCastleProviderIfNecessary() {
-		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-			Security.addProvider(new BouncyCastleProvider());
-		}
-	}
-
-	/**
-	 * Create a new instance.
-	 * <p>
-	 * The BounceCastleProvider will be registered if necessary.
-	 * </p>
-	 */
-	public BouncyCastleGpgSigner() {
-		registerBouncyCastleProviderIfNecessary();
-	}
-
-	@Override
-	public boolean canLocateSigningKey(@Nullable String gpgSigningKey,
-			PersonIdent committer, CredentialsProvider credentialsProvider)
-			throws CanceledException {
-		try {
-			return canLocateSigningKey(gpgSigningKey, committer,
-					credentialsProvider, null);
-		} catch (UnsupportedSigningFormatException e) {
-			// Cannot occur with a null config
-			return false;
-		}
-	}
-
-	@Override
-	public boolean canLocateSigningKey(@Nullable String gpgSigningKey,
-			PersonIdent committer, CredentialsProvider credentialsProvider,
-			GpgConfig config)
-			throws CanceledException, UnsupportedSigningFormatException {
-		if (config != null && config.getKeyFormat() != GpgFormat.OPENPGP) {
-			throw new UnsupportedSigningFormatException(
-					JGitText.get().onlyOpenPgpSupportedForSigning);
-		}
-		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
-				credentialsProvider)) {
-			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
-					committer, passphrasePrompt);
-			return gpgKey != null;
-		} catch (CanceledException e) {
-			throw e;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+public class BouncyCastleGpgSigner implements Signer {
 
 	private BouncyCastleGpgKey locateSigningKey(@Nullable String gpgSigningKey,
 			PersonIdent committer,
@@ -121,38 +63,24 @@ public class BouncyCastleGpgSigner extends GpgSigner
 	}
 
 	@Override
-	public void sign(@NonNull CommitBuilder commit,
-			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
-			CredentialsProvider credentialsProvider) throws CanceledException {
-		try {
-			signObject(commit, gpgSigningKey, committer, credentialsProvider,
-					null);
-		} catch (UnsupportedSigningFormatException e) {
-			// Cannot occur with a null config
-		}
-	}
-
-	@Override
-	public void signObject(@NonNull ObjectBuilder object,
-			@Nullable String gpgSigningKey, @NonNull PersonIdent committer,
-			CredentialsProvider credentialsProvider, GpgConfig config)
-			throws CanceledException, UnsupportedSigningFormatException {
-		if (config != null && config.getKeyFormat() != GpgFormat.OPENPGP) {
-			throw new UnsupportedSigningFormatException(
-					JGitText.get().onlyOpenPgpSupportedForSigning);
+	public GpgSignature sign(Repository repository, GpgConfig config,
+			byte[] data, PersonIdent committer, String signingKey,
+			CredentialsProvider credentialsProvider) throws CanceledException,
+			IOException, UnsupportedSigningFormatException {
+		String gpgSigningKey = signingKey;
+		if (gpgSigningKey == null) {
+			gpgSigningKey = config.getSigningKey();
 		}
 		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
 				credentialsProvider)) {
 			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
-					committer,
-						passphrasePrompt);
+					committer, passphrasePrompt);
 			PGPSecretKey secretKey = gpgKey.getSecretKey();
 			if (secretKey == null) {
 				throw new JGitInternalException(
 						BCText.get().unableToSignCommitNoSecretKey);
 			}
-			JcePBESecretKeyDecryptorBuilder decryptorBuilder = new JcePBESecretKeyDecryptorBuilder()
-					.setProvider(BouncyCastleProvider.PROVIDER_NAME);
+			JcePBESecretKeyDecryptorBuilder decryptorBuilder = new JcePBESecretKeyDecryptorBuilder();
 			PGPPrivateKey privateKey = null;
 			if (!passphrasePrompt.hasPassphrase()) {
 				// Either the key is not encrypted, or it was read from the
@@ -177,8 +105,8 @@ public class BouncyCastleGpgSigner extends GpgSigner
 			PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(
 					new JcaPGPContentSignerBuilder(
 							publicKey.getAlgorithm(),
-							HashAlgorithmTags.SHA256).setProvider(
-									BouncyCastleProvider.PROVIDER_NAME));
+							HashAlgorithmTags.SHA256),
+					publicKey);
 			signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
 			PGPSignatureSubpacketGenerator subpackets = new PGPSignatureSubpacketGenerator();
 			subpackets.setIssuerFingerprint(false, publicKey);
@@ -202,13 +130,33 @@ public class BouncyCastleGpgSigner extends GpgSigner
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			try (BCPGOutputStream out = new BCPGOutputStream(
 					new ArmoredOutputStream(buffer))) {
-				signatureGenerator.update(object.build());
+				signatureGenerator.update(data);
 				signatureGenerator.generate().encode(out);
 			}
-			object.setGpgSignature(new GpgSignature(buffer.toByteArray()));
-		} catch (PGPException | IOException | NoSuchAlgorithmException
+			return new GpgSignature(buffer.toByteArray());
+		} catch (PGPException | NoSuchAlgorithmException
 				| NoSuchProviderException | URISyntaxException e) {
 			throw new JGitInternalException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public boolean canLocateSigningKey(Repository repository, GpgConfig config,
+			PersonIdent committer, String signingKey,
+			CredentialsProvider credentialsProvider) throws CanceledException {
+		String gpgSigningKey = signingKey;
+		if (gpgSigningKey == null) {
+			gpgSigningKey = config.getSigningKey();
+		}
+		try (BouncyCastleGpgKeyPassphrasePrompt passphrasePrompt = new BouncyCastleGpgKeyPassphrasePrompt(
+				credentialsProvider)) {
+			BouncyCastleGpgKey gpgKey = locateSigningKey(gpgSigningKey,
+					committer, passphrasePrompt);
+			return gpgKey != null;
+		} catch (CanceledException e) {
+			throw e;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 

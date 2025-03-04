@@ -28,7 +28,10 @@ import org.eclipse.jgit.internal.JGitText;
  * used. One example is the parsing of the config parameter gc.pruneexpire. The
  * parser can handle only subset of what native gits approxidate parser
  * understands.
+ *
+ * @deprecated Use {@link GitTimeParser} instead.
  */
+@Deprecated(since = "7.1")
 public class GitDateParser {
 	/**
 	 * The Date representing never. Though this is a concrete value, most

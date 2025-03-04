@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2010, 2024 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -143,8 +143,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 				merger.setCommitNames(new String[] {
 						"BASE", ourName, revertName }); //$NON-NLS-1$
 
-				String shortMessage = "Revert \"" + srcCommit.getShortMessage() //$NON-NLS-1$
-						+ "\""; //$NON-NLS-1$
+				String shortMessage = "Revert \"" //$NON-NLS-1$
+						+ srcCommit.getFirstMessageLine() + '"';
 				String newMessage = shortMessage + "\n\n" //$NON-NLS-1$
 						+ "This reverts commit " + srcCommit.getId().getName() //$NON-NLS-1$
 						+ ".\n"; //$NON-NLS-1$

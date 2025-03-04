@@ -23,10 +23,12 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicReference;
@@ -169,6 +171,11 @@ public abstract class SystemReader {
 		}
 
 		@Override
+		public Instant now() {
+			return Instant.now();
+		}
+
+		@Override
 		public int getTimezone(long when) {
 			return getTimeZone().getOffset(when) / (60 * 1000);
 		}
@@ -230,8 +237,18 @@ public abstract class SystemReader {
 		}
 
 		@Override
+		public Instant now() {
+			return delegate.now();
+		}
+
+		@Override
 		public int getTimezone(long when) {
 			return delegate.getTimezone(when);
+		}
+
+		@Override
+		public ZoneOffset getTimeZoneAt(Instant when) {
+			return delegate.getTimeZoneAt(when);
 		}
 	}
 
@@ -503,8 +520,35 @@ public abstract class SystemReader {
 	 * Get the current system time
 	 *
 	 * @return the current system time
+	 *
+	 * @deprecated Use {@link #now()}
 	 */
+	@Deprecated(since = "7.1")
 	public abstract long getCurrentTime();
+
+	/**
+	 * Get the current system time
+	 *
+	 * @return the current system time
+	 *
+	 * @since 7.1
+	 */
+	public Instant now() {
+		// Subclasses overriding getCurrentTime should keep working
+		// TODO(ifrade): Once we remove getCurrentTime, use Instant.now()
+		return Instant.ofEpochMilli(getCurrentTime());
+	}
+
+	/**
+	 * Get "now" as civil time, in the System timezone
+	 *
+	 * @return the current system time
+	 *
+	 * @since 7.1
+	 */
+	public LocalDateTime civilNow() {
+		return LocalDateTime.ofInstant(now(), getTimeZoneId());
+	}
 
 	/**
 	 * Get clock instance preferred by this system.
@@ -522,17 +566,45 @@ public abstract class SystemReader {
 	 * @param when
 	 *            a system timestamp
 	 * @return the local time zone
+	 *
+	 * @deprecated Use {@link #getTimeZoneAt(Instant)} instead.
 	 */
+	@Deprecated(since = "7.1")
 	public abstract int getTimezone(long when);
+
+	/**
+	 * Get the local time zone offset at "when" time
+	 *
+	 * @param when
+	 *            a system timestamp
+	 * @return the local time zone
+	 * @since 7.1
+	 */
+	public ZoneOffset getTimeZoneAt(Instant when) {
+		return getTimeZoneId().getRules().getOffset(when);
+	}
 
 	/**
 	 * Get system time zone, possibly mocked for testing
 	 *
 	 * @return system time zone, possibly mocked for testing
 	 * @since 1.2
+	 *
+	 * @deprecated Use {@link #getTimeZoneId()}
 	 */
+	@Deprecated(since = "7.1")
 	public TimeZone getTimeZone() {
 		return TimeZone.getDefault();
+	}
+
+	/**
+	 * Get system time zone, possibly mocked for testing
+	 *
+	 * @return system time zone, possibly mocked for testing
+	 * @since 7.1
+	 */
+	public ZoneId getTimeZoneId() {
+		return ZoneId.systemDefault();
 	}
 
 	/**
@@ -670,9 +742,7 @@ public abstract class SystemReader {
 	}
 
 	private String getOsName() {
-		return AccessController.doPrivileged(
-				(PrivilegedAction<String>) () -> getProperty("os.name") //$NON-NLS-1$
-		);
+		return getProperty("os.name"); //$NON-NLS-1$
 	}
 
 	/**

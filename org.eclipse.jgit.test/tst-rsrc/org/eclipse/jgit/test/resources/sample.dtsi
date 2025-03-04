@@ -1,0 +1,25 @@
+/dts-v1/;
+
+/ {
+	model = "Example Board";
+	compatible = "example,board";
+	cpus {
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <0>;
+		};
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x80000000 0x20000000>;
+	};
+
+	uart0: uart@101f1000 {
+		compatible = "ns16550a";
+		reg = <0x101f1000 0x1000>;
+		interrupts = <5>;
+		clock-frequency = <24000000>;
+	};
+};

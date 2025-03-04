@@ -30,7 +30,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
-import java.security.AccessControlException;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -262,31 +261,6 @@ public abstract class FS {
 		private static final AtomicInteger threadNumber = new AtomicInteger(1);
 
 		/**
-		 * Don't use the default thread factory of the ForkJoinPool for the
-		 * CompletableFuture; it runs without any privileges, which causes
-		 * trouble if a SecurityManager is present.
-		 * <p>
-		 * Instead use normal daemon threads. They'll belong to the
-		 * SecurityManager's thread group, or use the one of the calling thread,
-		 * as appropriate.
-		 * </p>
-		 *
-		 * @see java.util.concurrent.Executors#newCachedThreadPool()
-		 */
-		private static final ExecutorService FUTURE_RUNNER = new ThreadPoolExecutor(
-				5, 5, 30L, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<>(),
-				runnable -> {
-					Thread t = new Thread(runnable,
-							"JGit-FileStoreAttributeReader-" //$NON-NLS-1$
-							+ threadNumber.getAndIncrement());
-					// Make sure these threads don't prevent application/JVM
-					// shutdown.
-					t.setDaemon(true);
-					return t;
-				});
-
-		/**
 		 * Use a separate executor with at most one thread to synchronize
 		 * writing to the config. We write asynchronously since the config
 		 * itself might be on a different file system, which might otherwise
@@ -463,7 +437,7 @@ public abstract class FS {
 								locks.remove(s);
 							}
 							return attributes;
-						}, FUTURE_RUNNER);
+						});
 				f = f.exceptionally(e -> {
 					LOG.error(e.getLocalizedMessage(), e);
 					return Optional.empty();
@@ -898,21 +872,6 @@ public abstract class FS {
 	}
 
 	/**
-	 * Whether FileStore attributes should be determined asynchronously
-	 *
-	 * @param asynch
-	 *            whether FileStore attributes should be determined
-	 *            asynchronously. If false access to cached attributes may block
-	 *            for some seconds for the first call per FileStore
-	 * @since 5.1.9
-	 * @deprecated Use {@link FileStoreAttributes#setBackground} instead
-	 */
-	@Deprecated
-	public static void setAsyncFileStoreAttributes(boolean asynch) {
-		FileStoreAttributes.setBackground(asynch);
-	}
-
-	/**
 	 * Auto-detect the appropriate file system abstraction, taking into account
 	 * the presence of a Cygwin installation on the system. Using jgit in
 	 * combination with Cygwin requires a more elaborate (and possibly slower)
@@ -1085,24 +1044,6 @@ public abstract class FS {
 	 * symbolic links, the modification time of the link is returned, rather
 	 * than that of the link target.
 	 *
-	 * @param f
-	 *            a {@link java.io.File} object.
-	 * @return last modified time of f
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @since 3.0
-	 * @deprecated use {@link #lastModifiedInstant(Path)} instead
-	 */
-	@Deprecated
-	public long lastModified(File f) throws IOException {
-		return FileUtils.lastModified(f);
-	}
-
-	/**
-	 * Get the last modified time of a file system object. If the OS/JRE support
-	 * symbolic links, the modification time of the link is returned, rather
-	 * than that of the link target.
-	 *
 	 * @param p
 	 *            a {@link Path} object.
 	 * @return last modified time of p
@@ -1124,25 +1065,6 @@ public abstract class FS {
 	 */
 	public Instant lastModifiedInstant(File f) {
 		return FileUtils.lastModifiedInstant(f.toPath());
-	}
-
-	/**
-	 * Set the last modified time of a file system object.
-	 * <p>
-	 * For symlinks it sets the modified time of the link target.
-	 *
-	 * @param f
-	 *            a {@link java.io.File} object.
-	 * @param time
-	 *            last modified time
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @since 3.0
-	 * @deprecated use {@link #setLastModified(Path, Instant)} instead
-	 */
-	@Deprecated
-	public void setLastModified(File f, long time) throws IOException {
-		FileUtils.setLastModified(f, time);
 	}
 
 	/**
@@ -1443,13 +1365,6 @@ public abstract class FS {
 			}
 		} catch (IOException e) {
 			LOG.error("Caught exception in FS.readPipe()", e); //$NON-NLS-1$
-		} catch (AccessControlException e) {
-			LOG.warn(MessageFormat.format(
-					JGitText.get().readPipeIsNotAllowedRequiredPermission,
-					command, dir, e.getPermission()));
-		} catch (SecurityException e) {
-			LOG.warn(MessageFormat.format(JGitText.get().readPipeIsNotAllowed,
-					command, dir));
 		}
 		if (debug) {
 			LOG.debug("readpipe returns null"); //$NON-NLS-1$
@@ -1800,25 +1715,6 @@ public abstract class FS {
 	}
 
 	/**
-	 * Create a new file. See {@link java.io.File#createNewFile()}. Subclasses
-	 * of this class may take care to provide a safe implementation for this
-	 * even if {@link #supportsAtomicCreateNewFile()} is <code>false</code>
-	 *
-	 * @param path
-	 *            the file to be created
-	 * @return <code>true</code> if the file was created, <code>false</code> if
-	 *         the file already existed
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 * @deprecated use {@link #createNewFileAtomic(File)} instead
-	 * @since 4.5
-	 */
-	@Deprecated
-	public boolean createNewFile(File path) throws IOException {
-		return path.createNewFile();
-	}
-
-	/**
 	 * A token representing a file created by
 	 * {@link #createNewFileAtomic(File)}. The token must be retained until the
 	 * file has been deleted in order to guarantee that the unique file was
@@ -2042,6 +1938,8 @@ public abstract class FS {
 		environment.put(Constants.GIT_DIR_KEY,
 				repository.getDirectory().getAbsolutePath());
 		if (!repository.isBare()) {
+			environment.put(Constants.GIT_COMMON_DIR_KEY,
+					repository.getCommonDirectory().getAbsolutePath());
 			environment.put(Constants.GIT_WORK_TREE_KEY,
 					repository.getWorkTree().getAbsolutePath());
 		}
@@ -2137,7 +2035,7 @@ public abstract class FS {
 		case "post-receive": //$NON-NLS-1$
 		case "post-update": //$NON-NLS-1$
 		case "push-to-checkout": //$NON-NLS-1$
-			return repository.getDirectory();
+			return repository.getCommonDirectory();
 		default:
 			return repository.getWorkTree();
 		}
@@ -2150,7 +2048,7 @@ public abstract class FS {
 		if (hooksDir != null) {
 			return new File(hooksDir);
 		}
-		File dir = repository.getDirectory();
+		File dir = repository.getCommonDirectory();
 		return dir == null ? null : new File(dir, Constants.HOOKS);
 	}
 
@@ -2424,19 +2322,6 @@ public abstract class FS {
 		}
 
 		/**
-		 * Get the time when the file was last modified in milliseconds since
-		 * the epoch
-		 *
-		 * @return the time (milliseconds since 1970-01-01) when this object was
-		 *         last modified
-		 * @deprecated use getLastModifiedInstant instead
-		 */
-		@Deprecated
-		public long getLastModifiedTime() {
-			return lastModifiedInstant.toEpochMilli();
-		}
-
-		/**
 		 * Get the time when this object was last modified
 		 *
 		 * @return the time when this object was last modified
@@ -2575,6 +2460,33 @@ public abstract class FS {
 	 */
 	public String normalize(String name) {
 		return name;
+	}
+
+	/**
+	 * Get common dir path.
+	 *
+	 * @param dir
+	 *            the .git folder
+	 * @return common dir path
+	 * @throws IOException
+	 *             if commondir file can't be read
+	 *
+	 * @since 7.0
+	 */
+	public File getCommonDir(File dir) throws IOException {
+		// first the GIT_COMMON_DIR is same as GIT_DIR
+		File commonDir = dir;
+		// now check if commondir file exists (e.g. worktree repository)
+		File commonDirFile = new File(dir, Constants.COMMONDIR_FILE);
+		if (commonDirFile.isFile()) {
+			String commonDirPath = new String(IO.readFully(commonDirFile))
+					.trim();
+			commonDir = new File(commonDirPath);
+			if (!commonDir.isAbsolute()) {
+				commonDir = new File(dir, commonDirPath).getCanonicalFile();
+			}
+		}
+		return commonDir;
 	}
 
 	/**

@@ -639,7 +639,7 @@ public class IndexDiff {
 							// submodule repository in .git/modules doesn't
 							// exist yet it isn't "missing".
 							File gitDir = new File(
-									new File(repository.getDirectory(),
+									new File(repository.getCommonDirectory(),
 											Constants.MODULES),
 									subRepoPath);
 							if (!gitDir.isDirectory()) {

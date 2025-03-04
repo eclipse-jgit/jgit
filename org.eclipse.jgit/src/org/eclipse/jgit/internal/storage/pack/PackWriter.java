@@ -58,10 +58,10 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndexWriter;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
@@ -118,7 +118,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * {@link #preparePack(ProgressMonitor, Set, Set)}, and streaming with
  * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}. If the
  * pack is being stored as a file the matching index can be written out after
- * writing the pack by {@link #writeIndex(OutputStream)}. An optional bitmap
+ * writing the pack by {@link #writeIndex(PackIndexWriter)}. An optional bitmap
  * index can be made by calling {@link #prepareBitmapIndex(ProgressMonitor)}
  * followed by {@link #writeBitmapIndex(PackBitmapIndexWriter)}.
  * </p>
@@ -300,19 +300,6 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public PackWriter(Repository repo) {
 		this(repo, repo.newObjectReader());
-	}
-
-	/**
-	 * Create a writer to load objects from the specified reader.
-	 * <p>
-	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(ProgressMonitor, Set, Set)}.
-	 *
-	 * @param reader
-	 *            reader to read from the repository with.
-	 */
-	public PackWriter(ObjectReader reader) {
-		this(new PackConfig(), reader);
 	}
 
 	/**
@@ -1091,7 +1078,7 @@ public class PackWriter implements AutoCloseable {
 		if (indexVersion <= 0) {
 			for (BlockList<ObjectToPack> objs : objectsLists)
 				indexVersion = Math.max(indexVersion,
-						PackIndexWriter.oldestPossibleFormat(objs));
+						BasePackIndexWriter.oldestPossibleFormat(objs));
 		}
 		return indexVersion;
 	}
@@ -1112,12 +1099,28 @@ public class PackWriter implements AutoCloseable {
 	 *             the index data could not be written to the supplied stream.
 	 */
 	public void writeIndex(OutputStream indexStream) throws IOException {
+		writeIndex(BasePackIndexWriter.createVersion(indexStream,
+				getIndexVersion()));
+	}
+
+	/**
+	 * Create an index file to match the pack file just written.
+	 * <p>
+	 * Called after
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
+	 * <p>
+	 * Writing an index is only required for local pack storage. Packs sent on
+	 * the network do not need to create an index.
+	 *
+	 * @param iw
+	 *            an {@link PackIndexWriter} instance to write the index
+	 * @throws java.io.IOException
+	 *             the index data could not be written to the supplied stream.
+	 */
+	public void writeIndex(PackIndexWriter iw) throws IOException {
 		if (isIndexDisabled())
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
-
 		long writeStart = System.currentTimeMillis();
-		final PackIndexWriter iw = PackIndexWriter.createVersion(
-				indexStream, getIndexVersion());
 		iw.write(sortByName(), packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
@@ -2461,7 +2464,7 @@ public class PackWriter implements AutoCloseable {
 	 * object graph at selected commits. Writing a bitmap index is an optional
 	 * feature that not all pack users may require.
 	 * <p>
-	 * Called after {@link #writeIndex(OutputStream)}.
+	 * Called after {@link #writeIndex(PackIndexWriter)}.
 	 * <p>
 	 * To reduce memory internal state is cleared during this method, rendering
 	 * the PackWriter instance useless for anything further than a call to write

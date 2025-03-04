@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc. and others
+ * Copyright (C) 2008, 2024 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -23,7 +23,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -94,18 +96,17 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertNotNull(cAuthor);
 		assertEquals(authorName, cAuthor.getName());
 		assertEquals(authorEmail, cAuthor.getEmailAddress());
-		assertEquals((long) authorTime * 1000, cAuthor.getWhen().getTime());
-		assertEquals(TimeZone.getTimeZone("GMT" + authorTimeZone),
-				cAuthor.getTimeZone());
+		assertEquals(Instant.ofEpochSecond(authorTime),
+				cAuthor.getWhenAsInstant());
+		assertEquals(ZoneId.of(authorTimeZone), cAuthor.getZoneId());
 
 		final PersonIdent cCommitter = c.getCommitterIdent();
 		assertNotNull(cCommitter);
 		assertEquals(committerName, cCommitter.getName());
 		assertEquals(committerEmail, cCommitter.getEmailAddress());
-		assertEquals((long) committerTime * 1000,
-				cCommitter.getWhen().getTime());
-		assertEquals(TimeZone.getTimeZone("GMT" + committerTimeZone),
-				cCommitter.getTimeZone());
+		assertEquals(Instant.ofEpochSecond(committerTime),
+				cCommitter.getWhenAsInstant());
+		assertEquals(ZoneId.of(committerTimeZone), cCommitter.getZoneId());
 	}
 
 	private RevCommit create(String msg) throws Exception {
@@ -153,9 +154,13 @@ public class RevCommitParseTest extends RepositoryTestCase {
 			c.parseCanonical(rw, b.toString().getBytes(UTF_8));
 		}
 		assertEquals(
-				new PersonIdent("", "a_u_thor@example.com", 1218123387000L, 7),
+				new PersonIdent("", "a_u_thor@example.com",
+						Instant.ofEpochMilli(1218123387000L),
+						ZoneOffset.ofHoursMinutes(0, 7)),
 				c.getAuthorIdent());
-		assertEquals(new PersonIdent("", "", 1218123390000L, -5),
+		assertEquals(
+				new PersonIdent("", "", Instant.ofEpochMilli(1218123390000L),
+						ZoneOffset.ofHoursMinutes(0, -5)),
 				c.getCommitterIdent());
 	}
 
@@ -408,6 +413,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(msg);
 		assertEquals(msg, c.getFullMessage());
 		assertEquals(msg, c.getShortMessage());
+		assertEquals(msg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -415,6 +421,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create("\n");
 		assertEquals("\n", c.getFullMessage());
 		assertEquals("", c.getShortMessage());
+		assertEquals("", c.getFirstMessageLine());
 	}
 
 	@Test
@@ -423,6 +430,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(shortMsg);
 		assertEquals(shortMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals(shortMsg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -432,6 +440,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals(shortMsg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -441,6 +450,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals("This is a", c.getFirstMessageLine());
 	}
 
 	@Test
@@ -450,6 +460,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals("This is a", c.getFirstMessageLine());
 	}
 
 	@Test
@@ -461,6 +472,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals(shortMsg, c.getFirstMessageLine());
 	}
 
 	@Test
@@ -480,6 +492,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertEquals(author, p.getAuthorIdent());
 		assertEquals(committer, p.getCommitterIdent());
 		assertEquals("Test commit", p.getShortMessage());
+		assertEquals("Test commit", p.getFirstMessageLine());
 		assertEquals(src.getMessage(), p.getFullMessage());
 	}
 
@@ -494,6 +507,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+		assertEquals("This fixes a", c.getFirstMessageLine());
 	}
 
 	private static ObjectId id(String str) {

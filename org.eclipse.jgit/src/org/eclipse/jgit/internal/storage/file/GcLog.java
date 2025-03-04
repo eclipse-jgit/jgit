@@ -23,8 +23,7 @@ import java.time.Instant;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.FileUtils;
-import org.eclipse.jgit.util.GitDateParser;
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.GitTimeParser;
 
 /**
  * This class manages the gc.log file for a {@link FileRepository}.
@@ -50,7 +49,7 @@ class GcLog {
 	 */
 	GcLog(FileRepository repo) {
 		this.repo = repo;
-		logFile = new File(repo.getDirectory(), "gc.log"); //$NON-NLS-1$
+		logFile = new File(repo.getCommonDirectory(), "gc.log"); //$NON-NLS-1$
 		lock = new LockFile(logFile);
 	}
 
@@ -62,8 +61,7 @@ class GcLog {
 			if (logExpiryStr == null) {
 				logExpiryStr = LOG_EXPIRY_DEFAULT;
 			}
-			gcLogExpire = GitDateParser.parse(logExpiryStr, null,
-					SystemReader.getInstance().getLocale()).toInstant();
+			gcLogExpire = GitTimeParser.parseInstant(logExpiryStr);
 		}
 		return gcLogExpire;
 	}

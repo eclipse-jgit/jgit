@@ -30,11 +30,11 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_MULTI_ACK_D
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_NO_PROGRESS;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_OFS_DELTA;
+import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDEBAND_ALL;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SIDE_BAND_64K;
-import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_SESSION_ID;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_THIN_PACK;
 import static org.eclipse.jgit.transport.GitProtocolConstants.OPTION_WAIT_FOR_DONE;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ACK;
@@ -80,7 +80,6 @@ import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
-import org.eclipse.jgit.internal.transport.parser.FirstWant;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -118,13 +117,13 @@ public class UploadPack implements Closeable {
 	/** Policy the server uses to validate client requests */
 	public enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
-		ADVERTISED,
+		ADVERTISED(0x08),
 
 		/**
 		 * Client may ask for any commit reachable from a reference advertised by
 		 * the server.
 		 */
-		REACHABLE_COMMIT,
+		REACHABLE_COMMIT(0x02),
 
 		/**
 		 * Client may ask for objects that are the tip of any reference, even if not
@@ -134,18 +133,36 @@ public class UploadPack implements Closeable {
 		 *
 		 * @since 3.1
 		 */
-		TIP,
+		TIP(0x01),
 
 		/**
 		 * Client may ask for any commit reachable from any reference, even if that
-		 * reference wasn't advertised.
+		 * reference wasn't advertised, implies REACHABLE_COMMIT and TIP.
 		 *
 		 * @since 3.1
 		 */
-		REACHABLE_COMMIT_TIP,
+		REACHABLE_COMMIT_TIP(0x03),
 
-		/** Client may ask for any SHA-1 in the repository. */
-		ANY;
+		/** Client may ask for any SHA-1 in the repository, implies REACHABLE_COMMIT_TIP. */
+		ANY(0x07);
+
+		private final int bitmask;
+
+		RequestPolicy(int bitmask) {
+			this.bitmask = bitmask;
+		}
+
+		/**
+		 * Check if the current policy implies another, based on its bitmask.
+		 *
+		 * @param implied
+		 *            the implied policy based on its bitmask.
+		 * @return true if the policy is implied.
+		 * @since 6.10.1
+		 */
+		public boolean implies(RequestPolicy implied) {
+			return (bitmask & implied.bitmask) != 0;
+		}
 	}
 
 	/**
@@ -170,52 +187,6 @@ public class UploadPack implements Closeable {
 		 */
 		void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException;
-	}
-
-	/**
-	 * Data in the first line of a want-list, the line itself plus options.
-	 *
-	 * @deprecated Use {@link FirstWant} instead
-	 */
-	@Deprecated
-	public static class FirstLine {
-
-		private final FirstWant firstWant;
-
-		/**
-		 * @param line
-		 *            line from the client.
-		 */
-		public FirstLine(String line) {
-			try {
-				firstWant = FirstWant.fromLine(line);
-			} catch (PackProtocolException e) {
-				throw new UncheckedIOException(e);
-			}
-		}
-
-		/**
-		 * Get non-capabilities part of the line
-		 *
-		 * @return non-capabilities part of the line.
-		 */
-		public String getLine() {
-			return firstWant.getLine();
-		}
-
-		/**
-		 * Get capabilities parsed from the line
-		 *
-		 * @return capabilities parsed from the line.
-		 */
-		public Set<String> getOptions() {
-			if (firstWant.getAgent() != null) {
-				Set<String> caps = new HashSet<>(firstWant.getCapabilities());
-				caps.add(OPTION_AGENT + '=' + firstWant.getAgent());
-				return caps;
-			}
-			return firstWant.getCapabilities();
-		}
 	}
 
 	/*
@@ -1423,6 +1394,7 @@ public class UploadPack implements Closeable {
 		if (transferConfig.isAdvertiseObjectInfo()) {
 			caps.add(COMMAND_OBJECT_INFO);
 		}
+		caps.add(OPTION_AGENT + "=" + UserAgent.get());
 
 		return caps;
 	}
@@ -1629,13 +1601,9 @@ public class UploadPack implements Closeable {
 		if (!biDirectionalPipe)
 			adv.advertiseCapability(OPTION_NO_DONE);
 		RequestPolicy policy = getRequestPolicy();
-		if (policy == RequestPolicy.TIP
-				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
-				|| policy == null)
+		if (policy == null || policy.implies(RequestPolicy.TIP))
 			adv.advertiseCapability(OPTION_ALLOW_TIP_SHA1_IN_WANT);
-		if (policy == RequestPolicy.REACHABLE_COMMIT
-				|| policy == RequestPolicy.REACHABLE_COMMIT_TIP
-				|| policy == null)
+		if (policy == null || policy.implies(RequestPolicy.REACHABLE_COMMIT))
 			adv.advertiseCapability(OPTION_ALLOW_REACHABLE_SHA1_IN_WANT);
 		adv.advertiseCapability(OPTION_AGENT, UserAgent.get());
 		if (transferConfig.isAllowFilter()) {
@@ -1690,18 +1658,6 @@ public class UploadPack implements Closeable {
 		if (currentRequest == null)
 			throw new RequestNotYetReadException();
 		return currentRequest.getDepth();
-	}
-
-	/**
-	 * Deprecated synonym for {@code getFilterSpec().getBlobLimit()}.
-	 *
-	 * @return filter blob limit requested by the client, or -1 if no limit
-	 * @since 5.3
-	 * @deprecated Use {@link #getFilterSpec()} instead
-	 */
-	@Deprecated
-	public final long getFilterBlobLimit() {
-		return getFilterSpec().getBlobLimit();
 	}
 
 	/**
@@ -1996,10 +1952,9 @@ public class UploadPack implements Closeable {
 		@Override
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
-			if (!up.isBiDirectionalPipe())
+			if (!up.isBiDirectionalPipe() || !wants.isEmpty()) {
 				new ReachableCommitRequestValidator().checkWants(up, wants);
-			else if (!wants.isEmpty())
-				throw new WantNotValidException(wants.iterator().next());
+			}
 		}
 	}
 
@@ -2271,7 +2226,7 @@ public class UploadPack implements Closeable {
 		walk.resetRetain(SAVE);
 		walk.markStart((RevCommit) want);
 		if (oldestTime != 0)
-			walk.setRevFilter(CommitTimeRevFilter.after(oldestTime * 1000L));
+			walk.setRevFilter(CommitTimeRevFilter.after(Instant.ofEpochSecond(oldestTime)));
 		for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
@@ -2429,7 +2384,8 @@ public class UploadPack implements Closeable {
 						: req.getDepth() - 1;
 				pw.setShallowPack(req.getDepth(), unshallowCommits);
 
-				// Ownership is transferred below
+				// dw borrows the reader from walk which is closed by #close
+				@SuppressWarnings("resource")
 				DepthWalk.RevWalk dw = new DepthWalk.RevWalk(
 						walk.getObjectReader(), walkDepth);
 				dw.setDeepenSince(req.getDeepenSince());

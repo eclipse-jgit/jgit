@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,8 +34,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -51,6 +59,10 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS.ExecutionResult;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
 import org.junit.Test;
 
 public class FileReftableTest extends SampleDataRepositoryTestCase {
@@ -62,6 +74,30 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		Ref b = db.exactRef("refs/heads/b");
 		bCommit = b.getObjectId().getName();
 		db.convertToReftable(false, false);
+	}
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void testReloadIfNecessary() throws Exception {
+		ObjectId id = db.resolve("master");
+		try (FileRepository repo1 = new FileRepository(db.getDirectory());
+				FileRepository repo2 = new FileRepository(db.getDirectory())) {
+			((FileReftableDatabase) repo1.getRefDatabase())
+					.setAutoRefresh(true);
+			((FileReftableDatabase) repo2.getRefDatabase())
+					.setAutoRefresh(true);
+			FileRepository repos[] = { repo1, repo2 };
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 2; j++) {
+					FileRepository repo = repos[j];
+					RefUpdate u = repo.getRefDatabase().newUpdate(
+							String.format("branch%d", i * 10 + j), false);
+					u.setNewObjectId(id);
+					RefUpdate.Result r = u.update();
+					assertEquals(Result.NEW, r);
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("boxing")
@@ -87,13 +123,61 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 						u.setNewObjectId(id);
 						r = u.update();
-						assertEquals(r, Result.NEW);
+						assertEquals(Result.NEW, r);
 					}
 				}
 			}
 
 			// only the first one succeeds
-			assertEquals(retry, 19);
+			assertEquals(19, retry);
+		}
+	}
+
+	@Test
+	public void testConcurrentRacyReload() throws Exception {
+		ObjectId id = db.resolve("master");
+		final CyclicBarrier barrier = new CyclicBarrier(2);
+
+		class UpdateRef implements Callable<RefUpdate.Result> {
+
+			private RefUpdate u;
+
+			UpdateRef(FileRepository repo, String branchName)
+					throws IOException {
+				u = repo.getRefDatabase().newUpdate(branchName,
+						false);
+				u.setNewObjectId(id);
+			}
+
+			@Override
+			public RefUpdate.Result call() throws Exception {
+				barrier.await(); // wait for the other thread to prepare
+				return u.update();
+			}
+		}
+
+		ExecutorService pool = Executors.newFixedThreadPool(2);
+		try (FileRepository repo1 = new FileRepository(db.getDirectory());
+				FileRepository repo2 = new FileRepository(db.getDirectory())) {
+			((FileReftableDatabase) repo1.getRefDatabase())
+					.setAutoRefresh(true);
+			((FileReftableDatabase) repo2.getRefDatabase())
+					.setAutoRefresh(true);
+			for (int i = 0; i < 10; i++) {
+				String branchName = String.format("branch%d",
+						Integer.valueOf(i));
+				Future<RefUpdate.Result> ru1 = pool
+						.submit(new UpdateRef(repo1, branchName));
+				Future<RefUpdate.Result> ru2 = pool
+						.submit(new UpdateRef(repo2, branchName));
+				assertTrue((ru1.get() == Result.NEW
+						&& ru2.get() == Result.LOCK_FAILURE)
+						|| (ru1.get() == Result.LOCK_FAILURE
+								&& ru2.get() == Result.NEW));
+			}
+		} finally {
+			pool.shutdown();
+			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
 		}
 	}
 
@@ -105,13 +189,13 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			RefUpdate u = db.updateRef("refs/heads/master");
 			u.setForceUpdate(true);
 			u.setNewObjectId((i%2) == 0 ? c1 : c2);
-			assertEquals(u.update(), FORCED);
+			assertEquals(FORCED, u.update());
 		}
 
 		File tableDir = new File(db.getDirectory(), Constants.REFTABLE);
 		assertTrue(tableDir.listFiles().length > 2);
 		((FileReftableDatabase)db.getRefDatabase()).compactFully();
-		assertEquals(tableDir.listFiles().length,2);
+		assertEquals(2, tableDir.listFiles().length);
 	}
 
 	@Test
@@ -171,9 +255,10 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		v.update();
 
 		db.convertToPackedRefs(true, false);
-		List<ReflogEntry> logs = db.getReflogReader("refs/heads/master").getReverseEntries(2);
-		assertEquals(logs.get(0).getComment(), "banana");
-		assertEquals(logs.get(1).getComment(), "apple");
+		List<ReflogEntry> logs = db.getRefDatabase()
+				.getReflogReader("refs/heads/master").getReverseEntries(2);
+		assertEquals("banana", logs.get(0).getComment());
+		assertEquals("apple", logs.get(1).getComment());
 	}
 
 	@Test
@@ -185,8 +270,9 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		ReceiveCommand rc1 = new ReceiveCommand(ObjectId.zeroId(), cur, "refs/heads/batch1");
 		ReceiveCommand rc2 = new ReceiveCommand(ObjectId.zeroId(), prev, "refs/heads/batch2");
 		String msg =  "message";
+		RefDatabase refDb = db.getRefDatabase();
 		try (RevWalk rw = new RevWalk(db)) {
-			db.getRefDatabase().newBatchUpdate()
+			refDb.newBatchUpdate()
 					.addCommand(rc1, rc2)
 					.setAtomic(true)
 					.setRefLogIdent(person)
@@ -194,15 +280,17 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 					.execute(rw, NullProgressMonitor.INSTANCE);
 		}
 
-		assertEquals(rc1.getResult(), ReceiveCommand.Result.OK);
-		assertEquals(rc2.getResult(), ReceiveCommand.Result.OK);
+		assertEquals(ReceiveCommand.Result.OK, rc1.getResult());
+		assertEquals(ReceiveCommand.Result.OK, rc2.getResult());
 
-		ReflogEntry e = db.getReflogReader("refs/heads/batch1").getLastEntry();
+		ReflogEntry e = refDb.getReflogReader("refs/heads/batch1")
+				.getLastEntry();
 		assertEquals(msg, e.getComment());
 		assertEquals(person, e.getWho());
 		assertEquals(cur, e.getNewId());
 
-		e = db.getReflogReader("refs/heads/batch2").getLastEntry();
+		e = refDb.getReflogReader("refs/heads/batch2")
+				.getLastEntry();
 		assertEquals(msg, e.getComment());
 		assertEquals(person, e.getWho());
 		assertEquals(prev, e.getNewId());
@@ -267,7 +355,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		RefUpdate up = db.getRefDatabase().newUpdate("refs/heads/a", false);
 		up.setForceUpdate(true);
 		RefUpdate.Result res = up.delete();
-		assertEquals(res, FORCED);
+		assertEquals(FORCED, res);
 		assertNull(db.exactRef("refs/heads/a"));
 	}
 
@@ -309,7 +397,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		// the branch HEAD referred to is left untouched
 		assertEquals(pid, db.resolve("refs/heads/master"));
-		ReflogReader reflogReader = db.getReflogReader("HEAD");
+		ReflogReader reflogReader = db.getRefDatabase().getReflogReader("HEAD");
 		ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(ppid, e.getNewId());
 		assertEquals("GIT_COMMITTER_EMAIL", e.getWho().getEmailAddress());
@@ -330,12 +418,13 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		updateRef.setForceUpdate(true);
 		RefUpdate.Result update = updateRef.update();
 		assertEquals(FORCED, update); // internal
-		ReflogReader r = db.getReflogReader("refs/heads/master");
+		ReflogReader r = db.getRefDatabase()
+				.getReflogReader("refs/heads/master");
 
 		ReflogEntry e = r.getLastEntry();
-		assertEquals(e.getNewId(), pid);
-		assertEquals(e.getComment(), "REFLOG!: FORCED");
-		assertEquals(e.getWho(), person);
+		assertEquals(pid, e.getNewId());
+		assertEquals("REFLOG!: FORCED", e.getComment());
+		assertEquals(person, e.getWho());
 	}
 
 	@Test
@@ -352,10 +441,11 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		ref = db.updateRef(newRef);
 		ref.setNewObjectId(db.resolve(Constants.HEAD));
 
-		assertEquals(ref.delete(), RefUpdate.Result.NO_CHANGE);
+		assertEquals(RefUpdate.Result.NO_CHANGE, ref.delete());
 
 		// Differs from RefupdateTest. Deleting a loose ref leaves reflog trail.
-		ReflogReader reader = db.getReflogReader("refs/heads/abc");
+		ReflogReader reader = db.getRefDatabase()
+				.getReflogReader("refs/heads/abc");
 		assertEquals(ObjectId.zeroId(), reader.getReverseEntry(1).getOldId());
 		assertEquals(nonZero, reader.getReverseEntry(1).getNewId());
 		assertEquals(nonZero, reader.getReverseEntry(0).getOldId());
@@ -382,8 +472,9 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertNotSame(newid, r.getObjectId());
 		assertSame(ObjectId.class, r.getObjectId().getClass());
 		assertEquals(newid, r.getObjectId());
-		List<ReflogEntry> reverseEntries1 = db.getReflogReader("refs/heads/abc")
-				.getReverseEntries();
+		RefDatabase refDb = db.getRefDatabase();
+		List<ReflogEntry> reverseEntries1 = refDb
+				.getReflogReader("refs/heads/abc").getReverseEntries();
 		ReflogEntry entry1 = reverseEntries1.get(0);
 		assertEquals(1, reverseEntries1.size());
 		assertEquals(ObjectId.zeroId(), entry1.getOldId());
@@ -392,7 +483,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		assertEquals(new PersonIdent(db).toString(),
 				entry1.getWho().toString());
 		assertEquals("", entry1.getComment());
-		List<ReflogEntry> reverseEntries2 = db.getReflogReader("HEAD")
+		List<ReflogEntry> reverseEntries2 = refDb.getReflogReader("HEAD")
 				.getReverseEntries();
 		assertEquals(0, reverseEntries2.size());
 	}
@@ -431,7 +522,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		Ref head = db.exactRef("HEAD");
 		assertTrue(head.isSymbolic());
-		assertEquals(head.getTarget().getName(), "refs/heads/unborn");
+		assertEquals("refs/heads/unborn", head.getTarget().getName());
 	}
 
 	/**
@@ -455,7 +546,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 
 		// the branch HEAD referred to is left untouched
 		assertNull(db.resolve("refs/heads/unborn"));
-		ReflogReader reflogReader = db.getReflogReader("HEAD");
+		ReflogReader reflogReader = db.getRefDatabase().getReflogReader("HEAD");
 		ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(ObjectId.zeroId(), e.getOldId());
 		assertEquals(ppid, e.getNewId());
@@ -499,7 +590,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		names.add("refs/heads/new/name");
 
 		for (String nm : names) {
-			ReflogReader rd = db.getReflogReader(nm);
+			ReflogReader rd = db.getRefDatabase().getReflogReader(nm);
 			assertNotNull(rd);
 			ReflogEntry last = rd.getLastEntry();
 			ObjectId id = last.getNewId();
@@ -573,10 +664,10 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 			assertTrue(res == Result.NEW || res == FORCED);
 		}
 
-		assertEquals(refDb.exactRef(refName).getObjectId(), bId);
+		assertEquals(bId, refDb.exactRef(refName).getObjectId());
 		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
 		refDb.compactFully();
-		assertEquals(refDb.exactRef(refName).getObjectId(), bId);
+		assertEquals(bId, refDb.exactRef(refName).getObjectId());
 		assertTrue(randomStr.equals(refDb.getReflogReader(refName).getReverseEntry(1).getComment()));
 	}
 
@@ -642,6 +733,54 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		List<Ref> refs = db.getRefDatabase().getRefsByPrefixWithExclusions(RefDatabase.ALL, exclude);
 		assertEquals(1, refs.size());
 		checkContainsRef(refs, db.exactRef("HEAD"));
+	}
+
+	@Test
+	public void testExternalUpdate_bug_102() throws Exception {
+		((FileReftableDatabase) db.getRefDatabase()).setAutoRefresh(true);
+		assumeTrue(atLeastGitVersion(2, 45));
+		Git git = Git.wrap(db);
+		git.tag().setName("foo").call();
+		Ref ref = db.exactRef("refs/tags/foo");
+		assertNotNull(ref);
+		runGitCommand("tag", "--force", "foo", "e");
+		Ref e = db.exactRef("refs/heads/e");
+		Ref foo = db.exactRef("refs/tags/foo");
+		assertEquals(e.getObjectId(), foo.getObjectId());
+	}
+
+	private String toString(TemporaryBuffer b) throws IOException {
+		return RawParseUtils.decode(b.toByteArray());
+	}
+
+	private ExecutionResult runGitCommand(String... args)
+			throws IOException, InterruptedException {
+		FS fs = db.getFS();
+		ProcessBuilder pb = fs.runInShell("git", args);
+		pb.directory(db.getWorkTree());
+		System.err.println("PATH=" + pb.environment().get("PATH"));
+		ExecutionResult result = fs.execute(pb, null);
+		assertEquals(0, result.getRc());
+		String err = toString(result.getStderr());
+		if (!err.isEmpty()) {
+			System.err.println(err);
+		}
+		String out = toString(result.getStdout());
+		if (!out.isEmpty()) {
+			System.out.println(out);
+		}
+		return result;
+	}
+
+	private boolean atLeastGitVersion(int minMajor, int minMinor)
+			throws IOException, InterruptedException {
+		String version = toString(runGitCommand("version").getStdout())
+				.split(" ")[2];
+		System.out.println(version);
+		String[] digits = version.split("\\.");
+		int major = Integer.parseInt(digits[0]);
+		int minor = Integer.parseInt(digits[1]);
+		return (major >= minMajor) && (minor >= minMinor);
 	}
 
 	private RefUpdate updateRef(String name) throws IOException {

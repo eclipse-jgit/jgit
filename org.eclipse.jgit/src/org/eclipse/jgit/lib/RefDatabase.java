@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.PackRefsCommand;
 
 /**
  * Abstraction of name to {@link org.eclipse.jgit.lib.ObjectId} mapping.
@@ -160,7 +161,7 @@ public abstract class RefDatabase {
 			if (existing.startsWith(prefix))
 				conflicting.add(existing);
 
-		return conflicting;
+		return Collections.unmodifiableList(conflicting);
 	}
 
 	/**
@@ -235,23 +236,6 @@ public abstract class RefDatabase {
 	 */
 	public boolean performsAtomicTransactions() {
 		return false;
-	}
-
-	/**
-	 * Compatibility synonym for {@link #findRef(String)}.
-	 *
-	 * @param name
-	 *            the name of the reference. May be a short name which must be
-	 *            searched for using the standard {@link #SEARCH_PATH}.
-	 * @return the reference (if it exists); else {@code null}.
-	 * @throws IOException
-	 *             the reference space cannot be accessed.
-	 * @deprecated Use {@link #findRef(String)} instead.
-	 */
-	@Deprecated
-	@Nullable
-	public final Ref getRef(String name) throws IOException {
-		return findRef(name);
 	}
 
 	/**
@@ -370,6 +354,40 @@ public abstract class RefDatabase {
 	public List<Ref> getRefs() throws IOException {
 		return getRefsByPrefix(ALL);
 	}
+
+	/**
+	 * Get the reflog reader
+	 *
+	 * @param refName
+	 *            a {@link java.lang.String} object.
+	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied
+	 *         refname, or {@code null} if the named ref does not exist.
+	 * @throws java.io.IOException
+	 *             the ref could not be accessed.
+	 * @since 7.2
+	 */
+	@Nullable
+	public ReflogReader getReflogReader(String refName) throws IOException {
+		Ref ref = exactRef(refName);
+		if (ref == null) {
+			return null;
+		}
+		return getReflogReader(ref);
+	}
+
+	/**
+	 * Get the reflog reader.
+	 *
+	 * @param ref
+	 *            a Ref
+	 * @return a {@link org.eclipse.jgit.lib.ReflogReader} for the supplied ref.
+	 * @throws IOException
+	 *             if an IO error occurred
+	 * @since 7.2
+	 */
+	@NonNull
+	public abstract ReflogReader getReflogReader(@NonNull Ref ref)
+			throws IOException;
 
 	/**
 	 * Get a section of the reference namespace.
@@ -609,5 +627,23 @@ public abstract class RefDatabase {
 				return ref;
 		}
 		return null;
+	}
+
+	/**
+	 * Optimize pack ref storage.
+	 *
+	 * @param pm
+	 *            a progress monitor
+	 *
+	 * @param packRefs
+	 *            {@link PackRefsCommand} to control ref packing behavior
+	 *
+	 * @throws java.io.IOException
+	 *             if an IO error occurred
+	 * @since 7.1
+	 */
+	public void packRefs(ProgressMonitor pm, PackRefsCommand packRefs)
+			throws IOException {
+		// nothing
 	}
 }

@@ -31,6 +31,7 @@ import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.kohsuke.args4j.Argument;
 
@@ -68,7 +69,7 @@ class ShowPackDelta extends TextBuiltin {
 		ObjectReuseAsIs asis = (ObjectReuseAsIs) reader;
 		ObjectToPack target = asis.newObjectToPack(obj, obj.getType());
 
-		PackWriter pw = new PackWriter(reader) {
+		PackWriter pw = new PackWriter(new PackConfig(), reader) {
 			@Override
 			public void select(ObjectToPack otp, StoredObjectRepresentation next) {
 				otp.select(next);

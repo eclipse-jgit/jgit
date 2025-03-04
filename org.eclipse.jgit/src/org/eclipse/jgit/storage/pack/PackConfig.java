@@ -50,7 +50,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
 
-import org.eclipse.jgit.internal.storage.file.PackIndexWriter;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
@@ -995,7 +995,7 @@ public class PackConfig {
 	 *
 	 * @return the index version, the special version 0 designates the oldest
 	 *         (most compatible) format available for the objects.
-	 * @see PackIndexWriter
+	 * @see BasePackIndexWriter
 	 */
 	public int getIndexVersion() {
 		return indexVersion;
@@ -1009,7 +1009,7 @@ public class PackConfig {
 	 * @param version
 	 *            the version to write. The special version 0 designates the
 	 *            oldest (most compatible) format available for the objects.
-	 * @see PackIndexWriter
+	 * @see BasePackIndexWriter
 	 */
 	public void setIndexVersion(int version) {
 		indexVersion = version;

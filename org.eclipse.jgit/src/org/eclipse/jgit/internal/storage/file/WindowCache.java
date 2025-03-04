@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -397,7 +399,11 @@ public class WindowCache {
 	}
 
 	static final void purge(Pack pack) {
-		cache.removeAll(pack);
+		purge(Collections.singleton(pack));
+	}
+
+	static final void purge(Set<Pack> packs) {
+		cache.queueRemoveAll(packs);
 	}
 
 	/** cleanup released and/or garbage collected windows. */
@@ -441,6 +447,29 @@ public class WindowCache {
 
 	private final boolean useStrongIndexRefs;
 
+	/** Removers are purely CPU/mem bound (no I/O), so likely should not go above # CPUs */
+	private final int idealNumRemovers;
+
+	/** Number of blocks to split the Pack removal into.
+	 *
+	 * Consolidation is better with more blocks since it increases
+	 * the wait before moving to the next set by allowing more work
+	 * to accumulate in the next set. On the flip side, the more
+	 * blocks, the more synchronization overhead increasing each
+	 * removers latency.
+	 */
+	private final int numRemovalBlocks;
+
+	private final int removalBlockSize;
+
+	private Set<Pack> packsToRemove = new HashSet<>();
+
+	private Set<Pack> packsBeingRemoved;
+
+	private int numRemovers;
+
+	private int blockBeingRemoved;
+
 	private WindowCache(WindowCacheConfig cfg) {
 		tableSize = tableSize(cfg);
 		final int lockCount = lockCount(cfg);
@@ -478,6 +507,23 @@ public class WindowCache {
 		mbean = new StatsRecorderImpl();
 		statsRecorder = mbean;
 		publishMBean.set(cfg.getExposeStatsViaJmx());
+
+		/* Since each worker will only process up to one full set of blocks, at least 2
+		 * workers are needed anytime there are queued removals to ensure that all the
+		 * blocks will get processed. However, if workers are maxed out at only 2, then
+		 * enough newer workers will never start in order to make it safe for older
+		 * workers to quit early. At least 3 workers are needed to make older worker
+		 * relief transitions possible.
+		 */
+		idealNumRemovers = Math.max(3, Runtime.getRuntime().availableProcessors());
+
+		int bs = 1024;
+		if (tableSize < 2 * bs) {
+			bs = tableSize / 2;
+		}
+		removalBlockSize = bs;
+		numRemovalBlocks = tableSize / removalBlockSize;
+		blockBeingRemoved = numRemovalBlocks - 1;
 
 		if (maxFiles < 1)
 			throw new IllegalArgumentException(JGitText.get().openFilesMustBeAtLeast1);
@@ -708,22 +754,105 @@ public class WindowCache {
 	}
 
 	/**
-	 * Clear all entries related to a single file.
+	 * Asynchronously clear all entries related to files.
 	 * <p>
-	 * Typically this method is invoked during {@link Pack#close()}, when we
-	 * know the pack is never going to be useful to us again (for example, it no
-	 * longer exists on disk). A concurrent reader loading an entry from this
-	 * same pack may cause the pack to become stuck in the cache anyway.
+	 * Typically this method is invoked during {@link Pack#close()}, or
+	 * {@link Pack#close(Set)}, when we know the packs are never going to be
+	 * useful to us again (for example, they no longer exist on disk after gc).
+	 * A concurrent reader loading an entry from these same packs may cause a
+	 * pack to become stuck in the cache anyway.
 	 *
-	 * @param pack
-	 *            the file to purge all entries of.
+	 * Work on clearing files will be split up into blocks so that removing
+	 * can be shared by more than one thread. This potential work sharing
+	 * can provide 2 optimizations for removals:
+	 * <ol>
+	 * <li> It provides an opportunity for separate removal requests to be
+	 * consolidated into one removal pass.</li>
+	 * <li> It can reduce removing thread latencies by sharing the removal work
+	 * with other removing threads which otherwise might not have any work to do
+	 * due to their removal request being consolidated. This makes the system
+	 * more efficient and can actually reduce latencies as system load increases
+	 * due to pack removals!</li>
+	 * </ol>
+	 * The optimizations above are all achieved without blockng threads to wait
+	 * for other threads to complete (although naturally there are some
+	 * synchronization points), and while ensuring that no threads do more work
+	 * than if they were the only thread available to perform a removal.
+	 *
+	 * @param packs
+	 *            the files to purge all entries of
 	 */
-	private void removeAll(Pack pack) {
-		for (int s = 0; s < tableSize; s++) {
+	private void queueRemoveAll(Set<Pack> packs) {
+		synchronized (this) {
+			packsToRemove.addAll(packs);
+			if (numRemovers >= idealNumRemovers) {
+				return;
+			}
+			numRemovers++;
+		}
+		for (int numRemoved = 0; removeNextBlock(numRemoved); numRemoved++) {
+			// empty
+		}
+		synchronized (this) {
+			if (numRemovers > 0) {
+				numRemovers--;
+			}
+		}
+	}
+
+	/** Determine which block to remove next, if any, and do so.
+	 *
+	 * @param numRemoved
+	 *            the number of already processed block removals by the current thread
+	 * @return whether more processing should be done by the current thread
+	 */
+	private boolean removeNextBlock(int numRemoved) {
+		Set<Pack> toRemove;
+		int block;
+		synchronized (this) {
+			if (packsBeingRemoved == null || blockBeingRemoved >= numRemovalBlocks - 1) {
+				if (packsToRemove.isEmpty()) {
+					return false;
+				}
+
+				blockBeingRemoved = 0;
+				packsBeingRemoved = packsToRemove;
+				packsToRemove = new HashSet<>();
+			} else {
+				blockBeingRemoved++;
+			}
+
+			toRemove = packsBeingRemoved;
+			block = blockBeingRemoved;
+		}
+
+		removeBlock(toRemove, block);
+		numRemoved++;
+
+		/* Ensure threads never work on more than a full set of blocks (the equivalent
+		 * of removing one Pack) */
+		boolean isLast = numRemoved >= numRemovalBlocks;
+		synchronized (this) {
+			if (numRemovers >= idealNumRemovers) {
+				isLast = true;
+			}
+		}
+		return !isLast;
+	}
+
+	/** Remove a block of entries for a Set of files
+	 * @param packs
+	 *            the files to purge all entries of
+	 * @param block
+	 *            the specific block to process removals for
+	 */
+	private void removeBlock(Set<Pack> packs, int block) {
+		int starting = block * removalBlockSize;
+		for (int s = starting; s < starting + removalBlockSize && s < tableSize; s++) {
 			final Entry e1 = table.get(s);
 			boolean hasDead = false;
 			for (Entry e = e1; e != null; e = e.next) {
-				if (e.ref.getPack() == pack) {
+				if (packs.contains(e.ref.getPack())) {
 					e.kill();
 					hasDead = true;
 				} else if (e.dead)

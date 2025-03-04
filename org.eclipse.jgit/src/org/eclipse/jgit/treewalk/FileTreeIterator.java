@@ -371,12 +371,6 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			return attributes.getLength();
 		}
 
-		@Override
-		@Deprecated
-		public long getLastModified() {
-			return attributes.getLastModifiedInstant().toEpochMilli();
-		}
-
 		/**
 		 * @since 5.1.9
 		 */

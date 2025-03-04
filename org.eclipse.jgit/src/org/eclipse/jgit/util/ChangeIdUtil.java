@@ -86,8 +86,8 @@ public class ChangeIdUtil {
 		}
 	}
 
-	private static final Pattern issuePattern = Pattern
-			.compile("^(Bug|Issue)[a-zA-Z0-9-]*:.*$"); //$NON-NLS-1$
+	private static final Pattern signedOffByPattern = Pattern
+			.compile("^Signed-off-by:.*$"); //$NON-NLS-1$
 
 	private static final Pattern footerPattern = Pattern
 			.compile("(^[a-zA-Z0-9-]+:(?!//).*$)"); //$NON-NLS-1$
@@ -159,7 +159,7 @@ public class ChangeIdUtil {
 		int footerFirstLine = indexOfFirstFooterLine(lines);
 		int insertAfter = footerFirstLine;
 		for (int i = footerFirstLine; i < lines.length; ++i) {
-			if (issuePattern.matcher(lines[i]).matches()) {
+			if (!signedOffByPattern.matcher(lines[i]).matches()) {
 				insertAfter = i + 1;
 				continue;
 			}

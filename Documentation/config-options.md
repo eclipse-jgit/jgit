@@ -31,6 +31,7 @@ For details on native git options see also the official [git config documentatio
 | `core.dfs.blockSize` | `64 kiB` | &#x20DE; | Size in bytes of a single window read in from the pack file into the DFS block cache. |
 | `core.dfs.concurrencyLevel` | `32` | &#x20DE; | The estimated number of threads concurrently accessing the DFS block cache. |
 | `core.dfs.deltaBaseCacheLimit` | `10 MiB` | &#x20DE; | Maximum number of bytes to hold in per-reader DFS delta base cache. |
+| `core.dfs.loadRevIndexInParallel` | false; | &#x20DE; | Try to load the reverse index in parallel with the bitmap index. |
 | `core.dfs.streamFileThreshold` | `50 MiB` | &#x20DE; | The size threshold beyond which objects must be streamed. |
 | `core.dfs.streamBuffer` | Block size of the pack | &#x20DE; | Number of bytes to use for buffering when streaming a pack file during copying. If 0 the block size of the pack is used|
 | `core.dfs.streamRatio` | `0.30` | &#x20DE; | Ratio of DFS block cache to occupy with a copied pack. Values between `0` and `1.0`. |
@@ -54,9 +55,13 @@ For details on native git options see also the official [git config documentatio
 | `core.streamFileThreshold` | `50 MiB` | &#x20DE; | The size threshold beyond which objects must be streamed. |
 | `core.supportsAtomicFileCreation` | `true` | &#x20DE; | Whether the filesystem supports atomic file creation. |
 | `core.symlinks` | Auto detect if filesystem supports symlinks| &#x2705; | If false, symbolic links are checked out as small plain files that contain the link text. |
-| `core.trustFolderStat` | `true` | &#x20DE; | Whether to trust the pack folder's, packed-refs file's and loose-objects folder's file attributes (Java equivalent of stat command on *nix). When looking for pack files, if `false` JGit will always scan the `.git/objects/pack` folder and if set to `true` it assumes that pack files are unchanged if the file attributes of the pack folder are unchanged. When getting the list of packed refs, if `false` JGit will always read the packed-refs file and if set to `true` it uses the file attributes of the packed-refs file and will only read it if a file attribute has changed. When looking for loose objects, if `false` and if a loose object is not found, JGit will open and close a stream to `.git/objects` folder (which can refresh its directory listing, at least on some NFS clients) and retry looking for that loose object. Setting this option to `false` can help to workaround caching issues on NFS, but reduces performance. |
-| `core.trustPackedRefsStat` | `unset` | &#x20DE; | Whether to trust the file attributes (Java equivalent of stat command on *nix) of the packed-refs file. If `never` JGit will ignore the file attributes of the packed-refs file and always read it. If `always` JGit will trust the file attributes of the packed-refs file and will only read it if a file attribute has changed. `after_open` behaves the same as `always`, except that the packed-refs file is opened and closed before its file attributes are considered. An open/close of the packed-refs file is known to refresh its file attributes, at least on some NFS clients. If `unset`, JGit will use the behavior described in `trustFolderStat`. |
-| `core.trustLooseRefStat` | `always` | &#x20DE; | Whether to trust the file attributes (Java equivalent of stat command on *nix) of the loose ref. If `always` JGit will trust the file attributes of the loose ref and its parent directories. `after_open` behaves similar to `always`, except that all parent directories of the loose ref up to the repository root are opened and closed before its file attributes are considered. An open/close of these parent directories is known to refresh the file attributes, at least on some NFS clients. |
+| ~~`core.trustFolderStat`~~ | `true` | &#x20DE; | __Deprecated__, use `core.trustStat` instead. If set to `true` translated to `core.trustStat=always`, if `false` translated to `core.trustStat=never`, see below. If both `core.trustFolderStat` and `core.trustStat` are configured then `trustStat` takes precedence and `trustFolderStat` is ignored. |
+| `core.trustLooseRefStat` | `inherit` | &#x20DE; | Whether to trust the file attributes of loose refs and its fan-out parent directory. See `core.trustStat` for possible values. If `inherit`, JGit will use the behavior configured in `trustStat`. |
+| `core.trustPackedRefsStat` | `inherit` | &#x20DE; | Whether to trust the file attributes of the packed-refs file. See `core.trustStat` for possible values. If `inherit`, JGit will use the behavior configured in `core.trustStat`. |
+| `core.trustTablesListStat` | `inherit` | &#x20DE; | Whether to trust the file attributes of the `tables.list` file used by the reftable ref storage backend to store the list of reftable filenames. See `core.trustStat` for possible values. If `inherit`, JGit will use the behavior configured in `core.trustStat`.  The reftable backend is used if `extensions.refStorage = reftable`. |
+| `core.trustLooseObjectStat` | `inherit` | &#x20DE; | Whether to trust the file attributes of the loose object file and its fan-out parent directory. See `core.trustStat` for possible values. If `inherit`, JGit will use the behavior configured in `core.trustStat`. |
+| `core.trustPackStat` | `inherit` | &#x20DE; | Whether to trust the file attributes of the `objects/pack` directory. See `core.trustStat` for possible values. If `inherit`, JGit will use the behavior configured in `core.trustStat`. |
+| `core.trustStat` | `always` | &#x20DE; | Global option to configure whether to trust file attributes (Java equivalent of stat command on Unix) of files storing git objects. Can be overridden for specific files by configuring `core.trustLooseRefStat, core.trustPackedRefsStat, core.trustLooseObjectStat, core.trustPackStat,core.trustTablesListStat`. If `never` JGit will ignore the file attributes of the file and always read it. If `always` JGit will trust the file attributes and will only read it if a file attribute has changed. `after_open` behaves the same as `always`, but file attributes are only considered *after* the file itself and any transient parent directories have been opened and closed. An open/close of the file/directory is known to refresh its file attributes, at least on some NFS clients. |
 | `core.worktree` | Root directory of the working tree if it is not the parent directory of the `.git` directory | &#x2705; | The path to the root of the working tree. |
 
 ## __fetch__ options
@@ -129,6 +134,13 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.waitPreventRacyPack` | `false` | &#x20DE; | Whether we wait before opening a newly written pack to prevent its lastModified timestamp could be racy. |
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
+
+## reftable options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `reftable.autoRefresh` | `false` | &#x20DE; | Whether to auto-refresh the reftable stack if it is out of date. |
+
 
 ## __repack__ options
 

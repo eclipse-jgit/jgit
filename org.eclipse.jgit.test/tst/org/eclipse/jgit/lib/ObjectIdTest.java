@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.ByteBuffer;
 import java.util.Locale;
 
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -152,5 +153,17 @@ public class ObjectIdTest {
 			exp[p] = (byte) (0x80 + p);
 			assertEquals(ObjectId.fromRaw(exp).name(), id.name());
 		}
+	}
+
+	@Test
+	public void test_toFromByteBuffer_raw() {
+		ObjectId oid = ObjectId
+				.fromString("ff00eedd003713bb1bb26b808ec9312548e73946");
+		ByteBuffer anObject = ByteBuffer.allocate(Constants.OBJECT_ID_LENGTH);
+		oid.copyRawTo(anObject);
+		anObject.flip();
+
+		ObjectId actual = ObjectId.fromRaw(anObject);
+		assertEquals(oid.name(), actual.name());
 	}
 }

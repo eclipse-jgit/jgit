@@ -24,7 +24,13 @@ public class GpgConfig {
 		/** Value for openpgp */
 		OPENPGP("openpgp"), //$NON-NLS-1$
 		/** Value for x509 */
-		X509("x509"); //$NON-NLS-1$
+		X509("x509"), //$NON-NLS-1$
+		/**
+		 * Value for ssh.
+		 *
+		 * @since 7.0
+		 */
+		SSH("ssh"); //$NON-NLS-1$
 
 		private final String configValue;
 
@@ -55,26 +61,11 @@ public class GpgConfig {
 
 	private final boolean forceAnnotated;
 
-	/**
-	 * Create a {@link GpgConfig} with the given parameters and default
-	 * {@code true} for signing commits and {@code false} for tags.
-	 *
-	 * @param keySpec
-	 *            to use
-	 * @param format
-	 *            to use
-	 * @param gpgProgram
-	 *            to use
-	 * @since 5.11
-	 */
-	public GpgConfig(String keySpec, GpgFormat format, String gpgProgram) {
-		keyFormat = format;
-		signingKey = keySpec;
-		program = gpgProgram;
-		signCommits = true;
-		signAllTags = false;
-		forceAnnotated = false;
-	}
+	private final String sshDefaultKeyCommand;
+
+	private final String sshAllowedSignersFile;
+
+	private final String sshRevocationFile;
 
 	/**
 	 * Create a new GPG config that reads the configuration from config.
@@ -83,18 +74,18 @@ public class GpgConfig {
 	 *            the config to read from
 	 */
 	public GpgConfig(Config config) {
-		keyFormat = config.getEnum(GpgFormat.values(),
-				ConfigConstants.CONFIG_GPG_SECTION, null,
+		keyFormat = config.getEnum(ConfigConstants.CONFIG_GPG_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FORMAT, GpgFormat.OPENPGP);
 		signingKey = config.getString(ConfigConstants.CONFIG_USER_SECTION, null,
 				ConfigConstants.CONFIG_KEY_SIGNINGKEY);
 
 		String exe = config.getString(ConfigConstants.CONFIG_GPG_SECTION,
 				keyFormat.toConfigValue(), ConfigConstants.CONFIG_KEY_PROGRAM);
-		if (exe == null) {
+		if (exe == null && GpgFormat.OPENPGP.equals(keyFormat)) {
 			exe = config.getString(ConfigConstants.CONFIG_GPG_SECTION, null,
 					ConfigConstants.CONFIG_KEY_PROGRAM);
 		}
+
 		program = exe;
 		signCommits = config.getBoolean(ConfigConstants.CONFIG_COMMIT_SECTION,
 				ConfigConstants.CONFIG_KEY_GPGSIGN, false);
@@ -102,6 +93,17 @@ public class GpgConfig {
 				ConfigConstants.CONFIG_KEY_GPGSIGN, false);
 		forceAnnotated = config.getBoolean(ConfigConstants.CONFIG_TAG_SECTION,
 				ConfigConstants.CONFIG_KEY_FORCE_SIGN_ANNOTATED, false);
+		sshDefaultKeyCommand = config.getString(
+				ConfigConstants.CONFIG_GPG_SECTION,
+				ConfigConstants.CONFIG_SSH_SUBSECTION,
+				ConfigConstants.CONFIG_KEY_SSH_DEFAULT_KEY_COMMAND);
+		sshAllowedSignersFile = config.getString(
+				ConfigConstants.CONFIG_GPG_SECTION,
+				ConfigConstants.CONFIG_SSH_SUBSECTION,
+				ConfigConstants.CONFIG_KEY_SSH_ALLOWED_SIGNERS_FILE);
+		sshRevocationFile = config.getString(ConfigConstants.CONFIG_GPG_SECTION,
+				ConfigConstants.CONFIG_SSH_SUBSECTION,
+				ConfigConstants.CONFIG_KEY_SSH_REVOCATION_FILE);
 	}
 
 	/**
@@ -164,5 +166,38 @@ public class GpgConfig {
 	 */
 	public boolean isSignAnnotated() {
 		return forceAnnotated;
+	}
+
+	/**
+	 * Retrieves the value of git config {@code gpg.ssh.defaultKeyCommand}.
+	 *
+	 * @return the value of {@code gpg.ssh.defaultKeyCommand}
+	 *
+	 * @since 7.1
+	 */
+	public String getSshDefaultKeyCommand() {
+		return sshDefaultKeyCommand;
+	}
+
+	/**
+	 * Retrieves the value of git config {@code gpg.ssh.allowedSignersFile}.
+	 *
+	 * @return the value of {@code gpg.ssh.allowedSignersFile}
+	 *
+	 * @since 7.1
+	 */
+	public String getSshAllowedSignersFile() {
+		return sshAllowedSignersFile;
+	}
+
+	/**
+	 * Retrieves the value of git config {@code gpg.ssh.revocationFile}.
+	 *
+	 * @return the value of {@code gpg.ssh.revocationFile}
+	 *
+	 * @since 7.1
+	 */
+	public String getSshRevocationFile() {
+		return sshRevocationFile;
 	}
 }

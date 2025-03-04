@@ -10,10 +10,10 @@
 
 package org.eclipse.jgit.util;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -26,9 +26,9 @@ import org.eclipse.jgit.lib.PersonIdent;
  */
 public class GitDateFormatter {
 
-	private DateFormat dateTimeInstance;
+	private DateTimeFormatter dateTimeFormat;
 
-	private DateFormat dateTimeInstance2;
+	private DateTimeFormatter dateTimeFormat2;
 
 	private final Format format;
 
@@ -96,30 +96,34 @@ public class GitDateFormatter {
 		default:
 			break;
 		case DEFAULT: // Not default:
-			dateTimeInstance = new SimpleDateFormat(
+			dateTimeFormat = DateTimeFormatter.ofPattern(
 					"EEE MMM dd HH:mm:ss yyyy Z", Locale.US); //$NON-NLS-1$
 			break;
 		case ISO:
-			dateTimeInstance = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", //$NON-NLS-1$
+			dateTimeFormat = DateTimeFormatter.ofPattern(
+					"yyyy-MM-dd HH:mm:ss Z", //$NON-NLS-1$
 					Locale.US);
 			break;
 		case LOCAL:
-			dateTimeInstance = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", //$NON-NLS-1$
+			dateTimeFormat = DateTimeFormatter.ofPattern(
+					"EEE MMM dd HH:mm:ss yyyy", //$NON-NLS-1$
 					Locale.US);
 			break;
 		case RFC:
-			dateTimeInstance = new SimpleDateFormat(
+			dateTimeFormat = DateTimeFormatter.ofPattern(
 					"EEE, dd MMM yyyy HH:mm:ss Z", Locale.US); //$NON-NLS-1$
 			break;
 		case SHORT:
-			dateTimeInstance = new SimpleDateFormat("yyyy-MM-dd", Locale.US); //$NON-NLS-1$
+			dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", //$NON-NLS-1$
+					Locale.US);
 			break;
 		case LOCALE:
 		case LOCALELOCAL:
-			SystemReader systemReader = SystemReader.getInstance();
-			dateTimeInstance = systemReader.getDateTimeInstance(
-					DateFormat.DEFAULT, DateFormat.DEFAULT);
-			dateTimeInstance2 = systemReader.getSimpleDateFormat("Z"); //$NON-NLS-1$
+			dateTimeFormat = DateTimeFormatter
+					.ofLocalizedDateTime(FormatStyle.MEDIUM)
+					.withLocale(Locale.US);
+			dateTimeFormat2 = DateTimeFormatter.ofPattern("Z", //$NON-NLS-1$
+					Locale.US);
 			break;
 		}
 	}
@@ -135,39 +139,45 @@ public class GitDateFormatter {
 	@SuppressWarnings("boxing")
 	public String formatDate(PersonIdent ident) {
 		switch (format) {
-		case RAW:
-			int offset = ident.getTimeZoneOffset();
+		case RAW: {
+			int offset = ident.getZoneOffset().getTotalSeconds();
 			String sign = offset < 0 ? "-" : "+"; //$NON-NLS-1$ //$NON-NLS-2$
 			int offset2;
-			if (offset < 0)
+			if (offset < 0) {
 				offset2 = -offset;
-			else
+			} else {
 				offset2 = offset;
-			int hours = offset2 / 60;
-			int minutes = offset2 % 60;
+			}
+			int minutes = (offset2 / 60) % 60;
+			int hours = offset2 / 60 / 60;
 			return String.format("%d %s%02d%02d", //$NON-NLS-1$
-					ident.getWhen().getTime() / 1000, sign, hours, minutes);
+					ident.getWhenAsInstant().getEpochSecond(), sign, hours,
+					minutes);
+		}
 		case RELATIVE:
-			return RelativeDateFormatter.format(ident.getWhen());
+			return RelativeDateFormatter.format(ident.getWhenAsInstant());
 		case LOCALELOCAL:
 		case LOCAL:
-			dateTimeInstance.setTimeZone(SystemReader.getInstance()
-					.getTimeZone());
-			return dateTimeInstance.format(ident.getWhen());
-		case LOCALE:
-			TimeZone tz = ident.getTimeZone();
-			if (tz == null)
-				tz = SystemReader.getInstance().getTimeZone();
-			dateTimeInstance.setTimeZone(tz);
-			dateTimeInstance2.setTimeZone(tz);
-			return dateTimeInstance.format(ident.getWhen()) + " " //$NON-NLS-1$
-					+ dateTimeInstance2.format(ident.getWhen());
-		default:
-			tz = ident.getTimeZone();
-			if (tz == null)
-				tz = SystemReader.getInstance().getTimeZone();
-			dateTimeInstance.setTimeZone(ident.getTimeZone());
-			return dateTimeInstance.format(ident.getWhen());
+			return dateTimeFormat
+					.withZone(SystemReader.getInstance().getTimeZoneId())
+					.format(ident.getWhenAsInstant());
+		case LOCALE: {
+			ZoneId tz = ident.getZoneId();
+			if (tz == null) {
+				tz = SystemReader.getInstance().getTimeZoneId();
+			}
+			return dateTimeFormat.withZone(tz).format(ident.getWhenAsInstant())
+					+ " " //$NON-NLS-1$
+					+ dateTimeFormat2.withZone(tz)
+							.format(ident.getWhenAsInstant());
+		}
+		default: {
+			ZoneId tz = ident.getZoneId();
+			if (tz == null) {
+				tz = SystemReader.getInstance().getTimeZoneId();
+			}
+			return dateTimeFormat.withZone(tz).format(ident.getWhenAsInstant());
+		}
 		}
 	}
 }

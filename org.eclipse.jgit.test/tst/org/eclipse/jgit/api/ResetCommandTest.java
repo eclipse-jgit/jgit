@@ -36,11 +36,13 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 public class ResetCommandTest extends RepositoryTestCase {
@@ -554,46 +556,73 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertNull(db.resolve(Constants.HEAD));
 	}
 
+	@Test
+	public void testHardResetFileMode() throws Exception {
+		Assume.assumeTrue("Test must be able to set executable bit",
+				db.getFS().supportsExecute());
+		git = new Git(db);
+		File a = writeTrashFile("a.txt", "aaa");
+		File b = writeTrashFile("b.txt", "bbb");
+		db.getFS().setExecute(b, true);
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		RevCommit commit = git.commit().setMessage("files created").call();
+		db.getFS().setExecute(a, true);
+		db.getFS().setExecute(b, false);
+		assertTrue(db.getFS().canExecute(a));
+		assertFalse(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		git.commit().setMessage("change exe bits").call();
+		Ref ref = git.reset().setRef(commit.getName()).setMode(HARD).call();
+		assertSameAsHead(ref);
+		assertEquals(commit.getId(), ref.getObjectId());
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+	}
+
 	private void assertReflog(ObjectId prevHead, ObjectId head)
 			throws IOException {
 		// Check the reflog for HEAD
-		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+		RefDatabase refDb = db.getRefDatabase();
+		String actualHeadMessage = refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getComment();
 		String expectedHeadMessage = head.getName() + ": updating HEAD";
 		assertEquals(expectedHeadMessage, actualHeadMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getNewId().getName());
-		assertEquals(prevHead.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(prevHead.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 
 		// The reflog for master contains the same as the one for HEAD
-		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+		String actualMasterMessage = refDb.getReflogReader("refs/heads/master")
 				.getLastEntry().getComment();
 		String expectedMasterMessage = head.getName() + ": updating HEAD"; // yes!
 		assertEquals(expectedMasterMessage, actualMasterMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getNewId().getName());
-		assertEquals(prevHead.getName(), db
-				.getReflogReader("refs/heads/master").getLastEntry().getOldId()
-				.getName());
+		assertEquals(prevHead.getName(),
+				refDb.getReflogReader("refs/heads/master").getLastEntry()
+						.getOldId().getName());
 	}
 
 	private void assertReflogDisabled(ObjectId head)
 			throws IOException {
+		RefDatabase refDb = db.getRefDatabase();
 		// Check the reflog for HEAD
-		String actualHeadMessage = db.getReflogReader(Constants.HEAD)
+		String actualHeadMessage = refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getComment();
 		String expectedHeadMessage = "commit: adding a.txt and dir/b.txt";
 		assertEquals(expectedHeadMessage, actualHeadMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 
 		// The reflog for master contains the same as the one for HEAD
-		String actualMasterMessage = db.getReflogReader("refs/heads/master")
+		String actualMasterMessage = refDb.getReflogReader("refs/heads/master")
 				.getLastEntry().getComment();
 		String expectedMasterMessage = "commit: adding a.txt and dir/b.txt";
 		assertEquals(expectedMasterMessage, actualMasterMessage);
-		assertEquals(head.getName(), db.getReflogReader(Constants.HEAD)
+		assertEquals(head.getName(), refDb.getReflogReader(Constants.HEAD)
 				.getLastEntry().getOldId().getName());
 	}
 	/**

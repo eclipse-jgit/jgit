@@ -9,7 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
-import org.eclipse.jgit.lib.GpgSignatureVerifier;
+import org.eclipse.jgit.lib.SignatureVerifier;
 import org.eclipse.jgit.revwalk.RevObject;
 
 /**
@@ -34,8 +34,9 @@ public interface VerificationResult {
 	 * Retrieves the signature verification result.
 	 *
 	 * @return the result, or {@code null} if none was computed
+	 * @since 7.0
 	 */
-	GpgSignatureVerifier.SignatureVerification getVerification();
+	SignatureVerifier.SignatureVerification getVerification();
 
 	/**
 	 * Retrieves the git object of which the signature was verified.

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Iterator;
 
 /**
  * An InputStream which reads from one or more InputStreams.
@@ -164,14 +163,14 @@ public class UnionInputStream extends InputStream {
 	public void close() throws IOException {
 		IOException err = null;
 
-		for (Iterator<InputStream> i = streams.iterator(); i.hasNext();) {
+		for (InputStream stream : streams) {
 			try {
-				i.next().close();
+				stream.close();
 			} catch (IOException closeError) {
 				err = closeError;
 			}
-			i.remove();
 		}
+		streams.clear();
 
 		if (err != null)
 			throw err;

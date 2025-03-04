@@ -14,10 +14,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpCookie;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -101,7 +101,7 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 						.singletonList("cookie2=some value; Max-Age=1234; Path=/"));
 
 		try (TransportHttp transportHttp = new TransportHttp(db, uri)) {
-			Date creationDate = new Date();
+			Instant creationDate = Instant.now();
 			transportHttp.processResponseCookies(connection);
 
 			// evaluate written cookie file
@@ -112,8 +112,9 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 			cookie.setPath("/u/2/");
 
 			cookie.setMaxAge(
-					(Instant.parse("2100-01-01T11:00:00.000Z").toEpochMilli()
-							- creationDate.getTime()) / 1000);
+					Duration.between(creationDate,
+							Instant.parse("2100-01-01T11:00:00.000Z"))
+							.getSeconds());
 			cookie.setSecure(true);
 			cookie.setHttpOnly(true);
 			expectedCookies.add(cookie);

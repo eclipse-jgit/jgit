@@ -49,18 +49,6 @@ public class RemoteRemoveCommand extends GitCommand<RemoteConfig> {
 	/**
 	 * The name of the remote to remove.
 	 *
-	 * @param name
-	 *            a remote name
-	 * @deprecated use {@link #setRemoteName} instead
-	 */
-	@Deprecated
-	public void setName(String name) {
-		this.remoteName = name;
-	}
-
-	/**
-	 * The name of the remote to remove.
-	 *
 	 * @param remoteName
 	 *            a remote name
 	 * @return {@code this}

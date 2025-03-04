@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
@@ -29,6 +30,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.IndexDiff.StageState;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -117,6 +119,7 @@ public class PullCommandTest extends RepositoryTestCase {
 					+ db.getWorkTree().getAbsolutePath();
 			assertEquals(message, mergeCommit.getShortMessage());
 		}
+		assertTrue(target.status().call().isClean());
 	}
 
 	@Test
@@ -153,6 +156,10 @@ public class PullCommandTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.MERGING, target.getRepository()
 				.getRepositoryState());
+		Status status = target.status().call();
+		Map<String, StageState> conflicting = status.getConflictingStageState();
+		assertEquals(1, conflicting.size());
+		assertEquals(StageState.BOTH_MODIFIED, conflicting.get("SomeFile.txt"));
 	}
 
 	@Test

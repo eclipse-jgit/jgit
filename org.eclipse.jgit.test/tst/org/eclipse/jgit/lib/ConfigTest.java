@@ -1636,6 +1636,47 @@ public class ConfigTest {
 		assertFalse(config.get(CoreConfig.KEY).enableCommitGraph());
 	}
 
+	@Test
+	public void testGetNoDefaultBoolean() {
+		Config config = new Config();
+		assertNull(config.getBoolean("foo", "bar"));
+		assertNull(config.getBoolean("foo", "bar", "baz"));
+	}
+
+	@Test
+	public void testGetNoDefaultEnum() {
+		Config config = new Config();
+		assertNull(config.getEnum(new TestEnum[] { TestEnum.ONE_TWO }, "foo",
+				"bar", "baz"));
+	}
+
+	@Test
+	public void testGetNoDefaultInt() {
+		Config config = new Config();
+		assertNull(config.getInt("foo", "bar"));
+		assertNull(config.getInt("foo", "bar", "baz"));
+	}
+	@Test
+	public void testGetNoDefaultIntInRange() {
+		Config config = new Config();
+		assertNull(config.getIntInRange("foo", "bar", 1, 5));
+		assertNull(config.getIntInRange("foo", "bar", "baz", 1, 5));
+	}
+
+	@Test
+	public void testGetNoDefaultLong() {
+		Config config = new Config();
+		assertNull(config.getLong("foo", "bar"));
+		assertNull(config.getLong("foo", "bar", "baz"));
+	}
+
+	@Test
+	public void testGetNoDefaultTimeUnit() {
+		Config config = new Config();
+		assertNull(config.getTimeUnit("foo", "bar", "baz",
+				TimeUnit.SECONDS));
+	}
+
 	private static void assertValueRoundTrip(String value)
 			throws ConfigInvalidException {
 		assertValueRoundTrip(value, value);

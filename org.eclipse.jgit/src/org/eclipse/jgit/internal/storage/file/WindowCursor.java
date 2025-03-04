@@ -205,7 +205,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	 * @param cnt
 	 *            number of bytes to copy. This value may exceed the number of
 	 *            bytes remaining in the window starting at offset
-	 *            <code>pos</code>.
+	 *            <code>position</code>.
 	 * @return number of bytes actually copied; this may be less than
 	 *         <code>cnt</code> if <code>cnt</code> exceeded the number of bytes
 	 *         available.
