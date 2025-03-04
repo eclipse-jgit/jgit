@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ui
 Bundle-SymbolicName: org.eclipse.jgit.ui
-Bundle-Version: 7.2.0.202503040805-r
+Bundle-Version: 7.2.0.202503040940-r
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.jgit.awtui;version="7.2.0"
