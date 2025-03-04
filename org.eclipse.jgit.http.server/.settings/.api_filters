@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit.http.server" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="923795461">
-            <message_arguments>
-                <message_argument value="7.2.0"/>
-                <message_argument value="7.1.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/http/server/ClientVersionUtil.java" type="org.eclipse.jgit.http.server.ClientVersionUtil">
         <filter id="338792546">
             <message_arguments>
@@ -18,7 +10,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="hasChunkedEncodingRequestBug(int[], HttpServletRequest)"/>
             </message_arguments>
         </filter>
@@ -51,14 +43,14 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="addReceivePackFilter(Filter)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="addUploadPackFilter(Filter)"/>
             </message_arguments>
         </filter>
@@ -91,14 +83,14 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="addReceivePackFilter(Filter)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="addUploadPackFilter(Filter)"/>
             </message_arguments>
         </filter>
@@ -149,49 +141,49 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="getResponseContentType(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="isGitClient(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="isInfoRefs(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="isReceivePack(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="isUploadPack(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int, String)"/>
             </message_arguments>
         </filter>
@@ -212,7 +204,7 @@
         <filter id="1209008130">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="receive(HttpServletRequest, HttpServletResponse, ReceivePackErrorHandler.ReceivePackRunnable)"/>
             </message_arguments>
         </filter>
@@ -271,35 +263,35 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="consumeRequestBody(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="getInputStream(HttpServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="getRepository(ServletRequest)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="send(byte[], HttpServletRequest, HttpServletResponse)"/>
             </message_arguments>
         </filter>
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="sendPlainText(String, HttpServletRequest, HttpServletResponse)"/>
             </message_arguments>
         </filter>
@@ -320,7 +312,7 @@
         <filter id="1209008130">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="upload(HttpServletRequest, HttpServletResponse, UploadPackErrorHandler.UploadPackRunnable)"/>
             </message_arguments>
         </filter>
@@ -437,14 +429,14 @@
         <filter id="1209008130">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="through(Filter)"/>
             </message_arguments>
         </filter>
         <filter id="1209008130">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="with(HttpServlet)"/>
             </message_arguments>
         </filter>
@@ -470,7 +462,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="WrappedRequest(HttpServletRequest, String, String)"/>
             </message_arguments>
         </filter>
@@ -485,7 +477,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="access(HttpServletRequest, Repository)"/>
             </message_arguments>
         </filter>
@@ -500,7 +492,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="create(HttpServletRequest, Repository)"/>
             </message_arguments>
         </filter>
@@ -515,7 +507,7 @@
         <filter id="1141899266">
             <message_arguments>
                 <message_argument value="7.0"/>
-                <message_argument value="7.2"/>
+                <message_argument value="7.3"/>
                 <message_argument value="create(HttpServletRequest, Repository)"/>
             </message_arguments>
         </filter>

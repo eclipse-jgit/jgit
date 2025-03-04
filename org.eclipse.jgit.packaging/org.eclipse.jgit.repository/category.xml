@@ -123,12 +123,6 @@
    <bundle id="org.eclipse.jetty.util.ajax.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="net.i2p.crypto.eddsa">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
-   <bundle id="net.i2p.crypto.eddsa.source">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
    <bundle id="org.apache.ant">
       <category name="JGit-dependency-bundles"/>
    </bundle>

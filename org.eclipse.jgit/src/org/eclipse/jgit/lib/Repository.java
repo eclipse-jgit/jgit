@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,10 +35,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -131,6 +135,8 @@ public abstract class Repository implements AutoCloseable {
 	private final File indexFile;
 
 	private final String initialBranch;
+
+	private final AtomicReference<Boolean> caseInsensitiveWorktree = new AtomicReference<>();
 
 	/**
 	 * Initialize a new repository instance.
@@ -1574,6 +1580,40 @@ public abstract class Repository implements AutoCloseable {
 		if (isBare())
 			throw new NoWorkTreeException();
 		return workTree;
+	}
+
+	/**
+	 * Tells whether the work tree is on a case-insensitive file system.
+	 *
+	 * @return {@code true} if the work tree is case-insensitive; {@code false}
+	 *         otherwise
+	 * @throws NoWorkTreeException
+	 *             if the repository is bare
+	 * @since 7.2
+	 */
+	public boolean isWorkTreeCaseInsensitive() throws NoWorkTreeException {
+		Boolean flag = caseInsensitiveWorktree.get();
+		if (flag == null) {
+			File directory = getWorkTree();
+			// See if we can find ".git" also as ".GIT".
+			File dotGit = new File(directory, Constants.DOT_GIT);
+			if (Files.exists(dotGit.toPath(), LinkOption.NOFOLLOW_LINKS)) {
+				dotGit = new File(directory,
+						Constants.DOT_GIT.toUpperCase(Locale.ROOT));
+				flag = Boolean.valueOf(Files.exists(dotGit.toPath(),
+						LinkOption.NOFOLLOW_LINKS));
+			} else {
+				// Fall back to a mostly sane default. On Mac, HFS+ and APFS
+				// partitions are case-insensitive by default but can be
+				// configured to be case-sensitive.
+				SystemReader system = SystemReader.getInstance();
+				flag = Boolean.valueOf(system.isWindows() || system.isMacOS());
+			}
+			if (!caseInsensitiveWorktree.compareAndSet(null, flag)) {
+				flag = caseInsensitiveWorktree.get();
+			}
+		}
+		return flag.booleanValue();
 	}
 
 	/**

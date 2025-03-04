@@ -16,7 +16,7 @@
 
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>jgit.tycho.parent</artifactId>
-  <version>7.2.0-SNAPSHOT</version>
+  <version>7.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JGit Tycho Parent</name>
@@ -30,7 +30,7 @@
 
   <properties>
     <java.version>17</java.version>
-    <tycho-version>4.0.10</tycho-version>
+    <tycho-version>4.0.11</tycho-version>
     <target-platform>jgit-4.32</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
@@ -390,7 +390,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -410,7 +410,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-artifact-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.6.0</version>
           <configuration>
             <ignore>**/*cyclonedx.json</ignore>
             <reproducible>true</reproducible>

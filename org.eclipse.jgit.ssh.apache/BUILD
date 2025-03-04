@@ -12,7 +12,6 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.ssh.apache/resources",
     resources = RESOURCES,
     deps = [
-        "//lib:eddsa",
         "//lib:slf4j-api",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",

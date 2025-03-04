@@ -94,8 +94,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String binaryHunkInvalidLength;
 	/***/ public String binaryHunkLineTooShort;
 	/***/ public String binaryHunkMissingNewline;
-	/***/ public String bitmapAccessErrorForPackfile;
-	/***/ public String bitmapFailedToGet;
 	/***/ public String bitmapMissingObject;
 	/***/ public String bitmapsMustBePrepared;
 	/***/ public String bitmapUseNoopNoListener;
@@ -108,6 +106,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String buildingBitmaps;
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cachedPacksPreventsListingObjects;
+	/***/ public String cacheRegionAllOrNoneNull;
 	/***/ public String cannotAccessLastModifiedForSafeDeletion;
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;

@@ -1045,6 +1045,14 @@ public final class ConfigConstants {
 	 * @since 7.2
 	 */
 	public static final String CONFIG_KEY_TRUST_LOOSE_OBJECT_STAT = "trustLooseObjectStat";
+
+	/**
+	 * The "trustTablesListStat" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_TRUST_TABLESLIST_STAT = "trustTablesListStat";
+
 	/**
 	 * The "pack.preserveOldPacks" key
 	 *
@@ -1093,4 +1101,18 @@ public final class ConfigConstants {
 	 * @since 7.1
 	 */
 	public static final String CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL = "loadRevIndexInParallel";
+
+	/**
+	 * The "reftable" section
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_REFTABLE_SECTION = "reftable";
+
+	/**
+	 * The "autorefresh" key
+	 *
+	 * @since 7.2
+	 */
+	public static final String CONFIG_KEY_AUTOREFRESH = "autorefresh";
 }

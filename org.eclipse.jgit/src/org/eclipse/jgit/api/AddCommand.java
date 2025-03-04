@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2010, Stefan Lay <stefan.lay@sap.com> and others
+ * Copyright (C) 2010, 2025 Stefan Lay <stefan.lay@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -17,6 +17,7 @@ import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,14 @@ public class AddCommand extends GitCommand<DirCache> {
 
 	private WorkingTreeIterator workingTreeIterator;
 
+	// Update only known index entries, don't add new ones. If there's no file
+	// for an index entry, remove it: stage deletions.
 	private boolean update = false;
+
+	// If TRUE, also stage deletions, otherwise only update and add index
+	// entries.
+	// If not set explicitly
+	private Boolean all;
 
 	// This defaults to true because it's what JGit has been doing
 	// traditionally. The C git default would be false.
@@ -82,6 +90,17 @@ public class AddCommand extends GitCommand<DirCache> {
 	 * A directory name (e.g. <code>dir</code> to add <code>dir/file1</code> and
 	 * <code>dir/file2</code>) can also be given to add all files in the
 	 * directory, recursively. Fileglobs (e.g. *.c) are not yet supported.
+	 * </p>
+	 * <p>
+	 * If a pattern {@code "."} is added, all changes in the git repository's
+	 * working tree will be added.
+	 * </p>
+	 * <p>
+	 * File patterns are required unless {@code isUpdate() == true} or
+	 * {@link #setAll(boolean)} is called. If so and no file patterns are given,
+	 * all changes will be added (i.e., a file pattern of {@code "."} is
+	 * implied).
+	 * </p>
 	 *
 	 * @param filepattern
 	 *            repository-relative path of file/directory to add (with
@@ -113,15 +132,41 @@ public class AddCommand extends GitCommand<DirCache> {
 	 * Executes the {@code Add} command. Each instance of this class should only
 	 * be used for one invocation of the command. Don't call this method twice
 	 * on an instance.
+	 * </p>
+	 *
+	 * @throws JGitInternalException
+	 *             on errors, but also if {@code isUpdate() == true} _and_
+	 *             {@link #setAll(boolean)} had been called
+	 * @throws NoFilepatternException
+	 *             if no file patterns are given if {@code isUpdate() == false}
+	 *             and {@link #setAll(boolean)} was not called
 	 */
 	@Override
 	public DirCache call() throws GitAPIException, NoFilepatternException {
-
-		if (filepatterns.isEmpty())
-			throw new NoFilepatternException(JGitText.get().atLeastOnePatternIsRequired);
 		checkCallable();
+
+		if (update && all != null) {
+			throw new JGitInternalException(MessageFormat.format(
+					JGitText.get().illegalCombinationOfArguments,
+					"--update", "--all/--no-all")); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		boolean addAll;
+		if (filepatterns.isEmpty()) {
+			if (update || all != null) {
+				addAll = true;
+			} else {
+				throw new NoFilepatternException(
+						JGitText.get().atLeastOnePatternIsRequired);
+			}
+		} else {
+			addAll = filepatterns.contains("."); //$NON-NLS-1$
+			if (all == null && !update) {
+				all = Boolean.TRUE;
+			}
+		}
+		boolean stageDeletions = update || (all != null && all.booleanValue());
+
 		DirCache dc = null;
-		boolean addAll = filepatterns.contains("."); //$NON-NLS-1$
 
 		try (ObjectInserter inserter = repo.newObjectInserter();
 				NameConflictTreeWalk tw = new NameConflictTreeWalk(repo)) {
@@ -181,7 +226,8 @@ public class AddCommand extends GitCommand<DirCache> {
 
 				if (f == null) { // working tree file does not exist
 					if (entry != null
-							&& (!update || GITLINK == entry.getFileMode())) {
+							&& (!stageDeletions
+									|| GITLINK == entry.getFileMode())) {
 						builder.add(entry);
 					}
 					continue;
@@ -252,7 +298,8 @@ public class AddCommand extends GitCommand<DirCache> {
 	}
 
 	/**
-	 * Set whether to only match against already tracked files
+	 * Set whether to only match against already tracked files. If
+	 * {@code update == true}, re-sets a previous {@link #setAll(boolean)}.
 	 *
 	 * @param update
 	 *            If set to true, the command only matches {@code filepattern}
@@ -313,5 +360,33 @@ public class AddCommand extends GitCommand<DirCache> {
 	 */
 	public boolean isRenormalize() {
 		return renormalize;
+	}
+
+	/**
+	 * Defines whether the command will use '--all' mode: update existing index
+	 * entries, add new entries, and remove index entries for which there is no
+	 * file. (In other words: also stage deletions.)
+	 * <p>
+	 * The setting is independent of {@link #setUpdate(boolean)}.
+	 * </p>
+	 *
+	 * @param all
+	 *            whether to enable '--all' mode
+	 * @return {@code this}
+	 * @since 7.2
+	 */
+	public AddCommand setAll(boolean all) {
+		this.all = Boolean.valueOf(all);
+		return this;
+	}
+
+	/**
+	 * Tells whether '--all' has been set for this command.
+	 *
+	 * @return {@code true} if it was set; {@code false} otherwise
+	 * @since 7.2
+	 */
+	public boolean isAll() {
+		return all != null && all.booleanValue();
 	}
 }
