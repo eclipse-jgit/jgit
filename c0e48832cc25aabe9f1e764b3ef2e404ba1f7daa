@@ -136,6 +136,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e79f5bc9_1b3ab3ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T18:19:12Z",
+      "side": 1,
+      "message": "Done. Renamed it to `ChangePathTreeFilter`.",
+      "parentUuid": "b4f75281_2e0c28c4",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a13b6ab7_edc478f6",
@@ -255,6 +273,24 @@
       "side": 1,
       "message": "Maybe we can pass a \"Context\"/\"Monitor\"/\"Stats\" object to shouldTreeWalk?\n\nx \u003d shouldTreeWalk(commit, revwalk, ctx);\n\nThen we can get ctx.cpfUsed and maybe some other stats? (merge and so on?). We can reuse the same ctx instance between calls and copy the value to the stats immediately. If no stats are needed, we pass null and there is no cost.",
       "parentUuid": "83613fba_24499a47",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6e92ff_6eae6399",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T18:19:12Z",
+      "side": 1,
+      "message": "\u003eMaybe we can pass a \"Context\"/\"Monitor\"/\"Stats\" object to shouldTreeWalk?\n\nPassing a monitor is rather unconventional for a RevFilter class, the highest abstraction level we tend to do so is on the RevWalk level, but RevFilter level is at least two levels below RevWalk, with the \"generator\" level in between. For the scope of this CL, I don\u0027t think it\u0027s worth the effort of plumbing the monitor field from RevWalk. \n\n\u003eThen we can get ctx.cpfUsed and maybe some other stats? (merge and so on?). \n\nI assume you would like me to bring the RevFilterStats class of the next patch, https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1192799/20, into this patch? We could do that, but `shouldTreeWalk` alone isn\u0027t enough to determine whether to increment the stats. `shouldTreeWalk` only tells us `ctx.cpfUsed`, but in the event of BF returning true, we still might need the treeWalk logic within `treeRevFilter` to determine whether it\u0027s \"truePositive\" or \"falsePositive\". \n\n\nI also just realize this comment is from Patchset12, which is before the latest patchset having\n```\nboolean changedPathFilterUsed \u003d tf.serveChangedPathFilter()\n\t\t\t\t\t\u0026\u0026 c.getChangedPathFilter(walker) !\u003d null;\n```\nas suggested by you eariler.",
+      "parentUuid": "a8c91390_191941f9",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
