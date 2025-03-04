@@ -9,6 +9,9 @@
  */
 package org.eclipse.jgit.blame.cache;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -92,6 +95,7 @@ public class CacheRegion implements Comparable<CacheRegion> {
 		return start - o.start;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -115,7 +119,7 @@ public class CacheRegion implements Comparable<CacheRegion> {
 		if (path == null && commit == null) {
 			return;
 		}
-		throw new IllegalArgumentException(String.format(
-				"expected all null or none: %s, %s", path, commit));
+		throw new IllegalArgumentException(MessageFormat
+				.format(JGitText.get().cacheRegionAllOrNoneNull, path, commit));
 	}
 }
