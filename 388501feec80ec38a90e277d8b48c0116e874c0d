@@ -16,6 +16,24 @@
       "message": "This would be much simpler if DfsBlockCache would have an \"evict\" or \"reload\" method. Before touching DfsBlockCache, are we sure that we need this?\n\nWhen is this option toggled? Can it change at runtime? Does it need to apply quickly in both directions (enabling/disabling) or can we live with the safe direction (disable)?",
       "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27dc6cad_87b9ec23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T16:50:01Z",
+      "side": 1,
+      "message": "\u003eare we sure that we need this? When is this option toggled? \n\nYes, this is a much needed change. The dfsReader input can come from different RevWalk setup by different Repo config states. However, we currently always serve Commit Graph from DfsBlockCache based on the streamKey, which is the repo_key + cg_extension, disregarding the `commitGraph.readChangedPaths` flag completely. This flag is toggle with the repo config. \n\n\u003eCan it change at runtime?\n\nYes, the flag can be changed in runtime. Since the DfsBlockCache is a singleton, different DfsReaders spawning from different RevWalk instances could happen, which means each DfsReader could have a different repository object with `commitGraph.readChangedPaths` state. \n\n\u003ecan we live with the safe direction (disable)?\n\nNot sure if I understand question? Can you elobrate? I think you might be asking \"if we continue to not honor the state change during runtime, what would be the problem?\", this is a control correctness issue; 1. if we have corrupted changedPathFilters due to storage reasons outside of our control, we would want to disable the serving immediately. 2. being able to reliably flip on or off the serving flag allows us to measure performance boost with BF much easier.",
+      "parentUuid": "1642a1be_a5879dd4",
+      "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
