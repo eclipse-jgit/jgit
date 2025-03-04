@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6286ea60_029c5bb1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T19:48:22Z",
+      "side": 1,
+      "message": "Rewording: Returns \u0027true\u0027 if the TreeFilter uses changed path filters inside shouldTreeWalk.\n\n (I am copying the style of Iterator.hasNext(), usually javadoc does not use questions).",
+      "revId": "ce2a366da13072ce6ea63d2ec1a9fbe94222e386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1cac3cf_8823a324",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T19:48:22Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand what this method is saying. It means it can use BF... but we don\u0027t know if they do or not, right?",
+      "revId": "ce2a366da13072ce6ea63d2ec1a9fbe94222e386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b36dd5b_1203975c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T19:48:22Z",
+      "side": 1,
+      "message": "\"serve\" hints that the changed path filter is return to the caller and that is not the case.\n\nMaybe something like: usesChangedPathFilter(), mayUseChangedPathFilter(), checksChangedPathFilter(), accessChangedPathFilter()",
+      "range": {
+        "startLine": 225,
+        "startChar": 16,
+        "endLine": 225,
+        "endChar": 38
+      },
+      "revId": "ce2a366da13072ce6ea63d2ec1a9fbe94222e386",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

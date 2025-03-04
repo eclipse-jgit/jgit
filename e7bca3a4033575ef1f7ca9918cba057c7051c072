@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da501ce2_9708db5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T19:48:22Z",
+      "side": 1,
+      "message": "I don\u0027t understand this. You keep mentioning we don\u0027t serve BF for root commits or merge commits, but reading this method, I see it using the CPF for any commit, root and not-root.",
+      "parentUuid": "21f1095f_121c6d4b",
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "677f9292_8450d0f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
         "patchSetId": 15
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "This is from the latest patchSet of this patch. \n\n```\nboolean changedPathFilterUsed \u003d tf.serveChangedPathFilter()\n                    \u0026\u0026 c.getChangedPathFilter(walker) !\u003d null;\n```\n\n`c.getChangedPathFilter(walker) !\u003d null` is not enough to determine whether a CPF is used because the TreeFilter involved might NOT be a `ChangePathTreeFilter`. \n\nBy having this new method, we know the TreeFilter involved do indeed have the capability to serve CPF. Combining it with `c.getChangedPathFilter(walker) !\u003d null`, we assert that changedPathFilter is indeed used.",
       "parentUuid": "677f9292_8450d0f6",
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af8b8051_a408e568",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T19:48:22Z",
+      "side": 1,
+      "message": "I see why `c.getChangedPathFilter(walker) !\u003d null` wouldn\u0027t cut it, but I don\u0027t think the \"serveChangedPathFilter\" method solves it either. \n\nThe filter only knows it will *try* to use CPF but maybe it doesn\u0027t because there is no commit graph, because there is commit graph and it doesn\u0027t have BF, because this commit doesnt need bloom filters (root) or maybe other reasons.\n\nThe fact that it actually used a BF is only known per-commit, so it must come with the shouldTreeWalk call and be cheap.",
+      "parentUuid": "e7173a3e_ea57f20c",
       "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

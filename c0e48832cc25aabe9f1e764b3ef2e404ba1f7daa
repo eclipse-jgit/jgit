@@ -293,6 +293,24 @@
       "parentUuid": "a8c91390_191941f9",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea197c80_6f5333f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T19:48:22Z",
+      "side": 1,
+      "message": "\u003e Passing a monitor is rather unconventional for a RevFilter class, the highest abstraction level we tend to do so is on the RevWalk level\n\nI shouldn\u0027t have used the \"Monitor\" name (and definitely wasn\u0027t thinking in RevWalk or the other JGit ProgressMonitors). I meant just passing an object to store the value.\n\nAs I undestand this change the problem is that this function needs to return two booleans: if it shouldTreeWalk and if it really used the changedPathFilter to say so.\n\nSome options:\n1. Return an record with two fields (expensive to instantiate per call)\n2. Return a mutable object (the revfilter returns always the same instance, just populating values)\n3. Return boolean and pass an object as parameter to record the actual use of CPF\n4. Return boolean and add a Consumer\u003cBoolean\u003e parameter to inform the result\n(maybe there are more)\n\nActually #2 sounds even better than the #3 I suggested above.",
+      "parentUuid": "ea6e92ff_6eae6399",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
