@@ -478,6 +478,29 @@ public class OpenSshServerKeyDatabaseTest {
 				new KnownHostsConfig(), null));
 	}
 
+	@Test
+	public void testUnknownKeyType() throws Exception {
+		List<String> initialKnownHosts = List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(ec384)
+						.replace("ecdsa", "foo"),
+				"some.other.com " + PublicKeyEntry.toString(ec384));
+		Files.write(knownHosts, initialKnownHosts);
+		TestCredentialsProvider ui = new TestCredentialsProvider(true, true);
+		assertTrue(database.accept("localhost", LOCAL, ec384,
+				new KnownHostsConfig(
+						ServerKeyDatabase.Configuration.StrictHostKeyChecking.ASK),
+				ui));
+		assertEquals(1, ui.invocations);
+		// The "modified key" dialog has two questions; whereas the "add new
+		// key" is just a simple question.
+		assertEquals(2, ui.questions);
+		List<String> expected = new ArrayList<>(initialKnownHosts);
+		expected.add("localhost,127.0.0.1 " + PublicKeyEntry.toString(ec384));
+		assertFile(knownHosts, expected);
+		assertTrue(database.accept("127.0.0.1:22", LOCAL, ec384,
+				new KnownHostsConfig(), null));
+	}
+
 	private void assertFile(Path path, List<String> lines) throws Exception {
 		assertEquals(lines, Files.readAllLines(path).stream()
 				.filter(s -> !s.isBlank()).toList());
@@ -488,6 +511,8 @@ public class OpenSshServerKeyDatabaseTest {
 		private final boolean[] values;
 
 		int invocations = 0;
+
+		int questions = 0;
 
 		TestCredentialsProvider(boolean accept, boolean store) {
 			values = new boolean[] { accept, store };
@@ -512,6 +537,7 @@ public class OpenSshServerKeyDatabaseTest {
 				if (item instanceof CredentialItem.YesNoType) {
 					((CredentialItem.YesNoType) item)
 							.setValue(i < values.length && values[i++]);
+					questions++;
 				}
 			}
 			return true;

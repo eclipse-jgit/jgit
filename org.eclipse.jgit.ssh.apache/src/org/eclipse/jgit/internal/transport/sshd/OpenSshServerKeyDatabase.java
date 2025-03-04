@@ -53,6 +53,7 @@ import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.OpenSshCertificate;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
+import org.apache.sshd.common.config.keys.UnsupportedSshPublicKey;
 import org.apache.sshd.common.digest.BuiltinDigests;
 import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.util.io.ModifiableFileWatcher;
@@ -185,6 +186,9 @@ public class OpenSshServerKeyDatabase
 		for (HostKeyFile file : filesToUse) {
 			for (HostEntryPair current : file.get()) {
 				KnownHostEntry entry = current.getHostEntry();
+				if (current.getServerKey() instanceof UnsupportedSshPublicKey) {
+					continue;
+				}
 				if (!isRevoked(entry) && !isCertificateAuthority(entry)) {
 					for (SshdSocketAddress host : candidates) {
 						if (entry.isHostMatch(host.getHostName(),
@@ -235,12 +239,20 @@ public class OpenSshServerKeyDatabase
 					remoteAddress, modified[0].getServerKey(),
 					serverKey, path);
 			if (toDo == AskUser.ModifiedKeyHandling.ALLOW_AND_STORE) {
-				try {
-					updateModifiedServerKey(serverKey, modified[0], path);
-					knownHostsFiles.get(path).resetReloadAttributes();
-				} catch (IOException e) {
-					LOG.warn(format(SshdText.get().knownHostsCouldNotUpdate,
-							path));
+				if (modified[0]
+						.getServerKey() instanceof UnsupportedSshPublicKey) {
+					// Never update a line containing an unknown key type,
+					// always add.
+					addKeyToFile(filesToUse.get(0), candidates, serverKey, ask,
+							config);
+				} else {
+					try {
+						updateModifiedServerKey(serverKey, modified[0], path);
+						knownHostsFiles.get(path).resetReloadAttributes();
+					} catch (IOException e) {
+						LOG.warn(format(SshdText.get().knownHostsCouldNotUpdate,
+								path));
+					}
 				}
 			}
 			if (toDo == AskUser.ModifiedKeyHandling.DENY) {
@@ -253,19 +265,8 @@ public class OpenSshServerKeyDatabase
 			return true;
 		} else if (ask.acceptUnknownKey(remoteAddress, serverKey)) {
 			if (!filesToUse.isEmpty()) {
-				HostKeyFile toUpdate = filesToUse.get(0);
-				path = toUpdate.getPath();
-				try {
-					if (Files.exists(path) || !askAboutNewFile
-							|| ask.createNewFile(path)) {
-						updateKnownHostsFile(candidates, serverKey, path,
-								config);
-						toUpdate.resetReloadAttributes();
-					}
-				} catch (Exception e) {
-					LOG.warn(format(SshdText.get().knownHostsCouldNotUpdate,
-							path), e);
-				}
+				addKeyToFile(filesToUse.get(0), candidates, serverKey, ask,
+						config);
 			}
 			return true;
 		}
@@ -377,6 +378,21 @@ public class OpenSshServerKeyDatabase
 			}
 		}
 		return userFiles;
+	}
+
+	private void addKeyToFile(HostKeyFile file,
+			Collection<SshdSocketAddress> candidates, PublicKey serverKey,
+			AskUser ask, Configuration config) {
+		Path path = file.getPath();
+		try {
+			if (Files.exists(path) || !askAboutNewFile
+					|| ask.createNewFile(path)) {
+				updateKnownHostsFile(candidates, serverKey, path, config);
+				file.resetReloadAttributes();
+			}
+		} catch (Exception e) {
+			LOG.warn(format(SshdText.get().knownHostsCouldNotUpdate, path), e);
+		}
 	}
 
 	private void updateKnownHostsFile(Collection<SshdSocketAddress> candidates,
@@ -663,7 +679,7 @@ public class OpenSshServerKeyDatabase
 					}
 					try {
 						PublicKey serverKey = keyPart.resolvePublicKey(null,
-								PublicKeyEntryResolver.IGNORING);
+								PublicKeyEntryResolver.UNSUPPORTED);
 						if (serverKey == null) {
 							LOG.warn(format(
 									SshdText.get().knownHostsUnknownKeyType,

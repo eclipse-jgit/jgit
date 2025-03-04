@@ -174,7 +174,7 @@ public class BlameRegionMergerTest extends RepositoryTestCase {
 	public void blame_corruptedIndex() {
 		Region outOfRange = new Region(0, 43, 4);
 		// This region is out of the blamed area
-		assertThrows(IllegalStateException.class,
+		assertThrows(IOException.class,
 				() -> blamer.mergeOneRegion(outOfRange));
 	}
 
