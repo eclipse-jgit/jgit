@@ -189,6 +189,30 @@
       },
       "revId": "b3c757d479ce3c1bdb6b5cb8bf290bcf722f2494",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec175bce_b48dd2e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-04T18:31:28Z",
+      "side": 1,
+      "message": "Having (parents \u003d\u003d 1) first does not have any measurable performance benefit in runtime. I suspect modern Java compiler produce the same binary regardless of the ordering here. The correct order of if statement for better readbaility also outweighs any negliable compile speed boost.",
+      "parentUuid": "6753127c_d087bff7",
+      "range": {
+        "startLine": 157,
+        "startChar": 18,
+        "endLine": 157,
+        "endChar": 19
+      },
+      "revId": "b3c757d479ce3c1bdb6b5cb8bf290bcf722f2494",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
