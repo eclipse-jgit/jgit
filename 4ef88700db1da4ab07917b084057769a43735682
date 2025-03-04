@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "641af1bf_d26f0a48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-04T13:26:41Z",
+      "side": 1,
+      "message": "I think to support something like this we need to rethink the relation between a Repository instance and a RefDatabase which is currently 1:1. \n\nOr maybe we should better introduce explicit transactions similar to https://github.com/eclipse-egit/egit/blob/master/org.eclipse.egit.core/src/org/eclipse/egit/core/UnitOfWork.java. With transactions auto-refresh would translate to auto-commit otherwise starting a new transaction would update the reftable stack and keep that until the transaction is committed or aborted.",
+      "parentUuid": "d29ad7c5_af55f4d8",
+      "revId": "4ef88700db1da4ab07917b084057769a43735682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f0886404_1d5a3a41",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-04T13:03:31Z",
       "side": 1,
       "message": "AtomicBoolean is overkill, volatile will do since there is no set() based on a get().",
+      "revId": "4ef88700db1da4ab07917b084057769a43735682",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7725e11d_4831af3c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-04T13:26:41Z",
+      "side": 1,
+      "message": "ok, will change that, was in a hurry to release 7.2",
+      "parentUuid": "f0886404_1d5a3a41",
       "revId": "4ef88700db1da4ab07917b084057769a43735682",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
