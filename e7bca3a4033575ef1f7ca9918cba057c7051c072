@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dc01bf7_f0fde4f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T17:12:45Z",
+      "side": 1,
+      "message": "nit: LLC (It was Inc before, so some headers have that form, depending when they were addeed)",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 33
+      },
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef51a84_80202137",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T17:12:45Z",
+      "side": 1,
+      "message": "Is there any reason for the checks in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1203632/7/org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java not to be here?\n\nThings like \"root commits do not need changed path filter\" make sense already in this CL and shouldn\u0027t harm.",
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "677f9292_8450d0f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T17:12:45Z",
+      "side": 1,
+      "message": "Is this from a later CL?",
+      "revId": "e7bca3a4033575ef1f7ca9918cba057c7051c072",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

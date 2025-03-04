@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4f75281_2e0c28c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T17:12:45Z",
+      "side": 1,
+      "message": "Maybe ChangePathTreeFilter then?",
+      "parentUuid": "5bbb2d18_a8deb48b",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a13b6ab7_edc478f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
         "patchSetId": 12
@@ -219,6 +237,24 @@
       "side": 1,
       "message": "yep, this is purely for accounting so we have correct metrics on whether CPF is used within a commit.\n\nhowever `filterUsed \u003d commit.getChangedPathFilter(revwalk) !\u003d null; ` is not sufficient because the existence of CPF DOES NOT imply its usage. \n\nThere are other use cases not covered under this CL on \"existence of CPF DOES NOT imply its usage\". You can see the full use cases under https://gerrithub.io/c/eclipse-jgit/jgit/+/1203632.\n\n1. TreeRevFilter accepts any form of TreeFilter, but only PathAnyDiffFilter serves CPF when CPF is present. \n2. root commits don\u0027t serve BF, even if BF is present. \n3. merge commits have additional flag on whether to serve BF, even if BF is present. \n\nI do think that if we REMOVE the merge commit serving flag, we could keep the  bookkeeping logic strictly in TreeRevFilter and follow the pattern you suggest here, this would solve problem #2 and #3. Something like this in TreeRevFilter. For problem #1, we could make a boolean in TreeFilter like \"serveCpf\", then only have PathAnyDiffFilter with this boolean as true. The end result would be something like\n\n```\nx \u003d shouldTreeWalk(commit, revwalk);\nfilterUsed \u003d false;\ntf.serveChangedPathFilter()\n\t\t\t\t\u0026\u0026 c.getChangedPathFilter(walker) !\u003d null \u0026\u0026 c.getParentCount() \u003e 0;\n```",
       "parentUuid": "87a2ac7d_97d05ab2",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8c91390_191941f9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T17:12:45Z",
+      "side": 1,
+      "message": "Maybe we can pass a \"Context\"/\"Monitor\"/\"Stats\" object to shouldTreeWalk?\n\nx \u003d shouldTreeWalk(commit, revwalk, ctx);\n\nThen we can get ctx.cpfUsed and maybe some other stats? (merge and so on?). We can reuse the same ctx instance between calls and copy the value to the stats immediately. If no stats are needed, we pass null and there is no cost.",
+      "parentUuid": "83613fba_24499a47",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
