@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1642a1be_a5879dd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-04T00:05:45Z",
+      "side": 1,
+      "message": "This would be much simpler if DfsBlockCache would have an \"evict\" or \"reload\" method. Before touching DfsBlockCache, are we sure that we need this?\n\nWhen is this option toggled? Can it change at runtime? Does it need to apply quickly in both directions (enabling/disabling) or can we live with the safe direction (disable)?",
+      "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
