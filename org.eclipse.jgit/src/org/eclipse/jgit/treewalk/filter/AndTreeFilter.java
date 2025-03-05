@@ -104,9 +104,9 @@ public abstract class AndTreeFilter extends TreeFilter {
 
 		@Override
 		public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
-				Runnable cpfCallback) {
-			return a.shouldTreeWalk(c, rw, cpfCallback)
-					&& b.shouldTreeWalk(c, rw, cpfCallback);
+				MutableBoolean cpfUsed) {
+			return a.shouldTreeWalk(c, rw, cpfUsed)
+					&& b.shouldTreeWalk(c, rw, cpfUsed);
 		}
 
 		@Override
@@ -185,9 +185,9 @@ public abstract class AndTreeFilter extends TreeFilter {
 
 		@Override
 		public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
-				Runnable cpfCallback) {
+				MutableBoolean cpfUsed) {
 			return Arrays.stream(subfilters)
-					.allMatch(t -> t.shouldTreeWalk(c, rw, cpfCallback));
+					.allMatch(t -> t.shouldTreeWalk(c, rw, cpfUsed));
 		}
 
 		@Override

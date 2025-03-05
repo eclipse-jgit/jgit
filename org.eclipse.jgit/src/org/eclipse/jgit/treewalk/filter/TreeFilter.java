@@ -224,13 +224,17 @@ public abstract class TreeFilter {
 	 *            the commit being considered by the TreeFilter.
 	 * @param rw
 	 *            the RevWalk used in retrieving relevant commit data.
-	 * @param cpfCallback
-	 *            callBack when a ChangedPathFilter is used.
+	 * @param cpfUsed
+	 *            if not null, it reports if the changedPathFilter was used in
+	 *            this method
 	 * @return True if TreeFilter believes c should be considered for TreeWalk.
 	 * @since 7.3
 	 */
 	public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
-			@Nullable Runnable cpfCallback) {
+			@Nullable MutableBoolean cpfUsed) {
+		if (cpfUsed != null) {
+			cpfUsed.orValue(false);
+		}
 		return true;
 	}
 
@@ -266,5 +270,24 @@ public abstract class TreeFilter {
 			n = n.substring(lastDot + 1);
 		}
 		return n.replace('$', '.');
+	}
+
+	/**
+	 * Reusable instance to return a boolean in a function parameter.
+	 */
+	public static class MutableBoolean {
+		private boolean value;
+
+		public boolean booleanValue() {
+			return value;
+		}
+
+		void orValue(boolean v) {
+			value = value || v;
+		}
+
+		public void reset(){
+			value = false;
+		}
 	}
 }

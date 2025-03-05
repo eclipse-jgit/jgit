@@ -10,6 +10,11 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.lib.Constants;
@@ -17,11 +22,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.StringUtils;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Includes tree entries only if they match the configured path and differ
@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
  * uses {@link org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter}
  * as a shortcut to determine whether to use {@link org.eclipse.jgit.treewalk}
  * when filtering by paths.
+ *
  * @since 7.3
  */
 
@@ -91,13 +92,17 @@ public class ChangedPathTreeFilter extends TreeFilter {
 
 	@Override
 	public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
-			Runnable cpfCallback) {
+			MutableBoolean cpfUsed) {
 		ChangedPathFilter cpf = c.getChangedPathFilter(rw);
 		if (cpf == null) {
+			if (cpfUsed != null) {
+				cpfUsed.orValue(false);
+			}
 			return true;
 		}
-		if (cpfCallback != null) {
-			cpfCallback.run();
+
+		if (cpfUsed != null) {
+			cpfUsed.orValue(true);
 		}
 		// return true if at least one path might exist in cpf
 		return rawPaths.stream().anyMatch(cpf::maybeContains);

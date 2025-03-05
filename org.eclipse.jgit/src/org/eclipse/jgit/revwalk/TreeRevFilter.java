@@ -12,7 +12,6 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -25,6 +24,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter.MutableBoolean;
 
 /**
  * Filter applying a {@link org.eclipse.jgit.treewalk.filter.TreeFilter} against
@@ -47,7 +47,7 @@ public class TreeRevFilter extends RevFilter {
 
 	private final TreeWalk pathFilter;
 
-	private final AtomicBoolean changedPathFilterUsed = new AtomicBoolean();
+	private final MutableBoolean changedPathFilterUsed = new MutableBoolean();
 
 	private long changedPathFilterTruePositive = 0;
 
@@ -131,8 +131,8 @@ public class TreeRevFilter extends RevFilter {
 			//
 			int chgs = 0, adds = 0;
 			TreeFilter tf = pathFilter.getFilter();
-			boolean mustCalculateChgs = tf.shouldTreeWalk(c, walker,
-					() -> this.changedPathFilterUsed.set(true));
+			changedPathFilterUsed.reset();
+			boolean mustCalculateChgs = tf.shouldTreeWalk(c, walker, changedPathFilterUsed);
 			if (mustCalculateChgs) {
 				while (tw.next()) {
 					chgs++;
@@ -142,7 +142,7 @@ public class TreeRevFilter extends RevFilter {
 						break; // no point in looking at this further.
 					}
 				}
-				if (this.changedPathFilterUsed.getAndSet(false)) {
+				if (changedPathFilterUsed.booleanValue()) {
 					if (chgs > 0) {
 						changedPathFilterTruePositive++;
 					} else {
@@ -150,7 +150,7 @@ public class TreeRevFilter extends RevFilter {
 					}
 				}
 			} else {
-				if (this.changedPathFilterUsed.getAndSet(false)) {
+				if (!changedPathFilterUsed.booleanValue()) {
 					changedPathFilterNegative++;
 				}
 			}

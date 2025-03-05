@@ -87,8 +87,8 @@ public class FollowFilter extends TreeFilter {
 
 	@Override
 	public boolean shouldTreeWalk(RevCommit c, RevWalk rw,
-			Runnable cpfCallback) {
-		return path.shouldTreeWalk(c, rw, cpfCallback);
+			MutableBoolean cpfUsed) {
+		return path.shouldTreeWalk(c, rw, cpfUsed);
 	}
 
 	@Override
