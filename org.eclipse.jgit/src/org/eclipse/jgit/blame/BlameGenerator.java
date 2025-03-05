@@ -652,19 +652,6 @@ public class BlameGenerator implements AutoCloseable {
 			if (n == null)
 				return done();
 			stats.candidatesVisited += 1;
-			if (blameCache != null && useCache) {
-				List<CacheRegion> cachedBlame = blameCache.get(repository,
-						n.sourceCommit, n.sourcePath.getPath());
-				if (cachedBlame != null) {
-					BlameRegionMerger rb = new BlameRegionMerger(repository,
-							revPool, cachedBlame);
-					Candidate fullyBlamed = rb.mergeCandidate(n);
-					if (fullyBlamed != null) {
-						stats.cacheHit = true;
-						return result(fullyBlamed);
-					}
-				}
-			}
 
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
@@ -769,6 +756,27 @@ public class BlameGenerator implements AutoCloseable {
 		}
 	}
 
+	@Nullable
+	private Candidate blameFromCache(Candidate n) throws IOException {
+		if (blameCache == null || !useCache) {
+			return null;
+		}
+
+		List<CacheRegion> cachedBlame = blameCache.get(repository,
+				n.sourceCommit, n.sourcePath.getPath());
+		if (cachedBlame == null) {
+			return null;
+		}
+		BlameRegionMerger rb = new BlameRegionMerger(repository, revPool,
+				cachedBlame);
+		Candidate fullyBlamed = rb.mergeCandidate(n);
+		if (fullyBlamed == null) {
+			return null;
+		}
+		stats.cacheHit = true;
+		return fullyBlamed;
+	}
+	
 	private boolean processOne(Candidate n) throws IOException {
 		RevCommit parent = n.getParent(0);
 		if (parent == null)
@@ -791,11 +799,16 @@ public class BlameGenerator implements AutoCloseable {
 		if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
+			Candidate cached = blameFromCache(n);
+			if (cached != null) {
+				return result(cached);
+			}
 			n.sourceCommit = parent;
 			n.sourcePath = PathFilter.create(r.getOldPath());
 			push(n);
 			return false;
 		}
+
 
 		Candidate next = n.create(getRepository(), parent,
 				PathFilter.create(r.getOldPath()));
@@ -831,6 +844,11 @@ public class BlameGenerator implements AutoCloseable {
 			parent.regionList = source.regionList;
 			push(parent);
 			return false;
+		}
+
+		Candidate cached = blameFromCache(source);
+		if (cached != null) {
+			return result(cached);
 		}
 
 		parent.takeBlame(editList, source);
