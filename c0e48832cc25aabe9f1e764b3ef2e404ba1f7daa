@@ -329,6 +329,24 @@
       "parentUuid": "ea197c80_6f5333f8",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d538fb46_83cf9835",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-05T19:08:23Z",
+      "side": 1,
+      "message": "Yes, this patchset is close to #4. Still we can make it cheaper passing around an object (#3).\n\nIf we define a: \n```                                                                                        \n+       public static final class MutableBoolean {                                                           \n+               private boolean value;                                                                 \n+                                                                                                      \n+               public boolean booleanValue() {\n+                       return value;\n+               }\n+\n+               void orValue(boolean v) {\n+                       value \u003d value || v;\n+               }\n+\n+               public void reset(){\n+                       value \u003d false;\n+               }\n+       }\n```\n\nThen the TreeRevFilter keeps an instance in the class, calls #reset() and pass it to the TreeFilter on include.\n\nMutableBoolean being an \"or\" makes trivial to pass it through the And/Or combinators, because the condition \"have changed path filters been used\" is always an OR.\n\nI drafted this in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1210552",
+      "parentUuid": "eea37cc4_183eb9bf",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
