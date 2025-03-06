@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e588ff4b_c15a345b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameGeneratorCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T20:51:59Z",
+      "side": 1,
+      "message": "changed it to \"createdMidHistory\". In the blame there are different returns for the case of \"no parents\" or \"file not in parent\" and I wanted to cover both (externally they look the same).",
+      "parentUuid": "972f5da4_fa916931",
+      "range": {
+        "startLine": 97,
+        "startChar": 26,
+        "endLine": 97,
+        "endChar": 39
+      },
+      "revId": "261669ff9e5f19f1b98ee530a270ff25eb757a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88076b20_56b2c784",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d08ad5e_604f74b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameGeneratorCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T20:51:59Z",
+      "side": 1,
+      "message": "I misderstood the TestRepository API. if you do r.commit(tree...), it overwrites the tree completely, but r.commit().parent().add(...).rm(...), use the previous tree.\n\nI updated this method and use a clearer commit call in the tests. I can fix the existing tests in a different change.",
+      "parentUuid": "88076b20_56b2c784",
+      "range": {
+        "startLine": 441,
+        "startChar": 20,
+        "endLine": 441,
+        "endChar": 30
+      },
+      "revId": "261669ff9e5f19f1b98ee530a270ff25eb757a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09e75326_01f07317",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2025-03-05T01:56:58Z",
       "side": 1,
       "message": "Hmm I wonder if the cache lookup should be for the old path instead? Any test for this?",
+      "range": {
+        "startLine": 812,
+        "startChar": 21,
+        "endLine": 812,
+        "endChar": 35
+      },
+      "revId": "261669ff9e5f19f1b98ee530a270ff25eb757a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87dcd1ec_db3a88fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T20:51:59Z",
+      "side": 1,
+      "message": "The call is now in different place but the question is still valid. \n\nIf C10 renames file from a.txt to b.txt, C10 is the commit that appears in the log as touching the file and, I think, the one we need to check in cache (C10:b.txt).z\n\nIf C9 modifies the file, when it comes the time to split it, we will lookup (C9:a.txt) in the cache.",
+      "parentUuid": "09e75326_01f07317",
       "range": {
         "startLine": 812,
         "startChar": 21,
