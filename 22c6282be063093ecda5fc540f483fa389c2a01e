@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a11023_394f23c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-06T21:17:54Z",
+      "side": 1,
+      "message": "thank you so much for providing this example patch!",
+      "revId": "22c6282be063093ecda5fc540f483fa389c2a01e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce3dfc51_83558c78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-06T21:17:54Z",
+      "side": 1,
+      "message": "nit: this is incorrect. \n\nWe set `changedPathFilterNegative` ONLY if the cpf is used and we didn\u0027t have to calculate the change. I have corrected this in my patch.",
+      "revId": "22c6282be063093ecda5fc540f483fa389c2a01e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c43ef1c_175ce7cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-06T21:17:54Z",
+      "side": 1,
+      "message": "This is not necessary. \n\n\"whether a commit has cpf\" is independent of \"whether the cpf being used by any combination of treeFilter\". i.e. the type of TreeFilter DOES NOT determine whether a commit has cpf. \n\nAssuming the \"cpfUsed\" field is always false by default, which is the case under this patch since we always reset it before checking `shouldTreeWalk`, then a commit without cpf would never be or-ing \"cpfUsed\" with true.",
+      "revId": "22c6282be063093ecda5fc540f483fa389c2a01e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92a67ead_0017b39d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-06T21:17:54Z",
+      "side": 1,
+      "message": "This is not necessary.\n\nthe default is alway false, `false (default MutableBoolean) || false (filterA oring false using this method) || whatever (filterB as ChangedPathTreeFilter oring whatever)` is logically equivalent with `false (default MutableBoolean) || whatever (filterB as ChangedPathTreeFilter oring whatever)`",
+      "revId": "22c6282be063093ecda5fc540f483fa389c2a01e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
