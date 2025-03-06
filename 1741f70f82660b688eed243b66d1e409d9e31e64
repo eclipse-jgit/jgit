@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "817e1f90_4ceae56e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "Thanks! This starts to look ready. I wonder if we could get some unit tests e.g. checking that Or/And pass through correctly the value.\n\nOther than that, few nits and javadoc comments.",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7161c35_7412d966",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "Previous version was covering the case that no all commits touch the file. Can you make sure that is tested?\n\nMaybe keepign this test (testChangedPathFilter_allModify) and create a new (testChangedPathFilter_someModify).",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfa6676b_e24dd858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "reword. Maybe:\n\n\"Filter tree entries that modified the contents of particular paths.\n\u003cp\u003e\nEquivalent to AndTreeFilter(PathFilter, AnyDiffFilter), this filter uses ChangedPathFilters (bloom filters) when available to discard commits without walking their trees.\n\"",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3148a3ff_72c78844",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "Fix. \"Create a TreeFilter for trees that modify *any* of the paths\". (I assume this is an OR, is it?)",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ed1030d_8c14d00d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c75062a_b96ab80b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "nit: format in this line",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb70170f_dff549e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "Rewording as javadoc doesn\u0027t usually use questions. Maybe:\n\n\"Returns false when the filter is sure that the commit is NOT touching the file. If true, the caller still needs to do a treewalk to know.\n\u003cp\u003e\nThis helps to discard quickly commits that definitely do not modify the path.\n\"\n\nA description of the negative is not either in style, but I find it clearer. Adjust rest of this javadoc accordingly.",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3295dcf_d3cbcc73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:58:52Z",
+      "side": 1,
+      "message": "@since tag",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
