@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c41328ea_7aaa1d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-06T23:06:50Z",
+      "side": 1,
+      "message": "Should this default be more similar to how `core.trustPackedRefsStat` works?\n\nExample:\n`trustPackedRefsStat \u003d always` \u003d\u003e then the default of `trustLooseRefStat \u003d always` (if not set)\n\n`trustPackedRefsStat \u003d after_open` \u003d\u003e then the default of `trustLooseRefStat \u003d after_open` (if not set)\n\nHaving the default of `trustLooseRefStat` to be hardcoded to `always` creates an inconsistent situation if you have `trustpackedRefsStat \u003d after_open` when you have a negative caching on NFSv4.\n\n@quic_kaushikl@quicinc.com what do you think?",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 51
+      },
+      "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6390a144_daae2b13",
@@ -14,6 +37,23 @@
       "writtenOn": "2024-03-04T23:28:22Z",
       "side": 1,
       "message": "Our tests look good, without this new option in HA setup with multiple Gerrit primaries sharing the same NFS filesystem when reindexing we see frequent retries are needed since ref updates done by one primary aren\u0027t immediately visible to the other primary. With this option enabled we didn\u0027t observe such retries anymore.",
+      "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb0187b_6c88ab89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-06T23:06:50Z",
+      "side": 1,
+      "message": "Apologies for the late (actualy 1 year and 2 days) review 😂",
       "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
