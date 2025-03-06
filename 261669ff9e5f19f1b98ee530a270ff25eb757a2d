@@ -95,6 +95,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12608382_0bde04f7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/blame/BlameGeneratorCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-06T21:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d08ad5e_604f74b4",
+      "range": {
+        "startLine": 441,
+        "startChar": 20,
+        "endLine": 441,
+        "endChar": 30
+      },
+      "revId": "261669ff9e5f19f1b98ee530a270ff25eb757a2d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09e75326_01f07317",
