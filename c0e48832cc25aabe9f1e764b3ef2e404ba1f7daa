@@ -347,6 +347,24 @@
       "parentUuid": "eea37cc4_183eb9bf",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "383e5aaf_a9159761",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathAnyDiffFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-06T21:18:07Z",
+      "side": 1,
+      "message": "feedback applied! thank you so much for the draft.\n\nnit: It seems a bit excessive for modern programming to build a mutable boolean for a trivial use case like this, but given the performance requirement of jgit, I think this is fine.",
+      "parentUuid": "d538fb46_83cf9835",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
