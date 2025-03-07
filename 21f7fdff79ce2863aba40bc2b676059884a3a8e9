@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f52e8975_d1fc0351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-07T01:08:16Z",
+      "side": 1,
+      "message": "with https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206686 there\u0027s now a global setting `core.trustStat` which can be overridden for more specific options if needed.",
+      "parentUuid": "c41328ea_7aaa1d7c",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 51
+      },
+      "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6390a144_daae2b13",
