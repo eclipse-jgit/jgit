@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fd5a9e6_f318c0fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "by \"Or/And\", are you referring to the composite TreeFilters? this CL does have tests for them in `RevWalkCommitGraphTest.java`, testChangedPathFilter_pathFilter_or_pathFilter_binaryOperation and others.",
+      "parentUuid": "817e1f90_4ceae56e",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7161c35_7412d966",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-06T21:58:52Z",
       "side": 1,
       "message": "Previous version was covering the case that no all commits touch the file. Can you make sure that is tested?\n\nMaybe keepign this test (testChangedPathFilter_allModify) and create a new (testChangedPathFilter_someModify).",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41fc2e8f_26da9bdf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7161c35_7412d966",
       "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "278af3c0_5f34f53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfa6676b_e24dd858",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3148a3ff_72c78844",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-03-06T21:58:52Z",
       "side": 1,
       "message": "Fix. \"Create a TreeFilter for trees that modify *any* of the paths\". (I assume this is an OR, is it?)",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b48069a1_0641df1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "DONE. \n\nYes, this is an \"OR\" relationship, i.e. returns True if any of the input paths is modified.",
+      "parentUuid": "3148a3ff_72c78844",
       "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da42ffa_2c82e7a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed1030d_8c14d00d",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c75062a_b96ab80b",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-03-06T21:58:52Z",
       "side": 1,
       "message": "nit: format in this line",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ac533b_1788c20a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c75062a_b96ab80b",
       "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -120,6 +228,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65cbe865_c5ca2671",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "ah, my mistake. I wrote the question for myself to keep track of this logic locally, but it was never meant to be uploaded for review 😊.\n\nanyway, we should word it more about \"whether the tree entries within this commit requires treeWalk to determine if they are interesting\", not \"whether commit touching a file.\" \n\nTreeFilter by definition is only judging \"whether some tree entries are considered interesting by the filtering logic of the include() method\", wording it with \"whether touch a file/path\" is too path filter specific. \n\nI updated the doc to specify \"Return true if the tree entries within c requires {@link #include(TreeWalk)}.\"",
+      "parentUuid": "eb70170f_dff549e8",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3295dcf_d3cbcc73",
@@ -133,6 +259,24 @@
       "writtenOn": "2025-03-06T21:58:52Z",
       "side": 1,
       "message": "@since tag",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63c273a6_d2d0baaf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-07T22:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3295dcf_d3cbcc73",
       "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
