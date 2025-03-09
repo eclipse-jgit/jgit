@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "100c8ab5_99ab884a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-09T11:04:59Z",
+      "side": 1,
+      "message": "shorten the commit message subject",
+      "revId": "3023e2e57a26fadbe433ae6e6082570d6ad06b7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01103f39_5fbc3e72",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-09T11:04:59Z",
+      "side": 1,
+      "message": "git allows checkout without specifying a branch:\n\nSee https://git-scm.com/docs/git-checkout:\n\nYou could omit \u003cbranch\u003e, in which case the command degenerates to \"check out the current branch\", which is a glorified no-op with rather expensive side-effects to show only the tracking information, if it exists, for the current branch.",
+      "revId": "3023e2e57a26fadbe433ae6e6082570d6ad06b7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7378c4f6_e325bb2c",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-09T11:04:59Z",
+      "side": 1,
+      "message": "use the already existing `notAValidRefName` in line 201 ?",
+      "revId": "3023e2e57a26fadbe433ae6e6082570d6ad06b7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
