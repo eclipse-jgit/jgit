@@ -96,6 +96,20 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutWithNoRef() throws Exception {
+		assertStringArrayEquals(
+				"a valid ref is expected",
+				executeExpectingException("git checkout"));
+	}
+
+	@Test
+	public void testCheckoutWithInvalidRef() throws Exception {
+		assertStringArrayEquals(
+				".feature is not a valid ref name",
+				executeExpectingException("git checkout .feature"));
+	}
+
+	@Test
 	public void testCheckoutNewBranchThatAlreadyExists() throws Exception {
 		try (Git git = new Git(db)) {
 			git.commit().setMessage("initial commit").call();
