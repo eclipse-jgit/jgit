@@ -270,6 +270,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String noteObjectTooLargeToPrint;
 	/***/ public String nothingToSquash;
 	/***/ public String onBranchToBeBorn;
+	/***/ public String invalidRefName;
 	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
 	/***/ public String onlyOneCommitOptionAllowed;
