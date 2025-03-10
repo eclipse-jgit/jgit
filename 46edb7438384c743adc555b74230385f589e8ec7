@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1b71586_26362d27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "TreeRevFilter: use new ChangedPathTreeFilter for bloom filters",
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a46898_157b3d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "It is not about difficulty to use, but that it doesn\u0027t work correctly with combinators.\n\nSuggested rewording:\nThe paths relevant for this treewalk are defined a hierarchy of tree filters. TreeRevFilter retrieves those paths with #getPathsBestEffort to use them on the ChangePathFilter (bloom filters), but the plain list of paths cannot represent the And/Or/Not of the tree filter API (e.g. NOT(/a/b) or AND(\"/a\", \"/b\")).",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1855690_0d40ab75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "This is not a 1:1 method call replacement. \n\nMaybe:\nIntroduce a new TreeFilter method #shouldTreeWalk() to let the filters decide, based on their paths, if they need to be tree walked or can be discarded right away.\n\nCreate a new ChangePathTreeFilter that can use changed path filters to determine shouldTreeWalk.\n\nUpdate TreeRevFilter to use a ChangePathTreeFilter, instead of getting paths and check the changed tree filters itself.",
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "926345bb_dc7b177f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "While going through the commit message I realized that this change is doing multiple things. Maybe is worthy to split them in different changes.\n\nOther than that, maybe there is chance for few unit tests and javadoc nits. Almost there, thanks!",
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29f16e3_8f60653d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "nit: modifying",
+      "range": {
+        "startLine": 46,
+        "startChar": 34,
+        "endLine": 46,
+        "endChar": 42
+      },
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87cc1b96_3b6cd403",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "nit: \"require\", as it talks about the tree entries",
+      "range": {
+        "startLine": 216,
+        "startChar": 55,
+        "endLine": 216,
+        "endChar": 63
+      },
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1009748c_2a64fff1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "nit: blank line",
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fdce581_6a5cc862",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "nit: replace \"Reusable instance\" with \"Mutable wrapper\"",
+      "revId": "46edb7438384c743adc555b74230385f589e8ec7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

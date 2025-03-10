@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43236872_72ef758b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T22:03:27Z",
+      "side": 1,
+      "message": "Yes, the composite tree filters. Now with the MutableBoolean, it is worthy to check that it returns the correct values.",
+      "parentUuid": "3fd5a9e6_f318c0fd",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7161c35_7412d966",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 18
