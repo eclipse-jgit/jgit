@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf0a7102_03eb6047",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-03-10T18:17:23Z",
+      "side": 1,
+      "message": "Thanks for revising the tests.",
+      "revId": "70aa1c8e687c89f8fd1323eeb60789d44e188b1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "291ebc99_c8e178ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-03-10T18:17:23Z",
+      "side": 1,
+      "message": "format",
+      "range": {
+        "startLine": 779,
+        "startChar": 0,
+        "endLine": 779,
+        "endChar": 1
+      },
+      "revId": "70aa1c8e687c89f8fd1323eeb60789d44e188b1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
