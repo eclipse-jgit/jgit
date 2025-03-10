@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd97cfd3_13aaaef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-10T23:32:48Z",
+      "side": 1,
+      "message": "Elaborating a bit more: The RevWalk has a lot of other code, so those tests can fail or pass due to unrelated matters (specially given all the options of the RevWalk).\n\nA unit test for changePathTreeFilter doesn\u0027t seem too complicated (feel free to take https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1211119).",
+      "parentUuid": "43236872_72ef758b",
+      "revId": "1741f70f82660b688eed243b66d1e409d9e31e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b7161c35_7412d966",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkCommitGraphTest.java",
         "patchSetId": 18
