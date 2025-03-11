@@ -26,6 +26,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f49c122b_54744429",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-03-11T14:42:05Z",
+      "side": 1,
+      "message": "Just a future looking thought:\nIf we introduce Caffeine caches to JGit in the future, I think this same pattern could be achieved with a LoadingCache that includes the FileSnapshot in the cache key. That might add a bunch of other complexity, so I don\u0027t know if we\u0027d actually want to do it.",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b6ede01f_46355be6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
