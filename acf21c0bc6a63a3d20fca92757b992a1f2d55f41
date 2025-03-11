@@ -56,6 +56,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab0c1bfa_ef334d10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-03-11T14:34:42Z",
+      "side": 1,
+      "message": "\u003e What if the loose ref is associated with a `refName` that was packed at L786 but then removed before reaching L794?\n\nI would want to check the code more and ideally write a test case to repro it, but it\u0027s possible that there\u0027s a bug here.\n\nThis code assumes that if there\u0027s no loose ref now then there also wasn\u0027t a loose ref at the time of populating `newPacked`. That might be the case, but it could also be a race like you describe where a loose ref (that is not in packed-refs at all) is deleted after we\u0027ve iterated refs and before we\u0027ve committed packed-refs.\n\nWe should be looking at `oldPacked` to check that case. If the ref isn\u0027t in `oldPacked` and doesn\u0027t exist as a loose ref now, we should be removing it from `newPacked` **before running `commitPackedRefs`**.\n\nIf the ref was in `oldPacked`, then the assumption here is safe because it would be a bug for anyone else to have removed the loose ref while we have the packed-refs lock since a packed-ref deletion needs that lock.\n\n\u003e \n\u003e I believe the locking of the loose refs should have happened *before* reading it and putting this into the `packed-refs`.\n\nIt\u0027s possible those loose refs were locked, but not for the normal `pack-refs` use case. There\u0027s a Map of `heldLocks` that\u0027s passed into this method and we only create a new loose ref lock on L799 if we don\u0027t already have the lock. It looks like that\u0027s only used by `PackedBatchRefUpdate` and it seems that\u0027s intented to cover a race condition with ref creation.\n\nI think the order you describe would work, but is probably too aggressive. We don\u0027t actually need to prevent updates to a loose ref, since a loose ref always has a higher precedence than the packed-refs anyway, we just want to avoid the deletion race for refs not already in packed-refs.\n\n\u003e \n\u003e There is a race condition where the ref is removed *whilst* a ref\u0027s packing is processed.\n\nMaybe we need a flow like this:\n1. Lock packed-refs (`oldPacked`)\n2. Get current packed refs (`newPacked`)\n3. Iterate loose refs and add/update in `newPacked`\na. During this iteration, track the set of loose refs that are added (i.e. not yet packed)\n4. For all *added* loose refs, lock them.\n5. Re-check existence of locked+added loose refs. Any non-existent refs are removed from `newPacked` and unlocked. Existent refs stay locked.\n6. Commit packed-refs (L786)\n7. Unlock added loose refs.\n8. Continue at L789.",
+      "parentUuid": "85ae4029_0ff96036",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
