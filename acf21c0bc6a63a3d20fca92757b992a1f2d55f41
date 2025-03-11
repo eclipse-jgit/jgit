@@ -16,6 +16,46 @@
       "message": "rebased",
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66d8fb14_e2a6e3b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-11T10:53:02Z",
+      "side": 1,
+      "message": "I\u0027m sorry for the late feedback; I believe this improves the situation, but there is still raciness left when refs are deleted. We see deleted refs being included in the packed-refs when the deletion is happening concurrently with the git repacking.",
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ae4029_0ff96036",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-11T10:53:02Z",
+      "side": 1,
+      "message": "What if the loose ref is associated with a `refName` that was packed at L786 but then removed before reaching L794?\n\nI believe the locking of the loose refs should have happened *before* reading it and putting this into the `packed-refs`.\n\nThere is a race condition where the ref is removed *whilst* a ref\u0027s packing is processed.",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
