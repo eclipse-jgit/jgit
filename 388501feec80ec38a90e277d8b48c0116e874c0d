@@ -34,6 +34,24 @@
       "parentUuid": "1642a1be_a5879dd4",
       "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78818447_80770e25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-11T22:10:46Z",
+      "side": 1,
+      "message": "We can load the commit-graph with the bloom filters (if available) and then ignore them at serving time in a wrapper of the CommitGraph.\n\nThat would be allow us to toggle it at runtime and do not require two copies of the commit-graph in memory.",
+      "parentUuid": "27dc6cad_87b9ec23",
+      "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
