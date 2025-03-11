@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "432ead45_8a4526bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T10:19:10Z",
+      "side": 1,
+      "message": "```suggestion\nanother thread as this will just create extra load and likely slow down\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ede01f_46355be6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T10:19:10Z",
+      "side": 1,
+      "message": "this causes the maven build to be stuck on this thread\n\n```\n214 \"mvn-builder-org.eclipse.jgit\" #46 prio\u003d5 os_prio\u003d31 cpu\u003d3314.14ms elapsed\u003d25.59s allocated\u003d808M defined_classes\u003d1963 tid\u003d0x000000013c9e4000 nid\u003d0xf507 waiting on condition  [0x0000000175b6c000]\n215    java.lang.Thread.State: WAITING (parking)\n216     at jdk.internal.misc.Unsafe.park(java.base@17.0.14/Native Method)\n217     - parking to wait for  \u003c0x000000079a088998\u003e (a java.util.concurrent.FutureTask)\n218     at java.util.concurrent.locks.LockSupport.park(java.base@17.0.14/LockSupport.java:211)\n219     at java.util.concurrent.FutureTask.awaitDone(java.base@17.0.14/FutureTask.java:447)\n220     at java.util.concurrent.FutureTask.get(java.base@17.0.14/FutureTask.java:190)\n221     at org.eclipse.jgit.internal.storage.file.RefDirectory$PackedRefsRefresher.getPackedRefList(RefDirectory.java:1488)\n222     at org.eclipse.jgit.internal.storage.file.RefDirectory.refreshPackedRefsOrWaitForRefresher(RefDirectory.java:968)\n223     at org.eclipse.jgit.internal.storage.file.RefDirectory.getPackedRefs(RefDirectory.java:949)\n224     at org.eclipse.jgit.internal.storage.file.RefDirectory.firstExactRef(RefDirectory.java:358)\n225     at org.eclipse.jgit.lib.RefDatabase.findRef(RefDatabase.java:281)\n226     at org.eclipse.jgit.lib.Repository.findRef(Repository.java:1102)\n227     at org.eclipse.jgit.lib.Repository.resolve(Repository.java:815)\n228     at org.eclipse.jgit.lib.Repository.resolve(Repository.java:473)\n229     at java.lang.invoke.LambdaForm$DMH/0x000000b0011b5400.invokeVirtual(java.base@17.0.14/LambdaForm$DMH)\n230     at java.lang.invoke.LambdaForm$MH/0x000000b0014c4800.invoke(java.base@17.0.14/LambdaForm$MH)\n231     at java.lang.invoke.LambdaForm$MH/0x000000b0013ce000.guardWithCatch(java.base@17.0.14/LambdaForm$MH)\n232     at java.lang.invoke.LambdaForm$MH/0x000000b0013ce800.reinvoke(java.base@17.0.14/LambdaForm$MH)\n233     at java.lang.invoke.LambdaForm$MH/0x000000b0013cec00.guard(java.base@17.0.14/LambdaForm$MH)\n234     at java.lang.invoke.LambdaForm$MH/0x000000b0013ce800.reinvoke(java.base@17.0.14/LambdaForm$MH)\n235     at java.lang.invoke.LambdaForm$MH/0x000000b0013d2400.invoke(java.base@17.0.14/LambdaForm$MH)\n236     at java.lang.invoke.LambdaForm$MH/0x000000b0013ccc00.invokeExact_MT(java.base@17.0.14/LambdaForm$MH)\n237     at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)\n238     at java.lang.invoke.LambdaForm$DMH/0x000000b0013b8800.invokeStatic(java.base@17.0.14/LambdaForm$DMH)\n239     at java.lang.invoke.LambdaForm$MH/0x000000b0013cd400.invoke(java.base@17.0.14/LambdaForm$MH)\n240     at java.lang.invoke.Invokers$Holder.linkToCallSite(java.base@17.0.14/Invokers$Holder)\n241     at Script1.run(Script1.groovy:22)\n242     at groovy.lang.GroovyShell.evaluate(GroovyShell.java:460)\n243     at groovy.lang.GroovyShell.evaluate(GroovyShell.java:495)\n244     at groovy.lang.GroovyShell.evaluate(GroovyShell.java:469)\n245     at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(java.base@17.0.14/Native Method)\n246     at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(java.base@17.0.14/NativeMethodAccessorImpl.java:77)\n247     at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(java.base@17.0.14/DelegatingMethodAccessorImpl.java:43)\n248     at java.lang.reflect.Method.invoke(java.base@17.0.14/Method.java:569)\n249     at org.codehaus.gmavenplus.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:216)\n250     at org.codehaus.gmavenplus.mojo.ExecuteMojo.executeScripts(ExecuteMojo.java:236)\n251     at org.codehaus.gmavenplus.mojo.ExecuteMojo.doExecute(ExecuteMojo.java:153)\n252     - locked \u003c0x000000078411cc20\u003e (a org.codehaus.gmavenplus.mojo.ExecuteMojo)\n253     at org.codehaus.gmavenplus.mojo.ExecuteMojo.execute(ExecuteMojo.java:103)\n254     at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo(DefaultBuildPluginManager.java:126)\n255     at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2(MojoExecutor.java:328)\n256     at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute(MojoExecutor.java:316)\n257     at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:212)\n258     at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:174)\n259     at org.apache.maven.lifecycle.internal.MojoExecutor.access$000(MojoExecutor.java:75)\n260     at org.apache.maven.lifecycle.internal.MojoExecutor$1.run(MojoExecutor.java:162)\n261     at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute(DefaultMojosExecutionStrategy.java:39)\n262     at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:159)\n263     at org.apache.maven.lifecycle.internal.MojoExecutor.executeForkedExecutions(MojoExecutor.java:448)\n264     at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute(MojoExecutor.java:311)\n265     at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:212)\n266     at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:174)\n267     at org.apache.maven.lifecycle.internal.MojoExecutor.access$000(MojoExecutor.java:75)\n268     at org.apache.maven.lifecycle.internal.MojoExecutor$1.run(MojoExecutor.java:162)\n269     at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute(DefaultMojosExecutionStrategy.java:39)\n270     at org.apache.maven.lifecycle.internal.MojoExecutor.execute(MojoExecutor.java:159)\n271     at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject(LifecycleModuleBuilder.java:105)\n```\n\nand the CI job fails after max build time 1 hour timeout kicks in",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd826a7_261b1659",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T10:19:10Z",
+      "side": 1,
+      "message": "```suggestion\n\t * When set to {@link #UNKNOWN_SIZE} the size is not considered for modification checks. */\n```",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4bc231d_a3569ecf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T10:19:10Z",
+      "side": 1,
+      "message": "can we use `#inProcessPackedRefsLock` instead which is already used to protect methods updating packed-refs ?",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
