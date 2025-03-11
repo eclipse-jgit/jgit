@@ -160,6 +160,23 @@
       "parentUuid": "e63d42ae_49a3777e",
       "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f16b9925_fc117cf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-11T21:42:32Z",
+      "side": 1,
+      "message": "This is a problematic approach now since we deliberately are allowing other threads to update the reads behind our back, so we need to track the updates from the other reads and we need to only update if ours is the \"currrent\" expected update.",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
