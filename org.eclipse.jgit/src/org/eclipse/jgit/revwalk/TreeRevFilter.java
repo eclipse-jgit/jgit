@@ -12,15 +12,11 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
-import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.diff.RenameDetector;
-import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
@@ -28,6 +24,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter.MutableBoolean;
 
 /**
  * Filter applying a {@link org.eclipse.jgit.treewalk.filter.TreeFilter} against
@@ -49,6 +46,8 @@ public class TreeRevFilter extends RevFilter {
 	private final int rewriteFlag;
 
 	private final TreeWalk pathFilter;
+
+	private final MutableBoolean changedPathFilterUsed = new MutableBoolean();
 
 	private long changedPathFilterTruePositive = 0;
 
@@ -126,24 +125,15 @@ public class TreeRevFilter extends RevFilter {
 		}
 		trees[nParents] = c.getTree();
 		tw.reset(trees);
+		changedPathFilterUsed.reset();
 
 		if (nParents == 1) {
 			// We have exactly one parent. This is a very common case.
 			//
 			int chgs = 0, adds = 0;
-			boolean changedPathFilterUsed = false;
-			boolean mustCalculateChgs = true;
-			ChangedPathFilter cpf = c.getChangedPathFilter(walker);
-			if (cpf != null) {
-				Optional<Set<byte[]>> paths = pathFilter.getFilter()
-						.getPathsBestEffort();
-				if (paths.isPresent()) {
-					changedPathFilterUsed = true;
-					if (paths.get().stream().noneMatch(cpf::maybeContains)) {
-						mustCalculateChgs = false;
-					}
-				}
-			}
+			TreeFilter tf = pathFilter.getFilter();
+			boolean mustCalculateChgs = tf.shouldTreeWalk(c, walker,
+					changedPathFilterUsed);
 			if (mustCalculateChgs) {
 				while (tw.next()) {
 					chgs++;
@@ -153,7 +143,7 @@ public class TreeRevFilter extends RevFilter {
 						break; // no point in looking at this further.
 					}
 				}
-				if (changedPathFilterUsed) {
+				if (changedPathFilterUsed.get()) {
 					if (chgs > 0) {
 						changedPathFilterTruePositive++;
 					} else {
@@ -161,7 +151,7 @@ public class TreeRevFilter extends RevFilter {
 					}
 				}
 			} else {
-				if (changedPathFilterUsed) {
+				if (changedPathFilterUsed.get()) {
 					changedPathFilterNegative++;
 				}
 			}
@@ -314,10 +304,18 @@ public class TreeRevFilter extends RevFilter {
 		return changedPathFilterNegative;
 	}
 
+	/**
+	 * Return whether changed path filter is used in the last next() iteration.
+	 *
+	 * @return whether changed path filter is used in next()
+	 * @since 7.3
+	 */
+	public boolean getChangedPathFilterUsed() {
+		return changedPathFilterUsed.get();
+	}
+
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,
-			RevCommit commit)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			CorruptObjectException, IOException {
+			RevCommit commit) throws IOException {
 		TreeWalk tw = pathFilter;
 		FollowFilter oldFilter = (FollowFilter) tw.getFilter();
 		tw.setFilter(TreeFilter.ANY_DIFF);
