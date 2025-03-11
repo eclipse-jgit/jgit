@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "225ccc6e_2b8cbfad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T23:38:47Z",
+      "side": 1,
+      "message": "```suggestion\n\t *            only reflog entries younger than this time are processed\n```",
+      "range": {
+        "startLine": 1155,
+        "startChar": 35,
+        "endLine": 1155,
+        "endChar": 49
+      },
+      "revId": "6d50c1162859ef9a92ae3e01ff7b2b2e76a537a8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
