@@ -75,6 +75,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c9d4e0_f7838830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T21:39:29Z",
+      "side": 1,
+      "message": "please rebase this change onto master and resolve conflicts",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fd826a7_261b1659",
@@ -123,6 +140,24 @@
       "side": 1,
       "message": "That is used for writes, and that would cause some serious contention if we used it for reads also.",
       "parentUuid": "a4bc231d_a3569ecf",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7bcb8fa_1526f7d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T21:39:29Z",
+      "side": 1,
+      "message": "you are right",
+      "parentUuid": "e63d42ae_49a3777e",
       "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
