@@ -16,6 +16,23 @@
       "message": "This is untested, but I figured I would start floating the approach out there to get early feedback.",
       "revId": "14fd2794e4a56815b921149bafce66f0b9516a87",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410122a8_8922a3b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-11T03:48:15Z",
+      "side": 1,
+      "message": "refreshingPackedRefs and refreshingSnapshot need to get cleared somehow.",
+      "revId": "14fd2794e4a56815b921149bafce66f0b9516a87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
