@@ -33,6 +33,24 @@
       "message": "refreshingPackedRefs and refreshingSnapshot need to get cleared somehow.",
       "revId": "14fd2794e4a56815b921149bafce66f0b9516a87",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a3e2d04_180d963e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-11T05:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "410122a8_8922a3b0",
+      "revId": "14fd2794e4a56815b921149bafce66f0b9516a87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
