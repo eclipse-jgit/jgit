@@ -41,6 +41,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce235932_76bc418a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-11T10:23:40Z",
+      "side": 1,
+      "message": "Can we move this to master ?\n\nI think we should avoid implementing new features on maintenance branches.\n\nWith https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1208599 merged Gerrit can again use JGit master. And Gerrit master upgraded to the servlet-4 branch. So if you need new JGit features in Gerrit maintenance branches they could upgrade to the JGit servlet-4 branch as well. And we can merge JGit master to servlet-4 branch whenever necessary.",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fd826a7_261b1659",
