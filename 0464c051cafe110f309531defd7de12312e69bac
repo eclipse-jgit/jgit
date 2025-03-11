@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46eeefc3_1dc1b031",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-11T23:22:29Z",
+      "side": 1,
+      "message": "@ifrade@google.com\n\nI am having trouble updating https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1193110 with the latest revision due to GerritHub failing to rebase the change with the latest master branch. \n\nI created this patch with your latest feedback incorporated, it\u0027s also based on the latest master branch. \n\nWould you mind reviewing this patch over the old one? I will mark the old one with \"abandon\".",
+      "revId": "0464c051cafe110f309531defd7de12312e69bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
