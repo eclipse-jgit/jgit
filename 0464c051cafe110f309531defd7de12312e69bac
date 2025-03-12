@@ -68,6 +68,24 @@
       "parentUuid": "6326838f_820bfa77",
       "revId": "0464c051cafe110f309531defd7de12312e69bac",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d8bc43_256c6eb8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-12T17:23:07Z",
+      "side": 1,
+      "message": "good call. This patch was written without the context of the following patches. Will add a new constructor in the following patch.",
+      "parentUuid": "42bd2874_bc340a4c",
+      "revId": "0464c051cafe110f309531defd7de12312e69bac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
