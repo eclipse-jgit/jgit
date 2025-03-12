@@ -52,6 +52,24 @@
       "parentUuid": "27dc6cad_87b9ec23",
       "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b56cd3b_285cf236",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-12T17:02:06Z",
+      "side": 1,
+      "message": "\u003ethen ignore them at serving time in a wrapper of the CommitGraph.\n\nI assume you meant the CommitGraphV1 class. And yes, I agree having two copies of commit-graph is ineffecient. \n\nDoing so cause two problems: \n\n1. The current Commit Graph wrapper is only meant to be a POJO without any sort of control logic; it\u0027s effectively a data container in memory. AFAIK, all of our in memory optimizations don\u0027t hold any control logic, the control logic is only applied in construction/loading time.\n\n2. Additionally, the Commit Graph object is a singleton for all ongoing requests (some might be have different `commitGraph.readChangedPaths` states), so it\u0027s not ideally that we switch a boolean of the singleton on each RevWalk setup. \n\nWe could get over these two problems with the following suggestion: \nRevWalk usually is the place for all control logic when serving. Since all Cpf are served from the `RevCommit#getChangedPathFilter(rw)`, we could just return null if RevWalk has the control flag; since each RevWalk is constructed with the repo config as their final states, we don\u0027t have to worry about problem #2. Problem #1 also won\u0027t be an issue since we aren\u0027t adding control logic into the wrapper. \n\nhowever the above suggestion would require the constructor of RevWalk to be aware of the flag in its constructor. The flag only exists in the repo config atm, and RevWalk has two different constructor, one with the repo object, one with just a objectReader, to my knowledge, the object reader does not have any context on the repo config, so this approach won\u0027t work well either. The best thing here might be exposing a control `setReadChangedPaths` method in RevWalk similar to the use case of `setRetainBody()`, then let the callers constucting the RevWalk to propagate the flag. \n\ntbh, this is a problem only unique to Dfs implementation since the file system code always re-generate the commit graph with the intended state.",
+      "parentUuid": "78818447_80770e25",
+      "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
