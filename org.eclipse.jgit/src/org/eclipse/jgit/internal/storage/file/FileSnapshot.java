@@ -271,6 +271,17 @@ public class FileSnapshot {
 	}
 
 	/**
+	 * Check if the snapshot has been modified with respect to the saved snapshot.
+	 *
+	 * @param other
+	 *            the snapshot to compare to for an update (null is considered modified).
+	 * @return true if the path needs to be read again.
+	 */
+	public boolean isModified(FileSnapshot other) {
+		return other == null || isModified(other.lastModified, other.size, other.fileKey);
+	}
+
+	/**
 	 * Check if the path may have been modified since the snapshot was saved.
 	 *
 	 * @param path
@@ -291,6 +302,10 @@ public class FileSnapshot {
 			currSize = 0L;
 			currFileKey = MISSING_FILEKEY;
 		}
+		return isModified(currLastModified, currSize, currFileKey);
+	}
+
+	private boolean isModified(Instant currLastModified, long currSize, Object currFileKey) {
 		sizeChanged = isSizeChanged(currSize);
 		if (sizeChanged) {
 			return true;
@@ -304,7 +319,7 @@ public class FileSnapshot {
 			return true;
 		}
 		return false;
-	}
+	 }
 
 	/**
 	 * Update this snapshot when the content hasn't changed.

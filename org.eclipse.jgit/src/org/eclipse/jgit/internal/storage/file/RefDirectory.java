@@ -49,6 +49,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -149,6 +151,8 @@ public class RefDirectory extends RefDatabase {
 
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
+
+	private PackedRefsRefresher packedRefsRefresh;
 
 	/**
 	 * Lock for coordinating operations within a single process that may contend
@@ -966,67 +970,40 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
-		final PackedRefList curList = packedRefs.get();
-
-		switch (coreConfig.getTrustPackedRefsStat()) {
-		case NEVER:
-			break;
-		case AFTER_OPEN:
-			try (InputStream stream = Files
-					.newInputStream(packedRefsFile.toPath())) {
-				// open the file to refresh attributes (on some NFS clients)
-			} catch (FileNotFoundException | NoSuchFileException e) {
-				// Ignore as packed-refs may not exist
-			}
-			//$FALL-THROUGH$
-		case ALWAYS:
-			if (!curList.snapshot.isModified(packedRefsFile)) {
-				return curList;
-			}
-			break;
-		case INHERIT:
-			// only used in CoreConfig internally
+		PackedRefsRefresher refresher = new PackedRefsRefresher();
+		if (!refresher.isRefreshNeeded()) {
+			return refresher.curList;
 		}
-
-		return refreshPackedRefs(curList);
+		return refreshOrWaitForUpdatingRefresher(refresher);
 	}
 
 	PackedRefList refreshPackedRefs() throws IOException {
-		return refreshPackedRefs(packedRefs.get());
+		return refreshOrWaitForUpdatingRefresher(new PackedRefsRefresher());
 	}
 
-	private PackedRefList refreshPackedRefs(PackedRefList curList)
+	private PackedRefList refreshOrWaitForUpdatingRefresher(PackedRefsRefresher refresher)
 			throws IOException {
-		final PackedRefList newList = readPackedRefs();
-		if (packedRefs.compareAndSet(curList, newList) && !curList.id.equals(
-				newList.id)) {
-			modCnt.incrementAndGet();
+		synchronized (this) {
+			if (refresher.isModifiedAfter(packedRefsRefresh)) {
+				packedRefsRefresh = refresher;
+			} else {
+				refresher = packedRefsRefresh;
+			}
 		}
-		return newList;
+		try {
+			return refresher.getPackedRefList();
+		} finally {
+			synchronized (this) {
+				if (packedRefsRefresh == refresher) {
+					packedRefsRefresh = null;
+				}
+			}
+		}
 	}
 
-	private PackedRefList readPackedRefs() throws IOException {
-		try {
-			PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
-					f -> {
-						FileSnapshot snapshot = FileSnapshot.save(f);
-						MessageDigest digest = Constants.newMessageDigest();
-						try (BufferedReader br = new BufferedReader(
-								new InputStreamReader(
-										new DigestInputStream(
-												new FileInputStream(f), digest),
-										UTF_8))) {
-							return new PackedRefList(parsePackedRefs(br),
-									snapshot,
-									ObjectId.fromRaw(digest.digest()));
-						}
-					});
-			return result != null ? result : NO_PACKED_REFS;
-		} catch (IOException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new IOException(MessageFormat
-					.format(JGitText.get().cannotReadFile, packedRefsFile), e);
+	private synchronized void refresherUpdated(PackedRefsRefresher refresher) {
+		if (refresher.isModifiedAfter(packedRefsRefresh)) {
+			packedRefsRefresh = refresher;
 		}
 	}
 
@@ -1472,6 +1449,98 @@ public class RefDirectory extends RefDatabase {
 			InterruptedIOException ie = new InterruptedIOException();
 			ie.initCause(e);
 			throw ie;
+		}
+	}
+
+	private class PackedRefsRefresher {
+		public PackedRefList curList = packedRefs.get();
+
+		private FileSnapshot snapshot;
+		private FutureTask<PackedRefList> myFuture = new FutureTask<>(this::retryRefreshPackedRefs);
+		private boolean retrying;
+
+		public boolean isModifiedAfter(PackedRefsRefresher other) {
+			return other == null || other.snapshot == null ||
+					other.snapshot.isModified(snapshot);
+		}
+
+		public boolean isRefreshNeeded() throws IOException {
+			switch (coreConfig.getTrustPackedRefsStat()) {
+			case NEVER:
+				break;
+			case AFTER_OPEN:
+				try (InputStream stream = Files
+						.newInputStream(packedRefsFile.toPath())) {
+					// open the file to refresh attributes (on some NFS clients)
+				} catch (FileNotFoundException | NoSuchFileException e) {
+					// Ignore as packed-refs may not exist
+				}
+				//$FALL-THROUGH$
+			case ALWAYS:
+				if (!curList.snapshot.isModified(snapshot = FileSnapshot.save(packedRefsFile))) {
+					return false;
+				}
+				break;
+			case INHERIT:
+				// only used in CoreConfig internally
+				break;
+			}
+			return true;
+		}
+
+		public PackedRefList getPackedRefList() throws IOException {
+			try {
+				myFuture.run();
+				return myFuture.get();
+			} catch (InterruptedException | ExecutionException e) {
+				throw new IOException(MessageFormat
+						.format(JGitText.get().cannotReadFile, packedRefsFile), e);
+			}
+		}
+
+		private PackedRefList retryRefreshPackedRefs() throws IOException {
+			try {
+				PackedRefList result = FileUtils.readWithRetries(packedRefsFile,
+					f -> refreshPackedRefs());
+				return result != null ? result : NO_PACKED_REFS;
+			} catch (IOException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new IOException(MessageFormat
+						.format(JGitText.get().cannotReadFile, packedRefsFile), e);
+			}
+		}
+
+		private PackedRefList refreshPackedRefs() throws IOException {
+			if (retrying) {
+				refresherUpdated(this);
+			}
+			try {
+				PackedRefList newList = readPackedRefs(
+						snapshot != null ? snapshot : FileSnapshot.save(packedRefsFile));
+				compareAndSetPackedRefs(curList, newList);
+				return newList;
+			} catch (IOException e) {
+				curList = packedRefs.get();
+				if (!isRefreshNeeded()) {
+					return curList;
+				}
+				retrying = true;
+				throw e;
+			}
+		}
+
+		private PackedRefList readPackedRefs(FileSnapshot snapshot) throws IOException {
+			MessageDigest digest = Constants.newMessageDigest();
+			try (BufferedReader br = new BufferedReader(
+					new InputStreamReader(
+							new DigestInputStream(
+									new FileInputStream(packedRefsFile), digest),
+							UTF_8))) {
+				return new PackedRefList(parsePackedRefs(br),
+						snapshot,
+						ObjectId.fromRaw(digest.digest()));
+			}
 		}
 	}
 
