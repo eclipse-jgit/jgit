@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a843e7a4_b0e1ea1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-12T19:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "432ead45_8a4526bb",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f49c122b_54744429",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -109,6 +133,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ee1dbf_62b240ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-12T19:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd826a7_261b1659",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4bc231d_a3569ecf",
@@ -175,6 +217,24 @@
       "writtenOn": "2025-03-11T21:42:32Z",
       "side": 1,
       "message": "This is a problematic approach now since we deliberately are allowing other threads to update the reads behind our back, so we need to track the updates from the other reads and we need to only update if ours is the \"currrent\" expected update.",
+      "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1bfd469_b2a4ff60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-12T19:04:25Z",
+      "side": 1,
+      "message": "Actually, this approach matches the behavior before this change. We could think about improving it, but that is not the goal of this change.",
+      "parentUuid": "f16b9925_fc117cf1",
       "revId": "f0eea2c36c7970342a14bda360c2c87944ad8bb3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
