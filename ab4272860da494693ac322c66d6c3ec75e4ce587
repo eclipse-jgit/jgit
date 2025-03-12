@@ -16,6 +16,24 @@
       "message": "7.2 has sailed and will be published with Eclipse 2025-03 tomorrow, master is now heading for 7.3",
       "revId": "ab4272860da494693ac322c66d6c3ec75e4ce587",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72f57e93_0fa0e997",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-12T20:36:54Z",
+      "side": 1,
+      "message": "Updated. Thanks!",
+      "parentUuid": "4b2a504e_50dea1fb",
+      "revId": "ab4272860da494693ac322c66d6c3ec75e4ce587",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
