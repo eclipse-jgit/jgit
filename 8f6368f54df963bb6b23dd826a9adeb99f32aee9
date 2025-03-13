@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8350efbc_3b6a70a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-13T19:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18826a5d_58a92721",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "86b9709c_4beb89b4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -52,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20fa80a1_9b1dd2b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-13T19:39:29Z",
+      "side": 1,
+      "message": "Done.\n\nMaybe I misunderstood? per https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1193110/comments/817e1f90_4ceae56e, I added this field to fulfill your suggestion on \"Now with the MutableBoolean, it is worthy to check that it returns the correct values\", particularly with the composite filters.\n\nI have removed the method and its use usages in RevWalkCommitGraphTest.java.",
+      "parentUuid": "aff58de3_6b394900",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98ec57dd_65ce373c",
@@ -65,6 +101,24 @@
       "writtenOn": "2025-03-13T18:16:34Z",
       "side": 1,
       "message": "nit, empty line",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f97955_4f0cfddf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-13T19:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98ec57dd_65ce373c",
       "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
