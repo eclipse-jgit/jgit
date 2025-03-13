@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18826a5d_58a92721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-13T18:16:34Z",
+      "side": 1,
+      "message": "Put an empty line between paragraphs. Same on the next one.",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b9709c_4beb89b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-13T18:16:34Z",
+      "side": 1,
+      "message": "I think we have an unnecessary method and then couple nits. Thanks!",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aff58de3_6b394900",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-13T18:16:34Z",
+      "side": 1,
+      "message": "Do you really need this if the stats look correct? Unless there is a very good reason, please remove it.",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98ec57dd_65ce373c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/ChangedPathTreeFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-13T18:16:34Z",
+      "side": 1,
+      "message": "nit, empty line",
+      "revId": "8f6368f54df963bb6b23dd826a9adeb99f32aee9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
