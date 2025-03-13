@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499baea7_a920399c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-13T00:26:13Z",
+      "side": 1,
+      "message": "change this method to return Instant and compare instants in PlotRefComparator#compare ?",
+      "revId": "67da1ec29ada1bd5b28a9c9b6d7758255c3b0a0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
