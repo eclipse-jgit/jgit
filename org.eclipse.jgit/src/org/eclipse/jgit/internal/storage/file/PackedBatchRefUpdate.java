@@ -85,6 +85,7 @@ import org.eclipse.jgit.util.RefList;
  * packed-refs protocol.
  */
 class PackedBatchRefUpdate extends BatchRefUpdate {
+	private static final String atomicBatchRefUpdateOnPrefixOnly = System.getProperty("atomicBatchRefUpdateOnPrefixOnly");
 	private RefDirectory refdb;
 	private boolean shouldLockLooseRefs;
 
@@ -111,7 +112,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		if (pending.isEmpty()) {
 			return;
 		}
-		if (pending.size() == 1) {
+		if (pending.size() == 1 || (atomicBatchRefUpdateOnPrefixOnly != null && !startsWithAtomicPrefixOnly(pending))) {
 			// Single-ref updates are always atomic, no need for packed-refs.
 			super.execute(walk, monitor, options);
 			return;
@@ -199,6 +200,15 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		refdb.fireRefsChanged();
 		pending.forEach(c -> c.setResult(ReceiveCommand.Result.OK));
 		writeReflog(pending);
+	}
+
+	private boolean startsWithAtomicPrefixOnly(List<ReceiveCommand> pending) {
+		for (ReceiveCommand command : pending) {
+			if (command.getRefName().startsWith(atomicBatchRefUpdateOnPrefixOnly)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static boolean containsSymrefs(List<ReceiveCommand> commands) {
