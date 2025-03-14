@@ -33,7 +33,7 @@
   </description>
 
   <scm>
-    <url>https://eclipse.gerrithub.io/plugins/gitiles/eclipse-jgit/jgit</url>
+    <url>https://eclipse.gerrithub.io/admin/repos/eclipse-jgit/jgit</url>
     <connection>scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit</connection>
   </scm>
 
