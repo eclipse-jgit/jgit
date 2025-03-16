@@ -208,6 +208,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
+        "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
@@ -220,6 +221,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
+        "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
@@ -231,6 +233,7 @@ java_library(
     name = "bcpkix",
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
+        "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
