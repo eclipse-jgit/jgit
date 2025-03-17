@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.blame.BlameGenerator;
 import org.eclipse.jgit.blame.BlameResult;
+import org.eclipse.jgit.blame.cache.FileBlameCache;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -65,13 +66,16 @@ class Blame extends TextBuiltin {
 	@Option(name = "-s", usage = "usage_blameSuppressAuthor")
 	private boolean noAuthor;
 
-	@Option(name = "--show-email", aliases = { "-e" }, usage = "usage_blameShowEmail")
+	@Option(name = "--show-email", aliases = {
+			"-e" }, usage = "usage_blameShowEmail")
 	private boolean showAuthorEmail;
 
-	@Option(name = "--show-name", aliases = { "-f" }, usage = "usage_blameShowSourcePath")
+	@Option(name = "--show-name", aliases = {
+			"-f" }, usage = "usage_blameShowSourcePath")
 	private boolean showSourcePath;
 
-	@Option(name = "--show-number", aliases = { "-n" }, usage = "usage_blameShowSourceLine")
+	@Option(name = "--show-number", aliases = {
+			"-n" }, usage = "usage_blameShowSourceLine")
 	private boolean showSourceLine;
 
 	@Option(name = "--root", usage = "usage_blameShowRoot")
@@ -130,11 +134,13 @@ class Blame extends TextBuiltin {
 			dateFmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss ZZ"); //$NON-NLS-1$
 		}
 
+		FileBlameCache fileBlameCache = FileBlameCache.getDefault();
 		try (ObjectReader reader = db.newObjectReader();
-				BlameGenerator generator = new BlameGenerator(db, file)) {
+				BlameGenerator generator = new BlameGenerator(db, file, fileBlameCache)) {
 			RevFlag scanned = generator.newFlag("SCANNED"); //$NON-NLS-1$
 			generator.setTextComparator(comparator);
 
+			FileBlameCache.FileBlameCacheWriter cacheWriter = null;
 			if (!reverseRange.isEmpty()) {
 				RevCommit rangeStart = null;
 				List<RevCommit> rangeEnd = new ArrayList<>(2);
@@ -153,8 +159,11 @@ class Blame extends TextBuiltin {
 							revision));
 				}
 				generator.push(null, rev);
+				cacheWriter = fileBlameCache.getWriter(rev, file);
 			} else {
 				generator.prepareHead();
+				cacheWriter = fileBlameCache
+						.getWriter(db.resolve(Constants.HEAD), file);
 			}
 
 			blame = BlameResult.create(generator);
@@ -166,7 +175,9 @@ class Blame extends TextBuiltin {
 			end = blame.getResultContents().size();
 			if (rangeString != null) {
 				parseLineRangeOption();
+				cacheWriter = null; // We don't want partial blames in cache
 			}
+			blame.setCacheWriter(cacheWriter);
 			blame.computeRange(begin, end);
 
 			int authorWidth = 8;
@@ -320,8 +331,8 @@ class Blame extends TextBuiltin {
 		PersonIdent author = blame.getSourceAuthor(line);
 		if (author == null)
 			return ""; //$NON-NLS-1$
-		String name = showAuthorEmail ? author.getEmailAddress() : author
-				.getName();
+		String name = showAuthorEmail ? author.getEmailAddress()
+				: author.getName();
 		return name != null ? name : ""; //$NON-NLS-1$
 	}
 
