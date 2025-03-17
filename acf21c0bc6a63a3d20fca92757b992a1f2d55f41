@@ -104,6 +104,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e2f59f4_d35ac2b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-03-17T14:52:10Z",
+      "side": 1,
+      "message": "Nasser\u0027s 8 steps seem correct to me.",
+      "parentUuid": "6d872d66_98828a9e",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
