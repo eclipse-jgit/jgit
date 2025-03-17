@@ -12,6 +12,7 @@ package org.eclipse.jgit.blame;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.blame.cache.FileBlameCache;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -67,6 +68,8 @@ public class BlameResult {
 	private final PersonIdent[] sourceCommitters;
 
 	private final String[] sourcePaths;
+	private FileBlameCache.FileBlameCacheWriter cacheWriter;
+
 
 	/** Warning: these are actually 1-based. */
 	private final int[] sourceLines;
@@ -88,6 +91,10 @@ public class BlameResult {
 		sourceCommitters = new PersonIdent[cnt];
 		sourceLines = new int[cnt];
 		sourcePaths = new String[cnt];
+	}
+
+	public void setCacheWriter(FileBlameCache.FileBlameCacheWriter cacheWriter) {
+		this.cacheWriter = cacheWriter;
 	}
 
 	/**
@@ -218,6 +225,10 @@ public class BlameResult {
 		} finally {
 			gen.close();
 			generator = null;
+
+			if (cacheWriter != null) {
+				cacheWriter.flush();
+			}
 		}
 	}
 
@@ -245,6 +256,9 @@ public class BlameResult {
 		}
 		gen.close();
 		generator = null;
+		if (cacheWriter != null) {
+			cacheWriter.flush();
+		}
 		return -1;
 	}
 
@@ -319,6 +333,10 @@ public class BlameResult {
 		int srcLine = gen.getSourceStart();
 		int resLine = gen.getResultStart();
 		int resEnd = gen.getResultEnd();
+
+		if (cacheWriter != null) {
+			cacheWriter.add(srcPath, srcCommit, resLine, resEnd);
+		}
 
 		for (; resLine < resEnd; resLine++) {
 			// Reverse blame can generate multiple results for the same line.
