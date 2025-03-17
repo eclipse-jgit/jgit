@@ -128,6 +128,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6589522_a4799c4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-17T15:32:20Z",
+      "side": 1,
+      "message": "I believe the most important point proposed by @quic_nasserg@quicinc.com is:\n\n\u003e Any non-existent refs are removed from newPacked and unlocked. Existent refs stay locked.\n\nIf you find out that a loose ref has disappeared between step 3. and step 4. they need to be removed from `newPacked` otherwise you end up restoring it by listing it into the packed refs.\n\nWith regards to 7. we could save time keeping them locked and removing them, instead of unlocking and re-locking them for removal.",
+      "parentUuid": "0e2f59f4_d35ac2b2",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
