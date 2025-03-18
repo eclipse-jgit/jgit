@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -94,7 +95,16 @@ class Checkout extends TextBuiltin {
 					outw.println(MessageFormat.format(
 							CLIText.get().switchedToBranch,
 							Repository.shortenRefName(ref.getName())));
-			} catch (RefNotFoundException e) {
+			} catch (InvalidRefNameException e){
+				if (name == null){
+					throw die(MessageFormat
+							.format("a valid ref is expected",e));
+				} else {
+					throw die(MessageFormat
+							.format(CLIText.get().notAValidRefName, name, e));
+				}
+			}
+			catch (RefNotFoundException e) {
 				throw die(MessageFormat
 						.format(CLIText.get().pathspecDidNotMatch, name), e);
 			} catch (RefAlreadyExistsException e) {
