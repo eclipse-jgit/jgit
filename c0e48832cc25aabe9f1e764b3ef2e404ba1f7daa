@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea210798_8e8a7e73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 0,
+      "message": "These need to be kepts around and working, tagged as Deprecated until the next big release.\n\n@Deprecated(since\u003d7.3)",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

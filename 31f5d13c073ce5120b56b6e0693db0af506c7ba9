@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e620ea_68f4edbb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "Optional: Is there any way to make these fields less verbose?\n\nIf this is called TreeRevFilterStats, then the fields could be:\ncpfTruePositive;\ncpfFalsePositive;\ncpfNegative;\ncommitsVisited;\ntreesVisited;",
+      "revId": "31f5d13c073ce5120b56b6e0693db0af506c7ba9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

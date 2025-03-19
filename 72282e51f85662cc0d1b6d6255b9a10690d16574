@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f8153f_6b71a254",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1821,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "@since here, no need to put it per method.",
+      "revId": "72282e51f85662cc0d1b6d6255b9a10690d16574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

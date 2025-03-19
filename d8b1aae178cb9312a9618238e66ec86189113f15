@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1c0260_7b605efb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "RevWalk: Keep the TreeRevFilter stats in the walk",
+      "revId": "d8b1aae178cb9312a9618238e66ec86189113f15",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec4fa5a7_556b6cf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "Try to use active voice: https://developers.google.com/tech-writing/one/active-voice\n\ne.g. The StartGenerator creates a TreeRevFilter if the caller sets a TreeFilter in the RevWalk. As this happens inside the RevWalk, the caller doesn\u0027t have access to the TreeRevFilter reference and cannot read its stats (e.g. the success rate of the changed path filters).\n\nKeep the TreeRevFilter stats in the RevWalk, as it is visible from both, the TreeFilter and the caller.",
+      "revId": "d8b1aae178cb9312a9618238e66ec86189113f15",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c639c13_434eb397",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "public TreeRevFilterStats getTreeRevFilterStats() {\n\n(as this is only about the TreeRevFilter).",
+      "revId": "d8b1aae178cb9312a9618238e66ec86189113f15",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2db8a0_cb98f72f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "The methods modifying the values can be package-private. See suggestion in TreeRevFilter to have just one method for the cpf results.",
+      "revId": "d8b1aae178cb9312a9618238e66ec86189113f15",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f88adbb0_55f9c21c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T23:16:09Z",
+      "side": 1,
+      "message": "All these if/else just to update stats are a distraction on the (already complicated) flow of the method.\n\nMaybe we could just do in L158:\nwalker.getTreeRevFilterStats().add(changedPathFilterUsed, mustCalculateChgs, chgs \u003e 0);\n\nand that method does the ifs inside.",
+      "revId": "d8b1aae178cb9312a9618238e66ec86189113f15",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
