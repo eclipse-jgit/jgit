@@ -70,6 +70,24 @@
       "parentUuid": "78818447_80770e25",
       "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dd6cef7_2cf656eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-19T22:35:18Z",
+      "side": 1,
+      "message": "I meant the CommitGraph interface. You can have a \"SkipReadChangedPaths\" decorator overriding the #getChangePathFilter to return always null, and then wrap the CommitGraph with it depending on the conf.\n\nDfsReader#getCommitGraph() could do:\n\n```\n...\nif (!repo.getConfig().get(bla, bla, useReadChangedPaths)) {\n   return new SkipReadChangedPaths(commitGraph);\n}\n\nreturn commitGraph;\n```\n\nNote that although the commit-graph in memory is shared by all requests, each request grabs a reference and can wrap it as they need.",
+      "parentUuid": "1b56cd3b_285cf236",
+      "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
