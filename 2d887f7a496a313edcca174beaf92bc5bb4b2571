@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a7461c_0dbbea7c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-20T12:53:55Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "2d887f7a496a313edcca174beaf92bc5bb4b2571",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3a0435e_ac4e2b3e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/OrTreeFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-20T12:53:55Z",
+      "side": 1,
+      "message": "this method was deprecated in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1211215",
+      "range": {
+        "startLine": 18,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 73
+      },
+      "revId": "2d887f7a496a313edcca174beaf92bc5bb4b2571",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd766837_74a6e40c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-20T12:53:55Z",
+      "side": 1,
+      "message": "this method was deprecated in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1211215",
+      "range": {
+        "startLine": 88,
+        "startChar": 30,
+        "endLine": 88,
+        "endChar": 48
+      },
+      "revId": "2d887f7a496a313edcca174beaf92bc5bb4b2571",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c7c3d20_4aeedb10",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/OrTreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-20T12:53:55Z",
+      "side": 1,
+      "message": "this method was deprecated in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1211215",
+      "range": {
+        "startLine": 90,
+        "startChar": 21,
+        "endLine": 90,
+        "endChar": 39
+      },
+      "revId": "2d887f7a496a313edcca174beaf92bc5bb4b2571",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
