@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd762fc_b9645e91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-20T08:01:09Z",
+      "side": 1,
+      "message": "bazel build fails with this change:\n```\n$ bazelisk build all\nStarting local Bazel server and connecting to it...\nINFO: Invocation ID: bdd8b629-bf35-4c23-88d2-b9dd0a6c0586\nERROR: /Users/xxxx/git/jgit/org.eclipse.jgit.ssh.apache/BUILD:9:13: in java_library rule //org.eclipse.jgit.ssh.apache:ssh-apache: target \u0027//lib:bcpg\u0027 is not visible from target \u0027//org.eclipse.jgit.ssh.apache:ssh-apache\u0027. Check the visibility declaration of the former target if you think the dependency is legitimate\nERROR: /Users/xxxx/git/jgit/org.eclipse.jgit.ssh.apache/BUILD:9:13: Analysis of target \u0027//org.eclipse.jgit.ssh.apache:ssh-apache\u0027 failed\nERROR: Analysis of target \u0027//:all\u0027 failed; build aborted: Analysis failed\n```",
+      "revId": "28ba885af19fc1712a8bfddc9b0358c36763cdb6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
