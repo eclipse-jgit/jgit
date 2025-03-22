@@ -524,8 +524,8 @@ class BlockWriter {
 
 			this.oldId = oldId;
 			this.newId = newId;
-			this.timeSecs = who.getWhen().getTime() / 1000L;
-			this.tz = (short) who.getTimeZoneOffset();
+			this.timeSecs = who.getWhenAsInstant().getEpochSecond();
+			this.tz = (short) (who.getZoneOffset().getTotalSeconds() / 60);
 			this.name = who.getName().getBytes(UTF_8);
 			this.email = who.getEmailAddress().getBytes(UTF_8);
 			this.msg = message.getBytes(UTF_8);

@@ -104,6 +104,7 @@ import org.eclipse.jgit.util.FS.LockToken;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitTimeParser;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -182,7 +183,7 @@ public class GC {
 	 * prune() to inspect only those reflog entries which have been added since
 	 * last repack().
 	 */
-	private long lastRepackTime;
+	private Instant lastRepackTime;
 
 	/**
 	 * Whether gc should do automatic housekeeping
@@ -805,7 +806,7 @@ public class GC {
 	public Collection<Pack> repack() throws IOException {
 		Collection<Pack> toBeDeleted = repo.getObjectDatabase().getPacks();
 
-		long time = System.currentTimeMillis();
+		Instant time = SystemReader.getInstance().now();
 		Collection<Ref> refsBefore = getAllRefs();
 
 		Set<ObjectId> allHeadsAndTags = new HashSet<>();
@@ -821,7 +822,7 @@ public class GC {
 
 		for (Ref ref : refsBefore) {
 			checkCancelled();
-			nonHeads.addAll(listRefLogObjects(ref, 0));
+			nonHeads.addAll(listRefLogObjects(ref, Instant.EPOCH));
 			if (ref.isSymbolic() || ref.getObjectId() == null) {
 				continue;
 			}
@@ -1151,12 +1152,13 @@ public class GC {
 	 * @param ref
 	 *            the ref which log should be inspected
 	 * @param minTime
-	 *            only reflog entries not older then this time are processed
+	 *            only reflog entries equal or younger than this time are
+	 *            processed
 	 * @return the {@link ObjectId}s contained in the reflog
 	 * @throws IOException
 	 *             if an IO error occurred
 	 */
-	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
+	private Set<ObjectId> listRefLogObjects(Ref ref, Instant minTime) throws IOException {
 		ReflogReader reflogReader = repo.getRefDatabase().getReflogReader(ref);
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
@@ -1164,8 +1166,9 @@ public class GC {
 			return Collections.emptySet();
 		Set<ObjectId> ret = new HashSet<>();
 		for (ReflogEntry e : rlEntries) {
-			if (e.getWho().getWhen().getTime() < minTime)
+			if (e.getWho().getWhenAsInstant().isBefore(minTime)) {
 				break;
+			}
 			ObjectId newId = e.getNewId();
 			if (newId != null && !ObjectId.zeroId().equals(newId))
 				ret.add(newId);

@@ -33,7 +33,7 @@
   </description>
 
   <scm>
-    <url>https://eclipse.gerrithub.io/plugins/gitiles/eclipse-jgit/jgit</url>
+    <url>https://eclipse.gerrithub.io/admin/repos/eclipse-jgit/jgit</url>
     <connection>scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit</connection>
   </scm>
 
@@ -118,7 +118,7 @@
 
     <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
 
-    <jgit-last-release-version>7.1.0.202411261347-r</jgit-last-release-version>
+    <jgit-last-release-version>7.2.0.202503040940-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
     <apache-sshd-version>2.15.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
@@ -130,7 +130,7 @@
     <commons-compress-version>1.27.1</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
-    <jetty-version>12.0.16</jetty-version>
+    <jetty-version>12.0.17</jetty-version>
     <japicmp-version>0.23.1</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
@@ -138,7 +138,7 @@
     <maven-javadoc-plugin-version>3.11.2</maven-javadoc-plugin-version>
     <gson-version>2.12.1</gson-version>
     <bouncycastle-version>1.80</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.9.1.0</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>4.9.2.0</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.8.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.5.2</maven-surefire-plugin-version>
@@ -148,7 +148,7 @@
     <hamcrest-version>2.2</hamcrest-version>
     <assertj-version>3.27.3</assertj-version>
     <jna-version>5.16.0</jna-version>
-    <byte-buddy-version>1.17.1</byte-buddy-version>
+    <byte-buddy-version>1.17.2</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -1007,7 +1007,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.15.2</version>
+        <version>5.16.0</version>
       </dependency>
 
       <dependency>
