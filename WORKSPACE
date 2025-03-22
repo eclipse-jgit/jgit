@@ -204,8 +204,8 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:5.16.0",
-    sha1 = "bd466e0926d691891f8f38823e0cbdcec6754358",
+    artifact = "org.mockito:mockito-core:5.16.1",
+    sha1 = "be8bf71080016b793f32456faff861e2c3a77f62",
 )
 
 maven_jar(
