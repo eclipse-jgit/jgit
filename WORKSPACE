@@ -116,18 +116,18 @@ maven_jar(
     sha1 = "2e226055ed060c64ed76256a9c45de6d0109eef8",
 )
 
-JNA_VERS = "5.16.0"
+JNA_VERS = "5.17.0"
 
 maven_jar(
     name = "jna",
     artifact = "net.java.dev.jna:jna:" + JNA_VERS,
-    sha1 = "ebea09f91dc9f7048099f963fb8d6f919f0a4d9c",
+    sha1 = "33d12735bef894440780fce64f9758d420c7bae2",
 )
 
 maven_jar(
     name = "jna-platform",
     artifact = "net.java.dev.jna:jna-platform:" + JNA_VERS,
-    sha1 = "b2a9065f97c166893d504b164706512338e3bbc2",
+    sha1 = "a4934c44d25a9d8c2ddf4203affd20330cb3426f",
 )
 
 maven_jar(
