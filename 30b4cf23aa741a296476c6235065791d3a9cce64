@@ -16,6 +16,24 @@
       "message": "see https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1211500",
       "revId": "30b4cf23aa741a296476c6235065791d3a9cce64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f62c8046_e1701a60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-22T01:12:15Z",
+      "side": 1,
+      "message": "Thanks! I abandon this one.",
+      "parentUuid": "af5d88de_c77c4238",
+      "revId": "30b4cf23aa741a296476c6235065791d3a9cce64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
