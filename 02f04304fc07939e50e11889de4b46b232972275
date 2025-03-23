@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5b479f4_6ebb42ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-23T11:35:48Z",
+      "side": 1,
+      "message": "I believe it needs to be rather updated than reloaded, every time that a new pack index is added or removed.",
+      "parentUuid": "4da1a999_d6f17f12",
+      "range": {
+        "startLine": 229,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 22
+      },
+      "revId": "02f04304fc07939e50e11889de4b46b232972275",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1af6640b_201d07b1",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 11
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f17171ca_06cb4991",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-23T11:35:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure the order is relevant, though: why should it be? The only possibility is when the same object is contained in more than one pack, but really that won\u0027t matter other than we won\u0027t be getting the best representation of the object anyway.",
+      "parentUuid": "1af6640b_201d07b1",
+      "range": {
+        "startLine": 271,
+        "startChar": 29,
+        "endLine": 271,
+        "endChar": 37
+      },
+      "revId": "02f04304fc07939e50e11889de4b46b232972275",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7ddd714_44fcf13b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 11
@@ -60,6 +108,30 @@
       "writtenOn": "2025-03-13T16:59:26Z",
       "side": 1,
       "message": "Why should we have an IOE ?",
+      "range": {
+        "startLine": 285,
+        "startChar": 8,
+        "endLine": 285,
+        "endChar": 31
+      },
+      "revId": "02f04304fc07939e50e11889de4b46b232972275",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da1ec929_d4147e32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-23T11:35:48Z",
+      "side": 1,
+      "message": "This index is a best-effort speedup, so catching `Exception` and just skipping the packfile is good enough IMHO.",
+      "parentUuid": "a7ddd714_44fcf13b",
       "range": {
         "startLine": 285,
         "startChar": 8,
