@@ -16,6 +16,24 @@
       "message": "Optional: Is there any way to make these fields less verbose?\n\nIf this is called TreeRevFilterStats, then the fields could be:\ncpfTruePositive;\ncpfFalsePositive;\ncpfNegative;\ncommitsVisited;\ntreesVisited;",
       "revId": "31f5d13c073ce5120b56b6e0693db0af506c7ba9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "521114b1_8eb2f542",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-24T22:12:45Z",
+      "side": 1,
+      "message": "echo https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1192799/comment/2c639c13_434eb397/. \n\nThe names are verbose because this class isn\u0027t intended to just be a used by TreeRevFilter.",
+      "parentUuid": "d9e620ea_68f4edbb",
+      "revId": "31f5d13c073ce5120b56b6e0693db0af506c7ba9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

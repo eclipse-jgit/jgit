@@ -16,6 +16,24 @@
       "message": "These need to be kepts around and working, tagged as Deprecated until the next big release.\n\n@Deprecated(since\u003d7.3)",
       "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f1a6f23_e1590171",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-24T22:12:45Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "ea210798_8e8a7e73",
+      "revId": "c0e48832cc25aabe9f1e764b3ef2e404ba1f7daa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
