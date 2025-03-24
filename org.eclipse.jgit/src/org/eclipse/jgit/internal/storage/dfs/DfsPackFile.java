@@ -330,6 +330,14 @@ public final class DfsPackFile extends BlockBasedFile {
 
 		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
 
+		boolean readCommitGraph = repoConfig.getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_COMMIT_GRAPH, false);
+
+		if (!readCommitGraph) {
+			return null;
+		}
+
 		boolean readChangedPathFilters = repoConfig.getBoolean(
 				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
 				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
