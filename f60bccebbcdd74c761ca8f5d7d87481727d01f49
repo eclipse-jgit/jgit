@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aea39fc9_287b0e59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-03-24T09:29:27Z",
+      "side": 1,
+      "message": "I hadn\u0027t seen this when I made my comments below. What does \"mostly\" mean here? Either it is _only_ for tests, and then it shouldn\u0027t be public API. Or it is also used for actual code, and then it should really be \"intended for serious use\".",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9afc565d_f1e1816c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
         "patchSetId": 1
@@ -180,6 +197,93 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca1a3498_f75a4ef8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-03-24T09:29:27Z",
+      "side": 1,
+      "message": "Probably to avoid subdirectories.\n\nI\u0027m worried that these file names might get too long. If one wants to use individual files for blame caches of individual files in the git tree, make sure that the cache file names are (a) valid on all file systems we support and (b) are not overly long. For instance, \"revision_Sha256HashOfGitPath\". If doing a SHA256 of the path becomes a performance bottleneck, an in-memory cache path-\u003esha might help.\n\nBTW: is there anything to prune or garbage collect these blame cache files? Like, automatically remove any that haven\u0027t been accessed in the past X days?",
+      "parentUuid": "5e762c40_3d5dea6d",
+      "range": {
+        "startLine": 115,
+        "startChar": 50,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40513cbf_a0ac368b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-03-24T09:29:27Z",
+      "side": 1,
+      "message": "\":\" is not allowed in file names on Windows.[1]\n\n[1] https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file",
+      "range": {
+        "startLine": 115,
+        "startChar": 22,
+        "endLine": 115,
+        "endChar": 25
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aa95c78_9e65cfe4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-03-24T09:29:27Z",
+      "side": 1,
+      "message": "I think FileWriter is unbuffered, and what about the character set? Better use `Files.newBufferedWriter` with appropriate OpenOptions. Or use a binary storage encoding anyway; see below.",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a6856e_e8b96a81",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-03-24T09:29:27Z",
+      "side": 1,
+      "message": "Can `e.path()` contain blanks? If so, it\u0027ll break reading the line. How about a binary format? (Yes, less convenient to inspect manually, but can be defined such that it avoids any such problems, might be more efficient, and for manual inspection a little dump utlitity could be written.)",
+      "range": {
+        "startLine": 152,
+        "startChar": 19,
+        "endLine": 152,
+        "endChar": 27
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b29d460_820aa3b6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
         "patchSetId": 1
@@ -191,6 +295,23 @@
       "writtenOn": "2025-03-24T07:42:21Z",
       "side": 1,
       "message": "return empty list ?",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff5889cd_2def9bad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-03-24T09:29:27Z",
+      "side": 1,
+      "message": "If the path contained spaces, we\u0027ll end up here.",
       "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
