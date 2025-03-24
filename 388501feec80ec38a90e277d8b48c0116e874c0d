@@ -88,6 +88,24 @@
       "parentUuid": "1b56cd3b_285cf236",
       "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a42ecb64_01c1a741",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-03-24T23:12:57Z",
+      "side": 1,
+      "message": "ah, I got it. \n\nCurrently, the read flag is applied on the commitGraphLoader level, i.e. it decides whether the CG in the cache has the CPF chunk. With your suggestion, the definition of flag is changed from \"whether to load cpf into cache\" into \"whether we read the cpf data FROM cache\". However, we could always load the CPF chunk into cache regardless of the flag, so we can handle both scenarios: on-\u003eoff, off-\u003eon.\n\nI.e. we have assert that we always have the \"completed\" CG in cache, then this appraoch would work great. I don\u0027t personally see any problem doing it this way since the largest CPF chunk I\u0027ve known is about 30MB with chromium/chromium/src.\n\na slight nitpick: DfsReader isn\u0027t the only code path that access CG; technically you could do `db.getObjectDatabase().getPacks()[0].getCommitGraph(reader)` directly. i.e. the only level all code path converged is the `DfsPackFile#getCommitGraph(reader)` level.",
+      "parentUuid": "8dd6cef7_2cf656eb",
+      "revId": "388501feec80ec38a90e277d8b48c0116e874c0d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
