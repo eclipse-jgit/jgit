@@ -10,7 +10,9 @@
 
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_COMMIT_GRAPH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
@@ -277,6 +279,7 @@ public class DfsPackFileTest {
 			repository.branch("/refs/heads/main").commit().add("blob1", "blob1")
 					.create();
 		}
+		setCoreCommitGraph(true);
 		setReadChangedPaths(true);
 		DfsGarbageCollector gc = new DfsGarbageCollector(db);
 		gc.setWriteCommitGraph(true).setWriteBloomFilter(true)
@@ -303,6 +306,7 @@ public class DfsPackFileTest {
 				.pack(NullProgressMonitor.INSTANCE);
 		DfsReader reader = db.getObjectDatabase().newReader();
 
+		setCoreCommitGraph(true);
 		setReadChangedPaths(true);
 		CommitGraph cgWithCpf = db.getObjectDatabase().getPacks()[0]
 				.getCommitGraph(reader);
@@ -353,6 +357,11 @@ public class DfsPackFileTest {
 	private void setObjectSizeIndexMinBytes(int threshold) {
 		db.getConfig().setInt(CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, threshold);
+	}
+
+	private void setCoreCommitGraph(boolean enable) {
+		db.getConfig().setBoolean(CONFIG_CORE_SECTION, null,
+				CONFIG_COMMIT_GRAPH, enable);
 	}
 
 	private void setReadChangedPaths(boolean enable) {

@@ -6,6 +6,8 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.IN
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_COMMIT_GRAPH;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -1384,6 +1386,8 @@ public class DfsGarbageCollectorTest {
 		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
 		gc.setWriteCommitGraph(true);
 		run(gc);
+		repo.getConfig().setBoolean(CONFIG_CORE_SECTION, null,
+				CONFIG_COMMIT_GRAPH, true);
 	}
 
 	private void gcWithCommitGraphAndBloomFilter() throws IOException {
@@ -1391,6 +1395,8 @@ public class DfsGarbageCollectorTest {
 		gc.setWriteCommitGraph(true);
 		gc.setWriteBloomFilter(true);
 		run(gc);
+		repo.getConfig().setBoolean(CONFIG_CORE_SECTION, null,
+				CONFIG_COMMIT_GRAPH, true);
 	}
 
 	private void gcWithObjectSizeIndex(int threshold) throws IOException {

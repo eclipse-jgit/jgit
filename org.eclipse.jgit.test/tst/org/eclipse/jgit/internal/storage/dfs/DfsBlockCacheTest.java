@@ -11,6 +11,8 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_COMMIT_GRAPH;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -511,6 +513,8 @@ public class DfsBlockCacheTest {
 					.add("blob2", "blob2" + repoName).parent(commit).create();
 		}
 		new DfsGarbageCollector(repo).setWriteCommitGraph(true).pack(null);
+		repo.getConfig().setBoolean(CONFIG_CORE_SECTION, null,
+				CONFIG_COMMIT_GRAPH, true);
 		return repo;
 	}
 
