@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eddea7a3_29094e8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "```suggestion\nImplement a writer to store blame results in the file system and a\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9afc565d_f1e1816c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "`#mkdirs` already checks existence hence there is no need to do this twice",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a78750e0_5a8bdff7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "add a second private parameter-less constructor ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 62
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0a42ec_fcace82e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "instead of null I\u0027d prefer to get a reader which always returns an empty list of CacheRegions",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b1dadd5_6fa79b64",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "instead of null I\u0027d prefer to get a NoOp cache writer",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e37d630_a77de1f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "I think this should not be nullable",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 29
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf6a366_fad46c4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "how can this return null ?",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2df9953e_c9c56fcf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "how can this return null ?",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e762c40_3d5dea6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "what\u0027s the purpose of this encoding ?",
+      "range": {
+        "startLine": 115,
+        "startChar": 50,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b29d460_820aa3b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-03-24T07:42:21Z",
+      "side": 1,
+      "message": "return empty list ?",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
