@@ -6,7 +6,7 @@ java_library(
         "//org.eclipse.jgit.pgm:__pkg__",
         "//org.eclipse.jgit.pgm.test:__pkg__",
     ],
-    exports = ["@args4j//jar"],
+    exports = ["@maven//:args4j_args4j"],
 )
 
 java_library(
@@ -16,7 +16,7 @@ java_library(
         "//org.eclipse.jgit.pgm.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@commons-compress//jar"],
+    exports = ["@maven//:org_apache_commons_commons_compress"],
 )
 
 java_library(
@@ -26,7 +26,7 @@ java_library(
         "//org.eclipse.jgit.pgm.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@commons-lang3//jar"],
+    exports = ["@maven//:org_apache_commons_commons_lang3"],
 )
 
 java_library(
@@ -36,7 +36,7 @@ java_library(
         "//org.eclipse.jgit.pgm.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@commons-io//jar"],
+    exports = ["@maven//:commons_io_commons_io"],
 )
 
 java_library(
@@ -45,13 +45,13 @@ java_library(
         "//org.eclipse.jgit:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@commons-codec//jar"],
+    exports = ["@maven//:commons_codec_commons_codec"],
 )
 
 java_library(
     name = "commons-logging",
     visibility = ["//visibility:public"],
-    exports = ["@commons-logging//jar"],
+    exports = ["@maven//:commons_logging_commons_logging"],
 )
 
 java_library(
@@ -60,7 +60,7 @@ java_library(
         "//org.eclipse.jgit.lfs:__pkg__",
         "//org.eclipse.jgit.lfs.server:__pkg__",
     ],
-    exports = ["@gson//jar"],
+    exports = ["@maven//:com_google_code_gson_gson"],
 )
 
 java_library(
@@ -70,7 +70,7 @@ java_library(
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
-    exports = ["@httpclient//jar"],
+    exports = ["@maven//:org_apache_httpcomponents_httpclient"],
 )
 
 java_library(
@@ -82,7 +82,7 @@ java_library(
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
-    exports = ["@httpcore//jar"],
+    exports = ["@maven//:org_apache_httpcomponents_httpcore"],
 )
 
 java_library(
@@ -94,7 +94,7 @@ java_library(
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@sshd-osgi//jar"],
+    exports = ["@maven//:org_apache_sshd_sshd_osgi"],
 )
 
 java_library(
@@ -105,7 +105,7 @@ java_library(
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@sshd-sftp//jar"],
+    exports = ["@maven//:org_apache_sshd_sshd_sftp"],
 )
 
 java_library(
@@ -113,7 +113,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
     ],
-    exports = ["@jna//jar"],
+    exports = ["@maven//:net_java_dev_jna_jna"],
 )
 
 java_library(
@@ -121,20 +121,20 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.ssh.apache.agent:__pkg__",
     ],
-    exports = ["@jna-platform//jar"],
+    exports = ["@maven//:net_java_dev_jna_jna_platform"],
 )
 
 java_library(
     name = "javaewah",
     visibility = ["//visibility:public"],
-    exports = ["@javaewah//jar"],
+    exports = ["@maven//:com_googlecode_javaewah_JavaEWAH"],
 )
 
 java_library(
     name = "jetty-http",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-http//jar"],
+    exports = ["@maven//:org_eclipse_jetty_jetty_http"],
     runtime_deps = [":commons-codec"],
 )
 
@@ -142,28 +142,28 @@ java_library(
     name = "jetty-io",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-io//jar"],
+    exports = ["@maven//:org_eclipse_jetty_jetty_io"],
 )
 
 java_library(
     name = "jetty-security",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-security//jar"],
+    exports = ["@maven//:org_eclipse_jetty_jetty_security"],
 )
 
 java_library(
     name = "jetty-session",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-session//jar"],
+    exports = ["@maven//:org_eclipse_jetty_jetty_session"],
 )
 
 java_library(
     name = "jetty-server",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-server//jar"],
+    exports = ["@maven//:org_eclipse_jetty_jetty_server"],
 )
 
 java_library(
@@ -171,8 +171,8 @@ java_library(
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
     exports = [
-        "@jetty-servlet//jar",
-        "@jetty-util-ajax//jar",
+        "@maven//:org_eclipse_jetty_ee10_jetty_ee10_servlet",
+        "@maven//:org_eclipse_jetty_jetty_util_ajax",
     ],
 )
 
@@ -180,7 +180,7 @@ java_library(
     name = "jetty-util",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-util//jar"],
+    exports = ["@maven//:org_eclipse_jetty_jetty_util"],
 )
 
 java_library(
@@ -190,7 +190,7 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch:__pkg__",
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
     ],
-    exports = ["@jsch//jar"],
+    exports = ["@maven//:com_jcraft_jsch"],
 )
 
 java_library(
@@ -202,7 +202,7 @@ java_library(
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcpg//jar"],
+    exports = ["@maven//:org_bouncycastle_bcpg_jdk18on"],
 )
 
 java_library(
@@ -215,7 +215,7 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcprov//jar"],
+    exports = ["@maven//:org_bouncycastle_bcprov_jdk18on"],
 )
 
 java_library(
@@ -228,7 +228,7 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcutil//jar"],
+    exports = ["@maven//:org_bouncycastle_bcutil_jdk18on"],
 )
 
 java_library(
@@ -240,7 +240,7 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@bcpkix//jar"],
+    exports = ["@maven//:org_bouncycastle_bcpkix_jdk18on"],
 )
 
 java_library(
@@ -249,7 +249,7 @@ java_library(
         "//org.eclipse.jgit.ssh.jsch:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
-    exports = ["@jzlib//jar"],
+    exports = ["@maven//:com_jcraft_jzlib"],
 )
 
 java_library(
@@ -257,12 +257,12 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@bytebuddy-agent//jar",
-        "@bytebuddy//jar",
-        "@hamcrest//jar",
-        "@junit//jar",
-        "@mockito//jar",
-        "@objenesis//jar",
+        "@maven//:net_bytebuddy_byte_buddy_agent",
+        "@maven//:net_bytebuddy_byte_buddy",
+        "@maven//:org_hamcrest_hamcrest",
+        "@maven//:junit_junit",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_objenesis_objenesis",
     ],
 )
 
@@ -271,10 +271,10 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@bytebuddy-agent//jar",
-        "@bytebuddy//jar",
-        "@mockito//jar",
-        "@objenesis//jar",
+        "@maven//:net_bytebuddy_byte_buddy_agent",
+        "@maven//:net_bytebuddy_byte_buddy",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_objenesis_objenesis",
     ],
 )
 
@@ -283,7 +283,7 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@assertj-core//jar",
+        "@maven//:org_assertj_assertj_core",
     ],
 )
 
@@ -298,24 +298,24 @@ java_library(
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
-    exports = ["@servlet-api//jar"],
+    exports = ["@maven//:jakarta_servlet_jakarta_servlet_api_6_1_0"],
 )
 
 java_library(
     name = "slf4j-api",
     visibility = ["//visibility:public"],
-    exports = ["@log-api//jar"],
+    exports = ["@maven//:org_slf4j_slf4j_api"],
 )
 
 java_library(
     name = "slf4j-simple",
     visibility = ["//visibility:public"],
-    exports = ["@slf4j-simple//jar"],
+    exports = ["@maven//:org_slf4j_slf4j_simple"],
 )
 
 java_library(
     name = "xz",
     testonly = 1,
     visibility = ["//visibility:public"],
-    exports = ["@tukaani-xz//jar"],
+    exports = ["@maven//:org_tukaani_xz"],
 )
