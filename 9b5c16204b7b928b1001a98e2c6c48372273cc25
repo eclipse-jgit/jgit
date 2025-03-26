@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73903f36_bcf4c76d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-03-26T14:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "323beab8_a69de2b1",
+      "range": {
+        "startLine": 238,
+        "startChar": 8,
+        "endLine": 238,
+        "endChar": 32
+      },
+      "revId": "9b5c16204b7b928b1001a98e2c6c48372273cc25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5495a4b7_960ccee5",
@@ -60,6 +84,30 @@
       "writtenOn": "2025-03-23T11:35:48Z",
       "side": 1,
       "message": "As before, this would be best to be under a feature flag.",
+      "range": {
+        "startLine": 258,
+        "startChar": 7,
+        "endLine": 258,
+        "endChar": 62
+      },
+      "revId": "9b5c16204b7b928b1001a98e2c6c48372273cc25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aea5599a_adc98fd6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-03-26T14:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655e5028_60757860",
       "range": {
         "startLine": 258,
         "startChar": 7,
