@@ -41,6 +41,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3952ab5_63e958c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "This started as a Friday afternoon implementation of a cache to check BlameGenerator was doing the right thing. It didn\u0027t even have a unit test. I knew some things weren\u0027t good (like serialization) and you found even more on your review. Thanks!\n\nI addressed those issues and this should be closer to a real cache.",
+      "parentUuid": "aea39fc9_287b0e59",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9afc565d_f1e1816c",
@@ -54,6 +72,24 @@
       "writtenOn": "2025-03-24T07:42:21Z",
       "side": 1,
       "message": "`#mkdirs` already checks existence hence there is no need to do this twice",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746d435c_20c9acf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9afc565d_f1e1816c",
       "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -81,6 +117,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "483c4701_40a605cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "All the null noise was to support \"undefined cache dir\" and we don\u0027t need to really support that. In BlameResult \"no cache\" is null. There is no need of a noop instance.",
+      "parentUuid": "a78750e0_5a8bdff7",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 62
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a0a42ec_fcace82e",
@@ -98,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff600e81_2d6069f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Done (no need of this instance anymore)",
+      "parentUuid": "8a0a42ec_fcace82e",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b1dadd5_6fa79b64",
@@ -111,6 +189,24 @@
       "writtenOn": "2025-03-24T07:42:21Z",
       "side": 1,
       "message": "instead of null I\u0027d prefer to get a NoOp cache writer",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c96fe1_dbdf6c21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Done (no need of this instance anymore)",
+      "parentUuid": "3b1dadd5_6fa79b64",
       "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -138,6 +234,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e0903b_c2c9fd34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e37d630_a77de1f4",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 29
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bf6a366_fad46c4c",
@@ -155,6 +275,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f6cf92_1310a6be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "@Nullable was for the subclass. Removed.",
+      "parentUuid": "9bf6a366_fad46c4c",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2df9953e_c9c56fcf",
@@ -168,6 +306,24 @@
       "writtenOn": "2025-03-24T07:42:21Z",
       "side": 1,
       "message": "how can this return null ?",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d815b6e_92407421",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Because of the subclass. Removed.",
+      "parentUuid": "2df9953e_c9c56fcf",
       "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -242,6 +398,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5c8ebaf_fea1d524",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Thanks! Changed to sha1 of path, so this should be solved.",
+      "parentUuid": "40513cbf_a0ac368b",
+      "range": {
+        "startLine": 115,
+        "startChar": 22,
+        "endLine": 115,
+        "endChar": 25
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0dff49d_3796946d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "It was just a quick encoding to see the files locally. revision_sha1(path) is harder for the debugging, but with a bit of logging it can be workaround for testing.\n\nAt the moment no, there is no cleanup of the cache. At the moment the only usage of this cache is the command line, where it is easy to just wipe-out the directory.",
+      "parentUuid": "ca1a3498_f75a4ef8",
+      "range": {
+        "startLine": 115,
+        "startChar": 50,
+        "endLine": 115,
+        "endChar": 57
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aa95c78_9e65cfe4",
@@ -255,6 +459,24 @@
       "writtenOn": "2025-03-24T09:29:27Z",
       "side": 1,
       "message": "I think FileWriter is unbuffered, and what about the character set? Better use `Files.newBufferedWriter` with appropriate OpenOptions. Or use a binary storage encoding anyway; see below.",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e1b168_40118a63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Thanks! Moved to ObjectOutputStream for the binary serialization.",
+      "parentUuid": "2aa95c78_9e65cfe4",
       "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -282,6 +504,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f1d205_936935e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Agree. I changed it to the java serialization to get a safer binary output.\n\nJava serialization is not recommended (I needed to suppress the warning), but this cache is for the command-line and we serialize records (immutable). We can live with it.",
+      "parentUuid": "16a6856e_e8b96a81",
+      "range": {
+        "startLine": 152,
+        "startChar": 19,
+        "endLine": 152,
+        "endChar": 27
+      },
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b29d460_820aa3b6",
@@ -299,6 +545,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f59a29_ce1b9ac6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "The interface was designed to return \"null\" if the entry is not there. This is convenient to wrap it with other caches that do #computeIfAbsent().",
+      "parentUuid": "4b29d460_820aa3b6",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff5889cd_2def9bad",
@@ -312,6 +576,24 @@
       "writtenOn": "2025-03-24T09:29:27Z",
       "side": 1,
       "message": "If the path contained spaces, we\u0027ll end up here.",
+      "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa9c302_8674dc67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/cache/FileBlameCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-26T18:42:18Z",
+      "side": 1,
+      "message": "Thanks, all this is gone with the revision_sha1(path)",
+      "parentUuid": "ff5889cd_2def9bad",
       "revId": "f60bccebbcdd74c761ca8f5d7d87481727d01f49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
