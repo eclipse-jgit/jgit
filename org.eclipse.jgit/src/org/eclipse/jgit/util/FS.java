@@ -363,6 +363,7 @@ public abstract class FS {
 
 		private static FileStoreAttributes getFileStoreAttributes(Path dir) {
 			FileStore s;
+			CompletableFuture<Optional<FileStoreAttributes>> f = null;
 			try {
 				if (Files.exists(dir)) {
 					s = Files.getFileStore(dir);
@@ -385,7 +386,7 @@ public abstract class FS {
 					return FALLBACK_FILESTORE_ATTRIBUTES;
 				}
 
-				CompletableFuture<Optional<FileStoreAttributes>> f = CompletableFuture
+				f = CompletableFuture
 						.supplyAsync(() -> {
 							Lock lock = locks.computeIfAbsent(s,
 									l -> new ReentrantLock());
@@ -455,16 +456,26 @@ public abstract class FS {
 				}
 				// fall through and return fallback
 			} catch (IOException | ExecutionException | CancellationException e) {
+				cancel(f);
 				LOG.error(e.getMessage(), e);
 			} catch (TimeoutException | SecurityException e) {
+				cancel(f);
 				// use fallback
 			} catch (InterruptedException e) {
+				cancel(f);
 				LOG.error(e.getMessage(), e);
 				Thread.currentThread().interrupt();
 			}
 			LOG.debug("{}: use fallback timestamp resolution for directory {}", //$NON-NLS-1$
 					Thread.currentThread(), dir);
 			return FALLBACK_FILESTORE_ATTRIBUTES;
+		}
+
+		private static void cancel(
+				CompletableFuture<Optional<FileStoreAttributes>> f) {
+			if (f != null) {
+				f.cancel(true);
+			}
 		}
 
 		@SuppressWarnings("boxing")
