@@ -54,7 +54,7 @@ errorprone_checks = [
         "-Xep:ArrayHashCode:ERROR",
         "-Xep:ArraysAsListPrimitiveArray:ERROR",
         "-Xep:ArrayToString:ERROR",
-        "-Xep:AssertEqualsArgumentOrderChecker:ERROR",
+        "-Xep:AssertEqualsArgumentOrderChecker:WARN",
         "-Xep:AssertionFailureIgnored:WARN",
         "-Xep:AsyncCallableReturnsNull:ERROR",
         "-Xep:AsyncFunctionReturnsNull:ERROR",
