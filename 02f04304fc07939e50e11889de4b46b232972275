@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c3c9f3c_0c7417a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-03-28T16:56:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5b479f4_6ebb42ab",
+      "range": {
+        "startLine": 229,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 22
+      },
+      "revId": "02f04304fc07939e50e11889de4b46b232972275",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1af6640b_201d07b1",
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "\u003e The only possibility is when the same object is contained in more than one pack, but really that won\u0027t matter other than we won\u0027t be getting the best representation of the object anyway.\n\nThat was exactly the case I was thinking about, I just wanted to point it out in case anybody could see any issue with it.",
       "parentUuid": "f17171ca_06cb4991",
+      "range": {
+        "startLine": 271,
+        "startChar": 29,
+        "endLine": 271,
+        "endChar": 37
+      },
+      "revId": "02f04304fc07939e50e11889de4b46b232972275",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a9cccd_d71d4a46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-03-28T16:56:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f91476a4_d88718fc",
       "range": {
         "startLine": 271,
         "startChar": 29,
