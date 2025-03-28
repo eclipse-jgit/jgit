@@ -59,6 +59,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a5c7bd_eecd92ad",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 15
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-28T22:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9431756b_cf559be7",
+      "range": {
+        "startLine": 561,
+        "startChar": 15,
+        "endLine": 561,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bd5302f_02968791",
@@ -367,6 +391,30 @@
       "side": 1,
       "message": "Because this is an intermediate step to find the position of the object offset data within the [`Object Offsets (ID: {\u0027O\u0027, \u0027O\u0027, \u0027F\u0027, \u0027F\u0027})`](https://git-scm.com/docs/gitformat-pack#_multi_pack_index_midx_files_have_the_following_format) chunk. The caller then needs to use the returned value to fetch the actual ObjectOffset data from within that chunk and then return it in the way the end-caller (`PackDirectory`) wants.",
       "parentUuid": "0f7fa95a_59e0cd23",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d215f071_6ada8b62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/MultiPackIndexIndex.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-28T22:54:49Z",
+      "side": 1,
+      "message": "I think this is now in a class called OidLookup inside MultiPAckIndexV1.",
+      "parentUuid": "fb6c5922_d6c5aae6",
       "range": {
         "startLine": 74,
         "startChar": 8,
@@ -732,6 +780,30 @@
       "writtenOn": "2024-10-09T16:51:55Z",
       "side": 1,
       "message": "Pick a better name for this.",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "90b55c69985cdcd35c2b4721d388375b8c18adaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4841320_9a46bf5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/midx/ObjectOffsets.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-03-28T22:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17cc3cb8_682a2868",
       "range": {
         "startLine": 40,
         "startChar": 12,
