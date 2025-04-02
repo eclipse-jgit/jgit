@@ -236,6 +236,30 @@
       },
       "revId": "02f04304fc07939e50e11889de4b46b232972275",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36bb08d0_1a551eee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-04-02T15:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8cf096b_fb12b4ca",
+      "range": {
+        "startLine": 285,
+        "startChar": 8,
+        "endLine": 285,
+        "endChar": 31
+      },
+      "revId": "02f04304fc07939e50e11889de4b46b232972275",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
