@@ -143,7 +143,8 @@ public final class DfsPackFile extends BlockBasedFile {
 			 * @throws IOException
 			 *             a problem finding/parsing the reverse index
 			 */
-			PackReverseIndex reverseIndex(DfsReader ctx) throws IOException;
+			PackReverseIndex reverseIndex(DfsReader ctx, PackIndex idx)
+					throws IOException;
 		}
 
 		/**
@@ -364,7 +365,7 @@ public final class DfsPackFile extends BlockBasedFile {
 			return reverseIndex;
 		}
 
-		reverseIndex = indexFactory.getPackIndexes().reverseIndex(ctx);
+		reverseIndex = indexFactory.getPackIndexes().reverseIndex(ctx, idx(ctx));
 		if (reverseIndex == null) {
 			throw new IOException(
 					"Couldn't get a reference to the reverse index"); //$NON-NLS-1$
@@ -1540,8 +1541,8 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		@Override
-		public PackReverseIndex reverseIndex(DfsReader ctx) throws IOException {
-			PackIndex idx = index(ctx);
+		public PackReverseIndex reverseIndex(DfsReader ctx, PackIndex idx)
+				throws IOException {
 			DfsStreamKey revKey = desc.getStreamKey(REVERSE_INDEX);
 			// Keep the value parsed in the loader, in case the Ref<> is
 			// nullified in ClockBlockCacheTable#reserveSpace
