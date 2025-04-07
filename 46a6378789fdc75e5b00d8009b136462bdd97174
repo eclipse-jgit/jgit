@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0f58cf_7cf25954",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-04-07T07:30:49Z",
+      "side": 1,
+      "message": "the reporter of jgit-157 verified the fix works successfully",
+      "revId": "46a6378789fdc75e5b00d8009b136462bdd97174",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
