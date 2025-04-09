@@ -48,6 +48,13 @@ public interface MultiPackIndex {
 	PackOffset find(AnyObjectId objectId);
 
 	/**
+	 * Memory size of this multipack index
+	 *
+	 * @return size of this multipack index in memory, in bytes
+	 */
+	long getMemorySize();
+
+	/**
 	 * (packId, offset) coordinates of an object
 	 */
 	class PackOffset {

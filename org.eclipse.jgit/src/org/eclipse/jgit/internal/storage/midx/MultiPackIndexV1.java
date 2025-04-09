@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.midx;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -54,7 +55,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				+ offsets + '}';
 	}
 
-	private String byteArrayToString(byte[] array) {
+	private static String byteArrayToString(byte[] array) {
 		return array == null ? "null" : new String(array);
 	}
 
@@ -77,6 +78,17 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 		offsets.getObjectOffset(position, result);
 		return result;
+	}
+
+	@Override
+	public long getMemorySize() {
+		int packNamesSize = Arrays.stream(packNames)
+				.mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length).sum();
+		return packNamesSize + byteArrayLengh(bitmappedPackfiles) + idx.getMemorySize() + offsets.getMemorySize();
+	}
+
+	private static int byteArrayLengh(byte[] array) {
+		return array == null ? 0 : array.length;
 	}
 
 	/**
@@ -130,6 +142,10 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				return;
 			}
 			result.setValues(packId, offset);
+		}
+
+		long getMemorySize() {
+			return byteArrayLengh(offsets) + byteArrayLengh(largeOffsets);
 		}
 	}
 
@@ -207,6 +223,10 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				}
 			}
 			return -1;
+		}
+
+		long getMemorySize() {
+			return 4 + byteArrayLengh(oidLookup) + (FANOUT * 4);
 		}
 	}
 }
