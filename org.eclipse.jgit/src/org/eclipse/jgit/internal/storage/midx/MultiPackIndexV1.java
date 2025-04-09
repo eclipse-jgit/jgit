@@ -48,18 +48,6 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
-	public String toString() {
-		return "MultiPackIndexV1 {" + "idx=" + idx + ", packfileNames="
-				+ Arrays.toString(packNames) + ", bitmappedPackfiles="
-				+ byteArrayToString(bitmappedPackfiles) + ", objectOffsets="
-				+ offsets + '}';
-	}
-
-	private static String byteArrayToString(byte[] array) {
-		return array == null ? "null" : new String(array);
-	}
-
-	@Override
 	public String[] getPackNames() {
 		return packNames;
 	}
@@ -84,7 +72,20 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	public long getMemorySize() {
 		int packNamesSize = Arrays.stream(packNames)
 				.mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length).sum();
-		return packNamesSize + byteArrayLengh(bitmappedPackfiles) + idx.getMemorySize() + offsets.getMemorySize();
+		return packNamesSize + byteArrayLengh(bitmappedPackfiles)
+				+ idx.getMemorySize() + offsets.getMemorySize();
+	}
+
+	@Override
+	public String toString() {
+		return "MultiPackIndexV1 {idx=" + idx + ", packfileNames=" //$NON-NLS-1$ //$NON-NLS-2$
+				+ Arrays.toString(packNames) + ", bitmappedPackfiles=" //$NON-NLS-1$
+				+ byteArrayToString(bitmappedPackfiles) + ", objectOffsets=" //$NON-NLS-1$
+				+ offsets + '}';
+	}
+
+	private static String byteArrayToString(byte[] array) {
+		return array == null ? "null" : new String(array); //$NON-NLS-1$
 	}
 
 	private static int byteArrayLengh(byte[] array) {
