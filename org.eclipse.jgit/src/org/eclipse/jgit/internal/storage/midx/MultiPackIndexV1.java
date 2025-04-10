@@ -146,7 +146,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 
 		long getMemorySize() {
-			return byteArrayLengh(offsets) + byteArrayLengh(largeOffsets);
+			return (long)byteArrayLengh(offsets) + byteArrayLengh(largeOffsets);
 		}
 	}
 
@@ -227,7 +227,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 
 		long getMemorySize() {
-			return 4 + byteArrayLengh(oidLookup) + (FANOUT * 4);
+			return 4L + byteArrayLengh(oidLookup) + (FANOUT * 4);
 		}
 	}
 }
