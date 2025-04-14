@@ -1361,6 +1361,27 @@ public class DfsGarbageCollectorTest {
 		}
 	}
 
+	@Test
+	public void multiPackIndexWrittenDuringGc() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevBlob headsBlob = git.blob("twelve bytes");
+		git.branch(master).commit()
+				.message("commit on head")
+				.add("file.txt", headsBlob)
+				.parent(root)
+				.create();
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setWriteMultiPackIndex(true);
+		run(gc);
+		assertEquals(1, odb.getPacks().length);
+		assertEquals(1, odb.getReftables().length);
+		assertEquals(1, odb.getMultiPackIndexes().length);
+	}
+
+
 
 	private RevCommit commitChain(RevCommit parent, int length)
 			throws Exception {
