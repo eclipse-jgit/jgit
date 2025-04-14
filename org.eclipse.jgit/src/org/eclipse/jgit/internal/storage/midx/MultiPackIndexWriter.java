@@ -65,10 +65,11 @@ public class MultiPackIndexWriter {
 	 * @param inputs
 	 *            pairs of name and index for each pack to include in the
 	 *            multipack index.
+	 * @return bytes written into the stream
 	 * @throws IOException
 	 *             Error writing to the stream
 	 */
-	public void write(ProgressMonitor monitor, OutputStream outputStream,
+	public long write(ProgressMonitor monitor, OutputStream outputStream,
 			Map<String, PackIndex> inputs) throws IOException {
 		PackIndexMerger data = new PackIndexMerger(inputs);
 
@@ -91,6 +92,7 @@ public class MultiPackIndexWriter {
 						Long.valueOf(expectedSize),
 						Long.valueOf(out.length())));
 			}
+			return expectedSize;
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
 					e);
@@ -358,7 +360,6 @@ public class MultiPackIndexWriter {
 		out.flush();
 	}
 
-
 	private record OffsetPosition(long offset, int position) {
 	}
 
@@ -367,7 +368,8 @@ public class MultiPackIndexWriter {
 	 * offset chunk must exist, and offsets larger than 2^31-1 must be stored in
 	 * it instead
 	 *
-	 * @param offset object offset
+	 * @param offset
+	 *            object offset
 	 *
 	 * @return true if the offset fits in 31 bits
 	 */
