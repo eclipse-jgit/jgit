@@ -18,6 +18,8 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RE
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureReftable;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -29,12 +31,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
@@ -42,6 +48,7 @@ import org.eclipse.jgit.internal.storage.commitgraph.GraphCommits;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
@@ -81,6 +88,9 @@ public class DfsGarbageCollector {
 	private boolean writeCommitGraph;
 
 	private boolean writeBloomFilter;
+
+	private boolean writeMultiPackIndex;
+
 	private boolean includeDeletes;
 	private long reftableInitialMinUpdateIndex = 1;
 	private long reftableInitialMaxUpdateIndex = 1;
@@ -93,6 +103,7 @@ public class DfsGarbageCollector {
 	private Instant startTime;
 	private List<DfsPackFile> packsBefore;
 	private List<DfsReftable> reftablesBefore;
+	private List<DfsMultiPackIndex> midxsBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
 
 	private Collection<Ref> refsBefore;
@@ -330,6 +341,18 @@ public class DfsGarbageCollector {
 	}
 
 	/**
+	 * Toggle the writing of the multipack index (false by default)
+	 *
+	 * @param enable
+	 *            set to true to write the multipack index.
+	 * @return {@code this}
+	 */
+	public DfsGarbageCollector setWriteMultiPackIndex(boolean enable) {
+		this.writeMultiPackIndex = enable;
+		return this;
+	}
+
+	/**
 	 * Create a single new pack file containing all of the live objects.
 	 * <p>
 	 * This method safely decides which packs can be expired after the new pack
@@ -361,6 +384,7 @@ public class DfsGarbageCollector {
 			refsBefore = getAllRefs();
 			readPacksBefore();
 			readReftablesBefore();
+			readMidxBefore();
 
 			Set<ObjectId> allHeads = new HashSet<>();
 			allHeadsAndTags = new HashSet<>();
@@ -402,6 +426,7 @@ public class DfsGarbageCollector {
 				packRest(pm);
 				packGarbage(pm);
 				objdb.commitPack(newPackDesc, toPrune());
+				rewriteMultiPackIndex(pm);
 				rollback = false;
 				return true;
 			} finally {
@@ -438,7 +463,8 @@ public class DfsGarbageCollector {
 		long now = SystemReader.getInstance().now().toEpochMilli();
 		for (DfsPackFile p : packs) {
 			DfsPackDescription d = p.getPackDescription();
-			if (d.getPackSource() != UNREACHABLE_GARBAGE) {
+			if (d.getPackSource() != UNREACHABLE_GARBAGE
+					&& !d.hasFileExt(MULTI_PACK_INDEX)) {
 				packsBefore.add(p);
 			} else if (packIsExpiredGarbage(d, now)) {
 				expiredGarbagePacks.add(p);
@@ -451,6 +477,11 @@ public class DfsGarbageCollector {
 	private void readReftablesBefore() throws IOException {
 		DfsReftable[] tables = objdb.getReftables();
 		reftablesBefore = new ArrayList<>(Arrays.asList(tables));
+	}
+
+	private void readMidxBefore() throws IOException {
+		DfsMultiPackIndex[] midxs = objdb.getMultiPackIndexes();
+		midxsBefore = new ArrayList<>(Arrays.asList(midxs));
 	}
 
 	private boolean packIsExpiredGarbage(DfsPackDescription d, long now) {
@@ -801,5 +832,71 @@ public class DfsGarbageCollector {
 			pack.setBlockSize(COMMIT_GRAPH, out.blockSize());
 			pack.setCommitGraphStats(stats);
 		}
+	}
+
+	private void rewriteMultiPackIndex(ProgressMonitor pm) throws IOException {
+		if (!writeMultiPackIndex) {
+			return;
+		}
+
+		List<DfsPackFile> packsForMidx = getPacksForMultiPackIndex();
+		Map<String, PackIndex> data = new HashMap<>(packsForMidx.size());
+		for (DfsPackFile pack : packsForMidx) {
+			String packName = pack.getFileName();
+			try {
+				PackIndex packIndex = pack.getPackIndex(ctx);
+				if (packIndex != null) {
+					data.put(packName, packIndex);
+				}
+			} catch (IOException e) {
+				// pass
+			}
+		}
+		if (data.isEmpty()) {
+			return;
+		}
+
+		DfsPackDescription midxPack;
+		try {
+			midxPack = objdb.newPack(GC);
+		} catch (IOException e) {
+			return;
+		}
+
+		try (DfsOutputStream out = objdb.writeFile(midxPack,
+				MULTI_PACK_INDEX)) {
+			MultiPackIndexWriter multiPackIndexWriter = new MultiPackIndexWriter();
+			long size = multiPackIndexWriter.write(pm, out, data);
+			midxPack.addFileExt(MULTI_PACK_INDEX);
+			midxPack.setFileSize(MULTI_PACK_INDEX, size);
+			midxPack.setBlockSize(MULTI_PACK_INDEX, out.blockSize());
+		} catch (IOException e) {
+			return;
+		}
+
+		List<DfsPackDescription> prevMidxPacks = midxsBefore
+				.stream()
+				.map(DfsMultiPackIndex::getPackDescription)
+				.collect(Collectors.toUnmodifiableList());
+		objdb.commitPack(List.of(midxPack), prevMidxPacks);
+	}
+
+	private List<DfsPackFile> getPacksForMultiPackIndex() {
+		DfsPackFile[] packs;
+		try {
+			packs = objdb.getPacks();
+		} catch (IOException e) {
+			return Collections.emptyList();
+		}
+
+		// At the moment, write a midx for the GC pack.
+		// When GC becomes incremental, this will choose more packs.
+		for (DfsPackFile pack : packs) {
+			if (pack.getPackDescription().getPackSource() == GC
+					&& pack.getPackDescription().hasFileExt(INDEX)) {
+				return List.of(pack);
+			}
+		}
+		return Collections.emptyList();
 	}
 }
