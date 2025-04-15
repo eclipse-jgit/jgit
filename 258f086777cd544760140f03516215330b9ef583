@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8c1f1f1_63e66dad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-15T23:09:57Z",
+      "side": 1,
+      "message": "Refactored the code to reduce identation.",
+      "parentUuid": "c242a685_b13439b6",
+      "revId": "258f086777cd544760140f03516215330b9ef583",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47b197cd_9bd58afa",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-04-15T21:02:01Z",
       "side": 1,
       "message": "Why is this a while loop but the next one is a for loop? The loop conditions are symmetric.",
+      "range": {
+        "startLine": 258,
+        "startChar": 5,
+        "endLine": 258,
+        "endChar": 10
+      },
+      "revId": "258f086777cd544760140f03516215330b9ef583",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "147d2422_f8fd5a7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-15T23:09:57Z",
+      "side": 1,
+      "message": "This was copied from the PackIndex just renaming the arrays. Refactored to use while loops and less indentation.",
+      "parentUuid": "47b197cd_9bd58afa",
       "range": {
         "startLine": 258,
         "startChar": 5,
