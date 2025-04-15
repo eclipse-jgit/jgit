@@ -299,7 +299,7 @@ public class MultiPackIndexWriter {
 		for (int i = 0; i < ctx.data.getPackCount(); i++) {
 			List<OffsetPosition> offsetsForPack = packOffsets
 					.get(Integer.valueOf(i));
-			if (offsetsForPack.isEmpty()) {
+			if (offsetsForPack == null) {
 				continue;
 			}
 			offsetsForPack.sort(Comparator.comparing(OffsetPosition::offset));
