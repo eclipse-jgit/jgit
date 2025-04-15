@@ -13,16 +13,21 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.junit.FakeIndexFactory;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -67,8 +72,7 @@ public class MultiPackIndexTest {
 		assertNotNull(midx);
 		assertArrayEquals(packNames, midx.getPackNames());
 
-		MultiPackIndex.PackOffset oo = midx
-				.find(ObjectId.fromString(knownOid));
+		MultiPackIndex.PackOffset oo = midx.find(ObjectId.fromString(knownOid));
 
 		assertEquals(knowOffset, oo.getOffset());
 		assertEquals(knownPackId, oo.getPackId());
@@ -133,7 +137,7 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000005", 12)));
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
 				new FakeIndexFactory.IndexObject(
-						"0000000000000000000000000000000000000002", (1L<< 35)),
+						"0000000000000000000000000000000000000002", (1L << 35)),
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000003", 13)));
 		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
@@ -144,9 +148,11 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 		assertEquals(2, midx.getPackNames().length);
-		assertInIndex(midx, 0, "0000000000000000000000000000000000000001", (1L << 34));
+		assertInIndex(midx, 0, "0000000000000000000000000000000000000001",
+				(1L << 34));
 		assertInIndex(midx, 0, "0000000000000000000000000000000000000005", 12);
-		assertInIndex(midx, 1, "0000000000000000000000000000000000000002", (1L << 35));
+		assertInIndex(midx, 1, "0000000000000000000000000000000000000002",
+				(1L << 35));
 	}
 
 	@Test
@@ -155,7 +161,8 @@ public class MultiPackIndexTest {
 		// Most significant bit to 1 is still valid offset
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
 				new FakeIndexFactory.IndexObject(
-						"0000000000000000000000000000000000000001", 0xff00_0000),
+						"0000000000000000000000000000000000000001",
+						0xff00_0000),
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000005", 12)));
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
@@ -171,9 +178,144 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 		assertEquals(2, midx.getPackNames().length);
-		assertInIndex(midx, 0, "0000000000000000000000000000000000000001", 0xff00_0000L);
+		assertInIndex(midx, 0, "0000000000000000000000000000000000000001",
+				0xff00_0000L);
 		assertInIndex(midx, 0, "0000000000000000000000000000000000000005", 12);
 	}
+
+	@Test
+	public void jgit_resolve() throws IOException {
+		AbbreviatedObjectId abbrev = AbbreviatedObjectId
+				.fromString("32fe829a1c");
+
+		PackIndex idxOne = indexWith(
+				// Noise
+				"0000000000000000000000000000000000000001",
+				"3000000000000000000000000000000000000005",
+				// One before abbrev
+				"32fe829a1b000000000000000000000000000001",
+				// matches
+				"32fe829a1c000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000100",
+				// One after abbrev
+				"32fe829a1d000000000000000000000000000000");
+		PackIndex idxTwo = indexWith(
+				// Noise
+				"8888880000000000000000000000000000000002",
+				"bbbbbb0000000000000000000000000000000003",
+				// Match
+				"32fe829a1c000000000000000000000000000010");
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+
+		Set<ObjectId> results = new HashSet<>();
+		midx.resolve(results, abbrev, 100);
+
+		assertEquals(3, results.size());
+		assertTrue(results.contains(ObjectId
+				.fromString("32fe829a1c000000000000000000000000000001")));
+		assertTrue(results.contains(ObjectId
+				.fromString("32fe829a1c000000000000000000000000000010")));
+		assertTrue(results.contains(ObjectId
+				.fromString("32fe829a1c000000000000000000000000000100")));
+
+	}
+
+	@Test
+	public void jgit_resolve_matchLimit() throws IOException {
+		AbbreviatedObjectId abbrev = AbbreviatedObjectId
+				.fromString("32fe829a1c");
+
+		PackIndex idxOne = indexWith(
+				// Noise
+				"0000000000000000000000000000000000000001",
+				"3000000000000000000000000000000000000005",
+				// One before abbrev
+				"32fe829a1b000000000000000000000000000001",
+				// matches
+				"32fe829a1c000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000100",
+				// One after abbrev
+				"32fe829a1d000000000000000000000000000000");
+		PackIndex idxTwo = indexWith(
+				// Noise
+				"8888880000000000000000000000000000000002",
+				"bbbbbb0000000000000000000000000000000003",
+				// Match
+				"32fe829a1c000000000000000000000000000010");
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+
+		Set<ObjectId> results = new HashSet<>();
+		midx.resolve(results, abbrev, 2);
+
+		assertEquals(2, results.size());
+		assertTrue(results.contains(ObjectId
+				.fromString("32fe829a1c000000000000000000000000000001")));
+		assertTrue(results.contains(ObjectId
+				.fromString("32fe829a1c000000000000000000000000000010")));
+	}
+
+	@Test
+	public void jgit_resolve_noMatches() throws IOException {
+		AbbreviatedObjectId abbrev = AbbreviatedObjectId
+				.fromString("4400000000");
+
+		PackIndex idxOne = indexWith(
+				// Noise
+				"0000000000000000000000000000000000000001",
+				"3000000000000000000000000000000000000005",
+				// One before abbrev
+				"32fe829a1b000000000000000000000000000001",
+				// matches
+				"32fe829a1c000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000100",
+				// One after abbrev
+				"32fe829a1d000000000000000000000000000000");
+		PackIndex idxTwo = indexWith(
+				// Noise
+				"8888880000000000000000000000000000000002",
+				"bbbbbb0000000000000000000000000000000003",
+				// Match
+				"32fe829a1c000000000000000000000000000010");
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+
+		Set<ObjectId> results = new HashSet<>();
+		midx.resolve(results, abbrev, 200);
+
+		assertEquals(0, results.size());
+	}
+
+	private static PackIndex indexWith(String... oids) {
+		List<FakeIndexFactory.IndexObject> idxObjs = new ArrayList<>(
+				oids.length);
+		int offset = 12;
+		for (String oid : oids) {
+			idxObjs.add(new FakeIndexFactory.IndexObject(oid, offset));
+			offset += 10;
+		}
+		return FakeIndexFactory.indexOf(idxObjs);
+	}
+
 	private static void assertInIndex(MultiPackIndex midx, int expectedPackId,
 			String oid, long expectedOffset) {
 		MultiPackIndex.PackOffset packOffset = midx
