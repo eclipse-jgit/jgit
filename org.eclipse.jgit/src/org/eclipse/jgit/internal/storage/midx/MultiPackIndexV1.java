@@ -10,14 +10,18 @@
 
 package org.eclipse.jgit.internal.storage.midx;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader.MultiPackIndexFormatException;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -66,6 +70,12 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 		offsets.getObjectOffset(position, result);
 		return result;
+	}
+
+	@Override
+	public void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+			int matchLimit) throws IOException {
+		idx.resolve(matches, id, matchLimit);
 	}
 
 	@Override
@@ -146,7 +156,8 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 
 		long getMemorySize() {
-			return (long)byteArrayLengh(offsets) + byteArrayLengh(largeOffsets);
+			return (long) byteArrayLengh(offsets)
+					+ byteArrayLengh(largeOffsets);
 		}
 	}
 
@@ -224,6 +235,52 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				}
 			}
 			return -1;
+		}
+
+		void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+				int matchLimit) throws IOException {
+			if (matches.size() >= matchLimit) {
+				return;
+			}
+
+			if (oidLookup.length == 0) {
+				return;
+			}
+
+			int high = fanoutTable[id.getFirstByte()];
+			int low = id.getFirstByte() == 0 ? 0
+					: fanoutTable[id.getFirstByte() - 1];
+			do {
+				int p = (low + high) >>> 1;
+				int cmp = id.prefixCompare(oidLookup, idOffset(p));
+				if (cmp < 0) {
+					high = p;
+					continue;
+				}
+
+				if (cmp > 0) {
+					low = p + 1;
+					continue;
+				}
+
+				// Got a match.
+				// We may have landed in the middle of the matches. Move
+				// backwards to the start of matches, then walk forwards.
+				while (0 < p
+						&& id.prefixCompare(oidLookup, idOffset(p - 1)) == 0) {
+					p--;
+				}
+				while (p < high && id.prefixCompare(oidLookup, idOffset(p)) == 0
+						&& matches.size() < matchLimit) {
+					matches.add(ObjectId.fromRaw(oidLookup, idOffset(p)));
+					p++;
+				}
+				return;
+			} while (low < high);
+		}
+
+		private int idOffset(int position) {
+			return position * hashLength;
 		}
 
 		long getMemorySize() {
