@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c242a685_b13439b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-04-15T21:02:01Z",
+      "side": 1,
+      "message": "Maybe pull this branch into a method? The indentation gets to 7 levels which seems too deep.",
+      "revId": "258f086777cd544760140f03516215330b9ef583",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b197cd_9bd58afa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-04-15T21:02:01Z",
+      "side": 1,
+      "message": "Why is this a while loop but the next one is a for loop? The loop conditions are symmetric.",
+      "range": {
+        "startLine": 258,
+        "startChar": 5,
+        "endLine": 258,
+        "endChar": 10
+      },
+      "revId": "258f086777cd544760140f03516215330b9ef583",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
