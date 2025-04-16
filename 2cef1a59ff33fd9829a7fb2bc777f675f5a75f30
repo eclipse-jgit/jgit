@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "628ae746_c84d0b41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-04-16T19:08:37Z",
+      "side": 1,
+      "message": "Would this be appropriate as a method in PackExt?",
+      "revId": "2cef1a59ff33fd9829a7fb2bc777f675f5a75f30",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
