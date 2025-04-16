@@ -30,6 +30,7 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		RepoStatistics s = gc.getStatistics();
 		assertEquals(0L, s.numberOfPackFilesSinceBitmap);
 		assertEquals(0L, s.numberOfObjectsSinceBitmap);
+		assertEquals(0L, s.numberOfTagsHeadsObjectsSinceBitmap);
 	}
 
 	@Test
@@ -73,9 +74,13 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		// given
 		addCommit(null);
 		assertEquals(2L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(1L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 
 		gc.gc().get();
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 	}
 
 	@Test
@@ -104,16 +109,22 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		gc.gc().get();
 		assertEquals(0L, gc.getStatistics().numberOfLooseObjects);
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 
 		// progress & pack
 		addCommit(parent);
 		assertEquals(1L, gc.getStatistics().numberOfLooseObjects);
 		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(1L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 
 		tr.packAndPrune();
 		assertEquals(0L, gc.getStatistics().numberOfLooseObjects);
 		// Number of objects contained in the newly created PackFile
 		assertEquals(3L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(3L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 	}
 
 	@Test
@@ -147,17 +158,81 @@ public class GcSinceBitmapStatisticsTest extends GcTestCase {
 		parent = addCommit(parent);
 		gc.gc().get();
 		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 
 		// progress & pack
 		addCommit(parent);
 		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(1L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 
 		tr.packAndPrune();
 		assertEquals(4L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(4L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
+	}
+
+	@Test
+	public void testShouldNotReportNewTagsOrCommitsObjectsWhenRepositoryProgressesWithNoHeads()
+			throws Exception {
+		// commit & gc
+		String refsMeta = "refs/changes";
+		RevCommit parent = addCommit(null, refsMeta);
+		gc.gc().get();
+
+		// progress & gc
+		parent = addCommit(parent, refsMeta);
+		gc.gc().get();
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
+
+		// progress & pack
+		addCommit(parent, refsMeta);
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
+
+		tr.packAndPrune();
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
+	}
+
+	@Test
+	public void testShouldReportNewTagsOrCommitsObjectsWhenRepositoryProgressesWithHeadsAndNoHeads()
+			throws Exception {
+		// commit & gc
+		RevCommit parent = addCommit(null);
+		gc.gc().get();
+
+		// progress & gc
+		parent = addCommit(parent);
+		gc.gc().get();
+		assertEquals(0L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
+
+		// progress & pack
+		String refsMeta = "refs/changes";
+		addCommit(parent, refsMeta);
+		assertEquals(1L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(0L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
+
+		// both heads and no-heads commits are grouped in the the same pack
+		// hence they are reported collectively
+		tr.packAndPrune();
+		assertEquals(4L, gc.getStatistics().numberOfObjectsSinceBitmap);
+		assertEquals(4L,
+				gc.getStatistics().numberOfTagsHeadsObjectsSinceBitmap);
 	}
 
 	private RevCommit addCommit(RevCommit parent) throws Exception {
-		return tr.branch("master").commit()
+		return addCommit(parent, "master");
+	}
+
+	private RevCommit addCommit(RevCommit parent, String branch)
+			throws Exception {
+		return tr.branch(branch).commit()
 				.author(new PersonIdent("repo-metrics", "repo@metrics.com"))
 				.parent(parent).create();
 	}
