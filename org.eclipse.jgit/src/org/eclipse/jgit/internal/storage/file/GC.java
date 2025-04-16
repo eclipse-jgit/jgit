@@ -92,6 +92,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.internal.WorkQueue;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -1521,6 +1522,13 @@ public class GC {
 		public long numberOfObjectsSinceBitmap;
 
 		/**
+		 * The number of objects stored in pack files and as loose object that
+		 * contain tags or heads commits and were created after the last bitmap
+		 * generation.
+		 */
+		public long numberOfTagsHeadsObjectsSinceBitmap;
+
+		/**
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
@@ -1559,6 +1567,8 @@ public class GC {
 					.append(numberOfPackFilesSinceBitmap);
 			b.append(", numberOfObjectsSinceBitmap=") //$NON-NLS-1$
 					.append(numberOfObjectsSinceBitmap);
+			b.append(", numberOfTagsHeadsObjectsSinceBitmap=") //$NON-NLS-1$
+					.append(numberOfTagsHeadsObjectsSinceBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1594,6 +1604,9 @@ public class GC {
 			else if (latestBitmapTime == 0L) {
 				ret.numberOfPackFilesSinceBitmap++;
 				ret.numberOfObjectsSinceBitmap += packedObjects;
+				if (isTagsOrHeadsCommitsPack(p)) {
+					ret.numberOfTagsHeadsObjectsSinceBitmap += packedObjects;
+				}
 			}
 		}
 		File objDir = repo.getObjectsDirectory();
@@ -1612,6 +1625,9 @@ public class GC {
 					ret.sizeOfLooseObjects += f.length();
 					if (f.lastModified() > latestBitmapTime) {
 						ret.numberOfObjectsSinceBitmap ++;
+						if (isTagOrHeadCommitFile(d + f.getName())) {
+							ret.numberOfTagsHeadsObjectsSinceBitmap++;
+						}
 					}
 				}
 			}
@@ -1627,6 +1643,59 @@ public class GC {
 		}
 
 		return ret;
+	}
+
+	private boolean isTagOrHeadCommitFile(String objId) throws IOException {
+		RefDatabase refDb = repo.getRefDatabase();
+		List<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
+		List<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
+		List<Ref> allTagsAndBranches = new ArrayList<>(
+				tags.size() + branches.size());
+		allTagsAndBranches.addAll(tags);
+		allTagsAndBranches.addAll(branches);
+		try {
+			ObjectId id = ObjectId.fromString(objId);
+			try (RevWalk rw = new RevWalk(repo)) {
+				rw.setRetainBody(false);
+				RevObject anyRev = rw.parseAny(id);
+				if (Constants.OBJ_TAG == anyRev.getType()) {
+					return true;
+				} else if (Constants.OBJ_COMMIT == anyRev.getType()) {
+					RevCommit rev = rw.parseCommit(anyRev);
+					return !rw.getMergedInto(rev, allTagsAndBranches).isEmpty();
+				}
+			}
+		} catch (IllegalArgumentException notAnObject) {
+			// ignoring the file that does not represent loose object
+		}
+		return false;
+	}
+
+	private boolean isTagsOrHeadsCommitsPack(Pack p)
+			throws IOException {
+		WindowCursor cursor = new WindowCursor(repo.getObjectDatabase());
+		RefDatabase refDb = repo.getRefDatabase();
+		List<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
+		List<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
+		List<Ref> allTagsAndBranches = new ArrayList<>(
+				tags.size() + branches.size());
+		allTagsAndBranches.addAll(tags);
+		allTagsAndBranches.addAll(branches);
+		for (Iterator<PackIndex.MutableEntry> iterator = p.getIndex()
+				.iterator(); iterator.hasNext();) {
+			PackIndex.MutableEntry entry = iterator.next();
+			int type = p.getObjectType(cursor, entry.getOffset());
+			if (Constants.OBJ_TAG == type) {
+				return true;
+			} else if (Constants.OBJ_COMMIT == type) {
+				try (RevWalk rw = new RevWalk(repo)) {
+					rw.setRetainBody(false);
+					RevCommit rev = rw.parseCommit(entry.toObjectId());
+					return !rw.getMergedInto(rev, allTagsAndBranches).isEmpty();
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
