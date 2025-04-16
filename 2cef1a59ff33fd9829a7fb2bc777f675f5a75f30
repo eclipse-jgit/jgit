@@ -16,6 +16,24 @@
       "message": "Would this be appropriate as a method in PackExt?",
       "revId": "2cef1a59ff33fd9829a7fb2bc777f675f5a75f30",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83e6324_f4caedf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-16T19:59:02Z",
+      "side": 1,
+      "message": "Probably, or part of this method at least. This can be done in a follow up change.",
+      "parentUuid": "628ae746_c84d0b41",
+      "revId": "2cef1a59ff33fd9829a7fb2bc777f675f5a75f30",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
