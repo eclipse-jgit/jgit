@@ -92,6 +92,7 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.internal.WorkQueue;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -1521,6 +1522,13 @@ public class GC {
 		public long numberOfObjectsSinceBitmap;
 
 		/**
+		 * The number of objects stored in pack files and as loose object that
+		 * contain tags or heads commits and were created after the last bitmap
+		 * generation.
+		 */
+		public long numberOfTagsHeadsObjectsSinceBitmap;
+
+		/**
 		 * The number of objects stored as loose objects.
 		 */
 		public long numberOfLooseObjects;
@@ -1559,6 +1567,8 @@ public class GC {
 					.append(numberOfPackFilesSinceBitmap);
 			b.append(", numberOfObjectsSinceBitmap=") //$NON-NLS-1$
 					.append(numberOfObjectsSinceBitmap);
+			b.append(", numberOfTagsHeadsObjectsSinceBitmap=") //$NON-NLS-1$
+					.append(numberOfTagsHeadsObjectsSinceBitmap);
 			b.append(", numberOfLooseObjects=").append(numberOfLooseObjects); //$NON-NLS-1$
 			b.append(", numberOfLooseRefs=").append(numberOfLooseRefs); //$NON-NLS-1$
 			b.append(", numberOfPackedRefs=").append(numberOfPackedRefs); //$NON-NLS-1$
@@ -1580,6 +1590,7 @@ public class GC {
 		RepoStatistics ret = new RepoStatistics();
 		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
 		long latestBitmapTime = 0L;
+		Set<ObjectId> allTagsAndBranches = allTagsAndHeadsTips();
 		for (Pack p : packs) {
 			long packedObjects = p.getIndex().getObjectCount();
 			ret.numberOfPackedObjects += packedObjects;
@@ -1594,6 +1605,9 @@ public class GC {
 			else if (latestBitmapTime == 0L) {
 				ret.numberOfPackFilesSinceBitmap++;
 				ret.numberOfObjectsSinceBitmap += packedObjects;
+				if (isTagsOrHeadsCommitsPack(p, allTagsAndBranches)) {
+					ret.numberOfTagsHeadsObjectsSinceBitmap += packedObjects;
+				}
 			}
 		}
 		File objDir = repo.getObjectsDirectory();
@@ -1612,6 +1626,10 @@ public class GC {
 					ret.sizeOfLooseObjects += f.length();
 					if (f.lastModified() > latestBitmapTime) {
 						ret.numberOfObjectsSinceBitmap ++;
+						if (isTagOrHeadCommitFile(d + f.getName(),
+								allTagsAndBranches)) {
+							ret.numberOfTagsHeadsObjectsSinceBitmap++;
+						}
 					}
 				}
 			}
@@ -1627,6 +1645,45 @@ public class GC {
 		}
 
 		return ret;
+	}
+
+	private Set<ObjectId> allTagsAndHeadsTips() {
+		try {
+			RefDatabase refDb = repo.getRefDatabase();
+			return Stream
+					.concat(refDb.getRefsByPrefix(Constants.R_TAGS).stream(),
+							refDb.getRefsByPrefix(Constants.R_HEADS).stream())
+					.map(Ref::getObjectId).filter(o -> o != null)
+					.collect(Collectors.toSet());
+		} catch (IOException e) {
+			// do nothing
+		}
+		return Collections.emptySet();
+	}
+
+	private boolean isTagOrHeadCommitFile(String objId,
+			Set<ObjectId> allTagsAndBranches) {
+		ObjectId id = ObjectId.fromString(objId);
+		return allTagsAndBranches.contains(id);
+	}
+
+	private boolean isTagsOrHeadsCommitsPack(Pack p,
+			Set<ObjectId> allTagsAndBranches)
+			throws IOException {
+		WindowCursor cursor = new WindowCursor(repo.getObjectDatabase());
+		for (Iterator<PackIndex.MutableEntry> iterator = p.getIndex()
+				.iterator(); iterator.hasNext();) {
+			PackIndex.MutableEntry entry = iterator.next();
+			int type = p.getObjectType(cursor, entry.getOffset());
+			if (Constants.OBJ_TAG == type) {
+				return true;
+			} else if (Constants.OBJ_COMMIT == type) {
+				if (allTagsAndBranches.contains(entry.toObjectId())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
