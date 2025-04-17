@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f25bfd_4ab56e6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-17T07:33:16Z",
+      "side": 1,
+      "message": "I would love to have the MIDX support merged into servlet-4 and use in the forthcoming Gerrit v3.12 🎉",
+      "revId": "7a46fa6f8a5028a65c4b420d04ca6a10fd346c13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
