@@ -31,7 +31,7 @@ public class BasicRuleTest {
 		assertFalse(rule1.getNegation());
 		assertTrue(rule3.getNegation());
 		assertNotEquals(rule1, null);
-		assertEquals(rule1, rule1);
+		assertTrue(rule1.equals(rule1));
 		assertEquals(rule1, rule2);
 		assertNotEquals(rule1, rule3);
 		assertNotEquals(rule1, rule4);

@@ -98,7 +98,7 @@ public class EditTest {
 		final Edit e1 = new Edit(1, 2, 3, 4);
 		final Edit e2 = new Edit(1, 2, 3, 4);
 
-		assertEquals(e1, e1);
+		assertTrue(e1.equals(e1));
 		assertEquals(e2, e1);
 		assertEquals(e1, e2);
 		assertEquals(e1.hashCode(), e2.hashCode());

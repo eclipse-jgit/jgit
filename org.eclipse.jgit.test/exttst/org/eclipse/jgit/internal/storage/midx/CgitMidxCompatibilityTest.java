@@ -18,6 +18,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -79,6 +80,16 @@ public class CgitMidxCompatibilityTest extends SampleDataRepositoryTestCase {
 		assertArrayEquals(cgitMidx.getRawChunk(MIDX_CHUNKID_OBJECTOFFSETS),
 				jgitMidx.getRawChunk(MIDX_CHUNKID_OBJECTOFFSETS));
 
+	}
+
+	@Test
+	public void jgit_loadsCgitMidx()
+			throws IOException, InterruptedException {
+		assertEquals("cgit exit code", 0, run_cgit_multipackindex_write());
+		byte[] cgitMidxBytes = readCgitMidx();
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(cgitMidxBytes));
+		assertEquals(7, midx.getPackNames().length);
 	}
 
 	private byte[] generateJGitMidx() throws IOException {
