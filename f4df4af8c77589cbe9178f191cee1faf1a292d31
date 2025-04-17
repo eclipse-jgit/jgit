@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9882d47_d51a7aa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1678,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-17T16:55:04Z",
+      "side": 1,
+      "message": "in the opposite case `false` should be returned to indicate that packfile most likely contains non-heads commits",
+      "range": {
+        "startLine": 1676,
+        "startChar": 0,
+        "endLine": 1678,
+        "endChar": 6
+      },
+      "revId": "f4df4af8c77589cbe9178f191cee1faf1a292d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
