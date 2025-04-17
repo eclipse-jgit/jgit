@@ -16,6 +16,24 @@
       "message": "I would love to have the MIDX support merged into servlet-4 and use in the forthcoming Gerrit v3.12 🎉",
       "revId": "7a46fa6f8a5028a65c4b420d04ca6a10fd346c13",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7df6a4d_60506f27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-17T16:52:12Z",
+      "side": 1,
+      "message": "Beware! We can read/write multipack index files in JGit but IIUC we don\u0027t have yet anything triggering the writing (e.g. GC) nor using midx with the pack stack (there is a WIP change for non-DFS, I am working on the DFS).",
+      "parentUuid": "62f25bfd_4ab56e6f",
+      "revId": "7a46fa6f8a5028a65c4b420d04ca6a10fd346c13",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
