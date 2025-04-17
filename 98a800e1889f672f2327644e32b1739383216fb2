@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d10d669f_ebaafb63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-04-17T08:46:50Z",
+      "side": 1,
+      "message": "Removed, the caller alredy checks for the `rapidObjectPackLookup` to be enabled.",
+      "parentUuid": "a87c3cf4_22529182",
+      "range": {
+        "startLine": 639,
+        "startChar": 3,
+        "endLine": 639,
+        "endChar": 27
+      },
+      "revId": "98a800e1889f672f2327644e32b1739383216fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc1803d8_260ba696",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-17T06:54:31Z",
       "side": 1,
       "message": "Next version is `7.4`",
+      "range": {
+        "startLine": 428,
+        "startChar": 11,
+        "endLine": 428,
+        "endChar": 14
+      },
+      "revId": "98a800e1889f672f2327644e32b1739383216fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16d717e2_2e944ab4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-04-17T08:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc1803d8_260ba696",
       "range": {
         "startLine": 428,
         "startChar": 11,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04703236_1aa42ebe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-04-17T08:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "447b8ba4_eb93b3f8",
+      "range": {
+        "startLine": 98,
+        "startChar": 11,
+        "endLine": 98,
+        "endChar": 14
+      },
+      "revId": "98a800e1889f672f2327644e32b1739383216fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62c7e324_7ec60512",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-04-17T06:54:31Z",
       "side": 1,
       "message": "Next version is `7.4`",
+      "range": {
+        "startLine": 549,
+        "startChar": 11,
+        "endLine": 549,
+        "endChar": 14
+      },
+      "revId": "98a800e1889f672f2327644e32b1739383216fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81580a1c_424d08e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-04-17T08:46:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62c7e324_7ec60512",
       "range": {
         "startLine": 549,
         "startChar": 11,
