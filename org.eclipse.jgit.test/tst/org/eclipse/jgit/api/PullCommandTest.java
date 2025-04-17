@@ -480,7 +480,7 @@ public class PullCommandTest extends RepositoryTestCase {
 	@Test
 	/** without config it should merge */
 	public void testPullWithoutConfig() throws Exception {
-		Callable<PullResult> setup = target.pull()::call;
+		Callable<PullResult> setup = target.pull();
 		doTestPullWithRebase(setup, TestPullMode.MERGE);
 	}
 

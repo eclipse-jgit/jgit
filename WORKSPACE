@@ -116,18 +116,18 @@ maven_jar(
     sha1 = "2e226055ed060c64ed76256a9c45de6d0109eef8",
 )
 
-JNA_VERS = "5.16.0"
+JNA_VERS = "5.17.0"
 
 maven_jar(
     name = "jna",
     artifact = "net.java.dev.jna:jna:" + JNA_VERS,
-    sha1 = "ebea09f91dc9f7048099f963fb8d6f919f0a4d9c",
+    sha1 = "33d12735bef894440780fce64f9758d420c7bae2",
 )
 
 maven_jar(
     name = "jna-platform",
     artifact = "net.java.dev.jna:jna-platform:" + JNA_VERS,
-    sha1 = "b2a9065f97c166893d504b164706512338e3bbc2",
+    sha1 = "a4934c44d25a9d8c2ddf4203affd20330cb3426f",
 )
 
 maven_jar(
@@ -204,8 +204,8 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:5.16.0",
-    sha1 = "bd466e0926d691891f8f38823e0cbdcec6754358",
+    artifact = "org.mockito:mockito-core:5.17.0",
+    sha1 = "f5fe5a2f94eb65f4f83ca0607bfe13ec0d9c6f3b",
 )
 
 maven_jar(
@@ -214,18 +214,18 @@ maven_jar(
     sha1 = "31f5d58a202bd5df4993fb10fa2cffd610c20d6f",
 )
 
-BYTE_BUDDY_VERSION = "1.17.2"
+BYTE_BUDDY_VERSION = "1.17.5"
 
 maven_jar(
     name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "6fe75b66ba1a6ae30e373d696c3bbe34cd851e49",
+    sha1 = "88450f120903b7e72470462cdbd2b75a3842223c",
 )
 
 maven_jar(
     name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "64e09840ffb6ed463c40c8f1e758486e5122d891",
+    sha1 = "58f9507f5f28d1d3e7adfb4ec2fe37c29d332c9b",
 )
 
 maven_jar(
@@ -240,72 +240,72 @@ maven_jar(
     sha1 = "4e773a317740b83b43cfc3d652962856041697cb",
 )
 
-JETTY_VER = "12.0.17"
+JETTY_VER = "12.0.19"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
-    sha1 = "762665d7083066b4738af6953f78e90f3daf8867",
+    sha1 = "7249186f3c8f88639a53d618eea850cf5d115661",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
-    sha1 = "8d7ec1c2d3fb13ca2f244e318a8bb1f3fcb79020",
+    sha1 = "9c9e3bb94722579e37cd3f0f3356bcc238082628",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
-    sha1 = "0692b8368eafcc014afb72be549379c97f4f1114",
+    sha1 = "9688d92d1b9809c8fc523f0cd2ff95d1d926aab9",
 )
 
 maven_jar(
     name = "jetty-session",
     artifact = "org.eclipse.jetty:jetty-session:" + JETTY_VER,
-    sha1 = "1c475d0698ab717b656850712522901ff4cd9680",
+    sha1 = "7a8cab3e28b28ff8e6c3fda9311f8b72b9b05945",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VER,
-    sha1 = "b7d355158fb2251ef3b2a43c3afa64f219c1065f",
+    sha1 = "f992617613998fb592dfd267446c2182376ca029",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VER,
-    sha1 = "c2565402319b88d89e3094246aeb299730ff09e0",
+    sha1 = "b949237228faf1407eea07352103e46279cb8fff",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VER,
-    sha1 = "f3c503a597def913e572f167f32e30b9a067022f",
+    sha1 = "5dd72392608420f6828c9a3b4bec4f37f83dfcd8",
 )
 
 maven_jar(
     name = "jetty-util-ajax",
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VER,
-    sha1 = "c5aaccff6f2a767594cb57fc29889f53d2dc3643",
+    sha1 = "9d0ed6b83a8c4a06430112c10c8cb9f42cba65c3",
 )
 
 maven_jar(
     name = "jetty-ee8-nested",
     artifact = "org.eclipse.jetty.ee8:jetty-ee8-nested:" + JETTY_VER,
-    sha1 = "25553933d4743a024230515de1c6e38d1e948c72",
+    sha1 = "1bbe2d32441c9653a343b3ac8e5b3a0ccdcec87d",
 )
 
 maven_jar(
     name = "jetty-ee8-security",
     artifact = "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VER,
-    sha1 = "91d06ebb5513e577ab2ef2b2858ab320136ca794",
+    sha1 = "81d9411634a04cb8569b853463f556224c9dce66",
 )
 
 maven_jar(
     name = "jetty-ee8-servlet",
     artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
-    sha1 = "762665d7083066b4738af6953f78e90f3daf8867",
+    sha1 = "7249186f3c8f88639a53d618eea850cf5d115661",
 )
 
 # maven_jar(
