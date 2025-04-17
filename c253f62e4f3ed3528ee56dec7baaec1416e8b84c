@@ -321,6 +321,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c45eb88c_2a0245f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-17T06:54:31Z",
+      "side": 1,
+      "message": "I see, however, you already have the flag `rapidObjectPackLookup` and you\u0027re in a condition at L255 `if (ldr !\u003d null)`, then adding the extra condition to the if won\u0027t add more CPU cycles, but calling another method here it will.\n\nAlso, the method name does not suggest that the addition is conditioned and also you\u0027re using the flag at L234-L246; it would be best to keep the same pattern here as well.",
+      "parentUuid": "b998136f_bd8ee289",
+      "range": {
+        "startLine": 257,
+        "startChar": 7,
+        "endLine": 257,
+        "endChar": 69
+      },
+      "revId": "c253f62e4f3ed3528ee56dec7baaec1416e8b84c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7611ed18_30c0a614",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
         "patchSetId": 19
@@ -356,6 +380,30 @@
       "side": 1,
       "message": "The check is done in the `addToRapidPackIndex` method:\n\n```\nprivate void addToRapidPackIndex(String objectId, Optional\u003cPack\u003e p) {\n  if (useRapidPackIndex) {\n    rapidPackIndex.put(objectId, p);\n  }\n}\n```",
       "parentUuid": "7611ed18_30c0a614",
+      "range": {
+        "startLine": 273,
+        "startChar": 2,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "c253f62e4f3ed3528ee56dec7baaec1416e8b84c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d5f10a4_64a0ef59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-17T06:54:31Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "parentUuid": "004a7cff_acbd7729",
       "range": {
         "startLine": 273,
         "startChar": 2,
