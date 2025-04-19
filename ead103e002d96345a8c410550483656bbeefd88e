@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7eae207_4f68ea71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-19T10:13:42Z",
+      "side": 1,
+      "message": "not needed",
+      "revId": "ead103e002d96345a8c410550483656bbeefd88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fa964df_8a3daad2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1649,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-19T10:13:42Z",
+      "side": 1,
+      "message": "IOException not caught",
+      "revId": "ead103e002d96345a8c410550483656bbeefd88e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
