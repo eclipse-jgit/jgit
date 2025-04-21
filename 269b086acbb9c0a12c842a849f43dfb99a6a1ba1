@@ -16,6 +16,24 @@
       "message": "updating gson to 2.13.0 causes this error, not sure why:\n\n.cache/bazel/60705e27b74c370310311cbb011c59a0/external/rules_jvm_external~~maven~maven/BUILD:53:11: in deps attribute of jvm_import rule @@rules_jvm_external~~maven~maven//:com_google_errorprone_error_prone_annotations: rule \u0027@@rules_jvm_external~~maven~maven//:com_google_errorprone_error_prone_type_annotations\u0027 does not exist",
       "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8462d5eb_29adbc6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-21T23:54:48Z",
+      "side": 1,
+      "message": "Fixed lib/jmh/BUILD dependencies and then .benchmarks seem to use a junit class (?!). \n\nAfter this, I did a bazel clean, bazel fetch and bazel build //..., and it built fine. Could you try?",
+      "parentUuid": "30742e85_302f3fd0",
+      "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
