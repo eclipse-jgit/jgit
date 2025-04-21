@@ -43,6 +43,7 @@ SSHD_VERSION = "2.15.0"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
+    name = "jgit_deps",
     artifacts = [
         "args4j:args4j:2.37",
         "com.google.code.gson:gson:2.13.0",
@@ -97,4 +98,4 @@ maven.install(
     ],
     strict_visibility = True,
 )
-use_repo(maven, "maven")
+use_repo(maven, "jgit_deps")
