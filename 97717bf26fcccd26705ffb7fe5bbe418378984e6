@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a2b317_661ea56b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "and non-tags",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef131ed1_c62dccca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "I believe you should test with a large repository (millions of refs and tens of millions of objects) and report the performance associated with it.",
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2015a3d_ef2f07eb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "We are testing the `numberOfTagsHeadsObjectsSinceBitmap` so we should not include other assertions",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 66
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8127df20_5049424e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "We are testing the `numberOfTagsHeadsObjectsSinceBitmap` so we should not include other assertions",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 66
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9af066a_c515ab66",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "We are testing the `numberOfTagsHeadsObjectsSinceBitmap` so we should not include other assertions",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 66
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d20dce05_a55f75c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "Have you tried running this on a repo with 1M refs and 10M objects?",
+      "range": {
+        "startLine": 1648,
+        "startChar": 17,
+        "endLine": 1648,
+        "endChar": 38
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "022e05cc_d0e2eada",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-22T07:04:05Z",
+      "side": 1,
+      "message": "Have you tried running this on a repo with 1M refs and 10M objects?",
+      "range": {
+        "startLine": 1694,
+        "startChar": 11,
+        "endLine": 1694,
+        "endChar": 54
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
