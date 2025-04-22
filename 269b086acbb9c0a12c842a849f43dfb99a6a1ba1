@@ -70,6 +70,24 @@
       "parentUuid": "23622f5b_c5d36cb2",
       "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c52ad94_879ba889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-04-22T23:00:34Z",
+      "side": 1,
+      "message": "see https://gitlab.eclipse.org/eclipsefdn/helpdesk/-/issues/5921\nI can\u0027t comment on this issue since I cannot login at the eclipse gitlab instance due to the same downtime of the Eclipse accounts API\n\nI sent an email to webmaster@eclipse.org to report the problem",
+      "parentUuid": "0950d3e1_ddb3b9a3",
+      "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
