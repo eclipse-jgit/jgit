@@ -34,6 +34,24 @@
       "parentUuid": "30742e85_302f3fd0",
       "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23622f5b_c5d36cb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-22T16:42:09Z",
+      "side": 1,
+      "message": "Ah, I got that error with gson 2.13 . Fixed updating MODULE.bazel with\n\n+        \"com.google.code.gson:gson:2.13.0\",\n+        \"com.google.errorprone:error_prone_type_annotations:2.38.0\",\n\n(Having trouble now uploading the change)",
+      "parentUuid": "8462d5eb_29adbc6a",
+      "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
