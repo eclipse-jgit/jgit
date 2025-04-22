@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e7e3d45_689bd28f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-22T06:33:21Z",
+      "side": 1,
+      "message": "provide proper description",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 0
+      },
+      "revId": "5b383b632151aeecbdffcc9384e0c3344ae95674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06159ee7_5ff81bbf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-22T06:33:21Z",
+      "side": 1,
+      "message": "nit: no need for plural as it contains a single object",
+      "range": {
+        "startLine": 1648,
+        "startChar": 17,
+        "endLine": 1648,
+        "endChar": 41
+      },
+      "revId": "5b383b632151aeecbdffcc9384e0c3344ae95674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
