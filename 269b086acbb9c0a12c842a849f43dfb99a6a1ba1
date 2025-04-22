@@ -52,6 +52,24 @@
       "parentUuid": "8462d5eb_29adbc6a",
       "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0950d3e1_ddb3b9a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-04-22T22:52:26Z",
+      "side": 1,
+      "message": "I have a new patchset for this change and the other changes in this series. Though pushing it for review fails with the error\n\n```\r\nremote: commit 34f090f: Reviewing commit: 34f090f6\nremote: commit 34f090f: Authored by: Ivan Frade \u003cifrade@google.com\u003e\nremote: commit 34f090f:\nremote: commit 34f090f: Reviewing commit: 34f090f65e1b6d89c869a37b5d68bfbc802a990e\nremote: commit 34f090f: Authored by: Ivan Frade \u003cifrade@google.com\u003e\nremote: commit 34f090f: Could not find an Eclipse user with mail \u0027ifrade@google.com\u0027 for author of commit 34f090f65e1b6d89c869a37b5d68bfbc802a990e\nremote: commit 34f090f:\nremote: commit 34f090f: Please see http://wiki.eclipse.org/ECA\n```\n\nLooks like this is caused by the issues with the Eclipse accounts API reported here\nhttps://www.eclipsestatus.io/",
+      "parentUuid": "23622f5b_c5d36cb2",
+      "revId": "269b086acbb9c0a12c842a849f43dfb99a6a1ba1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
