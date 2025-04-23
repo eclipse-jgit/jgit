@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c380c2_5ae072fb",
+        "filename": ".bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-04-23T16:16:35Z",
+      "side": 1,
+      "message": "nit: This is on by default on bazel \u003e\u003d 7.0\n\nhttps://blog.bazel.build/2023/12/11/bazel-7-release.html#bzlmod",
+      "revId": "b26ff8c5dd27d7087e7f3620b9b28b2e4cef2e4b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
