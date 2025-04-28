@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e0e2e7_34b2874c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:44:06Z",
+      "side": 1,
+      "message": "this needs to be rephrased",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "1bf6a2b841d50fdac4f180f708be36c88ff0948d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
