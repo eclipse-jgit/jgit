@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c520418a_18186aa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a2b317_661ea56b",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ef131ed1_c62dccca",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -61,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa70bc6e_4166c008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "With PS #5 results today look like:\n```\nrepo           | without change | with change\n------------------------------------------------------\ntrivial        | 8 ms           | 13 ms\n------------------------------------------------------\n141k packfiles | 7s             | 13s\n```",
+      "parentUuid": "ea0f06b4_18f55fbf",
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2015a3d_ef2f07eb",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
         "patchSetId": 4
@@ -72,6 +114,30 @@
       "writtenOn": "2025-04-22T07:04:05Z",
       "side": 1,
       "message": "We are testing the `numberOfTagsHeadsObjectsSinceBitmap` so we should not include other assertions",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 66
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfee5a9_8d2b7ae0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2015a3d_ef2f07eb",
       "range": {
         "startLine": 187,
         "startChar": 0,
@@ -105,6 +171,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f133f6e0_94a67cd4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8127df20_5049424e",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 66
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9af066a_c515ab66",
@@ -118,6 +208,30 @@
       "writtenOn": "2025-04-22T07:04:05Z",
       "side": 1,
       "message": "We are testing the `numberOfTagsHeadsObjectsSinceBitmap` so we should not include other assertions",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 66
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6037429_cf93e3ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9af066a_c515ab66",
       "range": {
         "startLine": 198,
         "startChar": 2,
@@ -151,6 +265,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9e41cd_0397cdc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1648,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "See the reported performance in [comment](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1213564/comments/ef131ed1_c62dccca)",
+      "parentUuid": "d20dce05_a55f75c1",
+      "range": {
+        "startLine": 1648,
+        "startChar": 17,
+        "endLine": 1648,
+        "endChar": 38
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "022e05cc_d0e2eada",
@@ -164,6 +302,30 @@
       "writtenOn": "2025-04-22T07:04:05Z",
       "side": 1,
       "message": "Have you tried running this on a repo with 1M refs and 10M objects?",
+      "range": {
+        "startLine": 1694,
+        "startChar": 11,
+        "endLine": 1694,
+        "endChar": 54
+      },
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b366053_7bd99b7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:39:38Z",
+      "side": 1,
+      "message": "See the reported performance in [comment](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1213564/comments/ef131ed1_c62dccca)",
+      "parentUuid": "022e05cc_d0e2eada",
       "range": {
         "startLine": 1694,
         "startChar": 11,
