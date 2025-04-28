@@ -22,6 +22,53 @@
       },
       "revId": "1bf6a2b841d50fdac4f180f708be36c88ff0948d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805fd901_835fda66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:59:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e0e2e7_34b2874c",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "1bf6a2b841d50fdac4f180f708be36c88ff0948d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b37ccb48_431c8a60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-28T18:59:50Z",
+      "side": 1,
+      "message": "ignore the object type check, just rely on the contains in set check - it seems to be cheaper cuz no parsing is envolved...",
+      "range": {
+        "startLine": 1676,
+        "startChar": 0,
+        "endLine": 1684,
+        "endChar": 4
+      },
+      "revId": "1bf6a2b841d50fdac4f180f708be36c88ff0948d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
