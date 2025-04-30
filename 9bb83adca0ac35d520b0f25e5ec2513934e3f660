@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cee2efb_d1a65e2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-04-30T06:07:58Z",
+      "side": 1,
+      "message": "```suggestion\nRFC: introduce objects with tags or heads commits since bitmap metric\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8665ad2d_a0bfb594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-04-30T06:07:58Z",
+      "side": 1,
+      "message": "```suggestion\nin Gerrit) are packed but they never make it to the bitmap as that contains\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b2625d_de08570b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-04-30T06:07:58Z",
+      "side": 1,
+      "message": "I think the approach is good imho.\n\nWe compute once the lookup table of heads/tags, then spend `O(1)` for each packfile and each loose object for the lookup itself.\n\nI don\u0027t think there is an approach that is computationally faster.\n+1 from me and I will leave @luca.milanesio@gmail.com to share his opinion too.",
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c90cc2e_8efa5a90",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1663,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-04-30T06:07:58Z",
+      "side": 1,
+      "message": "nit: consider making this static",
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
