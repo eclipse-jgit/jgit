@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e21d18e4_29215143",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-30T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cee2efb_d1a65e2f",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8665ad2d_a0bfb594",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-04-30T06:07:58Z",
       "side": 1,
       "message": "```suggestion\nin Gerrit) are packed but they never make it to the bitmap as that contains\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca640044_0a069ecd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-30T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8665ad2d_a0bfb594",
       "range": {
         "startLine": 10,
         "startChar": 31,
@@ -77,6 +125,24 @@
       "writtenOn": "2025-04-30T06:07:58Z",
       "side": 1,
       "message": "nit: consider making this static",
+      "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56f0f39_e7f411e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1663,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-30T18:31:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c90cc2e_8efa5a90",
       "revId": "9bb83adca0ac35d520b0f25e5ec2513934e3f660",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

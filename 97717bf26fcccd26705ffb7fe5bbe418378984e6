@@ -139,6 +139,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23fdda82_0cb11cc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-04-30T18:31:55Z",
+      "side": 1,
+      "message": "Correct, that was a typo",
+      "parentUuid": "40418991_df37b712",
+      "revId": "97717bf26fcccd26705ffb7fe5bbe418378984e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2015a3d_ef2f07eb",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcSinceBitmapStatisticsTest.java",
         "patchSetId": 4
