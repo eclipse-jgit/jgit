@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "316e748f_6e878fb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-05T08:10:06Z",
+      "side": 1,
+      "message": "Have you checked if it is less expensive to just get all refs and filter in the Stream for the ones starting with `refs/heads/` or `refs/tags/`?",
+      "range": {
+        "startLine": 1652,
+        "startChar": 10,
+        "endLine": 1654,
+        "endChar": 57
+      },
+      "revId": "6a89beea61887e8a3427fa4e197583ba504f7c2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
