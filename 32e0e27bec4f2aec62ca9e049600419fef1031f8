@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "648705ec_ac6d5fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-05-06T18:19:23Z",
+      "side": 1,
+      "message": "This didn\u0027t break anything in https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java because the tests use only commits. \n\nMaybe we should add there something with annotated tags to cover this case.",
+      "revId": "32e0e27bec4f2aec62ca9e049600419fef1031f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
