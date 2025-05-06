@@ -214,7 +214,7 @@ public class DfsInserterTest {
 	}
 
 	@Test
-	public void testNoCheckExisting() throws IOException {
+	public void testNoDuplicates() throws IOException {
 		byte[] contents = Constants.encode("foo");
 		ObjectId fooId;
 		try (ObjectInserter ins = db.newObjectInserter()) {
@@ -224,21 +224,20 @@ public class DfsInserterTest {
 		assertEquals(1, db.getObjectDatabase().listPacks().size());
 
 		try (ObjectInserter ins = db.newObjectInserter()) {
-			((DfsInserter) ins).checkExisting(false);
+			ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
 			assertEquals(fooId, ins.insert(Constants.OBJ_BLOB, contents));
 			ins.flush();
 		}
 		assertEquals(2, db.getObjectDatabase().listPacks().size());
 
-		// Verify that we have a foo in both INSERT packs.
+		// Newer packs are first. Verify that foo is only in the second pack
 		try (DfsReader reader = new DfsReader(db.getObjectDatabase())) {
 			DfsPackFile packs[] = db.getObjectDatabase().getPacks();
-
 			assertEquals(2, packs.length);
 			DfsPackFile p1 = packs[0];
 			assertEquals(PackSource.INSERT,
 					p1.getPackDescription().getPackSource());
-			assertTrue(p1.hasObject(reader, fooId));
+			assertFalse(p1.hasObject(reader, fooId));
 
 			DfsPackFile p2 = packs[1];
 			assertEquals(PackSource.INSERT,
