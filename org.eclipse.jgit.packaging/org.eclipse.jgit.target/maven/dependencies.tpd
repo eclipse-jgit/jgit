@@ -25,7 +25,7 @@ maven apache
 	dependency {
 		groupId = "commons-io"
 		artifactId = "commons-io"
-		version = "2.18.0"
+		version = "2.19.0"
 	}
 	dependency {
 		groupId = "commons-logging"
@@ -115,7 +115,7 @@ maven gson
 	dependency {
 		groupId = "com.google.code.gson"
 		artifactId = "gson"
-		version = "2.12.1"
+		version = "2.13.0"
 	}
 }
 

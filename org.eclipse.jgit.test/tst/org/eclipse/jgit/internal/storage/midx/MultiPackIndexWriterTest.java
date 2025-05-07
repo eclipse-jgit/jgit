@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025, Google Inc.
+ * Copyright (C) 2025, Google LLC
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -137,6 +137,24 @@ public class MultiPackIndexWriterTest {
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_LARGEOFFSETS));
 		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
 		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+	}
+
+	@Test
+	public void jgit_emptyMidx() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		List<Integer> chunkIds = readChunkIds(out);
+		assertEquals(1134, out.size());
+		assertEquals(5, chunkIds.size());
+		assertEquals(0, chunkIds.indexOf(MIDX_CHUNKID_OIDFANOUT));
+		assertEquals(1, chunkIds.indexOf(MIDX_CHUNKID_OIDLOOKUP));
+		assertEquals(2, chunkIds.indexOf(MIDX_CHUNKID_OBJECTOFFSETS));
+		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
+		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
 	}
 
 	private List<Integer> readChunkIds(ByteArrayOutputStream out) {

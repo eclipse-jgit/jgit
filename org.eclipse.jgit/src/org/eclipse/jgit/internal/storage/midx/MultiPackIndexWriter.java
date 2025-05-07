@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025, Google Inc.
+ * Copyright (C) 2025, Google LLC
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -65,10 +65,11 @@ public class MultiPackIndexWriter {
 	 * @param inputs
 	 *            pairs of name and index for each pack to include in the
 	 *            multipack index.
+	 * @return bytes written into the stream
 	 * @throws IOException
 	 *             Error writing to the stream
 	 */
-	public void write(ProgressMonitor monitor, OutputStream outputStream,
+	public long write(ProgressMonitor monitor, OutputStream outputStream,
 			Map<String, PackIndex> inputs) throws IOException {
 		PackIndexMerger data = new PackIndexMerger(inputs);
 
@@ -91,6 +92,7 @@ public class MultiPackIndexWriter {
 						Long.valueOf(expectedSize),
 						Long.valueOf(out.length())));
 			}
+			return expectedSize;
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
 					e);
@@ -297,7 +299,7 @@ public class MultiPackIndexWriter {
 		for (int i = 0; i < ctx.data.getPackCount(); i++) {
 			List<OffsetPosition> offsetsForPack = packOffsets
 					.get(Integer.valueOf(i));
-			if (offsetsForPack.isEmpty()) {
+			if (offsetsForPack == null) {
 				continue;
 			}
 			offsetsForPack.sort(Comparator.comparing(OffsetPosition::offset));
@@ -358,7 +360,6 @@ public class MultiPackIndexWriter {
 		out.flush();
 	}
 
-
 	private record OffsetPosition(long offset, int position) {
 	}
 
@@ -367,7 +368,8 @@ public class MultiPackIndexWriter {
 	 * offset chunk must exist, and offsets larger than 2^31-1 must be stored in
 	 * it instead
 	 *
-	 * @param offset object offset
+	 * @param offset
+	 *            object offset
 	 *
 	 * @return true if the offset fits in 31 bits
 	 */
