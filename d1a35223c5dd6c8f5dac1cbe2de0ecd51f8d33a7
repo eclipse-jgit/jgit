@@ -34,6 +34,24 @@
       "parentUuid": "a56e401a_61c66de1",
       "revId": "d1a35223c5dd6c8f5dac1cbe2de0ecd51f8d33a7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bff8c617_adae497d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-05-08T23:08:17Z",
+      "side": 1,
+      "message": "Are you suggesting it be just the filename? I think we need to know what the intent is of passing in the name instead of it being a constant, and whether the intent might be to be able to point it elsewhere?",
+      "parentUuid": "e9e77984_69cde363",
+      "revId": "d1a35223c5dd6c8f5dac1cbe2de0ecd51f8d33a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
