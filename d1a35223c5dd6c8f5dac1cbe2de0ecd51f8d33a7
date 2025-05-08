@@ -16,6 +16,24 @@
       "message": "I am concerned that in this class at least, stackPath is not actually tied to refTableDir since they are passed in separately to the constructor.",
       "revId": "d1a35223c5dd6c8f5dac1cbe2de0ecd51f8d33a7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9e77984_69cde363",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-08T22:56:42Z",
+      "side": 1,
+      "message": "It looks like the constructor could be changed to take a String for the stack file name instead and it would only affect `FileReftableDatabase` and tests. The constructor in `FileReftableDatabase` that also takes a File can use a String instead too.",
+      "parentUuid": "a56e401a_61c66de1",
+      "revId": "d1a35223c5dd6c8f5dac1cbe2de0ecd51f8d33a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
