@@ -399,7 +399,7 @@ public class FileReftableStack implements AutoCloseable {
 			String fn = filename(nextUpdateIndex(), nextUpdateIndex());
 
 			File tmpTable = File.createTempFile(fn + "_", ".ref",
-					stackPath.getParentFile());
+					reftableDir);
 
 			ReftableWriter.Stats s;
 			try (FileOutputStream fos = new FileOutputStream(tmpTable)) {
@@ -453,7 +453,7 @@ public class FileReftableStack implements AutoCloseable {
 		String fn = filename(first, last);
 
 		File tmpTable = File.createTempFile(fn + "_", ".ref", //$NON-NLS-1$//$NON-NLS-2$
-				stackPath.getParentFile());
+				reftableDir);
 		try (FileOutputStream fos = new FileOutputStream(tmpTable)) {
 			ReftableCompactor c = new ReftableCompactor(fos)
 					.setConfig(reftableConfig())
