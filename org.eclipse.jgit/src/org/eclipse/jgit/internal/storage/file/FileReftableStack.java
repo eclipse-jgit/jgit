@@ -314,9 +314,10 @@ public class FileReftableStack implements AutoCloseable {
 				break;
 			case AFTER_OPEN:
 				try (InputStream stream = Files
-						.newInputStream(tablesListFile.toPath())) {
-					// open the tables.list file to refresh attributes (on some
-					// NFS clients)
+						.newInputStream(reftableDir.toPath())) {
+					// open the refs/reftable/ directory to refresh attributes
+					// of reftable files and the tables.list file listing their
+					// names (on some NFS clients)
 				} catch (FileNotFoundException | NoSuchFileException e) {
 					// ignore
 				}
