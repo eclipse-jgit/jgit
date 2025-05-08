@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56e401a_61c66de1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-05-08T22:36:35Z",
+      "side": 1,
+      "message": "I am concerned that in this class at least, stackPath is not actually tied to refTableDir since they are passed in separately to the constructor.",
+      "revId": "d1a35223c5dd6c8f5dac1cbe2de0ecd51f8d33a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
