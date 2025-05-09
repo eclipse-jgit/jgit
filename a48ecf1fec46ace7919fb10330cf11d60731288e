@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "415d89da_d772b358",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-09T19:08:13Z",
+      "side": 1,
+      "message": "nit: missing `)`\n\n```suggestion\nreftable files (stored in the same refs/reftable/ directory) which may\n```",
+      "revId": "a48ecf1fec46ace7919fb10330cf11d60731288e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
