@@ -16,6 +16,24 @@
       "message": "nit: missing `)`\n\n```suggestion\nreftable files (stored in the same refs/reftable/ directory) which may\n```",
       "revId": "a48ecf1fec46ace7919fb10330cf11d60731288e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a1ba5e4_f104b372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-05-09T19:32:44Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "415d89da_d772b358",
+      "revId": "a48ecf1fec46ace7919fb10330cf11d60731288e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
