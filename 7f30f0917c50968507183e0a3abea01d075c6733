@@ -16,6 +16,24 @@
       "message": "This probably should come first in this series now?",
       "revId": "7f30f0917c50968507183e0a3abea01d075c6733",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d50109_18d0d672",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-05-09T18:26:34Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "8b3631b4_504027af",
+      "revId": "7f30f0917c50968507183e0a3abea01d075c6733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
