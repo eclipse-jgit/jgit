@@ -27,7 +27,9 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -88,6 +90,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 	/** Complete listing of refs the remote will have after our push. */
 	private Map<String, Ref> newRefs;
 
+  RefDirectory refdb;
+
 	/**
 	 * Updates which require altering the packed-refs file to complete.
 	 * <p>
@@ -102,6 +106,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		local = transport.local;
 		uri = transport.getURI();
 		dest = w;
+    refdb = (RefDirectory) local.getRefDatabase();
 	}
 
 	@Override
@@ -289,7 +294,10 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 
 		if (r.getStorage().isLoose()) {
 			try {
+        LockFile packedRefsLock;
+        packedRefsLock = refdb.lockPackedRefsOrThrow();
 				dest.deleteRef(u.getRemoteName());
+        packedRefsLock.unlock();
 				u.setStatus(Status.OK);
 			} catch (IOException e) {
 				u.setStatus(Status.REJECTED_OTHER_REASON);
