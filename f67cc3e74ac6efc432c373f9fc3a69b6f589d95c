@@ -16,6 +16,24 @@
       "message": "The details of locking packed-refs should stay in the `RefDirectory` implementation.",
       "revId": "f67cc3e74ac6efc432c373f9fc3a69b6f589d95c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "010b2ef5_b6f0276e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-12T11:20:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "84e05094_d68778ef",
+      "revId": "f67cc3e74ac6efc432c373f9fc3a69b6f589d95c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
