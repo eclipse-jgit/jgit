@@ -681,11 +681,11 @@ public class RefDirectory extends RefDatabase {
 		// Write the packed-refs file using an atomic update. We might
 		// wind up reading it twice, before and after the lock, to ensure
 		// we don't miss an edit made externally.
-		PackedRefList packed = getPackedRefs();
-		if (packed.contains(name)) {
-			inProcessPackedRefsLock.lock();
-			try {
-				LockFile lck = lockPackedRefsOrThrow();
+		LockFile lck = lockPackedRefsOrThrow();
+		try {
+			PackedRefList packed = getPackedRefs();
+			if (packed.contains(name)) {
+				inProcessPackedRefsLock.lock();
 				try {
 					packed = refreshPackedRefs();
 					int idx = packed.find(name);
@@ -693,26 +693,25 @@ public class RefDirectory extends RefDatabase {
 						commitPackedRefs(lck, packed.remove(idx), packed, true);
 					}
 				} finally {
-					lck.unlock();
+					inProcessPackedRefsLock.unlock();
 				}
-			} finally {
-				inProcessPackedRefsLock.unlock();
 			}
-		}
+			RefList<LooseRef> curLoose, newLoose;
+			do {
+				curLoose = looseRefs.get();
+				int idx = curLoose.find(name);
+				if (idx < 0)
+					break;
+				newLoose = curLoose.remove(idx);
+			} while (!looseRefs.compareAndSet(curLoose, newLoose));
 
-		RefList<LooseRef> curLoose, newLoose;
-		do {
-			curLoose = looseRefs.get();
-			int idx = curLoose.find(name);
-			if (idx < 0)
-				break;
-			newLoose = curLoose.remove(idx);
-		} while (!looseRefs.compareAndSet(curLoose, newLoose));
-
-		int levels = levelsIn(name) - 2;
-		delete(logFor(name), levels);
-		if (dst.getStorage().isLoose()) {
-			deleteAndUnlock(fileFor(name), levels, update);
+			int levels = levelsIn(name) - 2;
+			delete(logFor(name), levels);
+			if (dst.getStorage().isLoose()) {
+				deleteAndUnlock(fileFor(name), levels, update);
+			}
+		} finally {
+			lck.unlock();
 		}
 
 		modCnt.incrementAndGet();
@@ -860,8 +859,7 @@ public class RefDirectory extends RefDatabase {
 		}
 		return null;
 	}
-
-	LockFile lockPackedRefsOrThrow() throws IOException {
+  LockFile lockPackedRefsOrThrow() throws IOException {
 		LockFile lck = lockPackedRefs();
 		if (lck == null) {
 			throw new LockFailedException(packedRefsFile);
