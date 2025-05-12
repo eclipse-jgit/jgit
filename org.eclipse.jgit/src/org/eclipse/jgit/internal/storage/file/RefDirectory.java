@@ -712,7 +712,9 @@ public class RefDirectory extends RefDatabase {
 		int levels = levelsIn(name) - 2;
 		delete(logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
+      LockFile lck = lockPackedRefsOrThrow();
 			deleteAndUnlock(fileFor(name), levels, update);
+      lck.unlock();
 		}
 
 		modCnt.incrementAndGet();
@@ -861,7 +863,7 @@ public class RefDirectory extends RefDatabase {
 		return null;
 	}
 
-	LockFile lockPackedRefsOrThrow() throws IOException {
+  LockFile lockPackedRefsOrThrow() throws IOException {
 		LockFile lck = lockPackedRefs();
 		if (lck == null) {
 			throw new LockFailedException(packedRefsFile);
