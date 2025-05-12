@@ -677,27 +677,26 @@ public class RefDirectory extends RefDatabase {
 			dst = dst.getLeaf();
 		}
 		String name = dst.getName();
-
-		// Write the packed-refs file using an atomic update. We might
-		// wind up reading it twice, before and after the lock, to ensure
-		// we don't miss an edit made externally.
-		PackedRefList packed = getPackedRefs();
-		if (packed.contains(name)) {
-			inProcessPackedRefsLock.lock();
+		inProcessPackedRefsLock.lock();
+		try {
+			LockFile lck = lockPackedRefsOrThrow();
 			try {
-				LockFile lck = lockPackedRefsOrThrow();
-				try {
+				// Write the packed-refs file using an atomic update. We might
+				// wind up reading it twice, before and after the lock, to ensure
+				// we don't miss an edit made externally.
+				PackedRefList packed = getPackedRefs();
+				if (packed.contains(name)) {
 					packed = refreshPackedRefs();
 					int idx = packed.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, packed.remove(idx), packed, true);
 					}
-				} finally {
-					lck.unlock();
 				}
 			} finally {
-				inProcessPackedRefsLock.unlock();
+				lck.unlock();
 			}
+		} finally {
+			inProcessPackedRefsLock.unlock();
 		}
 
 		RefList<LooseRef> curLoose, newLoose;
