@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efd677a2_2bf21b4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-12T11:25:40Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right level at which to do this. AFAIK this method is executed only when repacking, we want to do this on every delete.",
+      "range": {
+        "startLine": 715,
+        "startChar": 6,
+        "endLine": 715,
+        "endChar": 45
+      },
+      "revId": "04f14aa9fa757c9116373fbb329f4e9fd6a58aaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
