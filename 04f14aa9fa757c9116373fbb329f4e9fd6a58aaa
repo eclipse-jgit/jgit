@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7dabe0f_47062b2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-12T11:28:47Z",
+      "side": 1,
+      "message": "If we fail to lock, we should not delete the reflog, isn\u0027t it?\nShould the lock start here?",
+      "range": {
+        "startLine": 713,
+        "startChar": 2,
+        "endLine": 713,
+        "endChar": 31
+      },
+      "revId": "04f14aa9fa757c9116373fbb329f4e9fd6a58aaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "efd677a2_2bf21b4d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 5
@@ -20,6 +43,46 @@
         "endLine": 715,
         "endChar": 45
       },
+      "revId": "04f14aa9fa757c9116373fbb329f4e9fd6a58aaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3090a6af_1c926f52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-12T11:28:47Z",
+      "side": 1,
+      "message": "Unlocking should always happen in a `finally {}` block",
+      "range": {
+        "startLine": 717,
+        "startChar": 6,
+        "endLine": 717,
+        "endChar": 19
+      },
+      "revId": "04f14aa9fa757c9116373fbb329f4e9fd6a58aaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1404732c_f1a0868e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-12T11:28:47Z",
+      "side": 1,
+      "message": "Unrelated change",
       "revId": "04f14aa9fa757c9116373fbb329f4e9fd6a58aaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
