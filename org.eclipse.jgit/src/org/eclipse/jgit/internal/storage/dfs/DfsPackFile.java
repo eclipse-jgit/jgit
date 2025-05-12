@@ -27,6 +27,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -49,6 +52,7 @@ import org.eclipse.jgit.internal.storage.file.PackObjectSizeIndexLoader;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndexFactory;
 import org.eclipse.jgit.internal.storage.pack.BinaryDelta;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -59,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.LongList;
 
 /**
@@ -70,6 +75,10 @@ public final class DfsPackFile extends BlockBasedFile {
 	private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
 
 	private static final long REF_POSITION = 0;
+
+	private static final Comparator<DfsObjectToPack> OFFSET_SORT = (
+			DfsObjectToPack a,
+			DfsObjectToPack b) -> Long.signum(a.getOffset() - b.getOffset());
 
 	/**
 	 * Loader for the default file-based {@link PackBitmapIndex} implementation.
@@ -453,6 +462,40 @@ public final class DfsPackFile extends BlockBasedFile {
 
 	long findOffset(DfsReader ctx, AnyObjectId id) throws IOException {
 		return idx(ctx).findOffset(id);
+	}
+
+	/**
+	 * Return objects in the list available in this pack, sorted in (pack,
+	 * offset) order.
+	 *
+	 * @param ctx
+	 *            a reader
+	 * @param objects
+	 *            objects we are looking for
+	 * @param skipFound
+	 *            ignore objects already found.
+	 * @return list of objects with pack and offset set.
+	 * @throws IOException
+	 *             an error occurred
+	 */
+	List<DfsObjectToPack> findAllFromPack(DfsReader ctx,
+			Iterable<ObjectToPack> objects, boolean skipFound)
+			throws IOException {
+		List<DfsObjectToPack> tmp = new BlockList<>();
+		for (ObjectToPack obj : objects) {
+			DfsObjectToPack otp = (DfsObjectToPack) obj;
+			if (skipFound && otp.isFound()) {
+				continue;
+			}
+			long p = idx(ctx).findOffset(otp);
+			if (p <= 0 || isCorrupt(p)) {
+				continue;
+			}
+			otp.setOffset(p);
+			tmp.add(otp);
+		}
+		Collections.sort(tmp, OFFSET_SORT);
+		return tmp;
 	}
 
 	void resolve(DfsReader ctx, Set<ObjectId> matches, AbbreviatedObjectId id,
@@ -1167,6 +1210,10 @@ public final class DfsPackFile extends BlockBasedFile {
 		}
 
 		return sizeIdx.getSize(idxPosition);
+	}
+	void representation(DfsObjectRepresentation r, final long pos,
+						DfsReader ctx) throws IOException {
+		representation(r, pos, ctx, getReverseIdx(ctx));
 	}
 
 	void representation(DfsObjectRepresentation r, final long pos,
