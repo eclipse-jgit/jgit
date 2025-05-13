@@ -85,6 +85,23 @@
       "message": "You should also add that this fixes an issue happening *ONLY* when a repository contains a large number of refs (500k or more) and therefore the packing of the refs is _slow enough_ for a loose ref deletion to _sneak in_ during the packing process.",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86acba5d_74a11bfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-13T22:47:41Z",
+      "side": 1,
+      "message": "This new version doesn\u0027t look correct to me. I think the base is mostly correct, except that it 1) releases the packed-refs lock too early and 2) it does the loose ref deletion too late. I think you want this:\n\nPre-req:\n* move base lines 703-716 into a new helper method `deleteLooseRefAndLogs()`\n\nIn this `delete()` method:\n0. lock the loose ref (this is done by the caller already, even if there is no loose ref)\n1. do the same \"check if this ref is packed and lock packed-refs\" logic from base lines 684-688\n2. while holding that packed-refs lock, call the new `deleteLooseRefAndLogs()` method\n  * you could do this immediately after `lockPackedRefsOrThrow()` or wait until inside the finally block before calling `unlock()`. Earlier is probably better so that another caller can create a new loose ref with this same name race-free, but without waiting for the packed-refs file to be written.\n3. if the ref wasn\u0027t in packed-refs, have an else block that calls the new `deleteLooseRefAndLogs()` method",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
