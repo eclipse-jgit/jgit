@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a51f1b9_d2ae4810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-13T07:10:24Z",
+      "side": 1,
+      "message": "That\u0027s not the issue described in jgit-152: the ref *must* exist as a loose ref, then not triggering any locking on the packed-refs at all.\n\nThen a concurrent pack refs may include the loose ref in the newly created packed ref whilst the loose ref deletion is taking place, causing the ref to be _\"resumed\"_ after being deleted.",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90192df2_088abd85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-13T07:10:24Z",
+      "side": 1,
+      "message": "deletion",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 8
+      },
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5691cf7_01f231a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-13T07:10:24Z",
+      "side": 1,
+      "message": "That\u0027s not true: the list of refs can still increase, which is fine because loose refs override packed refs. However, this change assures that there cannot be loose refs deletions whilst the packing of the refs takes place.",
+      "range": {
+        "startLine": 19,
+        "startChar": 58,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d6bad6_24ef6674",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-13T07:10:24Z",
+      "side": 1,
+      "message": "You should also add that this fixes an issue happening *ONLY* when a repository contains a large number of refs (500k or more) and therefore the packing of the refs is _slow enough_ for a loose ref deletion to _sneak in_ during the packing process.",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
