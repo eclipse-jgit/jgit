@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.gitrepo.RepoProject.CopyFile;
@@ -37,7 +40,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Repo XML manifest parser.
@@ -137,8 +139,18 @@ public class ManifestParser extends DefaultHandler {
 		xmlInRead++;
 		final XMLReader xr;
 		try {
-			xr = XMLReaderFactory.createXMLReader();
-		} catch (SAXException e) {
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			spf.setFeature(
+					"http://xml.org/sax/features/external-general-entities", //$NON-NLS-1$
+					false);
+			spf.setFeature(
+					"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
+					false);
+			spf.setFeature(
+					"http://apache.org/xml/features/disallow-doctype-decl", //$NON-NLS-1$
+					true);
+			xr = spf.newSAXParser().getXMLReader();
+		} catch (SAXException | ParserConfigurationException e) {
 			throw new IOException(JGitText.get().noXMLParserAvailable, e);
 		}
 		xr.setContentHandler(this);
