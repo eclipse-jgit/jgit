@@ -418,6 +418,24 @@
       "parentUuid": "11892759_ac1624d8",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c5a620_b2ef4d1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T21:03:05Z",
+      "side": 1,
+      "message": "\u003e That does an explicit refresh, so I don\u0027t think there\u0027s a staleness issue.\n\nI also believe that @danielesassoli@gmail.com is just mixing things up: his use of the snapshotting ref directory was accidental, and this change should not try to fix staleness.\n\n@danielesassoli@gmail.com can you repeat the tests *without* using the `SnapshottingRefDirectory` ?",
+      "parentUuid": "09b3e837_94fd0762",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
