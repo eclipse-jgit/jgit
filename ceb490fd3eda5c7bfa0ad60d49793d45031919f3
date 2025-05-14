@@ -46,6 +46,47 @@
       },
       "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c60b215_a8fe007c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T19:57:47Z",
+      "side": 1,
+      "message": "The issue is clarified: @danielesassoli@gmail.com\u0027s comments are referring to the `SnapshottingRefDirectory` and not the `RefDirectory`, which doesn\u0027t present the issue because it does a conditional refresh.\n\nI believe it makes sense to leave the `SnapshottingRefDirectory` beahaviour aside for now and concentrate in fixing `RefDirectory` alone, for not mixing two different problems.",
+      "parentUuid": "3a54daf0_cd55972c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01073b0_e875683a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T19:57:47Z",
+      "side": 1,
+      "message": "@danielesassoli@gmail.com we concentrate on one problem at a time and fix `RefDirectory` first, without mixing the `SnapshottingRefDirectory` behaviour which doesn\u0027t refresh on `getPackedRefs()` because it actually use an in-memory snapshot.",
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
