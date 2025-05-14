@@ -364,6 +364,24 @@
       "parentUuid": "1b2b291b_7f61802e",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "533c90ae_8619f330",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T18:31:18Z",
+      "side": 1,
+      "message": "Yes, I believe we need input from @danielesassoli@gmail.com as we need to understand why the latest packed refs wasn\u0027t visible to the delete in your case.",
+      "parentUuid": "d6603042_4a92773f",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
