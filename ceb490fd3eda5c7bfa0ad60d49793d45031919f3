@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683b616f_37d2b81a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-14T15:37:14Z",
+      "side": 1,
+      "message": "Yes it does, so long as you have `trustPackedRefsStat` set correctly. Have you found some other case where you think `getPackedRefs()` is returning an outdated view of packed-refs?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
