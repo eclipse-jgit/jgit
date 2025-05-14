@@ -13,10 +13,13 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -32,13 +35,14 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
  * modified once initialized and presented to the JGit DFS library.
  */
 public class DfsPackDescription {
+
 	/**
 	 * Comparator for packs when looking up objects in indexes.
 	 * <p>
-	 * This comparator tries to position packs in the order readers should examine
-	 * them when looking for objects by SHA-1. The default tries to sort packs
-	 * with more recent modification dates before older packs, and packs with
-	 * fewer objects before packs with more objects.
+	 * This comparator tries to position packs in the order readers should
+	 * examine them when looking for objects by SHA-1. The default tries to sort
+	 * packs with more recent modification dates before older packs, and packs
+	 * with fewer objects before packs with more objects.
 	 * <p>
 	 * Uses {@link PackSource#DEFAULT_COMPARATOR} for the portion of comparison
 	 * where packs are sorted by source.
@@ -150,6 +154,11 @@ public class DfsPackDescription {
 	private int indexVersion;
 	private long estimatedPackSize;
 
+	// Packs required by this pack (because it is e.g. a multipack index)
+	private List<? extends DfsPackDescription> coveredPacks;
+
+	private DfsPackDescription multiPackIndexBase;
+
 	/**
 	 * Initialize a description by pack name and repository.
 	 * <p>
@@ -207,6 +216,15 @@ public class DfsPackDescription {
 	 */
 	public boolean hasFileExt(PackExt ext) {
 		return (extensions & ext.getBit()) != 0;
+	}
+
+	/**
+	 * The basic pack name (no extension) for this pack
+	 *
+	 * @return pack name
+	 */
+	public String getPackName() {
+		return packName;
 	}
 
 	/**
@@ -525,6 +543,46 @@ public class DfsPackDescription {
 	public DfsPackDescription setIndexVersion(int version) {
 		indexVersion = version;
 		return this;
+	}
+
+	/**
+	 * Packs "included" in this pack (e.g because this is a multi-pack index)
+	 *
+	 * @return descriptions of the packs which are included in this one.
+	 */
+	public List<DfsPackDescription> getCoveredPacks() {
+		return new ArrayList<>(coveredPacks);
+	}
+
+	/**
+	 * Set the list of packs required by this one (usually for multi-pack index)
+	 *
+	 * @param coveredPacks
+	 *            list of pack names without extension
+	 */
+	public void setCoveredPacks(
+			List<? extends DfsPackDescription> coveredPacks) {
+		this.coveredPacks = coveredPacks;
+	}
+
+	/**
+	 * The base if this multipack index
+	 *
+	 * @return the base of this multipack index
+	 */
+	@Nullable
+	public DfsPackDescription getMultiPackIndexBase() {
+		return multiPackIndexBase;
+	}
+
+	/**
+	 * Set the base of this multipack index
+	 *
+	 * @param desc
+	 *            pack with the multipack index preceding this one
+	 */
+	public void setMultiPackIndexBase(DfsPackDescription desc) {
+		this.multiPackIndexBase = desc;
 	}
 
 	@Override
