@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9b15304_44cd8959",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T22:46:25Z",
+      "side": 1,
+      "message": "This isn\u0027t true, as `RefDirectory` does use the `up-to-date` version.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "683b616f_37d2b81a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 22
@@ -67,6 +90,75 @@
         "startChar": 0,
         "endLine": 9,
         "endChar": 63
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd9de7f3_efb82371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T22:46:25Z",
+      "side": 1,
+      "message": "The two things were unrelated: this statement needs to be put into a different context and not associated with the staleness of the in-memory packed-refs.",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa894806_f0a6edb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T22:46:25Z",
+      "side": 1,
+      "message": "This is the key point and needs to be possibly rephrased it.\nThe locking needs to happen *before* getting the up-to-date version of the packed-refs and not afterwards.\n\nThe issue here isn\u0027t staleness but concurrency, as the packed ref *may change* between the refresh and the scanning to see if the ref to delete is in the packed refs.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62dfe7cc_5606b31a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T22:46:25Z",
+      "side": 1,
+      "message": "This statement is now largely obsolete, based on the reviews discussions.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 52
       },
       "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
