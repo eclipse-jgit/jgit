@@ -328,6 +328,24 @@
       "parentUuid": "ae7ffda0_e3422da8",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b2b291b_7f61802e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T13:51:02Z",
+      "side": 1,
+      "message": "😎 finding @danielesassoli@gmail.com, so basically, we were *NOT* removing the ref from the packed file just because we did not even realise it was there, due to the use of a cached copy of the packed-refs.",
+      "parentUuid": "9a2d921c_c0b11e2c",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

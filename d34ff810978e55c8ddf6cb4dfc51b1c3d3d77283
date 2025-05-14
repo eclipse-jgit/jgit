@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9eec8e_66991183",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T13:51:02Z",
+      "side": 1,
+      "message": "These have the drawback that we lock and unlock the `packed-refs` file even if the ref isn\u0027t there; however, I don\u0027t know how we can do things differently as we would always risk the `packed-refs` changing whilst we are checking if the ref is in the list or not.",
+      "range": {
+        "startLine": 681,
+        "startChar": 2,
+        "endLine": 683,
+        "endChar": 42
+      },
+      "revId": "d34ff810978e55c8ddf6cb4dfc51b1c3d3d77283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
