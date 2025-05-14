@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f78a935_d832fda5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T13:52:24Z",
+      "side": 1,
+      "message": "This change doesn\u0027t contain a test; I may understand that it is difficult to test a concurrency situation, but have you tried simulating it in any way, and how can you say that this fixes it?",
+      "revId": "d34ff810978e55c8ddf6cb4dfc51b1c3d3d77283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3d9eec8e_66991183",
