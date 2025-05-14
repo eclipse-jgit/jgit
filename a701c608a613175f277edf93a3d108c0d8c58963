@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b91ecb_09aa319c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1631,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-14T15:05:01Z",
+      "side": 1,
+      "message": "I started testing this with [1] and I found a first interesting case.\n\n- Create a test-repo via gerrit-ui. the repo is created, and it has only master and refs/meta/config\n\n```\n➜  pack git:(master) pwd\n/Users/syntonyze/ghs/gerrit-3.10-heads-tags-bitmap/git/test-repo.git/objects/pack\n➜  pack git:(master) git count-objects -v\ncount: 5\nsize: 20\nin-pack: 0\npacks: 0\nsize-pack: 0\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n➜  pack git:(master) git show-ref\nd8a3de872d9d8e911848cdcfffb8be1165a79d73 refs/heads/master\nc5f37398a306f9299e07096ca8060ec65881386f refs/meta/config\n```\n\n\n- Collect the metric\n\n```\ncurl -s -H \"Authorization: Bearer token\" http://localhost:8080/plugins/metrics-reporter-prometheus/metrics | grep -v \u0027^#\u0027 | grep plugins_git_repo_metrics_numberoftagsheadsobjectssincebitmap\nplugins_git_repo_metrics_numberoftagsheadsobjectssincebitmap_test_repo 1.0\n```\n\n\nI think this is the correct behaviour, since no bitmap exists yet, we should count all objects. I think this should be clearly documented/tested though.\n\nWDYT?\n\nI will continue testing in the meanwhile.\n\n\n[1] https://gerrit-review.googlesource.com/c/plugins/git-repo-metrics/+/476101",
+      "range": {
+        "startLine": 1626,
+        "startChar": 0,
+        "endLine": 1631,
+        "endChar": 7
+      },
+      "revId": "a701c608a613175f277edf93a3d108c0d8c58963",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
