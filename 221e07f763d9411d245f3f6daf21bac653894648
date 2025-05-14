@@ -382,6 +382,24 @@
       "parentUuid": "d6603042_4a92773f",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11892759_ac1624d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T19:45:31Z",
+      "side": 1,
+      "message": "I believe I found the root cause, and it looks this is caused by the use of the `SnapshottingRefDirectory`.\n\nSee the `getPackedRef()` implementation here below:\n\n```\n\t@Override\n\tPackedRefList getPackedRefs() throws IOException {\n\t\tif (!isValid) {\n\t\t\tsynchronized (this) {\n\t\t\t\tif (!isValid) {\n\t\t\t\t\trefreshSnapshot();\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn packedRefs.get();\n\t}\n```\n\nThere is no check for any update on disk, because it works on an in-memory snapshot, hence it will never check if the data has changed.",
+      "parentUuid": "533c90ae_8619f330",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
