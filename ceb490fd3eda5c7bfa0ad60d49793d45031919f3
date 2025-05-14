@@ -87,6 +87,29 @@
       "message": "@danielesassoli@gmail.com we concentrate on one problem at a time and fix `RefDirectory` first, without mixing the `SnapshottingRefDirectory` behaviour which doesn\u0027t refresh on `getPackedRefs()` because it actually use an in-memory snapshot.",
       "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "765cab45_6126e9b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T20:07:52Z",
+      "side": 1,
+      "message": "You should keep the double pattern of use of `getPackedRefs()` outside and `refreshPackedRefs()` inside, as it would get the latest packed refs before the `if()`",
+      "range": {
+        "startLine": 685,
+        "startChar": 0,
+        "endLine": 686,
+        "endChar": 32
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
