@@ -310,6 +310,24 @@
       "parentUuid": "86acba5d_74a11bfa",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a2d921c_c0b11e2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-14T10:58:03Z",
+      "side": 1,
+      "message": "Turns out that `check if this ref is packed and lock packed-refs` currently doesn\u0027t do what you\u0027d expect it to do. I\u0027ve tried explaining it in the commit message, but essentially we need to use the refreshed version of packed-refs before doing anything. This has the benefit that we only read the packed ref at most once(rather than twice).\n\nIt does mean that we need to lock before checking if the file contains the ref or not.",
+      "parentUuid": "ae7ffda0_e3422da8",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
