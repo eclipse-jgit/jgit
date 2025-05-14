@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b1c3fd3_1f6e44af",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/ManifestParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-05-14T23:23:23Z",
+      "side": 1,
+      "message": "on the CI this assertion fails since the error message is output in German",
+      "revId": "0be82c45c5ac3d67f1e22398faf5fc99d64a5524",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
