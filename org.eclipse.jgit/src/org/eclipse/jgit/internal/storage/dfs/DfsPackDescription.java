@@ -15,6 +15,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
@@ -150,6 +151,9 @@ public class DfsPackDescription {
 	private int indexVersion;
 	private long estimatedPackSize;
 
+	// Packs required by this pack (because it is e.g. a multipack index)
+	private List<DfsPackDescription> coveredPacks;
+
 	/**
 	 * Initialize a description by pack name and repository.
 	 * <p>
@@ -207,6 +211,15 @@ public class DfsPackDescription {
 	 */
 	public boolean hasFileExt(PackExt ext) {
 		return (extensions & ext.getBit()) != 0;
+	}
+
+	/**
+	 * The basic pack name (no extension) for this pack
+	 *
+	 * @return pack name
+	 */
+	public String getPackName() {
+		return packName;
 	}
 
 	/**
@@ -525,6 +538,25 @@ public class DfsPackDescription {
 	public DfsPackDescription setIndexVersion(int version) {
 		indexVersion = version;
 		return this;
+	}
+
+	/**
+	 * Packs "included" in this pack (e.g because this is a multi-pack index)
+	 *
+	 * @return descriptions of the packs which are included in this one.
+	 */
+	public List<DfsPackDescription> getCoveredPacks() {
+		return coveredPacks;
+	}
+
+	/**
+	 * Set the list of packs required by this one (usually for multi-pack index)
+	 *
+	 * @param coveredPacks
+	 *            list of pack names without extension
+	 */
+	public void setCoveredPacks(List<DfsPackDescription> coveredPacks) {
+		this.coveredPacks = coveredPacks;
 	}
 
 	@Override
