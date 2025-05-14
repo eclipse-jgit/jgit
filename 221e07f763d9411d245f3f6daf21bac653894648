@@ -20,6 +20,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd9ee10b_46178017",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T07:51:38Z",
+      "side": 1,
+      "message": "```suggestion\nHowever, loose refs are not locked during the construction of the packed-refs but only upon deletion, this can create\n```",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0c5d319_3a8f117e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T07:51:38Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "12aef072_500b54e0",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a51f1b9_d2ae4810",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -117,6 +158,24 @@
       "writtenOn": "2025-05-13T22:47:41Z",
       "side": 1,
       "message": "This new version doesn\u0027t look correct to me. I think the base is mostly correct, except that it 1) releases the packed-refs lock too early and 2) it does the loose ref deletion too late. I think you want this:\n\nPre-req:\n* move base lines 703-716 into a new helper method `deleteLooseRefAndLogs()`\n\nIn this `delete()` method:\n0. lock the loose ref (this is done by the caller already, even if there is no loose ref)\n1. do the same \"check if this ref is packed and lock packed-refs\" logic from base lines 684-688\n2. while holding that packed-refs lock, call the new `deleteLooseRefAndLogs()` method\n  * you could do this immediately after `lockPackedRefsOrThrow()` or wait until inside the finally block before calling `unlock()`. Earlier is probably better so that another caller can create a new loose ref with this same name race-free, but without waiting for the packed-refs file to be written.\n3. if the ref wasn\u0027t in packed-refs, have an else block that calls the new `deleteLooseRefAndLogs()` method",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae7ffda0_e3422da8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-14T07:51:38Z",
+      "side": 1,
+      "message": "\u003e 3. if the ref wasn\u0027t in packed-refs, have an else block that calls the new `deleteLooseRefAndLogs()` method\n\nEven if the ref isn\u0027t in the `packed-refs` file, it should still lock for preventing concurrent packing of refs and deletion of loose refs, which caused the issue https://github.com/eclipse-jgit/jgit/issues/152.\n\nWe should also look at how the C implementation of `git` does the deletion of loose refs, as I\u0027ve noticed that it also locks the `packed-refs` even if the ref is loose.",
+      "parentUuid": "86acba5d_74a11bfa",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
