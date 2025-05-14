@@ -400,6 +400,24 @@
       "parentUuid": "533c90ae_8619f330",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09b3e837_94fd0762",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-14T20:12:11Z",
+      "side": 1,
+      "message": "\u003e I believe I found the root cause, and it looks this is caused by the use of the `SnapshottingRefDirectory`.\n\n[snip]\n\n\u003e There is no check for any update on disk, because it works on an in-memory snapshot, hence it will never check if the data has changed.\n\nYes, but you need to look at the `delete()` override in that class too:\n```\nvoid delete(RefDirectoryUpdate update) throws IOException {\n    refreshSnapshot();\n    super.delete(update);\n}\n```\n\nThat does an explicit refresh, so I don\u0027t think there\u0027s a staleness issue.",
+      "parentUuid": "11892759_ac1624d8",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
