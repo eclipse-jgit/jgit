@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3fd1b48_6be3495c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-14T14:03:28Z",
+      "side": 1,
+      "message": "The most reproduceable way of testing this involves adding a sleep to RefDirectory.java#L787 (When the packed-ref files has been computed but before its commited to disk). At the same time, I create a script that continuously trigger a RefDirectory.pack of all loose refs).\n\nOnce the script was running, I would push a ref, this would cause jgit to calculate the new pack file, but before it can write it to disk, the sleep mentioned above would kick in. While the thread is sleeping, I would then delete the ref I just pushed. Once the deletion is complete, I\u0027d use git show-ref to see if the ref is still there or not.\n\nWithout this change, the deletion of the ref doesn\u0027t wait for the packing to finish, jgit doesn\u0027t see the ref on disk, there is no loose object for it, so essentially it becomes a noop. However, when the thread resumes and writes the packfile to disk, I can now see the deleted ref again.\n\nWith this change, the deletion wait for the repacking to finish and then eliminates the ref correctly.\n\nNot sure how we could test this concurrency problem.",
+      "parentUuid": "4f78a935_d832fda5",
+      "revId": "d34ff810978e55c8ddf6cb4dfc51b1c3d3d77283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3d9eec8e_66991183",
