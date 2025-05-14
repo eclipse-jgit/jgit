@@ -124,6 +124,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3256a04b_ac44143a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-14T10:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a51f1b9_d2ae4810",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90192df2_088abd85",
@@ -194,6 +218,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c61c47_c52ec1cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-14T10:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5691cf7_01f231a9",
+      "range": {
+        "startLine": 19,
+        "startChar": 58,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55d6bad6_24ef6674",
@@ -207,6 +255,24 @@
       "writtenOn": "2025-05-13T07:10:24Z",
       "side": 1,
       "message": "You should also add that this fixes an issue happening *ONLY* when a repository contains a large number of refs (500k or more) and therefore the packing of the refs is _slow enough_ for a loose ref deletion to _sneak in_ during the packing process.",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4075adf6_6cd80041",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-14T10:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55d6bad6_24ef6674",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
