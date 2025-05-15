@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20cc16dd_06e5d9dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-15T08:00:56Z",
+      "side": 1,
+      "message": "Tests:\n1. Generated new repo (no bitmap)\n  * 5 loose objects\n  * 0 packs\n  * 2 refs:\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n  * 0 bitmaps\n  \n  metric returns: *1.0*\n  **CORRECT**: no bitmaps exist\n\n2. Run GC (bitmap is created)\n  * 0 loose objects\n  * 2 packs\n  * 2 refs\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n\n  * 1 bitmap\n  metric returns: *0.0*\n  **CORRECT**: No heads/tags objects created since the bitmap\n\n3. Create (non-annotated) tag\n  * 0 loose objects\n  * 2 packs\n  * 3 refs:\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/tags/foo\n  * 1 bitmap\n\n  metric returns: *0.0*\n  **CORRECT**: Since the master branch and tag point to the same commit\n\n4. Create annotated tag\n  * 1 loose object\n  * 2 packs\n  * 4 refs:\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n    - f673ccf2b2d7862e66a7b610c65659bd2eb94242 refs/tags/annotated-foo\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/tags/foo\n  * 1 bitmap\n\n  metric returns: *1.0*\n  **CORRECT**: Since the annotated tag points to a new commit\n\n5. Run GC (new bitmap is created)\n  * 0 loose objects\n  * 3 packs\n  * 4 refs\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n    - f673ccf2b2d7862e66a7b610c65659bd2eb94242 refs/tags/annotated-foo\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/tags/foo\n  * 2 bitmaps\n\n  metric returns: *0.0*\n  **CORRECT**: No heads/tags objects created since the bitmap\n\n6. Create Gerrit change\n  * 2 loose objects (1 for the change patch [0538588], 1 for the meta [718c09d4])\n  * 3 packs\n  * 6 refs\n    - deb84651ff1fcf962883e61dbceaa53ce61d7720 refs/changes/21/21/1\n    - bc7ac62f0f323e6b08db995ee9f28d49dd11e5cf refs/changes/21/21/meta\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n    - f673ccf2b2d7862e66a7b610c65659bd2eb94242 refs/tags/annotated-foo\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/tags/foo\n  * 2 bitmaps\n\n  metric returns: *0.0*\n  **CORRECT**: No new heads/tags objects created since the bitmap\n\n7. Mark as active and approve\n  * 2 loose objects for the meta changes\n      - 24c0a946e9ad6e7b5251164721f4fb4a1a4676b1 (+2)\n      - a9daa70cc8e5feeef7023994fd3ae145fff194b9 (Set Ready for review)\n  * 4 packs\n  * 6 refs\n     - 0538588c515bb0248c88c825d88a75429c5a5316 refs/changes/01/1/1\n     - 718c09d4adc1a30c29df320252a9797d2d09a690 refs/changes/01/1/meta\n     - d8a3de872d9d8e911848cdcfffb8be1165a79d73 refs/heads/master\n     - c5f37398a306f9299e07096ca8060ec65881386f refs/meta/config\n     - fc21a119ea50d9ebc39c5100342ce2bd5b1bbaa4 refs/tags/annotated-foo-tag\n     - d8a3de872d9d8e911848cdcfffb8be1165a79d73 refs/tags/foo-tag\n  * 2 bitmaps\n\n  metric returns: *0.0*\n  **CORRECT**: No heads/tags objects created since the bitmap and no new bitmap created, since only meta ref was updated.\n  \n\n8. Run GC (NO new bitmap is created)\n  * 0 loose objects\n  * 5 packs\n  * 6 refs\n     - 0538588c515bb0248c88c825d88a75429c5a5316 refs/changes/01/1/1\n     - 718c09d4adc1a30c29df320252a9797d2d09a690 refs/changes/01/1/meta\n     - d8a3de872d9d8e911848cdcfffb8be1165a79d73 refs/heads/master\n     - c5f37398a306f9299e07096ca8060ec65881386f refs/meta/config\n     - fc21a119ea50d9ebc39c5100342ce2bd5b1bbaa4 refs/tags/annotated-foo-tag\n     - d8a3de872d9d8e911848cdcfffb8be1165a79d73 refs/tags/foo-tag\n  * 2 bitmaps\n\n  metric returns: *0.0*\n  **CORRECT**: No heads/tags objects created since the bitmap and no new bitmap created, since only the non-heads packfile was created.\n  \n\n9. Submit change\n  * 6 loose objects\n    - 0979f58a9c1978f330698f862229597dfe85bdcb (TREE to 69b0c726a)\n    - 69b0c726a7ff7d7c8dfaca189f9cbf50b2b0adf0 (BLOB to meta ref update content)\n    - 8c3d65f3aefa3b8c29cbe1d5c47bb2477af8ebc4 (BLOB to meta ref update content)\n    - 8cf14a3454737c4ebb410227c724072992be4aec (COMMIT notes for submitted change)\n    - c70dd39f5ad3aba666f2ea1c8b447bc88420f26c (TREE to 8c3d65f)\n    - d742b398846587ba9ccaf7a7f806ba76f0fe9df3 (COMMIT Change has been successfully merged)\n  * 5 packs\n  * 7 refs\n    - deb84651ff1fcf962883e61dbceaa53ce61d7720 refs/changes/21/21/1\n    - d742b398846587ba9ccaf7a7f806ba76f0fe9df3 refs/changes/21/21/meta\n    - deb84651ff1fcf962883e61dbceaa53ce61d7720 refs/heads/master\n    - ed603efcfb4476284f117c96515235cadf511eae refs/meta/config\n    - 8cf14a3454737c4ebb410227c724072992be4aec refs/notes/review\n    - f673ccf2b2d7862e66a7b610c65659bd2eb94242 refs/tags/annotated-foo\n    - 3b19113e9aeaefc3328dbf9d5a228a88583415ce refs/tags/foo\n  * 2 bitmaps\n\n  metric returns: 7.0\n  **QUESTION**: The metric increase from 0.0 to 7.0 because it now includes *all* objects packed at step *8*. Since now, one of those objects (specifically `deb84651ff1fcf962883e61dbceaa53ce61d7720`) is reachable from one of the neads (i.e. `refs/heads/master` in this case).\n  \n  Is it correct to include *all* the packfile objects (which also contain meta refs-related objects)?",
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce352b4_5b53e470",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-15T08:00:56Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t * are pointed by tag or tip of ref from the `refs/heads` namespace\n```",
+      "range": {
+        "startLine": 1525,
+        "startChar": 31,
+        "endLine": 1525,
+        "endChar": 34
+      },
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac049f5_96a6e711",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-15T08:00:56Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t * generation or, in case of newly created repositories, before.\n```",
+      "range": {
+        "startLine": 1527,
+        "startChar": 1,
+        "endLine": 1527,
+        "endChar": 67
+      },
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
