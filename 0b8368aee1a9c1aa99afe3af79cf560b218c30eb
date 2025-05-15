@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "59682d4d_4325cb18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T18:55:27Z",
+      "side": 1,
+      "message": "How to reproduce the problem is already described in the issue, will remove it from here.",
+      "parentUuid": "531ef753_33439ec9",
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "86b79a5c_b6fd0f4d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 35
