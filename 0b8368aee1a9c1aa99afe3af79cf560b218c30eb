@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "88294d40_78058e43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-15T15:51:27Z",
+      "side": 1,
+      "message": "This is inside `pack()`, but your code changes only affect `delete()`. Since your test case relies on running another method with a [known race condition](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1176274/comment/85ae4029_0ff96036/) directly related to deleting a loose ref, I think that makes it really difficult to determine which method is producing the buggy behavior.",
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "86b79a5c_b6fd0f4d",
@@ -19,6 +36,29 @@
         "startChar": 0,
         "endLine": 46,
         "endChar": 83
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37bd358_9f10fa17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-15T15:51:27Z",
+      "side": 1,
+      "message": "I think this is a mischaracterization of what the tip code does. L693 is what\u0027s doing the transaction part in JGit and you don\u0027t reach that line unless you have the lock.\n\nThe more interesting comparsion from C git is [this comment](https://github.com/git/git/blob/master/refs/files-backend.c#L2943) (pasted below too) about keeping packed-refs locked while deleting a loose ref, even if that loose ref isn\u0027t packed. JGit definitely isn\u0027t doing that and probably should be.\n\n```\n\t\t\t * We can skip rewriting the `packed-refs`\n\t\t\t * file. But we do need to leave it locked, so\n\t\t\t * that somebody else doesn\u0027t pack a reference\n\t\t\t * that we are trying to delete.\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
       },
       "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
