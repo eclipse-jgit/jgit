@@ -176,6 +176,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85bab8b4_38a8bf17",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-15T16:34:41Z",
+      "side": 1,
+      "message": "\u003e \u003e For all added loose refs, lock them.\n\u003e \n\u003e This issue happens for a very large number of refs (e.g. 1-2M refs). Locking all the refs would open a file for each ref and would run out of open files.\n\nThis doesn\u0027t say \"all the refs\", it says \"all *added* loose refs\". Unless you\u0027re ref packing a repo with 1M loose refs (good luck 😂), I think it\u0027ll be ok.",
+      "parentUuid": "f4a7e9a6_d92300b0",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
