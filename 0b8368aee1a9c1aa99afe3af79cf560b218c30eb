@@ -172,6 +172,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6530fdf_6bcd6ec5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T19:20:39Z",
+      "side": 1,
+      "message": "Acking as the controverial note as been removed.",
+      "parentUuid": "c9d9e271_d02c2bc0",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f73c2c66_a6aabad6",
