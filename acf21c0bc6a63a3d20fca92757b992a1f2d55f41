@@ -320,6 +320,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "011c7ec7_f0c82ee0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T17:29:17Z",
+      "side": 1,
+      "message": "Gotcha. The lock is not kept as an open file. Still, we would need to limit the creation of 1-2M, which would take a significant amount of time and potentially blow up the inodes allowance on the filesystem.\n\nDoes the C git implementation lock all the individual refs being packed?",
+      "parentUuid": "855a77c4_51a52024",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
