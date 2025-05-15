@@ -200,6 +200,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f7a7c85_b3313384",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T16:58:51Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e For all added loose refs, lock them.\n\u003e \u003e \n\u003e \u003e This issue happens for a very large number of refs (e.g. 1-2M refs). Locking all the refs would open a file for each ref and would run out of open files.\n\u003e \n\u003e This doesn\u0027t say \"all the refs\", it says \"all *added* loose refs\".\n\nWhen you don\u0027t have a `packed-refs` and you need to run the first `git pack-refs` the *added* loose refs are 1-2M refs.\n\n\u003e Unless you\u0027re ref packing a repo with 1M loose refs (good luck 😂)\n\nTested locally, my laptop can run a `git pack-refs` on a 2M refs repo in 2 minutes, without any problem or running out of open files. Also, JGit can run it today, but it won\u0027t be able to do it anymore if the `pack(refs)` has to lock 2M files at the same time.",
+      "parentUuid": "85bab8b4_38a8bf17",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
