@@ -216,6 +216,30 @@
       },
       "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1499e657_bb42620a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T18:36:44Z",
+      "side": 1,
+      "message": "Downgrading to a -1 as @danielesassoli@gmail.com needs to remove the `packed \u003d refreshPackedRefs()` because:\n- The `packed-refs` was locked already at L682\n- The `getPackedRefs()` already returns the latest version of the `packed-refs`, therefore there is no need to refresh it",
+      "parentUuid": "af42ad89_a0c61223",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 43
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
