@@ -436,6 +436,24 @@
       "parentUuid": "09b3e837_94fd0762",
       "revId": "221e07f763d9411d245f3f6daf21bac653894648",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e687b4e5_498a4293",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T08:42:23Z",
+      "side": 1,
+      "message": "Right so, thanks for the feedback everyone. Setting `core.usePerRequestRefCache\u003dfalse` in my gerrit.config meant that now `getPackedRefs` returns the latest state of the patchset, which means we can leave the structure of the code as is. We just need to lock the packed ref before the if statement, which logically makes sense to me and its also what they do in cgit, from what I understand.\n\nWether this points to a problem with `core.usePerRequestRefCache` might be a topic for another conversation.",
+      "parentUuid": "d5c5a620_b2ef4d1f",
+      "revId": "221e07f763d9411d245f3f6daf21bac653894648",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
