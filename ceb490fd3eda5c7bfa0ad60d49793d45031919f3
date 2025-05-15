@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60c9ce71_eb36783b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T09:14:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e9b15304_44cd8959",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683b616f_37d2b81a",
@@ -95,6 +119,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a47bdab_10a04182",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T09:14:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9c60b215_a8fe007c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd9de7f3_efb82371",
@@ -108,6 +156,30 @@
       "writtenOn": "2025-05-14T22:46:25Z",
       "side": 1,
       "message": "The two things were unrelated: this statement needs to be put into a different context and not associated with the staleness of the in-memory packed-refs.",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f19af21_7e1b9bd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T09:14:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dd9de7f3_efb82371",
       "range": {
         "startLine": 15,
         "startChar": 31,
@@ -141,6 +213,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e1f97a2_4b59d213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T09:14:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fa894806_f0a6edb5",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62dfe7cc_5606b31a",
@@ -154,6 +250,30 @@
       "writtenOn": "2025-05-14T22:46:25Z",
       "side": 1,
       "message": "This statement is now largely obsolete, based on the reviews discussions.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "ceb490fd3eda5c7bfa0ad60d49793d45031919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805c9a8d_d6839154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T09:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62dfe7cc_5606b31a",
       "range": {
         "startLine": 24,
         "startChar": 0,
