@@ -152,6 +152,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a7e9a6_d92300b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T11:20:12Z",
+      "side": 1,
+      "message": "\u003e For all added loose refs, lock them.\n\nThis issue happens for a very large number of refs (e.g. 1-2M refs). Locking all the refs would open a file for each ref and would run out of open files.",
+      "parentUuid": "e6589522_a4799c4e",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
