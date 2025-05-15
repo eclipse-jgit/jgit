@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9d9e271_d02c2bc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T18:10:20Z",
+      "side": 1,
+      "message": "\u003e \u003e The test scenario included in the commit message explains a simple way to show that problem in practice with a simple test.\n\u003e \n\u003e I don\u0027t think it\u0027s a simple test if it relies on a buggy method. Does it repro if step b uses C git pack-refs instead (maybe use a debugger to pause instead of adding a sleep)?\n\nI initially reported it with creating/deleting a ref with JGit and performing a \u0027C git pack-refs\u0027, and included the steps on the Issue jgit-152.\n\nTo summarise:\n\n- JGit delete refs + JGit pack-refs \u003d\u003e bug\n- JGit delete refs + git pack-refs \u003d\u003e bug\n- git delete refs + JGit pack-refs \u003d\u003e works\n- git delete refs + git pack-refs \u003d\u003e works",
+      "parentUuid": "b8164be2_7567f464",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f73c2c66_a6aabad6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 35
