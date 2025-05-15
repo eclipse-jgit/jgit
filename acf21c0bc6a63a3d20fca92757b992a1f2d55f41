@@ -272,6 +272,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de6f0a49_8a920364",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T17:05:25Z",
+      "side": 1,
+      "message": "\u003e If the lock is for a delete, it need not be an open file.\n\nI believe the issue is that the `pack(refs)` method doesn\u0027t know if some other thread or process is about to remove any loose refs that are being packed, that\u0027s why I believe @nasser.grainawi@oss.qualcomm.com proposed to lock all the loose refs that are added, for preventing anyone else to remove them whilst they are being packed.\n\nThe way JGit manages locks is to create a loose ref with a `.lock` extension and keep it open. You\u0027re saying we could avoid keeping it open?",
+      "parentUuid": "5ebaa02c_ca51d414",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
