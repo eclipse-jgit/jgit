@@ -368,6 +368,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2433570_c4ea5432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T17:49:22Z",
+      "side": 1,
+      "message": "\u003e \u003e Does the C git implementation lock all the individual refs being packed?\n\u003e \n\u003e Yes, but it appears to do that one-by-one (lock, check expected objectId, delete, unlock) in a separate (and optional) [`prune_refs`](https://github.com/git/git/blob/master/refs/files-backend.c#L1464) phase after writing and unlocking packed-refs.\n\nThat is what also JGit does today in `RefDirectory.java:806` at prune time.\n\n_\"Does the C git implementation lock all the invidual refs *being packed*\"_ \u003d\u003e no, they are not locked at pack time all at onece, but just later in the prune phase and one by one.\n\nI would suggest keeping the C git and JGit implementation more aligned. The C git implementation doesn\u0027t have the ref deletion issue, but JGit does. The loose ref locking strategy is the same, so the problem is elsewhere.",
+      "parentUuid": "3b8797a4_99132732",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
