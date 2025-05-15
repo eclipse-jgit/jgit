@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "27563124_d946a573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T09:40:15Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e3fd1b48_6be3495c",
+      "revId": "d34ff810978e55c8ddf6cb4dfc51b1c3d3d77283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3d9eec8e_66991183",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 21
