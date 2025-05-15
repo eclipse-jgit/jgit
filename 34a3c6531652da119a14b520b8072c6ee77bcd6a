@@ -18,6 +18,41 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "def65014_ed2d7eeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-15T11:13:30Z",
+      "side": 1,
+      "message": "# Issue overview:\n\n1. Incorrect Metric Inclusion from Non-Heads Packfile\n  * A non-heads packfile P contains objects from changes A, B, and C.\n  * When A is merged (e.g., into heads/master), packfile P is reclassified as a heads packfile.\n  * As a result, all objects from P, including unrelated changes B and C, are included in the number of tags/heads objects since bitmap metric.\n\n**Problem**: This overcounts the metric, which should only include heads-related changes since the last bitmap.\n\n\n2. Metric Underreporting\n  * Two non-heads packfiles exist: P1 (contains change A) and P2 (contains change B).\n  * Change A is merged → P1 becomes a heads packfile.\n  * Metric now includes all of P1\u0027s objects, even though some may be unrelated (see problem at **1.**).\n  * Later, change B is merged.\n  * Now, only P2 is considered a heads packfile, P1 is not anymore (because the current logic only looks at the _tip_ of heads, not its ancestry).\n\n** Problem**: The metric now undercounts: it includes only P2\u0027s objects, missing change A entirely. The metric never reflects the full extent of how much the heads have changed since the last bitmap, defeating its purpose.\n\n\n3. Inconsistent Object Counting Strategy\n   * Loose objects: Only commits are counted.\n   * Heads packfiles: All object types (commits, trees, blobs) are included.\n\n**Problem**: Depending on whether objects are packed or loose, the metric accounts for all types or commits only.\n\t\n\n**IDEAS**:\n\n1. Luca suggested we could create two sets of objects (**heads/tags** and **the-rest-of-the-world**). The idea is that we account for an object only if it belongs to the **heads/tags** and it doesn\u0027t belong to the **rest-of-the-world**).\n\nFirst thoughts about this:\n  - Potentially expensive to build and maintain the rest-of-the-world lookup.\n  - If a commit that at **T1** belongs to **the-rest-of-the-world** is merged and it thus, at **T2** belongs to **heads/tags** _as well_, it will not be accounted for in the metrics, but it should because the bitmap doesn\u0027t include it.\n \n2. Could we explore the idea of looking *inside the latest bitmap* and create a lookup table from it to quickly access objects that are not in the bitmap to decide whether they need to be included or not? Then, when we find a packfile that is more recent than the bitmap we consult the lookup table and we only add objects that are *not* included in it.",
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f3fe140_5b64c677",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-15T11:13:30Z",
+      "side": 1,
+      "message": "After discussion with @luca.milanesio@gmail.com and @geminica.programs@gmail.com, we all agreed this is indeed a problem. We need to find a solution that acknowledges this was originally a non-heads packfile.",
+      "parentUuid": "20cc16dd_06e5d9dd",
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cce352b4_5b53e470",
@@ -59,6 +94,29 @@
         "startChar": 1,
         "endLine": 1527,
         "endChar": 67
+      },
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61e759a_d4cc11e4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1631,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-05-15T11:13:30Z",
+      "side": 1,
+      "message": "out of every loose object, we are only counting `commits` here, if they are the tip of the heads (or tags). This is inconsistent with the counting we do at L1609, where we consider *all* objects in the packfile.",
+      "range": {
+        "startLine": 1631,
+        "startChar": 0,
+        "endLine": 1631,
+        "endChar": 49
       },
       "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
