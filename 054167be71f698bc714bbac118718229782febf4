@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c5947ab_ab4650c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:39:26Z",
+      "side": 1,
+      "message": "```suggestion\ncorrectly, deleting only the associated loose ref and leaving the packed one behind.\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 20,
+        "endLine": 33,
+        "endChar": 44
+      },
+      "revId": "054167be71f698bc714bbac118718229782febf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2058e4e_5cf05a6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:39:26Z",
+      "side": 1,
+      "message": "```suggestion\ncontains a ref or not in the same way the C implementation of Git does at [1].\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "054167be71f698bc714bbac118718229782febf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74bf202d_c10e6f24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:39:26Z",
+      "side": 1,
+      "message": "Doesn\u0027t have to be continuous: a single packing of the refs would show the issue.\n\n\n```suggestion\nbut before is commited to disk), whilst a ref packing is in progress.\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 32,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "054167be71f698bc714bbac118718229782febf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "929d55ca_182ff3a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:39:26Z",
+      "side": 1,
+      "message": "Use imperative form in commit messages.",
+      "range": {
+        "startLine": 46,
+        "startChar": 29,
+        "endLine": 46,
+        "endChar": 37
+      },
+      "revId": "054167be71f698bc714bbac118718229782febf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
