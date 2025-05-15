@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b79a5c_b6fd0f4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T11:17:44Z",
+      "side": 1,
+      "message": "I have followed these steps manually, and I confirm that:\n\n1. The issue exists *before* this change, and JGit isn\u0027t able to remove the ref\n2. The issue does not exist anymore *with* this change applied, and JGit waits for the packing to finish before removing the ref\n\nAlso, now JGit and the C implementation of Git are consistent and do not diverge in behaviour anymore upon ref deletion.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 83
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
