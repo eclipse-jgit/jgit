@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "531ef753_33439ec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T16:56:13Z",
+      "side": 1,
+      "message": "I believe they are two sides of the same issue: how do you reliably remove an element from a set whilst the set is processed?\n\nThe set is `packed-refs`, the `delete(ref)` is the removal of an element from the set and the `pack(refs)` is the processing operation.\n\nThe set is the packed-refs, the `pack(refs)` is processing and lock whilst the `delete(ref)` in JGit isn\u0027t processing the lock properly, hence it is fixed here and aligned with the C code.\n\nIn fact, when you delete a ref in C git, the packed-refs are locked upfront, but they are not in JGit.\n\n@danielesassoli@gmail.com has highlighted one of the ways of easily reproducing the issue, but of course, you can have many others.",
+      "parentUuid": "88294d40_78058e43",
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "86b79a5c_b6fd0f4d",
@@ -66,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b86854e_47fa1ec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T16:56:13Z",
+      "side": 1,
+      "message": "\u003e I think this is a mischaracterization of what the tip code does. L693 is what\u0027s doing the transaction part in JGit and you don\u0027t reach that line unless you have the lock.\n\nTrue, I believe that isn\u0027t the bug and you are perfectly right that the lock is acquired when you reach `RefDirectory.java:L693`.\n\nThe issue is the `RefDirectory.java:L685` that has an `if (packed.contains(name))` which uses the `packed` list outside a lock, therefore has no guarantee that `packed` won\u0027t be changed on disk.\n\nThe test scenario included in the commit message explains a simple way to show that problem in practice with a simple test.\n\n\u003e The more interesting comparison from C git is this comment (pasted below too) about keeping packed-refs locked while deleting a loose ref, even if that loose ref isn\u0027t packed. JGit definitely isn\u0027t doing that and probably should be.\n\nI agree, that\u0027s potentially yet another follow-up change that would also move the unlocking *after* the deletion of the loose ref.\n\u003e \n\u003e The more interesting comparsion from C git is [this comment](https://github.com/git/git/blob/master/refs/files-backend.c#L2943) (pasted below too) about keeping packed-refs locked while deleting a loose ref, even if that loose ref isn\u0027t packed. JGit definitely isn\u0027t doing that and probably should be.\n\u003e \n\u003e ```\n\u003e \t\t\t * We can skip rewriting the `packed-refs`\n\u003e \t\t\t * file. But we do need to leave it locked, so\n\u003e \t\t\t * that somebody else doesn\u0027t pack a reference\n\u003e \t\t\t * that we are trying to delete.\n\u003e ```",
+      "parentUuid": "d37bd358_9f10fa17",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 22
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89063841_19931628",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 35
@@ -77,6 +119,30 @@
       "writtenOn": "2025-05-15T15:37:25Z",
       "side": 1,
       "message": "You\u0027re reading packed-refs twice now, both while you have the lock. And you\u0027re not handling the loose ref race I pointed out in PS12. This doesn\u0027t make sense.",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 43
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af42ad89_a0c61223",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T16:56:13Z",
+      "side": 1,
+      "message": "\u003e You\u0027re reading packed-refs twice now\n\nTrue, would you suggest skipping the refresh at L689? I believe @danielesassoli@gmail.com wanted to limit the impact of this change and making it as small as possible.\n\n\u003e And you\u0027re not handling the loose ref race I pointed out in PS12. This doesn\u0027t make sense.\n\nMoving the release of the locking as the C version of git does at [2] would also add extra safety and make sure that deleting loose refs would never happen whilst a `packed-refs` is recreated.\n\n[2] https://github.com/git/git/blob/master/refs/files-backend.c#L2943",
+      "parentUuid": "89063841_19931628",
       "range": {
         "startLine": 684,
         "startChar": 0,
