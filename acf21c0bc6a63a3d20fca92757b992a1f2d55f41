@@ -248,6 +248,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d58a634_f154f6d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-15T17:04:36Z",
+      "side": 1,
+      "message": "\u003e my laptop can run a git pack-refs on a 2M refs repo in 2 minutes\n\nI was thinking on NFS, sorry. Agreed that locally with SSD the fs should be fine.\n\n\u003e If the lock is for a delete, it need not be an open file.\n\nActually it\u0027s never an open file. JGit creates lock files without keeping them open.",
+      "parentUuid": "5ebaa02c_ca51d414",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
