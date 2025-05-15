@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b70c4ec4_a13b95ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:07:20Z",
+      "side": 1,
+      "message": "The view isn\u0027t incorrect, because it is up-to-date *at the time* of the execution of `getPackedRefs()`.\n\n\n\n```suggestion\nlocking the packed ref, the `getPackedRefs()` returns an up-to-date of the refs at the time it is executed, which\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe87c25d_31a4f4ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:07:20Z",
+      "side": 1,
+      "message": "```suggestion\ndoesn\u0027t see the new content that the concurrent refs packing is about to write. The deletion\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6abfd0b8_da22f925",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:07:20Z",
+      "side": 1,
+      "message": "It is performing the deletion, but just of the loose refs and not in the packed refs.\n\n\n\n```suggestion\ntherefore succeeds deleting only the loose ref and skipping any packed-refs processing. Once the packed-refs is\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 66
+      },
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84a49248_909861a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-15T10:07:20Z",
+      "side": 1,
+      "message": "I believe we need to make it clearer that the issue here is that *it isn\u0027t safe* to make a decision on processing the packed-refs or not based on an unlocked resource.\n\nThe `if (packed.contains(name))` decision needs to have acquired the lock to the `packed-refs` file, otherwise it may decide to *NOT* process it whilst it should.\n\nAs a side note, we can mention in the commit message the manual concurrency testing needed to replicate the problem and that a `git push origin :refs/to/delete` would show the issue if the origin is JGit but a `git push \u003ctarget bare repo\u003e :refs/to/delete` is waiting for a `packed-refs` lock, therefore this change alignes JGit with the C-Git behaviour.",
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
