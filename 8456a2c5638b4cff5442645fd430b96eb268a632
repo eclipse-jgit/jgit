@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17d270d2_cf58fe85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T10:29:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b70c4ec4_a13b95ca",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 41
+      },
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe87c25d_31a4f4ca",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-15T10:07:20Z",
       "side": 1,
       "message": "```suggestion\ndoesn\u0027t see the new content that the concurrent refs packing is about to write. The deletion\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fe27044_ad39daf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T10:29:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fe87c25d_31a4f4ca",
       "range": {
         "startLine": 20,
         "startChar": 12,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8dbdda5_cf8e4b56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T10:29:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6abfd0b8_da22f925",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 66
+      },
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84a49248_909861a6",
@@ -83,6 +155,24 @@
       "writtenOn": "2025-05-15T10:07:20Z",
       "side": 1,
       "message": "I believe we need to make it clearer that the issue here is that *it isn\u0027t safe* to make a decision on processing the packed-refs or not based on an unlocked resource.\n\nThe `if (packed.contains(name))` decision needs to have acquired the lock to the `packed-refs` file, otherwise it may decide to *NOT* process it whilst it should.\n\nAs a side note, we can mention in the commit message the manual concurrency testing needed to replicate the problem and that a `git push origin :refs/to/delete` would show the issue if the origin is JGit but a `git push \u003ctarget bare repo\u003e :refs/to/delete` is waiting for a `packed-refs` lock, therefore this change alignes JGit with the C-Git behaviour.",
+      "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0ab5e2a_80696a4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-15T10:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a49248_909861a6",
       "revId": "8456a2c5638b4cff5442645fd430b96eb268a632",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
