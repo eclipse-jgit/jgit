@@ -42,8 +42,8 @@ public interface MultiPackIndex {
 	/**
 	 * Obtain the location of the object.
 	 * <p>
-	 * The returned object can be reused by the implementations. Callers
-	 * must create a #copy() if they want to keep a reference.
+	 * The returned object can be reused by the implementations. Callers must
+	 * create a #copy() if they want to keep a reference.
 	 *
 	 * @param objectId
 	 *            objectId to read.
@@ -71,6 +71,25 @@ public interface MultiPackIndex {
 	 * @return size of this multipack index in memory, in bytes
 	 */
 	long getMemorySize();
+
+	/**
+	 * Return the position of the object in multipack index order
+	 *
+	 * @param obj
+	 *            an object id
+	 * @return position in the multipack index, -1 if not found
+	 */
+	int getMidxPosition(AnyObjectId obj);
+
+	/**
+	 * Return the (pack, offset) location of the object in the nth position in
+	 * multipack index order.
+	 *
+	 * @param nth
+	 *            position in the multipack index
+	 * @return (pack, location) of the corresponding object
+	 */
+	PackOffset findByMidxPosition(int nth);
 
 	/**
 	 * (packId, offset) coordinates of an object

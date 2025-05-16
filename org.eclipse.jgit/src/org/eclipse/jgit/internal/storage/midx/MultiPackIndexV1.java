@@ -38,7 +38,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	private final OffsetLookup offsets;
 
-	private final PackOffset result = new PackOffset();
+	private final PackOffset poBuffer = new PackOffset();
 
 	MultiPackIndexV1(int hashLength, @NonNull byte[] oidFanout,
 			@NonNull byte[] oidLookup, String[] packNames,
@@ -67,8 +67,8 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		if (position == -1) {
 			return null;
 		}
-		offsets.getObjectOffset(position, result);
-		return result;
+		offsets.getObjectOffset(position, poBuffer);
+		return poBuffer;
 	}
 
 	@Override
@@ -83,6 +83,20 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				.mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length).sum();
 		return packNamesSize + byteArrayLengh(bitmappedPackfiles)
 				+ idx.getMemorySize() + offsets.getMemorySize();
+	}
+
+	@Override
+	public int getMidxPosition(AnyObjectId obj) {
+		return idx.findMultiPackIndexPosition(obj);
+	}
+
+	@Override
+	public PackOffset findByMidxPosition(int nth) {
+		if (nth < 0 || nth >= idx.getObjectCount()) {
+			throw new IllegalArgumentException("Asking for position out of range");
+		}
+		offsets.getObjectOffset(nth, poBuffer);
+		return poBuffer;
 	}
 
 	@Override
@@ -174,6 +188,8 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 		private final byte[] oidLookup;
 
+		private final int objCount;
+
 		/**
 		 * Initialize the MultiPackIndexIndex.
 		 *
@@ -204,6 +220,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				table[k] = (int) uint32;
 			}
 			this.fanoutTable = table;
+			this.objCount = table[table.length-1];
 		}
 
 		/**
@@ -284,6 +301,10 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 		long getMemorySize() {
 			return 4L + byteArrayLengh(oidLookup) + (FANOUT * 4);
+		}
+
+		int getObjectCount() {
+			return objCount;
 		}
 	}
 }
