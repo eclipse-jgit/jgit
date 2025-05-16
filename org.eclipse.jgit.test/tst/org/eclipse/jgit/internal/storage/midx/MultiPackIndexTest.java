@@ -290,6 +290,35 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
+		Set<ObjectId> results = new HashSet<>();
+		midx.resolve(results, abbrev, 200);
+
+		assertEquals(0, results.size());
+	}
+
+	@Test
+	public void jgit_resolve_noMatches_last() throws IOException {
+		AbbreviatedObjectId abbrev = AbbreviatedObjectId
+				.fromString("dd00000000");
+
+		PackIndex idxOne = indexWith("0000000000000000000000000000000000000001",
+				"3000000000000000000000000000000000000005",
+				"32fe829a1b000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000100",
+				"32fe829a1d000000000000000000000000000000");
+		PackIndex idxTwo = indexWith(
+				// Noise
+				"8888880000000000000000000000000000000002",
+				"bbbbbb0000000000000000000000000000000003",
+				"32fe829a1c000000000000000000000000000010");
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
 
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 200);
