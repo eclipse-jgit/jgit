@@ -13,6 +13,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -315,11 +316,79 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
-
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 200);
 
 		assertEquals(0, results.size());
+	}
+
+	@Test
+	public void jgit_getMidxPosition() throws Exception {
+		PackIndex idxOne = indexWith("0000000000000000000000000000000000000001",
+				"0000000000000000000000000000000000000005",
+				"0000000000000000000000000000000000000010");
+		PackIndex idxTwo = indexWith("0000000000000000000000000000000000000002",
+				"0000000000000000000000000000000000000003",
+				"0000000000000000000000000000000000000015");
+		PackIndex idxThree = indexWith(
+				"0000000000000000000000000000000000000004",
+				"0000000000000000000000000000000000000007",
+				"0000000000000000000000000000000000000012");
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo, "p3",
+				idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertEquals(0, midx.getMidxPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000001")));
+		assertEquals(1, midx.getMidxPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000002")));
+		assertEquals(2, midx.getMidxPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000003")));
+		assertEquals(3, midx.getMidxPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000004")));
+		assertEquals(8, midx.getMidxPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000015")));
+		assertEquals(-1, midx.getMidxPosition(ObjectId
+				.fromString("33fb7e6d87a688d74b60fdc4f76c55fe686b19e6")));
+	}
+
+	@Test
+	public void jgit_findByMidxPosition() throws Exception {
+		PackIndex idxOne = indexWith("0000000000000000000000000000000000000001",
+				"0000000000000000000000000000000000000005",
+				"0000000000000000000000000000000000000010");
+		PackIndex idxTwo = indexWith("0000000000000000000000000000000000000002",
+				"0000000000000000000000000000000000000003",
+				"0000000000000000000000000000000000000015");
+		PackIndex idxThree = indexWith(
+				"0000000000000000000000000000000000000004",
+				"0000000000000000000000000000000000000007",
+				"0000000000000000000000000000000000000012");
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo, "p3",
+				idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertPackOffset(0, 12, midx.findByMidxPosition(0));
+		assertPackOffset(1, 12, midx.findByMidxPosition(1));
+		assertPackOffset(1, 22, midx.findByMidxPosition(2));
+		assertPackOffset(2, 12, midx.findByMidxPosition(3));
+		assertPackOffset(0, 22, midx.findByMidxPosition(4));
+		assertPackOffset(2, 22, midx.findByMidxPosition(5));
+		assertPackOffset(0, 32, midx.findByMidxPosition(6));
+		assertPackOffset(2, 32, midx.findByMidxPosition(7));
+		assertPackOffset(1, 32, midx.findByMidxPosition(8));
+
+		assertThrows(IllegalArgumentException.class, () -> midx.findByMidxPosition(100));
 	}
 
 	private static PackIndex indexWith(String... oids) {
@@ -341,5 +410,11 @@ public class MultiPackIndexTest {
 		assertEquals("Wrong packId for " + oid, expectedPackId,
 				packOffset.getPackId());
 		assertEquals(expectedOffset, packOffset.getOffset());
+	}
+
+	private static void assertPackOffset(int packId, long offset,
+			MultiPackIndex.PackOffset actual) {
+		assertEquals(packId, actual.getPackId());
+		assertEquals(offset, actual.getOffset());
 	}
 }
