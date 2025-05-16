@@ -16,9 +16,11 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -133,7 +135,7 @@ public class InMemoryRepository extends DfsRepository {
 
 		@Override
 		protected synchronized List<DfsPackDescription> listPacks() {
-			return packs;
+			return mangleForMidx(packs);
 		}
 
 		@Override
