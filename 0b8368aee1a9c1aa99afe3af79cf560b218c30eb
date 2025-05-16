@@ -287,6 +287,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5773a09_9cf2d5e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-16T10:19:49Z",
+      "side": 1,
+      "message": "\u003e Related, can we please slow the rush of +2s on this change until previous reviewers give a +1?\n\nI\u0027ve downgraded to -1 as I believe some of your suggestions implemented (or misunderstood) by @danielesassoli@gmail.com may cause a functional regression.\n\nIt would be best to pause this review until you and @danielesassoli@gmail.com catch-up.",
+      "parentUuid": "1ad16b09_10aadb8f",
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89063841_19931628",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 35
