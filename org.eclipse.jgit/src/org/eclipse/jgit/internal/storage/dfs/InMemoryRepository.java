@@ -16,9 +16,11 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -133,7 +135,35 @@ public class InMemoryRepository extends DfsRepository {
 
 		@Override
 		protected synchronized List<DfsPackDescription> listPacks() {
-			return packs;
+			if (!useMultipackIndex()) {
+				// Take the multipack index out of the list
+				return packs.stream().filter(
+						desc -> !desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
+						.collect(Collectors.toList());
+			}
+
+			// Take the packs covered by the midxs out of the list
+			List<DfsPackDescription> midxs = packs.stream()
+					.filter(desc -> desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
+					.collect(Collectors.toList());
+			Set<DfsPackDescription> coveredPacks = new HashSet<>();
+			for (DfsPackDescription midx : midxs) {
+				findCoveredPacks(midx, coveredPacks);
+			}
+			return packs.stream().filter(d -> !coveredPacks.contains(d))
+					.collect(Collectors.toList());
+		}
+
+		private void findCoveredPacks(DfsPackDescription midx,
+				Set<DfsPackDescription> covered) {
+			if (midx.getCoveredPacks().size() > 0) {
+				covered.addAll(midx.getCoveredPacks());
+			}
+
+			if (midx.getMultiPackIndexBase() != null) {
+				findCoveredPacks(midx.getMultiPackIndexBase(), covered);
+				covered.add(midx.getMultiPackIndexBase());
+			}
 		}
 
 		@Override
