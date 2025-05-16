@@ -133,7 +133,7 @@ public class InMemoryRepository extends DfsRepository {
 
 		@Override
 		protected synchronized List<DfsPackDescription> listPacks() {
-			return packs;
+			return reorgPacksIfMidx(packs);
 		}
 
 		@Override
