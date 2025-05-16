@@ -384,6 +384,30 @@
       },
       "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a97ca741_5b875cfa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-16T10:15:13Z",
+      "side": 1,
+      "message": "I need to review my agreement of removing the double read: there are some problems in either reading it once with `getPackedRefs()` or `refreshPackedRefs()`:\n\n- If we read the `packed-refs` once with `getPackedRefs()` we _may risk_ to read a *stale copy* based on the trust settings in `.gitconfig` or `jgit.config`.\n\n- If we read the `packed-refs` once with `refreshPackedRefs()` we introduce a performance regression compared to the version *before* this change: if the `packed-refs` hasn\u0027t changed the `refreshPackedRefs()` call will re-read it when isn\u0027t needed.\n\nDowngrading to -1 until we demonstrate that keeping the double-read really has a detriment impact to performance compared to what was done before with the same double-read.",
+      "parentUuid": "2f27cefb_4a9d202c",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 43
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

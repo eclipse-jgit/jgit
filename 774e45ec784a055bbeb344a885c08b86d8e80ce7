@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c180b24_33e3aa2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-16T10:15:13Z",
+      "side": 1,
+      "message": "The double-read removal is too dangerous IMHO, please review the command and provide performance data with the two reads compared to the stable-6.10 version.\n\nAlso, I\u0027ve summarised the status of the issue jgit-152 to have a wider discussion also on other options.\n\nLastly, I\u0027d like to see the performance impact of this change when deleting tags with a *partial concurrent pack-refs* of some refs not involved in the delete itself and publish the results as part of the commit message.",
+      "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "557cf075_f66b48cf",
