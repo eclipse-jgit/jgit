@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,12 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
-import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -588,7 +590,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile oldPack = packs.remove(dsc);
 			if (oldPack != null) {
 				newPacks.add(oldPack);
-			} else if (dsc.hasFileExt(PackExt.PACK)) {
+			} else if (dsc.hasFileExt(PackExt.PACK)
+					|| dsc.hasFileExt(MULTI_PACK_INDEX)) {
 				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
 			}
@@ -627,6 +630,15 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	protected DfsPackFile createDfsPackFile(DfsBlockCache cache,
 			DfsPackDescription dsc) {
+		if (dsc.hasFileExt(MULTI_PACK_INDEX)) {
+			// A pack shouldn't be in the pack list and inside a multipack index
+			// at the same time. In that case, we will have it under two
+			// different DfsPackFile instances.
+			List<DfsPackFile> requiredPacks = dsc.getRequiredPacks().stream()
+					.map(desc -> createDfsPackFile(cache, desc))
+					.collect(Collectors.toUnmodifiableList());
+			return DfsPackFileMidx.create(cache, dsc, requiredPacks);
+		}
 		return new DfsPackFile(cache, dsc);
 	}
 
