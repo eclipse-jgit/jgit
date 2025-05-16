@@ -1,114 +1,448 @@
+/*
+ * Copyright (C) 2025, Google LLC.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+
 import java.io.IOException;
+import java.nio.channels.Channels;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.BlockList;
 
-class DfsPackFileMidx extends DfsPackFile {
+/**
+ * Implementation of a DfsPackfile that tries to solve the queries in a
+ * multipack index before resorting to the real packs.
+ * <p>
+ * It uses the position in the multipack index of the objects as their "offset".
+ */
+final class DfsPackFileMidx extends DfsPackFile {
+
+	private static final int REF_POSITION = 0;
+
 	private final List<DfsPackFile> packs;
 
-	private final DfsMidx dfsMidx;
+	// The required packs, in the order specified in the multipack index
+	// Initialized lazily, when the midx is loaded
+	private final DfsPackFile[] packsInIdOrder;
 
 	private MultiPackIndex midx;
 
-	DfsPackFileMidx(DfsBlockCache cache, DfsMidx dfsMidx,
-			List<DfsPackFile> packs) {
-		super(cache, dfsMidx.getPackDescription());
-		this.dfsMidx = dfsMidx;
-		this.packs = packs;
+	private final VOffsetCalculator offsetCalculator;
+
+	static DfsPackFileMidx create(DfsBlockCache cache, DfsPackDescription desc,
+			List<DfsPackFile> reqPacks) {
+		return new DfsPackFileMidx(cache, desc, reqPacks);
 	}
 
-	private MultiPackIndex getMidx(DfsReader ctx) throws IOException {
+	private DfsPackFileMidx(DfsBlockCache cache, DfsPackDescription desc,
+			List<DfsPackFile> requiredPacks) {
+		super(cache, desc);
+		this.packs = requiredPacks;
+		String[] coveredPackNames = desc.getCoveredPacks().stream()
+				.map(DfsPackDescription::getPackName).toArray(String[]::new);
+		packsInIdOrder = sortPacksInMidxIdOrder(coveredPackNames,
+				requiredPacks);
+		offsetCalculator = VOffsetCalculator.fromPacks(packsInIdOrder);
+		this.length = offsetCalculator.getMaxOffset();
+	}
+
+	private MultiPackIndex midx(DfsReader ctx) throws IOException {
 		if (midx != null) {
 			return midx;
 		}
 
-		midx = dfsMidx.getMultiPackIndex(ctx);
+		DfsStreamKey revKey = desc.getStreamKey(MULTI_PACK_INDEX);
+		// Keep the value parsed in the loader, in case the Ref<> is
+		// nullified in ClockBlockCacheTable#reserveSpace
+		// before we read its value.
+		AtomicReference<MultiPackIndex> loadedRef = new AtomicReference<>(null);
+		DfsBlockCache.Ref<MultiPackIndex> cachedRef = cache.getOrLoadRef(revKey,
+				REF_POSITION, () -> {
+					RefWithSize midx1 = loadMultiPackIndex(ctx, desc);
+					loadedRef.set(midx1.idx);
+					return new DfsBlockCache.Ref<>(revKey, REF_POSITION,
+							midx1.size, midx1.idx);
+				});
+		// if (loadedRef.get() == null) {
+		// ctx.stats.ridxCacheHit;
+		// }
+		midx = cachedRef.get() != null ? cachedRef.get() : loadedRef.get();
 		return midx;
 	}
 
+	private static RefWithSize loadMultiPackIndex(DfsReader ctx,
+			DfsPackDescription desc) throws IOException {
+		try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX)) {
+			MultiPackIndex midx = MultiPackIndexLoader
+					.read(Channels.newInputStream(rc));
+			// ctx.stats.readIdxBytes += rc.position();
+			return new RefWithSize(midx, midx.getMemorySize());
+		}
+	}
+
+	private record RefWithSize(MultiPackIndex idx, long size) {
+	}
+
+	private DfsPackFile[] sortPacksInMidxIdOrder(String[] packNames,
+			List<DfsPackFile> packs) {
+		Map<String, DfsPackFile> byName = packs.stream()
+				.collect(Collectors.toUnmodifiableMap(
+						p -> p.getPackDescription().getPackName(),
+						Function.identity()));
+		DfsPackFile[] result = new DfsPackFile[desc.getCoveredPacks().size()];
+		for (int i = 0; i < packNames.length; i++) {
+			DfsPackFile pack = byName.get(packNames[i]);
+			if (pack == null) {
+				// This should have been checked in the object db
+				// when the pack description was loaded
+				throw new IllegalStateException("Required pack missing"); //$NON-NLS-1$
+			}
+			result[i] = pack;
+		}
+		return result;
+	}
+
+	// Visible for testing
+	VOffsetCalculator getOffsetCalculator() {
+		return offsetCalculator;
+	}
+
 	@Override
-	long getObjectCount(DfsReader ctx) throws IOException {
-		return getMidx(ctx).getObjectCount();
+	public PackIndex getPackIndex(DfsReader ctx) {
+		throw new IllegalStateException(
+				"Shouldn't use multipack index if the primary index is needed"); //$NON-NLS-1$
+	}
+
+	@Override
+	public PackReverseIndex getReverseIdx(DfsReader ctx) {
+		throw new IllegalStateException(
+				"Shouldn't use multipack index if the reverse index is needed");
+	}
+
+	@Override
+	public PackBitmapIndex getBitmapIndex(DfsReader ctx) {
+		// TODO(ifrade): Implement this
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public CommitGraph getCommitGraph(DfsReader ctx) throws IOException {
+		for (DfsPackFile pack : packs) {
+			CommitGraph cg = pack.getCommitGraph(ctx);
+			if (cg != null) {
+				return cg;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public int findIdxPosition(DfsReader ctx, AnyObjectId id)
+			throws IOException {
+		return midx(ctx).findPosition(id);
+	}
+
+	@Override
+	public boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {
+		return midx(ctx).hasObject(id);
+	}
+
+	@Override
+	ObjectLoader get(DfsReader ctx, AnyObjectId id) throws IOException {
+		PackOffset location = midx(ctx).find(id);
+		if (location == null) {
+			return null;
+		}
+		return packsInIdOrder[location.getPackId()].get(ctx, id);
+	}
+
+	@Override
+	ObjectLoader load(DfsReader ctx, long midxOffset) throws IOException {
+		DfsPackOffset location = offsetCalculator.decode(midxOffset);
+		if (location == null) {
+			return null;
+		}
+		return location.getPack().load(ctx, location.getPackOffset());
+	}
+
+	@Override
+	long findOffset(DfsReader ctx, AnyObjectId id) throws IOException {
+		return offsetCalculator.encode(midx(ctx).find(id));
+	}
+
+	@Override
+	void resolve(DfsReader ctx, Set<ObjectId> matches, AbbreviatedObjectId id,
+			int matchLimit) throws IOException {
+		midx(ctx).resolve(matches, id, matchLimit);
 	}
 
 	@Override
 	void copyPackAsIs(PackOutputStream out, DfsReader ctx) throws IOException {
-		throw new NotImplementedException();
+		// Assumming the order of the packs does not really matter
+		for (DfsPackFile pack : packs) {
+			pack.copyPackAsIs(out, ctx);
+		}
 	}
 
 	@Override
 	void copyAsIs(PackOutputStream out, DfsObjectToPack src, boolean validate,
 			DfsReader ctx) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
-		throw new NotImplementedException();
+		if (src.pack != this) {
+			throw new IllegalArgumentException(
+					"pack mismatch in object description");
+		}
+
+		DfsPackOffset location = offsetCalculator.decode(src.offset);
+		// The real pack requires the real offset
+		src.offset = location.getPackOffset();
+		location.getPack().copyAsIs(out, src, validate, ctx);
+		// Restore, just in case
+		src.offset = location.getPackStart() + location.getPackOffset();
 	}
 
 	@Override
-	ObjectLoader load(DfsReader ctx, long pos) throws IOException {
-
-		return
-	}
-
-	@Override
-	byte[] getDeltaHeader(DfsReader wc, long pos)
+	byte[] getDeltaHeader(DfsReader ctx, long pos)
 			throws IOException, DataFormatException {
-		return super.getDeltaHeader(wc, pos);
+		DfsPackOffset location = offsetCalculator.decode(pos);
+		return location.getPack().getDeltaHeader(ctx, location.getPackOffset());
 	}
 
 	@Override
 	int getObjectType(DfsReader ctx, long pos) throws IOException {
-		return super.getObjectType(ctx, pos);
+		DfsPackOffset location = offsetCalculator.decode(pos);
+		return location.getPack().getObjectType(ctx, location.getPackOffset());
 	}
 
 	@Override
 	long getObjectSize(DfsReader ctx, AnyObjectId id) throws IOException {
-		return super.getObjectSize(ctx, id);
+		PackOffset local = midx(ctx).find(id);
+		if (local == null) {
+			return -1;
+		}
+
+		return packsInIdOrder[local.getPackId()].getObjectSize(ctx, id);
 	}
 
 	@Override
 	long getObjectSize(DfsReader ctx, long pos) throws IOException {
-		return super.getObjectSize(ctx, pos);
+		if (pos < 0) {
+			return -1;
+		}
+		DfsPackOffset location = offsetCalculator.decode(pos);
+		return location.getPack().getObjectSize(ctx, location.getPackOffset());
 	}
 
 	@Override
-	boolean hasObjectSizeIndex(DfsReader ctx) throws IOException {
-		return super.hasObjectSizeIndex(ctx);
+	boolean hasObjectSizeIndex(DfsReader ctx) {
+		return false;
 	}
 
 	@Override
-	int getObjectSizeIndexThreshold(DfsReader ctx) throws IOException {
-		return super.getObjectSizeIndexThreshold(ctx);
+	int getObjectSizeIndexThreshold(DfsReader ctx) {
+		return Integer.MAX_VALUE;
 	}
 
 	@Override
-	long getIndexedObjectSize(DfsReader ctx, AnyObjectId id)
+	long getIndexedObjectSize(DfsReader ctx, int idxPosition) {
+		// TODO(ifrade): if we forward to the pack, it reads its primary index
+		return -1;
+	}
+
+	@Override
+	List<DfsObjectToPack> findAllFromPack(DfsReader ctx,
+			Iterable<ObjectToPack> objects, boolean skipFound)
 			throws IOException {
-		return super.getIndexedObjectSize(ctx, id);
+		List<DfsObjectToPack> tmp = new BlockList<>();
+		for (ObjectToPack obj : objects) {
+			DfsObjectToPack otp = (DfsObjectToPack) obj;
+			if (skipFound && otp.isFound()) {
+				continue;
+			}
+			long p = offsetCalculator.encode(midx(ctx).find(otp));
+			if (p < 0) {
+				continue;
+			}
+			otp.setOffset(p);
+			tmp.add(otp);
+		}
+		tmp.sort(OFFSET_SORT);
+		return tmp;
 	}
 
 	@Override
-	void representation(DfsObjectRepresentation r, long pos, DfsReader ctx)
-			throws IOException {
-		super.representation(r, pos, ctx);
+	void fillRepresentation(DfsObjectRepresentation r, long offset,
+			DfsReader ctx) throws IOException {
+		DfsPackOffset location = offsetCalculator.decode(offset);
+		if (location == null) {
+			throw new IllegalArgumentException("Invalid offset in midx");
+		}
+		// This will load the reverse index. The multipack index removes
+		// duplicated objects, so next offset in midx is not necessarily the
+		// following object in pack.
+		location.getPack().fillRepresentation(r, location.getPackOffset(), ctx);
+		// We return *our* midx offset, not the one in the pack
+		r.offset = offset;
 	}
 
 	@Override
-	void representation(DfsObjectRepresentation r, long pos, DfsReader ctx,
-			PackReverseIndex rev) throws IOException {
-		super.representation(r, pos, ctx, rev);
+	void fillRepresentation(DfsObjectRepresentation r, long offset,
+			DfsReader ctx, PackReverseIndex rev) {
+		// This method shouldn't be called on the midx pack
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	boolean isCorrupt(long offset) {
-		return super.isCorrupt(offset);
+		// The index must have been loaded before to have this offset
+		DfsPackOffset location = offsetCalculator.decode(offset);
+		if (location == null) {
+			throw new IllegalArgumentException("Invalid offset in midx");
+		}
+		return location.getPack().isCorrupt(location.getPackOffset());
 	}
+
+	@Override
+	DfsBlock readOneBlock(long pos, DfsReader ctx, ReadableChannel rc)
+			throws IOException {
+		// The index must have been loaded before to have this offset
+		DfsPackOffset location = offsetCalculator.decode(pos);
+		return location.getPack().readOneBlock(location.getPackOffset(), ctx,
+				rc);
+	}
+
+	@Override
+	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
+		// The index must have been loaded before to have this offset
+		DfsPackOffset location = offsetCalculator.decode(pos);
+		return new DfsBlockMidx(
+				location.getPack().getOrLoadBlock(location.getPackOffset(),
+						ctx),
+				location.getPackStart());
+	}
+
+	// Visible for testing
+	static class VOffsetCalculator {
+		private final DfsPackFile[] packs;
+		private final long[] accSizes;
+
+		private final DfsPackOffset poBuffer = new DfsPackOffset();
+
+		static VOffsetCalculator fromPacks(DfsPackFile[] packsInIdOrder) {
+			long[] accSizes = new long[packsInIdOrder.length + 1];
+			accSizes[0] = 0;
+			for (int i = 0; i < packsInIdOrder.length; i++) {
+				accSizes[i + 1] = accSizes[i] + packsInIdOrder[i]
+						.getPackDescription().getFileSize(PACK);
+			}
+			return new VOffsetCalculator(packsInIdOrder, accSizes);
+		}
+
+		VOffsetCalculator(DfsPackFile[] packs, long[] packSizes) {
+			this.packs = packs;
+			accSizes = packSizes;
+		}
+
+		long encode(PackOffset location) {
+			if (location == null) {
+				return -1;
+			}
+			return location.getOffset() + accSizes[location.getPackId()];
+		}
+
+		DfsPackOffset decode(long voffset) {
+			if (voffset == -1) {
+				return null;
+			}
+			for (int i = 0; i < accSizes.length; i++) {
+				if (voffset <= accSizes[i]) {
+					return poBuffer.setValues(packs[i - 1], accSizes[i - 1],
+							voffset);
+				}
+			}
+			throw new IllegalArgumentException("Asking offset beyond limits");
+		}
+
+		long getMaxOffset() {
+			return accSizes[accSizes.length - 1];
+		}
+	}
+
+	static class DfsPackOffset {
+		private DfsPackFile pack;
+
+		private long packStart;
+
+		private long offset;
+
+		private DfsPackOffset setValues(DfsPackFile pack, long packStart,
+				long globalOffset) {
+			this.pack = pack;
+			this.packStart = packStart;
+			this.offset = globalOffset;
+			return this;
+		}
+
+		/**
+		 * The pack
+		 *
+		 * @return the pack
+		 */
+		DfsPackFile getPack() {
+			return pack;
+		}
+
+		/**
+		 * Where the pack starts in the total midx concat of packs
+		 * <p>
+		 * After loading a block, callers will use "midx-offsets" to refer to
+		 * positions. We need this to bring the value to the block.
+		 *
+		 * @return offset where the pack starts, when all packs are concatenated
+		 *         in midx order.
+		 */
+		long getPackStart() {
+			return packStart;
+		}
+
+		/**
+		 * Offset inside the pack (regular offset)
+		 *
+		 * @return offset inside this pack
+		 */
+		long getPackOffset() {
+			return offset - packStart;
+		}
+	}
+
+
 }
