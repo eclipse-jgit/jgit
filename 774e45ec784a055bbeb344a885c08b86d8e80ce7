@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "557cf075_f66b48cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-16T00:22:06Z",
+      "side": 1,
+      "message": "Why are you removing the intentional use of `refreshPackedRefs()`? Using that method matches the behavior from C git where it [forces a re-read of packed-refs](https://github.com/git/git/blob/master/refs/packed-backend.c#L1256) once it has the lock.",
+      "range": {
+        "startLine": 687,
+        "startChar": 27,
+        "endLine": 687,
+        "endChar": 43
+      },
+      "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

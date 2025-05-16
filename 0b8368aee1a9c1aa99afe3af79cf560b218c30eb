@@ -251,6 +251,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c709f86_6e1dd3dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-16T00:22:06Z",
+      "side": 1,
+      "message": "I think my comment here may have been misunderstood (at least I\u0027m hoping it was).\n\nWhile I was hoping the commit message would be updated, I also expected 1) the message to detail the order of operations followed for deleting a ref in C git and 2) the code to match that order of operations. The only reference to C git in the commit message in PS37 is to the `is_packed_transaction_needed()` method and the only mention of ordering is `lock packed-refs *before* checking for existance of refs in it`, which doesn\u0027t tell me anything about things like when C git locks the loose ref during a delete.\n\nRelated, can we please slow the rush of +2s on this change until previous reviewers give a +1?",
+      "parentUuid": "a38acfab_35b17d3e",
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89063841_19931628",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 35
@@ -334,6 +352,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "1499e657_bb42620a",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 687,
+        "endChar": 43
+      },
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f27cefb_4a9d202c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-16T00:22:06Z",
+      "side": 1,
+      "message": "The comment is still wrong in PS37 (you\u0027re not reading it twice). If you keep this order of operations after comparing it to C git, please fix the comment.",
+      "parentUuid": "0447df58_3326c855",
       "range": {
         "startLine": 684,
         "startChar": 0,
