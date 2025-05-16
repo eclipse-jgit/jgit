@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,12 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
-import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -605,6 +607,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			} else if (dsc.hasFileExt(PackExt.PACK)) {
 				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
+			} else if (dsc.hasFileExt(MULTI_PACK_INDEX)) {
+				newPacks.add(createDfsPackFileMidx(cache, dsc));
+				foundNew = true;
 			}
 
 			DfsReftable oldReftable = reftables.remove(dsc);
@@ -642,6 +647,22 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected DfsPackFile createDfsPackFile(DfsBlockCache cache,
 			DfsPackDescription dsc) {
 		return new DfsPackFile(cache, dsc);
+	}
+
+	protected DfsPackFileMidx createDfsPackFileMidx(DfsBlockCache cache,
+			DfsPackDescription dsc) {
+		DfsPackFileMidx base = null;
+		if (dsc.getMultiPackIndexBase() != null) {
+			// The base is always a multipack index
+			base = createDfsPackFileMidx(cache, dsc.getMultiPackIndexBase());
+		}
+		// A pack shouldn't be in the pack list and inside a multipack index
+		// at the same time. In that case, we will have it under two
+		// different DfsPackFile instances.
+		List<DfsPackFile> coveredPacks = dsc.getCoveredPacks().stream()
+				.map(desc -> createDfsPackFile(cache, desc))
+				.collect(Collectors.toUnmodifiableList());
+		return DfsPackFileMidx.create(cache, dsc, coveredPacks, base);
 	}
 
 	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
