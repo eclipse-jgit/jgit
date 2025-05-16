@@ -269,6 +269,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ad16b09_10aadb8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-16T10:17:10Z",
+      "side": 1,
+      "message": "@danielesassoli@gmail.com @nasser.grainawi@oss.qualcomm.com why don\u0027t you jump on a bridge call to avoid further misunderstanding on the review of this change?",
+      "parentUuid": "2c709f86_6e1dd3dc",
+      "revId": "0b8368aee1a9c1aa99afe3af79cf560b218c30eb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89063841_19931628",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 35
