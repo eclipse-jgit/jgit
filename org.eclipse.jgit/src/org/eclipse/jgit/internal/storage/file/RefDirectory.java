@@ -741,6 +741,7 @@ public class RefDirectory extends RefDatabase {
 
 	private void pack(Collection<String> refs,
 			Map<String, LockFile> heldLocks) throws IOException {
+		Map<String, LockFile> looseRefsLocks = new HashMap<>();
 		for (LockFile ol : heldLocks.values()) {
 			ol.requireLock();
 		}
@@ -781,6 +782,13 @@ public class RefDirectory extends RefDatabase {
 					if (idx >= 0) {
 						newPacked = newPacked.set(idx, newRef);
 					} else {
+						if (heldLocks.get(refName) == null) {
+							LockFile looseRefLock = new LockFile(fileFor(refName));
+							looseRefsLocks.put(refName, looseRefLock);
+							if (!looseRefLock.lock()) {
+								continue;
+							}
+						}
 						newPacked = newPacked.add(idx, newRef);
 					}
 				}
@@ -801,6 +809,7 @@ public class RefDirectory extends RefDatabase {
 					}
 
 					LockFile rLck = heldLocks.get(refName);
+					rLck = rLck == null ? looseRefsLocks.get(refName) : rLck;
 					boolean shouldUnlock;
 					if (rLck == null) {
 						rLck = new LockFile(refFile);
@@ -843,6 +852,7 @@ public class RefDirectory extends RefDatabase {
 				// storage.
 			} finally {
 				lck.unlock();
+				looseRefsLocks.values().forEach(LockFile::unlock);
 			}
 		} finally {
 			inProcessPackedRefsLock.unlock();
