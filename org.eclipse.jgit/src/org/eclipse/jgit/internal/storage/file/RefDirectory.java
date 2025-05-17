@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.nio.channels.FileLock;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -48,12 +49,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.common.base.MoreObjects;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -741,6 +744,7 @@ public class RefDirectory extends RefDatabase {
 
 	private void pack(Collection<String> refs,
 			Map<String, LockFile> heldLocks) throws IOException {
+		Map<String, LockFile> looseRefsLocks = new HashMap<>();
 		for (LockFile ol : heldLocks.values()) {
 			ol.requireLock();
 		}
@@ -781,6 +785,13 @@ public class RefDirectory extends RefDatabase {
 					if (idx >= 0) {
 						newPacked = newPacked.set(idx, newRef);
 					} else {
+						if (heldLocks.get(refName) == null) {
+							LockFile looseRefLock = new LockFile(fileFor(refName));
+							looseRefsLocks.put(refName, looseRefLock);
+							if (!looseRefLock.lock()) {
+								continue;
+							}
+						}
 						newPacked = newPacked.add(idx, newRef);
 					}
 				}
@@ -800,7 +811,7 @@ public class RefDirectory extends RefDatabase {
 						continue;
 					}
 
-					LockFile rLck = heldLocks.get(refName);
+					LockFile rLck = MoreObjects.firstNonNull(heldLocks.get(refName), looseRefsLocks.get(refName));
 					boolean shouldUnlock;
 					if (rLck == null) {
 						rLck = new LockFile(refFile);
@@ -843,6 +854,7 @@ public class RefDirectory extends RefDatabase {
 				// storage.
 			} finally {
 				lck.unlock();
+				looseRefsLocks.values().forEach(LockFile::unlock);
 			}
 		} finally {
 			inProcessPackedRefsLock.unlock();
