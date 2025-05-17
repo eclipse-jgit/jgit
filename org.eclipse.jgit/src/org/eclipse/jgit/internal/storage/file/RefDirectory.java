@@ -678,41 +678,44 @@ public class RefDirectory extends RefDatabase {
 		}
 		String name = dst.getName();
 
-		// Write the packed-refs file using an atomic update. We might
-		// wind up reading it twice, before and after the lock, to ensure
-		// we don't miss an edit made externally.
-		PackedRefList packed = getPackedRefs();
-		if (packed.contains(name)) {
-			inProcessPackedRefsLock.lock();
+		inProcessPackedRefsLock.lock();
+		try {
+			LockFile lck = lockPackedRefsOrThrow();
 			try {
-				LockFile lck = lockPackedRefsOrThrow();
-				try {
+				// Write the packed-refs file using an atomic update. We might
+				// wind up reading it twice, before and after checking if the
+				// ref to delete is included or not, to ensure
+				// we don't rely on a PackedRefList that is a result of in-memory
+				// or NFS caching.
+				PackedRefList packed = getPackedRefs();
+				if (packed.contains(name)) {
 					packed = refreshPackedRefs();
 					int idx = packed.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, packed.remove(idx), packed, true);
 					}
-				} finally {
-					lck.unlock();
 				}
+
+				RefList<LooseRef> curLoose, newLoose;
+				do {
+					curLoose = looseRefs.get();
+					int idx = curLoose.find(name);
+					if (idx < 0)
+						break;
+					newLoose = curLoose.remove(idx);
+				} while (!looseRefs.compareAndSet(curLoose, newLoose));
+
+				int levels = levelsIn(name) - 2;
+				delete(logFor(name), levels);
+				if (dst.getStorage().isLoose()) {
+					deleteAndUnlock(fileFor(name), levels, update);
+				}
+
 			} finally {
-				inProcessPackedRefsLock.unlock();
+				lck.unlock();
 			}
-		}
-
-		RefList<LooseRef> curLoose, newLoose;
-		do {
-			curLoose = looseRefs.get();
-			int idx = curLoose.find(name);
-			if (idx < 0)
-				break;
-			newLoose = curLoose.remove(idx);
-		} while (!looseRefs.compareAndSet(curLoose, newLoose));
-
-		int levels = levelsIn(name) - 2;
-		delete(logFor(name), levels);
-		if (dst.getStorage().isLoose()) {
-			deleteAndUnlock(fileFor(name), levels, update);
+		} finally {
+			inProcessPackedRefsLock.unlock();
 		}
 
 		modCnt.incrementAndGet();
