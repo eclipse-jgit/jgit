@@ -781,6 +781,7 @@ public class RefDirectory extends RefDatabase {
 					if (idx >= 0) {
 						newPacked = newPacked.set(idx, newRef);
 					} else {
+						heldLocks.put(refName, new LockFile(fileFor(refName)));
 						newPacked = newPacked.add(idx, newRef);
 					}
 				}
