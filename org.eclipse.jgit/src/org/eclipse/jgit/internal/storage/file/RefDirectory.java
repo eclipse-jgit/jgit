@@ -678,28 +678,6 @@ public class RefDirectory extends RefDatabase {
 		}
 		String name = dst.getName();
 
-		// Write the packed-refs file using an atomic update. We might
-		// wind up reading it twice, before and after the lock, to ensure
-		// we don't miss an edit made externally.
-		PackedRefList packed = getPackedRefs();
-		if (packed.contains(name)) {
-			inProcessPackedRefsLock.lock();
-			try {
-				LockFile lck = lockPackedRefsOrThrow();
-				try {
-					packed = refreshPackedRefs();
-					int idx = packed.find(name);
-					if (0 <= idx) {
-						commitPackedRefs(lck, packed.remove(idx), packed, true);
-					}
-				} finally {
-					lck.unlock();
-				}
-			} finally {
-				inProcessPackedRefsLock.unlock();
-			}
-		}
-
 		RefList<LooseRef> curLoose, newLoose;
 		do {
 			curLoose = looseRefs.get();
@@ -714,6 +692,8 @@ public class RefDirectory extends RefDatabase {
 		if (dst.getStorage().isLoose()) {
 			deleteAndUnlock(fileFor(name), levels, update);
 		}
+
+		pack(Collections.emptyList(), name);
 
 		modCnt.incrementAndGet();
 		fireRefsChanged();
@@ -732,15 +712,20 @@ public class RefDirectory extends RefDatabase {
 	 *             if an IO error occurred
 	 */
 	public void pack(List<String> refs) throws IOException {
-		pack(refs, Collections.emptyMap());
+		pack(refs, Collections.emptyMap(), null);
 	}
 
 	void pack(Map<String, LockFile> heldLocks) throws IOException {
-		pack(heldLocks.keySet(), heldLocks);
+		pack(heldLocks.keySet(), heldLocks, null);
+	}
+
+	void pack(Collection<String> refs, String refToOmit) throws IOException {
+		pack(refs, Collections.emptyMap(), refToOmit);
 	}
 
 	private void pack(Collection<String> refs,
-			Map<String, LockFile> heldLocks) throws IOException {
+			Map<String, LockFile> heldLocks,
+			  String refToOmit) throws IOException {
 		for (LockFile ol : heldLocks.values()) {
 			ol.requireLock();
 		}
@@ -763,6 +748,17 @@ public class RefDirectory extends RefDatabase {
 					Ref oldRef = readRef(refName, newPacked);
 					if (oldRef == null) {
 						continue; // A non-existent ref is already correctly packed.
+					}
+
+					if (refName.equals(refToOmit)) {
+						int idx = newPacked.find(refName);
+						if (idx >= 0) {
+							LOG.info("*** Removing loose ref remained in the packed-refs.lock");
+							newPacked = newPacked.remove(idx);
+							dirty = true;
+							continue;
+						}
+						LOG.info("*** Loose ref removed was not contained in the packed-refs.lock");
 					}
 					if (oldRef.isSymbolic()) {
 						continue; // can't pack symbolic refs
