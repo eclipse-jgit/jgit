@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "198c1295_716acca9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-18T15:42:34Z",
+      "side": 1,
+      "message": "We decided to park it for now. The latest PS counts all commits in the packfile that are pointed by the tag or ref from the `refs/heads` namespace and in terms of performance I have observed no to 10% slowdown in comparison to code prior the change (`~19s` before to `19-21s` after) so in case we need it in the future it could be revived and finalized.",
+      "parentUuid": "7f3fe140_5b64c677",
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cce352b4_5b53e470",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
         "patchSetId": 9
@@ -66,6 +84,30 @@
       "writtenOn": "2025-05-15T08:00:56Z",
       "side": 1,
       "message": "```suggestion\n\t\t * are pointed by tag or tip of ref from the `refs/heads` namespace\n```",
+      "range": {
+        "startLine": 1525,
+        "startChar": 31,
+        "endLine": 1525,
+        "endChar": 34
+      },
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ff1128_e271a667",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-18T15:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cce352b4_5b53e470",
       "range": {
         "startLine": 1525,
         "startChar": 31,
@@ -99,6 +141,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e249d5f_c480ce04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-18T15:42:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cac049f5_96a6e711",
+      "range": {
+        "startLine": 1527,
+        "startChar": 1,
+        "endLine": 1527,
+        "endChar": 67
+      },
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f61e759a_d4cc11e4",
@@ -112,6 +178,30 @@
       "writtenOn": "2025-05-15T11:13:30Z",
       "side": 1,
       "message": "out of every loose object, we are only counting `commits` here, if they are the tip of the heads (or tags). This is inconsistent with the counting we do at L1609, where we consider *all* objects in the packfile.",
+      "range": {
+        "startLine": 1631,
+        "startChar": 0,
+        "endLine": 1631,
+        "endChar": 49
+      },
+      "revId": "34a3c6531652da119a14b520b8072c6ee77bcd6a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaaa1b37_bc876e0c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1631,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-18T15:42:34Z",
+      "side": 1,
+      "message": "Renamed metric to `numberOfTagsHeadsCommitsSinceBitmap` so that it better reflects what it really contains. Also indicated that in the commit message and metric description",
+      "parentUuid": "f61e759a_d4cc11e4",
       "range": {
         "startLine": 1631,
         "startChar": 0,
