@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "328bf3d2_b8c2dd08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-19T13:38:49Z",
+      "side": 1,
+      "message": "I have analysed the performance of this locking compared to the baseline of stable-6.10: unfortunately, it introduces a new locking on `packed-refs` when deleting a ref that isn\u0027t involved in a concurrent processing of refs repacking.\n\nExample:\n- Before this change, a repacking of two `refs/heads/foo` and `refs/heads/bar` into `packed-refs` could be concurrent with the deletion of `refs/tags/mytag`\n- After this change, the deletion of `refs/tags/mytag` would wait for the repacking to finish *even if* it doesn\u0027t need to wait at all, as his ref may not be included in the `packed-refs` processing at all.\n\nSee the full data on: https://github.com/eclipse-jgit/jgit/issues/152#issuecomment-2888875342",
+      "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "557cf075_f66b48cf",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 37
