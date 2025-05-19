@@ -46,8 +46,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -474,7 +476,7 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		private boolean scanTree(String prefix, File dir) {
-			final String[] entries = dir.list(LockFile.FILTER);
+			final String[] entries = processTombstones(dir.list(LockFile.FILTER));
 			if (entries == null) // not a directory or an I/O error
 				return false;
 			if (0 < entries.length) {
@@ -493,6 +495,23 @@ public class RefDirectory extends RefDatabase {
 				}
 			}
 			return true;
+		}
+
+		private String[] processTombstones(String[] list) {
+			if (list == null) {
+				return list;
+			}
+
+			final Set<String> tombstones = new HashSet<>();
+			return Arrays.stream(list).filter(fileName -> {
+				if(fileName.startsWith(".")) {
+					tombstones.add(fileName.substring(1));
+					return false;
+				} else {
+					return true;
+				}
+			}).filter(fileName -> !tombstones.contains(fileName))
+				.toArray(String[]::new);
 		}
 
 		private void scanOne(String name) {
@@ -712,7 +731,7 @@ public class RefDirectory extends RefDatabase {
 		int levels = levelsIn(name) - 2;
 		delete(logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
-			deleteAndUnlock(fileFor(name), levels, update);
+			deleteAndUnlock(fileFor(name), update);
 		}
 
 		modCnt.incrementAndGet();
@@ -1116,7 +1135,12 @@ public class RefDirectory extends RefDatabase {
 			if (n == null) {
 				if (looseRefs.compareAndSet(curList, curList.remove(idx)))
 					modCnt.incrementAndGet();
-				return packed.get(name);
+				Ref packedRef = packed.get(name);
+				if (packedRef != null && hasTombstone(fileFor(name))) {
+					return null;
+				} else {
+					return packedRef;
+				}
 			}
 
 			if (o == n)
@@ -1128,13 +1152,13 @@ public class RefDirectory extends RefDatabase {
 
 		final LooseRef n = scanRef(null, name);
 		if (n == null)
-			return packed.get(name);
+			return hasTombstone(fileFor(name)) ? null : packed.get(name);
 
 		// check whether the found new ref is the an additional ref. These refs
 		// should not go into looseRefs
 		for (String additionalRefsName : additionalRefsNames) {
 			if (name.equals(additionalRefsName)) {
-				return n;
+				return hasTombstone(fileFor(name)) ? null : n;
 			}
 		}
 
@@ -1352,18 +1376,42 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private static void deleteAndUnlock(File file, int depth,
-			RefDirectoryUpdate refUpdate) throws IOException {
+	private static void deleteAndUnlock(File file, RefDirectoryUpdate refUpdate) throws IOException {
+		if (!createTombstone(file)) {
+			throw new IOException("Unable to create tombstone for file " + file.getAbsolutePath());
+		}
 		delete(file);
 		if (refUpdate != null) {
 			refUpdate.unlock(); // otherwise cannot delete parent directories emptied by the update
 		}
-		deleteEmptyParentDirs(file, depth);
+	}
+
+	private static boolean createTombstone(File file) throws IOException {
+		return getTombstoneFile(file).createNewFile();
+	}
+
+	private static File getTombstoneFile(File file) {
+		return new File(file.getParent() + "/." + file.getName());
+	}
+
+	private static boolean deleteTombstone(File file, int depth) {
+		boolean deleted = getTombstoneFile(file).delete();
+		if (deleted) {
+			deleteEmptyParentDirs(file, depth);
+		}
+		return deleted;
+	}
+
+	private static boolean hasTombstone(File file) {
+		return getTombstoneFile(file).exists();
 	}
 
 	private static void deleteAndUnlock(File file, int depth, LockFile rLck)
 			throws IOException {
 		delete(file);
+		if (!deleteTombstone(file, depth)) {
+			throw new IOException("Unable to remove ref tombstone " + file.getAbsolutePath());
+		}
 		if (rLck != null) {
 			rLck.unlock(); // otherwise cannot delete parent directories of the lock file
 		}
