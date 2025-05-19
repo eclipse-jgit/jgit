@@ -460,20 +460,6 @@ public final class DfsPackFile extends BlockBasedFile {
 		idx(ctx).resolve(matches, id, matchLimit);
 	}
 
-	/**
-	 * Obtain the total number of objects available in this pack. This method
-	 * relies on pack index, giving number of effectively available objects.
-	 *
-	 * @param ctx
-	 *            current reader for the calling thread.
-	 * @return number of objects in index of this pack, likewise in this pack
-	 * @throws IOException
-	 *             the index file cannot be loaded into memory.
-	 */
-	long getObjectCount(DfsReader ctx) throws IOException {
-		return idx(ctx).getObjectCount();
-	}
-
 	private byte[] decompress(long position, int sz, DfsReader ctx)
 			throws IOException, DataFormatException {
 		byte[] dstbuf;
