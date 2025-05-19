@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9dd2c4_286eb7ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-05-19T21:31:47Z",
+      "side": 1,
+      "message": "Why is a cast necessary?",
+      "revId": "d1d12d67c93b53bad683eaff244cd23d272f4306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05cbf9d5_ebb0b569",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-05-19T21:31:47Z",
+      "side": 1,
+      "message": "This name is very unhelpful, it doesn\u0027t hint at mutating its arguments at all. Any chance to change it?\n\nAt least, some javadoc to hint at what\u0027s happening would be nice.",
+      "range": {
+        "startLine": 1205,
+        "startChar": 6,
+        "endLine": 1205,
+        "endChar": 20
+      },
+      "revId": "d1d12d67c93b53bad683eaff244cd23d272f4306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
