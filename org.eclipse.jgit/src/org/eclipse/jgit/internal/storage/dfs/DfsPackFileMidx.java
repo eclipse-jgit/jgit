@@ -13,6 +13,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 
 import java.io.IOException;
 import java.nio.channels.Channels;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
@@ -125,6 +127,73 @@ final class DfsPackFileMidx extends DfsPackFile {
 	}
 
 	@Override
+	protected PackIndex idx(DfsReader ctx) {
+		// Implement only the methods used internally by DfsPackFile.
+		// Nothing else should be using this.
+		return new PackIndex() {
+			@Override
+			public Iterator<MutableEntry> iterator() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public long getObjectCount() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public long getOffset64Count() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public ObjectId getObjectId(long nthPosition) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public long getOffset(long nthPosition) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public long findOffset(AnyObjectId objId) {
+				// TODO(ifrade): implement this so findDelta doesn't
+				// need the primary index
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public int findPosition(AnyObjectId objId) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public long findCRC32(AnyObjectId objId)
+					throws MissingObjectException,
+					UnsupportedOperationException {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public boolean hasCRC32Support() {
+				return false;
+			}
+
+			@Override
+			public void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+					int matchLimit) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public byte[] getChecksum() {
+				throw new UnsupportedOperationException();
+			}
+		};
+	}
+
+	@Override
 	public PackReverseIndex getReverseIdx(DfsReader ctx) {
 		throw new IllegalStateException(
 				"Shouldn't use multipack index if the reverse index is needed");
@@ -177,12 +246,6 @@ final class DfsPackFileMidx extends DfsPackFile {
 	void resolve(DfsReader ctx, Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) throws IOException {
 		midx(ctx).resolve(matches, id, matchLimit);
-	}
-
-	@Override
-	long getObjectCount(DfsReader ctx) {
-		// TODO(ifrade): This is not used in the superclass. Remove.
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

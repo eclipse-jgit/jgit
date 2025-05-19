@@ -251,7 +251,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		return idx(ctx);
 	}
 
-	private PackIndex idx(DfsReader ctx) throws IOException {
+	protected PackIndex idx(DfsReader ctx) throws IOException {
 		if (index != null) {
 			return index;
 		}
