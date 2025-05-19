@@ -132,7 +132,13 @@ public class RefMap extends AbstractMap<String, Ref> {
 			ref = loose.get(name);
 		if (ref == null)
 			ref = packed.get(name);
-		return ref;
+		return getRefWithoutZeroId(ref);
+	}
+
+	private static Ref getRefWithoutZeroId(Ref ref) {
+		return ref == null ||
+			(!ref.isSymbolic() && (ref.getObjectId() == null ||
+				ref.getObjectId().equals(ObjectId.zeroId()))) ? null : ref;
 	}
 
 	@Override
@@ -324,11 +330,19 @@ public class RefMap extends AbstractMap<String, Ref> {
 				if (cmp == 0)
 					packedIdx++;
 				looseIdx++;
+				if (getRefWithoutZeroId(l) == null) {
+					return peek();
+				}
 				return toEntry(resolveLoose(l));
 			}
 
-			if (looseIdx < loose.size())
-				return toEntry(resolveLoose(loose.get(looseIdx++)));
+			if (looseIdx < loose.size()) {
+				Ref l = loose.get(looseIdx++);
+				if (getRefWithoutZeroId(l) == null) {
+					return peek();
+				}
+				return toEntry(resolveLoose(l));
+			}
 			if (packedIdx < packed.size())
 				return toEntry(packed.get(packedIdx++));
 			return null;

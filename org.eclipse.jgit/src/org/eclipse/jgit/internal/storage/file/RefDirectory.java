@@ -29,10 +29,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.io.OutputStream;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -46,8 +48,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -436,6 +440,8 @@ public class RefDirectory extends RefDatabase {
 
 		RefList.Builder<LooseRef> newLoose;
 
+		final Set<String> tombstones = new HashSet<>();
+
 		LooseScanner(RefList<LooseRef> curLoose) {
 			this.curLoose = curLoose;
 		}
@@ -474,7 +480,7 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		private boolean scanTree(String prefix, File dir) {
-			final String[] entries = dir.list(LockFile.FILTER);
+			final String[] entries = processTombstones(prefix, dir.list(LockFile.FILTER));
 			if (entries == null) // not a directory or an I/O error
 				return false;
 			if (0 < entries.length) {
@@ -493,6 +499,22 @@ public class RefDirectory extends RefDatabase {
 				}
 			}
 			return true;
+		}
+
+		private String[] processTombstones(String prefix, String[] list) {
+			if (list == null) {
+				return null;
+			}
+
+			return Arrays.stream(list).map(fileName -> {
+				if(fileName.startsWith(".")) {
+					String refName = fileName.substring(1);
+					tombstones.add(prefix + refName);
+					return refName;
+				} else {
+					return fileName;
+				}
+			}).distinct().toArray(String[]::new);
 		}
 
 		private void scanOne(String name) {
@@ -521,7 +543,7 @@ public class RefDirectory extends RefDatabase {
 
 			LooseRef n;
 			try {
-				n = scanRef(cur, name);
+				n = scanRef(cur, name, tombstones);
 			} catch (IOException notValid) {
 				n = null;
 			}
@@ -712,7 +734,7 @@ public class RefDirectory extends RefDatabase {
 		int levels = levelsIn(name) - 2;
 		delete(logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
-			deleteAndUnlock(fileFor(name), levels, update);
+			deleteAndUnlock(fileFor(name), update);
 		}
 
 		modCnt.incrementAndGet();
@@ -1144,7 +1166,11 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	LooseRef scanRef(LooseRef ref, String name) throws IOException {
-		final File path = fileFor(name);
+		return scanRef(ref, name, Collections.emptySet());
+	}
+
+	LooseRef scanRef(LooseRef ref, String name, Set<String> tombstones) throws IOException {
+		final File path = tombstones.contains(name) ? tombstoneFileFor(name) : fileFor(name);
 
 		if (trustLooseRefStat.equals(TrustLooseRefStat.AFTER_OPEN)) {
 			refreshPathToLooseRef(Paths.get(name));
@@ -1332,6 +1358,11 @@ public class RefDirectory extends RefDatabase {
 		return new File(gitDir, name);
 	}
 
+	File tombstoneFileFor(String name) {
+		int lastSlash = name.lastIndexOf('/');
+		return fileFor(name.substring(0, lastSlash) + "/." + name.substring(lastSlash + 1));
+	}
+
 	static int levelsIn(String name) {
 		int count = 0;
 		for (int p = name.indexOf('/'); p >= 0; p = name.indexOf('/', p + 1))
@@ -1352,18 +1383,46 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private static void deleteAndUnlock(File file, int depth,
-			RefDirectoryUpdate refUpdate) throws IOException {
+	private static void deleteAndUnlock(File file, RefDirectoryUpdate refUpdate) throws IOException {
+		if (!createTombstone(file)) {
+			throw new IOException("Unable to create tombstone for file " + file.getAbsolutePath());
+		}
 		delete(file);
 		if (refUpdate != null) {
 			refUpdate.unlock(); // otherwise cannot delete parent directories emptied by the update
 		}
-		deleteEmptyParentDirs(file, depth);
+	}
+
+	private static boolean createTombstone(File file) throws IOException {
+		File tombstone = getTombstoneFile(file);
+		try (OutputStream out = new FileOutputStream(tombstone)) {
+			ObjectId.zeroId().copyTo(out);
+		}
+		return true;
+	}
+
+	private static File getTombstoneFile(File file) {
+		return new File(file.getParent() + "/." + file.getName());
+	}
+
+	private static boolean deleteTombstone(File file, int depth) {
+		boolean deleted = getTombstoneFile(file).delete();
+		if (deleted) {
+			deleteEmptyParentDirs(file, depth);
+		}
+		return deleted;
+	}
+
+	private static boolean hasTombstone(File file) {
+		return getTombstoneFile(file).exists();
 	}
 
 	private static void deleteAndUnlock(File file, int depth, LockFile rLck)
 			throws IOException {
 		delete(file);
+		if (!deleteTombstone(file, depth)) {
+			throw new IOException("Unable to remove ref tombstone " + file.getAbsolutePath());
+		}
 		if (rLck != null) {
 			rLck.unlock(); // otherwise cannot delete parent directories of the lock file
 		}
