@@ -96,6 +96,30 @@
       },
       "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03a5adaa_eaae5f87",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-20T12:39:07Z",
+      "side": 1,
+      "message": "I think I have a change with nearly this same code, but the Eclipse ECA is failing because of my github username change so I can\u0027t push it 😞\n\nI did update the comments too though.\n```suggestion\n\t\t// Get and keep the packed-refs lock while updating packed-refs and\n\t\t// removing any loose ref\n\t\tinProcessPackedRefsLock.lock();\n\t\ttry {\n\t\t\tLockFile lck \u003d lockPackedRefsOrThrow();\n\t\t\ttry {\n\t\t\t\tPackedRefList packed \u003d getPackedRefs();\n\t\t\t\tif (packed.contains(name)) {\n\t\t\t\t\t// Force update our packed-refs snapshot before writing\n\t\t\t\t\tint idx \u003d packed.find(name);\n\t\t\t\t\tif (0 \u003c\u003d idx) {\n\t\t\t\t\t\tcommitPackedRefs(lck, packed.remove(idx), packed, true);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tRefList\u003cLooseRef\u003e curLoose, newLoose;\n\t\t\t\tdo {\n\t\t\t\t\tcurLoose \u003d looseRefs.get();\n\t\t\t\t\tint idx \u003d curLoose.find(name);\n                                        if (idx \u003c 0) {\n\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\t\t\t\t\tnewLoose \u003d curLoose.remove(idx);\n\t\t\t\t} while (!looseRefs.compareAndSet(curLoose, newLoose));\n\n\t\t\t\tint levels \u003d levelsIn(name) - 2;\n\t\t\t\tdelete(logFor(name), levels);\n\t\t\t\tif (dst.getStorage().isLoose()) {\n\t\t\t\t\tdeleteAndUnlock(fileFor(name), levels, update);\n\t\t\t\t}\n\t\t\t} finally {\n\t\t\t\tlck.unlock();\n\t\t\t}\n\t\t} finally {\n\t\t\tinProcessPackedRefsLock.unlock();\n\t\t}\n```",
+      "parentUuid": "f944f289_a1813b91",
+      "range": {
+        "startLine": 680,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 3
+      },
+      "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
