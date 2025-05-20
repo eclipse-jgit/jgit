@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2de27de0_3cf80741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-05-20T17:33:06Z",
+      "side": 1,
+      "message": "Honestly, I was looking at DfsObjectToPack and ObjectToPack and my silly brain couldn\u0027t see the difference.\n\nIt would be nice to fix JGit to use actual generics and avoid these casts but I imagine this would mess with other installations and probably isn\u0027t worth the squeeze.",
+      "parentUuid": "1a8112d3_e31d9d59",
+      "revId": "d1d12d67c93b53bad683eaff244cd23d272f4306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05cbf9d5_ebb0b569",
