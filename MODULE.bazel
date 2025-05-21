@@ -46,7 +46,7 @@ maven.install(
     name = "jgit_deps",
     artifacts = [
         "args4j:args4j:2.37",
-        "com.google.code.gson:gson:2.13.0",
+        "com.google.code.gson:gson:2.13.1",
         "com.google.errorprone:error_prone_type_annotations:2.38.0",
         "com.googlecode.javaewah:JavaEWAH:1.2.3",
         "com.jcraft:jsch:0.1.55",
