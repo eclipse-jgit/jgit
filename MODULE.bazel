@@ -82,7 +82,7 @@ maven.install(
         "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERSION,
         "org.eclipse.jetty:jetty-util:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:2.2",
-        "org.mockito:mockito-core:5.17.0",
+        "org.mockito:mockito-core:5.18.0",
         "org.objenesis:objenesis:3.4",
         "org.openjdk.jmh:jmh-core:" + JMH_VERSION,
         "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERSION,
