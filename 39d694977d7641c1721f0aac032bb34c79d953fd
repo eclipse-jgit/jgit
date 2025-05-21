@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91f5a4e5_ee443ceb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-21T07:21:34Z",
+      "side": 1,
+      "message": "question: if there is a tombstone for a ref it means it was deleted IOW perhaps we should skip it?",
+      "revId": "39d694977d7641c1721f0aac032bb34c79d953fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7be8c24d_08438670",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 3
