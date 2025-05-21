@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4127f43a_5821e82b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-21T07:14:56Z",
+      "side": 1,
+      "message": "nit: there is no need to recreate the filenam again as it already starts with `.` and is a tombstone entry name 😊\n\n```suggestion\n\t\t\t\t\ttombstones.add(fileName);\n```",
+      "range": {
+        "startLine": 512,
+        "startChar": 20,
+        "endLine": 512,
+        "endChar": 36
+      },
+      "revId": "39d694977d7641c1721f0aac032bb34c79d953fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be8c24d_08438670",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2025-05-21T07:14:56Z",
+      "side": 1,
+      "message": "question: why two versions of `scanRef` shouldn\u0027t we always resolve to tombstone file if it is available? IOW what is the point of returning `LooseRef` if it was marked as deleted anyway?",
+      "range": {
+        "startLine": 1168,
+        "startChar": 0,
+        "endLine": 1172,
+        "endChar": 89
+      },
+      "revId": "39d694977d7641c1721f0aac032bb34c79d953fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
