@@ -13,6 +13,8 @@ package org.eclipse.jgit.lfs.server.s3;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 
+import com.google.common.base.Strings;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -92,7 +94,12 @@ class SignerV4 {
 	static String createAuthorizationQuery(S3Config bucketConfig, URL url,
 			String httpMethod, Map<String, String> headers,
 			Map<String, String> queryParameters, String bodyHash) {
-		addHostHeader(url, headers);
+
+		if (!Strings.isNullOrEmpty(bucketConfig.getSignatureHostname())) {
+			headers.put("Host", bucketConfig.getSignatureHostname()); //$NON-NLS-1$
+		} else {
+			addHostHeader(url, headers);
+		}
 
 		queryParameters.put(X_AMZ_ALGORITHM, SCHEME + "-" + ALGORITHM); //$NON-NLS-1$
 
@@ -161,7 +168,12 @@ class SignerV4 {
 	static Map<String, String> createHeaderAuthorization(
 			S3Config bucketConfig, URL url, String httpMethod,
 			Map<String, String> headers, String bodyHash) {
-		addHostHeader(url, headers);
+
+		if (!Strings.isNullOrEmpty(bucketConfig.getSignatureHostname())) {
+			headers.put("Host", bucketConfig.getSignatureHostname()); //$NON-NLS-1$
+		} else {
+			addHostHeader(url, headers);
+		}
 
 		Date now = new Date();
 		String dateTimeStamp = dateTimeStampISO8601(now);
