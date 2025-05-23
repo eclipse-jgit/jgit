@@ -9,29 +9,51 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.zip.Deflater;
 
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DfsReaderTest {
+
+	private final static ObjectId UNKNOWN_OID = ObjectId
+			.fromRaw(new int[] { 1, 2, 3, 4, 5 });
+
 	InMemoryRepository db;
 
 	@Before
@@ -87,6 +109,106 @@ public class DfsReaderTest {
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			long size = ctx.getObjectSize(obj, OBJ_COMMIT);
 			assertEquals(120, size);
+		}
+	}
+
+	@Test
+	public void midx_hasObject() throws IOException {
+		ObjectId o1 = insertBlobWithSize(200);
+		ObjectId o2 = insertBlobWithSize(300);
+		ObjectId o3 = insertBlobWithSize(400);
+		assertEquals(3, db.getObjectDatabase().getPacks().length);
+		replacePacksWithMultipackIndex();
+		assertEquals(1, db.getObjectDatabase().getPacks().length);
+
+		ObjectId o4 = insertBlobWithSize(500);
+		assertEquals(2, db.getObjectDatabase().getPacks().length);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertTrue(ctx.has(o1));
+			assertTrue(ctx.has(o2));
+			assertTrue(ctx.has(o3));
+			assertTrue(ctx.has(o4));
+			assertFalse(ctx.has(UNKNOWN_OID));
+		}
+	}
+
+	@Test
+	public void midx_copy() throws IOException {
+		insertBlobWithSize(200);
+		ObjectId o2 = insertBlobWithSize(300);
+		insertBlobWithSize(400);
+		assertEquals(3, db.getObjectDatabase().getPacks().length);
+		byte[] o2rawData = readRawBytes(o2, 100);
+
+		replacePacksWithMultipackIndex();
+		assertEquals(1, db.getObjectDatabase().getPacks().length);
+
+		byte[] midxO2rawData = readRawBytes(o2, 100);
+		assertArrayEquals(o2rawData, midxO2rawData);
+	}
+
+	@Test
+	public void midx_copy_multiblock() throws IOException {
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512));
+		insertBlobWithSize(200);
+		ObjectId o2 = insertBlobWithSize(600000);
+		insertBlobWithSize(400);
+		assertEquals(3, db.getObjectDatabase().getPacks().length);
+		byte[] o2rawData = readRawBytes(o2, 1200);
+
+		replacePacksWithMultipackIndex();
+		resetCache();
+
+		CountBlockLoads counter = new CountBlockLoads();
+		byte[] midxO2rawData = readRawBytes(o2, 1200, counter);
+		assertArrayEquals(o2rawData, midxO2rawData);
+		assertEquals(3, counter.blocksLoaded.size());
+	}
+
+	@Test
+	public void midx_getObjectSize() throws IOException {
+		ObjectId o1 = insertBlobWithSize(100);
+		ObjectId o2 = insertBlobWithSize(300);
+		ObjectId o3 = insertBlobWithSize(200);
+
+		replacePacksWithMultipackIndex();
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertEquals(100, ctx.getObjectSize(o1, OBJ_BLOB));
+			// Typehint is only for error reporting or trying the objsize index
+			// In this case, irrelevant
+			assertEquals(100, ctx.getObjectSize(o1, OBJ_COMMIT));
+			assertEquals(300, ctx.getObjectSize(o2, OBJ_BLOB));
+			assertEquals(200, ctx.getObjectSize(o3, OBJ_BLOB));
+
+			assertThrows(MissingObjectException.class,
+					() -> ctx.getObjectSize(UNKNOWN_OID, OBJ_BLOB));
+		}
+	}
+
+	@Test
+	public void midx_open() throws IOException {
+		ObjectId o1 = insertBlob("content of blob 1");
+		ObjectId o2 = insertBlob("content of blob 2 x");
+		ObjectId o3 = insertBlob("content of blob 3 xy");
+
+		replacePacksWithMultipackIndex();
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			ObjectLoader ol = ctx.open(o1);
+			assertNotNull(ol);
+			assertEquals(17, ol.getSize());
+			assertEquals("content of blob 1", new String(ol.getBytes(), UTF_8));
+
+			ol = ctx.open(o2);
+			assertNotNull(ol);
+			assertEquals(19, ol.getSize());
+			assertEquals("content of blob 2 x",
+					new String(ol.getBytes(), UTF_8));
+
+			ol = ctx.open(o3);
+			assertNotNull(ol);
+			assertEquals(20, ol.getSize());
+			assertEquals("content of blob 3 xy",
+					new String(ol.getBytes(), UTF_8));
 		}
 	}
 
@@ -305,12 +427,22 @@ public class DfsReaderTest {
 		return insertObjectWithSize(OBJ_BLOB, size);
 	}
 
+	private ObjectId insertBlob(String content) throws IOException {
+		return insertObject(OBJ_BLOB, content.getBytes(UTF_8));
+	}
+
 	private ObjectId insertObjectWithSize(int object_type, int size)
 			throws IOException {
 		TestRng testRng = new TestRng(JGitTestUtil.getName());
+		return insertObject(object_type, testRng.nextBytes(size));
+	}
+
+	private ObjectId insertObject(int object_type, byte[] data)
+			throws IOException {
 		ObjectId oid;
 		try (ObjectInserter ins = db.newObjectInserter()) {
-			oid = ins.insert(object_type, testRng.nextBytes(size));
+			((DfsInserter) ins).setCompressionLevel(Deflater.NO_COMPRESSION);
+			oid = ins.insert(object_type, data);
 			ins.flush();
 		}
 		return oid;
@@ -319,5 +451,79 @@ public class DfsReaderTest {
 	private void setObjectSizeIndexMinBytes(int threshold) {
 		db.getConfig().setInt(CONFIG_PACK_SECTION, null,
 				CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, threshold);
+	}
+
+	private void replacePacksWithMultipackIndex() throws IOException {
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		Map<String, DfsPackDescription> packsByName = new HashMap<>();
+		Map<String, PackIndex> forMidx = new HashMap<>(packs.length);
+		List<DfsPackDescription> requiredPacks = new ArrayList<>(packs.length);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			for (DfsPackFile pack : packs) {
+				forMidx.put(pack.getPackDescription().getPackName(),
+						pack.getPackIndex(ctx));
+				requiredPacks.add(pack.getPackDescription());
+				packsByName.put(pack.getPackDescription().getPackName(),
+						pack.getPackDescription());
+			}
+		}
+
+		MultiPackIndexWriter w = new MultiPackIndexWriter();
+		DfsPackDescription desc = db.getObjectDatabase().newPack(GC);
+		try (DfsOutputStream out = db.getObjectDatabase().writeFile(desc,
+				PackExt.MULTI_PACK_INDEX)) {
+			MultiPackIndexWriter.Result stats = w
+					.write(NullProgressMonitor.INSTANCE, out, forMidx);
+			desc.setRequiredPacks(
+					stats.packNames().stream().map(packsByName::get)
+							.collect(Collectors.toUnmodifiableList()));
+			desc.addFileExt(PackExt.MULTI_PACK_INDEX);
+		}
+		db.getObjectDatabase().commitPack(List.of(desc), requiredPacks);
+		assertEquals(1, db.getObjectDatabase().getPacks().length);
+	}
+
+	private byte[] readRawBytes(ObjectId oid, int len) throws IOException {
+		return readRawBytes(oid, len, null);
+	}
+
+	private byte[] readRawBytes(ObjectId oid, int len,
+			@Nullable PackLoadListener l) throws IOException {
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			if (l != null) {
+				ctx.addPackLoadListener(l);
+			}
+			for (DfsPackFile pack : db.getObjectDatabase().getPacks()) {
+				if (!pack.hasObject(ctx, oid)) {
+					continue;
+				}
+				byte[] dest = new byte[len];
+				long pos = pack.findOffset(ctx, oid);
+				ctx.copy(pack, pos, dest, 0, len);
+				return dest;
+			}
+		}
+		return null;
+	}
+
+	private void resetCache() {
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig());
+	}
+
+	private static class CountBlockLoads implements PackLoadListener {
+
+		private Set<DfsBlockData> blocksLoaded = new HashSet<>();
+
+		@Override
+		public void onIndexLoad(String packName, PackSource src, PackExt ext,
+				long size, Object loadedIdx) {
+
+		}
+
+		@Override
+		public void onBlockLoad(String packName, PackSource src, PackExt ext,
+				long position, DfsBlockData dfsBlockData) {
+			blocksLoaded.add(dfsBlockData);
+		}
 	}
 }

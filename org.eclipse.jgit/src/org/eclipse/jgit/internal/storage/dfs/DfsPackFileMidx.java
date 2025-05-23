@@ -396,6 +396,4 @@ final class DfsPackFileMidx extends DfsPackFile {
 			return accSizes[packId];
 		}
 	}
-
-
 }
