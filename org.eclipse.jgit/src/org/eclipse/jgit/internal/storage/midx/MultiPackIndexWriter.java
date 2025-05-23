@@ -56,6 +56,17 @@ public class MultiPackIndexWriter {
 	private static final int MIDX_HEADER_SIZE = 12;
 
 	/**
+	 * Data about the written multipack index
+	 *
+	 * @param bytesWritten
+	 *            byte-size of the multipack index
+	 * @param packNames
+	 *            packNames
+	 */
+	public record Result(long bytesWritten, List<String> packNames) {
+	}
+
+	/**
 	 * Writes the inputs in the multipack index format in the outputStream.
 	 *
 	 * @param monitor
@@ -65,11 +76,11 @@ public class MultiPackIndexWriter {
 	 * @param inputs
 	 *            pairs of name and index for each pack to include in the
 	 *            multipack index.
-	 * @return bytes written into the stream
+	 * @return data about the write (e.g. bytes written)
 	 * @throws IOException
 	 *             Error writing to the stream
 	 */
-	public long write(ProgressMonitor monitor, OutputStream outputStream,
+	public Result write(ProgressMonitor monitor, OutputStream outputStream,
 			Map<String, PackIndex> inputs) throws IOException {
 		PackIndexMerger data = new PackIndexMerger(inputs);
 
@@ -92,7 +103,7 @@ public class MultiPackIndexWriter {
 						Long.valueOf(expectedSize),
 						Long.valueOf(out.length())));
 			}
-			return expectedSize;
+			return new Result(expectedSize, data.getPackNames());
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
 					e);
