@@ -31,7 +31,7 @@ BOUNCYCASTLE_VERSION = "1.80"
 
 BYTE_BUDDY_VERSION = "1.17.5"
 
-JETTY_VERSION = "12.0.19"
+JETTY_VERSION = "12.0.21"
 
 JMH_VERSION = "1.37"
 
@@ -46,7 +46,7 @@ maven.install(
     name = "jgit_deps",
     artifacts = [
         "args4j:args4j:2.37",
-        "com.google.code.gson:gson:2.13.0",
+        "com.google.code.gson:gson:2.13.1",
         "com.google.errorprone:error_prone_type_annotations:2.38.0",
         "com.googlecode.javaewah:JavaEWAH:1.2.3",
         "com.jcraft:jsch:0.1.55",
@@ -82,7 +82,7 @@ maven.install(
         "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERSION,
         "org.eclipse.jetty:jetty-util:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:2.2",
-        "org.mockito:mockito-core:5.17.0",
+        "org.mockito:mockito-core:5.18.0",
         "org.objenesis:objenesis:3.4",
         "org.openjdk.jmh:jmh-core:" + JMH_VERSION,
         "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERSION,

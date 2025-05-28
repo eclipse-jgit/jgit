@@ -115,7 +115,7 @@ maven gson
 	dependency {
 		groupId = "com.google.code.gson"
 		artifactId = "gson"
-		version = "2.13.0"
+		version = "2.13.1"
 	}
 }
 
@@ -154,42 +154,42 @@ maven jetty
 	dependency {
 		groupId = "org.eclipse.jetty.ee10"
 		artifactId = "jetty-ee10-servlet"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-http"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-io"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-security"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-server"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-session"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util-ajax"
-		version = "12.0.19"
+		version = "12.0.21"
 	}
 	dependency {
 		groupId = "jakarta.servlet"
@@ -225,7 +225,7 @@ maven mockito
 	dependency {
 		groupId = "org.mockito"
 		artifactId = "mockito-core"
-		version = "5.17.0"
+		version = "5.18.0"
 	}
 }
 
