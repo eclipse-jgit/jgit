@@ -1,4 +1,28 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f71f399b_73c565b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T21:58:56Z",
+      "side": 1,
+      "message": "I don\u0027t think they\u0027ll wait. Won\u0027t they fail with a LOCK_FAILURE? There could be retries done based on that result, but that\u0027s not the same as waiting.",
+      "range": {
+        "startLine": 42,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
