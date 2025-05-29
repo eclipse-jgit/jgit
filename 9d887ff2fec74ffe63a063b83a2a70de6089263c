@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "738e493f_12a21191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T18:43:30Z",
+      "side": 1,
+      "message": "Mention retaining the lock while deleting the loose ref too.\n\n```suggestion\nFollowing the examples of cgit, lock packed-refs *before* checking\nfor existance of refs in it [1] and *keep the lock* until the loose ref\n(if any) is removed [2]. The packed-refs lock is kept even when\nno packed-refs update is required [3] so that somebody else doesn\u0027t\npack a reference that we are trying to delete.\n```\n\nThe new [2] should go to https://github.com/git/git/blob/master/refs/files-backend.c#L3261\nand [3] should go to https://github.com/git/git/blob/master/refs/files-backend.c#L2943",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 96
+      },
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e000cd2_6c0948d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T18:43:30Z",
+      "side": 1,
+      "message": "s/objects/refs/\n\n```suggestion\nopens up situations where loose refs are repacked in memory and\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "798300bb_90d26630",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T18:43:30Z",
+      "side": 1,
+      "message": "Thanks for all the updates. Looks very close.",
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31ae382b_e8dd9720",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T18:43:30Z",
+      "side": 1,
+      "message": "For a future change: We could avoid the second read if `getPackedRefs()` was able to tell us if it called `refreshPackedRefs()` or not. If it already did, we wouldn\u0027t need to do it again.",
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c42d3fb_1c89ab86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T18:43:30Z",
+      "side": 1,
+      "message": "The `newLoose` assignment shouldn\u0027t be indented. And you should add braces to this line since we\u0027re modifying it.\n```suggestion\n\t\t\t\t\tif (idx \u003c 0) {\n\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\t\t\t\t\tnewLoose \u003d curLoose.remove(idx);\n```",
+      "range": {
+        "startLine": 706,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 38
+      },
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
