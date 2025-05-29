@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "018c31f1_2b7e5510",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-29T20:27:21Z",
+      "side": 1,
+      "message": "However, we should mention the drawback of this locking logic alignment with C git.\n\n```suggestion\nTherefore, the packed-refs needs to be locked before checking if it\ncontains a ref or not in the same way the C implementation of Git does at [1].\n\nThere are tradeoffs, though, in this decision, which will\nreduce the parallelism of deleting loose refs and performing the\nrefs repacking, which happens very often in certain JGit implementations like Gerrit Code Review.\nBefore this change, repacking of refs and removal of loose refs unrelated to the in-flight repacking was possible without involving\nany locking; after this change, all loose refs removals have to wait for the packing of refs to be completed, even though the repacking and the refs removals were completely unrelated and their namespaces disjoint. See more details on the test\u0027s performance results and the associated tradeoffs in the Issue jgit-152.\n```",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 7
+      },
+      "revId": "f506158b4790049097dafbbb79038d8e725ee3e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "52266bdb_eca1023a",
@@ -14,6 +37,23 @@
       "writtenOn": "2025-05-29T19:04:25Z",
       "side": 1,
       "message": "Woo hoo!",
+      "revId": "f506158b4790049097dafbbb79038d8e725ee3e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a540499a_87e8f049",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-29T20:27:21Z",
+      "side": 1,
+      "message": "I\u0027m glad we came to a common agreement on the way forward. I believe the tradeoffs also need to be mentioned in the commit message. Feel free to merge it once the proposed amendments are agreed and done.",
       "revId": "f506158b4790049097dafbbb79038d8e725ee3e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
