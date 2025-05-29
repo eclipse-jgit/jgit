@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "957d3a24_1c9f8673",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-29T18:59:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "738e493f_12a21191",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 96
+      },
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e000cd2_6c0948d7",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-05-29T18:43:30Z",
       "side": 1,
       "message": "s/objects/refs/\n\n```suggestion\nopens up situations where loose refs are repacked in memory and\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 32,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45d34882_a03c560b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-29T18:59:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "0e000cd2_6c0948d7",
       "range": {
         "startLine": 16,
         "startChar": 32,
@@ -94,6 +142,30 @@
       "writtenOn": "2025-05-29T18:43:30Z",
       "side": 1,
       "message": "The `newLoose` assignment shouldn\u0027t be indented. And you should add braces to this line since we\u0027re modifying it.\n```suggestion\n\t\t\t\t\tif (idx \u003c 0) {\n\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\t\t\t\t\tnewLoose \u003d curLoose.remove(idx);\n```",
+      "range": {
+        "startLine": 706,
+        "startChar": 0,
+        "endLine": 708,
+        "endChar": 38
+      },
+      "revId": "9d887ff2fec74ffe63a063b83a2a70de6089263c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8e038dc_9f0fda01",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-29T18:59:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7c42d3fb_1c89ab86",
       "range": {
         "startLine": 706,
         "startChar": 0,
