@@ -75,6 +75,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a389cccc_3a09aa8d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-29T09:32:20Z",
+      "side": 1,
+      "message": "Reinstated.",
+      "parentUuid": "557cf075_f66b48cf",
+      "range": {
+        "startLine": 687,
+        "startChar": 27,
+        "endLine": 687,
+        "endChar": 43
+      },
+      "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f944f289_a1813b91",
@@ -160,6 +184,30 @@
       "side": 1,
       "message": "\u003e Open https://accounts.eclipse.org/users/\u003cyour eclipse userid\u003e/edit and set the new github account name there. This should fix the problem.\n\nYeah, I have https://gitlab.eclipse.org/eclipsefdn/it/websites/accounts.eclipse.org/-/issues/206 open now to try to get it fixed...\n\nOh and I realized my suggested code above isn\u0027t quite what I had locally, sorry. The tabs wouldn\u0027t copy/paste correctly. There\u0027s at least a missing `packed \u003d refreshPackedRefs();` that should be on the line below the comment `// Force update our packed-refs snapshot before writing`.",
       "parentUuid": "8db6354d_0f5f30c5",
+      "range": {
+        "startLine": 680,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 3
+      },
+      "revId": "774e45ec784a055bbeb344a885c08b86d8e80ce7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a599c77_aea6417c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2025-05-29T09:32:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cf201bf_4b693c6f",
       "range": {
         "startLine": 680,
         "startChar": 0,
