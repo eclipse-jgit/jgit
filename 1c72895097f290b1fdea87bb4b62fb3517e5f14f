@@ -46,6 +46,30 @@
       },
       "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dfcb44a_19586605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T22:06:02Z",
+      "side": 1,
+      "message": "\u003e Doesn\u0027t the `inProcessPackedRefsLock.lock();` wait for the lock to be available?\n\nThat assumes the ref packing is done 1) by JGit and 2) in the same JVM process. I agree that in that case, the inProcess lock will wait. For all other cases, I think you get a `LOCK_FAILURE`.",
+      "parentUuid": "1f55d487_7f3c47e7",
+      "range": {
+        "startLine": 42,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
