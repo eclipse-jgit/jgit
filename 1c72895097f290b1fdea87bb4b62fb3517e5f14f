@@ -22,6 +22,30 @@
       },
       "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f55d487_7f3c47e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-29T22:03:25Z",
+      "side": 1,
+      "message": "Doesn\u0027t the `inProcessPackedRefsLock.lock();` wait for the lock to be available?\nAccording to [4] the ReentrantLock would wait for the lock to be available.\n\nAlso in my tests I\u0027ve noticed the wait, not a lock failure.\n\n[4] https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/ReentrantLock.html#lock--",
+      "parentUuid": "f71f399b_73c565b0",
+      "range": {
+        "startLine": 42,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
