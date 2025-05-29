@@ -392,6 +392,30 @@
       },
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876403b1_cde6dc7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T22:03:36Z",
+      "side": 1,
+      "message": "\u003e There is a race condition where the ref is removed whilst a ref\u0027s packing is processed.\n\nWith the fix in [1c72895097f290b1fdea87bb4b62fb3517e5f14f](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1214781), we can\u0027t hit this condition now because deleting the loose ref will fail if packed-refs is already locked.",
+      "parentUuid": "c2433570_c4ea5432",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 14
+      },
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
