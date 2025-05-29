@@ -94,6 +94,30 @@
       },
       "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "289c6162_a468ce44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-05-29T22:11:37Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Doesn\u0027t the `inProcessPackedRefsLock.lock();` wait for the lock to be available?\n\u003e \u003e \n\u003e \u003e That assumes the ref packing is done 1) by JGit and 2) in the same JVM process. \n\u003e \n\u003e Yes, that\u0027s the Gerrit Code Review use-case, where the incoming traffic is served by the same JVM in different threads. Before this change, a loop that is creating changes and adding patch-sets on a large repo wasn\u0027t blocking tags deletion. After this change, the tag deletions will wait until the changes refs repacking is done, even if they are totally unrelated.\n\n👍",
+      "parentUuid": "953c72b7_6467744d",
+      "range": {
+        "startLine": 42,
+        "startChar": 64,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "1c72895097f290b1fdea87bb4b62fb3517e5f14f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
