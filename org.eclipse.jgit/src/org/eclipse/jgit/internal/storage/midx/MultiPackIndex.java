@@ -42,8 +42,8 @@ public interface MultiPackIndex {
 	/**
 	 * Obtain the location of the object.
 	 * <p>
-	 * The returned object can be reused by the implementations. Callers
-	 * must create a #copy() if they want to keep a reference.
+	 * The returned object can be reused by the implementations. Callers must
+	 * create a #copy() if they want to keep a reference.
 	 *
 	 * @param objectId
 	 *            objectId to read.
@@ -74,12 +74,30 @@ public interface MultiPackIndex {
 
 	/**
 	 * (packId, offset) coordinates of an object
+	 * <p>
+	 * Mutable object to avoid creating many instances while looking for objects
+	 * in the pack. Use #copy() to get a new instance with the data.
 	 */
 	class PackOffset {
 
-		int packId;
+		private int packId;
 
-		long offset;
+		private long offset;
+
+		/**
+		 * Return a new PackOffset with the defined data.
+		 * <p>
+		 * This is for tests, as regular code reuses the instance
+		 *
+		 * @param packId
+		 *            a pack id
+		 * @param offset
+		 *            an offset
+		 * @return a new PackOffset instance with this data
+		 */
+		public static PackOffset create(int packId, long offset) {
+			return new PackOffset().setValues(packId, offset);
+		}
 
 		protected PackOffset setValues(int packId, long offset) {
 			this.packId = packId;
