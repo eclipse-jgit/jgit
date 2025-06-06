@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "307b339b_a5bee399",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037536
+      },
+      "writtenOn": "2025-06-06T23:20:43Z",
+      "side": 1,
+      "message": "Restored because this API is still a nice idea (we still have some code that wants atomic fetch and has to use a custom Repository to do that, which could be cleaned up with this change).",
+      "revId": "98ad3e6cc3f18136f009338c9a479c1f568fc162",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
