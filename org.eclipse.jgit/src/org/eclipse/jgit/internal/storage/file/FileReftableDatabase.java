@@ -75,16 +75,11 @@ public class FileReftableDatabase extends RefDatabase {
 	private volatile boolean autoRefresh;
 
 	FileReftableDatabase(FileRepository repo) throws IOException {
-		this(repo, new File(new File(repo.getCommonDirectory(), Constants.REFTABLE),
-				Constants.TABLES_LIST));
-	}
-
-	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
 		this.autoRefresh = repo.getConfig().getBoolean(
 				ConfigConstants.CONFIG_REFTABLE_SECTION,
 				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false);
-		this.reftableStack = new FileReftableStack(refstackName,
+		this.reftableStack = new FileReftableStack(
 				new File(fileRepository.getCommonDirectory(), Constants.REFTABLE),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
 			() -> fileRepository.getConfig());
@@ -683,32 +678,20 @@ public class FileReftableDatabase extends RefDatabase {
 	 *            the repository
 	 * @param writeLogs
 	 *            whether to write reflogs
-	 * @return a reftable based RefDB from an existing repository.
 	 * @throws IOException
 	 *             on IO error
 	 */
-	public static FileReftableDatabase convertFrom(FileRepository repo,
-			boolean writeLogs) throws IOException {
-		FileReftableDatabase newDb = null;
-		File reftableList = null;
-		try {
-			File reftableDir = new File(repo.getCommonDirectory(),
-					Constants.REFTABLE);
-			reftableList = new File(reftableDir, Constants.TABLES_LIST);
-			if (!reftableDir.isDirectory()) {
-				reftableDir.mkdir();
-			}
-
-			try (FileReftableStack stack = new FileReftableStack(reftableList,
-					reftableDir, null, () -> repo.getConfig())) {
-				stack.addReftable(rw -> writeConvertTable(repo, rw, writeLogs));
-			}
-			reftableList = null;
-		} finally {
-			if (reftableList != null) {
-				reftableList.delete();
-			}
+	public static void convertFrom(FileRepository repo, boolean writeLogs)
+			throws IOException {
+		File reftableDir = new File(repo.getCommonDirectory(),
+				Constants.REFTABLE);
+		if (!reftableDir.isDirectory()) {
+			reftableDir.mkdir();
 		}
-		return newDb;
+
+		try (FileReftableStack stack = new FileReftableStack(reftableDir, null,
+				() -> repo.getConfig())) {
+			stack.addReftable(rw -> writeConvertTable(repo, rw, writeLogs));
+		}
 	}
 }
