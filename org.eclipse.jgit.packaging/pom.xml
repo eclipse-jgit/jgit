@@ -16,7 +16,7 @@
 
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>jgit.tycho.parent</artifactId>
-  <version>7.3.0-SNAPSHOT</version>
+  <version>7.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JGit Tycho Parent</name>
@@ -30,7 +30,7 @@
 
   <properties>
     <java.version>17</java.version>
-    <tycho-version>4.0.12</tycho-version>
+    <tycho-version>4.0.13</tycho-version>
     <target-platform>jgit-4.32</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
@@ -233,7 +233,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>9.0.1</version>
+        <version>9.0.2</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>

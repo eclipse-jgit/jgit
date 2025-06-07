@@ -6,7 +6,7 @@ java_library(
     name = "junit-http",
     testonly = 1,
     srcs = glob(["src/**/*.java"]),
-    resources = glob(["resources/**"]),
+    resources = glob(["resources/**"], allow_empty=True),
     # TODO(davido): we want here provided deps
     deps = [
         "//lib:jetty-http",
@@ -18,7 +18,6 @@ java_library(
         "//lib:jetty-util",
         "//lib:jetty-ee8-nested",
         "//lib:jetty-ee8-security",
-        "//lib:jetty-ee8-servlet",
         "//lib:junit",
         "//lib:servlet-api",
         "//lib:slf4j-api",

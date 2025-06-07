@@ -38,8 +38,6 @@ import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener.DfsBlockData;
 import org.eclipse.jgit.internal.storage.file.BitmapIndexImpl;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
-import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -58,7 +56,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.util.BlockList;
 
 /**
  * Reader to access repository content through.
@@ -619,10 +616,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return new DfsObjectToPack(objectId, type);
 	}
 
-	private static final Comparator<DfsObjectToPack> OFFSET_SORT = (
-			DfsObjectToPack a,
-			DfsObjectToPack b) -> Long.signum(a.getOffset() - b.getOffset());
-
 	@Override
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
@@ -642,16 +635,15 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects,
 			List<DfsPackFile> packs, boolean skipFound) throws IOException {
 		for (DfsPackFile pack : packs) {
-			List<DfsObjectToPack> tmp = findAllFromPack(pack, objects, skipFound);
-			if (tmp.isEmpty())
+			List<DfsObjectToPack> inPack = pack.findAllFromPack(this, objects, skipFound);
+			if (inPack.isEmpty())
 				continue;
-			Collections.sort(tmp, OFFSET_SORT);
-			PackReverseIndex rev = pack.getReverseIdx(this);
 			DfsObjectRepresentation rep = new DfsObjectRepresentation(pack);
-			for (DfsObjectToPack otp : tmp) {
-				pack.representation(rep, otp.getOffset(), this, rev);
+			for (DfsObjectToPack otp : inPack) {
+				// Populate rep.{offset,length} from the pack
+				pack.fillRepresentation(rep, otp.getOffset(), this);
 				otp.setOffset(0);
-				packer.select(otp, rep);
+				packer.select(otp, rep); // Set otp.offset from rep
 				if (!otp.isFound()) {
 					otp.setFound();
 					monitor.update(1);
@@ -698,24 +690,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		return false;
 	}
 
-	private List<DfsObjectToPack> findAllFromPack(DfsPackFile pack,
-			Iterable<ObjectToPack> objects, boolean skipFound)
-					throws IOException {
-		List<DfsObjectToPack> tmp = new BlockList<>();
-		PackIndex idx = pack.getPackIndex(this);
-		for (ObjectToPack obj : objects) {
-			DfsObjectToPack otp = (DfsObjectToPack) obj;
-			if (skipFound && otp.isFound()) {
-				continue;
-			}
-			long p = idx.findOffset(otp);
-			if (0 < p && !pack.isCorrupt(p)) {
-				otp.setOffset(p);
-				tmp.add(otp);
-			}
-		}
-		return tmp;
-	}
+
 
 	@Override
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
