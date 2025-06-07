@@ -42,6 +42,7 @@ import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.util.FileUtils;
@@ -69,7 +70,7 @@ public class FileReftableStack implements AutoCloseable {
 
 	private long lastNextUpdateIndex;
 
-	private final File stackPath;
+	private final File tablesListFile;
 
 	private final File reftableDir;
 
@@ -111,8 +112,6 @@ public class FileReftableStack implements AutoCloseable {
 	/**
 	 * Creates a stack corresponding to the list of reftables in the argument
 	 *
-	 * @param stackPath
-	 *            the filename for the stack.
 	 * @param reftableDir
 	 *            the dir holding the tables.
 	 * @param onChange
@@ -122,10 +121,10 @@ public class FileReftableStack implements AutoCloseable {
 	 * @throws IOException
 	 *             on I/O problems
 	 */
-	public FileReftableStack(File stackPath, File reftableDir,
+	public FileReftableStack(File reftableDir,
 			@Nullable Runnable onChange, Supplier<Config> configSupplier)
 			throws IOException {
-		this.stackPath = stackPath;
+		this.tablesListFile = new File(reftableDir, Constants.TABLES_LIST);
 		this.reftableDir = reftableDir;
 		this.stack = new ArrayList<>();
 		this.configSupplier = configSupplier;
@@ -244,7 +243,7 @@ public class FileReftableStack implements AutoCloseable {
 		}
 
 		if (!success) {
-			throw new LockFailedException(stackPath);
+			throw new LockFailedException(tablesListFile);
 		}
 
 		mergedReftable = new MergedReftable(stack.stream()
@@ -288,14 +287,14 @@ public class FileReftableStack implements AutoCloseable {
 		List<String> names = new ArrayList<>(stack.size() + 1);
 		old = snapshot.get();
 		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(stackPath), UTF_8))) {
+				new InputStreamReader(new FileInputStream(tablesListFile), UTF_8))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (!line.isEmpty()) {
 					names.add(line);
 				}
 			}
-			snapshot.compareAndSet(old, FileSnapshot.save(stackPath));
+			snapshot.compareAndSet(old, FileSnapshot.save(tablesListFile));
 		} catch (FileNotFoundException e) {
 			// file isn't there: empty repository.
 			snapshot.compareAndSet(old, FileSnapshot.MISSING_FILE);
@@ -315,15 +314,16 @@ public class FileReftableStack implements AutoCloseable {
 				break;
 			case AFTER_OPEN:
 				try (InputStream stream = Files
-						.newInputStream(stackPath.toPath())) {
-					// open the tables.list file to refresh attributes (on some
-					// NFS clients)
+						.newInputStream(reftableDir.toPath())) {
+					// open the refs/reftable/ directory to refresh attributes
+					// of reftable files and the tables.list file listing their
+					// names (on some NFS clients)
 				} catch (FileNotFoundException | NoSuchFileException e) {
 					// ignore
 				}
 				//$FALL-THROUGH$
 			case ALWAYS:
-				if (!snapshot.get().isModified(stackPath)) {
+				if (!snapshot.get().isModified(tablesListFile)) {
 					return true;
 				}
 				break;
@@ -387,7 +387,7 @@ public class FileReftableStack implements AutoCloseable {
 	 */
 	@SuppressWarnings("nls")
 	public boolean addReftable(Writer w) throws IOException {
-		LockFile lock = new LockFile(stackPath);
+		LockFile lock = new LockFile(tablesListFile);
 		try {
 			if (!lock.lockForAppend()) {
 				return false;
@@ -398,8 +398,7 @@ public class FileReftableStack implements AutoCloseable {
 
 			String fn = filename(nextUpdateIndex(), nextUpdateIndex());
 
-			File tmpTable = File.createTempFile(fn + "_", ".ref",
-					stackPath.getParentFile());
+			File tmpTable = File.createTempFile(fn + "_", ".ref", reftableDir);
 
 			ReftableWriter.Stats s;
 			try (FileOutputStream fos = new FileOutputStream(tmpTable)) {
@@ -453,7 +452,7 @@ public class FileReftableStack implements AutoCloseable {
 		String fn = filename(first, last);
 
 		File tmpTable = File.createTempFile(fn + "_", ".ref", //$NON-NLS-1$//$NON-NLS-2$
-				stackPath.getParentFile());
+				reftableDir);
 		try (FileOutputStream fos = new FileOutputStream(tmpTable)) {
 			ReftableCompactor c = new ReftableCompactor(fos)
 					.setConfig(reftableConfig())
@@ -497,7 +496,7 @@ public class FileReftableStack implements AutoCloseable {
 		if (first >= last) {
 			return true;
 		}
-		LockFile lock = new LockFile(stackPath);
+		LockFile lock = new LockFile(tablesListFile);
 
 		File tmpTable = null;
 		List<LockFile> subtableLocks = new ArrayList<>();
@@ -526,7 +525,7 @@ public class FileReftableStack implements AutoCloseable {
 
 			tmpTable = compactLocked(first, last);
 
-			lock = new LockFile(stackPath);
+			lock = new LockFile(tablesListFile);
 			if (!lock.lock()) {
 				return false;
 			}

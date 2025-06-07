@@ -405,7 +405,7 @@ public class DfsPackCompactor {
 				pw.addObject(obj);
 				obj.add(added);
 
-				src.representation(rep, id.offset, ctx, rev);
+				src.fillRepresentation(rep, id.offset, ctx, rev);
 				if (rep.getFormat() != PACK_DELTA)
 					continue;
 

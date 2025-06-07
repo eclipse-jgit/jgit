@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025, Google Inc.
+ * Copyright (C) 2025, Google LLC
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at

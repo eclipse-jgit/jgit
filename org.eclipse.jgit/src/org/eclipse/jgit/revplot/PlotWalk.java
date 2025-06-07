@@ -169,8 +169,9 @@ public class PlotWalk extends RevWalk {
 		}
 
 		long timeof(RevObject o) {
-			if (o instanceof RevCommit)
-				return ((RevCommit) o).getCommitTime();
+			if (o instanceof RevCommit) {
+				return ((RevCommit) o).getCommitTime() * 1000L;
+			}
 			if (o instanceof RevTag) {
 				RevTag tag = (RevTag) o;
 				try {
@@ -179,7 +180,7 @@ public class PlotWalk extends RevWalk {
 					return 0;
 				}
 				PersonIdent who = tag.getTaggerIdent();
-				return who != null ? who.getWhen().getTime() : 0;
+				return who != null ? who.getWhenAsInstant().toEpochMilli() : 0;
 			}
 			return 0;
 		}
