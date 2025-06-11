@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "250617be_be5baf3e",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-06-11T23:38:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13bea98c_75eca3e6",
+      "range": {
+        "startLine": 106,
+        "startChar": 24,
+        "endLine": 106,
+        "endChar": 26
+      },
+      "revId": "efc5325af7679b2cb2091d439ac5277b7dc9b6cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "894f196e_380a332b",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-06-10T17:09:59Z",
       "side": 1,
       "message": "```suggestion\n          \u003cversion\u003e12.0.21\u003c/version\u003e\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 24,
+        "endLine": 112,
+        "endChar": 26
+      },
+      "revId": "efc5325af7679b2cb2091d439ac5277b7dc9b6cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e30606e_f3821321",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-06-11T23:38:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "894f196e_380a332b",
       "range": {
         "startLine": 112,
         "startChar": 24,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b342d3e5_3d754ca2",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-06-11T23:38:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "250605dc_289d8550",
+      "range": {
+        "startLine": 157,
+        "startChar": 18,
+        "endLine": 157,
+        "endChar": 20
+      },
+      "revId": "efc5325af7679b2cb2091d439ac5277b7dc9b6cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67fe0278_3713deae",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-06-10T17:09:59Z",
       "side": 1,
       "message": "```suggestion\n\t\tversion \u003d \"12.0.21\"\n```",
+      "range": {
+        "startLine": 162,
+        "startChar": 18,
+        "endLine": 162,
+        "endChar": 20
+      },
+      "revId": "efc5325af7679b2cb2091d439ac5277b7dc9b6cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63eee8b6_b86a576e",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-06-11T23:38:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fe0278_3713deae",
       "range": {
         "startLine": 162,
         "startChar": 18,
