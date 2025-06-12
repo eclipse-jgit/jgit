@@ -16,6 +16,40 @@
       "message": "Restored because this API is still a nice idea (we still have some code that wants atomic fetch and has to use a custom Repository to do that, which could be cleaned up with this change).",
       "revId": "98ad3e6cc3f18136f009338c9a479c1f568fc162",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4231a2_c3539125",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-06-12T09:29:22Z",
+      "side": 1,
+      "message": "```suggestion\n\t * @since 7.4\n```",
+      "revId": "98ad3e6cc3f18136f009338c9a479c1f568fc162",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90e14d37_2161e32c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-06-12T09:29:22Z",
+      "side": 1,
+      "message": "```suggestion\n\t * @since 7.4\n```",
+      "revId": "98ad3e6cc3f18136f009338c9a479c1f568fc162",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
