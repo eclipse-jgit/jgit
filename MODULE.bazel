@@ -27,7 +27,7 @@ http_archive(
     ],
 )
 
-BOUNCYCASTLE_VERSION = "1.80"
+BOUNCYCASTLE_VERSION = "1.81"
 
 BYTE_BUDDY_VERSION = "1.17.5"
 
