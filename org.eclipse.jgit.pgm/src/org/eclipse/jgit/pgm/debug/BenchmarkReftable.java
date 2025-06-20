@@ -145,7 +145,7 @@ class BenchmarkReftable extends TextBuiltin {
 		start = System.currentTimeMillis();
 		for (int i = 0; i < tries; i++) {
 			try (FileInputStream in = new FileInputStream(reftablePath);
-					BlockSource src = BlockSource.from(in);
+					BlockSource src = BlockSource.from(in, new File(reftablePath));
 					ReftableReader reader = new ReftableReader(src)) {
 				try (RefCursor rc = reader.allRefs()) {
 					while (rc.next()) {
@@ -206,7 +206,7 @@ class BenchmarkReftable extends TextBuiltin {
 		start = System.nanoTime();
 		for (int i = 0; i < tries; i++) {
 			try (FileInputStream in = new FileInputStream(reftablePath);
-					BlockSource src = BlockSource.from(in);
+					BlockSource src = BlockSource.from(in, new File(reftablePath));
 					ReftableReader reader = new ReftableReader(src)) {
 				try (RefCursor rc = reader.seekRef(refName)) {
 					while (rc.next()) {
@@ -238,7 +238,7 @@ class BenchmarkReftable extends TextBuiltin {
 
 		start = System.nanoTime();
 		try (FileInputStream in = new FileInputStream(reftablePath);
-				BlockSource src = BlockSource.from(in);
+				BlockSource src = BlockSource.from(in, new File(reftablePath));
 				ReftableReader reader = new ReftableReader(src)) {
 			for (int i = 0; i < tries; i++) {
 				try (RefCursor rc = reader.seekRef(refName)) {
@@ -273,7 +273,7 @@ class BenchmarkReftable extends TextBuiltin {
 		start = System.nanoTime();
 		for (int i = 0; i < tries; i++) {
 			try (FileInputStream in = new FileInputStream(reftablePath);
-					BlockSource src = BlockSource.from(in);
+					BlockSource src = BlockSource.from(in, new File(reftablePath));
 					ReftableReader reader = new ReftableReader(src)) {
 				try (RefCursor rc = reader.byObjectId(id)) {
 					while (rc.next()) {
@@ -307,7 +307,7 @@ class BenchmarkReftable extends TextBuiltin {
 
 		start = System.nanoTime();
 		try (FileInputStream in = new FileInputStream(reftablePath);
-				BlockSource src = BlockSource.from(in);
+				BlockSource src = BlockSource.from(in, new File(reftablePath));
 				ReftableReader reader = new ReftableReader(src)) {
 			for (int i = 0; i < tries; i++) {
 				try (RefCursor rc = reader.byObjectId(id)) {
@@ -327,7 +327,7 @@ class BenchmarkReftable extends TextBuiltin {
 		long startTime = System.nanoTime();
 		List<Ref> allRefs = new ArrayList<>();
 		try (FileInputStream in = new FileInputStream(reftablePath);
-				BlockSource src = BlockSource.from(in);
+				BlockSource src = BlockSource.from(in, new File(reftablePath));
 				ReftableReader reader = new ReftableReader(src)) {
 			try (RefCursor rc = reader.allRefs()) {
 				while (rc.next()) {
@@ -349,7 +349,7 @@ class BenchmarkReftable extends TextBuiltin {
 	private void getRefsExcludingWithSeekPast(String prefix) throws Exception {
 		long start = System.nanoTime();
 		try (FileInputStream in = new FileInputStream(reftablePath);
-				BlockSource src = BlockSource.from(in);
+				BlockSource src = BlockSource.from(in, new File(reftablePath));
 				ReftableReader reader = new ReftableReader(src)) {
 			try (RefCursor rc = reader.allRefs()) {
 				while (rc.next()) {

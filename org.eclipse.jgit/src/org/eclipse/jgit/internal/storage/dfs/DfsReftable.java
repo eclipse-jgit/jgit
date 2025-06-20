@@ -17,11 +17,14 @@ import java.nio.ByteBuffer;
 
 import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A reftable stored in {@link org.eclipse.jgit.internal.storage.dfs.DfsBlockCache}.
  */
 public class DfsReftable extends BlockBasedFile {
+	private static final Logger LOG = LoggerFactory.getLogger(DfsReftable.class);
 	/**
 	 * Construct a reader for an existing reftable.
 	 *
@@ -139,6 +142,7 @@ public class DfsReftable extends BlockBasedFile {
 		public void close() {
 			if (ch != null) {
 				try {
+					LOG.warn("[JGIT-130] DFS Autoclosing block source {}", file);
 					ch.close();
 				} catch (IOException e) {
 					// Ignore read close failures.

@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.internal.WorkQueue;
 import org.eclipse.jgit.util.FS;
@@ -122,7 +123,9 @@ public class RepositoryCache {
 	public static void close(@NonNull Repository db) {
 		if (db.getDirectory() != null) {
 			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
-			cache.unregisterAndCloseRepository(key);
+      boolean contains = cache.getKeys().contains(key);
+      LOG.warn("[JGIT-130] RepositoryCache unregister and close: {} (in cache: {})", key, contains);
+      cache.unregisterAndCloseRepository(key);
 		}
 	}
 
@@ -227,6 +230,7 @@ public class RepositoryCache {
 			}
 			cleanupTask = scheduler.scheduleWithFixedDelay(() -> {
 				try {
+          LOG.warn("[JGIT-130] Repository cache eviction triggered DELAY: {}ms, expireAfter: {}ms", delay, expireAfter);
 					cache.clearAllExpired();
 				} catch (Throwable e) {
 					LOG.error(e.getMessage(), e);
@@ -244,11 +248,14 @@ public class RepositoryCache {
 				if (db == null) {
 					db = location.open(mustExist);
 					cacheMap.put(location, db);
+					LOG.warn("[JGIT-130] - openRepository brand new {} (closeAt: {})", db, db.closedAt.get());
 				} else {
+					LOG.warn("[JGIT-130] - 1 openRepository return {} from cache (closetAt: {})", db, db.closedAt.get());
 					db.incrementOpen();
 				}
 			}
 		} else {
+			LOG.warn("[JGIT-130] - 2 openRepository return {} from cache (closetAt: {})", db, db.closedAt.get());
 			db.incrementOpen();
 		}
 		return db;
@@ -256,6 +263,7 @@ public class RepositoryCache {
 
 	private void registerRepository(Key location, Repository db) {
 		try (Repository oldDb = cacheMap.put(location, db)) {
+			LOG.warn("[JGIT-130] - registering new repository. old one {} will be auto-closed (closetAt for new: {})", oldDb, db.closedAt.get());
 			// oldDb is auto-closed
 		}
 	}
@@ -265,8 +273,10 @@ public class RepositoryCache {
 	}
 
 	private boolean isExpired(Repository db) {
-		return db != null && db.useCnt.get() <= 0
-			&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
+		boolean b = db != null && db.useCnt.get() <= 0
+				&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
+		LOG.warn("[JGIT-130] - Repo: {}, CNT: {}, CLOSE_AT: {}, (expired: {})", db, db.useCnt.get(), db.closedAt.get(), b);
+		return b;
 	}
 
 	private void unregisterAndCloseRepository(Key location) {
@@ -285,6 +295,7 @@ public class RepositoryCache {
 	private void clearAllExpired() {
 		for (Repository db : cacheMap.values()) {
 			if (isExpired(db)) {
+        LOG.warn("[JGIT-130] - Repo: {} expired", db);
 				RepositoryCache.close(db);
 			}
 		}

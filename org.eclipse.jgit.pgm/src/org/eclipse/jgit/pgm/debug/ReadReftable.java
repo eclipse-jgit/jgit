@@ -33,7 +33,7 @@ class ReadReftable extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		try (FileInputStream in = new FileInputStream(input);
-				BlockSource src = BlockSource.from(in);
+				BlockSource src = BlockSource.from(input, in);
 				ReftableReader reader = new ReftableReader(src)) {
 			try (RefCursor rc = ref != null
 					? reader.seekRefsWithPrefix(ref)

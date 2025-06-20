@@ -59,6 +59,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements RefDatabase using reftable for storage.
@@ -66,6 +68,7 @@ import org.eclipse.jgit.util.RefMap;
  * This class is threadsafe.
  */
 public class FileReftableDatabase extends RefDatabase {
+  private static final Logger LOG = LoggerFactory.getLogger(FileReftableDatabase.class);
 	private final ReftableDatabase reftableDatabase;
 
 	private final FileRepository fileRepository;
@@ -391,6 +394,8 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public void close() {
+    Throwable t = new Throwable("Captured stack trace");
+    LOG.warn("[JGIT-130] Closing file ref-table repository", t);
 		reftableStack.close();
 	}
 

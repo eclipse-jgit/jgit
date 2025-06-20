@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,8 +48,8 @@ class VerifyReftable extends TextBuiltin {
 		List<Ref> refs = WriteReftable.readRefs(lsRemotePath);
 
 		try (FileInputStream in = new FileInputStream(reftablePath);
-				BlockSource src = BlockSource.from(in);
-				ReftableReader reader = new ReftableReader(src)) {
+			 BlockSource src = BlockSource.from(in, new File(reftablePath));
+			 ReftableReader reader = new ReftableReader(src)) {
 			scan(refs, reader);
 			seek(refs, reader);
 			byId(refs, reader);

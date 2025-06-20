@@ -38,6 +38,8 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.LongMap;
 import org.eclipse.jgit.util.NB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reads a reftable formatted file.
@@ -46,6 +48,7 @@ import org.eclipse.jgit.util.NB;
  * instance to read from the same file.
  */
 public class ReftableReader extends Reftable implements AutoCloseable {
+	private static final Logger LOG = LoggerFactory.getLogger(ReftableReader.class);
 	private final BlockSource src;
 
 	private int blockSize = -1;
@@ -456,6 +459,8 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 
 	@Override
 	public void close() throws IOException {
+		Throwable t = new Throwable("RefTableReader - Captured stack trace");
+        LOG.warn("[JGIT-130] Closing file ref-table repository {}", src.file, t);
 		src.close();
 	}
 

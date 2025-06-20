@@ -10,9 +10,14 @@
 
 package org.eclipse.jgit.internal.storage.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.FileChannel;
 
 /**
@@ -22,6 +27,30 @@ import java.nio.channels.FileChannel;
  * or not.
  */
 public abstract class BlockSource implements AutoCloseable {
+	private static final Logger LOG = LoggerFactory.getLogger(BlockSource.class);
+	/**
+	 * The file this block is created from, <code>null</code> when a block is created from a byte array.
+	 */
+	public File file;
+
+	/**
+	 * Read from a {@code FileInputStream} and provide the related {@code File}.
+	 * <p>
+	 * The returned {@code BlockSource} is not thread-safe, as it must seek the
+	 * file channel to read a block.
+	 *
+	 *
+	 * @param in
+	 *            the file. The {@code BlockSource} will close {@code in}.
+	 * @param file the file the {@code FileInputStream} is created from.
+	 * @return wrapper for {@code in}.
+	 */
+	public static BlockSource from(FileInputStream in, File file) {
+		BlockSource from = from(in.getChannel());
+		from.file = file;
+		return from;
+	}
+
 	/**
 	 * Wrap a byte array as a {@code BlockSource}.
 	 *
@@ -78,17 +107,23 @@ public abstract class BlockSource implements AutoCloseable {
 	 *            the file. The {@code BlockSource} will close {@code ch}.
 	 * @return wrapper for {@code ch}.
 	 */
-	public static BlockSource from(FileChannel ch) {
+	public static BlockSource from(
+			FileChannel ch) {
 		return new BlockSource() {
 			@Override
 			public ByteBuffer read(long pos, int blockSize) throws IOException {
-				ByteBuffer b = ByteBuffer.allocate(blockSize);
-				ch.position(pos);
-				int n;
-				do {
-					n = ch.read(b);
-				} while (n > 0 && b.position() < blockSize);
-				return b;
+				try {
+					ByteBuffer b = ByteBuffer.allocate(blockSize);
+					ch.position(pos);
+					int n;
+					do {
+						n = ch.read(b);
+					} while (n > 0 && b.position() < blockSize);
+					return b;
+				} catch (ClosedChannelException e) {
+					LOG.warn("[JGIT-130] Intercepted ClosedChannelException for file {}", file, e);
+					throw e;
+				}
 			}
 
 			@Override
@@ -100,6 +135,7 @@ public abstract class BlockSource implements AutoCloseable {
 			public void close() {
 				try {
 					ch.close();
+					LOG.warn("[JGIT-130] Autoclosing block source {}", file);
 				} catch (IOException e) {
 					// Ignore close failures of read-only files.
 				}
