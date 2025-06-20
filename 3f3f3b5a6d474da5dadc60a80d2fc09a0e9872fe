@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fba20c0_8fd80a04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-06-20T01:41:46Z",
+      "side": 1,
+      "message": "Happened to notice this in a heap dump today. Between upstream and our earlier fork, this bug has been around since 2018 😊",
+      "revId": "3f3f3b5a6d474da5dadc60a80d2fc09a0e9872fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
