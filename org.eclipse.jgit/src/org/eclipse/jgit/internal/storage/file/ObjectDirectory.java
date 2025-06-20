@@ -200,6 +200,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		loose.close();
 
 		packed.close();
+		preserved.close();
 
 		// Fully close all loaded alternates and clear the alternate list.
 		AlternateHandle[] alt = alternates.get();
