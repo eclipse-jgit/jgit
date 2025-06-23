@@ -512,8 +512,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			return pack.getObjectSize(this, objectId);
 		}
 
-		Optional<Long> maybeSz = safeGetIndexedObjectSize(pack, objectId);
-		long sz = maybeSz.orElse(-1L);
+		long sz = safeGetIndexedObjectSize(pack, objectId);
 		if (sz >= 0) {
 			return sz;
 		}
@@ -539,13 +538,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			return pack.getObjectSize(this, objectId) <= limit;
 		}
 
-		Optional<Long> maybeSz = safeGetIndexedObjectSize(pack, objectId);
-		if (maybeSz.isEmpty()) {
-			// Exception in object size index
-			return pack.getObjectSize(this, objectId) <= limit;
-		}
-
-		long sz = maybeSz.get();
+		long sz = safeGetIndexedObjectSize(pack, objectId);
 		if (sz >= 0) {
 			return sz <= limit;
 		}
@@ -567,21 +560,22 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	private Optional<Long> safeGetIndexedObjectSize(DfsPackFile pack,
+	private long safeGetIndexedObjectSize(DfsPackFile pack,
 			AnyObjectId objectId) {
 		long sz;
 		try {
 			sz = pack.getIndexedObjectSize(this, objectId);
 		} catch (IOException e) {
-			// Do not count the exception as an index miss
-			return Optional.empty();
+			// If there is any error in the index, we should have seen it
+			// on hasObjectSizeIndex.
+			throw new IllegalStateException(e);
 		}
 		if (sz < 0) {
 			stats.objectSizeIndexMiss += 1;
 		} else {
 			stats.objectSizeIndexHit += 1;
 		}
-		return Optional.of(sz);
+		return sz;
 	}
 
 	private boolean isLimitInsideIndexThreshold(DfsPackFile pack, long limit) {
