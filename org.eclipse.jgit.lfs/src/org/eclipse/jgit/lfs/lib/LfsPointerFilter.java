@@ -15,6 +15,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lfs.LfsPointer;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
@@ -47,6 +48,9 @@ public class LfsPointerFilter extends TreeFilter {
 		pointer = null;
 		if (walk.isSubtree()) {
 			return walk.isRecursive();
+		}
+		if ((walk.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
+			return false;
 		}
 		ObjectId objectId = walk.getObjectId(0);
 		ObjectLoader object = walk.getObjectReader().open(objectId);
