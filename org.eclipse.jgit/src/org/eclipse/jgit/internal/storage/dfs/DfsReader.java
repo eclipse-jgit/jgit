@@ -512,8 +512,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public long getObjectSize(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		DfsPackFile pack = findPackWithObject(objectId);
-		if (pack == null) {
+		int idxPos = findPack(objectId);
+		if (idxPos < 0) {
 			if (typeHint == OBJ_ANY) {
 				throw new MissingObjectException(objectId.copy(),
 						JGitText.get().unknownObjectType2);
@@ -521,15 +521,15 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 
-		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
-			return pack.getObjectSize(this, objectId);
+		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(last)) {
+			return last.getObjectSize(this, objectId);
 		}
 
-		long sz = safeGetIndexedObjectSize(pack, objectId);
+		long sz = safeGetIndexedObjectSize(last, objectId);
 		if (sz >= 0) {
 			return sz;
 		}
-		return pack.getObjectSize(this, objectId);
+		return last.getObjectSize(this, objectId);
 	}
 
 
@@ -537,8 +537,8 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public boolean isNotLargerThan(AnyObjectId objectId, int typeHint,
 			long limit) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		DfsPackFile pack = findPackWithObject(objectId);
-		if (pack == null) {
+		int idxPos = findPack(objectId);
+		if (idxPos < 0) {
 			if (typeHint == OBJ_ANY) {
 				throw new MissingObjectException(objectId.copy(),
 						JGitText.get().unknownObjectType2);
@@ -547,22 +547,22 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 
 		stats.isNotLargerThanCallCount += 1;
-		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(pack)) {
-			return pack.getObjectSize(this, objectId) <= limit;
+		if (typeHint != Constants.OBJ_BLOB || !safeHasObjectSizeIndex(last)) {
+			return last.getObjectSize(this, objectId) <= limit;
 		}
 
-		long sz = safeGetIndexedObjectSize(pack, objectId);
+		long sz = safeGetIndexedObjectSize(last, objectId);
 		if (sz >= 0) {
 			return sz <= limit;
 		}
 
-		if (isLimitInsideIndexThreshold(pack, limit)) {
+		if (isLimitInsideIndexThreshold(last, limit)) {
 			// With threshold T, not-found means object < T
 			// If limit L > T, then object < T < L
 			return true;
 		}
 
-		return pack.getObjectSize(this, objectId) <= limit;
+		return last.getObjectSize(this, objectId) <= limit;
 	}
 
 	private boolean safeHasObjectSizeIndex(DfsPackFile pack) {
@@ -597,25 +597,6 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		} catch (IOException e) {
 			return false;
 		}
-	}
-
-	private DfsPackFile findPackWithObject(AnyObjectId objectId)
-			throws IOException {
-		if (last != null && !skipGarbagePack(last)
-				&& last.hasObject(this, objectId)) {
-			return last;
-		}
-		PackList packList = db.getPackList();
-		// hasImpl doesn't check "last", but leaves "last" pointing to the pack
-		// with the object
-		if (findInPackList(packList, objectId) >= 0) {
-			return last;
-		} else if (packList.dirty()) {
-			if (findInPackList(db.getPackList(), objectId) >= 0) {
-				return last;
-			}
-		}
-		return null;
 	}
 
 	@Override
