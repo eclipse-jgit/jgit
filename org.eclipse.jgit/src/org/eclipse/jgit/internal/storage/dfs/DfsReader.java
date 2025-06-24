@@ -525,7 +525,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			return last.getObjectSize(this, objectId);
 		}
 
-		long sz = safeGetIndexedObjectSize(last, objectId);
+		long sz = safeGetIndexedObjectSize(last, idxPos);
 		if (sz >= 0) {
 			return sz;
 		}
@@ -551,7 +551,7 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			return last.getObjectSize(this, objectId) <= limit;
 		}
 
-		long sz = safeGetIndexedObjectSize(last, objectId);
+		long sz = safeGetIndexedObjectSize(last, idxPos);
 		if (sz >= 0) {
 			return sz <= limit;
 		}
@@ -574,10 +574,10 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	private long safeGetIndexedObjectSize(DfsPackFile pack,
-			AnyObjectId objectId) {
+			int idxPos) {
 		long sz;
 		try {
-			sz = pack.getIndexedObjectSize(this, objectId);
+			sz = pack.getIndexedObjectSize(this, idxPos);
 		} catch (IOException e) {
 			// If there is any error in the index, we should have seen it
 			// on hasObjectSizeIndex.
