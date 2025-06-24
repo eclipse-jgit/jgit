@@ -442,6 +442,10 @@ public final class DfsPackFile extends BlockBasedFile {
 		return 0 < offset && !isCorrupt(offset);
 	}
 
+	int findIdxPosition(DfsReader ctx, AnyObjectId id) throws IOException {
+		return idx(ctx).findPosition(id);
+	}
+
 	/**
 	 * Get an object from this pack.
 	 *
