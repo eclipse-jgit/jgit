@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95a865ba_e2d78704",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-06-24T20:07:32Z",
+      "side": 1,
+      "message": "Renamed to \"findPack\"",
+      "parentUuid": "c46547b5_528dc782",
+      "range": {
+        "startLine": 193,
+        "startChar": 13,
+        "endLine": 193,
+        "endChar": 18
+      },
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f05b6a0_01b64f6f",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-06-24T17:38:31Z",
       "side": 1,
       "message": "same confusion about the word has here.",
+      "range": {
+        "startLine": 215,
+        "startChar": 13,
+        "endLine": 215,
+        "endChar": 20
+      },
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6143f45_5e45a4c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-06-24T20:07:32Z",
+      "side": 1,
+      "message": "renamed to findInPackList",
+      "parentUuid": "0f05b6a0_01b64f6f",
       "range": {
         "startLine": 215,
         "startChar": 13,
@@ -64,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15fbc05_5dea8bb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-06-24T20:07:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fd11243_24a3d3c9",
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a697ffe_b4e28741",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-06-24T17:38:31Z",
       "side": 1,
       "message": "Why not just call has() here?",
+      "range": {
+        "startLine": 611,
+        "startChar": 6,
+        "endLine": 611,
+        "endChar": 13
+      },
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edc4dc6e_e5e1fc57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-06-24T20:07:32Z",
+      "side": 1,
+      "message": "I do that in the following change, trying to keep changes simple. I can merge into this one if you think it is clear enough.",
+      "parentUuid": "1a697ffe_b4e28741",
       "range": {
         "startLine": 611,
         "startChar": 6,
