@@ -187,31 +187,44 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
-		if (last != null
-				&& !skipGarbagePack(last)
-				&& last.hasObject(this, objectId))
-			return true;
-		PackList packList = db.getPackList();
-		if (hasImpl(packList, objectId)) {
-			return true;
-		} else if (packList.dirty()) {
-			stats.scanPacks++;
-			return hasImpl(db.scanPacks(packList), objectId);
-		}
-		return false;
+		return hasAt(objectId) >= 0;
 	}
 
-	private boolean hasImpl(PackList packList, AnyObjectId objectId)
+	private int hasAt(AnyObjectId objectId) throws IOException {
+		int idxPos = -1;
+		if (last != null
+				&& !skipGarbagePack(last)) {
+			idxPos = last.findIdxPosition(this, objectId);
+			if (idxPos >= 0) {
+				return idxPos;
+			}
+		}
+
+		PackList packList = db.getPackList();
+		idxPos = hasImpl(packList, objectId);
+		if (idxPos >= 0) {
+			return idxPos;
+		} else if (packList.dirty()) {
+			stats.scanPacks++;
+			idxPos = hasImpl(db.scanPacks(packList), objectId);
+			return idxPos;
+		}
+		return -1;
+	}
+
+	private int hasImpl(PackList packList, AnyObjectId objectId)
 			throws IOException {
+		int idxPos = -1;
 		for (DfsPackFile pack : packList.packs) {
 			if (pack == last || skipGarbagePack(pack))
 				continue;
-			if (pack.hasObject(this, objectId)) {
+			idxPos = pack.findIdxPosition(this, objectId);
+			if (idxPos >= 0) {
 				last = pack;
-				return true;
+				return idxPos;
 			}
 		}
-		return false;
+		return idxPos;
 	}
 
 	@Override
@@ -595,10 +608,10 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		PackList packList = db.getPackList();
 		// hasImpl doesn't check "last", but leaves "last" pointing to the pack
 		// with the object
-		if (hasImpl(packList, objectId)) {
+		if (hasImpl(packList, objectId) >= 0) {
 			return last;
 		} else if (packList.dirty()) {
-			if (hasImpl(db.getPackList(), objectId)) {
+			if (hasImpl(db.getPackList(), objectId) >= 0) {
 				return last;
 			}
 		}
