@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c46547b5_528dc782",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-06-24T17:38:31Z",
+      "side": 1,
+      "message": "has at objectId\u0027 doesn\u0027t make sense to me. Should this be named getIdxPos?\u0027",
+      "range": {
+        "startLine": 193,
+        "startChar": 13,
+        "endLine": 193,
+        "endChar": 18
+      },
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f05b6a0_01b64f6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-06-24T17:38:31Z",
+      "side": 1,
+      "message": "same confusion about the word has here.",
+      "range": {
+        "startLine": 215,
+        "startChar": 13,
+        "endLine": 215,
+        "endChar": 20
+      },
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd11243_24a3d3c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-06-24T17:38:31Z",
+      "side": 1,
+      "message": "This can be declared inside the loop, and just return -1 after the loop.",
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a697ffe_b4e28741",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-06-24T17:38:31Z",
+      "side": 1,
+      "message": "Why not just call has() here?",
+      "range": {
+        "startLine": 611,
+        "startChar": 6,
+        "endLine": 611,
+        "endChar": 13
+      },
+      "revId": "ec51da73bad7e9b37e24a129fcc502c21d38a5f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
