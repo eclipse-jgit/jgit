@@ -238,6 +238,16 @@ public abstract class ReftableDatabase {
 		lock.lock();
 		try {
 			Reftable table = reader();
+			String threadName = Thread.currentThread().getName();
+			if("EXACT_REF2".equals(threadName)) {
+				System.out.println(threadName + ": T2 waiting 30s for T1 to finish reload.");
+				try {
+					Thread.sleep(30_000);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
 			Ref ref = table.exactRef(name);
 			if (ref != null && ref.isSymbolic()) {
 				return table.resolve(ref);
