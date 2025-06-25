@@ -275,7 +275,6 @@ public class RepositoryCache {
 	private boolean isExpired(Repository db) {
 		boolean b = db != null && db.useCnt.get() <= 0
 				&& (System.currentTimeMillis() - db.closedAt.get() > expireAfter);
-		LOG.warn("[JGIT-130] - Repo: {}, CNT: {}, CLOSE_AT: {}, (expired: {})", db, db.useCnt.get(), db.closedAt.get(), b);
 		return b;
 	}
 
