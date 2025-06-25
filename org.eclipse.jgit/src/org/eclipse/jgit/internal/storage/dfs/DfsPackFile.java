@@ -1168,36 +1168,6 @@ public final class DfsPackFile extends BlockBasedFile {
 	/**
 	 * Return the size of the object from the object-size index. The object
 	 * should be a blob. Any other type is not indexed and returns -1.
-	 *
-	 * Caller MUST be sure that the object is in the pack (e.g. with
-	 * {@link #hasObject(DfsReader, AnyObjectId)}) and the pack has object size
-	 * index (e.g. with {@link #hasObjectSizeIndex(DfsReader)}) before asking
-	 * the indexed size.
-	 *
-	 * @param ctx
-	 *            reader context to support reading from the backing store if
-	 *            the object size index is not already loaded in memory.
-	 * @param id
-	 *            object id of an object in the pack
-	 * @return size of the object from the index. Negative if object is not in
-	 *         the index (below threshold or not a blob)
-	 * @throws IOException
-	 *             could not read the object size index. IO problem or the pack
-	 *             doesn't have it.
-	 */
-	long getIndexedObjectSize(DfsReader ctx, AnyObjectId id)
-			throws IOException {
-		int idxPosition = idx(ctx).findPosition(id);
-		if (idxPosition < 0) {
-			throw new IllegalArgumentException(
-					"Cannot get size from index since object is not in pack"); //$NON-NLS-1$
-		}
-		return getIndexedObjectSize(ctx, idxPosition);
-	}
-
-	/**
-	 * Return the size of the object from the object-size index. The object
-	 * should be a blob. Any other type is not indexed and returns -1.
 	 * <p>
 	 * Caller MUST pass a valid index position, as returned by
 	 * {@link #findIdxPosition(DfsReader, AnyObjectId)} and verify the pack has
@@ -1219,7 +1189,7 @@ public final class DfsPackFile extends BlockBasedFile {
 	long getIndexedObjectSize(DfsReader ctx, int idxPosition)
 			throws IOException {
 		if (idxPosition < 0) {
-			throw new IllegalArgumentException("Invalid index position");
+			throw new IllegalArgumentException("Invalid index position"); //$NON-NLS-1$
 		}
 		PackObjectSizeIndex sizeIdx = getObjectSizeIndex(ctx);
 		if (sizeIdx == null) {
