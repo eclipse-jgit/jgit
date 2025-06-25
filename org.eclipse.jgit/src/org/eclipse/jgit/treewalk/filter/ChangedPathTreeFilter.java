@@ -125,6 +125,7 @@ public class ChangedPathTreeFilter extends TreeFilter {
 		return paths;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
 		return "(CHANGED_PATH(" + pathFilter.toString() + ")" //
