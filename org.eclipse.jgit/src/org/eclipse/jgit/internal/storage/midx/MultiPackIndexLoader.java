@@ -257,7 +257,7 @@ public class MultiPackIndexLoader {
 		MultiPackIndexBuilder addPackNames(byte[] buffer)
 				throws MultiPackIndexFormatException {
 			assertChunkNotSeenYet(packNames, MIDX_CHUNKID_PACKNAMES);
-			packNames = new String(buffer, UTF_8).split("\u0000");
+			packNames = new String(buffer, UTF_8).split("\u0000"); //$NON-NLS-1$
 			return this;
 		}
 
