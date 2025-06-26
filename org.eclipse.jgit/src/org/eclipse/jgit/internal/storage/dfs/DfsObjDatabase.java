@@ -524,7 +524,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile[] packs = new DfsPackFile[1 + o.packs.length];
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
-			n = new PackListImpl(packs, o.reftables);
+			n = new PackList(packs, o.reftables);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -549,7 +549,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				}
 			}
 			tables.add(new DfsReftable(add));
-			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]));
+			n = new PackList(o.packs, tables.toArray(new DfsReftable[0]));
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -603,12 +603,12 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 
 		if (newPacks.isEmpty() && newReftables.isEmpty())
-			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
+			return new PackList(NO_PACKS.packs, NO_PACKS.reftables);
 		if (!foundNew) {
 			return old;
 		}
 		Collections.sort(newReftables, reftableComparator());
-		return new PackListImpl(
+		return new PackList(
 				newPacks.toArray(new DfsPackFile[0]),
 				newReftables.toArray(new DfsReftable[0]));
 	}
@@ -674,7 +674,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/** Snapshot of packs scanned in a single pass. */
-	public abstract static class PackList {
+	public static class PackList {
 		/** All known packs, sorted. */
 		public final DfsPackFile[] packs;
 
@@ -704,16 +704,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			return lastModified;
 		}
 
-		abstract boolean dirty();
-	}
-
-	private static final class PackListImpl extends PackList {
-		;
-		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables) {
-			super(packs, reftables);
-		}
-
-		@Override
 		boolean dirty() {
 			return false;
 		}
