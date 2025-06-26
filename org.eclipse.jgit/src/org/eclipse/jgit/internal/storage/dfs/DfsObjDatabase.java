@@ -52,16 +52,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		boolean dirty() {
 			return true;
 		}
-
-		@Override
-		void clearDirty() {
-			// Always dirty.
-		}
-
-		@Override
-		public void markDirty() {
-			// Always dirty.
-		}
 	};
 
 	/**
@@ -615,7 +605,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		if (newPacks.isEmpty() && newReftables.isEmpty())
 			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
 		if (!foundNew) {
-			old.clearDirty();
 			return old;
 		}
 		Collections.sort(newReftables, reftableComparator());
@@ -716,38 +705,17 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 
 		abstract boolean dirty();
-		abstract void clearDirty();
-
-		/**
-		 * Mark pack list as dirty.
-		 * <p>
-		 * Used when the caller knows that new data might have been written to the
-		 * repository that could invalidate open readers depending on this pack list,
-		 * for example if refs are newly scanned.
-		 */
-		public abstract void markDirty();
 	}
 
 	private static final class PackListImpl extends PackList {
-		private volatile boolean dirty;
-
+		;
 		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables) {
 			super(packs, reftables);
 		}
 
 		@Override
 		boolean dirty() {
-			return dirty;
-		}
-
-		@Override
-		void clearDirty() {
-			dirty = false;
-		}
-
-		@Override
-		public void markDirty() {
-			dirty = true;
+			return false;
 		}
 	}
 
