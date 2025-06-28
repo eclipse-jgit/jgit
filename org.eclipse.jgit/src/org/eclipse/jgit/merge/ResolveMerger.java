@@ -1091,6 +1091,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		final int modeO = tw.getRawMode(T_OURS);
 		final int modeT = tw.getRawMode(T_THEIRS);
 		final int modeB = tw.getRawMode(T_BASE);
+
+		String currentPath = tw.getPathString();
 		boolean gitLinkMerging = isGitLink(modeO) || isGitLink(modeT)
 				|| isGitLink(modeB);
 		if (modeO == 0 && modeT == 0 && modeB == 0) {
@@ -1145,7 +1147,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					// This will happen later. Set these values to 0 for know.
 					DirCacheEntry e = add(tw.getRawPath(), theirs,
 							DirCacheEntry.STAGE_0, EPOCH, 0);
-					addToCheckout(tw.getPathString(), e, attributes);
+					addToCheckout(currentPath, e, attributes);
 				}
 				return true;
 			}
@@ -1156,8 +1158,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				// This path can be skipped on ignoreConflicts, so the caller
 				// could use virtual commit.
 				addConflict(base, ours, theirs);
-				unmergedPaths.add(tw.getPathString());
-				mergeResults.put(tw.getPathString(),
+				unmergedPaths.add(currentPath);
+				mergeResults.put(currentPath,
 						new MergeResult<>(Collections.emptyList()));
 			}
 			return true;
@@ -1188,7 +1190,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
 						DirCacheEntry.STAGE_0, EPOCH, 0);
 				if (e != null) {
-					addToCheckout(tw.getPathString(), e, attributes);
+					addToCheckout(currentPath, e, attributes);
 				}
 				return true;
 			}
@@ -1203,7 +1205,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// Base, ours, and theirs all contain a folder: don't delete
 				return true;
 			}
-			addDeletion(tw.getPathString(), nonTree(modeO), attributes[T_OURS]);
+			addDeletion(currentPath, nonTree(modeO), attributes[T_OURS]);
 			return true;
 		}
 
@@ -1230,7 +1232,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				if (nonTree(modeT)) {
 					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3, EPOCH, 0);
 				}
-				unmergedPaths.add(tw.getPathString());
+				unmergedPaths.add(currentPath);
 				enterSubtree = false;
 				return true;
 			}
@@ -1264,8 +1266,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
 						base, ours, theirs);
 				result.setContainsConflicts(true);
-				mergeResults.put(tw.getPathString(), result);
-				unmergedPaths.add(tw.getPathString());
+				mergeResults.put(currentPath, result);
+				unmergedPaths.add(currentPath);
 				return true;
 			} else if (!attributes[T_OURS].canBeContentMerged()) {
 				// File marked as binary
@@ -1276,7 +1278,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					case THEIRS:
 						DirCacheEntry theirEntry = add(tw.getRawPath(), theirs,
 								DirCacheEntry.STAGE_0, EPOCH, 0);
-						addToCheckout(tw.getPathString(), theirEntry, attributes);
+						addToCheckout(currentPath, theirEntry, attributes);
 						return true;
 					default:
 						break;
@@ -1289,7 +1291,6 @@ public class ResolveMerger extends ThreeWayMerger {
 					return true;
 				}
 				// add the conflicting path to merge result
-				String currentPath = tw.getPathString();
 				MergeResult<RawText> result = new MergeResult<>(
 						Collections.emptyList());
 				result.setContainsConflicts(true);
@@ -1309,7 +1310,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			boolean hasSymlink = FileMode.SYMLINK.equals(modeO)
 					|| FileMode.SYMLINK.equals(modeT);
 
-			String currentPath = tw.getPathString();
+
 			// if the path is not a symlink in ours and theirs
 			if (!hasSymlink) {
 				try {
@@ -1392,8 +1393,8 @@ public class ResolveMerger extends ThreeWayMerger {
 					MergeResult<SubmoduleConflict> result = createGitLinksMergeResult(
 							base, ours, theirs);
 					result.setContainsConflicts(true);
-					mergeResults.put(tw.getPathString(), result);
-					unmergedPaths.add(tw.getPathString());
+					mergeResults.put(currentPath, result);
+					unmergedPaths.add(currentPath);
 				} else {
 					boolean isSymLink = ((modeO | modeT)
 							& FileMode.TYPE_MASK) == FileMode.TYPE_SYMLINK;
@@ -1426,7 +1427,7 @@ public class ResolveMerger extends ThreeWayMerger {
 								DirCacheEntry e = add(tw.getRawPath(), theirs,
 										DirCacheEntry.STAGE_0, EPOCH, 0);
 								if (e != null) {
-									addToCheckout(tw.getPathString(), e,
+									addToCheckout(currentPath, e,
 											attributes);
 								}
 							}
@@ -1448,15 +1449,15 @@ public class ResolveMerger extends ThreeWayMerger {
 								return false;
 							}
 							if (nonTree(modeT) && e != null) {
-								addToCheckout(tw.getPathString(), e,
+								addToCheckout(currentPath, e,
 										attributes);
 							}
 						}
 
-						unmergedPaths.add(tw.getPathString());
+						unmergedPaths.add(currentPath);
 
 						// generate a MergeResult for the deleted file
-						mergeResults.put(tw.getPathString(), result);
+						mergeResults.put(currentPath, result);
 					}
 				}
 			}
