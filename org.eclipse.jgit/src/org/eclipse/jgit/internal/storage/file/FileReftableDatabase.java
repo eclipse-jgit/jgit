@@ -269,8 +269,14 @@ public class FileReftableDatabase extends RefDatabase {
 	public void refresh() {
 		try {
 			if (!reftableStack.isUpToDate()) {
-				reftableDatabase.clearCache();
-				reftableStack.reload();
+				ReentrantLock lock = getLock();
+				lock.lock();
+				try {
+					reftableDatabase.clearCache();
+					reftableStack.reload();
+				} finally {
+					lock.unlock();
+				}
 			}
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
