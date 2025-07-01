@@ -170,7 +170,12 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 						.submit(new UpdateRef(repo1, branchName));
 				Future<RefUpdate.Result> ru2 = pool
 						.submit(new UpdateRef(repo2, branchName));
-				assertTrue((ru1.get() == Result.NEW
+				assertTrue(
+						String.format("Expected at least one failure for branch %s: ru1: %s, ru2: %s",
+							branchName,
+							ru1.get(),
+							ru2.get()),
+						(ru1.get() == Result.NEW
 						&& ru2.get() == Result.LOCK_FAILURE)
 						|| (ru1.get() == Result.LOCK_FAILURE
 								&& ru2.get() == Result.NEW));
