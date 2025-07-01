@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2949088c_72d72cea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-01T13:29:56Z",
+      "side": 1,
+      "message": "Is this expected by design @matthias.sohn@sap.com?\n\nI would have expected that, if auto-refresh is enabled, multiple threads have the chance to *refresh* when the reftable stack is not up-to-date and thus succeed instead of failing.\n\nIsn\u0027t that the purpose of the `reftable.auto-efresh` in the first place?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 66
+      },
+      "revId": "1ff9c2a1cbd5ac718559eef152d954755f257bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ddbf5c9_d50b87e4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 19
