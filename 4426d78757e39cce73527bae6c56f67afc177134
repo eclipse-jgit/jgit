@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e227db8_abd0c9fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-01T14:14:47Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com @matthias.sohn@sap.com, Running the tests as explained at [1], the issue is gone 🎉\n\n\n[1]https://issues.gerritcodereview.com/issues/423403083",
+      "revId": "4426d78757e39cce73527bae6c56f67afc177134",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
