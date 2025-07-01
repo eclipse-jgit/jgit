@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b13d176_2a9095e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-01T13:35:55Z",
+      "side": 1,
+      "message": "The failing test is:\n\n```\n13:00:48  [ERROR] Failures: \n13:00:48  [ERROR]   FileReftableTest.testConcurrentRacyReload:173\n```\n\nHowever I don\u0027t fully understand why updates are expected to fail when auto-refresh is enabled. I started a conversation at [1]\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206683/comment/2949088c_72d72cea/",
+      "revId": "f6f659b8d7293c459c9ce1764658d04533ff21d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
