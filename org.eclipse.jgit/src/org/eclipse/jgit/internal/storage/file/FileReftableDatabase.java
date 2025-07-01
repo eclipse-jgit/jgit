@@ -268,11 +268,26 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public void refresh() {
 		try {
+			String threadName = Thread.currentThread().getName();
+
+			// This sleep allows to advance refs/heads/master via command line:
+			// export new=$RANDOM; echo $new > $new && git add . && git commit -a -m"Add $new" && git push origin HEAD:refs/heads/master
+			// So that isUptoDate will be false
+			if ("EXACT_REF1".equals(threadName)) {
+				System.out.println(threadName + ": Stopping T1 for 20s. PUSH new commit: trigger ref compaction");
+				Thread.sleep(20_000);
+			}
 			if (!reftableStack.isUpToDate()) {
 				ReentrantLock lock = getLock();
 				lock.lock();
 				try {
 					reftableDatabase.clearCache();
+					// This sleep allows to advance refs/heads/master via command line between clearCache() and reload():
+					// export new=$RANDOM; echo $new > $new && git add . && git commit -a -m"Add $new" && git push origin HEAD:refs/heads/master
+					if ("EXACT_REF1".equals(threadName)) {
+						System.out.println(threadName + ": Stopping T1 for 20s. PUSH new commit: trigger ref compaction");
+						Thread.sleep(20_000);
+					}
 					reftableStack.reload();
 				} finally {
 					lock.unlock();
@@ -280,8 +295,10 @@ public class FileReftableDatabase extends RefDatabase {
 			}
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
-		}
-	}
+		} catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	private Ref doPeel(Ref leaf) throws IOException {
 		try (RevWalk rw = new RevWalk(fileRepository)) {
