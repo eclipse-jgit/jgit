@@ -1,4 +1,39 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41bfb482_1a58dcfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-02T18:22:25Z",
+      "side": 1,
+      "message": "This merge broke the Bazel build, see https://github.com/eclipse-jgit/jgit/issues/180",
+      "revId": "c05ac0c129ff44678e8a11ff913534a19bc7fe2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc386f6_df1c6c75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-02T18:22:25Z",
+      "side": 1,
+      "message": "This merge broke the Bazel build, see https://github.com/eclipse-jgit/jgit/issues/180",
+      "revId": "c05ac0c129ff44678e8a11ff913534a19bc7fe2c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
