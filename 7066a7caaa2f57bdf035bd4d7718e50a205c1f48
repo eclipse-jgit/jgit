@@ -339,6 +339,30 @@
       },
       "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8cb4a47_55e505e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:34:23Z",
+      "side": 1,
+      "message": "Yes, there are some cases where the `reload()` is called without a prior `clearCache()`:\n\n- The creation of a `FileRefTableStack` object:\nhttps://github.com/eclipse-jgit/jgit/blob/stable-7.2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java#L136\n\n- `addRefTable()`:\nhttps://github.com/eclipse-jgit/jgit/blob/stable-7.2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java#L428\n\n- `compactRange()`:\nhttps://github.com/eclipse-jgit/jgit/blob/stable-7.2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java#L568\n\n\nIt might be that, in those contexts, the call to `clearCache()` might not be necessary or that it is already executed by the callers.\n\nI think in principle this would be a good idea, but it would require a deeper investigation.",
+      "parentUuid": "be133632_86365e14",
+      "range": {
+        "startLine": 276,
+        "startChar": 5,
+        "endLine": 276,
+        "endChar": 28
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
