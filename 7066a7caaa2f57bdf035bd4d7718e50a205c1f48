@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c123b3df_f70dbaab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f253e76_2daf5018",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 57
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "709503cb_9cb53e55",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-02T12:29:20Z",
       "side": 1,
       "message": "```suggestion\nPreviously, these steps were performed without an exclusive critical section, creating\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbcda2c5_3f27026b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "709503cb_9cb53e55",
       "range": {
         "startLine": 11,
         "startChar": 47,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4af6581_5c51bee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0a4668e_c7de63ab",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 49
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "308d5d60_ecc78fab",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-07-02T12:29:20Z",
       "side": 1,
       "message": "```suggestion\ncache with stale data, keeping a reference to the open BlockSource channel to the underlying tables that are subsequently removed\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 35,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f65faabc_df4cf5dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "308d5d60_ecc78fab",
       "range": {
         "startLine": 16,
         "startChar": 35,
@@ -116,6 +212,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e52cfc36_42554d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f71cee6_e638975e",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65551f23_c7c8769b",
@@ -139,6 +259,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd37d82b_5ee53c20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65551f23_c7c8769b",
+      "range": {
+        "startLine": 26,
+        "startChar": 50,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c06c2226_b6c21d4b",
@@ -152,6 +296,24 @@
       "writtenOn": "2025-07-02T12:29:20Z",
       "side": 1,
       "message": "Apparently, all of the above would not be perceived as a severe issue, because it is quite normal to have errors during concurrent execution.\n\nHere, the untold story is what happens *next*: because the `FileReftableDatabase` instance is cached inside the `Repository` object in the `RepositoryCache`, the pointer to the closed `BlockSource` remains alive in memory *until the cache expires* and finally the Repository object gets removed.\n\nBy default, the `RepositoryCache` expires after 1h, which means that *IF* the above concurrency condition happens, the repository will not be able to perform *any ref lookup* for *at least* 1h, causing a repository outage.\n\nThe above story *has to be told* and explained in the commit message, so that the rationale of this change becomes clearer.",
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abb7555d_954cd1fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-02T13:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c06c2226_b6c21d4b",
       "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
