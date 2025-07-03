@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (461c6da450740f0195d13a5ed60c49a37890df08 Merge branch 'stable-7.3')
 {
   "lockFileVersion": 18,
   "registryFileHashes": {
@@ -219,3 +220,5 @@
     }
   }
 }
+=======
+>>>>>>> CHANGE (48f8921ebb358ca19ea4442f644bc10df4d81bfb [DO NOT MERGE] Restore WORKSPACE and Bazel 7.6.1)

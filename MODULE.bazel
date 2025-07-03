@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (461c6da450740f0195d13a5ed60c49a37890df08 Merge branch 'stable-7.3')
 module(name = "jgit")
 
 bazel_dep(name = "rules_java", version = "8.11.0")
@@ -99,3 +100,7 @@ maven.install(
     strict_visibility = True,
 )
 use_repo(maven, "jgit_deps")
+=======
+# TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
+# https://issues.gerritcodereview.com/issues/303819949
+>>>>>>> CHANGE (48f8921ebb358ca19ea4442f644bc10df4d81bfb [DO NOT MERGE] Restore WORKSPACE and Bazel 7.6.1)
