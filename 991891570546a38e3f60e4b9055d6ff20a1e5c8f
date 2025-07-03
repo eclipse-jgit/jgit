@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18c04018_bd3781a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-03T13:10:28Z",
+      "side": 1,
+      "message": "@ifrade@google.com @edwin.kempin@gmail.com, do you have plans for upgrading Gerrit to Bazel 8.2.1? Until that happens, we won\u0027t be able to use JGit with Gerrit anymore, which may be an issue in case urgent fixes are needed.",
+      "revId": "991891570546a38e3f60e4b9055d6ff20a1e5c8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
