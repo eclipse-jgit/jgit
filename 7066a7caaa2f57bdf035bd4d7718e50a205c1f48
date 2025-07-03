@@ -363,6 +363,30 @@
       },
       "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b688c0_1cb8959c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-03T14:55:22Z",
+      "side": 1,
+      "message": "AFAICS `addRefTable()` is reloading the stack and clearing the cache if adding the RefTable failed.",
+      "parentUuid": "a8cb4a47_55e505e1",
+      "range": {
+        "startLine": 276,
+        "startChar": 5,
+        "endLine": 276,
+        "endChar": 28
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
