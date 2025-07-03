@@ -127,6 +127,24 @@
       "message": "Waiting also for @matthias.sohn@sap.com to comment as this is impacting the parallelism of the auto-refresh of ref-tables.",
       "revId": "4426d78757e39cce73527bae6c56f67afc177134",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd72b5f2_360d2f80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-03T17:15:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c1aeb1_7e78cfff",
+      "revId": "4426d78757e39cce73527bae6c56f67afc177134",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
