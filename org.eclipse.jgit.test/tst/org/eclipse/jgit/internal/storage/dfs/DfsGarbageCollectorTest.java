@@ -1182,7 +1182,8 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
 		assertTrue(gcPack.hasObjectSizeIndex(reader));
-		assertEquals(12, gcPack.getIndexedObjectSize(reader, headsBlob));
+		assertEquals(12, gcPack.getIndexedObjectSize(reader,
+				gcPack.findIdxPosition(reader, headsBlob)));
 	}
 
 	@Test
@@ -1203,7 +1204,8 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcPack = findFirstBySource(odb.getPacks(), GC);
 		assertTrue(gcPack.hasObjectSizeIndex(reader));
-		assertEquals(-1, gcPack.getIndexedObjectSize(reader, tooSmallBlob));
+		assertEquals(-1, gcPack.getIndexedObjectSize(reader,
+				gcPack.findIdxPosition(reader, tooSmallBlob)));
 	}
 
 	@Test

@@ -309,7 +309,8 @@ public class DfsInserterTest {
 		assertEquals(PackSource.INSERT,
 				insertPack.getPackDescription().getPackSource());
 		assertTrue(insertPack.hasObjectSizeIndex(reader));
-		assertEquals(contents.length, insertPack.getIndexedObjectSize(reader, fooId));
+		assertEquals(contents.length, insertPack.getIndexedObjectSize(reader,
+				insertPack.findIdxPosition(reader, fooId)));
 	}
 
 	private static String readString(ObjectLoader loader) throws IOException {

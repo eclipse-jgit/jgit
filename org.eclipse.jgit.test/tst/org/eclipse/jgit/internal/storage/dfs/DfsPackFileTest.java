@@ -131,7 +131,8 @@ public class DfsPackFileTest {
 		DfsReader reader = db.getObjectDatabase().newReader();
 		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
 		assertTrue(pack.hasObjectSizeIndex(reader));
-		assertEquals(800, pack.getIndexedObjectSize(reader, blobId));
+		assertEquals(800, pack.getIndexedObjectSize(reader,
+				pack.findIdxPosition(reader, blobId)));
 	}
 
 	@Test
