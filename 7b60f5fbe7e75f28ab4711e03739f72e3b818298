@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a121c2ea_83975793",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-07-04T07:37:02Z",
+      "side": 1,
+      "message": "Now this is executed always, even if we just return below in lines 1100 or 1104. So this is not going to improve performance in all cases.\n\nThe important thing would be to ensure that on any path through this method, `tw.getPathString()` is called only once at most. Mostly that is already the case; there are a few instances where it is called twice. Those instances could be improved.",
+      "revId": "7b60f5fbe7e75f28ab4711e03739f72e3b818298",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
