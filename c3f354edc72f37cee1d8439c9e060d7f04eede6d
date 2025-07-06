@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbcde8bb_d8d542d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038926
+      },
+      "writtenOn": "2025-07-06T20:30:22Z",
+      "side": 1,
+      "message": "Comment removed by: Luca Milanesio; Reason: spam",
+      "revId": "c3f354edc72f37cee1d8439c9e060d7f04eede6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
