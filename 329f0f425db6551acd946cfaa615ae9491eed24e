@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6edc8301_bd5b868a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-07T19:36:36Z",
+      "side": 1,
+      "message": "I *think* we need this so gerrit can import jgit from modules/jgit",
+      "revId": "329f0f425db6551acd946cfaa615ae9491eed24e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
