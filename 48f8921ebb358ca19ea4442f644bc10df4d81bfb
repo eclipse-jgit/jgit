@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e888c59_a3b33c01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-07T11:14:47Z",
+      "side": 1,
+      "message": "I think we should simply submit this change on the servlet-4 branch to unblock gerrit building against it. When Gerrit has updated to bazel 8 and bazel modules we can simply revert this change.\n\nMaybe we should even merge this on the jgit master branch to avoid we have to manually port dependency updates when merging master to servlet-4 branch. In the end the purpose of the jgit bazel build is to simplify doing jgit changes in context with its usage in gerrit.",
+      "revId": "48f8921ebb358ca19ea4442f644bc10df4d81bfb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
