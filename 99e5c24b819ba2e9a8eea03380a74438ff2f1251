@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9663a85b_7827215d",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-07T20:35:17Z",
+      "side": 1,
+      "message": "aren\u0027t we heading for 7.3.0 now after 7.2.0 has been released in June ?",
+      "revId": "99e5c24b819ba2e9a8eea03380a74438ff2f1251",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
