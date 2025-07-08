@@ -34,6 +34,24 @@
       "parentUuid": "9663a85b_7827215d",
       "revId": "99e5c24b819ba2e9a8eea03380a74438ff2f1251",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fec6496e_d5ac95dd",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-08T06:45:36Z",
+      "side": 1,
+      "message": "In-progress makes more sense. Updated.",
+      "parentUuid": "a9542a2e_0d85a77c",
+      "revId": "99e5c24b819ba2e9a8eea03380a74438ff2f1251",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
