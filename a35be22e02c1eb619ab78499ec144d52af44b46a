@@ -1,4 +1,28 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c66179_a09d05c0",
+        "filename": "MODULE.bazel",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-08T09:35:29Z",
+      "side": 1,
+      "message": "Actually I was wrong, the last release published in June was 7.3.0 and we are now heading for 7.4.0. I will push another change to update the version.",
+      "range": {
+        "startLine": 1,
+        "startChar": 33,
+        "endLine": 1,
+        "endChar": 39
+      },
+      "revId": "a35be22e02c1eb619ab78499ec144d52af44b46a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
