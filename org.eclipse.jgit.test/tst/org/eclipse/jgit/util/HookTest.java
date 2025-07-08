@@ -12,6 +12,8 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -22,11 +24,13 @@ import java.io.PrintStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.hooks.CommitMsgHook;
+import org.eclipse.jgit.hooks.PostCheckoutHook;
 import org.eclipse.jgit.hooks.PostCommitHook;
 import org.eclipse.jgit.hooks.PreCommitHook;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Assume;
@@ -56,6 +60,18 @@ public class HookTest extends RepositoryTestCase {
 				"#!/bin/bash\necho \"test $1 $2\"");
 		assertEquals("expected to find post-commit hook", hookFile,
 				FS.DETECTED.findHook(db, PostCommitHook.NAME));
+	}
+
+	@Test
+	public void testFindPostCheckoutHook() throws Exception {
+		assumeSupportedPlatform();
+
+		assertNull("no hook should be installed",
+				FS.DETECTED.findHook(db, PostCheckoutHook.NAME));
+		File hookFile = writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/bash\necho \"test $1 $2\"");
+		assertEquals("expected to find post-checkout hook", hookFile,
+				FS.DETECTED.findHook(db, PostCheckoutHook.NAME));
 	}
 
 	@Test
@@ -139,6 +155,119 @@ public class HookTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPostCheckoutRunHook() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/sh\necho \"test $1 $2\"\nread INPUT\necho $INPUT\necho 1>&2 \"stderr\"");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+		ProcessResult res = FS.DETECTED.runHookIfPresent(db,
+				PostCheckoutHook.NAME, new String[] { "arg1", "arg2" },
+				new PrintStream(out), new PrintStream(err), "stdin");
+
+		assertEquals("unexpected hook output", "test arg1 arg2\nstdin\n",
+				out.toString(UTF_8));
+		assertEquals("unexpected output on stderr stream", "stderr\n",
+				err.toString(UTF_8));
+		assertEquals("unexpected exit code", 0, res.getExitCode());
+		assertEquals("unexpected process status", ProcessResult.Status.OK,
+				res.getStatus());
+	}
+
+	@Test
+	public void testPostCheckoutHookArgumentsCase1() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/sh\necho \"$1 $2 $3\"");
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		// Case 1 - Branch switch, two different commits
+		// Write content, commit and create new branch 'newbranch'.
+		// Write new content, commit again and checkout previous branch
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		RevCommit firstCommit = git.commit().setMessage("commit").call();
+		git.branchCreate().setName("newbranch").call();
+
+		// Write content, commit and checkout previously created branch
+		writeTrashFile(path, "newcontent");
+		git.add().addFilepattern(path).call();
+		RevCommit secondCommit = git.commit().setMessage("commit2").call();
+
+		git.checkout().setName("newbranch")
+				.setHookOutputStream(new PrintStream(out)).call();
+
+		assertTrue(!firstCommit.name().equals(secondCommit.name()));
+		assertEquals(secondCommit.name() + " " + firstCommit.name() + " 1\n",
+				out.toString(UTF_8));
+	}
+
+	@Test
+	public void testPostCheckoutHookArgumentsCase2() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME, "#!/bin/sh\necho \"$1 $2 $3\"");
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		// Write content, commit and create new branch 'newbranch'
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		RevCommit firstCommit = git.commit().setMessage("commit").call();
+
+		git.branchCreate().setName("newbranch").call();
+
+		// Case 2 - Branch switch, same commits, create new branch.
+		// Create new branch and compare current Ref with Ref of first commit
+		out = new ByteArrayOutputStream();
+		Ref newRef = git.checkout().setName("newbranch2").setCreateBranch(true)
+				.setHookOutputStream(new PrintStream(out))
+				.call();
+
+		assertEquals(firstCommit.name(), newRef.getObjectId().name());
+		assertEquals(
+				firstCommit.name() + " " + newRef.getObjectId().name()
+						+ " 1\n",
+				out.toString(UTF_8));
+	}
+
+	@Test
+	public void testPostCheckoutHookArgumentsCase3() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME, "#!/bin/sh\necho \"$1 $2 $3\"");
+
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		// Write content, commit two changes, retrieve file from first commit
+		writeTrashFile(path, "content1");
+		git.add().addFilepattern(path).call();
+		RevCommit firstCommit = git.commit().setMessage("commit1").call();
+
+		writeTrashFile(path, "content2");
+		git.add().addFilepattern(path).call();
+		RevCommit secondCommit = git.commit().setMessage("commit2").call();
+
+		// Case 3 - Same branch, retrieve file from index.
+		// Checkout one file from first commit and compare to second commit
+		out = new ByteArrayOutputStream();
+		git.checkout().setStartPoint(firstCommit).addPath(path)
+				.setHookOutputStream(new PrintStream(out))
+				.setHookErrorStream(new PrintStream(out)).call();
+
+		assertTrue(!firstCommit.name().equals(secondCommit.name()));
+		assertEquals(secondCommit.name() + " " + secondCommit.name() + " 0\n",
+				out.toString(UTF_8));
+	}
+
+	@Test
 	public void testAllCommitHooks() throws Exception {
 		assumeSupportedPlatform();
 
@@ -153,15 +282,20 @@ public class HookTest extends RepositoryTestCase {
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
 		try {
 			git.commit().setMessage("commit")
-					.setHookOutputStream(new PrintStream(out)).call();
+					.setHookOutputStream(new PrintStream(out))
+					.setHookErrorStream(new PrintStream(err)).call();
 		} catch (AbortedByHookException e) {
 			throw new AssertionError("unexpected hook failure", e);
 		}
-		assertEquals("unexpected hook output",
+		assertEquals("unexpected hook output stream",
 				"test pre-commit\ntest commit-msg .git/COMMIT_EDITMSG\ntest post-commit\n",
 				out.toString(UTF_8));
+		assertEquals("unexpected hook error stream",
+				"stderr pre-commit\nstderr commit-msg\nstderr post-commit\n",
+				err.toString(UTF_8));
 	}
 
 	@Test
@@ -313,6 +447,72 @@ public class HookTest extends RepositoryTestCase {
 			assertEquals("unexpected output from pre-commit hook", "test\n",
 					out.toString(UTF_8));
 		}
+	}
+
+	@Test
+	public void testPostCheckoutHook() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/sh\necho \"test post-checkout out\"\necho 1>&2 \"stderr post-checkout err\"\nexit 0");
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+
+		ByteArrayOutputStream outTrash = new ByteArrayOutputStream();
+		git.commit().setMessage("commit")
+				.setHookOutputStream(new PrintStream(outTrash)).call();
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+		try {
+			git.checkout().setName("testbranch").setCreateBranch(true)
+					.setHookOutputStream(new PrintStream(out))
+					.setHookErrorStream(new PrintStream(err)).call();
+		} catch (Exception e) {
+			throw new AssertionError(
+					"unexpected error during checkout operation while testing post-checkout hook",
+					e);
+		}
+
+		assertEquals("unexpected hook output stream",
+				"test post-checkout out\n",
+				out.toString(UTF_8));
+		assertEquals("unexpected hook error stream",
+				"stderr post-checkout err\n",
+				err.toString(UTF_8));
+	}
+
+	@Test
+	public void testFailedPostCheckoutHook() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostCheckoutHook.NAME,
+				"#!/bin/sh\necho \"test post-checkout out\"\necho 1>&2 \"stderr post-checkout err\"\nexit 123");
+		Git git = Git.wrap(db);
+		String path = "a.txt";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+
+		ByteArrayOutputStream outTrash = new ByteArrayOutputStream();
+		git.commit().setMessage("commit")
+				.setHookOutputStream(new PrintStream(outTrash)).call();
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+
+		AbortedByHookException exc = assertThrows(AbortedByHookException.class,
+				() ->
+			git.checkout().setName("testbranch").setCreateBranch(true)
+						.setHookOutputStream(new PrintStream(out))
+						.setHookErrorStream(new PrintStream(err)).call());
+
+		assertEquals("unexpected error message from commit-msg hook",
+				"Rejected by \"post-checkout\" hook.\nstderr post-checkout err\n",
+				exc.getMessage());
+		assertEquals("unexpected output from commit-msg hook",
+				"test post-checkout out\n", out.toString(UTF_8));
 	}
 
 	private File writeHookFile(String name, String data)

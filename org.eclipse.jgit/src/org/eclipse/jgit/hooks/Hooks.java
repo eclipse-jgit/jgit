@@ -104,6 +104,23 @@ public class Hooks {
 	}
 
 	/**
+	 * Create post-checkout hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The post-checkout hook for the given repository.
+	 * @since 7.4
+	 */
+	public static PostCheckoutHook postCheckout(Repository repo,
+			PrintStream outputStream, PrintStream errorStream) {
+		return new PostCheckoutHook(repo, outputStream, errorStream);
+	}
+
+	/**
 	 * Create commit-msg hook for the given repository
 	 *
 	 * @param repo

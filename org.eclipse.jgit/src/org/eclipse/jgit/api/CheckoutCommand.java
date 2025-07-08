@@ -13,6 +13,7 @@ package org.eclipse.jgit.api;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
@@ -38,6 +40,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
+import org.eclipse.jgit.hooks.Hooks;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -155,6 +158,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
+	private PrintStream hookOutRedirect;
+
+	private PrintStream hookErrRedirect;
+
 	/**
 	 * Constructor for CheckoutCommand
 	 *
@@ -169,7 +176,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	@Override
 	public Ref call() throws GitAPIException, RefAlreadyExistsException,
 			RefNotFoundException, InvalidRefNameException,
-			CheckoutConflictException {
+			CheckoutConflictException, AbortedByHookException {
 		checkCallable();
 		try {
 			processOptions();
@@ -177,6 +184,12 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				checkoutPaths();
 				status = new CheckoutResult(Status.OK, paths);
 				setCallable(false);
+
+				Ref head = repo.exactRef(Constants.HEAD);
+				Hooks.postCheckout(repo, hookOutRedirect, hookErrRedirect)
+						.setPreviousHead(head).setNewHead(head)
+						.setIsBranchCheckout(false).call();
+
 				return null;
 			}
 
@@ -213,7 +226,13 @@ public class CheckoutCommand extends GitCommand<Ref> {
 								JGitText.get().checkoutUnexpectedResult,
 								r.name()));
 					this.status = CheckoutResult.NOT_TRIED_RESULT;
-					return repo.exactRef(Constants.HEAD);
+
+					Ref head = repo.exactRef(Constants.HEAD);
+					Hooks.postCheckout(repo, hookOutRedirect, hookErrRedirect)
+							.setPreviousHead(head).setNewHead(head)
+							.setIsBranchCheckout(true).call();
+
+					return head;
 				}
 				branch = getStartPointObjectId();
 			} else {
@@ -254,6 +273,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				dc.unlock();
 			}
 			Ref ref = repo.findRef(name);
+
 			if (ref != null && !ref.getName().startsWith(Constants.R_HEADS))
 				ref = null;
 			String toName = Repository.shortenRefName(name);
@@ -291,6 +311,13 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				throw new JGitInternalException(MessageFormat.format(JGitText
 						.get().checkoutUnexpectedResult, updateResult.name()));
 
+			boolean isBranchCheckout = name != null
+					&& (startPoint == null && startCommit == null);
+			Hooks.postCheckout(repo, hookOutRedirect, hookErrRedirect)
+					.setPreviousHead(headRef)
+					.setNewHead(repo.exactRef(Constants.HEAD))
+					.setIsBranchCheckout(isBranchCheckout)
+					.call();
 
 			if (!dco.getToBeDeleted().isEmpty()) {
 				status = new CheckoutResult(Status.NONDELETED,
@@ -775,4 +802,33 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			throw new IllegalStateException(
 					JGitText.get().cannotCheckoutOursSwitchBranch);
 	}
+
+	/**
+	 * Set the output stream for the post-checkout script executed by this
+	 * command. If not set it defaults to {@code System.out}.
+	 *
+	 * @param hookStdOut
+	 *            the output stream for hook script executed by this command
+	 * @return {@code this}
+	 * @since 7.4
+	 */
+	public CheckoutCommand setHookOutputStream(PrintStream hookStdOut) {
+		hookOutRedirect = hookStdOut;
+		return this;
+	}
+
+	/**
+	 * Set the error stream for the post-checkout script executed by this
+	 * command. If not set it defaults to {@code System.err}.
+	 *
+	 * @param hookStdErr
+	 *            the error stream for hook script executed by this command
+	 * @return {@code this}
+	 * @since 7.4
+	 */
+	public CheckoutCommand setHookErrorStream(PrintStream hookStdErr) {
+		hookErrRedirect = hookStdErr;
+		return this;
+	}
+
 }
