@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
@@ -120,6 +121,12 @@ class Checkout extends TextBuiltin {
 					builder.append(System.lineSeparator());
 				}
 				throw die(builder.toString(), e);
+			} catch (AbortedByHookException e) {
+				// Post-Checkout hook is only called after the working tree is
+				// updated. Therefore, the hook does not interfere with the
+				// working tree update, but still returns the correct status
+				// code in case an error occurs executing the hook's script.
+				throw die(e.getMessage(), e);
 			}
 		}
 	}
