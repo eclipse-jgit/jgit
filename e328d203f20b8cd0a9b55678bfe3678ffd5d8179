@@ -34,6 +34,24 @@
       "parentUuid": "33410276_c956310d",
       "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ac5f2fe_46ee8737",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-07-10T19:12:22Z",
+      "side": 0,
+      "message": "Yeah, I was thinking something similar, but to be honest, there is other fishy stuff I don\u0027t quite understand yet. If I write a tiny program to scan the same directory the way it is being done in here, it only takes about 122ms, yet an ls-remote seems to spend almost 6s in this section and there are only 3 loose refs. So something is weird, I am probably doing a something wrong, but I really think we might have a lot to improve here.\n\nAny thoughts about why there are two loops instead of one, there just seems like a ton of wordy code in here that can be done with only about 5 lines?",
+      "parentUuid": "de8441d1_922f3c38",
+      "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
