@@ -481,14 +481,24 @@ public class RefDirectory extends RefDatabase {
 				for (int i = 0; i < entries.length; ++i) {
 					String e = entries[i];
 					File f = new File(dir, e);
-					if (f.isDirectory())
+					if (f.isDirectory()) {
 						entries[i] += '/';
+						try {
+							if (2 == (Integer) Files.getAttribute(f.toPath(), "unix:nlink")) { //$NON-NLS-1$
+								entries[i] += '/';
+							}
+						} catch (IOException ie) {
+							// Ignore since this was just an optimization
+						}
+					}
 				}
 				Arrays.sort(entries);
 				for (String name : entries) {
-					if (name.charAt(name.length() - 1) == '/')
-						scanTree(prefix + name, new File(dir, name));
-					else
+					if (name.charAt(name.length() - 1) == '/') {
+						if (name.charAt(name.length() - 2) != '/') {
+							scanTree(prefix + name, new File(dir, name));
+						}
+					} else
 						scanOne(prefix + name);
 				}
 			}
