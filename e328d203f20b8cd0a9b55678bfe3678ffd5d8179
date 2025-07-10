@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33410276_c956310d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-07-10T17:32:50Z",
+      "side": 0,
+      "message": "On the surface, this whole loop seems pointless instead of just doing the isDirectory() test in the if() on line 489. Perhaps this is to affect the sorting somehow by adding the \"/\" at the end, but I can\u0027t see how? \n\nOn another note, you would hope that java would have an even faster way to lookup whether something is a directory at the same time as getting the directory listing, avoiding another potential round trip here also?",
+      "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
