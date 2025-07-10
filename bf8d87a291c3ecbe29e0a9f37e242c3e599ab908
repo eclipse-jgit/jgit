@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3173615f_d489d59e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-10T18:52:04Z",
+      "side": 1,
+      "message": "I think we better follow the hybrid approach Ivan proposed in https://gerrit-review.googlesource.com/c/gerrit/+/488984",
+      "revId": "bf8d87a291c3ecbe29e0a9f37e242c3e599ab908",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
