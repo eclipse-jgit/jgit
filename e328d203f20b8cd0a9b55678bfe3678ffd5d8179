@@ -52,6 +52,24 @@
       "parentUuid": "de8441d1_922f3c38",
       "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524fda50_ef4472f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-10T19:19:54Z",
+      "side": 0,
+      "message": "Most of this code was [written by Shawn 15 years ago using Java 5](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/194). I guess it\u0027s time to modernise it.",
+      "parentUuid": "8ac5f2fe_46ee8737",
+      "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
