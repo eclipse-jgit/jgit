@@ -151,6 +151,7 @@ public final class InterruptTimer {
 	static final class AlarmState implements Runnable {
 		private Thread callingThread;
 
+		private int lastTimeout;
 		private long deadline;
 
 		private boolean terminated;
@@ -172,7 +173,9 @@ public final class InterruptTimer {
 							wait(delay);
 						}
 					} else {
-						wait(1000);
+						// When the timer is not running, avoid waking up more than once a second
+						wait(lastTimeout == 0 ? 1000 : lastTimeout);
+						lastTimeout = 0;
 					}
 				} catch (InterruptedException e) {
 					// Treat an interrupt as notice to examine state.
@@ -185,7 +188,13 @@ public final class InterruptTimer {
 				throw new IllegalStateException(JGitText.get().timerAlreadyTerminated);
 			callingThread = Thread.currentThread();
 			deadline = now() + timeout;
-			notifyAll();
+			if (lastTimeout != timeout) {
+				boolean isNotify = lastTimeout == 0 || lastTimeout > timeout;
+				lastTimeout = timeout;
+				if (isNotify) {
+					notifyAll();
+				} // else avoid the expensive notify when the runloop will already timeout in time
+			}
 		}
 
 		synchronized void end() {
@@ -193,7 +202,6 @@ public final class InterruptTimer {
 				Thread.interrupted();
 			else
 				deadline = 0;
-			notifyAll();
 		}
 
 		synchronized void terminate() {
