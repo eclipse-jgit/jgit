@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd49d1f1_86677dc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-07-11T21:45:48Z",
+      "side": 1,
+      "message": "I think these will stand on their own as two separate changes. I know they\u0027re both small, but (at least for me) it takes some extra thinking power to review changes messing with concurrency.",
+      "revId": "2defb375fe7a3e3fa0e784a8be16547228693c9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b975239_d445939b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-07-11T21:45:48Z",
+      "side": 1,
+      "message": "Any chance you can add tests for InterruptTimer?",
+      "revId": "2defb375fe7a3e3fa0e784a8be16547228693c9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
