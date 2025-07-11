@@ -16,6 +16,24 @@
       "message": "Should we set it after the if block ?",
       "revId": "5dae9cb14aecbb5daf03ec7bb09b53b41a7b9c68",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3efaada9_f9a134e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/InterruptTimer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-07-11T20:29:37Z",
+      "side": 1,
+      "message": "Good cath, it does need to be set after the if logic to catch these cases properly, but before the notify. Done.",
+      "parentUuid": "bdc782f2_84989124",
+      "revId": "5dae9cb14aecbb5daf03ec7bb09b53b41a7b9c68",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
