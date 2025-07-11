@@ -70,6 +70,24 @@
       "parentUuid": "8ac5f2fe_46ee8737",
       "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56e09593_a1b18312",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-07-11T00:49:13Z",
+      "side": 0,
+      "message": "While I would like to modernize this, I don\u0027t think walking methods will work well for more than one level because we need to sort the level.",
+      "parentUuid": "524fda50_ef4472f3",
+      "revId": "e328d203f20b8cd0a9b55678bfe3678ffd5d8179",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
