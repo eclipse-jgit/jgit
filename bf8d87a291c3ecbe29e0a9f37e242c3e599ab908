@@ -16,6 +16,23 @@
       "message": "I think we better follow the hybrid approach Ivan proposed in https://gerrit-review.googlesource.com/c/gerrit/+/488984",
       "revId": "bf8d87a291c3ecbe29e0a9f37e242c3e599ab908",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c72068f_c3b7e995",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-14T14:50:37Z",
+      "side": 1,
+      "message": "I discussed this topic with Edwin and he said that the Gerrit team at Google wasn\u0027t aware of the migration to bazel modules in JGit and they didn\u0027t plan any work on that. Hence he proposed we revert the migration to bazel modules in JGit.",
+      "revId": "bf8d87a291c3ecbe29e0a9f37e242c3e599ab908",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
