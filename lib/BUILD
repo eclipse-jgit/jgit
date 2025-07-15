@@ -194,8 +194,9 @@ java_library(
     name = "jetty-ee8-security",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@jetty-security//jar"],
+    exports = ["@jetty-ee8-security//jar"],
 )
+
 
 java_library(
     name = "jsch",

@@ -261,6 +261,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jetty-ee8-security",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VER,
+    sha1 = "0f7d8c859095af69cb350b72659c5e0efddc80e0",
+)
+
+maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
     sha1 = "c8618ac7741fd278dba2ff77c3cf5229e2235356",
