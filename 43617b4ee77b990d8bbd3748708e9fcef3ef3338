@@ -69,6 +69,24 @@
       "parentUuid": "5d0c0ab4_0e142003",
       "revId": "43617b4ee77b990d8bbd3748708e9fcef3ef3338",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7de4fe82_0990fc34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-15T22:33:25Z",
+      "side": 1,
+      "message": "Should be fixed with [1]\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1218523",
+      "parentUuid": "97f5482c_0d75a075",
+      "revId": "43617b4ee77b990d8bbd3748708e9fcef3ef3338",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
