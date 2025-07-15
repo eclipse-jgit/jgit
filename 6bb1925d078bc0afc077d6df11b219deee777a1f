@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86d89dfc_68536209",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-15T22:32:21Z",
+      "side": 1,
+      "message": "Tests are now passing:\n\n```\n bazelisk test //...\n \n ...\n \n //org.eclipse.jgit.test:org_eclipse_jgit_util_io_AutoLFInputStreamTest   PASSED in 0.4s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_AutoLFOutputStreamTest  PASSED in 0.4s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_BinaryDeltaInputStreamTest PASSED in 0.3s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_BinaryHunkStreamTest    PASSED in 0.6s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_ByteBufferInputStreamTest PASSED in 0.5s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_TeeOutputStreamTest     PASSED in 0.4s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_TimeoutInputStreamTest  PASSED in 1.2s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_TimeoutOutputStreamTest PASSED in 1.5s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_io_UnionInputStreamTest    PASSED in 0.3s\n//org.eclipse.jgit.test:org_eclipse_jgit_util_sha1_SHA1Test              PASSED in 0.6s\n\nExecuted 459 out of 459 tests: 459 tests pass.\nThere were tests whose specified size is too big. Use the --test_verbose_timeout_warnings command line option to see which ones these are.\n```",
+      "revId": "6bb1925d078bc0afc077d6df11b219deee777a1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
