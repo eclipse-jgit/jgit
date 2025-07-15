@@ -22,6 +22,30 @@
       },
       "revId": "ee5eb8eee28dd1eec1916760a0ba3432bd306b70",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84957b06_ef1988fa",
+        "filename": "lib/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-15T15:08:41Z",
+      "side": 1,
+      "message": "jetty is mostly used by the HTTP tests did you try to run them ?",
+      "parentUuid": "45e367ab_1f87b016",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 1
+      },
+      "revId": "ee5eb8eee28dd1eec1916760a0ba3432bd306b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
