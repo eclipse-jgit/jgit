@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "481891b5_cba4329e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-15T22:33:00Z",
+      "side": 1,
+      "message": "Should be fixed with [1]\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1218523",
+      "revId": "cedbd2e0545bbd482d4cdd9fa594a2103c3406a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
