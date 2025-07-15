@@ -33,6 +33,24 @@
       "message": "This merge is breaking build of tests:\n\n```\n$ bazelisk test //...\n...\nERROR: /Users/xxxxxx/git/jgit/org.eclipse.jgit.junit.http/BUILD:5:13: Compiling Java headers org.eclipse.jgit.junit.http/libjunit-http-hjar.jar (7 source files) failed: (Exit 1): turbine_direct_graal failed: error executing Turbine command (from target //org.eclipse.jgit.junit.http:junit-http) external/remote_java_tools_darwin_arm64/java_tools/turbine_direct_graal \u0027-Dturbine.ctSymPath\u003dexternal/remotejdk17_macos_aarch64/lib/ct.sym\u0027 --output ... (remaining 54 arguments skipped)\n\nUse --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging\norg.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java:32: error: symbol not found org.eclipse.jetty.ee8.security.ConstraintMapping\nimport org.eclipse.jetty.ee8.security.ConstraintMapping;\n       ^\norg.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java:308: error: could not resolve ConstraintMapping\n\tprivate ConstraintMapping createConstraintMapping() {\n         ^\norg.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java:31: error: symbol not found org.eclipse.jetty.ee8.security.Authenticator\nimport org.eclipse.jetty.ee8.security.Authenticator;\n       ^\norg.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java:317: error: could not resolve Authenticator\n\tprivate void auth(ServletContextHandler ctx, Authenticator authType,\n                                              ^\nUse --verbose_failures to see the command lines of failed build steps.\n```",
       "revId": "43617b4ee77b990d8bbd3748708e9fcef3ef3338",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d0c0ab4_0e142003",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-15T21:36:11Z",
+      "side": 1,
+      "message": "comparing the current tip of the servlet-4 branch to 7a46fa6f8 (commit before bzlmod migration was merged from master) it seems we miss the following dependencies in WORKSPACE (hashes need to be updated for jetty 12.0.23):\n```\nmaven_jar(\n    name \u003d \"jetty-ee8-nested\",\n    artifact \u003d \"org.eclipse.jetty.ee8:jetty-ee8-nested:\" + JETTY_VER,\n    sha1 \u003d \"1bbe2d32441c9653a343b3ac8e5b3a0ccdcec87d\",\n)\n\nmaven_jar(\n    name \u003d \"jetty-ee8-security\",\n    artifact \u003d \"org.eclipse.jetty.ee8:jetty-ee8-security:\" + JETTY_VER,\n    sha1 \u003d \"81d9411634a04cb8569b853463f556224c9dce66\",\n)\n\nmaven_jar(\n    name \u003d \"jetty-ee8-servlet\",\n    artifact \u003d \"org.eclipse.jetty.ee8:jetty-ee8-servlet:\" + JETTY_VER,\n    sha1 \u003d \"7249186f3c8f88639a53d618eea850cf5d115661\",\n)\n```\n\nand in lib/BUILD\n\njetty-ee8-nested should declare `exports \u003d [\"@jetty-ee8-nested//jar\"]`\nand\njetty-ee8-security should declare `exports \u003d [\"@jetty-ee8-security//jar\"]`",
+      "parentUuid": "65fb932f_53a40c61",
+      "revId": "43617b4ee77b990d8bbd3748708e9fcef3ef3338",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
