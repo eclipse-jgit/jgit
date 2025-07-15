@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d712001_f0e94ca2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-15T10:23:53Z",
+      "side": 1,
+      "message": "Verified locally by `bazelisk build all`.\nI have also verified it can be used to build a gerrit 3.12.",
+      "revId": "43617b4ee77b990d8bbd3748708e9fcef3ef3338",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
