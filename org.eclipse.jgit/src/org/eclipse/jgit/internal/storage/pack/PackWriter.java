@@ -2516,7 +2516,7 @@ public class PackWriter implements AutoCloseable {
 		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
 
 		long start = System.currentTimeMillis();
-		sliceCommits(selectedCommits, Runtime.getRuntime().availableProcessors() * 2)
+		sliceCommits(selectedCommits, config.getBuildBitmapThreads())
 			.parallel()
 			.forEach(commitsSlice -> {
 				try {
