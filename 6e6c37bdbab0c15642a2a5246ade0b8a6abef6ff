@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07c97377_5bd491fd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-16T23:52:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "085746f0_5907c09a",
+      "range": {
+        "startLine": 507,
+        "startChar": 7,
+        "endLine": 507,
+        "endChar": 13
+      },
+      "revId": "6e6c37bdbab0c15642a2a5246ade0b8a6abef6ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0ad98c4_8549fd9d",
@@ -54,6 +78,24 @@
       "writtenOn": "2025-07-16T23:40:57Z",
       "side": 1,
       "message": "Can we test the actual object sizes?\n\nThe method signature for endObject has 2 longs and an int, so it\u0027s really easy to get those mixed up. A test would help guard against that.",
+      "revId": "6e6c37bdbab0c15642a2a5246ade0b8a6abef6ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa50ef5_cd9347fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-16T23:52:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0ad98c4_8549fd9d",
       "revId": "6e6c37bdbab0c15642a2a5246ade0b8a6abef6ff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
