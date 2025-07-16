@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d06ad067_2969b8c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-16T23:27:18Z",
+      "side": 1,
+      "message": "This is the object-size index for the non-DFS stack.",
+      "revId": "6e6c37bdbab0c15642a2a5246ade0b8a6abef6ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
