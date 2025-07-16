@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a581739a_f5d89bd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-16T21:39:12Z",
+      "side": 1,
+      "message": "\u003e This series of changes looks messy\n\nI don\u0027t believe this series is ready to be reviewed in the current status of things:\n- It\u0027s not rebased\n- It\u0027s not covered yet by enough tests\n- It\u0027s not yet proven to be stable and ready for production",
+      "parentUuid": "45237bac_f6b0ef01",
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9405d929_769b3b52",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
         "patchSetId": 2
