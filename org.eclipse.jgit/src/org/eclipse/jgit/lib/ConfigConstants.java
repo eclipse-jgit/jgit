@@ -908,6 +908,11 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_QUICK_MATCH_SEARCH_FOR_REUSE = "quickmatchsearchforreuse";
 
+	/**
+	 * The "pack.buildBitmapThreads" key
+	 * @since 6.9.1
+	 */
+	public static final String CONFIG_KEY_BUILD_BITMAP_THREADS = "buildBitmapThreads";
 
 	/**
 	 * The "pack.threads" key

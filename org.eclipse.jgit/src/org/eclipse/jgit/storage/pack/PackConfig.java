@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCESSIVE_B
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAP_THREADS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAPS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_COMPRESSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CUT_DELTACHAINS;
@@ -272,6 +273,13 @@ public class PackConfig {
 	public static final int DEFAULT_BITMAP_INACTIVE_BRANCH_AGE_IN_DAYS = 90;
 
 	/**
+	 *Default number of threads to write the bitmap file
+	 * @see #setBuildBitmapThreads(int)
+	 * @since 6.9.1
+	 */
+	public static final int DEFAULT_BITMAP_WRITE_THREADS = 1;
+
+	/**
 	 * Default refs prefixes excluded from the calculation of pack bitmaps.
 	 *
 	 * @see #setBitmapExcludedRefsPrefixes(String[])
@@ -367,6 +375,8 @@ public class PackConfig {
 
 	private boolean quickMatchSearchForReuse;
 
+	private int buildBitmapThreads = DEFAULT_BITMAP_WRITE_THREADS;
+
 	private int minBytesForObjSizeIndex = DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX;
 
 	/**
@@ -441,6 +451,7 @@ public class PackConfig {
 		this.minBytesForObjSizeIndex = cfg.minBytesForObjSizeIndex;
 		this.quickMatchSearchForReuse = cfg.quickMatchSearchForReuse;
 		this.rapidObjectPackLookup = cfg.rapidObjectPackLookup;
+		this.buildBitmapThreads = cfg.buildBitmapThreads;
 	}
 
 	/**
@@ -773,6 +784,32 @@ public class PackConfig {
 	 */
 	public void setQuickMatchSearchForReuse(boolean quickMatchSearchForReuse) {
 		this.quickMatchSearchForReuse = quickMatchSearchForReuse;
+	}
+
+	/**
+	 * Get the number of threads to be used during the writing of the bitmap.
+	 *
+	 * Default setting: 1
+	 *
+	 * @return number of threads used for writing the bitmap file.
+	 */
+	public int getBuildBitmapThreads() {
+		return buildBitmapThreads;
+	}
+
+	/**
+	 * Set the number of threads to use for building the bitmap file.
+	 *
+	 * During the building bitmap phase, the writer will start up concurrent
+	 * threads and allow them to write different sections of the bitmap concurrently.
+	 *
+	 * Default setting: 1
+	 *
+	 * @param threads
+	 *            number of threads to use for building the bitmap file.
+	 */
+	public void setBuildBitmapThreads(int threads) {
+		this.buildBitmapThreads = threads;
 	}
 
 	/**
@@ -1523,6 +1560,9 @@ public class PackConfig {
 		setQuickMatchSearchForReuse(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_QUICK_MATCH_SEARCH_FOR_REUSE,
 				getQuickMatchSearchForReuse()));
+		setBuildBitmapThreads(rc.getInt(CONFIG_PACK_SECTION,
+				CONFIG_KEY_BUILD_BITMAP_THREADS,
+				getBuildBitmapThreads()));
 		setWriteReverseIndex(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_WRITE_REVERSE_INDEX, isWriteReverseIndex()));
 		boolean buildBitmapsFromConfig = rc.getBoolean(CONFIG_PACK_SECTION,
@@ -1615,6 +1655,7 @@ public class PackConfig {
 		b.append(", minBytesForObjSizeIndex=") //$NON-NLS-1$
 				.append(getMinBytesForObjSizeIndex());
 		b.append(", quickMatchSearchForReuse=").append(getQuickMatchSearchForReuse()); //$NON-NLS-1$
+		b.append(", buildBitmapThreads=").append(getBuildBitmapThreads()); //$NON-NLS-1$
 		return b.toString();
 	}
 }
