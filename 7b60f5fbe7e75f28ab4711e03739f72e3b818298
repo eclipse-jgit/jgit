@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06f402fc_ff31bffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-07-16T09:09:04Z",
+      "side": 1,
+      "message": "Please include a reference to the Github issue: in the footers like this:\n```\nBug: jgit-175\nChange-Id: I1c137372fadf3cc00c527fb7c6bbdfb9b5e63655\n```",
+      "revId": "7b60f5fbe7e75f28ab4711e03739f72e3b818298",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a121c2ea_83975793",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
