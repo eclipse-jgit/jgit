@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "621e0542_0503c59a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-16T21:16:42Z",
+      "side": 1,
+      "message": "Marked as unresolved.",
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9405d929_769b3b52",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-16T21:16:42Z",
+      "side": 1,
+      "message": "```suggestion\n\t * @since 7.4\n```",
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f6c5262_1ba2932e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-16T21:16:42Z",
+      "side": 1,
+      "message": "- I\u0027d shorten this to\n```suggestion\n\tpublic static final String CONFIG_KEY_BUILD_BITMAP_THREADS \u003d \"bitmapThreads\";\n```\n\n- new option needs to be documented in `Documentation/config-options.md`",
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c55ded0_ef0e65ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-16T21:16:42Z",
+      "side": 1,
+      "message": "why does this need to be public API ?",
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bcf60c1_1ddac220",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-16T21:16:42Z",
+      "side": 1,
+      "message": "```suggestion\n\t * @return number of threads used for writing the bitmap file.\n\t * @since 7.4\n```",
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee6b42e_ffda7fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-16T21:16:42Z",
+      "side": 1,
+      "message": "```suggestion\n\t * @param threads\n\t *            number of threads to use for building the bitmap file.\n\t * @since 7.4\n```",
+      "range": {
+        "startLine": 764,
+        "startChar": 0,
+        "endLine": 765,
+        "endChar": 69
+      },
+      "revId": "f6b84d76ec4085896c50c6f805637b1d249e478a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
