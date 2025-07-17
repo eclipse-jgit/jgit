@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88ddb319_658b381f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T14:43:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abf03a30_ff4e48ba",
+      "revId": "242d9532dd60b45998aafadc15de21134dbd1160",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "daa385dd_88f7874b",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "these methods are implemented in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/191086\nlooks like changes need to be reordered",
       "parentUuid": "daa385dd_88f7874b",
+      "revId": "242d9532dd60b45998aafadc15de21134dbd1160",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a6cd39_e5cd6da7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T14:43:00Z",
+      "side": 1,
+      "message": "reordered changes",
+      "parentUuid": "ed0d9ea4_a4f4b71e",
       "revId": "242d9532dd60b45998aafadc15de21134dbd1160",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
