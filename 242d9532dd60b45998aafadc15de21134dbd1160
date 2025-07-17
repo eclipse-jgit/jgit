@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "abf03a30_ff4e48ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T10:31:01Z",
+      "side": 1,
+      "message": "remove unused import",
+      "revId": "242d9532dd60b45998aafadc15de21134dbd1160",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "daa385dd_88f7874b",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
         "patchSetId": 23
@@ -14,6 +31,24 @@
       "writtenOn": "2025-07-17T08:38:09Z",
       "side": 1,
       "message": "compilation fails due to some missing Pack methods:\n\n```\n02:03:43  [ERROR] PackInserterTest.java:[520,22] The method hasObjSizeIndex() is undefined for the type org.eclipse.jgit.internal.storage.file.Pack\n02:03:43  [ERROR] PackInserterTest.java:[521,40] The method getIndexedObjectSize(org.eclipse.jgit.lib.ObjectId) is undefined for the type org.eclipse.jgit.internal.storage.file.Pack\n02:03:43  [ERROR] PackInserterTest.java:[523,13] The method getIndexedObjectSize(org.eclipse.jgit.lib.ObjectId) is undefined for the type org.eclipse.jgit.internal.storage.file.Pack\n02:03:43  [ERROR] PackInserterTest.java:[525,13] The method getIndexedObjectSize(org.eclipse.jgit.lib.ObjectId) is undefined for the type org.eclipse.jgit.internal.storage.file.Pack\n```",
+      "revId": "242d9532dd60b45998aafadc15de21134dbd1160",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0d9ea4_a4f4b71e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackInserterTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T10:31:01Z",
+      "side": 1,
+      "message": "these methods are implemented in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/191086\nlooks like changes need to be reordered",
+      "parentUuid": "daa385dd_88f7874b",
       "revId": "242d9532dd60b45998aafadc15de21134dbd1160",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
