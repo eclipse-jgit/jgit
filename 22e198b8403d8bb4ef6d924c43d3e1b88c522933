@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2061450f_5a47edb9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ObjectDirectoryPackParserTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T14:43:34Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\tassertEquals(-1, pack.getIndexedObjectSize(ObjectId\n```",
+      "range": {
+        "startLine": 120,
+        "startChar": 15,
+        "endLine": 120,
+        "endChar": 18
+      },
+      "revId": "22e198b8403d8bb4ef6d924c43d3e1b88c522933",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
