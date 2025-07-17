@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8b342f1_87886142",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T14:45:01Z",
+      "side": 1,
+      "message": "remove this, javadoc inherits documentation automatically",
+      "revId": "e80187d9c68c39400f4074a8ae652c8fe0ccbf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9af5d1_7daa8898",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-17T14:45:01Z",
+      "side": 1,
+      "message": "remove this",
+      "revId": "e80187d9c68c39400f4074a8ae652c8fe0ccbf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
