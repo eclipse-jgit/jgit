@@ -122,7 +122,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private byte[] packChecksum;
 
-	private Optionally<PackIndex> loadedIdx = Optionally.empty();
+	private volatile Optionally<PackIndex> loadedIdx = Optionally.empty();
 
 	private Optionally<PackReverseIndex> reverseIdx = Optionally.empty();
 
@@ -162,7 +162,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		length = Long.MAX_VALUE;
 	}
 
-	private synchronized PackIndex idx() throws IOException {
+	private PackIndex idx() throws IOException {
+		Optional<PackIndex> optional = loadedIdx.getOptional();
+		if (optional.isPresent()) {
+			return optional.get();
+		}
+		return memoizeIdxIfNeeded();
+	}
+
+	private synchronized PackIndex memoizeIdxIfNeeded() throws IOException {
 		Optional<PackIndex> optional = loadedIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
@@ -312,7 +320,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private synchronized void closeIndices() {
-		loadedIdx.clear();
+		loadedIdx = Optionally.empty();
 		reverseIdx.clear();
 		bitmapIdx.clear();
 	}
