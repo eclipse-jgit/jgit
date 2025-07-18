@@ -124,9 +124,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile Optionally<PackIndex> loadedIdx = Optionally.empty();
 
-	private Optionally<PackReverseIndex> reverseIdx = Optionally.empty();
+	private volatile Optionally<PackReverseIndex> reverseIdx = Optionally.empty();
 
-	private Optionally<PackBitmapIndex> bitmapIdx = Optionally.empty();
+	private volatile Optionally<PackBitmapIndex> bitmapIdx = Optionally.empty();
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -321,8 +321,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private synchronized void closeIndices() {
 		loadedIdx = Optionally.empty();
-		reverseIdx.clear();
-		bitmapIdx.clear();
+		reverseIdx = Optionally.empty();
+		bitmapIdx = Optionally.empty();
 	}
 
 	/**
@@ -1190,7 +1190,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return getReverseIdx().findNextOffset(startOffset, maxOffset);
 	}
 
-	synchronized PackBitmapIndex getBitmapIndex() throws IOException {
+	PackBitmapIndex getBitmapIndex() throws IOException {
+		Optional<PackBitmapIndex> optional = bitmapIdx.getOptional();
+		if (optional.isPresent()) {
+			return optional.get();
+		}
+		return memoizeBitmapIndexIfNeeded();
+	}
+
+	private synchronized PackBitmapIndex memoizeBitmapIndexIfNeeded() throws IOException {
 		if (invalid || bitmapIdxFile == null) {
 			return null;
 		}
@@ -1225,7 +1233,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		this.bitmapIdxFile = bitmapIndexFile;
 	}
 
-	private synchronized PackReverseIndex getReverseIdx() throws IOException {
+	private PackReverseIndex getReverseIdx() throws IOException {
+		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
+		if (optional.isPresent()) {
+			return optional.get();
+		}
+		return memoizeReverseIdxIfNeeded();
+	}
+
+	private synchronized PackReverseIndex memoizeReverseIdxIfNeeded() throws IOException {
 		if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
