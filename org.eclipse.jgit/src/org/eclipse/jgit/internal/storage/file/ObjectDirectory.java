@@ -348,6 +348,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
+		if (objectId instanceof LocalObjectToPack) {
+			LocalObjectToPack lotp = (LocalObjectToPack) objectId;
+			Pack pack = lotp.pack;
+			if (pack != null) {
+				try {
+					return pack.load(curs, lotp.offset);
+				} catch (IOException e) {
+					// lotp potentially repacked, continue as if lotp not provided
+				}
+			}
+		}
 		ObjectLoader ldr = openObjectWithoutRestoring(curs, objectId);
 		if (ldr == null && restoreFromSelfOrAlternate(objectId, null)) {
 			ldr = openObjectWithoutRestoring(curs, objectId);
