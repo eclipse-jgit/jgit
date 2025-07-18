@@ -334,16 +334,6 @@
           <version>1.3.2</version>
         </plugin>
         <plugin>
-          <groupId>org.eclipse.tycho.extras</groupId>
-          <artifactId>tycho-pack200a-plugin</artifactId>
-          <version>${tycho-extras-version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.eclipse.tycho.extras</groupId>
-          <artifactId>tycho-pack200b-plugin</artifactId>
-          <version>${tycho-extras-version}</version>
-        </plugin>
-        <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>0.8.7</version>
@@ -424,6 +414,19 @@
                 <requireMavenVersion>
                   <version>3.6.3</version>
                 </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>17</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
@@ -910,19 +913,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-pack200a-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>pack200-normalize</id>
-                <goals>
-                  <goal>normalize</goal>
-                </goals>
-                <phase>verify</phase>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-jarsigner-plugin</artifactId>
             <executions>
@@ -932,19 +922,6 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-pack200b-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>pack200-pack</id>
-                <goals>
-                  <goal>pack</goal>
-                </goals>
-                <phase>verify</phase>
               </execution>
             </executions>
           </plugin>
