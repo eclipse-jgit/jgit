@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f129cd_8a41b973",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-07-19T11:57:32Z",
+      "side": 1,
+      "message": "Good job! You beat me, I was just starting to look at this.\n\nI do have another fix for building using a jvm 21 (in the main build; that fix probably should then probably be cherry-picked to the latest stable-[67].x and to master/next). Since we require Java 17 now, shouldn\u0027t there be a maven enforcer setup for this?",
+      "revId": "a43b47b1becf3926c1f6668142b08323db17898a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
