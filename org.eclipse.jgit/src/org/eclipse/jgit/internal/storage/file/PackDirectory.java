@@ -276,7 +276,7 @@ class PackDirectory {
 
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws PackMismatchException {
-		PackList pList = packList.get();
+		PackList pList = packList.get().createReverse();
 		int retries = 0;
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
@@ -284,7 +284,9 @@ class PackDirectory {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
 					if (rep != null) {
-						packer.select(otp, rep);
+						if (!packer.select(otp, rep)) {
+							return;
+						}
 						packer.checkSearchForReuseTimeout();
 					}
 				} catch (SearchForReuseTimeout e) {
@@ -293,7 +295,7 @@ class PackDirectory {
 					// Pack was modified; refresh the entire pack list.
 					//
 					retries = checkRescanPackThreshold(retries, e);
-					pList = scanPacks(pList);
+					pList = scanPacks(pList).createReverse();
 					continue SEARCH;
 				} catch (IOException e) {
 					handlePackError(e, p);
@@ -565,6 +567,12 @@ class PackDirectory {
 		PackList(FileSnapshot monitor, Pack[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
+		}
+
+		PackList createReverse() {
+			Pack[] packs = this.packs.clone();
+			Arrays.sort(packs, (a, b) -> Pack.SORT.compare(b, a));
+			return new PackList(snapshot, packs);
 		}
 	}
 }

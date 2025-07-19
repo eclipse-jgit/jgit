@@ -2391,17 +2391,45 @@ public class PackWriter implements AutoCloseable {
 	 * this method once for each representation available for an object, to
 	 * allow the writer to find the most suitable one for the output.
 	 *
+	 * This method tries to take a very simple approach to avoiding delta chains
+	 * during object reuse by selecting from the oldest pack that contains them.
+	 * This helps select many objects from the same pack which helps make good
+	 * use of any WindowCache caching, and it helps prevents cycles because a
+	 * pack must not have a cycle in the delta chain. If both objects A and B
+	 * are chosen out of the same source pack then there cannot be an A->B->A
+	 * cycle.
+	 *
+	 * The oldest pack is also the most likely to have the smallest deltas.
+	 * It generally is the biggest pack in the system and probably came from
+	 * the clone (or last GC) of this repository, where all objects were
+	 * previously considered and packed tightly together. If an object appears
+	 * again (for example due to a revert and a push into this repository) the
+	 * newer copy of won't be nearly as small as the older delta version
+	 * of it, even if the newer one is also itself a delta.
+	 *
+	 * Thus this method is optimized for being called in an order that presumes
+	 * that earlier representations are better than later ones, and it expects
+	 * representations from older pack files to  be tested first, and it will
+	 * shortcut any searching once it is satisfied with the selected
+	 * representation. Perhaps ideally representation testing ordering should
+	 * be based on packfile object count instead of age since file age can be
+	 * altered, and be deceiving for other reasons. Perhaps the presence of a
+	 * bitmap file for a pack file should prioritize it to be tested even
+	 * earlier than object count?
+	 *
 	 * @param otp
 	 *            the object being packed.
 	 * @param next
 	 *            the next available representation from the repository.
+	 * @return whether the search should continue in the hopes of finding
+	 *         a better representation
 	 */
-	public void select(ObjectToPack otp, StoredObjectRepresentation next) {
+	public boolean select(ObjectToPack otp, StoredObjectRepresentation next) {
 		int nFmt = next.getFormat();
 
 		if (!cachedPacks.isEmpty()) {
 			if (otp.isEdge())
-				return;
+				return false;
 			if (nFmt == PACK_WHOLE || nFmt == PACK_DELTA) {
 				for (CachedPack pack : cachedPacks) {
 					if (pack.hasObject(otp, next)) {
@@ -2409,7 +2437,7 @@ public class PackWriter implements AutoCloseable {
 						otp.clearDeltaBase();
 						otp.clearReuseAsIs();
 						pruneCurrentObjectList = true;
-						return;
+						return false;
 					}
 				}
 			}
@@ -2419,23 +2447,21 @@ public class PackWriter implements AutoCloseable {
 			ObjectId baseId = next.getDeltaBase();
 			ObjectToPack ptr = objectsMap.get(baseId);
 			if (ptr != null && !ptr.isEdge()) {
-				otp.setDeltaBase(ptr);
-				otp.setReuseAsIs();
-			} else if (thin && have(ptr, baseId)) {
-				otp.setDeltaBase(baseId);
-				otp.setReuseAsIs();
-			} else {
-				otp.clearDeltaBase();
-				otp.clearReuseAsIs();
+				return useDelta(otp, next, ptr);
 			}
+			if (thin && have(ptr, baseId)) {
+				return useDelta(otp, next, baseId);
+			}
+			otp.clearDeltaBase();
+			otp.clearReuseAsIs();
 		} else if (nFmt == PACK_WHOLE && config.isReuseObjects()) {
 			int nWeight = next.getWeight();
 			if (otp.isReuseAsIs() && !otp.isDeltaRepresentation()) {
 				// We've chosen another PACK_WHOLE format for this object,
 				// choose the one that has the smaller compressed size.
 				//
-				if (otp.getWeight() <= nWeight)
-					return;
+				if (otp.getWeight() < nWeight)
+					return true;
 			}
 			otp.clearDeltaBase();
 			otp.setReuseAsIs();
@@ -2447,6 +2473,15 @@ public class PackWriter implements AutoCloseable {
 
 		otp.setDeltaAttempted(reuseDeltas && next.wasDeltaAttempted());
 		otp.select(next);
+		return true;
+	}
+
+	public boolean useDelta(ObjectToPack otp, StoredObjectRepresentation rep, ObjectId base) {
+		otp.setDeltaBase(base);
+		otp.setReuseAsIs();
+		otp.setDeltaAttempted(reuseDeltas && rep.wasDeltaAttempted());
+		otp.select(rep);
+		return false;
 	}
 
 	private final boolean have(ObjectToPack ptr, AnyObjectId objectId) {
