@@ -165,7 +165,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>@{argLine} -Xmx768m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory}</argLine>
+          <argLine>@{argLine} -Xmx768m -Dfile.encoding=UTF-8 -Djava.io.tmpdir=${project.build.directory} --add-opens java.base/sun.nio.fs=ALL-UNNAMED</argLine>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*Tests.java</include>
