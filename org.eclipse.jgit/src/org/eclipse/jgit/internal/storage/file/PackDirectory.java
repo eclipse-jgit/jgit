@@ -45,6 +45,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -274,9 +275,23 @@ class PackDirectory {
 		return -1;
 	}
 
+	void selectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects, 	WindowCursor curs)
+			throws PackMismatchException {
+		PackList pList = packList.get().createReverse();
+		for (ObjectToPack otp : objects) {
+			pList = selectRepresentation(packer, otp, curs, pList);
+			monitor.update(1);
+		}
+	}
+
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws PackMismatchException {
-		PackList pList = packList.get().createReverse();
+		selectRepresentation(packer, otp, curs, packList.get().createReverse());
+	}
+
+	PackList selectRepresentation(PackWriter packer, ObjectToPack otp,
+			WindowCursor curs, PackList pList) throws PackMismatchException {
 		int retries = 0;
 		SEARCH: for (;;) {
 			for (Pack p : pList.packs) {
@@ -285,7 +300,7 @@ class PackDirectory {
 					p.resetTransientErrorCount();
 					if (rep != null) {
 						if (!packer.select(otp, rep)) {
-							return;
+							return pList;
 						}
 						packer.checkSearchForReuseTimeout();
 					}
@@ -303,6 +318,7 @@ class PackDirectory {
 			}
 			break SEARCH;
 		}
+		return pList;
 	}
 
 	private int checkRescanPackThreshold(int retries, PackMismatchException e)

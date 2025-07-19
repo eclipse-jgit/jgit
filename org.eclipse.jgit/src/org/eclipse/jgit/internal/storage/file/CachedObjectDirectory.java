@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -245,6 +246,13 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	Pack openPack(File pack) throws IOException {
 		return wrapped.openPack(pack);
+	}
+
+	@Override
+	void selectObjectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects, 	WindowCursor curs)
+			throws IOException {
+		wrapped.selectObjectRepresentation(packer, monitor, objects, curs);
 	}
 
 	@Override

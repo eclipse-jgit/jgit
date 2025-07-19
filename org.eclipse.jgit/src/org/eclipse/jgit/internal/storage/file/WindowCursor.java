@@ -170,10 +170,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
-		for (ObjectToPack otp : objects) {
-			db.selectObjectRepresentation(packer, otp, this);
-			monitor.update(1);
-		}
+		db.selectObjectRepresentation(packer, monitor, objects, this);
 	}
 
 	@Override

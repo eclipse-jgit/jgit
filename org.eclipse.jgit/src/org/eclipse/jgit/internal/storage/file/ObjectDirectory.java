@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
@@ -478,6 +479,26 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return -1;
+	}
+
+	@Override
+	void selectObjectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects, 	WindowCursor curs)
+			throws IOException {
+		selectObjectRepresentation(packer, monitor, objects, curs, null);
+	}
+
+	void selectObjectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects, 	WindowCursor curs, Set<AlternateHandle.Id> skips)
+			throws IOException {
+		packed.selectRepresentation(packer, monitor, objects, curs);
+
+		skips = addMe(skips);
+		for (AlternateHandle h : myAlternates()) {
+			if (!skips.contains(h.getId())) {
+				h.db.selectObjectRepresentation(packer, monitor, objects, curs, skips);
+			}
+		}
 	}
 
 	@Override

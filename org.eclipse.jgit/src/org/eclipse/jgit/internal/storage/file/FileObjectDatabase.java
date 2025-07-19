@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.FS;
 
 abstract class FileObjectDatabase extends ObjectDatabase {
@@ -49,6 +50,10 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Config getConfig();
 
 	abstract FS getFS();
+
+	abstract void selectObjectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects, 	WindowCursor curs)
+			throws IOException;
 
 	abstract void selectObjectRepresentation(PackWriter packer,
 			ObjectToPack otp, WindowCursor curs) throws IOException;
