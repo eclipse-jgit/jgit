@@ -96,4 +96,12 @@
             </message_arguments>
         </filter>
     </resource>
+    <resource path="src/org/eclipse/jgit/util/Iterators.java" type="org.eclipse.jgit.util.Iterators">
+        <filter id="1109393411">
+            <message_arguments>
+                <message_argument value="6.10.2"/>
+                <message_argument value="org.eclipse.jgit.util.Iterators"/>
+            </message_arguments>
+        </filter>
+    </resource>
 </component>
