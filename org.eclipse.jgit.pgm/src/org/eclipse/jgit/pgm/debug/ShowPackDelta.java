@@ -70,8 +70,9 @@ class ShowPackDelta extends TextBuiltin {
 
 		PackWriter pw = new PackWriter(reader) {
 			@Override
-			public void select(ObjectToPack otp, StoredObjectRepresentation next) {
+			public boolean select(ObjectToPack otp, StoredObjectRepresentation next) {
 				otp.select(next);
+				return true;
 			}
 		};
 
