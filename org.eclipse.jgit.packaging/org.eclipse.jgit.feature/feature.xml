@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.jgit"
       label="%featureName"
-      version="5.13.4.qualifier"
+      version="5.13.4.202507202350-r"
       provider-name="%providerName">
 
    <description url="http://www.eclipse.org/jgit/">
