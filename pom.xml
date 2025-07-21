@@ -204,10 +204,6 @@
       <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>repo.eclipse.org.cbi-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</url>
-    </pluginRepository>
-    <pluginRepository>
       <id>repo.eclipse.org.dash-releases</id>
       <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
     </pluginRepository>
@@ -414,6 +410,19 @@
                 <requireMavenVersion>
                   <version>3.6.3</version>
                 </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>17</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
