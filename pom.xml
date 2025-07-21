@@ -168,7 +168,6 @@
     <httpcore-version>4.4.15</httpcore-version>
     <slf4j-version>1.7.30</slf4j-version>
     <maven-javadoc-plugin-version>3.3.1</maven-javadoc-plugin-version>
-    <tycho-extras-version>2.6.0</tycho-extras-version>
     <gson-version>2.9.1</gson-version>
     <bouncycastle-version>1.72</bouncycastle-version>
     <spotbugs-maven-plugin-version>4.3.0</spotbugs-maven-plugin-version>
@@ -204,16 +203,8 @@
       <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>repo.eclipse.org.cbi-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</url>
-    </pluginRepository>
-    <pluginRepository>
       <id>repo.eclipse.org.dash-releases</id>
       <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>repo.eclipse.org.dash-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -418,6 +409,19 @@
                 <requireMavenVersion>
                   <version>3.6.3</version>
                 </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>17</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
