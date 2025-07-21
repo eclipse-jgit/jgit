@@ -413,6 +413,19 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>17</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
