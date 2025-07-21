@@ -184,6 +184,10 @@
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+
+    <!-- license check -->
+    <dash.fail>true</dash.fail>
+    <dash.projectId>technology.jgit</dash.projectId>
   </properties>
 
   <repositories>
@@ -199,8 +203,8 @@
       <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>repo.eclipse.org.cbi-snapshots</id>
-      <url>https://repo.eclipse.org/content/repositories/cbi-snapshots/</url>
+      <id>repo.eclipse.org.dash-releases</id>
+      <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
     </pluginRepository>
   </pluginRepositories>
 
@@ -381,6 +385,11 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>2.5.4</version>
         </plugin>
+        <plugin>
+          <groupId>org.eclipse.dash</groupId>
+          <artifactId>license-tool-plugin</artifactId>
+          <version>1.1.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -551,6 +560,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.dash</groupId>
+        <artifactId>license-tool-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>license-check</id>
+            <goals>
+              <goal>license-check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
