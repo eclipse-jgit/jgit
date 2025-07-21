@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0d7f754_22ca0cf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-21T08:32:52Z",
+      "side": 1,
+      "message": "Refactored the loading code to reduce indentation. Few renamings.",
+      "revId": "52a76dab9172ec3410a6e5f7e283f7e75f9c948b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
