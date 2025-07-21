@@ -30,8 +30,8 @@
 
   <properties>
     <java.version>11</java.version>
-    <tycho-version>4.0.8</tycho-version>
-    <target-platform>jgit-4.17</target-platform>
+    <tycho-version>4.0.13</tycho-version>
+    <target-platform>jgit-4.21</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
 
@@ -187,6 +187,19 @@
                 <requireMavenVersion>
                   <version>3.6.3</version>
                 </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>17</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
