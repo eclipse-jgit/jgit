@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa960c8a_759e94ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-07-22T18:04:31Z",
+      "side": 1,
+      "message": "I think it is ok to add this flag now and remove later the core.dfs variant.",
+      "revId": "19898720230a435b312b5147c2c700e4d33cfba9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
