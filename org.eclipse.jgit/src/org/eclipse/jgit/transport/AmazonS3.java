@@ -757,8 +757,19 @@ public class AmazonS3 {
 
 					final XMLReader xr;
 					try {
-						xr = SAXParserFactory.newInstance().newSAXParser()
-								.getXMLReader();
+						SAXParserFactory saxParserFactory = SAXParserFactory
+								.newInstance();
+						saxParserFactory.setNamespaceAware(true);
+						saxParserFactory.setFeature(
+								"http://xml.org/sax/features/external-general-entities", //$NON-NLS-1$
+								false);
+						saxParserFactory.setFeature(
+								"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
+								false);
+						saxParserFactory.setFeature(
+								"http://apache.org/xml/features/disallow-doctype-decl", //$NON-NLS-1$
+								true);
+						xr = saxParserFactory.newSAXParser().getXMLReader();
 					} catch (SAXException | ParserConfigurationException e) {
 						throw new IOException(
 								JGitText.get().noXMLParserAvailable, e);
