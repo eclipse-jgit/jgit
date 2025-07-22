@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "724c3aa3_21578e32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-22T07:45:40Z",
+      "side": 1,
+      "message": "Really interesting @mfick@nvidia.com!\nThere are some similarities with a change (still WIP) that I opened a while ago, but never had time to finalise [1].\n\nAt the very least the motivation behind both efforts is the same.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1193535",
+      "revId": "d57325d38d3331a7cb6f3442b53e5d4a7287db22",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
