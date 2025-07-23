@@ -70,6 +70,11 @@ import org.eclipse.jgit.util.FileUtils;
  * considered.
  */
 public class ObjectDirectory extends FileObjectDatabase {
+	@FunctionalInterface
+	private interface TriFunctionThrowsException<A, A2, A3, R, E extends Exception> {
+		R apply(A a, A2 a2, A3 a3) throws E;
+	}
+
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
@@ -348,20 +353,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
-		if (objectId instanceof LocalObjectToPack) {
-			LocalObjectToPack lotp = (LocalObjectToPack) objectId;
-			Pack pack = lotp.pack;
-			if (pack != null) {
-				try {
-					return pack.load(curs, lotp.offset);
-				} catch (IOException e) {
-					// lotp potentially repacked, continue as if lotp not provided
-				}
-			}
-		}
-		ObjectLoader ldr = openObjectWithoutRestoring(curs, objectId);
-		if (ldr == null && restoreFromSelfOrAlternate(objectId, null)) {
+		ObjectLoader ldr = getFromLocalObjectToPack(curs, objectId,
+				(p, c, l) -> p.load(c, l.offset));
+		if (ldr == null) {
 			ldr = openObjectWithoutRestoring(curs, objectId);
+			if (ldr == null && restoreFromSelfOrAlternate(objectId, null)) {
+				ldr = openObjectWithoutRestoring(curs, objectId);
+			}
 		}
 		return ldr;
 	}
@@ -430,11 +428,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return loose.open(curs, id);
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId id) throws IOException {
-		long sz = getObjectSizeWithoutRestoring(curs, id);
-		if (0 > sz && restoreFromSelfOrAlternate(id, null)) {
+		Long sz = getFromLocalObjectToPack(curs, id,
+				(p, c, l) -> p.getObjectSize(c, l));
+		if (sz == null) {
 			sz = getObjectSizeWithoutRestoring(curs, id);
+			if (sz < 0 && restoreFromSelfOrAlternate(id, null)) {
+				sz = getObjectSizeWithoutRestoring(curs, id);
+			}
 		}
 		return sz;
 	}
@@ -489,6 +492,24 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return -1;
+	}
+
+	private <R> R getFromLocalObjectToPack(WindowCursor curs,
+			AnyObjectId objectId,
+			TriFunctionThrowsException<Pack, WindowCursor, LocalObjectToPack, R, IOException> func) {
+		if (objectId instanceof LocalObjectToPack) {
+			LocalObjectToPack lotp = (LocalObjectToPack) objectId;
+			Pack pack = lotp.pack;
+			if (pack != null) {
+				try {
+					return func.apply(pack, curs, lotp);
+				} catch (IOException e) {
+					// lotp potentially repacked, continue as if lotp not
+					// provided
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override
