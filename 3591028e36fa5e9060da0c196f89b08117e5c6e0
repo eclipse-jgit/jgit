@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b343bd_a4a4edf6",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-23T14:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc555bb1_4dd2f633",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 130
+      },
+      "revId": "3591028e36fa5e9060da0c196f89b08117e5c6e0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cd6ea4d_9f0c9067",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-07-22T16:28:38Z",
       "side": 1,
       "message": "I am missing the step where we also validate that Gerrit stable-3.12 and master are building with JGit.",
+      "revId": "3591028e36fa5e9060da0c196f89b08117e5c6e0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c1e8d06_1ce083d4",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-23T14:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cd6ea4d_9f0c9067",
       "revId": "3591028e36fa5e9060da0c196f89b08117e5c6e0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
