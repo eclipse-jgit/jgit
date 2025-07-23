@@ -246,6 +246,7 @@ public class LfsPrePushHook extends PrePushHook {
 				.getLfsContentConnection(getRepository(), uploadAction,
 						METHOD_PUT);
 		contentServer.setDoOutput(true);
+		contentServer.setChunkedStreamingMode(256 << 10);
 		try (OutputStream out = contentServer
 				.getOutputStream()) {
 			long size = Files.copy(path, out);
