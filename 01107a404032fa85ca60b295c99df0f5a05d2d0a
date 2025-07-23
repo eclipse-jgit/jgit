@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185e6e4e_a1b9d33b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-23T14:04:56Z",
+      "side": 1,
+      "message": "Works locally [1], with the caveat I don\u0027t have permission to vote on Label-Verified\n\n[1] https://imgur.com/a/xgwVp9m",
+      "revId": "01107a404032fa85ca60b295c99df0f5a05d2d0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
