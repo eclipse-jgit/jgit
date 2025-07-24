@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94922e76_aa8c5b1d",
+        "filename": "Jenkinsfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T04:39:56Z",
+      "side": 1,
+      "message": "Any reason for skipping the default checkout for then performing it at L25?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "183bf37e_899e030f",
+        "filename": "Jenkinsfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T04:39:56Z",
+      "side": 1,
+      "message": "Do we want to also set the desired java version 21?\n\n`source set-java.sh 21`",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fbfb7cc_413aeaf8",
+        "filename": "Jenkinsfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T04:39:56Z",
+      "side": 1,
+      "message": "Should we also do the same with `master`?",
+      "range": {
+        "startLine": 41,
+        "startChar": 33,
+        "endLine": 41,
+        "endChar": 44
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912c3a7e_d15d2960",
+        "filename": "Jenkinsfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T04:39:56Z",
+      "side": 1,
+      "message": "This could be quite long and expensive: why not simply renaming it?",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12d52ae0_a4922a5c",
+        "filename": "Jenkinsfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T04:39:56Z",
+      "side": 1,
+      "message": "It would be helpful to also give some description here",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 9
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e066bd63_9446ecd0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T04:39:56Z",
+      "side": 1,
+      "message": "This looks like a separate change, can you post it separately and on master?",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 8
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
