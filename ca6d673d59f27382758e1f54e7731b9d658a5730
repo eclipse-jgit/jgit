@@ -16,6 +16,23 @@
       "message": "LGTM. I do wonder about authentication, but IIRC, we have some bug reports about authentication problems anyway. The javadoc in `HttpURLConnection` points out that with output streaming enabled neither redirects nor authentication will be handled automatically.",
       "revId": "ca6d673d59f27382758e1f54e7731b9d658a5730",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb1aba0_802c42f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-24T14:24:05Z",
+      "side": 1,
+      "message": "@knganeshh verified this fixes the problem and he can push objects larger than 2GB with this fix",
+      "revId": "ca6d673d59f27382758e1f54e7731b9d658a5730",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
