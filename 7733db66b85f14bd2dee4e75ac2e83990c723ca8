@@ -281,6 +281,30 @@
       },
       "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "755fa133_a9dc8ce4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-24T11:12:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c03db8c8_d3a0214d",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 8
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
