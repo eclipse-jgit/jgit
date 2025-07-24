@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0464ed5d_ad0ccc3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-07-24T13:45:07Z",
+      "side": 1,
+      "message": "Will this be pushed to Maven Central? I don\u0027t see it there yet...",
+      "revId": "85c14b4dacfc3bfd8612ed44b95b68bbfbe62114",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
