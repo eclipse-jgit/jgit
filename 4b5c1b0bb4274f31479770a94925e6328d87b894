@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c33212b_de2f154c",
+        "filename": "Jenkinsfile",
+        "patchSetId": 26
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-24T18:08:05Z",
+      "side": 1,
+      "message": "Don\u0027t build the mirror on googlesource but the original repo on gerrithub.\nI\u0027d like to run this on changes in review before they are submitted to master.",
+      "revId": "4b5c1b0bb4274f31479770a94925e6328d87b894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
