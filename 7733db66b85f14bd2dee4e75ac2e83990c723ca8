@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58a56212_8818e469",
+        "filename": "Jenkinsfile",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-24T18:20:33Z",
+      "side": 1,
+      "message": "This change is explicitly intended for servlet-4.\nThe servlet-4 branch exists _for_ Gerrit so we want to make sure that it builds with Gerrit.\n\nI believe what @luca.milanesio@gmail.com was suggesting was to ensure servlet-4 builds with Gerrit stable-3.12 **and** with Gerrit master.\n\nI thought about having two separate jobs, but this could be **one** job testing the compatibility of servlet-4 with both gerrit 3.12 and gerrit master.\n\nWDYT?",
+      "parentUuid": "c26ce56a_6688e30a",
+      "range": {
+        "startLine": 41,
+        "startChar": 33,
+        "endLine": 41,
+        "endChar": 44
+      },
+      "revId": "7733db66b85f14bd2dee4e75ac2e83990c723ca8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "912c3a7e_d15d2960",
         "filename": "Jenkinsfile",
         "patchSetId": 17
