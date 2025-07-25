@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7116dd95_170c08de",
+        "filename": "Jenkinsfile",
+        "patchSetId": 34
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-25T14:30:08Z",
+      "side": 1,
+      "message": "The GerritForge-Ltd user doesn\u0027t have `Verified` label permission: I\u0027d stay with a generic `Code-Review` for now.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 9
+      },
+      "revId": "f7dd9a327ae0651540fd1c773bfe32e678a947d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
