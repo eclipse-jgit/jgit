@@ -977,7 +977,6 @@ public class GC {
 					OutputStream channelStream = Channels
 							.newOutputStream(channel)) {
 				writer.write(pm, channelStream);
-				channel.force(true);
 			}
 
 			// rename the temporary file to real file
