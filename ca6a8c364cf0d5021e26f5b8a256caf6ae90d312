@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a88651da_65a5e11d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-27T21:41:31Z",
+      "side": 1,
+      "message": "remove commented out debug tracing",
+      "revId": "ca6a8c364cf0d5021e26f5b8a256caf6ae90d312",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
