@@ -94,18 +94,12 @@ public class FileNameMatcher {
 	/**
 	 * Constructor for FileNameMatcher
 	 *
-	 * @param patternString
-	 *            must contain a pattern which fnmatch would accept.
-	 * @param invalidWildgetCharacter
-	 *            if this parameter isn't null then this character will not
-	 *            match at wildcards(* and ? are wildcards).
-	 * @throws org.eclipse.jgit.errors.InvalidPatternException
-	 *             if the patternString contains a invalid fnmatch pattern.
+	 * @param matcher@throws org.eclipse.jgit.errors.InvalidPatternException
+	 *                       if the patternString contains a invalid fnmatch pattern.
 	 */
-	public FileNameMatcher(final String patternString,
-			final Character invalidWildgetCharacter)
+	public FileNameMatcher(org.eclipse.jgit.fnmatch.Matcher matcher)
 			throws InvalidPatternException {
-		this(createHeadsStartValues(patternString, invalidWildgetCharacter));
+		this(createHeadsStartValues(matcher.patternString(), matcher.invalidWildgetCharacter()));
 	}
 
 	/**

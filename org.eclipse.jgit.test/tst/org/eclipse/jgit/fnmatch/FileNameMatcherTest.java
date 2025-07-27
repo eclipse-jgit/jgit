@@ -23,7 +23,7 @@ public class FileNameMatcherTest {
 	private static void assertMatch(final String pattern, final String input,
 			final boolean matchExpected, final boolean appendCanMatchExpected)
 			throws InvalidPatternException {
-		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
+		final FileNameMatcher matcher = new FileNameMatcher(new Matcher(pattern, null));
 		matcher.append(input);
 		assertEquals(matchExpected, matcher.isMatch());
 		assertEquals(appendCanMatchExpected, matcher.canAppendMatch());
@@ -34,8 +34,8 @@ public class FileNameMatcherTest {
 			final char excludedCharacter, final boolean matchExpected,
 			final boolean appendCanMatchExpected)
 			throws InvalidPatternException {
-		final FileNameMatcher matcher = new FileNameMatcher(pattern,
-				Character.valueOf(excludedCharacter));
+		final FileNameMatcher matcher = new FileNameMatcher(
+			new Matcher(pattern, Character.valueOf(excludedCharacter)));
 		matcher.append(input);
 		assertEquals(matchExpected, matcher.isMatch());
 		assertEquals(appendCanMatchExpected, matcher.canAppendMatch());
@@ -835,7 +835,7 @@ public class FileNameMatcherTest {
 	@Test
 	public void testReset() throws Exception {
 		final String pattern = "helloworld";
-		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
+		final FileNameMatcher matcher = new FileNameMatcher(new Matcher(pattern, null));
 		matcher.append("helloworld");
 		assertTrue(matcher.isMatch());
 		assertFalse(matcher.canAppendMatch());
@@ -858,7 +858,7 @@ public class FileNameMatcherTest {
 	@Test
 	public void testCreateMatcherForSuffix() throws Exception {
 		final String pattern = "helloworld";
-		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
+		final FileNameMatcher matcher = new FileNameMatcher(new Matcher(pattern, null));
 		matcher.append("hello");
 		final FileNameMatcher childMatcher = matcher.createMatcherForSuffix();
 		assertFalse(matcher.isMatch());
@@ -890,7 +890,7 @@ public class FileNameMatcherTest {
 	@Test
 	public void testCopyConstructor() throws Exception {
 		final String pattern = "helloworld";
-		final FileNameMatcher matcher = new FileNameMatcher(pattern, null);
+		final FileNameMatcher matcher = new FileNameMatcher(new Matcher(pattern, null));
 		matcher.append("hello");
 		final FileNameMatcher copy = new FileNameMatcher(matcher);
 		assertFalse(matcher.isMatch());

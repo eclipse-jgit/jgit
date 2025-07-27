@@ -59,6 +59,7 @@ import org.apache.sshd.common.util.Readable;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
+import org.eclipse.jgit.fnmatch.Matcher;
 import org.eclipse.jgit.internal.transport.sshd.proxy.StatefulProxyConnector;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConstants;
@@ -479,7 +480,7 @@ public class JGitClientSession extends ClientSessionImpl {
 				continue;
 			}
 			try {
-				FileNameMatcher matcher = new FileNameMatcher(toRemove, null);
+				FileNameMatcher matcher = new FileNameMatcher(new Matcher(toRemove, null));
 				for (Iterator<String> i = current.iterator(); i.hasNext();) {
 					matcher.reset();
 					matcher.append(i.next());

@@ -33,6 +33,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
+import org.eclipse.jgit.fnmatch.Matcher;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbrevConfig;
 import org.eclipse.jgit.lib.Constants;
@@ -263,7 +264,7 @@ public class DescribeCommand extends GitCommand<String> {
 	 */
 	public DescribeCommand setMatch(String... patterns) throws InvalidPatternException {
 		for (String p : patterns) {
-			matchers.add(new FileNameMatcher(p, null));
+			matchers.add(new FileNameMatcher(new Matcher(p, null)));
 		}
 		return this;
 	}
@@ -284,7 +285,7 @@ public class DescribeCommand extends GitCommand<String> {
 	 */
 	public DescribeCommand setExclude(String... patterns) throws InvalidPatternException {
 		for (String p : patterns) {
-			excludeMatchers.add(new FileNameMatcher(p, null));
+			excludeMatchers.add(new FileNameMatcher(new Matcher(p, null)));
 		}
 		return this;
 	}

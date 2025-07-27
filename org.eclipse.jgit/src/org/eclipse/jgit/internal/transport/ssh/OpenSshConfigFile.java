@@ -31,6 +31,7 @@ import java.util.TreeSet;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
+import org.eclipse.jgit.fnmatch.Matcher;
 import org.eclipse.jgit.transport.SshConfigStore;
 import org.eclipse.jgit.transport.SshConstants;
 import org.eclipse.jgit.util.FS;
@@ -459,7 +460,7 @@ public class OpenSshConfigFile implements SshConfigStore {
 		if (pattern.indexOf('*') >= 0 || pattern.indexOf('?') >= 0) {
 			final FileNameMatcher fn;
 			try {
-				fn = new FileNameMatcher(pattern, null);
+				fn = new FileNameMatcher(new Matcher(pattern, null));
 			} catch (InvalidPatternException e) {
 				return false;
 			}
