@@ -46,6 +46,30 @@
       },
       "revId": "f7dd9a327ae0651540fd1c773bfe32e678a947d3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62656188_fd100e06",
+        "filename": "Jenkinsfile",
+        "patchSetId": 34
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-27T21:37:20Z",
+      "side": 1,
+      "message": "I granted permission to vote on Verified to the GerritForge-Ltd user",
+      "parentUuid": "6b859f7a_da160844",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 9
+      },
+      "revId": "f7dd9a327ae0651540fd1c773bfe32e678a947d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
