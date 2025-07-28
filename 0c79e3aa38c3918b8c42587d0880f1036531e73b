@@ -86,6 +86,24 @@
       "parentUuid": "b10e00da_84454b54",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92de6d4d_8891f98e",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-28T20:29:32Z",
+      "side": 1,
+      "message": "\u003e Yes, but so far contributors cannot modify the existing jgit CI jobs.\n\nTrue, and your worry is that this Jenkinsfile instead would break that rule, point taken.\n\n\u003e In EGit we put source code of CI jobs into a separate repo egit-pipelines which ensures that a contribution to that repo has no effect on EGit builds until the corresponding change was approved and submitted by a committer.\n\nWe do almost the same in Gerrit, with the build scripts stored in the Gerrit repository, but Jenkinsfile is an exception at the moment. I believe it would make sense to do the same with Gerrit, but then we\u0027ll have to restrict the contributions to the Gerrit repository; otherwise, it would not make any difference.\n\n\u003e I think we should do the same with the JGit CI jobs and move the CI pipeline definitions to the jgit-pipelines repo (which already exists, but I didn\u0027t yet find time to move the pipeline definitions there).\n\nSure and agreed. This change though isn\u0027t really a CI for JGit, which continues to be done with the Gerrit Trigger Plugin, but rather a _safety net_ for preventing future breakages on the `servlet-4` with Gerrit.\n\nFrom that point of view, I believe this script does not belong to the JGit project, but it should be fully self-contained in the gerrit-ci-scripts project in Gerrit.",
+      "parentUuid": "36ad6aa5_b14e4292",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
