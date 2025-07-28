@@ -68,6 +68,24 @@
       "parentUuid": "3b2c0b8e_70f304a8",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ad6aa5_b14e4292",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T20:07:59Z",
+      "side": 1,
+      "message": "Yes, but so far contributors cannot modify the existing jgit CI jobs.\n\nIn EGit we put source code of CI jobs into a separate repo egit-pipelines which ensures that a contribution to that repo has no effect on EGit builds until the corresponding change was approved and submitted by a committer.\n\nI think we should do the same with the JGit CI jobs and move the CI pipeline definitions to the jgit-pipelines repo (which already exists, but I didn\u0027t yet find time to move the pipeline definitions there).",
+      "parentUuid": "b10e00da_84454b54",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
