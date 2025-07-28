@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97b77ba6_a8580148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-07-28T22:43:05Z",
+      "side": 1,
+      "message": "There are other ways to get this gain which do not involve a bulk approach. I will try to post some, but this at least shows that sorting is expensive and should be avoided.",
+      "revId": "8a876fb90558bfacb6b36193c3f9094f08d5ce46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
