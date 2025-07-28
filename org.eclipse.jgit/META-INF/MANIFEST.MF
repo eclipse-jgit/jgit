@@ -7,6 +7,8 @@ Bundle-Version: 7.4.0.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Service-Component: OSGI-INF/org.eclipse.jgit.internal.util.CleanupService.xml
 Eclipse-ExtensibleAPI: true
 Export-Package: org.eclipse.jgit.annotations;version="7.4.0",
@@ -244,7 +246,6 @@ Export-Package: org.eclipse.jgit.annotations;version="7.4.0",
    org.eclipse.jgit.treewalk",
  org.eclipse.jgit.util.sha1;version="7.4.0",
  org.eclipse.jgit.util.time;version="7.4.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.googlecode.javaewah;version="[1.1.6,2.0.0)",
  javax.crypto,
  javax.management,

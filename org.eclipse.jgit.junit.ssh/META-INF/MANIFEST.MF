@@ -8,6 +8,7 @@ Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Import-Package: org.apache.sshd.common;version="[2.15.0,2.16.0)",
  org.apache.sshd.common.config.keys;version="[2.15.0,2.16.0)",
  org.apache.sshd.common.file.virtualfs;version="[2.15.0,2.16.0)",

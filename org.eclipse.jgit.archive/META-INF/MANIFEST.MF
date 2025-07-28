@@ -7,6 +7,7 @@ Bundle-Version: 7.4.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Import-Package: org.apache.commons.compress.archivers;version="[1.4,2.0)",
  org.apache.commons.compress.archivers.tar;version="[1.4,2.0)",
  org.apache.commons.compress.archivers.zip;version="[1.4,2.0)",

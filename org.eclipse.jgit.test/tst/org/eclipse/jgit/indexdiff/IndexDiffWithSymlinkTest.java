@@ -132,7 +132,8 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 				Writer writer = new OutputStreamWriter(out, UTF_8)) {
 			writer.write("echo `which git` 1>&2\n");
 			writer.write("echo `git --version` 1>&2\n");
-			writer.write("git init " + name + " && \\\n");
+			writer.write("git -c init.defaultBranch=master init " + name
+					+ " && \\\n");
 			writer.write("cd ./" + name + " && \\\n");
 			writer.write("git fast-import < ../" + name + ".txt && \\\n");
 			writer.write("git checkout -f\n");
