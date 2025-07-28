@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d844db3_09255713",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ObjectSizeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "remove this, javadoc inherits documentation from the superclass automatically",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0af006da_819e2085",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ObjectSizeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "write to `outw` or `errw` defined in `TextBuiltin` ?",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e769e9df_43ed357d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "remove unused import",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c9160b_90707413",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "remove unused import",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bd976da_3f8c2f61",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "```suggestion\n * A wrapper to write the object size index for existing packs (on disk)\n```",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62670a54_d29c0feb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "```suggestion\n\t *\n```",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4aa2a44_43e961af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "missing javadoc tag @pm",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "186aa1a2_1f2ccea7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc188429_7d8f45ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d27abb4_c5c9ea11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-28T19:15:00Z",
+      "side": 1,
+      "message": "missing //$NON-NLS-1$",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
