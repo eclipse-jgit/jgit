@@ -33,6 +33,24 @@
       "message": "Do you have any countermeasures in place on the Gerrit build system against Jenkinsfile abuse? If the build picks up this Jenkinsfile from changes in review and executes it: how do you prevent someone pushing a change \"for review\" with a modified Jenkinsfile that does something else entirely? Or is that a non-issue for the Gerrit build system?",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b10e00da_84454b54",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-28T19:49:59Z",
+      "side": 1,
+      "message": "\u003e Do you have any countermeasures in place on the Gerrit build system against Jenkinsfile abuse? \n\nJenkinsfile pipelines run inside the Jenkins Groovy sandbox and cannot do arbitrary script actions, unless we explicitly authorise them.\n\n\u003e If the build picks up this Jenkinsfile from changes in review and executes it: how do you prevent someone pushing a change \"for review\" with a modified Jenkinsfile that does something else entirely?\n\nThat also applies to any change pushed \"for review\" with a test class that does something else entirely. Actually the execution of Jenkinsfile has a lot more restrictions than the test code execution.\n\n\u003e Or is that a non-issue for the Gerrit build system?\n\nWe discussed the issue in the past and concluded that the risk was for now acceptable and did not want to limit the CI validations to only a set of _trusted contributors_. \nI believe there isn\u0027t such restriction in the current Eclipse\u0027s build triggered pipeline and any change from any contributor will trigger a CI execution.",
+      "parentUuid": "3b2c0b8e_70f304a8",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
