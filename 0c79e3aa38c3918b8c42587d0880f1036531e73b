@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5240dd8_753a9ef8",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-07-28T14:37:13Z",
+      "side": 1,
+      "message": "What about the license? I get this is for Gerrit and it\u0027s basically an integration build for Gerrit; but still: normally contributions in the JGit repo are EDL-2.0, not APL-2.0.",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b2c0b8e_70f304a8",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-07-28T14:37:13Z",
+      "side": 1,
+      "message": "Do you have any countermeasures in place on the Gerrit build system against Jenkinsfile abuse? If the build picks up this Jenkinsfile from changes in review and executes it: how do you prevent someone pushing a change \"for review\" with a modified Jenkinsfile that does something else entirely? Or is that a non-issue for the Gerrit build system?",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
