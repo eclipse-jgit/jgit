@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ad344775_a97391b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36478907_70a34ffa",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 65
+      },
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1d64426f_aab89f9a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -58,6 +82,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeedf6f8_a17dc3a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2397,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b3c7736a_a5cb4723",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e3f0430_76e0edb3",
@@ -71,6 +113,24 @@
       "writtenOn": "2025-07-30T07:07:25Z",
       "side": 1,
       "message": "add missing braces around single line statement",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2a86864_0563c315",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2431,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e3f0430_76e0edb3",
       "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -92,6 +152,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f4144cc_082ab7aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2464,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2370d05_5d91accf",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34213f0f_b985e4a4",
@@ -105,6 +183,24 @@
       "writtenOn": "2025-07-30T07:07:25Z",
       "side": 1,
       "message": "add missing javadoc for public method",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12c80215_ba143d46",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2479,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "34213f0f_b985e4a4",
       "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -143,6 +239,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7c110c_e441be4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Iterators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "722a98e0_d1ac2337",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f735120_a34f006a",
@@ -156,6 +270,24 @@
       "writtenOn": "2025-07-30T07:07:25Z",
       "side": 1,
       "message": "nit: bad indentation, needs reformatting",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e19599a_3526d531",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Iterators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f735120_a34f006a",
       "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

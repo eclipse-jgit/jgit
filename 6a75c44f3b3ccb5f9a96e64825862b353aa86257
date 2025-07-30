@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4186fb16_979281c5",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ShowPackDelta.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T23:06:42Z",
+      "side": 1,
+      "message": "this seems to break several tests in `PackWriterTest`:\n\n```\n19:28:12  [ERROR] Errors: \n19:28:12  [ERROR]   PackWriterTest.testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck:768 » Mockito \n19:28:12  Only void methods can doNothing()!\n19:28:12  Example of correct use of doNothing():\n19:28:12      doNothing().\n19:28:12      doThrow(new RuntimeException())\n19:28:12      .when(mock).someVoidMethod();\n19:28:12  Above means:\n19:28:12  someVoidMethod() does nothing the 1st time but throws an exception the 2nd time is called\n19:28:12  [ERROR]   PackWriterTest.testTotalPackFilesScanWhenSearchForReuseTimeoutNotSet:711 » Mockito \n19:28:12  Only void methods can doNothing()!\n19:28:12  Example of correct use of doNothing():\n19:28:12      doNothing().\n19:28:12      doThrow(new RuntimeException())\n19:28:12      .when(mock).someVoidMethod();\n19:28:12  Above means:\n19:28:12  someVoidMethod() does nothing the 1st time but throws an exception the 2nd time is called\n19:28:12  [ERROR]   PackWriterTest.testTotalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck:739 » Mockito \n19:28:12  Only void methods can doNothing()!\n19:28:12  Example of correct use of doNothing():\n19:28:12      doNothing().\n19:28:12      doThrow(new RuntimeException())\n19:28:12      .when(mock).someVoidMethod();\n19:28:12  Above means:\n19:28:12  someVoidMethod() does nothing the 1st time but throws an exception the 2nd time is called\n```",
+      "revId": "6a75c44f3b3ccb5f9a96e64825862b353aa86257",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
