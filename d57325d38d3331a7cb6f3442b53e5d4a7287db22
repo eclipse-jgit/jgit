@@ -16,6 +16,24 @@
       "message": "Really interesting @mfick@nvidia.com!\nThere are some similarities with a change (still WIP) that I opened a while ago, but never had time to finalise [1].\n\nAt the very least the motivation behind both efforts is the same.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1193535",
       "revId": "d57325d38d3331a7cb6f3442b53e5d4a7287db22",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16cd5772_4e5896ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-07-30T02:30:08Z",
+      "side": 1,
+      "message": "Yes, I was aware of your work on this. I have actually wanted a solution for this for almost a decade now, and I am happy that I found one that in theory does not sacrifice anything and should return exactly the same results as prior to this change, just faster!! It was actually very simple, but it took a lot of understanding to finally see it! I\u0027d be happy to hear if this approach works for you and what sort of improvements you see with it!",
+      "parentUuid": "724c3aa3_21578e32",
+      "revId": "d57325d38d3331a7cb6f3442b53e5d4a7287db22",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
