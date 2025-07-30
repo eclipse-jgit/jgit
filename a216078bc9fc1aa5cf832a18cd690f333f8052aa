@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36478907_70a34ffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "Maybe refer to Shawn\u0027s change via its Change-Id which is linkified and yields a single change only, whereas searching for the commitid yields 3 changes.",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 65
+      },
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d64426f_aab89f9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "Marked as unresolved.",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3c7736a_a5cb4723",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2397,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "```suggestion\n\t * use of any WindowCache caching, and it helps preventing cycles because a\n```",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e3f0430_76e0edb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2431,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "add missing braces around single line statement",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2370d05_5d91accf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2464,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "add missing braces around single line statement",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34213f0f_b985e4a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2479,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "add missing javadoc for public method",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a52ee77b_8cb6ddea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Iterators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "API tooling wants 2 digit versions, but 6.10 didn\u0027t contain this method, hence we prefer to use 3 digit versions in since tags when adding API in a service release (which API tooling assumes is never done). The corresponding warnings should be suppressed (quickfix in Eclipse).\n\n```suggestion\n * @since 6.10.2\n```",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "722a98e0_d1ac2337",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Iterators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "nit: bad indentation, needs reformatting",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f735120_a34f006a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Iterators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:07:25Z",
+      "side": 1,
+      "message": "nit: bad indentation, needs reformatting",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
