@@ -5,6 +5,7 @@ Automatic-Module-Name: org.eclipse.jgit.ant
 Bundle-SymbolicName: org.eclipse.jgit.ant
 Bundle-Version: 7.4.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Import-Package: org.apache.tools.ant,
   org.eclipse.jgit.storage.file;version="[7.4.0,7.5.0)"
 Bundle-Localization: OSGI-INF/l10n/plugin

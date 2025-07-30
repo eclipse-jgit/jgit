@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.34" sequenceNumber="1752056250">
+<target name="jgit-4.34" sequenceNumber="1753881720">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -267,7 +267,7 @@
         <dependency>
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
-          <version>1.18.0</version>
+          <version>1.19.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
@@ -279,13 +279,13 @@
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>
-          <version>3.17.0</version>
+          <version>3.18.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>commons-io</groupId>
           <artifactId>commons-io</artifactId>
-          <version>2.19.0</version>
+          <version>2.20.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
