@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "841ca724_f8f2646b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T09:43:01Z",
+      "side": 1,
+      "message": "- rebased on stable-6.10\n- fixed nit picks",
+      "revId": "0efc9c36711f25434308ef428cb7c8954dbf4ec6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
