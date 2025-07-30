@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ec2337_73b546ed",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T09:41:16Z",
+      "side": 1,
+      "message": "nit: reformat",
+      "revId": "2aff6f53c93d2becdfd3b2b34508f62d22f6aecb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd1ca17a_a4db1f7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T09:41:16Z",
+      "side": 1,
+      "message": "suppress boxing warnings",
+      "revId": "2aff6f53c93d2becdfd3b2b34508f62d22f6aecb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eb6fa3d_bee3c1a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T09:41:16Z",
+      "side": 1,
+      "message": "I\u0027d avoid Yoda conditions (https://knowthecode.io/yoda-conditions-yoda-not-yoda) to improve readability\n```suggestion\n\t\t\tif (sz \u003c 0 \u0026\u0026 restoreFromSelfOrAlternate(id, null)) {\n```\n\nI think we should fix other occurrences of Yoda style comparisons in this class (in another change)",
+      "range": {
+        "startLine": 435,
+        "startChar": 7,
+        "endLine": 435,
+        "endChar": 13
+      },
+      "revId": "2aff6f53c93d2becdfd3b2b34508f62d22f6aecb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391acad9_ca0808ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T09:41:16Z",
+      "side": 1,
+      "message": "line is too wide, needs reformatting",
+      "revId": "2aff6f53c93d2becdfd3b2b34508f62d22f6aecb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "680d36f3_21fa7af0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T09:41:16Z",
+      "side": 1,
+      "message": "this method doesn\u0027t throw IOException since it\u0027s handled and ignored in line 502",
+      "revId": "2aff6f53c93d2becdfd3b2b34508f62d22f6aecb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
