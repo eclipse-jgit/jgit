@@ -446,12 +446,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 			AnyObjectId id) throws IOException {
 		if (loose.hasCached(id)) {
 			long len = loose.getSize(curs, id);
-			if (0 <= len) {
+			if (len >= 0) {
 				return len;
 			}
 		}
 		long len = getPackedSizeFromSelfOrAlternate(curs, id, null);
-		if (0 <= len) {
+		if (len >= 0) {
 			return len;
 		}
 		return getLooseSizeFromSelfOrAlternate(curs, id, null);
@@ -461,14 +461,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 			AnyObjectId id, Set<AlternateHandle.Id> skips)
 			throws PackMismatchException {
 		long len = packed.getSize(curs, id);
-		if (0 <= len) {
+		if (len >= 0) {
 			return len;
 		}
 		skips = addMe(skips);
 		for (AlternateHandle alt : myAlternates()) {
 			if (!skips.contains(alt.getId())) {
 				len = alt.db.getPackedSizeFromSelfOrAlternate(curs, id, skips);
-				if (0 <= len) {
+				if (len >= 0) {
 					return len;
 				}
 			}
@@ -479,14 +479,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private long getLooseSizeFromSelfOrAlternate(WindowCursor curs,
 			AnyObjectId id, Set<AlternateHandle.Id> skips) throws IOException {
 		long len = loose.getSize(curs, id);
-		if (0 <= len) {
+		if (len >= 0) {
 			return len;
 		}
 		skips = addMe(skips);
 		for (AlternateHandle alt : myAlternates()) {
 			if (!skips.contains(alt.getId())) {
 				len = alt.db.getLooseSizeFromSelfOrAlternate(curs, id, skips);
-				if (0 <= len) {
+				if (len >= 0) {
 					return len;
 				}
 			}
