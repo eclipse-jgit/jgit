@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7c2b7ff_97be1834",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-07-30T07:54:39Z",
+      "side": 1,
+      "message": "- rebased on stable-6.10\n- improved formatting of commit message",
+      "revId": "6c8d6e29955ed6880359de05b41cbb5262f6d078",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
