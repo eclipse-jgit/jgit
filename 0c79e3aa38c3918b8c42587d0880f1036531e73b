@@ -158,6 +158,24 @@
       "parentUuid": "92de6d4d_8891f98e",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb6cea6_cb878a66",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-31T21:00:34Z",
+      "side": 1,
+      "message": "\u003e \u003e From that point of view, I believe this script does not belong to the JGit project, but it should be fully self-contained in the gerrit-ci-scripts project in Gerrit.\n\u003e \n\u003e +1\n\u003e \n\u003e Should we move pipeline in gerrit-ci-scripts then?\n\nYes, exactly as we do for Gerrit and its plugins\u0027 pipelines definitions.",
+      "parentUuid": "39bce21a_df8bbbdd",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
