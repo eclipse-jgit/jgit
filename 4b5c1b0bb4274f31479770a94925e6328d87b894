@@ -34,6 +34,24 @@
       "parentUuid": "7c33212b_de2f154c",
       "revId": "4b5c1b0bb4274f31479770a94925e6328d87b894",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9d879e_2c436675",
+        "filename": "Jenkinsfile",
+        "patchSetId": 26
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-31T07:28:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4fccc596_663375f6",
+      "revId": "4b5c1b0bb4274f31479770a94925e6328d87b894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

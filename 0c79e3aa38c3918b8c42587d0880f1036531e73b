@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2ae52f6_66a6171d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-31T07:28:29Z",
+      "side": 1,
+      "message": "Currently the build *passes* against `stable-3.12` and `master`.\nI can see occasional failures (on both `master` and `stable-3.12`, when the build runs on my machine, due to the flakiness of `FileReftableTest:testConcurrentRacyReload`.",
+      "parentUuid": "85fc56c8_3d3591d9",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5240dd8_753a9ef8",
         "filename": "Jenkinsfile",
         "patchSetId": 38
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-28T14:37:13Z",
       "side": 1,
       "message": "What about the license? I get this is for Gerrit and it\u0027s basically an integration build for Gerrit; but still: normally contributions in the JGit repo are EDL-2.0, not APL-2.0.",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e744d9b4_d12089b3",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-31T07:28:29Z",
+      "side": 1,
+      "message": "It\u0027s a good point Thomas.\nWe should either conform the licence or perhaps move the Jenkinsfile to the `gerrit-ci-scripts` as suggested by @luca.milanesio@gmail.com at [1].\nLeaving this comment as unresolved for now.\n\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1218954/comment/3b2c0b8e_70f304a8/",
+      "parentUuid": "b5240dd8_753a9ef8",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "\u003e Yes, but so far contributors cannot modify the existing jgit CI jobs.\n\nTrue, and your worry is that this Jenkinsfile instead would break that rule, point taken.\n\n\u003e In EGit we put source code of CI jobs into a separate repo egit-pipelines which ensures that a contribution to that repo has no effect on EGit builds until the corresponding change was approved and submitted by a committer.\n\nWe do almost the same in Gerrit, with the build scripts stored in the Gerrit repository, but Jenkinsfile is an exception at the moment. I believe it would make sense to do the same with Gerrit, but then we\u0027ll have to restrict the contributions to the Gerrit repository; otherwise, it would not make any difference.\n\n\u003e I think we should do the same with the JGit CI jobs and move the CI pipeline definitions to the jgit-pipelines repo (which already exists, but I didn\u0027t yet find time to move the pipeline definitions there).\n\nSure and agreed. This change though isn\u0027t really a CI for JGit, which continues to be done with the Gerrit Trigger Plugin, but rather a _safety net_ for preventing future breakages on the `servlet-4` with Gerrit.\n\nFrom that point of view, I believe this script does not belong to the JGit project, but it should be fully self-contained in the gerrit-ci-scripts project in Gerrit.",
       "parentUuid": "36ad6aa5_b14e4292",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bce21a_df8bbbdd",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-07-31T07:28:29Z",
+      "side": 1,
+      "message": "\u003e From that point of view, I believe this script does not belong to the JGit project, but it should be fully self-contained in the gerrit-ci-scripts project in Gerrit.\n\n+1\n\nShould we move pipeline in gerrit-ci-scripts then?",
+      "parentUuid": "92de6d4d_8891f98e",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
