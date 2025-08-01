@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HostnameVerifier;
@@ -77,6 +78,16 @@ import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
  * @since 3.3
  */
 public class HttpClientConnection implements HttpConnection {
+
+	/**
+	 * Number of seconds after which a connection should be removed the pool.
+	 * This value is also used in
+	 * <a href="https://issues.apache.org/jira/browse/MRESOLVER-385">Maven
+	 * Resolver</a>. Re-validation of reused connections is not really reliable
+	 * therefore this additional measure is needed.
+	 */
+	private static final long DEFAULT_CONNECTION_TTL = 300;
+
 	HttpClient client;
 
 	URL url;
@@ -147,6 +158,12 @@ public class HttpClientConnection implements HttpConnection {
 				clientBuilder.setConnectionManager(
 						new BasicHttpClientConnectionManager(registry));
 			}
+			// as the PoolingHttpClientConnectionManager does no longer expire
+			// old
+			// connections but does not always revalidate them before re-use
+			// use a maximum ttl (time to live) for connections
+			clientBuilder.setConnectionTimeToLive(DEFAULT_CONNECTION_TTL,
+						TimeUnit.SECONDS);
 			clientBuilder.setDefaultRequestConfig(configBuilder.build());
 			clientBuilder.setDefaultCredentialsProvider(
 					new SystemDefaultCredentialsProvider());
