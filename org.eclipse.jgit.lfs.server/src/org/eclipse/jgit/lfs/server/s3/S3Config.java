@@ -16,6 +16,7 @@ package org.eclipse.jgit.lfs.server.s3;
  * @since 4.3
  */
 public class S3Config {
+	private final String signatureHostname;
 	private final String hostname;
 	private final String region;
 	private final String bucket;
@@ -24,6 +25,47 @@ public class S3Config {
 	private final String secretKey;
 	private final int expirationSeconds;
 	private final boolean disableSslVerify;
+
+	/**
+	 * <p>
+	 * Constructor for S3Config.
+	 * </p>
+	 *
+	 * @param signatureHostname
+	 *            Hostname to use for the SigV4 signature
+	 * @param hostname
+	 *            S3 API host
+	 * @param region
+	 *            AWS region
+	 * @param bucket
+	 *            S3 storage bucket
+	 * @param storageClass
+	 *            S3 storage class
+	 * @param accessKey
+	 *            access key for authenticating to AWS
+	 * @param secretKey
+	 *            secret key for authenticating to AWS
+	 * @param expirationSeconds
+	 *            period in seconds after which requests signed for this bucket
+	 *            will expire
+	 * @param disableSslVerify
+	 *            if {@code true} disable Amazon server certificate and hostname
+	 *            verification
+	 * @since 5.8
+	 */
+	public S3Config(String signatureHostname, String hostname, String region, String bucket, String storageClass,
+			String accessKey, String secretKey, int expirationSeconds,
+			boolean disableSslVerify) {
+		this.signatureHostname = signatureHostname;
+		this.hostname = hostname;
+		this.region = region;
+		this.bucket = bucket;
+		this.storageClass = storageClass;
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+		this.expirationSeconds = expirationSeconds;
+		this.disableSslVerify = disableSslVerify;
+	}
 
 	/**
 	 * <p>
@@ -53,14 +95,7 @@ public class S3Config {
 	public S3Config(String hostname, String region, String bucket, String storageClass,
 			String accessKey, String secretKey, int expirationSeconds,
 			boolean disableSslVerify) {
-		this.hostname = hostname;
-		this.region = region;
-		this.bucket = bucket;
-		this.storageClass = storageClass;
-		this.accessKey = accessKey;
-		this.secretKey = secretKey;
-		this.expirationSeconds = expirationSeconds;
-		this.disableSslVerify = disableSslVerify;
+		this(hostname, hostname, region, bucket, storageClass, accessKey, secretKey, expirationSeconds, disableSslVerify);
 	}
 
 	/**
@@ -89,6 +124,16 @@ public class S3Config {
 		this(String.format("s3-%s.amazonaws.com", region), region, bucket, //$NON-NLS-1$
 				storageClass, accessKey, secretKey, expirationSeconds,
 				disableSslVerify);
+	}
+
+	/**
+	 * Get the <code>hostname</code>.
+	 *
+	 * @return Get the hostname to use for SigV4 signature calculation
+	 * @since 5.8
+	 */
+	public String getSignatureHostname() {
+		return signatureHostname;
 	}
 
 	/**
