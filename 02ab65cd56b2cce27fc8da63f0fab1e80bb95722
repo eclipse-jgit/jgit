@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e538d52_97c1c857",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-03T14:02:57Z",
+      "side": 1,
+      "message": "I think it should be configurable in the `HttpClientConnectionFactory`. A hard-coded default value seems fine; user code could contribute its own factory it it want this to be a different or externally configurable value. See inline comment below.",
+      "revId": "02ab65cd56b2cce27fc8da63f0fab1e80bb95722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

@@ -87,6 +87,24 @@
       "parentUuid": "7ea8197a_ca5b627e",
       "revId": "1efab10a5102cdd6f14594ff4dd4c793cd420bfa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2357720a_a3828a6c",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-03T14:02:57Z",
+      "side": 1,
+      "message": "The JDK\u0027s `http.keepAlive.time.server` and `http.keepAlive.time.proxy` appear to be something slightly else and may be overridden by an HTTP \u0027Keep-Alive\u0027 header.[1] The default values are also much lower; the JDK uses 5 seconds for server and 60 seconds for proxies.[2] At the same time, the settings _are_ also similar to the Apache HTTP TTL, since these keep-alive timeouts also influence how long the connection remains in the JDK\u0027s `KeepAliveCache`.[3]\n\nThe Apache HTTP TTL set here is a hard upper limit on how long an idle connection will be kept in the cache, irrespective of any other TCP keep-alive settings or HTTP headers the server sends.\n\nCURL has a similar setting CURLOPT_MAXAGE_CONN with a default value of 118 seconds. (Originally proposed were 120 seconds, but it got reduced due to worries that this might coincide with some server-side timeout. See [5] and [6].)\n\nThere is no existing git config setting for this; C git delegates all HTTP handling to libcurl, and relies on curl configuration (which I think can be done via environment variables) for this cache TTL.\n\nThe 5min TTL set here seems to be derived from trial and error, based on a single statement that \"most NATs will cut [idle] connections after 300s\".[7]\n\nFor now I\u0027d be fine with a hard-coded value, and I don\u0027t care if its 300 or 118 :-).\n\nMaking this configurable via a JGit proprietary git config would be quite invasive as Matthias has explained above, and it\u0027s not exactly clear what the corresponding setting for the JDK would be. A system property would be one way, but if we ever re-design the way we\u0027d make this configurable, we\u0027d be forced to keep that system property, too -- it\u0027d be kind of public API. It\u0027s also a bit strange to set such low-level properties that might apply only to a specific `HttpConnectionFactory` on `TransportHttp`, especially given that user code can contribute a different factory to be used. If at all, the properties should be set on or via the factory. So I would:\n\n* define a setter `HttpClientConnection.setCacheTimeToLive()` (or some other reasonable name) for this time-out,\n* change `HttpClientConnectionFactory` to use in its `create()` methods\n\n```\n  protected static final DEFAULT_CACHE_TTL \u003d 300; // Or 118 if you prefer\n  \n  protected HttpConnection configureNewConnection(HttpClientConnection conn) {\n    conn.setCacheTimeToLive(DEFAULT_CACHE_TTL);\n    return conn;\n  }\n\n  @Override\n  public HttpConnection create(...) {\n    return configureNewConnection(new HttpClientConnection(...));\n  }\n```\n\nwith a hard-coded value.\n\nIf user code wants to have a different value, or support different values per URL, or have it configurable in any way, it can derive its own `HttpClientConfigurationFactory` and override the `configureNewConnection()` methods as appropriate, then set that as the factory, either globally or via a `TransportConfigCallback`.\n \n[1] https://github.com/openjdk/jdk/blob/a5e0c9d0c52e028321bb38e471ce98e389e67fe1/src/java.base/share/classes/sun/net/www/http/HttpClient.java#L860[2] https://github.com/openjdk/jdk/blob/a5e0c9d0c52e028321bb38e471ce98e389e67fe1/src/java.base/share/classes/sun/net/www/http/KeepAliveCache.java#L148\n[3] https://github.com/openjdk/jdk/blob/a5e0c9d0c52e028321bb38e471ce98e389e67fe1/src/java.base/share/classes/sun/net/www/http/KeepAliveCache.java#L216\n[4] https://curl.se/libcurl/c/CURLOPT_MAXAGE_CONN.html\n[5] https://curl.se/mail/lib-2019-04/0040.html\n[6] https://curl.se/mail/lib-2019-04/0051.html\n[7] https://github.com/apache/maven-resolver/issues/1058#issuecomment-2969389464",
+      "parentUuid": "b04b3fb4_3393155f",
+      "revId": "1efab10a5102cdd6f14594ff4dd4c793cd420bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
