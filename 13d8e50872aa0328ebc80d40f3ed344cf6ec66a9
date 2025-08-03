@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8ba196b_512ee3b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-03T15:00:40Z",
+      "side": 1,
+      "message": "All current uses of `CheckoutCommand` in any client will need to handle `AbortedByHookException` now and decide what to do with it. In EGit I see a couple of places where code changes would be necessary. Maybe we should make this opt-in via a setter on `CheckoutCommand` (like `setRunPostCheckoutHook(boolean)`), which would default to `false`? @matthias.sohn@sap.com what do you think?",
+      "revId": "13d8e50872aa0328ebc80d40f3ed344cf6ec66a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "745cdda3_ddd26181",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-03T15:00:40Z",
+      "side": 1,
+      "message": "This condition seems strange; check the \"if (createBranch)\" path in line 196 above.",
+      "revId": "13d8e50872aa0328ebc80d40f3ed344cf6ec66a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
