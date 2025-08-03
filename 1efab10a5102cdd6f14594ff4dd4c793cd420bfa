@@ -123,6 +123,24 @@
       "parentUuid": "2357720a_a3828a6c",
       "revId": "1efab10a5102cdd6f14594ff4dd4c793cd420bfa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1fb4f36_e03ce81a",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-03T16:15:04Z",
+      "side": 1,
+      "message": "Our `JdkHttpConnection`uses `HttpURLConnection`, not the newer JDK HttpClient. The properties Matthias mentioned are described at [1].\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/net/doc-files/net-properties.html",
+      "parentUuid": "348ae935_78d02760",
+      "revId": "1efab10a5102cdd6f14594ff4dd4c793cd420bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
