@@ -69,6 +69,24 @@
       "parentUuid": "43fd56bf_90604caa",
       "revId": "1efab10a5102cdd6f14594ff4dd4c793cd420bfa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b04b3fb4_3393155f",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-03T09:37:54Z",
+      "side": 1,
+      "message": "`HttpUrlConnection` uses a system property `http.keepAlive.time.server` to configure the idle timeout for persistent HTTP connections. This is a global option used for all connections in the same JVM. On the other hand `HttpClientBuilder.setConnectionTimeToLive` is a per connection setting.\n\nEither we use a system property to configure the ttl (which would be global per JVM) or we add a setter on `TransportHttp` to set custom options and add another constructor to `HttpClientConnection` and `JDKHttpConnection` adding e.g. a generic `Properties` object to pass options. Also add another `create` method to the corresponding `HttpConnectionFactory`s to pass these generic options and add a corresponding `setOptions(Properties)` on `TransportHttp` so that it can call the new create method on the `HttpConnectionFactory`.",
+      "parentUuid": "7ea8197a_ca5b627e",
+      "revId": "1efab10a5102cdd6f14594ff4dd4c793cd420bfa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
