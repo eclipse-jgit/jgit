@@ -33,6 +33,24 @@
       "message": "Two more things I wonder about now:\n\n1. Will this have any effect at all? We seem to use one `HttpClient` per `HttpClientConnection` instance...\n2. Also, the `HttpClientBuilder` actually returns a `CloseableHttpClient`: when is this client closed?",
       "revId": "02ab65cd56b2cce27fc8da63f0fab1e80bb95722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d72fcd0d_175eab78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2025-08-03T15:53:30Z",
+      "side": 1,
+      "message": "Indeed it seems that one Apache HTTP Client is currently only used for a single connection. In that case I can only imagine that the \"Connection Reset\" happens because of incorrectly set up retries (https://www.baeldung.com/java-retrying-requests-using-apache-httpclient). The default should be 3 retries for and I can hardly imagine that there are three subsequent connection resets for newly established connections.",
+      "parentUuid": "9e901dd3_6dbc6e44",
+      "revId": "02ab65cd56b2cce27fc8da63f0fab1e80bb95722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
