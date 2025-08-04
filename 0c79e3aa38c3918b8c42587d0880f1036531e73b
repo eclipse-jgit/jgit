@@ -176,6 +176,24 @@
       "parentUuid": "39bce21a_df8bbbdd",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1ac4160_eb4e8ded",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-04T07:42:07Z",
+      "side": 1,
+      "message": "@twolf@apache.org, @matthias.sohn@sap.com, @luca.milanesio@gmail.com,\n\nUnfortunately the plan to have a **completely** self-contained pipeline in `gerrit-ci-script` cannot be achieved, as we planned.\n\nTo make usage of the `Gerrit Code Review plugin` and validate JGit changes _as they are created/updated_ we need to use a **multi-branch job**. However, **multi-branch jobs** cannot execute arbitrary code. They _must_ have a Jenkinsfile in the target repo, in this case JGit.\n\nTo have _direct_ control on the Groovy script path, one must configure a **pipeline job** (we can use the _dsl_ property), however this has no native understanding of the SCM changes being tested (i.e.\nJGit changes) and it does not work with `Gerrit Code Review plugin`.\n\nSo, as things stand, I don’t see a clean way to automatically discover and validate JGit changes without placing a **Jenkinsfile** in the JGit repo.\n\nHowever, here an alternative approach that perhaps can address all concerns:\n\n1 - We introduce a _minimal_ JenkinsFile in the Jgit code (just on the **servlet-4** branch). This `Jenkinsfile` has **no logic**,it just provides the **glue** for the pipeline to work.\n\nWe already do something similar for the plugins pipelines by allowing them to call exclusively a routine defined in the `gerrit-ci-scripts`. An example [here](https://gerrit.googlesource.com/plugins/multi-site/+/refs/heads/master/Jenkinsfile).\n\nThe Jenkinsfile could be as simple as:\n\n```\nJgitPipeline()\n```\n\nOr something along those lines.\n\n2. We pack the pipeline logic in the `gerrit-ci-scripts`, similarly to what we do for plugins [here](https://gerrit.googlesource.com/gerrit-ci-scripts/+/refs/heads/master/vars/pluginPipeline.groovy#49)\n\n3. We address any security concerns about who can upload/modify a `Jenkinsfile` in `JGit` through other means. For example:\n   - Preventing `Jenkinsfile` to be uploaded by anyone who is noy in a trusted group (i.e. Maintainers).\n   - Introducing submit-requirements that prevent Jenkinsfiles to be merged unless  uploaded by a trusted group.\n   - Extending the gerrit trigger plugin with an option to trigger only on specific branches, rather than all changes.\n   \nWhat do you think @twolf@apache.org, @matthias.sohn@sap.com, @luca.milanesio@gmail.com? I am happy to follow this route if we get consensus this is an acceptable way forward.",
+      "parentUuid": "8fb6cea6_cb878a66",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
