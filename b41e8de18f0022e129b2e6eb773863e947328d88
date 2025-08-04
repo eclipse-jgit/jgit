@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7773e72_3cab78f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/SilentInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1037763
+      },
+      "writtenOn": "2025-08-04T07:49:43Z",
+      "side": 1,
+      "message": "Probably some debug level logging would be helpful to trace down other edge case issues.",
+      "revId": "b41e8de18f0022e129b2e6eb773863e947328d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
