@@ -16,6 +16,24 @@
       "message": "I think this if clause isn\u0027t necessary since that\u0027s the first statement in the implementations of this method.",
       "revId": "a762badfcecd3c200bb29b8ad5806546c7db8eaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f38853f_fc949d93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/SilentInputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-04T20:15:20Z",
+      "side": 1,
+      "message": "I don\u0027t quite get what it being the first statement has to do with it.\n\nI\u0027m just used to this pattern to keep debug logging impact at a minimum when debug logging isn\u0027t enabled. It avoids the extra overhead of pushing two arguments and calling debug(), which in a concrete logger then would have to check whether the debug level is enabled. Especially if the arguments themselves involved some computation--which admittedly isn\u0027t the case here--the pattern may save some otherwise useless work.\n\nIn this particular case--in an exception handler and no computations needed for the arguments--I could drop the `if`.",
+      "parentUuid": "22c6f2cb_981a4d22",
+      "revId": "a762badfcecd3c200bb29b8ad5806546c7db8eaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
