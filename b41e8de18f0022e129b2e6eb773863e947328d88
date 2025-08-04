@@ -16,6 +16,24 @@
       "message": "Probably some debug level logging would be helpful to trace down other edge case issues.",
       "revId": "b41e8de18f0022e129b2e6eb773863e947328d88",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59f05daa_8dd62376",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/SilentInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-04T16:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7773e72_3cab78f6",
+      "revId": "b41e8de18f0022e129b2e6eb773863e947328d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
