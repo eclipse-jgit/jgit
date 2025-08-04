@@ -194,6 +194,24 @@
       "parentUuid": "8fb6cea6_cb878a66",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "294d3ce2_b1c349b7",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-08-04T07:52:46Z",
+      "side": 1,
+      "message": "I believe that would work, but I want to see first the Gerrit Code Review plugin changes deployed and used in other Gerrit plugins so that we have a real life validation that the process works.\n\nAlso this approach is useful for Gerrit plugins to avoid abusers running pipeline code on the CI by just creating a random change.",
+      "parentUuid": "d1ac4160_eb4e8ded",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
