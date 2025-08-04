@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22c6f2cb_981a4d22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/SilentInputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-04T19:17:51Z",
+      "side": 1,
+      "message": "I think this if clause isn\u0027t necessary since that\u0027s the first statement in the implementations of this method.",
+      "revId": "a762badfcecd3c200bb29b8ad5806546c7db8eaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
