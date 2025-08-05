@@ -33,6 +33,24 @@
       "message": "Maybe adding a link to the other constructor would help in the javadoc, and mentioning that this is just calling that under the hood with second argument being \"false\".",
       "revId": "01123ee708a9899a61e6e3514e35d2b29617c8a0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c1f16e2_fec0a98a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-05T10:58:33Z",
+      "side": 1,
+      "message": "I prefer not to add a link since the code is public and nearby",
+      "parentUuid": "8aa42b1a_1911e100",
+      "revId": "01123ee708a9899a61e6e3514e35d2b29617c8a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
