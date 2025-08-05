@@ -127,7 +127,7 @@
     <junit-version>4.13.2</junit-version>
     <test-fork-count>1C</test-fork-count>
     <args4j-version>2.37</args4j-version>
-    <commons-compress-version>1.27.1</commons-compress-version>
+    <commons-compress-version>1.28.0</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>6.1.0</servlet-api-version>
     <jetty-version>12.0.23</jetty-version>
