@@ -33,9 +33,11 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.hooks.PreFetchHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -176,6 +178,19 @@ class FetchProcess {
 				additionalTags = expandAutoFollowTags();
 			else if (tagopt == TagOpt.FETCH_TAGS)
 				expandFetchTags();
+
+			PreFetchHook preFetchHook = transport.getPreFetchHook();
+			if (preFetchHook != null && !fetchHeadUpdates.isEmpty()) {
+				preFetchHook.setRemote(transport.getRemoteName());
+				preFetchHook.setUrl(transport.getURI().toString());
+				preFetchHook.setRefs(new ArrayList<>(askFor.values()));
+				preFetchHook.setDryRun(transport.isDryRun());
+				try {
+					preFetchHook.call();
+				} catch (AbortedByHookException | IOException e) {
+					throw new TransportException(e.getMessage(), e);
+				}
+			}
 
 			final boolean includedTags;
 			if (!askFor.isEmpty() && !askForIsComplete()) {
