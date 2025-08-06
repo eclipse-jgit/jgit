@@ -43,6 +43,7 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.Hooks;
 import org.eclipse.jgit.hooks.PrePushHook;
+import org.eclipse.jgit.hooks.PreFetchHook;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -810,6 +811,8 @@ public abstract class Transport implements AutoCloseable {
 
 	private List<String> deepenNots = new ArrayList<>();
 
+	private PreFetchHook preFetchHook;
+
 	@Nullable
 	TransferConfig.ProtocolVersion protocol;
 
@@ -903,6 +906,32 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setHookErrorStream(PrintStream redirect) {
 		hookErrRedirect = redirect;
+	}
+
+	/**
+	 * Sets a {@link PreFetchHook}
+	 *
+	 * @param hook {@link PreFetchHook} to use
+	 * @since 7.4
+	 */
+	public void setPreFetchHook(PreFetchHook hook) {
+		this.preFetchHook = hook;
+	}
+
+	/**
+	 * @return The {@link PreFetchHook}, or {@code null}
+	 * @since 7.4
+	 */
+	PreFetchHook getPreFetchHook() {
+		return preFetchHook;
+	}
+
+	/**
+	 * @return The remote name
+	 * @since 7.4
+	 */
+	String getRemoteName() {
+		return remoteName;
 	}
 
 	/**
