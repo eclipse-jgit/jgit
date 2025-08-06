@@ -205,6 +205,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d256adf_e15d9568",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2479,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-06T02:16:53Z",
+      "side": 1,
+      "message": "Should have been private. Done",
+      "parentUuid": "34213f0f_b985e4a4",
+      "revId": "a216078bc9fc1aa5cf832a18cd690f333f8052aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a52ee77b_8cb6ddea",
