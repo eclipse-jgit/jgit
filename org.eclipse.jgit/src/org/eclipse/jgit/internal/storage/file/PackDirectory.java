@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +47,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.Iterators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -279,12 +281,14 @@ class PackDirectory {
 		PackList pList = packList.get();
 		int retries = 0;
 		SEARCH: for (;;) {
-			for (Pack p : pList.packs) {
+			for (Pack p : pList.inReverse()) {
 				try {
 					LocalObjectRepresentation rep = p.representation(curs, otp);
 					p.resetTransientErrorCount();
 					if (rep != null) {
-						packer.select(otp, rep);
+						if (!packer.select(otp, rep)) {
+							return;
+						}
 						packer.checkSearchForReuseTimeout();
 					}
 				} catch (SearchForReuseTimeout e) {
@@ -565,6 +569,14 @@ class PackDirectory {
 		PackList(FileSnapshot monitor, Pack[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
+		}
+
+		Iterable<Pack> inReverse() {
+			return Iterators.iterable(reverseIterator());
+		}
+
+		Iterator<Pack> reverseIterator() {
+			return Iterators.reverseIterator(packs);
 		}
 	}
 }
