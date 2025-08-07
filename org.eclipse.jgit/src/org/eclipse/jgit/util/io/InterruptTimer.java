@@ -189,11 +189,11 @@ public final class InterruptTimer {
 		}
 
 		synchronized void end() {
-			if (0 == deadline)
+			if (0 == deadline) {
 				Thread.interrupted();
-			else
+			} else {
 				deadline = 0;
-			notifyAll();
+			}
 		}
 
 		synchronized void terminate() {
