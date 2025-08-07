@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6cd473c_64742b9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-07T20:28:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7d49090f_73fc5f4a",
+      "revId": "561a65dc75d29a3bc42bb29e8704a80d237aad2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28affad6_57224ae4",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-08-07T20:00:39Z",
       "side": 1,
       "message": "```suggestion\nCancellableDigestOutputStream wraps another output stream, but did\n```",
+      "revId": "561a65dc75d29a3bc42bb29e8704a80d237aad2b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2178b1a_02d32b6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-07T20:28:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "28affad6_57224ae4",
       "revId": "561a65dc75d29a3bc42bb29e8704a80d237aad2b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
