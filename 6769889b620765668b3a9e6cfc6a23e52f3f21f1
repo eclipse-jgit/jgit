@@ -16,6 +16,24 @@
       "message": "As far as I see C git does not have a `pre-fetch` hook.[1] The documentation of `git fetch` even says so explicitly: \"...there is no configuration which’ll amend these rules, and nothing like a pre-fetch hook...\"[2] Some old discussion about such a feature is at [3], but apparently it went nowhere.\n\nI also don\u0027t get the implementation. One can set a number of parameters, but how does the hook script get them? (`getParameters()` is not implemented.) Plus there\u0027s this private `canRun()` -- what\u0027s the point of that?\n\n[1] https://git-scm.com/docs/githooks\n[2] https://git-scm.com/docs/git-fetch\n[3] https://public-inbox.org/git/5898be69-4211-d441-494d-93477179cf0e@gaspard.io/",
       "revId": "6769889b620765668b3a9e6cfc6a23e52f3f21f1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deeadfe1_f91d0d78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2025-08-07T21:31:19Z",
+      "side": 1,
+      "message": "Hi Thomas, \n\nThank you so much for the email list context. Currently, within the FetchProcess of Transport, we could choose to abort the fetch by inserting a custom ObjectChecker into the Transport, which is then invoked when the new objects are transferred over the wire. \n\nThere is currently no way for us to insert custom conditions to abort the fetch before the object transfer, i.e. something similar to the PrePushHook; the goal is to allow the caller to abort if their conditions do not depend on fetching the object data. \n\nGiven the lack of similar support on C git, do you have any suggestion on how we can achieve such goal? or is it fundamentally a bad idea to add a PreFetchHook?",
+      "parentUuid": "7d68dd40_9322bee0",
+      "revId": "6769889b620765668b3a9e6cfc6a23e52f3f21f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
