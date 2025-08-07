@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d68dd40_9322bee0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-07T09:08:11Z",
+      "side": 1,
+      "message": "As far as I see C git does not have a `pre-fetch` hook.[1] The documentation of `git fetch` even says so explicitly: \"...there is no configuration which’ll amend these rules, and nothing like a pre-fetch hook...\"[2] Some old discussion about such a feature is at [3], but apparently it went nowhere.\n\nI also don\u0027t get the implementation. One can set a number of parameters, but how does the hook script get them? (`getParameters()` is not implemented.) Plus there\u0027s this private `canRun()` -- what\u0027s the point of that?\n\n[1] https://git-scm.com/docs/githooks\n[2] https://git-scm.com/docs/git-fetch\n[3] https://public-inbox.org/git/5898be69-4211-d441-494d-93477179cf0e@gaspard.io/",
+      "revId": "6769889b620765668b3a9e6cfc6a23e52f3f21f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
