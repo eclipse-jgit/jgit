@@ -33,6 +33,42 @@
       "message": "Why is this not a `FilterOutputStream`?",
       "revId": "a62ce22d80f6555b581407c6510976d12c667066",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb041e3e_9eeab4ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-07T18:31:00Z",
+      "side": 1,
+      "message": "Agreed, that would be a better \"fix\". Done.\n\nOf course, unfortunately as you would expect, that suffers the same problem.",
+      "parentUuid": "b4a3d8f3_a578599b",
+      "revId": "a62ce22d80f6555b581407c6510976d12c667066",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "373aac36_cfd292b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-07T18:31:00Z",
+      "side": 1,
+      "message": "I will slowly start fixing these with my best guess as to what is \"right\". For example, I think that GC should not have to call force() since that really should happen on close(), and I see no reason why this shouldn\u0027t be closed.",
+      "parentUuid": "78fb54ae_67e7aded",
+      "revId": "a62ce22d80f6555b581407c6510976d12c667066",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
