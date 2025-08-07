@@ -16,6 +16,23 @@
       "message": "This breaks a tone of tests, however I believe the fix is correct. Unfortunately, it looks like the behavior of this bug might be baked into many of its uses. For example, CommitGraphWriter uses this class in a try-with-resource:\n\n```try (CancellableDigestOutputStream out \u003d new CancellableDigestOutputStream(\n\t\t\t\tmonitor, commitGraphStream)) {```\n\t\t\t\t\nin its write() method, but GC calls force() on the file it writes to in writeCommitGraph() after having called CommitGraphWriter.write() which closes the CancellableDigestOutputStream in its try-with-resource.\n\nThe CancellableDigestOutputStream close() doesn\u0027t do anything before this change, so wrapping it in the try-with-resource was never closing the stream. Is it correct to close it in CommitGraph, and should the force() be removed from GC, I am not sure?",
       "revId": "a62ce22d80f6555b581407c6510976d12c667066",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4a3d8f3_a578599b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-07T08:39:42Z",
+      "side": 1,
+      "message": "Why is this not a `FilterOutputStream`?",
+      "revId": "a62ce22d80f6555b581407c6510976d12c667066",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
