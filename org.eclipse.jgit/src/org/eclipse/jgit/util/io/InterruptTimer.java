@@ -193,7 +193,6 @@ public final class InterruptTimer {
 				Thread.interrupted();
 			else
 				deadline = 0;
-			notifyAll();
 		}
 
 		synchronized void terminate() {
