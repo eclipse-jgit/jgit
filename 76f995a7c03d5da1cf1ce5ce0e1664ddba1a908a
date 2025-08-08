@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0cd32a_8baccca8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n * Copyright (C) 2025, NVIDIA CORPORATION\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9588f32f_4cb9e1e0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "nit: missing braces around single line block",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad0f313_ef446f3c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99592e45_cd7b9e78",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d04ee8_92d65d19",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecf79726_47625036",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43202f03_12cec1e0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07cdacea_1c1e9853",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fd369d_dd74c35f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bde141_568fa08d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-08T10:55:21Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tint interrupted \u003d 0;\n```",
+      "revId": "76f995a7c03d5da1cf1ce5ce0e1664ddba1a908a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
