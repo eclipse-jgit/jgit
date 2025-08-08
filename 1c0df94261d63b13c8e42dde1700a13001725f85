@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3cedc01_271466a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-08T14:06:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is OK. The contract of `CommitGraphWriter.write(ProgressMonitor, OutputStream)` is now broken. The javadoc there said \"the caller is responsible for closing the stream\", which is no longer true now. It made sense since the stream is an input parameter. So _that\u0027s_ why this stream was not a `FilterOutputStream`, and why it didn\u0027t forward the `close()`.\n\nNote that `MultiPackIndexWriter` also uses the `CancellableDigestOutputStream`, and `PackOutputStream` _is_ a `CancellableDigestOutputStream`. `PackWriter.writePack()` also says the caller should close the stream... so does `BundleWriter.writeBundle()`.\n\nAt the very least these javadocs are now all wrong. But I have the feeling that these javadocs are actually right, and now the implementation is wrong. This stream was intended to be used in an incremental manner (which is also the reason for the `channel.force()`) on a single global output stream, which is opened and closed by the caller.",
+      "revId": "1c0df94261d63b13c8e42dde1700a13001725f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
