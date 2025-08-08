@@ -16,6 +16,24 @@
       "message": "Since the stream is not closed now, the `channel.force()` that was removed over in GC would again work. So...: why exactly was that there? And was it needed or not? If it really isn\u0027t needed, then that code in GC could just write to the `FileOutputStream` instead of going through a `ChannelOutputStream`.",
       "revId": "39e368f0f26a24639e429d516961e22b171a0bba",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddd194ef_69638c2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-08T21:36:06Z",
+      "side": 1,
+      "message": "Yeah, I was wondering the same thing. To be honest, I think the model is a bit broken either way. I guess a ChannelOutputStream does not really need to be closed or flushed as it currently is since it does not buffer any data, only the Channel or FileOutputStream need to be flushed and/or closed. I don\u0027t think the force() was ever needed, or effective, it could not force a flush \"up the stack\" from itself, only down. The way I see it, it was redundant with the try-with-resource above it anyway. Removing it before any changes to this code does not cause any tests to break. And, yes, passing the FileOutputStream directly to the writer should, and seems to work just fine also. I can raise a change to improve that also, or should I just add it to this change?",
+      "parentUuid": "6395e618_7805bb81",
+      "revId": "39e368f0f26a24639e429d516961e22b171a0bba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
