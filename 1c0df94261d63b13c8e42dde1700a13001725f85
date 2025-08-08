@@ -34,6 +34,24 @@
       "parentUuid": "d3cedc01_271466a1",
       "revId": "1c0df94261d63b13c8e42dde1700a13001725f85",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582bed9a_942498ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-08T15:01:31Z",
+      "side": 1,
+      "message": "\u003e The CommitGraphWriter.write() does sound broken now, I should have taken the opposite approach for it and removed it from the try-wit-resource. \n\nDone. https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1219719 Prevent CommitGraphWriter.write() from closing its stream",
+      "parentUuid": "e6ba80af_0c6a416f",
+      "revId": "1c0df94261d63b13c8e42dde1700a13001725f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
