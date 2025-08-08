@@ -164,7 +164,7 @@ public final class InterruptTimer {
 		public synchronized void run() {
 			while (!terminated && callingThread.isAlive()) {
 				try {
-					if (0 < deadline) {
+					if (deadline > 0) {
 						final long delay = deadline - now();
 						if (delay <= 0) {
 							deadline = 0;
