@@ -34,6 +34,24 @@
       "parentUuid": "7d68dd40_9322bee0",
       "revId": "6769889b620765668b3a9e6cfc6a23e52f3f21f1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6292d3a_a3679b91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-08T07:02:32Z",
+      "side": 1,
+      "message": "I don\u0027t know your use case or what conditions you want to enforce and what the general context is (Gerrit replication? repo?), so it\u0027s a bit hard to give concrete guidance.\n\nAdding a non-standard hook runs the risk that (a) JGit behaves differently than C git, and (b) whatever you do with that hook won\u0027t work if the user uses C git instead of JGit. Using the hook mechanism for this is IMO only sensible if you can convince the C git maintainers to add the feature also to C git.\n\nIf you just want Java code be able to hook something into the fetch process (without calling en external hook script), you could maybe add something such that Java can register a callback without using hooks. The Java code supplying this callback could then still decide to implement that callback in a way that calls some external script. (The hooks in ReceivePack are done that way, though there are no real hook implementations for them yet -- nothing to call a pre-receive script, for instance.)\n\nOr (preferred IMO) don\u0027t change the fetch process at all and check the conditions before executing the fetch.\n\nI only skimmed that e-mail discussion, but I think the main gist was that such pre-fetch conditions could be checked before even starting the fetch, possibly in a wrapper.\n\nIf you guys stick with the hook idea, then define that hook properly, and lobby to get it into C git, too. How does it get its arguments? (The askFor list would probably be sent over stdin, right?) What will be the current directory when the script is called? Even if you get this hook into C git, a user using an older version of git that doesn\u0027t have it yet could still bypass your conditions.",
+      "parentUuid": "deeadfe1_f91d0d78",
+      "revId": "6769889b620765668b3a9e6cfc6a23e52f3f21f1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
