@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6395e618_7805bb81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-08T17:37:15Z",
+      "side": 1,
+      "message": "Since the stream is not closed now, the `channel.force()` that was removed over in GC would again work. So...: why exactly was that there? And was it needed or not? If it really isn\u0027t needed, then that code in GC could just write to the `FileOutputStream` instead of going through a `ChannelOutputStream`.",
+      "revId": "39e368f0f26a24639e429d516961e22b171a0bba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
