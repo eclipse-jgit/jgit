@@ -34,6 +34,24 @@
       "parentUuid": "6395e618_7805bb81",
       "revId": "39e368f0f26a24639e429d516961e22b171a0bba",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0d26776_8622f2b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-09T11:32:55Z",
+      "side": 1,
+      "message": "Since this is a clean-up on the earlier commit, I would include the clean-up in GC (using the `FileOutputStream` directly) here, too. Both were changed in one commit, now they\u0027re being cleaned up also in one commit.",
+      "parentUuid": "ddd194ef_69638c2a",
+      "revId": "39e368f0f26a24639e429d516961e22b171a0bba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
