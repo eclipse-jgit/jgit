@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb4c615_cd67dc45",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ObjectSizeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d844db3_09255713",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0af006da_819e2085",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-28T19:15:00Z",
       "side": 1,
       "message": "write to `outw` or `errw` defined in `TextBuiltin` ?",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7de58353_399eadd3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ObjectSizeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af006da_819e2085",
       "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +122,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cdacd7f_dcccc0aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd976da_3f8c2f61",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62670a54_d29c0feb",
@@ -99,6 +153,24 @@
       "writtenOn": "2025-07-28T19:15:00Z",
       "side": 1,
       "message": "```suggestion\n\t *\n```",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5737c6_dd306ea8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62670a54_d29c0feb",
       "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -120,6 +192,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8058c8_e1990a97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4aa2a44_43e961af",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "186aa1a2_1f2ccea7",
@@ -133,6 +223,24 @@
       "writtenOn": "2025-07-28T19:15:00Z",
       "side": 1,
       "message": "missing //$NON-NLS-1$",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a93f64cc_37eaea6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "186aa1a2_1f2ccea7",
       "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -154,6 +262,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f8108c_0a014f57",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc188429_7d8f45ac",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d27abb4_c5c9ea11",
@@ -167,6 +293,24 @@
       "writtenOn": "2025-07-28T19:15:00Z",
       "side": 1,
       "message": "missing //$NON-NLS-1$",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45e70405_990329c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d27abb4_c5c9ea11",
       "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
