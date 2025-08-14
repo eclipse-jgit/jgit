@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cad24b9_3f0055bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:51:05Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d611cc05_6e7688b5",
+      "revId": "ca6a8c364cf0d5021e26f5b8a256caf6ae90d312",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a88651da_65a5e11d",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-27T21:41:31Z",
       "side": 1,
       "message": "remove commented out debug tracing",
+      "revId": "ca6a8c364cf0d5021e26f5b8a256caf6ae90d312",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9516148f_e44b4071",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a88651da_65a5e11d",
       "revId": "ca6a8c364cf0d5021e26f5b8a256caf6ae90d312",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
