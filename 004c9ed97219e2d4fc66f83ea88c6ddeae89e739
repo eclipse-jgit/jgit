@@ -88,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfe30aa_b4bcdd05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e769e9df_43ed357d",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55c9160b_90707413",
@@ -101,6 +119,24 @@
       "writtenOn": "2025-07-28T19:15:00Z",
       "side": 1,
       "message": "remove unused import",
+      "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6560548b_23b7908b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackObjectSizeIndexHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-08-14T21:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c9160b_90707413",
       "revId": "004c9ed97219e2d4fc66f83ea88c6ddeae89e739",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
