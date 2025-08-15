@@ -54,4 +54,7 @@ public class Iterators {
 			}
 		};
 	}
+
+	private Iterators() {
+	}
 }
