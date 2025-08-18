@@ -25,6 +25,7 @@
     <tycho-version>4.0.13</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <target-platform>jgit-4.21</target-platform>
+    <java.version>8</java.version>
   </properties>
 
   <pluginRepositories>
@@ -218,8 +219,7 @@
           <version>${tycho-version}</version>
           <configuration>
             <encoding>UTF-8</encoding>
-            <source>1.8</source>
-            <target>1.8</target>
+            <release>${java.version}</release>
           </configuration>
         </plugin>
         <plugin>
