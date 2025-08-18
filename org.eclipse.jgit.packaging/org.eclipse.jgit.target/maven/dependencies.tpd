@@ -56,7 +56,7 @@ maven assertj
 	dependency {
 		groupId = "org.assertj"
 		artifactId = "assertj-core"
-		version = "3.27.3"
+		version = "3.27.4"
 	}
 }
 
