@@ -225,7 +225,7 @@ maven mockito
 	dependency {
 		groupId = "org.mockito"
 		artifactId = "mockito-core"
-		version = "5.18.0"
+		version = "5.19.0"
 	}
 }
 
