@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b371e65c_a3d428b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-18T20:36:41Z",
+      "side": 1,
+      "message": "Looks OK to me. Ideally we\u0027d run the tests using Java 8, and we\u0027d have a little smoke test exercising this ByteBuffer.mark(). (In Java 8, it\u0027s Buffer.mark(); in some later release, a \"co-variant return\" override was added in ByteBuffer.) But for this old release doing this is probably not worth the trouble.\n\nI have manually verified that calling `RawParseUtils.decodeNoFallback()` when run with org.eclipse.jgit-5.13.4.202507202350-r.jar on JDK 8 indeed produces\n```\nException in thread \"main\" java.lang.NoSuchMethodError: java.nio.ByteBuffer.mark()Ljava/nio/ByteBuffer;\n  at org.eclipse.jgit.util.RawParseUtils.decodeNoFallback(RawParseUtils.java:1140)\n```\n\nwhile it works when run with a JGit built with this change included.",
+      "revId": "3d9bca809989e964b88099a498e2ff826ab12544",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
