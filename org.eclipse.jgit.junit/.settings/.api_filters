@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="org.eclipse.jgit.junit" version="2">
+    <resource path="src/org/eclipse/jgit/junit/TestRepository.java" type="org.eclipse.jgit.junit.TestRepository">
+        <filter id="1142947843">
+            <message_arguments>
+                <message_argument value="5.13.3"/>
+                <message_argument value="link(String, RevBlob)"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>
