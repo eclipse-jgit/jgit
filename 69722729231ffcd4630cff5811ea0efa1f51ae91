@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daa817fb_36f8fabf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-18T15:55:17Z",
+      "side": 1,
+      "message": "Is the intent here to round up the result of the division? If so, we should either make a comment explaining that, or we could use math that makes that more clear, maybe by using the Match.ceil() function?",
+      "revId": "69722729231ffcd4630cff5811ea0efa1f51ae91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
