@@ -214,18 +214,18 @@ maven_jar(
     sha1 = "31f5d58a202bd5df4993fb10fa2cffd610c20d6f",
 )
 
-BYTE_BUDDY_VERSION = "1.17.6"
+BYTE_BUDDY_VERSION = "1.17.7"
 
 maven_jar(
     name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "8c70cbc6950b2ae5291a98d5003e06406d633803",
+    sha1 = "3856bfab61beb23e099a0d6629f2ba8de4b98ace",
 )
 
 maven_jar(
     name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "17b32fd9f57deef02842f7f05abc4ad8127fe34e",
+    sha1 = "fbf3d6d649ed37fc9e9c59480a05be0a26e3c2da",
 )
 
 maven_jar(
