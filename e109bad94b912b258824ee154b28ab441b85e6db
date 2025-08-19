@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "075ca85f_b8b530fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-19T21:03:25Z",
+      "side": 1,
+      "message": "This is a good fix, but I don\u0027t believe this should prevent a pack file from closing. i.e. pack files are opened and closed during reads from them, but putting/leaving entries from the file in the WindowCache should not leave them open? So, if the files are being left open, something else is likely doing that?",
+      "revId": "e109bad94b912b258824ee154b28ab441b85e6db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

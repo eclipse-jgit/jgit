@@ -34,6 +34,24 @@
       "parentUuid": "daa817fb_36f8fabf",
       "revId": "69722729231ffcd4630cff5811ea0efa1f51ae91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4a6329_0bd22e1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-08-19T21:03:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daa817fb_36f8fabf",
+      "revId": "69722729231ffcd4630cff5811ea0efa1f51ae91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
