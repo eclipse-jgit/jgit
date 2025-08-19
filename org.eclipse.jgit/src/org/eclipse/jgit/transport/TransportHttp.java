@@ -106,6 +106,7 @@ import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.eclipse.jgit.util.io.SilentInputStream;
 import org.eclipse.jgit.util.io.UnionInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1558,7 +1559,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				throws TransportException {
 			svc = new MultiRequestService(SVC_UPLOAD_PACK,
 					getProtocolVersion());
-			try (InputStream svcIn = svc.getInputStream();
+			try (InputStream svcIn = new SilentInputStream(
+					svc.getInputStream());
 					OutputStream svcOut = svc.getOutputStream()) {
 				init(svcIn, svcOut);
 				super.doFetch(monitor, want, have, outputStream);
