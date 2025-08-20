@@ -51,6 +51,24 @@
       "message": "It\u0027s a good idea in general, but the current SimRel problems is around multiple Jetty and it\u0027s hard to figure out what if anything forces 12.1.0 to be aggregated.  I suspect it\u0027s more like it\u0027s allowed to be aggregated and that Jetty has some poor version range constraints (all of which will not be problem when everyone uses 12.1.0 soon).",
       "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "204dc521_1bdb2b49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-20T10:00:34Z",
+      "side": 1,
+      "message": "I updated to 12.1.0 earlier this week when I checked the dependency report and saw we are on 12.0.23 and 12.0.25 and 12.1.0 have been released.\nOur tests all passed, see I790bfbce0b7ac8985b83977a0538c84d3565e9b8.",
+      "parentUuid": "15e45a2a_52262880",
+      "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
