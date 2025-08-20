@@ -103,6 +103,24 @@
       "message": "In other places I create a new feature, moved the includes there, and mentioned that features in the category.xml but uncategorized and of course not contributed to SimRel.  Alternatively the bundles can be listed in the category.xml.  So warning warning to double check.",
       "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92179d1d_c0ed21dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-20T11:42:43Z",
+      "side": 1,
+      "message": "I verified that all the 3rd party dependencies which I removed in this change are listed in [jgit\u0027s category.xml](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit.packaging/org.eclipse.jgit.repository/category.xml)",
+      "parentUuid": "660d7a16_cc04c976",
+      "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
