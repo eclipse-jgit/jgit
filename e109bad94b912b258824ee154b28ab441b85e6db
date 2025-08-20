@@ -69,6 +69,24 @@
       "parentUuid": "539fb709_f151e892",
       "revId": "e109bad94b912b258824ee154b28ab441b85e6db",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78736f70_c29e3a0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-08-20T15:54:06Z",
+      "side": 1,
+      "message": "Ah, thanks! And if you already have the github auth login working, you instead need the steps in \"3. If you want to change your access scope\", but the pictures there don\u0027t match the current options. I didn\u0027t actually change anything, but I do have the `github/eclipse-jgit*` groups showing up on gerrithub.io now.",
+      "parentUuid": "b5a427b2_e069d289",
+      "revId": "e109bad94b912b258824ee154b28ab441b85e6db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
