@@ -51,6 +51,24 @@
       "message": "FYI, I don\u0027t have +2 ability, should I now?",
       "revId": "e109bad94b912b258824ee154b28ab441b85e6db",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a427b2_e069d289",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-08-20T06:48:11Z",
+      "side": 1,
+      "message": "Follow [the contributor guide](https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#login-to-gerrithub-and-oauth-access-to-github) and request organisation access to the github eclipse-jgit organisation. When you got that, login to gerrithub using the scope \"Project/Committer\". With that you should be able to vote +2.",
+      "parentUuid": "539fb709_f151e892",
+      "revId": "e109bad94b912b258824ee154b28ab441b85e6db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
