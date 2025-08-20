@@ -34,6 +34,23 @@
       "parentUuid": "60eff0f2_73261585",
       "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15e45a2a_52262880",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038043
+      },
+      "writtenOn": "2025-08-20T09:56:45Z",
+      "side": 1,
+      "message": "It\u0027s a good idea in general, but the current SimRel problems is around multiple Jetty and it\u0027s hard to figure out what if anything forces 12.1.0 to be aggregated.  I suspect it\u0027s more like it\u0027s allowed to be aggregated and that Jetty has some poor version range constraints (all of which will not be problem when everyone uses 12.1.0 soon).",
+      "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
