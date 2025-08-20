@@ -86,6 +86,23 @@
       "message": "I should mention and remind you to review the content of your update site because this \"inclusion\" approach is often how folks control what\u0027s in the update site.",
       "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3110b7_c685e520",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038043
+      },
+      "writtenOn": "2025-08-20T11:10:50Z",
+      "side": 1,
+      "message": "In other places I create a new feature, moved the includes there, and mentioned that features in the category.xml but uncategorized and of course not contributed to SimRel.  Alternatively the bundles can be listed in the category.xml.  So warning warning to double check.",
+      "revId": "8fd4cf3dece90dfc5cff23d7df305ebf21fc44a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
