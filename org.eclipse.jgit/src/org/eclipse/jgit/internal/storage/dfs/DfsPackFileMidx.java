@@ -514,6 +514,4 @@ final class DfsPackFileMidx extends DfsPackFile {
 			return offset - packStart;
 		}
 	}
-
-
 }

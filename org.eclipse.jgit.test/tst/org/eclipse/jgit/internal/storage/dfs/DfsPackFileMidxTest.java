@@ -863,15 +863,14 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		PackOffset po = new PackOffset();
 		VOffsetCalculator calc = VOffsetCalculator
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
-		po.setValues(0, 12);
+		PackOffset po = PackOffset.create(0, 12);
 		assertEquals(12, calc.encode(po));
-		po.setValues(1, 12);
+		po = PackOffset.create(1, 12);
 		assertEquals(800 + 12, calc.encode(po));
-		po.setValues(2, 12);
+		po = PackOffset.create(2, 12);
 		assertEquals(800 + 1200 + 12, calc.encode(po));
 	}
 
@@ -941,7 +940,6 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		PackOffset po = new PackOffset();
 		VOffsetCalculator baseCalc = VOffsetCalculator
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
@@ -954,11 +952,11 @@ public class DfsPackFileMidxTest {
 
 		// These packIds are now from the second top midx
 		int firstMidxByteSize = 2900;
-		po.setValues(0, 12);
+		PackOffset po = PackOffset.create(0, 12);
 		assertEquals(12 + firstMidxByteSize, calc.encode(po));
-		po.setValues(1, 12);
+		po = PackOffset.create(1, 12);
 		assertEquals(900 + 12 + firstMidxByteSize, calc.encode(po));
-		po.setValues(2, 12);
+		po = PackOffset.create(2, 12);
 		assertEquals(900 + 1300 + 12 + firstMidxByteSize, calc.encode(po));
 	}
 
