@@ -134,8 +134,9 @@ public class CommitGraphWriter {
 		chunks = Collections.unmodifiableList(chunks);
 
 		long expectedSize = calculateExpectedSize(chunks);
-		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
-				monitor, commitGraphStream)) {
+		try {
+			CancellableDigestOutputStream out = new CancellableDigestOutputStream(
+				monitor, commitGraphStream);
 			writeHeader(out, chunks.size());
 			writeChunkLookup(out, chunks);
 			writeChunks(out, chunks);
