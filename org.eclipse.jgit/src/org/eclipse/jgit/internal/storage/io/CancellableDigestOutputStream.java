@@ -15,6 +15,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.io.FilterOutputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 
@@ -22,14 +23,12 @@ import java.security.MessageDigest;
  * An OutputStream that keeps a digest and checks every N bytes for
  * cancellation.
  */
-public class CancellableDigestOutputStream extends OutputStream {
+public class CancellableDigestOutputStream extends FilterOutputStream {
 
 	/** The OutputStream checks every this value for cancellation **/
 	public static final int BYTES_TO_WRITE_BEFORE_CANCEL_CHECK = 128 * 1024;
 
 	private final ProgressMonitor writeMonitor;
-
-	private final OutputStream out;
 
 	private final MessageDigest md = Constants.newMessageDigest();
 
@@ -47,8 +46,8 @@ public class CancellableDigestOutputStream extends OutputStream {
 	 */
 	public CancellableDigestOutputStream(ProgressMonitor writeMonitor,
 			OutputStream out) {
+		super(out);
 		this.writeMonitor = writeMonitor;
-		this.out = out;
 		this.checkCancelAt = BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
 	}
 
@@ -112,10 +111,5 @@ public class CancellableDigestOutputStream extends OutputStream {
 			off += n;
 			len -= n;
 		}
-	}
-
-	@Override
-	public void flush() throws IOException {
-		out.flush();
 	}
 }
