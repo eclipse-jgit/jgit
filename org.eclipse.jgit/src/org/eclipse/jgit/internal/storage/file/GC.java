@@ -943,13 +943,9 @@ public class GC {
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());
-			// write the commit-graph file
-			try (FileOutputStream fos = new FileOutputStream(tmpFile);
-					FileChannel channel = fos.getChannel();
-					OutputStream channelStream = Channels
-							.newOutputStream(channel)) {
-				writer.write(pm, channelStream);
-				channel.force(true);
+			// write the commit-graph to temporary file
+			try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
+				writer.write(pm, fos);
 			}
 
 			// rename the temporary file to real file
