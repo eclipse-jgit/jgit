@@ -52,6 +52,16 @@ public interface MultiPackIndex {
 	PackOffset find(AnyObjectId objectId);
 
 	/**
+	 * Position of the object in this midx, when all covered objects are ordered
+	 * by SHA1
+	 *
+	 * @param objectId
+	 *            an object id
+	 * @return position of the object in this multipack index
+	 */
+	int findPosition(AnyObjectId objectId);
+
+	/**
 	 * Find objects matching the prefix abbreviation.
 	 *
 	 * @param matches

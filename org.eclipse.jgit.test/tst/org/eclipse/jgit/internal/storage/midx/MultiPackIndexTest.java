@@ -213,7 +213,6 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
-
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 100);
 
@@ -257,7 +256,6 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
-
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 2);
 
@@ -273,8 +271,7 @@ public class MultiPackIndexTest {
 		AbbreviatedObjectId abbrev = AbbreviatedObjectId
 				.fromString("4400000000");
 
-		PackIndex idxOne = indexWith(
-				"0000000000000000000000000000000000000001",
+		PackIndex idxOne = indexWith("0000000000000000000000000000000000000001",
 				"3000000000000000000000000000000000000005",
 				"32fe829a1b000000000000000000000000000001",
 				"32fe829a1c000000000000000000000000000001",
@@ -315,11 +312,65 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
-
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 200);
 
 		assertEquals(0, results.size());
+	}
+
+	@Test
+	public void jgit_findPosition() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 500),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000005", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000010", 1500)));
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 501),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000003", 13),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000015", 1501)));
+		PackIndex idxThree = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000004", 502),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000007", 14),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000012", 1502)));
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo, "p3",
+				idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertEquals(3, midx.getPackNames().length);
+		assertEquals(0, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000001")));
+		assertEquals(1, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000002")));
+		assertEquals(2, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000003")));
+		assertEquals(3, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000004")));
+		assertEquals(4, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000005")));
+		assertEquals(5, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000007")));
+		assertEquals(6, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000010")));
+		assertEquals(7, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000012")));
+		assertEquals(8, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000015")));
+
+		assertNull(midx.find(ObjectId.zeroId()));
 	}
 
 	private static PackIndex indexWith(String... oids) {
