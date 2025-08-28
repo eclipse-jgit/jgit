@@ -61,6 +61,11 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
+	public int findPosition(AnyObjectId oid) {
+		return idx.findMultiPackIndexPosition(oid);
+	}
+
+	@Override
 	@Nullable
 	public PackOffset find(AnyObjectId objectId) {
 		int position = idx.findMultiPackIndexPosition(objectId);
