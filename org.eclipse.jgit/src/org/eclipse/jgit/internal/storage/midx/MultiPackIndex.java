@@ -66,6 +66,16 @@ public interface MultiPackIndex {
 	int findPosition(AnyObjectId objectId);
 
 	/**
+	 * Number of objects in this midx
+	 * <p>
+	 * This number doesn't match with the sum of objects in each covered pack
+	 * because midx removes duplicates.
+	 *
+	 * @return number of objects in this midx
+	 */
+	int getObjectCount();
+
+	/**
 	 * Find objects matching the prefix abbreviation.
 	 *
 	 * @param matches
