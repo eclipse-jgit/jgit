@@ -16,6 +16,24 @@
       "message": "thanks a lot, this was quick 😀",
       "revId": "acd1eff8b110c3cf3fe4257fa427e2462d7e563c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6004b3df_2e04c49d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-08-28T18:53:45Z",
+      "side": 1,
+      "message": "Sometimes one gets lucky. It was easy to find though: buffer is set to null in RevCommit.disposeBody(), then check the call hierarchy, look what this caller does, and then see that the reachability checker marks the commit as uninteresting. Bingo.\n\nWould still be good if someone double-checked in Gerrit that this does indeed resolve the problem observed there.",
+      "parentUuid": "9afb16ca_ab1fa10e",
+      "revId": "acd1eff8b110c3cf3fe4257fa427e2462d7e563c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
