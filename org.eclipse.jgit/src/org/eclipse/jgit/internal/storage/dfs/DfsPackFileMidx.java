@@ -175,10 +175,24 @@ final class DfsPackFileMidx extends DfsPackFile {
 		return null;
 	}
 
+	private int getObjectCount(DfsReader ctx) throws IOException {
+		return midx(ctx).getObjectCount();
+	}
+
 	@Override
 	public int findIdxPosition(DfsReader ctx, AnyObjectId id)
 			throws IOException {
-		return midx(ctx).findPosition(id);
+		int p = midx(ctx).findPosition(id);
+		if (p >= 0) {
+			int baseObjects = base == null ? 0 : base.getObjectCount(ctx);
+			return p + baseObjects;
+		}
+
+		if (base == null) {
+			return -1;
+		}
+
+		return base.findIdxPosition(ctx, id);
 	}
 
 	@Override
@@ -396,15 +410,14 @@ final class DfsPackFileMidx extends DfsPackFile {
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
 		// The index must have been loaded before to have this offset
 		DfsPackOffset location = offsetCalculator.decode(pos);
-		return new DfsBlockMidx(
-				location.getPack().getOrLoadBlock(location.getPackOffset(),
-						ctx),
-				location.getPackStart());
+		return new DfsBlockMidx(location.getPack().getOrLoadBlock(
+				location.getPackOffset(), ctx), location.getPackStart());
 	}
 
 	// Visible for testing
 	static class VOffsetCalculator {
 		private final DfsPackFile[] packs;
+
 		private final long[] accSizes;
 
 		private final long baseMaxOffset;
@@ -456,8 +469,7 @@ final class DfsPackFileMidx extends DfsPackFile {
 			for (int i = 0; i < accSizes.length; i++) {
 				if (localOffset <= accSizes[i]) {
 					return poBuffer.setValues(packs[i - 1],
-							accSizes[i - 1] + baseMaxOffset,
-							voffset);
+							accSizes[i - 1] + baseMaxOffset, voffset);
 				}
 			}
 			throw new IllegalArgumentException("Asking offset beyond limits");
