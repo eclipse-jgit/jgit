@@ -71,12 +71,15 @@ import org.eclipse.jgit.util.LongList;
  * delta packed format yielding high compression of lots of object where some
  * objects are similar.
  */
-public final class DfsPackFile extends BlockBasedFile {
+public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
 
 	private static final long REF_POSITION = 0;
 
-	private static final Comparator<DfsObjectToPack> OFFSET_SORT = (
+	/**
+	 * Order objects by offset
+	 */
+	protected static final Comparator<DfsObjectToPack> OFFSET_SORT = (
 			DfsObjectToPack a,
 			DfsObjectToPack b) -> Long.signum(a.getOffset() - b.getOffset());
 
