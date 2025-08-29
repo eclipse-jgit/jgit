@@ -66,6 +66,11 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
+	public int getObjectCount() {
+		return idx.getObjectCount();
+	}
+
+	@Override
 	@Nullable
 	public PackOffset find(AnyObjectId objectId) {
 		int position = idx.findMultiPackIndexPosition(objectId);
@@ -289,6 +294,10 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 		long getMemorySize() {
 			return 4L + byteArrayLengh(oidLookup) + (FANOUT * 4);
+		}
+
+		int getObjectCount() {
+			return fanoutTable[FANOUT - 1];
 		}
 	}
 }
