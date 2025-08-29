@@ -22,6 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
@@ -56,22 +57,26 @@ final class DfsPackFileMidx extends DfsPackFile {
 
 	private MultiPackIndex midx;
 
+	private final DfsPackFileMidx base;
+
 	private final VOffsetCalculator offsetCalculator;
 
 	static DfsPackFileMidx create(DfsBlockCache cache, DfsPackDescription desc,
-			List<DfsPackFile> reqPacks) {
-		return new DfsPackFileMidx(cache, desc, reqPacks);
+			List<DfsPackFile> reqPacks, DfsPackFileMidx base) {
+		return new DfsPackFileMidx(cache, desc, reqPacks, base);
 	}
 
 	private DfsPackFileMidx(DfsBlockCache cache, DfsPackDescription desc,
-			List<DfsPackFile> requiredPacks) {
+			List<DfsPackFile> requiredPacks, @Nullable DfsPackFileMidx base) {
 		super(cache, desc);
+		this.base = base;
 		this.packs = requiredPacks;
 		String[] coveredPackNames = desc.getCoveredPacks().stream()
 				.map(DfsPackDescription::getPackName).toArray(String[]::new);
 		packsInIdOrder = sortPacksInMidxIdOrder(coveredPackNames,
 				requiredPacks);
-		offsetCalculator = VOffsetCalculator.fromPacks(packsInIdOrder);
+		offsetCalculator = VOffsetCalculator.fromPacks(packsInIdOrder,
+				base != null ? base.getOffsetCalculator() : null);
 		this.length = offsetCalculator.getMaxOffset();
 	}
 
@@ -165,24 +170,51 @@ final class DfsPackFileMidx extends DfsPackFile {
 		return null;
 	}
 
+	private int getObjectCount(DfsReader ctx) throws IOException {
+		return midx(ctx).getObjectCount();
+	}
+
 	@Override
 	public int findIdxPosition(DfsReader ctx, AnyObjectId id)
 			throws IOException {
-		return midx(ctx).findPosition(id);
+		int p = midx(ctx).findPosition(id);
+		if (p >= 0) {
+			int baseObjects = base == null ? 0 : base.getObjectCount(ctx);
+			return p + baseObjects;
+		}
+
+		if (base == null) {
+			return -1;
+		}
+
+		return base.findIdxPosition(ctx, id);
 	}
 
 	@Override
 	public boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {
-		return midx(ctx).hasObject(id);
+		if (midx(ctx).hasObject(id)) {
+			return true;
+		}
+
+		if (base == null) {
+			return false;
+		}
+
+		return base.hasObject(ctx, id);
 	}
 
 	@Override
 	ObjectLoader get(DfsReader ctx, AnyObjectId id) throws IOException {
 		PackOffset location = midx(ctx).find(id);
-		if (location == null) {
+		if (location != null) {
+			return packsInIdOrder[location.getPackId()].get(ctx, id);
+		}
+
+		if (base == null) {
 			return null;
 		}
-		return packsInIdOrder[location.getPackId()].get(ctx, id);
+
+		return base.get(ctx, id);
 	}
 
 	@Override
@@ -196,13 +228,25 @@ final class DfsPackFileMidx extends DfsPackFile {
 
 	@Override
 	long findOffset(DfsReader ctx, AnyObjectId id) throws IOException {
-		return offsetCalculator.encode(midx(ctx).find(id));
+		PackOffset location = midx(ctx).find(id);
+		if (location != null) {
+			return offsetCalculator.encode(location);
+		}
+
+		if (base == null) {
+			return -1;
+		}
+
+		return base.findOffset(ctx, id);
 	}
 
 	@Override
 	void resolve(DfsReader ctx, Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) throws IOException {
 		midx(ctx).resolve(matches, id, matchLimit);
+		if (matches.size() < matchLimit && base != null) {
+			base.resolve(ctx, matches, id, matchLimit);
+		}
 	}
 
 	@Override
@@ -210,6 +254,10 @@ final class DfsPackFileMidx extends DfsPackFile {
 		// Assumming the order of the packs does not really matter
 		for (DfsPackFile pack : packs) {
 			pack.copyPackAsIs(out, ctx);
+		}
+
+		if (base != null) {
+			base.copyPackAsIs(out, ctx);
 		}
 	}
 
@@ -246,11 +294,15 @@ final class DfsPackFileMidx extends DfsPackFile {
 	@Override
 	long getObjectSize(DfsReader ctx, AnyObjectId id) throws IOException {
 		PackOffset local = midx(ctx).find(id);
-		if (local == null) {
+		if (local != null) {
+			return packsInIdOrder[local.getPackId()].getObjectSize(ctx, id);
+		}
+
+		if (base == null) {
 			return -1;
 		}
 
-		return packsInIdOrder[local.getPackId()].getObjectSize(ctx, id);
+		return base.getObjectSize(ctx, id);
 	}
 
 	@Override
@@ -283,6 +335,7 @@ final class DfsPackFileMidx extends DfsPackFile {
 			Iterable<ObjectToPack> objects, boolean skipFound)
 			throws IOException {
 		List<DfsObjectToPack> tmp = new BlockList<>();
+		List<ObjectToPack> notFoundHere = new BlockList<>();
 		for (ObjectToPack obj : objects) {
 			DfsObjectToPack otp = (DfsObjectToPack) obj;
 			if (skipFound && otp.isFound()) {
@@ -290,10 +343,17 @@ final class DfsPackFileMidx extends DfsPackFile {
 			}
 			long p = offsetCalculator.encode(midx(ctx).find(otp));
 			if (p < 0) {
+				notFoundHere.add(otp);
 				continue;
 			}
 			otp.setOffset(p);
 			tmp.add(otp);
+		}
+
+		if (base != null && !notFoundHere.isEmpty()) {
+			List<DfsObjectToPack> inChain = base.findAllFromPack(ctx,
+					notFoundHere, skipFound);
+			tmp.addAll(inChain);
 		}
 		tmp.sort(OFFSET_SORT);
 		return tmp;
@@ -334,6 +394,7 @@ final class DfsPackFileMidx extends DfsPackFile {
 	@Override
 	DfsBlock readOneBlock(long pos, DfsReader ctx, ReadableChannel rc)
 			throws IOException {
+		// TODO(ifrade): Why is this not returning a DfsBlockMidx? not tested?
 		// The index must have been loaded before to have this offset
 		DfsPackOffset location = offsetCalculator.decode(pos);
 		return location.getPack().readOneBlock(location.getPackOffset(), ctx,
@@ -344,31 +405,41 @@ final class DfsPackFileMidx extends DfsPackFile {
 	DfsBlock getOrLoadBlock(long pos, DfsReader ctx) throws IOException {
 		// The index must have been loaded before to have this offset
 		DfsPackOffset location = offsetCalculator.decode(pos);
-		return new DfsBlockMidx(
-				location.getPack().getOrLoadBlock(location.getPackOffset(),
-						ctx),
-				location.getPackStart());
+		return new DfsBlockMidx(location.getPack().getOrLoadBlock(
+				location.getPackOffset(), ctx), location.getPackStart());
 	}
 
 	// Visible for testing
 	static class VOffsetCalculator {
 		private final DfsPackFile[] packs;
+
 		private final long[] accSizes;
+
+		private final long baseMaxOffset;
+
+		private final VOffsetCalculator baseOffsetCalculator;
 
 		private final DfsPackOffset poBuffer = new DfsPackOffset();
 
-		static VOffsetCalculator fromPacks(DfsPackFile[] packsInIdOrder) {
+		static VOffsetCalculator fromPacks(DfsPackFile[] packsInIdOrder,
+				VOffsetCalculator baseOffsetCalculator) {
 			long[] accSizes = new long[packsInIdOrder.length + 1];
 			accSizes[0] = 0;
 			for (int i = 0; i < packsInIdOrder.length; i++) {
 				accSizes[i + 1] = accSizes[i] + packsInIdOrder[i]
 						.getPackDescription().getFileSize(PACK);
 			}
-			return new VOffsetCalculator(packsInIdOrder, accSizes);
+			return new VOffsetCalculator(packsInIdOrder, accSizes,
+					baseOffsetCalculator);
 		}
 
-		VOffsetCalculator(DfsPackFile[] packs, long[] packSizes) {
+		VOffsetCalculator(DfsPackFile[] packs, long[] packSizes,
+				VOffsetCalculator baseOffsetCalculator) {
 			this.packs = packs;
+			this.baseOffsetCalculator = baseOffsetCalculator;
+			this.baseMaxOffset = baseOffsetCalculator != null
+					? baseOffsetCalculator.getMaxOffset()
+					: 0;
 			accSizes = packSizes;
 		}
 
@@ -376,24 +447,31 @@ final class DfsPackFileMidx extends DfsPackFile {
 			if (location == null) {
 				return -1;
 			}
-			return location.getOffset() + accSizes[location.getPackId()];
+			return location.getOffset() + accSizes[location.getPackId()]
+					+ baseMaxOffset;
 		}
 
 		DfsPackOffset decode(long voffset) {
 			if (voffset == -1) {
 				return null;
 			}
+
+			if (voffset < baseMaxOffset) {
+				return baseOffsetCalculator.decode(voffset);
+			}
+
+			long localOffset = voffset - baseMaxOffset;
 			for (int i = 0; i < accSizes.length; i++) {
-				if (voffset <= accSizes[i]) {
-					return poBuffer.setValues(packs[i - 1], accSizes[i - 1],
-							voffset);
+				if (localOffset <= accSizes[i]) {
+					return poBuffer.setValues(packs[i - 1],
+							accSizes[i - 1] + baseMaxOffset, voffset);
 				}
 			}
 			throw new IllegalArgumentException("Asking offset beyond limits");
 		}
 
 		long getMaxOffset() {
-			return accSizes[accSizes.length - 1];
+			return accSizes[accSizes.length - 1] + baseMaxOffset;
 		}
 	}
 
@@ -443,6 +521,4 @@ final class DfsPackFileMidx extends DfsPackFile {
 			return offset - packStart;
 		}
 	}
-
-
 }
