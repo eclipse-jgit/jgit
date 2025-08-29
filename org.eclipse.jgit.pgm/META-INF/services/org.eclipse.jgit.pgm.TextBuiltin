@@ -27,6 +27,7 @@ org.eclipse.jgit.pgm.Merge
 org.eclipse.jgit.pgm.MergeBase
 org.eclipse.jgit.pgm.MergeTool
 org.eclipse.jgit.pgm.MultiPackIndex
+org.eclipse.jgit.pgm.ObjectSizeIndex
 org.eclipse.jgit.pgm.PackRefs
 org.eclipse.jgit.pgm.Push
 org.eclipse.jgit.pgm.ReceivePack

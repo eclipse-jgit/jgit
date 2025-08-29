@@ -15,7 +15,7 @@ maven apache
 	dependency {
 		groupId = "org.apache.commons"
 		artifactId = "commons-compress"
-		version = "1.27.1"
+		version = "1.28.0"
 	}
 	dependency {
 		groupId = "org.apache.commons"
@@ -56,7 +56,7 @@ maven assertj
 	dependency {
 		groupId = "org.assertj"
 		artifactId = "assertj-core"
-		version = "3.27.3"
+		version = "3.27.4"
 	}
 }
 
@@ -97,12 +97,12 @@ maven bytebuddy
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy"
-		version = "1.17.6"
+		version = "1.17.7"
 	}
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy-agent"
-		version = "1.17.6"
+		version = "1.17.7"
 	}
 }
 
@@ -164,42 +164,42 @@ maven jetty
 	dependency {
 		groupId = "org.eclipse.jetty.ee8"
 		artifactId = "jetty-ee8-security"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-http"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-io"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-security"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-server"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-session"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "org.eclipse.jetty"
 		artifactId = "jetty-util-ajax"
-		version = "12.0.23"
+		version = "12.1.0"
 	}
 	dependency {
 		groupId = "jakarta.servlet"
@@ -235,7 +235,7 @@ maven mockito
 	dependency {
 		groupId = "org.mockito"
 		artifactId = "mockito-core"
-		version = "5.18.0"
+		version = "5.19.0"
 	}
 }
 
@@ -248,12 +248,12 @@ maven sshd
 	dependency {
 		groupId = "org.apache.sshd"
 		artifactId = "sshd-osgi"
-		version = "2.15.0"
+		version = "2.16.0"
 	}
 	dependency {
 		groupId = "org.apache.sshd"
 		artifactId = "sshd-sftp"
-		version = "2.15.0"
+		version = "2.16.0"
 	}
 }
 

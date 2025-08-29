@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.32" sequenceNumber="1753881720">
+<target name="jgit-4.32" sequenceNumber="1756458046">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -61,13 +61,13 @@
         <dependency>
           <groupId>org.apache.sshd</groupId>
           <artifactId>sshd-osgi</artifactId>
-          <version>2.15.0</version>
+          <version>2.16.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.apache.sshd</groupId>
           <artifactId>sshd-sftp</artifactId>
-          <version>2.15.0</version>
+          <version>2.16.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -77,7 +77,7 @@
         <dependency>
           <groupId>org.mockito</groupId>
           <artifactId>mockito-core</artifactId>
-          <version>5.18.0</version>
+          <version>5.19.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -115,49 +115,49 @@
         <dependency>
           <groupId>org.eclipse.jetty.ee8</groupId>
           <artifactId>jetty-ee8-security</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-http</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-io</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-security</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-server</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-session</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-util</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-util-ajax</artifactId>
-          <version>12.0.23</version>
+          <version>12.1.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
@@ -203,13 +203,13 @@
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy</artifactId>
-          <version>1.17.6</version>
+          <version>1.17.7</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy-agent</artifactId>
-          <version>1.17.6</version>
+          <version>1.17.7</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -247,7 +247,7 @@
         <dependency>
           <groupId>org.assertj</groupId>
           <artifactId>assertj-core</artifactId>
-          <version>3.27.3</version>
+          <version>3.27.4</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -273,7 +273,7 @@
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-compress</artifactId>
-          <version>1.27.1</version>
+          <version>1.28.0</version>
           <type>jar</type>
         </dependency>
         <dependency>

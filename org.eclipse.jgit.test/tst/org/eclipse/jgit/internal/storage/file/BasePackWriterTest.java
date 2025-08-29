@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -702,13 +702,29 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSet()
+	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSetTrue()
 			throws Exception {
+		totalPackFilesScanWhenSearchForReuseTimeoutNotSet(true);
+	}
+
+	@Test
+	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSetFalse()
+			throws Exception {
+		totalPackFilesScanWhenSearchForReuseTimeoutNotSet(false);
+	}
+
+	public void totalPackFilesScanWhenSearchForReuseTimeoutNotSet(boolean doReturn) throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		int numberOfPackFiles = (int) new GC(fileRepository).getStatistics().numberOfPackFiles;
+		int objectsInMultiplePacks = 2;
+		int objectsInOnePacks = 1;
+		int expectedSelectCalls = objectsInMultiplePacks * (doReturn ? numberOfPackFiles : 1)
+				+ objectsInOnePacks;
+
 		PackWriter mockedPackWriter = Mockito
 				.spy(new PackWriter(config, fileRepository.newObjectReader()));
 
-		doNothing().when(mockedPackWriter).select(any(), any());
+		doReturn(doReturn).when(mockedPackWriter).select(any(), any());
 
 		try (FileOutputStream packOS = new FileOutputStream(
 				getPackFileToWrite(fileRepository, mockedPackWriter))) {
@@ -716,27 +732,37 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 					NullProgressMonitor.INSTANCE, packOS);
 		}
 
-		long numberOfPackFiles = new GC(fileRepository)
-				.getStatistics().numberOfPackFiles;
-		int expectedSelectCalls =
-				// Objects contained in multiple packfiles * number of packfiles
-				2 * (int) numberOfPackFiles +
-				// Objects in single packfile
-						1;
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
 				any());
 	}
 
 	@Test
-	public void testTotalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck()
+	public void testTotalPackFilesScanWhenSkippingSearchForReuseTimeoutCheckTrue()
 			throws Exception {
+		totalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck(true);
+	}
+
+	@Test
+	public void testTotalPackFilesScanWhenSkippingSearchForReuseTimeoutCheckFalse()
+			throws Exception {
+		totalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck(false);
+	}
+
+	public void totalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck(
+			boolean doReturn) throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+		int numberOfPackFiles = (int) new GC(fileRepository).getStatistics().numberOfPackFiles;
+		int objectsInMultiplePacks = 2;
+		int objectsInOnePacks = 1;
+		int expectedSelectCalls = objectsInMultiplePacks * (doReturn ? numberOfPackFiles : 1)
+				+ objectsInOnePacks;
+
 		PackConfig packConfig = new PackConfig();
 		packConfig.setSearchForReuseTimeout(Duration.ofSeconds(-1));
 		PackWriter mockedPackWriter = Mockito.spy(
 				new PackWriter(packConfig, fileRepository.newObjectReader()));
 
-		doNothing().when(mockedPackWriter).select(any(), any());
+		doReturn(doReturn).when(mockedPackWriter).select(any(), any());
 
 		try (FileOutputStream packOS = new FileOutputStream(
 				getPackFileToWrite(fileRepository, mockedPackWriter))) {
@@ -744,28 +770,31 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 					NullProgressMonitor.INSTANCE, packOS);
 		}
 
-		long numberOfPackFiles = new GC(fileRepository)
-				.getStatistics().numberOfPackFiles;
-		int expectedSelectCalls =
-				// Objects contained in multiple packfiles * number of packfiles
-				2 * (int) numberOfPackFiles +
-				// Objects contained in single packfile
-						1;
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
 				any());
 	}
 
 	@Test
-	public void testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck()
+	public void partialPackFilesScanWhenDoingSearchForReuseTimeoutCheck()
 			throws Exception {
+		int objectsInMultiplePacks = 2;
+		int objectsInOnePacks = 1;
+		int expectedSelectCalls = objectsInMultiplePacks + objectsInOnePacks;
+		testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck(true, expectedSelectCalls);
+		testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck(false, expectedSelectCalls);
+	}
+
+	public void testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck(
+			boolean doReturn, int expectedSelectCalls) throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
+
 		PackConfig packConfig = new PackConfig();
 		packConfig.setSearchForReuseTimeout(Duration.ofSeconds(-1));
 		PackWriter mockedPackWriter = Mockito.spy(
 				new PackWriter(packConfig, fileRepository.newObjectReader()));
 		mockedPackWriter.enableSearchForReuseTimeout();
 
-		doNothing().when(mockedPackWriter).select(any(), any());
+		doReturn(doReturn).when(mockedPackWriter).select(any(), any());
 
 		try (FileOutputStream packOS = new FileOutputStream(
 				getPackFileToWrite(fileRepository, mockedPackWriter))) {
@@ -773,7 +802,6 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 					NullProgressMonitor.INSTANCE, packOS);
 		}
 
-		int expectedSelectCalls = 3; // Objects in packfiles
 		verify(mockedPackWriter, times(expectedSelectCalls)).select(any(),
 				any());
 	}

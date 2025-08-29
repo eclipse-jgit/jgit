@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
@@ -48,6 +49,8 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[Constants.OBJECT_ID_LENGTH];
+
+	private final boolean useObjectSizeIndex;
 
 	private Inflater inf;
 
@@ -66,6 +69,10 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		this.db = db;
 		this.createdFromInserter = null;
 		this.streamFileThreshold = WindowCache.getStreamFileThreshold();
+		this.useObjectSizeIndex = db == null ? false
+				: db.getConfig().getBoolean(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX, false);
 	}
 
 	WindowCursor(FileObjectDatabase db,
@@ -73,6 +80,10 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		this.db = db;
 		this.createdFromInserter = createdFromInserter;
 		this.streamFileThreshold = WindowCache.getStreamFileThreshold();
+		this.useObjectSizeIndex = db == null ? false
+				: db.getConfig().getBoolean(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX, false);
 	}
 
 	DeltaBaseCache getDeltaBaseCache() {
@@ -177,9 +188,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			return getObjectSizeStorage(objectId, typeHint);
 		}
 
-		long sz = pack.getIndexedObjectSize(objectId);
-		if (sz >= 0) {
-			return sz;
+		if (useObjectSizeIndex && pack.hasObjectSizeIndex()) {
+			long sz = pack.getIndexedObjectSize(objectId);
+			if (sz >= 0) {
+				return sz;
+			}
 		}
 		return getObjectSizeStorage(objectId, typeHint);
 	}
