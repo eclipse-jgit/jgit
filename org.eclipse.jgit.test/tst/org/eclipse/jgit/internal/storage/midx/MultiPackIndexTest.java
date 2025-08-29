@@ -373,6 +373,56 @@ public class MultiPackIndexTest {
 		assertNull(midx.find(ObjectId.zeroId()));
 	}
 
+	@Test
+	public void jgit_getObjectCount() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 500),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000005", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000010", 1500)));
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 501),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000003", 13),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000015", 1501)));
+		PackIndex idxThree = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000004", 502),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000007", 14),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000012", 1502)));
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo, "p3",
+				idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertEquals(9, midx.getObjectCount());
+	}
+
+	@Test
+	public void jgit_getObjectCount_emtpy() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
+
+		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+		assertEquals(0, midx.getObjectCount());
+	}
+
 	private static PackIndex indexWith(String... oids) {
 		List<FakeIndexFactory.IndexObject> idxObjs = new ArrayList<>(
 				oids.length);
