@@ -219,11 +219,19 @@ class DepthGenerator extends Generator {
 
 			boolean produce = true;
 
-			// Unshallow commits are uninteresting, but still need to be sent
-			// up to the PackWriter so that it will exclude objects correctly.
-			// All other uninteresting commits should be omitted.
-			if ((c.flags & RevWalk.UNINTERESTING) != 0 && !c.has(UNSHALLOW))
-				produce = false;
+			if ((c.flags & RevWalk.UNINTERESTING) != 0) {
+				// Unshallow commits are uninteresting, but still need to be sent
+				// up to the PackWriter so that it will exclude objects correctly.
+				if(c.has(UNSHALLOW)) {
+					// Make sure to send the commit to the PackWriter only once
+					// otherwise the downstream layers may be confused and believe
+					// that this commit is reachable by more paths
+					c.remove(UNSHALLOW);
+				} else {
+					// All uninteresting commits should be omitted.
+					produce = false;
+				}
+			}
 
 			if (c.getCommitTime() < deepenSince) {
 				produce = false;
