@@ -24,8 +24,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.
-Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -52,6 +50,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.References;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Walks a commit graph and produces the matching commits in order.
@@ -266,12 +265,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		return new DateRevQueue(g);
 	}
 
-	@SuppressWarnings("boxing")
 	private static boolean usePriorityQueue() {
-		return Optional
-				.ofNullable(System.getProperty("REVWALK_USE_PRIORITY_QUEUE")) //$NON-NLS-1$
-							.map(Boolean::parseBoolean)
-							.orElse(false);
+		return Boolean.parseBoolean(SystemReader.getInstance()
+				.getProperty("REVWALK_USE_PRIORITY_QUEUE")); //$NON-NLS-1$
 	}
 
 	/**
