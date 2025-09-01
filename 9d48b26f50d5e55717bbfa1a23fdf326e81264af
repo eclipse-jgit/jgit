@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9cf7dd_c1625c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-01T13:49:01Z",
+      "side": 1,
+      "message": "yes, this was done so that we can have both the old and new implementation in the codebase and test them in production for some time to get more data to decide if we can fully replace the old by the new implementation.\n\nI think this property should be removed when the testing discussed in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/194140\nhas been finished. If the testing was successful instead of making this an official API we should always use the PriorityQueue based implementation and delete the old implementation.",
+      "revId": "9d48b26f50d5e55717bbfa1a23fdf326e81264af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
