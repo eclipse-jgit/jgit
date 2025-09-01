@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e9ea76_3856b90d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-01T21:54:41Z",
+      "side": 1,
+      "message": "After applying this fix to the JGit version used in Gerrit Code Review, I cannot reproduce anymore the errors of https://github.com/eclipse-jgit/jgit/issues/182 and https://issues.gerritcodereview.com/issues/384756627. They are both resolved E2E.",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
