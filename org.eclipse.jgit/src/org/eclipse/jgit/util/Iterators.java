@@ -24,6 +24,7 @@ public class Iterators {
 	 * @param array T[]
 	 * @return Iterator<T>
 	 */
+	@SuppressWarnings("AvoidObjectArrays")
 	public static <T> Iterator<T> reverseIterator(T[] array) {
 		return new Iterator<>() {
 			int index = array.length;
@@ -53,5 +54,8 @@ public class Iterators {
 				return iterator;
 			}
 		};
+	}
+
+	private Iterators() {
 	}
 }
