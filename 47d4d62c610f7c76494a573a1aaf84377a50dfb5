@@ -103,6 +103,24 @@
       "message": "please add tests",
       "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4adf27f3_5d9774e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-02T12:08:11Z",
+      "side": 1,
+      "message": "\u003e please add tests\n\nThat would require `DepthGenerator` to be made public, as today it is package-protected. I do not see any existing unit-tests for the generators, would you suggest to create one and make the classes public?\n\nI could just create some unit tests with the same package name.",
+      "parentUuid": "032f41fc_64322bdf",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
