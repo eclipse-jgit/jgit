@@ -157,6 +157,24 @@
       "parentUuid": "0b8aa723_e2293428",
       "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8409dacf_6d64589c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-02T18:17:32Z",
+      "side": 1,
+      "message": "\u003e If testing the generator itself is complicated (probably is),\n\nYes, confirmed. I tried hard but I have to code so much of the internals of the generator into the test, that makes the test a lot more likely to be broken than the feature 😠\n\n\u003e you can write the test at the RevWalk level. Create a repo with the required topology, setup a walk in depth and show that it emits the expected commits. It should fail without fix and pass with it.\n\nYes, I\u0027ll follow Dave\u0027s footsteps with the `FirstParentRevWalkTest.testDepthWalk()` and add a special case for the unshallow bug.",
+      "parentUuid": "d08fb908_68b61faf",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
