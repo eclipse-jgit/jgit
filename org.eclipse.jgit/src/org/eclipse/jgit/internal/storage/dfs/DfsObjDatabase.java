@@ -95,10 +95,23 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 * This source is only used by the {@link DfsGarbageCollector} when it
 		 * builds a pack file by traversing the object graph and copying all
 		 * reachable objects into a new pack stream.
+		 * <p>
+		 * Since 7.x this pack could contain only a multipack index covering
+		 * GC_PART packs.
 		 *
 		 * @see DfsGarbageCollector
 		 */
 		GC,
+
+		/**
+		 * Pack created by garbage collection, covered by a multipack index.
+		 * <p>
+		 * This pack is created by GC but it is not guaranteed to be
+		 * self-contained. It could reference objects in other GC_PART packs.
+		 *
+		 * @since 7.x
+		 */
+		GC_PART,
 
 		/** Created from non-heads by {@link DfsGarbageCollector}. */
 		GC_REST,
@@ -124,6 +137,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 						.add(INSERT, RECEIVE)
 						.add(COMPACT)
 						.add(GC)
+						.add(GC_PART)
 						.add(GC_REST)
 						.add(UNREACHABLE_GARBAGE)
 						.build();
