@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -33,13 +34,14 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
  * modified once initialized and presented to the JGit DFS library.
  */
 public class DfsPackDescription {
+
 	/**
 	 * Comparator for packs when looking up objects in indexes.
 	 * <p>
-	 * This comparator tries to position packs in the order readers should examine
-	 * them when looking for objects by SHA-1. The default tries to sort packs
-	 * with more recent modification dates before older packs, and packs with
-	 * fewer objects before packs with more objects.
+	 * This comparator tries to position packs in the order readers should
+	 * examine them when looking for objects by SHA-1. The default tries to sort
+	 * packs with more recent modification dates before older packs, and packs
+	 * with fewer objects before packs with more objects.
 	 * <p>
 	 * Uses {@link PackSource#DEFAULT_COMPARATOR} for the portion of comparison
 	 * where packs are sorted by source.
@@ -153,6 +155,8 @@ public class DfsPackDescription {
 
 	// Packs required by this pack (because it is e.g. a multipack index)
 	private List<DfsPackDescription> coveredPacks;
+
+	private DfsPackDescription multiPackIndexBase;
 
 	/**
 	 * Initialize a description by pack name and repository.
@@ -557,6 +561,26 @@ public class DfsPackDescription {
 	 */
 	public void setCoveredPacks(List<DfsPackDescription> coveredPacks) {
 		this.coveredPacks = coveredPacks;
+	}
+
+	/**
+	 * The base if this multipack index
+	 *
+	 * @return the base of this multipack index
+	 */
+	@Nullable
+	public DfsPackDescription getMultiPackIndexBase() {
+		return multiPackIndexBase;
+	}
+
+	/**
+	 * Set the base of this multipack index
+	 *
+	 * @param desc
+	 *            pack with the multipack index preceding this one
+	 */
+	public void setMultiPackIndexBase(DfsPackDescription desc) {
+		this.multiPackIndexBase = desc;
 	}
 
 	@Override
