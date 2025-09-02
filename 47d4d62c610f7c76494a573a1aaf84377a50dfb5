@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0087b1fa_f806237e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-02T09:12:37Z",
+      "side": 1,
+      "message": "```suggestion\nReturning the commit B twice, caused confusion in the TopoSortGenerator\n```",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17d53803_160a7784",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-02T09:12:37Z",
+      "side": 1,
+      "message": "```suggestion\nThe chain of events, caused the TopoSortGenerator to buffer the commit A\n```",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a1e9ea76_3856b90d",
@@ -14,6 +48,23 @@
       "writtenOn": "2025-09-01T21:54:41Z",
       "side": 1,
       "message": "After applying this fix to the JGit version used in Gerrit Code Review, I cannot reproduce anymore the errors of https://github.com/eclipse-jgit/jgit/issues/182 and https://issues.gerritcodereview.com/issues/384756627. They are both resolved E2E.",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "032f41fc_64322bdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-02T09:12:37Z",
+      "side": 1,
+      "message": "please add tests",
       "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
