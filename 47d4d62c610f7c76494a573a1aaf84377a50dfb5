@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab1c888_305f1581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-02T12:04:56Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "0087b1fa_f806237e",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17d53803_160a7784",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-09-02T09:12:37Z",
       "side": 1,
       "message": "```suggestion\nThe chain of events, caused the TopoSortGenerator to buffer the commit A\n```",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ae171bb_ee9fe8e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-02T12:04:56Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "17d53803_160a7784",
       "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
