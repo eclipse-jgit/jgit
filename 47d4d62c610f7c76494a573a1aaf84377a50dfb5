@@ -121,6 +121,24 @@
       "parentUuid": "032f41fc_64322bdf",
       "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b8aa723_e2293428",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-02T12:15:57Z",
+      "side": 1,
+      "message": "Yes, exactly.\nDon\u0027t make these classes public but create the unit tests in the same package `org.eclipse.jgit.revwalk` here: https://github.com/eclipse-jgit/jgit/tree/master/org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk",
+      "parentUuid": "4adf27f3_5d9774e2",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
