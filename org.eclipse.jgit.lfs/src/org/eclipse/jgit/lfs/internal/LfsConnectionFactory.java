@@ -9,6 +9,15 @@
  */
 package org.eclipse.jgit.lfs.internal;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LFSDEFAULT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LFSPUSHDEFAULT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LFSPUSHURL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LFSURL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PUSHURL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PUSH_DEFAULT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_URL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REMOTE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_SECTION_LFS;
 import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 import static org.eclipse.jgit.util.HttpSupport.ENCODING_GZIP;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
@@ -24,14 +33,15 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CommandFailedException;
 import org.eclipse.jgit.lfs.LfsPointer;
 import org.eclipse.jgit.lfs.Protocol;
 import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.HttpConfig;
@@ -46,6 +56,7 @@ import org.eclipse.jgit.util.StringUtils;
  * Provides means to get a valid LFS connection for a given repository.
  */
 public class LfsConnectionFactory {
+
 	private static final int SSH_AUTH_TIMEOUT_SECONDS = 30;
 	private static final String SCHEME_HTTPS = "https"; //$NON-NLS-1$
 	private static final String SCHEME_SSH = "ssh"; //$NON-NLS-1$
@@ -53,10 +64,10 @@ public class LfsConnectionFactory {
 
 	/**
 	 * Determine URL of LFS server by looking into config parameters lfs.url,
-	 * lfs.[remote].url or remote.[remote].url. The LFS server URL is computed
-	 * from remote.[remote].url by appending "/info/lfs". In case there is no
-	 * URL configured, a SSH remote URI can be used to auto-detect the LFS URI
-	 * by using the remote "git-lfs-authenticate" command.
+	 * remote.[remote].lfsurl or remote.[remote].url. The LFS server URL is
+	 * computed from remote.[remote].url by appending "/info/lfs". In case there
+	 * is no URL configured, a SSH remote URI can be used to auto-detect the LFS
+	 * URI by using the remote "git-lfs-authenticate" command.
 	 *
 	 * @param db
 	 *            the repository to work with
@@ -74,7 +85,7 @@ public class LfsConnectionFactory {
 			String purpose) throws IOException {
 		StoredConfig config = db.getConfig();
 		Map<String, String> additionalHeaders = new TreeMap<>();
-		String lfsUrl = getLfsUrl(db, purpose, additionalHeaders);
+		String lfsUrl = getLfsUrl(db, purpose, null, additionalHeaders);
 		URL url = new URL(lfsUrl + Protocol.OBJECTS_LFS_ENDPOINT);
 		HttpConnection connection = HttpTransport.getConnectionFactory().create(
 				url, HttpSupport.proxyFor(ProxySelector.getDefault(), url));
@@ -97,10 +108,35 @@ public class LfsConnectionFactory {
 	/**
 	 * Get LFS Server URL.
 	 *
+	 * <ol>
+	 * <li>URL from config {@code lfs.pushurl} (upload only) or
+	 * {@code lfs.url}</li>
+	 * <li>remote specific URL<br/>
+	 * select remote:
+	 * <ol>
+	 * <li>explicit/current remote</li>
+	 * <li>remote specified by config {@code remote.lfspushdefault} (upload
+	 * only), {@code remote.pushDefault} (upload only) or
+	 * {@code remote.lfsdefault}</li>
+	 * <li>single remote
+	 * <li>default remote 'origin'</li>
+	 * </ol>
+	 * remote -> URL:
+	 * <ol>
+	 * <li>URL from config {@code remote.<remote>.lfspushurl} (upload only) or
+	 * {@code remote.<remote>.lfsurl}</li>
+	 * <li>derive URL from {@code remote.<remote>.pushurl} (upload only) or
+	 * {@code remote.<remote>.url}</li>
+	 * </ol>
+	 * </li>
+	 * </ol>
+	 *
 	 * @param db
 	 *            the repository to work with
 	 * @param purpose
 	 *            the action, e.g. Protocol.OPERATION_DOWNLOAD
+	 * @param remote
+	 *            exclicit remote (e.g. for current branch) or {@code null}
 	 * @param additionalHeaders
 	 *            additional headers that can be used to connect to LFS server
 	 * @return the URL for the LFS server. e.g.
@@ -110,50 +146,95 @@ public class LfsConnectionFactory {
 	 * @see <a href=
 	 *      "https://github.com/git-lfs/git-lfs/blob/main/docs/api/server-discovery.md">
 	 *      Server Discovery documentation</a>
+	 * @see <a href=
+	 *      "https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-config.adoc">
+	 *      git-lfs-config - Configuration options for git-lfs</a>
 	 */
 	private static String getLfsUrl(Repository db, String purpose,
-			Map<String, String> additionalHeaders)
+			String remote, Map<String, String> additionalHeaders)
 			throws IOException {
 		LfsConfig config = new LfsConfig(db);
-		String lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
-				null, ConfigConstants.CONFIG_KEY_URL);
-
-		Exception ex = null;
+		String lfsUrl = null;
+		if (purpose.equals(Protocol.OPERATION_UPLOAD)) {
+			lfsUrl = config.getString(CONFIG_SECTION_LFS, null,
+					CONFIG_KEY_PUSHURL);
+		}
 		if (lfsUrl == null) {
-			String remoteUrl = null;
-			for (String remote : db.getRemoteNames()) {
-				lfsUrl = config.getString(ConfigConstants.CONFIG_SECTION_LFS,
-						remote,
-						ConfigConstants.CONFIG_KEY_URL);
+			lfsUrl = config.getString(CONFIG_SECTION_LFS, null,
+					CONFIG_KEY_URL);
+		}
 
-				// This could be done better (more precise logic), but according
-				// to https://github.com/git-lfs/git-lfs/issues/1759 git-lfs
-				// generally only supports 'origin' in an integrated workflow.
-				if (lfsUrl == null && remote.equals(DEFAULT_REMOTE_NAME)) {
-					remoteUrl = config.getString(
-							ConfigConstants.CONFIG_KEY_REMOTE, remote,
-							ConfigConstants.CONFIG_KEY_URL);
-					break;
-				}
+		if (lfsUrl == null) {
+			if (remote == null) {
+				remote = getLfsRemote(db, purpose, config);
 			}
-			if (lfsUrl == null && remoteUrl != null) {
-				try {
-					lfsUrl = discoverLfsUrl(db, purpose, additionalHeaders,
-							remoteUrl);
-				} catch (URISyntaxException | IOException
-						| CommandFailedException e) {
-					ex = e;
+			if (remote != null) {
+				if (purpose.equals(Protocol.OPERATION_UPLOAD)) {
+					lfsUrl = config.getString(CONFIG_REMOTE_SECTION, remote,
+							CONFIG_KEY_LFSPUSHURL);
+				}
+				if (lfsUrl == null) {
+					lfsUrl = config.getString(CONFIG_REMOTE_SECTION, remote,
+							CONFIG_KEY_LFSURL);
+					if (lfsUrl == null) {
+						// old config 'lfs.<remote>.url' of jgit
+						lfsUrl = config.getString(CONFIG_SECTION_LFS, remote,
+								CONFIG_KEY_URL);
+					}
+				}
+				if (lfsUrl == null) {
+					String remoteUrl = null;
+					if (purpose.equals(Protocol.OPERATION_UPLOAD)) {
+						remoteUrl = config.getString(CONFIG_REMOTE_SECTION,
+								remote, CONFIG_KEY_PUSHURL);
+					}
+					if (remoteUrl == null) {
+						remoteUrl = config.getString(CONFIG_REMOTE_SECTION,
+								remote, CONFIG_KEY_URL);
+					}
+					if (remoteUrl != null) {
+						try {
+							lfsUrl = discoverLfsUrl(db, purpose,
+									additionalHeaders, remoteUrl);
+						} catch (URISyntaxException | IOException
+								| CommandFailedException e) {
+							throw new LfsConfigInvalidException(
+									LfsText.get().lfsNoDownloadUrl, e);
+						}
+					}
 				}
 			}
 		}
 		if (lfsUrl == null) {
-			if (ex != null) {
-				throw new LfsConfigInvalidException(
-						LfsText.get().lfsNoDownloadUrl, ex);
-			}
 			throw new LfsConfigInvalidException(LfsText.get().lfsNoDownloadUrl);
 		}
 		return lfsUrl;
+	}
+
+	private static @Nullable String getLfsRemote(Repository db, String purpose,
+			LfsConfig config) throws IOException {
+		String remote = null;
+		if (purpose.equals(Protocol.OPERATION_UPLOAD)) {
+			remote = config.getString(CONFIG_REMOTE_SECTION, null,
+					CONFIG_KEY_LFSPUSHDEFAULT);
+			if (remote == null) {
+				remote = config.getString(CONFIG_REMOTE_SECTION, null,
+						CONFIG_KEY_PUSH_DEFAULT);
+			}
+		}
+		if (remote == null) {
+			remote = config.getString(CONFIG_REMOTE_SECTION, null,
+					CONFIG_KEY_LFSDEFAULT);
+		}
+		Set<String> remotes = db.getRemoteNames();
+		if (remote == null || !remotes.contains(remote)) {
+			if (remotes.size() == 1) {
+				remote = remotes.iterator().next();
+			} else if (remotes.contains(DEFAULT_REMOTE_NAME)) {
+				remote = DEFAULT_REMOTE_NAME;
+			}
+		}
+		return remote;
 	}
 
 	private static String discoverLfsUrl(Repository db, String purpose,

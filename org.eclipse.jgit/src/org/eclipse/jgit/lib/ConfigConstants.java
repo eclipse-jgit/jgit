@@ -1115,4 +1115,40 @@ public final class ConfigConstants {
 	 * @since 7.2
 	 */
 	public static final String CONFIG_KEY_AUTOREFRESH = "autorefresh";
+
+	/**
+	 * The "pushurl" key
+	 *
+	 * @since 7.5
+	 */
+	public static final String CONFIG_KEY_PUSHURL = "pushurl"; //$NON-NLS-1$
+
+	/**
+	 * The "lfsdefault" key
+	 *
+	 * @since 7.5
+	 */
+	public static final String CONFIG_KEY_LFSDEFAULT = "lfsdefault"; //$NON-NLS-1$
+
+	/**
+	 * The "lfspushdefault" key
+	 *
+	 * @since 7.5
+	 */
+	public static final String CONFIG_KEY_LFSPUSHDEFAULT = "lfspushdefault"; //$NON-NLS-1$
+
+	/**
+	 * The "lfsurl" key
+	 *
+	 * @since 7.5
+	 */
+	public static final String CONFIG_KEY_LFSURL = "lfsurl"; //$NON-NLS-1$
+
+	/**
+	 * The "lfspushurl" key
+	 *
+	 * @since 7.5
+	 */
+	public static final String CONFIG_KEY_LFSPUSHURL = "lfspushurl"; //$NON-NLS-1$
+
 }
