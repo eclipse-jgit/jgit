@@ -19,7 +19,6 @@
   <artifactId>org.eclipse.jgit-parent</artifactId>
   <packaging>pom</packaging>
   <version>7.3.0.202506031305-r</version>
-
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
 
@@ -36,6 +35,14 @@
     <url>https://eclipse.gerrithub.io/admin/repos/eclipse-jgit/jgit</url>
     <connection>scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit</connection>
   </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub BigBrassBand Cloud Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/BigBrassBand/jgit-cloud</url>
+    </repository>
+  </distributionManagement>
 
   <ciManagement>
     <system>Jenkins</system>
@@ -1025,25 +1032,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>JGit Maven Repository - Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/jgit-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>JGit Maven Repository - Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/jgit-snapshots/</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-    <site>
-      <id>jgit.website</id>
-      <name>JGit Website</name>
-      <url>${jgit.website.url}</url>
-    </site>
-  </distributionManagement>
 
   <profiles>
     <profile>

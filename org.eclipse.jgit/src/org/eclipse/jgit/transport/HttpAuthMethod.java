@@ -82,6 +82,19 @@ abstract class HttpAuthMethod {
 				return "Digest"; //$NON-NLS-1$
 			}
 		},
+		// BBB customization begin
+		NTLM {
+			@Override
+			public HttpAuthMethod method(String hdr) {
+				return new NTLM();
+			}
+
+			@Override
+			public String getSchemeName() {
+				return "NTLM"; //$NON-NLS-1$
+			}
+		},
+		// BBB customization end
 		NEGOTIATE {
 			@Override
 			public HttpAuthMethod method(String hdr) {

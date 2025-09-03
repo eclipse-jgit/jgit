@@ -229,22 +229,4 @@
       </plugins>
     </pluginManagement>
   </build>
-  <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>JGit Maven Repository - Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/jgit-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>JGit Maven Repository - Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/jgit-snapshots/</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-    <site>
-      <id>jgit.website</id>
-      <name>JGit Website</name>
-      <url>${jgit.website.url}</url>
-    </site>
-  </distributionManagement>
 </project>

@@ -678,10 +678,31 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							conn.getResponseMessage());
 
 				case HttpConnection.HTTP_UNAUTHORIZED:
+					// BBB customization begin
+					// If auth present and it failed -- try another auth method
+					if (authMethod.getType() != HttpAuthMethod.Type.NONE) {
+						if (ignoreTypes == null) {
+							ignoreTypes = new HashSet<>();
+						}
+						ignoreTypes.add(authMethod.getType());
+
+						// reset auth method & attempts for next authentication type
+						authMethod = HttpAuthMethod.Type.NONE.method(null);
+						authAttempts = 1;
+					}
+					// BBB customization end
 					authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
-					if (authMethod.getType() == HttpAuthMethod.Type.NONE)
-						throw new TransportException(uri, MessageFormat.format(
-								JGitText.get().authenticationNotSupported, uri));
+					// BBB customization begin
+					if (authMethod.getType() == HttpAuthMethod.Type.NONE) {
+						if (ignoreTypes == null || ignoreTypes.isEmpty()) {
+							throw new TransportException(uri, MessageFormat.format(
+									JGitText.get().authenticationNotSupported, uri));
+						} else {
+							// Some methods were ignored, thus it seems that auth failed, so report NOT_AUTHORIZED
+							throw new TransportException(uri, JGitText.get().notAuthorized);
+						}
+					}
+					// BBB customization end
 					CredentialsProvider credentialsProvider = getCredentialsProvider();
 					if (credentialsProvider == null)
 						throw new TransportException(uri,
@@ -1325,7 +1346,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean isSmartHttp(HttpConnection c, String service) {
 		final String expType = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
-		final String actType = c.getContentType();
+		// BBB customization begin
+		final String actType = getContentType(c);
+		// BBB customization end
 		return expType.equals(actType);
 	}
 
@@ -1378,6 +1401,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			// for now, ignore the remaining header lines
 		}
 	}
+
+	// BBB customization begin
+
+	/**
+	 * remove charset part
+	 *
+	 * @param conn conn
+	 * @return ContentType
+	 */
+	private String getContentType(HttpConnection conn) {
+		return null != conn.getContentType() ? conn.getContentType().split(";")[0] : null;
+	}
+	// BBB customization end
 
 	class HttpObjectDB extends WalkRemoteObjectDatabase {
 		private final URL httpObjectsUrl;
@@ -1829,7 +1865,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						+ conn.getResponseMessage());
 			}
 
-			final String contentType = conn.getContentType();
+			// BBB customization begin
+			final String contentType = getContentType(conn);
+			// BBB customization end
 			if (!responseType.equals(contentType)) {
 				conn.getInputStream().close();
 				throw wrongContentType(responseType, contentType);

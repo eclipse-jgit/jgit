@@ -59,7 +59,6 @@ import org.eclipse.jgit.internal.transport.parser.FirstCommand;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GitmoduleEntry;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -2234,17 +2233,7 @@ public class ReceivePack {
 
 				sendStatusReport(null);
 			}
-			autoGc();
 		}
-	}
-
-	private void autoGc() {
-		Repository repo = getRepository();
-		if (!repo.getConfig().getBoolean(ConfigConstants.CONFIG_RECEIVE_SECTION,
-				ConfigConstants.CONFIG_KEY_AUTOGC, true)) {
-			return;
-		}
-		repo.autoGC(NullProgressMonitor.INSTANCE);
 	}
 
 	static ReceiveCommand parseCommand(String line)
