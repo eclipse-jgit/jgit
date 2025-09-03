@@ -137,8 +137,11 @@ public class SmudgeFilter extends FilterCommand {
 		for (LfsPointer p : res) {
 			oidStr2ptr.put(p.getOid().name(), p);
 		}
+		// TODO get/detect remote: get branch -> config 'branch.<branch>.remote'
+		String remoteName = null;
 		HttpConnection lfsServerConn = LfsConnectionFactory.getLfsConnection(db,
-				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
+				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD,
+				remoteName);
 		Gson gson = Protocol.gson();
 		lfsServerConn.getOutputStream()
 				.write(gson

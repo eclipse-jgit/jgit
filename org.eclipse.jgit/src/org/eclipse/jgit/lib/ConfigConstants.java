@@ -1129,4 +1129,40 @@ public final class ConfigConstants {
 	 * @since 7.6
 	 */
 	public static final String CONFIG_KEY_PACK_REFS = "packRefs";
+
+	/**
+	 * The "pushurl" key
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_PUSHURL = "pushurl";
+
+	/**
+	 * The "lfsdefault" key
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_LFSDEFAULT = "lfsdefault";
+
+	/**
+	 * The "lfspushdefault" key
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_LFSPUSHDEFAULT = "lfspushdefault";
+
+	/**
+	 * The "lfsurl" key
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_LFSURL = "lfsurl";
+
+	/**
+	 * The "lfspushurl" key
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_LFSPUSHURL = "lfspushurl";
+
 }
