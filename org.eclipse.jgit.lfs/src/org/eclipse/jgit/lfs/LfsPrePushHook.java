@@ -12,8 +12,8 @@ package org.eclipse.jgit.lfs;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
 import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
-import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_CREATED;
+import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_PUT;
 
@@ -100,8 +100,11 @@ public class LfsPrePushHook extends PrePushHook {
 		if (toPush.isEmpty()) {
 			return EMPTY;
 		}
+		String remoteName = getRemoteName() == null
+				? Constants.DEFAULT_REMOTE_NAME
+				: getRemoteName();
 		HttpConnection api = LfsConnectionFactory.getLfsConnection(
-				getRepository(), METHOD_POST, OPERATION_UPLOAD);
+				getRepository(), METHOD_POST, OPERATION_UPLOAD, remoteName);
 		if (!isDryRun()) {
 			Map<String, LfsPointer> oid2ptr = requestBatchUpload(api, toPush);
 			uploadContents(api, oid2ptr);
