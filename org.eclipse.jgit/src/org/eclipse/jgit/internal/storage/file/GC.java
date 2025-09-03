@@ -183,7 +183,7 @@ public class GC {
 	 * prune() to inspect only those reflog entries which have been added since
 	 * last repack().
 	 */
-	private Instant lastRepackTime;
+	private Instant lastRepackTime = Instant.EPOCH;
 
 	/**
 	 * Whether gc should do automatic housekeeping
