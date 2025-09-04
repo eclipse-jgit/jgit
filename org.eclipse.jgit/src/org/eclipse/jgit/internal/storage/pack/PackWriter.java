@@ -2051,7 +2051,11 @@ public class PackWriter implements AutoCloseable {
 		int haveEst = have.size();
 		if (have.isEmpty()) {
 			walker.sort(RevSort.COMMIT_TIME_DESC);
+<<<<<<< PATCH SET (ff7e5179c2e84979d43599b755fcc5bd26a34892 Disable BOUNDARY and TOPO sort for unshallow fetches)
+		} else if (unshallowObjects == null || unshallowObjects.isEmpty()) { // JGit-182: TopoSortGenerator and BoundaryGenerator do not support unshallow fetch requests
+=======
 		} else {
+>>>>>>> BASE      (82d8cd4aef46e3c0129b214aa6e07806e96e7f45 Import assertion details of unexpected content in pack)
 			walker.sort(RevSort.TOPO);
 			if (thin)
 				walker.sort(RevSort.BOUNDARY, true);
