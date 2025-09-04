@@ -64,8 +64,11 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.PackParser;
 import org.junit.After;
 import org.junit.Before;
+<<<<<<< PATCH SET (25c8a409f6962cff58937856a7a37de68f3b051c Disable BOUNDARY and TOPO sort for unshallow fetches)
+=======
 import org.junit.Ignore;
 import org.junit.Rule;
+>>>>>>> BASE      (20d9a97cdab86754d3759b5483d9de51433215ae BasePackWriterTest: Increase test coverage for unshallow fet)
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.mockito.Mockito;
@@ -722,7 +725,6 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore // See bug jgit-182 (https://github.com/eclipse-jgit/jgit/issues/182)
 	public void testUnshallowFetchShallowAncestorToMaxDepth() throws Exception {
 		//     [unshallow-branch]
 		//         |
