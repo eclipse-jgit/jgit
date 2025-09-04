@@ -64,6 +64,7 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.PackParser;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -74,6 +75,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 	private static final Set<ObjectIdSet> EMPTY_ID_SET = Collections
 			.<ObjectIdSet> emptySet();
+
+	private static final boolean UNSHALLOW_FETCH = true;
 
 	private PackConfig config;
 
@@ -97,6 +100,10 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 
 	private RevBlob contentE;
 
+	private RevBlob contentF;
+
+	private RevBlob contentG;
+
 	private RevCommit c1;
 
 	private RevCommit c2;
@@ -106,6 +113,10 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	private RevCommit c4;
 
 	private RevCommit c5;
+
+	private RevCommit c6;
+
+	private RevCommit c7;
 
 	@Override
 	@Before
@@ -706,6 +717,140 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	@Ignore // See bug jgit-182 (https://github.com/eclipse-jgit/jgit/issues/182)
+	public void testUnshallowFetchShallowAncestorToMaxDepth() throws Exception {
+		//     [unshallow-branch]
+		//         |
+		//         v
+		//c1 <--- c2 <--- c3 <--- c4 <---  c5 <--- c6 <-[main-branch]
+		//                ^
+		//                |
+		//         [stable-branch]
+		//
+		// The above graph shows the test-case of a linear history created
+		// by setupRepoForUnshallowFetch(), where we simulate the branches
+		// by wanting both c6 (as 'main-branch') and c3 (as 'stable-branch').
+		try (FileRepository repo = setupRepoForUnshallowFetch()) {
+			// The client has a shallow clone with depth=1 of c2 and then
+			// requests the unshallow with WANT=stable-branch(c3) and main-branch(c6)
+			// notifying the server that HAVE, therefore requesting a maximum depth
+			// of Integer.MAX_VALUE
+			PackIndex idx = writeUnshallowPack(repo, Integer.MAX_VALUE, wants(c6, c3), haves(c2));
+			assertContent(idx,
+				Arrays.asList(c1.getId(), c1.getTree().getId(),
+					// NOTE: c2, its tree and BLOB are not expected to be packed
+					// because the existing shallow repo should have them already
+					c3.getId(), c3.getTree().getId(),
+					c4.getId(), c4.getTree().getId(),
+					c5.getId(), c5.getTree().getId(),
+					c6.getId(), c6.getTree().getId(),
+					// NOTE: contentA.getId() is already local as it is referenced by c2's tree
+					// which is part of the initial shallow clone with depth=1
+					contentC.getId(),
+					contentD.getId(), contentE.getId(), contentF.getId()));
+		}
+	}
+
+	@Test
+	public void testUnshallowFetchShallowMergeCommitToMaxDepth() throws Exception {
+		//                  [unshallow-branch]
+		//                        |
+		//                        v
+		//c1 <--- c2 <--- c5 <--- c6 <--- c7 <-[main-branch]
+		//         \             /
+		//          -- c3 <--- c4  <-[feature-branch]
+		//
+		try (FileRepository repo = setupRepoWithMergeCommitForUnshallowFetch()) {
+			PackIndex idx = writeUnshallowPack(repo, Integer.MAX_VALUE, wants(c7, c4), haves(c6));
+			assertContent(idx,
+				Arrays.asList(c1.getId(), c1.getTree().getId(),
+					c2.getId(), c2.getTree().getId(),
+					c3.getId(), c3.getTree().getId(),
+					c4.getId(), c4.getTree().getId(),
+					c5.getId(), c5.getTree().getId(),
+					c7.getId(), c7.getTree().getId(),
+					// contentA, contentB, contentE and contentF are already part of c6 tree
+					contentC.getId(),
+					contentD.getId(), contentG.getId()));
+		}
+	}
+
+	@Test
+	public void testUnshallowFetchShallowLinearCommitToMaxDepth() throws Exception {
+		//           [unshallow-branch]
+		//                 |
+		//                 v
+		//c1 <--- c2 <--- c3 <--- c4 <--- c5 <-[main-branch]
+		//
+		try (FileRepository repo = setupRepoWithLinearHistoryForUnshallowFetch()) {
+			PackIndex idx = writeUnshallowPack(repo, Integer.MAX_VALUE, wants(c5), haves(c3));
+			assertContent(idx,
+				Arrays.asList(c1.getId(), c1.getTree().getId(),
+					c2.getId(), c2.getTree().getId(),
+					c4.getId(), c4.getTree().getId(),
+					c5.getId(), c5.getTree().getId(),
+					// contentA, contentB are already part of c3 tree
+					contentD.getId(), contentE.getId()));
+		}
+	}
+
+	private FileRepository setupRepoWithMergeCommitForUnshallowFetch() throws Exception {
+		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			contentF = r.blob("F");
+			contentG = r.blob("G");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c5 = bb.commit().add("e", contentE).create();
+
+			BranchBuilder fb = r.branch("refs/heads/feature");
+			fb.update(c2);
+			c3 = fb.commit().add("c", contentC).create();
+			c4 = fb.commit().add("d", contentD).create();
+
+			c6 = bb.commit().add("f", contentF).parent(c4).create();
+			r.branch("refs/heads/unshallow").update(c6);
+
+			c7 = bb.commit().add("g", contentG).create();
+			r.getRevWalk().parseHeaders(c7); // fully initialize the tip RevCommit
+
+			return repo;
+		}
+	}
+
+	private FileRepository setupRepoWithLinearHistoryForUnshallowFetch() throws Exception {
+		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c3 = bb.commit().add("c", contentC).create();
+			c4 = bb.commit().add("d", contentD).create();
+			c5 = bb.commit().add("e", contentE).create();
+			r.branch("refs/heads/unshallow").update(c3);
+			r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
+			return repo;
+		}
+	}
+
+	@Test
 	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSetTrue()
 			throws Exception {
 		totalPackFilesScanWhenSearchForReuseTimeoutNotSet(true);
@@ -881,11 +1026,38 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
+	private FileRepository setupRepoForUnshallowFetch() throws Exception {
+		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			contentF = r.blob("F");
+			contentG = r.blob("G");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c3 = bb.commit().add("c", contentC).create();
+			c4 = bb.commit().add("d", contentD).create();
+			c5 = bb.commit().add("e", contentE).create();
+			c6 = bb.commit().add("f", contentF).create();
+			c7 = bb.commit().add("g", contentF).create();
+			r.getRevWalk().parseHeaders(c7); // fully initialize the tip RevCommit
+
+			return repo;
+		}
+	}
+
 	private static PackIndex writePack(FileRepository repo,
 			Set<? extends ObjectId> want, Set<ObjectIdSet> excludeObjects)
 					throws IOException {
 		try (RevWalk walk = new RevWalk(repo)) {
-			return writePack(repo, walk, 0, want, NONE, excludeObjects);
+			return writePack(repo, walk, 0, want, NONE, excludeObjects, false);
 		}
 	}
 
@@ -896,13 +1068,22 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		// marked the client's "shallow" commits. Emulate that here.
 		try (DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth - 1)) {
 			walk.assumeShallow(shallow);
-			return writePack(repo, walk, depth, want, have, EMPTY_ID_SET);
+			return writePack(repo, walk, depth, want, have, EMPTY_ID_SET, false);
+		}
+	}
+
+	private static PackIndex writeUnshallowPack(FileRepository repo, int depth,
+						  Set<? extends ObjectId> want, Set<? extends ObjectId> have) throws IOException {
+		// During negotiation, UploadPack would have set up a DepthWalk and
+		// marked the client's commits in the HAVE as "unshallow". Emulate that here.
+		try (DepthWalk.RevWalk walk = new DepthWalk.RevWalk(repo, depth)) {
+			return writePack(repo, walk, depth, want, have, EMPTY_ID_SET, UNSHALLOW_FETCH);
 		}
 	}
 
 	private static PackIndex writePack(FileRepository repo, RevWalk walk,
 			int depth, Set<? extends ObjectId> want,
-			Set<? extends ObjectId> have, Set<ObjectIdSet> excludeObjects)
+			Set<? extends ObjectId> have, Set<ObjectIdSet> excludeObjects, boolean unshallow)
 					throws IOException {
 		try (PackWriter pw = new PackWriter(repo)) {
 			pw.setDeltaBaseAsOffset(true);
@@ -915,6 +1096,10 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 			}
 			// ow doesn't need to be closed; caller closes walk.
 			ObjectWalk ow = walk.toObjectWalkWithSameObjects();
+
+			if (unshallow) {
+				pw.setShallowPack(depth, have);
+			}
 
 			pw.preparePack(NullProgressMonitor.INSTANCE, ow, want, have, NONE);
 			File packdir = repo.getObjectDatabase().getPackDirectory();
