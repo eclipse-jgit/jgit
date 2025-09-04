@@ -714,6 +714,144 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+<<<<<<< PATCH SET (7e0ef94369bfeb702652e6719c6e15d5857a9c68 Disable BOUNDARY and TOPO sort for unshallow fetches)
+<<<<<<< PATCH SET (c1ede4fa198459b0a05d7dc488b9da438c1843ae Disable BOUNDARY and TOPO sort for unshallow fetches)
+	public void testUnshallowFetchShallowAncestorToMaxDepth() throws Exception {
+		//     [unshallow-branch]
+		//         |
+		//         v
+		//c1 <--- c2 <--- c3 <--- c4 <---  c5 <--- c6 <-[main-branch]
+		//                ^
+		//                |
+		//         [stable-branch]
+		//
+		// The above graph shows the test-case of a linear history created
+		// by setupRepoForUnshallowFetch(), where we simulate the branches
+		// by wanting both c6 (as 'main-branch') and c3 (as 'stable-branch').
+		try (FileRepository repo = setupRepoForUnshallowFetch()) {
+			// The client has a shallow clone with depth=1 of c2 and then
+			// requests the unshallow with WANT=stable-branch(c3) and main-branch(c6)
+			// notifying the server that HAVE, therefore requesting a maximum depth
+			// of Integer.MAX_VALUE
+			PackIndex idx = writeUnshallowPack(repo, Integer.MAX_VALUE, wants(c6, c3), haves(c2));
+			assertContent(idx,
+				Arrays.asList(c1.getId(), c1.getTree().getId(),
+					// NOTE: c2, its tree and BLOB are not expected to be packed
+					// because the existing shallow repo should have them already
+					c3.getId(), c3.getTree().getId(),
+					c4.getId(), c4.getTree().getId(),
+					c5.getId(), c5.getTree().getId(),
+					c6.getId(), c6.getTree().getId(),
+					// NOTE: contentA.getId() is already local as it is pointed by c2's tree
+					// which is part of the initial shallow clone with depth=1
+					contentC.getId(),
+					contentD.getId(), contentE.getId(), contentF.getId()));
+		}
+	}
+
+	@Test
+	public void testUnshallowFetchShallowMergeCommitToMaxDepth() throws Exception {
+		//                  [unshallow-branch]
+		//                        |
+		//                        v
+		//c1 <--- c2 <--- c5 <--- c6 <--- c7 <-[main-branch]
+		//         \             /
+		//          -- c3 <--- c4  <-[feature-branch]
+		//
+		try (FileRepository repo = setupRepoWithMergeCommitForUnshallowFetch()) {
+			PackIndex idx = writeUnshallowPack(repo, Integer.MAX_VALUE, wants(c7, c4), haves(c6));
+			assertContent(idx,
+				Arrays.asList(c1.getId(), c1.getTree().getId(),
+					c2.getId(), c2.getTree().getId(),
+					c3.getId(), c3.getTree().getId(),
+					c4.getId(), c4.getTree().getId(),
+					c5.getId(), c5.getTree().getId(),
+					c7.getId(), c7.getTree().getId(),
+					// contentA, contentB, contentE and contentF are already part of c6 tree
+					contentC.getId(),
+					contentD.getId(), contentG.getId()));
+		}
+	}
+
+	@Test
+	public void testUnshallowFetchShallowLinearCommitToMaxDepth() throws Exception {
+		//           [unshallow-branch]
+		//                 |
+		//                 v
+		//c1 <--- c2 <--- c3 <--- c4 <--- c5 <-[main-branch]
+		//
+		try (FileRepository repo = setupRepoWithLinearHistoryForUnshallowFetch()) {
+			PackIndex idx = writeUnshallowPack(repo, Integer.MAX_VALUE, wants(c5), haves(c3));
+			assertContent(idx,
+				Arrays.asList(c1.getId(), c1.getTree().getId(),
+					c2.getId(), c2.getTree().getId(),
+					c4.getId(), c4.getTree().getId(),
+					c5.getId(), c5.getTree().getId(),
+					// contentA, contentB are already part of c3 tree
+					contentD.getId(), contentE.getId()));
+		}
+	}
+
+	private FileRepository setupRepoWithMergeCommitForUnshallowFetch() throws Exception {
+		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			contentF = r.blob("F");
+			contentG = r.blob("G");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c5 = bb.commit().add("e", contentE).create();
+
+			BranchBuilder fb = r.branch("refs/heads/feature");
+			fb.update(c2);
+			c3 = fb.commit().add("c", contentC).create();
+			c4 = fb.commit().add("d", contentD).create();
+
+			c6 = bb.commit().add("f", contentF).parent(c4).create();
+			r.branch("refs/heads/unshallow").update(c6);
+
+			c7 = bb.commit().add("g", contentG).create();
+			r.getRevWalk().parseHeaders(c7); // fully initialize the tip RevCommit
+
+			return repo;
+		}
+	}
+
+	private FileRepository setupRepoWithLinearHistoryForUnshallowFetch() throws Exception {
+		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c3 = bb.commit().add("c", contentC).create();
+			c4 = bb.commit().add("d", contentD).create();
+			c5 = bb.commit().add("e", contentE).create();
+			r.branch("refs/heads/unshallow").update(c3);
+			r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
+			return repo;
+		}
+	}
+
+	@Test
+=======
+>>>>>>> BASE      (d373c4887db40af429485c740908f0bb3186f966 Improve assertion details of unexpected content in pack)
+=======
 	@Ignore // See bug jgit-182 (https://github.com/eclipse-jgit/jgit/issues/182)
 	public void testUnshallowFetchShallowAncestorToMaxDepth() throws Exception {
 		//     [unshallow-branch]
@@ -848,6 +986,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+>>>>>>> BASE      (066ddd4d68e73a1b94c5a2aeebd6a70b04179b13 Increase test coverage for unshallow fetches)
 	public void testTotalPackFilesScanWhenSearchForReuseTimeoutNotSetTrue()
 			throws Exception {
 		totalPackFilesScanWhenSearchForReuseTimeoutNotSet(true);
