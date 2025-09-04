@@ -722,7 +722,6 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore // See bug jgit-182 (https://github.com/eclipse-jgit/jgit/issues/182)
 	public void testUnshallowFetchShallowAncestorToMaxDepth() throws Exception {
 		//     [unshallow-branch]
 		//         |
