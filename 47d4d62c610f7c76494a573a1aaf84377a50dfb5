@@ -193,6 +193,24 @@
       "parentUuid": "8409dacf_6d64589c",
       "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "710ed01b_c1974d0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-04T17:32:03Z",
+      "side": 1,
+      "message": "I\u0027ve created another change with a better solution:\nhttps://review.gerrithub.io/c/eclipse-jgit/jgit/+/1221993",
+      "parentUuid": "fdec60ff_726e0887",
+      "revId": "47d4d62c610f7c76494a573a1aaf84377a50dfb5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
