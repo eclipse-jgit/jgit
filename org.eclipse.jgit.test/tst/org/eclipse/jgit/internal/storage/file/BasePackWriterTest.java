@@ -63,7 +63,6 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.transport.PackParser;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -719,7 +718,6 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
-	@Ignore // See bug jgit-182 (https://github.com/eclipse-jgit/jgit/issues/182)
 	public void testUnshallowFetchShallowAncestorToMaxDepth() throws Exception {
 		//     [unshallow-branch]
 		//         |
@@ -1024,6 +1022,31 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 			c4 = bb.commit().add("d", contentD).create();
 			c5 = bb.commit().add("e", contentE).create();
 			r.getRevWalk().parseHeaders(c5); // fully initialize the tip RevCommit
+			return repo;
+		}
+	}
+
+	private FileRepository setupRepoForUnshallowFetch() throws Exception {
+		FileRepository repo = createBareRepository();
+		// TestRepository will close the repo, but we need to return an open
+		// one!
+		repo.incrementOpen();
+		try (TestRepository<Repository> r = new TestRepository<>(repo)) {
+			BranchBuilder bb = r.branch("refs/heads/master");
+			contentA = r.blob("A");
+			contentB = r.blob("B");
+			contentC = r.blob("C");
+			contentD = r.blob("D");
+			contentE = r.blob("E");
+			contentF = r.blob("F");
+			c1 = bb.commit().add("a", contentA).create();
+			c2 = bb.commit().add("b", contentB).create();
+			c3 = bb.commit().add("c", contentC).create();
+			c4 = bb.commit().add("d", contentD).create();
+			c5 = bb.commit().add("e", contentE).create();
+			c6 = bb.commit().add("f", contentF).create();
+			r.getRevWalk().parseHeaders(c6); // fully initialize the tip RevCommit
+
 			return repo;
 		}
 	}
