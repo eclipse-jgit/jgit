@@ -16,6 +16,24 @@
       "message": "Thanks for the example and the explanations! I still have a few questions about the problem.",
       "revId": "67965a210c74035f2e50d1ae07096ed37b75eb3a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c129b813_0c849ff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T16:45:43Z",
+      "side": 1,
+      "message": "\u003e Thanks for the example and the explanations! I still have a few questions about the problem.\n\nI believe I should have answered all of them. Should you have any further doubts, I\u0027d be happy to clarify them too.",
+      "parentUuid": "f61c4e5e_fd09fdb3",
+      "revId": "67965a210c74035f2e50d1ae07096ed37b75eb3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
