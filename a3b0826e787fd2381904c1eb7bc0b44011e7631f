@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a652bad1_cb400546",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T11:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7b7d8a_8bd733b5",
+      "range": {
+        "startLine": 709,
+        "startChar": 46,
+        "endLine": 709,
+        "endChar": 52
+      },
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c006ff05_e6b0c360",
@@ -41,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35789f83_facb26ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T11:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c006ff05_e6b0c360",
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6281f25f_35117aae",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-09-05T10:55:48Z",
       "side": 1,
       "message": "This could be made more readable by defining the `FETCH_UNSHALLOW` constant set to `true`",
+      "range": {
+        "startLine": 961,
+        "startChar": 65,
+        "endLine": 961,
+        "endChar": 69
+      },
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f2bc8c_558629f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T11:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6281f25f_35117aae",
       "range": {
         "startLine": 961,
         "startChar": 65,
