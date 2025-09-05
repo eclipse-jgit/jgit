@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed7b7d8a_8bd733b5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T10:55:48Z",
+      "side": 1,
+      "message": "It\u0027s not `depth\u003d2`, should be changed to `MaxDepth`",
+      "range": {
+        "startLine": 709,
+        "startChar": 46,
+        "endLine": 709,
+        "endChar": 52
+      },
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c006ff05_e6b0c360",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T10:55:48Z",
+      "side": 1,
+      "message": "Add a comment explaining why `c2` and its tree/objects are not expected.",
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6281f25f_35117aae",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T10:55:48Z",
+      "side": 1,
+      "message": "This could be made more readable by defining the `FETCH_UNSHALLOW` constant set to `true`",
+      "range": {
+        "startLine": 961,
+        "startChar": 65,
+        "endLine": 961,
+        "endChar": 69
+      },
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa404c33_a8d6202b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T10:55:48Z",
+      "side": 1,
+      "message": "Nit: space in empty line.",
+      "range": {
+        "startLine": 984,
+        "startChar": 0,
+        "endLine": 984,
+        "endChar": 3
+      },
+      "revId": "a3b0826e787fd2381904c1eb7bc0b44011e7631f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

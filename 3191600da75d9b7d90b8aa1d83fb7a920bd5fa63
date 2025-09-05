@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "561b61da_5cf53e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-05T10:55:48Z",
+      "side": 1,
+      "message": "I\u0027ve added the tests and clarified the use-case.",
+      "parentUuid": "0859808e_87fc48b4",
+      "revId": "3191600da75d9b7d90b8aa1d83fb7a920bd5fa63",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db455fab_df55f72b",
