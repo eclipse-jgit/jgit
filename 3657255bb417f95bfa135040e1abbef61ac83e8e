@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea48223d_ac8bd792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-09-08T07:47:58Z",
+      "side": 1,
+      "message": "Nit: line too long.",
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d14599d_13560b9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-09-08T07:47:58Z",
+      "side": 1,
+      "message": "Please remove this empty line. The \"Bug: ...\" line should be a footer line.",
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb2269fe_c0dde0e1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-09-08T07:47:58Z",
+      "side": 1,
+      "message": "Please use `SystemReader.getInstance.getProperty()` instead of `System.getProperty()`. JGit has its own wrapper around such system items. Especially in tests it makes it easier to override some settings.",
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bedf95d2_fe31bf56",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 1
