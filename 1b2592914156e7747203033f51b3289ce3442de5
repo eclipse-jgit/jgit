@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efe96e71_d142e915",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-08T13:57:09Z",
+      "side": 1,
+      "message": "Ping @matthias.sohn@sap.com @ifrade@google.com any further feedback? Do you believe we\u0027re good to merge it?",
+      "revId": "1b2592914156e7747203033f51b3289ce3442de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
