@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bedf95d2_fe31bf56",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1987,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-08T06:30:09Z",
+      "side": 1,
+      "message": "Did you ever see this returning null?",
+      "range": {
+        "startLine": 1987,
+        "startChar": 6,
+        "endLine": 1987,
+        "endChar": 43
+      },
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
