@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8582d94_5f2c5b76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-09-08T15:10:33Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a2ae52f6_66a6171d",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5240dd8_753a9ef8",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "It\u0027s a good point Thomas.\nWe should either conform the licence or perhaps move the Jenkinsfile to the `gerrit-ci-scripts` as suggested by @luca.milanesio@gmail.com at [1].\nLeaving this comment as unresolved for now.\n\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1218954/comment/3b2c0b8e_70f304a8/",
       "parentUuid": "b5240dd8_753a9ef8",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6d6ced_3fdb1121",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-09-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e744d9b4_d12089b3",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -210,6 +246,24 @@
       "side": 1,
       "message": "I believe that would work, but I want to see first the Gerrit Code Review plugin changes deployed and used in other Gerrit plugins so that we have a real life validation that the process works.\n\nAlso this approach is useful for Gerrit plugins to avoid abusers running pipeline code on the CI by just creating a random change.",
       "parentUuid": "d1ac4160_eb4e8ded",
+      "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b62082_0408bcd6",
+        "filename": "Jenkinsfile",
+        "patchSetId": 38
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-09-08T15:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "294d3ce2_b1c349b7",
       "revId": "0c79e3aa38c3918b8c42587d0880f1036531e73b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
