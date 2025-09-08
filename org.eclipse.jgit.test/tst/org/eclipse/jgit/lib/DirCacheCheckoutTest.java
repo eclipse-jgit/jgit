@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.System;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -1982,7 +1983,19 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testLongFilename() throws Exception {
-		char[] bytes = new char[253];
+		int maximumFileNameLength = 253;
+		if (System.getInstance().getProperty("os.name") != null) {
+			switch (System.getInstance().getProperty("os.name")) {
+			case "NONSTOP_KERNEL":
+				// Safely truncate file names to the maximum supported
+				// by the HPE NonStop OSS file system.
+				maximumFileNameLength = 248;
+				break;
+			default:
+				break;
+			}
+		}
+		char[] bytes = new char[maximumFileNameLength];
 		Arrays.fill(bytes, 'f');
 		String longFileName = new String(bytes);
 		// 1
