@@ -58,6 +58,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -1982,7 +1983,20 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testLongFilename() throws Exception {
-		char[] bytes = new char[253];
+		int maximumFileNameLength = 253;
+		String osName = SystemReader.getInstance().getProperty("os.name");
+		if (osName != null)
+			switch (osName) {
+			case "NONSTOP_KERNEL":
+				// Safely truncate file names to the maximum supported
+				// by the HPE NonStop OSS file system.
+				maximumFileNameLength = 248;
+				break;
+			default:
+				break;
+			}
+		}
+		char[] bytes = new char[maximumFileNameLength];
 		Arrays.fill(bytes, 'f');
 		String longFileName = new String(bytes);
 		// 1
