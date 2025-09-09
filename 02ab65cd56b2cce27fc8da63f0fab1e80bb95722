@@ -51,6 +51,23 @@
       "parentUuid": "9e901dd3_6dbc6e44",
       "revId": "02ab65cd56b2cce27fc8da63f0fab1e80bb95722",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc9506c0_cc79a4da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-09-09T17:56:00Z",
+      "side": 1,
+      "message": "I think this can be abandoned since [1219744: SmartHttpFetchConnection: suppress errors on close()](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1219744) was merged instead?",
+      "revId": "02ab65cd56b2cce27fc8da63f0fab1e80bb95722",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
