@@ -39,6 +39,30 @@
       },
       "revId": "1b2592914156e7747203033f51b3289ce3442de5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2fcc307_9dac8e2e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-09T11:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1329620f_01644328",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 7
+      },
+      "revId": "1b2592914156e7747203033f51b3289ce3442de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
