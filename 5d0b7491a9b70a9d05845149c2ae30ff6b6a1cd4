@@ -50,6 +50,24 @@
       "message": "I am not sure this would break something else. For example, what happens with unshallow requests when \"thin\" is true? will the commits in the boundary be included?",
       "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99861e3a_4be1a3a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-10T19:56:56Z",
+      "side": 1,
+      "message": "\u003e I am not sure this would break something else. For example, what happens with unshallow requests when \"thin\" is true? will the commits in the boundary be included?\n\nCorrect, and the `thin` never worked for the `unshallow` requests because the BoundaryGenerator was never adapted to support the `unshallow` requests.\nIt isn\u0027t technically a regression, because it never worked.",
+      "parentUuid": "2753326e_fc7a09d0",
+      "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

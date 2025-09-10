@@ -72,6 +72,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0890f605_24759b59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-10T19:56:56Z",
+      "side": 1,
+      "message": "\u003e \u003e\u003e what if B is not shallow, but A is? would the fetch work fine?\n\u003e \n\u003e \u003e A is the first commit, therefore is can never be a shallow clone.\n\u003e \n\u003e Sorry, I meant if there was a commit before A, i.e. the \"unshallow\" commit is not a merge.\n\nSee the latest amended description: the problem can be reproduced with any commit, not only with merges.\n\nSee the example mentioned in the commit message:\n\n```\n     [unshallow-branch]\n         |\n         v\nc1 \u003c--- c2 \u003c--- c3 \u003c--- c4 \u003c--- c5 \u003c--- c6 \u003c-[main-branch]\n                ^\n                |\n         [stable-branch]\n```",
+      "parentUuid": "56252ef2_6f83b80a",
+      "revId": "3191600da75d9b7d90b8aa1d83fb7a920bd5fa63",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db455fab_df55f72b",
