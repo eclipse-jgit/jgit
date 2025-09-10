@@ -3,6 +3,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -1224,6 +1225,66 @@ public class DfsGarbageCollectorTest {
 		DfsReader reader = odb.newReader();
 		DfsPackFile gcRestPack = findFirstBySource(odb.getPacks(), UNREACHABLE_GARBAGE);
 		assertFalse(gcRestPack.hasObjectSizeIndex(reader));
+	}
+
+	@Test
+	public void midx_somePacksnoGC_firstMidx() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		git.branch(master).commit().message("commit on head")
+				.add("file.txt", git.blob("a blob")).parent(root).create();
+		assertEquals(3, countPacks(INSERT));
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS); // disable TTL
+		// adjust the current time that will be used by the gc operation.
+		mockSystemReader.tick(1);
+		assertTrue("gc midx", gc.refreshMidx(null));
+		odb.clearCache();
+		assertEquals(4, odb.getPacks().length);
+	}
+
+	@Test
+	public void midx_somePacksAndGC_firstMidx() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevCommit tip = git.branch(master).commit().message("commit on head")
+				.add("file.txt", git.blob("a blob")).parent(root).create();
+		assertEquals(3, countPacks(INSERT));
+		gcNoTtl();
+		tip = git.branch(master).commit().message("another commit")
+				.add("file.txt", git.blob("change")).parent(tip).create();
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS); // disable TTL
+		// adjust the current time that will be used by the gc operation.
+		mockSystemReader.tick(1);
+		assertTrue("gc midx", gc.refreshMidx(null));
+		odb.clearCache();
+		assertEquals(4, odb.getPacks().length);
+	}
+
+	@Test
+	public void midx_someNewPacks_withMidx_refresh() throws Exception {
+		String master = "refs/heads/master";
+		RevCommit root = git.branch(master).commit().message("root").noParents()
+				.create();
+		RevCommit tip = git.branch(master).commit().message("commit on head")
+				.add("file.txt", git.blob("a blob")).parent(root).create();
+		assertEquals(3, countPacks(INSERT));
+		gcNoTtl();
+		tip = git.branch(master).commit().message("another commit")
+				.add("file.txt", git.blob("change")).parent(tip).create();
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(repo);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS); // disable TTL
+		// adjust the current time that will be used by the gc operation.
+		mockSystemReader.tick(1);
+		assertTrue("gc midx", gc.refreshMidx(null));
+		odb.clearCache();
+		assertEquals(4, odb.getPacks().length);
 	}
 
 	@Test
