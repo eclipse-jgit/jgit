@@ -2051,7 +2051,7 @@ public class PackWriter implements AutoCloseable {
 		int haveEst = have.size();
 		if (have.isEmpty()) {
 			walker.sort(RevSort.COMMIT_TIME_DESC);
-		} else {
+		} else if (unshallowObjects == null || unshallowObjects.isEmpty()) {
 			walker.sort(RevSort.TOPO);
 			if (thin)
 				walker.sort(RevSort.BOUNDARY, true);
