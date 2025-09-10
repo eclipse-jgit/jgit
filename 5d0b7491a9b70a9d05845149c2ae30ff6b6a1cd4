@@ -16,6 +16,40 @@
       "message": "@ifrade@google.com @matthias.sohn@sap.com if you don\u0027t have any objects, I\u0027ll +2 this change and merge tomorrow. Otherwise, I\u0027d be happy to address any concerns and amend the change accordingly. Thanks for your feedback!",
       "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f02f977_92963302",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-09-10T18:49:07Z",
+      "side": 1,
+      "message": "My main concern is that this fix can potentially introduce other problems and we don\u0027t have even a basic awareness about it. Last thing we want is to break all unshallows that have been working well so far.\n\nAny chance to keep this as a patch downstream until proved?\n\nA strong precondition to touch anything in un/shallowing is to cover it with reasonable tests (eg unshallowing in linear history, on a merge, just before a merge...).",
+      "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2753326e_fc7a09d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-09-10T18:49:07Z",
+      "side": 1,
+      "message": "I am not sure this would break something else. For example, what happens with unshallow requests when \"thin\" is true? will the commits in the boundary be included?",
+      "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
