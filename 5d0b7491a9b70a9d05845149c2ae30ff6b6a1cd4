@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afc2b77d_2942ef83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-10T20:07:26Z",
+      "side": 1,
+      "message": "\u003e My main concern is that this fix can potentially introduce other problems and we don\u0027t have even a basic awareness about it. Last thing we want is to break all unshallows that have been working well so far.\n\nThe `unshallow` worked _by mistake_ until now, because the code was stopping the navigation as the `unshallow` request wasn\u0027t there.\n\n\u003e Any chance to keep this as a patch downstream until proved?\n\nTo which branch would you suggest to move it?\n\n\u003e A strong precondition to touch anything in un/shallowing is to cover it with reasonable tests (eg unshallowing in linear history, on a merge, just before a merge...).\n\nUnshallowing has zero tests, so my test is going to be the very first one.\nI am happy to review any further changes to add more test coverage. I am always in favour of testing.\n\nSee the introduction of the unshallow in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1320 and try to look for any class that ends with the `Test` suffix.\n\nIf you look at the code of `TopoSortGenerator` and `BoundaryGenerator` you\u0027ll notice many paths that won\u0027t work with unshallow. I believe by writing those tests you\u0027ll find out *many more* things that do not work rather than work.\n\nDo you have in mind a case where `TopoSortGenerator` and `BoundaryGenerator` where working in the `unshallow` case, even without the code for it, and would now break because they aren\u0027t used?\n\nBear in mind that this isn\u0027t the *final solution* but the first step to the solution.\n\nMy plan is:\n\n1. Disable the `TopoSortGenerator` and `BoundaryGenerator` as they break the `unshallow`\n2. Move the `unshallow` flag to a top-level RevFlag\n3. Introduce the `unshallow` management in `BoundaryGenerator` for supporting thin requests\n4. Introduce the `unshallow` management in `TopSortGenerator`\n\nThe 1. can also be cherry-picked to older branches.\nThe 2. 3. and 4. will only stay on master.\n\nDo you have any objections to the above plan? Feel free to also join the effort and help out in implementing 2. 3. and 4.\n\n**NOTE**: I will, of course, include tests in every change proposed for review.",
+      "parentUuid": "2f02f977_92963302",
+      "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2753326e_fc7a09d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
         "patchSetId": 11
