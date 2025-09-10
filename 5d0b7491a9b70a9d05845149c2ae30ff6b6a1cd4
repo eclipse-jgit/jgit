@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d487ebc_74987459",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-10T18:19:38Z",
+      "side": 1,
+      "message": "@ifrade@google.com @matthias.sohn@sap.com if you don\u0027t have any objects, I\u0027ll +2 this change and merge tomorrow. Otherwise, I\u0027d be happy to address any concerns and amend the change accordingly. Thanks for your feedback!",
+      "revId": "5d0b7491a9b70a9d05845149c2ae30ff6b6a1cd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
