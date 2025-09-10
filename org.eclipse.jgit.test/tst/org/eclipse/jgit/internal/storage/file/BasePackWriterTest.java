@@ -594,12 +594,19 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	private static void assertContent(PackIndex pi, List<ObjectId> expected) {
-		assertEquals("Pack index has wrong size.", expected.size(),
-				pi.getObjectCount());
-		for (int i = 0; i < pi.getObjectCount(); i++)
-			assertTrue(
-				"Pack index contained " + pi.getObjectId(i) + " which was unexpected",
-					expected.contains(pi.getObjectId(i)));
+		Set<ObjectId> packedObjectIds = new HashSet<>();
+		for (int i = 0; i < pi.getObjectCount(); i++) {
+			packedObjectIds.add(pi.getObjectId(i));
+		}
+		for (ObjectId packedObjectId : packedObjectIds) {
+			assertTrue("Pack index contained " + packedObjectId + " which was unexpected",
+				expected.contains(packedObjectId));
+		}
+		for (ObjectId expectedObjectId : expected) {
+			assertTrue("Pack index didn't contain the expected id " + expectedObjectId,
+				packedObjectIds.contains(expectedObjectId));
+		}
+		assertEquals("Pack index has wrong size.", expected.size(), pi.getObjectCount());
 	}
 
 	@Test
