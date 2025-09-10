@@ -594,12 +594,28 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	}
 
 	private static void assertContent(PackIndex pi, List<ObjectId> expected) {
+<<<<<<< PATCH SET (8210570ef9725424932fb3ebc8f9cad58a5cfb66 BasePackWriterTest: Improve assertion of unexpected items in)
+		Set<ObjectId> packedObjectIds = new HashSet<>();
+		for (int i = 0; i < pi.getObjectCount(); i++) {
+			packedObjectIds.add(pi.getObjectId(i));
+		}
+		for (ObjectId packedObjectId : packedObjectIds) {
+			assertTrue("Pack index contained " + packedObjectId + " which was unexpected",
+				expected.contains(packedObjectId));
+		}
+		for (ObjectId expectedObjectId : expected) {
+			assertTrue("Pack index didn't contain the expected id " + expectedObjectId,
+				packedObjectIds.contains(expectedObjectId));
+		}
+		assertEquals("Pack index has wrong size.", expected.size(), pi.getObjectCount());
+=======
 		assertEquals("Pack index has wrong size.", expected.size(),
 				pi.getObjectCount());
 		for (int i = 0; i < pi.getObjectCount(); i++)
 			assertTrue(
 				"Unexpected id in pack index: " + pi.getObjectId(i),
 					expected.contains(pi.getObjectId(i)));
+>>>>>>> BASE      (028565abb5d26cecfd9398530d73f68aa5f1abe0 BasePackWriterTest: Fix message on pack index content assert)
 	}
 
 	@Test
