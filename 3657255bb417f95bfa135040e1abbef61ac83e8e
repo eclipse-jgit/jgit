@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e051fe4_81bc1cb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038995
+      },
+      "writtenOn": "2025-09-12T22:50:52Z",
+      "side": 1,
+      "message": "Amended commit pushed.",
+      "parentUuid": "ea48223d_ac8bd792",
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d14599d_13560b9f",
@@ -66,6 +84,24 @@
       "writtenOn": "2025-09-12T22:30:52Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "1d14599d_13560b9f",
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c06a3f4c_262c9044",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1038995
+      },
+      "writtenOn": "2025-09-12T22:50:52Z",
+      "side": 1,
+      "message": "Amended commit pushed.",
       "parentUuid": "1d14599d_13560b9f",
       "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
@@ -106,6 +142,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2248f06_c8fae3cc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1038995
+      },
+      "writtenOn": "2025-09-12T22:50:52Z",
+      "side": 1,
+      "message": "Will do",
+      "parentUuid": "cb2269fe_c0dde0e1",
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bedf95d2_fe31bf56",
@@ -119,6 +173,30 @@
       "writtenOn": "2025-09-08T06:30:09Z",
       "side": 1,
       "message": "Did you ever see this returning null?",
+      "range": {
+        "startLine": 1987,
+        "startChar": 6,
+        "endLine": 1987,
+        "endChar": 43
+      },
+      "revId": "3657255bb417f95bfa135040e1abbef61ac83e8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abed52a5_617398d3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1987,
+      "author": {
+        "id": 1038995
+      },
+      "writtenOn": "2025-09-12T22:50:52Z",
+      "side": 1,
+      "message": "While I have never seen a null returned, the Oracle getProperty() documentation indicates that a null is possible, so I do check for null as a matter of practice. The alternative is to wrap this in a try/catch for Throwable.",
+      "parentUuid": "bedf95d2_fe31bf56",
       "range": {
         "startLine": 1987,
         "startChar": 6,
