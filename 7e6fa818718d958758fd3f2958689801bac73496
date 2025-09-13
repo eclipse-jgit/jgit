@@ -73,6 +73,30 @@
       },
       "revId": "7e6fa818718d958758fd3f2958689801bac73496",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "547e5206_eec20da4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1988,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-13T18:06:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "74b6f3d6_26ed8a5d",
+      "range": {
+        "startLine": 1987,
+        "startChar": 2,
+        "endLine": 1988,
+        "endChar": 63
+      },
+      "revId": "7e6fa818718d958758fd3f2958689801bac73496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
