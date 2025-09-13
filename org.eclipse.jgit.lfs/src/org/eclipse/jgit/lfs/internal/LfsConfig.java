@@ -9,8 +9,12 @@
  */
 package org.eclipse.jgit.lfs.internal;
 
+import static org.eclipse.jgit.lib.Constants.HEAD;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -19,6 +23,7 @@ import org.eclipse.jgit.lfs.errors.LfsConfigInvalidException;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -26,8 +31,6 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
-
-import static org.eclipse.jgit.lib.Constants.HEAD;
 
 /**
  * Encapsulate access to the {@code .lfsconfig}.
@@ -52,6 +55,50 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
  *      options for git-lfs</a>
  */
 public class LfsConfig {
+
+	/** Set of allowed keys: section -> with subsection? -> name */
+	private static final Map<String, Map<Boolean, Set<String>>> ALLOWED_KEYS = Map.of(
+			ConfigConstants.CONFIG_SECTION_LFS, Map.of(
+					Boolean.FALSE, Set.of(
+							"allowincompletepush", //$NON-NLS-1$
+							"fetchexclude", //$NON-NLS-1$
+							"fetchinclude", //$NON-NLS-1$
+							"gitprotocol", //$NON-NLS-1$
+							"locksverify", //$NON-NLS-1$
+							ConfigConstants.CONFIG_KEY_PUSHURL,
+							"skipdownloaderrors", //$NON-NLS-1$
+							ConfigConstants.CONFIG_KEY_URL),
+					Boolean.TRUE, Set.of(
+							"access")), //$NON-NLS-1$
+			ConfigConstants.CONFIG_REMOTE_SECTION, Map.of(
+					Boolean.FALSE, Set.of(),
+					Boolean.TRUE, Set.of(
+							ConfigConstants.CONFIG_KEY_LFSURL)));
+
+	/**
+	 * Returns if the key is allowed for the {@code .lsfconfig} file.
+	 *
+	 * For security reasons, only a specific set of keys must be used.
+	 *
+	 * @param section
+	 *            the section
+	 * @param subsection
+	 *            the subsection for the value
+	 * @param name
+	 *            the key name
+	 * @return {@code true} if allowed, otherwise {@code false}.
+	 */
+	private static boolean isValidLfsConfigFileKey(final String section,
+			final String subsection, final String name) {
+		if (section != null && name != null) {
+			Map<Boolean, Set<String>> sectionKeys = ALLOWED_KEYS.get(section);
+			return (sectionKeys != null
+					&& sectionKeys.get(subsection != null).contains(name));
+		}
+		return false;
+	}
+
+
 	private Repository db;
 	private Config delegate;
 
@@ -218,7 +265,8 @@ public class LfsConfig {
 	public String getString(final String section, final String subsection,
 			final String name) throws IOException {
 		String result = db.getConfig().getString(section, subsection, name);
-		if (result == null) {
+		if (result == null
+				&& isValidLfsConfigFileKey(section, subsection, name)) {
 			result = getDelegate().getString(section, subsection, name);
 		}
 		return result;

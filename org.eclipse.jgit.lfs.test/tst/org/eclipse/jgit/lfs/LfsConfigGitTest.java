@@ -9,7 +9,9 @@
  */
 package org.eclipse.jgit.lfs;
 
+import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -24,6 +26,7 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.attributes.FilterCommand;
 import org.eclipse.jgit.attributes.FilterCommandRegistry;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lfs.internal.LfsConfig;
 import org.eclipse.jgit.lfs.internal.LfsConnectionFactory;
 import org.eclipse.jgit.lfs.lib.Constants;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -298,4 +301,19 @@ public class LfsConfigGitTest extends RepositoryTestCase {
 		assertEquals(EXPECTED_SERVER_URL3, checkoutURLs.get(0));
 		assertEquals(EXPECTED_SERVER_URL3, checkoutURLs.get(1));
 	}
+
+	@Test
+	public void accessRestrictedKeys() throws IOException {
+		configFile = writeTrashFile(Constants.DOT_LFS_CONFIG,
+				"[lfs]\n    url = " + LFS_SERVER_URI3 + "\n"
+						+ "[remote \"origin\"]\n"
+						+ "    url = https://git.server3/test/repo.git\n"
+						+ "    lfspushurl = ssh://ssh.server3/test/url\n");
+		LfsConfig config = new LfsConfig(git.getRepository());
+		assertNull(config.getString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL));
+		assertNull(config.getString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_LFSPUSHURL));
+	}
+
 }
