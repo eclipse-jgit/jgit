@@ -33,6 +33,46 @@
       "message": "I think I have marked these as done, but my browser is being a little wonky.",
       "revId": "7e6fa818718d958758fd3f2958689801bac73496",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9580c428_8cee1495",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-09-13T08:52:58Z",
+      "side": 1,
+      "message": "Regading marking comments \"done\": one has to mark the comments, _and_ finally reply (button at the top of the change screen).",
+      "revId": "7e6fa818718d958758fd3f2958689801bac73496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74b6f3d6_26ed8a5d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1988,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-09-13T08:52:58Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tString osName \u003d SystemReader.getInstance().getProperty(\"os.name\");\n\t\tif (osName !\u003d null)\n\t\t\tswitch (osName) {\n```\n\nOtherwise: who says the _second_ call to getProperty() doesn\u0027t return `null`?",
+      "range": {
+        "startLine": 1987,
+        "startChar": 2,
+        "endLine": 1988,
+        "endChar": 63
+      },
+      "revId": "7e6fa818718d958758fd3f2958689801bac73496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
