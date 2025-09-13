@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e75cdcc_d63e096f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1998,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-13T20:01:58Z",
+      "side": 1,
+      "message": "optional: as a follow-up, you could introduce a method for getting the maximum file name length for the platform, so that it can be self-documenting and also reused by other tests that would need to create o test files.",
+      "range": {
+        "startLine": 1986,
+        "startChar": 0,
+        "endLine": 1998,
+        "endChar": 3
+      },
+      "revId": "953d624b8a8b27f4e42c9a5b5642d90d15e9c126",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
