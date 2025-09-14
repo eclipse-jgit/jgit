@@ -201,16 +201,11 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
-	@Test
+	@Test(expected = MissingObjectException.class)
 	public void testNotIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		try {
 			createVerifyOpenPack(NONE, haves(nonExisting), false, false);
-			fail("Should have thrown MissingObjectException");
-		} catch (MissingObjectException x) {
-			// expected
-		}
 	}
 
 	/**
