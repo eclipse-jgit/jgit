@@ -201,16 +201,11 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
-	@Test
+	@Test(expected = MissingObjectException.class)
 	public void testNotIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-		try {
 			createVerifyOpenPack(NONE, haves(nonExisting), false, false);
-			fail("Should have thrown MissingObjectException");
-		} catch (MissingObjectException x) {
-			// expected
-		}
 	}
 
 	/**
@@ -1084,8 +1079,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		for (MutableEntry me : pack) {
 			entries.add(me.cloneEntry());
 		}
-		Collections.sort(entries, (MutableEntry o1, MutableEntry o2) -> Long
-				.signum(o1.getOffset() - o2.getOffset()));
+		entries.sort((MutableEntry o1, MutableEntry o2) -> Long
+			.signum(o1.getOffset() - o2.getOffset()));
 
 		int i = 0;
 		for (MutableEntry me : entries) {
