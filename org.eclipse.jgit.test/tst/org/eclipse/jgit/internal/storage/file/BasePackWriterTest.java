@@ -1084,8 +1084,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		for (MutableEntry me : pack) {
 			entries.add(me.cloneEntry());
 		}
-		Collections.sort(entries, (MutableEntry o1, MutableEntry o2) -> Long
-				.signum(o1.getOffset() - o2.getOffset()));
+		entries.sort((MutableEntry o1, MutableEntry o2) -> Long
+			.signum(o1.getOffset() - o2.getOffset()));
 
 		int i = 0;
 		for (MutableEntry me : entries) {
