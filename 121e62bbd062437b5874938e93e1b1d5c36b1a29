@@ -16,6 +16,24 @@
       "message": "nit for a more direct style: \"Unexpected id in index: \" + pi.getObjectId(i)",
       "revId": "121e62bbd062437b5874938e93e1b1d5c36b1a29",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13204f6b_3184f3b1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-15T18:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1010db44_21267b70",
+      "revId": "121e62bbd062437b5874938e93e1b1d5c36b1a29",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
