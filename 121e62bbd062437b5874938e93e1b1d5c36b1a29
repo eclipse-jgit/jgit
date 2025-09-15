@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1010db44_21267b70",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-09-15T18:44:15Z",
+      "side": 1,
+      "message": "nit for a more direct style: \"Unexpected id in index: \" + pi.getObjectId(i)",
+      "revId": "121e62bbd062437b5874938e93e1b1d5c36b1a29",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
