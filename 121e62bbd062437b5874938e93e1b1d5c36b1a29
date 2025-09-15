@@ -51,6 +51,24 @@
       "message": "```suggestion\n\t\t\t\t\"Unexpected objectId found in pack index: \" + pi.getObjectId(i),\n```",
       "revId": "121e62bbd062437b5874938e93e1b1d5c36b1a29",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bdba903_03548262",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-15T19:05:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "98b9fcbb_e4b2815c",
+      "revId": "121e62bbd062437b5874938e93e1b1d5c36b1a29",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
