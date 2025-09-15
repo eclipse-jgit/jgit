@@ -16,6 +16,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -201,11 +202,13 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
-	@Test(expected = MissingObjectException.class)
+	@Test
 	public void testNotIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
-			createVerifyOpenPack(NONE, haves(nonExisting), false, false);
+		assertThrows(MissingObjectException.class,
+				() -> createVerifyOpenPack(NONE, haves(nonExisting), false,
+						false));
 	}
 
 	/**
