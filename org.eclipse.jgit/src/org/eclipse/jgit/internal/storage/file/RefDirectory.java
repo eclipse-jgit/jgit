@@ -48,6 +48,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -144,6 +146,9 @@ public class RefDirectory extends RefDatabase {
 
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
+
+	private final AtomicReference<PackedRefsRefresher> packedRefsRefresher =
+			new AtomicReference<>();
 
 	/**
 	 * Lock for coordinating operations within a single process that may contend
@@ -943,8 +948,40 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
-		final PackedRefList curList = packedRefs.get();
+		PackedRefList curList = packedRefs.get();
+		if (!curList.shouldRefresh()) {
+			return curList;
+		}
+		return getPackedRefsRefresher(curList).getOrThrowIOException();
+	}
 
+	private PackedRefsRefresher getPackedRefsRefresher(PackedRefList curList)
+			throws IOException {
+		PackedRefsRefresher refresher = packedRefsRefresher.get();
+		if (refresher != null && !refresher.shouldRefresh()) {
+			return refresher;
+		}
+		// This synchronized is NOT needed for correctness. Instead it is used
+		// as a throttling mechanism to ensure that only one "read" thread does
+		// the work to refresh the file. In order to avoid stalling writes which
+		// must already be serialized and tend to be a bottleneck,
+		// the refreshPackedRefs() need not be synchronized.
+		synchronized (this) {
+			if (packedRefsRefresher.get() != refresher) {
+				refresher = packedRefsRefresher.get();
+				if (refresher != null) {
+					// Refresher now guaranteed to have been created after the current
+					// thread entered getPackedRefsRefresher(), even if it's currently
+					// out of date.
+					return refresher;
+				}
+			}
+			refresher = createPackedRefsRefresherAsLatest(curList);
+		}
+		return runAndClear(refresher);
+	}
+
+	private boolean shouldRefreshPackedRefs(FileSnapshot snapshot) throws IOException {
 		switch (trustPackedRefsStat) {
 		case NEVER:
 			break;
@@ -957,23 +994,34 @@ public class RefDirectory extends RefDatabase {
 			}
 			//$FALL-THROUGH$
 		case ALWAYS:
-			if (!curList.snapshot.isModified(packedRefsFile)) {
-				return curList;
+			if (!snapshot.isModified(packedRefsFile)) {
+				return false;
 			}
 			break;
 		case UNSET:
-			if (trustFolderStat
-					&& !curList.snapshot.isModified(packedRefsFile)) {
-				return curList;
+			if (trustFolderStat && !snapshot.isModified(packedRefsFile)) {
+				return false;
 			}
 			break;
 		}
-
-		return refreshPackedRefs(curList);
+		return true;
 	}
 
 	PackedRefList refreshPackedRefs() throws IOException {
-		return refreshPackedRefs(packedRefs.get());
+		return runAndClear(createPackedRefsRefresherAsLatest(packedRefs.get()))
+				.getOrThrowIOException();
+	}
+
+	private PackedRefsRefresher createPackedRefsRefresherAsLatest(PackedRefList curList) {
+		PackedRefsRefresher refresher = new PackedRefsRefresher(curList);
+		packedRefsRefresher.set(refresher);
+		return refresher;
+	}
+
+	private PackedRefsRefresher runAndClear(PackedRefsRefresher refresher) {
+		refresher.run();
+		packedRefsRefresher.compareAndSet(refresher, null);
+		return refresher;
 	}
 
 	private PackedRefList refreshPackedRefs(PackedRefList curList)
@@ -997,7 +1045,7 @@ public class RefDirectory extends RefDatabase {
 										new DigestInputStream(
 												new FileInputStream(f), digest),
 										UTF_8))) {
-							return new PackedRefList(parsePackedRefs(br),
+							return new NonEmptyPackedRefList(parsePackedRefs(br),
 									snapshot,
 									ObjectId.fromRaw(digest.digest()));
 						}
@@ -1103,7 +1151,7 @@ public class RefDirectory extends RefDatabase {
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
 
 				byte[] digest = Constants.newMessageDigest().digest(content);
-				PackedRefList newPackedList = new PackedRefList(
+				PackedRefList newPackedList = new NonEmptyPackedRefList(
 						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
 				packedRefs.compareAndSet(oldPackedList, newPackedList);
 				if (changed) {
@@ -1452,21 +1500,57 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	static class PackedRefList extends RefList<Ref> {
-
-		private final FileSnapshot snapshot;
-
 		private final ObjectId id;
 
-		private PackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId i) {
+		PackedRefList() {
+			this(RefList.emptyList(), ObjectId.zeroId());
+		}
+
+		protected PackedRefList(RefList<Ref> src, ObjectId id) {
 			super(src);
-			snapshot = s;
-			id = i;
+			this.id = id;
+		}
+
+		public boolean shouldRefresh() throws IOException {
+			return true;
 		}
 	}
 
-	private static final PackedRefList NO_PACKED_REFS = new PackedRefList(
-			RefList.emptyList(), FileSnapshot.MISSING_FILE,
-			ObjectId.zeroId());
+	private static final PackedRefList NO_PACKED_REFS = new PackedRefList();
+
+	private class NonEmptyPackedRefList extends PackedRefList {
+		private final FileSnapshot snapshot;
+
+		private NonEmptyPackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId id) {
+			super(src, id);
+			snapshot = s;
+		}
+
+		@Override
+		public boolean shouldRefresh() throws IOException {
+			return shouldRefreshPackedRefs(snapshot);
+		}
+	}
+
+	private class PackedRefsRefresher extends FutureTask<PackedRefList> {
+		private final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
+
+		public PackedRefsRefresher(PackedRefList curList) {
+			super(() -> refreshPackedRefs(curList));
+		}
+
+		public PackedRefList getOrThrowIOException() throws IOException {
+			try {
+				return get();
+			} catch (ExecutionException | InterruptedException e) {
+				throw new IOException(e);
+			}
+		}
+
+		public boolean shouldRefresh() throws IOException {
+			return shouldRefreshPackedRefs(snapshot);
+		}
+	}
 
 	private static LooseSymbolicRef newSymbolicRef(FileSnapshot snapshot,
 			String name, String target) {
