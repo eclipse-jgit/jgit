@@ -22,6 +22,30 @@
       },
       "revId": "fcefd645b26913991ca97d09f1093d85c24c30bf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd66abe7_2b6aa96c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-15T13:34:25Z",
+      "side": 1,
+      "message": "Let me split this change into two different ones: one for fixing the message and another for improving the style of the assertions.",
+      "parentUuid": "62979ad0_0dff1183",
+      "range": {
+        "startLine": 602,
+        "startChar": 15,
+        "endLine": 602,
+        "endChar": 79
+      },
+      "revId": "fcefd645b26913991ca97d09f1093d85c24c30bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
