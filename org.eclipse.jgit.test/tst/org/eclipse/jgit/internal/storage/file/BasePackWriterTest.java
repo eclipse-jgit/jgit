@@ -598,8 +598,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 				pi.getObjectCount());
 		for (int i = 0; i < pi.getObjectCount(); i++)
 			assertTrue(
-					"Pack index didn't contain the expected id "
-							+ pi.getObjectId(i),
+				"Pack index contained " + pi.getObjectId(i) + " which was unexpected",
 					expected.contains(pi.getObjectId(i)));
 	}
 
