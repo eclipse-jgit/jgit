@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f65746_864407ed",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-16T06:39:01Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\t// NOTE: contentA.getId() is already local as it is referenced by c2\u0027s tree\n```",
+      "range": {
+        "startLine": 744,
+        "startChar": 57,
+        "endLine": 744,
+        "endChar": 64
+      },
+      "revId": "799738742c3509b4017143a123d6dac1a4e29276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa366180_37efd1ad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-16T06:39:01Z",
+      "side": 1,
+      "message": "add a commit message with the name of the commit to all the commits created in these tests, this helps to map the commit graph to the respective test\u0027s description when running `git log --oneline --graph` on the test repo\n\n```suggestion\n\t\t\tc1 \u003d bb.commit().message(\"c1\").add(\"a\", contentA).create();\n```",
+      "revId": "799738742c3509b4017143a123d6dac1a4e29276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab0a334_c06d1840",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-16T06:39:01Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\tc1 \u003d bb.commit().message(\"c1\").add(\"a\", contentA).create();\n```",
+      "revId": "799738742c3509b4017143a123d6dac1a4e29276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "112d01d3_48c50adb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-16T06:39:01Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\tc1 \u003d bb.commit().message(\"c1\").add(\"a\", contentA).create();\n```",
+      "revId": "799738742c3509b4017143a123d6dac1a4e29276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
