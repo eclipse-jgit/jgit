@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f190262_8a040c38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-09-16T22:41:33Z",
+      "side": 1,
+      "message": "Can you fix these to be your \"new normal\" email?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 47
+      },
+      "revId": "f9c38da3c0dc7fa7944b1816cb4acbe30e063b0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6de34eca_12e1400d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-09-16T22:41:33Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com does this kind of behavior change need an update to `@since` tags or anything else? The javadoc already implies this should be the behavior (`defaultValue` is only `... if no value was present`), but [doesn\u0027t mention any exception behavior](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/TypedConfigGetter.java#L298).",
+      "revId": "f9c38da3c0dc7fa7944b1816cb4acbe30e063b0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
