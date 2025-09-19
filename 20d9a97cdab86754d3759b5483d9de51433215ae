@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cd953fc_7530bcce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-09-19T07:28:01Z",
+      "side": 1,
+      "message": "Thanks, @matthias.sohn@sap.com, for the review.",
+      "revId": "20d9a97cdab86754d3759b5483d9de51433215ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
