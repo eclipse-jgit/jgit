@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7faae9d5_c65fddb3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-19T21:30:47Z",
+      "side": 1,
+      "message": "removed unused import",
+      "revId": "1444fc377b370271a853d538619a359b68e3dba1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
