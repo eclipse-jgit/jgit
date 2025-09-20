@@ -55,17 +55,6 @@ public interface DepthWalk {
 		return Collections.emptyList();
 	}
 
-	/**
-	 * Get unshallow flag
-	 *
-	 * @return flag marking commits that should become unshallow.
-	 */
-	/**
-	 * Get flag marking commits that should become unshallow.
-	 *
-	 * @return flag marking commits that should become unshallow.
-	 */
-	RevFlag getUnshallowFlag();
 
 	/**
 	 * Get flag marking commits that are interesting again.
@@ -136,8 +125,6 @@ public interface DepthWalk {
 
 		private List<ObjectId> deepenNots;
 
-		private final RevFlag UNSHALLOW;
-
 		private final RevFlag REINTERESTING;
 
 		private final RevFlag DEEPEN_NOT;
@@ -155,7 +142,6 @@ public interface DepthWalk {
 
 			this.depth = depth;
 			this.deepenNots = Collections.emptyList();
-			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 			this.DEEPEN_NOT = newFlag("DEEPEN_NOT"); //$NON-NLS-1$
 		}
@@ -173,7 +159,6 @@ public interface DepthWalk {
 
 			this.depth = depth;
 			this.deepenNots = Collections.emptyList();
-			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 			this.DEEPEN_NOT = newFlag("DEEPEN_NOT"); //$NON-NLS-1$
 		}
@@ -241,11 +226,6 @@ public interface DepthWalk {
 		}
 
 		@Override
-		public RevFlag getUnshallowFlag() {
-			return UNSHALLOW;
-		}
-
-		@Override
 		public RevFlag getReinterestingFlag() {
 			return REINTERESTING;
 		}
@@ -279,8 +259,6 @@ public interface DepthWalk {
 
 		private List<ObjectId> deepenNots;
 
-		private final RevFlag UNSHALLOW;
-
 		private final RevFlag REINTERESTING;
 
 		private final RevFlag DEEPEN_NOT;
@@ -298,7 +276,6 @@ public interface DepthWalk {
 
 			this.depth = depth;
 			this.deepenNots = Collections.emptyList();
-			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 			this.DEEPEN_NOT = newFlag("DEEPEN_NOT"); //$NON-NLS-1$
 		}
@@ -316,7 +293,6 @@ public interface DepthWalk {
 
 			this.depth = depth;
 			this.deepenNots = Collections.emptyList();
-			this.UNSHALLOW = newFlag("UNSHALLOW"); //$NON-NLS-1$
 			this.REINTERESTING = newFlag("REINTERESTING"); //$NON-NLS-1$
 			this.DEEPEN_NOT = newFlag("DEEPEN_NOT"); //$NON-NLS-1$
 		}
@@ -363,7 +339,7 @@ public interface DepthWalk {
 		public void markUnshallow(RevObject c) throws MissingObjectException,
 				IncorrectObjectTypeException, IOException {
 			if (c instanceof RevCommit)
-				c.add(UNSHALLOW);
+				c.add(RevFlag.UNSHALLOW);
 			super.markStart(c);
 		}
 
@@ -385,11 +361,6 @@ public interface DepthWalk {
 		@Override
 		public List<ObjectId> getDeepenNots() {
 			return deepenNots;
-		}
-
-		@Override
-		public RevFlag getUnshallowFlag() {
-			return UNSHALLOW;
 		}
 
 		@Override
