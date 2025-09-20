@@ -163,9 +163,21 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
 
 	/**
+	 * Set on a RevObject marked for being unshallowed.
+	 * <p>
+	 * This flag is used by the RevWalk's generators for keeping track
+	 * that some objects have been marked uninteresting, however, they
+	 * need to allow the navigation to continue for managing the unshallow
+	 * of a shallow clone.
+	 *
+	 * @see DepthGenerator
+	 */
+	static final int UNSHALLOW = 1 << 8;
+
+	/**
 	 * Number of flag bits we keep internal for our own use. See above flags.
 	 */
-	static final int RESERVED_FLAGS = 8;
+	static final int RESERVED_FLAGS = 9;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
