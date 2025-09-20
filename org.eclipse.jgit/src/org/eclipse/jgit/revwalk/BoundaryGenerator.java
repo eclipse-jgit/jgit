@@ -16,6 +16,8 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
+import static org.eclipse.jgit.revwalk.RevFlag.UNSHALLOW;
+
 class BoundaryGenerator extends Generator {
 	static final int UNINTERESTING = RevWalk.UNINTERESTING;
 
@@ -82,7 +84,7 @@ class BoundaryGenerator extends Generator {
 						break;
 					}
 					RevCommit p = c.getParent(i);
-					if ((p.flags & UNINTERESTING) != 0) {
+					if ((p.flags & UNINTERESTING) != 0 && !p.has(UNSHALLOW)) {
 						held.add(p);
 					}
 				}
