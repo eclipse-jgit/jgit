@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f420225_872e7b4b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-21T21:47:01Z",
+      "side": 0,
+      "message": "Removing a public API method is a breaking change, we should not do this in a minor release. We can deprecated it for removal in 7.5 and change the implementation to return the new RevFlag constant. We can then later remove the method in 8.0.",
+      "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4bd4d11_67eec304",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-21T21:47:01Z",
+      "side": 0,
+      "message": "deprecate for removal in 7.5 and remove it in 8.0",
+      "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ee11fe_72452bfb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-21T21:47:01Z",
+      "side": 0,
+      "message": "deprecate for removal in 7.5 and remove it in 8.0",
+      "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
