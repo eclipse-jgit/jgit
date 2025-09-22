@@ -15,6 +15,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -154,7 +155,7 @@ public class DfsPackDescription {
 	private long estimatedPackSize;
 
 	// Packs required by this pack (because it is e.g. a multipack index)
-	private List<? extends DfsPackDescription> coveredPacks;
+	private List<? extends DfsPackDescription> coveredPacks = Collections.EMPTY_LIST;
 
 	private DfsPackDescription multiPackIndexBase;
 
@@ -547,8 +548,10 @@ public class DfsPackDescription {
 	/**
 	 * Packs "included" in this pack (e.g because this is a multi-pack index)
 	 *
-	 * @return descriptions of the packs which are included in this one.
+	 * @return descriptions of the packs which are included in this one. Empty
+	 *         list if none. Never null.
 	 */
+	@NonNull
 	public List<DfsPackDescription> getCoveredPacks() {
 		return new ArrayList<>(coveredPacks);
 	}
@@ -561,6 +564,10 @@ public class DfsPackDescription {
 	 */
 	public void setCoveredPacks(
 			List<? extends DfsPackDescription> coveredPacks) {
+		if (coveredPacks == null) {
+			throw new IllegalStateException(
+					"Cannot set to null coveredPacks. Use empty list if needed."); //$NON-NLS-1$
+		}
 		this.coveredPacks = coveredPacks;
 	}
 
