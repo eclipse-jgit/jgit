@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5395382_9d258542",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-22T22:35:12Z",
+      "side": 1,
+      "message": "Did you mean 7.5 ?\nDoes the pack \"contain\" or \"have\" a multipack index ?",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 15
+      },
+      "revId": "0b1feecc3f5f9d3474a5f544f0fa7dc909e0933c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "455308c1_a883fd7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-22T22:35:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t * @since 7.5\n```",
+      "revId": "0b1feecc3f5f9d3474a5f544f0fa7dc909e0933c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
