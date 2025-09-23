@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6469f5bd_100e3228",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-23T21:06:11Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e11766ac_efc36420",
+      "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4bd4d11_67eec304",
@@ -53,6 +71,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "331c7ada_d77f4642",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-23T21:06:11Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c4bd4d11_67eec304",
+      "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28ee11fe_72452bfb",
@@ -66,6 +102,24 @@
       "writtenOn": "2025-09-21T21:47:01Z",
       "side": 0,
       "message": "deprecate for removal in 7.5 and remove it in 8.0",
+      "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "397e134d_6dd8a702",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-23T21:06:11Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "28ee11fe_72452bfb",
       "revId": "d5b6962cff3ff0716cfabb41ea541327ca79ef1f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
