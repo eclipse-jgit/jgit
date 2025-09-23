@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf85c222_073eb444",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-09-23T16:19:12Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, @matthias.sohn@sap.com @twolf@apache.org, the gerrit-ci pipeline has been merged [1].\n\nDo you have any objections to merging this change so that we can trigger builds of the servlet-4 branch in the Gerrit CI too?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/509701/10",
+      "revId": "69b4bb7b57578170affdfe64625d347b169425b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
