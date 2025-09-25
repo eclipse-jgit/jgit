@@ -169,7 +169,7 @@ maven_jar(
 maven_jar(
     name = "commons-lang3",
     artifact = "org.apache.commons:commons-lang3:3.18.0",
-    sha1 = "fb14946f0e39748a6571de0635acbe44e7885491",
+    sha1 = "d6524b169a6574cd253760c472d419b47bfd37e6",
 )
 
 maven_jar(
