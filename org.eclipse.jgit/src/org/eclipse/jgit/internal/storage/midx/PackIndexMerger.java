@@ -252,7 +252,7 @@ class PackIndexMerger {
 			mutableEntry.fill(winner.getPackId(), winner.peek());
 			if (winner.next() == null) {
 				indexIterators.remove(winner);
-			};
+			}
 			return mutableEntry;
 		}
 	}
