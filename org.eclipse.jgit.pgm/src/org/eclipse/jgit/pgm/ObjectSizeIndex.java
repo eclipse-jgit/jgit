@@ -69,7 +69,8 @@ class ObjectSizeIndex extends TextBuiltin {
 			String name = pack.getPackName();
 			boolean hasObjectSizeIndex = pack.hasObjectSizeIndex();
 			outw.println(
-					String.format("  - %s - %b", name, hasObjectSizeIndex));
+					String.format("  - %s - %b", name,
+							Boolean.valueOf(hasObjectSizeIndex)));
 		}
 	}
 
