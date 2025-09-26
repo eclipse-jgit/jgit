@@ -867,6 +867,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		totalPackFilesScanWhenSearchForReuseTimeoutNotSet(false);
 	}
 
+	@SuppressWarnings("boxing")
 	public void totalPackFilesScanWhenSearchForReuseTimeoutNotSet(boolean doReturn) throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
 		int numberOfPackFiles = (int) new GC(fileRepository).getStatistics().numberOfPackFiles;
@@ -902,6 +903,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		totalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck(false);
 	}
 
+	@SuppressWarnings("boxing")
 	public void totalPackFilesScanWhenSkippingSearchForReuseTimeoutCheck(
 			boolean doReturn) throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();
@@ -938,6 +940,7 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 		testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck(false, expectedSelectCalls);
 	}
 
+	@SuppressWarnings("boxing")
 	public void testPartialPackFilesScanWhenDoingSearchForReuseTimeoutCheck(
 			boolean doReturn, int expectedSelectCalls) throws Exception {
 		FileRepository fileRepository = setUpRepoWithMultiplePackfiles();

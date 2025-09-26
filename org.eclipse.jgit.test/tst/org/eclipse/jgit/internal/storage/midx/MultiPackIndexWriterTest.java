@@ -32,6 +32,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.util.NB;
 import org.junit.Test;
 
+@SuppressWarnings("boxing")
 public class MultiPackIndexWriterTest {
 
 	@Test
