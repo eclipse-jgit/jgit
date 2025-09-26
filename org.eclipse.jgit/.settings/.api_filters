@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <component id="org.eclipse.jgit" version="2">
-    <resource path="META-INF/MANIFEST.MF">
-        <filter id="923795461">
-            <message_arguments>
-                <message_argument value="7.2.2"/>
-                <message_argument value="7.1.0"/>
-            </message_arguments>
-        </filter>
-        <filter id="934281281">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib"/>
-                <message_argument value="8.1.0"/>
-                <message_argument value="7.1.0"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/lib/CoreConfig.java" type="org.eclipse.jgit.lib.CoreConfig">
         <filter id="336658481">
             <message_arguments>
@@ -23,67 +8,11 @@
             </message_arguments>
         </filter>
     </resource>
-    <resource path="src/org/eclipse/jgit/lib/RefDatabase.java" type="org.eclipse.jgit.lib.RefDatabase">
-        <filter id="336695337">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.RefDatabase"/>
-                <message_argument value="getReflogReader(Ref)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/lib/TypedConfigGetter.java" type="org.eclipse.jgit.lib.TypedConfigGetter">
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getBoolean(Config, String, String, String, Boolean)"/>
-            </message_arguments>
-        </filter>
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getInt(Config, String, String, String, Integer)"/>
-            </message_arguments>
-        </filter>
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getIntInRange(Config, String, String, String, int, int, Integer)"/>
-            </message_arguments>
-        </filter>
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getLong(Config, String, String, String, Long)"/>
-            </message_arguments>
-        </filter>
-        <filter id="403804204">
-            <message_arguments>
-                <message_argument value="org.eclipse.jgit.lib.TypedConfigGetter"/>
-                <message_argument value="getTimeUnit(Config, String, String, String, Long, TimeUnit)"/>
-            </message_arguments>
-        </filter>
-    </resource>
     <resource path="src/org/eclipse/jgit/revwalk/RevFlag.java" type="org.eclipse.jgit.revwalk.RevFlag">
         <filter id="336658481">
             <message_arguments>
                 <message_argument value="org.eclipse.jgit.revwalk.RevFlag"/>
                 <message_argument value="UNSHALLOW"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/revwalk/RevWalk.java" type="org.eclipse.jgit.revwalk.RevWalk">
-        <filter id="1142947843">
-            <message_arguments>
-                <message_argument value="6.10.1"/>
-                <message_argument value="isMergedIntoAnyCommit(RevCommit, Collection&lt;RevCommit&gt;)"/>
-            </message_arguments>
-        </filter>
-    </resource>
-    <resource path="src/org/eclipse/jgit/util/Iterators.java" type="org.eclipse.jgit.util.Iterators">
-        <filter id="1109393411">
-            <message_arguments>
-                <message_argument value="6.10.2"/>
-                <message_argument value="org.eclipse.jgit.util.Iterators"/>
             </message_arguments>
         </filter>
     </resource>
