@@ -97,8 +97,7 @@ class Checkout extends TextBuiltin {
 							Repository.shortenRefName(ref.getName())));
 			} catch (InvalidRefNameException e){
 				if (name == null){
-					throw die(MessageFormat
-							.format("a valid ref is expected",e));
+					throw die(CLIText.get().nonNullRefExpected, e);
 				}
 				throw die(MessageFormat.format(CLIText.get().notAValidRefName,
 						name, e));
