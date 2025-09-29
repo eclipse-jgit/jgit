@@ -133,6 +133,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String clonedEmptyRepository;
 	/***/ public String cloningInto;
 	/***/ public String commitLabel;
+	/***/ public String commitishExpected;
 	/***/ public String configOnlyListOptionSupported;
 	/***/ public String conflictingUsageOf_git_dir_andArguments;
 	/***/ public String couldNotCreateBranch;
