@@ -249,11 +249,12 @@ public class CLIText extends TranslationBundle {
 	/***/ public String needSingleRevision;
 	/***/ public String noGitRepositoryConfigured;
 	/***/ public String noNamesFound;
+	/***/ public String nonFastForward;
+	/***/ public String nonNullRefExpected;
 	/***/ public String noSuchFile;
 	/***/ public String noSuchPathInRef;
 	/***/ public String noSuchRef;
 	/***/ public String noTREESectionInIndex;
-	/***/ public String nonFastForward;
 	/***/ public String noSystemConsoleAvailable;
 	/***/ public String notABranch;
 	/***/ public String notACommit;
