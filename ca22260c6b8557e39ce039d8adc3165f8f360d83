@@ -16,6 +16,24 @@
       "message": "What\u0027s going on here?\n\n1. Why is this not externalized?\n2. Why Messageformat.format() for a string without placeholders?\n3. Why is there no error for the missing $NON-NLS-1?\n4. Missing space before {.",
       "revId": "ca22260c6b8557e39ce039d8adc3165f8f360d83",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f59f8094_c7a7365a",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-29T21:33:47Z",
+      "side": 1,
+      "message": "fixed in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1223271",
+      "parentUuid": "0d74a145_cd0404c6",
+      "revId": "ca22260c6b8557e39ce039d8adc3165f8f360d83",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
