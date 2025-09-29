@@ -98,7 +98,7 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 	@Test
 	public void testCheckoutWithNoRef() throws Exception {
 		assertStringArrayEquals(
-				"a valid ref is expected",
+				"A valid commit-ish is expected",
 				executeExpectingException("git checkout"));
 	}
 
