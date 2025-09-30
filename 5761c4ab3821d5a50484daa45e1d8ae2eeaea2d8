@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19e4d172_5e9f36f0",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-30T10:21:14Z",
+      "side": 1,
+      "message": "you are right, apparently this was sorted with CAPS before lowercase",
+      "parentUuid": "82062176_fd54d878",
+      "revId": "5761c4ab3821d5a50484daa45e1d8ae2eeaea2d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94c17d5c_c8eb1917",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-09-30T06:18:01Z",
       "side": 1,
       "message": "Does referring to a ref as \"null\" make sense in the CLI? Or should this be more like `branchNameRequired` but s/branch/ref/? Or like `treeIsRequired`?",
+      "range": {
+        "startLine": 190,
+        "startChar": 27,
+        "endLine": 190,
+        "endChar": 35
+      },
+      "revId": "5761c4ab3821d5a50484daa45e1d8ae2eeaea2d8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "555f5f25_420720bc",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-09-30T10:21:14Z",
+      "side": 1,
+      "message": "I tried using cgit without a ref name and it just silently does nothing:\n\n```\n$ git checkout\n```\n\nmaybe we should do the same ?",
+      "parentUuid": "94c17d5c_c8eb1917",
       "range": {
         "startLine": 190,
         "startChar": 27,
