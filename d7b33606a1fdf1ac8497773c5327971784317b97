@@ -22,6 +22,30 @@
       },
       "revId": "d7b33606a1fdf1ac8497773c5327971784317b97",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "420d6e77_ed7376b6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-01T13:11:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6267cd8_0be573fb",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "d7b33606a1fdf1ac8497773c5327971784317b97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
