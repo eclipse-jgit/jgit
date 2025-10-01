@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6267cd8_0be573fb",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-10-01T03:04:49Z",
+      "side": 1,
+      "message": "Do you want to fix the missing spaces before the `{`s? Or do that in another change?\n```suggestion\n\t\t\t} catch (InvalidRefNameException e) {\n\t\t\t\tif (name \u003d\u003d null) {\n```",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 22
+      },
+      "revId": "d7b33606a1fdf1ac8497773c5327971784317b97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
