@@ -172,6 +172,26 @@ final class DfsPackFileMidx extends DfsPackFile {
 		return midx(ctx).getObjectCount();
 	}
 
+	/**
+	 * Packs indexed by this multipack index (base NOT included)
+	 *
+	 * @return packs indexed by this multipack index
+	 */
+	public List<DfsPackFile> getCoveredPacks() {
+		return packs;
+	}
+
+	/**
+	 * Base of this multipack index
+	 * <p>
+	 * If this midx is part of a chain, this is its parent
+	 *
+	 * @return the base of this multipack index
+	 */
+	public DfsPackFileMidx getMultipackIndexBase() {
+		return base;
+	}
+
 	@Override
 	public int findIdxPosition(DfsReader ctx, AnyObjectId id)
 			throws IOException {
