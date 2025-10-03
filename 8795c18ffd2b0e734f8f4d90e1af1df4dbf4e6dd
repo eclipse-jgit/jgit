@@ -33,6 +33,24 @@
       "message": "whitespace",
       "revId": "8795c18ffd2b0e734f8f4d90e1af1df4dbf4e6dd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e508c34_9d9d5dc9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsBlockMidx.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-03T23:23:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7d77dbc_f98c746d",
+      "revId": "8795c18ffd2b0e734f8f4d90e1af1df4dbf4e6dd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
