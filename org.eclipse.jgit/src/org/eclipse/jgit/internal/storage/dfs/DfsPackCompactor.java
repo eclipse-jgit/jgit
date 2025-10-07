@@ -118,6 +118,10 @@ public class DfsPackCompactor {
 	 * @return {@code this}
 	 */
 	public DfsPackCompactor add(DfsPackFile pack) {
+		if (pack instanceof DfsPackFileMidx) {
+			throw new IllegalArgumentException(
+					"midx packs are not eligible for compactation"); //$NON-NLS-1$
+		}
 		srcPacks.add(pack);
 		return this;
 	}
