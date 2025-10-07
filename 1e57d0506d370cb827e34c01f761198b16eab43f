@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fab56537_9e547ccf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabaseTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-07T08:16:16Z",
+      "side": 1,
+      "message": "this breaks compilation, this enum value is only introduced in \nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1221864\nyou need to reorder this series to fix this",
+      "revId": "1e57d0506d370cb827e34c01f761198b16eab43f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
