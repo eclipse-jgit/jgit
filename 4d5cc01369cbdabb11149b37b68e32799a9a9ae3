@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fb023fb_a1f38efd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-07T17:37:34Z",
+      "side": 1,
+      "message": "👍 good idea @matthias.sohn@sap.com, we shall do the same for Gerrit.",
+      "revId": "4d5cc01369cbdabb11149b37b68e32799a9a9ae3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
