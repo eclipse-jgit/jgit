@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffe09bd9_eea720b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-07T07:54:30Z",
+      "side": 1,
+      "message": "used this successfully to deploy the releases\n- 5.13.4\n- 5.13.5\n- 7.4.0\non Maven Central",
+      "revId": "7a44077d3431b22be84cbf2235f128c309e468af",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
