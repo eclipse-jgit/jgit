@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1610b9f2_f26cc0c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-07T08:16:50Z",
+      "side": 1,
+      "message": "https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1215425/28 depends on this new enum value, series needs to be reordered",
+      "revId": "ff151a1bd4c89bd490691c8876c4dba51aeaad76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
