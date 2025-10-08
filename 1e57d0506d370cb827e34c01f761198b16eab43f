@@ -16,6 +16,24 @@
       "message": "this breaks compilation, this enum value is only introduced in \nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1221864\nyou need to reorder this series to fix this",
       "revId": "1e57d0506d370cb827e34c01f761198b16eab43f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c81d2986_cc5406b6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabaseTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-08T17:51:23Z",
+      "side": 1,
+      "message": "Thanks! I think GC_PART is not yet needed at this point. I replace it with GC, which is OK for the tests.",
+      "parentUuid": "fab56537_9e547ccf",
+      "revId": "1e57d0506d370cb827e34c01f761198b16eab43f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
