@@ -256,8 +256,16 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return new DfsInserter(this);
 	}
 
-	// Only for testing
-	void setUseMultipackIndex(boolean value) {
+	/**
+	 * Whether to use multipack indexes in the list of packs
+	 * <p>
+	 * This overrides the value in the core.multiPackIndex config key read at
+	 * construction time.
+	 *
+	 * @param value
+	 *            value to set in the flag
+	 */
+	protected void setUseMultipackIndex(boolean value) {
 		this.useMultipackIndex = value;
 	}
 
