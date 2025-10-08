@@ -75,6 +75,8 @@
   ```
 - check in the [Maven Central Portal](https://central.sonatype.com/publishing/deployments)
   if the release looks good. You can download uploaded artifacts from there.
+  How to manually test a staged release is explained
+  [here](https://central.sonatype.org/publish/publish-portal-api/#manually-testing-a-deployment-bundle)
 - publish the new release
   - by clicking "Publish" on the [portal deployment page](https://central.sonatype.com/publishing/deployments)
   - or by running

@@ -131,19 +131,19 @@
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>6.1.0</servlet-api-version>
     <jetty-version>12.1.1</jetty-version>
-    <japicmp-version>0.23.1</japicmp-version>
+    <japicmp-version>0.24.1</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>1.7.36</slf4j-version>
-    <maven-javadoc-plugin-version>3.11.2</maven-javadoc-plugin-version>
+    <maven-javadoc-plugin-version>3.12.0</maven-javadoc-plugin-version>
     <gson-version>2.13.2</gson-version>
     <bouncycastle-version>1.82</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.9.3.0</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>4.9.6.0</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.9.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
-    <maven-surefire-plugin-version>3.5.3</maven-surefire-plugin-version>
+    <maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
-    <maven-compiler-plugin-version>3.14.0</maven-compiler-plugin-version>
+    <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
     <assertj-version>3.27.6</assertj-version>
@@ -208,13 +208,13 @@
 
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.5.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
         </plugin>
 
         <plugin>
@@ -226,7 +226,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.9.0</version>
         </plugin>
 
         <plugin>
@@ -255,7 +255,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
         </plugin>
 
         <plugin>
@@ -277,7 +277,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.26.0</version>
+          <version>3.27.0</version>
           <configuration>
             <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <minimumTokens>100</minimumTokens>
@@ -372,7 +372,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-artifact-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
           <configuration>
             <ignore>**/*cyclonedx.json</ignore>
             <reproducible>true</reproducible>
@@ -381,7 +381,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.2</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -655,7 +655,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>4.2.0</version>
+        <version>4.2.1</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.groovy</groupId>
