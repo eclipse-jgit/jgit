@@ -265,7 +265,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * @param value
 	 *            value to set in the flag
 	 */
-	protected void setUseMultipackIndex(boolean value) {
+	public void setUseMultipackIndex(boolean value) {
 		this.useMultipackIndex = value;
 	}
 
