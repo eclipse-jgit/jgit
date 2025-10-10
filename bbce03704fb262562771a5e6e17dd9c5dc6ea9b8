@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71879e46_0bfa339b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-10-10T18:24:22Z",
+      "side": 1,
+      "message": "same, no longer needed.",
+      "range": {
+        "startLine": 204,
+        "startChar": 1,
+        "endLine": 204,
+        "endChar": 35
+      },
+      "revId": "bbce03704fb262562771a5e6e17dd9c5dc6ea9b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9199abe9_90f5b8eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-10-10T18:24:22Z",
+      "side": 1,
+      "message": "This is no longer needed right?",
+      "range": {
+        "startLine": 259,
+        "startChar": 1,
+        "endLine": 279,
+        "endChar": 2
+      },
+      "revId": "bbce03704fb262562771a5e6e17dd9c5dc6ea9b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a588992c_60d345df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2025-10-10T18:24:22Z",
+      "side": 1,
+      "message": "Since the mangle logic is a utility function, which is covered by their unit test,  I don\u0027t think it is necessary to test in the context of a repository and InMemoryRepository shouldn\u0027t do any mangling.",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 39
+      },
+      "revId": "bbce03704fb262562771a5e6e17dd9c5dc6ea9b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
