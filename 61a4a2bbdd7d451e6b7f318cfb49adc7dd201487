@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a89423_155efeca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackOrganizer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-10T17:43:40Z",
+      "side": 1,
+      "message": "How about MidxPackFilter, since both of these methods are essentially filters.",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "61a4a2bbdd7d451e6b7f318cfb49adc7dd201487",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
