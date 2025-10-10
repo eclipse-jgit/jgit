@@ -279,50 +279,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/**
-	 * Format a raw pack list into a valid pack list based on midx conf
-	 * <p>
-	 * If {@link #useMultipackIndex} is true, return midxs and packs not covered
-	 * by any midx. If false, ignore the midx and return all the other packs.
-	 *
-	 * @param packs
-	 *            raw list of packs: it has regular packs (even if covered by an
-	 *            midx) and maybe midxs.
-	 * @return packs reorganized honoring the useMultipackIndex flag
-	 */
-	protected List<DfsPackDescription> mangleForMidx(
-			List<DfsPackDescription> packs) {
-		if (!useMultipackIndex()) {
-			// Take the multipack index out of the list
-			return packs.stream()
-					.filter(desc -> !desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
-					.collect(Collectors.toList());
-		}
-
-		// Take the packs covered by the midxs out of the list
-		List<DfsPackDescription> midxs = packs.stream()
-				.filter(desc -> desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
-				.collect(Collectors.toList());
-		Set<DfsPackDescription> coveredPacks = new HashSet<>();
-		for (DfsPackDescription midx : midxs) {
-			findCoveredPacks(midx, coveredPacks);
-		}
-		return packs.stream().filter(d -> !coveredPacks.contains(d))
-				.collect(Collectors.toList());
-	}
-
-	private void findCoveredPacks(DfsPackDescription midx,
-			Set<DfsPackDescription> covered) {
-		if (midx.getCoveredPacks().size() > 0) {
-			covered.addAll(midx.getCoveredPacks());
-		}
-
-		if (midx.getMultiPackIndexBase() != null) {
-			findCoveredPacks(midx.getMultiPackIndexBase(), covered);
-			covered.add(midx.getMultiPackIndexBase());
-		}
-	}
-
-	/**
 	 * Scan and list all available pack files in the repository.
 	 *
 	 * @return list of available packs. The returned array is shared with the
