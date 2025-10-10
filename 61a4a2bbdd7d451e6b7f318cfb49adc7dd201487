@@ -22,6 +22,30 @@
       },
       "revId": "61a4a2bbdd7d451e6b7f318cfb49adc7dd201487",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95257202_7aaf554b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackOrganizer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-10T17:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8a89423_155efeca",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "61a4a2bbdd7d451e6b7f318cfb49adc7dd201487",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
