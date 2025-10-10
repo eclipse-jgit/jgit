@@ -133,7 +133,8 @@ public class InMemoryRepository extends DfsRepository {
 
 		@Override
 		protected synchronized List<DfsPackDescription> listPacks() {
-			return mangleForMidx(packs);
+			return useMultipackIndex() ? MidxPackOrganizer.useMidx(packs)
+					: MidxPackOrganizer.skipMidxs(packs);
 		}
 
 		@Override
