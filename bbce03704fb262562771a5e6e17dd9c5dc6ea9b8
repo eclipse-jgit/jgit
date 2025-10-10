@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10e39e8e_37b67a6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-10T19:00:11Z",
+      "side": 1,
+      "message": "I think we still need the flag in the superclass and a correct implementation in listPacks, so that it behaves as expected (otherwise we diverge the test object db from the real one).\n\nWe can also clean it up in a follow change. I\u0027ll submit this to keep moving downstream changes.",
+      "revId": "bbce03704fb262562771a5e6e17dd9c5dc6ea9b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71879e46_0bfa339b",
@@ -60,6 +77,30 @@
       "writtenOn": "2025-10-10T18:24:22Z",
       "side": 1,
       "message": "Since the mangle logic is a utility function, which is covered by their unit test,  I don\u0027t think it is necessary to test in the context of a repository and InMemoryRepository shouldn\u0027t do any mangling.",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 137,
+        "endChar": 39
+      },
+      "revId": "bbce03704fb262562771a5e6e17dd9c5dc6ea9b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8590c793_494ceec1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/InMemoryRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-10T19:00:11Z",
+      "side": 1,
+      "message": "InMemoryDatabase must to follow the #listPacks contract, otherwise it would return wrong results when we write tests with/for midx.",
+      "parentUuid": "a588992c_60d345df",
       "range": {
         "startLine": 136,
         "startChar": 9,
