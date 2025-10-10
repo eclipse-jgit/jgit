@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.junit.Before;
 import org.junit.Test;
 
 public class MidxPackFilterTest {
