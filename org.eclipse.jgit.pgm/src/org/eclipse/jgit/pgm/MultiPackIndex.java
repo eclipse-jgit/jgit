@@ -16,8 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.file.Pack;
@@ -87,7 +86,7 @@ class MultiPackIndex extends TextBuiltin {
 
 		ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
 
-		Map<String, PackIndex> indexes = new HashMap<>();
+		LinkedHashMap<String, PackIndex> indexes = new LinkedHashMap<>();
 		for (Pack pack : odb.getPacks()) {
 			PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
 			try {

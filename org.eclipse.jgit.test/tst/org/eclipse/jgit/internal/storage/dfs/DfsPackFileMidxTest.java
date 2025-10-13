@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -302,36 +303,35 @@ public class DfsPackFileMidxTest {
 		ObjectId o1 = writePackWithRandomBlob(100);
 		ObjectId o2 = writePackWithRandomBlob(200);
 		ObjectId o3 = writePackWithRandomBlob(150);
+		// Packs are written in the midx in reverse insertion time
 		DfsPackFileMidx midx = writeMultipackIndex();
 
 		DfsPackFile packOne = findPack(o1);
-		long packOneSize = packOne.getPackDescription().getFileSize(PACK);
 		DfsPackFile packTwo = findPack(o2);
 		long packTwoSize = packTwo.getPackDescription().getFileSize(PACK);
 		DfsPackFile packThree = findPack(o3);
+		long packThreeSize = packThree.getPackDescription().getFileSize(PACK);
 
-		// Packs have sequential names (pack-NN-INSERT) and midx uses pack-name
-		// order. We rely on that to know the pack offsets
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			long posOne = midx.findOffset(ctx, o1);
 			DfsPackFileMidx.DfsPackOffset po = midx.getOffsetCalculator()
 					.decode(posOne);
 			assertEquals(12, po.getPackOffset());
-			assertEquals(0, po.getPackStart());
+			assertEquals(packThreeSize + packTwoSize, po.getPackStart());
 			assertEquals(packOne.getPackDescription(),
 					po.getPack().getPackDescription());
 
 			long posTwo = midx.findOffset(ctx, o2);
 			po = midx.getOffsetCalculator().decode(posTwo);
 			assertEquals(12, po.getPackOffset());
-			assertEquals(packOneSize, po.getPackStart());
+			assertEquals(packThreeSize, po.getPackStart());
 			assertEquals(packTwo.getPackDescription(),
 					po.getPack().getPackDescription());
 
 			long posThree = midx.findOffset(ctx, o3);
 			po = midx.getOffsetCalculator().decode(posThree);
 			assertEquals(12, po.getPackOffset());
-			assertEquals(packOneSize + packTwoSize, po.getPackStart());
+			assertEquals(0, po.getPackStart());
 			assertEquals(packThree.getPackDescription(),
 					po.getPack().getPackDescription());
 
@@ -420,15 +420,15 @@ public class DfsPackFileMidxTest {
 					true);
 			assertEquals(3, allFromPack.size());
 
-			// Objects are in (pack, offset) order (i.e. pack)
+			// Objects are in (pack, offset) order (i.e. reverse pack insert)
 			DfsObjectToPack oneToPack = allFromPack.get(0);
-			assertEquals(midx.findOffset(ctx, o1), oneToPack.getOffset());
+			assertEquals(midx.findOffset(ctx, o3), oneToPack.getOffset());
 
 			DfsObjectToPack twoToPack = allFromPack.get(1);
 			assertEquals(midx.findOffset(ctx, o2), twoToPack.getOffset());
 
 			DfsObjectToPack threeToPack = allFromPack.get(2);
-			assertEquals(midx.findOffset(ctx, o3), threeToPack.getOffset());
+			assertEquals(midx.findOffset(ctx, o1), threeToPack.getOffset());
 		}
 	}
 
@@ -442,7 +442,7 @@ public class DfsPackFileMidxTest {
 		ObjectId o6 = writePackWithRandomBlob(600);
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		// Packs are in reverse insertion order
+		// Packs are in reverse insertion order (o6 -> o1)
 		DfsPackFileMidx midxBase = writeMultipackIndex(
 				Arrays.copyOfRange(packs, 3, 6), null);
 		DfsPackFileMidx midxTip = writeMultipackIndex(
@@ -461,24 +461,25 @@ public class DfsPackFileMidxTest {
 					otps, true);
 			assertEquals(6, allFromPack.size());
 
-			// Objects are in (pack, offset) order (i.e. pack)
+			// Objects are in midx-offset order which is:
+			// base(o3 < o2 < o1) -> tip (06 < 05 < o4)
 			DfsObjectToPack oneToPack = allFromPack.get(0);
-			assertEquals(midxTip.findOffset(ctx, o1), oneToPack.getOffset());
+			assertEquals(midxTip.findOffset(ctx, o3), oneToPack.getOffset());
 
 			DfsObjectToPack twoToPack = allFromPack.get(1);
 			assertEquals(midxTip.findOffset(ctx, o2), twoToPack.getOffset());
 
 			DfsObjectToPack threeToPack = allFromPack.get(2);
-			assertEquals(midxTip.findOffset(ctx, o3), threeToPack.getOffset());
+			assertEquals(midxTip.findOffset(ctx, o1), threeToPack.getOffset());
 
 			DfsObjectToPack fourToPack = allFromPack.get(3);
-			assertEquals(midxTip.findOffset(ctx, o4), fourToPack.getOffset());
+			assertEquals(midxTip.findOffset(ctx, o6), fourToPack.getOffset());
 
 			DfsObjectToPack fiveToPack = allFromPack.get(4);
 			assertEquals(midxTip.findOffset(ctx, o5), fiveToPack.getOffset());
 
 			DfsObjectToPack sixToPack = allFromPack.get(5);
-			assertEquals(midxTip.findOffset(ctx, o6), sixToPack.getOffset());
+			assertEquals(midxTip.findOffset(ctx, o4), sixToPack.getOffset());
 		}
 	}
 
@@ -1069,14 +1070,15 @@ public class DfsPackFileMidxTest {
 
 	private DfsPackFileMidx writeMultipackIndex(DfsPackFile[] packs,
 			DfsPackFileMidx base) throws IOException {
-		Map<String, PackIndex> forMidx = new HashMap<>(packs.length);
-		Map<String, DfsPackDescription> requiredPacks = new HashMap<>(
+		LinkedHashMap<String, PackIndex> forMidx = new LinkedHashMap<>(
+				packs.length);
+		Map<String, DfsPackDescription> descByName = new HashMap<>(
 				packs.length);
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			for (DfsPackFile pack : packs) {
 				forMidx.put(pack.getPackDescription().getPackName(),
 						pack.getPackIndex(ctx));
-				requiredPacks.put(pack.getPackDescription().getPackName(),
+				descByName.put(pack.getPackDescription().getPackName(),
 						pack.getPackDescription());
 			}
 		}
@@ -1087,7 +1089,7 @@ public class DfsPackFileMidxTest {
 			MultiPackIndexWriter.Result midxStats = w
 					.write(NullProgressMonitor.INSTANCE, out, forMidx);
 			desc.setCoveredPacks(midxStats.packNames().stream()
-					.map(requiredPacks::get).toList());
+					.map(descByName::get).toList());
 			desc.addFileExt(PackExt.MULTI_PACK_INDEX);
 		}
 		db.getObjectDatabase().commitPack(List.of(desc), null);
