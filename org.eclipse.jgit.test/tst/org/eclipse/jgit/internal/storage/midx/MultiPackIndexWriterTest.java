@@ -48,10 +48,11 @@ public class MultiPackIndexWriterTest {
 
 		Map<String, PackIndex> data = Map.of("packname1", index1, "packname2",
 				index2);
+		List<String> packNames = List.of("packname1", "packname2");
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, data);
+		writer.write(NullProgressMonitor.INSTANCE, out, packNames, data);
 		// header (12 bytes)
 		// + chunkHeader (6 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
@@ -82,10 +83,11 @@ public class MultiPackIndexWriterTest {
 				object("0000000000000000000000000000000000000006", 3000));
 		Map<String, PackIndex> data =
 				Map.of("packname1", index1, "packname2", index2);
+		List<String> packNames = List.of("packname1", "packname2");
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, data);
+		writer.write(NullProgressMonitor.INSTANCE, out, packNames, data);
 		// header (12 bytes)
 		// + chunkHeader (6 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
@@ -116,10 +118,12 @@ public class MultiPackIndexWriterTest {
 				object("0000000000000000000000000000000000000006", 3000));
 		Map<String, PackIndex> data =
 				Map.of("packname1", index1, "packname2", index2);
+		List<String> packNames = List.of("packname1", "packname2");
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, data);
+		MultiPackIndexWriter.Result result = writer
+				.write(NullProgressMonitor.INSTANCE, out, packNames, data);
 		// header (12 bytes)
 		// + chunkHeader (7 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
@@ -138,6 +142,8 @@ public class MultiPackIndexWriterTest {
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_LARGEOFFSETS));
 		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
 		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+
+		assertEquals(result.packNames(), packNames);
 	}
 
 	@Test
@@ -145,9 +151,10 @@ public class MultiPackIndexWriterTest {
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
 		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		List<String> packNames = List.of("p1", "p2");
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, packNames, packs);
 		List<Integer> chunkIds = readChunkIds(out);
 		assertEquals(1134, out.size());
 		assertEquals(5, chunkIds.size());
