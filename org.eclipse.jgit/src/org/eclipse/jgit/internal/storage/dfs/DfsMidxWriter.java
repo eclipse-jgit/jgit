@@ -15,7 +15,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -53,7 +53,8 @@ public class DfsMidxWriter {
 	public static DfsPackDescription writeMidx(ProgressMonitor pm,
 			DfsObjDatabase objdb, List<DfsPackFile> packs,
 			@Nullable DfsPackDescription base) throws IOException {
-		Map<String, PackIndex> inputs = new HashMap<>();
+		LinkedHashMap<String, PackIndex> inputs = new LinkedHashMap<>(
+				packs.size());
 		try (DfsReader ctx = objdb.newReader()) {
 			for (DfsPackFile pack : packs) {
 				inputs.put(pack.getPackDescription().getPackName(),
