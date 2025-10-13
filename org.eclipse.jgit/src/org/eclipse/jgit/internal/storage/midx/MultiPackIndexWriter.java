@@ -85,8 +85,9 @@ public class MultiPackIndexWriter {
 	 *             Error writing to the stream
 	 */
 	public Result write(ProgressMonitor monitor, OutputStream outputStream,
+			List<String> packNames,
 			Map<String, PackIndex> inputs) throws IOException {
-		PackIndexMerger data = new PackIndexMerger(inputs);
+		PackIndexMerger data = new PackIndexMerger(packNames, inputs);
 
 		// List of chunks in the order they need to be written
 		List<ChunkHeader> chunkHeaders = createChunkHeaders(data);

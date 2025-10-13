@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -93,12 +94,26 @@ class PackIndexMerger {
 
 	private final int uniqueObjectCount;
 
-	PackIndexMerger(Map<String, PackIndex> packs) {
-		this.packNames = packs.keySet().stream().sorted()
+	/**
+	 * Build a common view of these pack indexes
+	 *
+	 * @param packNames
+	 *            list of packs in the desired order (duplicates are taken from
+	 *            the first)
+	 * @param packs
+	 *            map of pack names to indexes. All packs in packNames MUST be
+	 *            in this map.
+	 */
+	PackIndexMerger(List<String> packNames, Map<String, PackIndex> packs) {
+		if (packNames.size() != packs.size()) {
+			throw new IllegalArgumentException(
+					"Mismatched pack names and indexes"); //$NON-NLS-1$
+		}
+		this.packNames = packNames;
+		this.indexes = packNames.stream()
+				.map(name -> Optional.ofNullable(packs.get(name)).orElseThrow())
 				.collect(Collectors.toUnmodifiableList());
 
-		this.indexes = packNames.stream().map(packs::get)
-				.collect(Collectors.toUnmodifiableList());
 
 		// Iterate for duplicates
 		int objectCount = 0;
