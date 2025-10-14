@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.IOException;
 import java.nio.channels.Channels;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -202,6 +203,25 @@ final class DfsPackFileMidx extends DfsPackFile {
 	 */
 	public List<DfsPackFile> getCoveredPacks() {
 		return packs;
+	}
+
+	/**
+	 * All packs indexed by this multipack index and its chain
+	 * <p>
+	 * This does not include the inner multipack indexes themselves, only their
+	 * covered packs.
+	 *
+	 * @return packs indexed by this multipack index and its parents.
+	 */
+	public List<DfsPackFile> getAllCoveredPacks() {
+		List<DfsPackFile> coveredPacks = new ArrayList<>(packs);
+		DfsPackFileMidx base = getMultipackIndexBase();
+		while (base != null) {
+			coveredPacks.addAll(base.getCoveredPacks());
+			base = base.getMultipackIndexBase();
+		}
+
+		return coveredPacks;
 	}
 
 	/**
