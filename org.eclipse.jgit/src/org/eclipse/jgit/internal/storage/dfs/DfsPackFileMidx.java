@@ -152,8 +152,20 @@ final class DfsPackFileMidx extends DfsPackFile {
 	}
 
 	@Override
-	public PackBitmapIndex getBitmapIndex(DfsReader ctx) {
-		// TODO(ifrade): Implement this
+	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
+		// TODO(ifrade): at some point we will have bitmaps over the multipack
+		// index
+		// At the moment bitmap is in GC, at the end of the chain
+		if (base != null) {
+			return base.getBitmapIndex(ctx);
+		}
+
+		for (DfsPackFile pack : packsInIdOrder) {
+			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(ctx);
+			if (bitmapIndex != null) {
+				return bitmapIndex;
+			}
+		}
 		return null;
 	}
 
