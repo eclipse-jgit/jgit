@@ -16,6 +16,24 @@
       "message": "If this is just to enforce ordering, could we use a LinkedHashMap instead?",
       "revId": "6102855961ea034927870b87e358b7d503cca61a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1b018c1_9f6b70e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-14T18:30:26Z",
+      "side": 1,
+      "message": "Thanks for the tip! Done.",
+      "parentUuid": "61f9c2c3_f565cea4",
+      "revId": "6102855961ea034927870b87e358b7d503cca61a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
