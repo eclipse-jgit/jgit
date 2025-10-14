@@ -37,6 +37,7 @@ import java.util.zip.Deflater;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.VOffsetCalculator;
+import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
@@ -843,6 +844,25 @@ public class DfsPackFileMidxTest {
 	}
 
 	@Test
+	public void midx_getBitmapIndex() throws Exception {
+		RevCommit c1 = writePackWithCommit();
+		RevCommit c2 = writePackWithCommit();
+		gcWithBitmaps();
+
+		ObjectId blob = writePackWithRandomBlob(300);
+		DfsPackFileMidx dfsPackFileMidx = writeMultipackIndex();
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			PackBitmapIndex bitmapIndex = dfsPackFileMidx.getBitmapIndex(ctx);
+			assertNotNull(bitmapIndex);
+			// Both commits have same tree and blob
+			assertEquals(4, bitmapIndex.getObjectCount());
+			assertEquals(1, bitmapIndex.findPosition(c1));
+			assertEquals(0, bitmapIndex.findPosition(c2));
+			assertEquals(-1, bitmapIndex.findPosition(blob));
+		}
+	}
+
+	@Test
 	public void midx_corrupt() throws Exception {
 		RevCommit commit = writePackWithCommit();
 		writePackWithRandomBlob(200);
@@ -1066,6 +1086,11 @@ public class DfsPackFileMidxTest {
 
 	private DfsPackFileMidx writeMultipackIndex() throws IOException {
 		return writeMultipackIndex(db.getObjectDatabase().getPacks(), null);
+	}
+
+	private void gcWithBitmaps() throws IOException {
+		DfsGarbageCollector garbageCollector = new DfsGarbageCollector(db);
+		garbageCollector.pack(NullProgressMonitor.INSTANCE);
 	}
 
 	private DfsPackFileMidx writeMultipackIndex(DfsPackFile[] packs,
