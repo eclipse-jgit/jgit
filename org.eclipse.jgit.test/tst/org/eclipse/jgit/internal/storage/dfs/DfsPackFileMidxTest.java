@@ -863,6 +863,71 @@ public class DfsPackFileMidxTest {
 	}
 
 	@Test
+	public void midx_getAllCoveredPacks() throws Exception {
+		writePackWithCommit();
+		writePackWithRandomBlob(300);
+		writePackWithRandomBlob(500);
+
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertEquals(4, packs.length);
+		DfsPackFileMidx midx = writeMultipackIndex(packs, null);
+
+		assertEquals(4, midx.getAllCoveredPacks().size());
+		List<DfsPackDescription> expected = Arrays.stream(packs)
+				.map(p -> p.getPackDescription()).toList();
+		List<DfsPackDescription> actual = midx.getAllCoveredPacks().stream()
+				.map(DfsPackFile::getPackDescription).toList();
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void midx_getAllCoveredPacks_withBase() throws Exception {
+		writePackWithCommit();
+		writePackWithRandomBlob(300);
+		writePackWithRandomBlob(500);
+		writePackWithRandomBlob(100);
+		writePackWithCommit();
+
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertEquals(6, packs.length);
+		DfsPackFileMidx midxBase = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 3, 6), null);
+		DfsPackFileMidx midxTip = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 0, 3), midxBase);
+
+		assertEquals(6, midxTip.getAllCoveredPacks().size());
+		List<DfsPackDescription> expected = Arrays.stream(packs)
+				.map(DfsPackFile::getPackDescription).toList();
+		List<DfsPackDescription> actual = midxTip.getAllCoveredPacks().stream()
+				.map(DfsPackFile::getPackDescription).toList();
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void midx_getCoveredPacks_withBase_onlyTopMidx() throws Exception {
+		writePackWithCommit();
+		writePackWithRandomBlob(300);
+		writePackWithRandomBlob(500);
+		writePackWithRandomBlob(100);
+		writePackWithCommit();
+
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertEquals(6, packs.length);
+		DfsPackFileMidx midxBase = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 3, 6), null);
+		DfsPackFileMidx midxTip = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 0, 3), midxBase);
+
+		assertEquals(3, midxTip.getCoveredPacks().size());
+		List<DfsPackDescription> expected = Arrays
+				.stream(Arrays.copyOfRange(packs, 0, 3))
+				.map(DfsPackFile::getPackDescription).toList();
+		List<DfsPackDescription> actual = midxTip.getCoveredPacks().stream()
+				.map(DfsPackFile::getPackDescription).toList();
+		assertEquals(expected, actual);
+	}
+
+	@Test
 	public void midx_corrupt() throws Exception {
 		RevCommit commit = writePackWithCommit();
 		writePackWithRandomBlob(200);
