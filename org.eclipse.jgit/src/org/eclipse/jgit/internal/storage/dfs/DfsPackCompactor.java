@@ -67,6 +67,8 @@ public class DfsPackCompactor {
 	private final List<DfsReftable> srcReftables;
 	private final List<ObjectIdSet> exclude;
 
+	private final List<DfsPackDescription> prune;
+
 	private PackStatistics newStats;
 	private DfsPackDescription outDesc;
 
@@ -87,6 +89,7 @@ public class DfsPackCompactor {
 		srcPacks = new ArrayList<>();
 		srcReftables = new ArrayList<>();
 		exclude = new ArrayList<>(4);
+		prune = new ArrayList<>();
 	}
 
 	/**
@@ -158,6 +161,18 @@ public class DfsPackCompactor {
 			idx = pack.getPackIndex(ctx);
 		}
 		return exclude(idx);
+	}
+
+	/**
+	 * Delete also this pack when writing to the db the compacted packs
+	 *
+	 * @param pack
+	 *            a pack to delete
+	 * @return {@code this}
+	 */
+	public DfsPackCompactor prune(DfsPackFile pack) {
+		prune.add(pack.getPackDescription());
+		return this;
 	}
 
 	/**
@@ -332,6 +347,7 @@ public class DfsPackCompactor {
 		Set<DfsPackDescription> toPrune = new HashSet<>();
 		toPrune.addAll(packs);
 		toPrune.addAll(reftables);
+		toPrune.addAll(prune);
 		return toPrune;
 	}
 
