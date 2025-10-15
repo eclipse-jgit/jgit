@@ -16,6 +16,24 @@
       "message": "It\u0027s a little nit picky, but this would be a performance problem if the number of packs (and steps in the chain) was really high, since at each level of recursion you\u0027re allocating a list for the entire chain. It ends up quadratic.\n\nI think it\u0027s simple enough to just iterate over the chain without recursing that it\u0027s worth fixing, even if unlikely to be a problem in practice.",
       "revId": "c6e5cfa7a26f86ffac6b4e25ad4d2fba2736ee8e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9893e23d_ecde19d4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidx.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-15T22:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89304c92_a759bc3e",
+      "revId": "c6e5cfa7a26f86ffac6b4e25ad4d2fba2736ee8e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
