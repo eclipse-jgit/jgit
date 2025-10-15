@@ -1,0 +1,50 @@
+# JReleaser configuration template for JGit release promotion to Maven Central.
+project:
+  name: 'org.eclipse.jgit'
+  version:
+  description: 'JGit - The Java Git Implementation'
+  license: 'BSD-3-Clause'
+  authors:
+    - 'The JGit Committers'
+  languages:
+    java:
+      groupId: org.eclipse.jgit
+      version:
+  links:
+    homepage: https://github.com/eclipse-jgit/jgit/
+
+release:
+  github:
+    skipRelease: true
+
+signing:
+  active: RELEASE
+  armored: true
+  mode: COMMAND
+
+deploy:
+  maven:
+    mavenCentral:
+      org.eclipse.jgit:
+        active: RELEASE
+        url: https://central.sonatype.com/api/v1/publisher
+        snapshotSupported: false
+        authorization: BASIC
+        applyMavenCentralRules: true
+        sign: false
+        verifyPom: false
+        namespace: 'org.eclipse.jgit'
+        stagingRepositories:
+          - staging-deploy
+        connectTimeout: 20
+        readTimeout: 60
+        retryDelay: 60
+        maxRetries: 100
+
+files:
+  globs:
+    - pattern: staging-deploy/**/*.jar
+    - pattern: staging-deploy/**/*-cyclonedx.json
+    - pattern: staging-deploy/**/*-javadoc.jar
+    - pattern: staging-deploy/**/*-sources.jar
+    - pattern: staging-deploy/**/*.sh

@@ -406,6 +406,7 @@ public class BlameGeneratorCacheTest extends RepositoryTestCase {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	private void assertCacheUsage(RevCommit commit, InMemoryBlameCache cache,
 			boolean cacheHit, int candidatesVisited) throws IOException {
 		try (BlameGenerator gen = new BlameGenerator(db, FILE, cache)) {
@@ -429,6 +430,7 @@ public class BlameGeneratorCacheTest extends RepositoryTestCase {
 				regions.get(regions.size() - 1).resultEnd());
 	}
 
+	@SuppressWarnings("boxing")
 	private static void assertRegionsEquals(List<EmittedRegion> expected,
 			List<EmittedRegion> actual) {
 		assertEquals(expected.size(), actual.size());

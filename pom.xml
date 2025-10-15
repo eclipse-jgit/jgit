@@ -18,7 +18,7 @@
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>org.eclipse.jgit-parent</artifactId>
   <packaging>pom</packaging>
-  <version>7.4.0-SNAPSHOT</version>
+  <version>7.5.0-SNAPSHOT</version>
 
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
@@ -118,7 +118,7 @@
 
     <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
 
-    <jgit-last-release-version>7.3.0.202506031305-r</jgit-last-release-version>
+    <jgit-last-release-version>7.4.0.202509020913-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
     <apache-sshd-version>2.16.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
@@ -130,24 +130,24 @@
     <commons-compress-version>1.28.0</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
-    <jetty-version>12.1.0</jetty-version>
-    <japicmp-version>0.23.1</japicmp-version>
+    <jetty-version>12.1.1</jetty-version>
+    <japicmp-version>0.24.1</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>1.7.36</slf4j-version>
-    <maven-javadoc-plugin-version>3.11.2</maven-javadoc-plugin-version>
-    <gson-version>2.13.1</gson-version>
-    <bouncycastle-version>1.81</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.9.3.0</spotbugs-maven-plugin-version>
+    <maven-javadoc-plugin-version>3.12.0</maven-javadoc-plugin-version>
+    <gson-version>2.13.2</gson-version>
+    <bouncycastle-version>1.82</bouncycastle-version>
+    <spotbugs-maven-plugin-version>4.9.6.0</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.9.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
-    <maven-surefire-plugin-version>3.5.3</maven-surefire-plugin-version>
+    <maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
-    <maven-compiler-plugin-version>3.14.0</maven-compiler-plugin-version>
+    <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
     <plexus-compiler-version>2.13.0</plexus-compiler-version>
     <hamcrest-version>2.2</hamcrest-version>
-    <assertj-version>3.27.4</assertj-version>
-    <jna-version>5.17.0</jna-version>
+    <assertj-version>3.27.6</assertj-version>
+    <jna-version>5.18.1</jna-version>
     <byte-buddy-version>1.17.7</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
@@ -208,13 +208,13 @@
 
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.5.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
         </plugin>
 
         <plugin>
@@ -226,7 +226,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.9.0</version>
         </plugin>
 
         <plugin>
@@ -255,7 +255,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
         </plugin>
 
         <plugin>
@@ -277,7 +277,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.26.0</version>
+          <version>3.27.0</version>
           <configuration>
             <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <minimumTokens>100</minimumTokens>
@@ -372,7 +372,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-artifact-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.1</version>
           <configuration>
             <ignore>**/*cyclonedx.json</ignore>
             <reproducible>true</reproducible>
@@ -381,7 +381,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.2</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -655,7 +655,7 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>4.2.0</version>
+        <version>4.2.1</version>
         <dependencies>
           <dependency>
             <groupId>org.apache.groovy</groupId>
@@ -1020,7 +1020,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.19.0</version>
+        <version>5.20.0</version>
       </dependency>
 
       <dependency>

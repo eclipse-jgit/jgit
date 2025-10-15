@@ -46,7 +46,7 @@ public class PackObjectSizeIndexHelper {
 			List<PackedObjectInfo> objectsInPack = getObjectsInPack(wc, pack,
 					pm);
 			LOG.debug(String.format("    index has %d objects", //$NON-NLS-1$
-					objectsInPack.size()));
+					Integer.valueOf(objectsInPack.size())));
 			if (objectsInPack.isEmpty()) {
 				continue;
 			}
@@ -61,7 +61,7 @@ public class PackObjectSizeIndexHelper {
 				writer.write(objectsInPack);
 			}
 			LOG.info(String.format("     done writing. Took %d ms", //$NON-NLS-1$
-					System.currentTimeMillis() - start));
+					Long.valueOf(System.currentTimeMillis() - start)));
 		}
 	}
 
