@@ -1,5 +1,8 @@
 /.project
 /org.eclipse.jgit.benchmarks/dependency-reduced-pom.xml
+/tools/maven-central/out/
+/tools/maven-central/staging-deploy/
+/tools/maven-central/jreleaser.yml
 target/
 infer-out
 bazel-*
