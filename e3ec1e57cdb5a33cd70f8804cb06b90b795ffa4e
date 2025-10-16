@@ -16,6 +16,24 @@
       "message": "Did you want to add an assertion after cloning finished?\nOr do we assume that Kex extension works if no exception is thrown?",
       "revId": "e3ec1e57cdb5a33cd70f8804cb06b90b795ffa4e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c8c743_03e01af6",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/ApacheSshTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-10-16T14:43:19Z",
+      "side": 1,
+      "message": "`cloneWith()` contains assertions to verify that cloning worked.",
+      "parentUuid": "0f4b60b9_be746beb",
+      "revId": "e3ec1e57cdb5a33cd70f8804cb06b90b795ffa4e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
