@@ -11,8 +11,8 @@ package org.eclipse.jgit.internal.storage.midx;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -96,11 +96,11 @@ class PackIndexMerger {
 	 * Build a common view of these pack indexes
 	 * <p>
 	 * Order matters: in case of duplicates, the first pack with the object wins
-	 * 
+	 *
 	 * @param packs
 	 *            map of pack names to indexes, ordered.
 	 */
-	PackIndexMerger(LinkedHashMap<String, PackIndex> packs) {
+	PackIndexMerger(Map<String, PackIndex> packs) {
 		this.packNames = packs.keySet().stream().toList();
 		this.indexes = packs.values().stream().toList();
 
