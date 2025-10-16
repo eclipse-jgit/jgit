@@ -34,6 +34,24 @@
       "parentUuid": "0f4b60b9_be746beb",
       "revId": "e3ec1e57cdb5a33cd70f8804cb06b90b795ffa4e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd47e339_c350a010",
+        "filename": "org.eclipse.jgit.ssh.apache.test/tst/org/eclipse/jgit/transport/sshd/ApacheSshTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-16T19:57:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "86c8c743_03e01af6",
+      "revId": "e3ec1e57cdb5a33cd70f8804cb06b90b795ffa4e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
