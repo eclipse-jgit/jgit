@@ -63,6 +63,24 @@
       "message": "@matthias.sohn@sap.com does this kind of behavior change need an update to `@since` tags or anything else? The javadoc already implies this should be the behavior (`defaultValue` is only `... if no value was present`), but [doesn\u0027t mention any exception behavior](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/TypedConfigGetter.java#L298).",
       "revId": "f9c38da3c0dc7fa7944b1816cb4acbe30e063b0f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93246809_48eb55c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-16T14:29:17Z",
+      "side": 1,
+      "message": "I would adjust the javadoc to mention that an invalid string will throw an IllegalArgumentException and I can mention this fix in the 7.5 release notes.\nI think we don\u0027t need to bump the @since version for this change.\n\n`GitTimeParser` also accepts some time strings which don\u0027t contain a number (e.g. \"now\", \"yesterday\") but this class doesn\u0027t use `DefaultTypedConfigGetter`",
+      "parentUuid": "6de34eca_12e1400d",
+      "revId": "f9c38da3c0dc7fa7944b1816cb4acbe30e063b0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
