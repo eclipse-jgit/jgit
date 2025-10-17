@@ -46,7 +46,7 @@ import org.eclipse.jgit.util.BlockList;
  * <p>
  * It uses the position in the multipack index of the objects as their "offset".
  */
-final class DfsPackFileMidx extends DfsPackFile {
+public final class DfsPackFileMidx extends DfsPackFile {
 
 	private static final int REF_POSITION = 0;
 
