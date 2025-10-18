@@ -16,6 +16,24 @@
       "message": "I see a compilation error in CgitMidxCompatibilityTest. So how did https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1224270 manage to build successfully?",
       "revId": "2f808827310573b1da2273c5cde9033f53358804",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d17b9b_76780629",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-10-18T12:52:31Z",
+      "side": 1,
+      "message": "I got the same compile error in Eclipse hence I pushed this fix. Don\u0027t understand why the maven build passed.",
+      "parentUuid": "25d3d208_428b9443",
+      "revId": "2f808827310573b1da2273c5cde9033f53358804",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
