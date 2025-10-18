@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d3d208_428b9443",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-10-18T11:23:33Z",
+      "side": 1,
+      "message": "I see a compilation error in CgitMidxCompatibilityTest. So how did https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1224270 manage to build successfully?",
+      "revId": "2f808827310573b1da2273c5cde9033f53358804",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
