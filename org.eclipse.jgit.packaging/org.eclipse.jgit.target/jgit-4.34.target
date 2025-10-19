@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.34" sequenceNumber="1760568966">
+<target name="jgit-4.34" sequenceNumber="1760911661">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -14,10 +14,8 @@
       <unit id="org.apache.httpcomponents.httpclient.source" version="4.5.14"/>
       <unit id="org.apache.httpcomponents.httpcore" version="4.4.16"/>
       <unit id="org.apache.httpcomponents.httpcore.source" version="4.4.16"/>
-      <unit id="org.hamcrest.core" version="1.3.0.v20230809-1000"/>
-      <unit id="org.hamcrest.core.source" version="1.3.0.v20230809-1000"/>
-      <unit id="org.hamcrest.library" version="1.3.0.v20230809-1000"/>
-      <unit id="org.hamcrest.library.source" version="1.3.0.v20230809-1000"/>
+      <unit id="org.hamcrest" version="3.0.0"/>
+      <unit id="org.hamcrest.source" version="3.0.0"/>
       <unit id="org.junit" version="4.13.2.v20240929-1000"/>
       <unit id="org.junit.source" version="4.13.2.v20240929-1000"/>
       <unit id="org.objenesis" version="3.4.0"/>
