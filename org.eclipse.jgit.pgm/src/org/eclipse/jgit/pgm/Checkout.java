@@ -96,13 +96,11 @@ class Checkout extends TextBuiltin {
 							CLIText.get().switchedToBranch,
 							Repository.shortenRefName(ref.getName())));
 			} catch (InvalidRefNameException e){
-				if (name == null){
-					throw die(MessageFormat
-							.format("a valid ref is expected",e));
-				} else {
-					throw die(MessageFormat
-							.format(CLIText.get().notAValidRefName, name, e));
+				if (name == null) {
+					return;
 				}
+				throw die(MessageFormat.format(CLIText.get().notAValidRefName,
+						name, e));
 			}
 			catch (RefNotFoundException e) {
 				throw die(MessageFormat

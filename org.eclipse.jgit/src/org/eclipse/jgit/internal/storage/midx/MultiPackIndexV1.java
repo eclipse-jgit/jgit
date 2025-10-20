@@ -61,6 +61,16 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
+	public int findPosition(AnyObjectId oid) {
+		return idx.findMultiPackIndexPosition(oid);
+	}
+
+	@Override
+	public int getObjectCount() {
+		return idx.getObjectCount();
+	}
+
+	@Override
 	@Nullable
 	public PackOffset find(AnyObjectId objectId) {
 		int position = idx.findMultiPackIndexPosition(objectId);
@@ -246,36 +256,44 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				return;
 			}
 
-			int high = fanoutTable[id.getFirstByte()];
-			int low = id.getFirstByte() == 0 ? 0
-					: fanoutTable[id.getFirstByte() - 1];
-			do {
-				int p = (low + high) >>> 1;
+			int levelOne = id.getFirstByte();
+			int high = fanoutTable[levelOne];
+			int low = 0;
+			if (levelOne > 0) {
+				low = fanoutTable[levelOne - 1];
+			}
+
+			int p = -1;
+			boolean found = false;
+			while (low < high) {
+				p = (low + high) >>> 1;
 				int cmp = id.prefixCompare(oidLookup, idOffset(p));
 				if (cmp < 0) {
 					high = p;
-					continue;
-				}
-
-				if (cmp > 0) {
+				} else if (cmp == 0) {
+					found = true;
+					break;
+				} else {
 					low = p + 1;
-					continue;
 				}
+			}
 
-				// Got a match.
-				// We may have landed in the middle of the matches. Move
-				// backwards to the start of matches, then walk forwards.
-				while (0 < p
-						&& id.prefixCompare(oidLookup, idOffset(p - 1)) == 0) {
-					p--;
-				}
-				while (p < high && id.prefixCompare(oidLookup, idOffset(p)) == 0
-						&& matches.size() < matchLimit) {
-					matches.add(ObjectId.fromRaw(oidLookup, idOffset(p)));
-					p++;
-				}
+			if (!found) {
 				return;
-			} while (low < high);
+			}
+
+			// Got a match.
+			// We may have landed in the middle of the matches. Move
+			// backwards to the start of matches, then walk forwards.
+			while (0 < p && id.prefixCompare(oidLookup, idOffset(p - 1)) == 0) {
+				p--;
+			}
+
+			while (p < high && id.prefixCompare(oidLookup, idOffset(p)) == 0
+					&& matches.size() < matchLimit) {
+				matches.add(ObjectId.fromRaw(oidLookup, idOffset(p)));
+				p++;
+			}
 		}
 
 		private int idOffset(int position) {
@@ -284,6 +302,10 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 		long getMemorySize() {
 			return 4L + byteArrayLengh(oidLookup) + (FANOUT * 4);
+		}
+
+		int getObjectCount() {
+			return fanoutTable[FANOUT - 1];
 		}
 	}
 }

@@ -11,7 +11,6 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -71,7 +70,6 @@ public class DfsPackCompactor {
 	private PackStatistics newStats;
 	private DfsPackDescription outDesc;
 
-	private int autoAddSize;
 	private ReftableConfig reftableConfig;
 
 	private RevWalk rw;
@@ -86,7 +84,6 @@ public class DfsPackCompactor {
 	 */
 	public DfsPackCompactor(DfsRepository repository) {
 		repo = repository;
-		autoAddSize = 5 * 1024 * 1024; // 5 MiB
 		srcPacks = new ArrayList<>();
 		srcReftables = new ArrayList<>();
 		exclude = new ArrayList<>(4);
@@ -131,38 +128,6 @@ public class DfsPackCompactor {
 	 */
 	public DfsPackCompactor add(DfsReftable table) {
 		srcReftables.add(table);
-		return this;
-	}
-
-	/**
-	 * Automatically select pack and reftables to be included, and add them.
-	 * <p>
-	 * Packs are selected based on size, smaller packs get included while bigger
-	 * ones are omitted.
-	 *
-	 * @return {@code this}
-	 * @throws java.io.IOException
-	 *             existing packs cannot be read.
-	 */
-	public DfsPackCompactor autoAdd() throws IOException {
-		DfsObjDatabase objdb = repo.getObjectDatabase();
-		for (DfsPackFile pack : objdb.getPacks()) {
-			DfsPackDescription d = pack.getPackDescription();
-			if (d.getFileSize(PACK) < autoAddSize)
-				add(pack);
-			else
-				exclude(pack);
-		}
-
-		if (reftableConfig != null) {
-			for (DfsReftable table : objdb.getReftables()) {
-				DfsPackDescription d = table.getPackDescription();
-				if (d.getPackSource() != GC
-						&& d.getFileSize(REFTABLE) < autoAddSize) {
-					add(table);
-				}
-			}
-		}
 		return this;
 	}
 

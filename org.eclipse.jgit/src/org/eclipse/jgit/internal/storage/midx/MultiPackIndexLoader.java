@@ -112,7 +112,8 @@ public class MultiPackIndexLoader {
 		int v = hdr[4];
 		if (v != 1) {
 			throw new MultiPackIndexFormatException(MessageFormat
-					.format(JGitText.get().unsupportedMIDXVersion, v));
+					.format(JGitText.get().unsupportedMIDXVersion,
+							Integer.valueOf(v)));
 		}
 
 		// Read the object Id version (1 byte)
@@ -325,7 +326,8 @@ public class MultiPackIndexLoader {
 			if (headerCount != packfileNamesCount) {
 				throw new MultiPackIndexFormatException(MessageFormat.format(
 						JGitText.get().multiPackIndexPackCountMismatch,
-						headerCount, packfileNamesCount));
+						Integer.valueOf(headerCount),
+						Integer.valueOf(packfileNamesCount)));
 			}
 		}
 	}
