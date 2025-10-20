@@ -1,0 +1,10 @@
+Code-Review+2: Luca Milanesio <luca.milanesio@gmail.com>
+Code-Review-1: GerritForge Ltd <info@gerritforge.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Verified+1: Luca Milanesio <luca.milanesio@gmail.com>
+Submitted-by: Luca Milanesio <luca.milanesio@gmail.com>
+Submitted-at: Mon, 20 Oct 2025 11:42:41 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1224027
+Comments-Total: 6
+Project: eclipse-jgit/jgit
+Branch: refs/heads/servlet-4
