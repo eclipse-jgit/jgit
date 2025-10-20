@@ -65,6 +65,7 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -79,6 +80,8 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * MacOS-only test for dealing with symlinks in IndexDiff. Recreates using cgit
@@ -88,6 +91,9 @@ import org.junit.Test;
  * it's been changed to UTF-8 NFD, and finally calculates an IndexDiff.
  */
 public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(IndexDiffWithSymlinkTest.class);
 
 	private static final String FILEREPO = "filerepo";
 
@@ -205,7 +211,17 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 					linkTarget.toString());
 			raw = rawPath(linkTarget);
 			if (raw != null) {
-				assertArrayEquals("Expected an NFD link target", NFD, raw);
+				// Prior to Java 20, Java would convert to NFD on Mac to be
+				// compliant with HFS+. Since Java 20, it doesn't because APFS
+				// stores file names in NFC. See JDK-8289689.
+				if (Arrays.equals(NFD, raw)) {
+					LOG.info("Symlink was written by Java as NFD");
+				} else {
+					assertArrayEquals("Expected an NFC link target", NFC, raw);
+					LOG.info("Symlink was written by Java as NFC");
+				}
+			} else {
+				LOG.warn("Cannot determine raw symbolic link content");
 			}
 			// Do the indexdiff
 			WorkingTreeIterator iterator = new FileTreeIterator(testRepo);

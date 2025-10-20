@@ -128,6 +128,13 @@ public class CoreConfig {
 	public static final boolean DEFAULT_COMMIT_GRAPH_ENABLE = false;
 
 	/**
+	 * Default value of multipack index enable option: {@value}
+	 *
+	 * @since 7.5
+	 */
+	public static final boolean DEFAULT_MULTIPACK_INDEX_ENABLE = false;
+
+	/**
 	 * Permissible values for {@code core.trustPackedRefsStat}.
 	 *
 	 * @since 6.1.1
@@ -205,6 +212,8 @@ public class CoreConfig {
 
 	private final boolean commitGraph;
 
+	private final boolean multiPackIndex;
+
 	private final TrustStat trustStat;
 
 	private final TrustStat trustPackedRefsStat;
@@ -264,6 +273,9 @@ public class CoreConfig {
 		commitGraph = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
 				ConfigConstants.CONFIG_COMMIT_GRAPH,
 				DEFAULT_COMMIT_GRAPH_ENABLE);
+		multiPackIndex = rc.getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_MULTIPACKINDEX,
+				DEFAULT_MULTIPACK_INDEX_ENABLE);
 
 		trustStat = parseTrustStat(rc);
 		trustPackedRefsStat = parseTrustPackedRefsStat(rc);
@@ -375,6 +387,19 @@ public class CoreConfig {
 	 */
 	public boolean enableCommitGraph() {
 		return commitGraph;
+	}
+
+	/**
+	 * Whether to read the multipack index file (if it exists). Default to
+	 * {@value org.eclipse.jgit.lib.CoreConfig#DEFAULT_MULTIPACK_INDEX_ENABLE}.
+	 *
+	 * @return whether to use the multipack index in the repo. If false, just
+	 *         ignore the multipack index.
+	 *
+	 * @since 7.5
+	 */
+	public boolean useMultiPackIndex() {
+		return multiPackIndex;
 	}
 
 	/**

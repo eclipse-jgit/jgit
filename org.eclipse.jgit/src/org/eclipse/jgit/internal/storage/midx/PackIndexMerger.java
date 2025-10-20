@@ -11,10 +11,9 @@ package org.eclipse.jgit.internal.storage.midx;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -93,12 +92,17 @@ class PackIndexMerger {
 
 	private final int uniqueObjectCount;
 
-	PackIndexMerger(Map<String, PackIndex> packs) {
-		this.packNames = packs.keySet().stream().sorted()
-				.collect(Collectors.toUnmodifiableList());
-
-		this.indexes = packNames.stream().map(packs::get)
-				.collect(Collectors.toUnmodifiableList());
+	/**
+	 * Build a common view of these pack indexes
+	 * <p>
+	 * Order matters: in case of duplicates, the first pack with the object wins
+	 * 
+	 * @param packs
+	 *            map of pack names to indexes, ordered.
+	 */
+	PackIndexMerger(LinkedHashMap<String, PackIndex> packs) {
+		this.packNames = packs.keySet().stream().toList();
+		this.indexes = packs.values().stream().toList();
 
 		// Iterate for duplicates
 		int objectCount = 0;
@@ -252,7 +256,7 @@ class PackIndexMerger {
 			mutableEntry.fill(winner.getPackId(), winner.peek());
 			if (winner.next() == null) {
 				indexIterators.remove(winner);
-			};
+			}
 			return mutableEntry;
 		}
 	}

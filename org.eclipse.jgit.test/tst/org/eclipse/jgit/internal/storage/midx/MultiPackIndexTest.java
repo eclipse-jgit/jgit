@@ -20,8 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -103,8 +103,8 @@ public class MultiPackIndexTest {
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000012", 1502)));
 
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo, "p3",
-				idxThree);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo, "p3", idxThree);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
@@ -140,7 +140,8 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000002", (1L << 35)),
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000003", 13)));
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
@@ -170,7 +171,8 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000002", 501),
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000003", 13)));
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
@@ -206,13 +208,13 @@ public class MultiPackIndexTest {
 				// Match
 				"32fe829a1c000000000000000000000000000010");
 
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
-
 
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 100);
@@ -250,13 +252,13 @@ public class MultiPackIndexTest {
 				// Match
 				"32fe829a1c000000000000000000000000000010");
 
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
-
 
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 2);
@@ -273,8 +275,7 @@ public class MultiPackIndexTest {
 		AbbreviatedObjectId abbrev = AbbreviatedObjectId
 				.fromString("4400000000");
 
-		PackIndex idxOne = indexWith(
-				"0000000000000000000000000000000000000001",
+		PackIndex idxOne = indexWith("0000000000000000000000000000000000000001",
 				"3000000000000000000000000000000000000005",
 				"32fe829a1b000000000000000000000000000001",
 				"32fe829a1c000000000000000000000000000001",
@@ -286,13 +287,44 @@ public class MultiPackIndexTest {
 				"bbbbbb0000000000000000000000000000000003",
 				"32fe829a1c000000000000000000000000000010");
 
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
+		Set<ObjectId> results = new HashSet<>();
+		midx.resolve(results, abbrev, 200);
+
+		assertEquals(0, results.size());
+	}
+
+	@Test
+	public void jgit_resolve_noMatches_last() throws IOException {
+		AbbreviatedObjectId abbrev = AbbreviatedObjectId
+				.fromString("dd00000000");
+
+		PackIndex idxOne = indexWith("0000000000000000000000000000000000000001",
+				"3000000000000000000000000000000000000005",
+				"32fe829a1b000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000001",
+				"32fe829a1c000000000000000000000000000100",
+				"32fe829a1d000000000000000000000000000000");
+		PackIndex idxTwo = indexWith(
+				// Noise
+				"8888880000000000000000000000000000000002",
+				"bbbbbb0000000000000000000000000000000003",
+				"32fe829a1c000000000000000000000000000010");
+
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
 
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 200);
@@ -308,18 +340,124 @@ public class MultiPackIndexTest {
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
 
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
-
 		Set<ObjectId> results = new HashSet<>();
 		midx.resolve(results, abbrev, 200);
 
 		assertEquals(0, results.size());
+	}
+
+	@Test
+	public void jgit_findPosition() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 500),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000005", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000010", 1500)));
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 501),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000003", 13),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000015", 1501)));
+		PackIndex idxThree = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000004", 502),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000007", 14),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000012", 1502)));
+
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo, "p3", idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertEquals(3, midx.getPackNames().length);
+		assertEquals(0, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000001")));
+		assertEquals(1, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000002")));
+		assertEquals(2, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000003")));
+		assertEquals(3, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000004")));
+		assertEquals(4, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000005")));
+		assertEquals(5, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000007")));
+		assertEquals(6, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000010")));
+		assertEquals(7, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000012")));
+		assertEquals(8, midx.findPosition(ObjectId
+				.fromString("0000000000000000000000000000000000000015")));
+
+		assertNull(midx.find(ObjectId.zeroId()));
+	}
+
+	@Test
+	public void jgit_getObjectCount() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 500),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000005", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000010", 1500)));
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 501),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000003", 13),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000015", 1501)));
+		PackIndex idxThree = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000004", 502),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000007", 14),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000012", 1502)));
+
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo, "p3", idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertEquals(9, midx.getObjectCount());
+	}
+
+	@Test
+	public void jgit_getObjectCount_emtpy() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
+
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+		assertEquals(0, midx.getObjectCount());
 	}
 
 	private static PackIndex indexWith(String... oids) {
@@ -341,5 +479,22 @@ public class MultiPackIndexTest {
 		assertEquals("Wrong packId for " + oid, expectedPackId,
 				packOffset.getPackId());
 		assertEquals(expectedOffset, packOffset.getOffset());
+	}
+
+	private static LinkedHashMap<String, PackIndex> orderedMapOf(String s1,
+			PackIndex pi1, String s2, PackIndex pi2) {
+		LinkedHashMap<String, PackIndex> map = new LinkedHashMap<>(2);
+		map.put(s1, pi1);
+		map.put(s2, pi2);
+		return map;
+	}
+
+	private static LinkedHashMap<String, PackIndex> orderedMapOf(String s1,
+			PackIndex pi1, String s2, PackIndex pi2, String s3, PackIndex pi3) {
+		LinkedHashMap<String, PackIndex> map = new LinkedHashMap<>(2);
+		map.put(s1, pi1);
+		map.put(s2, pi2);
+		map.put(s3, pi3);
+		return map;
 	}
 }

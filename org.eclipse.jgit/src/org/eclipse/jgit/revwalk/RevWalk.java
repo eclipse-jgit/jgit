@@ -24,8 +24,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.
-Optional;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -52,6 +50,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.References;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Walks a commit graph and produces the matching commits in order.
@@ -164,9 +163,21 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	static final int TREE_REV_FILTER_APPLIED = 1 << 7;
 
 	/**
+	 * Set on a RevObject marked for being unshallowed.
+	 * <p>
+	 * This flag is used by the RevWalk's generators for keeping track
+	 * that some objects have been marked uninteresting, however, they
+	 * need to allow the navigation to continue for managing the unshallow
+	 * of a shallow clone.
+	 *
+	 * @see DepthGenerator
+	 */
+	static final int UNSHALLOW = 1 << 8;
+
+	/**
 	 * Number of flag bits we keep internal for our own use. See above flags.
 	 */
-	static final int RESERVED_FLAGS = 8;
+	static final int RESERVED_FLAGS = 9;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
@@ -266,12 +277,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		return new DateRevQueue(g);
 	}
 
-	@SuppressWarnings("boxing")
 	private static boolean usePriorityQueue() {
-		return Optional
-				.ofNullable(System.getProperty("REVWALK_USE_PRIORITY_QUEUE")) //$NON-NLS-1$
-							.map(Boolean::parseBoolean)
-							.orElse(false);
+		return Boolean.parseBoolean(SystemReader.getInstance()
+				.getProperty("REVWALK_USE_PRIORITY_QUEUE")); //$NON-NLS-1$
 	}
 
 	/**
