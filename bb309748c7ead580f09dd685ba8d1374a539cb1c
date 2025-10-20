@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c88c4891_ec908a6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-10-20T10:24:08Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, @matthias.sohn@sap.com this builds and all tests pass.\nThe gerrit servlet-4 CI fails for some flakiness possibly due to [1].\n\nCan we merge this change since:\n- servlet-4 builds as expected\n- All Jgit tests on servlet-4 pass\n- Gerrit 3.13 builds with this servlet-4 version\n- Gerrit master builds with this servlet-4 version\n\nWe can test gerrit-3.13 test on Build Buddy when we bump the modules/jgit submodule.\n\nWDYT?\n\n\n[1] https://issues.gerritcodereview.com/issues/452071983",
+      "revId": "bb309748c7ead580f09dd685ba8d1374a539cb1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
