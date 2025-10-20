@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e25ca73_3ff1feec",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-20T16:53:43Z",
+      "side": 1,
+      "message": "Should we make a defensive copy?",
+      "revId": "e54b4514ea311310376c83094d84eea15d3626e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bf1d6ba_9e7552f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-20T16:53:43Z",
+      "side": 1,
+      "message": "The word impacted seems weird here. What about findAllCoveringMidx? That seems consistent with the midx getCoveredPacks method.\n\nI would not name the variable toRemove or really mention that in the javadoc - there are probably hypothetical situations other than deleting packs you would want to call this method.",
+      "range": {
+        "startLine": 121,
+        "startChar": 33,
+        "endLine": 121,
+        "endChar": 53
+      },
+      "revId": "e54b4514ea311310376c83094d84eea15d3626e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b786af4e_285b3f37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-20T16:53:43Z",
+      "side": 1,
+      "message": "You can simplify this by doing the visitedMidxs.add(current) before the if. Then you don\u0027t need the add() call in the if block or the else block.",
+      "revId": "e54b4514ea311310376c83094d84eea15d3626e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17061c1d_1fd79484",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/PackSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-20T16:53:43Z",
+      "side": 1,
+      "message": "Why a whole type? This can just be a static method on MidxPackList that returns a TreeSet.",
+      "revId": "e54b4514ea311310376c83094d84eea15d3626e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
