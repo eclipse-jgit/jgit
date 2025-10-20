@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "730622cb_2a6bfe89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-20T07:48:44Z",
+      "side": 1,
+      "message": "Full list of merged commits is missing. Use the `merge --log\u003d100 --no-ff --edit` for showing them all.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "f09e5998d3120fd959f5c42f0a09e604728638fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb0dff93_2a6f43ac",
+        "filename": "org.eclipse.jgit.http.server/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-20T07:48:44Z",
+      "side": 1,
+      "message": "Needs to be preserved at Servlet 4 level.\n\n\n\n```suggestion\nImport-Package: javax.servlet;version\u003d\"[4.0.0,5.0.0)\",\n javax.servlet.http;version\u003d\"[4.0.0,5.0.0)\",\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "f09e5998d3120fd959f5c42f0a09e604728638fb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
