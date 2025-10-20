@@ -116,18 +116,18 @@ maven_jar(
     sha1 = "09d9e7024535fb4a3f74367ba7e0a2f5093af638",
 )
 
-JNA_VERS = "5.17.0"
+JNA_VERS = "5.18.1"
 
 maven_jar(
     name = "jna",
     artifact = "net.java.dev.jna:jna:" + JNA_VERS,
-    sha1 = "33d12735bef894440780fce64f9758d420c7bae2",
+    sha1 = "b27ba04287cc4abe769642fe8318d39fc89bf937",
 )
 
 maven_jar(
     name = "jna-platform",
     artifact = "net.java.dev.jna:jna-platform:" + JNA_VERS,
-    sha1 = "a4934c44d25a9d8c2ddf4203affd20330cb3426f",
+    sha1 = "dd817f391efc492041c9ae91127527c13750a789",
 )
 
 maven_jar(
@@ -168,8 +168,8 @@ maven_jar(
 
 maven_jar(
     name = "commons-lang3",
-    artifact = "org.apache.commons:commons-lang3:3.18.0",
-    sha1 = "fb14946f0e39748a6571de0635acbe44e7885491",
+    artifact = "org.apache.commons:commons-lang3:3.19.0",
+    sha1 = "d6524b169a6574cd253760c472d419b47bfd37e6",
 )
 
 maven_jar(
@@ -204,28 +204,28 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:5.19.0",
-    sha1 = "82b320935809e3c8ff92c2007dae5dff88d76f32",
+    artifact = "org.mockito:mockito-core:5.20.0",
+    sha1 = "a32f446f38acf636363c5693db6498047731b9e0",
 )
 
 maven_jar(
     name = "assertj-core",
-    artifact = "org.assertj:assertj-core:3.27.4",
-    sha1 = "65e62575f7e422df6d290dc1cb15f3c97108b2b1",
+    artifact = "org.assertj:assertj-core:3.27.6",
+    sha1 = "8f34ccd6808899ad1d0aac6a770b73191f2f2a53",
 )
 
-BYTE_BUDDY_VERSION = "1.17.7"
+BYTE_BUDDY_VERSION = "1.17.8"
 
 maven_jar(
     name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "3856bfab61beb23e099a0d6629f2ba8de4b98ace",
+    sha1 = "af5735f63d00ca47a9375fae5c7471a36331c6ed",
 )
 
 maven_jar(
     name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "fbf3d6d649ed37fc9e9c59480a05be0a26e3c2da",
+    sha1 = "f09415827a71be7ed621c7bd02550678f28bc81c",
 )
 
 maven_jar(
@@ -236,28 +236,28 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.13.1",
-    sha1 = "853ce06c11316b33a8eae5e9095da096a9528b8f",
+    artifact = "com.google.code.gson:gson:2.13.2",
+    sha1 = "48b8230771e573b54ce6e867a9001e75977fe78e",
 )
 
-JETTY_VER = "12.1.0"
+JETTY_VER = "12.1.2"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
-    sha1 = "881b69b15540215aace32ab7c985abb6e4fe0c25",
+    sha1 = "80d79bd2f5b7b8a0d1a31ff21d40634c21d8ce51",
 )
 
 maven_jar(
     name = "jetty-nested",
     artifact = "org.eclipse.jetty.ee8:jetty-ee8-nested:" + JETTY_VER,
-    sha1 = "8118cdcdf9cdf163584d47e136e1cee17b547985",
+    sha1 = "9e50285e8e2b7c023db0b97ac2f025399b89333c",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
-    sha1 = "5fb2a02cc342fd132e5a358ecbb4479aabf58a3a",
+    sha1 = "72d8d46b2b37ee2de71132df90f8aa11f6decc8a",
 )
 
 maven_jar(
@@ -269,61 +269,61 @@ maven_jar(
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VER,
-    sha1 = "a53a5d0d03aaeab03908ff854cdd5e9ee256efca",
+    sha1 = "7259af2fe6c2a17304dbf70e9cfcf72d359bbc69",
 )
 
 maven_jar(
     name = "jetty-session",
     artifact = "org.eclipse.jetty:jetty-session:" + JETTY_VER,
-    sha1 = "be1be354522861b72fdaade01f798ad7f6ffbac4",
+    sha1 = "a59a4089b58062cee20e9ddb058565ff4459f060",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VER,
-    sha1 = "d74935bc8eb25780453dfd0a2e93c2729b566e79",
+    sha1 = "a6779fee9ca5dd87c0dc0e05531a086090b7f6f5",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VER,
-    sha1 = "611910afde7e9a2cfda3cad1ec1466cdba55e444",
+    sha1 = "1e75b0d24a6de72168840fe0995e29d83feb5663",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VER,
-    sha1 = "e0d96b47d0289006941757352c6fe7e5d9370c3b",
+    sha1 = "1faf3f0b8a1b41fad87bc17eba9e23785905918c",
 )
 
 maven_jar(
     name = "jetty-util-ajax",
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VER,
-    sha1 = "26c44a954086af8518fcb311c94c5703f1d3093b",
+    sha1 = "06fc88e99a6dc8c7f5dd8d061552f6a69631242a",
 )
 
-BOUNCYCASTLE_VER = "1.81"
+BOUNCYCASTLE_VER = "1.82"
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "7cd50193dd6a080a203716d993f7a246c8d94291",
+    sha1 = "55cd7f445018b18119e3f2e67978fb39445b791c",
 )
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "d17c094daef57dbd80af71687a475aa6df7cbe54",
+    sha1 = "e1118397395d21909a1b7b15120d0c2a68d7fd0c",
 )
 
 maven_jar(
     name = "bcutil",
     artifact = "org.bouncycastle:bcutil-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "e2dd79395ab435094142b6aba219f35adcba0f01",
+    sha1 = "1850911d674c91ce6444783ff10478e2c6e9bbf9",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk18on:" + BOUNCYCASTLE_VER,
-    sha1 = "819fd6f5d170c8b8bf8c5acc73816e9c36574042",
+    sha1 = "ad7b7155abac3e4e4f73579d5176c11f7659c560",
 )

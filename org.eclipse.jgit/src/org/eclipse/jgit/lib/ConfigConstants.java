@@ -1115,4 +1115,11 @@ public final class ConfigConstants {
 	 * @since 7.2
 	 */
 	public static final String CONFIG_KEY_AUTOREFRESH = "autorefresh";
+
+	/**
+	 * The "multiPackIndex" key
+	 *
+	 * @since 7.5
+	 */
+	public static final String CONFIG_KEY_MULTIPACKINDEX = "multiPackIndex";
 }

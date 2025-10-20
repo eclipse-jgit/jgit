@@ -46,6 +46,18 @@ public class RevFlag {
 	 */
 	public static final RevFlag SEEN = new StaticRevFlag("SEEN", RevWalk.SEEN); //$NON-NLS-1$
 
+	/**
+	 * Set on RevObject instances when generating a navigation for unshallow request.
+	 * <p>
+	 * Commits which used to be shallow in the client, but which are
+	 * being extended as part of this fetch.  These commits should be
+	 * returned to the caller as UNINTERESTING so that their blobs/trees
+	 * can be marked appropriately in the pack writer.
+	 *
+	 * @since 7.5
+	 */
+	public static final RevFlag UNSHALLOW = new StaticRevFlag("UNSHALLOW", RevWalk.UNSHALLOW); //$NON-NLS-1$
+
 	final RevWalk walker;
 
 	final String name;

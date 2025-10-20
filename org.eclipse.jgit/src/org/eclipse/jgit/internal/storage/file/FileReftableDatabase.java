@@ -622,9 +622,7 @@ public class FileReftableDatabase extends RefDatabase {
 		if (writeLogs) {
 			for (Ref r : refs) {
 				ReflogReader rlr = refDb.getReflogReader(r);
-				if (rlr != null) {
-					size = Math.max(rlr.getReverseEntries().size(), size);
-				}
+				size = Math.max(rlr.getReverseEntries().size(), size);
 			}
 		}
 		// We must use 1 here, nextUpdateIndex() on the empty stack is 1.
