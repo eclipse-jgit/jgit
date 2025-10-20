@@ -16,6 +16,23 @@
       "message": "@luca.milanesio@gmail.com, @matthias.sohn@sap.com this builds and all tests pass.\nThe gerrit servlet-4 CI fails for some flakiness possibly due to [1].\n\nCan we merge this change since:\n- servlet-4 builds as expected\n- All Jgit tests on servlet-4 pass\n- Gerrit 3.13 builds with this servlet-4 version\n- Gerrit master builds with this servlet-4 version\n\nWe can test gerrit-3.13 test on Build Buddy when we bump the modules/jgit submodule.\n\nWDYT?\n\n\n[1] https://issues.gerritcodereview.com/issues/452071983",
       "revId": "bb309748c7ead580f09dd685ba8d1374a539cb1c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1174e64c_de01d1b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-20T11:42:00Z",
+      "side": 1,
+      "message": "The failure on Gerrit is unrelated:\n```\n1) pushForMasterWithApprovals_missingLabel[default](com.google.gerrit.acceptance.git.GitOverHttpServletIT)\nJGit Repository object com.google.gerrit.acceptance.git.GitOverHttpServletIT_pushForMasterWithApprovals_missingLabeldefault_project\nwas opened 2 time(s) but closed only 1 time(s), leaving a reference counting of 1 instance leaked\n------------\n  opened from com.google.gerrit.httpd.GitOverHttpServlet$Resolver.open(GitOverHttpServlet.java:336)\n              called by com.google.gerrit.httpd.GitOverHttpServlet$Resolver.open(GitOverHttpServlet.java:275)\n              called by org.eclipse.jgit.http.server.RepositoryFilter.doFilter(RepositoryFilter.java:107)\n              called by org.eclipse.jgit.http.server.glue.UrlPipeline$Chain.doFilter(UrlPipeline.java:210)\n              called by org.eclipse.jgit.http.server.NoCacheFilter.doFilter(NoCacheFilter.java:50)\n  incrementOpen from com.google.gerrit.server.git.RepoRefCache.\u003cinit\u003e(RepoRefCache.java:34)\n              called by com.google.gerrit.server.update.ChainedReceiveCommands.\u003cinit\u003e(ChainedReceiveCommands.java:45)\n              called by com.google.gerrit.server.update.RepoView.\u003cinit\u003e(RepoView.java:74)\n              called by com.google.gerrit.server.update.BatchUpdate.setRepository(BatchUpdate.java:382)\n              called by com.google.gerrit.server.git.receive.ReceiveCommits.insertChangesAndPatchSets(ReceiveCommits.java:1255)\n  closed from com.google.gerrit.server.git.RepoRefCache.close(RepoRefCache.java:59)\n              called by com.google.gerrit.server.update.ChainedReceiveCommands.close(ChainedReceiveCommands.java:135)\n              called by com.google.gerrit.server.update.RepoView.close(RepoView.java:201)\n              called by com.google.gerrit.server.update.BatchUpdate.close(BatchUpdate.java:360)\n              called by com.google.gerrit.server.git.receive.ReceiveCommits.insertChangesAndPatchSets(ReceiveCommits.java:1325)\n```",
+      "revId": "bb309748c7ead580f09dd685ba8d1374a539cb1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
