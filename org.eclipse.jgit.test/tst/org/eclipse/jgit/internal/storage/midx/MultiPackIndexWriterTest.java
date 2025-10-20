@@ -22,8 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.junit.FakeIndexFactory;
@@ -32,6 +32,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.util.NB;
 import org.junit.Test;
 
+@SuppressWarnings("boxing")
 public class MultiPackIndexWriterTest {
 
 	@Test
@@ -45,8 +46,9 @@ public class MultiPackIndexWriterTest {
 				object("0000000000000000000000000000000000000004", 1500),
 				object("0000000000000000000000000000000000000006", 3000));
 
-		Map<String, PackIndex> data = Map.of("packname1", index1, "packname2",
-				index2);
+		LinkedHashMap<String, PackIndex> data = new LinkedHashMap<>();
+		data.put("packname1", index1);
+		data.put("packname2", index2);
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -74,13 +76,15 @@ public class MultiPackIndexWriterTest {
 		PackIndex index1 = indexOf(
 				object("0000000000000000000000000000000000000001", 500),
 				object("0000000000000000000000000000000000000003", 1500),
-				object("0000000000000000000000000000000000000005", (1L << 32) -1));
+				object("0000000000000000000000000000000000000005",
+						(1L << 32) - 1));
 		PackIndex index2 = indexOf(
 				object("0000000000000000000000000000000000000002", 500),
 				object("0000000000000000000000000000000000000004", 1500),
 				object("0000000000000000000000000000000000000006", 3000));
-		Map<String, PackIndex> data =
-				Map.of("packname1", index1, "packname2", index2);
+		LinkedHashMap<String, PackIndex> data = new LinkedHashMap<>(2);
+		data.put("packname1", index1);
+		data.put("packname2", index2);
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -113,12 +117,14 @@ public class MultiPackIndexWriterTest {
 				object("0000000000000000000000000000000000000002", 500),
 				object("0000000000000000000000000000000000000004", 1500),
 				object("0000000000000000000000000000000000000006", 3000));
-		Map<String, PackIndex> data =
-				Map.of("packname1", index1, "packname2", index2);
+		LinkedHashMap<String, PackIndex> data = new LinkedHashMap<>(2);
+		data.put("bbbbbbbbb", index1);
+		data.put("aaaaaaaaa", index2);
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, data);
+		MultiPackIndexWriter.Result result = writer
+				.write(NullProgressMonitor.INSTANCE, out, data);
 		// header (12 bytes)
 		// + chunkHeader (7 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
@@ -137,13 +143,18 @@ public class MultiPackIndexWriterTest {
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_LARGEOFFSETS));
 		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
 		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+
+		assertEquals("bbbbbbbbb", result.packNames().get(0));
+		assertEquals("aaaaaaaaa", result.packNames().get(1));
 	}
 
 	@Test
 	public void jgit_emptyMidx() throws IOException {
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
-		Map<String, PackIndex> packs = Map.of("p1", idxOne, "p2", idxTwo);
+		LinkedHashMap<String, PackIndex> packs = new LinkedHashMap<>(2);
+		packs.put("p1", idxOne);
+		packs.put("p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);

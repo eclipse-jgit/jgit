@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2023 Thomas Wolf <twolf@apache.org> and others
+ * Copyright (C) 2018, 2025 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -381,60 +382,39 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 			if (allAgentKeys == null) {
 				return null;
 			}
-			Collection<PublicKey> identityFiles = identitiesOnly();
-			if (GenericUtils.isEmpty(identityFiles)) {
+			if (hostConfig == null) {
+				return allAgentKeys;
+			}
+			Collection<PublicKey> explicitKeys = getExplicitKeys(
+					hostConfig.getIdentities());
+			if (GenericUtils.isEmpty(explicitKeys)) {
+				if (hostConfig.isIdentitiesOnly()) {
+					log.warn(LOG_FORMAT, format(SshdText.get().noExplicitKeys,
+							hostConfig.getHost()));
+					return Collections.emptyList();
+				}
 				return allAgentKeys;
 			}
 
-			// Only consider agent or PKCS11 keys that match a known public key
-			// file.
-			return () -> new Iterator<>() {
-
-				private final Iterator<KeyAgentIdentity> identities = allAgentKeys
-						.iterator();
-
-				private KeyAgentIdentity next;
-
-				@Override
-				public boolean hasNext() {
-					while (next == null && identities.hasNext()) {
-						KeyAgentIdentity val = identities.next();
-						PublicKey pk = val.getKeyIdentity().getPublic();
-						// This checks against all explicit keys for any agent
-						// key, but since identityFiles.size() is typically 1,
-						// it should be fine.
-						if (identityFiles.stream()
-								.anyMatch(k -> KeyUtils.compareKeys(k, pk))) {
-							next = val;
-							return true;
-						}
-						if (log.isTraceEnabled()) {
-							log.trace(
-									"Ignoring SSH agent or PKCS11 {} key not in explicit IdentityFile in SSH config: {}", //$NON-NLS-1$
-									KeyUtils.getKeyType(pk),
-									KeyUtils.getFingerPrint(pk));
-						}
-					}
-					return next != null;
+			// Sort the identities such that the ones for the explicitly listed
+			// keys come first, in the order listed.
+			Map<String, KeyAgentIdentity> fromAgent = new LinkedHashMap<>();
+			allAgentKeys.forEach(k -> fromAgent.computeIfAbsent(
+					KeyUtils.getFingerPrint(k.getKeyIdentity().getPublic()),
+					x -> k));
+			List<KeyAgentIdentity> result = new ArrayList<>();
+			for (PublicKey pk : explicitKeys) {
+				KeyAgentIdentity id = fromAgent
+						.remove(KeyUtils.getFingerPrint(pk));
+				if (id != null) {
+					result.add(id);
 				}
-
-				@Override
-				public KeyAgentIdentity next() {
-					if (!hasNext()) {
-						throw new NoSuchElementException();
-					}
-					KeyAgentIdentity result = next;
-					next = null;
-					return result;
-				}
-			};
-		}
-
-		private Collection<PublicKey> identitiesOnly() {
-			if (hostConfig != null && hostConfig.isIdentitiesOnly()) {
-				return getExplicitKeys(hostConfig.getIdentities());
 			}
-			return Collections.emptyList();
+			if (!hostConfig.isIdentitiesOnly()) {
+				result.addAll(fromAgent.values());
+			}
+
+			return result;
 		}
 
 		private Iterable<KeyAgentIdentity> getAgentIdentities()

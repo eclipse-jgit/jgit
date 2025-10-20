@@ -32,7 +32,7 @@ import org.eclipse.jgit.util.StringUtils;
  */
 public class DefaultTypedConfigGetter implements TypedConfigGetter {
 
-	@SuppressWarnings("boxed")
+	@SuppressWarnings({ "boxed", "boxing" })
 	@Override
 	public boolean getBoolean(Config config, String section, String subsection,
 			String name, boolean defaultValue) {
@@ -115,6 +115,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				JGitText.get().enumValueNotSupported2, section, name, value));
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public int getInt(Config config, String section, String subsection,
 			String name, int defaultValue) {
@@ -144,6 +145,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				.format(JGitText.get().integerValueOutOfRange, section, name));
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public int getIntInRange(Config config, String section, String subsection,
 			String name, int minValue, int maxValue, int defaultValue) {
@@ -173,6 +175,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 				subsection, name, val, minValue, maxValue));
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public long getLong(Config config, String section, String subsection,
 			String name, long defaultValue) {
@@ -201,6 +204,7 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 	}
 
+	@SuppressWarnings("boxing")
 	@Override
 	public long getTimeUnit(Config config, String section, String subsection,
 			String name, long defaultValue, TimeUnit wantUnit) {

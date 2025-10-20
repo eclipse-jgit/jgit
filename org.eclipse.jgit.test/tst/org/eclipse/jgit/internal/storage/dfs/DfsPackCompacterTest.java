@@ -29,6 +29,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DfsPackCompacterTest {
+	private static final int AUTO_ADD_SIZE = 5 * 1024 * 1024; // 5 MiB
+
 	private TestRepository<InMemoryRepository> git;
 	private InMemoryRepository repo;
 	private DfsObjDatabase odb;
@@ -143,7 +145,15 @@ public class DfsPackCompacterTest {
 
 	private void compact() throws IOException {
 		DfsPackCompactor compactor = new DfsPackCompactor(repo);
-		compactor.autoAdd();
+		DfsObjDatabase objdb = repo.getObjectDatabase();
+		for (DfsPackFile pack : objdb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getFileSize(PACK) < AUTO_ADD_SIZE) {
+				compactor.add(pack);
+			} else {
+				compactor.exclude(pack);
+			}
+		}
 		compactor.compact(null);
 		odb.clearCache();
 	}

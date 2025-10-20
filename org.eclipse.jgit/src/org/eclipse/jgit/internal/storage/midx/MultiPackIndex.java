@@ -42,14 +42,38 @@ public interface MultiPackIndex {
 	/**
 	 * Obtain the location of the object.
 	 * <p>
-	 * The returned object can be reused by the implementations. Callers
-	 * must create a #copy() if they want to keep a reference.
+	 * The returned object can be reused by the implementations. Callers must
+	 * create a #copy() if they want to keep a reference.
 	 *
 	 * @param objectId
 	 *            objectId to read.
 	 * @return mutable instance with the location or null if not found.
 	 */
 	PackOffset find(AnyObjectId objectId);
+
+	/**
+	 * Position of the object in this midx, when all covered objects are ordered
+	 * by SHA1.
+	 * <p>
+	 * As the midx removes duplicates, this position is NOT equivalent to
+	 * "position in pack + total count of objects in previous packs in the
+	 * stack".
+	 *
+	 * @param objectId
+	 *            an object id
+	 * @return position of the object in this multipack index
+	 */
+	int findPosition(AnyObjectId objectId);
+
+	/**
+	 * Number of objects in this midx
+	 * <p>
+	 * This number doesn't match with the sum of objects in each covered pack
+	 * because midx removes duplicates.
+	 *
+	 * @return number of objects in this midx
+	 */
+	int getObjectCount();
 
 	/**
 	 * Find objects matching the prefix abbreviation.
@@ -74,12 +98,30 @@ public interface MultiPackIndex {
 
 	/**
 	 * (packId, offset) coordinates of an object
+	 * <p>
+	 * Mutable object to avoid creating many instances while looking for objects
+	 * in the pack. Use #copy() to get a new instance with the data.
 	 */
 	class PackOffset {
 
-		int packId;
+		private int packId;
 
-		long offset;
+		private long offset;
+
+		/**
+		 * Return a new PackOffset with the defined data.
+		 * <p>
+		 * This is for tests, as regular code reuses the instance
+		 *
+		 * @param packId
+		 *            a pack id
+		 * @param offset
+		 *            an offset
+		 * @return a new PackOffset instance with this data
+		 */
+		public static PackOffset create(int packId, long offset) {
+			return new PackOffset().setValues(packId, offset);
+		}
 
 		protected PackOffset setValues(int packId, long offset) {
 			this.packId = packId;

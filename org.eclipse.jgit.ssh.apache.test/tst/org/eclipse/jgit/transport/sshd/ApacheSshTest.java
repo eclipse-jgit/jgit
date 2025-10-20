@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, 2022 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, 2025 Thomas Wolf <thomas.wolf@paranor.ch> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -16,8 +16,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
@@ -26,12 +28,17 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.sshd.agent.SshAgentConstants;
 import org.apache.sshd.client.config.hosts.KnownHostEntry;
 import org.apache.sshd.client.config.hosts.KnownHostHashValue;
 import org.apache.sshd.common.NamedFactory;
@@ -43,7 +50,12 @@ import org.apache.sshd.common.kex.BuiltinDHFactories;
 import org.apache.sshd.common.kex.DHFactory;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.signature.BuiltinSignatures;
+import org.apache.sshd.common.signature.Signature;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.apache.sshd.common.util.security.SecurityUtils;
+import org.apache.sshd.core.CoreModuleProperties;
 import org.apache.sshd.server.ServerAuthenticationManager;
 import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
@@ -55,6 +67,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.sshd.agent.Connector;
+import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
@@ -63,17 +77,22 @@ import org.junit.runner.RunWith;
 @RunWith(Theories.class)
 public class ApacheSshTest extends SshTestBase {
 
-	@Override
-	protected SshSessionFactory createSessionFactory() {
+	private SshSessionFactory createSessionFactory(
+			ConnectorFactory agentFactory) {
 		return new SshdSessionFactoryBuilder()
 				// No proxies in tests
 				.setProxyDataFactory(null)
 				// No ssh-agent in tests
-				.setConnectorFactory(null)
+				.setConnectorFactory(agentFactory)
 				// The home directory is mocked at this point!
 				.setHomeDirectory(FS.DETECTED.userHome())
 				.setSshDirectory(sshDir)
 				.build(new JGitKeyCache());
+	}
+
+	@Override
+	protected SshSessionFactory createSessionFactory() {
+		return createSessionFactory(null);
 	}
 
 	@Override
@@ -124,6 +143,35 @@ public class ApacheSshTest extends SshTestBase {
 		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
 		copyTestResource("id_ed25519.pub", publicKey);
 		server.setTestUserPublicKey(publicKey.toPath());
+		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+				"Host git", //
+				"HostName localhost", //
+				"Port " + testPort, //
+				"User " + TEST_USER, //
+				"IdentityFile " + privateKey1.getAbsolutePath(), // RSA
+				"IdentityFile " + userKey.getAbsolutePath());
+	}
+
+	/**
+	 * Test for ext-info-c being sent. Try authenticating first with a wrong RSA
+	 * key. If ext-info-c is not set, the client will re-try three times with
+	 * the wrong key (once for each RSA signature algorithm). Since we set the
+	 * server to disconnect after three failed attempts, the test will fail. If
+	 * ext-info-c _is_ sent, the client will try only once and then try the
+	 * correct ed25519 key next and will succeed.
+	 *
+	 * @throws Exception
+	 *             on errors
+	 */
+	@Test
+	public void testKexExtension() throws Exception {
+		File userKey = new File(getTemporaryDirectory(), "userkey");
+		copyTestResource("id_ed25519", userKey);
+		File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
+		copyTestResource("id_ed25519.pub", publicKey);
+		server.setTestUserPublicKey(publicKey.toPath());
+		CoreModuleProperties.MAX_AUTH_REQUESTS.set(server.getPropertyResolver(),
+				Integer.valueOf(3));
 		cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
 				"Host git", //
 				"HostName localhost", //
@@ -893,5 +941,183 @@ public class ApacheSshTest extends SshTestBase {
 						// algorithm
 						"Ciphers 3des-cbc"));
 		assertTrue(e.getLocalizedMessage().contains("3des-cbc"));
+	}
+
+	/**
+	 * Tests that the client does not try agent keys in an arbitrary order. It
+	 * should try agent keys that correspond to a listed IdentityFile first.
+	 *
+	 * @throws Exception
+	 *             on errors
+	 */
+	@Test
+	public void testAgentWithIdentities() throws Exception {
+		try (FakeAgentConnector fakeAgent = new FakeAgentConnector()) {
+			// Fill the agent with a few fake RSA key pairs
+			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+			generator.initialize(1024);
+			fakeAgent.add(generator.generateKeyPair());
+			fakeAgent.add(generator.generateKeyPair());
+			fakeAgent.add(generator.generateKeyPair());
+			fakeAgent.add(generator.generateKeyPair());
+
+			File userKey = new File(getTemporaryDirectory(), "userkey");
+			copyTestResource("id_ed25519", userKey);
+			File publicKey = new File(getTemporaryDirectory(), "userkey.pub");
+			copyTestResource("id_ed25519.pub", publicKey);
+			server.setTestUserPublicKey(publicKey.toPath());
+			try (InputStream in = new BufferedInputStream(
+					Files.newInputStream(userKey.toPath()))) {
+				Iterable<KeyPair> pairs = SecurityUtils
+						.loadKeyPairIdentities(null, null, in, null);
+				fakeAgent.add(pairs.iterator().next());
+			}
+
+			ConnectorFactory fakeFactory = new FakeConnectorFactory() {
+
+				@Override
+				public Connector create(String identityAgent, File homeDir)
+						throws IOException {
+					return fakeAgent;
+				}
+			};
+			SshSessionFactory.setInstance(createSessionFactory(fakeFactory));
+			CoreModuleProperties.MAX_AUTH_REQUESTS
+					.set(server.getPropertyResolver(), Integer.valueOf(2));
+			cloneWith("ssh://git/doesntmatter", defaultCloneDir, null, //
+					"Host git", //
+					"HostName localhost", //
+					"Port " + testPort, //
+					"User " + TEST_USER, //
+					"IdentityFile " + userKey.getAbsolutePath());
+			assertTrue("Agent should have been called", fakeAgent.signCalled);
+		}
+	}
+
+	/**
+	 * A little dummy implementation of an SSH agent for testing.
+	 */
+	private static class FakeAgentConnector implements Connector {
+
+		private Map<String, KeyPair> keys = new LinkedHashMap<>();
+
+		boolean signCalled;
+
+		void add(KeyPair pair) {
+			keys.put(KeyUtils.getFingerPrint(pair.getPublic()), pair);
+		}
+
+		@Override
+		public void close() throws IOException {
+			// Nothing to do
+		}
+
+		@Override
+		public boolean connect() throws IOException {
+			return true;
+		}
+
+		@Override
+		public byte[] rpc(byte command, byte[] message) throws IOException {
+			switch (command) {
+			case SshAgentConstants.SSH2_AGENTC_REQUEST_IDENTITIES:
+				return list();
+			case SshAgentConstants.SSH2_AGENTC_SIGN_REQUEST:
+				signCalled = true;
+				return sign(message);
+			default:
+				return new byte[] { SshAgentConstants.SSH_AGENT_SUCCESS };
+			}
+		}
+
+		private byte[] list() {
+			ByteArrayBuffer result = new ByteArrayBuffer();
+			result.putByte(SshAgentConstants.SSH2_AGENT_IDENTITIES_ANSWER);
+			result.putInt(keys.size());
+			for (KeyPair pair : keys.values()) {
+				result.putPublicKey(pair.getPublic());
+				result.putString(""); // Comment
+			}
+			return result.getCompactData();
+		}
+
+		private byte[] sign(byte[] message) {
+			ByteArrayBuffer buf = new ByteArrayBuffer(message, 5,
+					message.length - 5);
+			try {
+				PublicKey pk = buf.getPublicKey();
+				byte[] dataToSign = buf.getBytes();
+				int flags = buf.getInt();
+				KeyPair pair = keys.get(KeyUtils.getFingerPrint(pk));
+				if (pair == null) {
+					return new byte[] { SshAgentConstants.SSH_AGENT_FAILURE };
+				}
+				// Figure out key type and signature
+				PrivateKey sk = pair.getPrivate();
+				String keyType = KeyUtils.getKeyType(sk);
+				String signatureAlgorithm = keyType;
+				// We ignore complications for sk-keys or certificates here
+				if (keyType.equals("ssh-rsa")) {
+					switch (flags & 6) {
+					case 2:
+						signatureAlgorithm = KeyUtils.RSA_SHA256_KEY_TYPE_ALIAS;
+						break;
+					case 4:
+						signatureAlgorithm = KeyUtils.RSA_SHA512_KEY_TYPE_ALIAS;
+						break;
+					default:
+						break;
+					}
+				}
+				Signature signer = BuiltinSignatures
+						.fromFactoryName(signatureAlgorithm).create();
+				signer.initSigner(null, sk);
+				signer.update(null, dataToSign);
+				ByteArrayBuffer sig = new ByteArrayBuffer();
+				sig.putString(signatureAlgorithm);
+				sig.putBytes(signer.sign(null));
+				ByteArrayBuffer result = new ByteArrayBuffer();
+				result.putByte(SshAgentConstants.SSH2_AGENT_SIGN_RESPONSE);
+				result.putBytes(sig.getCompactData());
+				return result.getCompactData();
+			} catch (Exception e) {
+				return new byte[] { SshAgentConstants.SSH_AGENT_FAILURE };
+			}
+		}
+	}
+
+	abstract static class FakeConnectorFactory implements ConnectorFactory {
+
+		@Override
+		public boolean isSupported() {
+			return true;
+		}
+
+		@Override
+		public String getName() {
+			return "fake";
+		}
+
+		@Override
+		public Collection<ConnectorDescriptor> getSupportedConnectors() {
+			return Collections.singleton(getDefaultConnector());
+		}
+
+		@Override
+		public ConnectorDescriptor getDefaultConnector() {
+			return new ConnectorDescriptor() {
+
+				@Override
+				public String getIdentityAgent() {
+					return "fake";
+				}
+
+				@Override
+				public String getDisplayName() {
+					return "fake";
+				}
+			};
+		}
+
 	}
 }
