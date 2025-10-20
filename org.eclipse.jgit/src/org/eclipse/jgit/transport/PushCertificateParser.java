@@ -47,6 +47,8 @@ public class PushCertificateParser {
 
 	static final String NONCE = "nonce"; //$NON-NLS-1$
 
+	static final String PUSH_OPTION = "push-option"; //$NON-NLS-1$
+
 	static final String END_CERT = "push-cert-end"; //$NON-NLS-1$
 
 	private static final String VERSION_0_1 = "0.1"; //$NON-NLS-1$
@@ -173,6 +175,7 @@ public class PushCertificateParser {
 	private final boolean enabled;
 	private final NonceGenerator nonceGenerator;
 	private final List<ReceiveCommand> commands = new ArrayList<>();
+	private final List<String> pushOptions = new ArrayList<>();
 
 	/**
 	 * <p>Constructor for PushCertificateParser.</p>
@@ -368,10 +371,16 @@ public class PushCertificateParser {
 					? nonceGenerator.verify(
 						receivedNonce, sentNonce(), db, stateless, nonceSlopLimit)
 					: NonceStatus.UNSOLICITED;
-			// An empty line.
-			if (!reader.read().isEmpty()) {
-				throw new PackProtocolException(
-						JGitText.get().pushCertificateInvalidHeader);
+			// Read push-option lines (if any) before the empty line separator
+			String line;
+			while (!(line = reader.read()).isEmpty()) {
+				if (line.startsWith(PUSH_OPTION)) {
+					pushOptions.add(parseHeader(line, PUSH_OPTION));
+				} else {
+					// Not a push-option, should be empty line
+					throw new PackProtocolException(
+							JGitText.get().pushCertificateInvalidHeader);
+				}
 			}
 		} catch (EOFException eof) {
 			throw new PackProtocolException(
@@ -440,5 +449,16 @@ public class PushCertificateParser {
 	 */
 	public void addCommand(String line) throws PackProtocolException {
 		commands.add(parseCommand(line));
+	}
+
+	/**
+	 * Get the list of push options that were included in the push certificate.
+	 *
+	 * @return an unmodifiable view of the push options, or an empty list if
+	 *         there were no push options in the certificate.
+	 * @since 7.1
+	 */
+	public List<String> getPushOptions() {
+		return Collections.unmodifiableList(pushOptions);
 	}
 }
