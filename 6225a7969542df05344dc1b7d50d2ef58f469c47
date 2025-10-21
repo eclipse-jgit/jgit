@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8fcfbc_e6aa0d84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-21T16:12:59Z",
+      "side": 1,
+      "message": "In what situation would we be compacting a multipack? If there were a multipack index, it would achieve most of the performance optimization of the Compact anyways by reducing the number of index lookups.\n\nI was under the impression we were going to be doing midx on GC packs only.",
+      "revId": "6225a7969542df05344dc1b7d50d2ef58f469c47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
