@@ -45,6 +45,30 @@
       },
       "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a7c0514_59e9057d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-10-21T08:15:38Z",
+      "side": 1,
+      "message": "C git checks that the existing push options are the same as those in the push certificate.[1] However, it\u0027s a bit unclear what it does if they\u0027re not: it appears to set an error message, but otherwise continues processing?[2]\n\n[1] https://github.com/git/git/blob/133d1518/builtin/receive-pack.c#L724\n[2] https://github.com/git/git/blob/133d1518/builtin/receive-pack.c#L2661-L2668",
+      "parentUuid": "f5dd9028_2d344a98",
+      "range": {
+        "startLine": 1378,
+        "startChar": 3,
+        "endLine": 1385,
+        "endChar": 4
+      },
+      "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
