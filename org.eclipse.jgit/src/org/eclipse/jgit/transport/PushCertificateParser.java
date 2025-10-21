@@ -47,6 +47,8 @@ public class PushCertificateParser {
 
 	static final String NONCE = "nonce"; //$NON-NLS-1$
 
+	static final String PUSH_OPTION = "push-option"; //$NON-NLS-1$
+
 	static final String END_CERT = "push-cert-end"; //$NON-NLS-1$
 
 	private static final String VERSION_0_1 = "0.1"; //$NON-NLS-1$
@@ -173,6 +175,7 @@ public class PushCertificateParser {
 	private final boolean enabled;
 	private final NonceGenerator nonceGenerator;
 	private final List<ReceiveCommand> commands = new ArrayList<>();
+	private final List<String> pushOptions = new ArrayList<>();
 
 	/**
 	 * <p>Constructor for PushCertificateParser.</p>
@@ -251,7 +254,8 @@ public class PushCertificateParser {
 		}
 		try {
 			return new PushCertificate(version, pusher, pushee, receivedNonce,
-					nonceStatus, Collections.unmodifiableList(commands), signature);
+					nonceStatus, Collections.unmodifiableList(commands),
+					Collections.unmodifiableList(pushOptions), signature);
 		} catch (IllegalArgumentException e) {
 			throw new IOException(e.getMessage(), e);
 		}
@@ -368,10 +372,16 @@ public class PushCertificateParser {
 					? nonceGenerator.verify(
 						receivedNonce, sentNonce(), db, stateless, nonceSlopLimit)
 					: NonceStatus.UNSOLICITED;
-			// An empty line.
-			if (!reader.read().isEmpty()) {
-				throw new PackProtocolException(
-						JGitText.get().pushCertificateInvalidHeader);
+			// Read push-option lines (if any) before the empty line separator
+			String line;
+			while (!(line = reader.read()).isEmpty()) {
+				if (line.startsWith(PUSH_OPTION + " ")) {
+					pushOptions.add(parseHeader(line, PUSH_OPTION));
+				} else {
+					// Not a push-option, should be empty line
+					throw new PackProtocolException(
+							JGitText.get().pushCertificateInvalidHeader);
+				}
 			}
 		} catch (EOFException eof) {
 			throw new PackProtocolException(

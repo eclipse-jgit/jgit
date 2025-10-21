@@ -45,8 +45,15 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.junit.Test;
 
 /** Tests for receive-pack utilities. */
@@ -81,5 +88,63 @@ public class ReceivePackTest {
 		} catch (PackProtocolException e) {
 			// Expected.
 		}
+	}
+
+	@Test
+	public void testCertificatePushOptionsMismatch() throws Exception {
+		ReceiveCommand cmd1 = new ReceiveCommand(
+				ObjectId.fromString("0000000000000000000000000000000000000000"),
+				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
+				"refs/heads/master");
+		ReceiveCommand cmd2 = new ReceiveCommand(
+				ObjectId.fromString("0000000000000000000000000000000000000000"),
+				ObjectId.fromString("badc0ffebadc0ffebadc0ffebadc0ffebadc0ffe"),
+				"refs/heads/branch");
+
+		List<ReceiveCommand> commands = new ArrayList<>();
+		commands.add(cmd1);
+		commands.add(cmd2);
+
+		ReceivePack.validateCertificatePushOptions(
+				Arrays.asList("option1", "option2"),
+				Arrays.asList("option1", "different"), commands);
+
+		assertEquals(Result.REJECTED_OTHER_REASON, cmd1.getResult());
+		assertEquals(Result.REJECTED_OTHER_REASON, cmd2.getResult());
+		assertEquals(JGitText.get().pushCertificateInconsistentPushOptions,
+				cmd1.getMessage());
+		assertEquals(JGitText.get().pushCertificateInconsistentPushOptions,
+				cmd2.getMessage());
+	}
+
+	@Test
+	public void testCertificatePushOptionsMatch() throws Exception {
+		ReceiveCommand cmd = new ReceiveCommand(
+				ObjectId.fromString("0000000000000000000000000000000000000000"),
+				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
+				"refs/heads/master");
+
+		List<ReceiveCommand> commands = Collections.singletonList(cmd);
+
+		ReceivePack.validateCertificatePushOptions(
+				Arrays.asList("option1", "option2"),
+				Arrays.asList("option1", "option2"), commands);
+
+		assertEquals(Result.NOT_ATTEMPTED, cmd.getResult());
+	}
+
+	@Test
+	public void testCertificatePushOptionsNullTreatedAsEmpty() throws Exception {
+		ReceiveCommand cmd = new ReceiveCommand(
+				ObjectId.fromString("0000000000000000000000000000000000000000"),
+				ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
+				"refs/heads/master");
+
+		List<ReceiveCommand> commands = Collections.singletonList(cmd);
+
+		ReceivePack.validateCertificatePushOptions(Collections.emptyList(),
+				null, commands);
+
+		assertEquals(Result.NOT_ATTEMPTED, cmd.getResult());
 	}
 }
