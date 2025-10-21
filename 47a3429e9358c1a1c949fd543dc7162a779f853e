@@ -16,6 +16,24 @@
       "message": "Why is this nullable?",
       "revId": "47a3429e9358c1a1c949fd543dc7162a779f853e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a46b3edc_f608a898",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-21T15:29:08Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be. Thanks! \n\nThanks, Matthias, for the fix.\n\nI did an extra amend, to use singletonList, instead of List.of(this).",
+      "parentUuid": "8f49b895_5661bf2c",
+      "revId": "47a3429e9358c1a1c949fd543dc7162a779f853e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
