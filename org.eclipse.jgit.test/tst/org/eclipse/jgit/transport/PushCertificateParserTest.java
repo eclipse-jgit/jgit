@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.List;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -362,6 +363,57 @@ public class PushCertificateParserTest {
 		assertEquals("0.1", cert.getVersion());
 		assertNull(cert.getPushee());
 		assertFalse(cert.toText().contains(PushCertificateParser.PUSHEE));
+	}
+
+	@Test
+	public void testWithPushOptions() throws Exception {
+		// Same cert as INPUT, but with push-option lines added after nonce
+		String inputWithOptions = "001ccertificate version 0.1\n"
+				+ "0041pusher Dave Borowitz <dborowitz@google.com> 1433954361 -0700\n"
+				+ "0024pushee git://localhost/repo.git\n"
+				+ "002anonce 1433954361-bde756572d665bba81d8\n"
+				+ "0024push-option label=Code-Review+2\n"
+				+ "0021push-option label=Verified+1\n"
+				+ "0017push-option submit\n"
+				+ "0020push-option hashtag=bug fix\n"
+				+ "0005\n"
+				+ "00680000000000000000000000000000000000000000"
+				+ " 6c2b981a177396fb47345b7df3e4d3f854c6bea7"
+				+ " refs/heads/master\n"
+				+ "0022-----BEGIN PGP SIGNATURE-----\n"
+				+ "0016Version: GnuPG v1\n"
+				+ "0005\n"
+				+ "0045iQEcBAABAgAGBQJVeGg5AAoJEPfTicJkUdPkUggH/RKAeI9/i/LduuiqrL/SSdIa\n"
+				+ "00459tYaSqJKLbXz63M/AW4Sp+4u+dVCQvnAt/a35CVEnpZz6hN4Kn/tiswOWVJf4CO7\n"
+				+ "0045htNubGs5ZMwvD6sLYqKAnrM3WxV/2TbbjzjZW6Jkidz3jz/WRT4SmjGYiEO7aA+V\n"
+				+ "00454ZdIS9f7sW5VsHHYlNThCA7vH8Uu48bUovFXyQlPTX0pToSgrWV3JnTxDNxfn3iG\n"
+				+ "0045IL0zTY/qwVCdXgFownLcs6J050xrrBWIKqfcWr3u4D2aCLyR0v+S/KArr7ulZygY\n"
+				+ "0045+SOklImn8TAZiNxhWtA6ens66IiammUkZYFv7SSzoPLFZT4dC84SmGPWgf94NoQ=\n"
+				+ "000a=XFeC\n"
+				+ "0020-----END PGP SIGNATURE-----\n"
+				+ "0012push-cert-end\n";
+
+		PacketLineIn pckIn = newPacketLineIn(inputWithOptions);
+		PushCertificateParser parser =
+				new PushCertificateParser(db, newEnabledConfig());
+		parser.receiveHeader(pckIn, false);
+
+		parser.addCommand(pckIn.readString());
+		assertEquals(PushCertificateParser.BEGIN_SIGNATURE, pckIn.readString());
+		parser.receiveSignature(pckIn);
+
+		PushCertificate cert = parser.build();
+		assertNotNull(cert);
+		assertEquals("0.1", cert.getVersion());
+		assertEquals("Dave Borowitz", cert.getPusherIdent().getName());
+
+		// Verify push options were parsed and are available on the certificate
+		List<String> pushOptions = cert.getPushOptions();
+		assertEquals(4, pushOptions.size());
+		assertEquals("label=Code-Review+2", pushOptions.get(0));
+		assertEquals("label=Verified+1", pushOptions.get(1));
+		assertEquals("submit", pushOptions.get(2));
+		assertEquals("hashtag=bug fix", pushOptions.get(3));
 	}
 
 	private static String concatPacketLines(String input, int begin, int end)

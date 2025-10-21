@@ -53,11 +53,12 @@ public class PushCertificate {
 	private final String nonce;
 	private final NonceStatus nonceStatus;
 	private final List<ReceiveCommand> commands;
+	private final List<String> pushOptions;
 	private final String signature;
 
 	PushCertificate(String version, PushCertificateIdent pusher, String pushee,
 			String nonce, NonceStatus nonceStatus, List<ReceiveCommand> commands,
-			String signature) {
+			List<String> pushOptions, String signature) {
 		if (version == null || version.isEmpty()) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().pushCertificateInvalidField, VERSION));
@@ -95,6 +96,7 @@ public class PushCertificate {
 		this.nonce = nonce;
 		this.nonceStatus = nonceStatus;
 		this.commands = commands;
+		this.pushOptions = pushOptions;
 		this.signature = signature;
 	}
 
@@ -168,6 +170,16 @@ public class PushCertificate {
 	 */
 	public List<ReceiveCommand> getCommands() {
 		return commands;
+	}
+
+	/**
+	 * Get the list of push options that were included in the push certificate.
+	 *
+	 * @return the push options, or an empty list if none.
+	 * @since 7.5
+	 */
+	public List<String> getPushOptions() {
+		return pushOptions;
 	}
 
 	/**
