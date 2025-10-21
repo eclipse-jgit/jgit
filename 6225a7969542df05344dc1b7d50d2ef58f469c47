@@ -16,6 +16,24 @@
       "message": "In what situation would we be compacting a multipack? If there were a multipack index, it would achieve most of the performance optimization of the Compact anyways by reducing the number of index lookups.\n\nI was under the impression we were going to be doing midx on GC packs only.",
       "revId": "6225a7969542df05344dc1b7d50d2ef58f469c47",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7acc4005_fb95063e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-21T21:38:12Z",
+      "side": 1,
+      "message": "The desired final state is to create/update/chain midxs in gc, but that requires incremental packing (or we just have an midx over a single pack). To try the midx over multiple packs earlier, we are going to create the midx during compact, covering COMPACT and GC packs.\n\nThe compaction doesn\u0027t know anything about midx but the caller does. The midx should be removed in the same transaction that replaces the packs, so we give the midx pack to the compactor in this #toPrune method.",
+      "parentUuid": "7c8fcfbc_e6aa0d84",
+      "revId": "6225a7969542df05344dc1b7d50d2ef58f469c47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
