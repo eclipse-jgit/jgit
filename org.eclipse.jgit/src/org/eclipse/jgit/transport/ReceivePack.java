@@ -1375,6 +1375,14 @@ public class ReceivePack {
 			if (hasCommands()) {
 				readPostCommands(pck);
 			}
+			// If there are push options in the certificate, merge them with
+			// the post-command ones.
+			if (pushCert != null && !pushCert.getPushOptions().isEmpty()) {
+				if (pushOptions == null) {
+					pushOptions = new ArrayList<>();
+				}
+				pushOptions.addAll(pushCert.getPushOptions());
+			}
 		} catch (Throwable t) {
 			discardCommands();
 			throw t;
