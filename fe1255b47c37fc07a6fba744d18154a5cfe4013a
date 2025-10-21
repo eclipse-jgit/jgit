@@ -117,6 +117,30 @@
       },
       "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0711fa13_b454531d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-21T18:28:26Z",
+      "side": 1,
+      "message": "Thomas, I addressed this in patchset 6.[1]\n\nThen, I extracted the validation into a static method so that I could more easily add tests for it in patchset 7.[2]\n\nIf you believe these tests are spurious, I can revert to patchset 6 which is slightly simpler.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1224031/5..6\n[2] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1224031/6..7",
+      "parentUuid": "6173cce3_8a104802",
+      "range": {
+        "startLine": 1378,
+        "startChar": 3,
+        "endLine": 1385,
+        "endChar": 4
+      },
+      "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
