@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -1374,6 +1375,18 @@ public class ReceivePack {
 			pushCert = certParser.build();
 			if (hasCommands()) {
 				readPostCommands(pck);
+			}
+			// Verify that push options in the certificate match the post-command ones.
+			if (pushCert != null) {
+				List<String> certOptions = pushCert.getPushOptions();
+				List<String> postOptions = pushOptions == null ? Collections.emptyList() : pushOptions;
+				if (!Objects.equals(certOptions, postOptions)) {
+					// Mark all commands as rejected like in C Git.
+					for (ReceiveCommand cmd : commands) {
+						cmd.setResult(Result.REJECTED_OTHER_REASON,
+								JGitText.get().pushCertificateInconsistentPushOptions);
+					}
+				}
 			}
 		} catch (Throwable t) {
 			discardCommands();
