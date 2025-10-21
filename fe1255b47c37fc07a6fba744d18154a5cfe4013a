@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7edc2f3d_e640142f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushCertificate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-21T04:22:52Z",
+      "side": 1,
+      "message": "should it be 7.5 (current) or 7.6 (next)?",
+      "range": {
+        "startLine": 181,
+        "startChar": 11,
+        "endLine": 181,
+        "endChar": 14
+      },
+      "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5dd9028_2d344a98",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-21T04:22:52Z",
+      "side": 1,
+      "message": "I\u0027m unsure this is what I should do. If someone does, I\u0027d appreciate any idea.\n\nI\u0027ll also keep researching in the meanwhile.",
+      "range": {
+        "startLine": 1378,
+        "startChar": 3,
+        "endLine": 1385,
+        "endChar": 4
+      },
+      "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
