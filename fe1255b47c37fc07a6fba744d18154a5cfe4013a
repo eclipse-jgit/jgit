@@ -93,6 +93,30 @@
       },
       "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6173cce3_8a104802",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-21T16:50:48Z",
+      "side": 1,
+      "message": "Answering your question: when push options differ, error_string is set for all commands. Then, should_process_cmd() will prevent the execution of commands that if error_string is present.\n\nTherefore, the execution of commands is ultimately stopped if push options differ from the certificate.\n\nhttps://github.com/git/git/blob/133d151831d32bdcc02422599a3f26cef44f929b/builtin/receive-pack.c#L1832",
+      "parentUuid": "8c510b34_a940553d",
+      "range": {
+        "startLine": 1378,
+        "startChar": 3,
+        "endLine": 1385,
+        "endChar": 4
+      },
+      "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
