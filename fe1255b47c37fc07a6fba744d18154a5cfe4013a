@@ -69,6 +69,30 @@
       },
       "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c510b34_a940553d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-21T15:26:11Z",
+      "side": 1,
+      "message": "That is very helpful, Thomas. Thanks a lot!\n\nI will investigate based on the information you shared, and handle it.",
+      "parentUuid": "0a7c0514_59e9057d",
+      "range": {
+        "startLine": 1378,
+        "startChar": 3,
+        "endLine": 1385,
+        "endChar": 4
+      },
+      "revId": "fe1255b47c37fc07a6fba744d18154a5cfe4013a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
