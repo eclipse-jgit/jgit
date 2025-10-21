@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -1375,6 +1376,11 @@ public class ReceivePack {
 			if (hasCommands()) {
 				readPostCommands(pck);
 			}
+			// Verify that push options in the certificate match the post-command ones.
+			if (pushCert != null) {
+				validateCertificatePushOptions(pushCert.getPushOptions(),
+						pushOptions, commands);
+			}
 		} catch (Throwable t) {
 			discardCommands();
 			throw t;
@@ -1403,6 +1409,35 @@ public class ReceivePack {
 			throw new PackProtocolException(e.getMessage(), e);
 		}
 		clientShallowCommits.add(id);
+	}
+
+	/**
+	 * Validates that push options in the certificate match the post-command
+	 * push options. If they don't match, marks all commands as rejected.
+	 * <p>
+	 * This prevents tampering with signed push certificates by ensuring the
+	 * options that were signed match exactly the options sent after the
+	 * commands.
+	 *
+	 * @param certPushOptions
+	 *            the push options from the certificate
+	 * @param postCommandPushOptions
+	 *            the push options sent after commands (may be null)
+	 * @param commands
+	 *            the list of commands to reject if validation fails
+	 */
+	static void validateCertificatePushOptions(List<String> certPushOptions,
+			List<String> postCommandPushOptions, List<ReceiveCommand> commands) {
+		List<String> postOptions = postCommandPushOptions == null
+				? Collections.emptyList()
+				: postCommandPushOptions;
+		if (!Objects.equals(certPushOptions, postOptions)) {
+			// Mark all commands as rejected like in C Git.
+			for (ReceiveCommand cmd : commands) {
+				cmd.setResult(Result.REJECTED_OTHER_REASON,
+						JGitText.get().pushCertificateInconsistentPushOptions);
+			}
+		}
 	}
 
 	/**
