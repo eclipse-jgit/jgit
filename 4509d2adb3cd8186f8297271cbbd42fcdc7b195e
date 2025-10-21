@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c800f1_673b40d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-10-21T07:44:25Z",
+      "side": 1,
+      "message": "I believe we should silent errorprone here: the `Charset` are coming from the `StandardCharsets` and are `public static final` objects. Reference equality is fine here.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 56
+      },
+      "revId": "4509d2adb3cd8186f8297271cbbd42fcdc7b195e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
