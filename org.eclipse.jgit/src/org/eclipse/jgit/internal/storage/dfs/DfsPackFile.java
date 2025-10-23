@@ -62,6 +62,7 @@ import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -250,6 +251,22 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	 *             the pack index is not available, or is corrupt.
 	 */
 	public PackIndex getPackIndex(DfsReader ctx) throws IOException {
+		return idx(ctx);
+	}
+
+	/**
+	 * Get a view of this packfile as a set of objects
+	 * <p>
+	 * To use when the caller only needs to check inclusion (without specific
+	 * order or getting offsets).
+	 *
+	 * @param ctx
+	 *            reader context
+	 * @return a view of this packfile as a set of objects
+	 * @throws IOException
+	 *             cannot load the backing data from storage
+	 */
+	public ObjectIdSet asObjectIdSet(DfsReader ctx) throws IOException {
 		return idx(ctx);
 	}
 

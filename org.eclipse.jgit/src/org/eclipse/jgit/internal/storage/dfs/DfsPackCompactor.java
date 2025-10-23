@@ -156,11 +156,11 @@ public class DfsPackCompactor {
 	 *             pack index cannot be loaded.
 	 */
 	public DfsPackCompactor exclude(DfsPackFile pack) throws IOException {
-		final PackIndex idx;
+		final ObjectIdSet objectIdSet;
 		try (DfsReader ctx = (DfsReader) repo.newObjectReader()) {
-			idx = pack.getPackIndex(ctx);
+			objectIdSet = pack.asObjectIdSet(ctx);
 		}
-		return exclude(idx);
+		return exclude(objectIdSet);
 	}
 
 	/**
