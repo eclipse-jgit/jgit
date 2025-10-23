@@ -14,13 +14,13 @@ import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -614,10 +614,10 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
 
 		List<DfsPackDescription> scanned = listPacks();
-		Collections.sort(scanned, packComparator);
+		scanned.sort(packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
-		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());
+		List<DfsPackDescription> packsWithReftables = new ArrayList<>();
 		boolean foundNew = false;
 		for (DfsPackDescription dsc : scanned) {
 			DfsPackFile oldPack = packs.remove(dsc);
@@ -627,10 +627,19 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
 			} else if (dsc.hasFileExt(MULTI_PACK_INDEX)) {
-				newPacks.add(createDfsPackFileMidx(cache, dsc));
+				newPacks.add(
+						createDfsPackFileMidx(cache, dsc, packsWithReftables));
 				foundNew = true;
 			}
 
+			if (dsc.hasFileExt(REFTABLE)) {
+				packsWithReftables.add(dsc);
+			}
+		}
+
+		List<DfsReftable> newReftables = new ArrayList<>(
+				packsWithReftables.size());
+		for (DfsPackDescription dsc : packsWithReftables) {
 			DfsReftable oldReftable = reftables.remove(dsc);
 			if (oldReftable != null) {
 				newReftables.add(oldReftable);
@@ -645,7 +654,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		if (!foundNew) {
 			return old;
 		}
-		Collections.sort(newReftables, reftableComparator());
+		newReftables.sort(reftableComparator());
 		return new PackList(
 				newPacks.toArray(new DfsPackFile[0]),
 				newReftables.toArray(new DfsReftable[0]));
@@ -653,7 +662,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	/**
 	 * Create instances of DfsPackFile
-	 *
+	 * <p>
 	 * Implementors can decide to construct or wrap DfsPackFile in different
 	 * ways.
 	 *
@@ -675,14 +684,19 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *            block cache
 	 * @param dsc
 	 *            pack description
+	 * @param containsReftables
+	 *            used to return packs inside this midx that also have reftables
+	 *
 	 * @return the dfs packfile
 	 */
 	protected DfsPackFileMidx createDfsPackFileMidx(DfsBlockCache cache,
-			DfsPackDescription dsc) {
+			DfsPackDescription dsc,
+			List<DfsPackDescription> containsReftables) {
 		DfsPackFileMidx base = null;
 		if (dsc.getMultiPackIndexBase() != null) {
 			// The base is always a multipack index
-			base = createDfsPackFileMidx(cache, dsc.getMultiPackIndexBase());
+			base = createDfsPackFileMidx(cache, dsc.getMultiPackIndexBase(),
+					containsReftables);
 		}
 		// A pack shouldn't be in the pack list and inside a multipack index
 		// at the same time. In that case, we will have it under two
@@ -690,6 +704,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		List<DfsPackFile> coveredPacks = dsc.getCoveredPacks().stream()
 				.map(desc -> createDfsPackFile(cache, desc))
 				.collect(Collectors.toUnmodifiableList());
+		dsc.getCoveredPacks().stream().filter(d -> d.hasFileExt(REFTABLE))
+				.forEach(containsReftables::add);
 		return DfsPackFileMidx.create(cache, dsc, coveredPacks, base);
 	}
 

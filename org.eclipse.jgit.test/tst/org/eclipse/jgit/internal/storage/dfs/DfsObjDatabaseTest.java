@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -177,16 +178,98 @@ public class DfsObjDatabaseTest {
 				gcPack);
 	}
 
+	@Test
+	public void getReftables_multipleInsideMidx() throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK,
+				REFTABLE);
+		DfsPackDescription compactTwoPack = pack("bbbb", COMPACT, 102, PACK);
+
+		DfsPackDescription multiPackIndex = pack("xxxx", GC, 104,
+				MULTI_PACK_INDEX);
+		multiPackIndex
+				.setCoveredPacks(List.of(gcPack, compactPack, compactTwoPack));
+
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compactPack, compactTwoPack, multiPackIndex),
+				Collections.emptyList());
+
+		DfsReftable[] reftables = db.getObjectDatabase().getReftables();
+		assertReftableList(reftables, gcPack, compactPack);
+	}
+
+	@Test
+	public void getReftables_midxChain() throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK,
+				REFTABLE);
+		DfsPackDescription insertPack = pack("bbbb", COMPACT, 102, PACK);
+
+		DfsPackDescription midxBase = pack("xxxx", GC, 104, MULTI_PACK_INDEX);
+		midxBase.setCoveredPacks(List.of(gcPack, compactPack, insertPack));
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compactPack, insertPack, midxBase), null);
+
+		DfsPackDescription insert1 = pack("insert1", INSERT, 105, PACK,
+				REFTABLE);
+		DfsPackDescription insert2 = pack("insert2", INSERT, 106, PACK);
+		DfsPackDescription midxTip = pack("xxx2", GC, 107, MULTI_PACK_INDEX);
+		midxTip.setCoveredPacks(List.of(insert1, insert2));
+		midxTip.setMultiPackIndexBase(midxBase);
+		db.getObjectDatabase().commitPack(List.of(insert1, insert2, midxTip),
+				null);
+
+		DfsReftable[] reftables = db.getObjectDatabase().getReftables();
+		assertReftableList(reftables, gcPack, compactPack, insert1);
+	}
+
+	@Test
+	public void getReftables_inAndOutOfMidx() throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription insertPack = pack("bbbb", COMPACT, 102, PACK);
+
+		DfsPackDescription multiPackIndex = pack("xxxx", GC, 104,
+				MULTI_PACK_INDEX);
+		multiPackIndex
+				.setCoveredPacks(List.of(gcPack, compactPack, insertPack));
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compactPack, insertPack, multiPackIndex), null);
+
+		DfsPackDescription uncoveredPack = pack("dddd", COMPACT, 103, PACK,
+				REFTABLE);
+		db.getObjectDatabase().commitPack(List.of(uncoveredPack), null);
+
+		DfsReftable[] reftables = db.getObjectDatabase().getReftables();
+		assertReftableList(reftables, gcPack, uncoveredPack);
+	}
+
 	private static DfsPackDescription pack(String name,
-			DfsObjDatabase.PackSource source, long timeMs, PackExt ext) {
+			DfsObjDatabase.PackSource source, long timeMs, PackExt... ext) {
 		DfsPackDescription desc = new DfsPackDescription(repoDesc, name,
 				source);
 		desc.setLastModified(timeMs);
-		desc.addFileExt(ext);
+		for (PackExt packExt : ext) {
+			desc.addFileExt(packExt);
+		}
 		return desc;
 	}
 
 	private static void assertPackList(DfsPackFile[] actual,
+			DfsPackDescription... expected) {
+		assertEquals(expected.length, actual.length);
+		for (int i = 0; i < expected.length; i++) {
+			assertEquals(expected[i], actual[i].getPackDescription());
+		}
+	}
+
+	private static void assertReftableList(DfsReftable[] actual,
 			DfsPackDescription... expected) {
 		assertEquals(expected.length, actual.length);
 		for (int i = 0; i < expected.length; i++) {
