@@ -198,8 +198,8 @@ maven_jar(
 
 maven_jar(
     name = "hamcrest",
-    artifact = "org.hamcrest:hamcrest:2.2",
-    sha1 = "1820c0968dba3a11a1b30669bb1f01978a91dedc",
+    artifact = "org.hamcrest:hamcrest:3.0",
+    sha1 = "8fd9b78a8e6a6510a078a9e30e9e86a6035cfaf7",
 )
 
 maven_jar(
