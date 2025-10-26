@@ -34,6 +34,24 @@
       "parentUuid": "21c13418_ae5bec18",
       "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "debced69_4371ae3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-10-26T21:32:37Z",
+      "side": 1,
+      "message": "Re: checking the signature: yes, for PGP signatures indeed JGit can\u0027t do it. I keep forgetting that PGP signatures contain only the key ID or fingerprint, but not the public key itself. Too bad. SSH signatures do contain the public key, so those could be checked on reception. But if Gerrit\u0027s pre-receive hook does it I suppose that\u0027s fine.\n\n\nBTW, JGit does support SSH signatures for signing. The signing interfaces are prepared for PGP, SSH, and X.509, and SSH signing and signature verification is available via bundle org.eclipse.jgit.ssh.apache. But push certificates parse only the -----BEGIN PGP SIGNATURE----- delimiter.",
+      "parentUuid": "0ca6bd8e_f255dfaf",
+      "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
