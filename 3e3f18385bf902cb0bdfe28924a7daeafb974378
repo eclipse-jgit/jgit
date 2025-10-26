@@ -52,6 +52,24 @@
       "parentUuid": "0ca6bd8e_f255dfaf",
       "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22c9e9f_aefe6dbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-26T21:51:47Z",
+      "side": 1,
+      "message": "Oh. Interesting. Meaning support for SSH certificates for push signing is not too far away. Something to keep in mind.",
+      "parentUuid": "debced69_4371ae3e",
+      "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
