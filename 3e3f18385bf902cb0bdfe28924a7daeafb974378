@@ -16,6 +16,24 @@
       "message": "The code looks good to me.\n\n\nUnrelated to this change: I cannot find any code that would validate the received PushCertificate. Shouldn\u0027t we verify the certificate\u0027s signature somewhere? Interestingly the C git documentation doesn\u0027t say what to do if the certificate doesn\u0027t pan out. Do they leave all that to the pre-receive hook? Would have to check what they actually do in source code :-(. They do say that they verify the certificate signature with GPG and pass on the certificate and the GPG result via environment variables to the pre-receive hook.\n\n\nAlso unrelated to this change: JGit doesn\u0027t seem to support SSH certificates as push certificates yet. Does C git? The documentation says \"the certificate is verified using GPG\"... really? Might be a documentation error; again one would have to dig into the C git sources to be sure.",
       "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca6bd8e_f255dfaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018583
+      },
+      "writtenOn": "2025-10-26T16:32:55Z",
+      "side": 1,
+      "message": "Thanks a lot for reviewing this change!\n\nThe signature check is indeed handled in the pre-receive hook [1] [2]. I guess it makes sense as JGit itself doesn\u0027t know which keys are to be trusted. Gerrit is responsible for keeping a database that relates the trusted keys with their associated accounts.\n\nThat is right. JGit doesn\u0027t support SSH certificates for signing. And that documentation seems indeed outdated, as the gpg-interface in C git supports SSH (and x509 too) as signing certificates [3] [4].\n\n[1] https://gerrit.googlesource.com/gerrit/+/1baa1717ca360aa5d855e022f6c5c35f4f0ed915/java/com/google/gerrit/gpg/SignedPushPreReceiveHook.java#61\n[2] https://gerrit.googlesource.com/gerrit/+/1baa1717ca360aa5d855e022f6c5c35f4f0ed915/java/com/google/gerrit/gpg/PushCertificateChecker.java#195\n[4] https://github.com/git/git/blob/4e98b730f18d59b670ee57b803e5048b9d14b968/gpg-interface.c#L70-L74\n[3] https://github.com/git/git/blob/4e98b730f18d59b670ee57b803e5048b9d14b968/gpg-interface.c#L62-L68",
+      "parentUuid": "21c13418_ae5bec18",
+      "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
