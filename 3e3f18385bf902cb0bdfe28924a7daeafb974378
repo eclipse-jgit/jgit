@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c13418_ae5bec18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-10-26T15:59:13Z",
+      "side": 1,
+      "message": "The code looks good to me.\n\n\nUnrelated to this change: I cannot find any code that would validate the received PushCertificate. Shouldn\u0027t we verify the certificate\u0027s signature somewhere? Interestingly the C git documentation doesn\u0027t say what to do if the certificate doesn\u0027t pan out. Do they leave all that to the pre-receive hook? Would have to check what they actually do in source code :-(. They do say that they verify the certificate signature with GPG and pass on the certificate and the GPG result via environment variables to the pre-receive hook.\n\n\nAlso unrelated to this change: JGit doesn\u0027t seem to support SSH certificates as push certificates yet. Does C git? The documentation says \"the certificate is verified using GPG\"... really? Might be a documentation error; again one would have to dig into the C git sources to be sure.",
+      "revId": "3e3f18385bf902cb0bdfe28924a7daeafb974378",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
