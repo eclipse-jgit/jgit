@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c5668b_383a9021",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-10-27T19:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7f54ecd_d5e7bcf1",
+      "range": {
+        "startLine": 2,
+        "startChar": 23,
+        "endLine": 2,
+        "endChar": 30
+      },
+      "revId": "4b8f259bda44d6dfa879305c2cbfaea82ea3cb00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ebaa76e_3f7e09d9",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-08-12T19:40:30Z",
       "side": 1,
       "message": "remove the duplicate semicolons, also below",
+      "revId": "4b8f259bda44d6dfa879305c2cbfaea82ea3cb00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9928a036_f97d1dbe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/InterruptTimerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-10-27T19:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ebaa76e_3f7e09d9",
       "revId": "4b8f259bda44d6dfa879305c2cbfaea82ea3cb00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
