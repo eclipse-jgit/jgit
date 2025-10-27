@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.36" sequenceNumber="1761511834">
+<target name="jgit-4.36" sequenceNumber="1761604946">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -175,7 +175,7 @@
         <dependency>
           <groupId>org.hamcrest</groupId>
           <artifactId>hamcrest</artifactId>
-          <version>2.2</version>
+          <version>3.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
