@@ -199,7 +199,7 @@ public class NoteMapMerger {
 		if (child == null)
 			return;
 		if (child instanceof InMemoryNoteBucket)
-			b.setBucket(cell, ((InMemoryNoteBucket) child).writeTree(inserter));
+			b.setBucket(cell, child.writeTree(inserter));
 		else
 			b.setBucket(cell, child.getTreeId());
 	}
