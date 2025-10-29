@@ -11,7 +11,6 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -68,10 +67,11 @@ public class DfsPackCompactor {
 	private final List<DfsReftable> srcReftables;
 	private final List<ObjectIdSet> exclude;
 
+	private final List<DfsPackDescription> prune;
+
 	private PackStatistics newStats;
 	private DfsPackDescription outDesc;
 
-	private int autoAddSize;
 	private ReftableConfig reftableConfig;
 
 	private RevWalk rw;
@@ -86,10 +86,10 @@ public class DfsPackCompactor {
 	 */
 	public DfsPackCompactor(DfsRepository repository) {
 		repo = repository;
-		autoAddSize = 5 * 1024 * 1024; // 5 MiB
 		srcPacks = new ArrayList<>();
 		srcReftables = new ArrayList<>();
 		exclude = new ArrayList<>(4);
+		prune = new ArrayList<>();
 	}
 
 	/**
@@ -135,38 +135,6 @@ public class DfsPackCompactor {
 	}
 
 	/**
-	 * Automatically select pack and reftables to be included, and add them.
-	 * <p>
-	 * Packs are selected based on size, smaller packs get included while bigger
-	 * ones are omitted.
-	 *
-	 * @return {@code this}
-	 * @throws java.io.IOException
-	 *             existing packs cannot be read.
-	 */
-	public DfsPackCompactor autoAdd() throws IOException {
-		DfsObjDatabase objdb = repo.getObjectDatabase();
-		for (DfsPackFile pack : objdb.getPacks()) {
-			DfsPackDescription d = pack.getPackDescription();
-			if (d.getFileSize(PACK) < autoAddSize)
-				add(pack);
-			else
-				exclude(pack);
-		}
-
-		if (reftableConfig != null) {
-			for (DfsReftable table : objdb.getReftables()) {
-				DfsPackDescription d = table.getPackDescription();
-				if (d.getPackSource() != GC
-						&& d.getFileSize(REFTABLE) < autoAddSize) {
-					add(table);
-				}
-			}
-		}
-		return this;
-	}
-
-	/**
 	 * Exclude objects from the compacted pack.
 	 *
 	 * @param set
@@ -188,11 +156,23 @@ public class DfsPackCompactor {
 	 *             pack index cannot be loaded.
 	 */
 	public DfsPackCompactor exclude(DfsPackFile pack) throws IOException {
-		final PackIndex idx;
+		final ObjectIdSet objectIdSet;
 		try (DfsReader ctx = (DfsReader) repo.newObjectReader()) {
-			idx = pack.getPackIndex(ctx);
+			objectIdSet = pack.asObjectIdSet(ctx);
 		}
-		return exclude(idx);
+		return exclude(objectIdSet);
+	}
+
+	/**
+	 * Delete also this pack when writing to the db the compacted packs
+	 *
+	 * @param pack
+	 *            a pack to delete
+	 * @return {@code this}
+	 */
+	public DfsPackCompactor prune(DfsPackFile pack) {
+		prune.add(pack.getPackDescription());
+		return this;
 	}
 
 	/**
@@ -367,6 +347,7 @@ public class DfsPackCompactor {
 		Set<DfsPackDescription> toPrune = new HashSet<>();
 		toPrune.addAll(packs);
 		toPrune.addAll(reftables);
+		toPrune.addAll(prune);
 		return toPrune;
 	}
 

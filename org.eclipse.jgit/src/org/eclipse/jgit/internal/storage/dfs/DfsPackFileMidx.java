@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.IOException;
 import java.nio.channels.Channels;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +36,9 @@ import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.BlockList;
 
@@ -45,7 +48,7 @@ import org.eclipse.jgit.util.BlockList;
  * <p>
  * It uses the position in the multipack index of the objects as their "offset".
  */
-final class DfsPackFileMidx extends DfsPackFile {
+public final class DfsPackFileMidx extends DfsPackFile {
 
 	private static final int REF_POSITION = 0;
 
@@ -146,15 +149,51 @@ final class DfsPackFileMidx extends DfsPackFile {
 	}
 
 	@Override
+	public ObjectIdSet asObjectIdSet(DfsReader ctx) throws IOException {
+		MultiPackIndex multiPackIndex = midx(ctx);
+		return objectId -> multiPackIndex.hasObject(objectId);
+	}
+
+	@Override
 	public PackReverseIndex getReverseIdx(DfsReader ctx) {
 		throw new IllegalStateException(
 				"Shouldn't use multipack index if the reverse index is needed"); //$NON-NLS-1$
 	}
 
 	@Override
-	public PackBitmapIndex getBitmapIndex(DfsReader ctx) {
-		// TODO(ifrade): Implement this
+	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
+		// TODO(ifrade): at some point we will have bitmaps over the multipack
+		// index
+		// At the moment bitmap is in GC, at the end of the chain
+		if (base != null) {
+			return base.getBitmapIndex(ctx);
+		}
+
+		for (DfsPackFile pack : packsInIdOrder) {
+			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(ctx);
+			if (bitmapIndex != null) {
+				return bitmapIndex;
+			}
+		}
 		return null;
+	}
+
+	@Override
+	List<DfsPackFile> fullyIncludedIn(DfsReader ctx,
+			BitmapIndex.BitmapBuilder need) throws IOException {
+		List<DfsPackFile> fullyIncluded = new ArrayList<>();
+		for (DfsPackFile pack : packs) {
+			List<DfsPackFile> includedPacks = pack.fullyIncludedIn(ctx, need);
+			if (!includedPacks.isEmpty()) {
+				fullyIncluded.addAll(includedPacks);
+			}
+		}
+
+		if (base != null) {
+			fullyIncluded.addAll(base.fullyIncludedIn(ctx, need));
+		}
+
+		return fullyIncluded;
 	}
 
 	@Override
@@ -190,6 +229,25 @@ final class DfsPackFileMidx extends DfsPackFile {
 	 */
 	public List<DfsPackFile> getCoveredPacks() {
 		return packs;
+	}
+
+	/**
+	 * All packs indexed by this multipack index and its chain
+	 * <p>
+	 * This does not include the inner multipack indexes themselves, only their
+	 * covered packs.
+	 *
+	 * @return packs indexed by this multipack index and its parents.
+	 */
+	public List<DfsPackFile> getAllCoveredPacks() {
+		List<DfsPackFile> coveredPacks = new ArrayList<>(packs);
+		DfsPackFileMidx base = getMultipackIndexBase();
+		while (base != null) {
+			coveredPacks.addAll(base.getCoveredPacks());
+			base = base.getMultipackIndexBase();
+		}
+
+		return coveredPacks;
 	}
 
 	/**

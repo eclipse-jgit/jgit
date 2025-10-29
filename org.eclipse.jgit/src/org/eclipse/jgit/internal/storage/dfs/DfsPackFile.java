@@ -37,6 +37,7 @@ import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -57,9 +58,11 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -248,6 +251,22 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	 *             the pack index is not available, or is corrupt.
 	 */
 	public PackIndex getPackIndex(DfsReader ctx) throws IOException {
+		return idx(ctx);
+	}
+
+	/**
+	 * Get a view of this packfile as a set of objects
+	 * <p>
+	 * To use when the caller only needs to check inclusion (without specific
+	 * order or getting offsets).
+	 *
+	 * @param ctx
+	 *            reader context
+	 * @return a view of this packfile as a set of objects
+	 * @throws IOException
+	 *             cannot load the backing data from storage
+	 */
+	public ObjectIdSet asObjectIdSet(DfsReader ctx) throws IOException {
 		return idx(ctx);
 	}
 
@@ -1201,6 +1220,34 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		}
 
 		return sizeIdx.getSize(idxPosition);
+	}
+
+	/**
+	 * Return pack(s) with all its objects included in the bitmap.
+	 * <p>
+	 * The bitmap is modified removing the objects in the returned packs.
+	 * <p>
+	 * The list could contain more than one pack in the multipack-index case.
+	 *
+	 * @param ctx
+	 *            a reader
+	 * @param need
+	 *            bitmap with the required objects. It can be modified in this
+	 *            call. The objects from the returned packs are removed from the
+	 *            bitmap.
+	 * @return list of packs with ALL their objects in the bitmap.
+	 * @throws IOException
+	 *             error reading the bitmap index.
+	 */
+	@NonNull
+	List<DfsPackFile> fullyIncludedIn(DfsReader ctx,
+			BitmapIndex.BitmapBuilder need) throws IOException {
+		PackBitmapIndex bi = this.getBitmapIndex(ctx);
+		if (bi != null && need.removeAllOrNone(bi)) {
+			return Collections.singletonList(this);
+		}
+
+		return Collections.emptyList();
 	}
 
 	/**

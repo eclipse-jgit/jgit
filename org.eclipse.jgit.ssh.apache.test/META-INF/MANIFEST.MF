@@ -8,8 +8,8 @@ Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
-Require-Bundle: org.hamcrest.core;bundle-version="[1.3.0,2.0.0)"
-Import-Package: org.apache.sshd.certificate;version="[2.16.0,2.17.0)",
+Import-Package: org.apache.sshd.agent;version="[2.16.0,2.17.0)",
+ org.apache.sshd.certificate;version="[2.16.0,2.17.0)",
  org.apache.sshd.client.config.hosts;version="[2.16.0,2.17.0)",
  org.apache.sshd.common;version="[2.16.0,2.17.0)",
  org.apache.sshd.common.auth;version="[2.16.0,2.17.0)",
@@ -42,6 +42,7 @@ Import-Package: org.apache.sshd.certificate;version="[2.16.0,2.17.0)",
  org.eclipse.jgit.transport.sshd;version="[7.5.0,7.6.0)",
  org.eclipse.jgit.transport.sshd.agent;version="[7.5.0,7.6.0)",
  org.eclipse.jgit.util;version="[7.5.0,7.6.0)",
+ org.hamcrest;version="[3.0.0,4.0.0)",
  org.junit;version="[4.13,5.0.0)",
  org.junit.experimental.theories;version="[4.13,5.0.0)",
  org.junit.rules;version="[4.13.0,5.0.0)",
