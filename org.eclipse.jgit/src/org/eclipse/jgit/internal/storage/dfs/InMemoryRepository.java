@@ -154,8 +154,13 @@ public class InMemoryRepository extends DfsRepository {
 			n = new ArrayList<>(desc.size() + packs.size());
 			n.addAll(desc);
 			n.addAll(packs);
-			if (replace != null)
+			if (replace != null) {
 				n.removeAll(replace);
+				MidxDescList descList = MidxDescList.create(packs);
+				Set<DfsPackDescription> affectedMidxs = descList
+						.findAllCoveringMidxs(replace);
+				n.removeAll(affectedMidxs);
+			}
 			packs = n;
 			clearCache();
 		}
