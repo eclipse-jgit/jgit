@@ -98,8 +98,6 @@ public class DfsGarbageCollector {
 	private List<DfsReftable> reftablesBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
 
-	private List<DfsPackFileMidx> existingMidxs;
-
 	private Collection<Ref> refsBefore;
 	private Set<ObjectId> allHeadsAndTags;
 	private Set<ObjectId> allTags;
@@ -438,7 +436,6 @@ public class DfsGarbageCollector {
 	private void readPacksBefore() throws IOException {
 		DfsPackFile[] rawPacks = objdb.getPacks();
 		List<DfsPackFile> packs = getPlainPacks(rawPacks);
-		existingMidxs = getMidxPacks(rawPacks);
 		packsBefore = new ArrayList<>(packs.size());
 		expiredGarbagePacks = new ArrayList<>(packs.size());
 
@@ -610,11 +607,6 @@ public class DfsGarbageCollector {
 		for (DfsPackFile pack : expiredGarbagePacks) {
 			toPrune.add(pack.getPackDescription());
 		}
-
-		for (DfsPackFileMidx pack : existingMidxs) {
-			toPrune.add(pack.getPackDescription());
-		}
-
 		return toPrune;
 	}
 

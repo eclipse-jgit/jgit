@@ -9,12 +9,12 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
-import org.eclipse.jgit.internal.storage.pack.PackExt;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
  * Format a flat list of packs and midxs into a valid list of packs.
@@ -75,7 +75,8 @@ public class MidxPackFilter {
 			if (!inputPacks.containsAll(coveredPacks)) {
 				// This midx references packs not in the pack db.
 				// It could be part of a chain, so we just ignore all midxs
-				return skipMidxs(packs);
+				throw new IllegalStateException("bla");
+				// return skipMidxs(packs);
 			}
 			allCoveredPacks.addAll(coveredPacks);
 		}
