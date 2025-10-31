@@ -18,6 +18,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -250,6 +251,60 @@ public class DfsObjDatabaseTest {
 		assertReftableList(reftables, gcPack, uncoveredPack);
 	}
 
+	@Test
+	public void commitPack_deleteCoveredPack_deleteMidx() throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription insertPack = pack("bbbb", COMPACT, 102, PACK);
+
+		DfsPackDescription multiPackIndex = pack("xxxx", GC, 104,
+				MULTI_PACK_INDEX);
+		multiPackIndex
+				.setCoveredPacks(List.of(gcPack, compactPack, insertPack));
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compactPack, insertPack, multiPackIndex), null);
+
+		// Delete pack covered by midx
+		db.getObjectDatabase().commitPack(List.of(), List.of(insertPack));
+
+		DfsObjDatabase.PackList packList = db.getObjectDatabase().getPackList();
+		// If the midx is still around, it would show in this list
+		assertEquals(0, packList.skippedMidxs.length);
+	}
+
+	@Test
+	public void commitPack_replaceMidxChain_packsUndisturbed()
+			throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription midx1 = midx("midx1", null, 102, gcPack,
+				compactPack);
+
+		DfsPackDescription p3 = pack("p3", COMPACT, 103, PACK);
+		DfsPackDescription p4 = pack("p4", COMPACT, 104, PACK);
+		DfsPackDescription midx2 = midx("midx2", midx1, 105, p3, p4);
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compactPack, midx1, p3, p4, midx2), null);
+
+		DfsPackDescription midxAll = midx("midxAll", null, 106, gcPack,
+				compactPack, p3, p4);
+
+		// Replace the midxs
+		db.getObjectDatabase().commitPack(List.of(midxAll),
+				List.of(midx1, midx2));
+
+		MidxPackList midxPackList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(4, midxPackList.getAllPlainPacks().size());
+		assertEquals(1, midxPackList.getAllMidxPacks().size());
+		DfsObjDatabase.PackList packList = db.getObjectDatabase().getPackList();
+		assertEquals(0, packList.skippedMidxs.length);
+	}
+
 	private static DfsPackDescription pack(String name,
 			DfsObjDatabase.PackSource source, long timeMs, PackExt... ext) {
 		DfsPackDescription desc = new DfsPackDescription(repoDesc, name,
@@ -259,6 +314,16 @@ public class DfsObjDatabaseTest {
 			desc.addFileExt(packExt);
 		}
 		return desc;
+	}
+
+	private static DfsPackDescription midx(String name, DfsPackDescription base,
+			long timeMs, DfsPackDescription... covered) {
+		DfsPackDescription midx = pack(name, GC, timeMs, MULTI_PACK_INDEX);
+		midx.setCoveredPacks(Arrays.stream(covered).toList());
+		if (base != null) {
+			midx.setMultiPackIndexBase(base);
+		}
+		return midx;
 	}
 
 	private static void assertPackList(DfsPackFile[] actual,
