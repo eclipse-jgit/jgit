@@ -18,7 +18,6 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RE
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsPackCompactor.configureReftable;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -97,8 +96,6 @@ public class DfsGarbageCollector {
 	private List<DfsPackFile> packsBefore;
 	private List<DfsReftable> reftablesBefore;
 	private List<DfsPackFile> expiredGarbagePacks;
-
-	private List<DfsPackFileMidx> existingMidxs;
 
 	private Collection<Ref> refsBefore;
 	private Set<ObjectId> allHeadsAndTags;
@@ -438,7 +435,6 @@ public class DfsGarbageCollector {
 	private void readPacksBefore() throws IOException {
 		DfsPackFile[] rawPacks = objdb.getPacks();
 		List<DfsPackFile> packs = getPlainPacks(rawPacks);
-		existingMidxs = getMidxPacks(rawPacks);
 		packsBefore = new ArrayList<>(packs.size());
 		expiredGarbagePacks = new ArrayList<>(packs.size());
 
@@ -471,23 +467,6 @@ public class DfsGarbageCollector {
 			}
 		}
 		return plainPacks;
-	}
-
-	private static List<DfsPackFileMidx> getMidxPacks(DfsPackFile[] packs) {
-		List<DfsPackFileMidx> topLevelMidxs = Arrays.stream(packs).filter(
-				p -> p.getPackDescription().hasFileExt(MULTI_PACK_INDEX))
-				.map(p -> (DfsPackFileMidx) p).toList();
-
-		List<DfsPackFileMidx> midxPacks = new ArrayList<>();
-		Queue<DfsPackFileMidx> pending = new ArrayDeque<>(topLevelMidxs);
-		while (!pending.isEmpty()) {
-			DfsPackFileMidx midx = pending.poll();
-			midxPacks.add(midx);
-			if (midx.getMultipackIndexBase() != null) {
-				pending.add(midx.getMultipackIndexBase());
-			}
-		}
-		return midxPacks;
 	}
 
 	private void readReftablesBefore() throws IOException {
@@ -608,10 +587,6 @@ public class DfsGarbageCollector {
 			}
 		}
 		for (DfsPackFile pack : expiredGarbagePacks) {
-			toPrune.add(pack.getPackDescription());
-		}
-
-		for (DfsPackFileMidx pack : existingMidxs) {
 			toPrune.add(pack.getPackDescription());
 		}
 
