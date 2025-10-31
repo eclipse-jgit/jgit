@@ -1257,6 +1257,7 @@ public class DfsGarbageCollectorTest {
 		assertFalse(actualDesc.hasFileExt(MULTI_PACK_INDEX));
 		DfsPackFile pack = odb.getPacks()[0];
 		assertFalse(pack instanceof DfsPackFileMidx);
+		assertEquals(0, odb.getPackList().skippedMidxs.length);
 		assertTrue(isObjectInPack(root, pack));
 	}
 
@@ -1305,6 +1306,7 @@ public class DfsGarbageCollectorTest {
 		assertEquals(GC, pack.getPackDescription().getPackSource());
 		assertFalse(pack instanceof DfsPackFileMidx);
 		assertFalse(pack.getPackDescription().hasFileExt(MULTI_PACK_INDEX));
+		assertEquals(0, odb.getPackList().skippedMidxs.length);
 		for (RevCommit c : knownCommits) {
 			assertTrue(isObjectInPack(c, pack));
 		}
@@ -1337,6 +1339,7 @@ public class DfsGarbageCollectorTest {
 		DfsPackDescription actualDesc = odb.getPacks()[0].getPackDescription();
 		assertEquals(GC, actualDesc.getPackSource());
 		assertFalse(actualDesc.hasFileExt(MULTI_PACK_INDEX));
+		assertEquals(0, odb.getPackList().skippedMidxs.length);
 
 		DfsPackFile pack = odb.getPacks()[0];
 		assertTrue(isObjectInPack(root, pack));
