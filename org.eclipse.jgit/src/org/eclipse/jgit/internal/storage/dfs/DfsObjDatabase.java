@@ -450,6 +450,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	/**
 	 * Implementation of pack commit.
+	 * <p>
+	 * Implementations must take care to clean up midxs that become invalid when
+	 * any of their covered packs is replaced.
 	 *
 	 * @see #commitPack(Collection, Collection)
 	 * @param desc
