@@ -16,6 +16,8 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -268,10 +270,8 @@ public class DfsObjDatabaseTest {
 
 		// Delete pack covered by midx
 		db.getObjectDatabase().commitPack(List.of(), List.of(insertPack));
-
-		DfsObjDatabase.PackList packList = db.getObjectDatabase().getPackList();
-		// If the midx is still around, it would show in this list
-		assertEquals(0, packList.skippedMidxs.length);
+		assertFalse(
+				db.getObjectDatabase().listPacks().contains(multiPackIndex));
 	}
 
 	@Test
@@ -301,8 +301,9 @@ public class DfsObjDatabaseTest {
 				.create(db.getObjectDatabase().getPacks());
 		assertEquals(4, midxPackList.getAllPlainPacks().size());
 		assertEquals(1, midxPackList.getAllMidxPacks().size());
-		DfsObjDatabase.PackList packList = db.getObjectDatabase().getPackList();
-		assertEquals(0, packList.skippedMidxs.length);
+		assertFalse(db.getObjectDatabase().listPacks().contains(midx1));
+		assertFalse(db.getObjectDatabase().listPacks().contains(midx2));
+		assertTrue(db.getObjectDatabase().listPacks().contains(midxAll));
 	}
 
 	private static DfsPackDescription pack(String name,
