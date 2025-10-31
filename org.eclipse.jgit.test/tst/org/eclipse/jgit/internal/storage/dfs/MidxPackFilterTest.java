@@ -17,6 +17,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -36,10 +37,12 @@ public class MidxPackFilterTest {
 		DfsPackDescription midx = pack("midx", GC, MULTI_PACK_INDEX);
 		midx.setCoveredPacks(List.of(gc, compact, compactTwo));
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.useMidx(List.of(gc, compact, compactTwo, midx));
+				.useMidx(List.of(gc, compact, compactTwo, midx), unusedMidxs);
 		assertEquals(1, reorgPacks.size());
 		assertEquals(midx, reorgPacks.get(0));
+		assertTrue(unusedMidxs.isEmpty());
 	}
 
 	@Test
@@ -52,11 +55,14 @@ public class MidxPackFilterTest {
 
 		DfsPackDescription extra = pack("extra", COMPACT, PACK);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.useMidx(List.of(gc, compact, compactTwo, midx, extra));
+				.useMidx(List.of(gc, compact, compactTwo, midx, extra),
+						unusedMidxs);
 		assertEquals(2, reorgPacks.size());
 		assertTrue(reorgPacks.contains(midx));
 		assertTrue(reorgPacks.contains(extra));
+		assertTrue(unusedMidxs.isEmpty());
 	}
 
 	@Test
@@ -65,12 +71,14 @@ public class MidxPackFilterTest {
 		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
 		DfsPackDescription compactTwo = pack("bbbb", COMPACT, PACK);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.useMidx(List.of(gc, compact, compactTwo));
+				.useMidx(List.of(gc, compact, compactTwo), unusedMidxs);
 		assertEquals(3, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compact));
 		assertTrue(reorgPacks.contains(compactTwo));
+		assertTrue(unusedMidxs.isEmpty());
 	}
 
 	@Test
@@ -81,11 +89,14 @@ public class MidxPackFilterTest {
 		DfsPackDescription midx = pack("midx", GC, MULTI_PACK_INDEX);
 		midx.setCoveredPacks(List.of(gc, compact, compactTwo));
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
+		// compact is missing, midx unusable
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.useMidx(List.of(gc, compactTwo, midx)); // compact missing
+				.useMidx(List.of(gc, compactTwo, midx), unusedMidxs);
 		assertEquals(2, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compactTwo));
+		assertEquals(1, unusedMidxs.size());
 	}
 
 	@Test
@@ -101,10 +112,13 @@ public class MidxPackFilterTest {
 		topMidx.setCoveredPacks(List.of(compact2, compact3));
 		topMidx.setMultiPackIndexBase(firstMidx);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter.useMidx(
-				List.of(gc, compact, firstMidx, compact2, compact3, topMidx));
+				List.of(gc, compact, firstMidx, compact2, compact3, topMidx),
+				unusedMidxs);
 		assertEquals(1, reorgPacks.size());
 		assertTrue(reorgPacks.contains(topMidx));
+		assertTrue(unusedMidxs.isEmpty());
 	}
 
 	@Test
@@ -122,11 +136,14 @@ public class MidxPackFilterTest {
 
 		DfsPackDescription uncovered = pack("uncovered", INSERT, PACK);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter.useMidx(List.of(gc,
-				compact, firstMidx, compact2, compact3, topMidx, uncovered));
+				compact, firstMidx, compact2, compact3, topMidx, uncovered),
+				unusedMidxs);
 		assertEquals(2, reorgPacks.size());
 		assertTrue(reorgPacks.contains(topMidx));
 		assertTrue(reorgPacks.contains(uncovered));
+		assertTrue(unusedMidxs.isEmpty());
 	}
 
 	@Test
@@ -137,12 +154,14 @@ public class MidxPackFilterTest {
 		DfsPackDescription midx = pack("midx", GC, MULTI_PACK_INDEX);
 		midx.setCoveredPacks(List.of(gc, compact, compactTwo));
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.skipMidxs(List.of(gc, compact, compactTwo, midx));
+				.skipMidxs(List.of(gc, compact, compactTwo, midx), unusedMidxs);
 		assertEquals(3, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compact));
 		assertTrue(reorgPacks.contains(compactTwo));
+		assertTrue(unusedMidxs.contains(midx));
 	}
 
 	@Test
@@ -155,13 +174,16 @@ public class MidxPackFilterTest {
 
 		DfsPackDescription extra = pack("extra", COMPACT, PACK);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.skipMidxs(List.of(gc, compact, compactTwo, midx, extra));
+				.skipMidxs(List.of(gc, compact, compactTwo, midx, extra),
+						unusedMidxs);
 		assertEquals(4, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compact));
 		assertTrue(reorgPacks.contains(compactTwo));
 		assertTrue(reorgPacks.contains(extra));
+		assertTrue(unusedMidxs.contains(midx));
 	}
 
 	@Test
@@ -170,12 +192,15 @@ public class MidxPackFilterTest {
 		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
 		DfsPackDescription compactTwo = pack("bbbb", COMPACT, PACK);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
-				.skipMidxs(List.of(gc, compact, compactTwo));
+				.skipMidxs(List.of(gc, compact, compactTwo), unusedMidxs);
 		assertEquals(3, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compact));
 		assertTrue(reorgPacks.contains(compactTwo));
+		assertTrue(unusedMidxs.isEmpty());
+
 	}
 
 	@Test
@@ -191,13 +216,17 @@ public class MidxPackFilterTest {
 		topMidx.setCoveredPacks(List.of(compact2, compact3));
 		topMidx.setMultiPackIndexBase(firstMidx);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter.skipMidxs(
-				List.of(gc, compact, firstMidx, compact2, compact3, topMidx));
+				List.of(gc, compact, firstMidx, compact2, compact3, topMidx),
+				unusedMidxs);
 		assertEquals(4, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compact));
 		assertTrue(reorgPacks.contains(compact2));
 		assertTrue(reorgPacks.contains(compact3));
+		assertTrue(unusedMidxs.contains(firstMidx));
+		assertTrue(unusedMidxs.contains(topMidx));
 	}
 
 	@Test
@@ -215,15 +244,18 @@ public class MidxPackFilterTest {
 
 		DfsPackDescription uncovered = pack("uncovered", INSERT, PACK);
 
+		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> reorgPacks = MidxPackFilter
 				.skipMidxs(List.of(gc, compact, firstMidx, compact2, compact3,
-						topMidx, uncovered));
+						topMidx, uncovered), unusedMidxs);
 		assertEquals(5, reorgPacks.size());
 		assertTrue(reorgPacks.contains(gc));
 		assertTrue(reorgPacks.contains(compact));
 		assertTrue(reorgPacks.contains(compact2));
 		assertTrue(reorgPacks.contains(compact3));
 		assertTrue(reorgPacks.contains(uncovered));
+		assertTrue(unusedMidxs.contains(firstMidx));
+		assertTrue(unusedMidxs.contains(topMidx));
 	}
 
 	private static DfsPackDescription pack(String name,
