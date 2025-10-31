@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
@@ -153,8 +154,15 @@ public class InMemoryRepository extends DfsRepository {
 			n = new ArrayList<>(desc.size() + packs.size());
 			n.addAll(desc);
 			n.addAll(packs);
-			if (replace != null)
+			if (replace != null) {
 				n.removeAll(replace);
+				MidxDescList midxs = MidxDescList.create(packs.stream()
+						.filter(p -> p.hasFileExt(PackExt.MULTI_PACK_INDEX))
+						.collect(Collectors.toUnmodifiableList()));
+				Set<DfsPackDescription> affectedMidxs = midxs
+						.findAllCoveringMidxs(replace);
+				n.removeAll(affectedMidxs);
+			}
 			packs = n;
 			clearCache();
 		}

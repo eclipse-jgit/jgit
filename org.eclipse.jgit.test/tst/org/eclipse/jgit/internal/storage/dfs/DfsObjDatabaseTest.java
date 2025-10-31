@@ -250,6 +250,29 @@ public class DfsObjDatabaseTest {
 		assertReftableList(reftables, gcPack, uncoveredPack);
 	}
 
+	@Test
+	public void commitPack_deleteCoveredPack_deleteMidx() throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription insertPack = pack("bbbb", COMPACT, 102, PACK);
+
+		DfsPackDescription multiPackIndex = pack("xxxx", GC, 104,
+				MULTI_PACK_INDEX);
+		multiPackIndex
+				.setCoveredPacks(List.of(gcPack, compactPack, insertPack));
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compactPack, insertPack, multiPackIndex), null);
+
+		// Delete pack covered by midx
+		db.getObjectDatabase().commitPack(List.of(), List.of(insertPack));
+
+		DfsObjDatabase.PackList packList = db.getObjectDatabase().getPackList();
+		// If the midx is still around, it would show in this list
+		assertEquals(0, packList.skippedMidxs.length);
+	}
+
 	private static DfsPackDescription pack(String name,
 			DfsObjDatabase.PackSource source, long timeMs, PackExt... ext) {
 		DfsPackDescription desc = new DfsPackDescription(repoDesc, name,
