@@ -9,12 +9,13 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
-import org.eclipse.jgit.internal.storage.pack.PackExt;
-
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
  * Format a flat list of packs and midxs into a valid list of packs.
@@ -35,16 +36,25 @@ public class MidxPackFilter {
 	 *
 	 * @param packs
 	 *            flat list of all packs in the repo, may include midx. Packs
-	 *            covered by the midx appear also on their own.
+	 *            and other midxs covered by the midx appear also on their own.
+	 * @param unusedMidxs
+	 *            midx found but not used
 	 * @return a list of packs without midxs
 	 */
 	public static List<DfsPackDescription> skipMidxs(
-			List<DfsPackDescription> packs) {
+			List<DfsPackDescription> packs,
+			List<DfsPackDescription> unusedMidxs) {
 		// Covered packs appear also on their own in the list, so we can just
 		// take the midx out.
-		return packs.stream()
-				.filter(desc -> !desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
-				.collect(Collectors.toList());
+		List<DfsPackDescription> withoutMidx = new ArrayList<>();
+		for (DfsPackDescription pack : packs) {
+			if (pack.hasFileExt(PackExt.MULTI_PACK_INDEX)) {
+				unusedMidxs.add(pack);
+			} else {
+				withoutMidx.add(pack);
+			}
+		}
+		return withoutMidx;
 	}
 
 	/**
@@ -53,12 +63,17 @@ public class MidxPackFilter {
 	 * This verifies that all referenced packs by the midxs exist.
 	 *
 	 * @param packs
-	 *            list of packs with maybe some midxs
+	 *            flat list of all packs in the repo, may include midx. Packs *
+	 *            and other midxs covered by the midx appear also on their own.
+	 * @param unusedMidxs
+	 *            output parameter to report midxs that couldn't be used (e.g.
+	 *            missing covered packs).
 	 * @return midxs and uncovered packs. All the input packs if no midx. Ignore
 	 *         midxs with missing covered packs.
 	 */
 	public static List<DfsPackDescription> useMidx(
-			List<DfsPackDescription> packs) {
+			List<DfsPackDescription> packs,
+			List<DfsPackDescription> unusedMidxs) {
 		// Take the packs covered by the midxs out of the list
 		List<DfsPackDescription> midxs = packs.stream()
 				.filter(desc -> desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
@@ -75,7 +90,7 @@ public class MidxPackFilter {
 			if (!inputPacks.containsAll(coveredPacks)) {
 				// This midx references packs not in the pack db.
 				// It could be part of a chain, so we just ignore all midxs
-				return skipMidxs(packs);
+				return skipMidxs(packs, unusedMidxs);
 			}
 			allCoveredPacks.addAll(coveredPacks);
 		}
