@@ -16,6 +16,24 @@
       "message": "So this is currently unused? But will be used in a followup?",
       "revId": "82204b94d584e29825b7eb62f16b6d7975f71f34",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac78478c_b10b3c28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-31T22:08:07Z",
+      "side": 1,
+      "message": "This will be used in commitPackImpl in our subclass. The other implementation (InMemoryRepository) keeps the pack descriptions and can access all the midx when it needs.\n\nThis is also useful in our tests, so we can see that there are no midx in the db (and not that they are but broken and ignored).",
+      "parentUuid": "d3d11435_1f53bc72",
+      "revId": "82204b94d584e29825b7eb62f16b6d7975f71f34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
