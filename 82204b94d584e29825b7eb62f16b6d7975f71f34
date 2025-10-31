@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3d11435_1f53bc72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-10-31T21:54:47Z",
+      "side": 1,
+      "message": "So this is currently unused? But will be used in a followup?",
+      "revId": "82204b94d584e29825b7eb62f16b6d7975f71f34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
