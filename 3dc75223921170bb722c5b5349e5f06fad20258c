@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f120e599_c720718d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-31T22:19:27Z",
+      "side": 1,
+      "message": "This should only add to the list ONLY affected midxs, NOT covered packs.\n\nReplacing midxs wouldn\u0027t touch the covered packs. Added a test case for this.",
+      "parentUuid": "14d2012c_92cd79ca",
+      "revId": "3dc75223921170bb722c5b5349e5f06fad20258c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8463f67_9de33566",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-10-31T21:49:40Z",
       "side": 1,
       "message": "whitespace",
+      "revId": "3dc75223921170bb722c5b5349e5f06fad20258c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d3ead4_06868496",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxDescList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-10-31T22:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8463f67_9de33566",
       "revId": "3dc75223921170bb722c5b5349e5f06fad20258c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
