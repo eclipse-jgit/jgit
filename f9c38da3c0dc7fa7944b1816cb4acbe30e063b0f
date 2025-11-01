@@ -81,6 +81,24 @@
       "parentUuid": "6de34eca_12e1400d",
       "revId": "f9c38da3c0dc7fa7944b1816cb4acbe30e063b0f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce69484e_db8db2d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-01T12:49:58Z",
+      "side": 1,
+      "message": "done in PS 4",
+      "parentUuid": "93246809_48eb55c3",
+      "revId": "f9c38da3c0dc7fa7944b1816cb4acbe30e063b0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
