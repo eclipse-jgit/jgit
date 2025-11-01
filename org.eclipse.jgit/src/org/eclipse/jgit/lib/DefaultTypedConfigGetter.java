@@ -231,9 +231,9 @@ public class DefaultTypedConfigGetter implements TypedConfigGetter {
 		}
 
 		Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$") //$NON-NLS-1$
-				.matcher(valueString);
+				.matcher(s);
 		if (!m.matches()) {
-			return defaultValue;
+			throw notTimeUnit(section, subsection, name, valueString);
 		}
 
 		String digits = m.group(1);
