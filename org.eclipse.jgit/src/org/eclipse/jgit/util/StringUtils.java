@@ -539,4 +539,33 @@ public final class StringUtils {
 		}
 		return first;
 	}
+
+	/**
+	 * Escapes all ISO control characters in {@code text} by their Unicode
+	 * string representation. TAB, CR, and LF are preserved.
+	 *
+	 * @param text
+	 *            to escape
+	 * @return the text with all ISO control characters except TAB, CR, and LF
+	 *         replaced by their Unicode representation
+	 * @since 7.5
+	 */
+	public static @NonNull String escapeControls(@Nullable String text) {
+		if (text == null) {
+			return ""; //$NON-NLS-1$
+		}
+		StringBuilder b = new StringBuilder();
+		int l = text.length();
+		for (int i = 0; i < l; i++) {
+			char ch = text.charAt(i);
+			if (Character.isISOControl(ch)
+					&& !(ch == '\t' || ch == '\r' || ch == '\n')) {
+				b.append(ch <= 0xF ? "\\u000" : "\\u00") //$NON-NLS-1$ //$NON-NLS-2$
+						.append(Integer.toHexString(ch));
+			} else {
+				b.append(ch);
+			}
+		}
+		return b.toString();
+	}
 }

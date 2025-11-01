@@ -191,4 +191,22 @@ public class StringUtilsTest {
 
 		assertNull(StringUtils.trim(null, '/'));
 	}
+
+	@Test
+	public void testEscapeControls() {
+		assertEquals("", StringUtils.escapeControls(null));
+		assertEquals("", StringUtils.escapeControls(""));
+		for (char c = 0; c < 256; c++) {
+			String test = "a" + c;
+			if (Character.isISOControl(c) && c != '\t' && c != '\n'
+					&& c != '\r') {
+				assertEquals("Failed on " + ((int) c),
+						String.format("a\\u%04x", Integer.valueOf(c)),
+						StringUtils.escapeControls(test));
+			} else {
+				assertEquals("Failed on " + ((int) c), test,
+						StringUtils.escapeControls(test));
+			}
+		}
+	}
 }
