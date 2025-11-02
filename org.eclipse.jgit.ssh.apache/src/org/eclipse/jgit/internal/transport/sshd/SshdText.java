@@ -210,7 +210,6 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String signSignatureError;
 	/***/ public String signStderr;
 	/***/ public String signTooManyPrivateKeys;
-	/***/ public String signTooManyPublicKeys;
 	/***/ public String signUnknownHashAlgorithm;
 	/***/ public String signUnknownSignatureAlgorithm;
 	/***/ public String signWrongNamespace;
