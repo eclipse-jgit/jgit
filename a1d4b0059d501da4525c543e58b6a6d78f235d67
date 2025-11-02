@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d0ca479_1d61f7a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2025-11-02T10:53:54Z",
+      "side": 1,
+      "message": "Propagating Matthias\u0027 +2 after rebase",
+      "revId": "a1d4b0059d501da4525c543e58b6a6d78f235d67",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
