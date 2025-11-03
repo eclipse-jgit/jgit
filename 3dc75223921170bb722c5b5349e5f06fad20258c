@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6af446d5_8dfe9970",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-11-03T18:11:02Z",
+      "side": 1,
+      "message": "Can you update the description to explain which packs are deleted and why? I think I first assumed that we were deleting covered packs if the covering midx were deleted, but this comment and the tests suggest I was wrong.",
+      "parentUuid": "f120e599_c720718d",
+      "revId": "3dc75223921170bb722c5b5349e5f06fad20258c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8463f67_9de33566",
