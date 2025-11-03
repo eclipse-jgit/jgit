@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08a749f2_76cdcd16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-03T18:22:20Z",
+      "side": 1,
+      "message": "Fix indent.",
+      "range": {
+        "startLine": 1514,
+        "startChar": 35,
+        "endLine": 1514,
+        "endChar": 36
+      },
+      "revId": "2b16ebe7b0ff2483aaf39a037794fab6539db1aa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

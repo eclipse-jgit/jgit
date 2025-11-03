@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58b25475_c5c2fd2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-03T18:22:20Z",
+      "side": 1,
+      "message": "PS5 shows some read improvements in our testing on a repo with 3M+ refs and 400K+ changes. When we perform 10 parallel git pushes in parallel with sequential batches of 10 parallel ls-remotes, the average ls-remote time drops from 13s to 9s.",
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
