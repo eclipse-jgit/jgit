@@ -16,6 +16,24 @@
       "message": "PS5 shows some read improvements in our testing on a repo with 3M+ refs and 400K+ changes. When we perform 10 parallel git pushes in parallel with sequential batches of 10 parallel ls-remotes, the average ls-remote time drops from 13s to 9s.",
       "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d34e387b_a6c7a0ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-03T20:58:54Z",
+      "side": 1,
+      "message": "I think these tests were actually showing the impact of two other changes, the InterruptTimer improvements: https://gerrithub.io/c/eclipse-jgit/jgit/+/1219713. That being said, we have deployed this to production this morning (along with the InterruptTimer changes and are showing almost 1/2 the CPU usage, and way lower thread utilizations, especially for HTTP (we have very heavy REST-API usage), lower java gc (half), and surprisingly also, the heap usage decreased majorly!\n\nI attribute the CPU decrease to both the InterruptTimer changes and this change, but all the rest likely is due to this change. The packed-refs file on disk is almost 200MB, and we often have over 200threads reading this: 200 * 200MB \u003d 40GB. That is not even considering the extensive java overhead for this data. I did not write this change with the intention of saving memory, but it sure helps explain why we sometimes use a lot more memory than I expected.",
+      "parentUuid": "58b25475_c5c2fd2f",
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
