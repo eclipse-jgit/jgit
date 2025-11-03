@@ -50,7 +50,7 @@ import org.eclipse.jgit.util.io.CountingOutputStream;
 public abstract class DfsObjDatabase extends ObjectDatabase {
 	private static final PackList NO_PACKS = new PackList(
 			new DfsPackFile[0],
-			new DfsReftable[0], new DfsPackDescription[0]) {
+			new DfsReftable[0]) {
 		@Override
 		boolean dirty() {
 			return true;
@@ -562,7 +562,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile[] packs = new DfsPackFile[1 + o.packs.length];
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
-			n = new PackList(packs, o.reftables, o.skippedMidxs);
+			n = new PackList(packs, o.reftables);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -587,8 +587,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				}
 			}
 			tables.add(new DfsReftable(add));
-			n = new PackList(o.packs, tables.toArray(new DfsReftable[0]),
-					o.skippedMidxs);
+			n = new PackList(o.packs, tables.toArray(new DfsReftable[0]));
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -617,10 +616,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
 
-		List<DfsPackDescription> unusedMidxs = new ArrayList<>();
 		List<DfsPackDescription> scanned = useMultipackIndex()
-				? MidxPackFilter.useMidx(listPacks(), unusedMidxs)
-				: MidxPackFilter.skipMidxs(listPacks(), unusedMidxs);
+				? MidxPackFilter.useMidx(listPacks())
+				: MidxPackFilter.skipMidxs(listPacks());
 		scanned.sort(packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
@@ -657,16 +655,14 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 
 		if (newPacks.isEmpty() && newReftables.isEmpty())
-			return new PackList(NO_PACKS.packs, NO_PACKS.reftables,
-					NO_PACKS.skippedMidxs);
+			return new PackList(NO_PACKS.packs, NO_PACKS.reftables);
 		if (!foundNew) {
 			return old;
 		}
 		newReftables.sort(reftableComparator());
 		return new PackList(
 				newPacks.toArray(new DfsPackFile[0]),
-				newReftables.toArray(new DfsReftable[0]),
-				unusedMidxs.toArray(new DfsPackDescription[0]));
+				newReftables.toArray(new DfsReftable[0]));
 	}
 
 	/**
@@ -769,16 +765,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		/** All known reftables, sorted. */
 		public final DfsReftable[] reftables;
 
-		/** All midx, including intermediates in the chain, not used in packs */
-		public final DfsPackDescription[] skippedMidxs;
-
 		private long lastModified = -1;
 
-		PackList(DfsPackFile[] packs, DfsReftable[] reftables,
-				DfsPackDescription[] skippedMidxs) {
+		PackList(DfsPackFile[] packs, DfsReftable[] reftables) {
 			this.packs = packs;
 			this.reftables = reftables;
-			this.skippedMidxs = skippedMidxs;
 		}
 
 		/**
