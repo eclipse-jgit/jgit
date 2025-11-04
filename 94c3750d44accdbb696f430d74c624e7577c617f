@@ -96,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec98c987_7dfcde42",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-04T01:43:30Z",
+      "side": 1,
+      "message": "How about: \n\nThis synchronized it is NOT needed for correctness and it iis only used as a throttling mechanism to ensure that only one \"read\" thread does the work to refresh the file. refreshPackedRefs() is not synchronized in order to avoid stalling writes which must already be serialized and tend to be a bottleneck.",
+      "parentUuid": "4b5d36ca_02ffe61b",
+      "range": {
+        "startLine": 965,
+        "startChar": 24,
+        "endLine": 965,
+        "endChar": 28
+      },
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b7fdd4c_39ac101c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
