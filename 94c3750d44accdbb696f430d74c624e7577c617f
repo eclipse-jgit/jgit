@@ -52,6 +52,86 @@
       "parentUuid": "d34e387b_a6c7a0ef",
       "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a7b558_e5a6cdc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-04T01:05:53Z",
+      "side": 1,
+      "message": "V-1 is coming from the InterruptTimer test?\n\n```\n11:46:12  [INFO] Running org.eclipse.jgit.util.io.InterruptTimerTest\n11:46:12  [ERROR] Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.445 s \u003c\u003c\u003c FAILURE! -- in org.eclipse.jgit.util.io.InterruptTimerTest\n11:46:12  [ERROR] org.eclipse.jgit.util.io.InterruptTimerTest.testRepeatedTooLong -- Time elapsed: 0.230 s \u003c\u003c\u003c FAILURE!\n11:46:12  java.lang.AssertionError: Was always Interrupted expected:\u003c99\u003e but was:\u003c100\u003e\n11:46:12  \tat org.junit.Assert.fail(Assert.java:89)\n11:46:12  \tat org.junit.Assert.failNotEquals(Assert.java:835)\n11:46:12  \tat org.junit.Assert.assertEquals(Assert.java:647)\n11:46:12  \tat org.eclipse.jgit.util.io.InterruptTimerTest.testRepeatedTooLong(InterruptTimerTest.java:147)\n11:46:12  \tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n11:46:12  \tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n11:46:12  \tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n11:46:12  \tat java.base/java.lang.reflect.Method.invoke(Method.java:569)\n11:46:12  \tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)\n11:46:12  \tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)\n11:46:12  \tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)\n11:46:12  \tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)\n11:46:12  \tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)\n11:46:12  \tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)\n11:46:12  \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n11:46:12  \tat org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)\n11:46:12  \tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)\n11:46:12  \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)\n11:46:12  \tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)\n11:46:12  \tat org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)\n11:46:12  \tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)\n11:46:12  \tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)\n11:46:12  \tat org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)\n11:46:12  \tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)\n11:46:12  \tat org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)\n11:46:12  \tat org.junit.runners.ParentRunner.run(ParentRunner.java:413)\n11:46:12  \tat org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)\n11:46:12  \tat org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)\n11:46:12  \tat org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)\n11:46:12  \tat org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)\n11:46:12  \tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)\n11:46:12  \tat org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)\n11:46:12  \tat org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)\n11:46:12  \tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)\n```",
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b5d36ca_02ffe61b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-04T01:05:53Z",
+      "side": 1,
+      "message": "Just checking, is the \"this\" the `AtomicReference\u003cPackedRefsRefresher\u003e`? If yes, it might be clearer to say:\n```suggestion\n\t\t// caller will update the AtomicReference. refreshPackedRefs() doesn\u0027t\n\t\t// read the AtomicReference, so it doesn\u0027t need synchronized.\n```\n\nBut it might also help to explain why it\u0027s ok for `refreshPackedRefs()` to set the AtomicReference outside this synchronized.",
+      "range": {
+        "startLine": 965,
+        "startChar": 24,
+        "endLine": 965,
+        "endChar": 28
+      },
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b7fdd4c_39ac101c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-04T01:05:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this is true if L967 runs immediately after L1013 (when called by `refreshPackedRefs()`)",
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87706333_d347395a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-04T01:05:53Z",
+      "side": 1,
+      "message": "I don\u0027t love this name, but I\u0027m not sure I have a better suggestion. Maybe `shouldRefreshPackedRefs()`? That would make the shorter versions in PackedRefList and PackedRefsRefresher `shouldRefresh()`, which I think is better overall.\n```suggestion\n\tprivate boolean shouldRefreshPackedRefs(FileSnapshot snapshot) throws IOException {\n```",
+      "range": {
+        "startLine": 980,
+        "startChar": 17,
+        "endLine": 980,
+        "endChar": 36
+      },
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
