@@ -118,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b2b7df9_8c32a968",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-04T21:32:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec98c987_7dfcde42",
+      "range": {
+        "startLine": 965,
+        "startChar": 24,
+        "endLine": 965,
+        "endChar": 28
+      },
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b7fdd4c_39ac101c",
@@ -166,6 +190,30 @@
       "writtenOn": "2025-11-04T01:05:53Z",
       "side": 1,
       "message": "I don\u0027t love this name, but I\u0027m not sure I have a better suggestion. Maybe `shouldRefreshPackedRefs()`? That would make the shorter versions in PackedRefList and PackedRefsRefresher `shouldRefresh()`, which I think is better overall.\n```suggestion\n\tprivate boolean shouldRefreshPackedRefs(FileSnapshot snapshot) throws IOException {\n```",
+      "range": {
+        "startLine": 980,
+        "startChar": 17,
+        "endLine": 980,
+        "endChar": 36
+      },
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97eb9d8d_61ffb72a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-04T21:32:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87706333_d347395a",
       "range": {
         "startLine": 980,
         "startChar": 17,
