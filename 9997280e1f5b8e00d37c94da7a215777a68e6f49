@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7dbdb6e_f906a64c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-11-04T00:10:29Z",
+      "side": 1,
+      "message": "@jackdt already suspected this wouldn\u0027t be needed when it was introduced. This is revert and updating few tests that relied in the functionality. Will submit as it verifies.",
+      "revId": "9997280e1f5b8e00d37c94da7a215777a68e6f49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
