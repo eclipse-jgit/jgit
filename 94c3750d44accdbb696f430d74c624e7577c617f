@@ -113,6 +113,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97a7234f_7a2314e9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-04T01:22:10Z",
+      "side": 1,
+      "message": "I think the comment is true because the check on line 967 ensures that a new refresher has been placed in the AtomicReference AFTER a previous refresher was grabbed on line 960, and the reading of the file for a specific refresher always happens after the refresher is put into the AtomicReference. In other words, this refresher cannot have started reading the file until it was put into the AtomicRef, and it could not have been put into the AtomicRef until after the thread reaching here passed lines 960.",
+      "parentUuid": "1b7fdd4c_39ac101c",
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87706333_d347395a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 6
