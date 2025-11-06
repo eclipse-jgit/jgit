@@ -43,6 +43,13 @@ public interface HttpConnection {
 	int HTTP_OK = java.net.HttpURLConnection.HTTP_OK;
 
 	/**
+	 * HttpURLConnection#HTTP_CREATED
+	 *
+	 * @see HttpURLConnection#HTTP_CREATED
+	 */
+	int HTTP_CREATED = java.net.HttpURLConnection.HTTP_CREATED;
+
+	/**
 	 * HttpURLConnection#HTTP_NOT_AUTHORITATIVE
 	 *
 	 * @see HttpURLConnection#HTTP_NOT_AUTHORITATIVE

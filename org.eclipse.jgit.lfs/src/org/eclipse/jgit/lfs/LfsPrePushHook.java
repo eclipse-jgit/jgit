@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lfs.Protocol.OPERATION_UPLOAD;
 import static org.eclipse.jgit.lfs.internal.LfsConnectionFactory.toRequest;
 import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_OK;
+import static org.eclipse.jgit.transport.http.HttpConnection.HTTP_CREATED;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_PUT;
 
@@ -255,7 +256,7 @@ public class LfsPrePushHook extends PrePushHook {
 			}
 		}
 		int responseCode = contentServer.getResponseCode();
-		if (responseCode != HTTP_OK) {
+		if (responseCode != HTTP_OK && responseCode != HTTP_CREATED) {
 			throw new IOException(MessageFormat.format(
 					LfsText.get().serverFailure, contentServer.getURL(),
 					Integer.valueOf(responseCode)));
