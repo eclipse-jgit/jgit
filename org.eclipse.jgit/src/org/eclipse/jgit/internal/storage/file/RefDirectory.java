@@ -948,11 +948,7 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
-		PackedRefList curList = packedRefs.get();
-		if (!curList.shouldRefresh()) {
-			return curList;
-		}
-		return getPackedRefsRefresher(curList).getOrThrowIOException();
+		return refreshPackedRefs();
 	}
 
 	private PackedRefsRefresher getPackedRefsRefresher(PackedRefList curList)
@@ -1008,8 +1004,11 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList refreshPackedRefs() throws IOException {
-		return runAndClear(createPackedRefsRefresherAsLatest(packedRefs.get()))
-				.getOrThrowIOException();
+		PackedRefList curList = packedRefs.get();
+		if (!curList.shouldRefresh()) {
+			return curList;
+		}
+		return getPackedRefsRefresher(curList).getOrThrowIOException();
 	}
 
 	private PackedRefsRefresher createPackedRefsRefresherAsLatest(PackedRefList curList) {
