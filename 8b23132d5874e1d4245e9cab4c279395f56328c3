@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d2fd595_dd7355a7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-06T14:47:08Z",
+      "side": 1,
+      "message": "fixed formatting",
+      "revId": "8b23132d5874e1d4245e9cab4c279395f56328c3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
