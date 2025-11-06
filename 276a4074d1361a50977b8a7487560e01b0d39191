@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f56bdea2_06d7c904",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-06T00:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0633224_268f9606",
+      "revId": "276a4074d1361a50977b8a7487560e01b0d39191",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9c38041_5d6d9b64",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-05T00:51:25Z",
       "side": 1,
       "message": "You renamed `isRefresh()` but you didn\u0027t rename `isRefreshPackedRefs()`. Rename this too?\n```suggestion\n\tprivate boolean shouldRefreshPackedRefs(FileSnapshot snapshot) throws IOException {\n```",
+      "revId": "276a4074d1361a50977b8a7487560e01b0d39191",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b017e4ba_8bc84d34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-06T00:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9c38041_5d6d9b64",
       "revId": "276a4074d1361a50977b8a7487560e01b0d39191",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
