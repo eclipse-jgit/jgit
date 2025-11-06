@@ -697,7 +697,7 @@ public class RefDirectory extends RefDatabase {
 				PackedRefList packed = getPackedRefs();
 				if (packed.contains(name)) {
 					// Force update our packed-refs snapshot before writing
-					packed = refreshPackedRefs();
+					packed = getLockedPackedRefs(lck);
 					int idx = packed.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, packed.remove(idx), packed, true);
@@ -765,7 +765,7 @@ public class RefDirectory extends RefDatabase {
 		try {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
-				PackedRefList oldPacked = refreshPackedRefs();
+				PackedRefList oldPacked = getLockedPackedRefs(lck);
 				RefList<Ref> newPacked = oldPacked;
 
 				// Iterate over all refs to be packed
@@ -948,6 +948,15 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	PackedRefList getPackedRefs() throws IOException {
+		return refreshPackedRefsIfNeeded();
+	}
+
+	PackedRefList getLockedPackedRefs(LockFile packedRefsFileLock) throws IOException {
+		packedRefsFileLock.requireLock();
+		return refreshPackedRefsIfNeeded();
+	}
+
+	PackedRefList refreshPackedRefsIfNeeded() throws IOException {
 		PackedRefList curList = packedRefs.get();
 		if (!curList.shouldRefresh()) {
 			return curList;
@@ -962,17 +971,15 @@ public class RefDirectory extends RefDatabase {
 			return refresher;
 		}
 		// This synchronized is NOT needed for correctness. Instead it is used
-		// as a throttling mechanism to ensure that only one "read" thread does
-		// the work to refresh the file. In order to avoid stalling writes which
-		// must already be serialized and tend to be a bottleneck,
-		// the refreshPackedRefs() need not be synchronized.
+		// as a throttling mechanism to ensure that only one thread does
+		// the work to refresh the file, as parallellism hurts performance here.
 		synchronized (this) {
 			if (packedRefsRefresher.get() != refresher) {
 				refresher = packedRefsRefresher.get();
 				if (refresher != null) {
-					// Refresher now guaranteed to have been created after the
-					// current thread entered getPackedRefsRefresher(), even if
-					// it's currently out of date.
+					// Refresher now guaranteed to have not started refreshing until
+					// after the current thread entered getPackedRefsRefresher(),
+					// even if it's currently out of date.
 					return refresher;
 				}
 			}
@@ -1005,11 +1012,6 @@ public class RefDirectory extends RefDatabase {
 			break;
 		}
 		return true;
-	}
-
-	PackedRefList refreshPackedRefs() throws IOException {
-		return runAndClear(createPackedRefsRefresherAsLatest(packedRefs.get()))
-				.getOrThrowIOException();
 	}
 
 	private PackedRefsRefresher createPackedRefsRefresherAsLatest(PackedRefList curList) {
