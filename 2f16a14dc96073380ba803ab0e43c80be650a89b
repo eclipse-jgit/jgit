@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a28438b_0cb4ef7f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-06T22:06:17Z",
+      "side": 1,
+      "message": "This is the reason I have marked this change WIP, I suspect that we might want to alter the loop here for writes to ensure that it is not out-of-date, but I\u0027m not 100% sure, I think we likely should be fine if we are calling this with the packed-refs lock held? It would be nice to adjust the method names to make this reason more obvious somehow.",
+      "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
