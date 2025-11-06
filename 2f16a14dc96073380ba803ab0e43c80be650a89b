@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b500038_efd8c546",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1018179
+      },
+      "writtenOn": "2025-11-06T22:23:32Z",
+      "side": 1,
+      "message": "Small typo\n\n\n```suggestion\n\ngetPackedRefs() to cache throughout a whole request, and that doesn\u0027t\n```",
+      "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3a28438b_0cb4ef7f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
