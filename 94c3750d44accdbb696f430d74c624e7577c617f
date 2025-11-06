@@ -71,6 +71,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55b4e05e_31985103",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-06T01:21:33Z",
+      "side": 1,
+      "message": "Addressed in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1225218/2?usp\u003drelated-change",
+      "parentUuid": "77a7b558_e5a6cdc6",
+      "revId": "94c3750d44accdbb696f430d74c624e7577c617f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b5d36ca_02ffe61b",

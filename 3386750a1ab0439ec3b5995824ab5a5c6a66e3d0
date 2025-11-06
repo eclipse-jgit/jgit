@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "442410ba_86de16ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-06T01:21:33Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com do you want to look again?",
+      "revId": "3386750a1ab0439ec3b5995824ab5a5c6a66e3d0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
