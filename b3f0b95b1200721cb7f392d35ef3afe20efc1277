@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad635a87_4d9ead28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-11-07T23:59:35Z",
+      "side": 1,
+      "message": "Is this right? I would think the most likely cause of 2 chains is some cleanup operation compacting the midx\u0027s together, but failing to delete the old chain. In which case the shorter chain is fresher.",
+      "range": {
+        "startLine": 162,
+        "startChar": 56,
+        "endLine": 163,
+        "endChar": 10
+      },
+      "revId": "b3f0b95b1200721cb7f392d35ef3afe20efc1277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcc882ab_d077b616",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-11-07T23:59:35Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "b3f0b95b1200721cb7f392d35ef3afe20efc1277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
