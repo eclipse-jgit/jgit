@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ff734a2_99eaf1c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-07T12:37:42Z",
+      "side": 1,
+      "message": "did you try this ?",
+      "revId": "33e4b8d927446b1c8d1ffd2452887431c4d3b9ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3697e864_c054f33e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-07T12:37:42Z",
+      "side": 1,
+      "message": "added missing javadoc start line breaking the build",
+      "revId": "33e4b8d927446b1c8d1ffd2452887431c4d3b9ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
