@@ -17,9 +17,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.eclipse.jgit.annotations.Nullable;
 
 /**
  * Helper class to manipulate a list of packs with (maybe) midxs.
@@ -150,6 +153,51 @@ public final class MidxPackList {
 		}
 
 		return impactedMidxs;
+	}
+
+	/**
+	 * Return the top midx of the chain in the repo
+	 *
+	 * <p>
+	 * In the unlikely case of multiple unconnected midxs, take the most recent.
+	 *
+	 * @return top midx
+	 */
+	public DfsPackFileMidx getTopMidxPack() {
+		List<DfsPackFileMidx> topLevelMidxs = packs.stream().filter(
+				p -> p.getPackDescription().hasFileExt(MULTI_PACK_INDEX))
+				.map(p -> (DfsPackFileMidx) p).toList();
+		if (topLevelMidxs.isEmpty()) {
+			return null;
+		}
+
+		if (topLevelMidxs.size() == 1) {
+			return topLevelMidxs.get(0);
+		}
+
+		Optional<DfsPackFileMidx> newest = topLevelMidxs.stream().max(Comparator
+				.comparingLong(p -> p.getPackDescription().getLastModified()));
+		return newest.orElse(null);
+	}
+
+	/**
+	 * Return all the plain packs not covered by this midx or its parents.
+	 *
+	 * @param midx
+	 *            a multipack index. Null midx returns all packs in db.
+	 * @return all the packs in the db that are not covered by this midx or its
+	 *         parents.
+	 */
+	public List<DfsPackFile> getPlainPacksNotCoveredBy(
+			@Nullable DfsPackFileMidx midx) {
+		if (midx == null) {
+			return getAllPlainPacks();
+		}
+		TreeSet<DfsPackFile> covered = asSet(midx.getAllCoveredPacks());
+		// We cannot just take "all packs that are not midx" from the list
+		// because this midx could be the middle in a chain.
+		return getAllPlainPacks().stream().filter(p -> !covered.contains(p))
+				.toList();
 	}
 
 	private static boolean containsAny(List<DfsPackFile> inMidx,
