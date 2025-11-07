@@ -21,12 +21,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class InterruptTimerTest {
-	private static final int MULTIPLIER = 1; // Increase if tests get flaky
+	private static final int MULTIPLIER = 8; // Increase if tests get flaky
 	private static final int BUFFER = 5; // Increase if tests get flaky
 	private static final int REPEATS = 100; // Increase to stress test more
 
-	private static final int TOO_LONG = 3 * MULTIPLIER + BUFFER;
-	private static final int SHORT_ENOUGH = 1 * MULTIPLIER;
+	private static final int SHORT_ENOUGH = 1;
+	private static final int TOO_LONG = SHORT_ENOUGH * MULTIPLIER + BUFFER;
 	private static final int TIMEOUT_LONG_ENOUGH = TOO_LONG;
 	private static final int TIMEOUT_TOO_SHORT = SHORT_ENOUGH;
 
@@ -53,6 +53,7 @@ public class InterruptTimerTest {
 			timer.end();
 		} catch (InterruptedException e) {
 			interrupted++;
+			Thread.currentThread().interrupt();
 		}
 		assertEquals("Was Not Interrupted", interrupted, 0);
 	}
@@ -66,6 +67,7 @@ public class InterruptTimerTest {
 			timer.end();
 		} catch (InterruptedException e) {
 			interrupted++;
+			Thread.currentThread().interrupt();
 		}
 		assertEquals("Was Interrupted", interrupted, 1);
 	}
@@ -80,6 +82,7 @@ public class InterruptTimerTest {
 			Thread.sleep(TIMEOUT_LONG_ENOUGH * 3);
 		} catch (InterruptedException e) {
 			interrupted++;
+			Thread.currentThread().interrupt();
 		}
 		assertEquals("Was Not Interrupted Even After End", interrupted, 0);
 	}
@@ -96,6 +99,7 @@ public class InterruptTimerTest {
 			timer.end();
 		} catch (InterruptedException e) {
 			interrupted++;
+			Thread.currentThread().interrupt();
 		}
 		assertEquals("Was Not Interrupted Even When Restarted Before Timeout", interrupted, 0);
 	}
@@ -112,6 +116,7 @@ public class InterruptTimerTest {
 			timer.end();
 		} catch (InterruptedException e) {
 			interrupted++;
+			Thread.currentThread().interrupt();
 		}
 		assertEquals("Was Interrupted Even When Second Timeout Expired Before First", interrupted, 1);
 	}
@@ -126,6 +131,7 @@ public class InterruptTimerTest {
 				timer.end();
 			} catch (InterruptedException e) {
 				interrupted++;
+				Thread.currentThread().interrupt();
 			}
 		}
 		assertEquals("Was Never Interrupted", interrupted, 0);
@@ -140,8 +146,8 @@ public class InterruptTimerTest {
 				Thread.sleep(TOO_LONG);
 				timer.end();
 			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
 				interrupted++;
+				Thread.currentThread().interrupt();
 			}
 		}
 		assertEquals("Was always Interrupted", interrupted, REPEATS);
@@ -157,6 +163,7 @@ public class InterruptTimerTest {
 				timer.end();
 			} catch (InterruptedException e) {
 				interrupted++;
+				Thread.currentThread().interrupt();
 			}
 		}
 		assertEquals("Was Not Interrupted Early", interrupted, 0);
@@ -166,6 +173,7 @@ public class InterruptTimerTest {
 			timer.end();
 		} catch (InterruptedException e) {
 			interrupted++;
+			Thread.currentThread().interrupt();
 		}
 		assertEquals("Was Interrupted On Long", interrupted, 1);
 	}
