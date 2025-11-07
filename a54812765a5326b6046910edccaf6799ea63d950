@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "756b339f_1b1633ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-07T12:41:10Z",
+      "side": 1,
+      "message": "- added missing @since tag\n- suppressed API error raised for new constant in public API interface",
+      "revId": "a54812765a5326b6046910edccaf6799ea63d950",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
