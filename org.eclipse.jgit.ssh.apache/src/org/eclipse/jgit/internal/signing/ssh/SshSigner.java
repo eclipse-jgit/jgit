@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamCorruptedException;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
@@ -27,14 +26,14 @@ import java.security.PublicKey;
 import java.text.MessageFormat;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.sshd.client.auth.pubkey.PublicKeyIdentity;
-import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.OpenSshCertificate;
+import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.apache.sshd.common.config.keys.PublicKeyEntryResolver;
 import org.apache.sshd.common.config.keys.loader.KeyPairResourceParser;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
@@ -243,30 +242,29 @@ public class SshSigner implements Signer {
 		PrivateKey privateKey = null;
 		File keyFile = null;
 		if (signingKey.startsWith(GIT_KEY_PREFIX)) {
-			try (StringReader r = new StringReader(
-					signingKey.substring(GIT_KEY_PREFIX.length()))) {
-				publicKey = fromEntry(
-						AuthorizedKeyEntry.readAuthorizedKeys(r, true));
-			}
+			publicKey = PublicKeyEntry
+					.parsePublicKeyEntry(
+							signingKey.substring(GIT_KEY_PREFIX.length()))
+					.resolvePublicKey(null, Collections.emptyMap(),
+							PublicKeyEntryResolver.FAILING);
 		} else if (signingKey.startsWith("~/") //$NON-NLS-1$
 				|| signingKey.startsWith('~' + File.separator)) {
 			keyFile = new File(FS.DETECTED.userHome(), signingKey.substring(2));
 		} else {
-			try (StringReader r = new StringReader(signingKey)) {
-				publicKey = fromEntry(
-						AuthorizedKeyEntry.readAuthorizedKeys(r, true));
-			} catch (IOException e) {
+			try {
+				publicKey = PublicKeyEntry.parsePublicKeyEntry(signingKey)
+						.resolvePublicKey(null, Collections.emptyMap(),
+								PublicKeyEntryResolver.FAILING);
+			} catch (IllegalArgumentException e) {
 				// Ignore and try to read as a file
 				keyFile = new File(signingKey);
 			}
 		}
 		if (keyFile != null && keyFile.isFile()) {
 			try {
-				publicKey = fromEntry(AuthorizedKeyEntry
-						.readAuthorizedKeys(keyFile.toPath()));
+				publicKey = KeyUtils.loadPublicKey(keyFile.toPath());
 				if (publicKey == null) {
-					throw new IOException(MessageFormat.format(
-							SshdText.get().signTooManyPublicKeys, keyFile));
+					throw new StreamCorruptedException();
 				}
 				// Try to find the private key so we don't go looking for
 				// the agent (or PKCS#11) in vain.
@@ -303,6 +301,7 @@ public class SshSigner implements Signer {
 					privateKey = pair.getPrivate();
 				}
 			}
+
 		}
 		if (publicKey == null) {
 			throw new IOException(MessageFormat
@@ -409,15 +408,6 @@ public class SshSigner implements Signer {
 			b.write('\n');
 			return new GpgSignature(b.toByteArray());
 		}
-	}
-
-	private static PublicKey fromEntry(List<AuthorizedKeyEntry> entries)
-			throws GeneralSecurityException, IOException {
-		if (entries == null || entries.size() != 1) {
-			return null;
-		}
-		return entries.get(0).resolvePublicKey(null,
-				PublicKeyEntryResolver.FAILING);
 	}
 
 	@Override

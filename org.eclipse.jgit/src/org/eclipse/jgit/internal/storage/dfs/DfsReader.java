@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -149,10 +150,12 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 		BitmapBuilder needBitmap) throws IOException {
 		for (DfsPackFile pack : db.getPacks()) {
-			PackBitmapIndex bitmapIndex = pack.getBitmapIndex(this);
-			if (needBitmap.removeAllOrNone(bitmapIndex))
-				return Collections.<CachedPack> singletonList(
-						new DfsCachedPack(pack));
+			// p != pack in the multipack index case
+			List<DfsPackFile> p = pack.fullyIncludedIn(this, needBitmap);
+			if (!p.isEmpty()) {
+				return p.stream().map(DfsCachedPack::new)
+						.collect(Collectors.toUnmodifiableList());
+			}
 		}
 		return Collections.emptyList();
 	}

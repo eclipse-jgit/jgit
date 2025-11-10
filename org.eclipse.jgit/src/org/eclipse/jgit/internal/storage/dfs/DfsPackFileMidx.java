@@ -36,7 +36,9 @@ import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.BlockList;
 
@@ -147,6 +149,12 @@ public final class DfsPackFileMidx extends DfsPackFile {
 	}
 
 	@Override
+	public ObjectIdSet asObjectIdSet(DfsReader ctx) throws IOException {
+		MultiPackIndex multiPackIndex = midx(ctx);
+		return objectId -> multiPackIndex.hasObject(objectId);
+	}
+
+	@Override
 	public PackReverseIndex getReverseIdx(DfsReader ctx) {
 		throw new IllegalStateException(
 				"Shouldn't use multipack index if the reverse index is needed"); //$NON-NLS-1$
@@ -168,6 +176,24 @@ public final class DfsPackFileMidx extends DfsPackFile {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	List<DfsPackFile> fullyIncludedIn(DfsReader ctx,
+			BitmapIndex.BitmapBuilder need) throws IOException {
+		List<DfsPackFile> fullyIncluded = new ArrayList<>();
+		for (DfsPackFile pack : packs) {
+			List<DfsPackFile> includedPacks = pack.fullyIncludedIn(ctx, need);
+			if (!includedPacks.isEmpty()) {
+				fullyIncluded.addAll(includedPacks);
+			}
+		}
+
+		if (base != null) {
+			fullyIncluded.addAll(base.fullyIncludedIn(ctx, need));
+		}
+
+		return fullyIncluded;
 	}
 
 	@Override
