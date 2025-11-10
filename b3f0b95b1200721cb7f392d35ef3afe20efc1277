@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10c7e0c_63f63f2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-11-10T17:59:03Z",
+      "side": 1,
+      "message": "As we don\u0027t do midx compaction yet, I was only thinking on appending midxs.\n\nI update this to \"chain covering most objects\" and if they cover the same, the shortest chain (as that should be \"compacted\").",
+      "parentUuid": "ad635a87_4d9ead28",
+      "range": {
+        "startLine": 162,
+        "startChar": 56,
+        "endLine": 163,
+        "endChar": 10
+      },
+      "revId": "b3f0b95b1200721cb7f392d35ef3afe20efc1277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcc882ab_d077b616",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-11-07T23:59:35Z",
       "side": 1,
       "message": "whitespace",
+      "revId": "b3f0b95b1200721cb7f392d35ef3afe20efc1277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1684f029_c2ce74fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-11-10T17:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcc882ab_d077b616",
       "revId": "b3f0b95b1200721cb7f392d35ef3afe20efc1277",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
