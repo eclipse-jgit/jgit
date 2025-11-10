@@ -34,6 +34,24 @@
       "parentUuid": "756b339f_1b1633ad",
       "revId": "a54812765a5326b6046910edccaf6799ea63d950",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f11b9a6f_06e531f4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-10T09:55:19Z",
+      "side": 1,
+      "message": "your are right, added in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1225918",
+      "parentUuid": "ddd303a5_a2b7758d",
+      "revId": "a54812765a5326b6046910edccaf6799ea63d950",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
