@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af53a25_98f6d49c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-11-10T18:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18963cbe_783d291f",
+      "revId": "5fbe8132fe9a414a6314628fa2bc6e5d144ee229",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "572dffa2_d5be47c3",
@@ -48,6 +66,24 @@
       "writtenOn": "2025-11-10T18:38:46Z",
       "side": 1,
       "message": "Why are these static methods and not on the DfsPackFileMidx object? Why not just store this as a field in the packfile?",
+      "revId": "5fbe8132fe9a414a6314628fa2bc6e5d144ee229",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f943fc1_6419133b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-11-10T18:51:32Z",
+      "side": 1,
+      "message": "Not needed anymore.",
+      "parentUuid": "572dffa2_d5be47c3",
       "revId": "5fbe8132fe9a414a6314628fa2bc6e5d144ee229",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
