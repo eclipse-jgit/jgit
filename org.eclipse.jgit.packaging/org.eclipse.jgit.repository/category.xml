@@ -234,6 +234,24 @@
    <bundle id="org.osgi.service.cm.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="org.objectweb.asm">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.commons">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.util">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.tree">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.tree.analysis">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.aries.spifly.dynamic.bundle">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <category-def name="JGit" label="Java implementation of Git">
       <description>
          Java implementation of Git

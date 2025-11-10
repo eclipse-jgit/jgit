@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +85,7 @@ public class MultiPackIndexWriter {
 	 *             Error writing to the stream
 	 */
 	public Result write(ProgressMonitor monitor, OutputStream outputStream,
-			LinkedHashMap<String, PackIndex> inputs) throws IOException {
+			Map<String, PackIndex> inputs) throws IOException {
 		PackIndexMerger data = new PackIndexMerger(inputs);
 
 		// List of chunks in the order they need to be written
