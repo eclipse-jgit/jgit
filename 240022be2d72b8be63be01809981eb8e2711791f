@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d95823_a142ab0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-10T08:56:39Z",
+      "side": 1,
+      "message": "missed to add @since tag, done in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1225918",
+      "revId": "240022be2d72b8be63be01809981eb8e2711791f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
