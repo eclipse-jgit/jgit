@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.midx;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -20,6 +21,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader.MultiPackIndexFormatException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
 
@@ -120,12 +122,18 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				+ offsets.getMemorySize() + checksum.length;
 	}
 
+
 	@Override
 	public String toString() {
 		return "MultiPackIndexV1 {idx=" + idx + ", packfileNames=" //$NON-NLS-1$ //$NON-NLS-2$
 				+ Arrays.toString(packNames) + ", ridx=" //$NON-NLS-1$
 				+ ridx + ", objectOffsets=" //$NON-NLS-1$
 				+ offsets + '}';
+	}
+
+	@Override
+	public MidxIterator iterator() {
+		return new LocalMidxIterator(this);
 	}
 
 	private static int byteArrayLengh(byte[] array) {
@@ -332,6 +340,62 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 		int getObjectCount() {
 			return fanoutTable[FANOUT - 1];
+		}
+
+		void readOidAt(int position, MutableObjectId output) {
+			output.fromRaw(oidLookup, idOffset(position));
+		}
+	}
+
+	/**
+	 * Iterates over a single midx
+	 */
+	private static class LocalMidxIterator implements MidxIterator {
+
+		private final MultiPackIndexV1 midx;
+
+		private int position;
+
+		private final MutableEntry entry;
+
+		/**
+		 * Iterator over a single idx (ignoring the bse)
+		 *
+		 * @param midx
+		 *            the midx to iterate
+		 */
+		LocalMidxIterator(MultiPackIndexV1 midx) {
+			this.midx = midx;
+			this.entry = new MutableEntry();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return position < midx.idx.getObjectCount();
+		}
+
+		@Override
+		public MutableEntry next() {
+			MutableEntry current = peek();
+			position++;
+			return current;
+		}
+
+		@Override
+		public MutableEntry peek() {
+			midx.idx.readOidAt(position, entry.oid);
+			midx.offsets.getObjectOffset(position, entry.packOffset);
+			return entry;
+		}
+
+		@Override
+		public int getPackCount() {
+			return midx.getPackNames().length;
+		}
+
+		@Override
+		public List<String> getPackNames() {
+			return Arrays.asList(midx.getPackNames());
 		}
 	}
 
