@@ -10,10 +10,13 @@
 
 package org.eclipse.jgit.internal.storage.midx;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -133,13 +136,47 @@ public interface MultiPackIndex {
 	long getMemorySize();
 
 	/**
+	 * Return an iterator over the <em>local</em> objects in this midx.
+	 * <p>
+	 * In chained midxs, this iterator does not include the base midx.
+	 *
+	 * @return iterator in sha1 order of the objects in this midx
+	 */
+	MidxIterator iterator();
+
+	/**
+	 * An peekable iterator for the midx
+	 */
+	interface MidxIterator extends Iterator<MutableEntry> {
+		/**
+		 * Like next() but without advancing the iterator.
+		 *
+		 * @return next() element in the iterator without advancing
+		 */
+		MutableEntry peek();
+
+		/**
+		 * Number of packs under this iterator
+		 *
+		 * @return number of packs under this iterator
+		 */
+		int getPackCount();
+
+		/**
+		 * Pack names in the order of new packIds emitted by the iterator
+		 *
+		 * @return pack names
+		 */
+		List<String> getPackNames();
+	}
+
+	/**
 	 * (packId, offset) coordinates of an object
 	 * <p>
 	 * Mutable object to avoid creating many instances while looking for objects
 	 * in the pack. Use #copy() to get a new instance with the data.
 	 */
 	class PackOffset implements Comparable<PackOffset> {
-
 		private int packId;
 
 		private long offset;
@@ -157,6 +194,9 @@ public interface MultiPackIndex {
 		 */
 		public static PackOffset create(int packId, long offset) {
 			return new PackOffset().setValues(packId, offset);
+		}
+
+		public PackOffset() {
 		}
 
 		public PackOffset setValues(int packId, long offset) {
@@ -186,6 +226,67 @@ public interface MultiPackIndex {
 			}
 
 			return Long.compare(this.offset, packOffset.offset);
+		}
+
+		@Override
+		public String toString() {
+			return String.format("PackOffset(packId=%d|offset=%d)", packId,
+					offset);
+
+		}
+	}
+
+	/**
+	 * Entry from the midx with object id, pack id, offset (in pack)
+	 * <p>
+	 * Mutable so the iterator can reuse the instance for performance.
+	 */
+	class MutableEntry implements Comparable<MutableEntry> {
+		protected final MutableObjectId oid = new MutableObjectId();
+
+		protected final PackOffset packOffset = new PackOffset();
+
+		@Override
+		public int compareTo(MutableEntry mutableEntry) {
+			int cmp = oid.compareTo(mutableEntry.oid);
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			return packOffset.getPackId() - mutableEntry.packOffset.getPackId();
+		}
+
+		/**
+		 * Copy data from other into this instance, adding the shift to the
+		 * packId
+		 *
+		 * @param other
+		 *            another entry
+		 * @param shift
+		 *            amount to add to the packid
+		 * @return this instance
+		 */
+		public MutableEntry fill(MutableEntry other, int shift) {
+			oid.fromObjectId(other.oid);
+			packOffset.setValues(other.getPackId() + shift, other.getOffset());
+			return this;
+		}
+
+		public MutableObjectId getObjectId() {
+			return oid;
+		}
+
+		public int getPackId() {
+			return packOffset.getPackId();
+		}
+
+		public long getOffset() {
+			return packOffset.getOffset();
+		}
+
+		@Override
+		public String toString() {
+			return String.format("%s,%s", oid.name(), packOffset);
 		}
 	}
 }
