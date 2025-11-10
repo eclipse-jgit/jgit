@@ -16,6 +16,40 @@
       "message": "trigger build",
       "revId": "5fbe8132fe9a414a6314628fa2bc6e5d144ee229",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18963cbe_783d291f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-11-10T18:38:46Z",
+      "side": 1,
+      "message": "This seems to have big, if uncommon, failure cases when a bunch of objects are deleted. Why not just use the getLastModified() timestamp on DfsPackDescription instead?",
+      "revId": "5fbe8132fe9a414a6314628fa2bc6e5d144ee229",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "572dffa2_d5be47c3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-11-10T18:38:46Z",
+      "side": 1,
+      "message": "Why are these static methods and not on the DfsPackFileMidx object? Why not just store this as a field in the packfile?",
+      "revId": "5fbe8132fe9a414a6314628fa2bc6e5d144ee229",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
