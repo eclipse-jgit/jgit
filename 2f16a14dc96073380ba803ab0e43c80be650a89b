@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "314027f3_5e7df8ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-11T23:36:02Z",
+      "side": 1,
+      "message": "I get why you did it this way, but now the naming is bad. I expect `refreshPackedRefs()` to do a refresh. Is there a way to update the write paths to use `getPackedRefs()` and keep `SnapshottingRefDirectory ` working?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b500038_efd8c546",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +54,24 @@
       "writtenOn": "2025-11-06T22:06:17Z",
       "side": 1,
       "message": "This is the reason I have marked this change WIP, I suspect that we might want to alter the loop here for writes to ensure that it is not out-of-date, but I\u0027m not 100% sure, I think we likely should be fine if we are calling this with the packed-refs lock held? It would be nice to adjust the method names to make this reason more obvious somehow.",
+      "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca8c9bf_ed00c37a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-11T23:36:02Z",
+      "side": 1,
+      "message": "Should we have an explicit `getPackedRefsForWrite()` method? Maybe one that checks we have the lock (or compares the snapshot of the lock vs the packed-refs snapshot)?",
+      "parentUuid": "3a28438b_0cb4ef7f",
       "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
