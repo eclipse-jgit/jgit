@@ -1229,7 +1229,7 @@ public class DfsPackFileMidxTest {
 
 		@Override
 		public void start(int totalTasks) {
-
+			// empty
 		}
 
 		@Override
@@ -1244,7 +1244,7 @@ public class DfsPackFileMidxTest {
 
 		@Override
 		public void endTask() {
-
+			// empty
 		}
 
 		@Override
@@ -1254,7 +1254,7 @@ public class DfsPackFileMidxTest {
 
 		@Override
 		public void showDuration(boolean enabled) {
-
+			// empty
 		}
 	}
 
