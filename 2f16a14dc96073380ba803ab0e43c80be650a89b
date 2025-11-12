@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a805e1c9_4a75f6b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-12T00:51:16Z",
+      "side": 1,
+      "message": "If we are willing to modify both classes, we can do whatever we want, but otherwise I\u0027m not seeing a way. I think we should try to make it as clear as possible the intent of the different paths. If we explicitly take the lock into consideration, instead of sharing the same logic, we might be able to make the write path simpler than the read path. I\u0027ll give it some thought on how what that would look like. It sounds like the technical approach mostly makes sense though (think of this as a technical, not API, prototype)?",
+      "parentUuid": "314027f3_5e7df8ed",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b500038_efd8c546",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "Should we have an explicit `getPackedRefsForWrite()` method? Maybe one that checks we have the lock (or compares the snapshot of the lock vs the packed-refs snapshot)?",
       "parentUuid": "3a28438b_0cb4ef7f",
+      "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "321d1d3b_628f4dc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-12T00:51:16Z",
+      "side": 1,
+      "message": "Yeah, I was wondering if we couldn\u0027t tie the two together somehow, like maybe having the lock method somehow ensure that getPackedRefs() will return the locked copy (possibly by doing the read)?",
+      "parentUuid": "7ca8c9bf_ed00c37a",
       "revId": "2f16a14dc96073380ba803ab0e43c80be650a89b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
