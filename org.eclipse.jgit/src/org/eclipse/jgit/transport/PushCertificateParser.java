@@ -375,7 +375,7 @@ public class PushCertificateParser {
 			// Read push-option lines (if any) before the empty line separator
 			String line;
 			while (!(line = reader.read()).isEmpty()) {
-				if (line.startsWith(PUSH_OPTION + " ")) {
+				if (line.startsWith(PUSH_OPTION + " ")) { //$NON-NLS-1$
 					pushOptions.add(parseHeader(line, PUSH_OPTION));
 				} else {
 					// Not a push-option, should be empty line
