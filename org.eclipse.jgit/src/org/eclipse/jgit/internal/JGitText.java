@@ -98,6 +98,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String bitmapsMustBePrepared;
 	/***/ public String bitmapUseNoopNoListener;
 	/***/ public String blameNotCommittedYet;
+	/***/ public String blameRegionCoverAllLines;
 	/***/ public String blockLimitNotMultipleOfBlockSize;
 	/***/ public String blockLimitNotPositive;
 	/***/ public String blockSizeNotPowerOf2;
