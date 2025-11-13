@@ -1,0 +1,72 @@
+name: Generate Maven SBOM
+
+on:
+  push:
+    tags:
+      - "v**" # Triggers when someone pushes a tag that starts with 'v'
+
+  workflow_dispatch:
+    # The custom 'Version' input field allows running the workflow for older git
+    # refs, where this workflow file did not exist yet. This would not be
+    # possible with the builtin "Use workflow from" input field.
+    inputs:
+      version:
+        description: "Version"
+        default: "master"
+        required: true
+
+env:
+  JAVA_VERSION: '17'
+  JAVA_DISTRO: 'temurin'
+  PLUGIN_VERSION: '2.9.1'
+  SBOM_TYPE: 'makeAggregateBom'
+  PROJECT_VERSION: "${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.version }}"
+
+permissions:
+  contents: read
+
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    outputs:
+      # Make env var available in re-usuable workflow (see actions/runner#2372)
+      project-version: ${{ env.PROJECT_VERSION }}
+    steps:
+      - name: Checkout repository at '${{ env.PROJECT_VERSION }}'
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+          ref: ${{ env.PROJECT_VERSION }}
+          persist-credentials: false
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRO }}
+
+      - name: Generate
+        run: |
+          mvn org.cyclonedx:cyclonedx-maven-plugin:${PLUGIN_VERSION}:${SBOM_TYPE} \
+              -DoutputFormat=json \
+              -DoutputDirectory=target \
+              -DoutputName=cyclonedx
+
+
+      - name: Upload
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        with:
+          name: sbom
+          path: target/cyclonedx.json
+
+  # Store SBOM and metadata in a predefined format for otterdog to pick up
+  store-sbom-data:
+    needs: ['generate-sbom']
+    uses: eclipse-csi/workflows/.github/workflows/store-sbom-data.yml@main
+    with:
+      projectName: 'JGit'
+      projectVersion: ${{ needs.generate-sbom.outputs.project-version }}
+      bomArtifact: 'sbom'
+      bomFilename: 'cyclonedx.json'
+      parentProject: '6638fa7e-8518-4528-9419-e24f629b7e9f'
+
