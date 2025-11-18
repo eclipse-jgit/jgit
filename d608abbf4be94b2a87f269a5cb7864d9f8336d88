@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9241042f_d90bad09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2025-11-18T00:33:44Z",
+      "side": 1,
+      "message": "```suggestion\nmethod taking a LockFile as a parameter to better clarify the real\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4296def_b0053556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1037769
+      },
+      "writtenOn": "2025-11-18T00:33:44Z",
+      "side": 1,
+      "message": "Should we update the `trustPackedRefsStat` doc to explicitly state that it applies to all reads of packed-refs even those done during updates?",
+      "range": {
+        "startLine": 30,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
