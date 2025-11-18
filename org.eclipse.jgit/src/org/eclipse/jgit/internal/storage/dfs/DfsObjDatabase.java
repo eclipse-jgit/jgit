@@ -450,6 +450,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	/**
 	 * Implementation of pack commit.
+	 * <p>
+	 * Implementations must take care to clean up midxs that become invalid when
+	 * any of their covered packs is replaced.
 	 *
 	 * @see #commitPack(Collection, Collection)
 	 * @param desc
@@ -613,7 +616,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
 
-		List<DfsPackDescription> scanned = listPacks();
+		List<DfsPackDescription> scanned = useMultipackIndex()
+				? MidxPackFilter.useMidx(listPacks())
+				: MidxPackFilter.skipMidxs(listPacks());
 		scanned.sort(packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());

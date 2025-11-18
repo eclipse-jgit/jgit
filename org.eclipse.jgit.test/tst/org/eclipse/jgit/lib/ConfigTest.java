@@ -1295,14 +1295,14 @@ public class ConfigTest {
 		// value is empty
 		assertEquals(20, parse("[a]\na=\" \"\n").getTimeUnit("a", null, "a", 20,
 				MILLISECONDS));
-
-		// value is not numeric
-		assertEquals(20, parse("[a]\na=test\n").getTimeUnit("a", null, "a", 20,
-				MILLISECONDS));
 	}
 
 	@Test
 	public void testTimeUnitInvalid() {
+		assertThrows("Invalid time unit value: a.a=test",
+				IllegalArgumentException.class,
+				() -> parseTime("test", MILLISECONDS));
+
 		assertThrows("Invalid time unit value: a.a=1 monttthhh",
 				IllegalArgumentException.class,
 				() -> parseTime("1 monttthhh", DAYS));

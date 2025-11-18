@@ -1325,8 +1325,7 @@ public abstract class FS {
 		boolean debug = LOG.isDebugEnabled();
 		try {
 			if (debug) {
-				LOG.debug("readpipe " + Arrays.asList(command) + "," //$NON-NLS-1$ //$NON-NLS-2$
-						+ dir);
+				LOG.debug("readpipe {},{}", Arrays.asList(command), dir); //$NON-NLS-1$
 			}
 			ProcessBuilder pb = new ProcessBuilder(command);
 			pb.directory(dir);
@@ -1348,11 +1347,12 @@ public abstract class FS {
 					new InputStreamReader(p.getInputStream(), encoding))) {
 				r = lineRead.readLine();
 				if (debug) {
-					LOG.debug("readpipe may return '" + r + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+					LOG.debug("readpipe may return '{}'", //$NON-NLS-1$
+							StringUtils.escapeControls(r));
 					LOG.debug("remaining output:\n"); //$NON-NLS-1$
 					String l;
 					while ((l = lineRead.readLine()) != null) {
-						LOG.debug(l);
+						LOG.debug("{}", StringUtils.escapeControls(l)); //$NON-NLS-1$
 					}
 				}
 			}
