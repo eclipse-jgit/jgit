@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c3eb01_bac91b82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-20T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9241042f_d90bad09",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b60140c3_a7be118c",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-19T00:04:02Z",
       "side": 1,
       "message": "couple nits\n```suggestion\nargument is not really required to create a correct\ngetLockedPackedRefs(), but it does help ensure proper use only in\nwrite paths.\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2904f30c_44940653",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-20T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b60140c3_a7be118c",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52424053_497cdfcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-20T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4296def_b0053556",
+      "range": {
+        "startLine": 30,
+        "startChar": 58,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe6a1ad5_d5df5002",
@@ -83,6 +155,24 @@
       "writtenOn": "2025-11-19T00:04:02Z",
       "side": 1,
       "message": "Since this is the only caller of `runAndClear()` now, does it make sense to inline it here? Should anything else ever be calling it?",
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a1e66b_971d3555",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-20T18:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe6a1ad5_d5df5002",
       "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
