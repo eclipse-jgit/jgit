@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e944a6d3_45a7e964",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-20T21:33:08Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a2e74817_0f1f8d5e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "af79fb6e09b502f3fbfe692ba062d8e24046b1c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "26a4d913_7e6ad97b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -54,6 +78,30 @@
       "writtenOn": "2025-11-20T18:46:51Z",
       "side": 1,
       "message": "two issues: 1) I think this needs to be a single line, 2) \"now\" is vague to a future reader. I also simplified the note text since I think anyone who wants more context can check the git log.\n```suggestion\n| `core.trustPackedRefsStat` | `unset` | \u0026#x20DE; | Whether to trust the file attributes (Java equivalent of stat command on *nix) of the packed-refs file. If `never` JGit will ignore the file attributes of the packed-refs file and always read it. If `always` JGit will trust the file attributes of the packed-refs file and will only read it if a file attribute has changed. `after_open` behaves the same as `always`, except that the packed-refs file is opened and closed before its file attributes are considered. An open/close of the packed-refs file is known to refresh its file attributes, at least on some NFS clients. If `unset`, JGit will use the behavior described in `trustFolderStat`. Note: since 6.10.2, this setting applies during both ref reads and writes, but previously only applied during reads.|\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 85
+      },
+      "revId": "af79fb6e09b502f3fbfe692ba062d8e24046b1c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba15b3e1_eaadc063",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-20T21:33:08Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8906d2c5_91891b27",
       "range": {
         "startLine": 58,
         "startChar": 0,
