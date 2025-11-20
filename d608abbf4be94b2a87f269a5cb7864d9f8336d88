@@ -119,6 +119,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c7b425_b6d1ff07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2025-11-20T18:46:51Z",
+      "side": 1,
+      "message": "Agreed. Suggested a different improvement on PS4.",
+      "parentUuid": "73557dc4_c538a2cc",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "d608abbf4be94b2a87f269a5cb7864d9f8336d88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4296def_b0053556",
