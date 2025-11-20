@@ -182,8 +182,8 @@ maven_jar(
 
 maven_jar(
     name = "tukaani-xz",
-    artifact = "org.tukaani:xz:1.10",
-    sha1 = "1be8166f89e035a56c6bfc67dbc423996fe577e2",
+    artifact = "org.tukaani:xz:1.11",
+    sha1 = "bdfd1774efb216f506f4f3c5b08c205b308c50aa",
 )
 
 maven_jar(
