@@ -407,11 +407,6 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 	 */
 	private static class LocalPackOffset extends PackOffset {
 
-		LocalPackOffset() {
-			super();
-			setValues(0, 0);
-		}
-
 		void setOffset(long offset) {
 			super.setValues(0, offset);
 		}
