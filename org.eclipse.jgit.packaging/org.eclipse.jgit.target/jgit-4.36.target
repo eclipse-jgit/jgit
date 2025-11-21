@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.36" sequenceNumber="1763480041">
+<target name="jgit-4.36" sequenceNumber="1763654302">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -39,7 +39,7 @@
         <dependency>
           <groupId>org.tukaani</groupId>
           <artifactId>xz</artifactId>
-          <version>1.10</version>
+          <version>1.11</version>
           <type>jar</type>
         </dependency>
       </dependencies>
