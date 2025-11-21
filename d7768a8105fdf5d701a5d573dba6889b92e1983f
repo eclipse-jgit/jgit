@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a24987a1_57b3f20b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-21T09:09:13Z",
+      "side": 1,
+      "message": "```suggestion\nref updates much faster! This takes a push down from almost 30s to```",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fc70125_d8d2fc2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-21T09:09:13Z",
+      "side": 1,
+      "message": "```suggestion\nrefs. With the same setup, this change also improves ten parallel```",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9363fad0_ca86cdd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-21T09:09:13Z",
+      "side": 1,
+      "message": "```suggestion\nsettings are now also applied during ref update paths where as\n```",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f199826_2e4938da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-11-21T09:09:13Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\t// even if it\u0027s currently out of date. And if the packed-refs\n```",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
