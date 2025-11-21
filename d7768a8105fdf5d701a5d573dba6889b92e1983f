@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b08d66_88d13daf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-21T18:42:38Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a24987a1_57b3f20b",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fc70125_d8d2fc2e",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-21T09:09:13Z",
       "side": 1,
       "message": "```suggestion\nrefs. With the same setup, this change also improves ten parallel```",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ea80b2_57d847c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-21T18:42:38Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "4fc70125_d8d2fc2e",
       "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94160ac4_75f1e6f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-21T18:42:38Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9363fad0_ca86cdd5",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f199826_2e4938da",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-11-21T09:09:13Z",
       "side": 1,
       "message": "```suggestion\n\t\t\t\t\t// even if it\u0027s currently out of date. And if the packed-refs\n```",
+      "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cccb635_4e89b92a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2025-11-21T18:42:38Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "2f199826_2e4938da",
       "revId": "d7768a8105fdf5d701a5d573dba6889b92e1983f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
