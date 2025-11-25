@@ -36,7 +36,9 @@ import java.util.Set;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.DfsPackOffset;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.VOffsetCalculator;
+import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidxNPacks.VOffsetCalculatorNPacks;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
@@ -61,7 +63,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DfsPackFileMidxTest {
+public class DfsPackFileMidxNPacksTest {
 
 	private static final ObjectId NOT_IN_PACK = ObjectId
 			.fromString("3f306cb3fcd5116919fecad615524bd6e6ea4ba7");
@@ -315,7 +317,7 @@ public class DfsPackFileMidxTest {
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
 			long posOne = midx.findOffset(ctx, o1);
-			DfsPackFileMidx.DfsPackOffset po = midx.getOffsetCalculator()
+			DfsPackOffset po = midx.getOffsetCalculator()
 					.decode(posOne);
 			assertEquals(12, po.getPackOffset());
 			assertEquals(packThreeSize + packTwoSize, po.getPackStart());
@@ -980,7 +982,7 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculatorNPacks calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		PackOffset po = PackOffset.create(0, 12);
@@ -997,11 +999,11 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculator calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		// In first pack
-		DfsPackFileMidx.DfsPackOffset decoded = calc.decode(130);
+		DfsPackOffset decoded = calc.decode(130);
 		assertEquals(one.getPackDescription(),
 				decoded.getPack().getPackDescription());
 		assertEquals(130, decoded.getPackOffset());
@@ -1028,7 +1030,7 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculatorNPacks calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		assertEquals(-1, calc.encode(null));
@@ -1045,7 +1047,7 @@ public class DfsPackFileMidxTest {
 				+ two.getPackDescription().getFileSize(PACK)
 				+ three.getPackDescription().getFileSize(PACK);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculator calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		assertEquals(totalSize, calc.getMaxOffset());
@@ -1057,14 +1059,14 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		VOffsetCalculator baseCalc = VOffsetCalculator
+		VOffsetCalculator baseCalc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		DfsPackFile four = createDfsPackFile(900);
 		DfsPackFile five = createDfsPackFile(1300);
 		DfsPackFile six = createDfsPackFile(1000);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculatorNPacks calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { four, five, six }, baseCalc);
 
 		// These packIds are now from the second top midx
@@ -1082,18 +1084,18 @@ public class DfsPackFileMidxTest {
 		DfsPackFile one = createDfsPackFile(800);
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
-		VOffsetCalculator baseCalc = VOffsetCalculator
+		VOffsetCalculator baseCalc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		DfsPackFile four = createDfsPackFile(900);
 		DfsPackFile five = createDfsPackFile(1300);
 		DfsPackFile six = createDfsPackFile(1000);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculator calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { four, five, six }, baseCalc);
 
 		// In pack 1
-		DfsPackFileMidx.DfsPackOffset decoded = calc.decode(130);
+		DfsPackOffset decoded = calc.decode(130);
 		assertEquals(one.getPackDescription(),
 				decoded.getPack().getPackDescription());
 		assertEquals(130, decoded.getPackOffset());
@@ -1128,14 +1130,14 @@ public class DfsPackFileMidxTest {
 		DfsPackFile two = createDfsPackFile(1200);
 		DfsPackFile three = createDfsPackFile(900);
 
-		VOffsetCalculator baseCalc = VOffsetCalculator
+		VOffsetCalculator baseCalc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { one, two, three }, null);
 
 		DfsPackFile four = createDfsPackFile(900);
 		DfsPackFile five = createDfsPackFile(1300);
 		DfsPackFile six = createDfsPackFile(1000);
 
-		VOffsetCalculator calc = VOffsetCalculator
+		VOffsetCalculator calc = VOffsetCalculatorNPacks
 				.fromPacks(new DfsPackFile[] { four, five, six }, baseCalc);
 
 		int expectedMaxOffset = 800 + 1200 + 900 + 900 + 1300 + 1000;
