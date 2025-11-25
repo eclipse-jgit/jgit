@@ -24,7 +24,7 @@ import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
  * a dummy implementation for single packs.
  */
 public abstract sealed class DfsPackFileMidx extends DfsPackFile
-		permits DfsPackFileMidxNPacks {
+		permits DfsPackFileMidxNPacks, DfsPackFileMidxSingle {
 
 	/**
 	 * Create a midx pack
