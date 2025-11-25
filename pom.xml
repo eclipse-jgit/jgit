@@ -131,20 +131,20 @@
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>6.1.0</servlet-api-version>
     <jetty-version>12.1.4</jetty-version>
-    <japicmp-version>0.24.1</japicmp-version>
+    <japicmp-version>0.24.2</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>2.0.17</slf4j-version>
     <maven-javadoc-plugin-version>3.12.0</maven-javadoc-plugin-version>
     <gson-version>2.13.2</gson-version>
     <bouncycastle-version>1.82</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.9.6.0</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>4.9.8.1</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.9.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
-    <plexus-compiler-version>2.13.0</plexus-compiler-version>
+    <plexus-compiler-version>2.16.0</plexus-compiler-version>
     <hamcrest-version>3.0</hamcrest-version>
     <assertj-version>3.27.6</assertj-version>
     <jna-version>5.18.1</jna-version>
@@ -300,12 +300,12 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.5.2</version>
+          <version>1.5.3</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.13</version>
+          <version>0.8.14</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -609,7 +609,7 @@
         <artifactId>cyclonedx-maven-plugin</artifactId>
         <configuration>
           <projectType>library</projectType>
-          <schemaVersion>1.4</schemaVersion>
+          <schemaVersion>1.6</schemaVersion>
           <includeBomSerialNumber>true</includeBomSerialNumber>
           <includeCompileScope>true</includeCompileScope>
           <includeProvidedScope>true</includeProvidedScope>
@@ -923,7 +923,7 @@
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.10</version>
+        <version>1.11</version>
         <optional>true</optional>
       </dependency>
 
@@ -1129,7 +1129,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.40.0</version>
+                <version>3.43.0</version>
               </dependency>
             </dependencies>
           </plugin>
