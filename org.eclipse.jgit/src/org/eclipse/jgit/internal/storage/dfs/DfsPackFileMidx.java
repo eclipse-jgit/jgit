@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * and forward to the pack.
  */
 public abstract sealed class DfsPackFileMidx extends DfsPackFile
-		permits DfsPackFileMidxNPacks {
+		permits DfsPackFileMidxNPacks, DfsPackFileMidxSingle {
 
 	/**
 	 * Create a midx pack
@@ -49,6 +49,10 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	public static DfsPackFileMidx create(DfsBlockCache cache,
 			DfsPackDescription desc, List<DfsPackFile> requiredPacks,
 			@Nullable DfsPackFileMidx base) {
+		if (desc.getCoveredPacks().size() == 1) {
+			return new DfsPackFileMidxSingle(cache, desc, requiredPacks.get(0),
+					base);
+		}
 		return new DfsPackFileMidxNPacks(cache, desc, requiredPacks, base);
 	}
 
