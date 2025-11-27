@@ -2,6 +2,12 @@ module(name = "jgit")
 
 bazel_dep(name = "rules_java", version = "8.11.0")
 bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rbe_autoconfig")
+git_override(
+    module_name = "rbe_autoconfig",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
+    commit = "71f39817c028949bd6d25f1806502bcd33028d14",
+)
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
@@ -13,18 +19,6 @@ git_repository(
     name = "com_googlesource_gerrit_bazlets",
     commit = "f9c119e45d9a241bee720b7fbd6c7fdbc952da5f",
     remote = "https://gerrit.googlesource.com/bazlets",
-)
-
-http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-http_archive(
-    name = "ubuntu2204_jdk17",
-    sha256 = "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
-    strip_prefix = "rbe_autoconfig-5.1.0",
-    urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.1.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
-    ],
 )
 
 BOUNCYCASTLE_VERSION = "1.82"
