@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef7866df_a9392b51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-12-01T23:41:30Z",
+      "side": 1,
+      "message": "\u003e In midx over a single file, we want the DfsPackFile superclass to work\non the real pack description,\n\nWhy? This seems to introduce complexity and special cases. Why not just make DfsPackFileMidx work on a single pack?",
+      "revId": "7aadd05f9445fd15e68b06ce423653d2106424b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
