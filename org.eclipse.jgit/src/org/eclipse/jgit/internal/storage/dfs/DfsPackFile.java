@@ -217,6 +217,9 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	/**
 	 * Get description that was originally used to configure this pack file.
 	 *
+	 * @implNote The inner works of this class should use directly the instance
+	 *           in desc, as this getter can be overridden.
+	 *
 	 * @return description that was originally used to configure this pack file.
 	 */
 	public DfsPackDescription getPackDescription() {
@@ -321,7 +324,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 
 		if (!bitmapLoader.keepInDfs(desc)) {
 			PackBitmapIndexLoader.LoadResult result = bitmapLoader
-					.loadPackBitmapIndex(ctx, this);
+					.loadPackBitmapIndex(ctx, desc, this);
 			if (bitmapIndex == null && result.bitmapIndex != null) {
 				bitmapIndex = result.bitmapIndex;
 			}
@@ -1402,7 +1405,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		ctx.stats.readBitmap++;
 		long start = System.nanoTime();
 		PackBitmapIndexLoader.LoadResult result = bitmapLoader
-				.loadPackBitmapIndex(ctx, this);
+				.loadPackBitmapIndex(ctx, desc, this);
 		bitmapIndex = result.bitmapIndex;
 		ctx.stats.readBitmapIdxBytes += result.bytesRead;
 		ctx.stats.readBitmapIdxMicros += elapsedMicros(start);
@@ -1485,13 +1488,16 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		 *
 		 * @param ctx
 		 *            the reader
+		 * @param desc
+		 *            the pack as description
 		 * @param pack
 		 *            the pack
 		 * @return the pack bitmap index and bytes size (when applicable)
 		 * @throws IOException
 		 *             error accessing storage
 		 */
-		LoadResult loadPackBitmapIndex(DfsReader ctx, DfsPackFile pack)
+		LoadResult loadPackBitmapIndex(DfsReader ctx, DfsPackDescription desc,
+				DfsPackFile pack)
 				throws IOException;
 
 		/**
@@ -1537,9 +1543,9 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		}
 
 		@Override
-		public LoadResult loadPackBitmapIndex(DfsReader ctx, DfsPackFile pack)
+		public LoadResult loadPackBitmapIndex(DfsReader ctx,
+				DfsPackDescription desc, DfsPackFile pack)
 				throws IOException {
-			DfsPackDescription desc = pack.getPackDescription();
 			try (ReadableChannel rc = ctx.db.openFile(desc, BITMAP_INDEX)) {
 				long size;
 				PackBitmapIndex bmidx;
