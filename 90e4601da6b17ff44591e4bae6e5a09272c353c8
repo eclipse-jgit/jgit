@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f50d4fa5_340f0c5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/FastIgnoreRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-02T15:29:55Z",
+      "side": 1,
+      "message": "errorprone raises the error \"[OperatorPrecedence] Use grouping parenthesis to make the operator precedence explicit (see https://errorprone.info/bugpattern/OperatorPrecedence)\" here",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 58
+      },
+      "revId": "90e4601da6b17ff44591e4bae6e5a09272c353c8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
