@@ -4,15 +4,15 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ui
 Bundle-SymbolicName: org.eclipse.jgit.ui
-Bundle-Version: 7.5.1.qualifier
+Bundle-Version: 7.6.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
-Export-Package: org.eclipse.jgit.awtui;version="7.5.1"
-Import-Package: org.eclipse.jgit.errors;version="[7.5.1,7.6.0)",
- org.eclipse.jgit.lib;version="[7.5.1,7.6.0)",
- org.eclipse.jgit.nls;version="[7.5.1,7.6.0)",
- org.eclipse.jgit.revplot;version="[7.5.1,7.6.0)",
- org.eclipse.jgit.revwalk;version="[7.5.1,7.6.0)",
- org.eclipse.jgit.transport;version="[7.5.1,7.6.0)",
- org.eclipse.jgit.util;version="[7.5.1,7.6.0)"
+Export-Package: org.eclipse.jgit.awtui;version="7.6.0"
+Import-Package: org.eclipse.jgit.errors;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.lib;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.nls;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.revplot;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.revwalk;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.transport;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.util;version="[7.6.0,7.7.0)"
