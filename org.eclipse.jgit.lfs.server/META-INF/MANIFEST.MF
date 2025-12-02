@@ -3,21 +3,21 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.lfs.server
 Bundle-SymbolicName: org.eclipse.jgit.lfs.server
-Bundle-Version: 7.5.0.qualifier
+Bundle-Version: 7.5.1.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
-Export-Package: org.eclipse.jgit.lfs.server;version="7.5.0";
+Export-Package: org.eclipse.jgit.lfs.server;version="7.5.1";
   uses:="jakarta.servlet.http,
    org.eclipse.jgit.lfs.lib",
- org.eclipse.jgit.lfs.server.fs;version="7.5.0";
+ org.eclipse.jgit.lfs.server.fs;version="7.5.1";
   uses:="jakarta.servlet,
    jakarta.servlet.http,
    org.eclipse.jgit.lfs.server,
    org.eclipse.jgit.lfs.lib",
- org.eclipse.jgit.lfs.server.internal;version="7.5.0";x-internal:=true,
- org.eclipse.jgit.lfs.server.s3;version="7.5.0";
+ org.eclipse.jgit.lfs.server.internal;version="7.5.1";x-internal:=true,
+ org.eclipse.jgit.lfs.server.s3;version="7.5.1";
   uses:="org.eclipse.jgit.lfs.server,
    org.eclipse.jgit.lfs.lib"
 Import-Package: com.google.gson;version="[2.8.0,3.0.0)",
@@ -25,15 +25,15 @@ Import-Package: com.google.gson;version="[2.8.0,3.0.0)",
  jakarta.servlet.annotation;version="[6.0.0,7.0.0)",
  jakarta.servlet.http;version="[6.0.0,7.0.0)",
  org.apache.http;version="[4.3.0,5.0.0)",
- org.eclipse.jgit.annotations;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.storage.file;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lfs.errors;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lfs.internal;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lfs.lib;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lib;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.nls;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport.http;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport.http.apache;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.util;version="[7.5.0,7.6.0)",
+ org.eclipse.jgit.annotations;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.internal;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.internal.storage.file;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.lfs.errors;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.lfs.internal;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.lfs.lib;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.lib;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.nls;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.transport.http;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.transport.http.apache;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.util;version="[7.5.1,7.6.0)",
  org.slf4j;version="[1.7.0,3.0.0)"

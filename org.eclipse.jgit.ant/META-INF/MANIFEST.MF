@@ -3,14 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ant
 Bundle-SymbolicName: org.eclipse.jgit.ant
-Bundle-Version: 7.5.0.qualifier
+Bundle-Version: 7.5.1.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Import-Package: org.apache.tools.ant,
-  org.eclipse.jgit.storage.file;version="[7.5.0,7.6.0)"
+  org.eclipse.jgit.storage.file;version="[7.5.1,7.6.0)"
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
-Export-Package: org.eclipse.jgit.ant;version="7.5.0",
- org.eclipse.jgit.ant.tasks;version="7.5.0";
+Export-Package: org.eclipse.jgit.ant;version="7.5.1",
+ org.eclipse.jgit.ant.tasks;version="7.5.1";
   uses:="org.apache.tools.ant,
    org.apache.tools.ant.types"

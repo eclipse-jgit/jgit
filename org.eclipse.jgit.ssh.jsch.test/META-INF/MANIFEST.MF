@@ -3,20 +3,20 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ssh.jsch.test
 Bundle-SymbolicName: org.eclipse.jgit.ssh.jsch.test
-Bundle-Version: 7.5.0.qualifier
+Bundle-Version: 7.5.1.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Import-Package: com.jcraft.jsch;version="[0.1.54,0.2.0)",
- org.eclipse.jgit.errors;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.storage.file;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.junit;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.junit.ssh;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lib;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport.ssh.jsch;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.util;version="[7.5.0,7.6.0)",
+ org.eclipse.jgit.errors;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.internal.storage.file;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.junit;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.junit.ssh;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.lib;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.transport;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.transport.ssh.jsch;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.util;version="[7.5.1,7.6.0)",
  org.hamcrest;version="[3.0.0,4.0.0)",
  org.junit;version="[4.13,5.0.0)",
  org.junit.experimental.theories;version="[4.13,5.0.0)",
