@@ -172,7 +172,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			}
 
 			packedRefsLock = refdb.lockPackedRefsOrThrow();
-			PackedRefList oldPackedList = refdb.refreshPackedRefs();
+			PackedRefList oldPackedList = refdb.getLockedPackedRefs(packedRefsLock);
 			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
 			if (newRefs == null) {
 				return;
