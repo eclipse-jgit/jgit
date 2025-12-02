@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.junit.http
 Bundle-SymbolicName: org.eclipse.jgit.junit.http
-Bundle-Version: 7.5.0.202512021534-r
+Bundle-Version: 7.5.1.qualifier
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ActivationPolicy: lazy
@@ -23,17 +23,17 @@ Import-Package: jakarta.servlet;version="[6.0.0,7.0.0)",
  org.eclipse.jetty.util.component;version="[12.0.0,13.0.0)",
  org.eclipse.jetty.util.security;version="[12.0.0,13.0.0)",
  org.eclipse.jetty.util.ssl;version="[12.0.0,13.0.0)",
- org.eclipse.jgit.errors;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.http.server;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.storage.file;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.junit;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lib;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.revwalk;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport.resolver;version="[7.5.0,7.6.0)",
+ org.eclipse.jgit.errors;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.http.server;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.internal.storage.file;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.junit;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.lib;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.revwalk;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.transport;version="[7.5.1,7.6.0)",
+ org.eclipse.jgit.transport.resolver;version="[7.5.1,7.6.0)",
  org.junit;version="[4.13,5.0.0)",
  org.slf4j.helpers;version="[1.7.0,3.0.0)"
-Export-Package: org.eclipse.jgit.junit.http;version="7.5.0";
+Export-Package: org.eclipse.jgit.junit.http;version="7.5.1";
   uses:="org.eclipse.jgit.transport,
    jakarta.servlet,
    jakarta.servlet.http,

@@ -16,7 +16,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>7.5.0.202512021534-r</version>
+    <version>7.5.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.benchmarks</artifactId>
