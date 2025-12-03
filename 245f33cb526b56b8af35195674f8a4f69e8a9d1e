@@ -33,6 +33,23 @@
       "message": "I think this should be done on the master branch and then merged to the servlet-4 branch",
       "revId": "245f33cb526b56b8af35195674f8a4f69e8a9d1e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58eaa601_cf2fc204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-03T13:05:39Z",
+      "side": 1,
+      "message": "I think this should be moved to the master branch, commons-io is a transitive dependency of `org.apache.commons:commons-compress`",
+      "revId": "245f33cb526b56b8af35195674f8a4f69e8a9d1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
