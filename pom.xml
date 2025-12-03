@@ -148,7 +148,7 @@
     <hamcrest-version>3.0</hamcrest-version>
     <assertj-version>3.27.6</assertj-version>
     <jna-version>5.18.1</jna-version>
-    <byte-buddy-version>1.18.1</byte-buddy-version>
+    <byte-buddy-version>1.18.2</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
