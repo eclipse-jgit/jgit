@@ -16,6 +16,24 @@
       "message": "whitespace",
       "revId": "c7e190cc0564e23db38a7336c6ef13afe487ac5a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab97093_a327eedd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidx.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2025-12-04T19:46:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84e6b51_ed18f5db",
+      "revId": "c7e190cc0564e23db38a7336c6ef13afe487ac5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
