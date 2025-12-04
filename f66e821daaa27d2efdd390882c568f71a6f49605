@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de5d5dc_6da86b22",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-12-04T21:39:00Z",
+      "side": 1,
+      "message": "Maybe not a big deal, but this looks like it will always choose the smaller file first: https://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackDescription.java#81\n\nAssuming gc packs tend towards being larger over time, this will usually select the older pack.",
+      "revId": "f66e821daaa27d2efdd390882c568f71a6f49605",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
