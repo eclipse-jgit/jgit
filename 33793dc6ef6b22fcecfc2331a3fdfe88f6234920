@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "123dc7e4_7eac089e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-06T21:01:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca299c1_4e8c2a3e",
+      "revId": "33793dc6ef6b22fcecfc2331a3fdfe88f6234920",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "132c1d72_604c5ce4",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-12-06T21:00:23Z",
       "side": 1,
       "message": "```suggestion\nBYTE_BUDDY_VERSION \u003d \"1.18.2\"\n```",
+      "revId": "33793dc6ef6b22fcecfc2331a3fdfe88f6234920",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ffefb9_1f918f29",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-06T21:01:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "132c1d72_604c5ce4",
       "revId": "33793dc6ef6b22fcecfc2331a3fdfe88f6234920",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
