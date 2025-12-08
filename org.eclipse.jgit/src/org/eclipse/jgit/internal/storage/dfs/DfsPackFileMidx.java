@@ -100,7 +100,7 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	}
 
 	/**
-	 * Count of objects in this <b>pack</> (i.e. including, recursively, its
+	 * Count of objects in this <b>pack<b/> (i.e. including, recursively, its
 	 * base)
 	 *
 	 * @param ctx
