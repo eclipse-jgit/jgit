@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2025 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -97,11 +97,17 @@ public class PathMatcher extends AbstractMatcher {
 			Character pathSeparator, boolean dirOnly)
 			throws InvalidPatternException {
 		pattern = trim(pattern);
+		if (isEscape(pattern, pattern.length() - 1) && !dirOnly) {
+			// Last character is a backslash that is an escape: never matches or
+			// produces an error.
+			return IMatcher.NO_MATCH; // Or throw an exception?
+		}
 		char slash = Strings.getPathSeparator(pathSeparator);
 		// ignore possible leading and trailing slash
 		int slashIdx = pattern.indexOf(slash, 1);
-		if (slashIdx > 0 && slashIdx < pattern.length() - 1)
+		if (slashIdx > 0 && slashIdx < pattern.length() - 1) {
 			return new PathMatcher(pattern, pathSeparator, dirOnly);
+		}
 		return createNameMatcher0(pattern, pathSeparator, dirOnly, true);
 	}
 
@@ -114,18 +120,32 @@ public class PathMatcher extends AbstractMatcher {
 	 * @return trimmed pattern
 	 */
 	private static String trim(String pattern) {
-		while (pattern.length() > 0
-				&& pattern.charAt(pattern.length() - 1) == ' ') {
-			if (pattern.length() > 1
-					&& pattern.charAt(pattern.length() - 2) == '\\') {
-				// last space was escaped by backslash: remove backslash and
-				// keep space
-				pattern = pattern.substring(0, pattern.length() - 2) + " "; //$NON-NLS-1$
-				return pattern;
-			}
-			pattern = pattern.substring(0, pattern.length() - 1);
+		int i = pattern.length() - 1;
+		while (i >= 0 && pattern.charAt(i) == ' ') {
+			i--;
 		}
-		return pattern;
+		if (i < 0) {
+			return ""; //$NON-NLS-1$
+		} else if (i == pattern.length() - 1) {
+			// Last character was not a space.
+			return pattern;
+		}
+		// i is on the last non-space
+		if (isEscape(pattern, i)) {
+			// Last space was escaped by backslash: remove backslash and
+			// keep space
+			return pattern.substring(0, i) + ' ';
+		}
+		return pattern.substring(0, i + 1);
+	}
+
+	private static boolean isEscape(String pattern, int from) {
+		// Count backslashes, if odd the last one is an escape
+		int i = from;
+		while (i >= 0 && pattern.charAt(i) == '\\') {
+			i--;
+		}
+		return ((from - i) & 1) != 0;
 	}
 
 	private static IMatcher createNameMatcher0(String segment,

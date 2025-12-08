@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Florian Köberle <florianskarten@web.de> and others
+ * Copyright (C) 2008, 2025 Florian Köberle <florianskarten@web.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,7 +10,6 @@
 package org.eclipse.jgit.ignore;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
@@ -18,17 +17,6 @@ import org.junit.Test;
 public class IgnoreRuleSpecialCasesTest {
 
 	private void assertMatch(final String pattern, final String input,
-			final boolean matchExpected, Boolean... assume) {
-		boolean assumeDir = input.endsWith("/");
-		FastIgnoreRule matcher = new FastIgnoreRule(pattern);
-		if (assume.length == 0 || !assume[0].booleanValue()) {
-			assertEquals(matchExpected, matcher.isMatch(input, assumeDir));
-		} else {
-			assumeTrue(matchExpected == matcher.isMatch(input, assumeDir));
-		}
-	}
-
-	private void assertFileNameMatch(final String pattern, final String input,
 			final boolean matchExpected) {
 		boolean assumeDir = input.endsWith("/");
 		FastIgnoreRule matcher = new FastIgnoreRule(pattern);
@@ -739,7 +727,7 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testSpecialGroupCase10() throws Exception {
-		// Second bracket is threated literally, so both [ and : should match
+		// Second bracket is treated literally, so both [ and : should match
 		assertMatch("[[:]", ":", true);
 		assertMatch("[[:]", "[", true);
 	}
@@ -835,6 +823,8 @@ public class IgnoreRuleSpecialCasesTest {
 		assertMatch("c:\\/", "a/c:/", true);
 		assertMatch("c:\\tmp", "c:tmp", true);
 		assertMatch("c:\\tmp", "a/c:tmp", true);
+		assertMatch("foo\\/bar", "foo/bar", true);
+		assertMatch("foo\\/bar\\/", "foo/bar/", true);
 	}
 
 	@Test
@@ -844,18 +834,46 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testBackslash() throws Exception {
-		assertMatch("a\\", "a", true);
+		assertMatch("a\\", "a", false);
 		assertMatch("\\a", "a", true);
-		assertMatch("a/\\", "a/", true);
-		assertMatch("a/b\\", "a/b", true);
+		assertMatch("a/\\", "a/", false);
+		assertMatch("a/b\\", "a/b", false);
 		assertMatch("\\a/b", "a/b", true);
 		assertMatch("/\\a", "/a", true);
-		assertMatch("\\a\\b\\c\\", "abc", true);
-		assertMatch("/\\a/\\b/\\c\\", "a/b/c", true);
+		assertMatch("\\a\\b\\c\\", "abc", false);
+		assertMatch("\\a\\b\\c", "abc", true);
+		assertMatch("/\\a/\\b/\\c\\", "a/b/c", false);
+		assertMatch("/\\a/\\b/\\c", "a/b/c", true);
+		assertMatch("/\\a\\/\\b\\/\\c", "a/b/c", true);
+
+		assertMatch("foo\\", "foo", false);
+		assertMatch("foo\\", "foo\\", false);
+		assertMatch("foo\\\\", "foo\\", true);
 
 		// empty path segment doesn't match
 		assertMatch("\\/a", "/a", false);
 		assertMatch("\\/a", "a", false);
+	}
+
+	@Test
+	public void testBackslashInRegexp() throws Exception {
+		assertMatch("f*[\\x]y", "f\\y", false);
+		assertMatch("f*[\\x]y", "fxy", true);
+		assertMatch("f*[\\\\x]y", "f\\y", true);
+		assertMatch("f*[\\\\x]y", "fxy", true);
+		assertMatch("f*[\\x]y", "foo\\y", false);
+		assertMatch("f*[\\x]y", "fooxy", true);
+		assertMatch("f*[\\\\x]y", "foo\\y", true);
+		assertMatch("f*[\\\\x]y", "fooxy", true);
+		assertMatch("f*a\\y", "fa\\y", false);
+		assertMatch("f*a\\y", "fay", true);
+		assertMatch("f*a\\y", "fooa\\y", false);
+		assertMatch("f*a\\y", "fooay", true);
+		assertMatch("f*a\\\\y", "fa\\y", true);
+		assertMatch("f*a\\\\y", "fooa\\y", true);
+		assertMatch("f\\*y", "fooy", false);
+		assertMatch("f\\*y", "f*y", true);
+		assertMatch("/\\a*A\\/\\b*B\\/\\c*C", "afooA/bfooB/cC", true);
 	}
 
 	@Test
@@ -991,27 +1009,27 @@ public class IgnoreRuleSpecialCasesTest {
 
 	@Test
 	public void testFilePathSimpleCase() throws Exception {
-		assertFileNameMatch("a/b", "a/b", true);
+		assertMatch("a/b", "a/b", true);
 	}
 
 	@Test
 	public void testFilePathCase0() throws Exception {
-		assertFileNameMatch("a*b", "a/b", false);
+		assertMatch("a*b", "a/b", false);
 	}
 
 	@Test
 	public void testFilePathCase1() throws Exception {
-		assertFileNameMatch("a?b", "a/b", false);
+		assertMatch("a?b", "a/b", false);
 	}
 
 	@Test
 	public void testFilePathCase2() throws Exception {
-		assertFileNameMatch("a*b", "a\\b", true);
+		assertMatch("a*b", "a\\b", true);
 	}
 
 	@Test
 	public void testFilePathCase3() throws Exception {
-		assertFileNameMatch("a?b", "a\\b", true);
+		assertMatch("a?b", "a\\b", true);
 	}
 
 }

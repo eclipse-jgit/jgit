@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, 2017 Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2025 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -46,26 +46,6 @@ public class Strings {
 		for (int i = pattern.length() - 1; i >= 0; i--) {
 			char charAt = pattern.charAt(i);
 			if (charAt != c) {
-				if (i == pattern.length() - 1) {
-					return pattern;
-				}
-				return pattern.substring(0, i + 1);
-			}
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	/**
-	 * Strip trailing whitespace characters
-	 *
-	 * @param pattern
-	 *            non null
-	 * @return new string with all trailing whitespace removed
-	 */
-	public static String stripTrailingWhitespace(String pattern) {
-		for (int i = pattern.length() - 1; i >= 0; i--) {
-			char charAt = pattern.charAt(i);
-			if (!Character.isWhitespace(charAt)) {
 				if (i == pattern.length() - 1) {
 					return pattern;
 				}
@@ -153,8 +133,7 @@ public class Strings {
 	}
 
 	private static boolean isComplexWildcard(String pattern) {
-		int idx1 = pattern.indexOf('[');
-		if (idx1 != -1) {
+		if (pattern.indexOf('[') != -1) {
 			return true;
 		}
 		if (pattern.indexOf('?') != -1) {
@@ -169,30 +148,28 @@ public class Strings {
 				return false;
 			}
 			char nextChar = pattern.charAt(nextIdx);
-			if (escapedByBackslash(nextChar)) {
-				return true;
-			}
-			return false;
+			// If the backslash _might_ escape a metacharacter, we have
+			// something complex
+			return nextChar == '?' || nextChar == '*' || nextChar == '[';
 		}
 		return false;
 	}
 
-	private static boolean escapedByBackslash(char nextChar) {
-		return nextChar == '?' || nextChar == '*' || nextChar == '[';
-	}
-
 	static PatternState checkWildCards(String pattern) {
-		if (isComplexWildcard(pattern))
+		if (isComplexWildcard(pattern)) {
 			return PatternState.COMPLEX;
+		}
 		int startIdx = pattern.indexOf('*');
-		if (startIdx < 0)
+		if (startIdx < 0) {
 			return PatternState.NONE;
+		}
 
-		if (startIdx == pattern.length() - 1)
+		if (startIdx == pattern.length() - 1) {
 			return PatternState.TRAILING_ASTERISK_ONLY;
-		if (pattern.lastIndexOf('*') == 0)
+		}
+		if (pattern.lastIndexOf('*') == 0) {
 			return PatternState.LEADING_ASTERISK_ONLY;
-
+		}
 		return PatternState.COMPLEX;
 	}
 
@@ -287,7 +264,7 @@ public class Strings {
 				break;
 
 			case '.':
-				if (seenEscape)
+				if (seenEscape || in_brackets > 0)
 					sb.append(c);
 				else
 					sb.append('\\').append('.');
@@ -305,7 +282,7 @@ public class Strings {
 					if (lookBehind(sb) == '['
 							&& isLetter(lookAhead(pattern, i)))
 						in_char_class = true;
-				sb.append(':');
+				sb.append(c);
 				break;
 
 			case '-':
@@ -315,22 +292,30 @@ public class Strings {
 					else
 						sb.append(c);
 				} else
-					sb.append('-');
+					sb.append(c);
 				break;
 
 			case '\\':
-				if (in_brackets > 0) {
-					char lookAhead = lookAhead(pattern, i);
-					if (lookAhead == ']' || lookAhead == '[')
-						ignoreLastBracket = true;
-				} else {
-					//
-					char lookAhead = lookAhead(pattern, i);
-					if (lookAhead != '\\' && lookAhead != '['
-							&& lookAhead != '?' && lookAhead != '*'
-							&& lookAhead != ' ' && lookBehind(sb) != '\\') {
-						break;
-					}
+				if (seenEscape) {
+					sb.append(c);
+					seenEscape = false;
+					continue;
+				}
+				if (i + 1 == pattern.length()) {
+					// Lone backslash at end of pattern is dropped.
+					break;
+				}
+				char lookAhead = lookAhead(pattern, i);
+				if (in_brackets > 0 && (lookAhead == ']' || lookAhead == '[')) {
+					ignoreLastBracket = true;
+				}
+				if (lookAhead == '0' || (lookAhead >= 'a' && lookAhead <= 'z')
+						|| (lookAhead >= 'A' && lookAhead <= 'Z')) {
+					// Can be escaped in a glob pattern, but don't need to.
+					// Escaping these is invalid in a Java regexp. Glob patterns
+					// do not have the escaped constructs a Java regexp has
+					// (like \d, \Q, \x, or also \0).
+					break;
 				}
 				sb.append(c);
 				break;
@@ -473,28 +458,25 @@ public class Strings {
 		return null;
 	}
 
-	static String deleteBackslash(String s) {
+	static String unescape(String s) {
 		if (s.indexOf('\\') < 0) {
 			return s;
 		}
-		StringBuilder sb = new StringBuilder(s.length());
-		for (int i = 0; i < s.length(); i++) {
+		int len = s.length();
+		StringBuilder sb = new StringBuilder(len);
+		for (int i = 0; i < len; i++) {
 			char ch = s.charAt(i);
 			if (ch == '\\') {
-				if (i + 1 == s.length()) {
-					continue;
+				if (i + 1 < len) {
+					char next = s.charAt(i + 1);
+					if (next == '\\') {
+						sb.append(ch);
+						i++;
+					}
 				}
-				char next = s.charAt(i + 1);
-				if (next == '\\') {
-					sb.append(ch);
-					i++;
-					continue;
-				}
-				if (!escapedByBackslash(next)) {
-					continue;
-				}
+			} else {
+				sb.append(ch);
 			}
-			sb.append(ch);
 		}
 		return sb.toString();
 	}
