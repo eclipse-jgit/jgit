@@ -18,7 +18,7 @@
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>org.eclipse.jgit-parent</artifactId>
   <packaging>pom</packaging>
-  <version>7.5.0-SNAPSHOT</version>
+  <version>7.6.0-SNAPSHOT</version>
 
   <name>JGit - Parent</name>
   <url>${jgit-url}</url>
@@ -118,7 +118,7 @@
 
     <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
 
-    <jgit-last-release-version>7.4.0.202509020913-r</jgit-last-release-version>
+    <jgit-last-release-version>7.5.0.202512021534-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
     <apache-sshd-version>2.16.0</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
@@ -130,25 +130,25 @@
     <commons-compress-version>1.28.0</commons-compress-version>
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
-    <jetty-version>12.1.3</jetty-version>
-    <japicmp-version>0.24.1</japicmp-version>
+    <jetty-version>12.1.5</jetty-version>
+    <japicmp-version>0.24.2</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>2.0.17</slf4j-version>
     <maven-javadoc-plugin-version>3.12.0</maven-javadoc-plugin-version>
     <gson-version>2.13.2</gson-version>
-    <bouncycastle-version>1.82</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.9.6.0</spotbugs-maven-plugin-version>
+    <bouncycastle-version>1.83</bouncycastle-version>
+    <spotbugs-maven-plugin-version>4.9.8.1</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.9.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
-    <plexus-compiler-version>2.13.0</plexus-compiler-version>
+    <plexus-compiler-version>2.16.0</plexus-compiler-version>
     <hamcrest-version>3.0</hamcrest-version>
     <assertj-version>3.27.6</assertj-version>
     <jna-version>5.18.1</jna-version>
-    <byte-buddy-version>1.17.8</byte-buddy-version>
+    <byte-buddy-version>1.18.2</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -300,12 +300,12 @@
         <plugin>
           <groupId>org.eclipse.cbi.maven.plugins</groupId>
           <artifactId>eclipse-jarsigner-plugin</artifactId>
-          <version>1.5.2</version>
+          <version>1.5.3</version>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.13</version>
+          <version>0.8.14</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -609,7 +609,7 @@
         <artifactId>cyclonedx-maven-plugin</artifactId>
         <configuration>
           <projectType>library</projectType>
-          <schemaVersion>1.4</schemaVersion>
+          <schemaVersion>1.6</schemaVersion>
           <includeBomSerialNumber>true</includeBomSerialNumber>
           <includeCompileScope>true</includeCompileScope>
           <includeProvidedScope>true</includeProvidedScope>
@@ -899,7 +899,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.19.0</version>
+        <version>1.20.0</version>
       </dependency>
 
       <dependency>
@@ -911,7 +911,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.20.0</version>
+        <version>2.21.0</version>
       </dependency>
 
       <dependency>
@@ -923,7 +923,7 @@
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
-        <version>1.10</version>
+        <version>1.11</version>
         <optional>true</optional>
       </dependency>
 
@@ -1129,7 +1129,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.40.0</version>
+                <version>3.43.0</version>
               </dependency>
             </dependencies>
           </plugin>

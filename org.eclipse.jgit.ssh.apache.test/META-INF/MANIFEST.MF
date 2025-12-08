@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ssh.apache.test
 Bundle-SymbolicName: org.eclipse.jgit.ssh.apache.test
-Bundle-Version: 7.5.0.qualifier
+Bundle-Version: 7.6.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
@@ -26,22 +26,22 @@ Import-Package: org.apache.sshd.agent;version="[2.16.0,2.17.0)",
  org.apache.sshd.core;version="[2.16.0,2.17.0)",
  org.apache.sshd.server;version="[2.16.0,2.17.0)",
  org.apache.sshd.server.forward;version="[2.16.0,2.17.0)",
- org.eclipse.jgit.annotations;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.api;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.api.errors;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.errors;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.signing.ssh;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.storage.file;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.transport.sshd;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.internal.transport.sshd.proxy;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.junit;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.junit.ssh;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.lib;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.revwalk;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport.sshd;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.transport.sshd.agent;version="[7.5.0,7.6.0)",
- org.eclipse.jgit.util;version="[7.5.0,7.6.0)",
+ org.eclipse.jgit.annotations;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.api;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.api.errors;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.errors;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.internal.signing.ssh;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.internal.storage.file;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.internal.transport.sshd;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.internal.transport.sshd.proxy;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.junit;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.junit.ssh;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.lib;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.revwalk;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.transport;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.transport.sshd;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.transport.sshd.agent;version="[7.6.0,7.7.0)",
+ org.eclipse.jgit.util;version="[7.6.0,7.7.0)",
  org.hamcrest;version="[3.0.0,4.0.0)",
  org.junit;version="[4.13,5.0.0)",
  org.junit.experimental.theories;version="[4.13,5.0.0)",

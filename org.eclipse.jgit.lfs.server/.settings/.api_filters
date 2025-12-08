@@ -83,6 +83,20 @@
                 <message_argument value="sendError(HttpServletResponse, int, String)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="getObjectToTransfer(HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="sendError(HttpServletResponse, int, String)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java" type="org.eclipse.jgit.lfs.server.fs.ObjectDownloadListener">
         <filter id="337682486">
@@ -111,6 +125,13 @@
                 <message_argument value="ObjectDownloadListener(FileLfsRepository, AsyncContext, HttpServletResponse, AnyLongObjectId)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="ObjectDownloadListener(FileLfsRepository, AsyncContext, HttpServletResponse, AnyLongObjectId)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java" type="org.eclipse.jgit.lfs.server.fs.ObjectUploadListener">
         <filter id="337682486">
@@ -136,6 +157,13 @@
             <message_arguments>
                 <message_argument value="7.0"/>
                 <message_argument value="7.4"/>
+                <message_argument value="ObjectUploadListener(FileLfsRepository, AsyncContext, HttpServletRequest, HttpServletResponse, AnyLongObjectId)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
                 <message_argument value="ObjectUploadListener(FileLfsRepository, AsyncContext, HttpServletRequest, HttpServletResponse, AnyLongObjectId)"/>
             </message_arguments>
         </filter>

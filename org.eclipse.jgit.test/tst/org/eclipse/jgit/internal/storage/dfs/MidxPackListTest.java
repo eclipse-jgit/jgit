@@ -12,8 +12,10 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.util.Arrays.asList;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Deflater;
@@ -188,7 +190,102 @@ public class MidxPackListTest {
 						.size());
 	}
 
+	@Test
+	public void getTopMidxPack_noMidx_null() throws IOException {
+		setupThreePacks();
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertNull(packList.getTopMidxPack());
+	}
 
+	@Test
+	public void getTopMidxPack_oneMidx_returned() throws IOException {
+		DfsPackFileMidx midx = setupThreePacksAndMidx();
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(midx.getPackDescription(),
+				packList.getTopMidxPack().getPackDescription());
+	}
+
+	@Test
+	public void getTopMidxPack_multipleMidx_mostRecent() throws IOException {
+		writePackWithRandomBlob(100);
+		writePackWithRandomBlob(300);
+		writePackWithRandomBlob(50);
+		writePackWithRandomBlob(400);
+		writePackWithRandomBlob(130);
+		writePackWithRandomBlob(500);
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertEquals(6, packs.length);
+
+		// midx covers first two packs
+		writeMultipackIndex(Arrays.copyOfRange(packs, 4, 6), null);
+
+		// chain of midxs covering all
+		DfsPackFileMidx midxBase = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 4, 6), null);
+		DfsPackFileMidx midxMid = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 2, 4), midxBase);
+		DfsPackFileMidx chainTwo = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 0, 2), midxMid);
+
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(chainTwo.getPackDescription(),
+				packList.getTopMidxPack().getPackDescription());
+	}
+
+	@Test
+	public void getPlainPacksNotCoveredBy_null_all() throws IOException {
+		setupThreePacks();
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(3, packList.getPlainPacksNotCoveredBy(null).size());
+	}
+
+	@Test
+	public void getPlainPacksNotCoveredBy_midxCoversAll_nothing()
+			throws IOException {
+		DfsPackFileMidx midx = setupThreePacksAndMidx();
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(0, packList.getPlainPacksNotCoveredBy(midx).size());
+	}
+
+	@Test
+	public void getPlainPacksNotCoveredBy_midxMissesOne_one()
+			throws IOException {
+		DfsPackFileMidx midx = setupThreePacksAndMidx();
+		writePackWithBlob("getPlainPacksNotCovered_missingone"
+				.getBytes(StandardCharsets.UTF_8));
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(1, packList.getPlainPacksNotCoveredBy(midx).size());
+	}
+
+	@Test
+	public void getPlainPacksNotCoveredBy_midxChain() throws IOException {
+		writePackWithRandomBlob(100);
+		writePackWithRandomBlob(300);
+		writePackWithRandomBlob(50);
+		writePackWithRandomBlob(400);
+		writePackWithRandomBlob(130);
+		writePackWithRandomBlob(500);
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertEquals(6, packs.length);
+		DfsPackFileMidx midxBase = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 4, 6), null);
+		DfsPackFileMidx midxMid = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 2, 4), midxBase);
+		DfsPackFileMidx midxTip = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 0, 2), midxMid);
+
+		MidxPackList packList = MidxPackList
+				.create(db.getObjectDatabase().getPacks());
+		assertEquals(4, packList.getPlainPacksNotCoveredBy(midxBase).size());
+		assertEquals(2, packList.getPlainPacksNotCoveredBy(midxMid).size());
+		assertEquals(0, packList.getPlainPacksNotCoveredBy(midxTip).size());
+	}
 
 	private void setupThreePacks() throws IOException {
 		writePackWithRandomBlob(100);
@@ -196,11 +293,11 @@ public class MidxPackListTest {
 		writePackWithRandomBlob(50);
 	}
 
-	private void setupThreePacksAndMidx() throws IOException {
+	private DfsPackFileMidx setupThreePacksAndMidx() throws IOException {
 		writePackWithRandomBlob(100);
 		writePackWithRandomBlob(300);
 		writePackWithRandomBlob(50);
-		writeMultipackIndex();
+		return writeMultipackIndex();
 	}
 
 	private void setupSixPacksThreeMidx() throws IOException {
@@ -221,8 +318,8 @@ public class MidxPackListTest {
 				db.getObjectDatabase().getPacks().length);
 	}
 
-	private void writeMultipackIndex() throws IOException {
-		writeMultipackIndex(db.getObjectDatabase().getPacks(), null);
+	private DfsPackFileMidx writeMultipackIndex() throws IOException {
+		return writeMultipackIndex(db.getObjectDatabase().getPacks(), null);
 	}
 
 	private DfsPackFileMidx writeMultipackIndex(DfsPackFile[] packs,

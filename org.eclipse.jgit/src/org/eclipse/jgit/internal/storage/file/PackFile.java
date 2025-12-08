@@ -189,7 +189,7 @@ public class PackFile extends File {
 				return ext;
 			}
 
-			if (endsWithExtension.equals("old-" + ext.getExtension())) {
+			if (endsWithExtension.equals("old-" + ext.getExtension())) { //$NON-NLS-1$
 				return ext;
 			}
 		}

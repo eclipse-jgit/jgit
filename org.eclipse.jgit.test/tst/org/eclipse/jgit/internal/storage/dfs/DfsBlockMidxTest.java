@@ -25,7 +25,7 @@ import org.junit.Test;
 public class DfsBlockMidxTest {
 
 	private static final DfsStreamKey key = DfsStreamKey
-			.of(new DfsRepositoryDescription("repo"), "pack-1", PackExt.PACK);;
+			.of(new DfsRepositoryDescription("repo"), "pack-1", PackExt.PACK);
 
 	@Test
 	public void block_boundaries() {

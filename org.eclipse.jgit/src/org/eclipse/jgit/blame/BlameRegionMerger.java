@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.blame.cache.CacheRegion;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -72,8 +73,7 @@ class BlameRegionMerger {
 	List<Candidate> mergeOneRegion(Region region) throws IOException {
 		List<CacheRegion> overlaps = findOverlaps(region);
 		if (overlaps.isEmpty()) {
-			throw new IOException(
-					"Cached blame should cover all lines");
+			throw new IOException(JGitText.get().blameRegionCoverAllLines);
 		}
 		/*
 		 * Cached regions cover the whole file. We find first which ones overlap

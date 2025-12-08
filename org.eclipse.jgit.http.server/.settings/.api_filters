@@ -21,6 +21,13 @@
                 <message_argument value="hasChunkedEncodingRequestBug(int[], HttpServletRequest)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="hasChunkedEncodingRequestBug(int[], HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/GitFilter.java" type="org.eclipse.jgit.http.server.GitFilter">
         <filter id="337682486">
@@ -75,6 +82,20 @@
                 <message_argument value="addUploadPackFilter(Filter)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="addReceivePackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="addUploadPackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/GitServlet.java" type="org.eclipse.jgit.http.server.GitServlet">
         <filter id="337682486">
@@ -126,6 +147,20 @@
             <message_arguments>
                 <message_argument value="7.0"/>
                 <message_argument value="7.4"/>
+                <message_argument value="addUploadPackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="addReceivePackFilter(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
                 <message_argument value="addUploadPackFilter(Filter)"/>
             </message_arguments>
         </filter>
@@ -271,6 +306,55 @@
                 <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int, String)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="getResponseContentType(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="isGitClient(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="isInfoRefs(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="isReceivePack(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="isUploadPack(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="sendError(HttpServletRequest, HttpServletResponse, int, String)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java" type="org.eclipse.jgit.http.server.ReceivePackErrorHandler">
         <filter id="403804204">
@@ -296,6 +380,13 @@
             <message_arguments>
                 <message_argument value="7.0"/>
                 <message_argument value="7.4"/>
+                <message_argument value="receive(HttpServletRequest, HttpServletResponse, ReceivePackErrorHandler.ReceivePackRunnable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
                 <message_argument value="receive(HttpServletRequest, HttpServletResponse, ReceivePackErrorHandler.ReceivePackRunnable)"/>
             </message_arguments>
         </filter>
@@ -421,6 +512,41 @@
                 <message_argument value="sendPlainText(String, HttpServletRequest, HttpServletResponse)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="consumeRequestBody(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="getInputStream(HttpServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="getRepository(ServletRequest)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="send(byte[], HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="sendPlainText(String, HttpServletRequest, HttpServletResponse)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java" type="org.eclipse.jgit.http.server.UploadPackErrorHandler">
         <filter id="403804204">
@@ -446,6 +572,13 @@
             <message_arguments>
                 <message_argument value="7.0"/>
                 <message_argument value="7.4"/>
+                <message_argument value="upload(HttpServletRequest, HttpServletResponse, UploadPackErrorHandler.UploadPackRunnable)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
                 <message_argument value="upload(HttpServletRequest, HttpServletResponse, UploadPackErrorHandler.UploadPackRunnable)"/>
             </message_arguments>
         </filter>
@@ -587,6 +720,20 @@
                 <message_argument value="with(HttpServlet)"/>
             </message_arguments>
         </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="through(Filter)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1209008130">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="with(HttpServlet)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/glue/WrappedRequest.java" type="org.eclipse.jgit.http.server.glue.WrappedRequest">
         <filter id="337682486">
@@ -620,6 +767,13 @@
                 <message_argument value="WrappedRequest(HttpServletRequest, String, String)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="WrappedRequest(HttpServletRequest, String, String)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/resolver/AsIsFileService.java" type="org.eclipse.jgit.http.server.resolver.AsIsFileService">
         <filter id="338792546">
@@ -639,6 +793,13 @@
             <message_arguments>
                 <message_argument value="7.0"/>
                 <message_argument value="7.4"/>
+                <message_argument value="access(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
                 <message_argument value="access(HttpServletRequest, Repository)"/>
             </message_arguments>
         </filter>
@@ -664,6 +825,13 @@
                 <message_argument value="create(HttpServletRequest, Repository)"/>
             </message_arguments>
         </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
+                <message_argument value="create(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
     </resource>
     <resource path="src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java" type="org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory">
         <filter id="338792546">
@@ -683,6 +851,13 @@
             <message_arguments>
                 <message_argument value="7.0"/>
                 <message_argument value="7.4"/>
+                <message_argument value="create(HttpServletRequest, Repository)"/>
+            </message_arguments>
+        </filter>
+        <filter id="1141899266">
+            <message_arguments>
+                <message_argument value="7.0"/>
+                <message_argument value="7.6"/>
                 <message_argument value="create(HttpServletRequest, Repository)"/>
             </message_arguments>
         </filter>
