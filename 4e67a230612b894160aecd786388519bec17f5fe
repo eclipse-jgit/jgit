@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1547f989_603669bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-09T00:29:35Z",
+      "side": 1,
+      "message": "This is preparating the migration of the Gerrit build to bazel modules [1], hence it is expected that the master branch of Gerrit currently does not build against this change since the changes migrating to bazel modules aren\u0027t yet merged.\n\n[1] see the change series starting with https://gerrit-review.googlesource.com/c/gerrit/+/488984",
+      "revId": "4e67a230612b894160aecd786388519bec17f5fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
