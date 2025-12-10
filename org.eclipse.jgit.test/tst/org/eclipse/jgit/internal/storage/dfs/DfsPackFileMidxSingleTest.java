@@ -117,6 +117,48 @@ public class DfsPackFileMidxSingleTest {
 	}
 
 	@Test
+	public void getObjectAt() throws IOException {
+		ObjectId[] oids = writePackWithBlobs("something", "something else",
+				"and more");
+		// oids = [a4..., 33..., 64...]
+		DfsPackFileMidx midx = writeSinglePackMidx();
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertEquals(oids[0], midx.getObjectAt(ctx, 2));
+			assertEquals(oids[1], midx.getObjectAt(ctx, 0));
+			assertEquals(oids[2], midx.getObjectAt(ctx, 1));
+		}
+	}
+
+	@Test
+	public void getObjectAt_withBase() throws IOException {
+		ObjectId o1 = writePackWithBlob("o1".getBytes(UTF_8));
+		ObjectId o2 = writePackWithBlob("o2".getBytes(UTF_8));
+		ObjectId o3 = writePackWithBlob("o3".getBytes(UTF_8));
+		ObjectId o4 = writePackWithBlob("o4".getBytes(UTF_8));
+		ObjectId o5 = writePackWithBlob("o5".getBytes(UTF_8));
+		ObjectId o6 = writePackWithBlob("o6".getBytes(UTF_8));
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+
+		// Packs are in reverse insertion order
+		DfsPackFileMidx midxBase = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 3, 6), null);
+		DfsPackFileMidx midxMid = writeSinglePackMidx(packs[2], midxBase);
+		DfsPackFileMidx midxTip = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 0, 2), midxMid);
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertEquals(o1, midxTip.getObjectAt(ctx, 0));
+			assertEquals(o3, midxTip.getObjectAt(ctx, 1));
+			assertEquals(o2, midxTip.getObjectAt(ctx, 2));
+			assertEquals(o4, midxTip.getObjectAt(ctx, 3));
+			// In sha1 order
+			assertEquals(o6, midxTip.getObjectAt(ctx, 4));
+			assertEquals(o5, midxTip.getObjectAt(ctx, 5));
+		}
+	}
+
+	@Test
 	public void hasObject() throws IOException {
 		ObjectId[] oids = writePackWithBlobs("aaaa", "bbbb", "cccc");
 		DfsPackFile midx = writeSinglePackMidx();
