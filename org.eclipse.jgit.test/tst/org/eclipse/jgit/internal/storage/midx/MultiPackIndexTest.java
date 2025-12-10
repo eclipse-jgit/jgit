@@ -387,24 +387,24 @@ public class MultiPackIndexTest {
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 		assertEquals(3, midx.getPackNames().length);
-		assertEquals(0, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000001")));
-		assertEquals(1, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000002")));
-		assertEquals(2, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000003")));
-		assertEquals(3, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000004")));
-		assertEquals(4, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000005")));
-		assertEquals(5, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000007")));
-		assertEquals(6, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000010")));
-		assertEquals(7, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000012")));
-		assertEquals(8, midx.findPosition(ObjectId
-				.fromString("0000000000000000000000000000000000000015")));
+		assertEquals(0, midx.findPosition(oid("001")));
+		assertEquals(oid("001"), midx.getObjectAt(0));
+		assertEquals(1, midx.findPosition(oid("002")));
+		assertEquals(oid("002"), midx.getObjectAt(1));
+		assertEquals(2, midx.findPosition(oid("003")));
+		assertEquals(oid("003"), midx.getObjectAt(2));
+		assertEquals(3, midx.findPosition(oid("004")));
+		assertEquals(oid("004"), midx.getObjectAt(3));
+		assertEquals(4, midx.findPosition(oid("005")));
+		assertEquals(oid("005"), midx.getObjectAt(4));
+		assertEquals(5, midx.findPosition(oid("007")));
+		assertEquals(oid("007"), midx.getObjectAt(5));
+		assertEquals(6, midx.findPosition(oid("010")));
+		assertEquals(oid("010"), midx.getObjectAt(6));
+		assertEquals(7, midx.findPosition(oid("012")));
+		assertEquals(oid("012"), midx.getObjectAt(7));
+		assertEquals(8, midx.findPosition(oid("015")));
+		assertEquals(oid("015"), midx.getObjectAt(8));
 
 		assertNull(midx.find(ObjectId.zeroId()));
 	}
@@ -619,5 +619,11 @@ public class MultiPackIndexTest {
 		map.put(s2, pi2);
 		map.put(s3, pi3);
 		return map;
+	}
+
+	private static ObjectId oid(String last3chars) {
+		assertEquals(3, last3chars.length());
+		return ObjectId.fromString(
+				"0000000000000000000000000000000000000" + last3chars);
 	}
 }
