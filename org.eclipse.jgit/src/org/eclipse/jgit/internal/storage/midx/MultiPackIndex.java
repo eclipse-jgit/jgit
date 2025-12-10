@@ -86,6 +86,15 @@ public interface MultiPackIndex {
 	ObjectId getObjectAtBitmapPosition(int bitmapPosition);
 
 	/**
+	 * ObjectId at this position in the midx
+	 *
+	 * @param position
+	 *            position inside this midx in sha1 order
+	 * @return the object id at that position
+	 */
+	ObjectId getObjectAt(int position);
+
+	/**
 	 * Number of objects in this midx
 	 * <p>
 	 * This number doesn't match with the sum of objects in each covered pack
