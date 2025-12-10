@@ -43,8 +43,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	MultiPackIndexV1(int hashLength, @NonNull byte[] oidFanout,
 			@NonNull byte[] oidLookup, String[] packNames,
 			byte[] bitmappedPackfiles, byte[] objectOffsets,
-			byte[] largeObjectOffsets, byte[] bitmapPackOrder)
-			throws MultiPackIndexFormatException {
+			byte[] largeObjectOffsets, byte[] bitmapPackOrder) throws MultiPackIndexFormatException {
 		this.idx = new OidLookup(hashLength, oidFanout, oidLookup);
 		this.offsets = new OffsetLookup(objectOffsets, largeObjectOffsets);
 		this.packNames = packNames;
@@ -75,6 +74,11 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	@Override
 	public ObjectId getObjectAtBitmapPosition(int bitmapPosition) {
 		return ridx.getObjectId(bitmapPosition);
+	}
+
+	@Override
+	public ObjectId getObjectAt(int position) {
+		return idx.getObjectAt(position);
 	}
 
 	@Override
