@@ -11,7 +11,9 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -19,6 +21,8 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 
@@ -134,9 +138,8 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	}
 
 	@Override
-	public PackIndex getPackIndex(DfsReader ctx) {
-		throw new IllegalStateException(
-				"Shouldn't use multipack index if the primary index is needed"); //$NON-NLS-1$
+	public final PackIndex getPackIndex(DfsReader ctx) {
+		return new MidxPackIndex(this, ctx);
 	}
 
 	@Override
@@ -349,6 +352,103 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 		 */
 		long getPackOffset() {
 			return midxOffset - packStart;
+		}
+	}
+
+	private static class MidxPackIndex implements PackIndex {
+
+		private final DfsPackFileMidx pack;
+
+		private final DfsReader ctx;
+
+		MidxPackIndex(DfsPackFileMidx pack, DfsReader ctx) {
+			this.pack = pack;
+			this.ctx = ctx;
+		}
+
+		@Override
+		public Iterator<MutableEntry> iterator() {
+			throw new UnsupportedOperationException("Not implemented yet");
+		}
+
+		@Override
+		public long getObjectCount() {
+			try {
+				return pack.getObjectCount(ctx);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public long getOffset64Count() {
+			// TODO(ifrade): This method seems to be used only for stats.
+			// Maybe we can just remove it.
+			return 0;
+		}
+
+		@Override
+		public ObjectId getObjectId(long nthPosition) {
+			try {
+				return pack.getObjectAt(ctx, nthPosition);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public long getOffset(long nthPosition) {
+			ObjectId objectAt;
+			try {
+				objectAt = pack.getObjectAt(ctx, nthPosition);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			if (objectAt == null) {
+				return -1;
+			}
+
+			return findOffset(objectAt);
+		}
+
+		@Override
+		public long findOffset(AnyObjectId objId) {
+			try {
+				return pack.findOffset(ctx, objId);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public int findPosition(AnyObjectId objId) {
+			try {
+				return pack.findIdxPosition(ctx, objId);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public long findCRC32(AnyObjectId objId)
+				throws UnsupportedOperationException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean hasCRC32Support() {
+			return false;
+		}
+
+		@Override
+		public void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+				int matchLimit) throws IOException {
+			pack.resolve(ctx, matches, id, matchLimit);
+		}
+
+		@Override
+		public byte[] getChecksum() {
+			throw new UnsupportedOperationException();
 		}
 	}
 }
