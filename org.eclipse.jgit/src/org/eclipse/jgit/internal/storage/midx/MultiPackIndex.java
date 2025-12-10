@@ -78,12 +78,21 @@ public interface MultiPackIndex {
 	/**
 	 * Object id at the specified position in offset order (i.e position in the
 	 * ridx or bitmap)
-	 * 
+	 *
 	 * @param bitmapPosition
 	 *            position in the bitmap
 	 * @return object id at that position.
 	 */
 	ObjectId getObjectAtBitmapPosition(int bitmapPosition);
+
+	/**
+	 * ObjectId at this position in the midx
+	 *
+	 * @param position
+	 *            position inside this midx in sha1 order
+	 * @return the object id at that position
+	 */
+	ObjectId getObjectAt(int position);
 
 	/**
 	 * Number of objects in this midx
