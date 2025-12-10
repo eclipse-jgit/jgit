@@ -11,6 +11,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
@@ -116,6 +117,49 @@ public class DfsPackFileMidxNPacksTest {
 			// In sha1 order
 			assertEquals(5, midxTip.findIdxPosition(ctx, o5));
 			assertEquals(4, midxTip.findIdxPosition(ctx, o6));
+		}
+	}
+
+	@Test
+	public void midx_getObjectAt() throws IOException {
+		ObjectId o1 = writePackWithBlob("something".getBytes(UTF_8));
+		ObjectId o2 = writePackWithBlob("something else".getBytes(UTF_8));
+		ObjectId o3 = writePackWithBlob("and more".getBytes(UTF_8));
+		DfsPackFileMidx midx = writeMultipackIndex();
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertEquals(o1, midx.getObjectAt(ctx, 2));
+			assertEquals(o2, midx.getObjectAt(ctx, 0));
+			assertEquals(o3, midx.getObjectAt(ctx, 1));
+		}
+	}
+
+	@Test
+	public void midx_getObjectAt_withBase() throws IOException {
+		ObjectId o1 = writePackWithBlob("o1".getBytes(UTF_8));
+		ObjectId o2 = writePackWithBlob("o2".getBytes(UTF_8));
+		ObjectId o3 = writePackWithBlob("o3".getBytes(UTF_8));
+		ObjectId o4 = writePackWithBlob("o4".getBytes(UTF_8));
+		ObjectId o5 = writePackWithBlob("o5".getBytes(UTF_8));
+		ObjectId o6 = writePackWithBlob("o6".getBytes(UTF_8));
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+
+		// Packs are in reverse insertion order
+		DfsPackFileMidx midxBase = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 4, 6), null);
+		DfsPackFileMidx midxMid = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 2, 4), midxBase);
+		DfsPackFileMidx midxTip = writeMultipackIndex(
+				Arrays.copyOfRange(packs, 0, 2), midxMid);
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertEquals(o1, midxTip.getObjectAt(ctx, 0));
+			assertEquals(o2, midxTip.getObjectAt(ctx, 1));
+			assertEquals(o3, midxTip.getObjectAt(ctx, 2));
+			assertEquals(o4, midxTip.getObjectAt(ctx, 3));
+			// In sha1 order
+			assertEquals(o5, midxTip.getObjectAt(ctx, 5));
+			assertEquals(o6, midxTip.getObjectAt(ctx, 4));
 		}
 	}
 
@@ -1184,7 +1228,9 @@ public class DfsPackFileMidxNPacksTest {
 					.write(NullProgressMonitor.INSTANCE, out, forMidx);
 			desc.setCoveredPacks(midxStats.packNames().stream()
 					.map(descByName::get).toList());
+			desc.setObjectCount(midxStats.objectCount());
 			desc.addFileExt(PackExt.MULTI_PACK_INDEX);
+			desc.setFileSize(MULTI_PACK_INDEX, midxStats.bytesWritten());
 		}
 		db.getObjectDatabase().commitPack(List.of(desc), null);
 		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,

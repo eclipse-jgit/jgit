@@ -140,7 +140,6 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		return multiPackIndex::hasObject;
 	}
 
-
 	@Override
 	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
 		// TODO(ifrade): at some point we will have bitmaps over the multipack
@@ -224,6 +223,17 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	@Override
 	public DfsPackFileMidx getMultipackIndexBase() {
 		return base;
+	}
+
+	@Override
+	ObjectId getObjectAt(DfsReader ctx, long nthPosition) throws IOException {
+		int baseObjectCount = base == null ? 0 : base.getObjectCount(ctx);
+		if (nthPosition >= baseObjectCount) {
+			long localPosition = nthPosition - baseObjectCount;
+			return midx(ctx).getObjectAt((int) localPosition);
+		}
+
+		return base.getObjectAt(ctx, nthPosition);
 	}
 
 	@Override
@@ -362,7 +372,6 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		tmp.sort(OFFSET_SORT);
 		return tmp;
 	}
-
 
 	// Visible for testing
 	static class VOffsetCalculatorNPacks implements VOffsetCalculator {

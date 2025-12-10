@@ -151,6 +151,17 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 	}
 
 	@Override
+	ObjectId getObjectAt(DfsReader ctx, long nthPosition) throws IOException {
+		int baseObjects = base == null ? 0 : base.getObjectCount(ctx);
+		if (nthPosition >= baseObjects) {
+			long localPosition = nthPosition - baseObjects;
+			return pack.getPackIndex(ctx).getObjectId(localPosition);
+		}
+
+		return base.getObjectAt(ctx, nthPosition);
+	}
+
+	@Override
 	public boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {
 		if (pack.hasObject(ctx, id)) {
 			return true;
