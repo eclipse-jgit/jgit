@@ -77,9 +77,29 @@
   if the release looks good. You can download uploaded artifacts from there.
   How to manually test a staged release is explained
   [here](https://central.sonatype.org/publish/publish-portal-api/#manually-testing-a-deployment-bundle)
-- publish the new release
+  - create a bearer token as described [here](https://central.sonatype.org/publish/publish-portal-api/#authentication-authorization)
+  - add the sections mentioned [here](https://central.sonatype.org/publish/publish-portal-api/#maven)
+    using the bearer token you created in the previous step to your `~/.m2/settings.xml`
+  - clone the jgit-build-test repo from github
+    ```
+    $ git clone https://github.com/msohn/jgit-build-test
+    ```
+  - update the version in its pom.xml to the new JGit release you staged
+  - delete all jgit artifacts from your local m2 repository
+    ```
+    $ rm -r ~/.m2/org/eclipse/jgit
+    ```
+  - build the jgit-built-test maven project to test if all artifacts of the new release
+    can be downloaded and used in a build
+    ```
+    $ mvn clean install -Pcentral.manual.testing
+    ```
+  - commit the version update in jgit-build-test and push it to github
+- if the test build of jgit-build-test succeeded publish the new release
   - by clicking "Publish" on the [portal deployment page](https://central.sonatype.com/publishing/deployments)
   - or by running
     ```
     $ JRELEASER_MAVENCENTRAL_STAGE=PUBLISH jreleaser deploy
     ```
+  - when publication finished check if the new version is available
+    on [Maven Central](https://repo1.maven.org/maven2/org/eclipse/jgit/)
