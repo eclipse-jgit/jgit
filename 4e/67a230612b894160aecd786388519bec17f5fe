@@ -1,0 +1,9 @@
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Thomas Dräbing <thomas.draebing@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Sat, 13 Dec 2025 20:54:21 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1227457
+Comments-Total: 1
+Project: eclipse-jgit/jgit
+Branch: refs/heads/servlet-4
