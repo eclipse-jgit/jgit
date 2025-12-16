@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9863b0b7_0a903c87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-16T15:33:32Z",
+      "side": 1,
+      "message": "please ensure that HTML tags used in javadoc are valid",
+      "revId": "b0f0406fddf43e8f556a3b72f7feeca6908e6bee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ededcf65_6e963c81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2025-12-16T15:33:32Z",
+      "side": 1,
+      "message": "please ensure that HTML tags used in javadoc are valid",
+      "revId": "b0f0406fddf43e8f556a3b72f7feeca6908e6bee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
