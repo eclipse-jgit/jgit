@@ -460,6 +460,129 @@ public class MultiPackIndexTest {
 		assertEquals(0, midx.getObjectCount());
 	}
 
+	@Test
+	public void jgit_findBitmapPosition() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 500),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000005", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000010", 1500)));
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 501),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000003", 13),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000015", 1501)));
+		PackIndex idxThree = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000004", 502),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000007", 14),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000012", 1502)));
+
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo, "p3", idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		MultiPackIndex.PackOffset packOffset;
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000005"));
+		assertEquals(0, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000001"));
+		assertEquals(1, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000010"));
+		assertEquals(2, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000003"));
+		assertEquals(3, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000002"));
+		assertEquals(4, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000015"));
+		assertEquals(5, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000007"));
+		assertEquals(6, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000004"));
+		assertEquals(7, midx.findBitmapPosition(packOffset));
+		packOffset = midx.find(ObjectId
+				.fromString("0000000000000000000000000000000000000012"));
+		assertEquals(8, midx.findBitmapPosition(packOffset));
+	}
+
+	@Test
+	public void jgit_getObjectAtBitmapPosition() throws IOException {
+		PackIndex idxOne = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 500),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000005", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000010", 1500)));
+		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 501),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000003", 13),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000015", 1501)));
+		PackIndex idxThree = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000004", 502),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000007", 14),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000012", 1502)));
+
+		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+				"p2", idxTwo, "p3", idxThree);
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000005"),
+				midx.getObjectAtBitmapPosition(0));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000001"),
+				midx.getObjectAtBitmapPosition(1));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000010"),
+				midx.getObjectAtBitmapPosition(2));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000003"),
+				midx.getObjectAtBitmapPosition(3));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000002"),
+				midx.getObjectAtBitmapPosition(4));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000015"),
+				midx.getObjectAtBitmapPosition(5));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000007"),
+				midx.getObjectAtBitmapPosition(6));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000004"),
+				midx.getObjectAtBitmapPosition(7));
+		assertEquals(
+				ObjectId.fromString("0000000000000000000000000000000000000012"),
+				midx.getObjectAtBitmapPosition(8));
+	}
+
 	private static PackIndex indexWith(String... oids) {
 		List<FakeIndexFactory.IndexObject> idxObjs = new ArrayList<>(
 				oids.length);
