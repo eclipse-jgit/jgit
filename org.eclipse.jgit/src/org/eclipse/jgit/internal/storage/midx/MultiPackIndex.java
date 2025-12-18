@@ -66,6 +66,26 @@ public interface MultiPackIndex {
 	int findPosition(AnyObjectId objectId);
 
 	/**
+	 * Return the position in offset order (i.e. ridx or bitmap position) for
+	 * the (packId, offset) pair.
+	 *
+	 * @param po
+	 *            a location in the midx (packId, offset)
+	 * @return the position in the midx, in offset order
+	 */
+	int findBitmapPosition(PackOffset po);
+
+	/**
+	 * Object id at the specified position in offset order (i.e position in the
+	 * ridx or bitmap)
+	 *
+	 * @param bitmapPosition
+	 *            position in the bitmap
+	 * @return object id at that position.
+	 */
+	ObjectId getObjectAtBitmapPosition(int bitmapPosition);
+
+	/**
 	 * Number of objects in this midx
 	 * <p>
 	 * This number doesn't match with the sum of objects in each covered pack
@@ -102,7 +122,7 @@ public interface MultiPackIndex {
 	 * Mutable object to avoid creating many instances while looking for objects
 	 * in the pack. Use #copy() to get a new instance with the data.
 	 */
-	class PackOffset {
+	class PackOffset implements Comparable<PackOffset> {
 
 		private int packId;
 
@@ -123,7 +143,7 @@ public interface MultiPackIndex {
 			return new PackOffset().setValues(packId, offset);
 		}
 
-		protected PackOffset setValues(int packId, long offset) {
+		public PackOffset setValues(int packId, long offset) {
 			this.packId = packId;
 			this.offset = offset;
 			return this;
@@ -140,6 +160,16 @@ public interface MultiPackIndex {
 		public PackOffset copy() {
 			PackOffset copy = new PackOffset();
 			return copy.setValues(this.packId, this.offset);
+		}
+
+		@Override
+		public int compareTo(PackOffset packOffset) {
+			int cmp = this.packId - packOffset.packId;
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			return Long.compare(this.offset, packOffset.offset);
 		}
 	}
 }
