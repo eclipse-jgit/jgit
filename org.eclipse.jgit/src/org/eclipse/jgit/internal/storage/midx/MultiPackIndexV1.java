@@ -36,6 +36,8 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	private final byte[] bitmappedPackfiles;
 
+	private final byte[] bitmapPackOrder;
+
 	private final OffsetLookup offsets;
 
 	private final PackOffset result = new PackOffset();
@@ -43,8 +45,10 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	MultiPackIndexV1(int hashLength, @NonNull byte[] oidFanout,
 			@NonNull byte[] oidLookup, String[] packNames,
 			byte[] bitmappedPackfiles, byte[] objectOffsets,
-			byte[] largeObjectOffsets) throws MultiPackIndexFormatException {
+			byte[] largeObjectOffsets, byte[] bitmapPackOrder)
+			throws MultiPackIndexFormatException {
 		this.bitmappedPackfiles = bitmappedPackfiles;
+		this.bitmapPackOrder = bitmapPackOrder;
 		this.idx = new OidLookup(hashLength, oidFanout, oidLookup);
 		this.offsets = new OffsetLookup(objectOffsets, largeObjectOffsets);
 		this.packNames = packNames;
@@ -92,6 +96,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		int packNamesSize = Arrays.stream(packNames)
 				.mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length).sum();
 		return packNamesSize + byteArrayLengh(bitmappedPackfiles)
+				+ byteArrayLengh(bitmapPackOrder)
 				+ idx.getMemorySize() + offsets.getMemorySize();
 	}
 

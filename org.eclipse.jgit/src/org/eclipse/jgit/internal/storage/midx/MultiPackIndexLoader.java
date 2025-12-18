@@ -187,6 +187,9 @@ public class MultiPackIndexLoader {
 			case MIDX_CHUNKID_LARGEOFFSETS:
 				builder.addObjectLargeOffsets(buffer);
 				break;
+			case MIDX_CHUNKID_REVINDEX:
+				builder.addReverseIndex(buffer);
+				break;
 			default:
 				LOG.warn(MessageFormat.format(JGitText.get().midxChunkUnknown,
 						Integer.toHexString(chunkId)));
@@ -300,7 +303,8 @@ public class MultiPackIndexLoader {
 
 			assertPackCounts(packCount, packNames.length);
 			return new MultiPackIndexV1(hashLength, oidFanout, oidLookup,
-					packNames, bitmappedPackfiles, objectOffsets, largeObjectOffsets);
+					packNames, bitmappedPackfiles, objectOffsets,
+					largeObjectOffsets, bitmapPackOrder);
 		}
 
 		private static void assertChunkNotNull(Object object, int chunkId)
