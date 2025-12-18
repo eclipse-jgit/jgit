@@ -23,8 +23,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
@@ -130,7 +133,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	// Visible for testing
 	@Override
-	protected VOffsetCalculator getOffsetCalculator() {
+	protected VOffsetCalculatorNPacks getOffsetCalculator() {
 		return offsetCalculator;
 	}
 
@@ -185,6 +188,14 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
+		return new MidxReverseIndex(ctx, this,
+				base == null ? 0 : base.getObjectCount(ctx),
+				getOffsetCalculator().baseMaxOffset,
+				base == null ? null : base.getReverseIdx(ctx));
 	}
 
 	/**
@@ -385,6 +396,8 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 		private final DfsPackOffset poBuffer = new DfsPackOffset();
 
+		private final PackOffset localPoBuffer = new PackOffset();
+
 		static VOffsetCalculatorNPacks fromPacks(DfsPackFile[] packsInIdOrder,
 				VOffsetCalculator baseOffsetCalculator) {
 			long[] accSizes = new long[packsInIdOrder.length + 1];
@@ -415,6 +428,22 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 					+ baseMaxOffset;
 		}
 
+		MultiPackIndex.PackOffset decodeLocal(long voffset) {
+			if (voffset == -1 || voffset < baseMaxOffset
+					|| voffset > getMaxOffset()) {
+				return null;
+			}
+
+			long localOffset = voffset - baseMaxOffset;
+			for (int i = 1; i < accSizes.length; i++) {
+				if (localOffset <= accSizes[i]) {
+					return localPoBuffer.setValues(i - 1,
+							localOffset - accSizes[i - 1]);
+				}
+			}
+			return null;
+		}
+
 		@Override
 		public DfsPackOffset decode(long voffset) {
 			if (voffset == -1) {
@@ -438,6 +467,96 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		@Override
 		public long getMaxOffset() {
 			return accSizes[accSizes.length - 1] + baseMaxOffset;
+		}
+	}
+
+	private static final class MidxReverseIndex implements PackReverseIndex {
+		private final PackReverseIndex parentRidx;
+
+		private final DfsPackFileMidxNPacks localMidx;
+
+		private final DfsReader ctx;
+
+		private final long baseObjectCount;
+
+		private final long baseMaxOffset;
+
+		MidxReverseIndex(DfsReader ctx, DfsPackFileMidxNPacks localMidx,
+				long baseObjectCount, long baseMaxOffset,
+				PackReverseIndex parentRidx) {
+			this.ctx = ctx;
+			this.parentRidx = parentRidx;
+			this.localMidx = localMidx;
+			this.baseObjectCount = baseObjectCount;
+			this.baseMaxOffset = baseMaxOffset;
+		}
+
+		@Override
+		public void verifyPackChecksum(String packFilePath)
+				throws PackMismatchException {
+
+		}
+
+		private MultiPackIndex loadLocalMidx() {
+			try {
+				return localMidx.midx(ctx);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public ObjectId findObject(long offset) {
+			if (offset < baseMaxOffset) {
+				return parentRidx.findObject(offset);
+			}
+
+			PackOffset localPo = localMidx.getOffsetCalculator()
+					.decodeLocal(offset);
+			if (localPo == null) {
+				return null;
+			}
+
+			int p = loadLocalMidx().findBitmapPosition(localPo);
+			if (p == -1) {
+				// If we found the local
+				// position, this should NOT
+				// happen
+				throw new IllegalStateException();
+			}
+
+			return loadLocalMidx().getObjectAtBitmapPosition(p);
+		}
+
+		@Override
+		public long findNextOffset(long offset, long maxOffset)
+				throws CorruptObjectException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int findPosition(long offset) {
+			if (offset < baseMaxOffset) {
+				return parentRidx.findPosition(offset);
+			}
+
+			PackOffset localPo = localMidx.getOffsetCalculator()
+					.decodeLocal(offset);
+			if (localPo == null) {
+				return -1;
+			}
+
+			return loadLocalMidx().findBitmapPosition(localPo)
+					+ (int) baseObjectCount;
+		}
+
+		@Override
+		public ObjectId findObjectByPosition(int nthPosition) {
+			if (nthPosition < baseObjectCount) {
+				return parentRidx.findObjectByPosition(nthPosition);
+			}
+			return loadLocalMidx().getObjectAtBitmapPosition(
+					nthPosition - (int) baseObjectCount);
 		}
 	}
 }
