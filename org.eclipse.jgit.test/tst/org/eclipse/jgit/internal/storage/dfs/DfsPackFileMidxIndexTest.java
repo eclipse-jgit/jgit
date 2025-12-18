@@ -19,11 +19,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -43,7 +45,8 @@ public class DfsPackFileMidxIndexTest {
 	@Parameters(name = "{0}")
 	public static Iterable<TestInput> data() throws IOException {
 		return List.of(setupOneMidxOverOnePack(), setupOneMidxOverNPacks(),
-				setupMidxChainEachOverNPacks());
+				setupMidxChainEachOverNPacks(),
+				setupMidxChainSingleAndNPacks());
 	}
 
 	private record TestInput(String testDesc, DfsRepository db,
@@ -125,6 +128,47 @@ public class DfsPackFileMidxIndexTest {
 		}
 	}
 
+	@Test
+	public void getReverseIndex_findObject() throws IOException {
+		try (DfsReader ctx = ti.db.getObjectDatabase().newReader()) {
+			PackIndex idx = ti.midx().getPackIndex(ctx);
+			PackReverseIndex ridx = ti.midx().getReverseIdx(ctx);
+			for (ObjectId oid : ti.oids()) {
+				long offset = idx.findOffset(oid);
+				assertEquals(oid, ridx.findObject(offset));
+			}
+		}
+	}
+
+	@Test
+	public void getReverseIndex_findObjectByPosition() throws IOException {
+		try (DfsReader ctx = ti.db.getObjectDatabase().newReader()) {
+			PackIndex idx = ti.midx().getPackIndex(ctx);
+			ObjectId[] offsetOrder = ti.oids().clone();
+			Arrays.sort(offsetOrder, Comparator.comparingLong(idx::findOffset));
+
+			PackReverseIndex ridx = ti.midx().getReverseIdx(ctx);
+			for (int i = 0; i < offsetOrder.length; i++) {
+				assertEquals(offsetOrder[i], ridx.findObjectByPosition(i));
+			}
+		}
+	}
+
+	@Test
+	public void getReverseIndex_findPosition() throws IOException {
+		try (DfsReader ctx = ti.db.getObjectDatabase().newReader()) {
+			PackIndex idx = ti.midx().getPackIndex(ctx);
+			ObjectId[] offsetOrder = ti.oids().clone();
+			Arrays.sort(offsetOrder, Comparator.comparingLong(idx::findOffset));
+
+			PackReverseIndex ridx = ti.midx().getReverseIdx(ctx);
+			for (int i = 0; i < offsetOrder.length; i++) {
+				long offset = idx.findOffset(offsetOrder[i]);
+				int position = ridx.findPosition(offset);
+				assertEquals(i, position);
+			}
+		}
+	}
 	static TestInput setupOneMidxOverOnePack() throws IOException {
 		InMemoryRepository db = new InMemoryRepository(
 				new DfsRepositoryDescription("one_midx_one_pack"));
@@ -170,5 +214,28 @@ public class DfsPackFileMidxIndexTest {
 		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 		return new TestInput("two midx - 3 packs each", db, midxTip, objectIds);
+	}
+
+	static TestInput setupMidxChainSingleAndNPacks() throws IOException {
+		InMemoryRepository db = new InMemoryRepository(
+				new DfsRepositoryDescription("two_midx_3_packs_each"));
+
+		ObjectId[] objectIds = BLOBS.stream().map(s -> {
+			try {
+				return MidxTestUtils.writePackWithBlob(db, s);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}).toArray(ObjectId[]::new);
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		// If the amount of blobs (i.e. packs), adjust the ranges covered by
+		// midx.
+		assertEquals(6, BLOBS.size());
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
+				Arrays.copyOfRange(packs, 1, 6), null);
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
+				Arrays.copyOfRange(packs, 0, 1), midxBase);
+		return new TestInput("two midx - 1 pack, 5 packs", db, midxTip,
+				objectIds);
 	}
 }
