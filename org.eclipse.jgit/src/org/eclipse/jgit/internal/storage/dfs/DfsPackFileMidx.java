@@ -146,10 +146,8 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	}
 
 	@Override
-	public PackReverseIndex getReverseIdx(DfsReader ctx) {
-		throw new IllegalStateException(
-				"Shouldn't use multipack index if the reverse index is needed"); //$NON-NLS-1$
-	}
+	public abstract PackReverseIndex getReverseIdx(DfsReader ctx)
+			throws IOException;
 
 	@Override
 	ObjectLoader load(DfsReader ctx, long midxOffset) throws IOException {
