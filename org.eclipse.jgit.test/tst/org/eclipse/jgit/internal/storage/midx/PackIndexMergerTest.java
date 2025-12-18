@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -252,6 +253,65 @@ public class PackIndexMergerTest {
 		assertFalse(merger.needsLargeOffsetsChunk());
 		assertEquals(2, merger.getOffsetsOver31BitsCount());
 		assertEquals(3, merger.getUniqueObjectCount());
+	}
+
+	@Test
+	public void getObjectsPerPack_noDuplicates() {
+		PackIndex idxOne = indexOf(
+				oidOffset("0000000000000000000000000000000000000001", 500),
+				oidOffset("0000000000000000000000000000000000000005", 12),
+				oidOffset("0000000000000000000000000000000000000010", 1500));
+		PackIndex idxTwo = indexOf(
+				oidOffset("0000000000000000000000000000000000000002", 501),
+				oidOffset("0000000000000000000000000000000000000003", 13),
+				oidOffset("0000000000000000000000000000000000000015", 1501));
+		PackIndex idxThree = indexOf(
+				oidOffset("0000000000000000000000000000000000000004", 502),
+				oidOffset("0000000000000000000000000000000000000007", 14),
+				oidOffset("0000000000000000000000000000000000000012", 1502));
+		PackIndexMerger merger = new PackIndexMerger(
+				orderedMapOf("p1", idxOne, "p2", idxTwo, "p3", idxThree));
+		assertArrayEquals(new int[] { 3, 3, 3 }, merger.getObjectsPerPack());
+	}
+
+	@Test
+	public void getObjectsPerPack_differentIndexSizes() {
+		PackIndex idxOne = indexOf(
+				oidOffset("0000000000000000000000000000000000000010", 1500));
+		PackIndex idxTwo = indexOf(
+				oidOffset("0000000000000000000000000000000000000002", 500),
+				oidOffset("0000000000000000000000000000000000000003", 12));
+		PackIndex idxThree = indexOf(
+				oidOffset("0000000000000000000000000000000000000004", 500),
+				oidOffset("0000000000000000000000000000000000000007", 12),
+				oidOffset("0000000000000000000000000000000000000012", 1500));
+		PackIndexMerger merger = new PackIndexMerger(
+				orderedMapOf("p1", idxOne, "p2", idxTwo, "p3", idxThree));
+		assertArrayEquals(new int[] { 1, 2, 3 }, merger.getObjectsPerPack());
+	}
+
+	@Test
+	public void getObjectsPerPack_allDuplicates() {
+		PackIndex idxOne = indexOf(
+				oidOffset("0000000000000000000000000000000000000001", 500),
+				oidOffset("0000000000000000000000000000000000000005", 12),
+				oidOffset("0000000000000000000000000000000000000010", 1500));
+		PackIndexMerger merger = new PackIndexMerger(
+				orderedMapOf("p1", idxOne, "p2", idxOne, "p3", idxOne));
+		assertArrayEquals(new int[] { 3, 0, 0 }, merger.getObjectsPerPack());
+	}
+
+	@Test
+	public void getObjectsPerPack_noIndexes() {
+		PackIndexMerger merger = new PackIndexMerger(new LinkedHashMap<>());
+		assertArrayEquals(new int[] {}, merger.getObjectsPerPack());
+	}
+
+	@Test
+	public void getObjectsPerPack_emptyIndexes() {
+		PackIndexMerger merger = new PackIndexMerger(
+				orderedMapOf("p1", indexOf(), "p2", indexOf()));
+		assertArrayEquals(new int[] { 0, 0 }, merger.getObjectsPerPack());
 	}
 
 	private static void assertNextEntry(
