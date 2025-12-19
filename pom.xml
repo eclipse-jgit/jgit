@@ -144,7 +144,7 @@
     <maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
-    <plexus-compiler-version>2.16.0</plexus-compiler-version>
+    <plexus-compiler-version>2.16.1</plexus-compiler-version>
     <hamcrest-version>3.0</hamcrest-version>
     <assertj-version>3.27.6</assertj-version>
     <jna-version>5.18.1</jna-version>
@@ -1129,7 +1129,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.43.0</version>
+                <version>3.44.0</version>
               </dependency>
             </dependencies>
           </plugin>
