@@ -127,6 +127,8 @@ public class RefDirectory extends RefDatabase {
 		.map(Integer::parseInt)
 		.toList();
 
+	private static final boolean skipRefPeeling = Boolean.getBoolean("ghs.jgit.ref-directory.skip-ref-peeling");
+
 	private final FileRepository parent;
 
 	private final File gitDir;
@@ -918,6 +920,9 @@ public class RefDirectory extends RefDatabase {
 	 */
 	private Ref peeledPackedRef(Ref ref)
 			throws MissingObjectException, IOException {
+		if (skipRefPeeling) {
+			return ref;
+		}
 		if (ref.getStorage().isPacked() && ref.isPeeled()) {
 			return ref;
 		}
