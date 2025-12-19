@@ -589,8 +589,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	PackList scanPacks(PackList original) throws IOException {
-		PackList o, n;
 		synchronized (packList) {
+			PackList o, n;
 			do {
 				o = packList.get();
 				if (o != original) {
