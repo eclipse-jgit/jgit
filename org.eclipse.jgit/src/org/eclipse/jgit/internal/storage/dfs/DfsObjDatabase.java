@@ -590,20 +590,18 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	PackList scanPacks(PackList original) throws IOException {
 		PackList o, n;
-		synchronized (packList) {
-			do {
-				o = packList.get();
-				if (o != original) {
-					// Another thread did the scan for us, while we
-					// were blocked on the monitor above.
-					//
-					return o;
-				}
-				n = scanPacksImpl(o);
-				if (n == o)
-					return n;
-			} while (!packList.compareAndSet(o, n));
-		}
+		do {
+			o = packList.get();
+			if (o != original) {
+				// Another thread did the scan for us, while we
+				// were blocked on the monitor above.
+				//
+				return o;
+			}
+			n = scanPacksImpl(o);
+			if (n == o)
+				return n;
+		} while (!packList.compareAndSet(o, n));
 		getRepository().fireEvent(new DfsPacksChangedEvent());
 		return n;
 	}
