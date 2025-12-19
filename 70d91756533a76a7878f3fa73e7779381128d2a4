@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06f6e887_2388aaf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-12-19T23:12:07Z",
+      "side": 1,
+      "message": "Sorry, removing +1 since I got mixed up between 2 changes...",
+      "revId": "70d91756533a76a7878f3fa73e7779381128d2a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
