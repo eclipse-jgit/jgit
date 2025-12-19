@@ -16,6 +16,46 @@
       "message": "Sorry, removing +1 since I got mixed up between 2 changes...",
       "revId": "70d91756533a76a7878f3fa73e7779381128d2a4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6daf82ce_1774ef2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-12-19T23:22:30Z",
+      "side": 1,
+      "message": "Unnecessary? It\u0027s not public anyways, since the class is package-private.",
+      "revId": "70d91756533a76a7878f3fa73e7779381128d2a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48bc7540_12d89b0a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2025-12-19T23:22:30Z",
+      "side": 1,
+      "message": "The first and last arguments don\u0027t need to be parameters",
+      "range": {
+        "startLine": 364,
+        "startChar": 14,
+        "endLine": 364,
+        "endChar": 26
+      },
+      "revId": "70d91756533a76a7878f3fa73e7779381128d2a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
