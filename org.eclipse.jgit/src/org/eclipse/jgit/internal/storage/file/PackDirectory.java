@@ -79,6 +79,10 @@ class PackDirectory {
 
 	private final TrustStat trustPackStat;
 
+	private static ThreadLocal<HashMap<AnyObjectId,Pack>> objectIdToPackMap = ThreadLocal.withInitial(() -> new HashMap<>());
+
+	private static final boolean rememberObjectIdToPack = Boolean.getBoolean("ghs.jgit.pack-directory.remember-objectid-to-pack");
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -215,6 +219,17 @@ class PackDirectory {
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
+		if (rememberObjectIdToPack) {
+			Pack lastPackForObj = objectIdToPackMap.get().get(objectId);
+			try {
+				if (lastPackForObj != null) {
+					return lastPackForObj.get(curs, objectId);
+				}
+			} catch (IOException | PackMismatchException e) {
+				// Pack is not present anymore on disk
+				objectIdToPackMap.get().remove(objectId);
+			}
+		}
 		PackList pList;
 		do {
 			int retries = 0;
@@ -224,8 +239,12 @@ class PackDirectory {
 					try {
 						ObjectLoader ldr = p.get(curs, objectId);
 						p.resetTransientErrorCount();
-						if (ldr != null)
+						if (ldr != null) {
+							if (rememberObjectIdToPack) {
+								objectIdToPackMap.get().put(objectId, p);
+							}
 							return ldr;
+						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
 						if (searchPacksAgain(pList)) {
