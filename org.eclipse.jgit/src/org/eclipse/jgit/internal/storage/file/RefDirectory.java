@@ -734,7 +734,7 @@ public class RefDirectory extends RefDatabase {
 				PackedRefList packed = getPackedRefs();
 				if (packed.contains(name)) {
 					// Force update our packed-refs snapshot before writing
-					packed = refreshPackedRefs();
+					packed =  readPackedRefsFromCache ? packed : refreshPackedRefs();
 					int idx = packed.find(name);
 					if (0 <= idx) {
 						commitPackedRefs(lck, packed.remove(idx), packed, true);
@@ -802,7 +802,7 @@ public class RefDirectory extends RefDatabase {
 		try {
 			LockFile lck = lockPackedRefsOrThrow();
 			try {
-				PackedRefList oldPacked = refreshPackedRefs();
+				PackedRefList oldPacked = readPackedRefsFromCache ? getPackedRefs() : refreshPackedRefs();
 				RefList<Ref> newPacked = oldPacked;
 
 				// Iterate over all refs to be packed
