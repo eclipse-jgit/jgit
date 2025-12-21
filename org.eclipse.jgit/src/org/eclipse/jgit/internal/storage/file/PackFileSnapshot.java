@@ -21,6 +21,8 @@ class PackFileSnapshot extends FileSnapshot {
 
 	private static final ObjectId MISSING_CHECKSUM = ObjectId.zeroId();
 
+	private static final boolean assumeImmutablePackfile = Boolean.getBoolean("ghs.jgit.pack-file-snapshot.assume-immutable");
+
 	/**
 	 * Record a snapshot for a specific packfile path.
 	 * <p>
@@ -50,6 +52,10 @@ class PackFileSnapshot extends FileSnapshot {
 
 	@Override
 	public boolean isModified(File packFile) {
+		if (assumeImmutablePackfile) {
+			return false;
+		}
+
 		if (!super.isModified(packFile)) {
 			return false;
 		}
