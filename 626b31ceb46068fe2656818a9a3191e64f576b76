@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "962df071_f68240a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-21T21:32:31Z",
+      "side": 1,
+      "message": "Even though this caches the packed-refs content, it does not cache its parsing which is *hugely expensive* because of:\n- UTF-8 decoding\n- SHA1 checksum calculation\n\nInstead of caching the unparsed content, we should cache the *parsed* content and avoid recalculating the UTF-8 and SHA1",
+      "revId": "626b31ceb46068fe2656818a9a3191e64f576b76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
