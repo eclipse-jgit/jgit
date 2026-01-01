@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -143,6 +144,8 @@ public class BlameGenerator implements AutoCloseable {
 	private boolean useCache = true;
 
 	private final Stats stats = new Stats();
+
+	private Set<ObjectId> ignoreIds = Collections.emptySet();
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -302,6 +305,42 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	public void setUseCache(boolean useCache) {
 		this.useCache = useCache;
+	}
+
+	/**
+	 * Set revisions to ignore during blame.
+	 *
+	 * @param ids
+	 *            a {@link java.util.Set} of
+	 *            {@link org.eclipse.jgit.lib.ObjectId}.
+	 */
+	public void setIgnoreRevs(Set<ObjectId> ids) {
+		if (ids != null) {
+			this.ignoreIds = ids;
+		} else {
+			this.ignoreIds = Collections.emptySet();
+		}
+	}
+
+	private List<RevCommit> getEffectiveParents(RevCommit commit)
+			throws IOException {
+		List<RevCommit> nonIgnored = new ArrayList<>();
+		findNonIgnoredAncestors(commit, nonIgnored);
+		return nonIgnored;
+	}
+
+	private void findNonIgnoredAncestors(RevCommit current,
+			List<RevCommit> nonIgnoredResult) throws IOException {
+		if (ignoreIds.contains(current.getId())) {
+			for (RevCommit p : current.getParents()) {
+				revPool.parseHeaders(p);
+				findNonIgnoredAncestors(p, nonIgnoredResult);
+			}
+		} else {
+			if (!nonIgnoredResult.contains(current)) {
+				nonIgnoredResult.add(current);
+			}
+		}
 	}
 
 	/**
@@ -653,6 +692,24 @@ public class BlameGenerator implements AutoCloseable {
 				return done();
 			stats.candidatesVisited += 1;
 
+			if (!ignoreIds.isEmpty() && n.sourceCommit != null
+					&& !(n instanceof ReverseCandidate)
+					&& ignoreIds.contains(n.sourceCommit.getId())) {
+				List<RevCommit> effectiveParents = getEffectiveParents(
+						n.sourceCommit);
+				for (RevCommit effectiveParent : effectiveParents) {
+					if (find(effectiveParent, n.sourcePath)) {
+						Candidate parentCand = n.create(getRepository(),
+								effectiveParent, n.sourcePath);
+						parentCand.sourceBlob = idBuf.toObjectId();
+						parentCand.loadText(reader);
+						parentCand.regionList = n.regionList;
+						push(parentCand);
+					}
+				}
+				continue;
+			}
+
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
 				if (processOne(n))
@@ -835,14 +892,25 @@ public class BlameGenerator implements AutoCloseable {
 
 	private boolean split(Candidate parent, Candidate source)
 			throws IOException {
-		EditList editList = diffAlgorithm.diff(textComparator,
-				parent.sourceText, source.sourceText);
+		if (source.sourceText == null) {
+			source.loadText(reader);
+		}
+		if (parent != null && parent.sourceText == null) {
+			parent.loadText(reader);
+		}
+
+		RawText parentText = parent != null ? parent.sourceText : new RawText(
+				new byte[0]);
+		EditList editList = diffAlgorithm.diff(textComparator, parentText,
+				source.sourceText);
 		if (editList.isEmpty()) {
 			// Ignoring whitespace (or some other special comparator) can
 			// cause non-identical blobs to have an empty edit list. In
 			// a case like this push the parent alone.
-			parent.regionList = source.regionList;
-			push(parent);
+			if (parent != null) {
+				parent.regionList = source.regionList;
+				push(parent);
+			}
 			return false;
 		}
 
@@ -851,12 +919,19 @@ public class BlameGenerator implements AutoCloseable {
 			return result(cached);
 		}
 
-		parent.takeBlame(editList, source);
-		if (parent.regionList != null)
-			push(parent);
+		if (parent != null) {
+			Candidate p = parent;
+			p.takeBlame(editList, source);
+			if (p.regionList != null) {
+				push(p);
+			}
+		}
 		if (source.regionList != null) {
-			if (source instanceof ReverseCandidate)
-				return reverseResult(parent, source);
+			if (source instanceof ReverseCandidate) {
+				if (parent != null) {
+					return reverseResult(parent, source);
+				}
+			}
 			return result(source);
 		}
 		return false;
