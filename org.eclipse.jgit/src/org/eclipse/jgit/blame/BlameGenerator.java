@@ -20,7 +20,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -143,6 +145,8 @@ public class BlameGenerator implements AutoCloseable {
 	private boolean useCache = true;
 
 	private final Stats stats = new Stats();
+
+	private Set<ObjectId> ignoreIds = Collections.emptySet();
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -302,6 +306,35 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	public void setUseCache(boolean useCache) {
 		this.useCache = useCache;
+	}
+
+	/**
+	 * Set revisions to ignore during blame.
+	 * <p>
+	 * Revisions to ignore are applied during forward blame traversal. When an
+	 * ignored commit is encountered, modified lines are transferred to the
+	 * parent commit without attributing blame to the ignored revision.
+	 *
+	 * @param ids
+	 *            a {@link java.util.Collection} of
+	 *            {@link org.eclipse.jgit.lib.ObjectId}.
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public BlameGenerator setIgnoreRevs(Collection<? extends ObjectId> ids) {
+		if (ids != null && !ids.isEmpty()) {
+			this.ignoreIds = Collections.unmodifiableSet(new HashSet<>(ids));
+			this.useCache = false;
+		} else {
+			this.ignoreIds = Collections.emptySet();
+		}
+		return this;
+	}
+
+	private boolean isIgnored(Candidate n) {
+		return !ignoreIds.isEmpty() && n.sourceCommit != null
+				&& !(n instanceof ReverseCandidate)
+				&& ignoreIds.contains(n.sourceCommit.getId());
 	}
 
 	/**
@@ -653,6 +686,7 @@ public class BlameGenerator implements AutoCloseable {
 				return done();
 			stats.candidatesVisited += 1;
 
+
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
 				if (processOne(n))
@@ -758,7 +792,7 @@ public class BlameGenerator implements AutoCloseable {
 
 	@Nullable
 	private Candidate blameFromCache(Candidate n) throws IOException {
-		if (blameCache == null || !useCache) {
+		if (blameCache == null || !useCache || !ignoreIds.isEmpty()) {
 			return null;
 		}
 
@@ -851,7 +885,8 @@ public class BlameGenerator implements AutoCloseable {
 			return result(cached);
 		}
 
-		parent.takeBlame(editList, source);
+		boolean isIgnored = isIgnored(source);
+		parent.takeBlame(editList, source, isIgnored);
 		if (parent.regionList != null)
 			push(parent);
 		if (source.regionList != null) {
@@ -896,7 +931,7 @@ public class BlameGenerator implements AutoCloseable {
 				if (n instanceof ReverseCandidate) {
 					if (ids == null)
 						ids = new ObjectId[pCnt];
-					ids[pCnt] = r.getOldId().toObjectId();
+					ids[pIdx] = r.getOldId().toObjectId();
 				} else if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
 					// A 100% rename without any content change can also
 					// skip directly to the parent. Note this bypasses an
@@ -957,7 +992,7 @@ public class BlameGenerator implements AutoCloseable {
 				break;
 			}
 
-			p.takeBlame(editList, n);
+			p.takeBlame(editList, n, false);
 
 			// Only remember this parent candidate if there is at least
 			// one region that was blamed on the parent.
@@ -1015,8 +1050,30 @@ public class BlameGenerator implements AutoCloseable {
 				push(parents[pIdx]);
 		}
 
-		if (n.regionList != null)
+		if (n.regionList != null) {
+			if (isIgnored(n)) {
+				Candidate target = null;
+				for (int pIdx = 0; pIdx < pCnt; pIdx++) {
+					if (parents[pIdx] != null) {
+						target = parents[pIdx];
+						break;
+					}
+				}
+				if (target != null) {
+					target.mergeRegions(n);
+				} else if (pCnt > 0 && find(n.getParent(0), n.sourcePath)) {
+					Candidate p = n.create(getRepository(), n.getParent(0),
+							n.sourcePath);
+					p.sourceBlob = idBuf.toObjectId();
+					p.loadText(reader);
+					p.regionList = n.regionList;
+					push(p);
+				}
+				n.regionList = null;
+				return false;
+			}
 			return result(n);
+		}
 		return false;
 	}
 

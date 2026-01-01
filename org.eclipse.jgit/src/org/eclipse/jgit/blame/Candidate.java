@@ -149,10 +149,15 @@ class Candidate {
 	}
 
 	void takeBlame(EditList editList, Candidate child) {
-		blame(editList, this, child);
+		blame(editList, this, child, false);
 	}
 
-	private static void blame(EditList editList, Candidate a, Candidate b) {
+	void takeBlame(EditList editList, Candidate child, boolean isChildIgnored) {
+		blame(editList, this, child, isChildIgnored);
+	}
+
+	private static void blame(EditList editList, Candidate a, Candidate b,
+			boolean ignoreB) {
 		Region r = b.clearRegionList();
 		Region aTail = null;
 		Region bTail = null;
@@ -199,11 +204,15 @@ class Candidate {
 				continue;
 			}
 
-			// If the region ends before the edit, blame on B.
+			// If the region ends before the edit, blame on B (or pass to A if B is ignored).
 			int rEnd = r.sourceStart + r.length;
 			if (rEnd <= e.getEndB()) {
 				Region next = r.next;
-				bTail = add(bTail, b, r);
+				if (ignoreB) {
+					aTail = addIgnoredEdit(aTail, a, r, e);
+				} else {
+					bTail = add(bTail, b, r);
+				}
 				r = next;
 				if (rEnd == e.getEndB())
 					eIdx++;
@@ -211,9 +220,14 @@ class Candidate {
 			}
 
 			// This region extends beyond the edit. Blame the first
-			// half of the region on B, and process the rest after.
+			// half of the region on B (or pass to A if B is ignored), and process the rest after.
 			int len = e.getEndB() - r.sourceStart;
-			bTail = add(bTail, b, r.splitFirst(r.sourceStart, len));
+			Region firstHalf = r.splitFirst(r.sourceStart, len);
+			if (ignoreB) {
+				aTail = addIgnoredEdit(aTail, a, firstHalf, e);
+			} else {
+				bTail = add(bTail, b, firstHalf);
+			}
 			r.slideAndShrink(len);
 			eIdx++;
 		}
@@ -235,6 +249,37 @@ class Candidate {
 				r.sourceStart -= d;
 			r = r.next;
 		} while (r != null);
+	}
+
+	private static Region addIgnoredEdit(Region aTail, Candidate a, Region r,
+			Edit e) {
+		int maxA = (a.sourceText != null && a.sourceText.size() > 0)
+				? a.sourceText.size() - 1
+				: 0;
+		int rEnd = r.sourceStart + r.length;
+		int curRs = r.resultStart;
+		for (int bLine = r.sourceStart; bLine < rEnd; bLine++, curRs++) {
+			int offset = bLine - e.getBeginB();
+			int aLine;
+			if (e.getLengthA() > 0) {
+				if (offset < e.getLengthA()) {
+					aLine = e.getBeginA() + offset;
+				} else {
+					aLine = e.getBeginA() + e.getLengthA() - 1;
+				}
+			} else {
+				aLine = e.getBeginA();
+			}
+			if (aLine > maxA) {
+				aLine = maxA;
+			}
+			if (aLine < 0) {
+				aLine = 0;
+			}
+			Region single = new Region(curRs, aLine, 1);
+			aTail = add(aTail, a, single);
+		}
+		return aTail;
 	}
 
 	private static Region add(Region aTail, Candidate a, Region n) {
