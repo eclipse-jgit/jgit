@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90cdc0d0_f7bb5302",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-01-01T22:15:36Z",
+      "side": 1,
+      "message": "My goal is to enable blame ignore revs in Gerrit: https://issues.gerritcodereview.com/issues/40015236",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
