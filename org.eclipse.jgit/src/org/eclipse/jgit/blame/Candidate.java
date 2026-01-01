@@ -149,10 +149,15 @@ class Candidate {
 	}
 
 	void takeBlame(EditList editList, Candidate child) {
-		blame(editList, this, child);
+		blame(editList, this, child, false);
 	}
 
-	private static void blame(EditList editList, Candidate a, Candidate b) {
+	void takeBlame(EditList editList, Candidate child, boolean isChildIgnored) {
+		blame(editList, this, child, isChildIgnored);
+	}
+
+	private static void blame(EditList editList, Candidate a, Candidate b,
+			boolean ignoreB) {
 		Region r = b.clearRegionList();
 		Region aTail = null;
 		Region bTail = null;
@@ -199,11 +204,15 @@ class Candidate {
 				continue;
 			}
 
-			// If the region ends before the edit, blame on B.
+			// If the region ends before the edit, blame on B (or pass to A if B is ignored).
 			int rEnd = r.sourceStart + r.length;
 			if (rEnd <= e.getEndB()) {
 				Region next = r.next;
-				bTail = add(bTail, b, r);
+				if (ignoreB) {
+					aTail = addIgnoredEdit(aTail, a, r, e);
+				} else {
+					bTail = add(bTail, b, r);
+				}
 				r = next;
 				if (rEnd == e.getEndB())
 					eIdx++;
@@ -211,9 +220,14 @@ class Candidate {
 			}
 
 			// This region extends beyond the edit. Blame the first
-			// half of the region on B, and process the rest after.
+			// half of the region on B (or pass to A if B is ignored), and process the rest after.
 			int len = e.getEndB() - r.sourceStart;
-			bTail = add(bTail, b, r.splitFirst(r.sourceStart, len));
+			Region firstHalf = r.splitFirst(r.sourceStart, len);
+			if (ignoreB) {
+				aTail = addIgnoredEdit(aTail, a, firstHalf, e);
+			} else {
+				bTail = add(bTail, b, firstHalf);
+			}
 			r.slideAndShrink(len);
 			eIdx++;
 		}
@@ -235,6 +249,75 @@ class Candidate {
 				r.sourceStart -= d;
 			r = r.next;
 		} while (r != null);
+	}
+
+	/**
+	 * Map a candidate region from an ignored child candidate onto its parent.
+	 * <p>
+	 * The edit blames some lines in Candidate B, but B is ignored, so we move
+	 * the blame to Candidate A adapting the line numbers.
+	 * <p>
+	 * For 1:1 edits (such as formatting or re-indentation), candidate regions
+	 * are mapped directly into parent coordinates in O(1). For insertions or
+	 * expansions, lines are mapped individually and clamped within parent
+	 * bounds to prevent overrunning into unrelated lines in parent Candidate A.
+	 *
+	 * @param aTail
+	 *            current tail of region list for Candidate A.
+	 * @param a
+	 *            parent candidate receiving the transferred blame regions.
+	 * @param r
+	 *            source region from child candidate being evaluated.
+	 * @param e
+	 *            diff edit between parent Candidate A and child Candidate B.
+	 * @return new tail of the region list for Candidate A.
+	 */
+	private static Region addIgnoredEdit(Region aTail, Candidate a, Region r,
+			Edit e) {
+		int maxA = (a.sourceText != null && a.sourceText.size() > 0)
+				? a.sourceText.size() - 1
+				: 0;
+		int offset = r.sourceStart - e.getBeginB();
+
+		// Fast path: contiguous 1:1 mapping (e.g. reformatting/re-indentation)
+		// where all lines in region r fit within parent edit length A.
+		if (e.getLengthA() > 0 && offset >= 0
+				&& offset + r.length <= e.getLengthA()) {
+			int aStart = Math.min(Math.max(0, e.getBeginA() + offset), maxA);
+			if (aStart + r.length - 1 <= maxA) {
+				return add(aTail, a,
+						new Region(r.resultStart, aStart, r.length));
+			}
+		}
+
+		// Hunk expansion or pure insertion: map lines individually and clamp
+		// within parent boundaries so trailing lines do not overrun into
+		// unrelated lines in parent A.
+		int rEnd = r.sourceStart + r.length;
+		int curRs = r.resultStart;
+		for (int bLine = r.sourceStart; bLine < rEnd; bLine++, curRs++) {
+			int aLine = translateBIntoA(bLine, e, maxA);
+			aTail = add(aTail, a, new Region(curRs, aLine, 1));
+		}
+		return aTail;
+	}
+
+	private static int translateBIntoA(int bLine, Edit e, int maxA) {
+		int curOffset = bLine - e.getBeginB();
+		if (e.getLengthA() == 0) {
+			// Pure insertion: anchor to the insertion point in parent
+			return clamp(e.getBeginA(), 0, maxA);
+		}
+		if (curOffset < e.getLengthA()) {
+			// 1:1 line mapping (e.g. reformatting/re-indentation)
+			return clamp(e.getBeginA() + curOffset, 0, maxA);
+		}
+		// Hunk expansion: clamp trailing lines to last parent line in edit
+		return clamp(e.getBeginA() + e.getLengthA() - 1, 0, maxA);
+	}
+
+	private static int clamp(int val, int min, int max) {
+		return Math.min(Math.max(val, min), max);
 	}
 
 	private static Region add(Region aTail, Candidate a, Region n) {
