@@ -149,10 +149,15 @@ class Candidate {
 	}
 
 	void takeBlame(EditList editList, Candidate child) {
-		blame(editList, this, child);
+		blame(editList, this, child, false);
 	}
 
-	private static void blame(EditList editList, Candidate a, Candidate b) {
+	void takeBlame(EditList editList, Candidate child, boolean isChildIgnored) {
+		blame(editList, this, child, isChildIgnored);
+	}
+
+	private static void blame(EditList editList, Candidate a, Candidate b,
+			boolean ignoreB) {
 		Region r = b.clearRegionList();
 		Region aTail = null;
 		Region bTail = null;
@@ -199,11 +204,18 @@ class Candidate {
 				continue;
 			}
 
-			// If the region ends before the edit, blame on B.
+			// If the region ends before the edit, blame on B (or pass to A if B is ignored).
 			int rEnd = r.sourceStart + r.length;
 			if (rEnd <= e.getEndB()) {
 				Region next = r.next;
-				bTail = add(bTail, b, r);
+				if (ignoreB) {
+					int offset = r.sourceStart - e.getBeginB();
+					int aStart = e.getBeginA() + Math.min(offset, Math.max(0, e.getLengthA() - 1));
+					r.sourceStart = Math.min(aStart, a.sourceText != null ? Math.max(0, a.sourceText.size() - 1) : aStart);
+					aTail = add(aTail, a, r);
+				} else {
+					bTail = add(bTail, b, r);
+				}
 				r = next;
 				if (rEnd == e.getEndB())
 					eIdx++;
@@ -211,9 +223,17 @@ class Candidate {
 			}
 
 			// This region extends beyond the edit. Blame the first
-			// half of the region on B, and process the rest after.
+			// half of the region on B (or pass to A if B is ignored), and process the rest after.
 			int len = e.getEndB() - r.sourceStart;
-			bTail = add(bTail, b, r.splitFirst(r.sourceStart, len));
+			Region firstHalf = r.splitFirst(r.sourceStart, len);
+			if (ignoreB) {
+				int offset = firstHalf.sourceStart - e.getBeginB();
+				int aStart = e.getBeginA() + Math.min(offset, Math.max(0, e.getLengthA() - 1));
+				firstHalf.sourceStart = Math.min(aStart, a.sourceText != null ? Math.max(0, a.sourceText.size() - 1) : aStart);
+				aTail = add(aTail, a, firstHalf);
+			} else {
+				bTail = add(bTail, b, firstHalf);
+			}
 			r.slideAndShrink(len);
 			eIdx++;
 		}

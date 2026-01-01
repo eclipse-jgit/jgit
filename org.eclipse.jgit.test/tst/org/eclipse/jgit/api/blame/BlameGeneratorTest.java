@@ -13,11 +13,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameGenerator;
 import org.eclipse.jgit.blame.BlameResult;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -168,10 +173,343 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testBlameIgnoreSingleRevision() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			String[] content2 = new String[] { "a", "b" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2").call();
+
+			String[] content3 = new String[] { "a", "b", "c" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c2));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(3, result.getResultContents().size());
+				assertEquals(c1, result.getSourceCommit(0));
+				assertEquals(c1, result.getSourceCommit(1));
+				assertEquals(c3, result.getSourceCommit(2));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreMultipleRevisions() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "1" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			String[] content2 = new String[] { "1", "2" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2").call();
+
+			String[] content3 = new String[] { "1", "2", "3" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3").call();
+
+			String[] content4 = new String[] { "1", "2", "3", "4" };
+			writeTrashFile(FILE, join(content4));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c4 = git.commit().setMessage("c4").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				Set<ObjectId> ignores = new HashSet<>();
+				ignores.add(c2);
+				ignores.add(c3);
+				generator.setIgnoreRevs(ignores);
+				generator.push(null, c4);
+
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(4, result.getResultContents().size());
+				assertEquals(c1, result.getSourceCommit(0));
+				assertEquals(c1, result.getSourceCommit(1));
+				assertEquals(c1, result.getSourceCommit(2));
+				assertEquals(c4, result.getSourceCommit(3));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreNonModifyingRevision() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "A" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			String[] content2 = new String[] { "A", "B" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2").call();
+
+			String[] content3 = new String[] { "A prime", "B" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c2));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(c3, result.getSourceCommit(0));
+				assertEquals(c1, result.getSourceCommit(1));
+			}
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c3));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(c1, result.getSourceCommit(0));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreMergeCommit() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "base" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			git.checkout().setCreateBranch(true).setName("a").call();
+			String[] content2 = new String[] { "base", "a" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2").call();
+
+			git.checkout().setName("master").call();
+			String[] content3 = new String[] { "base", "b" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3").call();
+
+			git.merge().include(c2).call();
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c4 = git.commit().setMessage("c4").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c2));
+				generator.push(null, c4);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(c1, result.getSourceCommit(1));
+			}
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c3));
+				generator.push(null, c4);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(c2, result.getSourceCommit(1));
+			}
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c4));
+				generator.push(null, c4);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(c2, result.getSourceCommit(1));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreWithEmptySet() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.emptySet());
+				generator.push(null, c1);
+				BlameResult result = generator.computeBlameResult();
+				assertEquals(c1, result.getSourceCommit(0));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreWithNull() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(null);
+				generator.push(null, c1);
+				BlameResult result = generator.computeBlameResult();
+				assertEquals(c1, result.getSourceCommit(0));
+			}
+		}
+	}
+
 	private static String join(String... lines) {
 		StringBuilder joined = new StringBuilder();
 		for (String line : lines)
 			joined.append(line).append('\n');
 		return joined.toString();
+	}
+	@Test
+	public void testBlameIgnoreMergeCommitMultipleRegions() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "1", "2", "3", "4", "5" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			git.checkout().setCreateBranch(true).setName("a").call();
+			String[] content2 = new String[] { "1_mod", "2", "3", "4", "5" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2").call();
+
+			git.checkout().setName("master").call();
+			String[] content3 = new String[] { "1", "2", "3", "4", "5_mod" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3").call();
+
+			git.merge().include(c2).call();
+			String[] content4 = new String[] { "1_mod", "2", "3", "4", "5_mod" };
+			writeTrashFile(FILE, join(content4));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c4 = git.commit().setMessage("c4").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c4));
+				generator.push(null, c4);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(c2, result.getSourceCommit(0));
+				assertEquals(c1, result.getSourceCommit(1));
+				assertEquals(c3, result.getSourceCommit(4));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreWithRename() throws Exception {
+		try (Git git = new Git(db)) {
+			String oldFile = "OldFile.txt";
+			String newFile = "NewFile.txt";
+
+			String[] content1 = new String[] { "line1", "line2", "line3", "line4", "line5" };
+			writeTrashFile(oldFile, join(content1));
+			git.add().addFilepattern(oldFile).call();
+			RevCommit c1 = git.commit().setMessage("c1: create OldFile").call();
+
+			// Rename OldFile.txt to NewFile.txt and modify line1 in c2 (80% similarity)
+			git.rm().addFilepattern(oldFile).call();
+			String[] content2 = new String[] { "line1 formatted", "line2", "line3", "line4", "line5" };
+			writeTrashFile(newFile, join(content2));
+			git.add().addFilepattern(newFile).call();
+			RevCommit c2 = git.commit().setMessage("c2: rename and format").call();
+
+			// Modify line2 in c3
+			String[] content3 = new String[] { "line1 formatted", "line2 modified", "line3", "line4", "line5" };
+			writeTrashFile(newFile, join(content3));
+			git.add().addFilepattern(newFile).call();
+			RevCommit c3 = git.commit().setMessage("c3: edit line2").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, newFile)) {
+				generator.setFollowFileRenames(true);
+				generator.setIgnoreRevs(Collections.singleton(c2));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(5, result.getResultContents().size());
+				assertEquals(c1, result.getSourceCommit(0));
+				assertEquals(c3, result.getSourceCommit(1));
+				assertEquals(c1, result.getSourceCommit(2));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreWithLineCountChange() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "body1", "body2" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1: initial").call();
+
+			// c2 adds 3 header lines and modifies body1
+			String[] content2 = new String[] { "// Header 1", "// Header 2", "// Header 3", "body1 formatted", "body2" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2: add header and format").call();
+
+			// c3 adds a footer line
+			String[] content3 = new String[] { "// Header 1", "// Header 2", "// Header 3", "body1 formatted", "body2", "footer" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3: add footer").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c2));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(6, result.getResultContents().size());
+				assertEquals(c1, result.getSourceCommit(3));
+				assertEquals(c1, result.getSourceCommit(4));
+				assertEquals(c3, result.getSourceCommit(5));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameCommandWithIgnoreRevs() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "a" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1").call();
+
+			String[] content2 = new String[] { "a", "b" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2").call();
+
+			String[] content3 = new String[] { "a", "b", "c" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3").call();
+
+			BlameResult result = git.blame()
+					.setFilePath(FILE)
+					.setStartCommit(c3)
+					.setIgnoreRevs(Collections.singleton(c2))
+					.call();
+
+			assertEquals(3, result.getResultContents().size());
+			assertEquals(c1, result.getSourceCommit(0));
+			assertEquals(c1, result.getSourceCommit(1));
+			assertEquals(c3, result.getSourceCommit(2));
+		}
 	}
 }
