@@ -155,6 +155,24 @@ public class BlameCommand extends GitCommand<BlameResult> {
 		return this;
 	}
 
+	private Collection<? extends ObjectId> ignoreRevs;
+
+	/**
+	 * Set revisions to ignore during blame.
+	 * <p>
+	 * Specifying revisions to ignore disables using cached blame results.
+	 *
+	 * @param revs
+	 *            collection of commit {@link org.eclipse.jgit.lib.ObjectId}s to
+	 *            ignore.
+	 * @return this command
+	 * @since 7.8
+	 */
+	public BlameCommand setIgnoreRevs(Collection<? extends ObjectId> revs) {
+		this.ignoreRevs = revs;
+		return this;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -171,6 +189,8 @@ public class BlameCommand extends GitCommand<BlameResult> {
 				gen.setTextComparator(textComparator);
 			if (followFileRenames != null)
 				gen.setFollowFileRenames(followFileRenames.booleanValue());
+			if (ignoreRevs != null)
+				gen.setIgnoreRevs(ignoreRevs);
 
 			if (reverseEndCommits != null)
 				gen.reverse(startCommit, reverseEndCommits);
