@@ -459,21 +459,23 @@ class PackDirectory {
 	}
 
 	private PackList scanPacks(PackList original) {
-		PackList o, n;
-		do {
-			o = packList.get();
-			if (o != original) {
-				// Another thread did the scan for us, while we
-				// were blocked on the monitor above.
-				//
-				return o;
-			}
-			n = scanPacksImpl(o);
-			if (n == o) {
-				return n;
-			}
-		} while (!packList.compareAndSet(o, n));
-		return n;
+		synchronized (packList) {
+			PackList o, n;
+			do {
+				o = packList.get();
+				if (o != original) {
+					// Another thread did the scan for us, while we
+					// were blocked on the monitor above.
+					//
+					return o;
+				}
+				n = scanPacksImpl(o);
+				if (n == o) {
+					return n;
+				}
+			} while (!packList.compareAndSet(o, n));
+			return n;
+		}
 	}
 
 	private PackList scanPacksImpl(PackList old) {
