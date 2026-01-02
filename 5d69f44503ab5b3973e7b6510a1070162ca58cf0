@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d042a6f_4ba31242",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-02T21:51:41Z",
+      "side": 1,
+      "message": "After this change, the concurrent access to the `scanPacks()` method causes a high system load and eventually collapses the box. It causes multiple threads to change the pack list continuously and causing continuous rescan of the pack list.\n\nIt looks like that the synchronised was put there for preventing this condition and accepting to block other threads and perform the scanning of the pack list only once, limiting then the system load and allowing the other waiting threads to benefit from the scanning of the first.\n\nThe limitation in concurrency has then a positive effect in reducing the system load and therefore increasing the overall throughput.",
+      "revId": "5d69f44503ab5b3973e7b6510a1070162ca58cf0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
