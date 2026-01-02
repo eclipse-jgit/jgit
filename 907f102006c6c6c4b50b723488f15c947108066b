@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fcb1630_96ad0096",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-02T21:54:00Z",
+      "side": 1,
+      "message": "This caused the breakage of refs resolution: the peeling process also resolves packed-refs and loose refs, therefore it cannot be skipped.",
+      "revId": "907f102006c6c6c4b50b723488f15c947108066b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
