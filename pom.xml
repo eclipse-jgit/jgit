@@ -1185,6 +1185,7 @@
     <module>org.eclipse.jgit.archive</module>
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.gpg.bc</module>
+    <module>org.eclipse.jgit.gpg.signing</module>
     <module>org.eclipse.jgit.http.apache</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.ssh.apache</module>

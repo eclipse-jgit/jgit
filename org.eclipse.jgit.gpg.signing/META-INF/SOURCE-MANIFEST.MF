@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JGit External GPG Signing - Sources
+Bundle-SymbolicName: org.eclipse.jgit.gpg.signing.source
+Bundle-Vendor: Eclipse JGit
+Bundle-Version: 7.6.0.qualifier
+Eclipse-SourceBundle: org.eclipse.jgit.gpg.signing;version="7.6.0.qualifier";roots:="."
