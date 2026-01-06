@@ -60,9 +60,9 @@
 
     <resources>
       <resource>
-        <directory>.</directory>
+        <directory>resources</directory>
         <includes>
-          <include>about.html</include>
+          <include>org/eclipse/jgit/gpg/signing/GpgSigningText.properties</include>
         </includes>
       </resource>
     </resources>
