@@ -490,7 +490,7 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
           <failOnWarnings>true</failOnWarnings>
-          <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
+          <excludePackageNames>org.eclipse.jgit.http.test:org.eclipse.jgit.gpg.signing.test</excludePackageNames>
           <links>
             <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
           </links>
@@ -764,7 +764,7 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <quiet>true</quiet>
           <failOnWarnings>false</failOnWarnings>
-          <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
+          <excludePackageNames>org.eclipse.jgit.http.test:org.eclipse.jgit.gpg.signing.test</excludePackageNames>
           <links>
             <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
           </links>
@@ -1201,6 +1201,7 @@
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>
     <module>org.eclipse.jgit.gpg.bc.test</module>
+    <module>org.eclipse.jgit.gpg.signing.test</module>
     <module>org.eclipse.jgit.http.test</module>
     <module>org.eclipse.jgit.pgm.test</module>
     <module>org.eclipse.jgit.lfs.test</module>
