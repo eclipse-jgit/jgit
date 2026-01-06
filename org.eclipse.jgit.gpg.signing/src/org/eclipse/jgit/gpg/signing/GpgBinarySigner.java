@@ -50,7 +50,7 @@ public class GpgBinarySigner implements Signer {
 		}
 
 		Path gpgPath = new GpgBinary(config.getProgram()).getPath();
-		GpgProcessRunner runner = new GpgProcessRunner(
+		GpgProcessRunner runner = createProcessRunner(
 				gpgPath.toAbsolutePath().toString());
 
 		List<String> args = new ArrayList<>();
@@ -99,7 +99,7 @@ public class GpgBinarySigner implements Signer {
 			}
 
 			Path gpgPath = new GpgBinary(config.getProgram()).getPath();
-			GpgProcessRunner runner = new GpgProcessRunner(
+			GpgProcessRunner runner = createProcessRunner(
 					gpgPath.toAbsolutePath().toString());
 
 			String[] args = { "--list-secret-keys", "--batch", key }; //$NON-NLS-1$ //$NON-NLS-2$
@@ -108,5 +108,16 @@ public class GpgBinarySigner implements Signer {
 		} catch (IOException | InterruptedException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Creates a {@link GpgProcessRunner} to run the GPG binary.
+	 *
+	 * @param gpgExecutable
+	 *            the path to the GPG executable
+	 * @return the runner
+	 */
+	protected GpgProcessRunner createProcessRunner(String gpgExecutable) {
+		return new GpgProcessRunner(gpgExecutable);
 	}
 }
