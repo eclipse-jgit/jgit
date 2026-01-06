@@ -63,6 +63,7 @@
         <directory>resources</directory>
         <includes>
           <include>org/eclipse/jgit/gpg/signing/GpgSigningText.properties</include>
+          <include>META-INF/services/**</include>
         </includes>
       </resource>
     </resources>
