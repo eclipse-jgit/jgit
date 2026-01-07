@@ -234,9 +234,7 @@ class PackDirectory {
 			SEARCH: for (;;) {
 				pList = packList.get();
 				if (rapidObjectPackLookup) {
-					pList.preloadRapidPackIndex();
-
-					Optional<Pack> rapidPackAccess = pList.rapidPackIndex.get(objectId.getName());
+					Optional<Pack> rapidPackAccess = getFromRapidIndex(objectId);
 					if (rapidPackAccess != null) {
 						try {
 							if (rapidPackAccess.isPresent()) {
@@ -279,13 +277,29 @@ class PackDirectory {
 		return null;
 	}
 
+	private Optional<Pack> getFromRapidIndex(AnyObjectId objectId) {
+		PackList pList = packList.get();
+		if (pList.rapidPackIndex.isEmpty()) {
+			pList.preloadRapidPackIndex();
+		}
+		return pList.rapidPackIndex.get(objectId.getName());
+	}
+
 	long getSize(WindowCursor curs, AnyObjectId id)
 			throws PackMismatchException {
-		PackList pList;
+		PackList pList = packList.get();
 		do {
+			Optional<Pack> rapidPackAccess = getFromRapidIndex(id);
+			if (rapidPackAccess != null && rapidPackAccess.isPresent()) {
+				try {
+					return rapidPackAccess.get().getObjectSize(curs, id);
+				} catch (IOException e) {
+					pList.rapidPackIndex.remove(id.getName());
+					handlePackError(e, rapidPackAccess.get());
+				}
+			}
 			int retries = 0;
 			SEARCH: for (;;) {
-				pList = packList.get();
 				for (Pack p : pList.packs) {
 					try {
 						long len = p.getObjectSize(curs, id);
