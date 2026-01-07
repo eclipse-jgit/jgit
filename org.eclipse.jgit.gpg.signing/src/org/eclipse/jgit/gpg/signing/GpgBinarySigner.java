@@ -109,8 +109,8 @@ public class GpgBinarySigner implements Signer {
 					gpgPath.toAbsolutePath().toString());
 
 			String[] args = { "--list-secret-keys", "--batch", key }; //$NON-NLS-1$ //$NON-NLS-2$
-			runner.run(args, null);
-			return true;
+			ExecutionResult result = runner.run(args, null);
+			return result.getRc() == 0;
 		} catch (IOException | InterruptedException e) {
 			return false;
 		}
