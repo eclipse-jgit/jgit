@@ -70,6 +70,12 @@ public class GpgBinarySigner implements Signer {
 			ExecutionResult result = runner.run(args.toArray(new String[0]),
 					stdin);
 
+			if (result.getRc() != 0) {
+				throw new JGitInternalException(
+						GpgSigningText.get().ExternalGpgSigner_processFailed
+								+ "\n" + result.getStderr().toString()); //$NON-NLS-1$
+			}
+
 			TemporaryBuffer stdout = result.getStdout();
 			if (stdout == null || stdout.length() == 0) {
 				throw new JGitInternalException(
