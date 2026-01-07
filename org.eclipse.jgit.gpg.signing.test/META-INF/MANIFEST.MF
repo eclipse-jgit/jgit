@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.jgit.gpg.signing.test
+Bundle-SymbolicName: org.eclipse.jgit.gpg.signing.test
+Bundle-Version: 7.6.0.qualifier
+Bundle-Vendor: Eclipse.org - JGit
+Fragment-Host: org.eclipse.jgit.gpg.signing;bundle-version="7.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Import-Package: org.junit;version="[4.13,5.0)",
+ org.mockito;version="[5.21.0,6.0.0)"

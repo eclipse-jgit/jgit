@@ -1257,7 +1257,7 @@ public abstract class FS {
 	 * @since 3.0
 	 */
 	@SuppressWarnings("StringSplitter")
-	protected static File searchPath(String path, String... lookFor) {
+	public static File searchPath(String path, String... lookFor) {
 		if (StringUtils.isEmptyOrNull(path)
 				|| EMPTY_PATH.matcher(path).find()) {
 			return null;
