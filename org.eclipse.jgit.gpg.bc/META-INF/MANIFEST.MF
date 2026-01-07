@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.jgit.gpg.bc;singleton:=true
 Fragment-Host: org.eclipse.jgit;bundle-version="[7.6.0,7.7.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/gpg_bc
-Bundle-Version: 7.6.0.202601071437-m1
+Bundle-Version: 7.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Import-Package: org.bouncycastle.asn1;version="[1.80.0,2.0.0)",
