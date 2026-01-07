@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3236998e_79ebbd16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3439a3c6_e80e61d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "```suggestion\nBug: jgit-181\nChange-Id: I66ca7365bee1dd8c46f78feb5a6ab06eb5491bcc\n```",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "90cdc0d0_f7bb5302",
@@ -14,6 +48,91 @@
       "writtenOn": "2026-01-01T22:15:36Z",
       "side": 1,
       "message": "My goal is to enable blame ignore revs in Gerrit: https://issues.gerritcodereview.com/issues/40015236",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "307eed09_8497cb2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "I am wondering if we could use a custom RevFlag to mark the to be ignored commits in the RevWalk and implement a RevFilter skipping the flagged commits while traversing the version graph.",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0431132a_f5013ffa",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "how is this related to this change ?",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d1f277a_1a625127",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "nit: imports should be sorted using the Eclipse IDE Java formatter",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf5cc30_e4de0120",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "missing @since tag for new API method\n```suggestion\n\t *            {@link org.eclipse.jgit.lib.ObjectId}.\n\t * @since 7.6\n```",
+      "revId": "e269540e987726e8d07cf558765de6ffda76c879",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fa68b78_60d35876",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T13:28:03Z",
+      "side": 1,
+      "message": "could this recursion cause a stack overflow?",
       "revId": "e269540e987726e8d07cf558765de6ffda76c879",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
