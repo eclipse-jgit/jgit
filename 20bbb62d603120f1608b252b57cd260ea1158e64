@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ede9aa42_a6a5472d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "Thanks for starting this effort. Just a few comments after a brief look.\n\nIt can\u0027t replace EGit\u0027s implementation yet (no support for gpgsm/smimesign: X.509 signatures).",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ea269d_c0247313",
+        "filename": "org.eclipse.jgit.gpg.signing/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "o.e.j.gpg.bc is an OSGi _fragment_ of the main bundle to ensure the main JGit can find the services via the ServiceLoader in an OSGi environment (like Eclipse). Is this new bundle not a fragment on purpose?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93b5e23_4f421f2a",
+        "filename": "org.eclipse.jgit.gpg.signing/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the SignatureVerifierFactory also be declared as a service?\n\nAnd does the code in the main JGit bundle now need updating to work predictably if both this bundle and o.e.j.gpg.bc are or the classpath?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace0324e_b47733b1",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this, on Windows, have the \".exe\" suffix?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1995425b_f4b6ef8f",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "Why is that needed? EGit doesn\u0027t do that...",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "007daf17_ca76f9f4",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinarySigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "First, it\u0027s 2025, and are you working for SAP?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5a3f20_9ec405ca",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinarySigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "One issue that we ran into in JGit is that it is important to keep the arguments exactly as in C git. Some people use wrappers or other gpg-look-alikes that implement only the options as used by C git. So keep it as -bsau etc. exactly as in EGit.",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dca1922_a296b9ea",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgProcessRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-07T15:36:49Z",
+      "side": 1,
+      "message": "Environment variable GPG_TTY should probably be removed from the environment of the child process. See comments in the corresponding code in EGit.",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
