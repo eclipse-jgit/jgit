@@ -18,6 +18,40 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dc394c6_b6209d25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T16:56:49Z",
+      "side": 1,
+      "message": "Why do you want to put this into yet another bundle ?\n\nThat\u0027s quite some overhead for a handful of classes, and this doesn\u0027t need additional dependencies. Hence I would prefer to move this to an internal package in the existing org.eclipse.jgit bundle and the tests to the org.eclipse.jgit.test bundle",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d805f4_9c07ff69",
+        "filename": "org.eclipse.jgit.gpg.signing.test/tst/org/eclipse/jgit/gpg/signing/GpgExternalSigningTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T16:56:49Z",
+      "side": 1,
+      "message": "we now have 2026 and I think you don\u0027t work for SAP",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4ea269d_c0247313",
@@ -31,6 +65,23 @@
       "writtenOn": "2026-01-07T15:36:49Z",
       "side": 1,
       "message": "o.e.j.gpg.bc is an OSGi _fragment_ of the main bundle to ensure the main JGit can find the services via the ServiceLoader in an OSGi environment (like Eclipse). Is this new bundle not a fragment on purpose?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53812b8b_0ed7131c",
+        "filename": "org.eclipse.jgit.gpg.signing/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-07T16:56:49Z",
+      "side": 1,
+      "message": "external signing should not depend on bouncycastle",
       "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
