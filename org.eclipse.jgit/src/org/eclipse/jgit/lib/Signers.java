@@ -17,6 +17,8 @@ import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.signing.GpgBinary;
+import org.eclipse.jgit.signing.GpgBinarySignerFactory;
 import org.eclipse.jgit.internal.JGitText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +57,9 @@ public final class Signers {
 			}
 		} catch (ServiceConfigurationError e) {
 			LOG.error(e.getMessage(), e);
+		}
+		if (GpgBinary.canLocate()) {
+			result.computeIfAbsent(GpgConfig.GpgFormat.OPENPGP, k -> new GpgBinarySignerFactory());
 		}
 		return result;
 	}

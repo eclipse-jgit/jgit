@@ -25,6 +25,8 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.signing.GpgBinary;
+import org.eclipse.jgit.signing.GpgBinarySignatureVerifierFactory;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +74,9 @@ public final class SignatureVerifiers {
 			}
 		} catch (ServiceConfigurationError e) {
 			LOG.error(e.getMessage(), e);
+		}
+		if (GpgBinary.canLocate()) {
+			result.computeIfAbsent(GpgConfig.GpgFormat.OPENPGP, k -> new GpgBinarySignatureVerifierFactory());
 		}
 		return result;
 	}
