@@ -1140,4 +1140,9 @@ public final class ConfigConstants {
 	 * @since 7.5
 	 */
 	public static final String CONFIG_KEY_MULTIPACKINDEX = "multiPackIndex";
+
+	/**
+	 * The "maxSearchPacksCount" key
+	 */
+	public static final String CONFIG_KEY_MAX_SEARCH_PACKS_COUNT = "maxSearchPacksCount";
 }
