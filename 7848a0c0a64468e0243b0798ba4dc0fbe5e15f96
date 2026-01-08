@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedcca90_91474fb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-01-08T00:41:06Z",
+      "side": 1,
+      "message": "Thank you for the review and the comments!\n\nFYI: The CI build failed, but the errors are in InterruptTimerTest and seem unrelated to the BlameGenerator changes in this patch set.",
+      "revId": "7848a0c0a64468e0243b0798ba4dc0fbe5e15f96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
