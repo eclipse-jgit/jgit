@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "432d0af5_31852e93",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-01-08T14:42:24Z",
+      "side": 1,
+      "message": "should we not inline this at L268 as we do at L278?",
+      "range": {
+        "startLine": 267,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 36
+      },
+      "revId": "c062f95b1d68cb00cfa81b5f33b0e9bb303c1d4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b029283_83589fe1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-01-08T14:42:24Z",
+      "side": 1,
+      "message": "```suggestion\n\t * The \"maxSearchPacksCount\" key\n```",
+      "revId": "c062f95b1d68cb00cfa81b5f33b0e9bb303c1d4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
