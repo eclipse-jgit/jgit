@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da598e90_f712fee4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-08T23:56:59Z",
+      "side": 0,
+      "message": "This should be preserved, because if we search packs again and get a new packet list, that must be fetched into the local variable `pList` otherwise we end up into an infinite loop.",
+      "range": {
+        "startLine": 288,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 27
+      },
+      "revId": "756c0d43af3644ea2f21c5277885bd65c011189a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
