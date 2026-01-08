@@ -85,6 +85,8 @@ class PackDirectory {
 
 	private final TrustStat trustPackStat;
 
+	private final int maxSearchPacksCount;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -101,6 +103,7 @@ class PackDirectory {
 
 		PackConfig packConfig = new PackConfig(config);
 		rapidObjectPackLookup = packConfig.isRapidObjectPackLookup();
+		maxSearchPacksCount = packConfig.getMaxSearchPacksCount();
 	}
 
 	/**
@@ -229,6 +232,7 @@ class PackDirectory {
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
 		PackList pList;
+		int searchPacksCount = 0;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
@@ -260,6 +264,7 @@ class PackDirectory {
 						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
+						searchPacksCount++;
 						if (searchPacksAgain(pList)) {
 							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
@@ -270,7 +275,7 @@ class PackDirectory {
 				}
 				break SEARCH;
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		if (rapidObjectPackLookup) {
 			pList.rapidPackIndex.put(objectId.getName(), Optional.empty());
 		}

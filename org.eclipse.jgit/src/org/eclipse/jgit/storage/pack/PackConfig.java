@@ -29,6 +29,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_CACHE_SIZE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_COMPRESSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DEPTH;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_INDEXVERSION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MAX_SEARCH_PACKS_COUNT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_SIZE_PREVENT_RACYPACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACK_KEPT_OBJECTS;
@@ -307,6 +308,13 @@ public class PackConfig {
 	public static final Duration DEFAULT_SEARCH_FOR_REUSE_TIMEOUT = Duration
 			.ofSeconds(Integer.MAX_VALUE);
 
+	/**
+	 * Default maximum number of retries to fetch the pack list should be scanned in a single object lookup.
+	 *
+	 * @see #setMaxSearchPacksCount(int)
+	 */
+	public static final int DEFAULT_MAX_SEARCH_PACKS_COUNT = Integer.MAX_VALUE;
+
 	private int compressionLevel = Deflater.DEFAULT_COMPRESSION;
 
 	private boolean reuseDeltas = DEFAULT_REUSE_DELTAS;
@@ -378,6 +386,8 @@ public class PackConfig {
 	private int buildBitmapThreads = DEFAULT_BITMAP_WRITE_THREADS;
 
 	private int minBytesForObjSizeIndex = DEFAULT_MIN_BYTES_FOR_OBJ_SIZE_INDEX;
+
+	private int maxSearchPacksCount = DEFAULT_MAX_SEARCH_PACKS_COUNT;
 
 	/**
 	 * Create a default configuration.
@@ -1515,6 +1525,24 @@ public class PackConfig {
 	}
 
 	/**
+	 * Return the maximum number of retries to fetch the pack list should be scanned in a single object lookup
+	 *
+	 * @return maximum number of retries to fetch the pack list for an object lookup
+	 */
+	public void setMaxSearchPacksCount(int maxSearchPacksCount) {
+		this.maxSearchPacksCount = maxSearchPacksCount;
+	}
+
+	/**
+	 * Return the maximum number of retries to fetch the pack list should be scanned in a single object lookup
+	 *
+	 * @return maximum number of retries to fetch the pack list for an object lookup
+	 */
+	public int getMaxSearchPacksCount() {
+		return this.maxSearchPacksCount;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 *
 	 * If a property's corresponding variable is not defined in the supplied
@@ -1616,7 +1644,9 @@ public class PackConfig {
 				CONFIG_KEY_PRUNE_PRESERVED, DEFAULT_PRUNE_PRESERVED));
 		setRapidObjectPackLookup(rc.getBoolean(CONFIG_PACK_SECTION,
 				CONFIG_KEY_RAPID_OBJECT_PACK_LOOKUP, DEFAULT_RAPID_OBJECT_PACK_LOOKUP));
-
+		setRapidObjectPackLookup(rc.getBoolean(CONFIG_PACK_SECTION,
+			CONFIG_KEY_RAPID_OBJECT_PACK_LOOKUP, DEFAULT_RAPID_OBJECT_PACK_LOOKUP));
+		setMaxSearchPacksCount(rc.getInt(CONFIG_PACK_SECTION, CONFIG_KEY_MAX_SEARCH_PACKS_COUNT, DEFAULT_MAX_SEARCH_PACKS_COUNT));
 	}
 
 	@Override
