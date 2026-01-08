@@ -85,6 +85,8 @@ class PackDirectory {
 
 	private final TrustStat trustPackStat;
 
+	private final int maxSearchPacksCount;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -101,6 +103,7 @@ class PackDirectory {
 
 		PackConfig packConfig = new PackConfig(config);
 		rapidObjectPackLookup = packConfig.isRapidObjectPackLookup();
+		maxSearchPacksCount = packConfig.getMaxSearchPacksCount();
 	}
 
 	/**
@@ -129,12 +132,13 @@ class PackDirectory {
 
 	Collection<Pack> getPacks() {
 		PackList list;
+		int searchPacksCount = 0;
 		do {
 			list = packList.get();
 			if (list == NO_PACKS) {
 				list = scanPacks(list);
 			}
-		} while (searchPacksAgain(list));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(list));
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
@@ -168,6 +172,7 @@ class PackDirectory {
 	@Nullable
 	Pack getPack(AnyObjectId objectId) {
 		PackList pList;
+		int searchPacksCount = 0;
 		do {
 			pList = packList.get();
 			for (Pack p : pList.packs) {
@@ -185,7 +190,7 @@ class PackDirectory {
 					remove(p);
 				}
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		return null;
 	}
 
@@ -229,6 +234,7 @@ class PackDirectory {
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
 		PackList pList;
+		int searchPacksCount = 0;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
@@ -260,7 +266,7 @@ class PackDirectory {
 						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList)) {
+						if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
 							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
@@ -270,7 +276,7 @@ class PackDirectory {
 				}
 				break SEARCH;
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		if (rapidObjectPackLookup) {
 			pList.rapidPackIndex.put(objectId.getName(), Optional.empty());
 		}
@@ -287,7 +293,12 @@ class PackDirectory {
 
 	long getSize(WindowCursor curs, AnyObjectId id)
 			throws PackMismatchException {
+<<<<<<< PATCH SET (c6c7a3ff245cb781d5a19b57bff656d88fab5bfa Set a limit to the number of search packs per object lookup)
+		PackList pList = packList.get();
+		int searchPacksCount = 0;
+=======
 		PackList pList;
+>>>>>>> BASE      (f96e590b68705a7be5344eb2ba4fccdc8b3c54f6 Introduce pack.buildBitmapThreads)
 		do {
 			pList = packList.get();
 			Optional<Pack> rapidPackAccess = getFromRapidIndex(id);
@@ -311,7 +322,7 @@ class PackDirectory {
 						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList)) {
+						if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
 							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
@@ -321,7 +332,7 @@ class PackDirectory {
 				}
 				break SEARCH;
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		return -1;
 	}
 
