@@ -14,13 +14,19 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 
 /**
  * Helpers to write multipack indexes
@@ -143,5 +149,35 @@ public class MidxTestUtils {
 		db.getObjectDatabase().commitPack(List.of(desc), null);
 		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
 				Arrays.asList(packs), base);
+	}
+
+	record CommitObjects(RevCommit commit, RevTree tree, RevBlob blob) {
+	}
+
+	private static int commitCounter = 1;
+
+	static List<CommitObjects> writeCommitChain(DfsRepository db,
+			String refname, int length) throws Exception {
+		List<CommitObjects> co = new ArrayList<>(length);
+		RevCommit tip = null;
+		Ref ref = db.getRefDatabase().findRef(refname);
+		if (ref != null) {
+			tip = db.parseCommit(ref.getObjectId());
+		}
+
+		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
+				(InMemoryRepository) db);
+				DfsInserter ins = (DfsInserter) db.getObjectDatabase()
+						.newInserter()) {
+			for (int i = 0; i < length; i++) {
+				RevBlob blob = repository.blob("blob" + commitCounter);
+
+				tip = repository.branch(refname).commit().parent(tip)
+						.add("blob" + commitCounter, blob).create();
+				commitCounter++;
+				co.add(new CommitObjects(tip, tip.getTree(), blob));
+			}
+		}
+		return co;
 	}
 }
