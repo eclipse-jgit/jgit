@@ -100,6 +100,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		return midx;
 	}
 
+
 	private static RefWithSize loadMultiPackIndex(DfsReader ctx,
 			DfsPackDescription desc) throws IOException {
 		try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX)) {
@@ -145,11 +146,14 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
-		// TODO(ifrade): at some point we will have bitmaps over the multipack
-		// index
-		// At the moment bitmap is in GC, at the end of the chain
+		// TODO(ifrade): We have bitmaps only at the bottom
 		if (base != null) {
 			return base.getBitmapIndex(ctx);
+		}
+
+		if (getPackDescription().hasFileExt(BITMAP_INDEX)) {
+			// Return our own bitmaps
+			return super.getBitmapIndex(ctx);
 		}
 
 		for (DfsPackFile pack : packsInIdOrder) {

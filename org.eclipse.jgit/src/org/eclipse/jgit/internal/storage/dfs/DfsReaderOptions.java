@@ -40,6 +40,8 @@ public class DfsReaderOptions {
 
 	private boolean useObjectSizeIndex;
 
+	private boolean useMidxBitmaps;
+
 	/**
 	 * Create a default reader configuration.
 	 */
@@ -159,6 +161,29 @@ public class DfsReaderOptions {
 	 */
 	public DfsReaderOptions setUseObjectSizeIndex(boolean useObjectSizeIndex) {
 		this.useObjectSizeIndex = useObjectSizeIndex;
+		return this;
+	}
+
+	/**
+	 * Use bitmaps in the midx if available.
+	 *
+	 * @return true if a midx pack should use its own bitmaps. false to fallback
+	 *         to GC bitmaps.
+	 */
+	public boolean shouldUseMidxBitmaps() {
+		return useMidxBitmaps;
+	}
+
+	/**
+	 * Set if the midx packs should use their bitmaps or fallback to bitmaps in
+	 * GC pack.
+	 * 
+	 * @param useMidxBitmaps
+	 *            useMidxBitmaps to set
+	 * @return {@code this}
+	 */
+	public DfsReaderOptions setUseMidxBitmaps(boolean useMidxBitmaps) {
+		this.useMidxBitmaps = useMidxBitmaps;
 		return this;
 	}
 
