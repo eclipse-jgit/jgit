@@ -1545,7 +1545,8 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 				PackBitmapIndex bmidx;
 				try {
 					bmidx = PackBitmapIndex.read(alignTo8kBlocks(rc),
-							() -> pack.idx(ctx), () -> pack.getReverseIdx(ctx),
+							() -> pack.getPackIndex(ctx),
+							() -> pack.getReverseIdx(ctx),
 							ctx.getOptions().shouldLoadRevIndexInParallel());
 				} finally {
 					size = rc.position();
