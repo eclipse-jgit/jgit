@@ -245,6 +245,8 @@ class PackDirectory {
 						try {
 							if (rapidPackAccess.isPresent()) {
 								return rapidPackAccess.get().get(curs, objectId);
+							} else {
+								return null;
 							}
 						} catch (IOException e) {
 							Pack faultyPack = rapidPackAccess.get();
