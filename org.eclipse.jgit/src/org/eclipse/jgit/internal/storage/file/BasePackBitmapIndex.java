@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import java.util.Arrays;
+
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 
@@ -77,6 +79,15 @@ abstract class BasePackBitmapIndex implements PackBitmapIndex {
 			}
 		}
 		return xorSize;
+	}
+
+	@Override
+	public boolean includes(PackBitmapIndex other) {
+		if (other == this) {
+			return true;
+		}
+
+		return Arrays.equals(getPackChecksum(), other.getPackChecksum());
 	}
 
 	/**

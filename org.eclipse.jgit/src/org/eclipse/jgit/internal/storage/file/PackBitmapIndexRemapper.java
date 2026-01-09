@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -118,6 +119,21 @@ public class PackBitmapIndexRemapper
 	public EWAHCompressedBitmap ofObjectType(
 			EWAHCompressedBitmap bitmap, int type) {
 		return newPackIndex.ofObjectType(bitmap, type);
+	}
+
+	@Override
+	public boolean includes(PackBitmapIndex other) {
+		if (Arrays.equals(newPackIndex.getPackChecksum(),
+				other.getPackChecksum())) {
+			return true;
+		}
+
+		if (oldPackIndex != null && Arrays.equals(
+				oldPackIndex.getPackChecksum(), other.getPackChecksum())) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class PackBitmapIndexBuilderTest {
 			otp(2, 700, Constants.OBJ_TREE), otp(1, 240, Constants.OBJ_BLOB));
 
 	public enum TestSetup {
-		SINGLE_BUILDER
+		SINGLE_BUILDER, CHAINED_BUILDER
 	}
 
 	@Parameterized.Parameters(name = "{0}")
@@ -62,11 +62,16 @@ public class PackBitmapIndexBuilderTest {
 		this.currentSetup = ts;
 	}
 
+	private record TestData(PackBitmapIndexBuilder builder, int baseObjCount) {
+	}
+
 	@Test
 	public void getObjectSet() {
 		ObjectIdOwnerMap<ObjectIdOwnerMap.Entry> objectSet = createBuilder()
+				.builder()
 				.getObjectSet();
-		for (int i = 1; i <= 10; i++) {
+		int minOid = currentSetup == TestSetup.CHAINED_BUILDER ? 3 : 0;
+		for (int i = 10; i > minOid; i--) {
 			assertTrue(objectSet.contains(oid(i)));
 		}
 	}
@@ -74,7 +79,7 @@ public class PackBitmapIndexBuilderTest {
 	@Test
 	public void addBitmap_getBitmap() {
 		EWAHCompressedBitmap added = EWAHCompressedBitmap.bitmapOf(1, 3, 5);
-		PackBitmapIndexBuilder pbi = createBuilder();
+		PackBitmapIndexBuilder pbi = createBuilder().builder();
 		pbi.addBitmap(oid(11), added, 10);
 
 		EWAHCompressedBitmap retrieved = pbi.getBitmap(oid(11));
@@ -83,7 +88,7 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void ofObjectType() {
-		PackBitmapIndexBuilder pbi = createBuilder();
+		PackBitmapIndexBuilder pbi = createBuilder().builder();
 		BitmapIndexImpl bii = new BitmapIndexImpl(pbi);
 		BitmapIndex.BitmapBuilder bb = bii.newBitmapBuilder();
 		bb.addObject(oid(10), Constants.OBJ_COMMIT);
@@ -112,7 +117,7 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void findPosition() {
-		PackBitmapIndexBuilder pbi = createBuilder();
+		PackBitmapIndexBuilder pbi = createBuilder().builder();
 		// All valid, non-repeating positions
 		Set<Integer> seen = new HashSet<>();
 		for (int oidAsInt = 1; oidAsInt <= 10; oidAsInt++) {
@@ -126,7 +131,7 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void getObject() {
-		PackBitmapIndexBuilder pbi = createBuilder();
+		PackBitmapIndexBuilder pbi = createBuilder().builder();
 		for (int oidAsInt = 1; oidAsInt <= 10; oidAsInt++) {
 			ObjectId expected = oid(oidAsInt);
 			int p = pbi.findPosition(expected);
@@ -137,23 +142,42 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void commits() {
-		PackBitmapIndexBuilder pbi = createBuilder();
-		EWAHCompressedBitmap commits = pbi.getCommits();
+		TestData testData = createBuilder();
+		PackBitmapIndexBuilder pbi = testData.builder();
+		// type bitmaps, by spec, are only about the local pack
+		// object positions are shifted by base, but type bitmaps are not
+		// For testing, shift the bitmap and look only for things in the tip
+		EWAHCompressedBitmap commits = pbi.getCommits()
+				.shift(testData.baseObjCount());
 		assertInBitmap(pbi, commits, 10);
 		assertInBitmap(pbi, commits, 7);
-		assertInBitmap(pbi, commits, 3);
+		if (currentSetup == TestSetup.SINGLE_BUILDER) {
+			assertInBitmap(pbi, commits, 3);
+		} else {
+			assertNotInBitmap(pbi, commits, 3);
+		}
 
+		// These are not commits
 		assertNotInBitmap(pbi, commits, 9);
 		assertNotInBitmap(pbi, commits, 8);
 	}
 
 	@Test
 	public void trees() {
-		PackBitmapIndexBuilder pbi = createBuilder();
-		EWAHCompressedBitmap trees = pbi.getTrees();
+		TestData testData = createBuilder();
+		PackBitmapIndexBuilder pbi = testData.builder();
+		// type bitmaps, by spec, are only about the local pack
+		// object positions are shifted by base, but type bitmaps are not
+		// For testing, shift the bitmap and look only for things in the tip
+		EWAHCompressedBitmap trees = pbi.getTrees()
+				.shift(testData.baseObjCount());
 		assertInBitmap(pbi, trees, 9);
 		assertInBitmap(pbi, trees, 6);
-		assertInBitmap(pbi, trees, 2);
+		if (currentSetup == TestSetup.SINGLE_BUILDER) {
+			assertInBitmap(pbi, trees, 2);
+		} else {
+			assertNotInBitmap(pbi, trees, 2);
+		}
 
 		assertNotInBitmap(pbi, trees, 10);
 		assertNotInBitmap(pbi, trees, 8);
@@ -161,12 +185,18 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void blobs() {
-		PackBitmapIndexBuilder pbi = createBuilder();
-		EWAHCompressedBitmap blobs = pbi.getBlobs();
+		TestData testData = createBuilder();
+		PackBitmapIndexBuilder pbi = testData.builder();
+		EWAHCompressedBitmap blobs = pbi.getBlobs()
+				.shift(testData.baseObjCount());
 		assertInBitmap(pbi, blobs, 8);
 		assertInBitmap(pbi, blobs, 5);
 		assertInBitmap(pbi, blobs, 4);
-		assertInBitmap(pbi, blobs, 1);
+		if (currentSetup == TestSetup.SINGLE_BUILDER) {
+			assertInBitmap(pbi, blobs, 1);
+		} else {
+			assertNotInBitmap(pbi, blobs, 1);
+		}
 
 		assertNotInBitmap(pbi, blobs, 10);
 		assertNotInBitmap(pbi, blobs, 9);
@@ -176,7 +206,7 @@ public class PackBitmapIndexBuilderTest {
 	public void getBitmapCount() {
 		// The builder only counts bitmaps "in progress" (in xor queue or ready
 		// to write)
-		assertEquals(0, createBuilder().getBitmapCount());
+		assertEquals(0, createBuilder().builder().getBitmapCount());
 	}
 
 	@Test
@@ -186,7 +216,7 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void reachableObjects_setInBitmap() {
-		PackBitmapIndexBuilder builder = createBuilder();
+		PackBitmapIndexBuilder builder = createBuilder().builder();
 		EWAHCompressedBitmap bitmapTen = builder.getBitmap(oid(10));
 		assertNotNull(bitmapTen);
 		for (int oidAsInt = 10; oidAsInt > 0; oidAsInt--) {
@@ -207,7 +237,7 @@ public class PackBitmapIndexBuilderTest {
 	public void processBitmapForWrite() {
 		// processBitmapForWrite keeps the bitmaps in the builder instead of in
 		// the superclass, to calculate the XORs
-		PackBitmapIndexBuilder builder = createBuilder();
+		PackBitmapIndexBuilder builder = createBuilder().builder();
 		BitmapIndex bb = new BitmapIndexImpl(builder);
 		BitmapIndex.BitmapBuilder oneBitmap = bb.newBitmapBuilder();
 		oneBitmap.addObject(oid(10), Constants.OBJ_COMMIT);
@@ -240,15 +270,19 @@ public class PackBitmapIndexBuilderTest {
 
 	@Test
 	public void getObjectCount() {
-		assertEquals(10, createBuilder().getObjectCount());
+		assertEquals(10, createBuilder().builder().getObjectCount());
+	}
+
+	private static void assertInBitmap(PackBitmapIndexBuilder builder,
+			EWAHCompressedBitmap bitmap, ObjectId oid) {
+		int pos = builder.findPosition(oid);
+		assertTrue(pos >= 0);
+		assertTrue(bitmap.get(pos));
 	}
 
 	private static void assertInBitmap(PackBitmapIndexBuilder builder,
 			EWAHCompressedBitmap bitmap, int oidAsInt) {
-		ObjectId oid = oid(oidAsInt);
-		int pos = builder.findPosition(oid);
-		assertTrue(pos >= 0);
-		assertTrue(bitmap.get(pos));
+		assertInBitmap(builder, bitmap, oid(oidAsInt));
 	}
 
 	private static void assertNotInBitmap(PackBitmapIndexBuilder builder,
@@ -259,15 +293,16 @@ public class PackBitmapIndexBuilderTest {
 		assertFalse(bitmap.get(pos));
 	}
 
-	private PackBitmapIndexBuilder createBuilder() {
+	private TestData createBuilder() {
 		ArrayList<ObjectToPack> objectsToPack = new ArrayList<>(opts);
 		Collections.reverse(objectsToPack);
 		return switch (currentSetup) {
 		case SINGLE_BUILDER -> setupSinglePackBitmapIndex(objectsToPack);
+		case CHAINED_BUILDER -> setupChainedPackBitmapIndex(objectsToPack);
 		};
 	}
 
-	static PackBitmapIndexBuilder setupSinglePackBitmapIndex(
+	static TestData setupSinglePackBitmapIndex(
 			List<ObjectToPack> objectsToPack) {
 		PackBitmapIndexBuilder b = new PackBitmapIndexBuilder(objectsToPack);
 
@@ -295,44 +330,45 @@ public class PackBitmapIndexBuilderTest {
 		tipBitmap.or(middleBitmap);
 		b.addBitmap(oid(10), tipBitmap, 0);
 
-		return b;
+		return new TestData(b, 0);
 	}
 
-//	static TestInput setupChainedPackBitmapIndex() {
-//		List<ObjectToPack> optOne = new ArrayList<>(
-//				List.of(otp(4, 200, Constants.OBJ_COMMIT),
-//						otp(5, 240, Constants.OBJ_TREE),
-//						otp(9, 280, Constants.OBJ_BLOB),
-//						otp(10, 400, Constants.OBJ_COMMIT),
-//						otp(2, 410, Constants.OBJ_TREE)));
-//		List<ObjectToPack> optTwo = new ArrayList<>(
-//				List.of(otp(6, 450, Constants.OBJ_BLOB),
-//						otp(1, 500, Constants.OBJ_COMMIT),
-//						otp(3, 700, Constants.OBJ_BLOB),
-//						otp(7, 900, Constants.OBJ_COMMIT),
-//						otp(8, 910, Constants.OBJ_TREE)));
-//
-//		PackBitmapIndexBuilder b = new PackBitmapIndexBuilder(opts, null);
-//
-//		BitmapIndex bi = new BitmapIndexImpl(b);
-//
-//		// Base commit (4, 5, 9)
-//		BitmapIndex.BitmapBuilder bitmapOne = bi.newBitmapBuilder();
-//		bitmapOne.addObject(oid(4), Constants.OBJ_COMMIT);
-//		bitmapOne.addObject(oid(5), Constants.OBJ_TREE);
-//		bitmapOne.addObject(oid(9), Constants.OBJ_BLOB);
-//		b.addBitmap(oid(4), bitmapOne.build(), 0);
-//
-//		// Commit (10, 2, 6) with base commit as parent
-//		BitmapIndex.BitmapBuilder middleBitmap = bi.newBitmapBuilder();
-//		middleBitmap.addObject(oid(10), Constants.OBJ_COMMIT);
-//		middleBitmap.addObject(oid(2), Constants.OBJ_TREE);
-//		middleBitmap.addObject(oid(6), Constants.OBJ_BLOB);
-//		middleBitmap.or(bitmapOne);
-//		b.addBitmap(oid(10), middleBitmap, 0);
-//
-//		return new TestInput("single", b);
-//	}
+	static TestData setupChainedPackBitmapIndex(List<ObjectToPack> opts) {
+
+		PackBitmapIndexBuilder base = new PackBitmapIndexBuilder(
+				opts.subList(0, 3));
+		// Base commit (3, 2, 1)
+		BitmapIndex baseBitmapIndex = new BitmapIndexImpl(base);
+		BitmapIndex.BitmapBuilder bitmapOne = baseBitmapIndex
+				.newBitmapBuilder();
+		bitmapOne.addObject(oid(3), Constants.OBJ_COMMIT);
+		bitmapOne.addObject(oid(2), Constants.OBJ_TREE);
+		bitmapOne.addObject(oid(1), Constants.OBJ_BLOB);
+		base.addBitmap(oid(3), bitmapOne.build(), 0);
+
+		PackBitmapIndexBuilder tip = new PackBitmapIndexBuilder(
+				opts.subList(3, 10), base);
+		BitmapIndex tipBitmapIndex = new BitmapIndexImpl(tip);
+
+		// Middle commit (7, 6, 5, 4) with base commit as parent
+		BitmapIndex.BitmapBuilder middleBitmap = tipBitmapIndex
+				.newBitmapBuilder();
+		middleBitmap.addObject(oid(7), Constants.OBJ_COMMIT);
+		middleBitmap.addObject(oid(6), Constants.OBJ_TREE);
+		middleBitmap.addObject(oid(5), Constants.OBJ_BLOB);
+		middleBitmap.addObject(oid(4), Constants.OBJ_BLOB);
+		middleBitmap.or(bitmapOne);
+		tip.addBitmap(oid(7), middleBitmap, 0);
+
+		BitmapIndex.BitmapBuilder tipBitmap = tipBitmapIndex.newBitmapBuilder();
+		tipBitmap.addObject(oid(10), Constants.OBJ_COMMIT);
+		tipBitmap.addObject(oid(9), Constants.OBJ_TREE);
+		tipBitmap.addObject(oid(8), Constants.OBJ_BLOB);
+		tipBitmap.or(middleBitmap);
+		tip.addBitmap(oid(10), tipBitmap, 0);
+
+		return new TestData(tip, 3);
+	}
 
 	private static ObjectToPack otp(int oid, long offset, int type) {
 		ObjectToPack otp = new ObjectToPack(oid(oid), type);

@@ -35,18 +35,27 @@ import com.googlecode.javaewah.EWAHCompressedBitmap;
 public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
 
+	private final PackBitmapIndex base;
+
+	private final int baseObjCount;
+
 	private final EWAHCompressedBitmap commits;
+
 	private final EWAHCompressedBitmap trees;
+
 	private final EWAHCompressedBitmap blobs;
+
 	private final EWAHCompressedBitmap tags;
+
 	private final BlockList<PositionEntry> byOffset;
 
 	private final ArrayDeque<StoredBitmap> bitmapsToWriteXorBuffer = new ArrayDeque<>();
 
 	private List<StoredEntry> bitmapsToWrite = new ArrayList<>();
 
-	final ObjectIdOwnerMap<PositionEntry>
-			positionEntries = new ObjectIdOwnerMap<>();
+	final ObjectIdOwnerMap<PositionEntry> positionEntries = new ObjectIdOwnerMap<>();
+
+	private final EWAHCompressedBitmap allBaseObjects;
 
 	/**
 	 * Creates a PackBitmapIndex used for building the contents of an index
@@ -57,9 +66,26 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 *            ObjectId (name); it will be resorted in place.
 	 */
 	public PackBitmapIndexBuilder(List<ObjectToPack> objects) {
+		this(objects, null);
+	}
+
+	/**
+	 * Creates a PackBitmapIndex used for building the contents of an index
+	 * file.
+	 *
+	 * @param objects
+	 *            objects sorted by name. The list must be initially sorted by
+	 *            ObjectId (name); it will be resorted in place.
+	 * @param base
+	 *            pack bitmap index covering earlier packs in the chain
+	 */
+	public PackBitmapIndexBuilder(List<ObjectToPack> objects,
+			PackBitmapIndex base) {
 		super(new ObjectIdOwnerMap<>());
+		this.base = base;
+		this.baseObjCount = base == null ? 0 : base.getObjectCount();
 		byOffset = new BlockList<>(objects.size());
-		sortByOffsetAndIndex(byOffset, positionEntries, objects);
+		sortByOffsetAndIndex(byOffset, positionEntries, objects, baseObjCount);
 
 		// 64 objects fit in a single long word (64 bits).
 		// On average a repository is 30% commits, 30% trees, 30% blobs.
@@ -93,19 +119,27 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 		trees.trim();
 		blobs.trim();
 		tags.trim();
+		allBaseObjects = bitmapAllOnes(baseObjCount);
+	}
+
+	private static EWAHCompressedBitmap bitmapAllOnes(int size) {
+		EWAHCompressedBitmap bitmap = new EWAHCompressedBitmap();
+		bitmap.setSizeInBits(size, true);
+		return bitmap;
 	}
 
 	private static void sortByOffsetAndIndex(BlockList<PositionEntry> byOffset,
 			ObjectIdOwnerMap<PositionEntry> positionEntries,
-			List<ObjectToPack> entries) {
+			List<ObjectToPack> entries, int baseObjectCount) {
 		for (int i = 0; i < entries.size(); i++) {
-			positionEntries.add(new PositionEntry(entries.get(i), i));
+			positionEntries.add(
+					new PositionEntry(entries.get(i), i + baseObjectCount));
 		}
 		Collections.sort(entries, (ObjectToPack a, ObjectToPack b) -> Long
 				.signum(a.getOffset() - b.getOffset()));
 		for (int i = 0; i < entries.size(); i++) {
 			PositionEntry e = positionEntries.get(entries.get(i));
-			e.ridxPosition = i;
+			e.ridxPosition = i + baseObjectCount;
 			byOffset.add(e);
 		}
 	}
@@ -206,43 +240,117 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 * @param flags
 	 *            the flags to be stored with the bitmap
 	 */
-	public void addBitmap(
-			AnyObjectId objectId, EWAHCompressedBitmap bitmap, int flags) {
+	public void addBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
+			int flags) {
 		bitmap.trim();
 		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
 		getBitmaps().add(result);
 	}
 
 	@Override
-	public EWAHCompressedBitmap ofObjectType(
-			EWAHCompressedBitmap bitmap, int type) {
+	public EWAHCompressedBitmap ofObjectType(EWAHCompressedBitmap bitmap,
+			int type) {
 		switch (type) {
 		case Constants.OBJ_BLOB:
-			return getBlobs().and(bitmap);
+			return getTotalBlobs().and(bitmap);
 		case Constants.OBJ_TREE:
-			return getTrees().and(bitmap);
+			return getTotalTrees().and(bitmap);
 		case Constants.OBJ_COMMIT:
-			return getCommits().and(bitmap);
+			return getTotalCommits().and(bitmap);
 		case Constants.OBJ_TAG:
-			return getTags().and(bitmap);
+			return getTotalTags().and(bitmap);
 		}
 		throw new IllegalArgumentException();
+	}
+
+	private EWAHCompressedBitmap getTotalBlobs() {
+		if (base == null) {
+			return getBlobs();
+		}
+
+		return getBlobs().shift(baseObjCount)
+				.or(ofObjectTypeInBase(Constants.OBJ_BLOB));
+	}
+
+	private EWAHCompressedBitmap getTotalTrees() {
+		if (base == null) {
+			return getTrees();
+		}
+
+		return getTrees().shift(baseObjCount)
+				.or(ofObjectTypeInBase(Constants.OBJ_TREE));
+	}
+
+	private EWAHCompressedBitmap getTotalCommits() {
+		if (base == null) {
+			return getCommits();
+		}
+
+		return getCommits().shift(baseObjCount)
+				.or(ofObjectTypeInBase(Constants.OBJ_COMMIT));
+	}
+
+	private EWAHCompressedBitmap getTotalTags() {
+		if (base == null) {
+			return getTags();
+		}
+
+		return getTags().shift(baseObjCount)
+				.or(ofObjectTypeInBase(Constants.OBJ_TAG));
+	}
+
+	private EWAHCompressedBitmap ofObjectTypeInBase(int type) {
+		EWAHCompressedBitmap baseObjs;
+		if (base instanceof PackBitmapIndexBuilder baseBuilder) {
+			baseObjs = switch (type) {
+			case Constants.OBJ_COMMIT -> baseBuilder.getTotalCommits();
+			case Constants.OBJ_TREE -> baseBuilder.getTotalTrees();
+			case Constants.OBJ_BLOB -> baseBuilder.getTotalBlobs();
+			case Constants.OBJ_TAG -> baseBuilder.getTotalTags();
+			default -> throw new IllegalArgumentException();
+			};
+		} else {
+			baseObjs = base.ofObjectType(allBaseObjects, type);
+		}
+		return baseObjs;
 	}
 
 	@Override
 	public int findPosition(AnyObjectId objectId) {
 		PositionEntry entry = positionEntries.get(objectId);
-		if (entry == null)
-			return -1;
-		return entry.ridxPosition;
+		if (entry != null) {
+			return entry.ridxPosition;
+		}
+
+		if (base != null) {
+			return base.findPosition(objectId);
+		}
+		return -1;
 	}
 
 	@Override
 	public ObjectId getObject(int position) throws IllegalArgumentException {
-		ObjectId objectId = byOffset.get(position);
+		if (base != null && position < baseObjCount) {
+			return base.getObject(position);
+		}
+
+		ObjectId objectId = byOffset.get(position - baseObjCount);
 		if (objectId == null)
 			throw new IllegalArgumentException();
 		return objectId;
+	}
+
+	@Override
+	public boolean includes(PackBitmapIndex other) {
+		if (other == this) {
+			return true;
+		}
+
+		if (base == null) {
+			return false;
+		}
+
+		return base.includes(other);
 	}
 
 	/**
@@ -292,7 +400,9 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	@Override
 	public int getBitmapCount() {
-		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size();
+		int baseBitmapCount = base == null ? 0 : base.getBitmapCount();
+		return bitmapsToWriteXorBuffer.size() + bitmapsToWrite.size()
+				+ baseBitmapCount;
 	}
 
 	/**
@@ -308,7 +418,7 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 
 	@Override
 	public int getObjectCount() {
-		return byOffset.size();
+		return byOffset.size() + baseObjCount;
 	}
 
 	/**

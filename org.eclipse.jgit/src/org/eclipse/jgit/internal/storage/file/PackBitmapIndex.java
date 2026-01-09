@@ -238,6 +238,8 @@ public interface PackBitmapIndex {
 	 */
 	public abstract long getXorBitmapSizeInBytes();
 
+	boolean includes(PackBitmapIndex packBitmapIndex);
+
 	/**
 	 * Supplier that propagates IOException.
 	 *

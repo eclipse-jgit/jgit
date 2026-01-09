@@ -287,7 +287,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 			}
 			if (other instanceof CompressedBitmapBuilder) {
 				CompressedBitmapBuilder b = (CompressedBitmapBuilder) other;
-				if (b.bitmapIndex != bitmapIndex) {
+				if (!bitmapIndex.sameChain(b.bitmapIndex)) {
 					throw new IllegalArgumentException();
 				}
 				return b.bitset.combine();
@@ -296,12 +296,20 @@ public class BitmapIndexImpl implements BitmapIndex {
 		}
 	}
 
+	private boolean sameChain(BitmapIndexImpl bitmapIndex) {
+		if (this.packIndex == bitmapIndex.getPackBitmapIndex()) {
+			return true;
+		}
+
+		return this.packIndex.includes(bitmapIndex.getPackBitmapIndex());
+	}
+
 	/**
 	 * Wrapper for a {@link EWAHCompressedBitmap} and {@link PackBitmapIndex}.
 	 * <p>
-	 * For a EWAHCompressedBitmap {@code bitmap} representing a vector of
-	 * bits, {@code new CompressedBitmap(bitmap, bitmapIndex)} represents the
-	 * objects at those positions in {@code bitmapIndex.packIndex}.
+	 * For a EWAHCompressedBitmap {@code bitmap} representing a vector of bits,
+	 * {@code new CompressedBitmap(bitmap, bitmapIndex)} represents the objects
+	 * at those positions in {@code bitmapIndex.packIndex}.
 	 */
 	public static final class CompressedBitmap implements Bitmap {
 		final EWAHCompressedBitmap bitmap;
