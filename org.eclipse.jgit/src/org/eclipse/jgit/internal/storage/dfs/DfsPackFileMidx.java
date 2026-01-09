@@ -20,6 +20,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -155,6 +156,23 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	public final PackIndex getPackIndex(DfsReader ctx) {
 		return new MidxPackIndex(this, ctx);
 	}
+
+	/**
+	 * Return all objects in this midx (not recursively) as ObjectToPack
+	 * instances (oid, offset, type). Ordered by sha1.
+	 * <p>
+	 * ObjectToPack is the prefered format for the bitmap builder. This can
+	 * probably be optimized.
+	 * 
+	 * @param ctx
+	 *            a reader
+	 * @return list of objects in this midx (NOT in its chain) with offset and
+	 *         type
+	 * @throws IOException
+	 *             an error reading the midx
+	 */
+	abstract List<ObjectToPack> getLocalObjects(DfsReader ctx)
+			throws IOException;
 
 	@Override
 	public abstract PackReverseIndex getReverseIdx(DfsReader ctx)
@@ -367,6 +385,9 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 		}
 	}
 
+	/**
+	 * The pack does all the recursive work to go through the chain
+	 */
 	private static class MidxPackIndex implements PackIndex {
 
 		private final DfsPackFileMidx pack;
