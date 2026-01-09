@@ -123,7 +123,7 @@ public class DfsMidxWriter {
 		}
 
 		// TODO(ifrade): At the moment write bitmaps only in the bottom midx.
-		// A single-pack midx in thel base should be covering only GC. No
+		// A single-pack midx in the base should be covering only GC. No
 		// need to write midx bitmaps (we will use GC bitmaps).
 		if (base == null && midxPackDesc.getCoveredPacks().size() > 1) {
 			createAndAttachBitmaps(objdb.getRepository(), midxPackDesc,
