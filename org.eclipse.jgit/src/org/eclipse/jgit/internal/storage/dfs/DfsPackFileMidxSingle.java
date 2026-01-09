@@ -9,7 +9,11 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +35,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.BlockList;
+import org.eclipse.jgit.util.IO;
 
 /**
  * A single pack that looks like a midx, to be used in the midx chain
@@ -41,6 +46,8 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 	private final DfsPackFile pack;
 
 	private final DfsPackFileMidx base;
+
+	private byte[] checksum;
 
 	private final LocalPackOffset poBuffer = new LocalPackOffset();
 
@@ -121,6 +128,24 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 		int baseObjectCount = base == null ? 0 : base.getObjectCount(ctx);
 		return (int) pack.getPackDescription().getObjectCount()
 				+ baseObjectCount;
+	}
+
+	@Override
+	protected byte[] getChecksum(DfsReader ctx) throws IOException {
+		if (checksum == null) {
+			long checksumPos = desc.getFileSize(MULTI_PACK_INDEX) - 20;
+			if (checksumPos <= 0) {
+				throw new IllegalStateException("Midx stream too short");
+			}
+
+			try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX);
+					InputStream in = Channels.newInputStream(rc)) {
+				checksum = new byte[20];
+				in.skip(checksumPos);
+				IO.readFully(in, checksum, 0, 20);
+			}
+		}
+		return checksum;
 	}
 
 	/**

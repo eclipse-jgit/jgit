@@ -18,6 +18,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -1011,6 +1012,24 @@ public class DfsPackFileMidxNPacksTest {
 			assertTrue(dest.getObjectDatabase().has(commit));
 			assertTrue(dest.getObjectDatabase().has(blob));
 			assertFalse(dest.getObjectDatabase().has(notPacked));
+		}
+	}
+
+	@Test
+	public void getChecksum() throws Exception {
+		MidxTestUtils.writePackWithBlob(db, "something");
+		MidxTestUtils.writePackWithBlob(db, "something else");
+		MidxTestUtils.writePackWithBlob(db, "and more");
+		DfsPackFileMidx midx = writeMultipackIndex();
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			byte[] checksum = midx.getChecksum(ctx);
+			assertNotNull(checksum);
+			assertEquals(20, checksum.length);
+			assertNotEquals('M', checksum[0]);
+			assertNotEquals('I', checksum[1]);
+			assertNotEquals('D', checksum[2]);
+			assertNotEquals('X', checksum[3]);
 		}
 	}
 

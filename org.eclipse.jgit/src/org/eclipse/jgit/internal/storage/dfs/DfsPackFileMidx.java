@@ -140,6 +140,17 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 		return (int) getPackDescription().getObjectCount();
 	}
 
+	/**
+	 * Return checksum of the midx
+	 *
+	 * @param ctx
+	 *            a reader
+	 * @return checksum of the midx
+	 * @throws IOException
+	 *             an error reading the file
+	 */
+	protected abstract byte[] getChecksum(DfsReader ctx) throws IOException;
+
 	@Override
 	public final PackIndex getPackIndex(DfsReader ctx) {
 		return new MidxPackIndex(this, ctx);
