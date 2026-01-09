@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
@@ -100,6 +101,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		return midx;
 	}
 
+
 	private static RefWithSize loadMultiPackIndex(DfsReader ctx,
 			DfsPackDescription desc) throws IOException {
 		try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX)) {
@@ -145,11 +147,14 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
-		// TODO(ifrade): at some point we will have bitmaps over the multipack
-		// index
-		// At the moment bitmap is in GC, at the end of the chain
+		// TODO(ifrade): We have bitmaps only in the bottom
 		if (base != null) {
 			return base.getBitmapIndex(ctx);
+		}
+
+		if (getPackDescription().hasFileExt(BITMAP_INDEX)) {
+			// Return our own bitmaps
+			return super.getBitmapIndex(ctx);
 		}
 
 		for (DfsPackFile pack : packsInIdOrder) {
@@ -191,6 +196,24 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	}
 
 	@Override
+	public List<ObjectToPack> getLocalObjects(DfsReader ctx)
+			throws IOException {
+		MultiPackIndex midx = midx(ctx);
+		int localObjCount = midx(ctx).getObjectCount();
+		List<ObjectToPack> otps = new ArrayList<>(localObjCount);
+		for (int idxPosition = 0; idxPosition < localObjCount; idxPosition++) {
+			ObjectId oid = midx.getObjectAt(idxPosition);
+			PackOffset packOffset = midx.find(oid);
+			long offset = offsetCalculator.encode(packOffset);
+			int objectType = getObjectType(ctx, offset);
+			ObjectToPack otp = new ObjectToPack(oid, objectType);
+			otp.setOffset(offset);
+			otps.add(otp);
+		}
+		return otps;
+	}
+
+	@Override
 	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
 		return new MidxReverseIndex(ctx, this,
 				base == null ? 0 : base.getObjectCount(ctx),
@@ -209,7 +232,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	 *             an error reading a midx in the chain
 	 */
 	@Override
-	protected int getObjectCount(DfsReader ctx) throws IOException {
+	public int getObjectCount(DfsReader ctx) throws IOException {
 		int baseObjectCount = base == null ? 0 : base.getObjectCount(ctx);
 		return midx(ctx).getObjectCount() + baseObjectCount;
 	}
