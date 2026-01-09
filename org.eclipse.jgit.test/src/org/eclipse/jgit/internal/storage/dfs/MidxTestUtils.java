@@ -14,13 +14,19 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 
 /**
  * Helpers to write multipack indexes
@@ -144,4 +150,66 @@ public class MidxTestUtils {
 		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
 				Arrays.asList(packs), base);
 	}
+
+	record CommitObjects(RevCommit commit, RevTree tree, RevBlob blob) {
+	}
+
+	private static int commitCounter = 1;
+
+	static List<CommitObjects> writeCommitChain(DfsRepository db,
+			String refname, int length) throws Exception {
+		List<CommitObjects> co = new ArrayList<>(length);
+		RevCommit tip = null;
+		Ref ref = db.getRefDatabase().findRef(refname);
+		if (ref != null) {
+			tip = db.parseCommit(ref.getObjectId());
+		}
+
+		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
+				(InMemoryRepository) db);
+				DfsInserter ins = (DfsInserter) db.getObjectDatabase()
+						.newInserter()) {
+			for (int i = 0; i < length; i++) {
+				RevBlob blob = repository.blob("blob" + commitCounter);
+
+				tip = repository.branch(refname).commit().parent(tip)
+						.add("blob" + commitCounter, blob).create();
+				commitCounter++;
+				co.add(new CommitObjects(tip, tip.getTree(), blob));
+			}
+		}
+		return co;
+	}
+//
+//	static List<CommitObjects> writeCommitChainSinglePack(DfsRepository db,
+//			String refOne, int lengthOne, String refTwo, int lengthTwo,
+//			String refThree, int legthThree) {
+//		List<CommitObjects> co = new ArrayList<>(
+//				lengthOne + lengthTwo + legthThree);
+//        try (DfsInserter ins = (DfsInserter) db.getObjectDatabase().newInserter()) {
+//            org.eclipse.jgit.internal.storage.dfs.MidxTestUtils.CommitObjects = insertCommit(ins, commitCounter++, tip);
+//        }
+//		return co;
+//	}
+//
+//	static CommitObjects insertCommit(DfsInserter inserter, int commitCounter,
+//			ObjectId parent) throws IOException {
+//		ObjectId blobId = inserter.insert(Constants.OBJ_BLOB,
+//				("blob " + commitCounter).getBytes(UTF_8));
+//
+//		TreeFormatter tree = new TreeFormatter();
+//		tree.append("blob" + commitCounter, FileMode.REGULAR_FILE, blobId);
+//		ObjectId treeId = inserter.insert(tree);
+//
+//		CommitBuilder commit = new CommitBuilder();
+//		PersonIdent person = new PersonIdent("midxTestUtils", "midx@jgit.com");
+//		commit.setAuthor(person);
+//		commit.setCommitter(person);
+//		commit.setMessage("Commit for blob " + commitCounter);
+//		commit.setTreeId(treeId);
+//		if (parent != null) {
+//			commit.setParentId(parent);
+//		}
+//		return new CommitObjects(inserter.insert(commit), treeId, blobId);
+//	}
 }
