@@ -23,6 +23,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -293,6 +294,23 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 	@Override
 	long getIndexedObjectSize(DfsReader ctx, int idxPosition) {
 		return -1;
+	}
+
+	@Override
+	public List<ObjectToPack> getLocalObjects(DfsReader ctx)
+			throws IOException {
+		PackIndex idx = getPackIndex(ctx);
+		int localObjCount = (int) idx.getObjectCount();
+		List<ObjectToPack> otps = new ArrayList<>(localObjCount);
+		for (int idxPosition = 0; idxPosition < localObjCount; idxPosition++) {
+			ObjectId oid = idx.getObjectId(idxPosition);
+			long offset = idx.getOffset(idxPosition);
+			int objectType = getObjectType(ctx, offset);
+			ObjectToPack otp = new ObjectToPack(oid, objectType);
+			otp.setOffset(offset);
+			otps.add(otp);
+		}
+		return otps;
 	}
 
 	@Override
