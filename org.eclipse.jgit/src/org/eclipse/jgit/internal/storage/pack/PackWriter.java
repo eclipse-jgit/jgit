@@ -2534,40 +2534,10 @@ public class PackWriter implements AutoCloseable {
 		// Allow byName to be GC'd if JVM GC runs before the end of the method.
 		byName = null;
 
-		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
-				reader, writeBitmaps, pm, stats.interestingObjects, config);
+		PackBitmapCalculator bitmapWrite = new PackBitmapCalculator(config);
+		bitmapWrite.write(reader, pm, numCommits, stats.interestingObjects,
+				excludeFromBitmapSelection, writeBitmaps);
 
-		Collection<BitmapCommit> selectedCommits = bitmapPreparer
-				.selectCommits(numCommits, excludeFromBitmapSelection);
-
-		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
-
-		BitmapWalker walker = bitmapPreparer.newBitmapWalker();
-		AnyObjectId last = null;
-		for (BitmapCommit cmit : selectedCommits) {
-			if (!cmit.isReuseWalker()) {
-				walker = bitmapPreparer.newBitmapWalker();
-			}
-			BitmapBuilder bitmap = walker.findObjects(
-					Collections.singleton(cmit), null, false);
-
-			if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
-				throw new IllegalStateException(MessageFormat.format(
-						JGitText.get().bitmapMissingObject, cmit.name(),
-						last.name()));
-			last = BitmapCommit.copyFrom(cmit).build();
-			writeBitmaps.processBitmapForWrite(cmit, bitmap.build(),
-					cmit.getFlags());
-
-			// The bitmap walker should stop when the walk hits the previous
-			// commit, which saves time.
-			walker.setPrevCommit(last);
-			walker.setPrevBitmap(bitmap);
-
-			pm.update(1);
-		}
-
-		endPhase(pm);
 		return true;
 	}
 
