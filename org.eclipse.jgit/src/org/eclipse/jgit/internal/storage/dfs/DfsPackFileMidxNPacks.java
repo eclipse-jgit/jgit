@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
@@ -145,11 +146,15 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	public PackBitmapIndex getBitmapIndex(DfsReader ctx) throws IOException {
-		// TODO(ifrade): at some point we will have bitmaps over the multipack
-		// index
-		// At the moment bitmap is in GC, at the end of the chain
+		// We have bitmaps only at the bottom of the midx or pack stack
 		if (base != null) {
 			return base.getBitmapIndex(ctx);
+		}
+
+		if (ctx.getOptions().shouldUseMidxBitmaps()
+				&& getPackDescription().hasFileExt(BITMAP_INDEX)) {
+			// Return our own bitmaps
+			return super.getBitmapIndex(ctx);
 		}
 
 		for (DfsPackFile pack : packsInIdOrder) {
