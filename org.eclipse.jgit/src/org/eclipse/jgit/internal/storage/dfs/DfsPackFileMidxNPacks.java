@@ -214,6 +214,11 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		return midx(ctx).getObjectCount() + baseObjectCount;
 	}
 
+	@Override
+	protected byte[] getChecksum(DfsReader ctx) throws IOException {
+		return midx(ctx).getChecksum();
+	}
+
 	/**
 	 * Packs indexed by this multipack index (base NOT included)
 	 *
