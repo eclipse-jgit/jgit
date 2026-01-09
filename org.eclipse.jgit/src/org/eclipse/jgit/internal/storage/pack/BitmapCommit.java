@@ -30,8 +30,9 @@ public final class BitmapCommit extends ObjectId {
 		this.addToIndex = false;
 	}
 
-	BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags,
-				 boolean addToIndex) {
+	// Visible for testing
+	public BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags,
+			boolean addToIndex) {
 		super(objectId);
 		this.reuseWalker = reuseWalker;
 		this.flags = flags;
