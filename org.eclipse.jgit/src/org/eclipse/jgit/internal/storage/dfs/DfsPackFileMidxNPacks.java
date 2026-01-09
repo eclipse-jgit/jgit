@@ -196,6 +196,24 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	}
 
 	@Override
+	public List<ObjectToPack> getLocalObjects(DfsReader ctx)
+			throws IOException {
+		MultiPackIndex midx = midx(ctx);
+		int localObjCount = midx(ctx).getObjectCount();
+		List<ObjectToPack> otps = new ArrayList<>(localObjCount);
+		for (int idxPosition = 0; idxPosition < localObjCount; idxPosition++) {
+			ObjectId oid = midx.getObjectAt(idxPosition);
+			PackOffset packOffset = midx.find(oid);
+			long offset = offsetCalculator.encode(packOffset);
+			int objectType = getObjectType(ctx, offset);
+			ObjectToPack otp = new ObjectToPack(oid, objectType);
+			otp.setOffset(offset);
+			otps.add(otp);
+		}
+		return otps;
+	}
+
+	@Override
 	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
 		return new MidxReverseIndex(ctx, this,
 				base == null ? 0 : base.getObjectCount(ctx),
