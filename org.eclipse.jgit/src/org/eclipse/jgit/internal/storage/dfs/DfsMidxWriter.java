@@ -68,6 +68,7 @@ public class DfsMidxWriter {
 			MultiPackIndexWriter w = new MultiPackIndexWriter();
 			MultiPackIndexWriter.Result result = w.write(pm, out, inputs);
 			midxPackDesc.addFileExt(MULTI_PACK_INDEX);
+			midxPackDesc.setFileSize(MULTI_PACK_INDEX, result.bytesWritten());
 			midxPackDesc.setObjectCount(result.objectCount());
 
 			Map<String, DfsPackDescription> byName = packs.stream()

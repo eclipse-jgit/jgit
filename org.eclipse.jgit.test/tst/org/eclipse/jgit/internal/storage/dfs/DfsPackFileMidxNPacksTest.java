@@ -1015,6 +1015,20 @@ public class DfsPackFileMidxNPacksTest {
 	}
 
 	@Test
+	public void getChecksum() throws Exception {
+		MidxTestUtils.writePackWithBlob(db, "something");
+		MidxTestUtils.writePackWithBlob(db, "something else");
+		MidxTestUtils.writePackWithBlob(db, "and more");
+		DfsPackFileMidx midx = writeMultipackIndex();
+
+		byte[] expected = new byte[] { -41, -107, -83, -81, -115, 94, 110, 63,
+				123, 6, -28, -57, 13, -30, -78, -111, -70, -12, -82, -28 };
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertArrayEquals(expected, midx.getChecksum(ctx));
+		}
+	}
+
+	@Test
 	public void voffsetcalculator_encode() {
 		DfsPackFile one = createDfsPackFile(800);
 		DfsPackFile two = createDfsPackFile(1200);
