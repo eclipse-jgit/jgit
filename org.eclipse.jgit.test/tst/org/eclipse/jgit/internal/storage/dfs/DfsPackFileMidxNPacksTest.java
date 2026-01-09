@@ -12,6 +12,8 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
@@ -29,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.Deflater;
@@ -38,6 +41,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.DfsPackOffset;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.VOffsetCalculator;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidxNPacks.VOffsetCalculatorNPacks;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
@@ -50,6 +54,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -57,6 +62,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 public class DfsPackFileMidxNPacksTest {
 
@@ -662,14 +669,31 @@ public class DfsPackFileMidxNPacksTest {
 	public void midx_getObjectType_withBase() throws Exception {
 		// This first commit creates two packs
 		ObjectId commit = writePackWithCommit();
+		System.out.println("Commit #1 " + commit);
 		ObjectId blob = writePackWithRandomBlob(200);
-		writePackWithCommit();
+		ObjectId c2 = writePackWithCommit();
+		System.out.println("Commit #2 " + c2);
 
-		writePackWithCommit();
+		ObjectId c3 = writePackWithCommit();
+		System.out.println("Commit #3 " + c3);
 		writePackWithRandomBlob(300);
 		ObjectId newCommit = writePackWithCommit();
+		System.out.println("Commit #4 " + newCommit);
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		for (int i = 0; i < packs.length; i++) {
+			System.out.println("pack " + i + " "
+					+ packs[i].getPackDescription().getPackName());
+			try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+				PackIndex packIndex = packs[i].getPackIndex(ctx);
+				Iterator<PackIndex.MutableEntry> iterator = packIndex
+						.iterator();
+				while (iterator.hasNext()) {
+					System.out.println("  - " + iterator.next().name());
+
+				}
+			}
+		}
 		// Packs are in reverse insertion order
 		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 4, 7), null);
@@ -865,7 +889,7 @@ public class DfsPackFileMidxNPacksTest {
 			assertEquals(midxTip.getPackDescription(),
 					rep.pack.getPackDescription());
 			assertEquals(midxTip.findOffset(ctx, commitInTip), rep.offset);
-			assertEquals(150, rep.length);
+			assertEquals(151, rep.length);
 
 			// Commit in base midx
 			rep = fillRepresentation(midxTip, commitInBase, OBJ_COMMIT);
@@ -884,7 +908,7 @@ public class DfsPackFileMidxNPacksTest {
 	}
 
 	@Test
-	public void midx_getBitmapIndex() throws Exception {
+	public void midx_getBitmapIndex_gc() throws Exception {
 		RevCommit c1 = writePackWithCommit();
 		RevCommit c2 = writePackWithCommit();
 		gcWithBitmaps();
@@ -899,6 +923,32 @@ public class DfsPackFileMidxNPacksTest {
 			assertEquals(1, bitmapIndex.findPosition(c1));
 			assertEquals(0, bitmapIndex.findPosition(c2));
 			assertEquals(-1, bitmapIndex.findPosition(blob));
+		}
+	}
+
+	@Test
+	public void midx_getBitmapIndex_midx() throws Exception {
+		RevCommit c1 = writePackWithCommit();
+		RevCommit c2 = writePackWithCommit();
+		gcWithBitmaps();
+
+		RevCommit c3 = writePackWithCommit();
+		DfsPackFileMidx dfsPackFileMidx = writeMultipackIndexWithBitmaps();
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			ctx.getOptions().setUseMidxBitmaps(true);
+			PackBitmapIndex bitmapIndex = dfsPackFileMidx.getBitmapIndex(ctx);
+			assertNotNull(bitmapIndex);
+			assertEquals(3, bitmapIndex.getBitmapCount());
+			// Both commits have same tree and blob
+			assertEquals(5, bitmapIndex.getObjectCount());
+
+			assertNotNull(bitmapIndex.getBitmap(c3));
+			assertNotNull(bitmapIndex.getBitmap(c2));
+			assertNotNull(bitmapIndex.getBitmap(c1));
+
+			EWAHCompressedBitmap bitmapC3 = bitmapIndex.getBitmap(c3);
+			EWAHCompressedBitmap bitmapC2 = bitmapIndex.getBitmap(c2);
+			assertEquals(1, bitmapC3.andNot(bitmapC2).cardinality());
 		}
 	}
 
@@ -1215,6 +1265,20 @@ public class DfsPackFileMidxNPacksTest {
 		return MidxTestUtils.writeMultipackIndex(db, packs, null);
 	}
 
+	private DfsPackFileMidx writeMultipackIndexWithBitmaps()
+			throws IOException {
+		enableMidxBitmaps(db);
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		DfsPackFileMidx midx = MidxTestUtils.writeMultipackIndex(db, packs,
+				null);
+		return midx;
+	}
+
+	private static void enableMidxBitmaps(DfsRepository repo) {
+		repo.getConfig().setInt(CONFIG_PACK_SECTION, null,
+				CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN, 1);
+	}
+
 	private void gcWithBitmaps() throws IOException {
 		DfsGarbageCollector garbageCollector = new DfsGarbageCollector(db);
 		garbageCollector.pack(NullProgressMonitor.INSTANCE);
@@ -1223,7 +1287,12 @@ public class DfsPackFileMidxNPacksTest {
 	private RevCommit writePackWithCommit() throws Exception {
 		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
 				db)) {
-			return repository.branch("/refs/heads/main").commit()
+			Ref ref = repository.getRepository().getRefDatabase()
+					.findRef("refs/heads/main");
+			RevWalk rw = repository.getRevWalk();
+			RevCommit parent = ref != null ? rw.parseCommit(ref.getObjectId())
+					: null;
+			return repository.branch("refs/heads/main").commit().parent(parent)
 					.add("blob1", "blob1").create();
 		}
 	}
