@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6535d07c_9be1026e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-13T22:51:00Z",
+      "side": 1,
+      "message": "trigger build\n\nVerification fails for unrelated reasons. Tests pass locally.",
+      "revId": "f8d125490d9d190008f937334c4dccf9955d3856",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
