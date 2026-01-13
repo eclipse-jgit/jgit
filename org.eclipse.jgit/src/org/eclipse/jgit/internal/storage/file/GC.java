@@ -1866,7 +1866,7 @@ public class GC {
 				ConfigConstants.CONFIG_KEY_AUTO, DEFAULT_AUTOLIMIT);
 	}
 
-	private class PidLock implements AutoCloseable {
+	public class PidLock implements AutoCloseable {
 
 		private static final String GC_PID = "gc.pid"; //$NON-NLS-1$
 
@@ -1882,7 +1882,7 @@ public class GC {
 
 		private ShutdownHook.Listener shutdownListener = this::close;
 
-		PidLock() {
+		public PidLock() {
 			pidFile = repo.getDirectory().toPath().resolve(GC_PID);
 		}
 
