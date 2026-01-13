@@ -19,6 +19,7 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
@@ -102,6 +103,24 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 
 		return coveredPacks;
 	}
+
+	/**
+	 * Get the objectId at the corresponding position in the midx chain up to
+	 * this point
+	 * <p>
+	 * In a chain with midx-tip (100 objects) and midx-base (50 objects),
+	 * positions 0-49 belong to the base midx and 50-149 to the tip midx.
+	 *
+	 * @param ctx
+	 *            a reader for the midx data
+	 * @param nthPosition
+	 *            position in midx chain
+	 * @return the objectId
+	 * @throws IOException
+	 *             a problem reading midx bytes
+	 */
+	abstract ObjectId getObjectAt(DfsReader ctx, long nthPosition)
+			throws IOException;
 
 	/**
 	 * Count of objects in this <b>pack</b> (i.e. including, recursively, its
