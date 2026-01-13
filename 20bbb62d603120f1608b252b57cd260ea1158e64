@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae9000df_8d4b8904",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-13T09:20:19Z",
+      "side": 1,
+      "message": "Thanks for taking the time to review my initial draft PR. I expected an email notification, may have missed it. Will get to fixing up the commit",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "00d805f4_9c07ff69",
         "filename": "org.eclipse.jgit.gpg.signing.test/tst/org/eclipse/jgit/gpg/signing/GpgExternalSigningTest.java",
         "patchSetId": 1
@@ -54,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0de07c1_c2e872a7",
+        "filename": "org.eclipse.jgit.gpg.signing.test/tst/org/eclipse/jgit/gpg/signing/GpgExternalSigningTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-13T09:20:19Z",
+      "side": 1,
+      "message": "Sorry, some copy-paste placeholders from related code",
+      "parentUuid": "00d805f4_9c07ff69",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b4ea269d_c0247313",
         "filename": "org.eclipse.jgit.gpg.signing/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -65,6 +100,24 @@
       "writtenOn": "2026-01-07T15:36:49Z",
       "side": 1,
       "message": "o.e.j.gpg.bc is an OSGi _fragment_ of the main bundle to ensure the main JGit can find the services via the ServiceLoader in an OSGi environment (like Eclipse). Is this new bundle not a fragment on purpose?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3949e0a_592902ef",
+        "filename": "org.eclipse.jgit.gpg.signing/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-13T09:20:19Z",
+      "side": 1,
+      "message": "I do not have a deep understanding of how these pieces fit in OSGI, but will look at `o.e.j.gpg.bc` as a reference",
+      "parentUuid": "b4ea269d_c0247313",
       "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -150,6 +203,24 @@
       "writtenOn": "2026-01-07T15:36:49Z",
       "side": 1,
       "message": "First, it\u0027s 2025, and are you working for SAP?",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d5cf08_cb17695b",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinarySigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-13T09:20:19Z",
+      "side": 1,
+      "message": "No sorry, was some copy-paste artefacts. My bad will update accordingly",
+      "parentUuid": "007daf17_ca76f9f4",
       "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
