@@ -124,6 +124,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2eb02d38_a27502c6",
+        "filename": "org.eclipse.jgit.gpg.signing/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-13T09:44:43Z",
+      "side": 1,
+      "message": "I suggest to move this code added in this change to an internal package in the existing org.eclipse.jgit bundle instead of creating a new bundle or fragment and move the tests to the org.eclipse.jgit.test bundle",
+      "parentUuid": "b3949e0a_592902ef",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53812b8b_0ed7131c",
         "filename": "org.eclipse.jgit.gpg.signing/pom.xml",
         "patchSetId": 1
