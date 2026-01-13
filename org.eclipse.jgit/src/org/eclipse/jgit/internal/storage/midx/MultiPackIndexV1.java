@@ -40,15 +40,19 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	private final ReverseIndex ridx;
 
+	private final byte[] checksum;
+
 	MultiPackIndexV1(int hashLength, @NonNull byte[] oidFanout,
 			@NonNull byte[] oidLookup, String[] packNames,
 			byte[] bitmappedPackfiles, byte[] objectOffsets,
-			byte[] largeObjectOffsets, byte[] bitmapPackOrder) throws MultiPackIndexFormatException {
+			byte[] largeObjectOffsets, byte[] bitmapPackOrder, byte[] checksum)
+			throws MultiPackIndexFormatException {
 		this.idx = new OidLookup(hashLength, oidFanout, oidLookup);
 		this.offsets = new OffsetLookup(objectOffsets, largeObjectOffsets);
 		this.packNames = packNames;
 		this.ridx = new ReverseIndex(bitmapPackOrder, idx, offsets,
 				bitmappedPackfiles);
+		this.checksum = checksum;
 	}
 
 	@Override
@@ -104,11 +108,16 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
+	public byte[] getChecksum() {
+		return checksum;
+	}
+
+	@Override
 	public long getMemorySize() {
 		int packNamesSize = Arrays.stream(packNames)
 				.mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length).sum();
-		return packNamesSize + ridx.getMemorySize()
-				+ idx.getMemorySize() + offsets.getMemorySize();
+		return packNamesSize + ridx.getMemorySize() + idx.getMemorySize()
+				+ offsets.getMemorySize() + checksum.length;
 	}
 
 	@Override

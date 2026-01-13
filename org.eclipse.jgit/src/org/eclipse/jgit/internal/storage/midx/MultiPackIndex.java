@@ -26,7 +26,7 @@ public interface MultiPackIndex {
 	 * <p>
 	 * The pack ids correspond to positions in this list.
 	 *
-	 * @return array of packnames refered in this multipak index
+	 * @return array of packnames refered in this multipack index
 	 */
 	String[] getPackNames();
 
@@ -76,7 +76,7 @@ public interface MultiPackIndex {
 	int findBitmapPosition(PackOffset po);
 
 	/**
-	 * Object id at the specified position in offset order (i.e position in the
+	 * Object id at the specified position in offset order (i.e. position in the
 	 * ridx or bitmap)
 	 *
 	 * @param bitmapPosition
@@ -117,6 +117,13 @@ public interface MultiPackIndex {
 	 *            ObjectIds should be added to matches before returning.
 	 */
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit);
+
+	/**
+	 * Index checksum of the contents of this midx file
+	 *
+	 * @return checksum of the contents of this midx file
+	 */
+	byte[] getChecksum();
 
 	/**
 	 * Memory size of this multipack index

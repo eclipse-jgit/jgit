@@ -126,6 +126,7 @@ public class MultiPackIndexTest {
 				1502);
 
 		assertNull(midx.find(ObjectId.zeroId()));
+		assertNotNull(midx.getChecksum());
 	}
 
 	@Test
