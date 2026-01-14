@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -99,6 +100,25 @@ public class MidxTestUtils {
 	static DfsPackFileMidx writeSinglePackMidx(DfsRepository db,
 			DfsPackFile pack) throws IOException {
 		return writeMultipackIndex(db, new DfsPackFile[] { pack }, null);
+	}
+
+	/**
+	 * Write a midx covering a single pack
+	 *
+	 * @param db
+	 *            a repository to write the midx covering the pack
+	 * @param pack
+	 *            a pack in the repository that will be covered by a new midx
+	 * @param base
+	 *            base of this midx (can be null)
+	 * @return a midx covering that single pack
+	 * @throws IOException
+	 *             a problem writing in the repo
+	 */
+	static DfsPackFileMidx writeSinglePackMidx(DfsRepository db,
+			DfsPackFile pack, @Nullable DfsPackFileMidx base)
+			throws IOException {
+		return writeMultipackIndex(db, new DfsPackFile[] { pack }, base);
 	}
 
 	/**

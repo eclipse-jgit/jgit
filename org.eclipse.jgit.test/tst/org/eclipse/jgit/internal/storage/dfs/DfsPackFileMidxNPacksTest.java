@@ -11,7 +11,6 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
@@ -28,11 +27,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.zip.Deflater;
 
@@ -41,11 +37,8 @@ import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.DfsPackOffset;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.VOffsetCalculator;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidxNPacks.VOffsetCalculatorNPacks;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
-import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -102,11 +95,11 @@ public class DfsPackFileMidxNPacksTest {
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 4, 6), null);
-		DfsPackFileMidx midxMid = writeMultipackIndex(
+		DfsPackFileMidx midxMid = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 2, 4), midxBase);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 2), midxMid);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -145,11 +138,11 @@ public class DfsPackFileMidxNPacksTest {
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 4, 6), null);
-		DfsPackFileMidx midxMid = writeMultipackIndex(
+		DfsPackFileMidx midxMid = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 2, 4), midxBase);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 2), midxMid);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -190,9 +183,9 @@ public class DfsPackFileMidxNPacksTest {
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -254,9 +247,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -321,9 +314,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -420,9 +413,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -490,9 +483,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order (o6 -> o1)
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		List<ObjectToPack> otps = List.of(new DfsObjectToPack(o1, OBJ_BLOB),
@@ -568,9 +561,9 @@ public class DfsPackFileMidxNPacksTest {
 				.map(size -> size - 12 - 20) // remove header + CRC
 				.sum();
 
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader();
@@ -605,9 +598,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		assertEquals(213, copyAsIs(midxTip, baseObject).length);
@@ -677,9 +670,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 4, 7), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 4), midxBase);
 
 		try (RevWalk rw = new RevWalk(db);
@@ -736,9 +729,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 5), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (RevWalk rw = new RevWalk(db);
@@ -788,9 +781,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		// Packs are in reverse insertion order
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 5), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (RevWalk rw = new RevWalk(db);
@@ -859,9 +852,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		assertEquals(6, packs.length);
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
@@ -916,7 +909,8 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		assertEquals(4, packs.length);
-		DfsPackFileMidx midx = writeMultipackIndex(packs, null);
+		DfsPackFileMidx midx = MidxTestUtils.writeMultipackIndex(db, packs,
+				null);
 
 		assertEquals(4, midx.getAllCoveredPacks().size());
 		List<DfsPackDescription> expected = Arrays.stream(packs)
@@ -936,11 +930,11 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		assertEquals(6, packs.length);
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 4, 6), null);
-		DfsPackFileMidx midxMiddle = writeMultipackIndex(
+		DfsPackFileMidx midxMiddle = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 2, 4), midxBase);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 2), midxMiddle);
 
 		assertEquals(6, midxTip.getAllCoveredPacks().size());
@@ -961,9 +955,9 @@ public class DfsPackFileMidxNPacksTest {
 
 		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
 		assertEquals(6, packs.length);
-		DfsPackFileMidx midxBase = writeMultipackIndex(
+		DfsPackFileMidx midxBase = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 3, 6), null);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
+		DfsPackFileMidx midxTip = MidxTestUtils.writeMultipackIndex(db,
 				Arrays.copyOfRange(packs, 0, 3), midxBase);
 
 		assertEquals(3, midxTip.getCoveredPacks().size());
@@ -1198,43 +1192,13 @@ public class DfsPackFileMidxNPacksTest {
 	}
 
 	private DfsPackFileMidx writeMultipackIndex() throws IOException {
-		return writeMultipackIndex(db.getObjectDatabase().getPacks(), null);
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		return MidxTestUtils.writeMultipackIndex(db, packs, null);
 	}
 
 	private void gcWithBitmaps() throws IOException {
 		DfsGarbageCollector garbageCollector = new DfsGarbageCollector(db);
 		garbageCollector.pack(NullProgressMonitor.INSTANCE);
-	}
-
-	private DfsPackFileMidx writeMultipackIndex(DfsPackFile[] packs,
-			DfsPackFileMidx base) throws IOException {
-		LinkedHashMap<String, PackIndex> forMidx = new LinkedHashMap<>(
-				packs.length);
-		Map<String, DfsPackDescription> descByName = new HashMap<>(
-				packs.length);
-		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
-			for (DfsPackFile pack : packs) {
-				forMidx.put(pack.getPackDescription().getPackName(),
-						pack.getPackIndex(ctx));
-				descByName.put(pack.getPackDescription().getPackName(),
-						pack.getPackDescription());
-			}
-		}
-		MultiPackIndexWriter w = new MultiPackIndexWriter();
-		DfsPackDescription desc = db.getObjectDatabase().newPack(GC);
-		try (DfsOutputStream out = db.getObjectDatabase().writeFile(desc,
-				PackExt.MULTI_PACK_INDEX)) {
-			MultiPackIndexWriter.Result midxStats = w
-					.write(NullProgressMonitor.INSTANCE, out, forMidx);
-			desc.setCoveredPacks(midxStats.packNames().stream()
-					.map(descByName::get).toList());
-			desc.setObjectCount(midxStats.objectCount());
-			desc.addFileExt(PackExt.MULTI_PACK_INDEX);
-			desc.setFileSize(MULTI_PACK_INDEX, midxStats.bytesWritten());
-		}
-		db.getObjectDatabase().commitPack(List.of(desc), null);
-		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
-				Arrays.asList(packs), base);
 	}
 
 	private RevCommit writePackWithCommit() throws Exception {
