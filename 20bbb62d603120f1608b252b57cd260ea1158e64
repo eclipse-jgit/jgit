@@ -87,6 +87,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f9e561_7d88f84d",
+        "filename": "org.eclipse.jgit.gpg.signing.test/tst/org/eclipse/jgit/gpg/signing/GpgExternalSigningTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0de07c1_c2e872a7",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4ea269d_c0247313",
@@ -140,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98b3b555_08aec30e",
+        "filename": "org.eclipse.jgit.gpg.signing/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eb02d38_a27502c6",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53812b8b_0ed7131c",
@@ -153,6 +189,24 @@
       "writtenOn": "2026-01-07T16:56:49Z",
       "side": 1,
       "message": "external signing should not depend on bouncycastle",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bfee052_154e7034",
+        "filename": "org.eclipse.jgit.gpg.signing/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53812b8b_0ed7131c",
       "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -174,6 +228,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "065eb6d7_283c7da8",
+        "filename": "org.eclipse.jgit.gpg.signing/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d93b5e23_4f421f2a",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ace0324e_b47733b1",
@@ -191,6 +263,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ced0ae_8192aa2d",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ace0324e_b47733b1",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1995425b_f4b6ef8f",
@@ -204,6 +294,24 @@
       "writtenOn": "2026-01-07T15:36:49Z",
       "side": 1,
       "message": "Why is that needed? EGit doesn\u0027t do that...",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c653258_99483bd4",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1995425b_f4b6ef8f",
       "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -243,6 +351,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35266575_cd5bc0d2",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinarySigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20d5cf08_cb17695b",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de5a3f20_9ec405ca",
@@ -260,6 +386,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af94efa7_06dea27e",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgBinarySigner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de5a3f20_9ec405ca",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5dca1922_a296b9ea",
@@ -273,6 +417,24 @@
       "writtenOn": "2026-01-07T15:36:49Z",
       "side": 1,
       "message": "Environment variable GPG_TTY should probably be removed from the environment of the child process. See comments in the corresponding code in EGit.",
+      "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3444b838_6cb3e601",
+        "filename": "org.eclipse.jgit.gpg.signing/src/org/eclipse/jgit/gpg/signing/GpgProcessRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dca1922_a296b9ea",
       "revId": "20bbb62d603120f1608b252b57cd260ea1158e64",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

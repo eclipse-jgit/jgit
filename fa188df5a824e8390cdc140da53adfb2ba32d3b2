@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e837287_58e82ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-14T15:11:29Z",
+      "side": 1,
+      "message": "I\u0027ve tried to be a bit more competent with these, and followed Matthias\u0027 suggestion to incorporate this into JGit core. Changes should be pushed",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
