@@ -16,6 +16,40 @@
       "message": "I\u0027ve tried to be a bit more competent with these, and followed Matthias\u0027 suggestion to incorporate this into JGit core. Changes should be pushed",
       "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf934f60_da401daf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-14T18:43:37Z",
+      "side": 1,
+      "message": "The new package needs to the exported in MANIFEST.MF. You need to decide what constitutes public API (if anything). If there is no public API, the package should be org.eclipse.jgit.internal.signing, and it is to be exported as x-internal\u003dtrue. Otherwise export the package publicly, but ensure only the public API is actually accessible. (Make everything else package-visible only, for instance. Or move it to an \"...internal.signing\" package that is exported only as x-internal.) Public API needs to have \"@since 7.6.0\" annotations in javadoc. I presume public API would be at most the two factory classes.\n\nThe message texts can go into the normal JGitText.",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12278241_ba9fd53d",
+        "filename": "org.eclipse.jgit/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-14T18:43:37Z",
+      "side": 1,
+      "message": "If bundle o.e.j.gpg.bc is also on the classpath, you\u0027ll get warnings logged (multiple signer factories for the same format), and it is entirely undefined which one will be used.",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
