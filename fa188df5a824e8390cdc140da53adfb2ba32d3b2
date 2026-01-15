@@ -86,6 +86,24 @@
       "parentUuid": "7ed4ad28_34a5678a",
       "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1509a64_b40de179",
+        "filename": "org.eclipse.jgit/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-15T15:19:46Z",
+      "side": 1,
+      "message": "Or maybe don\u0027t set it as default when no service is found. Could it give unexpected problems if a user doesn\u0027t have GPG installed?",
+      "parentUuid": "e5e0bc4f_25b8d824",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
