@@ -50,6 +50,24 @@
       "message": "If bundle o.e.j.gpg.bc is also on the classpath, you\u0027ll get warnings logged (multiple signer factories for the same format), and it is entirely undefined which one will be used.",
       "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed4ad28_34a5678a",
+        "filename": "org.eclipse.jgit/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-15T08:15:48Z",
+      "side": 1,
+      "message": "Yes I do test that this loads the factory under `GpgExternalSigningTest,testLoadAllSignerFactoryImplementations` and have observed these logs. What is the desired outcome? That we exclude this and have the end-user decide?",
+      "parentUuid": "12278241_ba9fd53d",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
