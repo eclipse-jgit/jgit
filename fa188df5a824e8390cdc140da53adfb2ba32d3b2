@@ -68,6 +68,24 @@
       "parentUuid": "12278241_ba9fd53d",
       "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e0bc4f_25b8d824",
+        "filename": "org.eclipse.jgit/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-15T09:31:39Z",
+      "side": 1,
+      "message": "Desired outcome is\n\n1. no warning\n2. well-defined signer factory being used\n\nLet\u0027s see... if a user includes o.e.j.gpg.bc in the application, it is highly likely that he wants to use that. If he includes some other (proprietary) bundle that publishes a `SignerFactory`, it is extremely likely that he wants to use that implementation. If the application includes multiple bundles publishing `SignerFactory` services such that the service locator picks them up, then a warning _is_ wanted (since it is undefined which one will be picked up first and used).\n\nSo I would go for:\n* don\u0027t publish the new factories introduced here as services\n* in `Signers.loadSigners()`, set the new factory defined here only if no service could be found for the format\n\nWith that, we\u0027d use the new factories as default if no service was found. If a user then still wants to use some other factory, his code can call `Signers.set(...)` to define it explicitly. Leave the factories public so that user code can explicitly do `Signers.set(GpgFormat.OPENPGP, new GpgBinarySignerFactory());`. (And as mentioned, anything else but the two factories probably doesn\u0027t need to be public API.)",
+      "parentUuid": "7ed4ad28_34a5678a",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
