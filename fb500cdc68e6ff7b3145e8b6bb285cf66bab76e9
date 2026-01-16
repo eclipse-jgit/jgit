@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eaa5d45_9e07fe2f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidx.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-16T21:31:45Z",
+      "side": 1,
+      "message": "Who is reading this if it\u0027s protected?",
+      "revId": "fb500cdc68e6ff7b3145e8b6bb285cf66bab76e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
