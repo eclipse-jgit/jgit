@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88ec5b98_34836511",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-16T20:57:57Z",
+      "side": 1,
+      "message": "Why won\u0027t idx() work? That seems very strange, why would it be different than getPackIndex()?",
+      "revId": "82ef50426aeb5b7661d330e8e26e081f335dffc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aac71a4_68557b13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-16T20:57:57Z",
+      "side": 1,
+      "message": "Why won\u0027t idx() work? That seems very strange, why would it be different than getPackIndex()?",
+      "revId": "82ef50426aeb5b7661d330e8e26e081f335dffc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
