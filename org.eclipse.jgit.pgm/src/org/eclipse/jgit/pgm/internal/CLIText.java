@@ -157,6 +157,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String fileIsRequired;
 	/***/ public String ffNotPossibleAborting;
 	/***/ public String forcedUpdate;
+	/***/ public String forwardingTo;
+	/***/ public String forwarderConfigFileRequired;
 	/***/ public String fromURI;
 	/***/ public String initializedEmptyGitRepositoryIn;
 	/***/ public String invalidHttpProxyOnlyHttpSupported;
@@ -227,6 +229,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_pass;
 	/***/ public String metaVar_path;
 	/***/ public String metaVar_paths;
+	/***/ public String metaVar_pid;
 	/***/ public String metaVar_pattern;
 	/***/ public String metaVar_port;
 	/***/ public String metaVar_ref;
