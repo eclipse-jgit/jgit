@@ -122,6 +122,24 @@
       "parentUuid": "d1509a64_b40de179",
       "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae5b6e3_762b021a",
+        "filename": "org.eclipse.jgit/resources/META-INF/services/org.eclipse.jgit.lib.SignerFactory",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-16T15:02:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1eab49f_05c4b383",
+      "revId": "fa188df5a824e8390cdc140da53adfb2ba32d3b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

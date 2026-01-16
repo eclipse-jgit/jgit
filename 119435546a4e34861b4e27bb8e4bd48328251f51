@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "120b964a_12a04a02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-16T15:02:05Z",
+      "side": 1,
+      "message": "Alright, I\u0027ve:\n* Reduced the visibility of the API of these classes to force usage of the factory classes, and\n* Made this external GPG signer \"auto-register\" under Signers whenever the GPG binary is found \u0026 no other signer is registered for `OPENPGP`.",
+      "revId": "119435546a4e34861b4e27bb8e4bd48328251f51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
