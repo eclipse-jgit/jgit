@@ -33,6 +33,24 @@
       "message": "Why won\u0027t idx() work? That seems very strange, why would it be different than getPackIndex()?",
       "revId": "82ef50426aeb5b7661d330e8e26e081f335dffc7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34447bf8_70e0b524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-16T21:06:32Z",
+      "side": 1,
+      "message": "TL;DR because in midx we override getPackIndex\n\nI added more explanation to the commit message.",
+      "parentUuid": "88ec5b98_34836511",
+      "revId": "82ef50426aeb5b7661d330e8e26e081f335dffc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
