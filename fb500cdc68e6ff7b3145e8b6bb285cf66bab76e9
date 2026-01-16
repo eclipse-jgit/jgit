@@ -16,6 +16,24 @@
       "message": "Who is reading this if it\u0027s protected?",
       "revId": "fb500cdc68e6ff7b3145e8b6bb285cf66bab76e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff2f3a4a_d07c5021",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidx.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-16T23:07:23Z",
+      "side": 1,
+      "message": "A coming DfsMidxBitmapWriter in the same package (still WIP https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1229206)",
+      "parentUuid": "1eaa5d45_9e07fe2f",
+      "revId": "fb500cdc68e6ff7b3145e8b6bb285cf66bab76e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
