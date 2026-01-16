@@ -16,6 +16,24 @@
       "message": "Do we have the same problem here?",
       "revId": "f42d6a09bc3f869ed8d19494e5ed600fad0390e1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d92c5d12_11f1b422",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-16T21:56:09Z",
+      "side": 1,
+      "message": "Technically no, because getReverseIdx is also override for midx, but it is confusing.\n\nI\u0027ll go for inlining idx into getPackIndex. The distinction is meaningless.",
+      "parentUuid": "77d7951e_99714964",
+      "revId": "f42d6a09bc3f869ed8d19494e5ed600fad0390e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
