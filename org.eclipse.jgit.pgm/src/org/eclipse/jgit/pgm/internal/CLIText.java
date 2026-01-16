@@ -170,6 +170,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String lfsStoreUrl;
 	/***/ public String lfsUnknownStoreType;
 	/***/ public String lineFormat;
+	/***/ public String forwardingTo;
 	/***/ public String listeningOn;
 	/***/ public String logNoSignatureVerifier;
 	/***/ public String mergeCheckoutConflict;
@@ -227,6 +228,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String metaVar_pass;
 	/***/ public String metaVar_path;
 	/***/ public String metaVar_paths;
+	/***/ public String metaVar_pid;
 	/***/ public String metaVar_pattern;
 	/***/ public String metaVar_port;
 	/***/ public String metaVar_ref;
