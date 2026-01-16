@@ -157,6 +157,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String fileIsRequired;
 	/***/ public String ffNotPossibleAborting;
 	/***/ public String forcedUpdate;
+	/***/ public String forwardingTo;
+	/***/ public String forwarderConfigFileRequired;
 	/***/ public String fromURI;
 	/***/ public String initializedEmptyGitRepositoryIn;
 	/***/ public String invalidHttpProxyOnlyHttpSupported;
