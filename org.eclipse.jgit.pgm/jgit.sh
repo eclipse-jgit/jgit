@@ -99,6 +99,11 @@ then
 	java="$JAVA_HOME/bin/java"
 fi
 
+if [ -n "$JGIT_JAVA_ARGS" ]
+then
+	java_args="$java_args $JGIT_JAVA_ARGS"
+fi
+
 if [ -n "$use_pager" ]
 then
 	use_pager=${GIT_PAGER:-${PAGER:-less}}
