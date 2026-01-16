@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d7951e_99714964",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-16T21:30:26Z",
+      "side": 1,
+      "message": "Do we have the same problem here?",
+      "revId": "f42d6a09bc3f869ed8d19494e5ed600fad0390e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

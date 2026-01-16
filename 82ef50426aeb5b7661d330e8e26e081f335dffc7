@@ -51,6 +51,24 @@
       "parentUuid": "88ec5b98_34836511",
       "revId": "82ef50426aeb5b7661d330e8e26e081f335dffc7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3136f7e0_edca95ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-16T21:30:26Z",
+      "side": 1,
+      "message": "If we\u0027re going to replace all uses of idx() with getPackIndex (there\u0027s one more usage I asked about), why not just inline idx into getPackIndex?",
+      "parentUuid": "34447bf8_70e0b524",
+      "revId": "82ef50426aeb5b7661d330e8e26e081f335dffc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
