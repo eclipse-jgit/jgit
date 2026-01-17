@@ -167,13 +167,7 @@ class PackDirectory {
 						return p;
 					}
 				} catch (IOException e) {
-					// The hasObject call should have only touched the index, so
-					// any failure here indicates the index is unreadable by
-					// this process, and the pack is likewise not readable.
-					LOG.warn(MessageFormat.format(
-							JGitText.get().unableToReadPackfile,
-							p.getPackFile().getAbsolutePath()), e);
-					remove(p);
+					handlePackError(e, p);
 				}
 			}
 		} while (searchPacksAgain(pList));
