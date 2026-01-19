@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d38f7ce7_c12ac2c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-19T09:32:07Z",
+      "side": 1,
+      "message": "This debug line would still format the message, which consumes CPU.\nWe should avoid doing it if the debug level isn\u0027t enabled.",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 366,
+        "endChar": 43
+      },
+      "revId": "d0d50ac06c0d40180cd8685e22b3372710320642",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
