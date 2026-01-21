@@ -238,12 +238,12 @@ maven sshd
 	dependency {
 		groupId = "org.apache.sshd"
 		artifactId = "sshd-osgi"
-		version = "2.16.0"
+		version = "2.17.0"
 	}
 	dependency {
 		groupId = "org.apache.sshd"
 		artifactId = "sshd-sftp"
-		version = "2.16.0"
+		version = "2.17.0"
 	}
 }
 
