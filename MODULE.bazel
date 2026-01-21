@@ -5,8 +5,8 @@ bazel_dep(name = "rules_jvm_external", version = "6.7")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
-    remote = "https://github.com/davido/rbe_autoconfig.git",
     commit = "71f39817c028949bd6d25f1806502bcd33028d14",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
 )
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
@@ -33,7 +33,7 @@ JNA_VERSION = "5.18.1"
 
 SLF4J_VERSION = "2.0.17"
 
-SSHD_VERSION = "2.16.0"
+SSHD_VERSION = "2.17.0"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
