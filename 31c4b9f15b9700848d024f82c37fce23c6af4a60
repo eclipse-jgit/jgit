@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a075a0_8b1a90ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidxNPacks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-22T22:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bfbf50e_e2127b1c",
+      "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42a923dd_7d7c1a05",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0602167e_8fc94f4d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidxNPacks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-22T22:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a923dd_7d7c1a05",
+      "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33a6d268_9a2a472e",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-01-22T22:13:35Z",
       "side": 1,
       "message": "Why doesn\u0027t DfsPackfileMidxNPacks use this?",
+      "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f5ad17_7ab7f6a8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-01-22T22:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33a6d268_9a2a472e",
       "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
