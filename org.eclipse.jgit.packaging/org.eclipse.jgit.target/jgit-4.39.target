@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.39" sequenceNumber="1766135179">
+<target name="jgit-4.39" sequenceNumber="1769074126">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -19,11 +19,11 @@
       <unit id="org.hamcrest.source" version="3.0.0"/>
       <unit id="org.junit" version="4.13.2.v20240929-1000"/>
       <unit id="org.junit.source" version="4.13.2.v20240929-1000"/>
-      <unit id="org.objectweb.asm" version="9.9.0"/>
-      <unit id="org.objectweb.asm.commons" version="9.9.0"/>
-      <unit id="org.objectweb.asm.util" version="9.9.0"/>
-      <unit id="org.objectweb.asm.tree" version="9.9.0"/>
-      <unit id="org.objectweb.asm.tree.analysis" version="9.9.0"/>
+      <unit id="org.objectweb.asm" version="9.9.1"/>
+      <unit id="org.objectweb.asm.commons" version="9.9.1"/>
+      <unit id="org.objectweb.asm.util" version="9.9.1"/>
+      <unit id="org.objectweb.asm.tree" version="9.9.1"/>
+      <unit id="org.objectweb.asm.tree.analysis" version="9.9.1"/>
       <unit id="org.objenesis" version="3.4.0"/>
       <unit id="org.objenesis.source" version="3.4.0"/>
       <unit id="org.osgi.service.cm" version="1.6.1.202109301733"/>
