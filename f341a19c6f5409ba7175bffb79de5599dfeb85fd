@@ -16,6 +16,24 @@
       "message": "it seems the bazel build is failing since the sshd-2.17.0.pom file wasn\u0027t deployed to https://repo1.maven.org/maven2/org/apache/sshd/sshd/2.17.0/\n\nalso we have to wait for the license reviews",
       "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e66e4fc5_66d289ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-22T07:42:11Z",
+      "side": 1,
+      "message": "Yes. See https://github.com/apache/mina-sshd/issues/875 . We\u0027ll have to publish a new 2.17.1, which will take a few days.",
+      "parentUuid": "946fcef2_3684dd48",
+      "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
