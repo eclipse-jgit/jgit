@@ -70,6 +70,24 @@
       "parentUuid": "1b5dadd5_1a6cd6e8",
       "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e907033e_51358aa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-22T09:54:57Z",
+      "side": 1,
+      "message": "Since the migration to deploy via the Maven central portal I use jreleaser to deploy jgit releases, AFAIK it\u0027s preparing an archive locally containing all files of the deployment and uploads that archive using the new maven central portal API in a single request. I think this should eliminate partial deployments.",
+      "parentUuid": "77b36f5f_87b60de2",
+      "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
