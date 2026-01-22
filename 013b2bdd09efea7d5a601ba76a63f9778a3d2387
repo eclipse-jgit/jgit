@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7437980_b8e6fa7b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackBitmapIndexBuilderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-22T18:43:11Z",
+      "side": 1,
+      "message": "Can we test merge commits in this graph?",
+      "revId": "013b2bdd09efea7d5a601ba76a63f9778a3d2387",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
