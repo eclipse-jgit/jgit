@@ -88,6 +88,24 @@
       "parentUuid": "77b36f5f_87b60de2",
       "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0314bda9_cb91d3b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-22T10:01:09Z",
+      "side": 1,
+      "message": "The ASF infrastructure is different and doesn\u0027t use the Sonatype portal. They run their own Nexus, and we just deploy to that. When we release, it\u0027s released in the ASF maven repo, and Maven Central somehow picks it up quite immediately.\n\nThat whole change to the new portal didn\u0027t affect the ASF release process at all.",
+      "parentUuid": "e907033e_51358aa9",
+      "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
