@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bfbf50e_e2127b1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidxNPacks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-22T22:13:35Z",
+      "side": 1,
+      "message": "delete",
+      "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a923dd_7d7c1a05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidxNPacks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-22T22:13:35Z",
+      "side": 1,
+      "message": "Not sure what there is TODO here",
+      "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33a6d268_9a2a472e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsReaderOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-22T22:13:35Z",
+      "side": 1,
+      "message": "Why doesn\u0027t DfsPackfileMidxNPacks use this?",
+      "revId": "31c4b9f15b9700848d024f82c37fce23c6af4a60",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
