@@ -34,6 +34,24 @@
       "parentUuid": "946fcef2_3684dd48",
       "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b5dadd5_1a6cd6e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-22T09:03:35Z",
+      "side": 1,
+      "message": "For jgit releases I run a test build for each new staged release using https://github.com/msohn/jgit-build-test\nto catch such issues before publishing the staged release in the maven central portal.\nSee https://github.com/eclipse-jgit/jgit/blob/master/tools/maven-central/README.md#deploy-a-jgit-release-to-maven-central",
+      "parentUuid": "e66e4fc5_66d289ae",
+      "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
