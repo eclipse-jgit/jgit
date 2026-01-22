@@ -52,6 +52,24 @@
       "parentUuid": "e66e4fc5_66d289ae",
       "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77b36f5f_87b60de2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-22T09:29:02Z",
+      "side": 1,
+      "message": "For SSHD, I do so, too. Part of my process before even starting a release vote is to consume the artifacts from the maven staging repo produced by mvn deploy in the JGit target platform, update the dependencies in JGit, build JGit, and then run the tests in org.eclipse.jgit.ssh.apache.test. So I _should_ have caught this.\n\nProblem is: I did so on the initial release candidate and all went fine, but then we dropped that release candidate and re-did it (some tests needed fixes), and then I forgot to re-do the JGit test. I mean, only Apache MINA SSHD tests had changed, so what could possibly break? 😕\n\nWhat worries me more is that the POM is missing at all. Some hiccup in mvn deploy?? I would have expected that to fail if it couldn\u0027t push the POM.",
+      "parentUuid": "1b5dadd5_1a6cd6e8",
+      "revId": "f341a19c6f5409ba7175bffb79de5599dfeb85fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
