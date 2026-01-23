@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef8251a_5b1a639c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-23T08:21:08Z",
+      "side": 1,
+      "message": "The failing test on the build *seems* to be unrelated: `InterruptTimerTest.testRepeatedShortEnough:137 Was Never Interrupted expected:\u003c1\u003e but was:\u003c0\u003e`",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
