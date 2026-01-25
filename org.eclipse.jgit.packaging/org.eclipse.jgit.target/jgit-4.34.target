@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.34" sequenceNumber="1769074449">
+<target name="jgit-4.34" sequenceNumber="1769375519">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -239,7 +239,7 @@
         <dependency>
           <groupId>org.assertj</groupId>
           <artifactId>assertj-core</artifactId>
-          <version>3.27.6</version>
+          <version>3.27.7</version>
           <type>jar</type>
         </dependency>
       </dependencies>
