@@ -195,6 +195,9 @@ public class MultiPackIndexLoader {
 						Integer.toHexString(chunkId)));
 			}
 		}
+		byte[] checksum = new byte[20];
+		IO.readFully(fd, checksum, 0, 20);
+		builder.addChecksum(checksum);
 		return builder.build();
 	}
 
@@ -225,6 +228,8 @@ public class MultiPackIndexLoader {
 
 		// Optional
 		private byte[] bitmapPackOrder;
+
+		private byte[] checksum;
 
 		private MultiPackIndexBuilder(int hashLength) {
 			this.hashLength = hashLength;
@@ -304,7 +309,7 @@ public class MultiPackIndexLoader {
 			assertPackCounts(packCount, packNames.length);
 			return new MultiPackIndexV1(hashLength, oidFanout, oidLookup,
 					packNames, bitmappedPackfiles, objectOffsets,
-					largeObjectOffsets, bitmapPackOrder);
+					largeObjectOffsets, bitmapPackOrder, checksum);
 		}
 
 		private static void assertChunkNotNull(Object object, int chunkId)
@@ -333,6 +338,10 @@ public class MultiPackIndexLoader {
 						Integer.valueOf(headerCount),
 						Integer.valueOf(packfileNamesCount)));
 			}
+		}
+
+		public void addChecksum(byte[] checksum) {
+			this.checksum = checksum;
 		}
 	}
 

@@ -5,8 +5,8 @@ bazel_dep(name = "rules_jvm_external", version = "6.7")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
-    remote = "https://github.com/davido/rbe_autoconfig.git",
     commit = "71f39817c028949bd6d25f1806502bcd33028d14",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
 )
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
@@ -23,7 +23,7 @@ git_repository(
 
 BOUNCYCASTLE_VERSION = "1.83"
 
-BYTE_BUDDY_VERSION = "1.18.2"
+BYTE_BUDDY_VERSION = "1.18.4"
 
 JETTY_VERSION = "12.1.5"
 
@@ -62,7 +62,7 @@ maven.install(
         "org.apache.httpcomponents:httpcore:4.4.16",
         "org.apache.sshd:sshd-osgi:" + SSHD_VERSION,
         "org.apache.sshd:sshd-sftp:" + SSHD_VERSION,
-        "org.assertj:assertj-core:3.27.6",
+        "org.assertj:assertj-core:3.27.7",
         "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcpkix-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcprov-jdk18on:" + BOUNCYCASTLE_VERSION,

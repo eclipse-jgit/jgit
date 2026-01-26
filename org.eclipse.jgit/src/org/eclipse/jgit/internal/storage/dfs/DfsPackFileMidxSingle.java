@@ -9,14 +9,21 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -28,6 +35,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.util.BlockList;
+import org.eclipse.jgit.util.IO;
 
 /**
  * A single pack that looks like a midx, to be used in the midx chain
@@ -38,6 +46,8 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 	private final DfsPackFile pack;
 
 	private final DfsPackFileMidx base;
+
+	private byte[] checksum;
 
 	private final LocalPackOffset poBuffer = new LocalPackOffset();
 
@@ -60,6 +70,14 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 	@Override
 	public ObjectIdSet asObjectIdSet(DfsReader ctx) throws IOException {
 		return pack.asObjectIdSet(ctx);
+	}
+
+	@Override
+	public PackReverseIndex getReverseIdx(DfsReader ctx) throws IOException {
+		return new MidxReverseIndex(pack.getReverseIdx(ctx),
+				offsetCalculator.baseMaxOffset,
+				base == null ? null : base.getReverseIdx(ctx),
+				base == null ? 0 : base.getObjectCount(ctx));
 	}
 
 	@Override
@@ -112,6 +130,24 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 				+ baseObjectCount;
 	}
 
+	@Override
+	protected byte[] getChecksum(DfsReader ctx) throws IOException {
+		if (checksum == null) {
+			long checksumPos = desc.getFileSize(MULTI_PACK_INDEX) - 20;
+			if (checksumPos <= 0) {
+				throw new IllegalStateException("Midx stream too short");
+			}
+
+			try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX);
+					InputStream in = Channels.newInputStream(rc)) {
+				checksum = new byte[20];
+				in.skip(checksumPos);
+				IO.readFully(in, checksum, 0, 20);
+			}
+		}
+		return checksum;
+	}
+
 	/**
 	 * Packs indexed by this multipack index (base NOT included)
 	 *
@@ -148,6 +184,17 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 		}
 
 		return base.findIdxPosition(ctx, id);
+	}
+
+	@Override
+	ObjectId getObjectAt(DfsReader ctx, long nthPosition) throws IOException {
+		int baseObjects = base == null ? 0 : base.getObjectCount(ctx);
+		if (nthPosition >= baseObjects) {
+			long localPosition = nthPosition - baseObjects;
+			return pack.getPackIndex(ctx).getObjectId(localPosition);
+		}
+
+		return base.getObjectAt(ctx, nthPosition);
 	}
 
 	@Override
@@ -349,6 +396,68 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 
 		void setOffset(long offset) {
 			super.setValues(0, offset);
+		}
+	}
+
+	private static class MidxReverseIndex implements PackReverseIndex {
+		private final long baseMaxOffset;
+
+		private final long baseObjectCount;
+
+		private final PackReverseIndex baseRidx;
+
+		private final PackReverseIndex ridx;
+
+		MidxReverseIndex(PackReverseIndex ridx, long baseMaxOffset,
+				PackReverseIndex baseRidx, long baseObjectCount) {
+			this.ridx = ridx;
+			this.baseMaxOffset = baseMaxOffset;
+			this.baseRidx = baseRidx;
+			this.baseObjectCount = baseObjectCount;
+
+		}
+
+		@Override
+		public void verifyPackChecksum(String packFilePath)
+				throws PackMismatchException {
+
+		}
+
+		@Override
+		public ObjectId findObject(long offset) {
+			if (offset < baseMaxOffset) {
+				return baseRidx.findObject(offset);
+			}
+
+			long localOffset = offset - baseMaxOffset;
+			return ridx.findObject(localOffset);
+		}
+
+		@Override
+		public long findNextOffset(long offset, long maxOffset)
+				throws CorruptObjectException {
+			// TODO(ifrade): In this single-pack midx we can actually implement
+			// this
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int findPosition(long offset) {
+			if (offset < baseMaxOffset) {
+				return baseRidx.findPosition(offset);
+			}
+			long localOffset = offset - baseMaxOffset;
+			return ridx.findPosition(localOffset) + (int) baseObjectCount;
+		}
+
+		@Override
+		public ObjectId findObjectByPosition(int nthPosition) {
+			if (nthPosition < baseObjectCount) {
+				return baseRidx.findObjectByPosition(nthPosition);
+			}
+			long localPosition = nthPosition - baseObjectCount;
+			// TODO(ifrade): Check downcasting
+			return ridx.findObjectByPosition((int) localPosition);
 		}
 	}
 }
