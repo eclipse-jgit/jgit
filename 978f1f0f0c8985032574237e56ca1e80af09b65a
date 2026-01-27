@@ -34,6 +34,91 @@
       "parentUuid": "9ef8251a_5b1a639c",
       "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad6536f_6c88ebb9",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/signing/GpgSigningText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-27T17:53:16Z",
+      "side": 1,
+      "message": "Since this is part of JGit core now, the messages can go into JGitText. Until now JGit had only a single localization file. @matthias.sohn@sap.com what do you think?",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9793bea_ae1f882a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SignatureVerifiers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-27T17:53:16Z",
+      "side": 1,
+      "message": "I wouldn\u0027t do this. Two reasons:\n\n1. JGit is used in Gerrit. In a server like Gerrit you don\u0027t want to scan the $PATH unless you need to. I could imagine that the Gerrit meintainers wouldn\u0027t be too happy about this.\n2. It won\u0027t work if the user has gpg not on the $PATH, but has configured gpg.program to find it.\n\nSimply registering as default (without this check) is one option; it\u0027ll be used only if some signature verification is triggered. Alternatively don\u0027t register anything and leave it entirely to the application using JGit. If it wants gpg signing support, it can register the factory itself.\n\nClass GpgBinary can then become an internal class (package-visible only).",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45704df1_86978f16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Signers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-27T17:53:16Z",
+      "side": 1,
+      "message": "See comment in SignatureVerifiers.",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afcd706c_6f2343dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-27T17:53:16Z",
+      "side": 1,
+      "message": "TRUST_UNDEFINED should probably result in TrustLevel.UNKNOWN?",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c92b8f58_cde646f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgProcessRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-27T17:53:16Z",
+      "side": 1,
+      "message": "Where does this \"operation cancelled\" text come from? If it\u0027s gpg: is it guaranteed to be in English? What does gpg print if the locale is de_DE?",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
