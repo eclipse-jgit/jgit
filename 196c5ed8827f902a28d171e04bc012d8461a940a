@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "825b71db_c86cbcba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidx.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-27T18:45:31Z",
+      "side": 1,
+      "message": "preferred",
+      "range": {
+        "startLine": 164,
+        "startChar": 24,
+        "endLine": 164,
+        "endChar": 32
+      },
+      "revId": "196c5ed8827f902a28d171e04bc012d8461a940a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f841dfd6_087682e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidx.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-27T18:45:31Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "196c5ed8827f902a28d171e04bc012d8461a940a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "997df0c2_74009abb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFileMidxNPacks.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-01-27T18:45:31Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "196c5ed8827f902a28d171e04bc012d8461a940a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
