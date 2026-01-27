@@ -16,6 +16,24 @@
       "message": "The failing test on the build *seems* to be unrelated: `InterruptTimerTest.testRepeatedShortEnough:137 Was Never Interrupted expected:\u003c1\u003e but was:\u003c0\u003e`",
       "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7456930d_8ee417c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-27T12:49:22Z",
+      "side": 1,
+      "message": "yes, this test is sometimes flaky",
+      "parentUuid": "9ef8251a_5b1a639c",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
