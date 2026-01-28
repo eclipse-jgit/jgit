@@ -16,6 +16,24 @@
       "message": "Perhaps set the lower bound in the manifests also to 2.17.1?",
       "revId": "d9ff77438e0fb9bfeb7538e706c89fdc3f06f429",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee58cea_01e6fdd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-28T16:07:34Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e25268dd_7e72d62b",
+      "revId": "d9ff77438e0fb9bfeb7538e706c89fdc3f06f429",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
