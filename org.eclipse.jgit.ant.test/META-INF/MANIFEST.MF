@@ -5,7 +5,7 @@ Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.ant.test
 Bundle-SymbolicName: org.eclipse.jgit.ant.test
 Bundle-Vendor: %Bundle-Vendor
-Bundle-Version: 7.6.0.202601262032-m2
+Bundle-Version: 7.6.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
