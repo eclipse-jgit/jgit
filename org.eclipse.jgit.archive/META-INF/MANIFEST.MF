@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Automatic-Module-Name: org.eclipse.jgit.archive
 Bundle-SymbolicName: org.eclipse.jgit.archive
-Bundle-Version: 7.6.0.202601262032-m2
+Bundle-Version: 7.6.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
