@@ -106,6 +106,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb764a0f_d40694d9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgProcessRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-28T08:02:12Z",
+      "side": 1,
+      "message": "Thinking ahead: once this in JGit, we\u0027d want to use it from EGit, too. But a GUI program needs to make sure that gpg uses a GUI passphrase prompt, not a terminal prompt. EGit currently does two things:\n\n* It removes two environment variables from the process\u0027s environment.\n* It checks the [GNUPG] lines to detect whether a terminal prompt was used.\n\nIf one runs JGit on the command line, this is not needed.\n\nSo the code using JGit needs to have some way to configure the process runner to do the above things; otherwise things may not work well from a GUI application.",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c92b8f58_cde646f6",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgProcessRunner.java",
         "patchSetId": 4
