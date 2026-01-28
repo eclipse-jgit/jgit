@@ -41,7 +41,7 @@ maven.install(
     artifacts = [
         "args4j:args4j:2.37",
         "com.google.code.gson:gson:2.13.2",
-        "com.google.errorprone:error_prone_type_annotations:2.38.0",
+        "com.google.errorprone:error_prone_type_annotations:2.46.0",
         "com.googlecode.javaewah:JavaEWAH:1.2.3",
         "com.jcraft:jsch:0.1.55",
         "com.jcraft:jzlib:1.1.3",
