@@ -126,7 +126,7 @@ public abstract class RefWriter {
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
-	public void writePackedRefs() throws IOException {
+	public void writePackedRefs(boolean previouslyPeeled) throws IOException {
 		boolean peeled = false;
 		for (Ref r : refs) {
 			if (r.getStorage().isPacked() && r.isPeeled()) {
@@ -140,7 +140,13 @@ public abstract class RefWriter {
 			w.write(RefDirectory.PACKED_REFS_HEADER);
 			w.write(RefDirectory.PACKED_REFS_PEELED);
 			w.write(RefDirectory.PACKED_REFS_SORTED);
+			if (previouslyPeeled) {
+				w.write(RefDirectory.PACKED_REFS_FULLY_PEELED);
+			}
 			w.write('\n');
+		} else {
+			w.write(RefDirectory.PACKED_REFS_HEADER);
+			w.write(RefDirectory.PACKED_REFS_SORTED);
 		}
 
 		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];

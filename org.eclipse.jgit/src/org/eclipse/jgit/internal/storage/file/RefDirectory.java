@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -123,6 +124,9 @@ public class RefDirectory extends RefDatabase {
 
 	/** If in the header, denotes the file has sorted data. */
 	public static final String PACKED_REFS_SORTED = " sorted"; //$NON-NLS-1$
+
+	/** If in the header, denotes the file has fully-peeled data. */
+	public static final String PACKED_REFS_FULLY_PEELED = " fully-peeled"; //$NON-NLS-1$
 
 	@SuppressWarnings("boxing")
 	private static final List<Integer> RETRY_SLEEP_MS =
@@ -1066,9 +1070,7 @@ public class RefDirectory extends RefDatabase {
 										new DigestInputStream(
 												new FileInputStream(f), digest),
 										UTF_8))) {
-							return new NonEmptyPackedRefList(parsePackedRefs(br),
-									snapshot,
-									ObjectId.fromRaw(digest.digest()));
+							return parsePackedRefs(br, snapshot, digest);
 						}
 					});
 			return result != null ? result : NO_PACKED_REFS;
@@ -1087,11 +1089,15 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private RefList<Ref> parsePackedRefs(BufferedReader br)
-			throws IOException {
+	private NonEmptyPackedRefList parsePackedRefs(
+			BufferedReader br,
+			FileSnapshot snapshot,
+			MessageDigest digest
+	) throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		Ref last = null;
 		boolean peeled = false;
+		boolean fullyPeeled = false;
 		boolean needSort = false;
 
 		String p;
@@ -1100,6 +1106,7 @@ public class RefDirectory extends RefDatabase {
 				if (p.startsWith(PACKED_REFS_HEADER)) {
 					p = p.substring(PACKED_REFS_HEADER.length());
 					peeled = p.contains(PACKED_REFS_PEELED);
+					fullyPeeled = p.contains(PACKED_REFS_FULLY_PEELED);
 				}
 				continue;
 			}
@@ -1124,7 +1131,7 @@ public class RefDirectory extends RefDatabase {
 			ObjectId id = ObjectId.fromString(p.substring(0, sp));
 			String name = copy(p, sp + 1, p.length());
 			ObjectIdRef cur;
-			if (peeled)
+			if (peeled || fullyPeeled)
 				cur = new ObjectIdRef.PeeledNonTag(PACKED, name, id);
 			else
 				cur = new ObjectIdRef.Unpeeled(PACKED, name, id);
@@ -1136,7 +1143,13 @@ public class RefDirectory extends RefDatabase {
 
 		if (needSort)
 			all.sort();
-		return all.toRefList();
+
+		return new NonEmptyPackedRefList(
+				all.toRefList(),
+				snapshot,
+				ObjectId.fromRaw(digest.digest()),
+				fullyPeeled
+		);
 	}
 
 	private static String copy(String src, int off, int end) {
@@ -1173,13 +1186,13 @@ public class RefDirectory extends RefDatabase {
 
 				byte[] digest = Constants.newMessageDigest().digest(content);
 				PackedRefList newPackedList = new NonEmptyPackedRefList(
-						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
+						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest), oldPackedList.isFullyPeeled());
 				packedRefs.compareAndSet(oldPackedList, newPackedList);
 				if (changed) {
 					modCnt.incrementAndGet();
 				}
 			}
-		}.writePackedRefs();
+		}.writePackedRefs(oldPackedList.isFullyPeeled());
 	}
 
 	private Ref readRef(String name, RefList<Ref> packed) throws IOException {
@@ -1527,18 +1540,24 @@ public class RefDirectory extends RefDatabase {
 
 	static class PackedRefList extends RefList<Ref> {
 		private final ObjectId id;
+		private final boolean fullyPeeled;
 
 		PackedRefList() {
-			this(RefList.emptyList(), ObjectId.zeroId());
+			this(RefList.emptyList(), ObjectId.zeroId(), true);
 		}
 
-		protected PackedRefList(RefList<Ref> src, ObjectId id) {
+		protected PackedRefList(RefList<Ref> src, ObjectId id, boolean fullyPeeled) {
 			super(src);
 			this.id = id;
+			this.fullyPeeled = fullyPeeled;
 		}
 
 		public boolean shouldRefresh() throws IOException {
 			return true;
+		}
+
+		public boolean isFullyPeeled() {
+			return fullyPeeled;
 		}
 	}
 
@@ -1547,8 +1566,9 @@ public class RefDirectory extends RefDatabase {
 	private class NonEmptyPackedRefList extends PackedRefList {
 		private final FileSnapshot snapshot;
 
-		private NonEmptyPackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId id) {
-			super(src, id);
+
+		private NonEmptyPackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId id, boolean fullyPeeled) {
+			super(src, id, fullyPeeled);
 			snapshot = s;
 		}
 

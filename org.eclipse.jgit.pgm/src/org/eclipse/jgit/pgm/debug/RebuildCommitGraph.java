@@ -242,7 +242,7 @@ class RebuildCommitGraph extends TextBuiltin {
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
 			}
-		}.writePackedRefs();
+		}.writePackedRefs(true);
 	}
 
 	private Map<String, Ref> computeNewRefs() throws IOException {
