@@ -205,16 +205,25 @@ public abstract class PackedRefsWriter {
 			traits.add(PackedRefsTrait.SORTED);
 		}
 
-		if (!traits.contains(PackedRefsTrait.PEELED)) {
-			Collection<Ref> peeledRefs = new ArrayList<>();
-			for (Ref ref : refs) {
-				if (!ref.isPeeled() && ref.getName().startsWith(R_TAGS)) {
-					ref = refDir.peel(ref);
-				}
-				peeledRefs.add(ref);
-			}
-			this.refs = peeledRefs;
-			this.traits.add(PackedRefsTrait.PEELED);
+		if (traits.contains(PackedRefsTrait.FULLY_PEELED)) {
+			// fully-peeled implies peeled.
+			traits.add(PackedRefsTrait.PEELED);
+			return;
 		}
+
+		Collection<Ref> peeledRefs = new ArrayList<>();
+		for (Ref ref : refs) {
+			if (ref.isPeeled() || (traits.contains(PackedRefsTrait.PEELED)
+					&& ref.getName().startsWith(R_TAGS))) {
+				// trust refs/tags/... when caller provides peeled trait.
+				peeledRefs.add(ref);
+			} else {
+				peeledRefs.add(refDir.peel(ref));
+			}
+		}
+
+		this.refs = peeledRefs;
+		this.traits.add(PackedRefsTrait.PEELED);
+		this.traits.add(PackedRefsTrait.FULLY_PEELED);
 	}
 }
