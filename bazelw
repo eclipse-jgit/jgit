@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Always run Bazel with the standalone root module, but let the user pass any command/targets.
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+STANDALONE_DIR="${ROOT_DIR}/tools/standalone"
+
+cd "${STANDALONE_DIR}"
+exec bazelisk "$@"
+

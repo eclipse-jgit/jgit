@@ -1,0 +1,3 @@
+# Ignore the wrapper subtree inside @jgit when expanding @jgit//...
+# (prevents walking into wrapper workspace + its outputs)
+tools/standalone
