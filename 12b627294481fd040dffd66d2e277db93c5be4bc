@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2993678_ed90af6d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-01-29T22:13:26Z",
+      "side": 1,
+      "message": "Can you ensure that a test covers the case of an unpeeled tag in the packed-refs file, but not loose, gets peeled.",
+      "revId": "12b627294481fd040dffd66d2e277db93c5be4bc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
