@@ -124,6 +124,9 @@ public class RefDirectory extends RefDatabase {
 	/** If in the header, denotes the file has sorted data. */
 	public static final String PACKED_REFS_SORTED = " sorted"; //$NON-NLS-1$
 
+	/** If in the header, denotes the file has fully-peeled data. */
+	public static final String PACKED_REFS_FULLY_PEELED = " fully-peeled"; //$NON-NLS-1$
+
 	@SuppressWarnings("boxing")
 	private static final List<Integer> RETRY_SLEEP_MS =
 			Collections.unmodifiableList(Arrays.asList(0, 100, 200, 400, 800, 1600));
@@ -300,6 +303,18 @@ public class RefDirectory extends RefDatabase {
 				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
 					refsToBePacked.add(ref.getName());
 				}
+				pm.update(1);
+			}
+			for (Ref ref: refs) {
+				if (ref.isSymbolic()) {
+					pm.update(1);
+					continue;
+				}
+
+				if (ref.getStorage().isLoose() || (ref.getStorage().isPacked() && !ref.isPeeled())) {
+					refsToBePacked.add(ref.getName());
+				}
+
 				pm.update(1);
 			}
 			pack(refsToBePacked);
