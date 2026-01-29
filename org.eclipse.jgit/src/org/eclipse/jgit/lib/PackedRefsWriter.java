@@ -10,8 +10,6 @@
 
 package org.eclipse.jgit.lib;
 
-import static org.eclipse.jgit.lib.Constants.R_TAGS;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -205,16 +203,18 @@ public abstract class PackedRefsWriter {
 			traits.add(PackedRefsTrait.SORTED);
 		}
 
-		if (!traits.contains(PackedRefsTrait.PEELED)) {
+		if (!traits.contains(PackedRefsTrait.FULLY_PEELED)
+				|| !traits.contains(PackedRefsTrait.PEELED)) {
 			Collection<Ref> peeledRefs = new ArrayList<>();
 			for (Ref ref : refs) {
-				if (!ref.isPeeled() && ref.getName().startsWith(R_TAGS)) {
+				if (!ref.isPeeled()) {
 					ref = refDir.peel(ref);
 				}
 				peeledRefs.add(ref);
 			}
 			this.refs = peeledRefs;
 			this.traits.add(PackedRefsTrait.PEELED);
+			this.traits.add(PackedRefsTrait.FULLY_PEELED);
 		}
 	}
 }
