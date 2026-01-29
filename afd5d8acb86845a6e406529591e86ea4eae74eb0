@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba2edee1_14d5f432",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-01-29T17:01:31Z",
+      "side": 1,
+      "message": "Since this is a git forwarder and would be the destination point for clients which are used to accessing git-daemon, I think it makes sense to run it on the same default port that git-daemon would run on so that clients continue to \"just work\".",
+      "parentUuid": "ddb842d3_7a365ce1",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c41a23d5_08a3c8fe",
