@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afaec5a5_bdd7fa39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-29T09:00:47Z",
+      "side": 1,
+      "message": "I don\u0027t have the time to review this in depth. Just a few quick things.\n\n* The new package must be exported in MANIFEST.MF.\n* It would help if you could explain the use case for this.\n* There should be some documentation about the new command somewhere.\n* The forwarding uses plain sockets (no TLS) so presumably it\u0027s intended to be used only within some private network?",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb842d3_7a365ce1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-29T09:00:47Z",
+      "side": 1,
+      "message": "What\u0027s with this default port 9418?",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c41a23d5_08a3c8fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-29T09:00:47Z",
+      "side": 1,
+      "message": "Why do we need to use AtomicReferences for these threads? The only thing done concurrently on them is calling interrupt() in line 440 below.",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "772d509d_7a9b7c06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-29T09:00:47Z",
+      "side": 1,
+      "message": "This main method appears to be for manual testing? If so, I don\u0027t think it should be in the library.",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e97bff4_f32e293e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-29T09:00:47Z",
+      "side": 1,
+      "message": "Interesting. Does that work? Waiting in the main thread on a latch set in a shutdown hook?",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
