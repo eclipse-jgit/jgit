@@ -116,10 +116,12 @@ public class RefDirectory extends RefDatabase {
 		/** If in the header, denotes the file has sorted data. */
 		SORTED(" sorted"),
 		/** If in the header, denotes the file has peeled data for (refs/tags/...). */
-		PEELED(" peeled");
+		PEELED(" peeled"),
+		/** If in the header, denotes the file has peeled data for all the refs which are peelable. */
+		FULLY_PEELED(" fully-peeled");
 
 		/** All the possible traits that could be present on the packed-refs file. */
-		public static final Set<Trait> ALL = Set.of(Trait.SORTED, Trait.PEELED);
+		public static final Set<Trait> ALL = Set.of(SORTED, PEELED, FULLY_PEELED);
 		private final String value;
 
 		Trait(String value) {
@@ -1123,6 +1125,7 @@ public class RefDirectory extends RefDatabase {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		Ref last = null;
 		boolean peeled = false;
+		boolean fullyPeeled = false;
 		boolean needSort = false;
 		boolean isSorted = false;
 
@@ -1133,6 +1136,7 @@ public class RefDirectory extends RefDatabase {
 					p = p.substring(PACKED_REFS_HEADER.length());
 					peeled = p.contains(Trait.PEELED.value());
 					isSorted = p.contains(Trait.SORTED.value());
+					fullyPeeled = p.contains(Trait.FULLY_PEELED.value());
 				}
 				continue;
 			}
@@ -1157,7 +1161,7 @@ public class RefDirectory extends RefDatabase {
 			ObjectId id = ObjectId.fromString(p.substring(0, sp));
 			String name = copy(p, sp + 1, p.length());
 			ObjectIdRef cur;
-			if (peeled && name.startsWith(R_TAGS))
+			if (fullyPeeled || (peeled && name.startsWith(R_TAGS)))
 				cur = new ObjectIdRef.PeeledNonTag(PACKED, name, id);
 			else
 				cur = new ObjectIdRef.Unpeeled(PACKED, name, id);
@@ -1175,6 +1179,11 @@ public class RefDirectory extends RefDatabase {
 		if (peeled) {
 			traits.add(Trait.PEELED);
 		}
+		if (fullyPeeled) {
+			traits.add(Trait.PEELED);
+			traits.add(Trait.FULLY_PEELED);
+		}
+
 		return new NonEmptyPackedRefList(
 				all.toRefList(),
 				snapshot,
