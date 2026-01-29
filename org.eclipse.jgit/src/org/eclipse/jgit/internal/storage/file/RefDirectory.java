@@ -121,6 +121,12 @@ public class RefDirectory extends RefDatabase {
 	/** If in the header, denotes the file has peeled data. */
 	public static final String PACKED_REFS_PEELED = " peeled"; //$NON-NLS-1$
 
+	/** If in the header, denotes the file has sorted data. */
+	public static final String PACKED_REFS_SORTED = " sorted"; //$NON-NLS-1$
+
+	/** If in the header, denotes the file has fully-peeled data. */
+	public static final String PACKED_REFS_FULLY_PEELED = " fully-peeled"; //$NON-NLS-1$
+
 	@SuppressWarnings("boxing")
 	private static final List<Integer> RETRY_SLEEP_MS =
 			Collections.unmodifiableList(Arrays.asList(0, 100, 200, 400, 800, 1600));
