@@ -163,7 +163,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		};
 		if (!packedRefUpdates.isEmpty()) {
 			try {
-				refWriter.writePackedRefs();
+				refWriter.writePackedRefs(false);
 				for (RemoteRefUpdate u : packedRefUpdates)
 					u.setStatus(Status.OK);
 			} catch (IOException err) {

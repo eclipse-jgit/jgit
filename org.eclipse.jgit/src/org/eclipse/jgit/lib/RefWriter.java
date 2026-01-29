@@ -122,11 +122,13 @@ public abstract class RefWriter {
 	 * passed list of references, including only those refs that have a storage
 	 * type of {@link org.eclipse.jgit.lib.Ref.Storage#PACKED}.
 	 *
+	 * @param writeFullyPeeledHeader
+	 *             true if the packed-refs file should have fully-peeled trait
 	 * @throws java.io.IOException
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
-	public void writePackedRefs() throws IOException {
+	public void writePackedRefs(boolean writeFullyPeeledHeader) throws IOException {
 		boolean peeled = false;
 		for (Ref r : refs) {
 			if (r.getStorage().isPacked() && r.isPeeled()) {
@@ -140,6 +142,9 @@ public abstract class RefWriter {
 			w.write(RefDirectory.PACKED_REFS_HEADER);
 			w.write(RefDirectory.PACKED_REFS_PEELED);
 			w.write(RefDirectory.PACKED_REFS_SORTED);
+			if (writeFullyPeeledHeader) {
+				w.write(RefDirectory.PACKED_REFS_FULLY_PEELED);
+			}
 			w.write('\n');
 		}
 
