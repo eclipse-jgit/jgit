@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
@@ -63,7 +64,7 @@ public class PackBitmapCalculator {
 	 */
 	public void calculate(ObjectReader reader, ProgressMonitor pm,
 			int numCommits, Set<? extends ObjectId> wants,
-			Set<? extends ObjectId> excludeFromBitmapSelection,
+			Predicate<ObjectId> excludeFromBitmapSelection,
 			PackBitmapIndexBuilder writeBitmaps) throws IOException {
 		PackWriterBitmapPreparer bitmapPreparer = new PackWriterBitmapPreparer(
 				reader, writeBitmaps, pm, wants, config);

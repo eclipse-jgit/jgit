@@ -2536,7 +2536,7 @@ public class PackWriter implements AutoCloseable {
 
 		PackBitmapCalculator bitmapWrite = new PackBitmapCalculator(config);
 		bitmapWrite.calculate(reader, pm, numCommits, stats.interestingObjects,
-				excludeFromBitmapSelection, writeBitmaps);
+				excludeFromBitmapSelection::contains, writeBitmaps);
 
 		return true;
 	}

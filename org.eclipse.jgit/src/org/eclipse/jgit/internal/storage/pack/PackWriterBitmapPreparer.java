@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -122,7 +123,7 @@ class PackWriterBitmapPreparer {
 	 *             if an expected object is missing
 	 */
 	Collection<BitmapCommit> selectCommits(int expectedCommitCount,
-			Set<? extends ObjectId> excludeFromBitmapSelection)
+			Predicate<ObjectId> excludeFromBitmapSelection)
 			throws IncorrectObjectTypeException, IOException,
 			MissingObjectException {
 		/*
@@ -388,7 +389,7 @@ class PackWriterBitmapPreparer {
 	 */
 	private CommitSelectionHelper captureOldAndNewCommits(RevWalk rw,
 			int expectedCommitCount,
-			Set<? extends ObjectId> excludeFromBitmapSelection)
+			Predicate<ObjectId> excludeFromBitmapSelection)
 			throws IncorrectObjectTypeException, IOException,
 			MissingObjectException {
 		// Track bitmaps and commits from the previous GC pack bitmap indices.
@@ -417,13 +418,13 @@ class PackWriterBitmapPreparer {
 		// indices. Set up a RevWalk to find new commits not in the old packs.
 		List<RevCommit> newWantsByNewest = new ArrayList<>(want.size());
 		Set<RevCommit> newWants = new HashSet<>(want.size());
-		for (AnyObjectId objectId : want) {
-			if(excludeFromBitmapSelection.contains(objectId)) {
+		for (ObjectId objectId : want) {
+			if (excludeFromBitmapSelection.test(objectId)) {
 				continue;
 			}
 			RevObject ro = rw.peel(rw.parseAny(objectId));
 			if (!(ro instanceof RevCommit) || reuse.contains(ro)
-					|| excludeFromBitmapSelection.contains(ro)) {
+					|| excludeFromBitmapSelection.test(ro)) {
 				continue;
 			}
 
