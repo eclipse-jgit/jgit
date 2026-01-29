@@ -49,5 +49,13 @@ genrule(
     name = "services_jar",
     srcs = glob(["META-INF/services/*"]),
     outs = ["services_jar.jar"],
-    cmd = "r=$$PWD && cd org.eclipse.jgit.pgm && zip -qr $$r/$@ .",
+    cmd = """
+      set -e
+      r=$$PWD
+      tmp=$$(mktemp -d)
+      mkdir -p $$tmp/META-INF/services
+      cp -f $(SRCS) $$tmp/META-INF/services/
+      (cd $$tmp && zip -qr "$$r/$@" META-INF)
+      rm -rf $$tmp
+    """,
 )
